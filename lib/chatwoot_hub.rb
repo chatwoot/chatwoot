@@ -39,7 +39,7 @@ class ChatwootHub
       response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
       version = JSON.parse(response)['version']
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-      Rails.logger.info "Exception: #{e.message}"
+      Rails.logger.error "Exception: #{e.message}"
     rescue StandardError => e
       Sentry.capture_exception(e)
     end
@@ -50,7 +50,7 @@ class ChatwootHub
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.info "Exception: #{e.message}"
+    Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     Sentry.capture_exception(e)
   end
@@ -59,7 +59,7 @@ class ChatwootHub
     info = { fcm_token_list: fcm_token_list, fcm_options: fcm_options }
     RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.info "Exception: #{e.message}"
+    Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     Sentry.capture_exception(e)
   end
@@ -70,7 +70,7 @@ class ChatwootHub
     info = { event_name: event_name, event_data: event_data }
     RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.info "Exception: #{e.message}"
+    Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     Sentry.capture_exception(e)
   end
