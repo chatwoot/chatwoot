@@ -31,7 +31,7 @@ describe AutomationRuleListener do
                                         },
                                         { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
-                                        { 'action_name' => 'send_webhook_events', 'action_params' => 'https://www.example.com' },
+                                        { 'action_name' => 'send_webhook_event', 'action_params' => ['https://www.example.com'] },
                                         { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
                                         { 'action_name' => 'send_email_transcript', 'action_params' => 'new_agent@example.com' },
                                         { 'action_name' => 'mute_conversation', 'action_params' => nil },
