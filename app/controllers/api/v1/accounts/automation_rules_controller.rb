@@ -8,6 +8,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def create
     @automation_rule = Current.account.automation_rules.create(automation_rules_permit)
+    @automation_rule.update(actions: params[:actions])
   end
 
   def show; end
@@ -34,7 +35,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     params.permit(
       :name, :description, :event_name, :account_id, :active,
       conditions: [:attribute_key, :filter_operator, :query_operator, { values: [] }],
-      actions: [:action_name, { action_params: [{}] }]
+      actions: [:action_name, { action_params: [] }]
     )
   end
 
