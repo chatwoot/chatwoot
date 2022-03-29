@@ -36,14 +36,18 @@ describe('#MessageFormatter', () => {
     it('should add links to @mentions', () => {
       const message =
         '@chatwootapp is an opensource tool thanks @longnonexistenttwitterusername';
-      expect(new MessageFormatter(message, true).formattedMessage).toMatch(
+      expect(
+        new MessageFormatter(message, false, true).formattedMessage
+      ).toMatch(
         '<p><a href="http://twitter.com/chatwootapp" target="_blank" rel="noreferrer nofollow noopener">@chatwootapp</a> is an opensource tool thanks @longnonexistenttwitterusername</p>'
       );
     });
 
     it('should add links to #tags', () => {
       const message = '#chatwootapp is an opensource tool';
-      expect(new MessageFormatter(message, true).formattedMessage).toMatch(
+      expect(
+        new MessageFormatter(message, false, true).formattedMessage
+      ).toMatch(
         '<p><a href="https://twitter.com/hashtag/chatwootapp" target="_blank" rel="noreferrer nofollow noopener">#chatwootapp</a> is an opensource tool</p>'
       );
     });
