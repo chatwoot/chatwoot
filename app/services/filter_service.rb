@@ -28,7 +28,7 @@ class FilterService
       @filter_values["value_#{current_index}"] = filter_values(query_hash)
       equals_to_filter_string(query_hash[:filter_operator], current_index)
     when 'contains', 'does_not_contain'
-      @filter_values["value_#{current_index}"] = "%#{filter_values(query_hash)}%"
+      @filter_values["value_#{current_index}"] = "%#{string_filter_values(query_hash)}%"
       like_filter_string(query_hash[:filter_operator], current_index)
     when 'is_present'
       @filter_values["value_#{current_index}"] = 'IS NOT NULL'
@@ -55,6 +55,12 @@ class FilterService
     else
       query_hash['values']
     end
+  end
+
+  def string_filter_values(query_hash)
+    return query_hash['values'][0] if query_hash['values'].is_a?(Array)
+
+    query_hash['values']
   end
 
   def lt_gt_filter_values(query_hash)
