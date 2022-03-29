@@ -7,7 +7,8 @@
       :title="label.title"
       :description="label.description"
       :show-close="true"
-      :bg-color="label.color"
+      :bg-color="getBleachBgOfHexColor(label.color)"
+      :color="label.color"
       @click="removeItem"
     />
     <div class="dropdown-wrap">
@@ -31,6 +32,7 @@
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import { mixin as clickaway } from 'vue-clickaway';
+import { getBleachBgOfHexColor } from 'shared/helpers/ColorHelper';
 
 export default {
   components: {
@@ -64,6 +66,7 @@ export default {
   },
 
   methods: {
+    getBleachBgOfHexColor,
     addItem(label) {
       this.$emit('add', label);
     },
