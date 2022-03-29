@@ -7,7 +7,8 @@
       <select
         v-model="action_name"
         class="action__question"
-        @change="resetFilter()"
+        :class="{ 'full-width': !inputType }"
+        @change="resetAction()"
       >
         <option
           v-for="attribute in actionTypes"
@@ -18,19 +19,38 @@
         </option>
       </select>
       <div class="filter__answer--wrap">
-        <div class="multiselect-wrap--small">
-          <multiselect
+        <div v-if="inputType">
+          <div
+            v-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="'Select'"
+              :multiple="true"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+            />
+          </div>
+          <input
+            v-else-if="inputType === 'email'"
             v-model="action_params"
-            track-by="id"
-            label="name"
-            :placeholder="'Select'"
-            :multiple="true"
-            selected-label
-            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-            deselect-label=""
-            :max-height="160"
-            :options="dropdownValues"
-            :allow-empty="false"
+            type="email"
+            class="answer--text-input"
+            placeholder="Enter email"
+          />
+          <input
+            v-else-if="inputType === 'url'"
+            v-model="action_params"
+            type="url"
+            class="answer--text-input"
+            placeholder="Enter url"
           />
         </div>
       </div>
@@ -91,13 +111,17 @@ export default {
         this.$emit('input', { ...payload, action_params: value });
       },
     },
+    inputType() {
+      return this.actionTypes.find(action => action.key === this.action_name)
+        .inputType;
+    },
   },
   methods: {
     removeAction() {
       this.$emit('removeAction');
     },
-    resetFilter() {
-      this.$emit('resetFilter');
+    resetAction() {
+      this.$emit('resetAction');
     },
   },
 };
@@ -134,6 +158,10 @@ export default {
 
 .action__question {
   max-width: 50%;
+}
+
+.action__question.full-width {
+  max-width: 100%;
 }
 
 .filter__answer--wrap {

@@ -2,9 +2,9 @@ class ActionCableListener < BaseListener
   include Events::Types
 
   def notification_created(event)
-    notification, account = extract_notification_and_account(event)
+    notification, account, unread_count, count = extract_notification_and_account(event)
     tokens = [event.data[:notification].user.pubsub_token]
-    broadcast(account, tokens, NOTIFICATION_CREATED, notification.push_event_data)
+    broadcast(account, tokens, NOTIFICATION_CREATED, { notification: notification.push_event_data, unread_count: unread_count, count: count })
   end
 
   def message_created(event)

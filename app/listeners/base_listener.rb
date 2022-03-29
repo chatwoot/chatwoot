@@ -8,7 +8,9 @@ class BaseListener
 
   def extract_notification_and_account(event)
     notification = event.data[:notification]
-    [notification, notification.account]
+    unread_count = notification.user.notifications_meta[:unread_count]
+    count = notification.user.notifications_meta[:count]
+    [notification, notification.account, unread_count, count]
   end
 
   def extract_message_and_account(event)
