@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacts enregistrés avec succès",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmer la suppression",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Non, conservez-le"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Supprimer le contact",
     "TITLE": "Supprimer le contact",
