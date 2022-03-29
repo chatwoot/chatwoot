@@ -149,10 +149,11 @@ extended_message:
     - $ref: ./resource/extension/message/with_source_sender.yml
 
 
-## report list
-report:
-  type: array
-  description: 'array of conversation count based on date'
-  items:
-    allOf:
-      - $ref: './resource/report.yml'
+## report
+account_summary:
+  $ref: './resource/reports/summary.yml'
+agent_conversation_metrics:
+  $ref: './resource/reports/conversation/agent.yml'
+    
+    
+

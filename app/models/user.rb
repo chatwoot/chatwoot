@@ -187,4 +187,11 @@ class User < ApplicationRecord
   def will_save_change_to_email?
     mutations_from_database.changed?('email')
   end
+
+  def notifications_meta
+    {
+      unread_count: notifications.where(read_at: nil).count,
+      count: notifications.count
+    }
+  end
 end
