@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "确认删除",
+      "MESSAGE": "您确定要删除此笔记吗？",
+      "YES": "是的，删除",
+      "NO": "否，保留它"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "删除联系人",
     "TITLE": "删除联系人",
