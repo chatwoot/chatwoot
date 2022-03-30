@@ -72,6 +72,7 @@ class Account < ApplicationRecord
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :working_hours, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 

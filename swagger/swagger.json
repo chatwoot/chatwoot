@@ -3604,7 +3604,15 @@
               "type": "array",
               "description": "Array of date based conversation statistics",
               "items": {
-                "$ref": "#/definitions/report"
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "timestamp": {
+                    "type": "number"
+                  }
+                }
               }
             }
           },
@@ -3655,10 +3663,106 @@
           "200": {
             "description": "Success",
             "schema": {
+              "$ref": "#/definitions/account_summary"
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/conversations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "type": "string",
+          "enum": [
+            "account"
+          ],
+          "required": true,
+          "description": "Type of report"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-account-conversation-metrics",
+        "summary": "Account Conversation Metrics",
+        "description": "Get conversation metrics for Account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "description": "Object of account conversation metrics",
+              "properties": {
+                "open": {
+                  "type": "number"
+                },
+                "unattended": {
+                  "type": "number"
+                },
+                "unassigned": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/conversations/": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "type": "string",
+          "enum": [
+            "agent"
+          ],
+          "required": true,
+          "description": "Type of report"
+        },
+        {
+          "in": "query",
+          "name": "user_id",
+          "type": "string",
+          "description": "The numeric ID of the user"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-agent-conversation-metrics",
+        "summary": "Agent Conversation Metrics",
+        "description": "Get conversation metrics for Agent",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
               "type": "array",
-              "description": "Array of date based conversation statistics",
+              "description": "Array of agent based conversation metrics",
               "items": {
-                "$ref": "#/definitions/report"
+                "$ref": "#/definitions/agent_conversation_metrics"
               }
             }
           },
@@ -4879,58 +4983,80 @@
         }
       ]
     },
-    "report": {
-      "type": "array",
-      "description": "array of conversation count based on date",
-      "items": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "avg_first_response_time": {
-                "type": "string"
-              },
-              "avg_resolution_time": {
-                "type": "string"
-              },
-              "conversations_count": {
-                "type": "number"
-              },
-              "incoming_messages_count": {
-                "type": "number"
-              },
-              "outgoing_messages_count": {
-                "type": "number"
-              },
-              "resolutions_count": {
-                "type": "number"
-              },
-              "previous": {
-                "type": "object",
-                "properties": {
-                  "avg_first_response_time": {
-                    "type": "string"
-                  },
-                  "avg_resolution_time": {
-                    "type": "string"
-                  },
-                  "conversations_count": {
-                    "type": "number"
-                  },
-                  "incoming_messages_count": {
-                    "type": "number"
-                  },
-                  "outgoing_messages_count": {
-                    "type": "number"
-                  },
-                  "resolutions_count": {
-                    "type": "number"
-                  }
-                }
-              }
+    "account_summary": {
+      "type": "object",
+      "properties": {
+        "avg_first_response_time": {
+          "type": "string"
+        },
+        "avg_resolution_time": {
+          "type": "string"
+        },
+        "conversations_count": {
+          "type": "number"
+        },
+        "incoming_messages_count": {
+          "type": "number"
+        },
+        "outgoing_messages_count": {
+          "type": "number"
+        },
+        "resolutions_count": {
+          "type": "number"
+        },
+        "previous": {
+          "type": "object",
+          "properties": {
+            "avg_first_response_time": {
+              "type": "string"
+            },
+            "avg_resolution_time": {
+              "type": "string"
+            },
+            "conversations_count": {
+              "type": "number"
+            },
+            "incoming_messages_count": {
+              "type": "number"
+            },
+            "outgoing_messages_count": {
+              "type": "number"
+            },
+            "resolutions_count": {
+              "type": "number"
             }
           }
-        ]
+        }
+      }
+    },
+    "agent_conversation_metrics": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "thumbnail": {
+              "type": "string"
+            }
+          }
+        },
+        "metric": {
+          "type": "object",
+          "properties": {
+            "open": {
+              "type": "number"
+            },
+            "unattended": {
+              "type": "number"
+            }
+          }
+        }
       }
     }
   },
