@@ -272,10 +272,13 @@ export default {
     },
     showSelfAssignBanner() {
       if (!this.isOnPrivateNote) {
+        const showBanner = this.isOnlyAgentReplyMine || this.hasNoAgentReplied;
         if (!this.assignedAgent) {
-          return this.isOnlyAgentReplyMine || this.hasNoAgentReplied;
+          return showBanner;
         }
-        if (this.assignedAgent.id !== this.currentUser.id) return true;
+        if (this.assignedAgent.id !== this.currentUser.id) {
+          return showBanner;
+        }
       }
 
       return false;
