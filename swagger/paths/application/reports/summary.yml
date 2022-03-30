@@ -7,10 +7,8 @@ responses:
   200:
     description: Success
     schema:
-      type: array
-      description: 'Array of date based conversation statistics'
-      items:
-        $ref: '#/definitions/report'
+      description: 'Object of summary metrics'
+      $ref: '#/definitions/account_summary'
   404:
     description: reports not found
   403:

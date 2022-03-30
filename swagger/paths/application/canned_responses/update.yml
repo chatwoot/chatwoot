@@ -1,0 +1,28 @@
+tags:
+  - Canned Response
+operationId: update-canned-response-in-account
+summary: Update Canned Response in Account
+description: Update a Canned Response in Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the canned response to be updated.
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/canned_response_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+        description: 'The updated canned response'
+        $ref: '#/definitions/canned_response'
+  404:
+    description: Agent not found
+  403:
+    description: Access denied

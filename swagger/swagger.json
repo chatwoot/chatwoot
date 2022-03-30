@@ -1333,6 +1333,167 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/canned_responses": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "get-account-canned-response",
+        "summary": "List all Canned Responses in an Account",
+        "description": "Get Details of Canned Responses in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all canned responses",
+              "items": {
+                "$ref": "#/definitions/canned_response"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "add-new-canned-response-to-account",
+        "summary": "Add a New Canned Response",
+        "description": "Add a new Canned Response to Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/canned_response_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/canned_response"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/canned_responses/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "update-canned-response-in-account",
+        "summary": "Update Canned Response in Account",
+        "description": "Update a Canned Response in Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the canned response to be updated."
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/canned_response_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/canned_response"
+            }
+          },
+          "404": {
+            "description": "Agent not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "delete-canned-response-from-account",
+        "summary": "Remove a Canned Response from Account",
+        "description": "Remove a Canned Response from Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the canned response to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Canned Response not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/contacts": {
       "get": {
         "tags": [
@@ -3443,7 +3604,15 @@
               "type": "array",
               "description": "Array of date based conversation statistics",
               "items": {
-                "$ref": "#/definitions/report"
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "timestamp": {
+                    "type": "number"
+                  }
+                }
               }
             }
           },
@@ -3494,10 +3663,106 @@
           "200": {
             "description": "Success",
             "schema": {
+              "$ref": "#/definitions/account_summary"
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/conversations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "type": "string",
+          "enum": [
+            "account"
+          ],
+          "required": true,
+          "description": "Type of report"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-account-conversation-metrics",
+        "summary": "Account Conversation Metrics",
+        "description": "Get conversation metrics for Account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "description": "Object of account conversation metrics",
+              "properties": {
+                "open": {
+                  "type": "number"
+                },
+                "unattended": {
+                  "type": "number"
+                },
+                "unassigned": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/conversations/": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "type": "string",
+          "enum": [
+            "agent"
+          ],
+          "required": true,
+          "description": "Type of report"
+        },
+        {
+          "in": "query",
+          "name": "user_id",
+          "type": "string",
+          "description": "The numeric ID of the user"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-agent-conversation-metrics",
+        "summary": "Agent Conversation Metrics",
+        "description": "Get conversation metrics for Agent",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
               "type": "array",
-              "description": "Array of date based conversation statistics",
+              "description": "Array of agent based conversation metrics",
               "items": {
-                "$ref": "#/definitions/report"
+                "$ref": "#/definitions/agent_conversation_metrics"
               }
             }
           },
@@ -3546,6 +3811,27 @@
       "properties": {
         "id": {
           "type": "number"
+        }
+      }
+    },
+    "canned_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID of the canned response"
+        },
+        "content": {
+          "type": "string",
+          "description": "Message content for canned response"
+        },
+        "short_code": {
+          "type": "string",
+          "description": "Short Code for quick access of the canned response"
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account Id"
         }
       }
     },
@@ -4196,6 +4482,19 @@
         }
       }
     },
+    "canned_response_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Message content for canned response"
+        },
+        "short_code": {
+          "type": "string",
+          "description": "Short Code for quick access of the canned response"
+        }
+      }
+    },
     "contact_create": {
       "type": "object",
       "required": [
@@ -4684,58 +4983,80 @@
         }
       ]
     },
-    "report": {
-      "type": "array",
-      "description": "array of conversation count based on date",
-      "items": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "avg_first_response_time": {
-                "type": "string"
-              },
-              "avg_resolution_time": {
-                "type": "string"
-              },
-              "conversations_count": {
-                "type": "number"
-              },
-              "incoming_messages_count": {
-                "type": "number"
-              },
-              "outgoing_messages_count": {
-                "type": "number"
-              },
-              "resolutions_count": {
-                "type": "number"
-              },
-              "previous": {
-                "type": "object",
-                "properties": {
-                  "avg_first_response_time": {
-                    "type": "string"
-                  },
-                  "avg_resolution_time": {
-                    "type": "string"
-                  },
-                  "conversations_count": {
-                    "type": "number"
-                  },
-                  "incoming_messages_count": {
-                    "type": "number"
-                  },
-                  "outgoing_messages_count": {
-                    "type": "number"
-                  },
-                  "resolutions_count": {
-                    "type": "number"
-                  }
-                }
-              }
+    "account_summary": {
+      "type": "object",
+      "properties": {
+        "avg_first_response_time": {
+          "type": "string"
+        },
+        "avg_resolution_time": {
+          "type": "string"
+        },
+        "conversations_count": {
+          "type": "number"
+        },
+        "incoming_messages_count": {
+          "type": "number"
+        },
+        "outgoing_messages_count": {
+          "type": "number"
+        },
+        "resolutions_count": {
+          "type": "number"
+        },
+        "previous": {
+          "type": "object",
+          "properties": {
+            "avg_first_response_time": {
+              "type": "string"
+            },
+            "avg_resolution_time": {
+              "type": "string"
+            },
+            "conversations_count": {
+              "type": "number"
+            },
+            "incoming_messages_count": {
+              "type": "number"
+            },
+            "outgoing_messages_count": {
+              "type": "number"
+            },
+            "resolutions_count": {
+              "type": "number"
             }
           }
-        ]
+        }
+      }
+    },
+    "agent_conversation_metrics": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "thumbnail": {
+              "type": "string"
+            }
+          }
+        },
+        "metric": {
+          "type": "object",
+          "properties": {
+            "open": {
+              "type": "number"
+            },
+            "unattended": {
+              "type": "number"
+            }
+          }
+        }
       }
     }
   },
@@ -4894,6 +5215,7 @@
       "tags": [
         "Account AgentBots",
         "Agent",
+        "Canned Response",
         "Contact",
         "Conversation",
         "Conversation Assignment",
