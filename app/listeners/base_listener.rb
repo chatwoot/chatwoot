@@ -22,4 +22,12 @@ class BaseListener
     contact = event.data[:contact]
     [contact, contact.account]
   end
+
+  def extract_changed_attributes(event)
+    changed_attributes = event.data[:changed_attributes]
+
+    return if changed_attributes.blank?
+
+    changed_attributes.map { |k, v| { k => { previous_value: v[0], current_value: v[1] } } }
+  end
 end
