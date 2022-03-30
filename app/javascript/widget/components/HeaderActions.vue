@@ -1,7 +1,7 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
-      v-if="conversationStatus === 'open'"
+      v-if="conversationStatus === 'open' && hasEndConversationEnabled"
       class="button transparent compact"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
@@ -31,10 +31,12 @@ import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import configMixin from 'widget/mixins/configMixin';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
+  mixins: [configMixin],
   props: {
     showPopoutButton: {
       type: Boolean,

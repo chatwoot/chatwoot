@@ -43,6 +43,7 @@ class Channel::WebWidget < ApplicationRecord
 
   has_flags 1 => :attachments,
             2 => :emoji_picker,
+            3 => :end_conversation,
             :column => 'feature_flags',
             :check_for_column => false
 
