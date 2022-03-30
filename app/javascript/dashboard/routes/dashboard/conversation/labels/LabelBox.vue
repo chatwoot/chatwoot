@@ -17,7 +17,7 @@
           :description="label.description"
           :show-close="true"
           :bg-color="getBleachBgOfHexColor(label.color)"
-          :color="label.color"
+          :color="getTextShadeOfHexColor(label.color)"
           @click="removeLabelFromConversation"
         />
 
@@ -48,7 +48,10 @@ import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import { mixin as clickaway } from 'vue-clickaway';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import { getBleachBgOfHexColor } from 'shared/helpers/ColorHelper';
+import {
+  getBleachBgOfHexColor,
+  getTextShadeOfHexColor,
+} from 'shared/helpers/ColorHelper';
 
 export default {
   components: {
@@ -80,6 +83,7 @@ export default {
   },
   methods: {
     getBleachBgOfHexColor,
+    getTextShadeOfHexColor,
     toggleLabels() {
       this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
     },

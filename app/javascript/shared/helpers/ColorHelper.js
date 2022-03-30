@@ -56,9 +56,9 @@ export const hexToHSL = hex => {
   return 'hsl(' + h + ',' + s + '%,' + l + '%)';
 };
 
-export const getTextShadeOfHexColor = (hex, shade = 40) => {
+export const getTextShadeOfHexColor = (hex, shade = 24) => {
   const [h, s, l] = hexToHSLAsArray(hex);
-  const newL = Math.min(22, Math.max(l - shade, 28));
+  const newL = Math.min(36, Math.max(l - shade, 40));
 
   return 'hsl(' + h + ',' + s + '%,' + newL + '%)';
 };
