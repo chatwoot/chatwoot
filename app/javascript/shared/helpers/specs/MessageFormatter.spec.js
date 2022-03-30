@@ -37,7 +37,7 @@ describe('#MessageFormatter', () => {
       const message =
         '@chatwootapp is an opensource tool thanks @longnonexistenttwitterusername';
       expect(
-        new MessageFormatter(message, false, true).formattedMessage
+        new MessageFormatter(message, true, false).formattedMessage
       ).toMatch(
         '<p><a href="http://twitter.com/chatwootapp" target="_blank" rel="noreferrer nofollow noopener">@chatwootapp</a> is an opensource tool thanks @longnonexistenttwitterusername</p>'
       );
@@ -46,10 +46,32 @@ describe('#MessageFormatter', () => {
     it('should add links to #tags', () => {
       const message = '#chatwootapp is an opensource tool';
       expect(
-        new MessageFormatter(message, false, true).formattedMessage
+        new MessageFormatter(message, true, false).formattedMessage
       ).toMatch(
         '<p><a href="https://twitter.com/hashtag/chatwootapp" target="_blank" rel="noreferrer nofollow noopener">#chatwootapp</a> is an opensource tool</p>'
       );
+    });
+  });
+
+  describe('private notes', () => {
+    it('should return the same string if not tags or @mentions', () => {
+      const message = 'Chatwoot is an opensource tool';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(message);
+    });
+
+    it('should add links to @mentions', () => {
+      const message =
+        '@chatwootapp is an opensource tool thanks @longnonexistenttwitterusername';
+      expect(
+        new MessageFormatter(message, false, true).formattedMessage
+      ).toMatch(message);
+    });
+
+    it('should add links to #tags', () => {
+      const message = '#chatwootapp is an opensource tool';
+      expect(
+        new MessageFormatter(message, false, true).formattedMessage
+      ).toMatch(message);
     });
   });
 

@@ -209,8 +209,8 @@ export default {
       return (
         this.formatMessage(
           this.data.content,
-          this.data.private,
-          this.isATweet
+          this.isATweet,
+          this.data.private
         ) + botMessageContent
       );
     },
