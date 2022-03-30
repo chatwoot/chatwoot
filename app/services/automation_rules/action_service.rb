@@ -21,6 +21,15 @@ class AutomationRules::ActionService
 
   private
 
+  def send_attachments(_file_params)
+    return if @rule.event_name == 'message_created'
+
+    blobs = @rule.files.map { |file, _| file.blob }
+    params = { content: nil, private: false, attachments: blobs }
+    mb = Messages::MessageBuilder.new(nil, @conversation, params)
+    mb.perform
+  end
+
   def send_email_transcript(emails)
     emails.each do |email|
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
@@ -48,7 +57,7 @@ class AutomationRules::ActionService
     return if @rule.event_name == 'message_created'
 
     params = { content: message[0], private: false }
-    mb = Messages::MessageBuilder.new(@administrator, @conversation, params)
+    mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
 
@@ -83,10 +92,6 @@ class AutomationRules::ActionService
     when 'message_created'
       TeamNotifications::AutomationNotificationMailer.message_created(@conversation, team, params[:message])&.deliver_now
     end
-  end
-
-  def administrator
-    @administrator ||= @account.administrators.first
   end
 
   def agent_belongs_to_account?(agent_ids)
