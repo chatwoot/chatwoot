@@ -35,6 +35,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render layout: false, template: 'api/v2/accounts/reports/teams.csv.erb', format: 'csv'
   end
 
+  def conversations
+    return head :unprocessable_entity if params[:type].blank?
+
+    render json: conversation_metrics
+  end
+
   private
 
   def check_authorization
@@ -73,6 +79,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     }
   end
 
+  def conversation_params
+    {
+      type: params[:type].to_sym,
+      user_id: params[:user_id]
+    }
+  end
+
   def range
     {
       current: {
@@ -90,5 +103,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
     summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
     summary
+  end
+
+  def conversation_metrics
+    V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
   end
 end
