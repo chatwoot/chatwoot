@@ -132,6 +132,10 @@ GEM
     bundler-audit (0.9.0.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
+    business_time (0.11.0)
+      activesupport (>= 3.2.0)
+      sorted_set
+      tzinfo
     byebug (11.1.3)
     climate_control (1.0.1)
     coderay (1.1.3)
@@ -450,6 +454,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rbtree (0.4.5)
     redis (4.6.0)
     redis-namespace (1.8.1)
       redis (>= 3.0.4)
@@ -544,6 +549,7 @@ GEM
     sentry-sidekiq (5.1.0)
       sentry-ruby-core (~> 5.1.0)
       sidekiq (>= 3.0)
+    set (1.0.2)
     sexp_processor (4.16.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
@@ -570,6 +576,9 @@ GEM
       gli
       hashie
       websocket-driver
+    sorted_set (1.0.3)
+      rbtree
+      set (~> 1.0)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -661,6 +670,7 @@ DEPENDENCIES
   browser
   bullet
   bundle-audit
+  business_time
   byebug
   climate_control
   commonmarker
