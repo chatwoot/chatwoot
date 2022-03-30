@@ -7,13 +7,22 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def create
-    @automation_rule = Current.account.automation_rules.create(automation_rules_permit)
+    @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
+    @automation_rule.actions = params[:actions]
+
+    render json: { error: @automation_rule.errors.messages }, status: :unprocessable_entity and return unless @automation_rule.valid?
+
+    @automation_rule.save!
+    process_attachments
+    @automation_rule
   end
 
   def show; end
 
   def update
     @automation_rule.update(automation_rules_permit)
+    process_attachments
+    @automation_rule
   end
 
   def destroy
@@ -29,6 +38,14 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   private
+
+  def process_attachments
+    return if params[:attachments].blank?
+
+    params[:attachments].each do |uploaded_attachment|
+      @automation_rule.files.attach(uploaded_attachment)
+    end
+  end
 
   def automation_rules_permit
     params.permit(
