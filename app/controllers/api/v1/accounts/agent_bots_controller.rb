@@ -18,7 +18,7 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @agent_bot.destroy
+    @agent_bot.destroy!
     head :ok
   end
 
