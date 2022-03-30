@@ -10,7 +10,12 @@ responses:
       type: array
       description: 'Array of date based conversation statistics'
       items:
-        $ref: '#/definitions/report'
+        type: object
+        properties:
+          value:
+            type: string
+          timestamp:
+            type: number
   404:
     description: reports not found
   403:
