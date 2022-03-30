@@ -188,7 +188,7 @@ class Conversation < ApplicationRecord
     return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
                                                                                 custom_attributes]).present?
 
-    dispatcher_dispatch(CONVERSATION_UPDATED)
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
   def self_assign?(assignee_id)
@@ -207,14 +207,15 @@ class Conversation < ApplicationRecord
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event)
+      condition.call && dispatcher_dispatch(event, status_change)
     end
   end
 
-  def dispatcher_dispatch(event_name)
+  def dispatcher_dispatch(event_name, changed_attributes = nil)
     return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
 
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
+                                                                       changed_attributes: changed_attributes)
   end
 
   def conversation_status_changed_to_open?

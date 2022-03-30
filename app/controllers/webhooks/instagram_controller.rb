@@ -17,7 +17,7 @@ class Webhooks::InstagramController < ApplicationController
       ::Webhooks::InstagramEventsJob.perform_later(params.to_unsafe_hash[:entry])
       render json: :ok
     else
-      Rails.logger.info("Message is not received from the instagram webhook event: #{params['object']}")
+      Rails.logger.warn("Message is not received from the instagram webhook event: #{params['object']}")
       head :unprocessable_entity
     end
   end
