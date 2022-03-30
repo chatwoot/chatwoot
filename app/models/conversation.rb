@@ -246,7 +246,7 @@ class Conversation < ApplicationRecord
   def validate_referer_url
     return unless additional_attributes['referer']
 
-    errors.add(:referer_url, 'invalid') unless url_valid?(additional_attributes['referer'])
+    self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
   end
 
   # creating db triggers
