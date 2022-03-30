@@ -101,6 +101,7 @@
                 getActionDropdownValues(automation.actions[i].action_name)
               "
               :v="$v.automation.actions.$each[i]"
+              @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
@@ -187,7 +188,13 @@ export default {
         required,
         $each: {
           action_params: {
-            required,
+            required: requiredIf(prop => {
+              return !(
+                prop.action_name === 'mute_conversation' ||
+                prop.action_name === 'snooze_convresation' ||
+                prop.action_name === 'resolve_convresation'
+              );
+            }),
           },
         },
       },
@@ -351,7 +358,6 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
-        case 'send_email_to_team':
           return this.$store.getters['teams/getTeams'];
         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
@@ -423,6 +429,9 @@ export default {
         condition => condition.key === currentCondition.attribute_key
       ).filterOperators[0].value;
       this.automation.conditions[index].values = '';
+    },
+    resetAction(index) {
+      this.automation.actions[index].action_params = [];
     },
     showUserInput(operatorType) {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')

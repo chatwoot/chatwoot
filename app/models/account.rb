@@ -72,6 +72,7 @@ class Account < ApplicationRecord
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :working_hours, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
@@ -111,7 +112,7 @@ class Account < ApplicationRecord
   end
 
   def support_email
-    super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+    super || ENV['MAILER_SENDER_EMAIL'] || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL']
   end
 
   def usage_limits

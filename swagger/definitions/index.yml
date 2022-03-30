@@ -12,6 +12,8 @@ request_error:
 
 generic_id:
   $ref: ./resource/extension/generic.yml
+canned_response:
+  $ref: ./resource/canned_response.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
@@ -63,6 +65,9 @@ agent_bot_create_update_payload:
 
 user_create_update_payload:
   $ref: ./request/user/create_update_payload.yml
+
+canned_response_create_update_payload:
+  $ref: ./request/canned_response/create_update_payload.yml
 
 ## contact
 contact_create:
@@ -144,10 +149,11 @@ extended_message:
     - $ref: ./resource/extension/message/with_source_sender.yml
 
 
-## report list
-report:
-  type: array
-  description: 'array of conversation count based on date'
-  items:
-    allOf:
-      - $ref: './resource/report.yml'
+## report
+account_summary:
+  $ref: './resource/reports/summary.yml'
+agent_conversation_metrics:
+  $ref: './resource/reports/conversation/agent.yml'
+    
+    
+
