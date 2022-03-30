@@ -46,12 +46,14 @@ class Conversation < ApplicationRecord
   include AssignmentHandler
   include RoundRobinHandler
   include ActivityMessageHandler
+  include UrlHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
@@ -240,6 +242,12 @@ class Conversation < ApplicationRecord
 
   def mute_period
     6.hours
+  end
+
+  def validate_referer_url
+    return unless additional_attributes['referer']
+
+    self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
   end
 
   # creating db triggers
