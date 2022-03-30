@@ -1,0 +1,22 @@
+# #
+# # This action will strip the enterprise folder
+# # and run the spec.
+# # This is set to run against every PR.
+# #
+
+name: Run Chatwoot CE spec
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+    - name: Strip enterprise code
+      run: |
+        rm enterprise
+        rm spec/enterprise
