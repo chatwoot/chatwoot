@@ -62,13 +62,13 @@ $default-button-height: 4.0rem;
     }
 
     &.warning {
-      @include button-style(var(--y-100), var(--y-200), var(--y-900));
+      @include button-style(var(--y-100), var(--y-200), var(--y-700));
     }
   }
 
   &.clear {
     &.warning {
-      color: var(--y-800);
+      color: var(--y-600);
     }
 
     &.button--only-icon:hover {
@@ -87,7 +87,7 @@ $default-button-height: 4.0rem;
       }
 
       &.warning {
-        background: var(--y-100);
+        background: var(--y-50);
       }
     }
   }
