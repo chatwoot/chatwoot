@@ -58,6 +58,7 @@ export const actions = {
       if (identifier_hash) {
         dispatch('conversation/clearConversations', {}, { root: true });
         dispatch('conversation/fetchOldConversations', {}, { root: true });
+        dispatch('conversationAttributes/getAttributes', {}, { root: true });
       }
     } catch (error) {
       const {
