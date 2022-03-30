@@ -31,6 +31,11 @@
         @click="onClickAssignAgent"
       />
     </div>
+    <contact-details-item
+      compact
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+    />
+    <conversation-labels :conversation-id="conversationId" />
     <div class="multiselect-wrap--small">
       <contact-details-item
         compact
@@ -50,11 +55,6 @@
         @click="onClickAssignTeam"
       />
     </div>
-    <contact-details-item
-      compact
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
-    />
-    <conversation-labels :conversation-id="conversationId" />
   </div>
 </template>
 
