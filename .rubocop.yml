@@ -17,6 +17,7 @@ Metrics/ClassLength:
     - 'app/builders/messages/facebook/message_builder.rb'
     - 'app/controllers/api/v1/accounts/contacts_controller.rb'
     - 'app/listeners/action_cable_listener.rb'
+    - 'app/models/conversation.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:

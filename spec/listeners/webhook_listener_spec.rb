@@ -105,4 +105,80 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#conversation_resolved' do
+    let!(:conversation_resolved_event) do
+      Events::Base.new(event_name, Time.zone.now, conversation: conversation.reload, changed_attributes: { status: [:open, :resolved] })
+    end
+    let(:event_name) { :'conversation.resolved' }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_resolved(conversation_resolved_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+
+        conversation.update(status: :resolved)
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url,
+                                                           conversation.webhook_data.merge(event: 'conversation_resolved',
+                                                                                           changed_attributes: [{ status: {
+                                                                                             current_value: :resolved, previous_value: :open
+                                                                                           } }])).once
+
+        listener.conversation_resolved(conversation_resolved_event)
+      end
+    end
+  end
+
+  describe '#conversation_updated' do
+    let(:custom_attributes) { { test: nil } }
+    let!(:conversation_updated_event) do
+      Events::Base.new(
+        event_name, Time.zone.now,
+        conversation: conversation.reload,
+        changed_attributes: {
+          custom_attributes: [{ test: nil }, { test: 'testing custom attri webhook' }]
+        }
+      )
+    end
+    let(:event_name) { :'conversation.updated' }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_updated(conversation_updated_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+
+        conversation.update(custom_attributes: { test: 'testing custom attri webhook' })
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          conversation.webhook_data.merge(
+            event: 'conversation_updated',
+            changed_attributes: [
+              {
+                custom_attributes: {
+                  previous_value: { test: nil },
+                  current_value: { test: 'testing custom attri webhook' }
+                }
+              }
+            ]
+          )
+        ).once
+
+        listener.conversation_updated(conversation_updated_event)
+      end
+    end
+  end
 end
