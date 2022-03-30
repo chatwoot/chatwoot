@@ -42,8 +42,12 @@ describe AutomationRuleListener do
                                         { 'action_name' => 'send_email_transcript', 'action_params' => 'new_agent@example.com' },
                                         { 'action_name' => 'mute_conversation', 'action_params' => nil },
                                         { 'action_name' => 'change_status', 'action_params' => ['snoozed'] },
-                                        { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] }
+                                        { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+                                        { 'action_name' => 'send_attachments' }
                                       ])
+    file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    automation_rule.files.attach(file)
+    automation_rule.save
   end
 
   describe '#conversation_status_changed' do
@@ -112,7 +116,7 @@ describe AutomationRuleListener do
 
         conversation.reload
 
-        expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation.messages.first.content).to eq('Send this message.')
       end
 
       it 'triggers automation rule changes status to snoozed' do
@@ -149,6 +153,18 @@ describe AutomationRuleListener do
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_status_changed(event)
+      end
+
+      it 'triggers automation rule send attachments in messages' do
+        automation_rule
+
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+
+        listener.conversation_status_changed(event)
+
+        conversation.reload
+
+        expect(conversation.messages.last.attachments.count).to eq(1)
       end
     end
   end
@@ -225,7 +241,7 @@ describe AutomationRuleListener do
 
         conversation.reload
 
-        expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation.messages.first.content).to eq('Send this message.')
       end
 
       it 'triggers automation_rule with contact standard attributes' do
@@ -333,7 +349,7 @@ describe AutomationRuleListener do
 
         conversation.reload
 
-        expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation.messages.first.content).to eq('Send this message.')
       end
     end
   end
