@@ -137,6 +137,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 
 import {
   isEscape,
@@ -213,6 +214,31 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
 
+    hasNoAgentReplied() {
+      const agents = this.currentChat.messages.filter(message => {
+        const { message_type: messageType, sender = {} } = message;
+        const { type: senderType } = sender;
+
+        const onlyThisAgentHasReplied =
+          messageType === MESSAGE_TYPE.OUTGOING && senderType === 'user';
+        return onlyThisAgentHasReplied;
+      });
+
+      return agents.length === 0;
+    },
+    isOnlyAgentReplyMine() {
+      const agents = this.currentChat.messages.filter(message => {
+        const { message_type: messageType, sender = {} } = message;
+        const { type: senderType, id: senderId } = sender;
+
+        const onlyThisAgentHasReplied =
+          messageType === MESSAGE_TYPE.OUTGOING &&
+          senderType === 'user' &&
+          this.currentUser.id === senderId;
+        return onlyThisAgentHasReplied;
+      });
+      return agents.length >= 1;
+    },
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -245,13 +271,11 @@ export default {
       },
     },
     showSelfAssignBanner() {
-      if (this.message !== '' && !this.isOnPrivateNote) {
+      if (!this.isOnPrivateNote) {
         if (!this.assignedAgent) {
-          return true;
+          return this.isOnlyAgentReplyMine || this.hasNoAgentReplied;
         }
-        if (this.assignedAgent.id !== this.currentUser.id) {
-          return true;
-        }
+        if (this.assignedAgent.id !== this.currentUser.id) return true;
       }
 
       return false;
