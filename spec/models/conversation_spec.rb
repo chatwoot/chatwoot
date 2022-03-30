@@ -54,7 +54,8 @@ RSpec.describe Conversation, type: :model do
     it 'runs after_create callbacks' do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: nil)
     end
   end
 
@@ -115,14 +116,21 @@ RSpec.describe Conversation, type: :model do
         assignee: new_assignee,
         label_list: [label.title]
       )
+      status_change = conversation.status_change
+      changed_attributes = conversation.previous_changes
+
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                     changed_attributes: status_change)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                 changed_attributes: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                changed_attributes: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                    changed_attributes: changed_attributes)
     end
 
     it 'will not run conversation_updated event for empty updates' do
