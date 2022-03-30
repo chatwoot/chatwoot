@@ -281,7 +281,7 @@ export default {
           this.showAlert("Failed creating leads! Please contact Engineer Team")
         }
       } catch (error) {
-        this.showAlert(`Error!${error && error.message ? `${error.message}.` : ""} Please contact Engineer Team`)
+        this.showAlert(`Error! Please contact Engineer Team`)
         // this.showAlert(
         //   error.message
         //     ? error.message
