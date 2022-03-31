@@ -61,6 +61,14 @@
         @input="handleAgentsFilterSelection"
       />
     </div>
+    <div class="small-12 medium-3 business-hours">
+      <span class="business-hours-text">{{
+        $t('REPORT.ENABLE_BUSINESS_HOURS')
+      }}</span>
+      <span>
+        <woot-switch v-model="businessHours" />
+      </span>
+    </div>
   </div>
 </template>
 <script>
@@ -105,6 +113,7 @@ export default {
       customDateRange: [new Date(), new Date()],
       currentSelectedFilter: null,
       selectedAgents: [],
+      businessHours: false,
     };
   },
   computed: {
@@ -153,6 +162,9 @@ export default {
     filterItemsList() {
       this.currentSelectedFilter = this.selectedGroupByFilter;
     },
+    businessHours() {
+      this.$emit('consider-business-hours', this.businessHours);
+    },
   },
   mounted() {
     this.onDateRangeChange();
@@ -192,5 +204,20 @@ export default {
 <style lang="scss" scoped>
 .date-picker {
   margin-left: var(--space-smaller);
+}
+
+.business-hours {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-left: auto;
+  margin-bottom: var(--space-normal);
+  .business-hours-text {
+    font-size: var(--font-size-small);
+  }
+  .switch {
+    margin-left: var(--space-small);
+    margin-bottom: var(--space-zero);
+  }
 }
 </style>

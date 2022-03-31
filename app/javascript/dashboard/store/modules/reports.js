@@ -43,7 +43,7 @@ export const actions = {
       reportObj.type,
       reportObj.id,
       reportObj.groupBy,
-      reportObj.enableBusinessHours
+      reportObj.considerBusinessHours
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
@@ -71,7 +71,7 @@ export const actions = {
       reportObj.type,
       reportObj.id,
       reportObj.groupBy,
-      reportObj.enableBusinessHours
+      reportObj.considerBusinessHours
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);

@@ -15,6 +15,7 @@
       :filter-items-list="filterItemsList"
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
+      @consider-business-hours="onConsiderBusinessHours"
     />
     <div class="row">
       <woot-report-stats-card
@@ -50,7 +51,7 @@
         >
           <label for="enable-business-hours">
             <input
-              v-model="enableBusinessHours"
+              v-model="considerBusinessHours"
               type="checkbox"
               name="enable-business-hours"
             />
@@ -92,7 +93,7 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: {},
-      enableBusinessHours: false,
+      considerBusinessHours: false,
     };
   },
   computed: {
@@ -178,30 +179,25 @@ export default {
       }));
     },
   },
-  watch: {
-    enableBusinessHours() {
-      this.fetchAllData();
-    },
-  },
   methods: {
     fetchAllData() {
-      const { from, to, groupBy, enableBusinessHours } = this;
+      const { from, to, groupBy, considerBusinessHours } = this;
       this.$store.dispatch('fetchAccountSummary', {
         from,
         to,
         groupBy: groupBy.period,
-        enableBusinessHours,
+        considerBusinessHours,
       });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to, groupBy, enableBusinessHours } = this;
+      const { from, to, groupBy, considerBusinessHours } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
         groupBy: groupBy.period,
-        enableBusinessHours,
+        considerBusinessHours,
       });
     },
     downloadAgentReports() {
@@ -246,6 +242,10 @@ export default {
         default:
           return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
+    },
+    onConsiderBusinessHours(value) {
+      this.considerBusinessHours = value;
+      this.fetchAllData();
     },
   },
 };

@@ -79,7 +79,7 @@
       { "id": 3, "groupBy": "Month" },
       { "id": 4, "groupBy": "Year" }
     ],
-    "ENABLE_BUSINESS_HOURS": "Enable Business Hours"
+    "ENABLE_BUSINESS_HOURS": "Consider Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
