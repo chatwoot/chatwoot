@@ -154,6 +154,21 @@
   delete:
     $ref: ./application/agents/delete.yml
 
+# Agents
+/api/v1/accounts/{account_id}/canned_responses:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/canned_responses/index.yml
+  post:
+    $ref: ./application/canned_responses/create.yml
+/api/v1/accounts/{account_id}/canned_responses/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/canned_responses/update.yml
+  delete:
+    $ref: ./application/canned_responses/delete.yml
 
 # Contacts
 /api/v1/accounts/{account_id}/contacts:
@@ -376,3 +391,35 @@
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/summary.yml'
+
+# Conversation metrics for account
+/api/v2/accounts/{account_id}/reports/conversations:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: type
+      type: string
+      enum:
+        - account
+      required: true
+      description: Type of report
+  get:
+    $ref: './application/reports/conversation/account.yml'
+
+# Conversation metrics for agent
+/api/v2/accounts/{account_id}/reports/conversations/:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: type
+      type: string
+      enum:
+        - agent
+      required: true
+      description: Type of report
+    - in: query
+      name: user_id
+      type: string
+      description: The numeric ID of the user
+  get:
+    $ref: './application/reports/conversation/agent.yml'

@@ -142,6 +142,13 @@
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
       "attribute_type": "additional_attributes"
     },
+    "company": {
+      "attribute_name": "Company",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "additional_attributes"
+    },
     "labels": {
       "attribute_name": "Labels",
       "input_type": "tags",
