@@ -44,6 +44,19 @@
         <span v-else class="empty-state">
           {{ $t('REPORT.NO_ENOUGH_DATA') }}
         </span>
+        <div
+          v-if="isAverageMetricType(metrics[currentSelection].KEY)"
+          class="business-hours"
+        >
+          <label for="enable-business-hours">
+            <input
+              v-model="enableBusinessHours"
+              type="checkbox"
+              name="enable-business-hours"
+            />
+            {{ $t('REPORT.ENABLE_BUSINESS_HOURS') }}
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -79,6 +92,7 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: {},
+      enableBusinessHours: false,
     };
   },
   computed: {
@@ -164,23 +178,30 @@ export default {
       }));
     },
   },
+  watch: {
+    enableBusinessHours() {
+      this.fetchAllData();
+    },
+  },
   methods: {
     fetchAllData() {
-      const { from, to, groupBy } = this;
+      const { from, to, groupBy, enableBusinessHours } = this;
       this.$store.dispatch('fetchAccountSummary', {
         from,
         to,
         groupBy: groupBy.period,
+        enableBusinessHours,
       });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to, groupBy } = this;
+      const { from, to, groupBy, enableBusinessHours } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
         groupBy: groupBy.period,
+        enableBusinessHours,
       });
     },
     downloadAgentReports() {

@@ -3,7 +3,7 @@ describe ReportingEventListener do
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
-  let!(:inbox) { create(:inbox, working_hours_enabled: true, account: account) }
+  let!(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
   let!(:message) do
     create(:message, message_type: 'outgoing',

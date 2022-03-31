@@ -3,7 +3,11 @@ module ReportingEventHelper
     return 0 unless inbox.working_hours_enabled?
 
     BusinessTime::Config.work_hours = inbox_working_hours(inbox.working_hours)
-    from.business_time_until(to)
+
+    # Use inbox timezone to change from & to values.
+    from_in_inbox_timezone = from.in_time_zone(inbox.timezone).to_time
+    to_in_inbox_timezone = to.in_time_zone(inbox.timezone).to_time
+    from_in_inbox_timezone.business_time_until(to_in_inbox_timezone)
   end
 
   private
