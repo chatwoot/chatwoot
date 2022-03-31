@@ -146,9 +146,7 @@
       />
     </div>
     <div class="small-12 medium-3 business-hours">
-      <span class="business-hours-text">{{
-        $t('REPORT.ENABLE_BUSINESS_HOURS')
-      }}</span>
+      <span class="business-hours-text">{{ $t('REPORT.BUSINESS_HOURS') }}</span>
       <span>
         <woot-switch v-model="businessHoursSelected" />
       </span>
@@ -259,7 +257,7 @@ export default {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
     },
     businessHoursSelected() {
-      this.$emit('consider-business-hours', this.businessHoursSelected);
+      this.$emit('business-hours-toggle', this.businessHoursSelected);
     },
   },
   mounted() {

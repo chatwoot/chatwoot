@@ -15,7 +15,7 @@
       :filter-items-list="filterItemsList"
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
-      @consider-business-hours="onConsiderBusinessHours"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div class="row">
       <woot-report-stats-card
@@ -230,7 +230,7 @@ export default {
           return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
     },
-    onConsiderBusinessHours(value) {
+    onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
     },

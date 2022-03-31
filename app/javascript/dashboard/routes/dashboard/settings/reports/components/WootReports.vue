@@ -17,7 +17,7 @@
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
       @group-by-filter-change="onGroupByFilterChange"
-      @consider-business-hours="onConsiderBusinessHours"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div>
       <div v-if="filterItemsList.length" class="row">
@@ -292,7 +292,7 @@ export default {
           return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
     },
-    onConsiderBusinessHours(value) {
+    onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
     },

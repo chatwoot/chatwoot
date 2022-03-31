@@ -62,9 +62,7 @@
       />
     </div>
     <div class="small-12 medium-3 business-hours">
-      <span class="business-hours-text">{{
-        $t('REPORT.ENABLE_BUSINESS_HOURS')
-      }}</span>
+      <span class="business-hours-text">{{ $t('REPORT.BUSINESS_HOURS') }}</span>
       <span>
         <woot-switch v-model="businessHoursSelected" />
       </span>
@@ -163,7 +161,7 @@ export default {
       this.currentSelectedFilter = this.selectedGroupByFilter;
     },
     businessHoursSelected() {
-      this.$emit('consider-business-hours', this.businessHoursSelected);
+      this.$emit('business-hours-toggle', this.businessHoursSelected);
     },
   },
   mounted() {
@@ -204,20 +202,5 @@ export default {
 <style lang="scss" scoped>
 .date-picker {
   margin-left: var(--space-smaller);
-}
-
-.business-hours {
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-left: auto;
-  margin-bottom: var(--space-normal);
-  .business-hours-text {
-    font-size: var(--font-size-small);
-  }
-  .switch {
-    margin-left: var(--space-small);
-    margin-bottom: var(--space-zero);
-  }
 }
 </style>
