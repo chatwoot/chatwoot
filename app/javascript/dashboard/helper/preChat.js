@@ -164,10 +164,8 @@ export const getPreChatFields = ({
     preChatFields = [...standardFields.pre_chat_fields, ...customFields];
   }
 
-  const finalFields = {
+  return {
     pre_chat_message: preChatMessage,
     pre_chat_fields: preChatFields,
   };
-
-  return finalFields;
 };
