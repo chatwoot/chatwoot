@@ -15,9 +15,9 @@
           {{ $t('NETWORK.BUTTON.REFRESH') }}
         </woot-button>
         <woot-button
-          variant="clear"
+          variant="smooth"
           size="small"
-          color-scheme="secondary"
+          color-scheme="warning"
           icon="dismiss-circle"
           @click="closeNotification"
         >
