@@ -165,7 +165,7 @@ export const getPreChatFields = ({
   }
 
   return {
-    preChatMessage,
-    preChatFields,
+    pre_chat_message: preChatMessage,
+    pre_chat_fields: preChatFields,
   };
 };

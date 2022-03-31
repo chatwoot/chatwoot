@@ -170,7 +170,10 @@ export default {
     setDefaults() {
       const { pre_chat_form_enabled: preChatFormEnabled } = this.inbox;
       this.preChatFormEnabled = preChatFormEnabled;
-      const { preChatMessage, preChatFields } = this.preChatFieldOptions || {};
+      const {
+        pre_chat_message: preChatMessage,
+        pre_chat_fields: preChatFields,
+      } = this.preChatFieldOptions || {};
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
     },
