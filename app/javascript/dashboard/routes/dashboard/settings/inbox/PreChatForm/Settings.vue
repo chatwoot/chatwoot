@@ -4,7 +4,7 @@
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
     <form @submit.prevent="updateInbox">
-      <label class="medium-9 columns">
+      <label class="medium-3 columns">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL') }}
         <select v-model="preChatFormEnabled">
           <option :value="true">
@@ -16,7 +16,7 @@
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <label class="medium-9">
+        <label class="medium-3 columns">
           {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           <textarea
             v-model.trim="preChatMessage"
@@ -26,84 +26,90 @@
             "
           />
         </label>
-        <label> {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }} </label>
-        <table class="table table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
-              </th>
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
-              </th>
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
-              </th>
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
-              </th>
-              <th scope="col">
-                {{
-                  $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER')
-                }}
-              </th>
-            </tr>
-          </thead>
-          <draggable v-model="preChatFields" tag="tbody">
-            <tr v-for="(item, index) in preChatFields" :key="index">
-              <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
-              <td class="pre-chat-field">
-                <toggle-button
-                  :active="item['enabled']"
-                  @click="handlePreChatFieldOptions($event, 'enabled', item)"
-                />
-              </td>
-              <td
-                class="pre-chat-field"
-                :class="{ 'disabled-text': !item['enabled'] }"
-              >
-                {{ item.name }}
-              </td>
-              <td
-                class="pre-chat-field"
-                :class="{ 'disabled-text': !item['enabled'] }"
-              >
-                {{ item.type }}
-              </td>
-              <td class="pre-chat-field">
-                <input
-                  v-model="item['required']"
-                  type="checkbox"
-                  :value="`${item.name}-required`"
-                  :disabled="!item['enabled']"
-                  @click="handlePreChatFieldOptions($event, 'required', item)"
-                />
-              </td>
-              <td
-                class="pre-chat-field"
-                :class="{ 'disabled-text': !item['enabled'] }"
-              >
-                <input
-                  v-model.trim="item.label"
-                  type="text"
-                  :disabled="isFieldEditable(item)"
-                />
-              </td>
-              <td
-                class="pre-chat-field"
-                :class="{ 'disabled-text': !item['enabled'] }"
-              >
-                <input
-                  v-model.trim="item.placeholder"
-                  type="text"
-                  :disabled="isFieldEditable(item)"
-                />
-              </td>
-            </tr>
-          </draggable>
-        </table>
+        <label class="medium-6 columns">
+          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
+                </th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
+                </th>
+                <th scope="col">
+                  {{
+                    $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED')
+                  }}
+                </th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
+                </th>
+                <th scope="col">
+                  {{
+                    $t(
+                      'INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER'
+                    )
+                  }}
+                </th>
+              </tr>
+            </thead>
+            <draggable v-model="preChatFields" tag="tbody">
+              <tr v-for="(item, index) in preChatFields" :key="index">
+                <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
+                <td class="pre-chat-field">
+                  <toggle-button
+                    :active="item['enabled']"
+                    @click="handlePreChatFieldOptions($event, 'enabled', item)"
+                  />
+                </td>
+                <td
+                  class="pre-chat-field"
+                  :class="{ 'disabled-text': !item['enabled'] }"
+                >
+                  {{ item.name }}
+                </td>
+                <td
+                  class="pre-chat-field"
+                  :class="{ 'disabled-text': !item['enabled'] }"
+                >
+                  {{ item.type }}
+                </td>
+                <td class="pre-chat-field">
+                  <input
+                    v-model="item['required']"
+                    type="checkbox"
+                    :value="`${item.name}-required`"
+                    :disabled="!item['enabled']"
+                    @click="handlePreChatFieldOptions($event, 'required', item)"
+                  />
+                </td>
+                <td
+                  class="pre-chat-field"
+                  :class="{ 'disabled-text': !item['enabled'] }"
+                >
+                  <input
+                    v-model.trim="item.label"
+                    type="text"
+                    :disabled="isFieldEditable(item)"
+                  />
+                </td>
+                <td
+                  class="pre-chat-field"
+                  :class="{ 'disabled-text': !item['enabled'] }"
+                >
+                  <input
+                    v-model.trim="item.placeholder"
+                    type="text"
+                    :disabled="isFieldEditable(item)"
+                  />
+                </td>
+              </tr>
+            </draggable>
+          </table>
+        </label>
       </div>
 
       <woot-submit-button
@@ -164,10 +170,7 @@ export default {
     setDefaults() {
       const { pre_chat_form_enabled: preChatFormEnabled } = this.inbox;
       this.preChatFormEnabled = preChatFormEnabled;
-      const {
-        pre_chat_message: preChatMessage,
-        pre_chat_fields: preChatFields,
-      } = this.preChatFieldOptions || {};
+      const { preChatMessage, preChatFields } = this.preChatFieldOptions || {};
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
     },
@@ -214,8 +217,14 @@ export default {
 .disabled-text {
   color: var(--s-500);
 }
-table thead th {
-  text-transform: none;
+
+table {
+  thead th {
+    text-transform: none;
+  }
+  input {
+    font-size: var(--font-size-small);
+  }
 }
 checkbox {
   margin: 0;
