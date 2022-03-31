@@ -2924,6 +2924,11 @@
       }
     },
     "/api/v1/accounts/{account_id}/inbox_members": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
       "post": {
         "tags": [
           "Inbox"

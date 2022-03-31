@@ -259,6 +259,8 @@
     $ref: ./application/inboxes/inbox_members/delete.yml
 
 /api/v1/accounts/{account_id}/inbox_members:
+  parameters:
+    - $ref: '#/parameters/account_id'
   post:
     $ref: ./application/inboxes/inbox_members/create.yml
 
