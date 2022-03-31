@@ -25,3 +25,20 @@
   align-items: center;
   display: flex;
 }
+
+.business-hours {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-left: auto;
+  margin-bottom: var(--space-normal);
+}
+
+.business-hours-text {
+  font-size: var(--font-size-small);
+}
+
+.switch {
+  margin-left: var(--space-small);
+  margin-bottom: var(--space-zero);
+}

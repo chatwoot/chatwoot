@@ -52,7 +52,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       type: params[:type].to_sym,
       id: params[:id],
       group_by: params[:group_by],
-      enable_business_hours: ActiveModel::Type::Boolean.new.cast(params[:enable_business_hours])
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
     }
   end
 

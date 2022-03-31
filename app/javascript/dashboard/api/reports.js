@@ -15,7 +15,7 @@ class ReportsAPI extends ApiClient {
     type = 'account',
     id,
     group_by,
-    enable_business_hours
+    business_hours
   ) {
     return axios.get(`${this.url}`, {
       params: {
@@ -25,20 +25,13 @@ class ReportsAPI extends ApiClient {
         type,
         id,
         group_by,
-        enable_business_hours,
+        business_hours,
         timezone_offset: getTimeOffset(),
       },
     });
   }
 
-  getSummary(
-    since,
-    until,
-    type = 'account',
-    id,
-    group_by,
-    enable_business_hours
-  ) {
+  getSummary(since, until, type = 'account', id, group_by, business_hours) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
@@ -46,7 +39,7 @@ class ReportsAPI extends ApiClient {
         type,
         id,
         group_by,
-        enable_business_hours,
+        business_hours,
       },
     });
   }

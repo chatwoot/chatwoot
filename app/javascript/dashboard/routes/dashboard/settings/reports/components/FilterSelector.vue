@@ -66,7 +66,7 @@
         $t('REPORT.ENABLE_BUSINESS_HOURS')
       }}</span>
       <span>
-        <woot-switch v-model="businessHours" />
+        <woot-switch v-model="businessHoursSelected" />
       </span>
     </div>
   </div>
@@ -113,7 +113,7 @@ export default {
       customDateRange: [new Date(), new Date()],
       currentSelectedFilter: null,
       selectedAgents: [],
-      businessHours: false,
+      businessHoursSelected: false,
     };
   },
   computed: {
@@ -162,8 +162,8 @@ export default {
     filterItemsList() {
       this.currentSelectedFilter = this.selectedGroupByFilter;
     },
-    businessHours() {
-      this.$emit('consider-business-hours', this.businessHours);
+    businessHoursSelected() {
+      this.$emit('consider-business-hours', this.businessHoursSelected);
     },
   },
   mounted() {
