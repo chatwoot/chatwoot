@@ -6,7 +6,7 @@ import {
   getUserCookieName,
   hasUserKeys,
 } from '../sdk/cookieHelpers';
-
+import { addClass, removeClass } from '../sdk/DOMHelpers';
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
@@ -31,13 +31,13 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.events.toggleBubble(state);
     },
 
-
     toggleBubbleVisibility(visibility) {
+      let widgetElm = document.querySelector('.woot-widget-bubble');
       if (visibility === 'hide') {
-        document.querySelector('.woot--bubble-holder').style.display = 'none';
+        addClass(widgetElm, 'woot-widget-hidden');
         window.$chatwoot.hideMessageBubble = true;
       } else if (visibility === 'show') {
-        document.querySelector('.woot--bubble-holder').style.display = 'block';
+        removeClass(widgetElm, 'woot-widget-hidden');
         window.$chatwoot.hideMessageBubble = false;
       }
     },
