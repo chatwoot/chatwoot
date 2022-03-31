@@ -138,7 +138,13 @@ export default {
       }
     },
     registerUnreadEvents() {
-      bus.$on(ON_AGENT_MESSAGE_RECEIVED, this.setUnreadView);
+      bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
+        const { name: routeName } = this.$route;
+        if (this.isWidgetOpen && routeName === 'messages') {
+          this.$store.dispatch('conversation/setUserLastSeen');
+        }
+        this.setUnreadView();
+      });
       bus.$on(ON_UNREAD_MESSAGE_CLICK, () => {
         this.replaceRoute('messages').then(() => this.unsetUnreadView());
       });
@@ -175,6 +181,7 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
+
       if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
         this.replaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);
