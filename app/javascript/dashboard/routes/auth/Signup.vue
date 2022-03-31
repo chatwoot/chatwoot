@@ -78,12 +78,12 @@
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
               ref="hCaptcha"
-              :class="{ error: !hasAValidCaptcha && needAValidCaptcha }"
+              :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
               :sitekey="globalConfig.hCaptchaSiteKey"
               @verify="onRecaptchaVerified"
             />
             <span
-              v-if="!hasAValidCaptcha && needAValidCaptcha"
+              v-if="!hasAValidCaptcha && didCaptchaReset"
               class="captcha-error"
             >
               {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
@@ -137,7 +137,7 @@ export default {
         confirmPassword: '',
         hCaptchaClientResponse: '',
       },
-      needAValidCaptcha: false,
+      didCaptchaReset: false,
       isSignupInProgress: false,
       error: '',
     };
@@ -214,11 +214,12 @@ export default {
     },
     onRecaptchaVerified(token) {
       this.credentials.hCaptchaClientResponse = token;
+      this.didCaptchaReset = false;
     },
     resetCaptcha() {
       this.$refs.hCaptcha.reset();
       this.credentials.hCaptchaClientResponse = '';
-      this.needAValidCaptcha = true;
+      this.didCaptchaReset = true;
     },
   },
 };
@@ -279,6 +280,7 @@ export default {
     &::v-deep .error {
       iframe {
         border: 1px solid var(--r-500);
+        border-radius: var(--border-radius-normal);
       }
     }
   }
