@@ -217,6 +217,9 @@ export default {
       this.didCaptchaReset = false;
     },
     resetCaptcha() {
+      if (!this.globalConfig.hCaptchaSiteKey) {
+        return;
+      }
       this.$refs.hCaptcha.reset();
       this.credentials.hCaptchaClientResponse = '';
       this.didCaptchaReset = true;
