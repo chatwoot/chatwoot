@@ -34,10 +34,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     toggleBubbleVisibility(visibility) {
       let widgetElm = document.querySelector('.woot-widget-bubble');
       if (visibility === 'hide') {
-        addClass(widgetElm, 'woot-widget-hidden');
+        addClass(widgetElm, 'woot-bubble-hidden');
         window.$chatwoot.hideMessageBubble = true;
       } else if (visibility === 'show') {
-        removeClass(widgetElm, 'woot-widget-hidden');
+        removeClass(widgetElm, 'woot-bubble-hidden');
         window.$chatwoot.hideMessageBubble = false;
       }
     },

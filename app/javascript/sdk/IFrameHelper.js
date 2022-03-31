@@ -265,7 +265,7 @@ export const IFrameHelper = {
     let className = 'woot-widget-bubble';
     let closeBtnClassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
     if (window.$chatwoot.hideMessageBubble) {
-      className += ' woot-widget-hidden';
+      className += ' woot-bubble-hidden';
     }
 
     if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {

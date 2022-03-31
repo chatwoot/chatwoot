@@ -228,7 +228,7 @@ export const SDK_CSS = `
  }
 }
 
-.woot-widget-hidden {
+.woot-bubble-hidden {
   display: none !important;
 }
 `;
