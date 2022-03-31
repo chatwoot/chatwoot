@@ -27,11 +27,11 @@
 }
 
 .business-hours {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: end;
-  margin-left: auto;
   margin-bottom: var(--space-normal);
+  margin-left: auto;
 }
 
 .business-hours-text {
@@ -39,6 +39,6 @@
 }
 
 .switch {
-  margin-left: var(--space-small);
   margin-bottom: var(--space-zero);
+  margin-left: var(--space-small);
 }
