@@ -40,6 +40,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         document.querySelector('.woot--bubble-holder').style.display = 'block';
         window.$chatwoot.hideMessageBubble = false;
       }
+    },
 
     popoutChatWindow() {
       IFrameHelper.events.popoutChatWindow({
