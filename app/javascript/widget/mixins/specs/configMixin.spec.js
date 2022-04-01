@@ -32,7 +32,7 @@ describe('configMixin', () => {
     expect(wrapper.vm.channelConfig).toEqual({
       avatarUrl: 'https://test.url',
       hasAConnectedAgentBot: 'AgentBot',
-      enabledFeatures: ['emoji_picker', 'attachments'],
+      enabledFeatures: ['emoji_picker', 'attachments', 'end_conversation'],
       preChatFormOptions: {
         pre_chat_message: '',
         require_email: false,
