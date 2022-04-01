@@ -181,22 +181,28 @@ describe('#actions', () => {
   describe('#fetchOldConversations', () => {
     it('sends correct actions', async () => {
       API.get.mockResolvedValue({
-        data: [
-          {
-            id: 1,
-            text: 'hey',
-            content_attributes: {},
+        data: {
+          payload: [
+            {
+              id: 1,
+              text: 'hey',
+              content_attributes: {},
+            },
+            {
+              id: 2,
+              text: 'welcome',
+              content_attributes: { deleted: true },
+            },
+          ],
+          meta: {
+            contact_last_seen_at: 1466424490,
           },
-          {
-            id: 2,
-            text: 'welcome',
-            content_attributes: { deleted: true },
-          },
-        ],
+        },
       });
       await actions.fetchOldConversations({ commit }, {});
       expect(commit.mock.calls).toEqual([
         ['setConversationListLoading', true],
+        ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
         [
           'setMessagesInConversation',
           [
