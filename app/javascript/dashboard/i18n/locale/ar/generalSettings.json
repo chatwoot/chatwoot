@@ -60,12 +60,12 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "الإشعارات",
     "MARK_ALL_DONE": "وضع علامة على جميع المنجز",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "تم الحذف",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "إشعارات غير مقروءة",
+      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
+      "LOADING_UNREAD_MESSAGE": "تحميل الإشعارات الغير مقروءة...",
+      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
     },
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
