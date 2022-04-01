@@ -53,10 +53,13 @@ export default {
         'dark:text-slate-50'
       )}`;
     },
+    textAreaBorderColor() {
+      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
+    },
     isTextAreaHasError() {
       return this.error
         ? `border-red-200 hover:border-red-300 focus:border-red-300 ${this.isTextAreaDarkOrLightMode}`
-        : `border-black-200 hover:border-black-300 focus:border-black-300 ${this.isTextAreaDarkOrLightMode}`;
+        : `hover:border-black-300 focus:border-black-300 ${this.isTextAreaDarkOrLightMode} ${this.textAreaBorderColor}`;
     },
   },
   methods: {
