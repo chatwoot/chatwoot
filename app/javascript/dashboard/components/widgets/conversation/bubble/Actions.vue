@@ -11,7 +11,7 @@
     <fluent-icon
       v-if="messageRead"
       v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
-      icon="checkmark"
+      icon="checkmark-double"
       class="action--icon"
       size="16"
     />

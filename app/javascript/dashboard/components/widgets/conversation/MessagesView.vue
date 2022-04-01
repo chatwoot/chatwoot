@@ -54,6 +54,7 @@
             currentChat.contact_last_seen_at
           )
         "
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span class="text-uppercase">
@@ -78,6 +79,7 @@
             currentChat.contact_last_seen_at
           )
         "
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
     <div

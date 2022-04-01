@@ -158,6 +158,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -274,7 +278,9 @@ export default {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
     },
     showReadTicks() {
-      return this.isOutgoing && this.hasUserReadMessage;
+      return (
+        this.isOutgoing && this.hasUserReadMessage && this.isWebWidgetInbox
+      );
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;
