@@ -1,5 +1,8 @@
 <template>
-  <header class="header-expanded py-6 px-5 relative box-border w-full">
+  <header
+    class="header-expanded py-6 px-5 relative box-border w-full"
+    :class="$dm('bg-white', 'dark:bg-slate-900')"
+  >
     <div
       class="flex items-start"
       :class="[avatarUrl ? 'justify-between' : 'justify-end']"

@@ -6,13 +6,10 @@
   >
     <div
       class="header-wrap"
-      :class="
-        ({
-          expanded: !isHeaderCollapsed,
-          collapsed: isHeaderCollapsed,
-        },
-        $dm('bg-white', 'dark:bg-slate-900'))
-      "
+      :class="{
+        expanded: !isHeaderCollapsed,
+        collapsed: isHeaderCollapsed,
+      }"
     >
       <transition
         enter-active-class="transition-all delay-200 duration-300 ease-in"

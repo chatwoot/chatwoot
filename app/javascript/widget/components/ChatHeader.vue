@@ -1,5 +1,8 @@
 <template>
-  <header class="flex justify-between p-5 w-full">
+  <header
+    class="flex justify-between p-5 w-full"
+    :class="$dm('bg-white', 'dark:bg-slate-900')"
+  >
     <div class="flex items-center">
       <button v-if="showBackButton" @click="onBackButtonClick">
         <fluent-icon
