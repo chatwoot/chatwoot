@@ -30,11 +30,11 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome casella",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Inserisci il nome della tua casella di posta (ad esempio: Acme Inc)"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "Nome sito web",
+        "PLACEHOLDER": "Inserisci il nome del tuo sito web (ad esempio: Acme Inc)"
       },
       "FB": {
         "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
@@ -47,9 +47,9 @@
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Twitter, riprova",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Crea conversazioni dai Tweet menzionati"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -61,7 +61,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Inserisci l'URL del Webhook",
           "ERROR": "Inserisci un URL valido"
         },
         "CHANNEL_DOMAIN": {
@@ -82,16 +82,16 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Abilita messaggio di benvenuto sul canale",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Invia un messaggio di saluto agli utenti quando iniziano la conversazione.",
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Imposta tempo di risposta",
+          "IN_A_FEW_MINUTES": "In pochi minuti",
+          "IN_A_FEW_HOURS": "In poche ore",
+          "IN_A_DAY": "In un giorno",
+          "HELP_TEXT": "Questo tempo di risposta verrà visualizzato sul widget della live chat"
         },
         "WIDGET_COLOR": {
           "LABEL": "Colore del widget",
@@ -100,8 +100,8 @@
         "SUBMIT_BUTTON": "Crea casella"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Canale Twilio SMS/WhatsApp",
+        "DESC": "Integra Twilio e inizia a supportare i tuoi clienti tramite SMS o WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID dell'account",
           "PLACEHOLDER": "Inserisci il tuo SID Account Twilio",
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Nome casella",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Inserisci un nome della casella",
           "ERROR": "Questo campo è obbligatorio"
         },
         "PHONE_NUMBER": {
@@ -136,40 +136,40 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "Canale SMS",
+        "DESC": "Inizia a supportare i tuoi clienti tramite SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Provider API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Larghezza di banda"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID Account",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "Inserisci l'id del tuo account di Bandwidth",
             "ERROR": "Questo campo è obbligatorio"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "Chiave API",
+            "PLACEHOLDER": "Inserisci la tua chiave di Bandwith API",
             "ERROR": "Questo campo è obbligatorio"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "Chiave API segreta",
+            "PLACEHOLDER": "Inserisci la tua chiave segreta di Bandwith API",
             "ERROR": "Questo campo è obbligatorio"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "ID applicazione",
+            "PLACEHOLDER": "Inserisci l'id della tua applicazione di Bandwidth",
             "ERROR": "Questo campo è obbligatorio"
           },
           "INBOX_NAME": {
             "LABEL": "Nome casella",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Inserisci un nome della casella",
             "ERROR": "Questo campo è obbligatorio"
           },
           "PHONE_NUMBER": {
@@ -177,27 +177,27 @@
             "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
             "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Crea un canale Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Non siamo stati in grado di autenticare le credenziali di Bandwidth, riprova"
           },
           "API_CALLBACK": {
             "TITLE": "URL di callback",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "È necessario configurare l'URL di callback del messaggio in Bandwidth con l'URL menzionato qui."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "Canale WhatsApp",
+        "DESC": "Inizia a supportare i tuoi clienti tramite WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Provider API",
           "TWILIO": "Twilio",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Nome casella",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "Inserisci un nome della casella",
           "ERROR": "Questo campo è obbligatorio"
         },
         "PHONE_NUMBER": {
@@ -206,20 +206,20 @@
           "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Chiave API",
+          "SUBTITLE": "Configura la chiave API di WhatsApp.",
+          "PLACEHOLDER": "Chiave API",
+          "APPLY_FOR_ACCESS": "Non hai alcuna chiave API? Richiedi l'accesso qui",
+          "ERROR": "Inserisci un valore valido."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Crea un canale WhatsApp",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale WhatsApp"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "Canale API",
+        "DESC": "Integra con il canale API e inizia a supportare i tuoi clienti.",
         "CHANNEL_NAME": {
           "LABEL": "Nome canale",
           "PLACEHOLDER": "Inserisci un nome del canale",
@@ -227,12 +227,12 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Configurare l'URL in cui si desidera ricevere i callback sugli eventi.",
           "PLACEHOLDER": "URL del webhook"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Crea un canale API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale api"
         }
       },
       "EMAIL_CHANNEL": {
