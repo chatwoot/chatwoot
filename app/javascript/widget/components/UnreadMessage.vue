@@ -1,6 +1,10 @@
 <template>
   <div class="chat-bubble-wrap">
-    <button class="chat-bubble agent" @click="onClickMessage">
+    <button
+      class="chat-bubble agent"
+      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      @click="onClickMessage"
+    >
       <div v-if="showSender" class="row--agent-block">
         <thumbnail
           :src="avatarUrl"
@@ -25,10 +29,11 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from '../constants/widgetBusEvents';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin],
+  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
   props: {
     message: {
       type: String,
