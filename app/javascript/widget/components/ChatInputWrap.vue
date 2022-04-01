@@ -104,7 +104,7 @@ export default {
     },
     emojiIconColor() {
       return this.showEmojiPicker
-        ? `'text-woot-500'${this.$dm('text-black-900', 'dark:text-slate-100')}`
+        ? `text-woot-500 ${this.$dm('text-black-900', 'dark:text-slate-100')}`
         : `${this.$dm('text-black-900', 'dark:text-slate-100')}`;
     },
   },

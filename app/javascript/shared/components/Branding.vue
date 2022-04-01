@@ -11,7 +11,7 @@
         :alt="globalConfig.brandName"
         :src="globalConfig.logoThumbnail"
       />
-      <span>
+      <span class="dark:text-slate-200">
         {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
       </span>
     </a>
@@ -21,6 +21,7 @@
 
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -29,7 +30,7 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, darkModeMixin],
   data() {
     return {
       globalConfig: {
