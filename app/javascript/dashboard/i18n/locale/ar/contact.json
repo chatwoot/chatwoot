@@ -73,8 +73,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "تأكيد الحذف",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "هل أنت متأكد من حذف هذه الملاحظة؟",
+      "YES": "نعم، احذف",
       "NO": "لا، احتفظ به"
     }
   },
