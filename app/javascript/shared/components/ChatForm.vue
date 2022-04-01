@@ -1,7 +1,7 @@
 <template>
   <div
     class="form chat-bubble agent"
-    :class="$dm('bg-slate-50', 'dark:bg-slate-700')"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
   >
     <form @submit.prevent="onSubmit">
       <div
