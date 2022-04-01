@@ -133,7 +133,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ดาวโหลด",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "กำลังอัพโหลด"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "ส่ง"
