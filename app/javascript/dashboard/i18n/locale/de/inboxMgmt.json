@@ -268,7 +268,7 @@
         },
         "LINE_CHANNEL_SECRET": {
           "LABEL": "LINE-Kanal-Geheimnis",
-          "PLACEHOLDER": "LINE-Kanal-Geheimnis"
+          "PLACEHOLDER": "LINE-Kanal-Secret"
         },
         "LINE_CHANNEL_TOKEN": {
           "LABEL": "LINE-Kanal-Token",
