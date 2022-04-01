@@ -120,7 +120,7 @@
     "FILTER_DROPDOWN_LABEL": "Agent auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -149,7 +149,7 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -157,11 +157,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -179,13 +179,13 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Label-Übersicht",
-    "LOADING_CHART": "Diagrammdaten laden ...",
+    "LOADING_CHART": "Diagrammdaten laden...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_LABEL_REPORTS": "Label-Berichte herunterladen",
     "FILTER_DROPDOWN_LABEL": "Label auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -207,7 +207,7 @@
         "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
