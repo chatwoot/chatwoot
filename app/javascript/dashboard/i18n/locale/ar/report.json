@@ -18,14 +18,14 @@
         "DESC": "(الإجمالي)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -132,14 +132,14 @@
         "DESC": "(الإجمالي)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -197,14 +197,14 @@
         "DESC": "(الإجمالي)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -262,14 +262,14 @@
         "DESC": "(الإجمالي)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -327,14 +327,14 @@
         "DESC": "(الإجمالي)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
