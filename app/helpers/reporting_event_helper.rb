@@ -2,7 +2,10 @@ module ReportingEventHelper
   def business_hours(inbox, from, to)
     return 0 unless inbox.working_hours_enabled?
 
-    BusinessTime::Config.work_hours = inbox_working_hours(inbox.working_hours)
+    inbox_working_hours = configure_working_hours(inbox.working_hours)
+    return 0 if inbox_working_hours.blank?
+
+    BusinessTime::Config.work_hours = inbox_working_hours
 
     from_in_timezone = Time.zone.parse(from.to_s).to_time
     to_in_timezone = Time.zone.parse(to.to_s).to_time
@@ -11,7 +14,7 @@ module ReportingEventHelper
 
   private
 
-  def inbox_working_hours(working_hours)
+  def configure_working_hours(working_hours)
     working_hours.each_with_object({}) do |working_hour, object|
       object[day(working_hour.day_of_week)] = working_hour_range(working_hour) unless working_hour.closed_all_day?
     end
