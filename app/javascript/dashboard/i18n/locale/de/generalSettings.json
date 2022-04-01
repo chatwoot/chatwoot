@@ -102,10 +102,10 @@
       "CHANGE_TEAM": "Team wechseln",
       "ADD_LABEL": "Label zur Konversation hinzufügen",
       "REMOVE_LABEL": "Label aus der Konversation entfernen",
-      "SETTINGS": "die Einstellungen"
+      "SETTINGS": "Einstellungen"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "GO_TO_REPORTS_OVERVIEW": "Zur Berichtsübersicht",
       "GO_TO_AGENT_REPORTS": "Zu den Agentenberichten",
