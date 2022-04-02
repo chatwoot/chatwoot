@@ -91,7 +91,7 @@
         "DELETE": "ลบ"
       },
       "EMPTY_RESULT": {
-        "404": "ไม่มีแอตทริบิวต์เเบบกำหนดเอง",
+        "404": "There are no custom attributes created",
         "NOT_FOUND": "ไม่มีแอตทริบิวต์เเบบกำหนดเอง ที่กำหนดค่าไว้"
       }
     }
