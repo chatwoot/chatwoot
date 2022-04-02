@@ -236,8 +236,8 @@
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Canale email",
+        "DESC": "Integra la casella di posta in arrivo.",
         "CHANNEL_NAME": {
           "LABEL": "Nome canale",
           "PLACEHOLDER": "Inserisci un nome del canale",
@@ -245,66 +245,66 @@
         },
         "EMAIL": {
           "LABEL": "email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Email dove i tuoi clienti ti inviano i ticket di supporto",
           "PLACEHOLDER": "email"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Crea un canale email",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale email"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Inizia a inoltrare le tue email al seguente indirizzo email."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "Canale LINE",
+        "DESC": "Integra con il canale LINE e inizia a supportare i tuoi clienti.",
         "CHANNEL_NAME": {
           "LABEL": "Nome canale",
           "PLACEHOLDER": "Inserisci un nome del canale",
           "ERROR": "Questo campo è obbligatorio"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "ID canale LINE",
+          "PLACEHOLDER": "ID canale LINE"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Chiave segreta canale LINE",
+          "PLACEHOLDER": "Chiave segreta canale LINE"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Token canale LINE",
+          "PLACEHOLDER": "Token canale LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Crea un canale LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale LINE"
         },
         "API_CALLBACK": {
           "TITLE": "URL di callback",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "È necessario configurare l'URL del webhook nell'applicazione LINE con l'URL menzionato qui."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Canale Telegram",
+        "DESC": "Integra con il canale Telegram e inizia a supportare i tuoi clienti.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "Token bot",
+          "SUBTITLE": "Configura il token del bot che hai ottenuto da Telegram BotFather.",
+          "PLACEHOLDER": "Token bot"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Crea canale Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale telegram"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Scegli un canale",
+        "DESC": "Chatwoot supporta il widget chat live, pagina Facebook, profilo Twitter, WhatsApp, Email ecc., come canali. Se si desidera costruire un canale personalizzato, è possibile crearlo utilizzando il canale API. Selezionare un canale dalle opzioni sottostanti per procedere."
       },
       "AGENTS": {
         "TITLE": "Agenti",
         "DESC": "Qui puoi aggiungere agenti per gestire la tua casella appena creata. Solo questi agenti selezionati avranno accesso alla tua casella. Gli operatori che non fanno parte di questa casella non saranno in grado di vedere o rispondere ai messaggi in questa casella quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle, dovresti aggiungerti come agente a tutte le caselle che crei.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Aggiungi almeno un agente alla tua nuova casella",
+        "PICK_AGENTS": "Scegli gli agenti per la casella"
       },
       "DETAILS": {
         "TITLE": "Dettagli casella",
@@ -330,7 +330,7 @@
       "TITLE": "La casella è pronta!",
       "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
       "BUTTON_TEXT": "Portami lì",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Altre impostazioni",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella."
     },
     "REAUTH": "Riautorizza",
@@ -362,39 +362,39 @@
         "DISABLED": "Disabilitato"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Abilita"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Elimina avatar",
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Digita {inboxName} per confermare",
         "YES": "Sì, elimina ",
         "NO": "No, conserva "
       },
       "API": {
         "SUCCESS_MESSAGE": "Casella eliminata con successo",
         "ERROR_MESSAGE": "Impossibile eliminare la casella. Riprova più tardi.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Avatar casella eliminata con successo",
+        "AVATAR_ERROR_MESSAGE": "Impossibile eliminare l'avatar della casella. Riprova più tardi."
       }
     },
     "TABS": {
       "SETTINGS": "Impostazioni",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "COLLABORATORS": "Collaboratori",
+      "CONFIGURATION": "Configurazione",
       "CAMPAIGN": "Campagne",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "Modulo pre-chat",
+      "BUSINESS_HOURS": "Ore di lavoro"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Funzionalità",
+      "DISPLAY_FILE_PICKER": "Visualizza il selettore di file sul widget",
+      "DISPLAY_EMOJI_PICKER": "Visualizza il selettore emoji sul widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
@@ -402,24 +402,24 @@
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella",
       "UPDATE": "Aggiorna",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Abilita casella di raccolta email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Abilita o disabilita la casella di raccolta email nella nuova conversazione",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ENABLE_CSAT": "Abilita CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Attiva/Disabilita il sondaggio CSAT (soddisfazione del cliente) dopo aver risolto una conversazione",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
       "INBOX_UPDATE_TITLE": "Impostazioni della casella",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della casella",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
+      "HMAC_VERIFICATION": "Convalida identità utente",
+      "HMAC_DESCRIPTION": "Inorder to validate the user identity, the SDK allows you to pass an `identifier_hash` for each user. Puoi generare HMAC usando 'sha256' con la chiave mostrata qui.",
+      "HMAC_MANDATORY_VERIFICATION": "Forza la convalida identità utente",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "FORWARD_EMAIL_SUB_TEXT": "Inizia a inoltrare le tue email al seguente indirizzo email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
     },
@@ -505,11 +505,11 @@
       },
       "ADDRESS": {
         "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "PLACE_HOLDER": "Indirizzo (ad esempio: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Porta",
+        "PLACE_HOLDER": "Porta"
       },
       "EMAIL": {
         "LABEL": "Email",
@@ -523,10 +523,10 @@
         "LABEL": "Dominio",
         "PLACE_HOLDER": "Dominio"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Cifratura",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
+      "OPEN_SSL_VERIFY_MODE": "Apri modalità di verifica SSL"
     }
   }
 }
