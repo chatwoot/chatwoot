@@ -21,7 +21,7 @@
         "BUTTON_TEXT": "Bearbeiten",
         "TITLE": "Webhook bearbeiten",
         "CANCEL": "Abbrechen",
-        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
+        "DESC": "Webhook-Ereignisse liefern Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto geschieht. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook-URL",
