@@ -18,14 +18,14 @@
         "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -132,17 +132,17 @@
         "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
@@ -197,14 +197,14 @@
         "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -214,7 +214,7 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -222,11 +222,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -250,7 +250,7 @@
     "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -262,24 +262,24 @@
         "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -287,11 +287,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -315,7 +315,7 @@
     "FILTER_DROPDOWN_LABEL": "Team auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -327,24 +327,24 @@
         "DESC": "( Gesamt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -352,11 +352,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
