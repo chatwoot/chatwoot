@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "اعلان ها",
     "MARK_ALL_DONE": "همه را به انجام شده تغییر بده",
+    "DELETE_TITLE": "حذف شده",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "آگاه‌سازی‌های خوانده نشده",
+      "ALL_NOTIFICATIONS": "مشاهده همه آگاه‌سازی‌ها",
+      "LOADING_UNREAD_MESSAGE": "در حال بارگیری آگاه‌سازی‌های خوانده نشده...",
+      "EMPTY_MESSAGE": "شما هیچ آگاه‌سازی‌ خوانده نشده‌ای ندارید"
+    },
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
       "404": "اعلانی وجود ندارد",
