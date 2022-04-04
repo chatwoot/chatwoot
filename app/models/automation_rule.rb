@@ -27,7 +27,7 @@ class AutomationRule < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  CONDITIONS_ATTRS = %w[email country_code status message_type browser_language assignee_id team_id referer city company].freeze
+  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company].freeze
   ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents send_attachments].freeze
 
   private
