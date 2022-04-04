@@ -145,6 +145,7 @@ export const IFrameHelper = {
         hideMessageBubble: window.$chatwoot.hideMessageBubble,
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
+        darkMode: window.$chatwoot.darkMode,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
