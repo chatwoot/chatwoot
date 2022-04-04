@@ -18,12 +18,14 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -130,12 +132,14 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -193,12 +197,14 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -256,12 +262,14 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -319,12 +327,14 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
