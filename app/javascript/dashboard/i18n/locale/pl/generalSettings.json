@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Powiadomienia",
     "MARK_ALL_DONE": "Zaznacz wszystko jako zakończone",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Wczytywanie powiadomień...",
       "404": "Brak powiadomień",
