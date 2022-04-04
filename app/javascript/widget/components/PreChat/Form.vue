@@ -39,6 +39,11 @@
       :label="$t('Phone Number')"
       :placeholder="$t('ex: +62821234567890')"
       type="text"
+      :error="
+        $v.emailAddress.$error
+          ? ''
+          : ''
+      "
     />
     <!-- :error="$v.phoneNumber.$error ? $t('Please input with +62 format.') : ''" -->
     <form-text-area
