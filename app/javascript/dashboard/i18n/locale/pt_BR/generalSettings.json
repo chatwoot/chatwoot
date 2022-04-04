@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "Uma atualização %{latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Saiba mais"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificações",
     "MARK_ALL_DONE": "Marcar Tudo Feito",
+    "DELETE_TITLE": "Excluído",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notificações não lidas",
+      "ALL_NOTIFICATIONS": "Visualizar todas as notificações",
+      "LOADING_UNREAD_MESSAGE": "Carregando notificações não lidas...",
+      "EMPTY_MESSAGE": "Você não tem notificações não lidas"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Carregando notificações...",
       "404": "Sem Notificações",
