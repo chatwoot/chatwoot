@@ -63,14 +63,10 @@ jobs:
     - name: Seed database
       run: bundle exec rake db:schema:load
 
-    - name: Verify node_modules are present
+    - name: yarn check-files
       run: yarn install --check-files
 
     # Run rails tests
     - name: Run backend tests
       run: |
-          bundle exec rspec ./spec/controllers/dashboard_controller_spec.rb
-          bundle exec rspec ./spec/controllers/installation/onboarding_controller_spec.rb
-          bundle exec rspec ./spec/controllers/service/responses_controller_spec.rb
-          bundle exec rspec ./spec/controllers/super_admin/installation_configs_controller_spec.rb
-          bundle exec rspec ./spec/controllers/widgets_controller_spec.rb
+        bundle exec rspec --profile=10 --format documentation
