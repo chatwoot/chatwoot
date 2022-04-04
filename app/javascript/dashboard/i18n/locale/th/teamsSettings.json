@@ -70,7 +70,7 @@
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "อีเมล์",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "เพิ่มเจ้าหน้าที่",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
@@ -82,7 +82,7 @@
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Add agents",
+      "BUTTON_TEXT": "เพิ่มเจ้าหน้าที่",
       "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
     },
     "FINISH": {
@@ -104,7 +104,7 @@
         "NO": "ยกเลิก"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "ตั้งค่า",
     "FORM": {
       "UPDATE": "Update team",
       "CREATE": "Create team",
