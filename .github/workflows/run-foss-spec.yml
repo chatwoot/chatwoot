@@ -43,10 +43,14 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
+
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.0.2 # Not needed with a .ruby-version file
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    - name: yarn
+      run: yarn install
 
     - name: Strip enterprise code
       run: |
@@ -59,8 +63,8 @@ jobs:
     - name: Seed database
       run: bundle exec rake db:schema:load
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+    - name: Verify node_modules are present
+      run: yarn install --check-files
 
     # Run rails tests
     - name: Run backend tests
