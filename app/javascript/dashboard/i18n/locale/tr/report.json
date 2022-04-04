@@ -18,12 +18,14 @@
         "DESC": "( Toplam )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "İlk yanıt süresi",
-        "DESC": "(Ort.)"
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
-        "DESC": "(Ort.)"
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -130,12 +132,14 @@
         "DESC": "( Toplam )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "İlk yanıt süresi",
-        "DESC": "(Ort.)"
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
-        "DESC": "(Ort.)"
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -193,12 +197,14 @@
         "DESC": "( Toplam )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "İlk yanıt süresi",
-        "DESC": "(Ort.)"
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
-        "DESC": "(Ort.)"
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -256,12 +262,14 @@
         "DESC": "( Toplam )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "İlk yanıt süresi",
-        "DESC": "(Ort.)"
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
-        "DESC": "(Ort.)"
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -319,12 +327,14 @@
         "DESC": "( Toplam )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "İlk yanıt süresi",
-        "DESC": "(Ort.)"
+        "NAME": "İlk Cevap Süresi",
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
-        "DESC": "(Ort.)"
+        "DESC": "(Ort.)",
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
