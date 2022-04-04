@@ -2803,69 +2803,6 @@
           }
         }
       },
-      "post": {
-        "tags": [
-          "Inbox"
-        ],
-        "operationId": "add-new-agent-to-inbox",
-        "summary": "Add a New Agent",
-        "description": "Add a new Agent to Inbox",
-        "security": [
-          {
-            "userApiKey": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
-              "properties": {
-                "inbox_id": {
-                  "type": "string",
-                  "description": "The ID of the inbox"
-                },
-                "user_ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  },
-                  "description": "IDs of users to be added to the inbox"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "description": "Array of all active agents",
-              "items": {
-                "$ref": "#/definitions/agent"
-              }
-            }
-          },
-          "404": {
-            "description": "Inbox not found"
-          },
-          "403": {
-            "description": "Access denied"
-          },
-          "422": {
-            "description": "User must exist"
-          }
-        }
-      },
       "patch": {
         "tags": [
           "Inbox"
@@ -2973,6 +2910,76 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/inbox_members": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "add-new-agent-to-inbox",
+        "summary": "Add a New Agent",
+        "description": "Add a new Agent to Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox"
+                },
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the inbox"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
           },
           "404": {
             "description": "Inbox not found"
