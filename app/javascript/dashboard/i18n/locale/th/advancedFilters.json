@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "กรองบทสนทนา",
+    "SUBTITLE": "เพิ่ม ตัวกรอง และคลิ๊ก ปรับปรุงตัวกรอง เพื่อกรองบทสนทนา",
+    "ADD_NEW_FILTER": "เพื่อ ตัวกรอง",
+    "FILTER_DELETE_ERROR": "ควรมี 1 ตัวกรองเป็นอย่างน้อย เพื่อการบันทึก",
+    "SUBMIT_BUTTON_LABEL": "ปรับปรุงตัวกรอง",
     "CANCEL_BUTTON_LABEL": "ยกเลิก",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "ล้างตัวกรอง",
+    "EMPTY_VALUE_ERROR": "ต้องมีการใส่ ค่า",
+    "TOOLTIP_LABEL": "กรองบทสนทนา",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "และ",
+      "OR": "หรือ"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "เท่ากับ",
+      "not_equal_to": "ไม่เท่ากับ",
+      "contains": "มี",
+      "does_not_contain": "ไม่มี",
+      "is_present": "แสดงอยู่",
+      "is_not_present": "ไม่แสดงอยู่",
+      "is_greater_than": "มากกว่า",
+      "is_less_than": "น้อยกว่า",
+      "days_before": "x วันก่อน"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "จริง",
+      "FALSE": "เท็จ"
     },
     "ATTRIBUTES": {
       "STATUS": "สถานะ",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "ชื่อ ผู้รับผิดชอบ",
       "INBOX_NAME": "ชื่อกล่องข้อความ",
-      "TEAM_NAME": "Team Name",
+      "TEAM_NAME": "ชื่อทีม",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CAMPAIGN_NAME": "ชื่อ แคมเปญ",
+      "LABELS": "ป้ายกำกับ",
+      "BROWSER_LANGUAGE": "ภาษาของ Browser",
+      "COUNTRY_NAME": "ชื่อประเทศ",
+      "REFERER_LINK": "ลิงค์อ้างอิง",
+      "CUSTOM_ATTRIBUTE_LIST": "รายการ",
+      "CUSTOM_ATTRIBUTE_TEXT": "ข้อความ",
+      "CUSTOM_ATTRIBUTE_NUMBER": "ตัวเลข",
+      "CUSTOM_ATTRIBUTE_LINK": "ลิ้งก์",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "ล่าสุดเมื่อ"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "ตัวกรองมาตรฐาน",
+      "ADDITIONAL_FILTERS": "ตัวกรองเพิ่มเติม",
       "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "คุณต้องการบันทึกตัวกรองตามนี้?",
+        "LABEL": "ชื่อตัวกรองนี้",
+        "PLACEHOLDER": "กรุณาใส่ ชื่อตัวกรองนี้",
         "ERROR_MESSAGE": "โปรดระบุชื่อ",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "บันทึกตัวกรอง",
         "CANCEL_BUTTON": "ยกเลิก",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "สร้างโฟลเดอร์สำเร็จแล้ว",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างสร้างโฟลเดอร์"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Sgement สร้างสำเร็จแล้ว",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างสร้าง Segment"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "ลบตัวกรอง",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "ยืนยันการลบ",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "คุณต้องการลบตัวกรอง? ",
             "YES": "เอาเลย",
-            "NO": "No, Keep it"
+            "NO": "ไม่ เปลี่ยนใจแล้ว"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "โฟลเดอร์ถูกลบแล้ว",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างลบโฟลเดอร์"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Sgement ถูกลบแล้ว",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างลบ Segment"
         }
       }
     }
