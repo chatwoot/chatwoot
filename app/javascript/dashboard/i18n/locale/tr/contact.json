@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Silmeyi onayla",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Hayır, kalsın"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kişiyi Sil",
     "TITLE": "Kişiyi sil",
