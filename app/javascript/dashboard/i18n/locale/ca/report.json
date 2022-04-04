@@ -18,12 +18,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -130,12 +132,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -193,12 +197,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -256,12 +262,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -319,12 +327,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
