@@ -2,6 +2,7 @@ require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
+  attr_accessor :base_relation
 
   def initialize(rule, conversation = nil)
     super([], nil)
@@ -15,8 +16,11 @@ class AutomationRules::ConditionsFilterService < FilterService
   def perform
     conversation_filters = @filters['conversations']
     contact_filters = @filters['contacts']
+    @attribute_changed_query_filter = []
 
     @rule.conditions.each_with_index do |query_hash, current_index|
+      @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
+
       conversation_filter = conversation_filters[query_hash['attribute_key']]
       contact_filter = contact_filters[query_hash['attribute_key']]
 
@@ -31,6 +35,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
 
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
+    perform_attribute_changed_filter(records)
     records.any?
   end
 
@@ -43,6 +48,10 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
     records = Message.where(conversation: @conversation).where(@query_string, @filter_values.with_indifferent_access)
     records.any?
+  end
+
+  def perform_attribute_changed_filter(records)
+    # Add the condition here to check what the old valuu was and apply the filter accordingly.
   end
 
   def message_query_string(current_filter, query_hash, current_index)
@@ -90,6 +99,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   private
 
   def base_relation
-    Conversation.where(id: @conversation.id).joins('LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id')
+    @base_relation ||= Conversation.where(id: @conversation.id).joins('LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id')
   end
 end
