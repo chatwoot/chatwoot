@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Уведомления",
     "MARK_ALL_DONE": "Отметить все прочитанными",
+    "DELETE_TITLE": "удалено",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Непрочитанные уведомления",
+      "ALL_NOTIFICATIONS": "Просмотр всех уведомлений",
+      "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
+      "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Загрузка уведомлений...",
       "404": "Уведомления отсутствуют",
