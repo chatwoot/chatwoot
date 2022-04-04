@@ -59,6 +59,9 @@ jobs:
     - name: Seed database
       run: bundle exec rake db:schema:load
 
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
     # Run rails tests
     - name: Run backend tests
       run: |
