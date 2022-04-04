@@ -16,7 +16,6 @@ const createConversationAPI = async content => {
     lead: {
       name: contactData.name,
       note: `Web Live Chat`,
-      location: contactData.custom_attributes.location ? contactData.custom_attributes.location : "",
       utm_term: contactData.custom_attributes.utm_term ? contactData.custom_attributes.utm_term : "",
       utm_medium: contactData.custom_attributes.utm_medium ? contactData.custom_attributes.utm_medium : "",
       utm_source: contactData.custom_attributes.utm_source ? contactData.custom_attributes.utm_source : "",
@@ -25,13 +24,16 @@ const createConversationAPI = async content => {
       gclid: contactData.custom_attributes.gclid ? contactData.custom_attributes.gclid : ""
     },
   };
+  if(contactData.custom_attributes.location){
+    formData.lead["location"] = contactData.custom_attributes.location
+  }
   const data = formData;
   
   try {
     let request = await axios.post(`https://odoo-connector.smsperkasa.com/form_webhook/`, data, {
       headers: {
         "Content-Type": "application/json",
-      },
+      }
     });
   } catch (error) {
   }
