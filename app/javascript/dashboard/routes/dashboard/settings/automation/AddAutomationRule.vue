@@ -100,6 +100,9 @@
               :dropdown-values="
                 getActionDropdownValues(automation.actions[i].action_name)
               "
+              :show-action-input="
+                showActionInput(automation.actions[i].action_name)
+              "
               :v="$v.automation.actions.$each[i]"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
@@ -436,6 +439,13 @@ export default {
     showUserInput(operatorType) {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
         return false;
+      return true;
+    },
+    showActionInput(actionName) {
+      const type = AUTOMATION_ACTION_TYPES.find(
+        action => action.key === actionName
+      ).inputType;
+      if (type === null) return false;
       return true;
     },
   },

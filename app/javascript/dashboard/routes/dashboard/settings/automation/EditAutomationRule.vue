@@ -97,6 +97,9 @@
               :dropdown-values="
                 getActionDropdownValues(automation.actions[i].action_name)
               "
+              :show-action-input="
+                showActionInput(automation.actions[i].action_name)
+              "
               :v="$v.automation.actions.$each[i]"
               @removeAction="removeAction(i)"
             />
@@ -246,7 +249,7 @@ export default {
     },
   },
   mounted() {
-    this.formatConditions(this.selectedResponse);
+    this.formatAutomation(this.selectedResponse);
   },
   methods: {
     onEventChange() {
@@ -436,7 +439,7 @@ export default {
         return false;
       return true;
     },
-    formatConditions(automation) {
+    formatAutomation(automation) {
       const formattedConditions = automation.conditions.map(condition => {
         const inputType = this.automationTypes[
           automation.event_name
@@ -456,11 +459,20 @@ export default {
         };
       });
       const formattedActions = automation.actions.map(action => {
+        let actionParams = [];
+        if (action.action_params.length) {
+          const inputType = AUTOMATION_ACTION_TYPES.find(
+            item => item.key === action.action_name
+          ).inputType;
+          if (inputType === 'multi_select') {
+            actionParams = [
+              ...this.getActionDropdownValues(action.action_name),
+            ].filter(item => [...action.action_params].includes(item.id));
+          } else actionParams = [...action.action_params];
+        }
         return {
           ...action,
-          action_params: [
-            ...this.getActionDropdownValues(action.action_name),
-          ].filter(item => [...action.action_params].includes(item.id)),
+          action_params: actionParams,
         };
       });
       this.automation = {
@@ -468,6 +480,13 @@ export default {
         conditions: formattedConditions,
         actions: formattedActions,
       };
+    },
+    showActionInput(actionName) {
+      const type = AUTOMATION_ACTION_TYPES.find(
+        action => action.key === actionName
+      ).inputType;
+      if (type === null) return false;
+      return true;
     },
   },
 };
