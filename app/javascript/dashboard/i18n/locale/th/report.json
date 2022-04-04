@@ -18,12 +18,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -130,12 +132,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -193,12 +197,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -241,7 +247,7 @@
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "FILTER_DROPDOWN_LABEL": "เลือกกล่องสนทนา",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
@@ -256,12 +262,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -319,12 +327,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
