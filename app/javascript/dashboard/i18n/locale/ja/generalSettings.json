@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
     "MARK_ALL_DONE": "Mark All Done",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
