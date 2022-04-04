@@ -18,12 +18,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -130,12 +132,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -193,12 +197,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -256,12 +262,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -319,12 +327,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
