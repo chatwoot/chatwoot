@@ -207,7 +207,11 @@ export default {
         }
       }
       return (
-        this.formatMessage(this.data.content, this.isATweet) + botMessageContent
+        this.formatMessage(
+          this.data.content,
+          this.isATweet,
+          this.data.private
+        ) + botMessageContent
       );
     },
     contentAttributes() {
