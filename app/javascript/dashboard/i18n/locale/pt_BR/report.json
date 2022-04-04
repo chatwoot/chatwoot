@@ -18,12 +18,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeira resposta",
-        "DESC": "(Média)"
+        "NAME": "Tempo da Primeira Resposta",
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Média)"
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -130,12 +132,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeira resposta",
-        "DESC": "(Média)"
+        "NAME": "Tempo da Primeira Resposta",
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Média)"
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -193,12 +197,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeira resposta",
-        "DESC": "(Média)"
+        "NAME": "Tempo da Primeira Resposta",
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Média)"
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -256,12 +262,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeira resposta",
-        "DESC": "(Média)"
+        "NAME": "Tempo da Primeira Resposta",
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Média)"
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
@@ -319,12 +327,14 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeira resposta",
-        "DESC": "(Média)"
+        "NAME": "Tempo da Primeira Resposta",
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Média)"
+        "DESC": "(Média)",
+        "INFO_TEXT": "Número total de conversas utilizadas para computação:"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de Resolução",
