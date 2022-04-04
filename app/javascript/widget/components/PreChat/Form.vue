@@ -49,12 +49,13 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   components: {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin],
+  mixins: [routerMixin, darkModeMixin],
   props: {
     options: {
       type: Object,
