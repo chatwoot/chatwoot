@@ -38,6 +38,9 @@ class FilterService
       @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
     when 'days_before'
       @filter_values["value_#{current_index}"] = days_before_filter_values(query_hash)
+    when 'attribute_changed'
+      @filter_values["value_#{current_index}"] = filter_values(query_hash)['to'].to_s
+      equals_to_filter_string(query_hash[:filter_operator], current_index)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
