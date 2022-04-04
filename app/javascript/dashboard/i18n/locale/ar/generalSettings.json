@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "الإشعارات",
     "MARK_ALL_DONE": "وضع علامة على جميع المنجز",
+    "DELETE_TITLE": "تم الحذف",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "إشعارات غير مقروءة",
+      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
+      "LOADING_UNREAD_MESSAGE": "تحميل الإشعارات الغير مقروءة...",
+      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
+    },
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
       "404": "لا يوجد إشعارات",
