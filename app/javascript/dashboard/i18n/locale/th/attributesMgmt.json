@@ -3,7 +3,7 @@
     "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
     "HEADER_BTN_TXT": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
     "LOADING": "กำลังดึงแอตทริบิวต์ที่กำหนดเอง",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "SIDEBAR_TXT": "<p><b>แอตทริบิวต์เเบบกำหนดเอง</b> <p>แอตทริบิวต์เเบบกำหนดเองจะใช้สำหรับการติดตามข้อมูลของรายชื่อติดต่อ/การสนทนา เช่น แพ็คเกจที่ใช้ หรือ วันที่ลูกค้าเริ่มใช้บริการ เป็นต้น<br /><br />ในการสร้างแอตทริบิวต์เเบบกำหนดเอง ให้คลิ๊กปุ่ม <b>แอตทริบิวต์เเบบกำหนดเอง</b> คุณสามารถปรับแต่งและลบแอตทริบิวต์เเบบกำหนดเอง โดยการคลิ๊กปุ่ม ปรับแต่ง หรือ ปุ่มลบ</p>",
     "ADD": {
       "TITLE": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
       "SUBMIT": "สร้าง",
@@ -22,12 +22,12 @@
         "MODEL": {
           "LABEL": "นำไปใช้",
           "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "Model is required"
+          "ERROR": "ต้องการ Model"
         },
         "TYPE": {
-          "LABEL": "Type",
+          "LABEL": "ประเภท",
           "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "Type is required",
+          "ERROR": "ต้องใส่ ประเภท",
           "LIST": {
             "LABEL": "รายการ",
             "PLACEHOLDER": "โปรดระบุ Value และ Key",
@@ -35,56 +35,56 @@
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "คีย์",
+          "PLACEHOLDER": "ใส่ คีย์ของแอตทริบิวต์เเบบกำหนดเอง",
+          "ERROR": "ต้องการคีย์",
+          "IN_VALID": "คีย์นี้ใช้ไม่ได้"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "เพิ่ม แอตทริบิวต์เเบบกำหนดเอง แล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถสร้าง แอตทริบิวต์เเบบกำหนดเอง ได้ โปรดลองใหม่"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "แอตทริบิวต์เเบบกำหนดเอง ถูกลบแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบ แอตทริบิวต์เเบบกำหนดเอง ลองอีกครั้ง"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "คุณต้องการลบ %{attributeName}",
+        "PLACE_HOLDER": "โปรดใส่ {attributeName} เพื่อยืนยัน",
+        "MESSAGE": "กำลังลบ แอตทริบิวต์เเบบกำหนดเอง",
         "YES": "ลบ ",
         "NO": "ยกเลิก"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "แก้ไข แอตทริบิวต์เเบบกำหนดเอง",
       "UPDATE_BUTTON_TEXT": "อัพเดท",
       "TYPE": {
         "LIST": {
           "LABEL": "รายการ",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "PLACEHOLDER": "โปรดใส่ค่าและกด Enter"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "แอตทริบิวต์เเบบกำหนดเอง อัพเดทแล้ว",
+        "ERROR_MESSAGE": "เกิดความผิดพลาดระหว่างอัพเดท แอตทริบิวต์เเบบกำหนดเอง โปรดลองอีกครั้ง"
       }
     },
     "TABS": {
       "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "บทสนทนา",
+      "CONTACT": "รายชื่อติดต่อ"
     },
     "LIST": {
       "TABLE_HEADER": [
         "ชื่อ",
-        "Description",
-        "Type",
-        "Key"
+        "รายละเอียด",
+        "ประเภท",
+        "คีย์"
       ],
       "BUTTONS": {
         "EDIT": "เเก้ไข",
@@ -92,7 +92,7 @@
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "NOT_FOUND": "ไม่มีแอตทริบิวต์เเบบกำหนดเอง ที่กำหนดค่าไว้"
       }
     }
   }
