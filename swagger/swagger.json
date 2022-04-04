@@ -1505,7 +1505,7 @@
           "Custom Attribute"
         ],
         "operationId": "get-account-custom-attribute",
-        "summary": "List all custom attributes in an Account",
+        "summary": "List all custom attributes in an account",
         "parameters": [
           {
             "name": "attribute_model",
@@ -1549,7 +1549,7 @@
         ],
         "operationId": "add-new-custom-attribute-to-account",
         "summary": "Add a new custom attribute",
-        "description": "Add a new custom attribute to Account",
+        "description": "Add a new custom attribute to account",
         "security": [
           {
             "userApiKey": [
@@ -1614,7 +1614,7 @@
         ],
         "operationId": "update-custom-attribute-in-account",
         "summary": "Update custom attribute in Account",
-        "description": "Update a custom attribute in Account",
+        "description": "Update a custom attribute in account",
         "security": [
           {
             "userApiKey": [
