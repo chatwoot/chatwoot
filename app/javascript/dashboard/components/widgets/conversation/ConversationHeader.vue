@@ -14,7 +14,7 @@
           <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-            class="text-y-800"
+            class="text-y-500"
             size="14"
             icon="warning"
           />
@@ -181,7 +181,7 @@ export default {
 
   .snoozed--display-text {
     font-weight: var(--font-weight-medium);
-    color: var(--y-900);
+    color: var(--y-600);
   }
 }
 </style>
