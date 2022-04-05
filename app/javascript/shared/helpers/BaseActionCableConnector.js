@@ -19,6 +19,7 @@ class BaseActionCableConnector {
           this.perform('update_presence');
         },
         received: this.onReceived,
+        connected: this.onSubscribed,
         disconnected: this.onDisconnected,
       }
     );
@@ -33,6 +34,11 @@ class BaseActionCableConnector {
 
   disconnect() {
     this.consumer.disconnect();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onSubscribed() {
+    window.bus.$emit(BUS_EVENTS.WEBSOCKET_SUBSCRIBED);
   }
 
   // eslint-disable-next-line class-methods-use-this

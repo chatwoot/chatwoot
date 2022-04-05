@@ -21,7 +21,7 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('conversation/setUserLastSeen');
+    // this.$store.dispatch('conversation/setUserLastSeen');
   },
 };
 </script>

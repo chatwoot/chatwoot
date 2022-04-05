@@ -82,6 +82,7 @@ export const actions = {
     }
   },
   fetchOldConversations: async ({ commit }, { before } = {}) => {
+    // console.log('fetchOldConversations', commit.payload, before);
     try {
       commit('setConversationListLoading', true);
       const {

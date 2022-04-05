@@ -10,7 +10,14 @@ export const arrayToHashById = array =>
     return newMap;
   }, {});
 
+// Ux.App adding more config that can be set from outside the iframe
+export const defaultIframeConfig = {
+  showUnreadBubbles: false,
+  startConversationAlwaysRightFromStart: true,
+};
+
 export const IFrameHelper = {
+  IFrameConfig: () => defaultIframeConfig, // implement something with iframe postMessage, and such, if needed
   isIFrame: () => window.self !== window.top,
   sendMessage: msg => {
     window.parent.postMessage(

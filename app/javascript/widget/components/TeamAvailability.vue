@@ -31,6 +31,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { IFrameHelper } from 'widget/helpers/utils';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import CustomButton from 'shared/components/Button';
@@ -55,6 +56,9 @@ export default {
     },
   },
   computed: {
+    IFrameConfig() {
+      return IFrameHelper.IFrameConfig();
+    },
     ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -79,6 +83,14 @@ export default {
       }
       return '';
     },
+  },
+  mounted() {
+    if (
+      this.IFrame &&
+      this.IFrameConfig.startConversationAlwaysRightFromStart
+    ) {
+      this.startConversation();
+    }
   },
   methods: {
     startConversation() {

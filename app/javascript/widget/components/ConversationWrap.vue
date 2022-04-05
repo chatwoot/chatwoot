@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
@@ -65,6 +66,11 @@ export default {
   mounted() {
     this.$el.addEventListener('scroll', this.handleScroll);
     this.scrollToBottom();
+
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {});
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_SUBSCRIBED, () => {
+      this.fetchOldConversations({ before: '' });
+    });
   },
   updated() {
     if (this.previousConversationSize !== this.conversationSize) {

@@ -67,6 +67,9 @@ export default {
     isIFrame() {
       return IFrameHelper.isIFrame();
     },
+    IFrameConfig() {
+      return IFrameHelper.IFrameConfig();
+    },
     isRNWebView() {
       return RNHelper.isRNWebView();
     },
@@ -182,7 +185,13 @@ export default {
     setUnreadView() {
       const { unreadMessageCount } = this;
 
-      if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
+      // ToDo: Should not run, we do not want unread bubbles to be visible
+      if (
+        this.isIFrame &&
+        !this.IFrameConfig.showUnreadBubbles &&
+        unreadMessageCount > 0 &&
+        !this.isWidgetOpen
+      ) {
         this.replaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });

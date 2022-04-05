@@ -1,5 +1,5 @@
 <template>
-  <div v-if="globalConfig.brandName" class="px-0 py-3 flex justify-center">
+  <!-- <div v-if="globalConfig.brandName" class="px-0 py-3 flex justify-center">
     <a
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
@@ -16,7 +16,8 @@
       </span>
     </a>
   </div>
-  <div v-else class="p-3" />
+  <div v-else class="p-3" />-->
+  <div class="p-3" />
 </template>
 
 <script>

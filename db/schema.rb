@@ -350,7 +350,7 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -432,6 +432,22 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.integer "user_id"
+    t.integer "conversation_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_events_on_account_id"
+    t.index ["created_at"], name: "index_events_on_created_at"
+    t.index ["inbox_id"], name: "index_events_on_inbox_id"
+    t.index ["name"], name: "index_events_on_name"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -662,6 +678,32 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "subscriptions", id: :serial, force: :cascade do |t|
+    t.string "pricing_version"
+    t.integer "account_id"
+    t.datetime "expiry"
+    t.string "billing_plan", default: "trial"
+    t.string "stripe_customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "state", default: 0
+    t.boolean "payment_source_added", default: false
+  end
+
+  create_table "super_admins", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_super_admins_on_email", unique: true
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

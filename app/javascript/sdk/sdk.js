@@ -11,7 +11,7 @@ export const SDK_CSS = `
   overflow: hidden !important;
   position: fixed !important;
   transition: opacity 0.2s linear, transform 0.25s linear;
-  z-index: 2147483000 !important;
+  z-index: 899 !important;
 }
 
 .woot-widget-holder.woot-widget-holder--flat {
@@ -48,7 +48,7 @@ export const SDK_CSS = `
   position: fixed;
   user-select: none;
   width: 64px;
-  z-index: 2147483000 !important;
+  z-index: 899 !important;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
