@@ -5,7 +5,8 @@
   >
     <div
       v-if="shouldShowHeaderMessage"
-      class="text-black-800 text-sm leading-5"
+      class="text-sm leading-5"
+      :class="$dm('text-black-800', 'dark:text-slate-50')"
     >
       {{ headerMessage }}
     </div>
@@ -64,6 +65,7 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   components: {
     FormInput,
@@ -71,7 +73,7 @@ export default {
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin],
+  mixins: [routerMixin, darkModeMixin],
   props: {
     options: {
       type: Object,
