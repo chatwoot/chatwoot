@@ -181,11 +181,15 @@ export default {
       return !!standardFieldKeys[item.name];
     },
     handlePreChatFieldOptions(event, type, item) {
-      this.preChatFields.forEach((field, index) => {
-        if (field.name === item.name) {
-          this.preChatFields[index][type] = !item[type];
-        }
-      });
+      if (event.pointerId === -1) {
+        event.preventDefault();
+      } else {
+        this.preChatFields.forEach((field, index) => {
+          if (field.name === item.name) {
+            this.preChatFields[index][type] = !item[type];
+          }
+        });
+      }
     },
 
     async updateInbox() {
