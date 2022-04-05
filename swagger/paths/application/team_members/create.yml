@@ -1,8 +1,8 @@
 tags:
-  - Inboxes
-operationId: update-agents-in-inbox
-summary: Update Agents in Inbox
-description: All agents except the one passed in params will be removed
+  - Teams
+operationId: add-new-agent-to-team
+summary: Add a New Agent
+description: Add a new Agent to Team
 security:
   - userApiKey: []
 parameters:
@@ -12,17 +12,13 @@ parameters:
     schema:
       type: object
       required:
-        - inbox_id
-        - user_ids
+          - user_ids
       properties:
-        inbox_id:
-          type: string
-          description: The ID of the inbox
         user_ids:
           type: array
           items:
             type: integer
-          description: IDs of users to be added to the inbox
+          description: IDs of users to be added to the team
 responses:
   200:
     description: Success
@@ -32,7 +28,7 @@ responses:
         items:
           $ref: '#/definitions/agent'
   404:
-    description: Inbox not found
+    description: Team not found
   403:
     description: Access denied
   422:
