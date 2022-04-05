@@ -116,7 +116,7 @@ export default {
         if (field.field_type === 'conversation_attribute') {
           conversationAttributes = {
             ...conversationAttributes,
-            [field.name]: this.formValues[field.name] || this.getValue(field),
+            [field.name]: this.getValue(field),
           };
         }
       });
@@ -211,6 +211,7 @@ export default {
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
+
       this.$emit('submit', {
         fullName,
         phoneNumber,
