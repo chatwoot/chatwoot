@@ -18,10 +18,6 @@ get:
       type: string
       enum: ['open', 'resolved', 'pending']
       required: true
-    - name: page
-      in: query
-      type: integer
-      required: true
     - name: inbox_id
       in: query
       type: integer
