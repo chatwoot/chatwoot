@@ -20,7 +20,7 @@ Vue.use(VueFormulate, {
     isPhoneE164OrEmpty: ({ value }) => isPhoneE164OrEmpty(value),
   },
   classes: {
-    outer: 'mb-4',
+    outer: 'mb-4 wrapper',
     input(context) {
       const { hasErrors, classification, type } = context;
       if (classification === 'box' && type === 'checkbox') {
