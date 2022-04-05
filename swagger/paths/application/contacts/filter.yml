@@ -1,5 +1,5 @@
 tags:
-  - Contact
+  - Contacts
 operationId: contactFilter
 description: Filter contacts with custom filter options and pagination
 summary: Contact Filter
