@@ -484,11 +484,21 @@ export default {
         const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimMessage(this.message || '');
+        const {
+          [key]: currentDraft,
+          ...restOfDraftMessages
+        } = savedDraftMessages;
+        const updatedDraftMessages = this.message
+          ? {
+              ...restOfDraftMessages,
+              [key]: draftToSave,
+            }
+          : restOfDraftMessages;
 
-        LocalStorage.set(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES, {
-          ...savedDraftMessages,
-          [key]: draftToSave,
-        });
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
       }
     },
     setToDraft(conversationId, replyType) {
@@ -499,8 +509,8 @@ export default {
       if (this.conversationId) {
         try {
           const key = `draft-${this.conversationId}-${this.replyType}`;
-          const savedDraftMessages = this.getSavedDraftMessages();
-          this.message = `${savedDraftMessages[key] || ''}`;
+          const savedDraftMessages = this.getSavedDraftMessages() || '';
+          this.message = `${savedDraftMessages[key]}`;
         } catch (error) {
           this.message = '';
         }
