@@ -145,14 +145,32 @@ export default {
       });
       return contactAttributes;
     },
+    inputStyles() {
+      return `mt-2 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
+    },
+    isInputDarkOrLightMode() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
+        'text-slate-700',
+        'dark:text-slate-50'
+      )}`;
+    },
+    inputBorderColor() {
+      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
+    },
   },
   methods: {
     labelClass(context) {
       const { hasErrors } = context;
       if (!hasErrors) {
-        return 'text-xs font-medium text-black-800';
+        return `text-xs font-medium ${this.$dm(
+          'text-black-800',
+          'dark:text-slate-50'
+        )}`;
       }
-      return 'text-xs font-medium text-red-400';
+      return `text-xs font-medium ${this.$dm(
+        'text-red-400',
+        'dark:text-red-400'
+      )}`;
     },
     inputClass(context) {
       const { hasErrors, classification, type } = context;
@@ -160,9 +178,9 @@ export default {
         return '';
       }
       if (!hasErrors) {
-        return 'mt-2 border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none border-black-200 hover:border-black-300 focus:border-black-300';
+        return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;
       }
-      return 'mt-2 border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none border-red-200 hover:border-red-300 focus:border-red-300';
+      return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
     },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
