@@ -180,7 +180,7 @@ export default {
       if (type === 'date') {
         return 'bail|required|date';
       }
-      if (type === 'text' || type === 'select') {
+      if (type === 'text' || type === 'select' || type === 'number') {
         return 'bail|required';
       }
 
