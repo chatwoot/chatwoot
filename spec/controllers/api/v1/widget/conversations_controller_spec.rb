@@ -166,7 +166,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       end
     end
 
-    context 'when an token without any conversation is used' do
+    context 'when a token without any conversation is used' do
       it 'returns not found status' do
         get '/api/v1/widget/conversations/toggle_status',
             headers: { 'X-Auth-Token' => token_without_conversation },
