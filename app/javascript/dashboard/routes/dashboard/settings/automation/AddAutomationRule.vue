@@ -416,14 +416,15 @@ export default {
     submitAutomation() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.automation.conditions[
-        this.automation.conditions.length - 1
+      const automation = JSON.parse(JSON.stringify(this.automation));
+      automation.conditions[
+        automation.conditions.length - 1
       ].query_operator = null;
-      this.automation.conditions = filterQueryGenerator(
-        this.automation.conditions
+      automation.conditions = filterQueryGenerator(
+        automation.conditions
       ).payload;
-      this.automation.actions = actionQueryGenerator(this.automation.actions);
-      this.$emit('saveAutomation', this.automation);
+      automation.actions = actionQueryGenerator(automation.actions);
+      this.$emit('saveAutomation', automation);
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
