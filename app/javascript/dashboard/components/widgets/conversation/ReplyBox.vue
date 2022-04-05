@@ -488,7 +488,8 @@ export default {
           [key]: currentDraft,
           ...restOfDraftMessages
         } = savedDraftMessages;
-        const updatedDraftMessages = this.message
+
+        const updatedDraftMessages = draftToSave
           ? {
               ...restOfDraftMessages,
               [key]: draftToSave,
@@ -509,8 +510,8 @@ export default {
       if (this.conversationId) {
         try {
           const key = `draft-${this.conversationId}-${this.replyType}`;
-          const savedDraftMessages = this.getSavedDraftMessages() || '';
-          this.message = `${savedDraftMessages[key]}`;
+          const savedDraftMessages = this.getSavedDraftMessages();
+          this.message = `${savedDraftMessages[key] || ''}`;
         } catch (error) {
           this.message = '';
         }
