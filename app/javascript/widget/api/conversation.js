@@ -6,35 +6,6 @@ import { ODOO_SERVICE_URL } from '../../dashboard/constants'
 const createConversationAPI = async content => {
   const urlData = endPoints.createConversation(content);
   const result = await API.post(urlData.url, urlData.params);
-  const contactData = result.data.contact
-  let formData = {
-    contact: {
-      name: contactData.name,
-      email: contactData.email,
-      phone: contactData.phone_number ? contactData.phone_number : "",
-    },
-    lead: {
-      name: contactData.name,
-      note: `Web Live Chat`,
-      location: contactData.custom_attributes.location ? contactData.custom_attributes.location : "",
-      utm_term: contactData.custom_attributes.utm_term ? contactData.custom_attributes.utm_term : "",
-      utm_medium: contactData.custom_attributes.utm_medium ? contactData.custom_attributes.utm_medium : "",
-      utm_source: contactData.custom_attributes.utm_source ? contactData.custom_attributes.utm_source : "",
-      utm_campaign: contactData.custom_attributes.utm_campaign ? contactData.custom_attributes.utm_campaign : "",
-      utm_content: urlData.params.message.referer_url ? urlData.params.message.referer_url : "",
-      gclid: contactData.custom_attributes.gclid ? contactData.custom_attributes.gclid : ""
-    },
-  };
-  const data = formData;
-  
-  try {
-    let request = await axios.post(`https://odoo-connector.smsperkasa.com/form_webhook/`, data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (error) {
-  }
   return result;
 };
 
