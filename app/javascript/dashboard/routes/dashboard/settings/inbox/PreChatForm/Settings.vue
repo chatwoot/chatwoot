@@ -26,9 +26,9 @@
             "
           />
         </label>
-        <label class="medium-6 columns">
+        <label class="medium-8 columns">
           {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}
-          <table class="table table-striped">
+          <table class="table table-striped w-full">
             <thead class="thead-dark">
               <tr>
                 <th scope="col"></th>
@@ -217,6 +217,14 @@ export default {
 .pre-chat--title {
   margin: var(--space-medium) 0 var(--space-slab);
 }
+.pre-chat-field {
+  padding: var(--space-normal) var(--space-small);
+
+  svg {
+    display: flex;
+    align-items: center;
+  }
+}
 .disabled-text {
   color: var(--s-500);
 }
@@ -227,6 +235,7 @@ table {
   }
   input {
     font-size: var(--font-size-small);
+    margin-bottom: 0;
   }
 }
 checkbox {

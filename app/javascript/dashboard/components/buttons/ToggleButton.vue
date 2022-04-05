@@ -27,7 +27,7 @@ export default {
 .toggle-button {
   background-color: var(--s-200);
   position: relative;
-  display: inline-flex;
+  display: flex;
   height: 19px;
   width: 34px;
   border: 2px solid transparent;
