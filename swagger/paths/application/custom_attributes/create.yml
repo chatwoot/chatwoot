@@ -15,7 +15,6 @@ responses:
   200:
     description: Success
     schema:
-        description: 'Newly created custom attribute'
-        $ref: '#/definitions/custom_attribute'
+       $ref: '#/definitions/custom_attribute'
   403:
     description: Access denied
