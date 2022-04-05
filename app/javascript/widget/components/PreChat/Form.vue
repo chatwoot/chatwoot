@@ -159,6 +159,14 @@ export default {
       if (this.phoneNumber.charAt(0) === '0') {
         this.phoneNumber = this.phoneNumber.replace('0', '+62');
       }
+      let payload = {
+        fullName: this.fullName,
+        emailAddress: this.emailAddress,
+        phoneNumber: this.phoneNumber,
+        message: this.message,
+      }
+      //send prechat form data to parent window - smsp main website
+      window.parent.postMessage({ message: "getPrechatData", value: payload }, "*");
       this.$emit('submit', {
         fullName: this.fullName,
         emailAddress: this.emailAddress,
