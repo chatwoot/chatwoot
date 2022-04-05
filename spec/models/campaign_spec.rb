@@ -9,7 +9,10 @@ RSpec.describe Campaign, type: :model do
   end
 
   describe '.before_create' do
-    let(:campaign) { build(:campaign, display_id: nil) }
+    let(:account) { create(:account) }
+    let(:website_channel) { create(:channel_widget, account: account) }
+    let(:website_inbox) { create(:inbox, channel: website_channel, account: account) }
+    let(:campaign) { build(:campaign, inbox: website_inbox, display_id: nil, trigger_rules: { url: 'https://test.com' }) }
 
     before do
       campaign.save
@@ -37,7 +40,9 @@ RSpec.describe Campaign, type: :model do
   end
 
   context 'when a campaign is completed' do
-    let!(:campaign) { create(:campaign, campaign_status: :completed) }
+    let(:account) { create(:account) }
+    let(:web_widget) { create(:channel_widget, account: account) }
+    let!(:campaign) { create(:campaign, inbox: web_widget.inbox, campaign_status: :completed, trigger_rules: { url: 'https://test.com' }) }
 
     it 'would prevent further updates' do
       campaign.title = 'new name'
@@ -72,6 +77,27 @@ RSpec.describe Campaign, type: :model do
       it 'calls twilio service on trigger!' do
         sms_service = double
         expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        expect(sms_service).to receive(:perform)
+        campaign.save!
+        campaign.trigger!
+      end
+    end
+
+    context 'when SMS campaign' do
+      let!(:sms_channel) { create(:channel_sms) }
+      let!(:sms_inbox) { create(:inbox, channel: sms_channel) }
+      let(:campaign) { build(:campaign, inbox: sms_inbox) }
+
+      it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
+        campaign.campaign_type = 'ongoing'
+        campaign.save!
+        expect(campaign.reload.campaign_type).to eq 'one_off'
+        expect(campaign.scheduled_at.present?).to eq true
+      end
+
+      it 'calls sms service on trigger!' do
+        sms_service = double
+        expect(Sms::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
         expect(sms_service).to receive(:perform)
         campaign.save!
         campaign.trigger!

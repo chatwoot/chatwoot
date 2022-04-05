@@ -1,5 +1,6 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import { playNewMessageNotificationInWidget } from 'shared/helpers/AudioNotificationHelper';
+import { ON_AGENT_MESSAGE_RECEIVED } from '../constants/widgetBusEvents';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -10,21 +11,23 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
       'conversation.status_changed': this.onStatusChange,
+      'conversation.created': this.onConversationCreated,
       'presence.update': this.onPresenceUpdate,
       'contact.merged': this.onContactMerge,
     };
   }
 
   onStatusChange = data => {
+    if (data.status === 'resolved') {
+      this.app.$store.dispatch('campaign/resetCampaign');
+    }
     this.app.$store.dispatch('conversationAttributes/update', data);
   };
 
   onMessageCreated = data => {
     this.app.$store
       .dispatch('conversation/addOrUpdateMessage', data)
-      .then(() => {
-        window.bus.$emit('on-agent-message-received');
-      });
+      .then(() => window.bus.$emit(ON_AGENT_MESSAGE_RECEIVED));
     if (data.sender_type === 'User') {
       playNewMessageNotificationInWidget();
     }
@@ -32,6 +35,10 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('conversation/addOrUpdateMessage', data);
+  };
+
+  onConversationCreated = () => {
+    this.app.$store.dispatch('conversationAttributes/getAttributes');
   };
 
   onPresenceUpdate = data => {

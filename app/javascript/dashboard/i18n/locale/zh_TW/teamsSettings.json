@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "建立新團隊",
     "HEADER": "團隊",
-    "SIDEBAR_TXT": "<p><b>團隊</b></p> <p>團隊讓你將客服依照他們的職責分組。<br /> 一個使用者可以再多個團隊中。你可以將對話指派給一個團隊以協作。 </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "編輯團隊"

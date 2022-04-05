@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
-    "SIDEBAR_TXT": "<p><b>Posteingang</b></p> <p> Wenn du eine Webseite oder eine Facebook-Seite mit Chatwood verbindest, wird dieser Kanal als <b>Posteingang</b> bezeichnet. Dabei können unbegrenzte viele Posteingänge angelegt werden. </p><p> Klicke auf <b>Posteingang hinzufügen</b>, um eine Webseite oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard du kannst alle Unterhaltungen aus allen deinen Posteingängen an einem Ort sehen und unter der Registerkarte \"Unterhaltungen\" beantworten. </p><p> Du kannst dir auch nur Konversationen anzeigen lassen, die in einen bestimmten Posteingang enthalten sind, indem du auf den Posteingangsnamen auf der linken Seite des Dashboards klicken. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird diese als bInbox</b> bezeichnet. Sie können unbegrenzte Posteingänge in Ihrem Chatwoot-Konto haben. </p><p Klicken Sie auf <b>Posteingang hinzufügen</b>, um eine Website oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort sehen und unter der Registerkarte 'Konversationen' darauf antworten. </p><p> Sie können auch zu einem Posteingang spezifische Konversationen anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
@@ -42,14 +42,14 @@
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
-        "PICK_NAME": "Wähle einen Namen für deinen Posteingang",
-        "PICK_A_VALUE": "Wähle einen Wert"
+        "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang",
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus"
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
         "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Konversationen aus erwähnten Tweets erstellen"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -74,7 +74,7 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Willkommens-Schlagzeile",
-          "PLACEHOLDER": "Wir machen es einfach, mit uns in Verbindung zu treten. Fragen Sie uns etwas oder teilen Sie Ihr Feedback."
+          "PLACEHOLDER": "Wir machen es einfach, sich mit uns zu verbinden. Fragen Sie uns etwas oder teilen Sie uns Ihr Feedback mit."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Grußnachricht des Kanals",
@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal Begrüßung aktivieren",
-          "HELP_TEXT": "Senden Sie eine Grußnachricht an den Benutzer, wenn er die Unterhaltung beginnt.",
+          "HELP_TEXT": "Senden Sie eine Begrüßungsnachricht an die Benutzer, wenn sie das Gespräch beginnen.",
           "ENABLED": "Aktiviert",
           "DISABLED": "Deaktiviert"
         },
@@ -91,7 +91,7 @@
           "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
           "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
           "IN_A_DAY": "Innerhalb eines Tages",
-          "HELP_TEXT": "Die Reaktionszeit wird im Live-Chat-Widget angezeigt"
+          "HELP_TEXT": "Diese Antwortzeit wird im Live-Chat-Widget angezeigt"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
@@ -136,8 +136,56 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS-Kanal über Twilio",
-        "DESC": "Unterstützen Sie Ihre Kunden per SMS mit Twilio-Integration."
+        "TITLE": "SMS Kanal",
+        "DESC": "Beginnen Sie, Ihre Kunden per SMS zu unterstützen.",
+        "PROVIDERS": {
+          "LABEL": "API-Provider",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Bandbreite"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Wir konnten den SMS-Kanal nicht speichern"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "Account ID",
+            "PLACEHOLDER": "Bitte geben Sie Ihre Bandbreitenkonto-ID ein",
+            "ERROR": "Dieses Feld wird benötigt"
+          },
+          "API_KEY": {
+            "LABEL": "API-Schlüssel",
+            "PLACEHOLDER": "Bitte geben Sie Ihren Bandbreiten-API-Schlüssel ein",
+            "ERROR": "Dieses Feld wird benötigt"
+          },
+          "API_SECRET": {
+            "LABEL": "API-Secret",
+            "PLACEHOLDER": "Bitte geben Sie Ihr Bandbreiten-API-Secret ein",
+            "ERROR": "Dieses Feld wird benötigt"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "Anwendungs-ID",
+            "PLACEHOLDER": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
+            "ERROR": "Dieses Feld wird benötigt"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Posteingang-Name",
+            "PLACEHOLDER": "Bitte geben Sie einen Namen für den Posteingang ein",
+            "ERROR": "Dieses Feld wird benötigt"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Telefonnummer",
+            "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
+            "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
+          },
+          "SUBMIT_BUTTON": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
+          "API": {
+            "ERROR_MESSAGE": "Wir konnten die Bandbreiten-Anmeldeinformationen nicht authentifizieren. Bitte versuchen Sie es erneut"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "Sie müssen die Nachrichten-Callback-URL in Bandbreite mit der hier erwähnten URL konfigurieren."
+          }
+        }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp-Kanal",
@@ -249,7 +297,7 @@
         }
       },
       "AUTH": {
-        "TITLE": "Wähle einen Kanal",
+        "TITLE": "Wählen Sie einen Kanal",
         "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
       },
       "AGENTS": {
@@ -305,6 +353,14 @@
         "ENABLED": "Aktiviert",
         "DISABLED": "Deaktiviert"
       },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Deaktiviert"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Deaktiviert"
+      },
       "ENABLE_HMAC": {
         "LABEL": "Aktivieren"
       }
@@ -347,10 +403,12 @@
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "UPDATE": "Aktualisieren",
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiviere oder deaktiviere die E-Mail-Sammelbox bei einer neuen Unterhaltung",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "ENABLE_CSAT": "CSAT aktivieren",
       "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
@@ -361,7 +419,9 @@
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse."
+      "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
@@ -370,7 +430,7 @@
       "MESSAGE_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Chatformulare ermöglichen es dir, Benutzerinformationen zu erfassen, bevor ein Gespräch begonnen wird.",
+      "DESCRIPTION": "Pre-Chat-Formulare ermöglichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins Gespräch kommen.",
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
         "OPTIONS": {
@@ -402,7 +462,8 @@
         "HOURS": "Stunden",
         "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
         "CHOOSE": "Auswählen"
-      }
+      },
+      "ALL_DAY": "Den ganzen Tag"
     },
     "IMAP": {
       "TITLE": "IMAP",
@@ -416,7 +477,7 @@
       },
       "ADDRESS": {
         "LABEL": "Adresse",
-        "PLACE_HOLDER": "Adresse (Eg: imap.gmail.com)"
+        "PLACE_HOLDER": "Adresse (zB: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -444,7 +505,7 @@
       },
       "ADDRESS": {
         "LABEL": "Adresse",
-        "PLACE_HOLDER": "Adresse (Eg: smtp.gmail.com)"
+        "PLACE_HOLDER": "Adresse (zB: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -461,7 +522,11 @@
       "DOMAIN": {
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
-      }
+      },
+      "ENCRYPTION": "Verschlüsselung",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen"
     }
   }
 }

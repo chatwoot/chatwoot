@@ -45,6 +45,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['content']).to eq(message_params[:content])
       end
 
+      it 'does not create the message' do
+        conversation.destroy # Test all params
+        message_params = { content: "#{'h' * 150 * 1000}a", timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        json_response = JSON.parse(response.body)
+
+        expect(json_response['message']).to eq('Content is too long (maximum is 150000 characters)')
+      end
+
       it 'creates attachment message in conversation' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         message_params = { content: 'hello world', timestamp: Time.current, attachments: [file] }
@@ -71,6 +86,28 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to eq(true)
+      end
+
+      it 'does not create resolved activity messages when snoozed conversation is opened' do
+        conversation.snoozed!
+
+        message_params = { content: 'hello world', timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(Conversations::ActivityMessageJob).not_to have_been_enqueued.at_least(:once).with(
+          conversation,
+          {
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            message_type: :activity,
+            content: "Conversation was resolved by #{contact.name}"
+          }
+        )
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.open?).to eq(true)
       end
     end
   end

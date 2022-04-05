@@ -1,37 +1,93 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Φίλτρο Συνομιλιών",
+    "SUBTITLE": "Προσθέστε φίλτρα παρακάτω και πατήστε το 'Εφαρμογή φίλτρων' για να φιλτράρετε συνομιλίες.",
+    "ADD_NEW_FILTER": "Προσθήκη Φίλτρου",
+    "FILTER_DELETE_ERROR": "Θα πρέπει να έχετε τουλάχιστον ένα φίλτρο για την αποθήκευση",
+    "SUBMIT_BUTTON_LABEL": "Εφαρμογή φίλτρων",
     "CANCEL_BUTTON_LABEL": "Άκυρο",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Εκκαθάριση Φίλτρων",
+    "EMPTY_VALUE_ERROR": "Απαιτείται τιμή",
+    "TOOLTIP_LABEL": "Φιλτράρισμα συνομιλιών",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",
       "OR": "OR"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present"
+      "equal_to": "Ίσο με",
+      "not_equal_to": "Όχι ίσο με",
+      "contains": "Περιέχει",
+      "does_not_contain": "Δεν περιέχει",
+      "is_present": "Υπάρχει",
+      "is_not_present": "Δεν υπάρχει",
+      "is_greater_than": "Είναι μεγαλύτερο από",
+      "is_less_than": "Είναι μικρότερο από",
+      "days_before": "Είναι x ημέρες πριν"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
     },
     "ATTRIBUTES": {
       "STATUS": "Κατάσταση",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Όνομα Εντεταλμένου",
       "INBOX_NAME": "Όνομα Κιβωτίου",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Όνομα Ομάδας",
+      "CONVERSATION_IDENTIFIER": "Κωδικός Σινομιλίας",
+      "CAMPAIGN_NAME": "Όνομα Καμπάνιας",
       "LABELS": "Ετικέτες",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
+      "COUNTRY_NAME": "Όνομα Χώρας",
+      "REFERER_LINK": "Σύνδεσμος αναφοράς",
+      "CUSTOM_ATTRIBUTE_LIST": "Λίστα",
+      "CUSTOM_ATTRIBUTE_TEXT": "Κείμενο",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Αριθμός",
+      "CUSTOM_ATTRIBUTE_LINK": "Σύνδεσμος",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Δημιουργήθηκε στις",
+      "LAST_ACTIVITY": "Τελευταία Δραστηριότητα"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Τυπικά Φίλτρα",
+      "ADDITIONAL_FILTERS": "Πρόσθετα Φίλτρα",
+      "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Θέλετε να αποθηκεύσετε αυτό το φίλτρο;",
+        "LABEL": "Ονομάστε αυτό το φίλτρο",
+        "PLACEHOLDER": "Πληκτρολογήστε ένα όνομα για το φίλτρο",
+        "ERROR_MESSAGE": "Απαιτείται όνομα",
+        "SAVE_BUTTON": "Αποθήκευση φίλτρου",
+        "CANCEL_BUTTON": "Άκυρο",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ο φάκελος δημιουργήθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία φακέλου"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Το τμήμα δημιουργήθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία τμήματος"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Διαγραφή φίλτρου",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Επιβεβαίωση Διαγραφής",
+            "MESSAGE": "Είστε βέβαιοι ότι θα διαγράψετε το φίλτρο ",
+            "YES": "Ναι, Διέγραψε το",
+            "NO": "Όχι, Κράτησε τον/την"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ο φάκελος διαγράφηκε με επιτυχία",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή του φακέλου"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Το τμήμα διαγράφηκε επιτυχώς",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή τμήματος"
+        }
+      }
     }
   }
 }

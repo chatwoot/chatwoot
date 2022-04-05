@@ -72,6 +72,15 @@ class Rack::Attack
     end
   end
 
+  throttle('super_admin_login/email', limit: 20, period: 5.minutes) do |req|
+    if req.path == '/super_admin/sign_in' && req.post?
+      # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
+      # Hence placed in the if block
+      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
+      email.to_s.downcase.gsub(/\s+/, '')
+    end
+  end
+
   throttle('reset_password/email', limit: 5, period: 1.hour) do |req|
     if req.path == '/auth/password' && req.post?
       email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence

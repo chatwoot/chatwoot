@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Vorgefertigte Antwort hinzufügen",
     "LOADING": "Vorgefertigte Antworten abrufen",
     "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
-    "SIDEBAR_TXT": "<p> <b> Vorgefertigte Antworten </b> </p> <p> Vorgefertigte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell eine Antwort auf eine Konversation gesendet werden kann. </p> <p> Um eine vordefinierte Antwort zu erstellen, klicken Sie einfach auf <b> vordefinierte Antwort hinzufügen </b>. Sie können eine vorhandene gespeicherte Antwort auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken. </p> <p> Gespeicherte Antworten werden mithilfe von <b> Funktionscodes </b> verwendet. Agenten können während eines Chats auf vordefinierte Antworten zugreifen, indem sie <b> '/' </b> gefolgt vom Funktionscode eingeben. </p>",
+    "SIDEBAR_TXT": "<p><b>Vorgefertigte Antworten</b></p><p>Vorgefertigte Antworten sind gespeicherte Vorlagen, die zum schnellen Versenden von Antworten in Konversationen verwendet werden können.</p><p>Um eine vorgefertigte Antwort zu erstellen, klicken Sie einfach auf die Schaltfläche <b>Vorgefertigte Antwort hinzufügen</b>. Sie können auch eine vorhandene gespeicherte Antwort bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.</p><p>Vorgefertigte Antworten werden mit Hilfe von Kurzcode verwendet. Agenten können während eines Chats auf vorgefertigte Antworten zugreifen, indem sie einen Schrägstrich <b>'/'</b> gefolgt von dem Kurzcode eingeben.</p>",
     "LIST": {
       "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",
       "TITLE": "Verwalten Sie vordefinierte Antworten",
@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "Vorgefertigte Antwort hinzufügen",
-      "DESC": "Gespeicherte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell Antworten auf Konversationen gesendet werden können.",
+      "DESC": "Vorgefertigte Antworten sind Vorlagen, die zum schnellen Versenden von Antworten in Konversationen verwendet werden können.",
       "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "SHORT_CODE": {

@@ -39,6 +39,7 @@ class Message < ApplicationRecord
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
   validates :content_type, presence: true
+  validates :content, length: { maximum: 150_000 }
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -63,7 +64,7 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at], coder: JSON
+                                         :external_created_at, :story_sender, :story_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -135,6 +136,14 @@ class Message < ApplicationRecord
     I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
   end
 
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
+  end
+
   private
 
   def ensure_content_type
@@ -157,6 +166,8 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
+    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
 
     if outgoing? && conversation.messages.outgoing.count == 1
@@ -165,6 +176,8 @@ class Message < ApplicationRecord
   end
 
   def dispatch_update_event
+    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
   end
 
@@ -185,16 +198,18 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
-  def email_notifiable_message?
-    return false unless outgoing? || input_csat?
-    return false if private?
+  def email_notifiable_webwidget?
+    inbox.web_widget? && inbox.channel.continuity_via_email
+  end
 
-    true
+  def email_notifiable_channel?
+    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
   end
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
-    return false if conversation.contact.email.blank? || !(%w[Website Email].include? inbox.inbox_type)
+    return unless email_notifiable_channel?
+    return if conversation.contact.email.blank?
 
     true
   end

@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex';
-
+import { isValidURL } from '../helper/URLHelper';
 export default {
   computed: {
     ...mapGetters({
@@ -63,16 +63,11 @@ export default {
         Number.isInteger(Number(attributeValue)) && Number(attributeValue) > 0
       );
     },
-    isAttributeLink(attributeValue) {
-      /* eslint-disable no-useless-escape */
-      const URL_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
-      return URL_REGEX.test(attributeValue);
-    },
     attributeDisplayType(attributeValue) {
       if (this.isAttributeNumber(attributeValue)) {
         return 'number';
       }
-      if (this.isAttributeLink(attributeValue)) {
+      if (isValidURL(attributeValue)) {
         return 'link';
       }
       return 'text';

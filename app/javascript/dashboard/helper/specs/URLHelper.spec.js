@@ -2,6 +2,8 @@ import {
   frontendURL,
   conversationUrl,
   accountIdFromPathname,
+  isValidURL,
+  getLoginRedirectURL,
 } from '../URLHelper';
 
 describe('#URL Helpers', () => {
@@ -46,6 +48,35 @@ describe('#URL Helpers', () => {
     });
     it('should return empty string if empty string is passed', () => {
       expect(accountIdFromPathname('')).toBe('');
+    });
+  });
+
+  describe('isValidURL', () => {
+    it('should return true if valid url is passed', () => {
+      expect(isValidURL('https://chatwoot.com')).toBe(true);
+    });
+    it('should return false if invalid url is passed', () => {
+      expect(isValidURL('alert.window')).toBe(false);
+    });
+  });
+
+  describe('getLoginRedirectURL', () => {
+    it('should return correct Account URL if account id is present', () => {
+      expect(
+        getLoginRedirectURL('7500', {
+          accounts: [{ id: 7500, name: 'Test Account 7500' }],
+        })
+      ).toBe('/app/accounts/7500/dashboard');
+    });
+
+    it('should return default URL if account id is not present', () => {
+      expect(getLoginRedirectURL('7500', {})).toBe('/app/');
+      expect(
+        getLoginRedirectURL('7500', {
+          accounts: [{ id: '7501', name: 'Test Account 7501' }],
+        })
+      ).toBe('/app/');
+      expect(getLoginRedirectURL('7500', null)).toBe('/app/');
     });
   });
 });

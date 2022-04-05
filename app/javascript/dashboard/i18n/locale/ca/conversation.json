@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
     "CANNOT_REPLY": "No pots respondre degut a",
     "24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
-      "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents"
+      "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Respon",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Intro per enviar",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Enviat per:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Seleccionar Agent",
       "REMOVE": "Suprimeix",
@@ -127,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -179,6 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",

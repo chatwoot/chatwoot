@@ -9,7 +9,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AUTOMATION.HEADER',
-        icon: 'autocorrect',
+        icon: 'automation',
         showNewButton: false,
       },
       children: [

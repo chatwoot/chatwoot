@@ -15,7 +15,7 @@
           "ERROR": "Name is required"
         },
         "DESC": {
-          "LABEL": "Description",
+          "LABEL": "Opis",
           "PLACEHOLDER": "Enter custom attribute description",
           "ERROR": "Description is required"
         },
@@ -70,29 +70,29 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "SUCCESS_MESSAGE": "Atrybut zaktualizowany pomyślnie",
         "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
       "HEADER": "Niestandardowe atrybuty",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONVERSATION": "Rozmowa",
+      "CONTACT": "Kontakt"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Nazwa",
-        "Description",
-        "Type",
-        "Key"
+        "Opis",
+        "Typ",
+        "Klucz"
       ],
       "BUTTONS": {
         "EDIT": "Edytuj",
         "DELETE": "Usuń"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Nie utworzono atrybutów niestandardowych",
+        "NOT_FOUND": "Brak skonfigurowanych atrybutów niestandardowych"
       }
     }
   }

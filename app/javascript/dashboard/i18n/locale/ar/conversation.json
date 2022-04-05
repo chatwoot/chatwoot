@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "NOT_ASSIGNED_TO_YOU": "لم يتم تعيين هذه المحادثة لك. هل ترغب في تعيين هذه المحادثة لنفسك؟",
+    "ASSIGN_TO_ME": "إسناد لي",
     "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "SELECT_A_TWEET_TO_REPLY": "الرجاء تحديد تغريدة للرد عليها.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
+      "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
+      "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
-      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط"
+      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
+      "CLICK_HERE": "انقر هنا للتحديث"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
+      "TIP_AUDIORECORDER_ICON": "تسجيل الصوت",
+      "TIP_AUDIORECORDER_PERMISSION": "السماح بالوصول إلى الصوت",
+      "TIP_AUDIORECORDER_ERROR": "تعذر فتح الصوت",
       "ENTER_TO_SEND": "زر الإدخل للإرسال",
       "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
+      "START_AUDIO_RECORDING": "بدء التسجيل الصوتي",
+      "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "إضافة bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
+    "BOT": "رد آلي",
+    "SEND_FAILED": "تعذر إرسال الرسالة! حاول مرة أخرى",
+    "TRY_AGAIN": "إعادة المحاولة",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
@@ -179,6 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "من",
     "TO": "إلى",
     "BCC": "Bcc",
     "CC": "Cc",

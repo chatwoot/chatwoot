@@ -93,21 +93,21 @@ export default {
       }
       return color;
     },
-    addLabel() {
-      this.$store
-        .dispatch('labels/create', {
+    async addLabel() {
+      try {
+        await this.$store.dispatch('labels/create', {
           color: this.color,
           description: this.description,
           title: this.title,
           show_on_sidebar: this.showOnSidebar,
-        })
-        .then(() => {
-          this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
-          this.onClose();
-        })
-        .catch(() => {
-          this.showAlert(this.$t('LABEL_MGMT.ADD.API.ERROR_MESSAGE'));
         });
+        this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
+        this.onClose();
+      } catch (error) {
+        const errorMessage =
+          error.message || this.$t('LABEL_MGMT.ADD.API.ERROR_MESSAGE');
+        this.showAlert(errorMessage);
+      }
     },
   },
 };

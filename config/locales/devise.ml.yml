@@ -11,15 +11,15 @@ ml:
       invalid: "%{authentication_keys} പാസ്‌വേഡോ അക്കൗണ്ടോ ഇതുവരെ പരിശോധിച്ചിട്ടില്ല.\n"
       locked: "നിങ്ങളുടെ അക്കൗണ്ട് ലോക്കുചെയ്‌തു.\n"
       last_attempt: "നിങ്ങളുടെ അക്കൗണ്ട് ലോക്കുചെയ്യുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് ഒരു ശ്രമം കൂടി."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      not_found_in_database: "%{authentication_keys} അല്ലെങ്കിൽ പാസ്‌വേഡ് അസാധുവാണ്."
+      timeout: "നിങ്ങളുടെ സെഷൻ കാലഹരണപ്പെട്ടു. തുടരാൻ വീണ്ടും സൈൻ ഇൻ ചെയ്യുക."
+      unauthenticated: "തുടരുന്നതിന് മുമ്പ് നിങ്ങൾ സൈൻ ഇൻ ചെയ്യുകയോ സൈൻ അപ്പ് ചെയ്യുകയോ ചെയ്യേണ്ടതുണ്ട്."
+      unconfirmed: "തുടരുന്നതിന് മുമ്പ് നിങ്ങളുടെ ഇമെയിൽ വിലാസം സ്ഥിരീകരിക്കേണ്ടതുണ്ട്."
     mailer:
       confirmation_instructions:
         subject: "സ്ഥിരീകരണ നിർദ്ദേശങ്ങൾ"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "പാസ്‌വേഡ് നിർദ്ദേശങ്ങൾ പുനഃസജ്ജമാക്കുക"
       unlock_instructions:
         subject: "Unlock instructions"
       password_change:

@@ -40,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "El nombre de dies després que un ticket es resolgui automàticament si no hi ha activitat",
         "PLACEHOLDER": "30",
-        "ERROR": "Introdueix una durada vàlida de resolució automàtica (mínim 1 dia)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuïtat de converses amb correus electrònics està habilitada per al vostre compte.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
       }
     },
-    "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia."
+    "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {

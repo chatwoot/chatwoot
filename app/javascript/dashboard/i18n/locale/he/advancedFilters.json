@@ -19,7 +19,14 @@
       "contains": "Contains",
       "does_not_contain": "Does not contain",
       "is_present": "Is present",
-      "is_not_present": "Is not present"
+      "is_not_present": "Is not present",
+      "is_greater_than": "Is greater than",
+      "is_less_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
     },
     "ATTRIBUTES": {
       "STATUS": "מצב",
@@ -31,7 +38,56 @@
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "REFERER_LINK": "Referer link",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "פעילות אחרונה"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "ERROR_MESSAGE": "שם שדה חובה",
+        "SAVE_BUTTON": "Save filter",
+        "CANCEL_BUTTON": "ביטול",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "אשר מחיקה",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "כן, מחק",
+            "NO": "לא, השאר"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
+        }
+      }
     }
   }
 }

@@ -1,5 +1,13 @@
 <template>
   <div class="reply-box" :class="replyBoxClass">
+    <banner
+      v-if="showSelfAssignBanner"
+      color-scheme="secondary"
+      :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
+      :has-action-button="true"
+      :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
+      @click="onClickSelfAssign"
+    />
     <reply-top-panel
       :mode="replyType"
       :set-reply-mode="setReplyMode"
@@ -25,8 +33,15 @@
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
       />
+      <woot-audio-recorder
+        v-if="showAudioRecorderEditor"
+        ref="audioRecorderInput"
+        @state-recorder-timer-changed="onStateRecorderTimerChanged"
+        @state-recorder-changed="onStateRecorderChanged"
+        @recorder-blob="onRecorderBlob"
+      />
       <resizable-text-area
-        v-if="!showRichContentEditor"
+        v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
         class="input"
@@ -58,20 +73,45 @@
         :remove-attachment="removeAttachment"
       />
     </div>
+    <div
+      v-if="isSignatureEnabledForInbox"
+      v-tooltip="$t('CONVERSATION.FOOTER.MESSAGE_SIGN_TOOLTIP')"
+      class="message-signature-wrap"
+    >
+      <p
+        v-if="isSignatureAvailable"
+        class="message-signature"
+        v-html="formatMessage(messageSignature)"
+      />
+      <p v-else class="message-signature">
+        {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
+        <router-link :to="profilePath">
+          {{ $t('CONVERSATION.FOOTER.CLICK_HERE') }}
+        </router-link>
+      </p>
+    </div>
     <reply-bottom-panel
       :mode="replyType"
+      :inbox="inbox"
       :send-button-text="replyButtonLabel"
       :on-file-upload="onFileUpload"
       :show-file-upload="showFileUpload"
+      :show-audio-recorder="showAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
+      :toggle-audio-recorder="toggleAudioRecorder"
+      :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :show-emoji-picker="showEmojiPicker"
       :on-send="sendMessage"
       :is-send-disabled="isReplyButtonDisabled"
+      :recording-audio-duration-text="recordingAudioDuration"
+      :recording-audio-state="recordingAudioState"
+      :is-recording-audio="isRecordingAudio"
       :set-format-mode="setFormatMode"
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
+      :enable-multiple-file-upload="enableMultipleFileUpload"
       @toggleEnterToSend="toggleEnterToSend"
     />
   </div>
@@ -89,8 +129,11 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyEmailHead from './ReplyEmailHead';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -99,10 +142,13 @@ import {
   isEscape,
   isEnter,
   hasPressedShift,
+  hasPressedCommandPlusKKey,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { DirectUpload } from 'activestorage';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -114,8 +160,16 @@ export default {
     ReplyEmailHead,
     ReplyBottomPanel,
     WootMessageEditor,
+    WootAudioRecorder,
+    Banner,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
+  mixins: [
+    clickaway,
+    inboxMixin,
+    uiSettingsMixin,
+    alertMixin,
+    messageFormatterMixin,
+  ],
   props: {
     selectedTweet: {
       type: [Object, String],
@@ -137,6 +191,9 @@ export default {
       showEmojiPicker: false,
       showMentions: false,
       attachedFiles: [],
+      isRecordingAudio: false,
+      recordingAudioState: '',
+      recordingAudioDuration: '',
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
@@ -147,6 +204,15 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      messageSignature: 'getMessageSignature',
+      currentUser: 'getCurrentUser',
+      lastEmail: 'getLastEmailInSelectedChat',
+      globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
+    }),
+
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -161,7 +227,36 @@ export default {
       }
       return false;
     },
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    assignedAgent: {
+      get() {
+        return this.currentChat.meta.assignee;
+      },
+      set(agent) {
+        const agentId = agent ? agent.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', agent);
+        this.$store
+          .dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId,
+          })
+          .then(() => {
+            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
+    showSelfAssignBanner() {
+      if (this.message !== '' && !this.isOnPrivateNote) {
+        if (!this.assignedAgent) {
+          return true;
+        }
+        if (this.assignedAgent.id !== this.currentUser.id) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
@@ -189,11 +284,11 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
-      if (this.isATweet && !this.inReplyTo) {
+      if (this.isATweet && !this.inReplyTo && !this.isOnPrivateNote) {
         return true;
       }
 
-      if (this.hasAttachments) return false;
+      if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
         this.isMessageEmpty ||
@@ -216,7 +311,7 @@ export default {
       if (this.isAWhatsappChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
-      if (this.isATwilioSMSChannel) {
+      if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       if (this.isATwitterInbox) {
@@ -233,7 +328,7 @@ export default {
         this.isAWhatsappChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isATwilioSMSChannel ||
+        this.isASmsInbox ||
         this.isATelegramChannel
       );
     },
@@ -255,8 +350,20 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
+    hasRecordedAudio() {
+      return (
+        this.$refs.audioRecorderInput &&
+        this.$refs.audioRecorderInput.hasAudio()
+      );
+    },
     isRichEditorEnabled() {
       return this.isAWebWidgetInbox || this.isAnEmailChannel;
+    },
+    showAudioRecorder() {
+      return !this.isOnPrivateNote && this.showFileUpload;
+    },
+    showAudioRecorderEditor() {
+      return this.showAudioRecorder && this.isRecordingAudio;
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -283,6 +390,22 @@ export default {
     showReplyHead() {
       return !this.isOnPrivateNote && this.isAnEmailChannel;
     },
+    enableMultipleFileUpload() {
+      return this.isAnEmailChannel || this.isAWebWidgetInbox || this.isAPIInbox;
+    },
+    isSignatureEnabledForInbox() {
+      return !this.isPrivate && this.isAnEmailChannel && this.sendWithSignature;
+    },
+    isSignatureAvailable() {
+      return !!this.messageSignature;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    profilePath() {
+      return frontendURL(`accounts/${this.accountId}/profile/settings`);
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -296,6 +419,8 @@ export default {
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
+
+      this.setCCEmailFromLastChat();
     },
     message(updatedMessage) {
       this.hasSlashCommand =
@@ -317,6 +442,8 @@ export default {
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
+
+    this.setCCEmailFromLastChat();
   },
   destroyed() {
     document.removeEventListener('keydown', this.handleKeyEvents);
@@ -325,12 +452,16 @@ export default {
   methods: {
     onPaste(e) {
       const data = e.clipboardData.files;
+      if (!this.showRichContentEditor && data.length !== 0) {
+        this.$refs.messageInput.$el.blur();
+      }
       if (!data.length || !data[0]) {
         return;
       }
-      const file = data[0];
-      const { name, type, size } = file;
-      this.onFileUpload({ name, type, size, file });
+      data.forEach(file => {
+        const { name, type, size } = file;
+        this.onFileUpload({ name, type, size, file: file });
+      });
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
@@ -355,17 +486,49 @@ export default {
           e.preventDefault();
           this.sendMessage();
         }
+      } else if (hasPressedCommandPlusKKey(e)) {
+        this.openCommandBar();
       }
+    },
+    openCommandBar() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open();
     },
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    },
+    onClickSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        avatar_url,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail: avatar_url,
+      };
+      this.assignedAgent = selfAssign;
     },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
         return;
       }
       if (!this.showMentions) {
-        const newMessage = this.message;
+        let newMessage = this.message;
+        if (this.isSignatureEnabledForInbox && this.messageSignature) {
+          newMessage += '\n\n' + this.messageSignature;
+        }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
@@ -373,7 +536,7 @@ export default {
             'createPendingMessageAndSend',
             messagePayload
           );
-          this.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         } catch (error) {
           const errorMessage =
             error?.response?.data?.error ||
@@ -394,6 +557,9 @@ export default {
 
       if (canReply || this.isAWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
+        if (this.isRecordingAudio) {
+          this.toggleAudioRecorder();
+        }
         return;
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
@@ -406,9 +572,25 @@ export default {
       this.attachedFiles = [];
       this.ccEmails = '';
       this.bccEmails = '';
+      this.isRecordingAudio = false;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
+    },
+    toggleAudioRecorder() {
+      this.isRecordingAudio = !this.isRecordingAudio;
+      this.isRecorderAudioStopped = !this.isRecordingAudio;
+      if (!this.isRecordingAudio) {
+        this.clearMessage();
+      }
+    },
+    toggleAudioRecorderPlayPause() {
+      if (this.isRecordingAudio && !this.isRecorderAudioStopped) {
+        this.isRecorderAudioStopped = true;
+        this.$refs.audioRecorderInput.stopAudioRecording();
+      } else if (this.isRecordingAudio && this.isRecorderAudioStopped) {
+        this.$refs.audioRecorderInput.playPause();
+      }
     },
     hideEmojiPicker() {
       if (this.showEmojiPicker) {
@@ -430,6 +612,20 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
+    onStateRecorderTimerChanged(time) {
+      this.recordingAudioDuration = time;
+    },
+    onStateRecorderChanged(state) {
+      this.recordingAudioState = state;
+      if (state.includes('notallowederror')) {
+        this.toggleAudioRecorder();
+      }
+    },
+    onRecorderBlob(file) {
+      if (file) {
+        this.onFileUpload(file);
+      }
+    },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
       const isPrivate = this.isPrivate;
@@ -440,21 +636,37 @@ export default {
       });
     },
     onFileUpload(file) {
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(file);
+      } else {
+        this.onIndirectFileUpload(file);
+      }
+    },
+    onDirectFileUpload(file) {
       if (!file) {
         return;
       }
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-        this.attachedFiles = [];
-        const reader = new FileReader();
-        reader.readAsDataURL(file.file);
-        reader.onloadend = () => {
-          this.attachedFiles.push({
-            currentChatId: this.currentChat.id,
-            resource: file,
-            isPrivate: this.isPrivate,
-            thumb: reader.result,
-          });
-        };
+        const upload = new DirectUpload(
+          file.file,
+          `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
+          {
+            directUploadWillCreateBlobWithXHR: xhr => {
+              xhr.setRequestHeader(
+                'api_access_token',
+                this.currentUser.access_token
+              );
+            },
+          }
+        );
+
+        upload.create((error, blob) => {
+          if (error) {
+            this.showAlert(error);
+          } else {
+            this.attachFile({ file, blob });
+          }
+        });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
@@ -463,13 +675,39 @@ export default {
         );
       }
     },
+    onIndirectFileUpload(file) {
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.attachFile({ file });
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
+    },
+    attachFile({ blob, file }) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: blob || file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
+          blobSignedId: blob ? blob.signed_id : undefined,
+        });
+      };
+    },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
         (item, index) => itemIndex !== index
       );
     },
     getMessagePayload(message) {
-      const [attachment] = this.attachedFiles;
       const messagePayload = {
         conversationId: this.currentChat.id,
         message,
@@ -480,15 +718,22 @@ export default {
         messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
       }
 
-      if (attachment) {
-        messagePayload.file = attachment.resource.file;
+      if (this.attachedFiles && this.attachedFiles.length) {
+        messagePayload.files = [];
+        this.attachedFiles.forEach(attachment => {
+          if (this.globalConfig.directUploadsEnabled) {
+            messagePayload.files.push(attachment.blobSignedId);
+          } else {
+            messagePayload.files.push(attachment.resource.file);
+          }
+        });
       }
 
-      if (this.ccEmails) {
+      if (this.ccEmails && !this.isOnPrivateNote) {
         messagePayload.ccEmails = this.ccEmails;
       }
 
-      if (this.bccEmails) {
+      if (this.bccEmails && !this.isOnPrivateNote) {
         messagePayload.bccEmails = this.bccEmails;
       }
 
@@ -501,6 +746,17 @@ export default {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
     },
+    setCCEmailFromLastChat() {
+      if (this.lastEmail) {
+        const {
+          content_attributes: { email: emailAttributes = {} },
+        } = this.lastEmail;
+        const cc = emailAttributes.cc || [];
+        const bcc = emailAttributes.bcc || [];
+        this.ccEmails = cc.join(', ');
+        this.bccEmails = bcc.join(', ');
+      }
+    },
   },
 };
 </script>
@@ -508,6 +764,27 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   margin-bottom: 0;
+}
+
+.message-signature-wrap {
+  margin: 0 var(--space-normal);
+  padding: var(--space-small);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border: 1px dashed var(--s-100);
+  border-radius: var(--border-radius-small);
+  max-height: 8vh;
+  overflow: auto;
+
+  &:hover {
+    background: var(--s-25);
+  }
+}
+
+.message-signature {
+  width: fit-content;
+  margin: 0;
 }
 
 .attachment-preview-box {
@@ -544,6 +821,14 @@ export default {
     bottom: 10px;
     transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
+}
+
+.message-signature {
+  margin-bottom: 0;
+
+  ::v-deep p:last-child {
+    margin-bottom: 0;
   }
 }
 </style>

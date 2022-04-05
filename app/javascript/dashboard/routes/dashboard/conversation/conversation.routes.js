@@ -84,6 +84,25 @@ export default {
       }),
     },
     {
+      path: frontendURL('accounts/:accountId/custom_view/:id'),
+      name: 'folder_conversations',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({ foldersId: route.params.id }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/custom_view/:id/conversations/:conversation_id'
+      ),
+      name: 'conversations_through_folders',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversation_id,
+        foldersId: route.params.id,
+      }),
+    },
+    {
       path: frontendURL('accounts/:accountId/mentions/conversations'),
       name: 'conversation_mentions',
       roles: ['administrator', 'agent'],

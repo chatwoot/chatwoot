@@ -1,4 +1,6 @@
 class Contacts::FilterService < FilterService
+  ATTRIBUTE_MODEL = 'contact_attribute'.freeze
+
   def perform
     @contacts = contact_query_builder
 
@@ -24,9 +26,13 @@ class Contacts::FilterService < FilterService
     query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
 
+    return custom_attribute_query(query_hash, current_index) if current_filter.nil?
+
     case current_filter['attribute_type']
     when 'additional_attributes'
       "  LOWER(contacts.additional_attributes ->> '#{attribute_key}') #{filter_operator_value} #{query_operator} "
+    when 'date_attributes'
+      " (contacts.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
         " tags.id #{filter_operator_value} #{query_operator} "
@@ -57,5 +63,19 @@ class Contacts::FilterService < FilterService
     return "= :value_#{current_index}" if filter_operator == 'equal_to'
 
     "!= :value_#{current_index}"
+  end
+
+  def custom_attribute_query(query_hash, current_index)
+    attribute_key = query_hash[:attribute_key]
+    query_operator = query_hash[:query_operator]
+    attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
+    filter_operator_value = filter_operation(query_hash, current_index)
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
+
+    if custom_attribute(attribute_key)
+      "  LOWER(contacts.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    else
+      ' '
+    end
   end
 end

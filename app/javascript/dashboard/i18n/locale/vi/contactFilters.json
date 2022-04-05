@@ -1,34 +1,49 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Lọc liên hệ",
+        "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc liên hệ.",
+        "ADD_NEW_FILTER": "Thêm Bộ lọc",
+        "CLEAR_ALL_FILTERS": "Xoá tất cả bộ lọc",
+        "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
         "SUBMIT_BUTTON_LABEL": "Gửi",
         "CANCEL_BUTTON_LABEL": "Huỷ",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",
+        "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có",
+        "TOOLTIP_LABEL": "Lọc liên hệ",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "VÀ",
+            "OR": "HOẶC"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "equal_to": "Bằng",
+            "not_equal_to": "Không bằng",
+            "contains": "Bao gồm",
+            "does_not_contain": "Không bao gồm",
+            "is_present": "Có",
+            "is_not_present": "Không có",
+            "is_greater_than": "Lớn hơn",
+            "is_lesser_than": "Nhỏ hơn",
+            "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
             "NAME": "Tên",
             "EMAIL": "Thư điện tử",
             "PHONE_NUMBER": "Số Điện Thoại",
-            "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country"
+            "IDENTIFIER": "Định danh",
+            "CITY": "Tỉnh / Thành phố",
+            "COUNTRY": "Quốc gia",
+            "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
+            "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Số",
+            "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CREATED_AT": "Created At",
+            "LAST_ACTIVITY": "Hành động cuối cùng"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
+            "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
+            "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
         }
     }
 }

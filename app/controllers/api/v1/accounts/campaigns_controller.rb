@@ -18,7 +18,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
   def show; end
 
   def update
-    @campaign.update(campaign_params)
+    @campaign.update!(campaign_params)
   end
 
   private

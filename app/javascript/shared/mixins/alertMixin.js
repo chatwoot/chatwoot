@@ -1,7 +1,7 @@
 export default {
   methods: {
-    showAlert(message) {
-      bus.$emit('newToastMessage', message);
+    showAlert(message, action) {
+      bus.$emit('newToastMessage', message, action);
     },
   },
 };

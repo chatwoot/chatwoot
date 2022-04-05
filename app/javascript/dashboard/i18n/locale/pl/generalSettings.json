@@ -40,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Liczba dni, po upływie których, zgłoszenie powinno zostać automatycznie rozwiązane z powodu braku aktywności",
         "PLACEHOLDER": "30",
-        "ERROR": "Wprowadź prawidłowy czas automatycznego rozwiązywania (minimum 1 dzień)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Kontynuacja rozmów za pomocą wiadomości e-mail jest włączona dla Twojego konta.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz otrzymywać e-maile w swojej niestandardowej domenie."
       }
     },
-    "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję."
+    "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -89,7 +90,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Raporty",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Rozmowa",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
@@ -120,12 +121,12 @@
       "UNMUTE_CONVERSATION": "Unmute conversation",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
       "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "RESOLVE_CONVERSATION": "Rozwiąż rozmowę",
+      "SEND_TRANSCRIPT": "Wyślij transkrypt rozmowy",
+      "SNOOZE_CONVERSATION": "Wycisz rozmowę",
+      "UNTIL_NEXT_REPLY": "Do następnej odpowiedzi",
+      "UNTIL_NEXT_WEEK": "Do następnego tygodnia",
+      "UNTIL_TOMORROW": "Do jutra"
     }
   }
 }

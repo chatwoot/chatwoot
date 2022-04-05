@@ -6,6 +6,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Odoslať"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Send message again",
+      "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -18,6 +22,8 @@
     "IN_A_DAY": "Zvyčajne odpovedá do dňa"
   },
   "START_CONVERSATION": "Začať konverzáciu",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Začať novú konverzáciu",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy",
@@ -28,7 +34,7 @@
   "BUBBLE": {
     "LABEL": "Četujte s nami"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Používame Chatwoot",
   "EMAIL_PLACEHOLDER": "Zadajte svoj e-mail",
   "CHAT_PLACEHOLDER": "Zadajte svoju správu",
   "TODAY": "Dnes",
@@ -60,9 +66,9 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
+    "TITLE": "Ohodnoťte konverzáciu",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "PLACEHOLDER": "Povedzte nám viac..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Request a conversation transcript",

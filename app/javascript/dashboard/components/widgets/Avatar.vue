@@ -18,11 +18,11 @@ export default {
     },
     backgroundColor: {
       type: String,
-      default: 'white',
+      default: '#c2e1ff',
     },
     color: {
       type: String,
-      default: '',
+      default: '#1976cc',
     },
     customStyle: {
       type: Object,

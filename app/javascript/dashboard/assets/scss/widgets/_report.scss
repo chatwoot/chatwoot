@@ -20,9 +20,28 @@
     color: $color-heading;
   }
 
+  .metric-wrap {
+    align-items: baseline;
+    display: flex;
+  }
+
   .metric {
-    font-size: $font-size-bigger;
+    font-size: $font-size-big;
     font-weight: $font-weight-feather;
+    margin-top: $space-smaller;
+  }
+
+  .metric-trend {
+    font-size: $font-size-small;
+    margin-left: $space-small;
+  }
+
+  .metric-up {
+    color: $success-color;
+  }
+
+  .metric-down {
+    color: $alert-color;
   }
 
   .desc {

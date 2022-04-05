@@ -21,6 +21,10 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import {
+  ON_CAMPAIGN_MESSAGE_CLICK,
+  ON_UNREAD_MESSAGE_CLICK,
+} from '../constants/widgetBusEvents';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
@@ -82,9 +86,9 @@ export default {
     },
     onClickMessage() {
       if (this.campaignId) {
-        bus.$emit('on-campaign-view-clicked', this.campaignId);
+        bus.$emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
       } else {
-        bus.$emit('on-unread-view-clicked');
+        bus.$emit(ON_UNREAD_MESSAGE_CLICK);
       }
     },
   },

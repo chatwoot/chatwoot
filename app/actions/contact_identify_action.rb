@@ -52,12 +52,11 @@ class ContactIdentifyAction
   end
 
   def update_contact
-    custom_attributes = params[:custom_attributes] ? @contact.custom_attributes.merge(params[:custom_attributes]) : @contact.custom_attributes
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.update!(params.slice(:name, :email, :identifier, :phone_number).reject do |_k, v|
                        v.blank?
-                     end.merge({ custom_attributes: custom_attributes }))
+                     end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes }))
     ContactAvatarJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
@@ -67,5 +66,17 @@ class ContactIdentifyAction
       base_contact: base_contact,
       mergee_contact: merge_contact
     ).perform
+  end
+
+  def custom_attributes
+    params[:custom_attributes] ? @contact.custom_attributes.deep_merge(params[:custom_attributes].stringify_keys) : @contact.custom_attributes
+  end
+
+  def additional_attributes
+    if params[:additional_attributes]
+      @contact.additional_attributes.deep_merge(params[:additional_attributes].stringify_keys)
+    else
+      @contact.additional_attributes
+    end
   end
 end

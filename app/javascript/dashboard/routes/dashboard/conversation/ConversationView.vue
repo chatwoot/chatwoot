@@ -5,6 +5,7 @@
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
+      :folders-id="foldersId"
       @conversation-load="onConversationLoad"
     >
       <pop-over-search />
@@ -54,6 +55,10 @@ export default {
       type: String,
       default: '',
     },
+    foldersId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data() {
     return {
@@ -75,7 +80,11 @@ export default {
       return false;
     },
   },
-
+  watch: {
+    conversationId() {
+      this.fetchConversationIfUnavailable();
+    },
+  },
   mounted() {
     this.$store.dispatch('agents/get');
     this.initialize();

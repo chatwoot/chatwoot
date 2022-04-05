@@ -24,11 +24,11 @@
         "ERROR": "Labels konnten nicht aktualisiert werden"
       },
       "CONVERSATION": {
-        "TITLE": "Konversationsetiketten",
+        "TITLE": "Konversationslabels",
         "ADD_BUTTON": "Label hinzufügen"
       },
       "LABEL_SELECT": {
-        "TITLE": "Label hinzufügen",
+        "TITLE": "Labels hinzufügen",
         "PLACEHOLDER": "Labels suchen",
         "NO_RESULT": "Keine Labels gefunden"
       }
@@ -36,7 +36,7 @@
     "MERGE_CONTACT": "Kontakte zusammenführen",
     "CONTACT_ACTIONS": "Kontakt-Aktionen",
     "MUTE_CONTACT": "Unterhaltung stummschalten",
-    "UNMUTE_CONTACT": "Unterhaltung entmuten",
+    "UNMUTE_CONTACT": "Unterhaltung entstummen",
     "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
     "UNMUTED_SUCCESS": "Diese Unterhaltung ist nicht mehr stumm geschaltet",
     "SEND_TRANSCRIPT": "Transkript senden",
@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
       "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
-      "PLACE_HOLDER": "Bitte geben Sie {contactName} zur Bestätigung ein",
-      "YES": "Ja, löschen ",
-      "NO": "Nein, behalten "
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalten"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
@@ -88,7 +87,7 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Speichern",
+      "SUBMIT": "Einreichen",
       "CANCEL": "Abbrechen",
       "AVATAR": {
         "LABEL": "Kontaktbild"
@@ -103,7 +102,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Geben Sie die E-Mail-Adresse des Kontakts ein",
-        "LABEL": "E-Mail-Addresse",
+        "LABEL": "E-Mail-Adresse",
         "DUPLICATE": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet."
       },
       "PHONE_NUMBER": {
@@ -114,7 +113,7 @@
         "DUPLICATE": "Diese Telefonnummer wird für einen anderen Kontakt verwendet."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
+        "PLACEHOLDER": "Standort des Kontakts eingeben",
         "LABEL": "Ort"
       },
       "COMPANY_NAME": {
@@ -135,7 +134,7 @@
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Gitub-Benutzernamen eingeben",
+          "PLACEHOLDER": "GitHub-Benutzernamen eingeben",
           "LABEL": "Github"
         }
       }
@@ -146,7 +145,7 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Gespräch starten",
     "TITLE": "Neue Unterhaltung",
-    "DESC": "Starte eine Unterhaltung mit einer neuen Nachricht",
+    "DESC": "Starten Sie eine neue Konversation, indem Sie eine neue Nachricht senden.",
     "NO_INBOX": "Konnte keinen Posteingang finden, um eine neue Unterhaltung mit diesem Kontakt zu starten.",
     "FORM": {
       "TO": {
@@ -169,6 +168,7 @@
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
+      "GO_TO_CONVERSATION": "Aussicht",
       "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
@@ -178,9 +178,11 @@
     "SEARCH_BUTTON": "Suchen",
     "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Filter speichern",
+    "FILTER_CONTACTS_DELETE": "Filter löschen",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
-      "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
+      "404": "Keine Kontakte entsprechen Ihrer Suche 🔍",
       "NO_CONTACTS": "Keine Kontakte verfügbar",
       "TABLE_HEADER": {
         "NAME": "Name",
@@ -189,9 +191,9 @@
         "LAST_ACTIVITY": "Letzte Aktivität",
         "COUNTRY": "Land",
         "CITY": "Stadt",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "Profile in sozialen Netzwerken",
         "COMPANY": "Firma",
-        "EMAIL_ADDRESS": "E-Mail-Addresse"
+        "EMAIL_ADDRESS": "E-Mail-Adresse"
       },
       "VIEW_DETAILS": "Details anzeigen"
     }
@@ -233,9 +235,9 @@
       "TITLE": "Aktivitäten"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_NOTES": "Notizen",
       "PILL_BUTTON_EVENTS": "Veranstaltungen",
-      "PILL_BUTTON_CONVO": "gespräche"
+      "PILL_BUTTON_CONVO": "Konversation"
     }
   },
   "CUSTOM_ATTRIBUTES": {
@@ -257,8 +259,8 @@
       "CANCEL": "Stornieren",
       "NAME": {
         "LABEL": "Benutzerdefinierter Attributname",
-        "PLACEHOLDER": "Bsp.: Shopify Id",
-        "ERROR": "Ungültiger eigener Attributname"
+        "PLACEHOLDER": "Beispiel: Shopify-ID",
+        "ERROR": "Ungültiger benutzerdefinierter Attributname"
       },
       "VALUE": {
         "LABEL": "Attributwert",

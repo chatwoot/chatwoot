@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmă ștergerea",
       "MESSAGE": "Sigur doriți să ștergeți ",
-      "PLACE_HOLDER": "Te rugăm să introduci {contactName} pentru a confirma",
-      "YES": "Da, șterge ",
-      "NO": "Nu, păstreaza"
+      "YES": "Da, șterge",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact șters cu succes",
@@ -169,6 +168,7 @@
       "SUBMIT": "Trimite mesaj",
       "CANCEL": "Renunță",
       "SUCCESS_MESSAGE": "Mesaj trimis!",
+      "GO_TO_CONVERSATION": "Vizualizare",
       "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
@@ -178,6 +178,8 @@
     "SEARCH_BUTTON": "Caută",
     "SEARCH_INPUT_PLACEHOLDER": "Caută contacte",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",

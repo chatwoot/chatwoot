@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecione uma conversa no painel da esquerda",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Não pode responder porque",
     "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a si. Gostaria de atribuir esta conversa a si mesmo?",
+    "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder, utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
     "SELECT_A_TWEET_TO_REPLY": "Para responder escolha por favor um tweet.",
@@ -41,9 +43,9 @@
       "OPEN": "MAIS",
       "CLOSE": "FECHAR",
       "DETAILS": "Detalhes",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até à próxima resposta"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Assinatura da mensagem",
+      "ENABLE_SIGN_TOOLTIP": "Habilitar assinatura",
+      "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
-      "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes"
+      "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Clique aqui para atualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar selecionador de emojis",
       "TIP_ATTACH_ICON": "Anexar ficheiros",
+      "TIP_AUDIORECORDER_ICON": "Gravar áudio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
+      "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
       "ENTER_TO_SEND": "Enter para enviar",
       "DRAG_DROP": "Arrastar e soltar aqui para anexar",
+      "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
+      "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adicionar bcc",
         "CC": {
@@ -88,8 +101,11 @@
     "CHANGE_AGENT": "Responsável da conversa alterado",
     "CHANGE_TEAM": "Equipa de conversação alterada",
     "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
+    "TRY_AGAIN": "tentar novamente",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Escolher Agente",
       "REMOVE": "Excluir",
@@ -127,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Convidar os membros da sua equipa",
-      "DESCRIPTION": "Já que se prepara para começar a conversar com o seu cliente, convide também os seus colegas para o ajudar. Pode adicionar colegas de equipa acrescentando o seu endereço de e-mail na lista de agentes.",
+      "DESCRIPTION": "Já que se prepara para começar a conversar com o seu cliente, convide também os seus colegas para o ajudar. Pode adicionar colegas de equipa acrescentando os seus endereço de e-mail na lista de agentes.",
       "NEW_LINK": "Clique aqui para convidar um membro para a equipa"
     },
     "INBOXES": {
@@ -149,36 +165,37 @@
       "PLACEHOLDER": "Nenhuma"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Detalhes do Contacto",
+      "CONVERSATION_ACTIONS": "Ações de Conversa",
       "CONVERSATION_LABELS": "Etiquetas da conversa",
       "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_ATTRIBUTES": "Atributos do Contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Criar atributo",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atributo atualizado com sucesso",
+      "ERROR": "Não foi possível atualizar o atributo. Por favor tente mais tarde"
     },
     "ADD": {
       "TITLE": "Adicionar",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "SUCCESS": "Atributo adicionado com sucesso",
+      "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Atributo apagado com sucesso",
+      "ERROR": "Não foi possível apagar o atributo. Por favor tente mais tarde"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Adicionar atributos",
+      "PLACEHOLDER": "Pesquisar atributos",
+      "NO_RESULT": "Nenhum atributo encontrado"
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "De",
     "TO": "Para",
     "BCC": "BCC",
     "CC": "Cc",

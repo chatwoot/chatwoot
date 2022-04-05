@@ -59,7 +59,56 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Применить",
       "PLACEHOLDER": "Выберите диапазон дат"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Группировать по",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      },
+      {
+        "id": 2,
+        "groupBy": "Неделя"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      },
+      {
+        "id": 2,
+        "groupBy": "Неделя"
+      },
+      {
+        "id": 3,
+        "groupBy": "Месяц"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "День"
+      },
+      {
+        "id": 2,
+        "groupBy": "Неделя"
+      },
+      {
+        "id": 3,
+        "groupBy": "Месяц"
+      },
+      {
+        "id": 4,
+        "groupBy": "Год"
+      }
+    ]
   },
   "AGENT_REPORTS": {
     "HEADER": "Обзор агентов",
@@ -316,6 +365,11 @@
   "CSAT_REPORTS": {
     "HEADER": "Отчёты CSAT",
     "NO_RECORDS": "Нет ответов на опрос CSAT.",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Выберите Операторов"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Контакт",

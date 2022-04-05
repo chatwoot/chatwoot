@@ -1,26 +1,51 @@
-l<template>
+<template>
   <div class="conversations-list-wrap">
     <slot></slot>
-    <div class="chat-list__top" :class="{ filter__applied: hasAppliedFilters }">
+    <div
+      class="chat-list__top"
+      :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
+    >
       <h1 class="page-title text-truncate" :title="pageTitle">
         {{ pageTitle }}
       </h1>
 
       <div class="filter--actions">
         <chat-filter
-          v-if="!hasAppliedFilters"
+          v-if="!hasAppliedFiltersOrActiveFolders"
           @statusFilterChange="updateStatusType"
         />
+        <div v-if="hasAppliedFilters && !hasActiveFolders">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="secondary"
+            icon="save"
+            @click="onClickOpenAddFoldersModal"
+          />
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="alert"
+            icon="dismiss-circle"
+            @click="resetAndFetchData"
+          />
+        </div>
+        <div v-if="hasActiveFolders">
+          <woot-button
+            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
+            size="tiny"
+            variant="smooth"
+            color-scheme="alert"
+            icon="delete"
+            class="delete-custom-view__button"
+            @click="onClickOpenDeleteFoldersModal"
+          />
+        </div>
+
         <woot-button
           v-else
-          size="small"
-          variant="clear"
-          color-scheme="alert"
-          @click="resetAndFetchData"
-        >
-          {{ $t('FILTER.CLEAR_BUTTON_LABEL') }}
-        </woot-button>
-        <woot-button
           v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
@@ -33,8 +58,24 @@ l<template>
       </div>
     </div>
 
+    <add-custom-views
+      v-if="showAddFoldersModal"
+      :custom-views-query="foldersQuery"
+      :open-last-saved-item="openLastSavedItemInFolder"
+      @close="onCloseAddFoldersModal"
+    />
+
+    <delete-custom-views
+      v-if="showDeleteFoldersModal"
+      :show-delete-popup.sync="showDeleteFoldersModal"
+      :active-custom-view="activeFolder"
+      :custom-views-id="foldersId"
+      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
+      @close="onCloseDeleteFoldersModal"
+    />
+
     <chat-type-tabs
-      v-if="!hasAppliedFilters"
+      v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       class="tab--chat-type"
@@ -51,6 +92,7 @@ l<template>
         :key="chat.id"
         :active-label="label"
         :team-id="teamId"
+        :folders-id="foldersId"
         :chat="chat"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
@@ -87,7 +129,7 @@ l<template>
     >
       <conversation-advanced-filter
         v-if="showAdvancedFilters"
-        :filter-types="advancedFilterTypes"
+        :initial-filter-types="advancedFilterTypes"
         :on-close="onToggleAdvanceFiltersModal"
         @applyFilter="onApplyFilter"
       />
@@ -108,6 +150,8 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
+import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 
 import {
   hasPressedAltAndJKey,
@@ -116,10 +160,12 @@ import {
 
 export default {
   components: {
+    AddCustomViews,
     ChatTypeTabs,
     ConversationCard,
     ChatFilter,
     ConversationAdvancedFilter,
+    DeleteCustomViews,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -139,6 +185,10 @@ export default {
       type: String,
       default: '',
     },
+    foldersId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data() {
     return {
@@ -149,6 +199,9 @@ export default {
         ...filter,
         attributeName: this.$t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
       })),
+      foldersQuery: {},
+      showAddFoldersModal: false,
+      showDeleteFoldersModal: false,
     };
   },
   computed: {
@@ -163,9 +216,23 @@ export default {
       activeInbox: 'getSelectedInbox',
       conversationStats: 'conversationStats/getStats',
       appliedFilters: 'getAppliedConversationFilters',
+      folders: 'customViews/getCustomViews',
     }),
     hasAppliedFilters() {
-      return this.appliedFilters.length;
+      return this.appliedFilters.length !== 0;
+    },
+    hasActiveFolders() {
+      return this.activeFolder && this.foldersId !== 0;
+    },
+    hasAppliedFiltersOrActiveFolders() {
+      return this.hasAppliedFilters || this.hasActiveFolders;
+    },
+    savedFoldersValue() {
+      if (this.hasActiveFolders) {
+        const payload = this.activeFolder.query;
+        this.fetchSavedFilteredConversations(payload);
+      }
+      return {};
     },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
@@ -178,7 +245,10 @@ export default {
       });
     },
     showAssigneeInConversationCard() {
-      return this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL;
+      return (
+        this.hasAppliedFiltersOrActiveFolders ||
+        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
+      );
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
@@ -189,7 +259,9 @@ export default {
       );
     },
     currentPageFilterKey() {
-      return this.hasAppliedFilters ? 'appliedFilters' : this.activeAssigneeTab;
+      return this.hasAppliedFiltersOrActiveFolders
+        ? 'appliedFilters'
+        : this.activeAssigneeTab;
     },
     currentFiltersPage() {
       return this.$store.getters['conversationPage/getCurrentPageFilter'](
@@ -212,6 +284,7 @@ export default {
         conversationType: this.conversationType
           ? this.conversationType
           : undefined,
+        folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
     },
     pageTitle() {
@@ -227,11 +300,14 @@ export default {
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
+      if (this.hasActiveFolders) {
+        return this.activeFolder.name;
+      }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
     conversationList() {
       let conversationList = [];
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFiltersOrActiveFolders) {
         const filters = this.conversationFilters;
         if (this.activeAssigneeTab === 'me') {
           conversationList = [...this.mineChatsList(filters)];
@@ -245,6 +321,16 @@ export default {
       }
 
       return conversationList;
+    },
+    activeFolder() {
+      if (this.foldersId) {
+        const activeView = this.folders.filter(
+          view => view.id === Number(this.foldersId)
+        );
+        const [firstValue] = activeView;
+        return firstValue;
+      }
+      return undefined;
     },
     activeTeam() {
       if (this.teamId) {
@@ -266,6 +352,11 @@ export default {
     conversationType() {
       this.resetAndFetchData();
     },
+    activeFolder() {
+      if (!this.hasAppliedFilters) {
+        this.resetAndFetchData();
+      }
+    },
   },
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
@@ -280,9 +371,22 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
+      this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.fetchFilteredConversations(payload);
+    },
+    onClickOpenAddFoldersModal() {
+      this.showAddFoldersModal = true;
+    },
+    onCloseAddFoldersModal() {
+      this.showAddFoldersModal = false;
+    },
+    onClickOpenDeleteFoldersModal() {
+      this.showDeleteFoldersModal = true;
+    },
+    onCloseDeleteFoldersModal() {
+      this.showDeleteFoldersModal = false;
     },
     onToggleAdvanceFiltersModal() {
       this.showAdvancedFilters = !this.showAdvancedFilters;
@@ -335,6 +439,13 @@ export default {
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
+      if (this.hasActiveFolders) {
+        const payload = this.activeFolder.query;
+        this.fetchSavedFilteredConversations(payload);
+      }
+      if (this.foldersId) {
+        return;
+      }
       this.fetchConversations();
     },
     fetchConversations() {
@@ -343,9 +454,14 @@ export default {
         .then(() => this.$emit('conversation-load'));
     },
     loadMoreConversations() {
-      if (!this.hasAppliedFilters) {
+      if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
-      } else {
+      }
+      if (this.hasActiveFolders) {
+        const payload = this.activeFolder.query;
+        this.fetchSavedFilteredConversations(payload);
+      }
+      if (this.hasAppliedFilters) {
         this.fetchFilteredConversations(this.appliedFilters);
       }
     },
@@ -358,6 +474,15 @@ export default {
         })
         .then(() => this.$emit('conversation-load'));
       this.showAdvancedFilters = false;
+    },
+    fetchSavedFilteredConversations(payload) {
+      let page = this.currentFiltersPage + 1;
+      this.$store
+        .dispatch('fetchFilteredConversations', {
+          queryData: payload,
+          page,
+        })
+        .then(() => this.$emit('conversation-load'));
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
@@ -372,6 +497,22 @@ export default {
       if (this.activeStatus !== index) {
         this.activeStatus = index;
         this.resetAndFetchData();
+      }
+    },
+    openLastSavedItemInFolder() {
+      const lastItemOfFolder = this.folders[this.folders.length - 1];
+      const lastItemId = lastItemOfFolder.id;
+      this.$router.push({
+        name: 'folder_conversations',
+        params: { id: lastItemId },
+      });
+    },
+    openLastItemAfterDeleteInFolder() {
+      if (this.folders.length > 0) {
+        this.openLastSavedItemInFolder();
+      } else {
+        this.$router.push({ name: 'home' });
+        this.fetchConversations();
       }
     },
   },
@@ -413,7 +554,11 @@ export default {
 }
 
 .filter__applied {
-  padding: var(--space-slab) 0 !important;
+  padding: 0 0 var(--space-slab) 0 !important;
   border-bottom: 1px solid var(--color-border);
+}
+
+.delete-custom-view__button {
+  margin-right: var(--space-normal);
 }
 </style>

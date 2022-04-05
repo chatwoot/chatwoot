@@ -30,7 +30,7 @@ export default {
     },
     value: {
       type: Date,
-      default: () => [],
+      default: [],
     },
   },
 

@@ -30,6 +30,25 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
 
+      it 'calls ChatwootCaptcha' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          captcha = double
+          allow(account_builder).to receive(:perform).and_return([user, account])
+          allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
+          allow(captcha).to receive(:valid?).and_return(true)
+
+          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!',
+                     h_captcha_client_response: '123' }
+
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(ChatwootCaptcha).to have_received(:new).with('123')
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
+      end
+
       it 'renders error response on invalid params' do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)
@@ -157,6 +176,19 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
         expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
+      end
+
+      it 'Throws error 422' do
+        params[:name] = 'test' * 999
+
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
     end
   end

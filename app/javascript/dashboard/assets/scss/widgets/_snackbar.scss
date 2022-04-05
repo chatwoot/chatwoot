@@ -15,7 +15,7 @@
   @include shadow;
   background-color: $woot-snackbar-bg;
   border-radius: $space-smaller;
-  display: inline-block;
+  display: inline-flex;
   margin-bottom: $space-small;
   max-width: 40rem;
   min-height: 3rem;

@@ -14,27 +14,11 @@
       :inboxes="inboxes"
       :labels="labels"
       :teams="teams"
+      :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
     />
-    <woot-key-shortcut-modal
-      v-if="showShortcutModal"
-      @close="closeKeyShortcutModal"
-      @clickaway="closeKeyShortcutModal"
-    />
-    <account-selector
-      :show-account-modal="showAccountModal"
-      @close-account-modal="toggleAccountModal"
-      @show-create-account-modal="openCreateAccountModal"
-    />
-    <add-account-modal
-      :show="showCreateAccountModal"
-      @close-account-create-modal="closeCreateAccountModal"
-    />
-    <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
-      <add-label-modal @close="hideAddLabelPopup" />
-    </woot-modal>
   </aside>
 </template>
 
@@ -45,12 +29,8 @@ import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import AccountSelector from './sidebarComponents/AccountSelector.vue';
-import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
-import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import PrimarySidebar from './sidebarComponents/Primary';
 import SecondarySidebar from './sidebarComponents/Secondary';
-import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import {
   hasPressedAltAndCKey,
   hasPressedAltAndRKey,
@@ -64,21 +44,13 @@ import router from '../../routes';
 
 export default {
   components: {
-    AccountSelector,
-    AddAccountModal,
-    AddLabelModal,
     PrimarySidebar,
     SecondarySidebar,
-    WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
   data() {
     return {
       showOptionsMenu: false,
-      showAccountModal: false,
-      showCreateAccountModal: false,
-      showAddLabelModal: false,
-      showShortcutModal: false,
     };
   },
 
@@ -92,6 +64,26 @@ export default {
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
+    activeCustomView() {
+      if (this.activePrimaryMenu.key === 'contacts') {
+        return 'contact';
+      }
+      if (this.activePrimaryMenu.key === 'conversations') {
+        return 'conversation';
+      }
+      return '';
+    },
+    customViews() {
+      return this.$store.getters['customViews/getCustomViewsByFilterType'](
+        this.activeCustomView
+      );
+    },
+    isConversationOrContactActive() {
+      return (
+        this.activePrimaryMenu.key === 'contacts' ||
+        this.activePrimaryMenu.key === 'conversations'
+      );
+    },
     sideMenuConfig() {
       return getSidebarItems(this.accountId);
     },
@@ -119,20 +111,32 @@ export default {
       return activePrimaryMenu;
     },
   },
+
+  watch: {
+    activeCustomView() {
+      this.fetchCustomViews();
+    },
+  },
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.$store.dispatch('attributes/get');
+    this.fetchCustomViews();
   },
 
   methods: {
+    fetchCustomViews() {
+      if (this.isConversationOrContactActive) {
+        this.$store.dispatch('customViews/get', this.activeCustomView);
+      }
+    },
     toggleKeyShortcutModal() {
-      this.showShortcutModal = true;
+      this.$emit('open-key-shortcut-modal');
     },
     closeKeyShortcutModal() {
-      this.showShortcutModal = false;
+      this.$emit('close-key-shortcut-modal');
     },
     handleKeyEvents(e) {
       if (hasPressedCommandAndForwardSlash(e)) {
@@ -167,20 +171,10 @@ export default {
       window.$chatwoot.toggle();
     },
     toggleAccountModal() {
-      this.showAccountModal = !this.showAccountModal;
-    },
-    openCreateAccountModal() {
-      this.showAccountModal = false;
-      this.showCreateAccountModal = true;
-    },
-    closeCreateAccountModal() {
-      this.showCreateAccountModal = false;
+      this.$emit('toggle-account-modal');
     },
     showAddLabelPopup() {
-      this.showAddLabelModal = true;
-    },
-    hideAddLabelPopup() {
-      this.showAddLabelModal = false;
+      this.$emit('show-add-label-popup');
     },
   },
 };
@@ -190,6 +184,8 @@ export default {
 .woot-sidebar {
   background: var(--white);
   display: flex;
+  min-height: 0;
+  height: 100%;
 }
 </style>
 

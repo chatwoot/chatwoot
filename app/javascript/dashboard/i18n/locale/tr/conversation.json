@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Loading Conversations\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
-      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir"
+      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Cevapla",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
+      "TIP_AUDIORECORDER_ICON": "Ses kaydet",
+      "TIP_AUDIORECORDER_PERMISSION": "Mikrofon erişimine izin ver",
+      "TIP_AUDIORECORDER_ERROR": "Mikrofon açılamadı",
       "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Ses kaydetmeye başla",
+      "STOP_AUDIO_RECORDING": "Ses kaydetmeyi durdur",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Tarafından gönderildi:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
@@ -127,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -173,12 +189,13 @@
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
+      "TITLE": "Özellik ekle",
       "PLACEHOLDER": "Search attributes",
       "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "ya",
     "BCC": "Bcc",
     "CC": "Cc",

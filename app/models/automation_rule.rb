@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  actions     :jsonb            not null
+#  active      :boolean          default(TRUE), not null
 #  conditions  :jsonb            not null
 #  description :text
 #  event_name  :string           not null
@@ -19,9 +20,11 @@
 class AutomationRule < ApplicationRecord
   belongs_to :account
 
-  validates :account, presence: true
   validate :json_conditions_format
   validate :json_actions_format
+  validates :account_id, presence: true
+
+  scope :active, -> { where(active: true) }
 
   CONDITIONS_ATTRS = %w[country_code status browser_language assignee_id team_id referer].freeze
   ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents].freeze

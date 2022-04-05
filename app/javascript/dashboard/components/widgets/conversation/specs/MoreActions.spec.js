@@ -84,7 +84,8 @@ describe('MoveActions', () => {
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
-        'This conversation is muted for 6 hours'
+        'This conversation is muted for 6 hours',
+        undefined
       );
     });
   });
@@ -109,7 +110,8 @@ describe('MoveActions', () => {
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
-        'This conversation is unmuted'
+        'This conversation is unmuted',
+        undefined
       );
     });
   });

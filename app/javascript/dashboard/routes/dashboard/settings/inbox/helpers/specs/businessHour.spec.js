@@ -40,6 +40,7 @@ describe('#timeSlotParse', () => {
       close_hour: 4,
       close_minutes: 30,
       closed_all_day: false,
+      open_all_day: false,
     };
 
     expect(timeSlotParse([slot])).toStrictEqual([
@@ -48,6 +49,7 @@ describe('#timeSlotParse', () => {
         from: '01:30 AM',
         to: '04:30 AM',
         valid: true,
+        openAllDay: false,
       },
     ]);
   });
@@ -60,6 +62,7 @@ describe('#timeSlotTransform', () => {
       from: '01:30 AM',
       to: '04:30 AM',
       valid: true,
+      openAllDay: false,
     };
 
     expect(timeSlotTransform([slot])).toStrictEqual([
@@ -70,6 +73,7 @@ describe('#timeSlotTransform', () => {
         close_hour: 4,
         close_minutes: 30,
         closed_all_day: false,
+        open_all_day: false,
       },
     ]);
   });

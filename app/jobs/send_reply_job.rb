@@ -6,19 +6,20 @@ class SendReplyJob < ApplicationJob
     conversation = message.conversation
     channel_name = conversation.inbox.channel.class.to_s
 
+    services = {
+      'Channel::TwitterProfile' => ::Twitter::SendOnTwitterService,
+      'Channel::TwilioSms' => ::Twilio::SendOnTwilioService,
+      'Channel::Line' => ::Line::SendOnLineService,
+      'Channel::Telegram' => ::Telegram::SendOnTelegramService,
+      'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
+      'Channel::Sms' => ::Sms::SendOnSmsService
+    }
+
     case channel_name
     when 'Channel::FacebookPage'
       send_on_facebook_page(message)
-    when 'Channel::TwitterProfile'
-      ::Twitter::SendOnTwitterService.new(message: message).perform
-    when 'Channel::TwilioSms'
-      ::Twilio::SendOnTwilioService.new(message: message).perform
-    when 'Channel::Line'
-      ::Line::SendOnLineService.new(message: message).perform
-    when 'Channel::Telegram'
-      ::Telegram::SendOnTelegramService.new(message: message).perform
-    when 'Channel::Whatsapp'
-      ::Whatsapp::SendOnWhatsappService.new(message: message).perform
+    else
+      services[channel_name].new(message: message).perform if services[channel_name].present?
     end
   end
 

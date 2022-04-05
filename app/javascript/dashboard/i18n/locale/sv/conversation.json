@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Laddar konversationer",
     "CANNOT_REPLY": "Du kan inte svara på grund av",
     "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan bara svara på denna konversation med ett mallmeddelande på grund av",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
     "SELECT_A_TWEET_TO_REPLY": "Välj en tweet att svara på.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
-      "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter"
+      "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Svara",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "Visa textformaterare",
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter för att skicka",
       "DRAG_DROP": "Dra och släpp hit för att bifoga",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Lägg till bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Välj agent",
       "REMOVE": "Radera",
@@ -127,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Bjud in dina teammedlemmar",
-      "DESCRIPTION": "Eftersom du är redo att prata med din kund, ta in dina lagkamrater för att hjälpa dig. Du kan bjuda in dina lagkamrater genom att lägga till deras e-postadress i agentlistan.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -179,6 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "Till",
     "BCC": "Bcc",
     "CC": "Cc",

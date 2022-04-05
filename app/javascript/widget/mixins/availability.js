@@ -31,8 +31,11 @@ export default {
         closeHour,
         closeMinute,
         closedAllDay,
+        openAllDay,
       } = this.currentDayAvailability;
       const { utcOffset } = this.channelConfig;
+
+      if (openAllDay) return true;
 
       if (closedAllDay) return false;
 
@@ -56,6 +59,7 @@ export default {
         openMinute: workingHourConfig.open_minutes,
         closeHour: workingHourConfig.close_hour,
         closeMinute: workingHourConfig.close_minutes,
+        openAllDay: workingHourConfig.open_all_day,
       };
     },
     isInBusinessHours() {

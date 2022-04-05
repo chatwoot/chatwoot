@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
-      "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják"
+      "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Válasz",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
       "TIP_EMOJI_ICON": "Emoji választó mutatása",
       "TIP_ATTACH_ICON": "Fileok csatolása",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter-rel elküld",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Küldő:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Ügynök kiválasztása",
       "REMOVE": "Eltávolítás",
@@ -127,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Hívd meg csapattagjaidat",
-      "DESCRIPTION": "Mivel éppen ügyféllel készülsz beszélni, hívd meg a csapattagjaidat, hogy segítségül legyenek. Az e-mailcímük ügynöklistába való megadásával tudod meghívni őket.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kattints ide csapattag meghívásához"
     },
     "INBOXES": {
@@ -164,7 +180,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
-      "TITLE": "Add",
+      "TITLE": "Hozzáadás",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to add attribute. Please try again later"
     },
@@ -179,7 +195,8 @@
     }
   },
   "EMAIL_HEADER": {
-    "TO": "To",
+    "FROM": "From",
+    "TO": "Ide",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"

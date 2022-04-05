@@ -40,6 +40,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
 
+          resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
 
@@ -52,7 +53,9 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, only: [:create, :index]
+          resources :automation_rules, except: [:edit] do
+            post :clone
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
           namespace :channels do
@@ -68,6 +71,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :direct_uploads, only: [:create]
             end
             member do
               post :mute
@@ -176,6 +180,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -185,6 +190,7 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            get  :toggle_status
           end
         end
         resource :contact, only: [:show, :update] do
@@ -269,6 +275,7 @@ Rails.application.routes.draw do
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
@@ -301,14 +308,13 @@ Rails.application.routes.draw do
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
-      resources :super_admins
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
-      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

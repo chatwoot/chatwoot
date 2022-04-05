@@ -1,7 +1,7 @@
 require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
-  def initialize(rule, conversation)
+  def initialize(rule, conversation = nil)
     super([], nil)
     @rule = rule
     @conversation = conversation
@@ -10,6 +10,42 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def perform
+    conversation_filters = @filters['conversations']
+
+    @rule.conditions.each_with_index do |query_hash, current_index|
+      current_filter = conversation_filters[query_hash['attribute_key']]
+      @query_string += conversation_query_string(current_filter, query_hash.with_indifferent_access, current_index)
+    end
+
+    records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
+    records.any?
+  end
+
+  def message_conditions
+    message_filters = @filters['messages']
+
+    @rule.conditions.each_with_index do |query_hash, current_index|
+      current_filter = message_filters[query_hash['attribute_key']]
+      @query_string += message_query_string(current_filter, query_hash.with_indifferent_access, current_index)
+    end
+    records = Message.where(conversation: @conversation).where(@query_string, @filter_values.with_indifferent_access)
+    records.any?
+  end
+
+  def message_query_string(current_filter, query_hash, current_index)
+    attribute_key = query_hash['attribute_key']
+    query_operator = query_hash['query_operator']
+
+    filter_operator_value = filter_operation(query_hash, current_index)
+
+    case current_filter['attribute_type']
+    when 'standard'
+      " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
+    end
+  end
+
+  # This will be used in future for contact automation rule
+  def contact_conditions(_contact)
     conversation_filters = @filters['conversations']
 
     @rule.conditions.each_with_index do |query_hash, current_index|
@@ -40,6 +76,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def base_relation
-    Conversation.where(id: @conversation)
+    Conversation.where(id: @conversation.id)
   end
 end
