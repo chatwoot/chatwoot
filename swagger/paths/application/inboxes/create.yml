@@ -1,6 +1,6 @@
 post:
   tags:
-    - Inbox
+    - Inboxes
   operationId: inboxCreation
   summary: Create an inbox
   description: You can create more than one website inbox in each account
