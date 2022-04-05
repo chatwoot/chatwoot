@@ -1,5 +1,5 @@
 tags:
-  - Custom Attribute
+  - Custom Attributes
 operationId: get-account-custom-attribute
 summary: List all custom attributes in an account
 parameters:

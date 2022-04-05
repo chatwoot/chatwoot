@@ -1502,7 +1502,7 @@
       ],
       "get": {
         "tags": [
-          "Custom Attribute"
+          "Custom Attributes"
         ],
         "operationId": "get-account-custom-attribute",
         "summary": "List all custom attributes in an account",
@@ -1545,7 +1545,7 @@
       },
       "post": {
         "tags": [
-          "Custom Attribute"
+          "Custom Attributes"
         ],
         "operationId": "add-new-custom-attribute-to-account",
         "summary": "Add a new custom attribute",
@@ -1588,7 +1588,7 @@
       ],
       "get": {
         "tags": [
-          "Custom Attribute"
+          "Custom Attributes"
         ],
         "operationId": "get-details-of-a-single-custom-attribute",
         "summary": "Get a custom attribute details",
@@ -1610,7 +1610,7 @@
       },
       "patch": {
         "tags": [
-          "Custom Attribute"
+          "Custom Attributes"
         ],
         "operationId": "update-custom-attribute-in-account",
         "summary": "Update custom attribute in Account",
@@ -1656,7 +1656,7 @@
       },
       "delete": {
         "tags": [
-          "Custom Attribute"
+          "Custom Attributes"
         ],
         "operationId": "delete-custom-attribute-from-account",
         "summary": "Remove a custom attribute from account",
@@ -5500,7 +5500,7 @@
         "Teams",
         "Custom Filter",
         "Reports",
-        "Custom Attribute"
+        "Custom Attributes"
       ]
     },
     {
