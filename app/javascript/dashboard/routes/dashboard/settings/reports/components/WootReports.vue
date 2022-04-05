@@ -59,6 +59,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { GROUP_BY_FILTER, METRIC_CHART } from '../constants';
 import reportMixin from '../../../../../mixins/reportMixin';
+import { formatTime } from '@chatwoot/utils';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -169,8 +170,21 @@ export default {
       };
     },
     chartOptions() {
+      let tooltips = {};
+      if (this.isAverageMetricType(this.metrics[this.currentSelection].KEY)) {
+        tooltips.callbacks = {
+          label: tooltipItem => {
+            return `${this.metrics[this.currentSelection].NAME} is ${formatTime(
+              tooltipItem.yLabel
+            )} based on ${this.accountReport.data[tooltipItem.index].count} ${
+              this.metrics[0].NAME
+            }`;
+          },
+        };
+      }
       return {
         scales: METRIC_CHART[this.metrics[this.currentSelection].KEY].scales,
+        tooltips: tooltips,
       };
     },
     metrics() {
