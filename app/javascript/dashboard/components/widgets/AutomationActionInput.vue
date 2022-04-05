@@ -18,7 +18,7 @@
           {{ attribute.label }}
         </option>
       </select>
-      <div class="filter__answer--wrap">
+      <div v-if="showActionInput" class="filter__answer--wrap">
         <div v-if="inputType">
           <div
             v-if="inputType === 'multi_select'"
@@ -88,6 +88,10 @@ export default {
     v: {
       type: Object,
       default: () => null,
+    },
+    showActionInput: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
