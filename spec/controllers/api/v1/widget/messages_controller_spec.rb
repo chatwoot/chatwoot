@@ -9,8 +9,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
 
-  before do
-    2.times.each { create(:message, account: account, inbox: web_widget.inbox, conversation: conversation) }
+  before do |example|
+    2.times.each { create(:message, account: account, inbox: web_widget.inbox, conversation: conversation) } unless example.metadata[:skip_before]
   end
 
   describe 'GET /api/v1/widget/messages' do
@@ -25,6 +25,18 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         json_response = JSON.parse(response.body)
         # 2 messages created + 2 messages by the email hook
         expect(json_response['payload'].length).to eq(4)
+        expect(json_response['meta']).not_to be_empty
+      end
+
+      it 'returns empty messages', :skip_before do
+        get api_v1_widget_messages_url,
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload'].length).to eq(0)
       end
     end
   end
