@@ -225,3 +225,15 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+::v-deep .wrapper[data-type='checkbox'] {
+  .formulate-input-wrapper {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-left: 0.2rem;
+    }
+  }
+}
+</style>
