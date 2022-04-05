@@ -33,7 +33,7 @@ class MailPresenter < SimpleDelegator
   # encodes mail raw body if mail.content_type is plain/text
   # encodes mail raw body if mail.content_type is html/text
   def text_html_mail(mail_part)
-    decoded = mail_part&.decoded || @mail.body&.decoded
+    decoded = mail_part&.decoded || @mail.decoded
     encoded = encode_to_unicode(decoded)
 
     encoded if html_mail_body? || text_mail_body?
