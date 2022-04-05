@@ -3,7 +3,7 @@ parameters:
 
 get:
   tags:
-    - Conversation
+    - Conversations
   operationId: conversationList
   description: List all the conversations with pagination
   summary: Conversations List
@@ -43,7 +43,7 @@ get:
 
 post:
   tags:
-    - Conversation
+    - Conversations
   operationId: newConversation
   summary: Create New Conversation
   description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations"

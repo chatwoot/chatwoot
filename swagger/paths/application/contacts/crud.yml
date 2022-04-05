@@ -8,7 +8,7 @@ parameters:
 
 get:
   tags:
-    - Contact
+    - Contacts
   operationId: contactDetails
   summary: Show Contact
   description: Get a contact belonging to the account using ID
@@ -24,7 +24,7 @@ get:
 
 put:
   tags:
-    - Contact
+    - Contacts
   operationId: contactUpdate
   summary: Update Contact
   description: Update a contact belonging to the account using ID
@@ -46,7 +46,7 @@ put:
 
 delete:
   tags:
-    - Contact
+    - Contacts
   operationId: contactDelete
   summary: Delete Contact
   responses:
