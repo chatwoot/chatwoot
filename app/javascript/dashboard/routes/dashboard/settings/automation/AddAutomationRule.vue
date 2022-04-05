@@ -100,6 +100,9 @@
               :dropdown-values="
                 getActionDropdownValues(automation.actions[i].action_name)
               "
+              :show-action-input="
+                showActionInput(automation.actions[i].action_name)
+              "
               :v="$v.automation.actions.$each[i]"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
@@ -413,14 +416,15 @@ export default {
     submitAutomation() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.automation.conditions[
-        this.automation.conditions.length - 1
+      const automation = JSON.parse(JSON.stringify(this.automation));
+      automation.conditions[
+        automation.conditions.length - 1
       ].query_operator = null;
-      this.automation.conditions = filterQueryGenerator(
-        this.automation.conditions
+      automation.conditions = filterQueryGenerator(
+        automation.conditions
       ).payload;
-      this.automation.actions = actionQueryGenerator(this.automation.actions);
-      this.$emit('saveAutomation', this.automation);
+      automation.actions = actionQueryGenerator(automation.actions);
+      this.$emit('saveAutomation', automation);
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
@@ -436,6 +440,13 @@ export default {
     showUserInput(operatorType) {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
         return false;
+      return true;
+    },
+    showActionInput(actionName) {
+      const type = AUTOMATION_ACTION_TYPES.find(
+        action => action.key === actionName
+      ).inputType;
+      if (type === null) return false;
       return true;
     },
   },
