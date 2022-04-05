@@ -4,6 +4,13 @@
     class="flex flex-1 flex-col p-6 overflow-y-auto"
     @submit="onSubmit"
   >
+    <div
+      v-if="shouldShowHeaderMessage"
+      class="mb-4 text-sm leading-5"
+      :class="$dm('text-black-800', 'dark:text-slate-50')"
+    >
+      {{ headerMessage }}
+    </div>
     <FormulateInput
       v-for="item in enabledPreChatFields"
       :key="item.name"
