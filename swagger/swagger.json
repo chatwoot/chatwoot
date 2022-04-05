@@ -4066,7 +4066,7 @@
           "description": "Attribute values"
         },
         "default_value": {
-          "type": "array",
+          "type": "string",
           "description": "Attribute default value"
         },
         "attribute_model": {
