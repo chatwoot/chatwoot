@@ -21,24 +21,6 @@ Vue.use(VueFormulate, {
   },
   classes: {
     outer: 'mb-4 wrapper',
-    input(context) {
-      const { hasErrors, classification, type } = context;
-      if (classification === 'box' && type === 'checkbox') {
-        return '';
-      }
-      if (!hasErrors) {
-        return 'mt-2 border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none border-black-200 hover:border-black-300 focus:border-black-300';
-      }
-
-      return 'mt-2 border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none border-red-200 hover:border-red-300 focus:border-red-300';
-    },
-    label(context) {
-      const { hasErrors } = context;
-      if (!hasErrors) {
-        return 'text-xs font-medium text-black-800';
-      }
-      return 'text-xs font-medium text-red-400';
-    },
     error: 'text-red-400 mt-2 text-xs font-medium',
   },
 });

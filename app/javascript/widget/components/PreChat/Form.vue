@@ -13,6 +13,8 @@
       :placeholder="getPlaceHolder(item)"
       :validation="getValidation(item)"
       :options="getOptions(item)"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
       :validation-messages="{
         isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
@@ -23,6 +25,8 @@
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
       validation="required"
@@ -136,6 +140,23 @@ export default {
     },
   },
   methods: {
+    labelClass(context) {
+      const { hasErrors } = context;
+      if (!hasErrors) {
+        return 'text-xs font-medium text-black-800';
+      }
+      return 'text-xs font-medium text-red-400';
+    },
+    inputClass(context) {
+      const { hasErrors, classification, type } = context;
+      if (classification === 'box' && type === 'checkbox') {
+        return '';
+      }
+      if (!hasErrors) {
+        return 'mt-2 border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none border-black-200 hover:border-black-300 focus:border-black-300';
+      }
+      return 'mt-2 border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none border-red-200 hover:border-red-300 focus:border-red-300';
+    },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
