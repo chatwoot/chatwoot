@@ -21,7 +21,7 @@ class SupportMailbox < ApplicationMailbox
   private
 
   def find_channel
-    find_channel_with_cc_mail if @channel.blank?
+    find_channel_with_to_mail if @channel.blank?
     find_channel_with_cc_mail if @channel.blank?
 
     raise 'Email channel/inbox not found' if @channel.nil?
