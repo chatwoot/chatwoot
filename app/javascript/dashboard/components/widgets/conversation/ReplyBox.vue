@@ -478,7 +478,10 @@ export default {
       if (isEscape(e)) {
         this.hideEmojiPicker();
         this.hideMentions();
-      } else if (!this.isCmdPlusEnterToSendMessage && isEnter(e)) {
+      } else if (
+        (!this.isCmdPlusEnterToSendMessage || !this.showRichContentEditor) &&
+        isEnter(e)
+      ) {
         const hasSendOnEnterEnabled =
           (this.showRichContentEditor &&
             this.enableKeypressToSendMessage &&

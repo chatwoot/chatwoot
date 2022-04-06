@@ -276,7 +276,8 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     isCmdPlusEnterToSendMessage() {
-      return this.uiSettings.enable_cmd_plus_enter;
+      const { enable_cmd_plus_enter: isEnabled } = this.uiSettings;
+      return isEnabled;
     },
   },
   mounted() {
