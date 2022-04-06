@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Возможности",
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
-      "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете"
+      "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
+      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт",
