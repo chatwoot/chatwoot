@@ -69,6 +69,27 @@
         </div>
       </div>
     </form>
+    <div class="profile--settings--row row">
+      <div class="columns small-3">
+        <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
+        </p>
+      </div>
+      <div class="columns small-9 medium-5">
+        <input
+          id="enable_cmd_plus_enter_to_send_message"
+          :checked="enableCmdPlusEnter"
+          type="checkbox"
+          @input="toggleCmdPlusEnter"
+        />
+        <label for="enable_cmd_plus_enter_to_send_message">
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.OPTION') }}
+        </label>
+      </div>
+    </div>
     <message-signature />
     <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
@@ -102,6 +123,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword';
 import MessageSignature from './MessageSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -109,7 +131,7 @@ export default {
     ChangePassword,
     MessageSignature,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
     return {
       avatarFile: '',
@@ -138,6 +160,12 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    enableCmdPlusEnter() {
+      const {
+        enable_cmd_plus_enter: enableCmdPlusEntertoSend,
+      } = this.uiSettings;
+      return enableCmdPlusEntertoSend;
+    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -206,6 +234,14 @@ export default {
     },
     showDeleteButton() {
       return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
+    },
+    toggleCmdPlusEnter() {
+      this.updateUISettings({
+        enable_cmd_plus_enter: !this.enableCmdPlusEnter,
+      });
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+      );
     },
   },
 };

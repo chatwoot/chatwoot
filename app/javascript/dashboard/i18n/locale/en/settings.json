@@ -19,11 +19,17 @@
         "TITLE": "Profile",
         "NOTE": "Your email address is your identity and is used to log in."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Send Message",
+        "NOTE": "By enabling this feature, you can send message by pressing command + enter instead of clicking send button.",
+        "OPTION": "Command + Enter to send message",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully"
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Save message signature",
-        "API_ERROR":"Couldn't save signature! Try again",
+        "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully"
       },
       "MESSAGE_SIGNATURE": {

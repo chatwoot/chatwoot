@@ -110,9 +110,9 @@
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
-      :enter-to-send-enabled="enterToSendEnabled"
+      :enable-keyboard-to-send-message="enableKeyboardToSendMessage"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      @toggleEnterToSend="toggleEnterToSend"
+      @toggleKeyboardToSend="toggleKeyboardToSend"
     />
   </div>
 </template>
@@ -139,9 +139,11 @@ import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import {
-  isEscape,
   isEnter,
+  isEscape,
   hasPressedShift,
+  hasPressedCommand,
+  hasPressedCommandAndEnter,
   hasPressedCommandPlusKKey,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -257,8 +259,8 @@ export default {
       return false;
     },
 
-    enterToSendEnabled() {
-      return !!this.uiSettings.enter_to_send_enabled;
+    enableKeyboardToSendMessage() {
+      return !!this.uiSettings.enabled_keyshortcut_to_send_message;
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsappChannel) {
@@ -406,6 +408,9 @@ export default {
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
+    isCmdPlusEnterToSendMessage() {
+      return this.uiSettings.enable_cmd_plus_enter;
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -473,15 +478,39 @@ export default {
       if (isEscape(e)) {
         this.hideEmojiPicker();
         this.hideMentions();
-      } else if (isEnter(e)) {
+      } else if (!this.isCmdPlusEnterToSendMessage && isEnter(e)) {
         const hasSendOnEnterEnabled =
           (this.showRichContentEditor &&
-            this.enterToSendEnabled &&
+            this.enableKeyboardToSendMessage &&
+            !this.isCmdPlusEnterToSendMessage &&
             !this.hasUserMention &&
             !this.showCannedMenu) ||
           !this.showRichContentEditor;
         const shouldSendMessage =
-          hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
+          hasSendOnEnterEnabled &&
+          !hasPressedCommand(e) &&
+          !hasPressedShift(e) &&
+          this.isFocused;
+        if (shouldSendMessage) {
+          e.preventDefault();
+          this.sendMessage();
+        }
+      } else if (
+        this.isCmdPlusEnterToSendMessage &&
+        hasPressedCommandAndEnter(e)
+      ) {
+        const hasSendOnCmdPlusEnterEnabled =
+          (this.showRichContentEditor &&
+            this.enableKeyboardToSendMessage &&
+            this.isCmdPlusEnterToSendMessage &&
+            !this.hasUserMention &&
+            !this.showCannedMenu) ||
+          !this.showRichContentEditor;
+        const shouldSendMessage =
+          hasSendOnCmdPlusEnterEnabled &&
+          hasPressedCommand(e) &&
+          !hasPressedShift(e) &&
+          this.isFocused;
         if (shouldSendMessage) {
           e.preventDefault();
           this.sendMessage();
@@ -494,8 +523,10 @@ export default {
       const ninja = document.querySelector('ninja-keys');
       ninja.open();
     },
-    toggleEnterToSend(enterToSendEnabled) {
-      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    toggleKeyboardToSend(enableKeyboardToSendMessage) {
+      this.updateUISettings({
+        enabled_keyshortcut_to_send_message: enableKeyboardToSendMessage,
+      });
     },
     onClickSelfAssign() {
       const {
