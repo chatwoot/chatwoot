@@ -12,14 +12,13 @@ on:
       - master
     tags:
       - v*
-  pull_request:
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GIT_REF: ${{ github.base_ref || github.head_ref || github.ref_name }}
+      GIT_REF: ${{ github.head_ref || github.ref_name }} # ref_name to get tags/branches
     steps:
       -
         name: Set up QEMU
@@ -42,10 +41,6 @@ jobs:
         run: |
           echo "DOCKER_TAG=chatwoot/chatwoot:latest-ce" >> $GITHUB_ENV
 
-      - name: debug
-        run: |
-          echo ${{ env.DOCKER_TAG }}
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -58,5 +53,3 @@ jobs:
           file: docker/Dockerfile
           push: true
           tags: ${{ env.DOCKER_TAG }}
-
-# TODO: remove github_base_ref and run on pull_req
