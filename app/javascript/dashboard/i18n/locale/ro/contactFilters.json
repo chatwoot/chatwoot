@@ -1,48 +1,48 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Filtrarea persoanelor de contact",
+        "SUBTITLE": "Adăugați filtre mai jos și apăsați pe \"Aplicați filtre\" pentru a filtra conversațiile.",
+        "ADD_NEW_FILTER": "Adăugare filtru",
+        "CLEAR_ALL_FILTERS": "Şterge toate filtrele",
+        "FILTER_DELETE_ERROR": "Ar trebui să aveți atleast un filtru pentru a salva",
         "SUBMIT_BUTTON_LABEL": "Trimite",
         "CANCEL_BUTTON_LABEL": "Renunță",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Elimină filtre",
+        "EMPTY_VALUE_ERROR": "Este necesară o valoare validă",
+        "TOOLTIP_LABEL": "Filtrarea persoanelor de contact",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "ȘI",
+            "OR": "SAU"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "equal_to": "Egal cu",
+            "not_equal_to": "Nu este egal cu",
+            "contains": "Conține",
+            "does_not_contain": "Nu conține",
+            "is_present": "Este prezent",
+            "is_not_present": "Nu este prezent",
+            "is_greater_than": "Este mai mare decât",
+            "is_lesser_than": "Este mai mică decât",
+            "days_before": "Este x zile înainte"
         },
         "ATTRIBUTES": {
             "NAME": "Nume",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Număr de telefon",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "Identificator",
             "CITY": "Oraș",
             "COUNTRY": "Țară",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_LIST": "Listă",
             "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Număr",
+            "CUSTOM_ATTRIBUTE_LINK": "Legătură",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
+            "CREATED_AT": "Creat la",
             "LAST_ACTIVITY": "Ultima activitate"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Filtre standard",
+            "ADDITIONAL_FILTERS": "Filtre suplimentare",
             "CUSTOM_ATTRIBUTES": "Editează atribut personalizat"
         }
     }
