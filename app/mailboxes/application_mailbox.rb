@@ -32,7 +32,7 @@ class ApplicationMailbox < ActionMailbox::Base
     return if is_a_support_email
 
     channel = EmailChannelFinder.new(inbound_mail_obj.mail).perform
-    is_a_support_email = channel.present?
+    channel.present?
   end
 
   def self.catch_all_mail?
