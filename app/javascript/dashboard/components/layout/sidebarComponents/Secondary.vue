@@ -96,7 +96,9 @@ export default {
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
           }))
-          .sort((a, b) => (a.label > b.label ? 1 : -1)),
+          .sort((a, b) =>
+            a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
+          ),
       };
     },
     labelSection() {
