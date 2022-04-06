@@ -34,7 +34,7 @@ jobs:
           rm -rf spec/enterprise
 
       - name: set docker tag if master
-        if: ${{ github.ref_name == "master" }}
+        if: github.ref_name == 'master'
         run: |
           echo "DOCKER_TAG=latest" >> $GITHUB_ENV
 
