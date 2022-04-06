@@ -35,7 +35,7 @@ jobs:
 
       - name: set docker tag
         run: |
-          echo "DOCKER_TAG=chatwoot/chatwoot:{{ env.GIT_REF }}-ce" >> $GITHUB_ENV
+          echo "DOCKER_TAG=chatwoot/chatwoot:$GIT_REF-ce" >> $GITHUB_ENV
 
       - name: replace docker tag if master
         if: github.ref_name == 'master'
@@ -44,14 +44,14 @@ jobs:
 
       - name: debug
         run: |
-          echo "{{ env.DOCKER_TAG }}"
+          echo ${{ DOCKER_TAG }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           file: docker/Dockerfile
           push: false
-          tags: {{ env.DOCKER_TAG }}
+          tags: ${{ env.DOCKER_TAG }}
 
       - name: debug
         run: |
