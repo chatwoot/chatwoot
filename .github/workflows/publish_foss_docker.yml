@@ -10,8 +10,8 @@ on:
     branches:
       - develop
       - master
-     tags:
-	- v*
+    tags:
+      - v*
   pull_request:
   workflow_dispatch:
 
