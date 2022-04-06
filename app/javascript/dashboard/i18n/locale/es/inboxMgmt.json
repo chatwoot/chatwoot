@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
-      "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget"
+      "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
+      "ALLOW_END_CONVERSATION": "Benutzern erlauben, Konversationen über das Widget zu beenden"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
