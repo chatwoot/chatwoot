@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Funcionalidades",
       "DISPLAY_FILE_PICKER": "Exibir seletor de arquivos no widget",
-      "DISPLAY_EMOJI_PICKER": "Exibir seletor de emoji no widget"
+      "DISPLAY_EMOJI_PICKER": "Exibir seletor de emoji no widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Código Menssageiro <scripit>",
