@@ -22,22 +22,16 @@ class SupportMailbox < ApplicationMailbox
 
   def find_channel
     find_channel_with_to_mail if @channel.blank?
-    find_channel_with_cc_mail if @channel.blank?
 
     raise 'Email channel/inbox not found' if @channel.nil?
 
     @channel
   end
 
-  def find_channel_with_cc_mail
-    mail.cc.each do |email|
-      @channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
-      break if @channel.present?
-    end
-  end
-
   def find_channel_with_to_mail
-    mail.to.each do |email|
+    recipient_mails = mail.cc.to_a + mail.to
+
+    recipient_mails.each do |email|
       @channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
       break if @channel.present?
     end
