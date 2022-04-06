@@ -7,9 +7,10 @@ module ReportingEventHelper
 
     BusinessTime::Config.work_hours = inbox_working_hours
 
-    from_in_timezone = Time.zone.parse(from.to_s).to_time
-    to_in_timezone = Time.zone.parse(to.to_s).to_time
-    from_in_timezone.business_time_until(to_in_timezone)
+    # Use inbox timezone to change from & to values.
+    from_in_inbox_timezone = from.in_time_zone(inbox.timezone).to_time
+    to_in_inbox_timezone = to.in_time_zone(inbox.timezone).to_time
+    from_in_inbox_timezone.business_time_until(to_in_inbox_timezone)
   end
 
   private
