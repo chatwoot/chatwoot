@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "מאפיינים",
       "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
-      "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט"
+      "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "סקריפט מסנג'ר",
