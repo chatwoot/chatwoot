@@ -96,10 +96,10 @@
         <input
           :checked="enableKeypressToSendMessage"
           type="checkbox"
-          value="enableKeyboardToSend"
-          @input="toggleKeyboardToSend"
+          value="enableKeypressToSendMessage"
+          @input="toggleKeypressToSendMessage"
         />
-        <label for="enableKeyboardToSend">
+        <label for="enableKeypressToSendMessage">
           {{ keyShortcutNameToSendMessage }}
         </label>
       </div>
@@ -295,8 +295,11 @@ export default {
     toggleFormatMode() {
       this.setFormatMode(!this.isFormatMode);
     },
-    toggleKeyboardToSend() {
-      this.$emit('toggleKeyboardToSend', !this.enableKeypressToSendMessage);
+    toggleKeypressToSendMessage() {
+      this.$emit(
+        'toggleKeypressToSendMessage',
+        !this.enableKeypressToSendMessage
+      );
     },
     toggleMessageSignature() {
       this.updateUISettings({

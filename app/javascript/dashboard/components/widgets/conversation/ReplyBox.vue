@@ -112,7 +112,7 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enable-keypress-to-send-message="enableKeypressToSendMessage"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      @toggleKeyboardToSend="toggleKeyboardToSend"
+      @toggleKeypressToSendMessage="toggleKeypressToSendMessage"
     />
   </div>
 </template>
@@ -526,7 +526,7 @@ export default {
       const ninja = document.querySelector('ninja-keys');
       ninja.open();
     },
-    toggleKeyboardToSend(enableKeypressToSendMessage) {
+    toggleKeypressToSendMessage(enableKeypressToSendMessage) {
       this.updateUISettings({
         enabled_keyshortcut_to_send_message: enableKeypressToSendMessage,
       });
