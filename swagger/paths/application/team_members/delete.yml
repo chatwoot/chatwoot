@@ -1,8 +1,8 @@
 tags:
-  - Inboxes
-operationId: delete-agent-in-inbox
-summary: Remove an Agent from Inbox
-description: Remove an Agent from Inbox
+  - Teams
+operationId: delete-agent-in-team
+summary: Remove an Agent from Team
+description: Remove an Agent from Team
 security:
   - userApiKey: []
 parameters:
@@ -12,22 +12,19 @@ parameters:
     schema:
       type: object
       required:
-        - inbox_id
+        - team_id
         - user_ids
       properties:
-        inbox_id:
-          type: string
-          description: The ID of the inbox
         user_ids:
           type: array
           items:
             type: integer
-          description: IDs of users to be deleted from the inbox
+          description: IDs of users to be deleted from the team
 responses:
   200:
     description: Success
   404:
-    description: Inbox not found
+    description: Team not found
   403:
     description: Access denied
   422:

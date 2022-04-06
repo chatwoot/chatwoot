@@ -1,5 +1,5 @@
 tags:
-  - Canned Response
+  - Canned Responses
 operationId: delete-canned-response-from-account
 summary: Remove a Canned Response from Account
 description: Remove a Canned Response from Account
