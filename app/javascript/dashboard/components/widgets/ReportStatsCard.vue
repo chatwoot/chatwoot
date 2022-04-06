@@ -5,7 +5,14 @@
     @click="onClick(index)"
   >
     <h3 class="heading">
-      {{ heading }}
+      <span>{{ heading }}</span>
+      <fluent-icon
+        v-if="infoText"
+        v-tooltip="infoText"
+        size="14"
+        icon="info"
+        class="info-icon"
+      />
     </h3>
     <div class="metric-wrap">
       <h4 class="metric">
@@ -22,6 +29,7 @@
 export default {
   props: {
     heading: { type: String, default: '' },
+    infoText: { type: String, default: '' },
     point: { type: [Number, String], default: '' },
     trend: { type: Number, default: null },
     index: { type: Number, default: null },
