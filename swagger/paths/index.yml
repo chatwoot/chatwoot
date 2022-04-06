@@ -154,7 +154,7 @@
   delete:
     $ref: ./application/agents/delete.yml
 
-# Agents
+# Canned Responses
 /api/v1/accounts/{account_id}/canned_responses:
   parameters:
     - $ref: '#/parameters/account_id'
@@ -315,7 +315,7 @@
     $ref: ./application/teams/index.yml
   post:
     $ref: ./application/teams/create.yml
-/api/v1/accounts/{account_id}/teams/{id}:
+/api/v1/accounts/{account_id}/teams/{team_id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'
@@ -325,6 +325,18 @@
     $ref: ./application/teams/update.yml
   delete:
     $ref: ./application/teams/delete.yml
+/accounts/{account-id}/teams/{team_id}/team_members:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/team_id'
+  get:
+    $ref: ./application/team_members/index.yml
+  post:
+    $ref: ./application/team_members/create.yml
+  patch:
+    $ref: ./application/team_members/update.yml
+  delete:
+    $ref: ./application/team_members/delete.yml
 
 ### Custom Filters goes here
 
