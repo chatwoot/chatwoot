@@ -56,7 +56,7 @@ es:
     activity:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
-        contact_resolved: "La conversación fue resuelta por %{contact_name}"
+        contact_resolved: "Conversación fue resuelta por %{contact_name}"
         open: "La conversación fue reabierta por %{user_name}"
         pending: "La conversación fue marcada como pendiente por %{user_name}"
         snoozed: "La conversación fue pospuesta por %{user_name}"
