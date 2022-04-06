@@ -41,8 +41,6 @@ class BaseActionCableConnector {
   }
 
   onReceived = ({ event, data } = {}) => {
-    console.log('event, data', event, data);
-
     if (this.isAValidEvent(data)) {
       if (this.events[event] && typeof this.events[event] === 'function') {
         this.events[event](data);
