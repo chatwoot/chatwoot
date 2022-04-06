@@ -44,7 +44,7 @@ jobs:
 
       - name: debug
         run: |
-          echo ${{ DOCKER_TAG }}
+          echo ${{ env.DOCKER_TAG }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
