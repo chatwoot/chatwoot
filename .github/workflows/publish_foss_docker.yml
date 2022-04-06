@@ -30,13 +30,15 @@ jobs:
         run: |
           rm -rf enterprise
           rm -rf spec/enterprise
-      -
-        name: debug
-        run: |
-         echo "github.head_ref"
-         echo {{ github.head_ref }}
-         echo "github.ref_name"
-         echo {{ github.ref_name }}
+
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ github.ref_name }}'
+
          #      -
          # name: Build and push
          #uses: docker/build-push-action@v2
