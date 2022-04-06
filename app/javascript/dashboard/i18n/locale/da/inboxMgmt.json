@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Funktioner",
       "DISPLAY_FILE_PICKER": "Vis filvælger på widget'en",
-      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en"
+      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger- Script",
