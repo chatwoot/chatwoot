@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "แสดงตัวเลือกไฟล์ในวิดเจ็ต",
-      "DISPLAY_EMOJI_PICKER": "แสดงตัวเลือกอีโมจิในวิดเจ็ต"
+      "DISPLAY_EMOJI_PICKER": "แสดงตัวเลือกอีโมจิในวิดเจ็ต",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
