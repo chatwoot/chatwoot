@@ -174,11 +174,11 @@ export default {
       if (this.isAverageMetricType(this.metrics[this.currentSelection].KEY)) {
         tooltips.callbacks = {
           label: tooltipItem => {
-            return `${this.metrics[this.currentSelection].NAME} is ${formatTime(
-              tooltipItem.yLabel
-            )} based on ${this.accountReport.data[tooltipItem.index].count} ${
-              this.metrics[0].NAME
-            }`;
+            return this.$t(this.metrics[this.currentSelection].TOOLTIP_TEXT, {
+              metricValue: formatTime(tooltipItem.yLabel),
+              conversationCount: this.accountReport.data[tooltipItem.index]
+                .count,
+            });
           },
         };
       }
@@ -207,6 +207,7 @@ export default {
         KEY: REPORTS_KEYS[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
         INFO_TEXT: this.$t(`REPORT.METRICS.${key}.INFO_TEXT`),
+        TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
       }));
     },
   },
