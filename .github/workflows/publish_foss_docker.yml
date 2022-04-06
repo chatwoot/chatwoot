@@ -34,7 +34,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./docker/Dockerfile
+          file: docker/Dockerfile
           push: false
           tags: chatwoot/chatwoot:latest-ce
 
