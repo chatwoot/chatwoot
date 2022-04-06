@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "在小工具上顯示檔案選擇器",
-      "DISPLAY_EMOJI_PICKER": "在小工具上顯示 emoji 選擇器"
+      "DISPLAY_EMOJI_PICKER": "在小工具上顯示 emoji 選擇器",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
