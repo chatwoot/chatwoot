@@ -46,13 +46,17 @@ jobs:
         run: |
           echo ${{ env.DOCKER_TAG }}
 
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           file: docker/Dockerfile
-          push: false
+          push: true
           tags: ${{ env.DOCKER_TAG }}
 
-      - name: debug
-        run: |
-          docker images
+# TODO: remove github_base_ref and run on pull_req
