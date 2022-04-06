@@ -5,7 +5,7 @@ import Vue from 'vue';
 global.chatwootWebChannel = {
   avatarUrl: 'https://test.url',
   hasAConnectedAgentBot: 'AgentBot',
-  enabledFeatures: ['emoji_picker', 'attachments'],
+  enabledFeatures: ['emoji_picker', 'attachments', 'end_conversation'],
   preChatFormOptions: { require_email: false, pre_chat_message: '' },
 };
 
@@ -24,6 +24,7 @@ describe('configMixin', () => {
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
     expect(wrapper.vm.hasEmojiPickerEnabled).toBe(true);
+    expect(wrapper.vm.hasEndConversationEnabled).toBe(true);
     expect(wrapper.vm.hasAttachmentsEnabled).toBe(true);
     expect(wrapper.vm.hasAConnectedAgentBot).toBe(true);
     expect(wrapper.vm.useInboxAvatarForBot).toBe(true);
@@ -31,7 +32,7 @@ describe('configMixin', () => {
     expect(wrapper.vm.channelConfig).toEqual({
       avatarUrl: 'https://test.url',
       hasAConnectedAgentBot: 'AgentBot',
-      enabledFeatures: ['emoji_picker', 'attachments'],
+      enabledFeatures: ['emoji_picker', 'attachments', 'end_conversation'],
       preChatFormOptions: {
         pre_chat_message: '',
         require_email: false,
