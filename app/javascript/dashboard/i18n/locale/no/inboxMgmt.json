@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Funksjoner",
       "DISPLAY_FILE_PICKER": "Vis filvelger i widget",
-      "DISPLAY_EMOJI_PICKER": "Vis emoji-velger i widget"
+      "DISPLAY_EMOJI_PICKER": "Vis emoji-velger i widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Kopi av samtale",
