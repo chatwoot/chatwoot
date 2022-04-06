@@ -178,7 +178,7 @@ export default {
       this.preChatFields = preChatFields;
     },
     isFieldEditable(item) {
-      return !!standardFieldKeys[item.name];
+      return !!standardFieldKeys[item.name] || !item.enabled;
     },
     handlePreChatFieldOptions(event, type, item) {
       if (event.pointerId === -1) {
