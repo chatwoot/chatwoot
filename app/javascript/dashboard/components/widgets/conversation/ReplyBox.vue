@@ -110,7 +110,7 @@
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
-      :enable-keyboard-to-send-message="enableKeyboardToSendMessage"
+      :enable-keypress-to-send-message="enableKeypressToSendMessage"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       @toggleKeyboardToSend="toggleKeyboardToSend"
     />
@@ -259,7 +259,7 @@ export default {
       return false;
     },
 
-    enableKeyboardToSendMessage() {
+    enableKeypressToSendMessage() {
       return !!this.uiSettings.enabled_keyshortcut_to_send_message;
     },
     isPrivate() {
@@ -481,7 +481,7 @@ export default {
       } else if (!this.isCmdPlusEnterToSendMessage && isEnter(e)) {
         const hasSendOnEnterEnabled =
           (this.showRichContentEditor &&
-            this.enableKeyboardToSendMessage &&
+            this.enableKeypressToSendMessage &&
             !this.isCmdPlusEnterToSendMessage &&
             !this.hasUserMention &&
             !this.showCannedMenu) ||
@@ -501,7 +501,7 @@ export default {
       ) {
         const hasSendOnCmdPlusEnterEnabled =
           (this.showRichContentEditor &&
-            this.enableKeyboardToSendMessage &&
+            this.enableKeypressToSendMessage &&
             this.isCmdPlusEnterToSendMessage &&
             !this.hasUserMention &&
             !this.showCannedMenu) ||
@@ -523,9 +523,9 @@ export default {
       const ninja = document.querySelector('ninja-keys');
       ninja.open();
     },
-    toggleKeyboardToSend(enableKeyboardToSendMessage) {
+    toggleKeyboardToSend(enableKeypressToSendMessage) {
       this.updateUISettings({
-        enabled_keyshortcut_to_send_message: enableKeyboardToSendMessage,
+        enabled_keyshortcut_to_send_message: enableKeypressToSendMessage,
       });
     },
     onClickSelfAssign() {

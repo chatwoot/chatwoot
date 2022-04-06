@@ -92,15 +92,15 @@
       </transition>
     </div>
     <div class="right-wrap">
-      <div v-if="isFormatMode" class="keyboard-to-send--checkbox">
+      <div v-if="isFormatMode" class="keypress-to-send--checkbox">
         <input
-          :checked="enableKeyboardToSendMessage"
+          :checked="enableKeypressToSendMessage"
           type="checkbox"
           value="enableKeyboardToSend"
           @input="toggleKeyboardToSend"
         />
         <label for="enableKeyboardToSend">
-          {{ keyShortcutNameToSentMessage }}
+          {{ keyShortcutNameToSendMessage }}
         </label>
       </div>
       <woot-button
@@ -210,7 +210,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    enableKeyboardToSendMessage: {
+    enableKeypressToSendMessage: {
       type: Boolean,
       default: true,
     },
@@ -233,7 +233,7 @@ export default {
         warning: this.isNote,
       };
     },
-    keyShortcutNameToSentMessage() {
+    keyShortcutNameToSendMessage() {
       return !this.isCmdPlusEnterToSendMessage
         ? this.$t('CONVERSATION.REPLYBOX.ENTER_TO_SEND')
         : this.$t('CONVERSATION.REPLYBOX.CMD_PLUS_ENTER');
@@ -295,7 +295,7 @@ export default {
       this.setFormatMode(!this.isFormatMode);
     },
     toggleKeyboardToSend() {
-      this.$emit('toggleKeyboardToSend', !this.enableKeyboardToSendMessage);
+      this.$emit('toggleKeyboardToSend', !this.enableKeypressToSendMessage);
     },
     toggleMessageSignature() {
       this.updateUISettings({
@@ -329,7 +329,7 @@ export default {
 .right-wrap {
   display: flex;
 
-  .keyboard-to-send--checkbox {
+  .keypress-to-send--checkbox {
     align-items: center;
     display: flex;
 
