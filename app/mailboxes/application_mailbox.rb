@@ -23,7 +23,6 @@ class ApplicationMailbox < ActionMailbox::Base
       is_a_support_email = false
 
       is_a_support_email = true if reply_to_mail?(inbound_mail_obj, is_a_support_email)
-      is_a_support_email = true if reply_cc_mail?(inbound_mail_obj, is_a_support_email)
 
       is_a_support_email
     end
@@ -32,28 +31,8 @@ class ApplicationMailbox < ActionMailbox::Base
   def self.reply_to_mail?(inbound_mail_obj, is_a_support_email)
     return if is_a_support_email
 
-    inbound_mail_obj.mail.to&.each do |email|
-      channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
-      if channel.present?
-        is_a_support_email = true
-        break
-      end
-    end
-    is_a_support_email
-  end
-
-  def self.reply_cc_mail?(inbound_mail_obj, is_a_support_email)
-    return if is_a_support_email
-
-    inbound_mail_obj.mail.cc&.each do |email|
-      channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
-      if channel.present?
-        is_a_support_email = true
-        break
-      end
-    end
-
-    is_a_support_email
+    channel = EmailChannelFinder.new(inbound_mail_obj.mail).perform
+    is_a_support_email = channel.present?
   end
 
   def self.catch_all_mail?
