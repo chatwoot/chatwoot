@@ -19,7 +19,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GIT_REF: ${{ github.head_ref || github.ref_name }}
+      GIT_REF: ${{ github.base_ref || github.head_ref || github.ref_name }}
     steps:
       -
         name: Set up QEMU
