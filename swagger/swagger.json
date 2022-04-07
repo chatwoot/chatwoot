@@ -4976,7 +4976,10 @@
         },
         "attribute_values": {
           "type": "array",
-          "description": "Attribute values"
+          "description": "Attribute values",
+          "items": {
+            "type": "string"
+          }
         },
         "attribute_model": {
           "type": "integer",
