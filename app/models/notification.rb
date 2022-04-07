@@ -64,9 +64,15 @@ class Notification < ApplicationRecord
 
   def primary_actor_data
     if %w[assigned_conversation_new_message conversation_mention].include? notification_type
-      primary_actor.conversation.push_event_data
+      {
+        id: primary_actor.conversation.push_event_data[:id],
+        meta: primary_actor.conversation.push_event_data[:meta]
+      }
     else
-      primary_actor.push_event_data
+      {
+        id: primary_actor.push_event_data[:id],
+        meta: primary_actor.push_event_data[:meta]
+      }
     end
   end
 
