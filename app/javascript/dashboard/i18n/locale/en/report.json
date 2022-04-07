@@ -7,35 +7,31 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
@@ -95,35 +91,31 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
@@ -166,35 +158,31 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
@@ -237,35 +225,31 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
@@ -308,35 +292,31 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} based on %{conversationCount} Conversations"
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )",
-        "INFO_TEXT": ""
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [

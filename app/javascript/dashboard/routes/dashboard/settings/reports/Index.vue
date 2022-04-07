@@ -171,11 +171,17 @@ export default {
         'RESOLUTION_TIME',
         'RESOLUTION_COUNT',
       ];
+      const infoText = {
+        FIRST_RESPONSE_TIME: this.$t(
+          `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
+        ),
+        RESOLUTION_TIME: this.$t(`REPORT.METRICS.RESOLUTION_TIME.INFO_TEXT`),
+      };
       return reportKeys.map(key => ({
         NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
         KEY: REPORTS_KEYS[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
-        INFO_TEXT: this.$t(`REPORT.METRICS.${key}.INFO_TEXT`),
+        INFO_TEXT: infoText[key],
         TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
       }));
     },
