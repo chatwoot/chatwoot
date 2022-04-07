@@ -395,7 +395,7 @@
       "LABEL": "امکانات",
       "DISPLAY_FILE_PICKER": "نمایش گزینه ضمیه فایل در ویجت",
       "DISPLAY_EMOJI_PICKER": "نمایش گزینه انتخاب ایموجی در ویجت",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "به کاربران اجازه دهید مکالمه را از ویجت پایان دهند"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "اسکریپت ویجت",
