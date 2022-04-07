@@ -14,6 +14,8 @@ generic_id:
   $ref: ./resource/extension/generic.yml
 canned_response:
   $ref: ./resource/canned_response.yml
+custom_attribute:
+  $ref: ./resource/custom_attribute.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
@@ -69,6 +71,8 @@ user_create_update_payload:
 canned_response_create_update_payload:
   $ref: ./request/canned_response/create_update_payload.yml
 
+custom_attribute_create_update_payload:
+  $ref: ./request/custom_attribute/create_update_payload.yml
 ## contact
 contact_create:
   $ref: ./request/contact/create.yml
@@ -154,6 +158,6 @@ account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
-    
-    
+
+
 
