@@ -299,4 +299,9 @@ export default {
 
 <style lang="scss">
 @import '~widget/assets/scss/woot.scss';
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
 </style>
