@@ -20,6 +20,7 @@ describe ::EmailChannelFinder do
 
       it 'return channel with to email' do
         channel_email.update(email: 'test@example.com')
+        reply_mail.mail['to'] = 'test@example.com'
         channel = described_class.new(reply_mail.mail).perform
         expect(channel).to eq(channel_email)
       end
