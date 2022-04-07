@@ -3,7 +3,7 @@ import {
   getStandardFields,
   getCustomFields,
   getFormattedPreChatFields,
-  getNonDeletedPreChatFields
+  getNonDeletedPreChatFields,
 } from '../preChat';
 import inboxFixture from './inboxFixture';
 
