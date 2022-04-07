@@ -15,6 +15,8 @@ properties:
   attribute_values:
     type: array
     description: Attribute values
+    items:
+      type: string
   attribute_model:
     type: integer
     description: Attribute type(conversation_attribute- 0, contact_attribute- 1)
