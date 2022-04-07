@@ -223,8 +223,9 @@ export default {
       }
 
       if (this.isRichEditorEnabled) {
-        const { display_rich_content_editor: displayRichContentEditor } =
-          this.uiSettings;
+        const {
+          display_rich_content_editor: displayRichContentEditor,
+        } = this.uiSettings;
 
         return displayRichContentEditor;
       }
@@ -483,8 +484,10 @@ export default {
         const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
         const draftToSave = trimMessage(this.message || '');
-        const { [key]: currentDraft, ...restOfDraftMessages } =
-          savedDraftMessages;
+        const {
+          [key]: currentDraft,
+          ...restOfDraftMessages
+        } = savedDraftMessages;
 
         const updatedDraftMessages = draftToSave
           ? {
