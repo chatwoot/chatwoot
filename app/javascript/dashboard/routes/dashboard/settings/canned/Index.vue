@@ -76,7 +76,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('CANNED_MGMT.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')"></span>
       </div>
     </div>
     <!-- Add Agent -->

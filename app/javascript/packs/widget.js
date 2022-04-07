@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import VueI18n from 'vue-i18n';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 import store from '../widget/store';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
@@ -9,6 +10,7 @@ import i18n from '../widget/i18n';
 import router from '../widget/router';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
+Vue.use(VueDOMPurifyHTML);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

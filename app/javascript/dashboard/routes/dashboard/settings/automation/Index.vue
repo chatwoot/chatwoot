@@ -90,7 +90,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
       </div>
     </div>
     <woot-modal
