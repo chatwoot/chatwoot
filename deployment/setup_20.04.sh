@@ -105,7 +105,14 @@ sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
 sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
 sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
 sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
-echo -en "\nINSTALLATION_ENV=linux_script" >> ".env"
+
+if [[ "$2" == "ce" ]];then
+rm -rf enterprise
+rm -rf spec/enterprise
+echo -en "\nCW_EDITION=ce" >> ".env"
+else
+echo -en "\nCW_EDITION=ee" >> ".env"
+fi
 
 rake assets:precompile RAILS_ENV=production
 EOF
