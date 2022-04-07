@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_120357) do
+ActiveRecord::Schema.define(version: 2022_04_05_092033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -280,7 +280,7 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
-    t.integer "feature_flags", default: 3, null: false
+    t.integer "feature_flags", default: 7, null: false
     t.integer "reply_time", default: 0
     t.string "hmac_token"
     t.boolean "pre_chat_form_enabled", default: false

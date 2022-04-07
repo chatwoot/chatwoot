@@ -5,9 +5,13 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   let(:web_widget) { create(:channel_widget, account: account) }
   let(:contact) { create(:contact, account: account, email: nil) }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
+  let(:second_session) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let!(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
+  let(:token_without_conversation) do
+    ::Widget::TokenService.new(payload: { source_id: second_session.source_id, inbox_id: web_widget.inbox.id }).generate_token
+  end
 
   describe 'GET /api/v1/widget/conversations' do
     context 'with a conversation' do
@@ -140,6 +144,36 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
             content: "Conversation was resolved by #{contact.name}"
           }
         )
+      end
+    end
+
+    context 'when end conversation is not permitted' do
+      before do
+        web_widget.end_conversation = false
+        web_widget.save!
+      end
+
+      it 'returns action not permitted status' do
+        expect(conversation.open?).to be true
+
+        get '/api/v1/widget/conversations/toggle_status',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(conversation.reload.resolved?).to be false
+      end
+    end
+
+    context 'when a token without any conversation is used' do
+      it 'returns not found status' do
+        get '/api/v1/widget/conversations/toggle_status',
+            headers: { 'X-Auth-Token' => token_without_conversation },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
