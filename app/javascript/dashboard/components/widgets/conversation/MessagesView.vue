@@ -83,7 +83,6 @@
         </div>
       </div>
       <reply-box
-        v-on-clickaway="closePopoutReplyBox"
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
