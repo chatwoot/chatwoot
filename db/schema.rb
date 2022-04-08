@@ -657,6 +657,9 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.integer "conversation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "value_in_business_hours"
+    t.datetime "event_start_time"
+    t.datetime "event_end_time"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
