@@ -35,3 +35,10 @@ export const applyPageFilters = (conversation, filters) => {
 
   return shouldFilter;
 };
+
+export const trimMessage = (content = '', maxLength = 1024) => {
+  if (content.length > maxLength) {
+    return content.substring(0, maxLength);
+  }
+  return content;
+};
