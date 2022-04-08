@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Год"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Время работы"
   },
   "AGENT_REPORTS": {
     "HEADER": "Обзор агентов",
