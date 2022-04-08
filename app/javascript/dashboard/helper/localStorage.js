@@ -1,32 +1,17 @@
-export const LOCAL_STORAGE_KEYS = {
-  DISMISSED_UPDATES: 'dismissedUpdates',
-  DRAFT_MESSAGES: 'draftMessages',
-};
+class LocalStorage {
+  constructor(key) {
+    this.key = key;
+  }
 
-export const LocalStorage = {
-  clearAll() {
-    window.localStorage.clear();
-  },
+  store(allItems) {
+    localStorage.setItem(this.key, JSON.stringify(allItems));
+    localStorage.setItem(this.key + ':ts', Date.now());
+  }
 
-  get(key) {
-    const value = window.localStorage.getItem(key);
-    try {
-      return typeof value === 'string' ? JSON.parse(value) : value;
-    } catch (error) {
-      return value;
-    }
-  },
-  set(key, value) {
-    if (typeof value === 'object') {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } else {
-      window.localStorage.setItem(key, value);
-    }
-    window.localStorage.setItem(key + ':ts', Date.now());
-  },
+  get() {
+    let stored = localStorage.getItem(this.key);
+    return JSON.parse(stored) || [];
+  }
+}
 
-  remove(key) {
-    window.localStorage.removeItem(key);
-    window.localStorage.removeItem(key + ':ts');
-  },
-};
+export default LocalStorage;
