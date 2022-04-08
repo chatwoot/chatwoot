@@ -85,14 +85,20 @@ export default {
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
         toStateName: 'settings_inbox_new',
         newLinkRouteName: 'settings_inbox_new',
-        children: this.inboxes.map(inbox => ({
-          id: inbox.id,
-          label: inbox.name,
-          truncateLabel: true,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
-          type: inbox.channel_type,
-          phoneNumber: inbox.phone_number,
-        })),
+        children: this.inboxes
+          .map(inbox => ({
+            id: inbox.id,
+            label: inbox.name,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/inbox/${inbox.id}`
+            ),
+            type: inbox.channel_type,
+            phoneNumber: inbox.phone_number,
+          }))
+          .sort((a, b) =>
+            a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
+          ),
       };
     },
     labelSection() {
