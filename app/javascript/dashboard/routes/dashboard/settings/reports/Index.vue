@@ -15,6 +15,7 @@
       :filter-items-list="filterItemsList"
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div class="row">
       <woot-report-stats-card
@@ -79,6 +80,7 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       filterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: {},
+      businessHours: false,
     };
   },
   computed: {
@@ -166,21 +168,23 @@ export default {
   },
   methods: {
     fetchAllData() {
-      const { from, to, groupBy } = this;
+      const { from, to, groupBy, businessHours } = this;
       this.$store.dispatch('fetchAccountSummary', {
         from,
         to,
         groupBy: groupBy.period,
+        businessHours,
       });
       this.fetchChartData();
     },
     fetchChartData() {
-      const { from, to, groupBy } = this;
+      const { from, to, groupBy, businessHours } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
         to,
         groupBy: groupBy.period,
+        businessHours,
       });
     },
     downloadAgentReports() {
@@ -225,6 +229,10 @@ export default {
         default:
           return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
     },
   },
 };
