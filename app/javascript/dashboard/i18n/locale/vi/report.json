@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Năm"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Giờ làm việc"
   },
   "AGENT_REPORTS": {
     "HEADER": "Tổng quan đại lý",
