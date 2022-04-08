@@ -25,50 +25,22 @@ export default {
       return window.chatwootWebChannel.preChatFormEnabled;
     },
     preChatFormOptions() {
-      let requireEmail = false;
       let preChatMessage = '';
-      let preChatFields = null;
       const options = window.chatwootWebChannel.preChatFormOptions || {};
-      requireEmail = options.require_email;
       preChatMessage = options.pre_chat_message;
-
-      preChatFields =
-        options.pre_chat_fields ||
-        this.getDefaultPreChatFields({ requireEmail });
+      options.pre_chat_fields = undefined;
+      const { pre_chat_fields: preChatFields = [] } = options;
       return {
-        requireEmail,
         preChatMessage,
         preChatFields,
       };
     },
     shouldShowPreChatForm() {
       const { preChatFields } = this.preChatFormOptions;
-      // Check if at least one enabled filed in pre-chat fields
+      // Check if at least one enabled field in pre-chat fields
       const hasEnabledFields =
         preChatFields.filter(field => field.enabled).length > 0;
       return this.preChatFormEnabled && hasEnabledFields;
-    },
-  },
-  methods: {
-    getDefaultPreChatFields({ requireEmail }) {
-      return [
-        {
-          label: 'Email Id',
-          name: 'emailAddress',
-          type: 'email',
-          field_type: 'standard',
-          required: requireEmail || false,
-          enabled: requireEmail || false,
-        },
-        {
-          label: 'Full name',
-          name: 'fullName',
-          type: 'text',
-          field_type: 'standard',
-          required: true,
-          enabled: true,
-        },
-      ];
     },
   },
 };
