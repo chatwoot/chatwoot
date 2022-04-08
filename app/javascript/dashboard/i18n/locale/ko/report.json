@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "영업시간"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
