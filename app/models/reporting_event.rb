@@ -2,15 +2,18 @@
 #
 # Table name: reporting_events
 #
-#  id              :bigint           not null, primary key
-#  name            :string
-#  value           :float
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :integer
-#  conversation_id :integer
-#  inbox_id        :integer
-#  user_id         :integer
+#  id                      :bigint           not null, primary key
+#  event_end_time          :datetime
+#  event_start_time        :datetime
+#  name                    :string
+#  value                   :float
+#  value_in_business_hours :float
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :integer
+#  conversation_id         :integer
+#  inbox_id                :integer
+#  user_id                 :integer
 #
 # Indexes
 #

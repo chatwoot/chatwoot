@@ -125,6 +125,9 @@ gem 'procore-sift'
 gem 'email_reply_trimmer'
 gem 'html2text'
 
+# to calculate working hours
+gem 'working_hours'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
