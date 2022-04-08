@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Ano"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Horário comercial"
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
