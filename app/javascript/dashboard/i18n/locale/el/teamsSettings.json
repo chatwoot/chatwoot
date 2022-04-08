@@ -83,7 +83,7 @@
       "SELECT_ALL": "επιλογή όλων των πρακτόρων",
       "SELECTED_COUNT": "%{selected} από τους %{total} πράκτορες επιλέχθηκαν.",
       "BUTTON_TEXT": "Προσθήκη πρακτόρων",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "Επιλέξτε τουλάχιστον ένα πράκτορα."
     },
     "FINISH": {
       "TITLE": "Η ομάδα σας είναι έτοιμη!",
