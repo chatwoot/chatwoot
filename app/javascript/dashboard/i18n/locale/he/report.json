@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "שעות פעילות"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
