@@ -5,12 +5,16 @@ module ReportingEventHelper
     inbox_working_hours = configure_working_hours(inbox.working_hours)
     return 0 if inbox_working_hours.blank?
 
-    BusinessTime::Config.work_hours = inbox_working_hours
+    # Configure working hours
+    WorkingHours::Config.working_hours = inbox_working_hours
+
+    # Configure timezone
+    WorkingHours::Config.time_zone = inbox.timezone
 
     # Use inbox timezone to change from & to values.
     from_in_inbox_timezone = from.in_time_zone(inbox.timezone).to_time
     to_in_inbox_timezone = to.in_time_zone(inbox.timezone).to_time
-    from_in_inbox_timezone.business_time_until(to_in_inbox_timezone)
+    from_in_inbox_timezone.working_time_until(to_in_inbox_timezone)
   end
 
   private
@@ -23,22 +27,24 @@ module ReportingEventHelper
 
   def day(day_of_week)
     week_days = {
-      0 => 'sun',
-      1 => 'mon',
-      2 => 'tue',
-      3 => 'wed',
-      4 => 'thu',
-      5 => 'fri',
-      6 => 'sat'
+      0 => :sun,
+      1 => :mon,
+      2 => :tue,
+      3 => :wed,
+      4 => :thu,
+      5 => :fri,
+      6 => :sat
     }
     week_days[day_of_week]
   end
 
   def working_hour_range(working_hour)
-    [format_time(working_hour.open_hour, working_hour.open_minutes), format_time(working_hour.close_hour, working_hour.close_minutes)]
+    { format_time(working_hour.open_hour, working_hour.open_minutes) => format_time(working_hour.close_hour, working_hour.close_minutes) }
   end
 
   def format_time(hour, minute)
+    hour = hour < 10 ? "0#{hour}" : hour
+    minute = minute < 10 ? "0#{minute}" : minute
     "#{hour}:#{minute}"
   end
 end
