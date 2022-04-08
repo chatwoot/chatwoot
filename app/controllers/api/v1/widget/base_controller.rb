@@ -39,7 +39,8 @@ class Api::V1::Widget::BaseController < ApplicationController
         browser: browser_params,
         referer: permitted_params[:message][:referer_url],
         initiated_at: timestamp_params
-      }
+      },
+      custom_attributes: permitted_params[:custom_attributes].presence || {}
     }
   end
 
@@ -52,16 +53,33 @@ class Api::V1::Widget::BaseController < ApplicationController
         mergee_contact: @contact
       ).perform
     else
-      @contact.update!(email: email, name: contact_name)
+      @contact.update!(email: email)
+    end
+  end
+
+  def update_contact_phone_number(phone_number)
+    contact_with_phone_number = @current_account.contacts.find_by(phone_number: phone_number)
+    if contact_with_phone_number
+      @contact = ::ContactMergeAction.new(
+        account: @current_account,
+        base_contact: contact_with_phone_number,
+        mergee_contact: @contact
+      ).perform
+    else
+      @contact.update!(phone_number: phone_number)
     end
   end
 
   def contact_email
-    permitted_params[:contact][:email].downcase
+    permitted_params[:contact][:email].downcase if permitted_params[:contact].present?
   end
 
   def contact_name
-    params[:contact][:name] || contact_email.split('@')[0]
+    params[:contact][:name] || contact_email.split('@')[0] if contact_email.present?
+  end
+
+  def contact_phone_number
+    params[:contact][:phone_number]
   end
 
   def browser_params
