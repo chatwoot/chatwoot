@@ -33,17 +33,23 @@ module ReportHelper
   end
 
   def avg_first_response_time
-    (get_grouped_values scope.reporting_events.where(name: 'first_response')).average(:value)
+    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'first_response'))
+    return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
+
+    grouped_reporting_events.average(:value)
   end
 
   def avg_resolution_time
-    (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved')).average(:value)
+    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved'))
+    return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
+
+    grouped_reporting_events.average(:value)
   end
 
   def avg_resolution_time_summary
-    avg_rt = scope.reporting_events
-                  .where(name: 'conversation_resolved', created_at: range)
-                  .average(:value)
+    reporting_events = scope.reporting_events
+                            .where(name: 'conversation_resolved', created_at: range)
+    avg_rt = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
     return 0 if avg_rt.blank?
 
@@ -51,9 +57,9 @@ module ReportHelper
   end
 
   def avg_first_response_time_summary
-    avg_frt = scope.reporting_events
-                   .where(name: 'first_response', created_at: range)
-                   .average(:value)
+    reporting_events = scope.reporting_events
+                            .where(name: 'first_response', created_at: range)
+    avg_frt = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
     return 0 if avg_frt.blank?
 

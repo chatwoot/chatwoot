@@ -17,6 +17,7 @@
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
       @group-by-filter-change="onGroupByFilterChange"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div>
       <div v-if="filterItemsList.length" class="row">
@@ -101,6 +102,7 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: null,
+      businessHours: false,
     };
   },
   computed: {
@@ -223,19 +225,20 @@ export default {
   methods: {
     fetchAllData() {
       if (this.selectedFilter) {
-        const { from, to, groupBy } = this;
+        const { from, to, groupBy, businessHours } = this;
         this.$store.dispatch('fetchAccountSummary', {
           from,
           to,
           type: this.type,
           id: this.selectedFilter.id,
           groupBy: groupBy.period,
+          businessHours,
         });
         this.fetchChartData();
       }
     },
     fetchChartData() {
-      const { from, to, groupBy } = this;
+      const { from, to, groupBy, businessHours } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
@@ -243,6 +246,7 @@ export default {
         type: this.type,
         id: this.selectedFilter.id,
         groupBy: groupBy.period,
+        businessHours,
       });
     },
     downloadReports() {
@@ -308,6 +312,10 @@ export default {
         default:
           return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
     },
   },
 };
