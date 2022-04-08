@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Año"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Horarios"
   },
   "AGENT_REPORTS": {
     "HEADER": "Resumen de agentes",
