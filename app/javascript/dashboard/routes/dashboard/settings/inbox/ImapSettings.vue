@@ -3,7 +3,7 @@
     <settings-section
       :title="$t('INBOX_MGMT.IMAP.TITLE')"
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
-      :note="$t('INBOX_MGMT.IMAP.NOTE')"
+      :note="$t('INBOX_MGMT.IMAP.NOTE_TEXT')"
     >
       <form @submit.prevent="updateInbox">
         <label for="toggle-imap-enable">
