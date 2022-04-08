@@ -34,9 +34,9 @@
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
-                <toggle-button
-                  :active="automation.active"
-                  @click="toggleAutomation(automation, automation.active)"
+                <woot-switch
+                  :value="automation.active"
+                  @input="toggleAutomation(automation, automation.active)"
                 />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
@@ -131,12 +131,11 @@ import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
-import ToggleButton from 'dashboard/components/buttons/ToggleButton';
+
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
-    ToggleButton,
   },
   mixins: [alertMixin, timeMixin],
   data() {
