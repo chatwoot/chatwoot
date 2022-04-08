@@ -39,6 +39,23 @@
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
+
+      /*utm listener from parent*/
+      window.addEventListener("message", (event) => {
+        console.log("event: ", event)
+        if (event.origin !== "https://www.smsperkasa.com" && event.origin !== "https://lp.smsperkasa.com" && event.origin !== "http://localhost:3003")
+          console.log("if problem")
+          return;
+      
+        if(event.data.message==="getUTMData"){
+          let payload = {...event.data.value}
+          window.dataLayer.push({
+            "utm_source": payload.utm_source,
+            "utm_medium": payload.utm_medium
+          })
+          console.log("payload: ", payload)
+        }
+      }, false);
     </script>
     <%= javascript_pack_tag 'widget' %>
     <%= stylesheet_pack_tag 'widget' %>
