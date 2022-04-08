@@ -69,6 +69,13 @@
             :options="openSSLVerifyModes"
             :action="handleSSLModeChange"
           />
+          <single-select-dropdown
+            class="medium-9 columns"
+            :label="$t('INBOX_MGMT.SMTP.AUTH_MECHANISM')"
+            :selected="authMechanism"
+            :options="authMechanisms"
+            :action="handleAuthMechanismChange"
+          />
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
@@ -112,6 +119,7 @@ export default {
       ssl: false,
       starttls: true,
       openSSLVerifyMode: 'none',
+      authMechanism: 'login',
       encryptionProtocols: [
         { id: 'ssl', title: 'SSL/TLS', checked: false },
         { id: 'starttls', title: 'STARTTLS', checked: true },
@@ -121,6 +129,15 @@ export default {
         { key: 2, value: 'peer' },
         { key: 3, value: 'client_once' },
         { key: 4, value: 'fail_if_no_peer_cert' },
+      ],
+      authMechanisms: [
+        { key: 1, value: 'plain' },
+        { key: 2, value: 'login' },
+        { key: 3, value: 'cram-md5' },
+        { key: 4, value: 'xoauth' },
+        { key: 5, value: 'xoauth2' },
+        { key: 6, value: 'ntlm' },
+        { key: 7, value: 'gssapi' },
       ],
     };
   },
@@ -157,6 +174,7 @@ export default {
         smtp_enable_starttls_auto,
         smtp_enable_ssl_tls,
         smtp_openssl_verify_mode,
+        smtp_authentication,
       } = this.inbox;
       this.isSMTPEnabled = smtp_enabled;
       this.address = smtp_address;
@@ -167,6 +185,7 @@ export default {
       this.starttls = smtp_enable_starttls_auto;
       this.ssl = smtp_enable_ssl_tls;
       this.openSSLVerifyMode = smtp_openssl_verify_mode;
+      this.authMechanism = smtp_authentication;
 
       this.encryptionProtocols = [
         { id: 'ssl', title: 'SSL/TLS', checked: smtp_enable_ssl_tls },
@@ -189,6 +208,9 @@ export default {
     handleSSLModeChange(mode) {
       this.openSSLVerifyMode = mode;
     },
+    handleAuthMechanismChange(mode) {
+      this.authMechanism = mode;
+    },
     async updateInbox() {
       try {
         const payload = {
@@ -204,6 +226,7 @@ export default {
             smtp_enable_ssl_tls: this.ssl,
             smtp_enable_starttls_auto: this.starttls,
             smtp_openssl_verify_mode: this.openSSLVerifyMode,
+            smtp_authentication: this.authMechanism,
           },
         };
         await this.$store.dispatch('inboxes/updateInboxSMTP', payload);
