@@ -3,7 +3,6 @@ import {
   getStandardFields,
   getCustomFields,
   getFormattedPreChatFields,
-  getNonDeletedPreChatFields,
 } from '../preChat';
 import inboxFixture from './inboxFixture';
 
@@ -156,44 +155,6 @@ describe('#Pre chat Helpers', () => {
       expect(getPreChatFields({ preChatFormOptions }).pre_chat_message).toEqual(
         'Share your queries here.'
       );
-    });
-  });
-  describe('getNonDeletedPreChatFields', () => {
-    it('should return non-deleted pre-chat fields', () => {
-      expect(
-        getNonDeletedPreChatFields({
-          preChatFields: customFields.pre_chat_fields,
-        })
-      ).toEqual([
-        {
-          label: 'Email Address',
-          name: 'emailAddress',
-          placeholder: 'Please enter your email address',
-          type: 'email',
-          field_type: 'standard',
-
-          required: false,
-          enabled: false,
-        },
-        {
-          label: 'Full Name',
-          name: 'fullName',
-          placeholder: 'Please enter your full name',
-          type: 'text',
-          field_type: 'standard',
-          required: false,
-          enabled: false,
-        },
-        {
-          label: 'Phone Number',
-          name: 'phoneNumber',
-          placeholder: 'Please enter your phone number',
-          type: 'text',
-          field_type: 'standard',
-          required: false,
-          enabled: false,
-        },
-      ]);
     });
   });
 });

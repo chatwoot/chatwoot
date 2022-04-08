@@ -103,37 +103,9 @@ export const getStandardFields = ({
     ],
   };
 };
-export const getNonDeletedPreChatFields = ({
-  preChatFields,
-  customAttributes,
-}) => {
-  return preChatFields.filter(item => {
-    if (
-      item.field_type === 'conversation_attribute' ||
-      item.field_type === 'contact_attribute'
-    ) {
-      const itemExist = customAttributes.find(
-        attribute => item.name === attribute.attribute_key
-      );
-      if (itemExist) {
-        return item;
-      }
-      return null;
-    }
-    return item;
-  });
-};
 
-export const getFormattedPreChatFields = ({
-  preChatFields,
-  customAttributes,
-}) => {
-  const nonDeletedPreChatFields = getNonDeletedPreChatFields({
-    preChatFields,
-    customAttributes,
-  });
-
-  return nonDeletedPreChatFields.map(item => {
+export const getFormattedPreChatFields = ({ preChatFields }) => {
+  return preChatFields.map(item => {
     return {
       ...item,
       label: getLabel({
@@ -171,7 +143,6 @@ export const getPreChatFields = ({
   ) {
     const formattedPreChatFields = getFormattedPreChatFields({
       preChatFields: pre_chat_fields,
-      customAttributes,
     });
 
     customFields = getCustomFields({
