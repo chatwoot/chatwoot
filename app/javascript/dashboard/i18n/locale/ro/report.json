@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Anul"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Program de lucru"
   },
   "AGENT_REPORTS": {
     "HEADER": "Prezentare generală a agenților",
