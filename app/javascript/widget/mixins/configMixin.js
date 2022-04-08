@@ -28,7 +28,6 @@ export default {
       let preChatMessage = '';
       const options = window.chatwootWebChannel.preChatFormOptions || {};
       preChatMessage = options.pre_chat_message;
-      options.pre_chat_fields = undefined;
       const { pre_chat_fields: preChatFields = [] } = options;
       return {
         preChatMessage,
