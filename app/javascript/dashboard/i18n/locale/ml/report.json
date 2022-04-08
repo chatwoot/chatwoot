@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "വർഷം"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "ഏജന്റുമാരുടെ അവലോകനം",
