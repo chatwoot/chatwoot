@@ -78,7 +78,8 @@
       { "id": 2, "groupBy": "Week" },
       { "id": 3, "groupBy": "Month" },
       { "id": 4, "groupBy": "Year" }
-    ]
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
