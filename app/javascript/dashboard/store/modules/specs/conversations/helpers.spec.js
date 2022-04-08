@@ -1,6 +1,7 @@
 import {
   findPendingMessageIndex,
   applyPageFilters,
+  trimMessage,
 } from '../../conversations/helpers';
 
 const conversationList = [
@@ -118,4 +119,10 @@ describe('#applyPageFilters', () => {
       expect(applyPageFilters(conversationList[1], filters)).toEqual(true);
     });
   });
+});
+
+describe('#trimMessage', () => {
+  expect(trimMessage('Hello world', 5)).toEqual('Hello');
+  expect(trimMessage('Hello', 5)).toEqual('Hello');
+  expect(trimMessage(undefined, 5)).toEqual('');
 });

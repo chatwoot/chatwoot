@@ -1,0 +1,28 @@
+tags:
+  - Custom Attributes
+operationId: update-custom-attribute-in-account
+summary: Update custom attribute in Account
+description: Update a custom attribute in account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the custom attribute to be updated.
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/custom_attribute_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+        description: 'The updated custom attribute'
+        $ref: '#/definitions/custom_attribute'
+  404:
+    description: Agent not found
+  403:
+    description: Access denied
