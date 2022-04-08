@@ -5,7 +5,12 @@ import * as types from '../mutation-types';
 import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
-import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+import {
+  setUser,
+  getHeaderExpiry,
+  clearCookiesOnLogout,
+  clearLocalStorageOnLogout,
+} from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const state = {
@@ -94,9 +99,9 @@ export const actions = {
         .login(credentials)
         .then(response => {
           commit(types.default.SET_CURRENT_USER);
+          clearLocalStorageOnLogout();
           window.axios = createAxios(axios);
           actionCable.init(Vue);
-
           window.location = getLoginRedirectURL(ssoAccountId, response.data);
           resolve();
         })
