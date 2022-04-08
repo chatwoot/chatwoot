@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Jam Kerja"
   },
   "AGENT_REPORTS": {
     "HEADER": "Gambaran Agen",
