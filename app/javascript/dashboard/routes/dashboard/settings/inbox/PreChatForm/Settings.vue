@@ -56,58 +56,10 @@
                 </th>
               </tr>
             </thead>
-            <draggable v-model="preChatFields" tag="tbody">
-              <tr v-for="(item, index) in preChatFields" :key="index">
-                <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
-                <td class="pre-chat-field">
-                  <toggle-button
-                    :active="item['enabled']"
-                    @click="handlePreChatFieldOptions($event, 'enabled', item)"
-                  />
-                </td>
-                <td
-                  class="pre-chat-field"
-                  :class="{ 'disabled-text': !item['enabled'] }"
-                >
-                  {{ item.name }}
-                </td>
-                <td
-                  class="pre-chat-field"
-                  :class="{ 'disabled-text': !item['enabled'] }"
-                >
-                  {{ item.type }}
-                </td>
-                <td class="pre-chat-field">
-                  <input
-                    v-model="item['required']"
-                    type="checkbox"
-                    :value="`${item.name}-required`"
-                    :disabled="!item['enabled']"
-                    @click="handlePreChatFieldOptions($event, 'required', item)"
-                  />
-                </td>
-                <td
-                  class="pre-chat-field"
-                  :class="{ 'disabled-text': !item['enabled'] }"
-                >
-                  <input
-                    v-model.trim="item.label"
-                    type="text"
-                    :disabled="isFieldEditable(item)"
-                  />
-                </td>
-                <td
-                  class="pre-chat-field"
-                  :class="{ 'disabled-text': !item['enabled'] }"
-                >
-                  <input
-                    v-model.trim="item.placeholder"
-                    type="text"
-                    :disabled="isFieldEditable(item)"
-                  />
-                </td>
-              </tr>
-            </draggable>
+            <pre-chat-fields
+              :pre-chat-fields="preChatFields"
+              :handle-pre-chat-field-options="handlePreChatFieldOptions"
+            />
           </table>
         </label>
       </div>
@@ -122,14 +74,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import draggable from 'vuedraggable';
-import ToggleButton from 'dashboard/components/buttons/ToggleButton';
+import PreChatFields from './PreChatFields.vue';
 import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
 
 export default {
   components: {
-    draggable,
-    ToggleButton,
+    PreChatFields,
   },
   mixins: [alertMixin],
   props: {
@@ -220,29 +170,5 @@ export default {
 }
 .pre-chat--title {
   margin: var(--space-medium) 0 var(--space-slab);
-}
-.pre-chat-field {
-  padding: var(--space-normal) var(--space-small);
-
-  svg {
-    display: flex;
-    align-items: center;
-  }
-}
-.disabled-text {
-  color: var(--s-500);
-}
-
-table {
-  thead th {
-    text-transform: none;
-  }
-  input {
-    font-size: var(--font-size-small);
-    margin-bottom: 0;
-  }
-}
-checkbox {
-  margin: 0;
 }
 </style>
