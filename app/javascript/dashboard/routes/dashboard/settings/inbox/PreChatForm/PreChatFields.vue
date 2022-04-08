@@ -3,9 +3,9 @@
     <tr v-for="(item, index) in preChatFields" :key="index">
       <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
       <td class="pre-chat-field">
-        <toggle-button
-          :active="item['enabled']"
-          @click="handlePreChatFieldOptions($event, 'enabled', item)"
+        <woot-switch
+          :value="item['enabled']"
+          @input="handlePreChatFieldOptions($event, 'enabled', item)"
         />
       </td>
       <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
@@ -44,9 +44,8 @@
 <script>
 import draggable from 'vuedraggable';
 import { standardFieldKeys } from 'dashboard/helper/preChat';
-import ToggleButton from 'dashboard/components/buttons/ToggleButton';
 export default {
-  components: { draggable, ToggleButton },
+  components: { draggable },
   props: {
     preChatFields: {
       type: Array,
