@@ -498,7 +498,8 @@ RSpec.describe 'Inboxes API', type: :request do
                   smtp_port: 587,
                   smtp_email: 'smtptest@gmail.com',
                   smtp_enable_starttls_auto: true,
-                  smtp_openssl_verify_mode: 'peer'
+                  smtp_openssl_verify_mode: 'peer',
+                  smtp_authentication: 'login'
                 }
               },
               as: :json
@@ -509,6 +510,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.smtp_port).to eq(587)
         expect(email_channel.reload.smtp_enable_starttls_auto).to be true
         expect(email_channel.reload.smtp_openssl_verify_mode).to eq('peer')
+        expect(email_channel.reload.smtp_authentication).to eq('login')
       end
 
       it 'updates smtp configuration with ssl/tls encryption' do
@@ -528,7 +530,8 @@ RSpec.describe 'Inboxes API', type: :request do
                   smtp_email: 'smtptest@gmail.com',
                   smtp_port: 587,
                   smtp_enable_ssl_tls: true,
-                  smtp_openssl_verify_mode: 'none'
+                  smtp_openssl_verify_mode: 'none',
+                  smtp_authentication: 'plain'
                 }
               },
               as: :json
@@ -538,7 +541,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
         expect(email_channel.reload.smtp_port).to eq(587)
         expect(email_channel.reload.smtp_enable_ssl_tls).to be true
-        expect(email_channel.reload.smtp_openssl_verify_mode).to eq('none')
+        expect(email_channel.reload.smtp_authentication).to eq('plain')
       end
     end
   end
