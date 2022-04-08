@@ -110,7 +110,8 @@
         "id": 4,
         "groupBy": "السنة"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "ساعات العمل"
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
