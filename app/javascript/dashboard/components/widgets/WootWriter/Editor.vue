@@ -148,8 +148,8 @@ export default {
     showCannedMenu(updatedValue) {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue = '', oldValue = '') {
-      if (newValue !== oldValue) {
+    value(newValue = '') {
+      if (newValue !== this.lastValue) {
         const { tr } = this.state;
         if (this.isFormatMode) {
           this.state = createState(
