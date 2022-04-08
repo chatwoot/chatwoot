@@ -2,6 +2,8 @@ module MailboxHelper
   private
 
   def create_message
+    return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
+
     @message = @conversation.messages.create(
       account_id: @conversation.account_id,
       sender: @conversation.contact,
