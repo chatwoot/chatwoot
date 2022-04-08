@@ -110,7 +110,8 @@
         "id": 0,
         "groupBy": "سال"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "ساعت کاری"
   },
   "AGENT_REPORTS": {
     "HEADER": "نمای کلی ایجنت ها",
