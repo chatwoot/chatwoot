@@ -426,7 +426,7 @@ RSpec.describe 'Inboxes API', type: :request do
                   imap_enabled: true,
                   imap_address: 'imap.gmail.com',
                   imap_port: 993,
-                  imap_email: 'imaptest@gmail.com'
+                  imap_login: 'imaptest@gmail.com'
                 }
               },
               as: :json

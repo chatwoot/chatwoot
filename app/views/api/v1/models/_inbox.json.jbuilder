@@ -53,7 +53,7 @@ if resource.email?
   json.email resource.channel.try(:email)
 
   ## IMAP
-  json.imap_email resource.channel.try(:imap_email)
+  json.imap_login resource.channel.try(:imap_login)
   json.imap_password resource.channel.try(:imap_password)
   json.imap_address resource.channel.try(:imap_address)
   json.imap_port resource.channel.try(:imap_port)

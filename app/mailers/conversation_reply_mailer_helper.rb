@@ -52,6 +52,6 @@ module ConversationReplyMailerHelper
   end
 
   def email_reply_to
-    email_imap_enabled ? @channel.imap_email : reply_email
+    email_imap_enabled ? @channel.imap_login : reply_email
   end
 end

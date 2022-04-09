@@ -14,7 +14,7 @@ module Api::V1::InboxesHelper
     Mail.defaults do
       retriever_method :imap, { address: channel_data[:imap_address],
                                 port: channel_data[:imap_port],
-                                user_name: channel_data[:imap_email],
+                                user_name: channel_data[:imap_login],
                                 password: channel_data[:imap_password],
                                 enable_ssl: channel_data[:imap_enable_ssl] }
     end
