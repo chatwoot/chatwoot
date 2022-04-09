@@ -111,7 +111,7 @@
         "groupBy": "Ano"
       }
     ],
-    "BUSINESS_HOURS": "Horário de funcionamento"
+    "BUSINESS_HOURS": "Horários de funcionamento"
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
