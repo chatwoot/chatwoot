@@ -45,11 +45,11 @@
           : ''
       "
     />
-    <select v-model="cities" class="mt-5">
+    <!-- <select v-model="cities" class="mt-5">
       <option v-for="(city, index) in courses" :value="city"
               v-bind:key="index">{{ city }}
       </option>
-    </select>
+    </select> -->
     <!-- :error="$v.phoneNumber.$error ? $t('Please input with +62 format.') : ''" -->
     <form-text-area
       v-if="!hasActiveCampaign"
@@ -676,10 +676,6 @@ export default {
       if (this.phoneNumber.charAt(0) === '0') {
         this.phoneNumber = this.phoneNumber.replace('0', '+62');
       }
-      // window.dataLayer.push({
-      //   'event': "ChatwootFormSubmit", 
-      //   'formSubmit': "chatwoot form submitted",
-      // })
       let payload = {
         fullName: this.fullName,
         emailAddress: this.emailAddress,
@@ -687,9 +683,8 @@ export default {
         message: this.message,
         //location: this.cities
       }
-      console.log("hehe", payload)
       //send prechat form data to parent window - smsp main website
-      window.parent.postMessage({ message: "getPrechatData", value: payload, event:'chatwootFormSubmit' }, "*");
+      window.parent.postMessage({ message: "getPrechatData", value: payload }, "*");
       this.$emit('submit', {
         fullName: this.fullName,
         emailAddress: this.emailAddress,
