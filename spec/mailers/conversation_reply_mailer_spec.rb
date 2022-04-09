@@ -156,7 +156,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
     context 'when smtp enabled for email channel' do
       let(:smtp_email_channel) do
-        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_email: 'smtp@gmail.com',
+        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_login: 'smtp@gmail.com',
                                smtp_password: 'password', smtp_domain: 'smtp.gmail.com', account: account)
       end
       let(:conversation) { create(:conversation, assignee: agent, inbox: smtp_email_channel.inbox, account: account).reload }

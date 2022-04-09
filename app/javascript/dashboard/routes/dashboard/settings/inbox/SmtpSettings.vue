@@ -151,7 +151,7 @@ export default {
         smtp_enabled,
         smtp_address,
         smtp_port,
-        smtp_email,
+        smtp_login,
         smtp_password,
         smtp_domain,
         smtp_enable_starttls_auto,
@@ -161,7 +161,7 @@ export default {
       this.isSMTPEnabled = smtp_enabled;
       this.address = smtp_address;
       this.port = smtp_port;
-      this.email = smtp_email;
+      this.email = smtp_login;
       this.password = smtp_password;
       this.domain = smtp_domain;
       this.starttls = smtp_enable_starttls_auto;
@@ -198,7 +198,7 @@ export default {
             smtp_enabled: this.isSMTPEnabled,
             smtp_address: this.address,
             smtp_port: this.port,
-            smtp_email: this.email,
+            smtp_login: this.email,
             smtp_password: this.password,
             smtp_domain: this.domain,
             smtp_enable_ssl_tls: this.ssl,

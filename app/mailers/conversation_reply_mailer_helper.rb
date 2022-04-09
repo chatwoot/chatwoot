@@ -26,7 +26,7 @@ module ConversationReplyMailerHelper
     smtp_settings = {
       address: @channel.smtp_address,
       port: @channel.smtp_port,
-      user_name: @channel.smtp_email,
+      user_name: @channel.smtp_login,
       password: @channel.smtp_password,
       domain: @channel.smtp_domain,
       tls: @channel.smtp_enable_ssl_tls,
@@ -48,7 +48,7 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
-    email_smtp_enabled ? @channel.smtp_email : from_email_with_name
+    email_smtp_enabled ? @channel.smtp_login : from_email_with_name
   end
 
   def email_reply_to
