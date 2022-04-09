@@ -33,12 +33,12 @@
             @blur="$v.port.$touch"
           />
           <woot-input
-            v-model="email"
-            :class="{ error: $v.email.$error }"
+            v-model="login"
+            :class="{ error: $v.login.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.SMTP.EMAIL.LABEL')"
-            :placeholder="$t('INBOX_MGMT.SMTP.EMAIL.PLACE_HOLDER')"
-            @blur="$v.email.$touch"
+            :label="$t('INBOX_MGMT.SMTP.LOGIN.LABEL')"
+            :placeholder="$t('INBOX_MGMT.SMTP.LOGIN.PLACE_HOLDER')"
+            @blur="$v.login.$touch"
           />
           <woot-input
             v-model="password"
@@ -84,7 +84,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
 import InputRadioGroup from './components/InputRadioGroup';
 import SingleSelectDropdown from './components/SingleSelectDropdown';
 
@@ -106,7 +106,7 @@ export default {
       isSMTPEnabled: false,
       address: '',
       port: '',
-      email: '',
+      login: '',
       password: '',
       domain: '',
       ssl: false,
@@ -130,7 +130,7 @@ export default {
       required,
       minLength: minLength(2),
     },
-    email: { required, email },
+    login: { required },
     password: { required },
     domain: { required },
   },
@@ -161,7 +161,7 @@ export default {
       this.isSMTPEnabled = smtp_enabled;
       this.address = smtp_address;
       this.port = smtp_port;
-      this.email = smtp_login;
+      this.login = smtp_login;
       this.password = smtp_password;
       this.domain = smtp_domain;
       this.starttls = smtp_enable_starttls_auto;
@@ -198,7 +198,7 @@ export default {
             smtp_enabled: this.isSMTPEnabled,
             smtp_address: this.address,
             smtp_port: this.port,
-            smtp_login: this.email,
+            smtp_login: this.login,
             smtp_password: this.password,
             smtp_domain: this.domain,
             smtp_enable_ssl_tls: this.ssl,
