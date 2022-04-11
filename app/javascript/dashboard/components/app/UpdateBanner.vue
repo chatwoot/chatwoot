@@ -12,11 +12,12 @@
 </template>
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
-import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../helper/localStorage';
+import LocalStorage from '../../helper/localStorage';
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 
 const semver = require('semver');
+const dismissedUpdates = new LocalStorage('dismissedUpdates');
 
 export default {
   components: {
@@ -56,22 +57,16 @@ export default {
   },
   methods: {
     isVersionNotificationDismissed(version) {
-      const dismissedVersions =
-        LocalStorage.get(LOCAL_STORAGE_KEYS.DISMISSED_UPDATES) || [];
-      return dismissedVersions.includes(version);
+      return dismissedUpdates.get().includes(version);
     },
     dismissUpdateBanner() {
-      let updatedDismissedItems =
-        LocalStorage.get(LOCAL_STORAGE_KEYS.DISMISSED_UPDATES) || [];
+      let updatedDismissedItems = dismissedUpdates.get();
       if (updatedDismissedItems instanceof Array) {
         updatedDismissedItems.push(this.latestChatwootVersion);
       } else {
         updatedDismissedItems = [this.latestChatwootVersion];
       }
-      LocalStorage.set(
-        LOCAL_STORAGE_KEYS.DISMISSED_UPDATES,
-        updatedDismissedItems
-      );
+      dismissedUpdates.store(updatedDismissedItems);
       this.latestChatwootVersion = this.globalConfig.appVersion;
     },
   },
