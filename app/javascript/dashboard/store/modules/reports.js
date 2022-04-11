@@ -50,16 +50,6 @@ export const actions = {
         el =>
           reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
       );
-      if (
-        reportObj.metric === 'avg_first_response_time' ||
-        reportObj.metric === 'avg_resolution_time'
-      ) {
-        data = data.map(element => {
-          /* eslint-disable operator-assignment */
-          element.value = (element.value / 3600).toFixed(2);
-          return element;
-        });
-      }
       commit(types.default.SET_ACCOUNT_REPORTS, data);
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
     });
