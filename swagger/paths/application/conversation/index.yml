@@ -12,25 +12,40 @@ get:
       in: query
       type: string
       enum: ['me', 'unassigned', 'all', 'assigned']
-      required: true
+      default: 'all'
+      description: Filter conversations by assignee type.
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'pending']
-      required: true
-    - name: page
+      enum: ['open', 'resolved', 'pending', 'snoozed']
+      default: 'open'
+      description: Filter by conversation status.
+    - name: q
       in: query
-      type: integer
-      required: true
+      type: string
+      description: Filters conversations with messages containing the search term
+      example: 'help'
     - name: inbox_id
       in: query
       type: integer
+      example: 1
+    - name: team_id
+      in: query
+      type: integer
+      example: 1
     - name: labels
       in: query
       type: array
       items:
         type: string
-
+      example: ['support', 'engineering']
+    - name: page
+      in: query
+      type: integer
+      default: 1
+      example: 1
+      description: paginate through conversations
+   
   responses:
     200:
       description: Success
