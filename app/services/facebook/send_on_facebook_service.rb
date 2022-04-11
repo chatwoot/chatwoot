@@ -24,7 +24,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       recipient: { id: contact.get_source_id(inbox.id) },
       message: { text: message.content },
       messaging_type: 'MESSAGE_TAG',
-      tag: 'ACCOUNT_UPDATE'
+      tag: 'HUMAN_AGENT'
     }
   end
 
@@ -41,7 +41,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         }
       },
       messaging_type: 'MESSAGE_TAG',
-      tag: 'ACCOUNT_UPDATE'
+      tag: 'HUMAN_AGENT'
     }
   end
 
