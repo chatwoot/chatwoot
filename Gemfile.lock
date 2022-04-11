@@ -636,6 +636,9 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     wisper (2.0.0)
+    working_hours (1.4.1)
+      activesupport (>= 3.2)
+      tzinfo
     zeitwerk (2.5.4)
 
 PLATFORMS
@@ -746,6 +749,7 @@ DEPENDENCIES
   webpacker (~> 5.x)
   webpush
   wisper (= 2.0.0)
+  working_hours
 
 RUBY VERSION
    ruby 3.0.2p107

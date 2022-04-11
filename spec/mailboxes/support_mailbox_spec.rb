@@ -148,6 +148,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation_1.messages.count).to eq(1)
 
         reply_mail_without_uuid.mail['In-Reply-To'] = 'conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123'
+        reply_mail_without_uuid.mail['Message-Id'] = '0CB459E0-0336-41DA-BC88-E6E28C697SFC@chatwoot.com'
 
         described_class.receive reply_mail_without_uuid
 

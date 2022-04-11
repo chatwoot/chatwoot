@@ -170,6 +170,24 @@
   delete:
     $ref: ./application/canned_responses/delete.yml
 
+# Custom Attributes
+/api/v1/accounts/{account_id}/custom_attribute_definitions:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/custom_attributes/index.yml
+  post:
+    $ref: ./application/custom_attributes/create.yml
+/api/v1/accounts/{account_id}/custom_attribute_definitions/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: './application/custom_attributes/show.yml'
+  patch:
+    $ref: ./application/custom_attributes/update.yml
+  delete:
+    $ref: ./application/custom_attributes/delete.yml
+
 # Contacts
 /api/v1/accounts/{account_id}/contacts:
   $ref: ./application/contacts/list_create.yml
