@@ -214,22 +214,21 @@ export default {
       if (!this.isContactFieldRequired(name)) {
         return '';
       }
-      if (name === 'emailAddress') {
-        return 'bail|required|email';
+      const validations = {
+        emailAddress: 'email',
+        phoneNumber: 'isPhoneE164OrEmpty',
+        url: 'url',
+        date: 'date',
+        text: null,
+        select: null,
+        number: null,
+      };
+      const validationKeys = Object.keys(validations);
+      const validation = 'bail|required';
+      if (validationKeys.includes(name) || validationKeys.includes(type)) {
+        const validationType = validations[type] || validations[name];
+        return validationType ? `${validation}|${validationType}` : validation;
       }
-      if (name === 'phoneNumber') {
-        return 'bail|required|isPhoneE164OrEmpty';
-      }
-      if (type === 'url') {
-        return 'bail|required|url';
-      }
-      if (type === 'date') {
-        return 'bail|required|date';
-      }
-      if (type === 'text' || type === 'select' || type === 'number') {
-        return 'bail|required';
-      }
-
       return '';
     },
     findFieldType(type) {
