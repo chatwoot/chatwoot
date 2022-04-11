@@ -426,7 +426,7 @@ RSpec.describe 'Inboxes API', type: :request do
                   imap_enabled: true,
                   imap_address: 'imap.gmail.com',
                   imap_port: 993,
-                  imap_email: 'imaptest@gmail.com'
+                  imap_login: 'imaptest@gmail.com'
                 }
               },
               as: :json
@@ -496,7 +496,7 @@ RSpec.describe 'Inboxes API', type: :request do
                   smtp_enabled: true,
                   smtp_address: 'smtp.gmail.com',
                   smtp_port: 587,
-                  smtp_email: 'smtptest@gmail.com',
+                  smtp_login: 'smtptest@gmail.com',
                   smtp_enable_starttls_auto: true,
                   smtp_openssl_verify_mode: 'peer'
                 }
@@ -525,7 +525,7 @@ RSpec.describe 'Inboxes API', type: :request do
                 channel: {
                   smtp_enabled: true,
                   smtp_address: 'smtp.gmail.com',
-                  smtp_email: 'smtptest@gmail.com',
+                  smtp_login: 'smtptest@gmail.com',
                   smtp_port: 587,
                   smtp_enable_ssl_tls: true,
                   smtp_openssl_verify_mode: 'none'
