@@ -29,8 +29,12 @@ module Api::V1::InboxesHelper
     smtp = Net::SMTP.new(channel_data[:smtp_address], channel_data[:smtp_port])
 
     set_smtp_encryption(channel_data, smtp)
+    check_smtp_connection(channel_data, smtp)
+  end
 
-    smtp.start(channel_data[:smtp_domain], channel_data[:smtp_email], channel_data[:smtp_password], :login)
+  def check_smtp_connection(channel_data, smtp)
+    smtp.start(channel_data[:smtp_domain], channel_data[:smtp_email], channel_data[:smtp_password],
+               channel_data[:smtp_authentication]&.to_sym || :login)
     smtp.finish unless smtp&.nil?
   end
 
