@@ -6,8 +6,8 @@ export const isValidPassword = value => {
   const containsUppercase = /[A-Z]/.test(value);
   const containsLowercase = /[a-z]/.test(value);
   const containsNumber = /[0-9]/.test(value);
-  const containsSpecial = /[%w!@#$%^&*()_+{}|'"^.,`<>:;?=~]/.test(value);
+  const containsSpecialCharacter = /[%w!@#$%^&*()_+{}|'"^.,`<>:;?=~]/.test(value);
   return (
-    containsUppercase && containsLowercase && containsNumber && containsSpecial
+    containsUppercase && containsLowercase && containsNumber && containsSpecialCharacter
   );
 };
