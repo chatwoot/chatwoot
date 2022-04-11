@@ -54,14 +54,9 @@
             :class="{ error: $v.credentials.password.$error }"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-            :error="
-              $v.credentials.password.$error
-                ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
-                : ''
-            "
+            :error="passwordErrorText"
             @blur="$v.credentials.password.$touch"
           />
-
           <woot-input
             v-model.trim="credentials.confirmPassword"
             type="password"
@@ -188,6 +183,19 @@ export default {
         return !!this.credentials.hCaptchaClientResponse;
       }
       return true;
+    },
+    passwordErrorText() {
+      const { password } = this.$v.credentials;
+      if (!password.$error) {
+        return '';
+      }
+      if (!password.minLength) {
+        return this.$t('REGISTER.PASSWORD.ERROR');
+      }
+      if (!password.isValidPassword) {
+        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
+      }
+      return '';
     },
   },
   methods: {
