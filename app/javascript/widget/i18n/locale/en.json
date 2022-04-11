@@ -63,7 +63,8 @@
         "ERROR": "Message too short"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {

@@ -25,7 +25,7 @@
       :validation-messages="{
         isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: getRequiredErrorMessage(item.name),
+        required: getRequiredErrorMessage(item),
       }"
     />
     <FormulateInput
@@ -203,12 +203,12 @@ export default {
       return this.formValues[name] || null;
     },
 
-    getRequiredErrorMessage(fieldName) {
-      if (this.labels[fieldName])
+    getRequiredErrorMessage({ name, label }) {
+      if (this.labels[name])
         return this.$t(
-          `PRE_CHAT_FORM.FIELDS.${this.labels[fieldName]}.REQUIRED_ERROR`
+          `PRE_CHAT_FORM.FIELDS.${this.labels[name]}.REQUIRED_ERROR`
         );
-      return `${fieldName} is required`;
+      return `${label} ${this.$t('PRE_CHAT_FORM.IS_REQUIRED')}`;
     },
     getValidation({ type, name }) {
       if (!this.isContactFieldRequired(name)) {
