@@ -122,6 +122,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from '../../constants';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+import { isValidPassword } from 'shared/helpers/Validators';
 export default {
   components: {
     VueHcaptcha,
@@ -158,6 +159,7 @@ export default {
       },
       password: {
         required,
+        isValidPassword,
         minLength: minLength(6),
       },
       confirmPassword: {
