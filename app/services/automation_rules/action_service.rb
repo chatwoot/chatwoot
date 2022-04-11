@@ -41,7 +41,7 @@ class AutomationRules::ActionService
   end
 
   def snooze_conversation(_params)
-    @conversation.ensure_snooze_until_reset
+    @conversation.snoozed!
   end
 
   def change_status(status)
@@ -79,6 +79,7 @@ class AutomationRules::ActionService
     return if labels.empty?
 
     @conversation.add_labels(labels)
+    @conversation.create_label_change('Automation')
   end
 
   def send_email_to_team(params)
