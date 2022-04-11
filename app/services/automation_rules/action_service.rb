@@ -82,15 +82,10 @@ class AutomationRules::ActionService
   end
 
   def send_email_to_team(params)
-    team = Team.find(params[:team_ids][0])
+    teams = Team.where(id: params[0][:team_ids])
 
-    case @rule.event_name
-    when 'conversation_created', 'conversation_status_changed'
-      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[:message])&.deliver_now
-    when 'conversation_updated'
-      TeamNotifications::AutomationNotificationMailer.conversation_updated(@conversation, team, params[:message])&.deliver_now
-    when 'message_created'
-      TeamNotifications::AutomationNotificationMailer.message_created(@conversation, team, params[:message])&.deliver_now
+    teams.each do |team|
+      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
     end
   end
 
