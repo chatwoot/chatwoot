@@ -96,11 +96,11 @@ export const AUTOMATIONS = {
         name: 'Mute conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
-      {
-        key: 'snooze_convresation',
-        name: 'Snooze conversation',
-        attributeI18nKey: 'MUTE_CONVERSATION',
-      },
+      // {
+      //   key: 'snooze_convresation',
+      //   name: 'Snooze conversation',
+      //   attributeI18nKey: 'MUTE_CONVERSATION',
+      // },
       {
         key: 'resolve_convresation',
         name: 'Resolve conversation',
@@ -180,11 +180,11 @@ export const AUTOMATIONS = {
         name: 'Mute conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
-      {
-        key: 'snooze_convresation',
-        name: 'Snooze conversation',
-        attributeI18nKey: 'MUTE_CONVERSATION',
-      },
+      // {
+      //   key: 'snooze_convresation',
+      //   name: 'Snooze conversation',
+      //   attributeI18nKey: 'MUTE_CONVERSATION',
+      // },
       {
         key: 'resolve_convresation',
         name: 'Resolve conversation',
@@ -278,11 +278,11 @@ export const AUTOMATIONS = {
         name: 'Mute conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
-      {
-        key: 'snooze_convresation',
-        name: 'Snooze conversation',
-        attributeI18nKey: 'MUTE_CONVERSATION',
-      },
+      // {
+      //   key: 'snooze_convresation',
+      //   name: 'Snooze conversation',
+      //   attributeI18nKey: 'MUTE_CONVERSATION',
+      // },
       {
         key: 'resolve_convresation',
         name: 'Resolve conversation',
@@ -343,11 +343,11 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'Mute conversation',
     inputType: null,
   },
-  {
-    key: 'snooze_convresation',
-    label: 'Snooze conversation',
-    inputType: null,
-  },
+  // {
+  //   key: 'snooze_convresation',
+  //   label: 'Snooze conversation',
+  //   inputType: null,
+  // },
   {
     key: 'resolve_convresation',
     label: 'Resolve conversation',
