@@ -70,6 +70,7 @@ if resource.email?
   json.smtp_enable_ssl_tls resource.channel.try(:smtp_enable_ssl_tls)
   json.smtp_enable_starttls_auto resource.channel.try(:smtp_enable_starttls_auto)
   json.smtp_openssl_verify_mode resource.channel.try(:smtp_openssl_verify_mode)
+  json.smtp_authentication resource.channel.try(:smtp_authentication)
 end
 
 ## API Channel Attributes

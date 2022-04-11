@@ -157,7 +157,7 @@ export default {
   &.warning {
     background: var(--y-100);
     color: var(--y-900);
-    border: 1px solid var(--y-300);
+    border: 1px solid var(--y-200);
     a {
       color: var(--y-900);
     }
