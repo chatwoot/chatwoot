@@ -259,8 +259,8 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns for cloned automation_rule for account' do
-        params = {
+      let(:update_params) do
+        {
           description: 'Update description',
           name: 'Update name',
           conditions: [
@@ -278,12 +278,15 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
             }
           ]
         }.with_indifferent_access
+      end
+
+      it 'returns for cloned automation_rule for account' do
         expect(account.automation_rules.count).to eq(1)
         expect(account.automation_rules.first.actions.size).to eq(4)
 
         patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
               headers: administrator.create_new_auth_token,
-              params: params
+              params: update_params
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body, symbolize_names: true)
