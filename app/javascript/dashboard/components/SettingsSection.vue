@@ -56,7 +56,7 @@ export default {
   }
 
   .note {
-    font-weight: $font-weight-bold;
+    font-weight: var(--font-weight-bold);
   }
 }
 </style>
