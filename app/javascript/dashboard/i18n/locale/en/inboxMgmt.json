@@ -478,6 +478,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -537,6 +538,7 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+    },
+    "NOTE": "Note: "
   }
 }
