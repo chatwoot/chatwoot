@@ -223,7 +223,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send email transcript to the mentioned email' do
         mailer = double
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -235,7 +235,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages).to be_empty
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -321,7 +321,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -333,7 +333,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send email to the team' do
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
       end
@@ -343,7 +343,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -375,7 +375,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -388,7 +388,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -400,7 +400,7 @@ describe AutomationRuleListener do
         expect(conversation.assignee).to be_nil
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -414,7 +414,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
