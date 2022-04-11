@@ -148,8 +148,8 @@ export default {
     showCannedMenu(updatedValue) {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue = '', oldValue = '') {
-      if (newValue !== oldValue) {
+    value(newValue = '') {
+      if (newValue !== this.lastValue) {
         const { tr } = this.state;
         if (this.isFormatMode) {
           this.state = createState(
@@ -164,6 +164,15 @@ export default {
         }
         this.view.updateState(this.state);
       }
+    },
+    isPrivate() {
+      this.state = createState(
+        this.value,
+        this.placeholder,
+        this.plugins,
+        this.isFormatMode
+      );
+      this.view.updateState(this.state);
     },
   },
   created() {
