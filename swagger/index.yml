@@ -53,19 +53,20 @@ x-tagGroups:
   - name: Application
     tags:
       - Account AgentBots
-      - Agent
-      - Canned Response
-      - Contact
-      - Conversation
+      - Agents
+      - Canned Responses
+      - Contacts
+      - Conversations
       - Conversation Assignment
       - Conversation Labels
-      - Inbox
+      - Inboxes
       - Messages
       - Integrations
       - Profile
       - Teams
-      - Custom Filter
+      - Custom Filters
       - Reports
+      - Custom Attributes
   - name: Client
     tags:
       - Contacts API
