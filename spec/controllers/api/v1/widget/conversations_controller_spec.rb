@@ -54,19 +54,22 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              website_token: web_widget.website_token,
              contact: {
                name: 'contact-name',
-               email: 'contact-email@chatwoot.com'
+               email: 'contact-email@chatwoot.com',
+               phone_number: '+919745313456'
              },
              message: {
                content: 'This is a test message'
-             }
+             },
+             custom_attributes: { order_id: '12345' }
            },
            as: :json
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
-
       expect(json_response['id']).not_to eq nil
       expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
+      expect(json_response['contact']['phone_number']).to eq '+919745313456'
+      expect(json_response['custom_attributes']['order_id']).to eq '12345'
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
   end
