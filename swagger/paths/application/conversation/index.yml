@@ -24,26 +24,21 @@ get:
       in: query
       type: string
       description: Filters conversations with messages containing the search term
-      example: 'help'
     - name: inbox_id
       in: query
       type: integer
-      example: 1
     - name: team_id
       in: query
       type: integer
-      example: 1
     - name: labels
       in: query
       type: array
       items:
         type: string
-      example: ['support', 'engineering']
     - name: page
       in: query
       type: integer
       default: 1
-      example: 1
       description: paginate through conversations
    
   responses:

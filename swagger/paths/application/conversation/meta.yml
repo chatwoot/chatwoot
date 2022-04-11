@@ -18,21 +18,17 @@ get:
       in: query
       type: string
       description: Filters conversations with messages containing the search term
-      example: 'help'
     - name: inbox_id
       in: query
       type: integer
-      example: 1
     - name: team_id
       in: query
       type: integer
-      example: 1
     - name: labels
       in: query
       type: array
       items:
         type: string
-      example: ['support', 'engineering']
 
   responses:
     200:
