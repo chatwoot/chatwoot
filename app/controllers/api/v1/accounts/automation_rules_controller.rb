@@ -1,6 +1,6 @@
 class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
+  before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone, :staus_update]
 
   def index
     @automation_rules = Current.account.automation_rules
@@ -18,6 +18,11 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def show; end
+
+  def staus_update
+    @automation_rule.update!(active: params[:active])
+    @automation_rule
+  end
 
   def update
     @automation_rule.update(automation_rules_permit)
