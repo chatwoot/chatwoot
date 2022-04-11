@@ -48,10 +48,18 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
-    email_smtp_enabled ? @channel.smtp_login : from_email_with_name
+    email_smtp_enabled ? @channel.email : from_email_with_name
   end
 
   def email_reply_to
-    email_imap_enabled ? @channel.imap_login : reply_email
+    email_imap_enabled ? @channel.email : reply_email
+  end
+
+  # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to
+  def channel_email_domain
+    return @account.inbound_email_domain if @account.inbound_email_domain.present?
+
+    email = @inbox.channel.try(:email)
+    email.present? ? email.split('@').last : raise(StandardError, 'Channel email domain not present.')
   end
 end
