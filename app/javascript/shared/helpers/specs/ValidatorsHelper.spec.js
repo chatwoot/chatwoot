@@ -11,4 +11,8 @@ describe('#isValidPassword', () => {
   it('should return correct password', () => {
     expect(isValidPassword('testPass4!')).toEqual(true);
   });
+
+  it('should return wrong password', () => {
+    expect(isValidPassword('testpass4!')).toEqual(false);
+  });
 });
