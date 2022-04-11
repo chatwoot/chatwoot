@@ -156,7 +156,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
     context 'when smtp enabled for email channel' do
       let(:smtp_email_channel) do
-        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_email: 'smtp@gmail.com',
+        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_login: 'smtp@gmail.com',
                                smtp_password: 'password', smtp_domain: 'smtp.gmail.com', account: account)
       end
       let(:conversation) { create(:conversation, assignee: agent, inbox: smtp_email_channel.inbox, account: account).reload }
@@ -249,6 +249,25 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'sets the correct in reply to id' do
         expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{conversation.account.domain}")
+      end
+    end
+
+    context 'when inbound email domain is not enabled' do
+      let(:new_account) { create(:account, domain: nil) }
+      let!(:email_channel) { create(:channel_email, account: new_account) }
+      let!(:inbox) { create(:inbox, channel: email_channel, account: new_account) }
+      let(:inbox_member) { create(:inbox_member, user: agent, inbox: inbox) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: new_account) }
+      let!(:message) { create(:message, conversation: conversation, account: new_account) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
+      let(:domain) { inbox.channel.email.split('@').last }
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{domain}")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
       end
     end
   end
