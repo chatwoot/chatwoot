@@ -540,6 +540,34 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.smtp_enable_ssl_tls).to be true
         expect(email_channel.reload.smtp_openssl_verify_mode).to eq('none')
       end
+
+      it 'updates smtp configuration with authentication mechanism' do
+        smtp_connection = double
+        allow(smtp_connection).to receive(:start).and_return(true)
+        allow(smtp_connection).to receive(:finish).and_return(true)
+        allow(smtp_connection).to receive(:respond_to?).and_return(true)
+        allow(smtp_connection).to receive(:enable_starttls_auto).and_return(true)
+        allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: {
+                channel: {
+                  smtp_enabled: true,
+                  smtp_address: 'smtp.gmail.com',
+                  smtp_port: 587,
+                  smtp_email: 'smtptest@gmail.com',
+                  smtp_authentication: 'plain'
+                }
+              },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_channel.reload.smtp_enabled).to be true
+        expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
+        expect(email_channel.reload.smtp_port).to eq(587)
+        expect(email_channel.reload.smtp_authentication).to eq('plain')
+      end
     end
   end
 
