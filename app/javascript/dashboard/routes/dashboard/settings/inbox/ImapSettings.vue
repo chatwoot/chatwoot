@@ -3,6 +3,7 @@
     <settings-section
       :title="$t('INBOX_MGMT.IMAP.TITLE')"
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
+      :note="$t('INBOX_MGMT.IMAP.NOTE_TEXT')"
     >
       <form @submit.prevent="updateInbox">
         <label for="toggle-imap-enable">
@@ -132,7 +133,7 @@ export default {
     async updateInbox() {
       try {
         this.loading = true;
-        const payload = {
+        let payload = {
           id: this.inbox.id,
           formData: false,
           channel: {
@@ -147,6 +148,11 @@ export default {
               : undefined,
           },
         };
+
+        if (!this.isIMAPEnabled) {
+          payload.channel.smtp_enabled = false;
+        }
+
         await this.$store.dispatch('inboxes/updateInboxIMAP', payload);
         this.showAlert(this.$t('INBOX_MGMT.IMAP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
