@@ -22,8 +22,4 @@ class AutomationRulePolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
-
-  def status_update?
-    @account_user.administrator?
-  end
 end

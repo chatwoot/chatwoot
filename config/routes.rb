@@ -55,7 +55,6 @@ Rails.application.routes.draw do
           resources :canned_responses, only: [:index, :create, :update, :destroy]
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
-            patch :status_update
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
