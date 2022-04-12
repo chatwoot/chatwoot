@@ -55,7 +55,7 @@ RSpec.describe Conversation, type: :model do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
-                                                                    changed_attributes: nil)
+                                                                    changed_attributes: nil, performed_by: nil)
     end
   end
 
@@ -121,16 +121,16 @@ RSpec.describe Conversation, type: :model do
 
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                     changed_attributes: status_change)
+                                                                     changed_attributes: status_change, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                 changed_attributes: nil)
+                                                                 changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                changed_attributes: nil)
+                                                                changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                    changed_attributes: changed_attributes)
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
     end
 
     it 'will not run conversation_updated event for empty updates' do
