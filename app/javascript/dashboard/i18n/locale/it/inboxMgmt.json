@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Imposta i dettagli IMAP",
+      "NOTE_TEXT": "Per abilitare SMTP, configurare IMAP.",
       "UPDATE": "Aggiorna impostazioni IMAP",
       "TOGGLE_AVAILABILITY": "Abilita la configurazione IMAP per questa casella",
       "TOGGLE_HELP": "Abilitare IMAP aiuterà l'utente a ricevere email",
@@ -484,9 +485,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Accedi",
+        "PLACE_HOLDER": "Accedi"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -512,9 +513,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Accedi",
+        "PLACE_HOLDER": "Accedi"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Cifratura",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Apri modalità di verifica SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Apri modalità di verifica SSL",
+      "AUTH_MECHANISM": "Autenticazione"
+    },
+    "NOTE": "Nota: "
   }
 }
