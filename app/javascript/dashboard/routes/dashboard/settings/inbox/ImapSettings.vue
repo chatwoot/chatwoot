@@ -3,6 +3,7 @@
     <settings-section
       :title="$t('INBOX_MGMT.IMAP.TITLE')"
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
+      :note="$t('INBOX_MGMT.IMAP.NOTE_TEXT')"
     >
       <form @submit.prevent="updateInbox">
         <label for="toggle-imap-enable">
@@ -33,12 +34,12 @@
             @blur="$v.port.$touch"
           />
           <woot-input
-            v-model="email"
-            :class="{ error: $v.email.$error }"
+            v-model="login"
+            :class="{ error: $v.login.$error }"
             class="medium-9 columns"
-            :label="$t('INBOX_MGMT.IMAP.EMAIL.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.EMAIL.PLACE_HOLDER')"
-            @blur="$v.email.$touch"
+            :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
+            :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
+            @blur="$v.login.$touch"
           />
           <woot-input
             v-model="password"
@@ -72,7 +73,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
 
 export default {
   components: {
@@ -90,7 +91,7 @@ export default {
       isIMAPEnabled: false,
       address: '',
       port: '',
-      email: '',
+      login: '',
       password: '',
       isSSLEnabled: true,
     };
@@ -98,7 +99,7 @@ export default {
   validations: {
     address: { required },
     port: { required, minLength: minLength(2) },
-    email: { required, email },
+    login: { required },
     password: { required },
   },
   computed: {
@@ -118,28 +119,28 @@ export default {
         imap_enabled,
         imap_address,
         imap_port,
-        imap_email,
+        imap_login,
         imap_password,
         imap_enable_ssl,
       } = this.inbox;
       this.isIMAPEnabled = imap_enabled;
       this.address = imap_address;
       this.port = imap_port;
-      this.email = imap_email;
+      this.login = imap_login;
       this.password = imap_password;
       this.isSSLEnabled = imap_enable_ssl;
     },
     async updateInbox() {
       try {
         this.loading = true;
-        const payload = {
+        let payload = {
           id: this.inbox.id,
           formData: false,
           channel: {
             imap_enabled: this.isIMAPEnabled,
             imap_address: this.address,
             imap_port: this.port,
-            imap_email: this.email,
+            imap_login: this.login,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
             imap_inbox_synced_at: this.isIMAPEnabled
@@ -147,6 +148,11 @@ export default {
               : undefined,
           },
         };
+
+        if (!this.isIMAPEnabled) {
+          payload.channel.smtp_enabled = false;
+        }
+
         await this.$store.dispatch('inboxes/updateInboxIMAP', payload);
         this.showAlert(this.$t('INBOX_MGMT.IMAP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
