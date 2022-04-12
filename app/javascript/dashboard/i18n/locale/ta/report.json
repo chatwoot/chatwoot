@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
         "DESC": "(சராசரி)",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
