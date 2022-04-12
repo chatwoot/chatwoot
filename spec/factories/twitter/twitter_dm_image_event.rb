@@ -14,44 +14,42 @@ FactoryBot.define do
           'message_data' => {
             'text' => 'Blue Bird',
             'attachment' => {
-              'media' => [
-                {
-                  'display_url' => 'pic.twitter.com/5J1WJSRCy9',
-                  'expanded_url' => 'https://twitter.com/nolan_test/status/930077847535812610/photo/1',
-                  'id' => 9.300778475358126e17,
-                  'id_str' => '930077847535812610',
-                  'indices' => [
-                    13,
-                    36
-                  ],
-                  'media_url' => 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
-                  'media_url_https' => 'https://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
-                  'sizes' => {
-                    'thumb' => {
-                      'h' => 150,
-                      'resize' => 'crop',
-                      'w' => 150
-                    },
-                    'large' => {
-                      'h' => 1366,
-                      'resize' => 'fit',
-                      'w' => 2048
-                    },
-                    'medium' => {
-                      'h' => 800,
-                      'resize' => 'fit',
-                      'w' => 1200
-                    },
-                    'small' => {
-                      'h' => 454,
-                      'resize' => 'fit',
-                      'w' => 680
-                    }
+              'media' => {
+                'display_url' => 'pic.twitter.com/5J1WJSRCy9',
+                'expanded_url' => 'https://twitter.com/nolan_test/status/930077847535812610/photo/1',
+                'id' => 9.300778475358126e17,
+                'id_str' => '930077847535812610',
+                'indices' => [
+                  13,
+                  36
+                ],
+                'media_url' => 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
+                'media_url_https' => 'https://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
+                'sizes' => {
+                  'thumb' => {
+                    'h' => 150,
+                    'resize' => 'crop',
+                    'w' => 150
                   },
-                  'type' => 'photo',
-                  'url' => 'https://t.co/5J1WJSRCy9'
-                }
-              ]
+                  'large' => {
+                    'h' => 1366,
+                    'resize' => 'fit',
+                    'w' => 2048
+                  },
+                  'medium' => {
+                    'h' => 800,
+                    'resize' => 'fit',
+                    'w' => 1200
+                  },
+                  'small' => {
+                    'h' => 454,
+                    'resize' => 'fit',
+                    'w' => 680
+                  }
+                },
+                'type' => 'photo',
+                'url' => 'https://t.co/5J1WJSRCy9'
+              }
             }.with_indifferent_access
           }
         }

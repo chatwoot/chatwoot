@@ -110,7 +110,7 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
     temp_file << response.body
     temp_file.rewind
 
-    next unless media['type'] == 'photo'
+    return unless media['type'] == 'photo'
 
     @message.attachments.new(
       account_id: @inbox.account_id,
