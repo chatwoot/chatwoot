@@ -37,7 +37,10 @@ export default {
   methods: {
     onSubmit({ fullName, emailAddress, message, activeCampaignId }) {
       if (activeCampaignId) {
-        bus.$emit('execute-campaign', activeCampaignId);
+        bus.$emit('execute-campaign', {
+          campaignId: activeCampaignId,
+          // customAttributes: conversationCustomAttributes,
+        });
         this.$store.dispatch('contacts/update', {
           user: {
             email: emailAddress,
