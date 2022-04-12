@@ -209,6 +209,8 @@
 
 
 # Conversations
+/api/v1/accounts/{account_id}/conversations/meta:
+  $ref: ./application/conversation/meta.yml
 /api/v1/accounts/{account_id}/conversations:
   $ref: ./application/conversation/index.yml
 /api/v1/accounts/{account_id}/conversations/filter:
