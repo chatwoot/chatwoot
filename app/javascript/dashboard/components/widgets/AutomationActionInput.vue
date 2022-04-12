@@ -70,7 +70,7 @@
       v-if="inputType === 'textarea'"
       v-model="action_params"
       rows="4"
-      placeholder="Enter your message here"
+      :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     ></textarea>
     <p
