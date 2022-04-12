@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
-        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:"
+        "INFO_TEXT": "Общее количество разговоров, используемых для вычисления:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
