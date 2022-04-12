@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "首次响应时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数："
+        "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解决的数量",
