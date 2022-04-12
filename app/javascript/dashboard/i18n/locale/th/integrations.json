@@ -10,8 +10,8 @@
       "SEARCH_404": "ไม่มีรายการที่ตรงกับเนื้อหานี้",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "ไม่มีการตั้งค่า Webhooks กับบัญชีนี้",
+        "TITLE": "จัดการ Webhooks",
         "TABLE_HEADER": [
           "Webhook endpoint",
           "การกระทำ"
@@ -19,50 +19,50 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "เเก้ไข",
-        "TITLE": "Edit webhook",
+        "TITLE": "แก้ไข Webhook",
         "CANCEL": "ยกเลิก",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",
         "FORM": {
           "END_POINT": {
             "LABEL": "ลิ้ง Webhook",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "PLACEHOLDER": "ตัวอย่าง: https://example/api/webhook",
             "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
           },
-          "SUBMIT": "Edit webhook"
+          "SUBMIT": "แก้ไข Webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook URL อัพเดทแล้ว",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         }
       },
       "ADD": {
         "CANCEL": "ยกเลิก",
         "TITLE": "เพิ่ม Webhook ใหม่",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",
         "FORM": {
           "END_POINT": {
             "LABEL": "ลิ้ง Webhook",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "PLACEHOLDER": "ตัวอย่าง: https://example/api/webhook",
             "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "สร้าง Webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
+          "SUCCESS_MESSAGE": "เพิ่ม Webhook แล้ว",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "ลบ",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "SUCCESS_MESSAGE": "ลบ Webhook แล้ว",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         },
         "CONFIRM": {
           "TITLE": "ยืนยันการลบ",
           "MESSAGE": "คุณต้องการที่จะลบไหม ",
           "YES": "เอาเลย ",
-          "NO": "No, Keep it"
+          "NO": "ไม่"
         }
       }
     },
@@ -75,11 +75,11 @@
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "ลบการเชื่อมต่อแล้ว"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "เชื่อมต่อ"
     }
   }
 }
