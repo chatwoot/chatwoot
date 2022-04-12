@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  // Could
   props: ['teams', 'value'],
   data() {
     return {
@@ -51,9 +52,9 @@ export default {
 
 <style scoped>
 .multiselect {
-  margin: 0.5rem 0;
+  margin: var(--space-half) var(--space-zero);
 }
 textarea {
-  margin-bottom: 0;
+  margin-bottom: var(--space-zero);
 }
 </style>
