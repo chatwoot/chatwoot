@@ -36,7 +36,8 @@ export default {
     };
   },
   mounted() {
-    this.selectedTeams = this.value.team_ids;
+    const { team_ids: teamIds } = this.value;
+    this.selectedTeams = teamIds;
     this.message = this.value.message;
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
 
 <style scoped>
 .multiselect {
-  margin: var(--space-half) var(--space-zero);
+  margin: var(--space-smaller) var(--space-zero);
 }
 textarea {
   margin-bottom: var(--space-zero);

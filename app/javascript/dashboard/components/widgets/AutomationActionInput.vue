@@ -52,10 +52,6 @@
             class="answer--text-input"
             placeholder="Enter url"
           />
-          <!-- <file-upload
-            v-else-if="inputType === 'file'"
-            v-model="action_params"
-          /> -->
         </div>
       </div>
       <woot-button
@@ -87,11 +83,9 @@
 </template>
 
 <script>
-// import FileUpload from './FileUpload.vue';
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 export default {
   components: {
-    // FileUpload,
     AutomationActionTeamMessageInput,
   },
   props: {
