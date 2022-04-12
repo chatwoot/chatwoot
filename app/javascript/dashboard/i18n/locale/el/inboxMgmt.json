@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Ορισμός λεπτομερειών IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Ενημέρωση ρυθμίσεων IMAP",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση ρυθμίσεων IMAP για αυτά τα εισερχόμενα",
       "TOGGLE_HELP": "Η ενεργοποίηση του IMAP θα βοηθήσει το χρήστη να λάβει email",
@@ -484,9 +485,9 @@
         "LABEL": "Θύρα",
         "PLACE_HOLDER": "Θύρα"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Είσοδος",
+        "PLACE_HOLDER": "Είσοδος"
       },
       "PASSWORD": {
         "LABEL": "Κωδικός",
@@ -512,9 +513,9 @@
         "LABEL": "Θύρα",
         "PLACE_HOLDER": "Θύρα"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Είσοδος",
+        "PLACE_HOLDER": "Είσοδος"
       },
       "PASSWORD": {
         "LABEL": "Κωδικός",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Κρυπτογράφηση",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
