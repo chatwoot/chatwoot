@@ -390,7 +390,7 @@
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
       "BUSINESS_HOURS": "Öffnungszeiten"
     },
-    "SETTINGS": "die Einstellungen",
+    "SETTINGS": "Einstellungen",
     "FEATURES": {
       "LABEL": "Funktionen",
       "DISPLAY_FILE_PICKER": "Dateiauswahl im Widget anzeigen",
@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Setzen Sie Ihre IMAP-Daten",
+      "NOTE_TEXT": "Um SMTP zu aktivieren, konfigurieren Sie bitte IMAP.",
       "UPDATE": "IMAP-Einstellungen aktualisieren",
       "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
       "TOGGLE_HELP": "Die Aktivierung von IMAP hilft dem Benutzer, E-Mails zu empfangen",
@@ -484,9 +485,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Mail",
-        "PLACE_HOLDER": "E-Mail"
+      "LOGIN": {
+        "LABEL": "Einloggen",
+        "PLACE_HOLDER": "Einloggen"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
@@ -512,9 +513,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Mail",
-        "PLACE_HOLDER": "E-Mail"
+      "LOGIN": {
+        "LABEL": "Einloggen",
+        "PLACE_HOLDER": "Einloggen"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Verschlüsselung",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen"
-    }
+      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen",
+      "AUTH_MECHANISM": "Authentifizierung"
+    },
+    "NOTE": "Hinweis: "
   }
 }
