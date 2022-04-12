@@ -9,6 +9,10 @@ class AutomationsAPI extends ApiClient {
   clone(automationId) {
     return axios.post(`${this.url}/${automationId}/clone`);
   }
+
+  toggle(automationId) {
+    return axios.post(`${this.url}/${automationId}/staus_update`);
+  }
 }
 
 export default new AutomationsAPI();
