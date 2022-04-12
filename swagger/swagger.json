@@ -2135,6 +2135,93 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/meta": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "conversationListMeta",
+        "description": "Get open, unassigned and all Conversation counts",
+        "summary": "Get Conversation Counts",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending",
+              "snoozed"
+            ],
+            "default": "open",
+            "description": "Filter by conversation status."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "description": "Filters conversations with messages containing the search term"
+          },
+          {
+            "name": "inbox_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "labels",
+            "in": "query",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "mine_count": {
+                      "type": "number"
+                    },
+                    "unassigned_count": {
+                      "type": "number"
+                    },
+                    "assigned_count": {
+                      "type": "number"
+                    },
+                    "all_count": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations": {
       "parameters": [
         {
@@ -2159,7 +2246,8 @@
               "all",
               "assigned"
             ],
-            "required": true
+            "default": "all",
+            "description": "Filter conversations by assignee type."
           },
           {
             "name": "status",
@@ -2168,18 +2256,25 @@
             "enum": [
               "open",
               "resolved",
-              "pending"
+              "pending",
+              "snoozed"
             ],
-            "required": true
+            "default": "open",
+            "description": "Filter by conversation status."
           },
           {
-            "name": "page",
+            "name": "q",
             "in": "query",
-            "type": "integer",
-            "required": true
+            "type": "string",
+            "description": "Filters conversations with messages containing the search term"
           },
           {
             "name": "inbox_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team_id",
             "in": "query",
             "type": "integer"
           },
@@ -2190,6 +2285,13 @@
             "items": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "default": 1,
+            "description": "paginate through conversations"
           }
         ],
         "responses": {
@@ -5314,6 +5416,9 @@
                 "unassigned_count": {
                   "type": "number"
                 },
+                "assigned_count": {
+                  "type": "number"
+                },
                 "all_count": {
                   "type": "number"
                 }
@@ -5595,20 +5700,6 @@
       "type": "string",
       "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
-    "conversation_id": {
-      "in": "path",
-      "name": "conversation_id",
-      "type": "integer",
-      "required": true,
-      "description": "The numeric ID of the conversation"
-    },
-    "message_id": {
-      "in": "path",
-      "name": "message_id",
-      "type": "integer",
-      "required": true,
-      "description": "The numeric ID of the message"
-    },
     "contact_sort_param": {
       "in": "query",
       "name": "sort",
@@ -5626,6 +5717,27 @@
       "required": false,
       "description": "The attribute by which list should be sorted"
     },
+    "conversation_id": {
+      "in": "path",
+      "name": "conversation_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the conversation"
+    },
+    "custom_filter_id": {
+      "in": "path",
+      "name": "custom_filter_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the custom filter"
+    },
+    "message_id": {
+      "in": "path",
+      "name": "message_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the message"
+    },
     "page": {
       "in": "query",
       "name": "page",
@@ -5640,13 +5752,6 @@
       "type": "integer",
       "required": true,
       "description": "The numeric ID of the user on the platform"
-    },
-    "custom_filter_id": {
-      "in": "path",
-      "name": "custom_filter_id",
-      "type": "integer",
-      "required": true,
-      "description": "The numeric ID of the custom filter"
     },
     "report_type": {
       "in": "query",

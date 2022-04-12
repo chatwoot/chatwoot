@@ -92,7 +92,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'snooze_convresation',
+        key: 'snooze_conversation',
         name: 'Snooze conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
@@ -166,7 +166,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'snooze_convresation',
+        key: 'snooze_conversation',
         name: 'Snooze conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
@@ -254,7 +254,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'snooze_convresation',
+        key: 'snooze_conversation',
         name: 'Snooze conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
@@ -314,7 +314,7 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: null,
   },
   {
-    key: 'snooze_convresation',
+    key: 'snooze_conversation',
     label: 'Snooze conversation',
     inputType: null,
   },
