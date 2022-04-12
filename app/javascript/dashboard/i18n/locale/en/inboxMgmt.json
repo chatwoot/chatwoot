@@ -486,9 +486,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Login",
+        "PLACE_HOLDER": "Login"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -514,9 +514,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Login",
+        "PLACE_HOLDER": "Login"
       },
       "PASSWORD": {
         "LABEL": "Password",
