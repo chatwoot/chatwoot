@@ -33,6 +33,8 @@ class Channel::FacebookPage < ApplicationRecord
   end
 
   def has_24_hour_messaging_window?
+    return true if instagram_id.present?
+
     false
   end
 
