@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "تعيين تفاصيل IMAP الخاصة بك",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "تحديث الإعدادات",
       "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
       "TOGGLE_HELP": "تمكين IMAP سيساعد المستخدم على تلقي البريد الإلكتروني",
@@ -484,9 +485,9 @@
         "LABEL": "المنفذ",
         "PLACE_HOLDER": "المنفذ"
       },
-      "EMAIL": {
-        "LABEL": "البريد الإلكتروني",
-        "PLACE_HOLDER": "البريد الإلكتروني"
+      "LOGIN": {
+        "LABEL": "تسجيل الدخول",
+        "PLACE_HOLDER": "تسجيل الدخول"
       },
       "PASSWORD": {
         "LABEL": "كلمة المرور",
@@ -512,9 +513,9 @@
         "LABEL": "المنفذ",
         "PLACE_HOLDER": "المنفذ"
       },
-      "EMAIL": {
-        "LABEL": "البريد الإلكتروني",
-        "PLACE_HOLDER": "البريد الإلكتروني"
+      "LOGIN": {
+        "LABEL": "تسجيل الدخول",
+        "PLACE_HOLDER": "تسجيل الدخول"
       },
       "PASSWORD": {
         "LABEL": "كلمة المرور",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "التشفير",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
