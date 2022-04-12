@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:"
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
