@@ -5,7 +5,7 @@
         v-model="selectedTeams"
         track-by="id"
         label="name"
-        :placeholder="'Select Teams'"
+        :placeholder="$t('AUTOMATION.ACTION.TEAM_DROPDOWN_PLACEHOLDER')"
         :multiple="true"
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
