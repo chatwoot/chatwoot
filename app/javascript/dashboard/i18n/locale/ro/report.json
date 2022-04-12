@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
-        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:"
+        "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
