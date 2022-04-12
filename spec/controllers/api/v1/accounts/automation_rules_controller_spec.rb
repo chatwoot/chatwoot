@@ -259,7 +259,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'returns for cloned automation_rule for account' do
+      it 'returns for updated automation_rule for account' do
         params = { name: 'Update name' }
         expect(account.automation_rules.count).to eq(1)
 
@@ -270,6 +270,34 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:payload][:name]).to eq('Update name')
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/automation_rules/{automation_rule.id}/status_update' do
+    let!(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/status_update"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns for updated active flag for automation_rule' do
+        expect(automation_rule.active).to eq(true)
+        params = { active: false }
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/status_update",
+              headers: administrator.create_new_auth_token,
+              params: params
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:payload][:active]).to eq(false)
+        expect(automation_rule.reload.active).to eq(false)
       end
     end
   end
