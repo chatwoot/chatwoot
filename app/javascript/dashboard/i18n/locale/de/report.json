@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
         "DESC": "( Durchschnitt )",
-        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:"
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Lösungsanzahl",
