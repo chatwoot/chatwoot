@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Настроить параметры IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Обновить настройки IMAP",
       "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
       "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
@@ -484,9 +485,9 @@
         "LABEL": "Порт",
         "PLACE_HOLDER": "Порт"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Вход",
+        "PLACE_HOLDER": "Вход"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
@@ -512,9 +513,9 @@
         "LABEL": "Порт",
         "PLACE_HOLDER": "Порт"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Вход",
+        "PLACE_HOLDER": "Вход"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Шифрование",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
