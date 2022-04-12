@@ -1,3 +1,5 @@
+import { formatTime } from '@chatwoot/utils';
+
 export const GROUP_BY_FILTER = {
   1: { id: 1, period: 'day' },
   2: { id: 2, period: 'week' },
@@ -17,7 +19,7 @@ export const DEFAULT_LINE_CHART = {
 
 export const DEFAULT_BAR_CHART = {
   type: 'bar',
-  backgroundColor: 'rgb(31, 147, 255, 0.5)',
+  backgroundColor: 'rgb(31, 147, 255)',
 };
 
 export const DEFAULT_CHART = {
@@ -56,7 +58,7 @@ export const METRIC_CHART = {
   incoming_messages_count: DEFAULT_CHART,
   outgoing_messages_count: DEFAULT_CHART,
   avg_first_response_time: {
-    datasets: [DEFAULT_BAR_CHART, DEFAULT_LINE_CHART],
+    datasets: [DEFAULT_BAR_CHART],
     scales: {
       xAxes: [
         {
@@ -75,21 +77,9 @@ export const METRIC_CHART = {
           position: 'left',
           ticks: {
             fontFamily: CHART_FONT_FAMILY,
-            beginAtZero: true,
-            precision: 2,
-          },
-          gridLines: {
-            drawOnChartArea: false,
-          },
-        },
-        {
-          id: 'y-right',
-          type: 'linear',
-          position: 'right',
-          ticks: {
-            fontFamily: CHART_FONT_FAMILY,
-            beginAtZero: true,
-            stepSize: 1,
+            callback(value) {
+              return formatTime(value);
+            },
           },
           gridLines: {
             drawOnChartArea: false,
@@ -99,7 +89,7 @@ export const METRIC_CHART = {
     },
   },
   avg_resolution_time: {
-    datasets: [DEFAULT_BAR_CHART, DEFAULT_LINE_CHART],
+    datasets: [DEFAULT_BAR_CHART],
     scales: {
       xAxes: [
         {
@@ -118,21 +108,9 @@ export const METRIC_CHART = {
           position: 'left',
           ticks: {
             fontFamily: CHART_FONT_FAMILY,
-            beginAtZero: true,
-            precision: 2,
-          },
-          gridLines: {
-            drawOnChartArea: false,
-          },
-        },
-        {
-          id: 'y-right',
-          type: 'linear',
-          position: 'right',
-          ticks: {
-            fontFamily: CHART_FONT_FAMILY,
-            beginAtZero: true,
-            stepSize: 1,
+            callback(value) {
+              return formatTime(value);
+            },
           },
           gridLines: {
             drawOnChartArea: false,

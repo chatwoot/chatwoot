@@ -16,23 +16,23 @@ hook_id:
 source_id:
   $ref: ./source_id.yml
 
+contact_sort_param:
+  $ref: ./contact_sort.yml
+
 conversation_id:
   $ref: ./conversation_id.yml
 
+custom_filter_id:
+  $ref: ./custom_filter_id.yml
+
 message_id:
   $ref: ./message_id.yml
-
-contact_sort_param:
-  $ref: ./contact_sort.yml
 
 page:
   $ref: ./page.yml
 
 platform_user_id:
   $ref: ./platform_user_id.yml
-
-custom_filter_id:
-  $ref: ./custom_filter_id.yml
 
 report_type:
   $ref: ./report_type.yml
