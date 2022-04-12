@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:"
+        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
