@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "جزئیات IMAP خود را تنظیم کنید",
+      "NOTE_TEXT": "برای فعال کردن SMTP، لطفا IMAP را پیکربندی کنید.",
       "UPDATE": "به‌روزرسانی تنظیمات IMAP",
       "TOGGLE_AVAILABILITY": "پیکربندی IMAP را برای این صندوق ورودی فعال کنید",
       "TOGGLE_HELP": "در حال فعال کردن IMAP به کاربر در دریافت ایمیل کمک می‌کند",
@@ -484,9 +485,9 @@
         "LABEL": "درگاه",
         "PLACE_HOLDER": "درگاه"
       },
-      "EMAIL": {
-        "LABEL": "ایمیل",
-        "PLACE_HOLDER": "ایمیل"
+      "LOGIN": {
+        "LABEL": "ورود",
+        "PLACE_HOLDER": "ورود"
       },
       "PASSWORD": {
         "LABEL": "رمز عبور",
@@ -512,9 +513,9 @@
         "LABEL": "درگاه",
         "PLACE_HOLDER": "درگاه"
       },
-      "EMAIL": {
-        "LABEL": "ایمیل",
-        "PLACE_HOLDER": "ایمیل"
+      "LOGIN": {
+        "LABEL": "ورود",
+        "PLACE_HOLDER": "ورود"
       },
       "PASSWORD": {
         "LABEL": "رمز عبور",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "رمزگذاری",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL",
+      "AUTH_MECHANISM": "احراز هویت"
+    },
+    "NOTE": "یادداشت: "
   }
 }
