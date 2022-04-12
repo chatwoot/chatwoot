@@ -53,7 +53,7 @@ if resource.email?
   json.email resource.channel.try(:email)
 
   ## IMAP
-  json.imap_email resource.channel.try(:imap_email)
+  json.imap_login resource.channel.try(:imap_login)
   json.imap_password resource.channel.try(:imap_password)
   json.imap_address resource.channel.try(:imap_address)
   json.imap_port resource.channel.try(:imap_port)
@@ -61,7 +61,7 @@ if resource.email?
   json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
 
   ## SMTP
-  json.smtp_email resource.channel.try(:smtp_email)
+  json.smtp_login resource.channel.try(:smtp_login)
   json.smtp_password resource.channel.try(:smtp_password)
   json.smtp_address resource.channel.try(:smtp_address)
   json.smtp_port resource.channel.try(:smtp_port)
@@ -70,6 +70,7 @@ if resource.email?
   json.smtp_enable_ssl_tls resource.channel.try(:smtp_enable_ssl_tls)
   json.smtp_enable_starttls_auto resource.channel.try(:smtp_enable_starttls_auto)
   json.smtp_openssl_verify_mode resource.channel.try(:smtp_openssl_verify_mode)
+  json.smtp_authentication resource.channel.try(:smtp_authentication)
 end
 
 ## API Channel Attributes
