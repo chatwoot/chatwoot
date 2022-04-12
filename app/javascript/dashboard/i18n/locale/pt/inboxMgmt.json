@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Defina os seus dados IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Atualizar configurações IMAP",
       "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -484,9 +485,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Iniciar sessão",
+        "PLACE_HOLDER": "Iniciar sessão"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
@@ -512,9 +513,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Iniciar sessão",
+        "PLACE_HOLDER": "Iniciar sessão"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Encriptação",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Abrir Modo de Verificação SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Abrir Modo de Verificação SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
