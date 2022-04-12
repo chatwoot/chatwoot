@@ -80,13 +80,14 @@ export default {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    this.fetchOldConversations();
+
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
       setHeader('X-Auth-Token', window.authToken);
     } else {
       setHeader('X-Auth-Token', window.authToken);
-      this.fetchOldConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
