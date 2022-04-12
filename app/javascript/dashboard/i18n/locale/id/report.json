@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
-        "INFO_TEXT": "Total number of conversations used for computation:"
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
