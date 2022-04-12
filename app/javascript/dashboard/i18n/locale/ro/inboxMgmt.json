@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Setarea detaliilor IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Actualizarea setărilor IMAP",
       "TOGGLE_AVAILABILITY": "Activarea configurației IMAP pentru acest inbox",
       "TOGGLE_HELP": "Activarea IMAP va ajuta utilizatorul să primească e-mailuri",
@@ -484,9 +485,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Conectează-te",
+        "PLACE_HOLDER": "Conectează-te"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -512,9 +513,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Conectează-te",
+        "PLACE_HOLDER": "Conectează-te"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Criptare",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTL-URI",
-      "OPEN_SSL_VERIFY_MODE": "Deschideți modul de verificare SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Deschideți modul de verificare SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
