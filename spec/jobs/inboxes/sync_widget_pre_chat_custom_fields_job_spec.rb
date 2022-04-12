@@ -6,7 +6,7 @@ RSpec.describe Inboxes::SyncWidgetPreChatCustomFieldsJob, type: :job do
     'name' => 'developer_id'
   }, {
     'label' => 'Full Name',
-    'name' => 'developer_name'
+    'name' => 'full_name'
   }]
   pre_chat_message = 'Share your queries here.'
   let!(:account) { create(:account) }
@@ -19,7 +19,7 @@ RSpec.describe Inboxes::SyncWidgetPreChatCustomFieldsJob, type: :job do
       described_class.perform_now(account, 'developer_id')
       expect(web_widget.reload.pre_chat_form_options['pre_chat_fields']).to eq [{
         'label' => 'Full Name',
-        'name' => 'developer_name'
+        'name' => 'full_name'
       }]
     end
   end
