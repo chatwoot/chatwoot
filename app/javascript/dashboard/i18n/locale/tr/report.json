@@ -20,12 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -135,12 +137,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -200,12 +204,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -265,12 +271,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
@@ -330,12 +338,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "İlk Cevap Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Çözüm Süresi",
         "DESC": "(Ort.)",
-        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:"
+        "INFO_TEXT": "Hesaplama için kullanılan toplam görüşme sayısı:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
