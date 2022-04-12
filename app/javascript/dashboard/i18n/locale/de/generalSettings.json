@@ -1,14 +1,14 @@
 {
   "GENERAL_SETTINGS": {
     "TITLE": "Kontoeinstellungen",
-    "SUBMIT": "Update Einstellungen",
+    "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",
     "UPDATE": {
       "ERROR": "Einstellungen konnten nicht aktualisiert werden, versuchen Sie es erneut!",
       "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
     },
     "FORM": {
-      "ERROR": "Bitte korrigieren Sie Formularfehler",
+      "ERROR": "Bitte Formularfehler korrigieren",
       "GENERAL_SECTION": {
         "TITLE": "Allgemeine Einstellungen",
         "NOTE": ""
