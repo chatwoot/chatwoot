@@ -102,27 +102,25 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
   end
 
   def save_media
-    media.each do |file|
-      save_media_urls(file)
-      response = api_client.get(file['media_url'], [])
+    save_media_urls(media)
+    response = api_client.get(media['media_url'], [])
 
-      temp_file = Tempfile.new('twitter_attachment')
-      temp_file.binmode
-      temp_file << response.body
-      temp_file.rewind
+    temp_file = Tempfile.new('twitter_attachment')
+    temp_file.binmode
+    temp_file << response.body
+    temp_file.rewind
 
-      next unless file['type'] == 'photo'
+    next unless media['type'] == 'photo'
 
-      @message.attachments.new(
-        account_id: @inbox.account_id,
-        file_type: 'image',
-        file: {
-          io: temp_file,
-          filename: 'twitter_attachment',
-          content_type: file['type']
-        }
-      )
-      @message.save
-    end
+    @message.attachments.new(
+      account_id: @inbox.account_id,
+      file_type: 'image',
+      file: {
+        io: temp_file,
+        filename: 'twitter_attachment',
+        content_type: media['type']
+      }
+    )
+    @message.save
   end
 end
