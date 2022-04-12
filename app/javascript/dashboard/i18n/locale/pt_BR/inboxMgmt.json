@@ -100,7 +100,7 @@
         "SUBMIT_BUTTON": "Criar caixa de entrada"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "TITLE": "Canal Twilio SMS/WhatsApp",
         "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
@@ -469,6 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Defina seus dados IMAP",
+      "NOTE_TEXT": "Para habilitar o SMTP, por favor configure o IMAP.",
       "UPDATE": "Atualizar configurações do IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Habilitar o IMAP ajudará o usuário a receber e-mail",
@@ -484,9 +485,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Entrar",
+        "PLACE_HOLDER": "Entrar"
       },
       "PASSWORD": {
         "LABEL": "Senha",
@@ -512,9 +513,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Entrar",
+        "PLACE_HOLDER": "Entrar"
       },
       "PASSWORD": {
         "LABEL": "Senha",
@@ -527,7 +528,9 @@
       "ENCRYPTION": "Criptografia",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificação SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificação SSL",
+      "AUTH_MECHANISM": "Autenticação"
+    },
+    "NOTE": "Observação: "
   }
 }
