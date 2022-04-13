@@ -256,7 +256,7 @@ export default {
         // Check if user confirms to proceed
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
-          await await this.$store.dispatch('automations/toggle', {
+          await await this.$store.dispatch('automations/update', {
             id: automation.id,
             active: !status,
           });

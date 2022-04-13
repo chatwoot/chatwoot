@@ -55,17 +55,6 @@ export const actions = {
       commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
     }
   },
-  toggle: async ({ commit }, { id, ...updateObj }) => {
-    commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: true });
-    try {
-      const response = await AutomationAPI.toggle(id, updateObj);
-      commit(types.EDIT_AUTOMATION, response.data.payload);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
-    }
-  },
   delete: async ({ commit }, id) => {
     commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: true });
     try {
