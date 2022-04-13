@@ -21,13 +21,13 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -138,13 +138,13 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -205,13 +205,13 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -272,13 +272,13 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -339,13 +339,13 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
