@@ -35,13 +35,8 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
-      - name: Set Chatwoot edition
+     - name: Set Chatwoot edition
         run: |
-          pwd
-          ls
           echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
       - name: set docker tag
@@ -64,6 +59,10 @@ jobs:
         with:
           context: .
           file: docker/Dockerfile
-          push: false
+          push: true
           tags: ${{ env.DOCKER_TAG }}
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
+ 
