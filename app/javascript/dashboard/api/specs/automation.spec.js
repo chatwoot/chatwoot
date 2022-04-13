@@ -10,7 +10,6 @@ describe('#AutomationsAPI', () => {
     expect(automations).toHaveProperty('update');
     expect(automations).toHaveProperty('delete');
     expect(automations).toHaveProperty('clone');
-    expect(automations).toHaveProperty('toggle');
     expect(automations.url).toBe('/api/v1/automation_rules');
   });
 });
