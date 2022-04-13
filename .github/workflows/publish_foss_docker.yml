@@ -35,7 +35,7 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
-     - name: Set Chatwoot edition
+      - name: Set Chatwoot edition
         run: |
           echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
