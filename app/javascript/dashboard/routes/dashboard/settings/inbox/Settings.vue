@@ -422,7 +422,7 @@
           </settings-section>
         </div>
         <imap-settings :inbox="inbox" />
-        <smtp-settings :inbox="inbox" />
+        <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">

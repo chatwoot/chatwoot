@@ -10,12 +10,14 @@ const createConversation = params => {
       contact: {
         name: params.fullName,
         email: params.emailAddress,
+        phone_number: params.phoneNumber,
       },
       message: {
         content: params.message,
         timestamp: new Date().toString(),
         referer_url: referrerURL,
       },
+      custom_attributes: params.customAttributes,
     },
   };
 };

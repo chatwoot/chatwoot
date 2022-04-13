@@ -23,7 +23,7 @@ export default {
     background: var(--s-500);
   }
   &__busy {
-    background: var(--y-400);
+    background: var(--y-500);
   }
 }
 </style>
