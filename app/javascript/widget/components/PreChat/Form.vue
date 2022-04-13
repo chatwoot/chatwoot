@@ -94,6 +94,7 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
       activeCampaign: 'campaign/getActiveCampaign',
+      currentUser: 'contacts/getCurrentUser',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -113,8 +114,21 @@ export default {
     preChatFields() {
       return this.disableContactFields ? [] : this.options.preChatFields;
     },
+    filteredPreChatFields() {
+      const isUserEmailAvailable = !!this.currentUser.email;
+      const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
+      return this.preChatFields.filter(field => {
+        if (
+          (isUserEmailAvailable && field.name === 'emailAddress') ||
+          (isUserPhoneNumberAvailable && field.name === 'phoneNumber')
+        ) {
+          return false;
+        }
+        return true;
+      });
+    },
     enabledPreChatFields() {
-      return this.preChatFields
+      return this.filteredPreChatFields
         .filter(field => field.enabled)
         .map(field => ({
           ...field,
