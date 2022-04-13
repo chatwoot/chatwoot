@@ -33,6 +33,9 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Set Chatwoot edition
         run: |
           pwd
@@ -61,5 +64,3 @@ jobs:
           push: false
           tags: ${{ env.DOCKER_TAG }}
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
