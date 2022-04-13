@@ -100,10 +100,12 @@ class Conversation < ApplicationRecord
   end
 
   def last_incoming_message
-    messages.incoming.last
+    messages&.incoming&.last
   end
 
   def last_message_less_than_24_hrs?
+    return false if last_incoming_message.nil?
+
     Time.current < last_incoming_message.created_at + 24.hours
   end
 
