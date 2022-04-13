@@ -13,7 +13,6 @@ on:
     tags:
       - v*
   workflow_dispatch:
-  pull_request:
 
 jobs:
   build:
@@ -61,8 +60,5 @@ jobs:
           file: docker/Dockerfile
           push: true
           tags: ${{ env.DOCKER_TAG }}
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
 
  
