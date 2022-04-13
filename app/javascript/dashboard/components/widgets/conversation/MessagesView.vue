@@ -83,7 +83,6 @@
         </div>
       </div>
       <reply-box
-        v-on-clickaway="closePopoutReplyBox"
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
@@ -109,7 +108,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
@@ -117,7 +115,7 @@ export default {
     ReplyBox,
     Banner,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
   props: {
     isContactPanelOpen: {
       type: Boolean,
