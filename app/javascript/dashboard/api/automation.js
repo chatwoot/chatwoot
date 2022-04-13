@@ -10,8 +10,8 @@ class AutomationsAPI extends ApiClient {
     return axios.post(`${this.url}/${automationId}/clone`);
   }
 
-  toggle(automationId) {
-    return axios.post(`${this.url}/${automationId}/staus_update`);
+  toggle(automationId, params) {
+    return axios.patch(`${this.url}/${automationId}`, params);
   }
 }
 

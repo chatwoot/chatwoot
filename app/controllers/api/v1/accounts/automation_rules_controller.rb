@@ -22,7 +22,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def update
     ActiveRecord::Base.transaction do
       @automation_rule.update!(automation_rules_permit)
-      @automation_rule.actions = params[:actions]
+      @automation_rule.actions = params[:actions] if params[:actions]
       @automation_rule.save!
       process_attachments
     rescue StandardError => e
