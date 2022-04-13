@@ -192,12 +192,7 @@ export default {
         $each: {
           action_params: {
             required: requiredIf(prop => {
-              if (
-                prop.action_name === 'send_email_to_team' &&
-                (!prop.action_params.mesage || !prop.action_params.team_ids)
-              ) {
-                return true;
-              }
+              if (prop.action_name === 'send_email_to_team') return true;
               return !(
                 prop.action_name === 'mute_conversation' ||
                 prop.action_name === 'snooze_convresation' ||

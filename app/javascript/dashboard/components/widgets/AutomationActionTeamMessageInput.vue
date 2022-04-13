@@ -37,9 +37,14 @@ export default {
     };
   },
   mounted() {
-    const { team_ids: teamIds } = this.value;
-    this.selectedTeams = teamIds;
-    this.message = this.value.message;
+    if (
+      Object.prototype.hasOwnProperty.call(this.value, 'teams') &&
+      Object.prototype.hasOwnProperty.call(this.value, 'message')
+    ) {
+      const { team_ids: teamIds } = this.value;
+      this.selectedTeams = teamIds;
+      this.message = this.value.message;
+    }
   },
   methods: {
     updateValue() {
