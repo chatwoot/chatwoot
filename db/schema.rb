@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_092033) do
+ActiveRecord::Schema.define(version: 2022_04_09_044943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -190,14 +190,14 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.boolean "imap_enabled", default: false
     t.string "imap_address", default: ""
     t.integer "imap_port", default: 0
-    t.string "imap_email", default: ""
+    t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
     t.datetime "imap_inbox_synced_at"
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
-    t.string "smtp_email", default: ""
+    t.string "smtp_login", default: ""
     t.string "smtp_password", default: ""
     t.string "smtp_domain", default: ""
     t.boolean "smtp_enable_starttls_auto", default: true

@@ -35,18 +35,14 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
   private
 
   def send_an_email_to_team
-    @agents.each do |agent|
-      subject = "#{agent.user.available_name}, This email has been sent via automation rule actions."
-      @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-      @agent = agent
-
-      send_mail_with_liquid(to: @agent.user.email, subject: subject)
-    end
+    subject = 'This email has been sent via automation rule actions.'
+    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
+    @agent_emails = @agents.collect(&:user).pluck(:email)
+    send_mail_with_liquid(to: @agent_emails, subject: subject) and return
   end
 
   def liquid_droppables
     super.merge!({
-                   user: @agent.user,
                    conversation: @conversation,
                    inbox: @conversation.inbox
                  })
