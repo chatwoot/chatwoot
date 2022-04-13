@@ -21,8 +21,10 @@ jobs:
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }} # ref_name to get tags/branches
     steps:
-      -
-        name: Set up QEMU
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
       - name: Set up Docker Buildx
@@ -60,6 +62,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
+          context: .
           file: docker/Dockerfile
           push: false
           tags: ${{ env.DOCKER_TAG }}
