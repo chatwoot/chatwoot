@@ -23,6 +23,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'contact.updated': this.onContactUpdate,
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
+      'conversation.read': this.onConversationRead,
     };
   }
 
@@ -62,6 +63,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+  };
+
+  onConversationRead = data => {
+    this.app.$store.dispatch(
+      'updateConversationRead',
+      data.contact_last_seen_at
+    );
   };
 
   onLogout = () => AuthAPI.logout();
