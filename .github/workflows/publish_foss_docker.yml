@@ -1,7 +1,7 @@
 # #
 # # This action will publish Chatwoot CE docker image.
 # # This is set to run against merges to develop, master
-# # when tags are created.
+# # and when tags are created.
 # #
 
 name: Publish Chatwoot CE docker images
@@ -60,5 +60,3 @@ jobs:
           file: docker/Dockerfile
           push: true
           tags: ${{ env.DOCKER_TAG }}
-
- 
