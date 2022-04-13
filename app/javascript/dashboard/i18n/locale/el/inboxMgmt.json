@@ -469,7 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Ορισμός λεπτομερειών IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Για να ενεργοποιήσετε το SMTP, παρακαλώ ρυθμίστε το IMAP.",
       "UPDATE": "Ενημέρωση ρυθμίσεων IMAP",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση ρυθμίσεων IMAP για αυτά τα εισερχόμενα",
       "TOGGLE_HELP": "Η ενεργοποίηση του IMAP θα βοηθήσει το χρήστη να λάβει email",
@@ -529,8 +529,8 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "Πιστοποίηση"
     },
-    "NOTE": "Note: "
+    "NOTE": "Σημείωση: "
   }
 }
