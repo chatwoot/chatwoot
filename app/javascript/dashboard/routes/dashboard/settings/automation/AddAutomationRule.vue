@@ -418,7 +418,7 @@ export default {
     submitAutomation() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      const automation = this.automation;
+      const automation = JSON.parse(JSON.stringify(this.automation));
       automation.conditions[
         automation.conditions.length - 1
       ].query_operator = null;
