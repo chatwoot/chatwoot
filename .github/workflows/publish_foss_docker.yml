@@ -35,6 +35,8 @@ jobs:
 
       - name: Set Chatwoot edition
         run: |
+          pwd
+          ls
           echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
       - name: set docker tag
