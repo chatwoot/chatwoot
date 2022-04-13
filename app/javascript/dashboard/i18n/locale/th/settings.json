@@ -20,16 +20,16 @@
         "NOTE": "อีเมลเป็นข้อมูลระบุตัวตนของคุณ และใช้ในการเข้าสู่ระบบ"
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
+        "TITLE": "ลายเซ็นส่วนตัว",
         "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "BTN_TEXT": "บันทึกลายเซ็น",
+        "API_ERROR": "ไม่สามารถบันทึกลายเซ็นได้ โปรดลองใหม่อีกครั้ง",
+        "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "ข้อความลายเซ็น",
+        "ERROR": "ข้อความลายเซ็นไม่สามารถเว้นว่างได้",
+        "PLACEHOLDER": "ใส่ข้อความที่คุณต้องการใช้เป็นลายเซ็นที่นี่"
       },
       "PASSWORD_SECTION": {
         "TITLE": "หรัสผ่าน",
@@ -124,7 +124,7 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "จำนวนวันทดลองใช้ที่เหลืออยู่",
     "TRAIL_BUTTON": "ซื้อเลย",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "ผู้ใช้งานที่ถูกลบ"
   },
   "COMPONENTS": {
     "CODE": {
@@ -166,7 +166,7 @@
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "สร้างเงื่อนไขอัตโนมัติ",
     "TEAMS": "ทีม",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "รายชื่อผู้ติดต่อทั้งหมด",
     "TAGGED_WITH": "ที่ติดป้าย",
