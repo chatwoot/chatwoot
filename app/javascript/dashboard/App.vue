@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="app-wrapper app-root">
+  <div v-if="!authUIFlags.isFetching" id="app" class="app-wrapper app-root">
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <transition name="fade" mode="out-in">
       <router-view></router-view>
@@ -11,12 +11,14 @@
     <woot-snackbar-box />
     <network-notification />
   </div>
+  <loading-state v-else />
 </template>
 
 <script>
 import { accountIdFromPathname } from './helper/URLHelper';
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
+import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import WootSnackbarBox from './components/SnackbarContainer';
@@ -26,6 +28,7 @@ export default {
 
   components: {
     AddAccountModal,
+    LoadingState,
     NetworkNotification,
     UpdateBanner,
     WootSnackbarBox,
@@ -43,6 +46,7 @@ export default {
       getAccount: 'accounts/getAccount',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      authUIFlags: 'getAuthUIFlags',
     }),
     hasAccounts() {
       return (
@@ -61,7 +65,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('setUser');
     this.setLocale(window.chatwootConfig.selectedLocale);
     this.initializeAccount();
   },

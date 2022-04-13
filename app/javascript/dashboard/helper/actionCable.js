@@ -143,7 +143,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
 export default {
   init() {
-    if (AuthAPI.isLoggedIn()) {
+    if (AuthAPI.hasAuthCookie()) {
       const actionCable = new ActionCableConnector(
         window.WOOT,
         AuthAPI.getPubSubToken()

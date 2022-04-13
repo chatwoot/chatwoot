@@ -1,11 +1,12 @@
 import VueRouter from 'vue-router';
 
-import auth from '../api/auth';
-import login from './login/login.routes';
-import dashboard from './dashboard/dashboard.routes';
-import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
 import { clearBrowserSessionCookies } from '../store/utils/api';
+import authRoute from './auth/auth.routes';
+import dashboard from './dashboard/dashboard.routes';
+import login from './login/login.routes';
+import store from '../store';
+import vueActionCable from '../helper/actionCable';
 
 const routes = [
   ...login.routes,
@@ -64,7 +65,7 @@ const routeValidators = [
     protected: false,
     loggedIn: true,
     handler: () => {
-      const user = auth.getCurrentUser();
+      const user = store.getters.getCurrentUser;
       return `accounts/${user.account_id}/dashboard`;
     },
   },
@@ -77,7 +78,7 @@ const routeValidators = [
     protected: true,
     loggedIn: true,
     handler: to => {
-      const user = auth.getCurrentUser();
+      const user = store.getters.getCurrentUser;
       const userRole = getUserRole(user, Number(to.params.accountId));
       const isAccessible = routeIsAccessibleFor(to.name, userRole);
       return isAccessible ? null : `accounts/${to.params.accountId}/dashboard`;
@@ -91,7 +92,7 @@ const routeValidators = [
 ];
 
 export const validateAuthenticateRoutePermission = (to, from, next) => {
-  const isLoggedIn = auth.isLoggedIn();
+  const isLoggedIn = store.getters.isLoggedIn;
   const isProtectedRoute = !unProtectedRoutes.includes(to.name);
   const strategy = routeValidators.find(
     validator =>
@@ -115,7 +116,7 @@ const validateRouteAccess = (to, from, next) => {
     to.meta &&
     to.meta.requireSignupEnabled
   ) {
-    const user = auth.getCurrentUser();
+    const user = store.getters.getCurrentUser;
     next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
@@ -130,17 +131,24 @@ const validateRouteAccess = (to, from, next) => {
   return validateAuthenticateRoutePermission(to, from, next);
 };
 
-// protecting routes
-router.beforeEach((to, from, next) => {
-  if (!to.name) {
-    const user = auth.getCurrentUser();
-    if (user) {
-      return next(frontendURL(`accounts/${user.account_id}/dashboard`));
-    }
-    return next('/app/login');
-  }
+export const initalizeRouter = () => {
+  const userAuthentication = store.dispatch('setUser');
+  userAuthentication.then(() => vueActionCable.init());
+  // Validated the user authentication
+  // before
+  router.beforeEach((to, from, next) => {
+    userAuthentication.then(() => {
+      if (!to.name) {
+        const user = store.getters.getCurrentUser;
+        if (user) {
+          return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+        }
+        return next('/app/login');
+      }
 
-  return validateRouteAccess(to, from, next);
-});
+      return validateRouteAccess(to, from, next);
+    });
+  });
+};
 
 export default router;

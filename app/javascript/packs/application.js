@@ -26,9 +26,8 @@ import {
   initOnEvents,
 } from '../shared/helpers/AudioNotificationHelper';
 import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
-import router from '../dashboard/routes';
+import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
-import vueActionCable from '../dashboard/helper/actionCable';
 import constants from '../dashboard/constants';
 import {
   verifyServiceWorkerExistence,
@@ -93,6 +92,7 @@ window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
 initializeAnalyticsEvents();
+initalizeRouter();
 
 window.onload = () => {
   window.WOOT = new Vue({
@@ -102,7 +102,6 @@ window.onload = () => {
     components: { App },
     template: '<App/>',
   }).$mount('#app');
-  vueActionCable.init();
 };
 
 const setupAudioListeners = () => {
