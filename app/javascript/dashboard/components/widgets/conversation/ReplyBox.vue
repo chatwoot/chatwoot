@@ -110,9 +110,7 @@
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
-      :enable-keypress-to-send-message="enableKeypressToSendMessage"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      @toggleKeypressToSendMessage="toggleKeypressToSendMessage"
     />
   </div>
 </template>
@@ -259,9 +257,6 @@ export default {
       return false;
     },
 
-    enableKeypressToSendMessage() {
-      return !!this.uiSettings.enabled_keyshortcut_to_send_message;
-    },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsappChannel) {
         return this.isOnPrivateNote;
@@ -334,14 +329,25 @@ export default {
         this.isATelegramChannel
       );
     },
+    keyShortcutNameToSendMessage() {
+      return !this.isCmdPlusEnterToSendMessage
+        ? this.$t('CONVERSATION.REPLYBOX.ENTER_TO_SEND')
+        : this.$t('CONVERSATION.REPLYBOX.CMD_PLUS_ENTER');
+    },
     replyButtonLabel() {
       if (this.isPrivate) {
-        return this.$t('CONVERSATION.REPLYBOX.CREATE');
+        return `${this.$t('CONVERSATION.REPLYBOX.CREATE')} ${
+          this.keyShortcutNameToSendMessage
+        }`;
       }
       if (this.conversationType === 'tweet') {
-        return this.$t('CONVERSATION.REPLYBOX.TWEET');
+        return `${this.$t('CONVERSATION.REPLYBOX.TWEET')} ${
+          this.keyShortcutNameToSendMessage
+        }`;
       }
-      return this.$t('CONVERSATION.REPLYBOX.SEND');
+      return `${this.$t('CONVERSATION.REPLYBOX.SEND')} ${
+        this.keyShortcutNameToSendMessage
+      }`;
     },
     replyBoxClass() {
       return {
@@ -409,7 +415,8 @@ export default {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
     isCmdPlusEnterToSendMessage() {
-      return this.uiSettings.enable_cmd_plus_enter;
+      const { enable_cmd_plus_enter: isEnabled } = this.uiSettings;
+      return isEnabled;
     },
   },
   watch: {
@@ -478,13 +485,9 @@ export default {
       if (isEscape(e)) {
         this.hideEmojiPicker();
         this.hideMentions();
-      } else if (
-        (!this.isCmdPlusEnterToSendMessage || !this.showRichContentEditor) &&
-        isEnter(e)
-      ) {
+      } else if (!this.isCmdPlusEnterToSendMessage && isEnter(e)) {
         const hasSendOnEnterEnabled =
           (this.showRichContentEditor &&
-            this.enableKeypressToSendMessage &&
             !this.isCmdPlusEnterToSendMessage &&
             !this.hasUserMention &&
             !this.showCannedMenu) ||
@@ -504,7 +507,6 @@ export default {
       ) {
         const hasSendOnCmdPlusEnterEnabled =
           (this.showRichContentEditor &&
-            this.enableKeypressToSendMessage &&
             this.isCmdPlusEnterToSendMessage &&
             !this.hasUserMention &&
             !this.showCannedMenu) ||
@@ -525,11 +527,6 @@ export default {
     openCommandBar() {
       const ninja = document.querySelector('ninja-keys');
       ninja.open();
-    },
-    toggleKeypressToSendMessage(enableKeypressToSendMessage) {
-      this.updateUISettings({
-        enabled_keyshortcut_to_send_message: enableKeypressToSendMessage,
-      });
     },
     onClickSelfAssign() {
       const {

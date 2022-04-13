@@ -92,17 +92,6 @@
       </transition>
     </div>
     <div class="right-wrap">
-      <div v-if="isFormatMode" class="keypress-to-send--checkbox">
-        <input
-          :checked="enableKeypressToSendMessage"
-          type="checkbox"
-          value="enableKeypressToSendMessage"
-          @input="toggleKeypressToSendMessage"
-        />
-        <label for="enableKeypressToSendMessage">
-          {{ keyShortcutNameToSendMessage }}
-        </label>
-      </div>
       <woot-button
         size="small"
         :class-names="buttonClass"
@@ -210,10 +199,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    enableKeypressToSendMessage: {
-      type: Boolean,
-      default: true,
-    },
     enableMultipleFileUpload: {
       type: Boolean,
       default: true,
@@ -232,11 +217,6 @@ export default {
       return {
         warning: this.isNote,
       };
-    },
-    keyShortcutNameToSendMessage() {
-      return !this.isCmdPlusEnterToSendMessage
-        ? this.$t('CONVERSATION.REPLYBOX.ENTER_TO_SEND')
-        : this.$t('CONVERSATION.REPLYBOX.CMD_PLUS_ENTER');
     },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
@@ -275,10 +255,6 @@ export default {
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
-    isCmdPlusEnterToSendMessage() {
-      const { enable_cmd_plus_enter: isEnabled } = this.uiSettings;
-      return isEnabled;
-    },
   },
   mounted() {
     ActiveStorage.start();
@@ -294,12 +270,6 @@ export default {
     },
     toggleFormatMode() {
       this.setFormatMode(!this.isFormatMode);
-    },
-    toggleKeypressToSendMessage() {
-      this.$emit(
-        'toggleKeypressToSendMessage',
-        !this.enableKeypressToSendMessage
-      );
     },
     toggleMessageSignature() {
       this.updateUISettings({
@@ -332,20 +302,6 @@ export default {
 
 .right-wrap {
   display: flex;
-
-  .keypress-to-send--checkbox {
-    align-items: center;
-    display: flex;
-
-    input {
-      margin: 0;
-    }
-
-    label {
-      color: var(--s-500);
-      font-size: var(--font-size-mini);
-    }
-  }
 }
 
 ::v-deep .file-uploads {
