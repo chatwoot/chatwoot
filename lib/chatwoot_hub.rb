@@ -17,7 +17,7 @@ class ChatwootHub
       installation_version: Chatwoot.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host,
       installation_env: ENV.fetch('INSTALLATION_ENV', ''),
-      cw_edition: ENV.fetch('CW_EDITION', '')
+      edition: ENV.fetch('CW_EDITION', '')
     }
   end
 
