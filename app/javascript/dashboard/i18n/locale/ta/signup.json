@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "பாஸ்வேர்ட்",
       "PLACEHOLDER": "பாஸ்வேர்ட்",
-      "ERROR": "பாஸ்வேர்டு மிகவும் சிறியதாக உள்ளது"
+      "ERROR": "பாஸ்வேர்டு மிகவும் சிறியதாக உள்ளது",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "பாஸ்வேர்டை உறுதிப்படுத்தவும்",
