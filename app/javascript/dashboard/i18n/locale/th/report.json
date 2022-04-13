@@ -21,16 +21,16 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "บทสนทนาที่เสร็จสิ้น",
+        "NAME": "จำนวนความละเอียด",
         "DESC": "( ทั้งหมด )"
       }
     },
@@ -57,7 +57,7 @@
       },
       {
         "id": 5,
-        "name": "ปรับช่วงระยะเวลาด้วยตนเอง"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -138,16 +138,16 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "บทสนทนาที่เสร็จสิ้น",
+        "NAME": "จำนวนความละเอียด",
         "DESC": "( ทั้งหมด )"
       }
     },
@@ -174,7 +174,7 @@
       },
       {
         "id": 5,
-        "name": "ปรับช่วงระยะเวลาด้วยตนเอง"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -205,16 +205,16 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "บทสนทนาที่เสร็จสิ้น",
+        "NAME": "จำนวนความละเอียด",
         "DESC": "( ทั้งหมด )"
       }
     },
@@ -241,7 +241,7 @@
       },
       {
         "id": 5,
-        "name": "ปรับช่วงระยะเวลาด้วยตนเอง"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -272,16 +272,16 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "บทสนทนาที่เสร็จสิ้น",
+        "NAME": "จำนวนความละเอียด",
         "DESC": "( ทั้งหมด )"
       }
     },
@@ -308,7 +308,7 @@
       },
       {
         "id": 5,
-        "name": "ปรับช่วงระยะเวลาด้วยตนเอง"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -339,16 +339,16 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
+        "NAME": "ระยะเวลาในการจบการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนบทสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "บทสนทนาที่เสร็จสิ้น",
+        "NAME": "จำนวนความละเอียด",
         "DESC": "( ทั้งหมด )"
       }
     },
@@ -375,7 +375,7 @@
       },
       {
         "id": 5,
-        "name": "ปรับช่วงระยะเวลาด้วยตนเอง"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -384,7 +384,7 @@
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
+    "HEADER": "รายงาน CSAT",
     "NO_RECORDS": "ไม่มีรายงาน CSAT ที่แสดงผลได้",
     "FILTERS": {
       "AGENTS": {
