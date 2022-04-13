@@ -8,7 +8,15 @@ class ReportsAPI extends ApiClient {
     super('reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getReports(metric, since, until, type = 'account', id, group_by) {
+  getReports(
+    metric,
+    since,
+    until,
+    type = 'account',
+    id,
+    group_by,
+    business_hours
+  ) {
     return axios.get(`${this.url}`, {
       params: {
         metric,
@@ -17,12 +25,13 @@ class ReportsAPI extends ApiClient {
         type,
         id,
         group_by,
+        business_hours,
         timezone_offset: getTimeOffset(),
       },
     });
   }
 
-  getSummary(since, until, type = 'account', id, group_by) {
+  getSummary(since, until, type = 'account', id, group_by, business_hours) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
@@ -30,6 +39,7 @@ class ReportsAPI extends ApiClient {
         type,
         id,
         group_by,
+        business_hours,
       },
     });
   }

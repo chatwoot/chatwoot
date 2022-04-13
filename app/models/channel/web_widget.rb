@@ -4,7 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  continuity_via_email  :boolean          default(TRUE), not null
-#  feature_flags         :integer          default(3), not null
+#  feature_flags         :integer          default(7), not null
 #  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  pre_chat_form_enabled :boolean          default(FALSE)
@@ -43,6 +43,7 @@ class Channel::WebWidget < ApplicationRecord
 
   has_flags 1 => :attachments,
             2 => :emoji_picker,
+            3 => :end_conversation,
             :column => 'feature_flags',
             :check_for_column => false
 

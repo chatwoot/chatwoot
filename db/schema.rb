@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_120357) do
+ActiveRecord::Schema.define(version: 2022_04_09_044943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -190,14 +190,14 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.boolean "imap_enabled", default: false
     t.string "imap_address", default: ""
     t.integer "imap_port", default: 0
-    t.string "imap_email", default: ""
+    t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
     t.datetime "imap_inbox_synced_at"
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
-    t.string "smtp_email", default: ""
+    t.string "smtp_login", default: ""
     t.string "smtp_password", default: ""
     t.string "smtp_domain", default: ""
     t.boolean "smtp_enable_starttls_auto", default: true
@@ -280,7 +280,7 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
-    t.integer "feature_flags", default: 3, null: false
+    t.integer "feature_flags", default: 7, null: false
     t.integer "reply_time", default: 0
     t.string "hmac_token"
     t.boolean "pre_chat_form_enabled", default: false
@@ -657,6 +657,9 @@ ActiveRecord::Schema.define(version: 2022_02_18_120357) do
     t.integer "conversation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "value_in_business_hours"
+    t.datetime "event_start_time"
+    t.datetime "event_end_time"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"

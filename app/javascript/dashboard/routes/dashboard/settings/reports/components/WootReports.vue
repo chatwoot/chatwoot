@@ -17,6 +17,7 @@
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
       @group-by-filter-change="onGroupByFilterChange"
+      @business-hours-toggle="onBusinessHoursToggle"
     />
     <div>
       <div v-if="filterItemsList.length" class="row">
@@ -59,6 +60,7 @@ import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { GROUP_BY_FILTER, METRIC_CHART } from '../constants';
 import reportMixin from '../../../../../mixins/reportMixin';
+import { formatTime } from '@chatwoot/utils';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -100,6 +102,7 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: null,
+      businessHours: false,
     };
   },
   computed: {
@@ -169,8 +172,21 @@ export default {
       };
     },
     chartOptions() {
+      let tooltips = {};
+      if (this.isAverageMetricType(this.metrics[this.currentSelection].KEY)) {
+        tooltips.callbacks = {
+          label: tooltipItem => {
+            return this.$t(this.metrics[this.currentSelection].TOOLTIP_TEXT, {
+              metricValue: formatTime(tooltipItem.yLabel),
+              conversationCount: this.accountReport.data[tooltipItem.index]
+                .count,
+            });
+          },
+        };
+      }
       return {
         scales: METRIC_CHART[this.metrics[this.currentSelection].KEY].scales,
+        tooltips: tooltips,
       };
     },
     metrics() {
@@ -188,11 +204,18 @@ export default {
         'RESOLUTION_TIME',
         'RESOLUTION_COUNT',
       ];
+      const infoText = {
+        FIRST_RESPONSE_TIME: this.$t(
+          `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
+        ),
+        RESOLUTION_TIME: this.$t(`REPORT.METRICS.RESOLUTION_TIME.INFO_TEXT`),
+      };
       return reportKeys.map(key => ({
         NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
         KEY: REPORTS_KEYS[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
-        INFO_TEXT: this.$t(`REPORT.METRICS.${key}.INFO_TEXT`),
+        INFO_TEXT: infoText[key],
+        TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
       }));
     },
   },
@@ -202,19 +225,20 @@ export default {
   methods: {
     fetchAllData() {
       if (this.selectedFilter) {
-        const { from, to, groupBy } = this;
+        const { from, to, groupBy, businessHours } = this;
         this.$store.dispatch('fetchAccountSummary', {
           from,
           to,
           type: this.type,
           id: this.selectedFilter.id,
           groupBy: groupBy.period,
+          businessHours,
         });
         this.fetchChartData();
       }
     },
     fetchChartData() {
-      const { from, to, groupBy } = this;
+      const { from, to, groupBy, businessHours } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
         from,
@@ -222,6 +246,7 @@ export default {
         type: this.type,
         id: this.selectedFilter.id,
         groupBy: groupBy.period,
+        businessHours,
       });
     },
     downloadReports() {
@@ -287,6 +312,10 @@ export default {
         default:
           return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
     },
   },
 };

@@ -47,36 +47,36 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
   end
 
-  def current_summary_params
+  def common_params
     {
       type: params[:type].to_sym,
       id: params[:id],
-      since: range[:current][:since],
-      until: range[:current][:until],
-      group_by: params[:group_by]
+      group_by: params[:group_by],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
     }
+  end
+
+  def current_summary_params
+    common_params.merge({
+                          since: range[:current][:since],
+                          until: range[:current][:until]
+                        })
   end
 
   def previous_summary_params
-    {
-      type: params[:type].to_sym,
-      id: params[:id],
-      since: range[:previous][:since],
-      until: range[:previous][:until],
-      group_by: params[:group_by]
-    }
+    common_params.merge({
+                          since: range[:previous][:since],
+                          until: range[:previous][:until]
+                        })
   end
 
   def report_params
-    {
-      metric: params[:metric],
-      type: params[:type].to_sym,
-      since: params[:since],
-      until: params[:until],
-      id: params[:id],
-      group_by: params[:group_by],
-      timezone_offset: params[:timezone_offset]
-    }
+    common_params.merge({
+                          metric: params[:metric],
+                          since: params[:since],
+                          until: params[:until],
+                          timezone_offset: params[:timezone_offset]
+                        })
   end
 
   def conversation_params

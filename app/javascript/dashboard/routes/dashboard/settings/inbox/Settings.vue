@@ -285,6 +285,17 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
+        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+          <input
+            v-model="selectedFeatureFlags"
+            type="checkbox"
+            value="end_conversation"
+            @input="handleFeatureFlag"
+          />
+          <label for="end_conversation">
+            {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
+          </label>
+        </div>
 
         <woot-submit-button
           v-if="isAPIInbox"
@@ -411,7 +422,7 @@
           </settings-section>
         </div>
         <imap-settings :inbox="inbox" />
-        <smtp-settings :inbox="inbox" />
+        <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
