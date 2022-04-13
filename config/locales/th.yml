@@ -38,7 +38,7 @@ th:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
+      team_name: ชื่อทีม
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
