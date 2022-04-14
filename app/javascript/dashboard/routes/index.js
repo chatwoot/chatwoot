@@ -55,8 +55,8 @@ const routeValidators = [
   {
     protected: false,
     loggedIn: true,
-    handler: () => {
-      const user = store.getters.getCurrentUser;
+    handler: (_, getters) => {
+      const user = getters.getCurrentUser;
       return `accounts/${user.account_id}/dashboard`;
     },
   },
@@ -68,8 +68,8 @@ const routeValidators = [
   {
     protected: true,
     loggedIn: true,
-    handler: to => {
-      const user = store.getters.getCurrentUser;
+    handler: (to, getters) => {
+      const user = getters.getCurrentUser;
       const userRole = getUserRole(user, Number(to.params.accountId));
       const isAccessible = routeIsAccessibleFor(to.name, userRole);
       return isAccessible ? null : `accounts/${to.params.accountId}/dashboard`;
@@ -82,16 +82,20 @@ const routeValidators = [
   },
 ];
 
-export const validateAuthenticateRoutePermission = (to, from, next) => {
-  const isLoggedIn = store.getters.isLoggedIn;
+export const validateAuthenticateRoutePermission = (
+  to,
+  from,
+  next,
+  { getters }
+) => {
+  const isLoggedIn = getters.isLoggedIn;
   const isProtectedRoute = !unProtectedRoutes.includes(to.name);
   const strategy = routeValidators.find(
     validator =>
       validator.protected === isProtectedRoute &&
       validator.loggedIn === isLoggedIn
   );
-  const nextRoute = strategy.handler(to);
-
+  const nextRoute = strategy.handler(to, getters);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
@@ -102,7 +106,7 @@ const validateSSOLoginParams = to => {
   return isLoginRoute && hasValidSSOParams;
 };
 
-const validateRouteAccess = (to, from, next) => {
+export const validateRouteAccess = (to, from, next, { getters }) => {
   // Disable navigation to signup page if signups are disabled
   // Signup route has an attribute (requireSignupEnabled)
   // defined in it's route definition
@@ -111,16 +115,15 @@ const validateRouteAccess = (to, from, next) => {
     to.meta &&
     to.meta.requireSignupEnabled
   ) {
-    const user = store.getters.getCurrentUser;
-    next(frontendURL(`accounts/${user.account_id}/dashboard`));
+    return next(frontendURL('login'));
   }
 
-  // If authentication is ingored, skip validation
+  // For routes which doesn't care about authentication, skip validation
   if (authIgnoreRoutes.includes(to.name)) {
     return next();
   }
 
-  return validateAuthenticateRoutePermission(to, from, next);
+  return validateAuthenticateRoutePermission(to, from, next, { getters });
 };
 
 export const initalizeRouter = () => {
@@ -141,7 +144,7 @@ export const initalizeRouter = () => {
         return next('/app/login');
       }
 
-      return validateRouteAccess(to, from, next);
+      return validateRouteAccess(to, from, next, store);
     });
   });
 };
