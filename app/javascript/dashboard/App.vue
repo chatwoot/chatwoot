@@ -15,13 +15,17 @@
 </template>
 
 <script>
-import { accountIdFromPathname } from './helper/URLHelper';
 import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification';
 import UpdateBanner from './components/app/UpdateBanner.vue';
+import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer';
+import {
+  registerSubscription,
+  verifyServiceWorkerExistence,
+} from './helper/pushHelper';
 
 export default {
   name: 'App',
@@ -47,13 +51,11 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
+      currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
-      return (
-        this.currentUser &&
-        this.currentUser.accounts &&
-        this.currentUser.accounts.length !== 0
-      );
+      const { accounts = [] } = this.currentUser || {};
+      return accounts.length > 0;
     },
   },
 
@@ -62,31 +64,38 @@ export default {
       if (!this.hasAccounts) {
         this.showAddAccountModal = true;
       }
+      verifyServiceWorkerExistence(registration =>
+        registration.pushManager.getSubscription().then(subscription => {
+          if (subscription) {
+            registerSubscription();
+          }
+        })
+      );
+    },
+    currentAccountId() {
+      if (this.currentAccountId) {
+        this.initializeAccount();
+      }
     },
   },
   mounted() {
     this.setLocale(window.chatwootConfig.selectedLocale);
-    this.initializeAccount();
   },
-
   methods: {
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },
-
     async initializeAccount() {
-      const { pathname } = window.location;
-      const accountId = accountIdFromPathname(pathname);
+      await this.$store.dispatch('accounts/get');
+      const {
+        locale,
+        latest_chatwoot_version: latestChatwootVersion,
+      } = this.getAccount(this.currentAccountId);
+      const { pubsub_token: pubsubToken } = this.currentUser || {};
 
-      if (accountId) {
-        await this.$store.dispatch('accounts/get');
-        const {
-          locale,
-          latest_chatwoot_version: latestChatwootVersion,
-        } = this.getAccount(accountId);
-        this.setLocale(locale);
-        this.latestChatwootVersion = latestChatwootVersion;
-      }
+      this.setLocale(locale);
+      this.latestChatwootVersion = latestChatwootVersion;
+      vueActionCable.init(pubsubToken);
     },
   },
 };

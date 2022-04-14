@@ -1,6 +1,4 @@
-/* eslint no-console: 0 */
 /* global axios */
-/* eslint no-undef: "error" */
 
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
@@ -69,14 +67,6 @@ export default {
       return Cookies.getJSON('cw_d_session_info');
     }
     return false;
-  },
-  getPubSubToken() {
-    if (this.hasAuthCookie()) {
-      const user = Cookies.getJSON('user') || {};
-      const { pubsub_token: pubsubToken } = user;
-      return pubsubToken;
-    }
-    return null;
   },
   verifyPasswordToken({ confirmationToken }) {
     return new Promise((resolve, reject) => {

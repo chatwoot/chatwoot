@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
-import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+import { setUser, clearCookiesOnLogout } from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const initialState = {
@@ -12,7 +12,6 @@ const initialState = {
     email: null,
     name: null,
   },
-  currentAccountId: null,
   uiFlags: {
     isFetching: true,
   },
@@ -36,10 +35,10 @@ export const getters = {
     return $state.uiFlags;
   },
 
-  getCurrentUserAvailability($state) {
+  getCurrentUserAvailability($state, $getters) {
     const { accounts = [] } = $state.currentUser;
     const [currentAccount = {}] = accounts.filter(
-      account => account.id === $state.currentAccountId
+      account => account.id === $getters.getCurrentAccountId
     );
     return currentAccount.availability;
   },
@@ -51,10 +50,10 @@ export const getters = {
     return null;
   },
 
-  getCurrentRole($state) {
+  getCurrentRole($state, $getters) {
     const { accounts = [] } = $state.currentUser;
     const [currentAccount = {}] = accounts.filter(
-      account => account.id === $state.currentAccountId
+      account => account.id === $getters.getCurrentAccountId
     );
     return currentAccount.role;
   },
@@ -69,10 +68,10 @@ export const getters = {
     return messageSignature || '';
   },
 
-  getCurrentAccount($state) {
+  getCurrentAccount($state, $getters) {
     const { accounts = [] } = $state.currentUser;
     const [currentAccount = {}] = accounts.filter(
-      account => account.id === $state.currentAccountId
+      account => account.id === $getters.getCurrentAccountId
     );
     return currentAccount || {};
   },
@@ -102,9 +101,7 @@ export const actions = {
     try {
       const response = await authAPI.validityCheck();
       const currentUser = response.data.payload.data;
-      setUser(currentUser, getHeaderExpiry(response), {
-        setUserInSDK: true,
-      });
+      setUser(currentUser);
       context.commit(types.SET_CURRENT_USER, currentUser);
     } catch (error) {
       if (error?.response?.status === 401) {
@@ -128,7 +125,6 @@ export const actions = {
     // eslint-disable-next-line no-useless-catch
     try {
       const response = await authAPI.profileUpdate(params);
-      setUser(response.data, getHeaderExpiry(response));
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       throw error;
@@ -147,7 +143,6 @@ export const actions = {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
       const response = await authAPI.updateUISettings(params);
-      setUser(response.data, getHeaderExpiry(response));
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       // Ignore error
@@ -159,16 +154,11 @@ export const actions = {
       const response = await authAPI.updateAvailability(params);
       const userData = response.data;
       const { id } = userData;
-      setUser(userData, getHeaderExpiry(response));
       commit(types.SET_CURRENT_USER, response.data);
       dispatch('agents/updatePresence', { [id]: params.availability });
     } catch (error) {
       // Ignore error
     }
-  },
-
-  setCurrentAccountId({ commit }, accountId) {
-    commit(types.SET_CURRENT_ACCOUNT_ID, accountId);
   },
 
   setCurrentUserAvailability({ commit, state: $state }, data) {
@@ -201,9 +191,6 @@ export const mutations = {
 
   [types.SET_CURRENT_USER_UI_FLAGS](_state, { isFetching }) {
     Vue.set(_state, 'uiFlags', { isFetching });
-  },
-  [types.SET_CURRENT_ACCOUNT_ID](_state, accountId) {
-    Vue.set(_state, 'currentAccountId', Number(accountId));
   },
 };
 

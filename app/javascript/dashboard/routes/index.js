@@ -6,17 +6,8 @@ import authRoute from './auth/auth.routes';
 import dashboard from './dashboard/dashboard.routes';
 import login from './login/login.routes';
 import store from '../store';
-import vueActionCable from '../helper/actionCable';
 
-const routes = [
-  ...login.routes,
-  ...dashboard.routes,
-  ...authRoute.routes,
-  {
-    path: '/',
-    redirect: '/app',
-  },
-];
+const routes = [...login.routes, ...dashboard.routes, ...authRoute.routes];
 
 window.roleWiseRoutes = {
   agent: [],
@@ -100,6 +91,7 @@ export const validateAuthenticateRoutePermission = (to, from, next) => {
       validator.loggedIn === isLoggedIn
   );
   const nextRoute = strategy.handler(to);
+
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
@@ -111,6 +103,9 @@ const validateSSOLoginParams = to => {
 };
 
 const validateRouteAccess = (to, from, next) => {
+  // Disable navigation to signup page if signups are disabled
+  // Signup route has an attribute (requireSignupEnabled)
+  // defined in it's route definition
   if (
     window.chatwootConfig.signupEnabled !== 'true' &&
     to.meta &&
@@ -120,27 +115,27 @@ const validateRouteAccess = (to, from, next) => {
     next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
-  if (validateSSOLoginParams(to)) {
-    clearBrowserSessionCookies();
-    return next();
-  }
-
+  // If authentication is ingored, skip validation
   if (authIgnoreRoutes.includes(to.name)) {
     return next();
   }
+
   return validateAuthenticateRoutePermission(to, from, next);
 };
 
 export const initalizeRouter = () => {
   const userAuthentication = store.dispatch('setUser');
-  userAuthentication.then(() => vueActionCable.init());
-  // Validated the user authentication
-  // before
   router.beforeEach((to, from, next) => {
+    if (validateSSOLoginParams(to)) {
+      clearBrowserSessionCookies();
+      next();
+      return;
+    }
+
     userAuthentication.then(() => {
       if (!to.name) {
-        const user = store.getters.getCurrentUser;
-        if (user) {
+        const { isLoggedIn, getCurrentUser: user } = store.getters;
+        if (isLoggedIn) {
           return next(frontendURL(`accounts/${user.account_id}/dashboard`));
         }
         return next('/app/login');

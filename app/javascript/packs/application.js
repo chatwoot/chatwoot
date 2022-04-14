@@ -29,10 +29,6 @@ import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
-import {
-  verifyServiceWorkerExistence,
-  registerSubscription,
-} from '../dashboard/helper/pushHelper';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
@@ -112,13 +108,6 @@ const setupAudioListeners = () => {
   });
 };
 window.addEventListener('load', () => {
-  verifyServiceWorkerExistence(registration =>
-    registration.pushManager.getSubscription().then(subscription => {
-      if (subscription) {
-        registerSubscription();
-      }
-    })
-  );
   window.playAudioAlert = () => {};
   initOnEvents.forEach(e => {
     document.addEventListener(e, setupAudioListeners, false);

@@ -15,11 +15,9 @@ export const setLoadingStatus = (state, status) => {
   state.fetchAPIloadingStatus = status;
 };
 
-export const setUser = (user, expiryDate, options = {}) => {
-  if (options && options.setUserInSDK) {
-    window.bus.$emit(CHATWOOT_SET_USER, { user });
-    window.bus.$emit(ANALYTICS_IDENTITY, { user });
-  }
+export const setUser = user => {
+  window.bus.$emit(CHATWOOT_SET_USER, { user });
+  window.bus.$emit(ANALYTICS_IDENTITY, { user });
 };
 
 export const getHeaderExpiry = response =>
