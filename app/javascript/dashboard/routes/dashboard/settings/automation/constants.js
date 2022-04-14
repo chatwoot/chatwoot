@@ -227,7 +227,7 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'referer',
+        key: 'referrer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',

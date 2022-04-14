@@ -70,7 +70,7 @@
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "present", "is_not_present" ],
       "attribute_type": "additional_attributes"
     },
-    "referer": {
+    "referrer": {
       "attribute_name": "Referer link",
       "input_type": "textbox",
       "data_type": "link",
