@@ -25,6 +25,26 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getCurrentRole', () => {
+    it('returns current role if account is available', () => {
+      expect(
+        getters.getCurrentRole(
+          { currentUser: { accounts: [{ id: 1, role: 'admin' }] } },
+          { getCurrentAccountId: 1 }
+        )
+      ).toEqual('admin');
+    });
+
+    it('returns undefined if account is not available', () => {
+      expect(
+        getters.getCurrentRole(
+          { currentUser: { accounts: [{ id: 1, role: 'admin' }] } },
+          { getCurrentAccountId: 2 }
+        )
+      ).toEqual(undefined);
+    });
+  });
+
   describe('#getCurrentUserAvailability', () => {
     it('returns correct availability status', () => {
       expect(
