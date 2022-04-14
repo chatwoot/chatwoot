@@ -46,12 +46,10 @@
     >
       <router-view />
     </transition>
-    <branding />
   </div>
 </template>
 <script>
 import Banner from '../Banner.vue';
-import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
@@ -62,7 +60,6 @@ import { IFrameHelper } from 'widget/helpers/utils';
 export default {
   components: {
     Banner,
-    Branding,
     ChatHeader,
     ChatHeaderExpanded,
   },
