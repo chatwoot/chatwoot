@@ -148,7 +148,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID акаунту",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "Це поле є обов'язковим"
           },
