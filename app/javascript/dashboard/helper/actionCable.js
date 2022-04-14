@@ -66,7 +66,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationRead = data => {
-    const lastSeen = data.contact_last_seen_at;
+    const { contact_last_seen_at: lastSeen } = data;
     this.app.$store.dispatch('updateConversationRead', lastSeen);
   };
 
