@@ -115,7 +115,7 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
+        "LABEL": "Номер телефону",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
         "DUPLICATE": "This phone number is in use for another contact."
@@ -152,7 +152,7 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
+    "TITLE": "Новий діалог",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
@@ -186,8 +186,8 @@
     "SEARCH_BUTTON": "Пошук",
     "SEARCH_INPUT_PLACEHOLDER": "Пошук контактів",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Зберегти фільтр",
+    "FILTER_CONTACTS_DELETE": "Видалити фільтр",
     "LIST": {
       "LOADING_MESSAGE": "Завантаження контактів...",
       "404": "Немає контактів, які відповідають вашому пошуку 🔍",
