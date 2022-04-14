@@ -3,13 +3,14 @@ require 'json'
 class AutomationRules::ConditionsFilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
-  def initialize(rule, conversation = nil)
+  def initialize(rule, conversation = nil, options = {})
     super([], nil)
     @rule = rule
     @conversation = conversation
     @account = conversation.account
     file = File.read('./lib/filters/filter_keys.json')
     @filters = JSON.parse(file)
+    @options = options
   end
 
   def perform
@@ -41,7 +42,7 @@ class AutomationRules::ConditionsFilterService < FilterService
       current_filter = message_filters[query_hash['attribute_key']]
       @query_string += message_query_string(current_filter, query_hash.with_indifferent_access, current_index)
     end
-    records = Message.where(conversation: @conversation).where(@query_string, @filter_values.with_indifferent_access)
+    records = Message.where(id: @options[:message].id).where(@query_string, @filter_values.with_indifferent_access)
     records.any?
   end
 
