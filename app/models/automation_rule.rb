@@ -35,7 +35,7 @@ class AutomationRule < ApplicationRecord
   def json_conditions_format
     return if conditions.nil?
 
-    attributes = self.conditions.map { |obj, _| obj['attribute_key'] }
+    attributes = conditions.map { |obj, _| obj['attribute_key'] }
     conditions = attributes - CONDITIONS_ATTRS
     conditions -= account.custom_attribute_definitions.pluck(:attribute_key)
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
