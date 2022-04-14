@@ -22,8 +22,6 @@ class AutomationRules::ActionService
   private
 
   def send_attachments(_file_params)
-    return if @rule.event_name == 'message_created'
-
     blobs = @rule.files.map { |file, _| file.blob }
     params = { content: nil, private: false, attachments: blobs }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
@@ -41,7 +39,11 @@ class AutomationRules::ActionService
   end
 
   def snooze_conversation(_params)
-    @conversation.ensure_snooze_until_reset
+    @conversation.snoozed!
+  end
+
+  def resolve_conversation(_params)
+    @conversation.resolved!
   end
 
   def change_status(status)
@@ -54,8 +56,6 @@ class AutomationRules::ActionService
   end
 
   def send_message(message)
-    return if @rule.event_name == 'message_created'
-
     params = { content: message[0], private: false }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
@@ -82,15 +82,10 @@ class AutomationRules::ActionService
   end
 
   def send_email_to_team(params)
-    team = Team.find(params[:team_ids][0])
+    teams = Team.where(id: params[0][:team_ids])
 
-    case @rule.event_name
-    when 'conversation_created', 'conversation_status_changed'
-      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[:message])&.deliver_now
-    when 'conversation_updated'
-      TeamNotifications::AutomationNotificationMailer.conversation_updated(@conversation, team, params[:message])&.deliver_now
-    when 'message_created'
-      TeamNotifications::AutomationNotificationMailer.message_created(@conversation, team, params[:message])&.deliver_now
+    teams.each do |team|
+      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
     end
   end
 

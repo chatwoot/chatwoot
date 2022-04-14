@@ -30,10 +30,10 @@ describe AutomationRuleListener do
     automation_rule.update!(actions:
                                       [
                                         {
-                                          'action_name' => 'send_email_to_team', 'action_params' => {
+                                          'action_name' => 'send_email_to_team', 'action_params' => [{
                                             'message' => 'Please pay attention to this conversation, its from high priority customer',
                                             'team_ids' => [team.id]
-                                          }
+                                          }]
                                         },
                                         { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
@@ -48,125 +48,6 @@ describe AutomationRuleListener do
     file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
     automation_rule.files.attach(file)
     automation_rule.save
-  end
-
-  describe '#conversation_status_changed' do
-    context 'when rule matches' do
-      it 'triggers automation rule send webhook events' do
-        payload = conversation.webhook_data.merge(event: "automation_event: #{automation_rule.event_name}")
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        expect(WebhookJob).to receive(:perform_later).with('https://www.example.com', payload).once
-
-        listener.conversation_status_changed(event)
-      end
-
-      it 'triggers automation rule to assign team' do
-        expect(conversation.team_id).not_to eq(team.id)
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-        expect(conversation.team_id).to eq(team.id)
-      end
-
-      it 'triggers automation rule to add label' do
-        expect(conversation.labels).to eq([])
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-
-        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
-      end
-
-      it 'triggers automation rule to assign best agents' do
-        expect(conversation.assignee).to be_nil
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-
-        expect(conversation.assignee).to eq(user_1)
-      end
-
-      it 'triggers automation rule send message to the contacts' do
-        expect(conversation.messages).to be_empty
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-
-        expect(conversation.messages.first.content).to eq('Send this message.')
-      end
-
-      it 'triggers automation rule changes status to snoozed' do
-        expect(conversation.status).to eq('resolved')
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-
-        expect(conversation.status).to eq('snoozed')
-      end
-
-      it 'triggers automation rule send email transcript to the mentioned email' do
-        mailer = double
-
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-
-        allow(mailer).to receive(:conversation_transcript)
-      end
-
-      it 'triggers automation rule send email to the team' do
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-      end
-
-      it 'triggers automation rule send attachments in messages' do
-        automation_rule
-
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-
-        listener.conversation_status_changed(event)
-
-        conversation.reload
-
-        expect(conversation.messages.last.attachments.count).to eq(1)
-      end
-    end
   end
 
   describe '#conversation_updated with contacts attributes' do
@@ -223,7 +104,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send email transcript to the mentioned email' do
         mailer = double
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -235,7 +116,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages).to be_empty
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -321,7 +202,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -333,7 +214,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send email to the team' do
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
       end
@@ -343,7 +224,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -375,7 +256,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -388,7 +269,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -400,7 +281,7 @@ describe AutomationRuleListener do
         expect(conversation.assignee).to be_nil
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -414,7 +295,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
