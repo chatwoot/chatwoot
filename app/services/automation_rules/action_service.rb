@@ -44,7 +44,7 @@ class AutomationRules::ActionService
     @conversation.snoozed!
   end
 
-  def snooze_conversation(_params)
+  def resolve_conversation(_params)
     @conversation.resolved!
   end
 
