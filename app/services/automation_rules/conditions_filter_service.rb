@@ -3,7 +3,7 @@ require 'json'
 class AutomationRules::ConditionsFilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
-  def initialize(rule, conversation = nil, options = {})
+  def initialize(rule, conversation = nil, options={})
     super([], nil)
     @rule = rule
     @conversation = conversation
