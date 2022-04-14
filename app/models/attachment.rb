@@ -28,7 +28,6 @@ class Attachment < ApplicationRecord
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
   ].freeze
-
   belongs_to :account
   belongs_to :message
   has_one_attached :file

@@ -51,7 +51,7 @@ class AutomationRules::ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: "automation_event: #{@rule.event_name}")
+    payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
     WebhookJob.perform_later(webhook_url[0], payload)
   end
 
