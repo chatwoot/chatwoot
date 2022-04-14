@@ -44,6 +44,10 @@ class AutomationRules::ActionService
     @conversation.snoozed!
   end
 
+  def snooze_conversation(_params)
+    @conversation.resolved!
+  end
+
   def change_status(status)
     @conversation.update!(status: status[0])
   end

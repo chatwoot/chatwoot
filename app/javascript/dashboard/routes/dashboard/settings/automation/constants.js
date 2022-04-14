@@ -103,7 +103,7 @@ export const AUTOMATIONS = {
       },
 
       {
-        key: 'resolve_convresation',
+        key: 'resolve_conversation',
         name: 'Resolve conversation',
         attributeI18nKey: 'RESOLVE_CONVERSATION',
       },
@@ -187,7 +187,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'resolve_convresation',
+        key: 'resolve_conversation',
         name: 'Resolve conversation',
         attributeI18nKey: 'RESOLVE_CONVERSATION',
       },
@@ -285,7 +285,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'resolve_convresation',
+        key: 'resolve_conversation',
         name: 'Resolve conversation',
         attributeI18nKey: 'RESOLVE_CONVERSATION',
       },
@@ -350,7 +350,7 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: null,
   },
   {
-    key: 'resolve_convresation',
+    key: 'resolve_conversation',
     label: 'Resolve conversation',
     inputType: null,
   },
