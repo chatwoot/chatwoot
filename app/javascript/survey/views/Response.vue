@@ -44,15 +44,11 @@
           @sendFeedback="sendFeedback"
         />
       </div>
-      <div class="mb-3">
-        <branding></branding>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Branding from 'shared/components/Branding';
 import Spinner from 'shared/components/Spinner';
 import Rating from 'survey/components/Rating';
 import Feedback from 'survey/components/Feedback';
@@ -64,7 +60,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 export default {
   name: 'Response',
   components: {
-    Branding,
     Rating,
     Spinner,
     Banner,
