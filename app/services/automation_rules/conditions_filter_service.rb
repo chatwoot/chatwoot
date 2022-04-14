@@ -4,13 +4,14 @@ class AutomationRules::ConditionsFilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
   attr_accessor :base_relation
 
-  def initialize(rule, conversation = nil)
+  def initialize(rule, conversation = nil, changed_attributes:)
     super([], nil)
     @rule = rule
     @conversation = conversation
     @account = conversation.account
     file = File.read('./lib/filters/filter_keys.json')
     @filters = JSON.parse(file)
+    @changed_attributes = changed_attributes.with_indifferent_access
   end
 
   def perform
@@ -50,8 +51,13 @@ class AutomationRules::ConditionsFilterService < FilterService
     records.any?
   end
 
-  def perform_attribute_changed_filter(records)
+  def perform_attribute_changed_filter(_records)
     # Add the condition here to check what the old valuu was and apply the filter accordingly.
+
+    @attribute_changed_query_filter.each do |filter|
+      changed_attribute = @changed_attributes[filter['attribute_key']]
+      changed_attribute[0].in?(filter['values']['from']) && changed_attribute[1].in?(filter['values']['to'])
+    end
   end
 
   def message_query_string(current_filter, query_hash, current_index)

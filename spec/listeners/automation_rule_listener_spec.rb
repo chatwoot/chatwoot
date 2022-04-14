@@ -295,7 +295,7 @@ describe AutomationRuleListener do
       end
 
       let!(:event) do
-        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, changed_attributes: { status: [:open, :snoozed] } })
       end
 
       it 'triggers automation rule to assign team' do
