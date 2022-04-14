@@ -252,7 +252,8 @@ export default {
     },
     getLastSeenAt() {
       if (this.conversationLastSeen) return this.conversationLastSeen;
-      return this.currentChat.contact_last_seen_at;
+      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
+      return contactLastSeenAt;
     },
   },
 

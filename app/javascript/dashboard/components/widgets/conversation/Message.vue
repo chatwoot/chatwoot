@@ -279,7 +279,10 @@ export default {
     },
     showReadTicks() {
       return (
-        this.isOutgoing && this.hasUserReadMessage && this.isWebWidgetInbox
+        this.isOutgoing &&
+        this.hasUserReadMessage &&
+        this.isWebWidgetInbox &&
+        !this.data.private
       );
     },
     isTemplate() {
