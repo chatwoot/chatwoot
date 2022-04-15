@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "شما باید حداقل یک شرط برای ذخیره داشته باشید"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "برای ذخیره باید حداقل یک اکشن داشته باشید"
+      "DELETE_MESSAGE": "برای ذخیره باید حداقل یک اکشن داشته باشید",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "پیام خود را اینجا وارد کنید",
+      "TEAM_DROPDOWN_PLACEHOLDER": "انتخاب تیم‌ها"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "فعال کردن قانون اتوماسیون",
