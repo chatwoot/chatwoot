@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "È necessario avere almeno una condizione per salvare"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare"
+      "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Inserisci qui il tuo messaggio",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleziona i team"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Attiva regola di automazione",
