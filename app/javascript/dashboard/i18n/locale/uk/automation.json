@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Ви повинні мати принаймні одну умову для збереження"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Ви повинні мати принаймні одну дію для збереження"
+      "DELETE_MESSAGE": "Ви повинні мати принаймні одну дію для збереження",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Введіть ваше повідомлення тут",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Обрати команди"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Активувати правило автоматизації",
