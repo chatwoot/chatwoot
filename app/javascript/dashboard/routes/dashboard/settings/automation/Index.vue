@@ -253,7 +253,7 @@ export default {
           : this.$t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION', {
               automationName: automation.name,
             });
-        // Check if uses confirms to proceed
+        // Check if user confirms to proceed
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
           await await this.$store.dispatch('automations/update', {
