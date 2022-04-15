@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva"
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activați regula de automatizare",
