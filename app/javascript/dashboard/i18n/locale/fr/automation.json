@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer"
+      "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activer la règle d'automatisation",
