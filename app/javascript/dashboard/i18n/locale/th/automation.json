@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย หนึ่ง เงื่อนไข เพื่อบันทึก"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย หนึ่ง สิ่งที่จะทำ เพื่อบันทึก"
+      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย หนึ่ง สิ่งที่จะทำ เพื่อบันทึก",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "เปิดใช้กฎ Automation",
