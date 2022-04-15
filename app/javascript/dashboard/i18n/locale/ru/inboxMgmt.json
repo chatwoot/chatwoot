@@ -469,7 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Настроить параметры IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Для включения SMTP, настройте IMAP.",
       "UPDATE": "Обновить настройки IMAP",
       "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
       "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
@@ -529,8 +529,8 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "Авторизация"
     },
-    "NOTE": "Note: "
+    "NOTE": "Примечание: "
   }
 }
