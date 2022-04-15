@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "You need to have atleast one condition to save"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save"
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
