@@ -1,11 +1,11 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Свої атрибути",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "HEADER_BTN_TXT": "Додати свій атрибут",
     "LOADING": "Fetching custom attributes",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Додати свій атрибут",
       "SUBMIT": "Створити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
@@ -92,7 +92,7 @@
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "NOT_FOUND": "Немає налаштованих власних атрибутів"
       }
     }
   }
