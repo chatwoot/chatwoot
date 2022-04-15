@@ -54,7 +54,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def process_attachments
-    rule = automation_rule.actions.find{|k, v| k if k['action_name'] == 'send_attachments'}
+    rule = @automation_rule.actions.find { |k, _v| k if k['action_name'] == 'send_attachments' }
     blob = ActiveStorage::Blob.find_by(id: rule['action_params'][0]) if rule.present?
     @automation_rule.files.attach(blob)
   end
@@ -63,7 +63,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def automation_rules_permit
     params.permit(
-      :name, :description, :event_name, :account_id, :active, :blob_id,
+      :name, :description, :event_name, :account_id, :active,
       conditions: [:attribute_key, :filter_operator, :query_operator, { values: [] }],
       actions: [:action_name, { action_params: [] }]
     )

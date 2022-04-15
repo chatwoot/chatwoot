@@ -133,29 +133,35 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
       it 'Saves file in the automation actions to send an attachments' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        params[:attachments] = [file]
+
+        expect(account.automation_rules.count).to eq(0)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file }
+
+        expect(response).to have_http_status(:success)
+
+        blob = JSON.parse(response.body)
+
+        expect(blob['blob_key']).to be_present
+        expect(blob['blob_id']).to be_present
+
         params[:actions] = [
           {
             action_name: :send_message,
             action_params: ['Welcome to the chatwoot platform.']
           },
           {
-            action_name: :update_additional_attributes,
-            action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
-          },
-          {
-            action_name: :send_attachments
+            action_name: :send_attachments,
+            action_params: [blob['blob_id']]
           }
         ]
-
-        expect(account.automation_rules.count).to eq(0)
 
         post "/api/v1/accounts/#{account.id}/automation_rules",
              headers: administrator.create_new_auth_token,
              params: params
 
-        expect(response).to have_http_status(:success)
-        expect(account.automation_rules.count).to eq(1)
         automation_rule = account.automation_rules.first
         expect(automation_rule.files.presence).to be_truthy
         expect(automation_rule.files.count).to eq(1)
@@ -163,30 +169,39 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
       it 'Saves files in the automation actions to send multiple attachments' do
         file_1 = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        file_2 = fixture_file_upload(Rails.root.join('spec/assets/sample.pdf'), 'image/png')
-        params[:attachments] = [file_1, file_2]
-        params[:actions] = [
-          {
-            action_name: :send_message,
-            action_params: ['Welcome to the chatwoot platform.']
-          },
-          {
-            action_name: :update_additional_attributes,
-            action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
-          },
-          {
-            action_name: :send_attachments
-          }
-        ]
+        file_2 = fixture_file_upload(Rails.root.join('spec/assets/sample.png'), 'image/png')
 
         expect(account.automation_rules.count).to eq(0)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file_1 }
+
+        expect(response).to have_http_status(:success)
+
+        blob_1 = JSON.parse(response.body)
+
+        expect(blob_1['blob_id']).to be_present
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file_2 }
+
+        blob_2 = JSON.parse(response.body)
+
+        expect(blob_2['blob_id']).to be_present
+
+        params[:actions] = [
+          {
+            action_name: :send_attachments,
+            action_params: [blob_1['blob_id'], blob_2['blob_id']]
+          }
+        ]
 
         post "/api/v1/accounts/#{account.id}/automation_rules",
              headers: administrator.create_new_auth_token,
              params: params
 
-        expect(response).to have_http_status(:success)
-        expect(account.automation_rules.count).to eq(1)
         automation_rule = account.automation_rules.first
         expect(automation_rule.files.presence).to be_truthy
         expect(automation_rule.files.count).to eq(2)
