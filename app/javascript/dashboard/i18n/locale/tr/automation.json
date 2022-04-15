@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Kaydetmek için en az bir koşul eklemelisiniz"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz"
+      "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Otomasyon Kuralını Etkinleştir",
