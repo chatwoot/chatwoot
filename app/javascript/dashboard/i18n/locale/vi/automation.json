@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu"
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
