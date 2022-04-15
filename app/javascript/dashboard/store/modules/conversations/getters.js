@@ -1,4 +1,3 @@
-import authAPI from '../../../api/auth';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters } from './helpers';
 
@@ -40,8 +39,8 @@ const getters = {
 
     return lastEmail;
   },
-  getMineChats: _state => activeFilters => {
-    const currentUserID = authAPI.getCurrentUser().id;
+  getMineChats: (_state, _, __, rootGetters) => activeFilters => {
+    const currentUserID = rootGetters.getCurrentUser?.id;
 
     return _state.allConversations.filter(conversation => {
       const { assignee } = conversation.meta;
