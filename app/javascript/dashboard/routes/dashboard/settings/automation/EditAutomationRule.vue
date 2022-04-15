@@ -199,7 +199,7 @@ export default {
               return !(
                 prop.action_name === 'mute_conversation' ||
                 prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_convresation'
+                prop.action_name === 'resolve_conversation'
               );
             }),
           },
@@ -360,6 +360,7 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
+        case 'send_email_to_team':
           return this.$store.getters['teams/getTeams'];
         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
@@ -475,6 +476,15 @@ export default {
             actionParams = [
               ...this.getActionDropdownValues(action.action_name),
             ].filter(item => [...action.action_params].includes(item.id));
+          } else if (inputType === 'team_message') {
+            actionParams = {
+              team_ids: [
+                ...this.getActionDropdownValues(action.action_name),
+              ].filter(item =>
+                [...action.action_params[0].team_ids].includes(item.id)
+              ),
+              message: action.action_params[0].message,
+            };
           } else actionParams = [...action.action_params];
         }
         return {
@@ -489,6 +499,8 @@ export default {
       };
     },
     showActionInput(actionName) {
+      if (actionName === 'send_email_to_team' || actionName === 'send_message')
+        return false;
       const type = AUTOMATION_ACTION_TYPES.find(
         action => action.key === actionName
       ).inputType;

@@ -7,7 +7,7 @@
       <select
         v-model="action_name"
         class="action__question"
-        :class="{ 'full-width': !inputType }"
+        :class="{ 'full-width': !showActionInput }"
         @change="resetAction()"
       >
         <option
@@ -61,6 +61,18 @@
         @click="removeAction"
       />
     </div>
+    <automation-action-team-message-input
+      v-if="inputType === 'team_message'"
+      v-model="action_params"
+      :teams="dropdownValues"
+    />
+    <textarea
+      v-if="inputType === 'textarea'"
+      v-model="action_params"
+      rows="4"
+      :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
+      class="action-message"
+    ></textarea>
     <p
       v-if="v.action_params.$dirty && v.action_params.$error"
       class="filter-error"
@@ -71,7 +83,11 @@
 </template>
 
 <script>
+import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 export default {
+  components: {
+    AutomationActionTeamMessageInput,
+  },
   props: {
     value: {
       type: Object,
@@ -210,5 +226,8 @@ export default {
 
 .multiselect {
   margin-bottom: var(--space-zero);
+}
+.action-message {
+  margin: var(--space-small) 0 0;
 }
 </style>
