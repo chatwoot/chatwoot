@@ -22,7 +22,7 @@
       "LABEL": "Пароль",
       "PLACEHOLDER": "Пароль",
       "ERROR": "Пароль слишком короткий",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, 1 цифру и 1 специальный символ"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Подтвердить пароль",
