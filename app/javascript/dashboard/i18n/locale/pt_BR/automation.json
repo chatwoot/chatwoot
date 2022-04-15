@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar"
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecionar times"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar regra de automação",
