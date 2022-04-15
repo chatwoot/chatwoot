@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Du musst mindestens eine Bedingung zum Speichern haben"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich"
+      "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Automatisierungsregel aktivieren",
