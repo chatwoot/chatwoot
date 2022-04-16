@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_09_044943) do
+ActiveRecord::Schema.define(version: 2022_04_16_205519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -509,6 +509,8 @@ ActiveRecord::Schema.define(version: 2022_04_09_044943) do
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "locale", default: "en"
+    t.index ["locale", "account_id"], name: "index_kbase_categories_on_locale_and_account_id"
   end
 
   create_table "kbase_folders", force: :cascade do |t|
@@ -530,6 +532,7 @@ ActiveRecord::Schema.define(version: 2022_04_09_044943) do
     t.text "header_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
   end
 
