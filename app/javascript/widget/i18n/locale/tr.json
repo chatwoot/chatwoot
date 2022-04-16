@@ -48,16 +48,16 @@
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-posta adresi",
-        "PLACEHOLDER": "Lütfen E-postanızı girin",
+        "PLACEHOLDER": "Lütfen e-postanızı girin",
         "ERROR": "Geçersiz email adresi"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
-        "PLACEHOLDER": "Lütfen E-postanızı girin",
+        "PLACEHOLDER": "Lütfen mesajınızı girin",
         "ERROR": "Mesaj çok kısa"
       }
     },
-    "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve eposta adresinizi belirtiniz"
+    "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz"
   },
   "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
   "CHAT_FORM": {
@@ -66,8 +66,8 @@
     }
   },
   "CSAT": {
-    "TITLE": "Konuşmanızı oylayın",
-    "SUBMITTED_TITLE": "Konuşmanızı oyladığınız için teşekkürler",
+    "TITLE": "Görüşmenizi değerlendirin",
+    "SUBMITTED_TITLE": "Değerlendirmeniz için teşekkürler",
     "PLACEHOLDER": "Biraz daha fazla bilgi verin..."
   },
   "EMAIL_TRANSCRIPT": {
