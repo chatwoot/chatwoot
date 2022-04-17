@@ -395,7 +395,7 @@
       "LABEL": "الخصائص",
       "DISPLAY_FILE_PICKER": "عرض أداة انتقاء الملفات في الـ widget",
       "DISPLAY_EMOJI_PICKER": "عرض منتقي الرموز التعبيرية على الـ widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "السماح للمستخدمين بإنهاء المحادثة من عنصر واجهة المستخدم"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
@@ -469,7 +469,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "تعيين تفاصيل IMAP الخاصة بك",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "لتمكين SMTP ، الرجاء تكوين IMAP.",
       "UPDATE": "تحديث الإعدادات",
       "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
       "TOGGLE_HELP": "تمكين IMAP سيساعد المستخدم على تلقي البريد الإلكتروني",
@@ -529,8 +529,8 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "المصادقة"
     },
-    "NOTE": "Note: "
+    "NOTE": "ملاحظة: "
   }
 }
