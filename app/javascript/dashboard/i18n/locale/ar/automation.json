@@ -90,8 +90,8 @@
     },
     "ACTION": {
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "اكتب رسالتك هنا",
+      "TEAM_DROPDOWN_PLACEHOLDER": "اختيار فريق"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
