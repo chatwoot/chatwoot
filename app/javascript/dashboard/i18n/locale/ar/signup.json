@@ -22,7 +22,7 @@
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور",
       "ERROR": "كلمة المرور قصيرة جداً",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "تأكيد كلمة المرور",
