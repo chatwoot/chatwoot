@@ -3,7 +3,6 @@ Rails.application.configure do
   # Configuration Related to Action Mailer
   #########################################
 
-  config.action_mailer.delivery_method = :smtp
   # We need the application frontend url to be used in our emails
   config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] } if ENV['FRONTEND_URL'].present?
   # We load certain mailer templates from our database. This ensures changes to it is reflected immediately
@@ -26,7 +25,7 @@ Rails.application.configure do
   smtp_settings[:ssl] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_SSL', true)) if ENV['SMTP_SSL']
   smtp_settings[:tls] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_TLS', true)) if ENV['SMTP_TLS']
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :smtp unless Rails.env.test?
   config.action_mailer.smtp_settings = smtp_settings
   # You can use letter opener for your local development by setting the environment variable
   config.action_mailer.delivery_method = :letter_opener if Rails.env.development? && ENV['LETTER_OPENER']

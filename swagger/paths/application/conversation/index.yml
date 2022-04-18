@@ -3,7 +3,7 @@ parameters:
 
 get:
   tags:
-    - Conversation
+    - Conversations
   operationId: conversationList
   description: List all the conversations with pagination
   summary: Conversations List
@@ -12,17 +12,22 @@ get:
       in: query
       type: string
       enum: ['me', 'unassigned', 'all', 'assigned']
-      required: true
+      default: 'all'
+      description: Filter conversations by assignee type.
     - name: status
       in: query
       type: string
-      enum: ['open', 'resolved', 'pending']
-      required: true
-    - name: page
+      enum: ['open', 'resolved', 'pending', 'snoozed']
+      default: 'open'
+      description: Filter by conversation status.
+    - name: q
+      in: query
+      type: string
+      description: Filters conversations with messages containing the search term
+    - name: inbox_id
       in: query
       type: integer
-      required: true
-    - name: inbox_id
+    - name: team_id
       in: query
       type: integer
     - name: labels
@@ -30,7 +35,12 @@ get:
       type: array
       items:
         type: string
-
+    - name: page
+      in: query
+      type: integer
+      default: 1
+      description: paginate through conversations
+   
   responses:
     200:
       description: Success
@@ -43,7 +53,7 @@ get:
 
 post:
   tags:
-    - Conversation
+    - Conversations
   operationId: newConversation
   summary: Create New Conversation
   description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations"

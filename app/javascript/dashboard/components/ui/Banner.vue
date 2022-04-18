@@ -112,10 +112,10 @@ export default {
   }
 
   &.warning {
-    background: var(--y-800);
-    color: var(--s-600);
+    background: var(--y-600);
+    color: var(--y-500);
     a {
-      color: var(--s-600);
+      color: var(--y-500);
     }
   }
 

@@ -13,7 +13,7 @@ if defined?(ActiveRecord::Base)
     ActiveRecord::Base.descendants.each_with_object({}) do |record_class, records|
       records[record_class.to_s] = record_class.limit(100).map(&:attributes)
     rescue StandardError => e
-      Rails.logger.info e.message
+      Rails.logger.error e.message
     end
 end
 

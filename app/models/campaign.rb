@@ -33,8 +33,8 @@
 #  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
 #  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
 #
-require 'uri'
 class Campaign < ApplicationRecord
+  include UrlHelper
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :title, presence: true
@@ -92,15 +92,6 @@ class Campaign < ApplicationRecord
     return unless trigger_rules['url']
 
     errors.add(:url, 'invalid') if inbox.inbox_type == 'Website' && !url_valid?(trigger_rules['url'])
-  end
-
-  def url_valid?(url)
-    url = begin
-      URI.parse(url)
-    rescue StandardError
-      false
-    end
-    url.is_a?(URI::HTTP) || url.is_a?(URI::HTTPS)
   end
 
   def prevent_completed_campaign_from_update

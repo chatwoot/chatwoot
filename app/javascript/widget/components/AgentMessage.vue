@@ -24,7 +24,7 @@
         <div
           v-if="hasAttachments"
           class="chat-bubble has-attachment agent"
-          :class="wrapClass"
+          :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-50'))"
         >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <image-bubble
@@ -34,10 +34,17 @@
               :readable-time="readableTime"
               @error="onImageLoadError"
             />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
             <file-bubble v-else :url="attachment.data_url" />
           </div>
         </div>
-        <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
+        <p
+          v-if="message.showAvatar || hasRecordedResponse"
+          class="agent-name"
+          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+        >
           {{ agentName }}
         </p>
       </div>
@@ -65,6 +72,8 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
 export default {
   name: 'AgentMessage',
   components: {
@@ -74,7 +83,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin, configMixin, messageMixin],
+  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,

@@ -3,8 +3,12 @@ import DOMPurify from 'dompurify';
 
 export default {
   methods: {
-    formatMessage(message, isATweet) {
-      const messageFormatter = new MessageFormatter(message, isATweet);
+    formatMessage(message, isATweet, isAPrivateNote) {
+      const messageFormatter = new MessageFormatter(
+        message,
+        isATweet,
+        isAPrivateNote
+      );
       return messageFormatter.formattedMessage;
     },
     getPlainText(message, isATweet) {
