@@ -35,41 +35,54 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render layout: false, template: 'api/v2/accounts/reports/teams.csv.erb', format: 'csv'
   end
 
+  def conversations
+    return head :unprocessable_entity if params[:type].blank?
+
+    render json: conversation_metrics
+  end
+
   private
 
   def check_authorization
     raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
   end
 
-  def current_summary_params
+  def common_params
     {
       type: params[:type].to_sym,
       id: params[:id],
-      since: range[:current][:since],
-      until: range[:current][:until],
-      group_by: params[:group_by]
+      group_by: params[:group_by],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
     }
+  end
+
+  def current_summary_params
+    common_params.merge({
+                          since: range[:current][:since],
+                          until: range[:current][:until]
+                        })
   end
 
   def previous_summary_params
-    {
-      type: params[:type].to_sym,
-      id: params[:id],
-      since: range[:previous][:since],
-      until: range[:previous][:until],
-      group_by: params[:group_by]
-    }
+    common_params.merge({
+                          since: range[:previous][:since],
+                          until: range[:previous][:until]
+                        })
   end
 
   def report_params
+    common_params.merge({
+                          metric: params[:metric],
+                          since: params[:since],
+                          until: params[:until],
+                          timezone_offset: params[:timezone_offset]
+                        })
+  end
+
+  def conversation_params
     {
-      metric: params[:metric],
       type: params[:type].to_sym,
-      since: params[:since],
-      until: params[:until],
-      id: params[:id],
-      group_by: params[:group_by],
-      timezone_offset: params[:timezone_offset]
+      user_id: params[:user_id]
     }
   end
 
@@ -90,5 +103,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
     summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
     summary
+  end
+
+  def conversation_metrics
+    V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
   end
 end

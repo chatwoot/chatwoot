@@ -54,14 +54,9 @@
             :class="{ error: $v.credentials.password.$error }"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-            :error="
-              $v.credentials.password.$error
-                ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
-                : ''
-            "
+            :error="passwordErrorText"
             @blur="$v.credentials.password.$touch"
           />
-
           <woot-input
             v-model.trim="credentials.confirmPassword"
             type="password"
@@ -77,9 +72,17 @@
           />
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
+              ref="hCaptcha"
+              :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
               :sitekey="globalConfig.hCaptchaSiteKey"
               @verify="onRecaptchaVerified"
             />
+            <span
+              v-if="!hasAValidCaptcha && didCaptchaReset"
+              class="captcha-error"
+            >
+              {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
+            </span>
           </div>
           <woot-submit-button
             :disabled="isSignupInProgress || !hasAValidCaptcha"
@@ -114,6 +117,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from '../../constants';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+import { isValidPassword } from 'shared/helpers/Validators';
 export default {
   components: {
     VueHcaptcha,
@@ -129,6 +133,7 @@ export default {
         confirmPassword: '',
         hCaptchaClientResponse: '',
       },
+      didCaptchaReset: false,
       isSignupInProgress: false,
       error: '',
     };
@@ -149,6 +154,7 @@ export default {
       },
       password: {
         required,
+        isValidPassword,
         minLength: minLength(6),
       },
       confirmPassword: {
@@ -178,11 +184,25 @@ export default {
       }
       return true;
     },
+    passwordErrorText() {
+      const { password } = this.$v.credentials;
+      if (!password.$error) {
+        return '';
+      }
+      if (!password.minLength) {
+        return this.$t('REGISTER.PASSWORD.ERROR');
+      }
+      if (!password.isValidPassword) {
+        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
+      }
+      return '';
+    },
   },
   methods: {
     async submit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
+        this.resetCaptcha();
         return;
       }
       this.isSignupInProgress = true;
@@ -194,6 +214,7 @@ export default {
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
         if (error.response && error.response.data.message) {
+          this.resetCaptcha();
           errorMessage = error.response.data.message;
         }
         this.showAlert(errorMessage);
@@ -203,6 +224,15 @@ export default {
     },
     onRecaptchaVerified(token) {
       this.credentials.hCaptchaClientResponse = token;
+      this.didCaptchaReset = false;
+    },
+    resetCaptcha() {
+      if (!this.globalConfig.hCaptchaSiteKey) {
+        return;
+      }
+      this.$refs.hCaptcha.reset();
+      this.credentials.hCaptchaClientResponse = '';
+      this.didCaptchaReset = true;
     },
   },
 };
@@ -254,6 +284,18 @@ export default {
 
   .h-captcha--box {
     margin-bottom: var(--space-one);
+
+    .captcha-error {
+      color: var(--r-400);
+      font-size: var(--font-size-small);
+    }
+
+    &::v-deep .error {
+      iframe {
+        border: 1px solid var(--r-500);
+        border-radius: var(--border-radius-normal);
+      }
+    }
   }
 }
 </style>

@@ -42,7 +42,6 @@
   }
 
   .agent-name {
-    color: $color-body;
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
     margin: $space-small 0;
@@ -51,7 +50,10 @@
 
   .has-attachment {
     overflow: hidden;
-    padding: 0;
+
+    :not([audio]) {
+      padding: 0;
+    }
 
     &.has-text {
       margin-top: $space-smaller;
@@ -207,16 +209,18 @@
 
 .chat-bubble {
   @include light-shadow;
-  background: $color-woot;
   border-radius: $space-two;
   color: $color-white;
   display: inline-block;
   font-size: $font-size-default;
   line-height: 1.5;
-  max-width: 100%;
   padding: $space-slab $space-normal;
   text-align: left;
   word-break: break-word;
+
+  :not([audio]) {
+    max-width: 100%;
+  }
 
   >a {
     color: $color-primary;
@@ -236,7 +240,6 @@
   }
 
   &.agent {
-    background: $color-white;
     border-bottom-left-radius: $space-smaller;
     color: $color-body;
 

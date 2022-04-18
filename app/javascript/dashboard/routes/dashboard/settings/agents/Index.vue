@@ -35,7 +35,9 @@
                 </td>
                 <!-- Agent Name + Email -->
                 <td>
-                  <span class="agent-name">{{ agent.name }}</span>
+                  <span class="agent-name">
+                    {{ agent.name }}
+                  </span>
                   <span>{{ agent.email }}</span>
                 </td>
                 <!-- Agent Role + Verification Status -->

@@ -3,7 +3,10 @@
     <div class="agent-message">
       <div class="avatar-wrap"></div>
       <div class="message-wrap">
-        <div class="typing-bubble chat-bubble agent">
+        <div
+          class="typing-bubble chat-bubble agent"
+          :class="$dm('bg-white', 'dark:bg-slate-50')"
+        >
           <img
             src="~widget/assets/images/typing.gif"
             alt="Agent is typing a message"
@@ -15,8 +18,10 @@
 </template>
 
 <script>
+import darkModeMixing from 'widget/mixins/darkModeMixin.js';
 export default {
   name: 'AgentTypingBubble',
+  mixins: [darkModeMixing],
 };
 </script>
 

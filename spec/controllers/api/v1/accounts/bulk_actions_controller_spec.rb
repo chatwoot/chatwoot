@@ -109,8 +109,8 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
           expect(response).to have_http_status(:success)
         end
 
-        expect(Conversation.first.label_list).to eq(%w[support priority_customer])
-        expect(Conversation.second.label_list).to eq(%w[support priority_customer])
+        expect(Conversation.first.label_list).to contain_exactly('support', 'priority_customer')
+        expect(Conversation.second.label_list).to contain_exactly('support', 'priority_customer')
       end
     end
   end
@@ -126,8 +126,8 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
 
         params = { type: 'Conversation', ids: Conversation.first(3).pluck(:display_id), labels: { remove: %w[support] } }
 
-        expect(Conversation.first.label_list).to eq(%w[support priority_customer])
-        expect(Conversation.second.label_list).to eq(%w[support priority_customer])
+        expect(Conversation.first.label_list).to contain_exactly('support', 'priority_customer')
+        expect(Conversation.second.label_list).to contain_exactly('support', 'priority_customer')
 
         perform_enqueued_jobs do
           post "/api/v1/accounts/#{account.id}/bulk_actions",
@@ -137,8 +137,8 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
           expect(response).to have_http_status(:success)
         end
 
-        expect(Conversation.first.label_list).to eq(['priority_customer'])
-        expect(Conversation.second.label_list).to eq(['priority_customer'])
+        expect(Conversation.first.label_list).to contain_exactly('priority_customer')
+        expect(Conversation.second.label_list).to contain_exactly('priority_customer')
       end
     end
   end

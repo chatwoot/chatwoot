@@ -1,0 +1,18 @@
+type: object
+properties:
+  user:
+    type: object
+    properties:
+      id:
+        type: number
+      name:
+        type: string
+      thumbnail:
+        type: string
+  metric:
+    type: object
+    properties:
+      open:
+        type: number
+      unattended:
+        type: number

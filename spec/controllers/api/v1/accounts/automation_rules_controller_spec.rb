@@ -84,6 +84,23 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         }.with_indifferent_access
       end
 
+      it 'throws an error for unknown attributes in condtions' do
+        expect(account.automation_rules.count).to eq(0)
+        params[:conditions] << {
+          attribute_key: 'unknown_attribute',
+          filter_operator: 'equal_to',
+          values: ['en'],
+          query_operator: 'AND'
+        }
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(0)
+      end
+
       it 'Saves for automation_rules for account with country_code and browser_language conditions' do
         expect(account.automation_rules.count).to eq(0)
 
@@ -112,6 +129,67 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.count).to eq(1)
+      end
+
+      it 'Saves file in the automation actions to send an attachments' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        params[:attachments] = [file]
+        params[:actions] = [
+          {
+            action_name: :send_message,
+            action_params: ['Welcome to the chatwoot platform.']
+          },
+          {
+            action_name: :update_additional_attributes,
+            action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
+          },
+          {
+            action_name: :send_attachments
+          }
+        ]
+
+        expect(account.automation_rules.count).to eq(0)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(1)
+        automation_rule = account.automation_rules.first
+        expect(automation_rule.files.presence).to be_truthy
+        expect(automation_rule.files.count).to eq(1)
+      end
+
+      it 'Saves files in the automation actions to send multiple attachments' do
+        file_1 = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        file_2 = fixture_file_upload(Rails.root.join('spec/assets/sample.pdf'), 'image/png')
+        params[:attachments] = [file_1, file_2]
+        params[:actions] = [
+          {
+            action_name: :send_message,
+            action_params: ['Welcome to the chatwoot platform.']
+          },
+          {
+            action_name: :update_additional_attributes,
+            action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
+          },
+          {
+            action_name: :send_attachments
+          }
+        ]
+
+        expect(account.automation_rules.count).to eq(0)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(1)
+        automation_rule = account.automation_rules.first
+        expect(automation_rule.files.presence).to be_truthy
+        expect(automation_rule.files.count).to eq(2)
       end
     end
   end
@@ -181,9 +259,46 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     end
 
     context 'when it is an authenticated user' do
+      let(:update_params) do
+        {
+          description: 'Update description',
+          name: 'Update name',
+          conditions: [
+            {
+              attribute_key: 'browser_language',
+              filter_operator: 'equal_to',
+              values: ['en'],
+              query_operator: 'AND'
+            }
+          ],
+          actions: [
+            {
+              action_name: :update_additional_attributes,
+              action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
+            }
+          ]
+        }.with_indifferent_access
+      end
+
       it 'returns for cloned automation_rule for account' do
-        params = { name: 'Update name' }
         expect(account.automation_rules.count).to eq(1)
+        expect(account.automation_rules.first.actions.size).to eq(4)
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: update_params
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:payload][:name]).to eq('Update name')
+        expect(body[:payload][:description]).to eq('Update description')
+        expect(body[:payload][:conditions].size).to eq(1)
+        expect(body[:payload][:actions].size).to eq(1)
+      end
+
+      it 'returns for updated active flag for automation_rule' do
+        expect(automation_rule.active).to eq(true)
+        params = { active: false }
 
         patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
               headers: administrator.create_new_auth_token,
@@ -191,7 +306,8 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body, symbolize_names: true)
-        expect(body[:payload][:name]).to eq('Update name')
+        expect(body[:payload][:active]).to eq(false)
+        expect(automation_rule.reload.active).to eq(false)
       end
     end
   end
