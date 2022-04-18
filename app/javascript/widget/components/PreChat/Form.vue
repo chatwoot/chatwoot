@@ -285,13 +285,29 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-::v-deep .wrapper[data-type='checkbox'] {
-  .formulate-input-wrapper {
-    display: flex;
-    align-items: center;
+::v-deep {
+  .wrapper[data-type='checkbox'] {
+    .formulate-input-wrapper {
+      display: flex;
+      align-items: center;
 
-    label {
-      margin-left: 0.2rem;
+      label {
+        margin-left: 0.2rem;
+      }
+      @media (prefers-color-scheme: dark) {
+        input {
+          color-scheme: dark;
+        }
+      }
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    .wrapper[data-type='date'] {
+      .formulate-input-element--date {
+        input {
+          color-scheme: dark;
+        }
+      }
     }
   }
 }
