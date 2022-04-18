@@ -52,6 +52,10 @@
             class="answer--text-input"
             placeholder="Enter url"
           />
+          <automation-action-file-input
+            v-if="inputType === 'attachment'"
+            v-model="action_params"
+          />
         </div>
       </div>
       <woot-button
@@ -84,9 +88,11 @@
 
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
+import AutomationActionFileInput from './AutomationFileInput.vue';
 export default {
   components: {
     AutomationActionTeamMessageInput,
+    AutomationActionFileInput,
   },
   props: {
     value: {

@@ -112,11 +112,11 @@ export const AUTOMATIONS = {
         name: 'Send Webhook Event',
         attributeI18nKey: 'SEND_WEBHOOK_EVENT',
       },
-      // {
-      //   key: 'send_attachment',
-      //   name: 'Send Attachment',
-      //   attributeI18nKey: 'SEND_ATTACHMENT',
-      // },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
+      },
     ],
   },
   conversation_created: {
@@ -196,11 +196,11 @@ export const AUTOMATIONS = {
         name: 'Send Webhook Event',
         attributeI18nKey: 'SEND_WEBHOOK_EVENT',
       },
-      // {
-      //   key: 'send_attachment',
-      //   name: 'Send Attachment',
-      //   attributeI18nKey: 'SEND_ATTACHMENT',
-      // },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
+      },
     ],
   },
   conversation_updated: {
@@ -294,11 +294,11 @@ export const AUTOMATIONS = {
         name: 'Send Webhook Event',
         attributeI18nKey: 'SEND_WEBHOOK_EVENT',
       },
-      // {
-      //   key: 'send_attachment',
-      //   name: 'Send Attachment',
-      //   attributeI18nKey: 'SEND_ATTACHMENT',
-      // },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
+      },
     ],
   },
 };
@@ -359,11 +359,11 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'Send Webhook Event',
     inputType: 'url',
   },
-  // {
-  //   key: 'send_attachment',
-  //   label: 'Send Attachment',
-  //   inputType: 'file',
-  // },
+  {
+    key: 'send_attachment',
+    label: 'Send Attachment',
+    inputType: 'attachment',
+  },
   {
     key: 'send_message',
     label: 'Send a message',
