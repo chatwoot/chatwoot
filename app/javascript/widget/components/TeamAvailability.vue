@@ -58,6 +58,7 @@ export default {
       default: false,
     },
   },
+
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
