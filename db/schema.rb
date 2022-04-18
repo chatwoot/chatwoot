@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_09_044943) do
+ActiveRecord::Schema.define(version: 2022_04_18_094715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -325,7 +325,6 @@ ActiveRecord::Schema.define(version: 2022_04_09_044943) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "pubsub_token"
     t.jsonb "additional_attributes", default: {}
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
@@ -334,7 +333,6 @@ ActiveRecord::Schema.define(version: 2022_04_09_044943) do
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
-    t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
