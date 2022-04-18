@@ -171,8 +171,6 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         file_1 = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         file_2 = fixture_file_upload(Rails.root.join('spec/assets/sample.png'), 'image/png')
 
-        expect(account.automation_rules.count).to eq(0)
-
         post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
              headers: administrator.create_new_auth_token,
              params: { attachment: file_1 }
@@ -204,7 +202,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         automation_rule = account.automation_rules.first
         expect(automation_rule.files.presence).to be_truthy
-        expect(automation_rule.files.count).to eq(1)
+        expect(automation_rule.files.count).to eq(2)
       end
     end
   end
