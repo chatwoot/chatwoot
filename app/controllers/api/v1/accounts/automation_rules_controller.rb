@@ -55,8 +55,13 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def process_attachments
     rule = @automation_rule.actions.find { |k, _v| k if k['action_name'] == 'send_attachments' }
-    blob = ActiveStorage::Blob.find_by(id: rule['action_params'][0]) if rule.present?
-    @automation_rule.files.attach(blob)
+
+    return if rule.blank?
+
+    rule['action_params'].each do |blob_id|
+      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      @automation_rule.files.attach(blob)
+    end
   end
 
   private
