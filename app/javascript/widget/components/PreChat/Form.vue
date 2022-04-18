@@ -274,7 +274,7 @@ export default {
       this.$emit('submit', {
         fullName,
         phoneNumber,
-        emailAddress,
+        emailAddress: emailAddress || this.currentUser.email,
         message,
         activeCampaignId: this.activeCampaign.id,
         conversationCustomAttributes: this.conversationCustomAttributes,

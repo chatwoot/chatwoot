@@ -71,7 +71,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_email
-    permitted_params[:contact][:email].downcase if permitted_params[:contact][:email].present?
+    permitted_params[:contact][:email].downcase if permitted_params[:contact].present?
   end
 
   def contact_name
