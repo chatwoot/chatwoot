@@ -270,11 +270,11 @@ export default {
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
-
+      const { email } = this.currentUser;
       this.$emit('submit', {
         fullName,
         phoneNumber,
-        emailAddress: emailAddress || this.currentUser.email,
+        emailAddress: emailAddress || email,
         message,
         activeCampaignId: this.activeCampaign.id,
         conversationCustomAttributes: this.conversationCustomAttributes,
