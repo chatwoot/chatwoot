@@ -294,16 +294,12 @@ export default {
       label {
         margin-left: 0.2rem;
       }
-      @media (prefers-color-scheme: dark) {
-        input {
-          color-scheme: dark;
-        }
-      }
     }
   }
   @media (prefers-color-scheme: dark) {
-    .wrapper[data-type='date'] {
-      .formulate-input-element--date {
+    .wrapper {
+      .formulate-input-element--date,
+      .formulate-input-element--checkbox {
         input {
           color-scheme: dark;
         }
