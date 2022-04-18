@@ -135,7 +135,8 @@ class ActionCableListener < BaseListener
   private
 
   def typing_event_listener_tokens(account, conversation, user)
-    (user_tokens(account, conversation.inbox.members) + [conversation.contact.pubsub_token]) - [user&.pubsub_token]
+    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token
+    (user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]) - [current_user_token]
   end
 
   def user_tokens(account, agents)
