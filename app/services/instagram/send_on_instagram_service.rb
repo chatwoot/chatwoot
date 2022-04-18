@@ -62,7 +62,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.info("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response['error']
     message.update!(source_id: response['message_id']) if response['message_id'].present?
 
     response

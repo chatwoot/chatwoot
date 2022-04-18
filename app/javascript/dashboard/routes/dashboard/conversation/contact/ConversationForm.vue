@@ -59,7 +59,29 @@
       </div>
       <div class="row">
         <div class="columns">
-          <label :class="{ error: $v.message.$error }">
+          <div v-if="isAnEmailInbox || isAnWebWidgetInbox">
+            <label>
+              {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
+              <reply-email-head
+                v-if="isAnEmailInbox"
+                :cc-emails.sync="ccEmails"
+                :bcc-emails.sync="bccEmails"
+              />
+              <label class="editor-wrap">
+                <woot-message-editor
+                  v-model="message"
+                  class="message-editor"
+                  :class="{ editor_warning: $v.message.$error }"
+                  :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+                  @blur="$v.message.$touch"
+                />
+                <span v-if="$v.message.$error" class="editor-warning__message">
+                  {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
+                </span>
+              </label>
+            </label>
+          </div>
+          <label v-else :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
@@ -89,6 +111,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
@@ -98,6 +122,8 @@ import { required, requiredIf } from 'vuelidate/lib/validators';
 export default {
   components: {
     Thumbnail,
+    WootMessageEditor,
+    ReplyEmailHead,
   },
   mixins: [alertMixin],
   props: {
@@ -116,6 +142,8 @@ export default {
       subject: '',
       message: '',
       selectedInbox: '',
+      bccEmails: '',
+      ccEmails: '',
     };
   },
   validations: {
@@ -136,7 +164,7 @@ export default {
       currentUser: 'getCurrentUser',
     }),
     getNewConversation() {
-      return {
+      const payload = {
         inboxId: this.targetInbox.inbox.id,
         sourceId: this.targetInbox.source_id,
         contactId: this.contact.id,
@@ -144,6 +172,14 @@ export default {
         mailSubject: this.subject,
         assigneeId: this.currentUser.id,
       };
+      if (this.ccEmails) {
+        payload.message.cc_emails = this.ccEmails;
+      }
+
+      if (this.bccEmails) {
+        payload.message.bcc_emails = this.bccEmails;
+      }
+      return payload;
     },
     targetInbox: {
       get() {
@@ -166,6 +202,12 @@ export default {
       return (
         this.selectedInbox &&
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.EMAIL
+      );
+    },
+    isAnWebWidgetInbox() {
+      return (
+        this.selectedInbox &&
+        this.selectedInbox.inbox.channel_type === INBOX_TYPES.WEB
       );
     },
   },

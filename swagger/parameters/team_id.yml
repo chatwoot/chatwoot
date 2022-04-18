@@ -1,5 +1,5 @@
 in: path
-name: id
+name: team_id
 type: integer
 required: true
 description: The ID of the team to be updated
