@@ -142,14 +142,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 }
 
 export default {
-  init() {
-    if (AuthAPI.isLoggedIn()) {
-      const actionCable = new ActionCableConnector(
-        window.WOOT,
-        AuthAPI.getPubSubToken()
-      );
-      return actionCable;
-    }
-    return null;
+  init(pubsubToken) {
+    return new ActionCableConnector(window.WOOT, pubsubToken);
   },
 };

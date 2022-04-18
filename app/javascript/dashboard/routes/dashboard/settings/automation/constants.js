@@ -76,11 +76,16 @@ export const AUTOMATIONS = {
         name: 'Add a label',
         attributeI18nKey: 'ADD_LABEL',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
       {
         key: 'send_email_transcript',
         name: 'Send an email transcript',
@@ -96,8 +101,9 @@ export const AUTOMATIONS = {
         name: 'Snooze conversation',
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
+
       {
-        key: 'resolve_convresation',
+        key: 'resolve_conversation',
         name: 'Resolve conversation',
         attributeI18nKey: 'RESOLVE_CONVERSATION',
       },
@@ -106,6 +112,11 @@ export const AUTOMATIONS = {
         name: 'Send Webhook Event',
         attributeI18nKey: 'SEND_WEBHOOK_EVENT',
       },
+      // {
+      //   key: 'send_attachment',
+      //   name: 'Send Attachment',
+      //   attributeI18nKey: 'SEND_ATTACHMENT',
+      // },
     ],
   },
   conversation_created: {
@@ -132,7 +143,7 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'referrer',
+        key: 'referer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',
@@ -150,11 +161,16 @@ export const AUTOMATIONS = {
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
       {
         key: 'send_email_transcript',
         name: 'Send an email transcript',
@@ -171,7 +187,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'resolve_convresation',
+        key: 'resolve_conversation',
         name: 'Resolve conversation',
         attributeI18nKey: 'RESOLVE_CONVERSATION',
       },
@@ -180,6 +196,11 @@ export const AUTOMATIONS = {
         name: 'Send Webhook Event',
         attributeI18nKey: 'SEND_WEBHOOK_EVENT',
       },
+      // {
+      //   key: 'send_attachment',
+      //   name: 'Send Attachment',
+      //   attributeI18nKey: 'SEND_ATTACHMENT',
+      // },
     ],
   },
   conversation_updated: {
@@ -238,11 +259,16 @@ export const AUTOMATIONS = {
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
       {
         key: 'send_email_transcript',
         name: 'Send an email transcript',
@@ -259,7 +285,7 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'MUTE_CONVERSATION',
       },
       {
-        key: 'resolve_convresation',
+        key: 'resolve_conversation',
         name: 'Resolve conversation',
         attributeI18nKey: 'RESOLVE_CONVERSATION',
       },
@@ -268,6 +294,11 @@ export const AUTOMATIONS = {
         name: 'Send Webhook Event',
         attributeI18nKey: 'SEND_WEBHOOK_EVENT',
       },
+      // {
+      //   key: 'send_attachment',
+      //   name: 'Send Attachment',
+      //   attributeI18nKey: 'SEND_ATTACHMENT',
+      // },
     ],
   },
 };
@@ -298,11 +329,11 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'Add a label',
     inputType: 'multi_select',
   },
-  // {
-  //   key: 'send_email_to_team',
-  //   label: 'Send an email to team',
-  //   inputType: 'multi_select',
-  // },
+  {
+    key: 'send_email_to_team',
+    label: 'Send an email to team',
+    inputType: 'team_message',
+  },
   {
     key: 'send_email_transcript',
     label: 'Send an email transcript',
@@ -319,7 +350,7 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: null,
   },
   {
-    key: 'resolve_convresation',
+    key: 'resolve_conversation',
     label: 'Resolve conversation',
     inputType: null,
   },
@@ -327,5 +358,15 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_webhook_event',
     label: 'Send Webhook Event',
     inputType: 'url',
+  },
+  // {
+  //   key: 'send_attachment',
+  //   label: 'Send Attachment',
+  //   inputType: 'file',
+  // },
+  {
+    key: 'send_message',
+    label: 'Send a message',
+    inputType: 'textarea',
   },
 ];
