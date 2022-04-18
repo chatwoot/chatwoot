@@ -71,6 +71,18 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
         expect(conversation.messages.last.attachments).to be_any
       end
+
+      it 'saves attachments if params file present and message blocks is not present' do
+        attachment_without_message_block = slack_attachment_stub.tap { |key| key[:event].delete(:blocks) }
+        expect(hook).not_to eq nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(attachment_without_message_block)
+        allow(builder).to receive(:sender).and_return(nil)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+        expect(conversation.messages.last.attachments).to be_any
+      end
     end
   end
 end
