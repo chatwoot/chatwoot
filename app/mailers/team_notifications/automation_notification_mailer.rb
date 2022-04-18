@@ -7,29 +7,7 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
     @custom_message = message
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
 
-    send_an_email_to_team and return
-  end
-
-  def conversation_updated(conversation, team, message)
-    return unless smtp_config_set_or_development?
-
-    @agents = team.team_members
-    @conversation = conversation
-    @custom_message = message
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-
-    send_an_email_to_team and return
-  end
-
-  def message_created(conversation, team, message)
-    return unless smtp_config_set_or_development?
-
-    @agents = team.team_members
-    @conversation = conversation
-    @custom_message = message
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-
-    send_an_email_to_team and return
+    send_an_email_to_team
   end
 
   private
