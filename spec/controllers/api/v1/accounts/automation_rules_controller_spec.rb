@@ -204,7 +204,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         automation_rule = account.automation_rules.first
         expect(automation_rule.files.presence).to be_truthy
-        expect(automation_rule.files.count).to eq(2)
+        expect(automation_rule.files.count).to eq(1)
       end
     end
   end
