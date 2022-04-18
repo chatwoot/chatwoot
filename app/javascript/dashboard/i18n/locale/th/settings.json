@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "ลายเซ็นส่วนตัว",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "สร้างลายเซ็นส่วนตัวที่จะเพิ่มในส่วนท้ายของข้อความที่คุณส่ง คุณสามารถใช้เครื่องมือแก้ไขริชคอนเทนท์เพื่อปรับแต่งลายเซ็นของคุณให้มีเอกลักษณ์ยิ่งขึ้น",
         "BTN_TEXT": "บันทึกลายเซ็น",
         "API_ERROR": "ไม่สามารถบันทึกลายเซ็นได้ โปรดลองใหม่อีกครั้ง",
         "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว"
@@ -217,7 +217,7 @@
       "GO_TO_SETTINGS": "ไปที่ตั้งค่า",
       "SWITCH_CONVERSATION_STATUS": "ไปยังสถานะการสนทนาถัดไป",
       "SWITCH_TO_PRIVATE_NOTE": "สลับเป็นโน้ตส่วนตัว",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
+      "TOGGLE_RICH_CONTENT_EDITOR": "เปิดหรือปิดเครื่องมือแก้ไขริชคอนเทนท์",
       "SWITCH_TO_REPLY": "สลับเป็นการตอบกลับ",
       "TOGGLE_SNOOZE_DROPDOWN": "เปิดหรือปิดเมนูตัวเลือกการแจ้งเตือน"
     },
