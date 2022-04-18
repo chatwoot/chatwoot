@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activer l'accueil du canal",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they start the conversation.",
           "ENABLED": "Activé",
           "DISABLED": "Désactivé"
         },
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Nom de la boîte de réception",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "Ce champ est requis"
         },
         "PHONE_NUMBER": {
@@ -169,7 +169,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "Nom de la boîte de réception",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Please enter an inbox name",
             "ERROR": "Ce champ est requis"
           },
           "PHONE_NUMBER": {

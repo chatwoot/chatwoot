@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Povolit uvítání",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they start the conversation.",
           "ENABLED": "Povoleno",
           "DISABLED": "Zakázáno"
         },
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Název schránky",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "Toto pole je povinné"
         },
         "PHONE_NUMBER": {
@@ -169,7 +169,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "Název schránky",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Please enter an inbox name",
             "ERROR": "Toto pole je povinné"
           },
           "PHONE_NUMBER": {

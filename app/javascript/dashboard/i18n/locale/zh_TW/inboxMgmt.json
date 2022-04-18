@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "開啟頻道問候功能",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they start the conversation.",
           "ENABLED": "已啟用",
           "DISABLED": "已停用"
         },
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "收件匣名稱",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
@@ -169,7 +169,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "收件匣名稱",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Please enter an inbox name",
             "ERROR": "此欄位是必填項目"
           },
           "PHONE_NUMBER": {

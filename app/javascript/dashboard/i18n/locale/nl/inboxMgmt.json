@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they start the conversation.",
           "ENABLED": "Ingeschakeld",
           "DISABLED": "Uitgeschakeld"
         },
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "Dit veld is verplicht"
         },
         "PHONE_NUMBER": {
@@ -169,7 +169,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Please enter an inbox name",
             "ERROR": "Dit veld is verplicht"
           },
           "PHONE_NUMBER": {

@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "チャンネルグリーティングを有効にする",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Send a greeting message to the users when they start the conversation.",
           "ENABLED": "有効です",
           "DISABLED": "無効です"
         },
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "受信トレイ名",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "このフィールドは必須項目です"
         },
         "PHONE_NUMBER": {
@@ -169,7 +169,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "受信トレイ名",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "Please enter an inbox name",
             "ERROR": "このフィールドは必須項目です"
           },
           "PHONE_NUMBER": {
