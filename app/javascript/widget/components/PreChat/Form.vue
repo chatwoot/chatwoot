@@ -306,5 +306,12 @@ export default {
       }
     }
   }
+  .wrapper[data-type='textarea'] {
+    .formulate-input-element--textarea {
+      textarea {
+        min-height: 8rem;
+      }
+    }
+  }
 }
 </style>
