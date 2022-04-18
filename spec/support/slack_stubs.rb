@@ -26,7 +26,7 @@ module SlackStubs
       token: '[FILTERED]',
       team_id: 'TLST3048H',
       api_app_id: 'A012S5UETV4',
-      event: message_event,
+      event: message_event_without_blocks,
       type: 'event_callback',
       event_id: 'Ev013QUX3WV6',
       event_time: 1_588_623_033,
@@ -74,23 +74,6 @@ module SlackStubs
     }
   end
 
-  def message_event_without_block
-    {
-
-      client_msg_id: 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
-      type: 'message',
-      text: 'this is test <https://chatwoot.com> Hey <@U019KT237LP|Sojan> Test again',
-      user: 'ULYPAKE5S',
-      ts: '1588623033.006000',
-      team: 'TLST3048H',
-      files: file_stub,
-      thread_ts: '1588623023.005900',
-      channel: 'G01354F6A6Q',
-      event_ts: '1588623033.006000',
-      channel_type: 'group'
-    }
-  end
-
   def file_stub
     [
       {
@@ -122,5 +105,22 @@ module SlackStubs
         ]
       }
     ]
+  end
+
+  def message_event_without_blocks
+    {
+
+      client_msg_id: 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
+      type: 'message',
+      text: 'this is test <https://chatwoot.com> Hey <@U019KT237LP|Sojan> Test again',
+      user: 'ULYPAKE5S',
+      ts: '1588623033.006000',
+      team: 'TLST3048H',
+      files: file_stub,
+      thread_ts: '1588623023.005900',
+      channel: 'G01354F6A6Q',
+      event_ts: '1588623033.006000',
+      channel_type: 'group'
+    }
   end
 end
