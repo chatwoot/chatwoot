@@ -48,7 +48,7 @@ export default {
       if (activeCampaignId) {
         bus.$emit('execute-campaign', {
           campaignId: activeCampaignId,
-          // customAttributes: conversationCustomAttributes,
+          customAttributes: conversationCustomAttributes,
         });
         this.$store.dispatch('contacts/update', {
           user: {
