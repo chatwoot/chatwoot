@@ -60,7 +60,9 @@ describe Facebook::SendOnFacebookService do
         ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
-                                                      message: { text: message.content }
+                                                      message: { text: message.content },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
@@ -71,7 +73,9 @@ describe Facebook::SendOnFacebookService do
                                                             url: attachment.file_url
                                                           }
                                                         }
-                                                      }
+                                                      },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
       end
     end
