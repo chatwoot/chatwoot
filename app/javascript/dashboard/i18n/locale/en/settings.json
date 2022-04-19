@@ -20,8 +20,8 @@
         "NOTE": "Your email address is your identity and is used to log in."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Send Message",
-        "NOTE": "By enabling this feature, you can send message by pressing command + enter instead of clicking send button.",
+        "TITLE": "Enable command plus enter",
+        "NOTE": "With this feature, you can send messages by key pressing command plus enter instead of clicking send button.",
         "OPTION": "Command + Enter to send message",
         "UPDATE_SUCCESS": "Your settings have been updated successfully"
       },

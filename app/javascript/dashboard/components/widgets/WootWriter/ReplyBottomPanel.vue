@@ -275,7 +275,8 @@ export default {
     },
     announcementPopup() {
       const {
-        close_announcement_popup: closeAnnouncementPopup,
+        announcement_popup: { send_message: closeAnnouncementPopup } = this
+          .uiSettings,
       } = this.uiSettings;
       return closeAnnouncementPopup;
     },
@@ -307,7 +308,9 @@ export default {
     },
     onClickClosePopup() {
       this.updateUISettings({
-        close_announcement_popup: !this.announcementPopup,
+        announcement_popup: {
+          send_message: !this.announcementPopup,
+        },
       });
     },
   },

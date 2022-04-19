@@ -69,6 +69,7 @@
         </div>
       </div>
     </form>
+    <message-signature />
     <div class="profile--settings--row row">
       <div class="columns small-3">
         <h4 class="block-title">
@@ -79,18 +80,9 @@
         </p>
       </div>
       <div class="columns small-9 medium-5">
-        <input
-          id="enable_cmd_plus_enter_to_send_message"
-          :checked="enableCmdPlusEnter"
-          type="checkbox"
-          @input="toggleCmdPlusEnter"
-        />
-        <label for="enable_cmd_plus_enter_to_send_message">
-          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.OPTION') }}
-        </label>
+        <woot-switch :value="enableCmdPlusEnter" @input="toggleCmdPlusEnter" />
       </div>
     </div>
-    <message-signature />
     <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
     <div class="profile--settings--row row">
@@ -257,6 +249,8 @@ export default {
 }
 
 .profile--settings--row {
+  display: flex;
+  align-items: center;
   @include border-normal-bottom;
   padding: $space-normal;
   .small-3 {
