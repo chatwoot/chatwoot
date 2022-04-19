@@ -44,12 +44,12 @@ class Attachment < ApplicationRecord
     base_data.merge(file_metadata)
   end
 
-  # Note: the URl returned does a 301 redirect to the actual file
+  # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
     file.attached? ? url_for(file) : ''
   end
 
-  # Note: for External services use this methods since redirect doesn't work effectively in a lot of cases
+  # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
     ActiveStorage::Current.host = ENV['FRONTEND_URL'] if ActiveStorage::Current.host.blank?
     file.attached? ? file.blob.url : ''
