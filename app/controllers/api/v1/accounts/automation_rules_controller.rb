@@ -55,7 +55,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def process_attachments
-    rule = @automation_rule.actions.find { |k, _v| k if k['action_name'] == 'send_attachments' }
+    rule = @automation_rule.actions.find { |k, _v| k if k['action_name'] == 'send_attachment' }
 
     return if rule.blank?
 
