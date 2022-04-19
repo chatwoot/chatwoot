@@ -73,8 +73,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Silmeyi onayla",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Bu notu silmek istediğinizden emin misiniz?",
+      "YES": "Evet, Sil",
       "NO": "Hayır, kalsın"
     }
   },
@@ -86,7 +86,7 @@
       "TITLE": "Silmeyi onayla",
       "MESSAGE": "Silmek istediğinize emin misiniz ?",
       "YES": "Evet, Sil",
-      "NO": "No, Keep"
+      "NO": "Hayır, Tut"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kişi başarıyla silindi",
@@ -275,38 +275,38 @@
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Yeni öznitelik oluştur ",
         "SUCCESS": "Öznitelik başarıyla eklendi",
         "ERROR": "Unable to add attribute. Please try again later"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
+        "SUCCESS": "Öznitelik başarıyla güncellendi",
         "ERROR": "Unable to update attribute. Please try again later"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
+        "SUCCESS": "Öznitelik başarıyla silindi",
         "ERROR": "Unable to delete attribute. Please try again later"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Özellik ekle",
-        "PLACEHOLDER": "Search attributes",
+        "PLACEHOLDER": "Öznitelik ara",
         "NO_RESULT": "No attributes found"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
           "PLACEHOLDER": "Select value",
           "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "NO_RESULT": "Sonuç bulunamadı"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
+      "REQUIRED": "Geçerli değer gereklidir",
       "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Kişileri birleştir",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact",
@@ -314,11 +314,11 @@
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
+      "PLACEHOLDER": "Kişileri arayın",
       "HELP_LABEL": "To be deleted"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Özet",
       "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
