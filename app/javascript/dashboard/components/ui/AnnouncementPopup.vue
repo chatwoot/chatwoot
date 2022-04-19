@@ -58,7 +58,7 @@ export default {
   align-items: flex-start;
   height: fit-content;
   background: var(--white);
-  padding: var(--space-small);
+  padding: var(--space-slab);
   z-index: var(--z-index-much-higher);
   box-shadow: var(--b-200) var(--space-smaller) var(--space-smaller)
     var(--space-normal) var(--space-smaller);
@@ -76,8 +76,8 @@ export default {
   .popup-content {
     font-size: var(--font-size-mini);
     color: var(--s-700);
-    padding: var(--space-small);
-    border-bottom: 1px solid var(--s-100);
+    padding: 0 var(--space-small) var(--space-small) var(--space-small);
+    border-bottom: 1px solid var(--color-border-light);
 
     .route-url {
       font-size: var(--font-size-mini);
@@ -88,7 +88,7 @@ export default {
   }
 
   .popup-close {
-    padding: var(--space-small);
+    padding: var(--space-small) var(--space-small) 0 var(--space-small);
   }
 }
 </style>
