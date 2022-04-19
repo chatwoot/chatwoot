@@ -36,7 +36,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
 
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
-    perform_attribute_changed_filter(records)
+    perform_attribute_changed_filter(records) if @attribute_changed_query_filter.any?
     records.any?
   end
 
@@ -53,10 +53,12 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   def perform_attribute_changed_filter(_records)
     # Add the condition here to check what the old valuu was and apply the filter accordingly.
-
     @attribute_changed_query_filter.each do |filter|
       changed_attribute = @changed_attributes[filter['attribute_key']]
-      changed_attribute[0].in?(filter['values']['from']) && changed_attribute[1].in?(filter['values']['to'])
+
+      next if changed_attribute.blank?
+
+      records changed_attribute[0].in?(filter['values']['from']) && changed_attribute[1].in?(filter['values']['to'])
     end
   end
 

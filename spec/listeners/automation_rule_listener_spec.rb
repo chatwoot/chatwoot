@@ -11,7 +11,7 @@ describe AutomationRuleListener do
   let(:user_1) { create(:user, role: 0) }
   let(:user_2) { create(:user, role: 0) }
   let!(:event) do
-    Events::Base.new('conversation_status_changed', Time.zone.now, { conversation: conversation })
+    Events::Base.new('conversation_status_changed', Time.zone.now, { conversation: conversation, changed_attributes: { status: [:open, :snoozed] } })
   end
 
   before do
@@ -196,7 +196,7 @@ describe AutomationRuleListener do
     end
 
     let!(:event) do
-      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, changed_attributes: { status: [:open, :snoozed] } })
     end
 
     context 'when rule matches with additional_attributes and custom_attributes' do
@@ -319,7 +319,7 @@ describe AutomationRuleListener do
     end
 
     let!(:event) do
-      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, changed_attributes: { status: [:open, :snoozed] } })
     end
 
     context 'when rule matches' do
@@ -404,7 +404,7 @@ describe AutomationRuleListener do
 
     let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming') }
     let!(:event) do
-      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
+      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message, changed_attributes: { status: [:open, :snoozed] } })
     end
 
     context 'when rule matches' do

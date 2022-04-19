@@ -41,6 +41,7 @@ class AutomationRuleListener < BaseListener
   def message_created(event_obj)
     message = event_obj.data[:message]
     account = message.try(:account)
+    changed_attributes = event_obj.data[:changed_attributes]
 
     return unless rule_present?('message_created', account)
 
