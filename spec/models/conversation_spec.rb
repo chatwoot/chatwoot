@@ -489,7 +489,7 @@ RSpec.describe Conversation, type: :model do
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
       it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return false if last incoming message is outside of 24 hour window' do
@@ -500,7 +500,7 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation,
           created_at: Time.now - 25.hours
         )
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return true if last incoming message is inside 24 hour window' do
