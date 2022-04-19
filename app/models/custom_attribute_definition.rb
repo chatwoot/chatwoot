@@ -39,6 +39,6 @@ class CustomAttributeDefinition < ApplicationRecord
   private
 
   def sync_widget_pre_chat_custom_fields
-    ::Inboxes::SyncWidgetPreChatCustomFieldsJob.perform_later(attribute_key)
+    ::Inboxes::SyncWidgetPreChatCustomFieldsJob.perform_now(account, attribute_key)
   end
 end
