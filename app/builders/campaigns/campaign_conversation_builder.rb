@@ -33,7 +33,7 @@ class Campaigns::CampaignConversationBuilder
       contact_inbox_id: @contact_inbox.id,
       campaign_id: @campaign.id,
       additional_attributes: conversation_additional_attributes,
-      custom_attributes: custom_attributes
+      custom_attributes: custom_attributes || {}
     }
   end
 end
