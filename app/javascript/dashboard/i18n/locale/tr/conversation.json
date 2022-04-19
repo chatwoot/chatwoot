@@ -176,7 +176,7 @@
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
+      "SUCCESS": "Öznitelik başarıyla güncellendi",
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
@@ -185,12 +185,12 @@
       "ERROR": "Unable to add attribute. Please try again later"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
+      "SUCCESS": "Öznitelik başarıyla silindi",
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
       "TITLE": "Özellik ekle",
-      "PLACEHOLDER": "Search attributes",
+      "PLACEHOLDER": "Öznitelik ara",
       "NO_RESULT": "No attributes found"
     }
   },
