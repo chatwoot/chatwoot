@@ -57,7 +57,6 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(test_params[:entry])
 
         instagram_inbox.reload
-
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.content).to eq('This is a test message from facebook.')
       end
