@@ -151,10 +151,7 @@ export default {
     },
     registerCampaignEvents() {
       bus.$on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
-        const showPreChatForm =
-          this.preChatFormEnabled && this.preChatFormOptions.requireEmail;
-        const isUserEmailAvailable = !!this.currentUser.email;
-        if (showPreChatForm && !isUserEmailAvailable) {
+        if (this.shouldShowPreChatForm) {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');
