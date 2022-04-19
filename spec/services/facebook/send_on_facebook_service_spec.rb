@@ -70,7 +70,7 @@ describe Facebook::SendOnFacebookService do
                                                         attachment: {
                                                           type: 'image',
                                                           payload: {
-                                                            url: attachment.file_url
+                                                            url: attachment.download_url
                                                           }
                                                         }
                                                       },
