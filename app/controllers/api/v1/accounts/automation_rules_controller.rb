@@ -20,9 +20,15 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def show; end
 
   def update
-    @automation_rule.update(automation_rules_permit)
-    process_attachments
-    @automation_rule
+    ActiveRecord::Base.transaction do
+      @automation_rule.update!(automation_rules_permit)
+      @automation_rule.actions = params[:actions] if params[:actions]
+      @automation_rule.save!
+      process_attachments
+    rescue StandardError => e
+      Rails.logger.error e
+      render json: { error: @automation_rule.errors.messages }.to_json, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -45,6 +51,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     params[:attachments].each do |uploaded_attachment|
       @automation_rule.files.attach(uploaded_attachment)
     end
+    @automation_rule
   end
 
   def automation_rules_permit
