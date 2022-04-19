@@ -92,6 +92,16 @@
       </transition>
     </div>
     <div class="right-wrap">
+      <announcement-popup
+        v-if="!announcementPopup && !isCmdPlusEnterEnabled"
+        :popup-message="$t('CONVERSATION.REPLYBOX.ANNOUNCEMENT_POPUP.MESSAGE')"
+        :route-text="$t('CONVERSATION.REPLYBOX.ANNOUNCEMENT_POPUP.ROUTE_NAME')"
+        :close-button-text="
+          $t('CONVERSATION.REPLYBOX.ANNOUNCEMENT_POPUP.CANCEL')
+        "
+        @open="onClickOpenSettings"
+        @close="onClickClosePopup"
+      />
       <woot-button
         size="small"
         :class-names="buttonClass"
@@ -114,13 +124,17 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import AnnouncementPopup from 'dashboard/components/ui/AnnouncementPopup';
 
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload },
+  components: {
+    AnnouncementPopup,
+    FileUpload,
+  },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
@@ -203,6 +217,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    isCmdPlusEnterEnabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isNote() {
@@ -255,6 +273,12 @@ export default {
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
+    announcementPopup() {
+      const {
+        close_announcement_popup: closeAnnouncementPopup,
+      } = this.uiSettings;
+      return closeAnnouncementPopup;
+    },
   },
   mounted() {
     ActiveStorage.start();
@@ -274,6 +298,16 @@ export default {
     toggleMessageSignature() {
       this.updateUISettings({
         send_with_signature: !this.sendWithSignature,
+      });
+    },
+    onClickOpenSettings() {
+      this.$router.push({
+        name: 'profile_settings_index',
+      });
+    },
+    onClickClosePopup() {
+      this.updateUISettings({
+        close_announcement_popup: !this.announcementPopup,
       });
     },
   },
@@ -302,6 +336,15 @@ export default {
 
 .right-wrap {
   display: flex;
+
+  .announcement-popup {
+    bottom: 56px;
+    right: 30px;
+
+    &::before {
+      right: 4px;
+    }
+  }
 }
 
 ::v-deep .file-uploads {

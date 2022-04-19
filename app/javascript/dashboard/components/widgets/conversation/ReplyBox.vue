@@ -111,6 +111,7 @@
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
+      :is-cmd-plus-enter-enabled="isCmdPlusEnterToSendMessage"
     />
   </div>
 </template>
