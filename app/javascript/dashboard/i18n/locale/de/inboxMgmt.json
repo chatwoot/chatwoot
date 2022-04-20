@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre-Chat-Formulare ermöglichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins Gespräch kommen.",
+      "SET_FIELDS": "Formularfelder vor dem Chat",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Felder",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Platzhalter",
+        "KEY": "Schlüssel",
+        "TYPE": "Typ",
+        "REQUIRED": "Benötigt"
+      },
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Vorab Chat-Nachricht",
+        "LABEL": "Pre-Chat-Nachricht",
         "PLACEHOLDER": "Diese Nachricht ist für alle Benutzer dieses Formulars sichtbar"
       },
       "REQUIRE_EMAIL": {
