@@ -76,7 +76,7 @@ export const actions = {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: false });
     }
   },
-  uploadAttachment: async ({ commit }, file) => {
+  uploadAttachment: async (_, file) => {
     try {
       const { data } = await AutomationAPI.attachment(file);
       return data.blob_id;
