@@ -59,13 +59,13 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "การแจ้งเตือน",
-    "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "MARK_ALL_DONE": "อ่านแล้วทั้งหมด",
+    "DELETE_TITLE": "ลบ",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "การแจ้งเตือนที่ยังไม่ได้อ่าน",
+      "ALL_NOTIFICATIONS": "ดูการแจ้งเตือนทั้งหมด",
+      "LOADING_UNREAD_MESSAGE": "กำลังโหลดการแจ้งเตือนที่ยังไม่ได้อ่าน",
+      "EMPTY_MESSAGE": "ไม่มีข้อความที่ยังไม่ได้อ่าน"
     },
     "LIST": {
       "LOADING_MESSAGE": "กำลังโหลดการแจ้งเตือน",
@@ -130,7 +130,7 @@
       "REOPEN_CONVERSATION": "เปิดการสนทนาอีกครั้ง",
       "RESOLVE_CONVERSATION": "จบเคสการสนทนา",
       "SEND_TRANSCRIPT": "ส่งรายละเอียดทางอีเมล",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
       "UNTIL_NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
       "UNTIL_NEXT_WEEK": "จนกว่าสัปดาห์หน้า",
       "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้"
