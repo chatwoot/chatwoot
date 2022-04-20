@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formularze czatu umożliwiają przechwytywanie informacji o użytkowniku przed rozpoczęciem rozmowy z Tobą.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Klucz",
+        "TYPE": "Typ",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Włącz formularz przed czatem",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Wiadomość na czacie",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Ta wiadomość będzie widoczna dla użytkowników wraz z formularzem"
       },
       "REQUIRE_EMAIL": {
