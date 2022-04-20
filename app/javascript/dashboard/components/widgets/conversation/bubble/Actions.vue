@@ -12,8 +12,8 @@
       v-if="messageRead"
       v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
       icon="checkmark-double"
-      class="action--icon"
-      size="16"
+      class="action--icon read-tick"
+      size="12"
     />
     <fluent-icon
       v-if="isEmail"
@@ -184,6 +184,9 @@ export default {
     }
 
     .action--icon {
+      &.read-tick {
+        color: var(--w-50);
+      }
       color: var(--white);
     }
 
