@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "ชื่อเต็ม",
         "PLACEHOLDER": "โปรดใส่ชื่อเต็มของคุณ",
-        "ERROR": "จำเป็นต้องใส่ชื่อเต็ม"
+        "REQUIRED_ERROR": "จำเป็นต้องใส่ชื่อเต็ม"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ที่อยู่อีเมล์",
         "PLACEHOLDER": "โปรดใส่อีเมล์ของคุณ",
-        "ERROR": "ข้อมูลนี่ไม่ใช่อีเมล์"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "กรุณากรอกที่อยู่อีเมล์ให้ถูกต้อง"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "หมายเลขโทรศัพท์",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "ข้อความ",
@@ -57,7 +64,8 @@
         "ERROR": "ข้อความสั้นเกินไป"
       }
     },
-    "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา"
+    "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
   "CHAT_FORM": {
