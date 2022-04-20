@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue} --fix",
@@ -35,6 +35,7 @@
     "core-js": "3.11.0",
     "country-code-emoji": "^1.0.0",
     "date-fns": "2.21.1",
+    "date-fns-tz": "^1.3.3",
     "dompurify": "2.2.7",
     "dotenv": "^8.0.0",
     "foundation-sites": "~6.5.3",
