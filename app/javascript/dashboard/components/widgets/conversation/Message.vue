@@ -60,6 +60,7 @@
           :readable-time="readableTime"
           :source-id="data.source_id"
           :inbox-id="data.inbox_id"
+          :message-read="showReadTicks"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
@@ -150,6 +151,14 @@ export default {
       default: false,
     },
     hasInstagramStory: {
+      type: Boolean,
+      default: false,
+    },
+    hasUserReadMessage: {
+      type: Boolean,
+      default: false,
+    },
+    isWebWidgetInbox: {
       type: Boolean,
       default: false,
     },
@@ -267,6 +276,14 @@ export default {
     },
     isOutgoing() {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
+    },
+    showReadTicks() {
+      return (
+        (this.isOutgoing || this.isTemplate) &&
+        this.hasUserReadMessage &&
+        this.isWebWidgetInbox &&
+        !this.data.private
+      );
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;

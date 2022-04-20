@@ -9,6 +9,13 @@
       />
     </span>
     <fluent-icon
+      v-if="messageRead"
+      v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
+      icon="checkmark-double"
+      class="action--icon read-tick"
+      size="12"
+    />
+    <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
       icon="mail"
@@ -120,6 +127,10 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    messageRead: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     inbox() {
@@ -173,6 +184,10 @@ export default {
     }
 
     .action--icon {
+      &.read-tick {
+        color: var(--v-100);
+        margin-top: calc(var(--space-micro) + var(--space-micro) / 2);
+      }
       color: var(--white);
     }
 
