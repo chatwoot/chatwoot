@@ -155,13 +155,14 @@ export default {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');
-          bus.$emit('execute-campaign', this.activeCampaign.id);
+          bus.$emit('execute-campaign', { campaignId: this.activeCampaign.id });
         }
         this.unsetUnreadView();
       });
-      bus.$on('execute-campaign', campaignId => {
+      bus.$on('execute-campaign', campaignDetails => {
+        const { customAttributes, campaignId } = campaignDetails;
         const { websiteToken } = window.chatwootWebChannel;
-        this.executeCampaign({ campaignId, websiteToken });
+        this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
     },
