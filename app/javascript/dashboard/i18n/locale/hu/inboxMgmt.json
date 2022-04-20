@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "A chat előtti űrlapok lehetővé teszik hogy felhasználói adatokat gyűjts mielőtt a beszélgetés megkezdődik.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Chat előtti űrlap engedélyezése",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Chat előtti üzenet",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Ez az üzenet látható lesz a felhasználók számára az űrlappal együtt"
       },
       "REQUIRE_EMAIL": {
