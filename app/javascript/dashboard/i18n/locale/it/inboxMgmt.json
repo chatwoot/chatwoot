@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "I moduli di chat predefiniti consentono di acquisire le informazioni dell'utente prima di iniziare la conversazione con te.",
+      "SET_FIELDS": "Campi del modulo Pre chat",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Campi",
+        "LABEL": "Etichetta",
+        "PLACE_HOLDER": "Segnaposto",
+        "KEY": "Chiave",
+        "TYPE": "Tipo",
+        "REQUIRED": "Obbligatorio"
+      },
       "ENABLE": {
         "LABEL": "Abilita il modulo pre chat",
         "OPTIONS": {
