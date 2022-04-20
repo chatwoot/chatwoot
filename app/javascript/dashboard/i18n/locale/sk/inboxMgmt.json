@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formuláre pred konverzáciou vám umožnia zachytiť informácie o používateľovi ešte predtým, ako s vami začne konverzovať.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Povoliť formulár pred konverzáciou",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Správa pred konverzáciou",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Táto správa sa zobrazí používateľom spolu s formulárom"
       },
       "REQUIRE_EMAIL": {
