@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Οι προ-φόρμες συνομιλίας σας επιτρέπουν να συλλέξετε πληροφορίες για τον χρήστη πριν να ξεκινήσει τη συνομιλία μαζί σας.",
+      "SET_FIELDS": "Πεδία προ συνομιλίας",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Πεδία",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Κλειδί",
+        "TYPE": "Τύπος",
+        "REQUIRED": "Υποχρεωτικό"
+      },
       "ENABLE": {
         "LABEL": "Ενεργοποίηση προ-φόρμας συνομιλίας",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Μήνυμα πριν την συνομιλία",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Αυτό το μήνυμα θα εμφανίζεται στους χρήστες μαζί με τη φόρμα"
       },
       "REQUIRE_EMAIL": {
