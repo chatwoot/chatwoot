@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Попередні форми чату дозволяють зберегти інформацію про користувача, перш ніж вони почнуть розмову з вами.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Ключ",
+        "TYPE": "Тип",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Увімкнути форму попереднього чату",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Попереднє повідомлення чату",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Це повідомлення буде видимим для користувачів разом з формою"
       },
       "REQUIRE_EMAIL": {
