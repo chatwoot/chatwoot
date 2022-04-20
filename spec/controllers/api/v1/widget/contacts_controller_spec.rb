@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
-  let(:contact) { create(:contact, account: account, phone_number: '+745623239') }
+  let(:contact) { create(:contact, account: account, email: 'test@test.com', phone_number: '+745623239') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
@@ -59,6 +59,26 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               as: :json
         body = JSON.parse(response.body)
         expect(body['phone_number']).to eq('+245623239')
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'dont update email if invalid email passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'test@' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = JSON.parse(response.body)
+        expect(body['email']).to eq('test@test.com')
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'update email if valid email passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'test-1@test.com' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = JSON.parse(response.body)
+        expect(body['email']).to eq('test-1@test.com')
         expect(response).to have_http_status(:success)
       end
     end

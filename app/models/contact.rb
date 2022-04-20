@@ -33,7 +33,6 @@ class Contact < ApplicationRecord
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :name, length: { maximum: 255 }
-  validate :phone_number_format
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -42,8 +41,8 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-
   before_validation :prepare_contact_attributes
+  before_save :phone_number_format, :email_format
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -145,7 +144,14 @@ class Contact < ApplicationRecord
 
   def phone_number_format
     return if phone_number.blank?
-    self.phone_number = nil unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+
+    self.phone_number = changes['phone_number'].first unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+  end
+
+  def email_format
+    return if email.blank?
+
+    self.email = changes['email'].first unless email.match(Devise.email_regexp)
   end
 
   def prepare_contact_attributes
