@@ -3,7 +3,7 @@
 class Integrations::Facebook::MessageParser
   def initialize(response_json)
     @response = JSON.parse(response_json)
-    @messaging = @response.dig('messaging') || @response.dig('standby')
+    @messaging = @response['messaging'] || @response['standby']
   end
 
   def sender_id
@@ -15,7 +15,7 @@ class Integrations::Facebook::MessageParser
   end
 
   def time_stamp
-    @messaging.dig('timestamp')
+    @messaging['timestamp']
   end
 
   def content
