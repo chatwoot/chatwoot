@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formularele pre-chat vă permit să capturați informații despre utilizatori înainte de a începe conversația cu dvs.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Cheie",
+        "TYPE": "Tip",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Activați formularul de pre chat",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Mesaj pre-chat",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Acest mesaj ar fi vizibil pentru utilizatori împreună cu formularul"
       },
       "REQUIRE_EMAIL": {
