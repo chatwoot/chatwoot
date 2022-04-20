@@ -92,14 +92,17 @@ export const actions = {
     }
   },
 
-  executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
+  executeCampaign: async (
+    { commit },
+    { campaignId, websiteToken, customAttributes }
+  ) => {
     try {
       commit(
         'conversation/setConversationUIFlag',
         { isCreating: true },
         { root: true }
       );
-      await triggerCampaign({ campaignId, websiteToken });
+      await triggerCampaign({ campaignId, websiteToken, customAttributes });
       commit('setCampaignExecuted', true);
       commit('setActiveCampaign', {});
     } catch (error) {
