@@ -432,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "טפסי טרום צ'אט מאפשרים לך ללכוד מידע על המשתמש לפני שהם מתחילים בשיחה איתך.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "מפתח",
+        "TYPE": "סוג",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "אפשר טופס טרום צ'אט",
         "OPTIONS": {
@@ -440,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "הודעת צ'אט מקדימה",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "הודעה זו תהיה גלויה למשתמשים יחד עם הטופס"
       },
       "REQUIRE_EMAIL": {
