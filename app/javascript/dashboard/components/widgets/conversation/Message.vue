@@ -279,7 +279,7 @@ export default {
     },
     showReadTicks() {
       return (
-        !this.isIncoming &&
+        (this.isOutgoing || this.isTemplate) &&
         this.hasUserReadMessage &&
         this.isWebWidgetInbox &&
         !this.data.private

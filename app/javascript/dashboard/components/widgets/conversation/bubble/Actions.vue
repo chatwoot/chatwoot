@@ -185,7 +185,8 @@ export default {
 
     .action--icon {
       &.read-tick {
-        color: var(--w-50);
+        color: var(--v-100);
+        margin-top: calc(var(--space-micro) + var(--space-micro) / 2);
       }
       color: var(--white);
     }
