@@ -38,6 +38,7 @@ import {
   initializeChatwootEvents,
 } from '../dashboard/helper/scriptHelpers';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 Vue.config.env = process.env;
 
@@ -54,7 +55,7 @@ if (window.analyticsConfig) {
     api_host: window.analyticsConfig.host,
   });
 }
-
+Vue.use(VueDOMPurifyHTML);
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
