@@ -469,7 +469,7 @@ describe AutomationRuleListener do
       end
     end
 
-    context 'when rule doesnt matche' do
+    context 'when rule does not match' do
       before do
         conversation.update!(team_id: team.id)
         conversation.contact.update!(email: 'tj@ex.com', additional_attributes: { 'company': 'DC' })
