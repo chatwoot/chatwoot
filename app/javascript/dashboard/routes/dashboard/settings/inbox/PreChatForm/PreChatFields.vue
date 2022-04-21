@@ -1,6 +1,6 @@
 <template>
-  <draggable v-model="preChatFields" tag="tbody">
-    <tr v-for="(item, index) in preChatFields" :key="index">
+  <draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
+    <tr v-for="(item, index) in preChatFieldOptions" :key="index">
       <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
       <td class="pre-chat-field">
         <woot-switch
@@ -56,9 +56,20 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      preChatFieldOptions: this.preChatFields,
+    };
+  },
   methods: {
     isFieldEditable(item) {
       return !!standardFieldKeys[item.name] || !item.enabled;
+    },
+    onDragEnd() {
+      this.$emit(
+        'change-pre-chat-field-fields-order',
+        this.preChatFieldOptions
+      );
     },
   },
 };

@@ -59,6 +59,9 @@
             <pre-chat-fields
               :pre-chat-fields="preChatFields"
               :handle-pre-chat-field-options="handlePreChatFieldOptions"
+              @change-pre-chat-field-fields-order="
+                changePreChatFieldFieldsOrder
+              "
             />
           </table>
         </label>
@@ -136,6 +139,10 @@ export default {
           this.preChatFields[index][type] = !item[type];
         }
       });
+    },
+
+    changePreChatFieldFieldsOrder(updatedPreChatFieldOptions) {
+      this.preChatFields = updatedPreChatFieldOptions;
     },
 
     async updateInbox() {
