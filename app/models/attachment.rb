@@ -44,12 +44,15 @@ class Attachment < ApplicationRecord
     base_data.merge(file_metadata)
   end
 
+  # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
     file.attached? ? url_for(file) : ''
   end
 
+  # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
-    file.attached? ? rails_storage_proxy_url(file) : ''
+    ActiveStorage::Current.host = Rails.application.routes.default_url_options[:host] if ActiveStorage::Current.host.blank?
+    file.attached? ? file.blob.url : ''
   end
 
   def thumb_url
