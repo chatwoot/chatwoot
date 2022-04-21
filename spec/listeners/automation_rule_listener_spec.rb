@@ -156,6 +156,9 @@ describe AutomationRuleListener do
 
     context 'when inbox condition doesnt match' do
       let!(:inbox_1) { create(:inbox, account: account) }
+      let!(:event) do
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+      end
 
       before do
         automation_rule.update!(
@@ -171,10 +174,6 @@ describe AutomationRuleListener do
             }.with_indifferent_access
           ]
         )
-      end
-
-      let!(:event) do
-        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
       end
 
       it 'triggers automation rule send message to the contacts' do

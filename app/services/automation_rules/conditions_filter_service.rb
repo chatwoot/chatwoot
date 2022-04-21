@@ -43,17 +43,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
   end
 
-  def message_conditions
-    message_filters = @filters['messages']
-
-    @rule.conditions.each_with_index do |query_hash, current_index|
-      current_filter = message_filters[query_hash['attribute_key']]
-      @query_string += message_query_string(current_filter, query_hash.with_indifferent_access, current_index)
-    end
-    records = Message.where(id: @options[:message].id).where(@query_string, @filter_values.with_indifferent_access)
-    records.any?
-  end
-
   def message_query_string(current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
