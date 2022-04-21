@@ -50,7 +50,7 @@
         <b>{{ integration.name }}</b>
       </p>
       <p
-        v-html="
+        v-dompurify-html="
           $t(
             `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
             { installationName: globalConfig.installationName }
