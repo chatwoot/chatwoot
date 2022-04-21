@@ -126,12 +126,12 @@ describe AutomationRuleListener do
       end
 
       it 'triggers automation rule to mute conversation' do
-        expect(conversation.muted?).to be_falsy
+        expect(conversation).not_to be_muted
 
         listener.conversation_updated(event)
 
         conversation.reload
-        expect(conversation.muted?).to be_truthy
+        expect(conversation).to be_muted
       end
 
       it 'triggers automation_rule with contact standard attributes' do
