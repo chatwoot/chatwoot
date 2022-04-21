@@ -176,7 +176,7 @@ describe AutomationRuleListener do
         )
       end
 
-      it 'triggers automation rule send message to the contacts' do
+      it 'triggers automation rule would not send message to the contacts' do
         expect(conversation.messages.count).to eq(0)
         expect(conversation.messages).to be_empty
 
