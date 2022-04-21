@@ -518,7 +518,7 @@ export default {
       if (actionType === 'send_attachment') {
         const file = this.automation.files.find(item => item.blob_id === id);
         // replace `blob_id.toString()` with file name once api is fixed.
-        if (file) return file.blob_id.toString();
+        if (file) return file.filename.toString();
       }
       return '';
     },

@@ -41,7 +41,7 @@ class AutomationRule < ApplicationRecord
         account_id: account_id,
         file_url: url_for(file),
         blob_id: file.blob_id,
-        thumb_url: url_for(file.representation(resize: '250x250'))
+        filename: file.filename.to_s
       }
     end
   end

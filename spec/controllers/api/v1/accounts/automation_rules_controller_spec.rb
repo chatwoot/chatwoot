@@ -153,7 +153,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
             action_params: ['Welcome to the chatwoot platform.']
           },
           {
-            action_name: :send_attachments,
+            action_name: :send_attachment,
             action_params: [blob['blob_id']]
           }
         ]
@@ -191,8 +191,12 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         params[:actions] = [
           {
-            action_name: :send_attachments,
-            action_params: [blob_1['blob_id'], blob_2['blob_id']]
+            action_name: :send_attachment,
+            action_params: [blob_1['blob_id']]
+          },
+          {
+            action_name: :send_attachment,
+            action_params: [blob_2['blob_id']]
           }
         ]
 
