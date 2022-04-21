@@ -69,7 +69,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id],
+    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
+                                                               message: [:content, :referer_url, :timestamp, :echo_id],
                                                                custom_attributes: {})
   end
 end
