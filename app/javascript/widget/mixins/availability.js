@@ -34,8 +34,12 @@ export default {
         openAllDay,
       } = this.currentDayAvailability;
 
-      if (openAllDay || closedAllDay) {
+      if (openAllDay) {
         return true;
+      }
+
+      if (closedAllDay) {
+        return false;
       }
 
       const { utcOffset } = this.channelConfig;
