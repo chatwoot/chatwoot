@@ -1,4 +1,9 @@
-import { isEnter, isEscape, hasPressedShift } from '../KeyboardHelpers';
+import {
+  isEnter,
+  isEscape,
+  hasPressedShift,
+  hasPressedCommand,
+} from '../KeyboardHelpers';
 
 describe('#KeyboardHelpers', () => {
   describe('#isEnter', () => {
@@ -16,6 +21,12 @@ describe('#KeyboardHelpers', () => {
   describe('#hasPressedShift', () => {
     it('return correct values', () => {
       expect(hasPressedShift({ shiftKey: true })).toEqual(true);
+    });
+  });
+
+  describe('#hasPressedCommand', () => {
+    it('return correct values', () => {
+      expect(hasPressedCommand({ metaKey: true })).toEqual(true);
     });
   });
 });
