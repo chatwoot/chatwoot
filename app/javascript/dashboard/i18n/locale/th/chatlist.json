@@ -81,6 +81,7 @@
     "NO_MESSAGES": "ไม่มีข้อความ",
     "NO_CONTENT": "ไม่มีเนื้อหา",
     "HIDE_QUOTED_TEXT": "ซ่อนข้อความในเครื่องหมายคำพูด",
-    "SHOW_QUOTED_TEXT": "แสดงข้อความในเครื่องหมายคำพูด"
+    "SHOW_QUOTED_TEXT": "แสดงข้อความในเครื่องหมายคำพูด",
+    "MESSAGE_READ": "Read"
   }
 }
