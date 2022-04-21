@@ -21,7 +21,7 @@
       type="outline"
       class="error-icon"
     />
-    <span class="file-button">{{ label }}</span>
+    <p class="file-button">{{ label }}</p>
   </label>
 </template>
 
@@ -107,5 +107,11 @@ input[type='file'] {
 .processing {
   cursor: not-allowed;
   opacity: 0.9;
+}
+.file-button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 </style>
