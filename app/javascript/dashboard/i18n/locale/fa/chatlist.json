@@ -81,6 +81,7 @@
     "NO_MESSAGES": "هیچ پیامی وجود ندارد",
     "NO_CONTENT": "هیچ محتوایی موجود نیست",
     "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
-    "SHOW_QUOTED_TEXT": "نمایش متن نقل قول"
+    "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
+    "MESSAGE_READ": "خوانده شده"
   }
 }
