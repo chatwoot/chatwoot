@@ -55,6 +55,7 @@
           <automation-action-file-input
             v-if="inputType === 'attachment'"
             v-model="action_params"
+            :initial-file-name="initialFileName"
           />
         </div>
       </div>
@@ -114,6 +115,10 @@ export default {
     showActionInput: {
       type: Boolean,
       default: true,
+    },
+    initialFileName: {
+      type: String,
+      default: '',
     },
   },
   computed: {

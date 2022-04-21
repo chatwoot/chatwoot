@@ -38,12 +38,22 @@ export default {
       type: Array,
       default: () => [],
     },
+    initialFileName: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
       uploadState: 'idle',
       label: this.$t('AUTOMATION.ATTACHMENT.LABEL_IDLE'),
     };
+  },
+  mounted() {
+    if (this.initialFileName) {
+      this.label = this.initialFileName;
+      this.uploadState = 'uploaded';
+    }
   },
   methods: {
     async onChangeFile(event) {
@@ -77,12 +87,12 @@ input[type='file'] {
 .input-wrapper {
   display: flex;
   height: 39px;
-  background-color: white;
-  border-radius: 4px;
-  border: 1px dashed #ced4db;
-  padding: 4px 8px;
+  background-color: var(--white);
+  border-radius: var(--border-radius-small);
+  border: 1px dashed var(--w-100);
+  padding: var(--space-smaller) var(--space-small);
   align-items: center;
-  font-size: 12px;
+  font-size: var(--font-size-mini);
   cursor: pointer;
 }
 .success-icon {
