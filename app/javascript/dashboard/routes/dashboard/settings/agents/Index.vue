@@ -89,7 +89,7 @@
       </div>
       <div class="small-4 columns">
         <span
-          v-html="
+          v-dompurify-html="
             useInstallationName(
               $t('AGENT_MGMT.SIDEBAR_TXT'),
               globalConfig.installationName
