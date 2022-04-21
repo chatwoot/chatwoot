@@ -435,8 +435,8 @@
       "SET_FIELDS": "Πεδία προ συνομιλίας",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Πεδία",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "LABEL": "Ετικέτα",
+        "PLACE_HOLDER": "Τοποθέτηση",
         "KEY": "Κλειδί",
         "TYPE": "Τύπος",
         "REQUIRED": "Υποχρεωτικό"
@@ -449,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Μήνυμα πριν την συνομιλία",
         "PLACEHOLDER": "Αυτό το μήνυμα θα εμφανίζεται στους χρήστες μαζί με τη φόρμα"
       },
       "REQUIRE_EMAIL": {
