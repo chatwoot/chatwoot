@@ -67,6 +67,12 @@ describe AutomationRuleListener do
             attribute_key: 'customer_type',
             filter_operator: 'equal_to',
             values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'inbox_id',
+            filter_operator: 'equal_to',
+            values: [inbox.id],
             query_operator: nil
           }.with_indifferent_access
         ]
@@ -145,6 +151,41 @@ describe AutomationRuleListener do
 
         conversation.reload
         expect(conversation.team_id).to eq(team.id)
+      end
+    end
+
+    context 'when inbox condition doesnt match' do
+      let!(:inbox_1) { create(:inbox, account: account) }
+
+      before do
+        automation_rule.update!(
+          event_name: 'conversation_updated',
+          name: 'Call actions conversation updated',
+          description: 'Add labels, assign team after conversation updated',
+          conditions: [
+            {
+              attribute_key: 'inbox_id',
+              filter_operator: 'equal_to',
+              values: [inbox_1.id],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+      end
+
+      let!(:event) do
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+      end
+
+      it 'triggers automation rule send message to the contacts' do
+        expect(conversation.messages.count).to eq(0)
+        expect(conversation.messages).to be_empty
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(0)
       end
     end
   end
@@ -425,6 +466,7 @@ describe AutomationRuleListener do
 
         expect(conversation.messages.count).to eq(2)
         expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation.messages.last.content_attributes[:automation_rule_id]).to eq(automation_rule.id)
       end
     end
 
