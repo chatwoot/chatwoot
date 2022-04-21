@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Немає повідомлень",
     "NO_CONTENT": "Немає вмісту",
     "HIDE_QUOTED_TEXT": "Приховати цитований текст",
-    "SHOW_QUOTED_TEXT": "Показати цитований текст"
+    "SHOW_QUOTED_TEXT": "Показати цитований текст",
+    "MESSAGE_READ": "Read"
   }
 }
