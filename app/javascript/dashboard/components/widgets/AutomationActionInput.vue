@@ -198,6 +198,7 @@ export default {
 .filter__answer--wrap {
   margin-right: var(--space-smaller);
   flex-grow: 1;
+  max-width: 50%;
 
   input {
     margin-bottom: 0;
