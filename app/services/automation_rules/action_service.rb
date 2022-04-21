@@ -21,11 +21,14 @@ class AutomationRules::ActionService
 
   private
 
-  def send_attachment(_file_params)
+  def send_attachment(blob_ids)
     return unless @rule.files.attached?
 
-    blobs = @rule.files.map { |file, _| file.blob }
-    params = { content: nil, private: false, attachments: blobs }
+    blob = ActiveStorage::Blob.find(blob_ids)
+
+    return if blob.blank?
+
+    params = { content: nil, private: false, attachments: blob }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end

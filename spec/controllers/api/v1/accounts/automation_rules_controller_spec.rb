@@ -175,19 +175,13 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
              headers: administrator.create_new_auth_token,
              params: { attachment: file_1 }
 
-        expect(response).to have_http_status(:success)
-
         blob_1 = JSON.parse(response.body)
-
-        expect(blob_1['blob_id']).to be_present
 
         post "/api/v1/accounts/#{account.id}/automation_rules/attach_file",
              headers: administrator.create_new_auth_token,
              params: { attachment: file_2 }
 
         blob_2 = JSON.parse(response.body)
-
-        expect(blob_2['blob_id']).to be_present
 
         params[:actions] = [
           {
@@ -205,7 +199,6 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
              params: params
 
         automation_rule = account.automation_rules.first
-        expect(automation_rule.files.presence).to be_truthy
         expect(automation_rule.files.count).to eq(2)
       end
     end
