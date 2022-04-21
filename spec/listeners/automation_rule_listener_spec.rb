@@ -154,7 +154,7 @@ describe AutomationRuleListener do
       end
     end
 
-    context 'when inbox condition doesnt match' do
+    context 'when inbox condition does not match' do
       let!(:inbox_1) { create(:inbox, account: account) }
       let!(:event) do
         Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
