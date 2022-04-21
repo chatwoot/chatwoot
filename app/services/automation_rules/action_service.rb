@@ -56,7 +56,7 @@ class AutomationRules::ActionService
   end
 
   def send_message(message)
-    params = { content: message[0], private: false }
+    params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
