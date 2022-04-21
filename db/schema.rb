@@ -507,6 +507,8 @@ ActiveRecord::Schema.define(version: 2022_04_18_094715) do
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "locale", default: "en"
+    t.index ["locale", "account_id"], name: "index_kbase_categories_on_locale_and_account_id"
   end
 
   create_table "kbase_folders", force: :cascade do |t|
@@ -528,6 +530,7 @@ ActiveRecord::Schema.define(version: 2022_04_18_094715) do
     t.text "header_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
   end
 
