@@ -55,7 +55,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def process_attachments
-    actions = @automation_rule.actions.collect { |k, _v| k if k['action_name'] == 'send_attachment' }.compact
+    actions = @automation_rule.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
     return if actions.blank?
 
     actions.each do |action|
