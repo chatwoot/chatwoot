@@ -188,7 +188,7 @@
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
+        "TITLE": "ช่องทาง WhatsApp",
         "DESC": "เริ่มสนับสนุนลูกค้าของคุณผ่านช่องทาง WhatsApp",
         "PROVIDERS": {
           "LABEL": "API Provider",
@@ -255,7 +255,7 @@
         "FINISH_MESSAGE": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
+        "TITLE": "ช่องทาง LINE",
         "DESC": "ใช้งานร่วมกับ Line และเริ่มสนับสนุนลูกค้าของคุณ",
         "CHANNEL_NAME": {
           "LABEL": "ชื่อช่อง",
@@ -284,7 +284,7 @@
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
+        "TITLE": "ช่องทาง Telegram",
         "DESC": "เชื่อมกับ Telegram และเริ่มสนับสนุนลูกค้าของคุณ",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
