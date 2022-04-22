@@ -48,6 +48,10 @@
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
+        :has-user-read-message="
+          hasUserReadMessage(message.created_at, getLastSeenAt)
+        "
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span class="text-uppercase">
@@ -66,6 +70,10 @@
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
+        :has-user-read-message="
+          hasUserReadMessage(message.created_at, getLastSeenAt)
+        "
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
     <div
@@ -141,6 +149,7 @@ export default {
       listLoadingStatus: 'getAllMessagesLoaded',
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
+      conversationLastSeen: 'getConversationLastSeen',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
@@ -240,6 +249,11 @@ export default {
         return 'arrow-chevron-right';
       }
       return 'arrow-chevron-left';
+    },
+    getLastSeenAt() {
+      if (this.conversationLastSeen) return this.conversationLastSeen;
+      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
+      return contactLastSeenAt;
     },
   },
 

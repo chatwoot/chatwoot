@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue} --fix",
@@ -62,6 +62,7 @@
     "vue-chartjs": "3.5.1",
     "vue-clickaway": "~2.1.0",
     "vue-color": "2.8.1",
+    "vue-dompurify-html": "^2.5.1",
     "vue-easytable": "2.5.5",
     "vue-i18n": "8.24.3",
     "vue-loader": "15.9.6",

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import VueI18n from 'vue-i18n';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 import VueFormulate from '@braid/vue-formulate';
 import store from '../widget/store';
 import App from '../widget/App.vue';
@@ -10,6 +11,7 @@ import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import router from '../widget/router';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
+Vue.use(VueDOMPurifyHTML);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

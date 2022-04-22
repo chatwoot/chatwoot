@@ -7,7 +7,7 @@
       <li>
         <span class="bullet">❌</span>
         <span
-          v-html="
+          v-dompurify-html="
             $t('MERGE_CONTACTS.SUMMARY.DELETE_WARNING', {
               childContactName,
             })
@@ -17,7 +17,7 @@
       <li>
         <span class="bullet">✅</span>
         <span
-          v-html="
+          v-dompurify-html="
             $t('MERGE_CONTACTS.SUMMARY.ATTRIBUTE_WARNING', {
               childContactName,
               primaryContactName,
