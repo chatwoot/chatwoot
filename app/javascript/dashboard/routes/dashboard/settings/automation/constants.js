@@ -64,6 +64,13 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
       },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
     ],
     actions: [
       {
@@ -148,6 +155,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
       },
     ],
     actions: [
@@ -246,6 +260,13 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'TEAM_NAME',
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
       },
     ],
     actions: [
