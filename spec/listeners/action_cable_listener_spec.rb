@@ -61,10 +61,30 @@ describe ActionCableListener do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         a_collection_containing_exactly(
-          admin.pubsub_token, conversation.contact.pubsub_token
+          admin.pubsub_token, conversation.contact_inbox.pubsub_token
         ),
         'conversation.typing_on', conversation: conversation.push_event_data,
                                   user: agent.push_event_data,
+                                  account_id: account.id,
+                                  is_private: false
+      )
+      listener.conversation_typing_on(event)
+    end
+  end
+
+  describe '#typing_on with contact' do
+    let(:event_name) { :'conversation.typing_on' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: conversation.contact, is_private: false) }
+
+    it 'sends message to account admins, inbox agents and the contact' do
+      # HACK: to reload conversation inbox members
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(
+          admin.pubsub_token, agent.pubsub_token
+        ),
+        'conversation.typing_on', conversation: conversation.push_event_data,
+                                  user: conversation.contact.push_event_data,
                                   account_id: account.id,
                                   is_private: false
       )
@@ -81,7 +101,7 @@ describe ActionCableListener do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         a_collection_containing_exactly(
-          admin.pubsub_token, conversation.contact.pubsub_token
+          admin.pubsub_token, conversation.contact_inbox.pubsub_token
         ),
         'conversation.typing_off', conversation: conversation.push_event_data,
                                    user: agent.push_event_data,
