@@ -57,7 +57,7 @@
 
       <div class="small-4 columns">
         <span
-          v-html="
+          v-dompurify-html="
             $t('TEAMS_SETTINGS.SIDEBAR_TXT', {
               installationName: globalConfig.installationName,
             })

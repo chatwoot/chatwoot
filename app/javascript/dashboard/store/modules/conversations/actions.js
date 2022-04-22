@@ -199,6 +199,10 @@ const actions = {
     }
   },
 
+  updateConversationRead({ commit }, timestamp) {
+    commit(types.SET_CONVERSATION_LAST_SEEN, timestamp);
+  },
+
   updateMessage({ commit }, message) {
     commit(types.ADD_MESSAGE, message);
   },
