@@ -42,8 +42,8 @@
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "หรัสสั้นๆ",
-          "PLACEHOLDER": "กรุณากรอกหรัสสั่นๆ",
+          "LABEL": "รหัสสั้นๆ",
+          "PLACEHOLDER": "กรุณากรอกรหัสสั้น",
           "ERROR": "จำเป็นต้องระบุหรัสสั่น"
         },
         "CONTENT": {
