@@ -76,7 +76,7 @@
       </div>
     </div>
     <div class="small-4 columns">
-      <span v-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')"></span>
+      <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')"></span>
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-attribute
