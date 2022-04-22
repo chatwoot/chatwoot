@@ -57,12 +57,12 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "ข้อความลายเซ็น",
+      "ENABLE_SIGN_TOOLTIP": "เปิดการใช้ลายเซ็นต์",
+      "DISABLE_SIGN_TOOLTIP": "ปิดการใช้ลายเซ็นต์",
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "ข้อความลายเซ็นต์ไม่ได้ถูกตั้งค่า, กรุณาตั้งค่าในหน้าการจัดการข้อมูลส่วนตัว",
       "CLICK_HERE": "กดที่นี่เพื่ออัพเดต"
     },
     "REPLYBOX": {
