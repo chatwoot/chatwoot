@@ -2,12 +2,12 @@
   <button
     type="button"
     class="toggle-button"
-    :class="{ active: value }"
+    :class="{ active: switchValue }"
     role="switch"
-    :aria-checked="value.toString()"
+    :aria-checked="switchValue.toString()"
     @click="onClick"
   >
-    <span aria-hidden="true" :class="{ active: value }"></span>
+    <span aria-hidden="true" :class="{ active: switchValue }"></span>
   </button>
 </template>
 
@@ -16,12 +16,18 @@ export default {
   props: {
     value: { type: Boolean, default: false },
   },
+  data() {
+    return {
+      switchValue: this.value,
+    };
+  },
   methods: {
     onClick(event) {
       if (event.pointerId === -1) {
         event.preventDefault();
       } else {
-        this.$emit('input', !this.value);
+        this.switchValue = !this.switchValue;
+        this.$emit('input', this.switchValue);
       }
     },
   },
