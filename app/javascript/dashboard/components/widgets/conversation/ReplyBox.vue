@@ -80,8 +80,8 @@
     >
       <p
         v-if="isSignatureAvailable"
+        v-dompurify-html="formatMessage(messageSignature)"
         class="message-signature"
-        v-html="formatMessage(messageSignature)"
       />
       <p v-else class="message-signature">
         {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
