@@ -130,11 +130,13 @@ export default {
         facebook: '',
         twitter: '',
         linkedin: '',
+        github: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
+        { key: 'github', prefixURL: 'https://github.com/' },
       ],
     };
   },
@@ -183,6 +185,7 @@ export default {
         twitter: socialProfiles.twitter || twitterScreenName || '',
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
+        github: socialProfiles.github || '',
       };
     },
     getContactObject() {

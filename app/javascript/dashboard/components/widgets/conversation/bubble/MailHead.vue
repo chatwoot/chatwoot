@@ -4,6 +4,10 @@
     class="message__mail-head"
     :class="{ 'is-incoming': isIncoming }"
   >
+    <div v-if="fromMail" class="meta-wrap">
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.FROM') }}:</span>
+      <span>{{ fromMail }}</span>
+    </div>
     <div v-if="toMails" class="meta-wrap">
       <span class="message__content--type">{{ $t('EMAIL_HEADER.TO') }}:</span>
       <span>{{ toMails }}</span>
@@ -46,6 +50,10 @@ export default {
     },
   },
   computed: {
+    fromMail() {
+      const from = this.emailAttributes.from || [];
+      return from.join(', ');
+    },
     toMails() {
       const to = this.emailAttributes.to || [];
       return to.join(', ');
@@ -62,7 +70,7 @@ export default {
       return this.emailAttributes.subject || '';
     },
     showHead() {
-      return this.toMails || this.ccMails || this.bccMails;
+      return this.toMails || this.ccMails || this.bccMails || this.fromMail;
     },
   },
 };

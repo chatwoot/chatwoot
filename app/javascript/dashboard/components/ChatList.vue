@@ -219,7 +219,7 @@ export default {
       folders: 'customViews/getCustomViews',
     }),
     hasAppliedFilters() {
-      return this.appliedFilters.length;
+      return this.appliedFilters.length !== 0;
     },
     hasActiveFolders() {
       return this.activeFolder && this.foldersId !== 0;
@@ -460,7 +460,8 @@ export default {
       if (this.hasActiveFolders) {
         const payload = this.activeFolder.query;
         this.fetchSavedFilteredConversations(payload);
-      } else {
+      }
+      if (this.hasAppliedFilters) {
         this.fetchFilteredConversations(this.appliedFilters);
       }
     },

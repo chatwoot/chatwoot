@@ -2,6 +2,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
+  before_action :validate_limit, only: [:create]
   # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
 
@@ -47,7 +48,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     # Inbox update doesn't necessarily need channel attributes
     return if permitted_params(channel_attributes)[:channel].blank?
 
-    validate_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
+    if @inbox.inbox_type == 'Email'
+      validate_email_channel(channel_attributes)
+      @inbox.channel.reauthorized!
+    end
 
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
@@ -69,7 +73,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @inbox.destroy
+    @inbox.destroy!
     head :ok
   end
 
@@ -137,10 +141,16 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def get_channel_attributes(channel_type)
-    if channel_type.constantize.const_defined?('EDITABLE_ATTRS')
+    if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
       channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
     end
+  end
+
+  def validate_limit
+    return unless Current.account.inboxes.count >= Current.account.usage_limits[:inboxes]
+
+    render_payment_required('Account limit exceeded. Upgrade to a higher plan')
   end
 end

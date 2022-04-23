@@ -4,6 +4,6 @@ class Api::V1::Accounts::Kbase::BaseController < Api::V1::Accounts::BaseControll
   private
 
   def portal
-    @portal ||= Current.account.kbase_portals.find_by(id: params[:portal_id])
+    @portal ||= Current.account.kbase_portals.find_by(slug: params[:portal_id])
   end
 end

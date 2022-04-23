@@ -127,11 +127,16 @@ export default {
         this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
+        const {
+          response: { data: { error: errorResponse = '' } = {} } = {},
+        } = error;
+        let errorMessage = '';
         if (error.response.status === 422) {
-          this.showAlert(this.$t('AGENT_MGMT.ADD.API.EXIST_MESSAGE'));
+          errorMessage = this.$t('AGENT_MGMT.ADD.API.EXIST_MESSAGE');
         } else {
-          this.showAlert(this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE'));
+          errorMessage = this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE');
         }
+        this.showAlert(errorResponse || errorMessage);
       }
     },
   },

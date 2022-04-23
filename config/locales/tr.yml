@@ -38,10 +38,11 @@ tr:
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     team_csv:
-      team_name: Team name
+      team_name: Ekip İsmi
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    default_group_by: day
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,10 +51,12 @@ tr:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
       deleted: Bu mesaj silinmiş
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
+        contact_resolved: "Görüşme %{contact_name} tarafından çözüldü olarak işaretlendi"
         open: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

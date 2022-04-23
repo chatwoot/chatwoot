@@ -1,10 +1,10 @@
 <template>
   <div class="settings--content">
-    <div class="prechat--title">
+    <div class="pre-chat--title">
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
-    <form class="medium-6" @submit.prevent="updateInbox">
-      <label class="medium-9 columns">
+    <form @submit.prevent="updateInbox">
+      <label class="medium-3 columns">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL') }}
         <select v-model="preChatFormEnabled">
           <option :value="true">
@@ -15,28 +15,55 @@
           </option>
         </select>
       </label>
-
-      <label class="medium-9">
-        {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
-        <textarea
-          v-model.trim="preChatMessage"
-          type="text"
-          :placeholder="
-            $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.PLACEHOLDER')
-          "
-        />
-      </label>
-      <div>
-        <input
-          v-model="preChatFieldOptions"
-          type="checkbox"
-          value="requireEmail"
-          @input="handlePreChatFieldOptions"
-        />
-        <label for="requireEmail">
-          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.REQUIRE_EMAIL.LABEL') }}
+      <div v-if="preChatFormEnabled">
+        <label class="medium-3 columns">
+          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
+          <textarea
+            v-model.trim="preChatMessage"
+            type="text"
+            :placeholder="
+              $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.PLACEHOLDER')
+            "
+          />
+        </label>
+        <label class="medium-8 columns">
+          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}
+          <table class="table table-striped w-full">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
+                </th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
+                </th>
+                <th scope="col">
+                  {{
+                    $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED')
+                  }}
+                </th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
+                </th>
+                <th scope="col">
+                  {{
+                    $t(
+                      'INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER'
+                    )
+                  }}
+                </th>
+              </tr>
+            </thead>
+            <pre-chat-fields
+              :pre-chat-fields="preChatFields"
+              :handle-pre-chat-field-options="handlePreChatFieldOptions"
+            />
+          </table>
         </label>
       </div>
+
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
         :loading="uiFlags.isUpdatingInbox"
@@ -47,8 +74,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import PreChatFields from './PreChatFields.vue';
+import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
 
 export default {
+  components: {
+    PreChatFields,
+  },
   mixins: [alertMixin],
   props: {
     inbox: {
@@ -60,11 +92,21 @@ export default {
     return {
       preChatFormEnabled: false,
       preChatMessage: '',
-      preChatFieldOptions: [],
+      preChatFields: [],
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+      customAttributes: 'attributes/getAttributes',
+    }),
+    preChatFieldOptions() {
+      const { pre_chat_form_options: preChatFormOptions } = this.inbox;
+      return getPreChatFields({
+        preChatFormOptions,
+        customAttributes: this.customAttributes,
+      });
+    },
   },
   watch: {
     inbox() {
@@ -76,25 +118,26 @@ export default {
   },
   methods: {
     setDefaults() {
-      const {
-        pre_chat_form_enabled: preChatFormEnabled,
-        pre_chat_form_options: preChatFormOptions,
-      } = this.inbox;
+      const { pre_chat_form_enabled: preChatFormEnabled } = this.inbox;
       this.preChatFormEnabled = preChatFormEnabled;
-      const { pre_chat_message: preChatMessage, require_email: requireEmail } =
-        preChatFormOptions || {};
+      const {
+        pre_chat_message: preChatMessage,
+        pre_chat_fields: preChatFields,
+      } = this.preChatFieldOptions || {};
       this.preChatMessage = preChatMessage;
-      if (requireEmail) {
-        this.preChatFieldOptions = ['requireEmail'];
-      }
+      this.preChatFields = preChatFields;
     },
-    handlePreChatFieldOptions(event) {
-      if (this.preChatFieldOptions.includes(event.target.value)) {
-        this.preChatFieldOptions = [];
-      } else {
-        this.preChatFieldOptions = [event.target.value];
-      }
+    isFieldEditable(item) {
+      return !!standardFieldKeys[item.name] || !item.enabled;
     },
+    handlePreChatFieldOptions(event, type, item) {
+      this.preChatFields.forEach((field, index) => {
+        if (field.name === item.name) {
+          this.preChatFields[index][type] = !item[type];
+        }
+      });
+    },
+
     async updateInbox() {
       try {
         const payload = {
@@ -104,7 +147,7 @@ export default {
             pre_chat_form_enabled: this.preChatFormEnabled,
             pre_chat_form_options: {
               pre_chat_message: this.preChatMessage,
-              require_email: this.preChatFieldOptions.includes('requireEmail'),
+              pre_chat_fields: this.preChatFields,
             },
           },
         };
@@ -117,12 +160,11 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .settings--content {
   font-size: var(--font-size-default);
 }
-
-.prechat--title {
+.pre-chat--title {
   margin: var(--space-medium) 0 var(--space-slab);
 }
 </style>

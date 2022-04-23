@@ -162,7 +162,7 @@ describe ::Contacts::FilterService do
         expected_count = Contact.where("created_at < ? AND custom_attributes->>'customer_type' = ?", Date.tomorrow, 'platinum').count
 
         expect(result[:contacts].length).to be expected_count
-        expect(result[:contacts].first.id).to eq(el_contact.id)
+        expect(result[:contacts].pluck(:id)).to include(el_contact.id)
       end
 
       context 'with x_days_before filter' do

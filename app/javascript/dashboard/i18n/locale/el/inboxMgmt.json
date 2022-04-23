@@ -462,7 +462,8 @@
         "HOURS": "ώρες",
         "VALIDATION_ERROR": "Ο χρόνος έναρξης πρέπει να είναι πριν το χρόνο λήξης.",
         "CHOOSE": "Επιλέξτε"
-      }
+      },
+      "ALL_DAY": "Όλη Την Ημέρα"
     },
     "IMAP": {
       "TITLE": "IMAP",
@@ -521,7 +522,11 @@
       "DOMAIN": {
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
-      }
+      },
+      "ENCRYPTION": "Κρυπτογράφηση",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL"
     }
   }
 }

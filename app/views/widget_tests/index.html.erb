@@ -14,10 +14,12 @@
 
 window.chatwootSettings = {
   hideMessageBubble: false,
-  position: 'left',
+  position: '<%= @widget_position %>',
   locale: 'en',
-  type: 'expanded_bubble',
+  type: '<%= @widget_type %>',
   showPopoutButton: true,
+  widgetStyle: '<%= @widget_style %>',
+  darkMode: '<%= @dark_mode %>',
 };
 
 (function(d,t) {
@@ -36,7 +38,7 @@ window.chatwootSettings = {
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-  console.log(window.$chatwoot);
+  console.log('chatwoot:ready', window.$chatwoot);
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
@@ -45,5 +47,9 @@ window.addEventListener('chatwoot:ready', function() {
       phone_number: ''
     });
   }
+})
+
+window.addEventListener('chatwoot:error', function(e) {
+  console.log('chatwoot:error', e.detail)
 })
 </script>

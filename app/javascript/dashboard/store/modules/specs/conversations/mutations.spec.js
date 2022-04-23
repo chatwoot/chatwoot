@@ -120,7 +120,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).toHaveBeenCalledWith('scrollToMessage');
+      expect(global.bus.$emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 
     it('update message if it exist in the store', () => {
@@ -185,6 +185,18 @@ describe('#mutations', () => {
           status: 'resolved',
         },
       ]);
+    });
+
+    describe('#SET_CONVERSATION_LAST_SEEN', () => {
+      it('sets conversation last seen timestamp', () => {
+        const state = {
+          conversationLastSeen: null,
+        };
+
+        mutations[types.SET_CONVERSATION_LAST_SEEN](state, 1649856659);
+
+        expect(state.conversationLastSeen).toEqual(1649856659);
+      });
     });
 
     describe('#UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES', () => {

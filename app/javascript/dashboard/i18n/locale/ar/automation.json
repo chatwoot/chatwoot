@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "تعديل قاعدة الأتمتة",
-      "SUBMIT": "تعديل",
+      "SUBMIT": "تحديث",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "API": {
         "SUCCESS_MESSAGE": "تم تحديث قاعدة الأتمتة بنجاح",
@@ -84,6 +84,24 @@
       "DELETE": "حذف",
       "CANCEL": "إلغاء",
       "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "تفعيل قاعدة الأتمتة",
+      "DEACTIVATION_TITLE": "تغطيل قاعدة الأتمتة",
+      "ACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "DEACTIVATION_DESCRIPTION": "سيؤدي هذا الإجراء إلى إلغاء تنشيط قاعدة الأتمتة '{automationName}'. هل أنت متأكد من أنك تريد المتابعة؟",
+      "ACTIVATION_SUCCESFUL": "تم تفعيل قاعدة الأتمتة بنجاح",
+      "DEACTIVATION_SUCCESFUL": "تم تعطيل قاعدة الأتمتة بنجاح",
+      "ACTIVATION_ERROR": "تعذر تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "DEACTIVATION_ERROR": "تعذر إلغاء تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
+      "CONFIRMATION_LABEL": "نعم",
+      "CANCEL_LABEL": "لا"
     }
   }
 }

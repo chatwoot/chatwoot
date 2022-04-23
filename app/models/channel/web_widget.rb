@@ -4,7 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  continuity_via_email  :boolean          default(TRUE), not null
-#  feature_flags         :integer          default(3), not null
+#  feature_flags         :integer          default(7), not null
 #  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  pre_chat_form_enabled :boolean          default(FALSE)
@@ -32,9 +32,13 @@ class Channel::WebWidget < ApplicationRecord
   self.table_name = 'channel_web_widgets'
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
                     :continuity_via_email, :hmac_mandatory,
-                    { pre_chat_form_options: [:pre_chat_message, :require_email] },
+                    { pre_chat_form_options: [:pre_chat_message, :require_email,
+                                              { pre_chat_fields:
+                                                [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
+                                                 :locale, { values: [] }] }] },
                     { selected_feature_flags: [] }].freeze
 
+  before_validation :validate_pre_chat_options
   validates :website_url, presence: true
   validates :widget_color, presence: true
 
@@ -43,6 +47,7 @@ class Channel::WebWidget < ApplicationRecord
 
   has_flags 1 => :attachments,
             2 => :emoji_picker,
+            3 => :end_conversation,
             :column => 'feature_flags',
             :check_for_column => false
 
@@ -73,6 +78,25 @@ class Channel::WebWidget < ApplicationRecord
     "
   end
 
+  def validate_pre_chat_options
+    return if pre_chat_form_options.with_indifferent_access['pre_chat_fields'].present?
+
+    self.pre_chat_form_options = {
+      pre_chat_message: 'Share your queries or comments here.',
+      pre_chat_fields: [
+        {
+          'field_type': 'standard', 'label': 'Email Id', 'name': 'emailAddress', 'type': 'email', 'required': true, 'enabled': false
+        },
+        {
+          'field_type': 'standard', 'label': 'Full name', 'name': 'fullName', 'type': 'text', 'required': false, 'enabled': false
+        },
+        {
+          'field_type': 'standard', 'label': 'Phone number', 'name': 'phoneNumber', 'type': 'text', 'required': false, 'enabled': false
+        }
+      ]
+    }
+  end
+
   def create_contact_inbox(additional_attributes = {})
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(
@@ -86,7 +110,7 @@ class Channel::WebWidget < ApplicationRecord
       )
       contact_inbox
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
     end
   end
 end

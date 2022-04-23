@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Підтвердження видалення",
       "MESSAGE": "Справді бажаєте видалити ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Так, видалити ",
-      "NO": "No, Keep "
+      "YES": "Так, видалити",
+      "NO": "Ні, залишити"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",

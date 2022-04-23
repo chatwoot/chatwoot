@@ -9,6 +9,13 @@
       />
     </span>
     <fluent-icon
+      v-if="messageRead"
+      v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
+      icon="checkmark-double"
+      class="action--icon read-tick"
+      size="12"
+    />
+    <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
       icon="mail"
@@ -19,20 +26,35 @@
       v-if="isPrivate"
       v-tooltip.top-start="$t('CONVERSATION.VISIBLE_TO_AGENTS')"
       icon="lock-closed"
-      class="action--icon"
+      class="action--icon lock--icon--private"
       size="16"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
-    <button @click="onTweetReply">
+    <button
+      v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
+      @click="onTweetReply"
+    >
       <fluent-icon
-        v-if="isATweet && (isIncoming || isOutgoing) && sourceId"
         v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
         icon="arrow-reply"
         class="action--icon cursor-pointer"
         size="16"
       />
     </button>
+    <a
+      v-if="hasInstagramStory && (isIncoming || isOutgoing) && linkToStory"
+      :href="linkToStory"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.LINK_TO_STORY')"
+        icon="open"
+        class="action--icon cursor-pointer"
+        size="16"
+      />
+    </a>
     <a
       v-if="isATweet && (isOutgoing || isIncoming) && linkToTweet"
       :href="linkToTweet"
@@ -65,6 +87,14 @@ export default {
       type: String,
       default: '',
     },
+    storySender: {
+      type: String,
+      default: '',
+    },
+    storyId: {
+      type: String,
+      default: '',
+    },
     isEmail: {
       type: Boolean,
       default: true,
@@ -74,6 +104,10 @@ export default {
       default: true,
     },
     isATweet: {
+      type: Boolean,
+      default: true,
+    },
+    hasInstagramStory: {
       type: Boolean,
       default: true,
     },
@@ -92,6 +126,10 @@ export default {
     inboxId: {
       type: [String, Number],
       default: 0,
+    },
+    messageRead: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -117,6 +155,13 @@ export default {
       return `https://twitter.com/${screenName ||
         this.inbox.name}/status/${sourceId}`;
     },
+    linkToStory() {
+      if (!this.storyId || !this.storySender) {
+        return '';
+      }
+      const { storySender, storyId } = this;
+      return `https://www.instagram.com/stories/${storySender}/${storyId}`;
+    },
     showSentIndicator() {
       return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
     },
@@ -137,10 +182,18 @@ export default {
     .time {
       color: var(--w-100);
     }
-  }
 
-  .action--icon {
-    color: var(--white);
+    .action--icon {
+      &.read-tick {
+        color: var(--v-100);
+        margin-top: calc(var(--space-micro) + var(--space-micro) / 2);
+      }
+      color: var(--white);
+    }
+
+    .lock--icon--private {
+      color: var(--s-400);
+    }
   }
 }
 
@@ -205,7 +258,7 @@ export default {
 
 .is-private {
   .message-text--metadata {
-    align-items: flex-end;
+    align-items: center;
 
     .time {
       color: var(--s-400);
