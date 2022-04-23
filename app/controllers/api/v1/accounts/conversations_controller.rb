@@ -61,6 +61,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
+    assign_conversation if @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
   end
 
   def toggle_typing_status
@@ -91,6 +92,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     status = params[:status] == 'bot' ? 'pending' : params[:status]
     @conversation.status = status
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
+  end
+
+  def assign_conversation
+    @agent = Current.account.users.find(current_user.id)
+    @conversation.update_assignee(@agent)
   end
 
   def trigger_typing_event(event, is_private)

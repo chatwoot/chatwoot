@@ -18,11 +18,37 @@
     font-size: $font-size-small;
     font-weight: $font-weight-bold;
     color: $color-heading;
+    display: flex;
+    align-items: center;
+  }
+
+  .info-icon {
+    color: var(--b-400);
+    margin-left: var(--space-micro);
+  }
+
+  .metric-wrap {
+    align-items: baseline;
+    display: flex;
   }
 
   .metric {
-    font-size: $font-size-bigger;
+    font-size: $font-size-big;
     font-weight: $font-weight-feather;
+    margin-top: $space-smaller;
+  }
+
+  .metric-trend {
+    font-size: $font-size-small;
+    margin-left: $space-small;
+  }
+
+  .metric-up {
+    color: $success-color;
+  }
+
+  .metric-down {
+    color: $alert-color;
   }
 
   .desc {
@@ -51,6 +77,11 @@
       @include margin($space-jumbo);
       font-size: $font-size-default;
       color: $color-gray;
+    }
+
+    .business-hours {
+      margin: $space-normal;
+      text-align: center;
     }
   }
 }

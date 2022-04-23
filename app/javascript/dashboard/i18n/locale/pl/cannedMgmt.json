@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Dodaj Gotową odpowiedź",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Gotowe odpowiedzi są zapisanymi szablonami odpowiedzi, które mogą być użyte do szybkiego wysyłania odpowiedzi do konwersacji.",
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Krótki kod",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Wprowadź krótki kod",
           "ERROR": "Krótki kod jest wymagany"
         },
         "CONTENT": {

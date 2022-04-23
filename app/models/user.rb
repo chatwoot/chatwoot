@@ -2,35 +2,34 @@
 #
 # Table name: users
 #
-#  id                        :integer          not null, primary key
-#  availability              :integer          default("online")
-#  confirmation_sent_at      :datetime
-#  confirmation_token        :string
-#  confirmed_at              :datetime
-#  current_sign_in_at        :datetime
-#  current_sign_in_ip        :string
-#  custom_attributes         :jsonb
-#  display_name              :string
-#  email                     :string
-#  encrypted_password        :string           default(""), not null
-#  last_sign_in_at           :datetime
-#  last_sign_in_ip           :string
-#  message_signature         :text
-#  message_signature_enabled :boolean          default(FALSE), not null
-#  name                      :string           not null
-#  provider                  :string           default("email"), not null
-#  pubsub_token              :string
-#  remember_created_at       :datetime
-#  reset_password_sent_at    :datetime
-#  reset_password_token      :string
-#  sign_in_count             :integer          default(0), not null
-#  tokens                    :json
-#  type                      :string
-#  ui_settings               :jsonb
-#  uid                       :string           default(""), not null
-#  unconfirmed_email         :string
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id                     :integer          not null, primary key
+#  availability           :integer          default("online")
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string
+#  custom_attributes      :jsonb
+#  display_name           :string
+#  email                  :string
+#  encrypted_password     :string           default(""), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string
+#  message_signature      :text
+#  name                   :string           not null
+#  provider               :string           default("email"), not null
+#  pubsub_token           :string
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  sign_in_count          :integer          default(0), not null
+#  tokens                 :json
+#  type                   :string
+#  ui_settings            :jsonb
+#  uid                    :string           default(""), not null
+#  unconfirmed_email      :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 # Indexes
 #
@@ -109,7 +108,9 @@ class User < ApplicationRecord
   end
 
   def current_account_user
-    account_users.find_by(account_id: Current.account.id) if Current.account
+    # We want to avoid subsequent queries in case where the association is preloaded.
+    # using where here will trigger n+1 queries.
+    account_users.find { |ac_usr| ac_usr.account_id == Current.account.id } if Current.account
   end
 
   def available_name
@@ -185,5 +186,12 @@ class User < ApplicationRecord
   # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
   def will_save_change_to_email?
     mutations_from_database.changed?('email')
+  end
+
+  def notifications_meta(account_id)
+    {
+      unread_count: notifications.where(account_id: account_id, read_at: nil).count,
+      count: notifications.where(account_id: account_id).count
+    }
   end
 end

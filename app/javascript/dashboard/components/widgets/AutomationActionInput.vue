@@ -7,7 +7,8 @@
       <select
         v-model="action_name"
         class="action__question"
-        @change="resetFilter()"
+        :class="{ 'full-width': !showActionInput }"
+        @change="resetAction()"
       >
         <option
           v-for="attribute in actionTypes"
@@ -17,20 +18,39 @@
           {{ attribute.label }}
         </option>
       </select>
-      <div class="filter__answer--wrap">
-        <div class="multiselect-wrap--small">
-          <multiselect
+      <div v-if="showActionInput" class="filter__answer--wrap">
+        <div v-if="inputType">
+          <div
+            v-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="'Select'"
+              :multiple="true"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+            />
+          </div>
+          <input
+            v-else-if="inputType === 'email'"
             v-model="action_params"
-            track-by="id"
-            label="name"
-            :placeholder="'Select'"
-            :multiple="true"
-            selected-label
-            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-            deselect-label=""
-            :max-height="160"
-            :options="dropdownValues"
-            :allow-empty="false"
+            type="email"
+            class="answer--text-input"
+            placeholder="Enter email"
+          />
+          <input
+            v-else-if="inputType === 'url'"
+            v-model="action_params"
+            type="url"
+            class="answer--text-input"
+            placeholder="Enter url"
           />
         </div>
       </div>
@@ -41,6 +61,18 @@
         @click="removeAction"
       />
     </div>
+    <automation-action-team-message-input
+      v-if="inputType === 'team_message'"
+      v-model="action_params"
+      :teams="dropdownValues"
+    />
+    <textarea
+      v-if="inputType === 'textarea'"
+      v-model="action_params"
+      rows="4"
+      :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
+      class="action-message"
+    ></textarea>
     <p
       v-if="v.action_params.$dirty && v.action_params.$error"
       class="filter-error"
@@ -51,7 +83,11 @@
 </template>
 
 <script>
+import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 export default {
+  components: {
+    AutomationActionTeamMessageInput,
+  },
   props: {
     value: {
       type: Object,
@@ -68,6 +104,10 @@ export default {
     v: {
       type: Object,
       default: () => null,
+    },
+    showActionInput: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
@@ -91,13 +131,17 @@ export default {
         this.$emit('input', { ...payload, action_params: value });
       },
     },
+    inputType() {
+      return this.actionTypes.find(action => action.key === this.action_name)
+        .inputType;
+    },
   },
   methods: {
     removeAction() {
       this.$emit('removeAction');
     },
-    resetFilter() {
-      this.$emit('resetFilter');
+    resetAction() {
+      this.$emit('resetAction');
     },
   },
 };
@@ -134,6 +178,10 @@ export default {
 
 .action__question {
   max-width: 50%;
+}
+
+.action__question.full-width {
+  max-width: 100%;
 }
 
 .filter__answer--wrap {
@@ -178,5 +226,8 @@ export default {
 
 .multiselect {
   margin-bottom: var(--space-zero);
+}
+.action-message {
+  margin: var(--space-small) 0 0;
 }
 </style>

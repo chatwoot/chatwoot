@@ -132,6 +132,7 @@ describe('#actions', () => {
             root: true,
           },
         ],
+        ['setCampaignExecuted', true],
         ['setActiveCampaign', {}],
         [
           'conversation/setConversationUIFlag',
@@ -176,7 +177,10 @@ describe('#actions', () => {
     it('sends correct actions if  execute campaign API is success', async () => {
       API.post.mockResolvedValue({});
       await actions.resetCampaign({ commit });
-      expect(commit.mock.calls).toEqual([['setActiveCampaign', {}]]);
+      expect(commit.mock.calls).toEqual([
+        ['setCampaignExecuted', false],
+        ['setActiveCampaign', {}],
+      ]);
     });
   });
 });

@@ -1,27 +1,27 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
+    "HEADER_BTN_TXT": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
+    "LOADING": "กำลังดึงแอตทริบิวต์ที่กำหนดเอง",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
       "SUBMIT": "สร้าง",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "แสดงรายชื่อ",
+          "PLACEHOLDER": "กำหนดชื่อที่ต้องการให้แสดงผล",
+          "ERROR": "โปรดระบุชื่อ"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "LABEL": "คำอธิบาย",
+          "PLACEHOLDER": "รายละเอียดของแอตทริบิวต์",
+          "ERROR": "โปรดระบุคำอธิบาย"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
+          "LABEL": "นำไปใช้",
+          "PLACEHOLDER": "กรุณาเลือกประเภท",
           "ERROR": "Model is required"
         },
         "TYPE": {
@@ -29,9 +29,9 @@
           "PLACEHOLDER": "กรุณาเลือกประเภท",
           "ERROR": "Type is required",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "รายการ",
+            "PLACEHOLDER": "โปรดระบุ Value และ Key",
+            "ERROR": "โปรดระบุ Value"
           }
         },
         "KEY": {
@@ -65,7 +65,7 @@
       "UPDATE_BUTTON_TEXT": "อัพเดท",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
+          "LABEL": "รายการ",
           "PLACEHOLDER": "Please enter values and press enter key"
         }
       },

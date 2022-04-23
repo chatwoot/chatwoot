@@ -12,6 +12,7 @@
       'is-mobile': isMobile,
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
+      'is-flat-design': isWidgetStyleFlat,
     }"
   >
     <router-view></router-view>
@@ -61,6 +62,7 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -136,27 +138,31 @@ export default {
       }
     },
     registerUnreadEvents() {
-      bus.$on(ON_AGENT_MESSAGE_RECEIVED, this.setUnreadView);
+      bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
+        const { name: routeName } = this.$route;
+        if (this.isWidgetOpen && routeName === 'messages') {
+          this.$store.dispatch('conversation/setUserLastSeen');
+        }
+        this.setUnreadView();
+      });
       bus.$on(ON_UNREAD_MESSAGE_CLICK, () => {
         this.replaceRoute('messages').then(() => this.unsetUnreadView());
       });
     },
     registerCampaignEvents() {
       bus.$on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
-        const showPreChatForm =
-          this.preChatFormEnabled && this.preChatFormOptions.requireEmail;
-        const isUserEmailAvailable = !!this.currentUser.email;
-        if (showPreChatForm && !isUserEmailAvailable) {
+        if (this.shouldShowPreChatForm) {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');
-          bus.$emit('execute-campaign', this.activeCampaign.id);
+          bus.$emit('execute-campaign', { campaignId: this.activeCampaign.id });
         }
         this.unsetUnreadView();
       });
-      bus.$on('execute-campaign', campaignId => {
+      bus.$on('execute-campaign', campaignDetails => {
+        const { customAttributes, campaignId } = campaignDetails;
         const { websiteToken } = window.chatwootWebChannel;
-        this.executeCampaign({ campaignId, websiteToken });
+        this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
     },
@@ -173,6 +179,7 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
+
       if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
         this.replaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);

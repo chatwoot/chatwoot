@@ -6,7 +6,7 @@
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
     "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
+      "404": "Na tym koncie nie ma żadnych etykiet.",
       "TITLE": "Zarządzaj etykietami",
       "DESC": "Etykiety pozwalają na grupowanie rozmów razem.",
       "TABLE_HEADER": [
@@ -18,14 +18,14 @@
     "FORM": {
       "NAME": {
         "LABEL": "Nazwa etykiety",
-        "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label name is required",
+        "PLACEHOLDER": "Nazwa etykiety",
+        "REQUIRED_ERROR": "Nazwa etykiety jest wymagana",
         "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
         "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "Opis",
-        "PLACEHOLDER": "Label Description"
+        "PLACEHOLDER": "Opis etykiety"
       },
       "COLOR": {
         "LABEL": "Kolor"

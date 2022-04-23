@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Anda dapat menerima email di domain kustom Anda sekarang."
       }
     },
-    "UPDATE_CHATWOOT": "Pembaharuan Chatwoot %{latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda."
+    "UPDATE_CHATWOOT": "Pembaharuan Chatwoot %{latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {

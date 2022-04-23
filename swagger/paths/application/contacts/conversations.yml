@@ -1,6 +1,6 @@
 get:
   tags:
-    - Contact
+    - Contacts
   operationId: contactConversations
   summary: Contact Conversations
   description: Get conversations associated to that contact

@@ -1,41 +1,41 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automazione",
+    "HEADER": "Automazioni",
     "HEADER_BTN_TXT": "Aggiungi regola di automazione",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "LOADING": "Recupero delle regole di automazione",
+    "SIDEBAR_TXT": "<p><b>Regole di automazione</b> <p>L'automazione può sostituire e automatizzare i processi esistenti che richiedono uno sforzo manuale. È possibile fare molte cose con l'automazione, tra cui l'aggiunta di etichette e l'assegnazione di una conversazione al miglior agente. Così il team si concentra su quello che fanno meglio e spende meno tempo per le attività manuali.</p>",
     "ADD": {
       "TITLE": "Aggiungi regola di automazione",
       "SUBMIT": "Crea",
       "CANCEL_BUTTON_TEXT": "annulla",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Nome regola",
+          "PLACEHOLDER": "Inserisci il nome della regola",
           "ERROR": "Il nome è obbligatorio"
         },
         "DESC": {
           "LABEL": "Descrizione",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Inserisci la descrizione della regola",
           "ERROR": "La descrizione è obbligatoria"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "Evento",
+          "PLACEHOLDER": "Si prega di selezionarne uno",
+          "ERROR": "L'evento è obbligatorio"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Condizioni"
         },
         "ACTIONS": {
           "LABEL": "Azioni"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Aggiungi condizione",
+      "ACTION_BUTTON_LABEL": "Aggiungi azione",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regola di automazione aggiunta con successo",
+        "ERROR_MESSAGE": "Impossibile creare una regola di automazione, riprova più tardi"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "Nome",
         "Descrizione",
         "Attivo",
-        "Created on"
+        "Creato il"
       ],
-      "404": "No automation rules found"
+      "404": "Nessuna regola di automazione trovata"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Elimina regola di automazione",
       "SUBMIT": "Elimina",
       "CANCEL_BUTTON_TEXT": "annulla",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "No, Conserva "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regola di automazione eliminata con successo",
+        "ERROR_MESSAGE": "Impossibile eliminare una regola di automazione, riprova più tardi"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Modifica",
+      "TITLE": "Modifica regola di automazione",
+      "SUBMIT": "Aggiorna",
       "CANCEL_BUTTON_TEXT": "annulla",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regola di automazione aggiornata con successo",
+        "ERROR_MESSAGE": "Impossibile aggiornare la regola di automazione, riprova più tardi"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Clona",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automazione clonata con successo",
+        "ERROR_MESSAGE": "Impossibile clonare la regola di automazione, riprova più tardi"
       }
     },
     "FORM": {
@@ -83,7 +83,25 @@
       "CREATE": "Crea",
       "DELETE": "Elimina",
       "CANCEL": "annulla",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Cambiare il tipo di evento resetterà le condizioni e gli eventi che hai aggiunto di seguito"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "È necessario avere almeno una condizione per salvare"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Attiva regola di automazione",
+      "DEACTIVATION_TITLE": "Disattiva regola di automazione",
+      "ACTIVATION_DESCRIPTION": "Questa azione attiverà la regola di automazione '{automationName}'. Sei sicuro di voler procedere?",
+      "DEACTIVATION_DESCRIPTION": "Questa azione disattiverà la regola di automazione '{automationName}'. Sei sicuro di voler procedere?",
+      "ACTIVATION_SUCCESFUL": "Regola di automazione attivata con successo",
+      "DEACTIVATION_SUCCESFUL": "Regola di automazione disattivata con successo",
+      "ACTIVATION_ERROR": "Impossibile attivare l'automazione, riprova più tardi",
+      "DEACTIVATION_ERROR": "Impossibile disattivare l'automazione, riprova più tardi",
+      "CONFIRMATION_LABEL": "Sì",
+      "CANCEL_LABEL": "No"
     }
   }
 }

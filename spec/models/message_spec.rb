@@ -105,4 +105,40 @@ RSpec.describe Message, type: :model do
       expect(message.content_type).to eq 'text'
     end
   end
+
+  context 'when email notifiable message' do
+    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+
+    it 'return false if private message' do
+      message.private = true
+      message.message_type = 'outgoing'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if incoming message' do
+      message.private = false
+      message.message_type = 'incoming'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if activity message' do
+      message.private = false
+      message.message_type = 'activity'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if message type is template and content type is not input_csat or text' do
+      message.private = false
+      message.message_type = 'template'
+      message.content_type = 'incoming_email'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return true if not private and not incoming and message content type is input_csat or text' do
+      message.private = false
+      message.message_type = 'template'
+      message.content_type = 'text'
+      expect(message.email_notifiable_message?).to be true
+    end
+  end
 end

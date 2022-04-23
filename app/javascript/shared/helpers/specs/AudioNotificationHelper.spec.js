@@ -17,7 +17,7 @@ describe('shouldPlayAudio', () => {
         message_type: 0,
         private: false,
       };
-      const [conversationId, userId, isDocHiddden] = [1, 2, false];
+      const [conversationId, userId, isDocHiddden] = [1, 2, true];
       const result = shouldPlayAudio(
         message,
         conversationId,
