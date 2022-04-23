@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "عنوان البريد الإلكتروني",
         "PLACEHOLDER": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "عنوان البريد الإلكتروني مطلوب",
         "VALID_ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
       },
       "PHONE_NUMBER": {
         "LABEL": "رقم الهاتف",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
+        "REQUIRED_ERROR": "رقم الهاتف مطلوب",
+        "VALID_ERROR": "يجب أن يكون رقم الهاتف من E.164 مثال: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "رسالة",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "مطلوب"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
