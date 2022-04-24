@@ -22,14 +22,18 @@ class Webhook < ApplicationRecord
 
   validates :account_id, presence: true
   validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
-  before_save :ensure_webhook_subscriptions
-
+  validate :validate_webhook_subscriptions
   enum webhook_type: { account: 0, inbox: 1 }
+
+  ALLOWED_WEBHOOK_EVENTS = %w[conversation_status_changed conversation_updated conversation_created message_created message_updated
+                              webwidget_triggered].freeze
 
   private
 
-  def ensure_webhook_subscriptions
-    invalid_subscriptions = !subscriptions.instance_of?(Array) || subscriptions.blank?
-    errors.add(:subscriptions, 'Subscriptions should not be empty') if invalid_subscriptions
+  def validate_webhook_subscriptions
+    invalid_subscriptions = !subscriptions.instance_of?(Array) ||
+                            subscriptions.blank? ||
+                            (subscriptions.uniq - ALLOWED_WEBHOOK_EVENTS).length.positive?
+    errors.add(:subscriptions, I18n.t('errors.webhook.invalid')) if invalid_subscriptions
   end
 end
