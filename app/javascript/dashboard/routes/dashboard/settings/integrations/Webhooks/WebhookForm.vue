@@ -40,7 +40,7 @@
           :disabled="$v.$invalid || isSubmitting"
           :is-loading="isSubmitting"
         >
-          {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.ADD_SUBMIT') }}
+          {{ submitLabel }}
         </woot-button>
         <woot-button class="button clear" @click.prevent="$emit('cancel')">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.CANCEL') }}
@@ -73,6 +73,10 @@ export default {
     isSubmitting: {
       type: Boolean,
       default: false,
+    },
+    submitLabel: {
+      type: String,
+      required: true,
     },
   },
   validations: {

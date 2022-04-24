@@ -22,7 +22,7 @@
           "PLACEHOLDER": "Example: https://example/api/webhook",
           "ERROR": "Please enter a valid URL"
         },
-        "EDIT_SUBMIT": "Edit webhook",
+        "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
       },
       "TITLE": "Webhook",
@@ -61,7 +61,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Yes, Delete ",
           "NO": "No, Keep it"
         }

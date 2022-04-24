@@ -6,6 +6,7 @@
     <webhook-form
       :value="value"
       :is-submitting="uiFlags.updatingItem"
+      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
       @submit="onSubmit"
       @cancel="onClose"
     />
