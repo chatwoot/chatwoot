@@ -1,22 +1,4 @@
 class WebhookListener < BaseListener
-  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
-  def conversation_resolved(event)
-    conversation = extract_conversation_and_account(event)[0]
-    changed_attributes = extract_changed_attributes(event)
-    inbox = conversation.inbox
-    payload = conversation.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
-    deliver_webhook_payloads(payload, inbox)
-  end
-
-  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
-  def conversation_opened(event)
-    conversation = extract_conversation_and_account(event)[0]
-    changed_attributes = extract_changed_attributes(event)
-    inbox = conversation.inbox
-    payload = conversation.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
-    deliver_webhook_payloads(payload, inbox)
-  end
-
   def conversation_status_changed(event)
     conversation = extract_conversation_and_account(event)[0]
     changed_attributes = extract_changed_attributes(event)
@@ -74,6 +56,8 @@ class WebhookListener < BaseListener
   def deliver_webhook_payloads(payload, inbox)
     # Account webhooks
     inbox.account.webhooks.account.each do |webhook|
+      next unless webhook.subscriptions.include?(payload[:event])
+
       WebhookJob.perform_later(webhook.url, payload)
     end
 

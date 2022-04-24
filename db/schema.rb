@@ -763,7 +763,7 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
-    t.jsonb "subscriptions", default: ["conversation.status_changed", "conversation.updated", "conversation.created", "message.created", "message.updated", "webwidget.triggered"]
+    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "message_created", "message_updated", "webwidget_triggered"]
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

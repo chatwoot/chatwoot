@@ -40,9 +40,8 @@
       "EDIT": {
         "BUTTON_TEXT": "Edit",
         "TITLE": "Edit webhook",
-
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
         }
       },
@@ -50,7 +49,7 @@
         "CANCEL": "Cancel",
         "TITLE": "Add new webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
         }
       },

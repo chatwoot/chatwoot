@@ -55,12 +55,12 @@ import { required, url, minLength } from 'vuelidate/lib/validators';
 import webhookMixin from './webhookMixin';
 
 const SUPPORTED_WEBHOOK_EVENTS = [
-  'conversation.created',
-  'conversation.status_changed',
-  'conversation.updated',
-  'message.created',
-  'message.updated',
-  'webwidget.triggered',
+  'conversation_created',
+  'conversation_status_changed',
+  'conversation_updated',
+  'message_created',
+  'message_updated',
+  'webwidget_triggered',
 ];
 
 export default {
