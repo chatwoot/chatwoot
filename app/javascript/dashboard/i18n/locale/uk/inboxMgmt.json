@@ -373,7 +373,7 @@
         "MESSAGE": "Справді бажаєте видалити ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Так, видалити ",
-        "NO": "No, Keep "
+        "NO": "Ні, залишити "
       },
       "API": {
         "SUCCESS_MESSAGE": "Скриньку успішно видалено",
