@@ -128,6 +128,15 @@ describe AutomationRuleListener do
         expect(conversation.messages.first.content).to eq('Send this message.')
       end
 
+      it 'triggers automation rule to mute conversation' do
+        expect(conversation).not_to be_muted
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation).to be_muted
+      end
+
       it 'triggers automation_rule with contact standard attributes' do
         automation_rule.update!(
           conditions: [

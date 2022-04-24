@@ -76,6 +76,14 @@ export const actions = {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: false });
     }
   },
+  uploadAttachment: async (_, file) => {
+    try {
+      const { data } = await AutomationAPI.attachment(file);
+      return data.blob_id;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export const mutations = {
