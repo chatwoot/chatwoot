@@ -55,7 +55,7 @@
         "TITLE": "Підтвердження видалення",
         "MESSAGE": "Справді бажаєте видалити ",
         "YES": "Так, видалити ",
-        "NO": "No, Keep "
+        "NO": "Ні, залишити "
       }
     },
     "EDIT": {
@@ -90,12 +90,12 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Результатів не знайдено."
     },
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Нiчого",
       "TITLE": {
-        "AGENT": "Select agent",
+        "AGENT": "Виберіть агента",
         "TEAM": "Виберіть команду"
       },
       "SEARCH": {
