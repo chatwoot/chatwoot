@@ -73,7 +73,7 @@ export default {
 }
 
 .button-wrapper {
-  max-width: 10rem;
+  max-width: var(--space-mega);
   min-width: auto;
 
   button:nth-child(2) {
