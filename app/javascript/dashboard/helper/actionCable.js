@@ -23,6 +23,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'contact.updated': this.onContactUpdate,
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
+      'first.reply.created': this.onFirstReplyCreated,
     };
   }
 
@@ -122,6 +123,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   fetchConversationStats = () => {
     bus.$emit('fetch_conversation_stats');
+    bus.$emit('fetch_overview_reports');
   };
 
   onContactDelete = data => {
@@ -138,6 +140,11 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onNotificationCreated = data => {
     this.app.$store.dispatch('notifications/addNotification', data);
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  onFirstReplyCreated = data => {
+    bus.$emit('fetch_overview_reports');
   };
 }
 

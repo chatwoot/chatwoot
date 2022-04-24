@@ -23,6 +23,14 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data)
   end
 
+  def first_reply_created(event)
+    message, account = extract_message_and_account(event)
+    conversation = message.conversation
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, FIRST_REPLY_CREATED, message.push_event_data)
+  end
+
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
