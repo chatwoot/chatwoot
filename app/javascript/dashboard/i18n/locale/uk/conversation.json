@@ -190,13 +190,13 @@
     },
     "ATTRIBUTE_SELECT": {
       "TITLE": "Додати атрибут",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "PLACEHOLDER": "Атрибути пошуку",
+      "NO_RESULT": "Атрибути не знайдено"
     }
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "Для",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
