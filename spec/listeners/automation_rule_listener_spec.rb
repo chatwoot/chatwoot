@@ -10,9 +10,6 @@ describe AutomationRuleListener do
   let(:team) { create(:team, account: account) }
   let(:user_1) { create(:user, role: 0) }
   let(:user_2) { create(:user, role: 0) }
-  let!(:event) do
-    Events::Base.new('conversation_status_changed', Time.zone.now, { conversation: conversation })
-  end
 
   before do
     create(:custom_attribute_definition,
@@ -30,16 +27,16 @@ describe AutomationRuleListener do
     automation_rule.update!(actions:
                                       [
                                         {
-                                          'action_name' => 'send_email_to_team', 'action_params' => {
+                                          'action_name' => 'send_email_to_team', 'action_params' => [{
                                             'message' => 'Please pay attention to this conversation, its from high priority customer',
                                             'team_ids' => [team.id]
-                                          }
+                                          }]
                                         },
                                         { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                         { 'action_name' => 'send_webhook_event', 'action_params' => ['https://www.example.com'] },
                                         { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
-                                        { 'action_name' => 'send_email_transcript', 'action_params' => 'new_agent@example.com' },
+                                        { 'action_name' => 'send_email_transcript', 'action_params' => ['new_agent@example.com'] },
                                         { 'action_name' => 'mute_conversation', 'action_params' => nil },
                                         { 'action_name' => 'change_status', 'action_params' => ['snoozed'] },
                                         { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
@@ -70,6 +67,12 @@ describe AutomationRuleListener do
             attribute_key: 'customer_type',
             filter_operator: 'equal_to',
             values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'inbox_id',
+            filter_operator: 'equal_to',
+            values: [inbox.id],
             query_operator: nil
           }.with_indifferent_access
         ]
@@ -104,7 +107,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send email transcript to the mentioned email' do
         mailer = double
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -116,13 +119,22 @@ describe AutomationRuleListener do
       it 'triggers automation rule send message to the contacts' do
         expect(conversation.messages).to be_empty
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
         conversation.reload
 
         expect(conversation.messages.first.content).to eq('Send this message.')
+      end
+
+      it 'triggers automation rule to mute conversation' do
+        expect(conversation).not_to be_muted
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation).to be_muted
       end
 
       it 'triggers automation_rule with contact standard attributes' do
@@ -148,6 +160,40 @@ describe AutomationRuleListener do
 
         conversation.reload
         expect(conversation.team_id).to eq(team.id)
+      end
+    end
+
+    context 'when inbox condition does not match' do
+      let!(:inbox_1) { create(:inbox, account: account) }
+      let!(:event) do
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+      end
+
+      before do
+        automation_rule.update!(
+          event_name: 'conversation_updated',
+          name: 'Call actions conversation updated',
+          description: 'Add labels, assign team after conversation updated',
+          conditions: [
+            {
+              attribute_key: 'inbox_id',
+              filter_operator: 'equal_to',
+              values: [inbox_1.id],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+      end
+
+      it 'triggers automation rule would not send message to the contacts' do
+        expect(conversation.messages.count).to eq(0)
+        expect(conversation.messages).to be_empty
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(0)
       end
     end
   end
@@ -202,7 +248,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -214,7 +260,7 @@ describe AutomationRuleListener do
       it 'triggers automation rule send email to the team' do
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
       end
@@ -224,7 +270,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_updated)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.conversation_updated(event)
 
@@ -256,7 +302,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -269,7 +315,7 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -281,7 +327,7 @@ describe AutomationRuleListener do
         expect(conversation.assignee).to be_nil
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
@@ -295,13 +341,163 @@ describe AutomationRuleListener do
 
         automation_rule
 
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:message_created)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
 
         listener.message_created(event)
 
         conversation.reload
 
         allow(mailer).to receive(:conversation_transcript)
+      end
+    end
+  end
+
+  describe '#message_created with conversation and contacts based conditions' do
+    before do
+      automation_rule.update!(
+        event_name: 'message_created',
+        name: 'Call actions message created',
+        description: 'Send Message in the conversation',
+        conditions: [
+          { attribute_key: 'team_id', filter_operator: 'equal_to', values: [team.id], query_operator: 'AND' }.with_indifferent_access,
+          { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['incoming'], query_operator: 'AND' }.with_indifferent_access,
+          { attribute_key: 'email', filter_operator: 'contains', values: ['example.com'], query_operator: 'AND' }.with_indifferent_access,
+          { attribute_key: 'company', filter_operator: 'equal_to', values: ['Marvel'], query_operator: nil }.with_indifferent_access
+        ],
+        actions: [
+          { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+          { 'action_name' => 'send_email_transcript', 'action_params' => ['new_agent@example.com'] }
+        ]
+      )
+      conversation.update!(team_id: team.id)
+      conversation.contact.update!(email: 'tj@example.com', additional_attributes: { 'company': 'Marvel' })
+    end
+
+    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming') }
+    let!(:event) do
+      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
+    end
+
+    context 'when rule matches' do
+      it 'triggers automation rule send email transcript to the mentioned email' do
+        mailer = double
+
+        automation_rule
+
+        listener.message_created(event)
+
+        conversation.reload
+
+        allow(mailer).to receive(:conversation_transcript)
+      end
+
+      it 'triggers automation rule send message to the contacts' do
+        expect(conversation.messages.count).to eq(1)
+
+        listener.message_created(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(2)
+        expect(conversation.messages.last.content).to eq('Send this message.')
+      end
+    end
+
+    context 'when rule does not match' do
+      before do
+        conversation.update!(team_id: team.id)
+        conversation.contact.update!(email: 'tj@ex.com', additional_attributes: { 'company': 'DC' })
+      end
+
+      let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'outgoing') }
+      let!(:event) do
+        Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
+      end
+
+      it 'triggers automation rule but wont send message' do
+        expect(conversation.messages.count).to eq(1)
+
+        listener.message_created(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.last.content).to eq('Incoming Message')
+      end
+    end
+  end
+
+  describe '#conversation_created with contacts based conditions' do
+    before do
+      automation_rule.update!(
+        event_name: 'conversation_created',
+        name: 'Call actions message created',
+        description: 'Send Message in the conversation',
+        conditions: [
+          { attribute_key: 'team_id', filter_operator: 'equal_to', values: [team.id], query_operator: 'AND' }.with_indifferent_access,
+          { attribute_key: 'email', filter_operator: 'contains', values: ['example.com'], query_operator: 'AND' }.with_indifferent_access,
+          { attribute_key: 'company', filter_operator: 'equal_to', values: ['Marvel'], query_operator: nil }.with_indifferent_access
+        ],
+        actions: [
+          { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+          { 'action_name' => 'send_email_transcript', 'action_params' => ['new_agent@example.com'] }
+        ]
+      )
+      conversation.update!(team_id: team.id)
+      conversation.contact.update!(email: 'tj@example.com', additional_attributes: { 'company': 'Marvel' })
+    end
+
+    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming') }
+    let!(:event) do
+      Events::Base.new('conversation_created', Time.zone.now, { conversation: conversation, message: message })
+    end
+
+    context 'when rule matches' do
+      it 'triggers automation rule send email transcript to the mentioned email' do
+        mailer = double
+
+        automation_rule
+
+        listener.conversation_created(event)
+
+        conversation.reload
+
+        allow(mailer).to receive(:conversation_transcript)
+      end
+
+      it 'triggers automation rule send message to the contacts' do
+        expect(conversation.messages.count).to eq(1)
+
+        listener.conversation_created(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(2)
+        expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation.messages.last.content_attributes[:automation_rule_id]).to eq(automation_rule.id)
+      end
+    end
+
+    context 'when rule does not match' do
+      before do
+        conversation.update!(team_id: team.id)
+        conversation.contact.update!(email: 'tj@ex.com', additional_attributes: { 'company': 'DC' })
+      end
+
+      let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'outgoing') }
+      let!(:event) do
+        Events::Base.new('conversation_created', Time.zone.now, { conversation: conversation, message: message })
+      end
+
+      it 'triggers automation rule but wont send message' do
+        expect(conversation.messages.count).to eq(1)
+
+        listener.conversation_created(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.last.content).to eq('Incoming Message')
       end
     end
   end

@@ -24,6 +24,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
       'first.reply.created': this.onFirstReplyCreated,
+      'conversation.read': this.onConversationRead,
     };
   }
 
@@ -63,6 +64,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
+  };
+
+  onConversationRead = data => {
+    const { contact_last_seen_at: lastSeen } = data;
+    this.app.$store.dispatch('updateConversationRead', lastSeen);
   };
 
   onLogout = () => AuthAPI.logout();
@@ -149,14 +155,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 }
 
 export default {
-  init() {
-    if (AuthAPI.isLoggedIn()) {
-      const actionCable = new ActionCableConnector(
-        window.WOOT,
-        AuthAPI.getPubSubToken()
-      );
-      return actionCable;
-    }
-    return null;
+  init(pubsubToken) {
+    return new ActionCableConnector(window.WOOT, pubsubToken);
   },
 };

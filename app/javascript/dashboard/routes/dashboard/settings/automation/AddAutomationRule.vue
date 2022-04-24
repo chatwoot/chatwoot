@@ -192,10 +192,11 @@ export default {
         $each: {
           action_params: {
             required: requiredIf(prop => {
+              if (prop.action_name === 'send_email_to_team') return true;
               return !(
                 prop.action_name === 'mute_conversation' ||
                 prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_convresation'
+                prop.action_name === 'resolve_conversation'
               );
             }),
           },
@@ -361,6 +362,7 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
+        case 'send_email_to_team':
           return this.$store.getters['teams/getTeams'];
         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
@@ -443,6 +445,8 @@ export default {
       return true;
     },
     showActionInput(actionName) {
+      if (actionName === 'send_email_to_team' || actionName === 'send_message')
+        return false;
       const type = AUTOMATION_ACTION_TYPES.find(
         action => action.key === actionName
       ).inputType;

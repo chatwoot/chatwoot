@@ -39,7 +39,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.file_url
+            url: attachment.download_url
           }
         }
       }

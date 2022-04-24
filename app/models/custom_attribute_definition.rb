@@ -34,4 +34,11 @@ class CustomAttributeDefinition < ApplicationRecord
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
+  after_destroy :sync_widget_pre_chat_custom_fields
+
+  private
+
+  def sync_widget_pre_chat_custom_fields
+    ::Inboxes::SyncWidgetPreChatCustomFieldsJob.perform_now(account, attribute_key)
+  end
 end

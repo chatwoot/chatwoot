@@ -101,6 +101,12 @@
                 showActionInput(automation.actions[i].action_name)
               "
               :v="$v.automation.actions.$each[i]"
+              :initial-file-name="
+                getFileName(
+                  automation.actions[i].action_params[0],
+                  automation.actions[i].action_name
+                )
+              "
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
@@ -199,7 +205,7 @@ export default {
               return !(
                 prop.action_name === 'mute_conversation' ||
                 prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_convresation'
+                prop.action_name === 'resolve_conversation'
               );
             }),
           },
@@ -360,6 +366,7 @@ export default {
     getActionDropdownValues(type) {
       switch (type) {
         case 'assign_team':
+        case 'send_email_to_team':
           return this.$store.getters['teams/getTeams'];
         case 'add_label':
           return this.$store.getters['labels/getLabels'].map(i => {
@@ -475,6 +482,15 @@ export default {
             actionParams = [
               ...this.getActionDropdownValues(action.action_name),
             ].filter(item => [...action.action_params].includes(item.id));
+          } else if (inputType === 'team_message') {
+            actionParams = {
+              team_ids: [
+                ...this.getActionDropdownValues(action.action_name),
+              ].filter(item =>
+                [...action.action_params[0].team_ids].includes(item.id)
+              ),
+              message: action.action_params[0].message,
+            };
           } else actionParams = [...action.action_params];
         }
         return {
@@ -489,11 +505,22 @@ export default {
       };
     },
     showActionInput(actionName) {
+      if (actionName === 'send_email_to_team' || actionName === 'send_message')
+        return false;
       const type = AUTOMATION_ACTION_TYPES.find(
         action => action.key === actionName
       ).inputType;
       if (type === null) return false;
       return true;
+    },
+    getFileName(id, actionType) {
+      if (!id) return '';
+      if (actionType === 'send_attachment') {
+        const file = this.automation.files.find(item => item.blob_id === id);
+        // replace `blob_id.toString()` with file name once api is fixed.
+        if (file) return file.filename.toString();
+      }
+      return '';
     },
   },
 };
