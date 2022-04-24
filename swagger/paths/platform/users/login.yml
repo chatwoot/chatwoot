@@ -2,7 +2,7 @@ tags:
   - Users
 operationId: get-sso-url-of-a-user
 summary: Get User SSO Link
-description: Get the sso link of a user
+description: Get the sso link of a user. The sso link can only be obtained for users created inside Chatwoot's admin interface.
 security:
   - platformAppApiKey: []
 responses:
