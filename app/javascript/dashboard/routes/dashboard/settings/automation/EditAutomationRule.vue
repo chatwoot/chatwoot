@@ -101,6 +101,12 @@
                 showActionInput(automation.actions[i].action_name)
               "
               :v="$v.automation.actions.$each[i]"
+              :initial-file-name="
+                getFileName(
+                  automation.actions[i].action_params[0],
+                  automation.actions[i].action_name
+                )
+              "
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
@@ -506,6 +512,15 @@ export default {
       ).inputType;
       if (type === null) return false;
       return true;
+    },
+    getFileName(id, actionType) {
+      if (!id) return '';
+      if (actionType === 'send_attachment') {
+        const file = this.automation.files.find(item => item.blob_id === id);
+        // replace `blob_id.toString()` with file name once api is fixed.
+        if (file) return file.filename.toString();
+      }
+      return '';
     },
   },
 };

@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
       "CONFIRMATION_LABEL": "Yes",
       "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Uploading...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
