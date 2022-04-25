@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Не вдалося деактивувати автоматизацію, спробуйте ще раз пізніше",
       "CONFIRMATION_LABEL": "Так",
       "CANCEL_LABEL": "Ні"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Завантажується...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
