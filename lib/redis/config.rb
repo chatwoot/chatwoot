@@ -29,7 +29,7 @@ module Redis::Config
       # expected format for REDIS_SENTINELS url string is host1:port1, host2:port2
       sentinels = redis_sentinels.split(',').map do |sentinel_url|
         host, port = sentinel_url.split(':').map(&:strip)
-        { host: host, port: port.presence || DEFAULT_SENTINEL_PORT, password: base_config[:password] }
+        { host: host, port: port.presence || DEFAULT_SENTINEL_PORT}
       end
 
       # over-write redis url as redis://:<your-redis-password>@<master-name>/ when using sentinel
