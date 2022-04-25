@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "اتوماسیون نمی‌توان غیرفعال شد، لطفا بعدا دوباره امتحان کنید",
       "CONFIRMATION_LABEL": "بله",
       "CANCEL_LABEL": "خیر"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "پیوست آپلود نشد، لطفا دوباره امتحان کنید",
+      "LABEL_IDLE": "بارگذاری پیوست",
+      "LABEL_UPLOADING": "در حال بارگذاری...",
+      "LABEL_UPLOADED": "با موفقیت بارگذاری شد",
+      "LABEL_UPLOAD_FAILED": "بارگذاری انجام نشد"
     }
   }
 }
