@@ -6,7 +6,7 @@
         <span class="webhook--subscribed-label">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SUBSCRIBED_EVENTS') }}:
         </span>
-        <show-more :text="subscribedEvents" limit="60" />
+        <show-more :text="subscribedEvents" :limit="60" />
       </span>
     </td>
     <td class="button-wrapper">
