@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Не удалось отключить правило автоматизации, пожалуйста, повторите попытку позже",
       "CONFIRMATION_LABEL": "Да",
       "CANCEL_LABEL": "Нет"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Загружаем...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
