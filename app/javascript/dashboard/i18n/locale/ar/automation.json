@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "تعذر إلغاء تنشيط قاعدة الأتمتة، الرجاء المحاولة مرة أخرى لاحقاً",
       "CONFIRMATION_LABEL": "نعم",
       "CANCEL_LABEL": "لا"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "جاري الرفع...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
