@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Nu s-a putut dezactiva automatizarea, încercați din nou mai târziu",
       "CONFIRMATION_LABEL": "Da",
       "CANCEL_LABEL": "Nu"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Încărcare...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
