@@ -148,8 +148,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('notifications/addNotification', data);
   };
 
-  // eslint-disable-next-line no-unused-vars
-  onFirstReplyCreated = data => {
+  onFirstReplyCreated = () => {
     bus.$emit('fetch_overview_reports');
   };
 }

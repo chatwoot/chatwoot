@@ -384,7 +384,7 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
-    "LIVE": "live",
+    "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Conversations Loading...",

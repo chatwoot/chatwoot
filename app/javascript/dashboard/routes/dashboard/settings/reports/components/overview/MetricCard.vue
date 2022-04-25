@@ -68,7 +68,7 @@ export default {
       background-color: var(--g-400);
       height: var(--space-smaller);
       width: var(--space-smaller);
-      border-radius: 50%;
+      border-radius: var(--border-radius-rounded);
       margin-right: var(--space-smaller);
     }
   }
