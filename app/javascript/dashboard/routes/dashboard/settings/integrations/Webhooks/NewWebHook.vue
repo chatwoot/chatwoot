@@ -11,7 +11,7 @@
     />
     <webhook-form
       :is-submitting="uiFlags.creatingItem"
-      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
+      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.ADD_SUBMIT')"
       @submit="onSubmit"
       @cancel="onClose"
     />
