@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Die Automatisierung konnte nicht deaktiviert werden. Bitte versuchen Sie es später erneut",
       "CONFIRMATION_LABEL": "Ja",
       "CANCEL_LABEL": "Nein"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Anhang konnte nicht hochgeladen werden, bitte versuchen Sie es erneut",
+      "LABEL_IDLE": "Anhang hochladen",
+      "LABEL_UPLOADING": "Hochladen...",
+      "LABEL_UPLOADED": "Erfolgreich hochgeladen",
+      "LABEL_UPLOAD_FAILED": "Upload fehlgeschlagen"
     }
   }
 }
