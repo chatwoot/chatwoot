@@ -127,6 +127,10 @@
       "BUTTON_TEXT": "Copy",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
       "UPLOADING": "Uploading..."
