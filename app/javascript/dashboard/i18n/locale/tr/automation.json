@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Otomasyon Kuralı Pasifleştirilemedi, Lütfen daha sonra tekrar deneyin",
       "CONFIRMATION_LABEL": "Evet",
       "CANCEL_LABEL": "Hayır"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Yükleniyor ...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
