@@ -73,7 +73,7 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        expect(json_response['open']).to eq(11)
+        expect(json_response['total']).to eq(11)
         expect(json_response['unattended']).to eq(11)
         expect(json_response['unassigned']).to eq(1)
       end
@@ -93,10 +93,10 @@ RSpec.describe 'Reports API', type: :request do
 
         json_response = JSON.parse(response.body)
         expect(json_response.blank?).to be false
-        user_metrics = json_response.find { |item| item['user']['name'] == admin[:name] }
+        user_metrics = json_response.find { |item| item['name'] == admin[:name] }
         expect(user_metrics.present?).to be true
 
-        expect(user_metrics['metric']['open']).to eq(2)
+        expect(user_metrics['metric']['total']).to eq(2)
         expect(user_metrics['metric']['unattended']).to eq(2)
       end
 
@@ -116,7 +116,7 @@ RSpec.describe 'Reports API', type: :request do
 
         json_response = JSON.parse(response.body)
         expect(json_response.blank?).to be false
-        expect(json_response[0]['metric']['open']).to eq(10)
+        expect(json_response[0]['metric']['total']).to eq(10)
         expect(json_response[0]['metric']['unattended']).to eq(10)
       end
     end
