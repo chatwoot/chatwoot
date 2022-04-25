@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
       "CONFIRMATION_LABEL": "כן",
       "CANCEL_LABEL": "לא"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "מעלה...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
