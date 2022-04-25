@@ -22,6 +22,22 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
+  getAgentStatus($state) {
+    let status = {
+      online: $state.records.filter(
+        agent => agent.availability_status === 'online'
+      ).length,
+      busy: $state.records.filter(agent => agent.availability_status === 'busy')
+        .length,
+      offline: $state.records.filter(
+        agent => agent.availability_status === 'offline'
+      ).length,
+    };
+    return status;
+  },
+  getAgentsCount($state) {
+    return $state.records.length;
+  },
 };
 
 export const actions = {
@@ -58,9 +74,10 @@ export const actions = {
     }
   },
 
-  updatePresence: async ({ commit }, data) => {
+  updatePresence: async ({ commit, dispatch }, data) => {
     commit(types.default.SET_AGENT_UPDATING_STATUS, true);
     commit(types.default.UPDATE_AGENTS_PRESENCE, data);
+    dispatch('updateReportAgentStatus', data, { root: true });
     commit(types.default.SET_AGENT_UPDATING_STATUS, false);
   },
 

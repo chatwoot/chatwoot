@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Conversations",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
@@ -380,6 +380,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Conversations Loading...",
+      "TOTAL" : "Total",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Unassigned"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Agents Loading...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "TOTAL": "Total",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Busy",
+      "OFFLINE": "Offline"
     }
   }
 }
