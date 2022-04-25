@@ -104,6 +104,13 @@
       "DEACTIVATION_ERROR": "ไม่สามารถปิดการใช้ Automation ได้ โปรดลองใหม่",
       "CONFIRMATION_LABEL": "ใช่",
       "CANCEL_LABEL": "ไม่"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "กำลังอัพโหลด",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
