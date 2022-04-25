@@ -23,7 +23,7 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
   private
 
   def webhook_params
-    params.require(:webhook).permit(:inbox_id, :url)
+    params.require(:webhook).permit(:inbox_id, :url, subscriptions: [])
   end
 
   def fetch_webhook
