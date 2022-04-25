@@ -121,3 +121,12 @@ export const METRIC_CHART = {
   },
   resolutions_count: DEFAULT_CHART,
 };
+
+export const OVERVIEW_METRICS = {
+  total: 'TOTAL',
+  unattended: 'UNATTENDED',
+  unassigned: 'UNASSIGNED',
+  online: 'ONLINE',
+  busy: 'BUSY',
+  offline: 'OFFLINE',
+};
