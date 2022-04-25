@@ -35,7 +35,7 @@
         :reject-text="$t('DELETE_NOTE.CONFIRM.NO')"
       />
     </div>
-    <p class="note__content" v-html="formatMessage(note || '')" />
+    <p v-dompurify-html="formatMessage(note || '')" class="note__content" />
   </div>
 </template>
 

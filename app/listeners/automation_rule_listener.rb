@@ -36,7 +36,7 @@ class AutomationRuleListener < BaseListener
     return unless rule_present?('message_created', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation, { message: message }).message_conditions
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation, { message: message }).perform
       ::AutomationRules::ActionService.new(rule, account, message.conversation).perform if conditions_match.present?
     end
   end

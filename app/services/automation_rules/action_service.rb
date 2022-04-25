@@ -21,9 +21,14 @@ class AutomationRules::ActionService
 
   private
 
-  def send_attachments(_file_params)
-    blobs = @rule.files.map { |file, _| file.blob }
-    params = { content: nil, private: false, attachments: blobs }
+  def send_attachment(blob_ids)
+    return unless @rule.files.attached?
+
+    blob = ActiveStorage::Blob.find(blob_ids)
+
+    return if blob.blank?
+
+    params = { content: nil, private: false, attachments: blob }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
@@ -51,12 +56,12 @@ class AutomationRules::ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: "automation_event: #{@rule.event_name}")
+    payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
     WebhookJob.perform_later(webhook_url[0], payload)
   end
 
   def send_message(message)
-    params = { content: message[0], private: false }
+    params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end

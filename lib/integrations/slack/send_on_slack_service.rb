@@ -73,7 +73,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def file_type
-    File.extname(message.attachments.first.file_url).strip.downcase[1..]
+    File.extname(message.attachments.first.download_url).strip.downcase[1..]
   end
 
   def file_information
