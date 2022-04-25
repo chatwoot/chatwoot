@@ -232,6 +232,7 @@ export default {
         ],
       },
       showDeleteConfirmationModal: false,
+      customAttributes: [],
     };
   },
   computed: {
@@ -258,6 +259,9 @@ export default {
         return true;
       return false;
     },
+  },
+  mounted() {
+    this.customAttributes = this.$store.getters['attributes/getAttributes'];
   },
   methods: {
     onEventChange() {
