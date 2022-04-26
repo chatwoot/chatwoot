@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Copier",
       "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Télécharger",
       "UPLOADING": "Téléversement..."
@@ -173,7 +177,7 @@
     "NEW_LABEL": "Nouveau libellé",
     "NEW_TEAM": "Créer une équipe",
     "NEW_INBOX": "Nouvelle boîte de réception",
-    "REPORTS_OVERVIEW": "Vue d'ensemble",
+    "REPORTS_CONVERSATION": "Conversations",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campagnes",
     "ONGOING": "En cours",
@@ -183,7 +187,8 @@
     "REPORTS_INBOX": "Boîte de réception",
     "REPORTS_TEAM": "Équipes",
     "SET_AVAILABILITY_TITLE": "Se définir comme",
-    "BETA": "Bêta"
+    "BETA": "Bêta",
+    "REPORTS_OVERVIEW": "Vue d'ensemble"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
