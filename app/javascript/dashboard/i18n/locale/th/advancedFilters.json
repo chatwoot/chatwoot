@@ -1,14 +1,14 @@
 {
   "FILTER": {
     "TITLE": "กรองบทสนทนา",
-    "SUBTITLE": "เพิ่ม ตัวกรอง และคลิ๊ก ปรับปรุงตัวกรอง เพื่อกรองบทสนทนา",
-    "ADD_NEW_FILTER": "เพื่อ ตัวกรอง",
-    "FILTER_DELETE_ERROR": "ควรมี 1 ตัวกรองเป็นอย่างน้อย เพื่อการบันทึก",
-    "SUBMIT_BUTTON_LABEL": "ปรับปรุงตัวกรอง",
+    "SUBTITLE": "เพิ่มตัวกรองด้านล่างและคลิก 'ใช้ตัวกรอง' เพื่อกรองการสนทนา",
+    "ADD_NEW_FILTER": "เพิ่มตัวกรอง",
+    "FILTER_DELETE_ERROR": "ควรเลือกอย่างน้อย 1 ตัวกรองเพื่อบันทึก",
+    "SUBMIT_BUTTON_LABEL": "ใช้ตัวกรอง",
     "CANCEL_BUTTON_LABEL": "ยกเลิก",
     "CLEAR_BUTTON_LABEL": "ล้างตัวกรอง",
-    "EMPTY_VALUE_ERROR": "ต้องมีการใส่ ค่า",
-    "TOOLTIP_LABEL": "กรองบทสนทนา",
+    "EMPTY_VALUE_ERROR": "โปรดระบุค่า",
+    "TOOLTIP_LABEL": "กรองการสนทนา",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "และ",
       "OR": "หรือ"
@@ -30,20 +30,20 @@
     },
     "ATTRIBUTES": {
       "STATUS": "สถานะ",
-      "ASSIGNEE_NAME": "ชื่อ ผู้รับผิดชอบ",
+      "ASSIGNEE_NAME": "ชื่อผู้รับผิดชอบ",
       "INBOX_NAME": "ชื่อกล่องข้อความ",
       "TEAM_NAME": "ชื่อทีม",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "ชื่อ แคมเปญ",
+      "CAMPAIGN_NAME": "ชื่อแคมเปญ",
       "LABELS": "ป้ายกำกับ",
-      "BROWSER_LANGUAGE": "ภาษาของ Browser",
+      "BROWSER_LANGUAGE": "ภาษาของเบราว์เซอร์",
       "COUNTRY_NAME": "ชื่อประเทศ",
-      "REFERER_LINK": "ลิงค์อ้างอิง",
+      "REFERER_LINK": "ลิงก์อ้างอิง",
       "CUSTOM_ATTRIBUTE_LIST": "รายการ",
       "CUSTOM_ATTRIBUTE_TEXT": "ข้อความ",
       "CUSTOM_ATTRIBUTE_NUMBER": "ตัวเลข",
-      "CUSTOM_ATTRIBUTE_LINK": "ลิ้งก์",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_LINK": "ลิงก์",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "ช่องทำเครื่องหมาย",
       "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "ล่าสุดเมื่อ"
     },
@@ -54,9 +54,9 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "คุณต้องการบันทึกตัวกรองตามนี้?",
-        "LABEL": "ชื่อตัวกรองนี้",
-        "PLACEHOLDER": "กรุณาใส่ ชื่อตัวกรองนี้",
+        "TITLE": "ต้องการบันทึกตัวกรองนี้หรือไม่?",
+        "LABEL": "ตั้งชื่อตัวกรอง",
+        "PLACEHOLDER": "กรุณาใส่ชื่อสำหรับตัวกรองนี้",
         "ERROR_MESSAGE": "โปรดระบุชื่อ",
         "SAVE_BUTTON": "บันทึกตัวกรอง",
         "CANCEL_BUTTON": "ยกเลิก",
@@ -65,8 +65,8 @@
           "ERROR_MESSAGE": "มีปัญหาระหว่างสร้างโฟลเดอร์"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Sgement สร้างสำเร็จแล้ว",
-          "ERROR_MESSAGE": "มีปัญหาระหว่างสร้าง Segment"
+          "SUCCESS_MESSAGE": "สร้างกลุ่มตามตัวกรองสำเร็จแล้ว",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างสร้างกลุ่มตามตัวกรอง"
         }
       },
       "DELETE": {
@@ -74,18 +74,18 @@
         "MODAL": {
           "CONFIRM": {
             "TITLE": "ยืนยันการลบ",
-            "MESSAGE": "คุณต้องการลบตัวกรอง? ",
+            "MESSAGE": "คุณแน่ใจว่าต้องการลบตัวกรองหรือไม่? ",
             "YES": "เอาเลย",
-            "NO": "ไม่ เปลี่ยนใจแล้ว"
+            "NO": "เก็บตัวกรองไว้"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "โฟลเดอร์ถูกลบแล้ว",
+          "SUCCESS_MESSAGE": "ลบโฟลเดอร์สำเร็จแล้ว",
           "ERROR_MESSAGE": "มีปัญหาระหว่างลบโฟลเดอร์"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Sgement ถูกลบแล้ว",
-          "ERROR_MESSAGE": "มีปัญหาระหว่างลบ Segment"
+          "SUCCESS_MESSAGE": "ลบกลุ่มตามตัวกรองสำเร็จแล้ว",
+          "ERROR_MESSAGE": "มีปัญหาระหว่างลบกลุ่มตามตัวกรอง"
         }
       }
     }
