@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Eventos Inscritos",
+      "FORM": {
+        "CANCEL": "Cancelar",
+        "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Eventos",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversa Criada",
+            "CONVERSATION_STATUS_CHANGED": "Status de conversa alterado",
+            "CONVERSATION_UPDATED": "Conversa Atualizada",
+            "MESSAGE_CREATED": "Mensagem criada",
+            "MESSAGE_UPDATED": "Mensagem atualizada",
+            "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL do Webhook",
+          "PLACEHOLDER": "Exemplo: https://example/api/webhook",
+          "ERROR": "Por favor, insira uma URL válida"
+        },
+        "EDIT_SUBMIT": "Atualizar webhook",
+        "ADD_SUBMIT": "Criar webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Configurar",
       "HEADER": "Configurações do Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Alterar",
         "TITLE": "Editar webhook",
-        "CANCEL": "Cancelar",
-        "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL do webhook",
-            "PLACEHOLDER": "Exemplo: https://example/api/webhook",
-            "ERROR": "Por favor, insira uma URL válida"
-          },
-          "SUBMIT": "Editar webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "URL do Webhook atualizado com sucesso",
+          "SUCCESS_MESSAGE": "Configuração de Webhook atualizada com sucesso",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         }
       },
       "ADD": {
         "CANCEL": "Cancelar",
         "TITLE": "Adicionar novo webhook",
-        "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL do webhook",
-            "PLACEHOLDER": "Exemplo: https://example/api/webhook",
-            "ERROR": "Por favor, insira uma URL válida"
-          },
-          "SUBMIT": "Criar webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook adicionado com sucesso",
+          "SUCCESS_MESSAGE": "Configuração de Webhook adicionada com sucesso",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar exclusão",
-          "MESSAGE": "Você tem certeza que deseja excluir ",
+          "MESSAGE": "Tem certeza que deseja excluir o webhook? (%{webhookURL})",
           "YES": "Sim, excluir ",
           "NO": "Não, mantenha"
         }
