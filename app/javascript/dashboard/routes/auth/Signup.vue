@@ -54,11 +54,7 @@
               icon-name="lock-closed"
               :label="$t('LOGIN.PASSWORD.LABEL')"
               :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-              :error="
-                $v.credentials.password.$error
-                  ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
-                  : ''
-              "
+              :error="passwordErrorText"
               @blur="$v.credentials.password.$touch"
             />
             <auth-input
@@ -255,7 +251,7 @@ export default {
 }
 
 .input-wrap {
-  padding-bottom: var(--space-medium);
+  padding-bottom: var(--space-slab);
 }
 
 .accept--terms {
@@ -266,17 +262,17 @@ export default {
 .h-captcha--box {
   margin-bottom: var(--space-one);
 
-    .captcha-error {
-      color: var(--r-400);
-      font-size: var(--font-size-small);
-    }
+  .captcha-error {
+    color: var(--r-400);
+    font-size: var(--font-size-small);
+  }
 
-    &::v-deep .error {
-      iframe {
-        border: 1px solid var(--r-500);
-        border-radius: var(--border-radius-normal);
-      }
+  &::v-deep .error {
+    iframe {
+      border: 1px solid var(--r-500);
+      border-radius: var(--border-radius-normal);
     }
+  }
 }
 
 @media screen and (max-width: 1200px) {

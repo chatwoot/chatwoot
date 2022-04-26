@@ -88,15 +88,6 @@ export default {
     padding: var(--space-small) !important;
     width: 100% !important;
     background: var(--b-50) !important;
-    margin-bottom: var(--font-size-two) !important;
-  }
-
-  .message {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: var(--space-minus-two);
-    height: 20px;
-    margin-bottom: 0;
   }
 }
 </style>
