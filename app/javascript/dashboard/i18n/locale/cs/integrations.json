@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrace",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Zrušit",
+        "DESC": "Události webhooku vám poskytují reálné informace o tom, co se děje ve vašem Chatwoot účtu. Zadejte prosím platnou URL pro nastavení hovoru.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL webového háčku",
+          "PLACEHOLDER": "Příklad: https://example/api/webhook",
+          "ERROR": "Zadejte prosím platnou URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Create webhook"
+      },
       "TITLE": "Webový háček",
       "CONFIGURE": "Konfigurace",
       "HEADER": "Nastavení webhooku",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Upravit",
         "TITLE": "Edit webhook",
-        "CANCEL": "Zrušit",
-        "DESC": "Události webhooku vám poskytují reálné informace o tom, co se děje ve vašem Chatwoot účtu. Zadejte prosím platnou URL pro nastavení hovoru.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL webového háčku",
-            "PLACEHOLDER": "Příklad: https://example/api/webhook",
-            "ERROR": "Zadejte prosím platnou URL"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
         }
       },
       "ADD": {
         "CANCEL": "Zrušit",
         "TITLE": "Přidat nový webový háček",
-        "DESC": "Události webhooku vám poskytují reálné informace o tom, co se děje ve vašem Chatwoot účtu. Zadejte prosím platnou URL pro nastavení hovoru.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL webového háčku",
-            "PLACEHOLDER": "Příklad: https://example/api/webhook",
-            "ERROR": "Zadejte prosím platnou URL"
-          },
-          "SUBMIT": "Vytvořit webový háček"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webový háček byl úspěšně přidán",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Potvrdit odstranění",
-          "MESSAGE": "Opravdu chcete odstranit ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Ano, odstranit ",
           "NO": "No, Keep it"
         }
