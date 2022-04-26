@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Копировать",
       "COPY_SUCCESSFUL": "Код скопирован в буфер обмена"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Скачать",
       "UPLOADING": "Загружаем..."
@@ -173,7 +177,7 @@
     "NEW_LABEL": "Новая метка",
     "NEW_TEAM": "Новая команда",
     "NEW_INBOX": "Новые канал",
-    "REPORTS_OVERVIEW": "Обзор",
+    "REPORTS_CONVERSATION": "Диалоги",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Кампании",
     "ONGOING": "В настоящее время",
@@ -183,7 +187,8 @@
     "REPORTS_INBOX": "Электронная почта",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Установить себя",
-    "BETA": "Бета"
+    "BETA": "Бета",
+    "REPORTS_OVERVIEW": "Обзор"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",
