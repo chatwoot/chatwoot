@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "نسخ",
       "COPY_SUCCESSFUL": "تم نسخ الكود إلى الحافظة بنجاح"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "تنزيل",
       "UPLOADING": "جاري الرفع..."
@@ -173,7 +177,7 @@
     "NEW_LABEL": "علامة جديدة",
     "NEW_TEAM": "فريق جديد",
     "NEW_INBOX": "صندوق الوارد الجديد",
-    "REPORTS_OVERVIEW": "نظرة عامة",
+    "REPORTS_CONVERSATION": "المحادثات",
     "CSAT": "CSAT",
     "CAMPAIGNS": "الحملات",
     "ONGOING": "جارية",
@@ -183,7 +187,8 @@
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
-    "BETA": "تجريبي"
+    "BETA": "تجريبي",
+    "REPORTS_OVERVIEW": "نظرة عامة"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
