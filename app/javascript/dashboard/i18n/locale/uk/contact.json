@@ -90,7 +90,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Кампанію успішно видалено",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": "Не вдалося видалити контакт. Будь ласка, спробуйте ще раз пізніше."
     }
   },
   "CONTACT_FORM": {
