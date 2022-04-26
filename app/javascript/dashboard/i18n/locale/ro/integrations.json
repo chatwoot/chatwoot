@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrări",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Renunță",
+        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Exemplu: https://example/api/webhook",
+          "ERROR": "Te rog introdu un URL valid"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Creează webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Configurare",
       "HEADER": "Setări Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Editare",
         "TITLE": "Editare webhook",
-        "CANCEL": "Renunță",
-        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL Webhook",
-            "PLACEHOLDER": "Exemplu: https://example/api/webhook",
-            "ERROR": "Te rog introdu un URL valid"
-          },
-          "SUBMIT": "Editare webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "URL-ul Webhook actualizat cu succes",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
         }
       },
       "ADD": {
         "CANCEL": "Renunță",
         "TITLE": "Adaugă un nou webhook",
-        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL Webhook",
-            "PLACEHOLDER": "Exemplu: https://example/api/webhook",
-            "ERROR": "Te rog introdu un URL valid"
-          },
-          "SUBMIT": "Creează webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook adăugat cu succes",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmă ștergerea",
-          "MESSAGE": "Sigur doriți să ștergeți ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Da, șterge ",
           "NO": "Nu, păstreaza"
         }
