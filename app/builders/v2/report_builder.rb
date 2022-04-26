@@ -4,7 +4,7 @@ class V2::ReportBuilder
   attr_reader :account, :params
 
   DEFAULT_GROUP_BY = 'day'.freeze
-  AGENT_RESULTS_PER_PAGE = 10
+  AGENT_RESULTS_PER_PAGE = 25
 
   def initialize(account, params)
     @account = account
@@ -46,7 +46,7 @@ class V2::ReportBuilder
     if params[:type].equal?(:account)
       conversations
     else
-      agent_metrics
+      agent_metrics.sort_by { |hash| hash[:metric][:open] }.reverse
     end
   end
 
@@ -95,10 +95,10 @@ class V2::ReportBuilder
   end
 
   def conversations
-    @open_conversations = scope.conversations.open
+    @open_conversations = scope.conversations.where(account_id: @account.id).open
     first_response_count = scope.reporting_events.where(name: 'first_response', conversation_id: @open_conversations.pluck('id')).count
     metric = {
-      total: @open_conversations.count,
+      open: @open_conversations.count,
       unattended: @open_conversations.count - first_response_count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
