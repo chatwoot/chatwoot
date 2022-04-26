@@ -10,6 +10,7 @@ RSpec.describe 'Reports API', type: :request do
   let(:default_timezone) { ActiveSupport::TimeZone[0]&.name }
   let(:date_timestamp) { Time.current.in_time_zone(default_timezone).beginning_of_day.to_i }
   let(:params) { { timezone_offset: Time.zone.utc_offset } }
+  let(:new_account) { create(:account) }
 
   before do
     create_list(:conversation, 10, account: account, inbox: inbox,
@@ -80,6 +81,8 @@ RSpec.describe 'Reports API', type: :request do
 
       it 'return conversation metrics for user in account level' do
         create_list(:conversation, 2, account: account, inbox: inbox,
+                                      assignee: admin, created_at: Time.zone.today)
+        create_list(:conversation, 2, account: new_account, inbox: inbox,
                                       assignee: admin, created_at: Time.zone.today)
 
         get "/api/v2/accounts/#{account.id}/reports/conversations",
