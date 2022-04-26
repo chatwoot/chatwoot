@@ -22,6 +22,8 @@ es:
     reset_password_success: '¡Genial! La solicitud de restablecimiento de contraseña ha sido exitosa. Revisa tu correo para ver las instrucciones.'
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: No permitimos correos electrónicos desechables
       invalid_email: Ha introducido un correo electrónico no válido
