@@ -1,16 +1,16 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
+    "HEADER": "เงื่อนไขอัตโนมัติ",
     "HEADER_BTN_TXT": "เพิ่มกฎ Automation",
-    "LOADING": "โหลดกฎ Automation",
-    "SIDEBAR_TXT": "<p><b>กฎ Automation</b> <p>Automation คือการทำงานอัตโนมัติสำหรับงานที่มีรูปแบบที่ชัดเจน โดยไม่ต้องคลิ๊กเองอีก คุณสามารถทำได้หลาย ๆ อย่าง เช่น การเพิ่มป้ายกำกับ และมอบหมายงานให้พนักงานที่เกี่ยวข้องโดยอัตโนมัติ เป็นต้น ซึ่งจะทำให้สามารถโฟกัสกับการทำงานมากกว่าการจะต้องมาทำงานซ้ำ ๆ ที่ไม่จำเป็นอีก </p>",
+    "LOADING": "โหลดเงื่อนไขอัตโนมัติ",
+    "SIDEBAR_TXT": "<p><b>เงื่อนไขอัตโนมัติ</b> <p>เงื่อนไขอัตโนมัติช่วยให้คุณไม่ต้องทำงานเดิมซ้ำๆ คุณสามารถใช้เงื่อนไขอัตโนมัติทำได้หลายอย่าง เช่น การเพิ่มป้ายกำกับ และมอบหมายงานให้พนักงานที่เกี่ยวข้องโดยอัตโนมัติ ช่วยให้ทีมโฟกัสกับงานที่เหมาะสมและลดเวลาที่ใช้ในการทำงานที่คุณต้องคลิกเอง </p>",
     "ADD": {
-      "TITLE": "เพิ่มกฎ Automation",
+      "TITLE": "เพิ่มเงื่อนไขอัตโนมัติ",
       "SUBMIT": "สร้าง",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "FORM": {
         "NAME": {
-          "LABEL": "ชื่อกฎ",
+          "LABEL": "ชื่อเงื่อนไขอัตโนมัติ",
           "PLACEHOLDER": "ใส่ชื่อกฎ",
           "ERROR": "โปรดระบุชื่อ"
         },
@@ -20,9 +20,9 @@
           "ERROR": "โปรดระบุคำอธิบาย"
         },
         "EVENT": {
-          "LABEL": "อีเว้นท์",
-          "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "จำเป็นต้องระบุอีเว้นท์"
+          "LABEL": "เหตุการณ์",
+          "PLACEHOLDER": "โปรดเลือก",
+          "ERROR": "โปรดระบุเหตุการณ์"
         },
         "CONDITIONS": {
           "LABEL": "เงื่อนไข"
@@ -32,10 +32,10 @@
         }
       },
       "CONDITION_BUTTON_LABEL": "เพิ่มเงื่อนไข",
-      "ACTION_BUTTON_LABEL": "เพื่ม สิ่งที่จะทำ",
+      "ACTION_BUTTON_LABEL": "เพื่มการกระทำ",
       "API": {
-        "SUCCESS_MESSAGE": "เพิ่มกฎ Automation แล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถสร้าง Automation ได้ โปรดลองใหม่"
+        "SUCCESS_MESSAGE": "เพิ่มเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถสร้างเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "LIST": {
@@ -45,10 +45,10 @@
         "ใช้งานอยู่",
         "สร้างเมื่อ"
       ],
-      "404": "ไม่พบกฎ Automation"
+      "404": "ไม่พบเงื่อนไขอัตโนมัติ"
     },
     "DELETE": {
-      "TITLE": "ลบกฎ Automation",
+      "TITLE": "ลบเงื่อนไขอัตโนมัติ",
       "SUBMIT": "ลบ",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "ไม่อะเก็บไว้ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "ลบกฎ Automation แล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถลบ Automation ได้ โปรดลองใหม่"
+        "SUCCESS_MESSAGE": "ลบเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "EDIT": {
-      "TITLE": "แก้ไขกฎ Automation",
+      "TITLE": "แก้ไขเงื่อนไขอัตโนมัติ",
       "SUBMIT": "อัพเดท",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "API": {
-        "SUCCESS_MESSAGE": "แก้ไขกฎ Automation แล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถแก้ไข Automation ได้ โปรดลองใหม่"
+        "SUCCESS_MESSAGE": "แก้ไขเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถแก้ไขเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "CLONE": {
       "TOOLTIP": "คัดลอก",
       "API": {
-        "SUCCESS_MESSAGE": "คัดลอก Automation แล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถคัดลอก Automation ได้ โปรดลองใหม่"
+        "SUCCESS_MESSAGE": "คัดลอกเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถคัดลอกเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "FORM": {
@@ -83,22 +83,22 @@
       "CREATE": "สร้าง",
       "DELETE": "ลบ",
       "CANCEL": "ยกเลิก",
-      "RESET_MESSAGE": "การเปลี่ยน ประเภทอีเว้นท์ จะรีเช็ทเงื่อนไขใหม่ และอีเว้นท์ที่เพิ่มด้านล่าง"
+      "RESET_MESSAGE": "การเปลี่ยนประเภทเหตุการณ์ จะรีเช็ทเงื่อนไขใหม่และเหตุการณ์ที่คุณเพิ่มไว้ด้านล่าง"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย หนึ่ง เงื่อนไข เพื่อบันทึก"
+      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อย 1 เงื่อนไขเพื่อบันทึก"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย หนึ่ง สิ่งที่จะทำ เพื่อบันทึก",
+      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย 1 การกระทำ เพื่อบันทึก",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
       "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "เปิดใช้กฎ Automation",
-      "DEACTIVATION_TITLE": "ปิดการใช้กฎ Automation",
-      "ACTIVATION_DESCRIPTION": "สิ่งที่จะทำนี้จะเปิดใช้กฎ Automation ชื่อ '{automationName}' คุณแน่ใจ?",
-      "DEACTIVATION_DESCRIPTION": "สิ่งที่จะทำนี้จะปิดการใช้กฎ Automation ชื่อ '{automationName}' คุณแน่ใจ?",
-      "ACTIVATION_SUCCESFUL": "เปิดใช้กฎ Automation แล้ว",
+      "ACTIVATION_TITLE": "เปิดใช้เงื่อนไขอัตโนมัติ",
+      "DEACTIVATION_TITLE": "ปิดใช้เงื่อนไขอัตโนมัติ",
+      "ACTIVATION_DESCRIPTION": "การกระทำนี้จะทำให้เปิดใช้เงื่อนไขอัตโนมัติ '{automationName}' คุณต้องการดำเนินการต่อหรือไม่?",
+      "DEACTIVATION_DESCRIPTION": "การกระทำนี้จะทำให้ปิดการใช้เงื่อนไขอัตโนมัติ '{automationName}' คุณต้องการดำเนินการต่อหรือไม่?",
+      "ACTIVATION_SUCCESFUL": "เปิดใช้เงื่อนไขอัตโนมัติสำเร็จแล้ว",
       "DEACTIVATION_SUCCESFUL": "ปิดการใช้กฎ Automation แล้ว",
       "ACTIVATION_ERROR": "ไม่สามารถเปิดใช้ Automation ได้ โปรดลองใหม่",
       "DEACTIVATION_ERROR": "ไม่สามารถปิดการใช้ Automation ได้ โปรดลองใหม่",
@@ -106,11 +106,11 @@
       "CANCEL_LABEL": "ไม่"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "ไม่สามารถอัปโหลดไฟล์แนบได้ โปรดลองใหม่อีกครั้ง",
+      "LABEL_IDLE": "อัปโหลดไฟล์แนบ",
       "LABEL_UPLOADING": "กำลังอัพโหลด",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "อัปโหลดสำเร็จแล้ว",
+      "LABEL_UPLOAD_FAILED": "อัปโหลดไม่สำเร็จ"
     }
   }
 }
