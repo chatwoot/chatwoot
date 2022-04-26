@@ -123,7 +123,7 @@ export const METRIC_CHART = {
 };
 
 export const OVERVIEW_METRICS = {
-  total: 'TOTAL',
+  open: 'OPEN',
   unattended: 'UNATTENDED',
   unassigned: 'UNASSIGNED',
   online: 'ONLINE',
