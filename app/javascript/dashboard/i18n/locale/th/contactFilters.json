@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "เพื่อ ตัวกรอง",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "ควรมี 1 ตัวกรองเป็นอย่างน้อย เพื่อการบันทึก",
+        "TITLE": "ตัวกรองรายชื่อผู้ติดต่อ",
+        "SUBTITLE": "เพิ่มตัวกรองด้านล่างและคลิก 'ส่ง' เพื่อกรองรายชื่อผู้ติดต่อ",
+        "ADD_NEW_FILTER": "เพิ่มตัวกรอง",
+        "CLEAR_ALL_FILTERS": "ล้างตัวกรองทั้งหมด",
+        "FILTER_DELETE_ERROR": "ควรเลือกอย่างน้อย 1 ตัวกรองเพื่อบันทึก",
         "SUBMIT_BUTTON_LABEL": "ส่ง",
         "CANCEL_BUTTON_LABEL": "ยกเลิก",
         "CLEAR_BUTTON_LABEL": "ล้างตัวกรอง",
-        "EMPTY_VALUE_ERROR": "ต้องมีการใส่ ค่า",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "EMPTY_VALUE_ERROR": "โปรดระบุค่า",
+        "TOOLTIP_LABEL": "ตัวกรองรายชื่อผู้ติดต่อ",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "และ",
             "OR": "หรือ"
@@ -21,8 +21,8 @@
             "does_not_contain": "ไม่มี",
             "is_present": "แสดงอยู่",
             "is_not_present": "ไม่แสดงอยู่",
-            "is_greater_than": "มากกว่า",
-            "is_lesser_than": "Is lesser than",
+            "is_greater_than": "หลังจาก",
+            "is_lesser_than": "ก่อนหน้า",
             "days_before": "x วันก่อน"
         },
         "ATTRIBUTES": {
@@ -35,8 +35,8 @@
             "CUSTOM_ATTRIBUTE_LIST": "รายการ",
             "CUSTOM_ATTRIBUTE_TEXT": "ข้อความ",
             "CUSTOM_ATTRIBUTE_NUMBER": "ตัวเลข",
-            "CUSTOM_ATTRIBUTE_LINK": "ลิ้งก์",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CUSTOM_ATTRIBUTE_LINK": "ลิงก์",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "ช่องทำเครื่องหมาย",
             "CREATED_AT": "สร้างเมื่อ",
             "LAST_ACTIVITY": "ล่าสุดเมื่อ"
         },
