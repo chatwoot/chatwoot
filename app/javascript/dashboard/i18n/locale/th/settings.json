@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "คัดลอก",
       "COPY_SUCCESSFUL": "คัดลอกไปยังคลิปบอร์ดเเล้ว"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ดาวโหลด",
       "UPLOADING": "กำลังอัพโหลด"
@@ -164,16 +168,16 @@
     "APPLICATIONS": "โปรแกรม",
     "LABELS": "ป้ายกำกับ",
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
-    "AUTOMATION": "สร้างเงื่อนไขอัตโนมัติ",
+    "AUTOMATION": "เงื่อนไขอัตโนมัติ",
     "TEAMS": "ทีม",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",
-    "CUSTOM_VIEWS_SEGMENTS": "ตามตัวกรอง",
+    "CUSTOM_VIEWS_SEGMENTS": "กลุ่มตามตัวกรอง",
     "ALL_CONTACTS": "รายชื่อผู้ติดต่อทั้งหมด",
     "TAGGED_WITH": "ที่ติดป้าย",
     "NEW_LABEL": "เพิ่มป้ายกำกับ",
     "NEW_TEAM": "สร้างทีมใหม่",
     "NEW_INBOX": "เพิ่มกล่องข้อความ",
-    "REPORTS_OVERVIEW": "ภาพรวม",
+    "REPORTS_CONVERSATION": "การสนทนา",
     "CSAT": "CSAT",
     "CAMPAIGNS": "แคมเปญ",
     "ONGOING": "ต่อเนื่อง",
@@ -183,7 +187,8 @@
     "REPORTS_INBOX": "กล่องข้อความ",
     "REPORTS_TEAM": "ทีม",
     "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "ภาพรวม"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",
@@ -219,7 +224,7 @@
       "SWITCH_TO_PRIVATE_NOTE": "สลับเป็นโน้ตส่วนตัว",
       "TOGGLE_RICH_CONTENT_EDITOR": "เปิดหรือปิดเครื่องมือแก้ไขริชคอนเทนท์",
       "SWITCH_TO_REPLY": "สลับเป็นการตอบกลับ",
-      "TOGGLE_SNOOZE_DROPDOWN": "เปิดหรือปิดเมนูตัวเลือกการแจ้งเตือน"
+      "TOGGLE_SNOOZE_DROPDOWN": "เปิดหรือปิดเมนูพักการสนทนา"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
