@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "ยกเลิก",
+        "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "ลิ้ง Webhook",
+          "PLACEHOLDER": "ตัวอย่าง: https://example/api/webhook",
+          "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "สร้าง Webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "ตั้งค่า",
       "HEADER": "ตั้งค่า Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "เเก้ไข",
         "TITLE": "แก้ไข Webhook",
-        "CANCEL": "ยกเลิก",
-        "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "ลิ้ง Webhook",
-            "PLACEHOLDER": "ตัวอย่าง: https://example/api/webhook",
-            "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
-          },
-          "SUBMIT": "แก้ไข Webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL อัพเดทแล้ว",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         }
       },
       "ADD": {
         "CANCEL": "ยกเลิก",
         "TITLE": "เพิ่ม Webhook ใหม่",
-        "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "ลิ้ง Webhook",
-            "PLACEHOLDER": "ตัวอย่าง: https://example/api/webhook",
-            "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
-          },
-          "SUBMIT": "สร้าง Webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "เพิ่ม Webhook แล้ว",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "ยืนยันการลบ",
-          "MESSAGE": "คุณต้องการที่จะลบไหม ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "เอาเลย ",
           "NO": "ไม่"
         }
