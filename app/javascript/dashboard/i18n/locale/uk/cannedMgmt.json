@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Короткий код",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Будь ласка, введіть короткий код",
           "ERROR": "Необхідно вказати короткий код"
         },
         "CONTENT": {
