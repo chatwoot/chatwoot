@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Visão geral",
+    "HEADER": "Conversas",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar relatórios de agentes",
@@ -412,6 +412,34 @@
         "LABEL": "Taxa de resposta",
         "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT enviadas * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Visão geral",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Conversations Loading...",
+      "TOTAL": "Total",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Não atribuído"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Agents Loading...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Representante",
+        "TOTAL": "Total",
+        "UNATTENDED": "Unattended",
+        "STATUS": "SItuação"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Disponível",
+      "BUSY": "Ocupado",
+      "OFFLINE": "Ausente"
     }
   }
 }
