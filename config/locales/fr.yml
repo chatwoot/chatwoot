@@ -22,6 +22,8 @@ fr:
     reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
     reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Nous n'autorisons pas les courriels jetables
       invalid_email: Vous avez entré un courriel non valide
