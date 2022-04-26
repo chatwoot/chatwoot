@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Обзор",
+    "HEADER": "Диалоги",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
@@ -412,6 +412,34 @@
         "LABEL": "Доля откликов",
         "TOOLTIP": "Общее количество ответов / Общее количество отправленных сообщений CSAT опросов * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Обзор",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Conversations Loading...",
+      "TOTAL": "Total",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Неназначен"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Agents Loading...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Оператор",
+        "TOTAL": "Total",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Статус"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "В сети",
+      "BUSY": "Занят",
+      "OFFLINE": "Оффлайн"
     }
   }
 }
