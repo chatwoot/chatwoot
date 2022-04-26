@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "உரையாடல்கள்",
     "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
     "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
@@ -412,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Conversations Loading...",
+      "TOTAL": "Total",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "ஒதுக்கப்படாதது"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Agents Loading...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "ஏஜென்ட்",
+        "TOTAL": "Total",
+        "UNATTENDED": "Unattended",
+        "STATUS": "நிலை"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Busy",
+      "OFFLINE": "Offline"
     }
   }
 }
