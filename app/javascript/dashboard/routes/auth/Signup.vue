@@ -97,7 +97,7 @@
             icon="arrow-chevron-right"
             @click="submit"
           />
-          <p class="accept--terms" v-html="termsLink"></p>
+          <p v-dompurify-html="termsLink" class="accept--terms"></p>
         </form>
         <div class="column text-center auth--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
@@ -126,7 +126,7 @@ import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import AuthInput from './components/AuthInput';
 import AuthHeader from './components/AuthHeader';
 import AuthSubmitButton from './components/AuthSubmitButton';
-
+import { isValidPassword } from 'shared/helpers/Validators';
 export default {
   components: {
     AuthInput,
@@ -166,6 +166,7 @@ export default {
       },
       password: {
         required,
+        isValidPassword,
         minLength: minLength(6),
       },
       confirmPassword: {
@@ -194,6 +195,19 @@ export default {
         return !!this.credentials.hCaptchaClientResponse;
       }
       return true;
+    },
+    passwordErrorText() {
+      const { password } = this.$v.credentials;
+      if (!password.$error) {
+        return '';
+      }
+      if (!password.minLength) {
+        return this.$t('REGISTER.PASSWORD.ERROR');
+      }
+      if (!password.isValidPassword) {
+        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
+      }
+      return '';
     },
   },
   methods: {

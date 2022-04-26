@@ -4,6 +4,7 @@ class V2::ReportBuilder
   attr_reader :account, :params
 
   DEFAULT_GROUP_BY = 'day'.freeze
+  AGENT_RESULTS_PER_PAGE = 10
 
   def initialize(account, params)
     @account = account
@@ -79,12 +80,15 @@ class V2::ReportBuilder
   end
 
   def agent_metrics
-    users = @account.users
-    users = users.where(id: params[:user_id]) if params[:user_id].present?
-    users.each_with_object([]) do |user, arr|
-      @user = user
+    account_users = @account.account_users.page(params[:page]).per(AGENT_RESULTS_PER_PAGE)
+    account_users.each_with_object([]) do |account_user, arr|
+      @user = account_user.user
       arr << {
-        user: { id: user.id, name: user.name, thumbnail: user.avatar_url },
+        id: @user.id,
+        name: @user.name,
+        email: @user.email,
+        thumbnail: @user.avatar_url,
+        availability: account_user.availability_status,
         metric: conversations
       }
     end
@@ -94,7 +98,7 @@ class V2::ReportBuilder
     @open_conversations = scope.conversations.open
     first_response_count = scope.reporting_events.where(name: 'first_response', conversation_id: @open_conversations.pluck('id')).count
     metric = {
-      open: @open_conversations.count,
+      total: @open_conversations.count,
       unattended: @open_conversations.count - first_response_count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)

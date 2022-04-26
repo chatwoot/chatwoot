@@ -44,7 +44,7 @@ export const getPushSubscriptionPayload = subscription => ({
 });
 
 export const sendRegistrationToServer = subscription => {
-  if (auth.isLoggedIn()) {
+  if (auth.hasAuthCookie()) {
     return NotificationSubscriptions.create(
       getPushSubscriptionPayload(subscription)
     );
