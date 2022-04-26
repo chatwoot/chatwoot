@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "نظرة عامة",
+    "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
@@ -412,6 +412,34 @@
         "LABEL": "معدل الاستجابة",
         "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لرسائل الاستقصاء التي أرسلتها CSAT * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "نظرة عامة",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Conversations Loading...",
+      "TOTAL": "Total",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "غير مسند"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Agents Loading...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "موظف الدعم",
+        "TOTAL": "Total",
+        "UNATTENDED": "Unattended",
+        "STATUS": "الحالة"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "متصل",
+      "BUSY": "مشغول",
+      "OFFLINE": "غير متصل"
     }
   }
 }
