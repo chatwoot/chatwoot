@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "بررسی اجمالی",
+    "HEADER": "گفتگوها",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
@@ -412,6 +412,34 @@
         "LABEL": "نرخ پاسخ",
         "TOOLTIP": "تعداد کل پاسخ ها / تعداد کل پیام های نظرسنجی رضایت مشتری ارسال شده از 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "بررسی اجمالی",
+    "LIVE": "زنده",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "گفتگوها را باز کنید",
+      "LOADING_MESSAGE": "مکالمات در حال بارگیری...",
+      "TOTAL": "جمع",
+      "UNATTENDED": "بی سرپرست",
+      "UNASSIGNED": "تخصیص داده نشده"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "گفتگوهای ایجنت ها",
+      "LOADING_MESSAGE": "ایجنت ها در حال بارگذاری...",
+      "NO_AGENTS": "هیچ مکالمه ای توسط ایجنت ها وجود ندارد",
+      "TABLE_HEADER": {
+        "AGENT": "ایجنت",
+        "TOTAL": "جمع",
+        "UNATTENDED": "بی سرپرست",
+        "STATUS": "وضعیت"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "وضعیت ایجنت",
+      "ONLINE": "آنلاین",
+      "BUSY": "مشغول",
+      "OFFLINE": "آفلاین"
     }
   }
 }
