@@ -143,15 +143,15 @@ class Contact < ApplicationRecord
   end
 
   def phone_number_format
-    return if phone_number.blank? || changes['phone_number'].blank?
+    return if phone_number.blank?
 
-    self.phone_number = changes['phone_number'].first unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
   end
 
   def email_format
-    return if email.blank? || changes['email'].blank?
+    return if email.blank?
 
-    self.email = changes['email'].first unless email.match(Devise.email_regexp)
+    self.email = email_was unless email.match(Devise.email_regexp)
   end
 
   def prepare_contact_attributes
