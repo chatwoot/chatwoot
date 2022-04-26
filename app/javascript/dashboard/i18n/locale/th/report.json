@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "ภาพรวม",
+    "HEADER": "การสนทนา",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_AGENT_REPORTS": "ดาวน์โหลดรายงานพนักงาน",
@@ -412,6 +412,34 @@
         "LABEL": "อัตราการตอบกลับ",
         "TOOLTIP": "จำนวนการตอบกลับทั้งหมด / จำนวนข้อความทั้งหมดที่แบบสอบถาม CSAT ส่ง * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "ภาพรวม",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Conversations Loading...",
+      "TOTAL": "Total",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "ไม่ได้รับมอบหมาย"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Agents Loading...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "พนักงาน",
+        "TOTAL": "Total",
+        "UNATTENDED": "Unattended",
+        "STATUS": "สถานะ"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "ออนไลน์",
+      "BUSY": "ไม่ว่าง",
+      "OFFLINE": "ออฟไลน์"
     }
   }
 }
