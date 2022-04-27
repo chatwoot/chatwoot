@@ -419,18 +419,18 @@
     "LIVE": "زنده",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "گفتگوها را باز کنید",
-      "LOADING_MESSAGE": "مکالمات در حال بارگیری...",
-      "TOTAL": "جمع",
+      "LOADING_MESSAGE": "در حال بارگیری معیارهای مکالمه...",
+      "OPEN": "باز",
       "UNATTENDED": "بی سرپرست",
       "UNASSIGNED": "تخصیص داده نشده"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "گفتگوهای ایجنت ها",
-      "LOADING_MESSAGE": "ایجنت ها در حال بارگذاری...",
+      "LOADING_MESSAGE": "در حال بارگیری معیارهای ایجنت...",
       "NO_AGENTS": "هیچ مکالمه ای توسط ایجنت ها وجود ندارد",
       "TABLE_HEADER": {
         "AGENT": "ایجنت",
-        "TOTAL": "جمع",
+        "OPEN": "باز",
         "UNATTENDED": "بی سرپرست",
         "STATUS": "وضعیت"
       }
