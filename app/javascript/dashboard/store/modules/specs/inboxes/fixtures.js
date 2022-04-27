@@ -55,4 +55,11 @@ export default [
     website_token: 'randomid125',
     enable_auto_assignment: true,
   },
+  {
+    id: 6,
+    channel_id: 6,
+    name: 'Test Widget 6',
+    channel_type: 'Channel::Sms',
+    provider: 'default',
+  },
 ];

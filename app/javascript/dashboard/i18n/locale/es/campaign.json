@@ -114,7 +114,7 @@
     },
     "ONE_OFF": {
       "HEADER": "Campañas únicas",
-      "404": "There are no one off campaigns created",
+      "404": "No hay campañas en curso creadas",
       "INBOXES_NOT_FOUND": "Por favor, crea una bandeja de entrada sms y empieza a añadir campañas"
     },
     "ONGOING": {

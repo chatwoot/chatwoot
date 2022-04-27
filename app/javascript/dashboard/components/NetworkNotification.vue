@@ -4,15 +4,20 @@
       <div class="ui-notification">
         <fluent-icon icon="wifi-off" />
         <p class="ui-notification-text">
-          {{ $t('NETWORK.NOTIFICATION.TEXT') }}
+          {{
+            useInstallationName(
+              $t('NETWORK.NOTIFICATION.TEXT'),
+              globalConfig.installationName
+            )
+          }}
         </p>
         <woot-button variant="clear" size="small" @click="refreshPage">
           {{ $t('NETWORK.BUTTON.REFRESH') }}
         </woot-button>
         <woot-button
-          variant="clear"
+          variant="smooth"
           size="small"
-          color-scheme="secondary"
+          color-scheme="warning"
           icon="dismiss-circle"
           @click="closeNotification"
         >
@@ -23,15 +28,28 @@
 </template>
 
 <script>
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
 export default {
+  mixins: [globalConfigMixin],
+
   data() {
     return {
       showNotification: !navigator.onLine,
     };
   },
 
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
+  },
+
   mounted() {
     window.addEventListener('offline', this.updateOnlineStatus);
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
+      this.updateOnlineStatus({ type: 'offline' });
+    });
   },
 
   beforeDestroy() {

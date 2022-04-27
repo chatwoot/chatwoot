@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirmar exclusão",
       "MESSAGE": "Você tem certeza que deseja excluir ",
-      "PLACE_HOLDER": "Digite {contactName} para confirmar",
-      "YES": "Sim, excluir ",
-      "NO": "Não, Mantenha "
+      "YES": "Sim, excluir",
+      "NO": "Não, Mantenha"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contato excluído com sucesso",
@@ -169,6 +168,7 @@
       "SUBMIT": "Enviar mensagem",
       "CANCEL": "Cancelar",
       "SUCCESS_MESSAGE": "Mensagem enviada!",
+      "GO_TO_CONVERSATION": "Visualizar",
       "ERROR_MESSAGE": "Não foi possível enviar! Tente novamente"
     }
   },
@@ -178,6 +178,8 @@
     "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "FILTER_CONTACTS": "Filtro",
+    "FILTER_CONTACTS_SAVE": "Salvar Filtro",
+    "FILTER_CONTACTS_DELETE": "Excluir filtro",
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",

@@ -129,17 +129,4 @@ describe('#getters', () => {
       updated_at: '2021-05-03T04:53:36.354Z',
     });
   });
-  it('getCampaignHasExecuted', () => {
-    const state = {
-      records: [],
-      uiFlags: {
-        isError: false,
-        hasFetched: false,
-      },
-      activeCampaign: {},
-      campaignHasExecuted: false,
-    };
-
-    expect(getters.getCampaignHasExecuted(state)).toEqual(false);
-  });
 });

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe '/api/v1/widget/campaigns', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
-  let!(:campaign_1) { create(:campaign, inbox: web_widget.inbox, enabled: true, account: account) }
-  let!(:campaign_2) { create(:campaign, inbox: web_widget.inbox, enabled: false, account: account) }
+  let!(:campaign_1) { create(:campaign, inbox: web_widget.inbox, enabled: true, account: account, trigger_rules: { url: 'https://test.com' }) }
+  let!(:campaign_2) { create(:campaign, inbox: web_widget.inbox, enabled: false, account: account, trigger_rules: { url: 'https://test.com' }) }
 
   describe 'GET /api/v1/widget/campaigns' do
     let(:params) { { website_token: web_widget.website_token } }

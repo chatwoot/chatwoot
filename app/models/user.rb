@@ -15,6 +15,7 @@
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  message_signature      :text
 #  name                   :string           not null
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
@@ -23,6 +24,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :json
+#  type                   :string
 #  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
@@ -65,7 +67,7 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, :name, presence: true
-  validates_length_of :name, minimum: 1
+  validates_length_of :name, minimum: 1, maximum: 255
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
@@ -106,7 +108,9 @@ class User < ApplicationRecord
   end
 
   def current_account_user
-    account_users.find_by(account_id: Current.account.id) if Current.account
+    # We want to avoid subsequent queries in case where the association is preloaded.
+    # using where here will trigger n+1 queries.
+    account_users.find { |ac_usr| ac_usr.account_id == Current.account.id } if Current.account
   end
 
   def available_name
@@ -182,5 +186,12 @@ class User < ApplicationRecord
   # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
   def will_save_change_to_email?
     mutations_from_database.changed?('email')
+  end
+
+  def notifications_meta(account_id)
+    {
+      unread_count: notifications.where(account_id: account_id, read_at: nil).count,
+      count: notifications.where(account_id: account_id).count
+    }
   end
 end

@@ -16,7 +16,7 @@
       />
     </nav>
     <div class="menu vertical user-menu">
-      <notification-bell />
+      <notification-bell @open-notification-panel="openNotificationPanel" />
       <agent-details @toggle-menu="toggleOptions" />
       <options-menu
         :show="showOptionsMenu"
@@ -83,6 +83,9 @@ export default {
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
+    openNotificationPanel() {
+      this.$emit('open-notification-panel');
+    },
   },
 };
 </script>
@@ -93,7 +96,7 @@ export default {
   width: var(--space-jumbo);
   border-right: 1px solid var(--s-50);
   box-sizing: content-box;
-  height: 100vh;
+  height: 100%;
   flex-shrink: 0;
 }
 

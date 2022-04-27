@@ -9,7 +9,7 @@
         v-model.trim="email"
         class="form-input"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
-        :class="{ error: $v.email.$error }"
+        :class="inputHasError"
         @input="$v.email.$touch"
         @keydown.enter="onSubmit"
       />
@@ -31,12 +31,14 @@ import { required, email } from 'vuelidate/lib/validators';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import Spinner from 'shared/components/Spinner';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
     FluentIcon,
     Spinner,
   },
+  mixins: [darkModeMixin],
   props: {
     messageId: {
       type: Number,
@@ -62,6 +64,15 @@ export default {
         this.messageContentAttributes &&
         this.messageContentAttributes.submitted_email
       );
+    },
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+    },
+    inputHasError() {
+      return this.$v.email.$error
+        ? `${this.inputColor} error`
+        : `${this.inputColor}`;
     },
   },
   validations: {
@@ -103,7 +114,11 @@ export default {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     padding: $space-one;
-    width: auto;
+    width: 100%;
+
+    &::placeholder {
+      color: $color-light-gray;
+    }
 
     &.error {
       border-color: $color-error;

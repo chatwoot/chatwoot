@@ -4,7 +4,7 @@
     <ve-table
       v-else
       :columns="columns"
-      scroll-width="155rem"
+      scroll-width="190rem"
       :table-data="tableData"
       :border-around="true"
     />

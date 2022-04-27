@@ -70,7 +70,7 @@ const settings = accountId => ({
       toStateName: 'attributes_list',
     },
     {
-      icon: 'autocorrect',
+      icon: 'automation',
       label: 'AUTOMATION',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),

@@ -63,14 +63,19 @@ class ReplyMailbox < ApplicationMailbox
   # find conversation uuid from below pattern
   # <conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>
   def find_conversation_with_in_reply_to
-    in_reply_to = mail.in_reply_to
-    match_result = in_reply_to.match(ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN) if in_reply_to.present?
-
-    if match_result
-      find_conversation_by_uuid(match_result)
-    else
-      find_conversation_by_message_id(in_reply_to)
+    match_result = nil
+    in_reply_to_addresses = mail.in_reply_to
+    in_reply_to_addresses = [in_reply_to_addresses] if in_reply_to_addresses.is_a?(String)
+    in_reply_to_addresses.each do |in_reply_to|
+      match_result = in_reply_to.match(::ApplicationMailbox::CONVERSATION_MESSAGE_ID_PATTERN)
+      break if match_result
     end
+    find_by_in_reply_to_addresses(match_result, in_reply_to_addresses)
+  end
+
+  def find_by_in_reply_to_addresses(match_result, in_reply_to_addresses)
+    find_conversation_by_uuid(match_result) if match_result
+    find_conversation_by_message_id(in_reply_to_addresses) if @conversation.blank?
   end
 
   def verify_decoded_params

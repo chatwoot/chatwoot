@@ -1,10 +1,17 @@
 class V2::ReportBuilder
   include DateRangeHelper
+  include ReportHelper
   attr_reader :account, :params
+
+  DEFAULT_GROUP_BY = 'day'.freeze
+  AGENT_RESULTS_PER_PAGE = 25
 
   def initialize(account, params)
     @account = account
     @params = params
+
+    timezone_offset = (params[:timezone_offset] || 0).to_f
+    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
   end
 
   def timeseries
@@ -13,8 +20,14 @@ class V2::ReportBuilder
 
   # For backward compatible with old report
   def build
-    timeseries.each_with_object([]) do |p, arr|
-      arr << { value: p[1], timestamp: p[0].to_time.to_i }
+    if %w[avg_first_response_time avg_resolution_time].include?(params[:metric])
+      timeseries.each_with_object([]) do |p, arr|
+        arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i, count: @grouped_values.count[p[0]] }
+      end
+    else
+      timeseries.each_with_object([]) do |p, arr|
+        arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i }
+      end
     end
   end
 
@@ -29,22 +42,15 @@ class V2::ReportBuilder
     }
   end
 
-  private
-
-  def scope
-    case params[:type]
-    when :account
-      account
-    when :inbox
-      inbox
-    when :agent
-      user
-    when :label
-      label
-    when :team
-      team
+  def conversation_metrics
+    if params[:type].equal?(:account)
+      conversations
+    else
+      agent_metrics.sort_by { |hash| hash[:metric][:open] }.reverse
     end
   end
+
+  private
 
   def inbox
     @inbox ||= account.inboxes.find(params[:id])
@@ -62,56 +68,40 @@ class V2::ReportBuilder
     @team ||= account.teams.find(params[:id])
   end
 
-  def conversations_count
-    scope.conversations
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .count
+  def get_grouped_values(object_scope)
+    @grouped_values = object_scope.group_by_period(
+      params[:group_by] || DEFAULT_GROUP_BY,
+      :created_at,
+      default_value: 0,
+      range: range,
+      permit: %w[day week month year],
+      time_zone: @timezone
+    )
   end
 
-  def incoming_messages_count
-    scope.messages.incoming.unscope(:order)
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .count
+  def agent_metrics
+    account_users = @account.account_users.page(params[:page]).per(AGENT_RESULTS_PER_PAGE)
+    account_users.each_with_object([]) do |account_user, arr|
+      @user = account_user.user
+      arr << {
+        id: @user.id,
+        name: @user.name,
+        email: @user.email,
+        thumbnail: @user.avatar_url,
+        availability: account_user.availability_status,
+        metric: conversations
+      }
+    end
   end
 
-  def outgoing_messages_count
-    scope.messages.outgoing.unscope(:order)
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .count
-  end
-
-  def resolutions_count
-    scope.conversations
-         .resolved
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .count
-  end
-
-  def avg_first_response_time
-    scope.events
-         .where(name: 'first_response')
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .average(:value)
-  end
-
-  def avg_resolution_time
-    scope.events.where(name: 'conversation_resolved')
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .average(:value)
-  end
-
-  # Taking average of average is not too accurate
-  # https://en.wikipedia.org/wiki/Simpson's_paradox
-  # TODO: Will optimize this later
-  def avg_resolution_time_summary
-    return 0 if avg_resolution_time.values.empty?
-
-    (avg_resolution_time.values.sum / avg_resolution_time.values.length)
-  end
-
-  def avg_first_response_time_summary
-    return 0 if avg_first_response_time.values.empty?
-
-    (avg_first_response_time.values.sum / avg_first_response_time.values.length)
+  def conversations
+    @open_conversations = scope.conversations.where(account_id: @account.id).open
+    first_response_count = @account.reporting_events.where(name: 'first_response', conversation_id: @open_conversations.pluck('id')).count
+    metric = {
+      open: @open_conversations.count,
+      unattended: @open_conversations.count - first_response_count
+    }
+    metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
+    metric
   end
 end

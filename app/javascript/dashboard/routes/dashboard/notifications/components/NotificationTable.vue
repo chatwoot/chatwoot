@@ -17,17 +17,17 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="">
+            <div class="flex-view notification-contant--wrap">
               <h5 class="notification--title">
                 {{
                   `#${
                     notificationItem.primary_actor
                       ? notificationItem.primary_actor.id
-                      : 'deleted'
+                      : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
                   }`
                 }}
               </h5>
-              <span class="notification--message-title">
+              <span class="notification--message-title text-truncate">
                 {{ notificationItem.push_message_title }}
               </span>
             </div>
@@ -195,6 +195,11 @@ export default {
 .timestamp--column {
   min-width: 13rem;
   text-align: right;
+}
+
+.notification-contant--wrap {
+  flex-direction: column;
+  max-width: 50rem;
 }
 
 .notification--message-title {

@@ -10,17 +10,24 @@
       />
 
       <div class="contact--details">
-        <h3 v-if="showAvatar" class="sub-block-title contact--name">
+        <div v-if="showAvatar" class="contact--name-wrap">
+          <h3 class="sub-block-title contact--name">
+            {{ contact.name }}
+          </h3>
           <a
             :href="contactProfileLink"
             class="fs-default"
             target="_blank"
             rel="noopener nofollow noreferrer"
           >
-            {{ contact.name }}
-            <fluent-icon size="16" icon="open" class="open-link--icon" />
+            <woot-button
+              size="tiny"
+              icon="open"
+              variant="clear"
+              color-scheme="secondary"
+            />
           </a>
-        </h3>
+        </div>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
         </p>
@@ -119,17 +126,15 @@
         @close="toggleMergeModal"
       />
     </div>
-    <woot-confirm-delete-modal
+    <woot-delete-modal
       v-if="showDeleteModal"
       :show.sync="showDeleteModal"
+      :on-close="closeDelete"
+      :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-      :confirm-value="contact.name"
-      :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
+      :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
+      :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
   </div>
 </template>
@@ -203,8 +208,7 @@ export default {
       if (!cityAndCountry) {
         return '';
       }
-      const countryFlag = countryCode ? flag(countryCode) : '🌎';
-      return `${cityAndCountry} ${countryFlag}`;
+      return this.findCountryFlag(countryCode, cityAndCountry);
     },
     socialProfiles() {
       const {
@@ -215,21 +219,10 @@ export default {
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
     // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.YES')} ${this.contact.name}`;
-    },
-    deleteRejectText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.NO')} ${this.contact.name}`;
-    },
     confirmDeleteMessage() {
       return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
         this.contact.name
       } ?`;
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.PLACE_HOLDER', {
-        contactName: this.contact.name,
-      })}`;
     },
   },
   methods: {
@@ -254,11 +247,22 @@ export default {
       this.showConversationModal = false;
       this.showEditModal = false;
     },
+    findCountryFlag(countryCode, cityAndCountry) {
+      try {
+        const countryFlag = countryCode ? flag(countryCode) : '🌎';
+        return `${cityAndCountry} ${countryFlag}`;
+      } catch (error) {
+        return '';
+      }
+    },
     async deleteContact({ id }) {
       try {
         await this.$store.dispatch('contacts/delete', id);
         this.$emit('panel-close');
         this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+        if (this.$route.name !== 'contacts_dashboard') {
+          this.$router.push({ name: 'contacts_dashboard' });
+        }
       } catch (error) {
         this.showAlert(
           error.message
@@ -294,18 +298,19 @@ export default {
   text-align: left;
 }
 
+.contact--name-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-small);
+}
+
 .contact--name {
   text-transform: capitalize;
   white-space: normal;
+  margin: 0 var(--space-smaller) 0 0;
 
   a {
     color: var(--color-body);
-  }
-
-  .open-link--icon {
-    color: var(--color-body);
-    font-size: var(--font-size-small);
-    margin-left: var(--space-smaller);
   }
 }
 
@@ -331,6 +336,9 @@ export default {
 }
 .merege-summary--card {
   padding: var(--space-normal);
+}
+.contact--bio {
+  word-wrap: break-word;
 }
 
 .button--contact-menu {

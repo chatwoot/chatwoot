@@ -28,6 +28,18 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(data['content']).to eq('hello')
     end
 
+    it 'does not create the message' do
+      content = "#{'h' * 150 * 1000}a"
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",
+           params: { content: content }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+
+      json_response = JSON.parse(response.body)
+
+      expect(json_response['message']).to eq('Content is too long (maximum is 150000 characters)')
+    end
+
     it 'creates attachment message in conversation' do
       file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
       post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",

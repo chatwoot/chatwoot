@@ -120,7 +120,7 @@
     "ONGOING": {
       "HEADER": "Kampanye yang sedang berlangsung",
       "404": "Tidak ada kampanye yang sedang berlangsung yang dibuat",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "INBOXES_NOT_FOUND": "Silakan buat sebuah kotak masuk sms dan mulai menambahkan kampanye"
     }
   }
 }

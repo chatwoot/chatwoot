@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
+  "DELETE_NOTE": {
+    "CONFIRM":{
+      "TITLE": "Confirm Deletion",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "No, Keep it"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -77,9 +85,8 @@
     "CONFIRM": {
       "TITLE": "Confirm Deletion",
       "MESSAGE": "Are you sure to delete ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Yes, Delete ",
-      "NO": "No, Keep "
+      "YES": "Yes, Delete",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -169,6 +176,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "Cancel",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,6 +186,8 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",

@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { required, minValue } from 'vuelidate/lib/validators';
+import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
@@ -146,6 +146,7 @@ export default {
     },
     autoResolveDuration: {
       minValue: minValue(1),
+      maxValue: maxValue(999),
     },
   },
   computed: {

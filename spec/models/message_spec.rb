@@ -56,33 +56,44 @@ RSpec.describe Message, type: :model do
       expect(hook_execution_service).to have_received(:perform)
     end
 
-    it 'calls notify email method on after save for outgoing messages' do
-      allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-      message.message_type = 'outgoing'
-      message.save!
-      expect(ConversationReplyEmailWorker).to have_received(:perform_in)
-    end
+    context 'with conversation continuity' do
+      it 'calls notify email method on after save for outgoing messages in website channel' do
+        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+        message.message_type = 'outgoing'
+        message.save!
+        expect(ConversationReplyEmailWorker).to have_received(:perform_in)
+      end
 
-    it 'wont call notify email method for private notes' do
-      message.private = true
-      allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-      message.save!
-      expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
-    end
+      it 'does not call notify email for website channel if continuity is disabled' do
+        message.inbox = create(:inbox, account: message.account,
+                                       channel: build(:channel_widget, account: message.account, continuity_via_email: false))
+        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+        message.message_type = 'outgoing'
+        message.save!
+        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+      end
 
-    it 'calls EmailReply worker if the channel is email' do
-      message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
-      allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
-      message.message_type = 'outgoing'
-      message.save!
-      expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
-    end
+      it 'wont call notify email method for private notes' do
+        message.private = true
+        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+        message.save!
+        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+      end
 
-    it 'wont call notify email method unless its website or email channel' do
-      message.inbox = create(:inbox, account: message.account, channel: build(:channel_api, account: message.account))
-      allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-      message.save!
-      expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+      it 'calls EmailReply worker if the channel is email' do
+        message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
+        allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
+        message.message_type = 'outgoing'
+        message.save!
+        expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
+      end
+
+      it 'wont call notify email method unless its website or email channel' do
+        message.inbox = create(:inbox, account: message.account, channel: build(:channel_api, account: message.account))
+        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+        message.save!
+        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+      end
     end
   end
 
@@ -92,6 +103,42 @@ RSpec.describe Message, type: :model do
     it 'sets content_type as text' do
       message.save!
       expect(message.content_type).to eq 'text'
+    end
+  end
+
+  context 'when email notifiable message' do
+    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+
+    it 'return false if private message' do
+      message.private = true
+      message.message_type = 'outgoing'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if incoming message' do
+      message.private = false
+      message.message_type = 'incoming'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if activity message' do
+      message.private = false
+      message.message_type = 'activity'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return false if message type is template and content type is not input_csat or text' do
+      message.private = false
+      message.message_type = 'template'
+      message.content_type = 'incoming_email'
+      expect(message.email_notifiable_message?).to be false
+    end
+
+    it 'return true if not private and not incoming and message content type is input_csat or text' do
+      message.private = false
+      message.message_type = 'template'
+      message.content_type = 'text'
+      expect(message.email_notifiable_message?).to be true
     end
   end
 end

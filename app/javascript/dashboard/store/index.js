@@ -31,6 +31,8 @@ import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import attributes from './modules/attributes';
+import automations from './modules/automations';
+import customViews from './modules/customViews';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -65,5 +67,7 @@ export default new Vuex.Store({
     userNotificationSettings,
     webhooks,
     attributes,
+    automations,
+    customViews,
   },
 });

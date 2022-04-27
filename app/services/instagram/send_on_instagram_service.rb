@@ -39,7 +39,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.file_url
+            url: attachment.download_url
           }
         }
       }
@@ -51,7 +51,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def send_to_facebook_page(message_content)
     access_token = channel.page_access_token
     app_secret_proof = calculate_app_secret_proof(GlobalConfigService.load('FB_APP_SECRET', ''), access_token)
-
     query = { access_token: access_token }
     query[:appsecret_proof] = app_secret_proof if app_secret_proof
 
@@ -63,7 +62,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.info("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response['error']
     message.update!(source_id: response['message_id']) if response['message_id'].present?
 
     response

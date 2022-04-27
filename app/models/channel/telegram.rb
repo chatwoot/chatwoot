@@ -95,7 +95,7 @@ class Channel::Telegram < ApplicationRecord
       when 'file'
         telegram_attachment[:type] = 'document'
       end
-      telegram_attachment[:media] = attachment.file_url
+      telegram_attachment[:media] = attachment.download_url
       telegram_attachments << telegram_attachment
     end
 

@@ -1,34 +1,49 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Φίλτρο Επαφών",
+        "SUBTITLE": "Προσθέστε φίλτρα παρακάτω και πατήστε 'Υποβολή' για να φιλτράρετε τις επαφές.",
+        "ADD_NEW_FILTER": "Προσθήκη Φίλτρου",
+        "CLEAR_ALL_FILTERS": "Εκκαθάριση Όλων Των Φίλτρων",
+        "FILTER_DELETE_ERROR": "Θα πρέπει να έχετε τουλάχιστον ένα φίλτρο για την αποθήκευση",
         "SUBMIT_BUTTON_LABEL": "Καταχώρηση",
         "CANCEL_BUTTON_LABEL": "Άκυρο",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Εκκαθάριση Φίλτρων",
+        "EMPTY_VALUE_ERROR": "Απαιτείται τιμή",
+        "TOOLTIP_LABEL": "Φιλτράρισμα επαφών",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "AND",
             "OR": "OR"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "equal_to": "Ίσο με",
+            "not_equal_to": "Όχι ίσο με",
+            "contains": "Περιέχει",
+            "does_not_contain": "Δεν περιέχει",
+            "is_present": "Υπάρχει",
+            "is_not_present": "Δεν υπάρχει",
+            "is_greater_than": "Είναι μεγαλύτερο από",
+            "is_lesser_than": "Είναι μικρότερο από",
+            "days_before": "Είναι x ημέρες πριν"
         },
         "ATTRIBUTES": {
             "NAME": "Όνομα",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Αριθμός τηλεφώνου",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "Κωδικός",
             "CITY": "Πόλη",
-            "COUNTRY": "Χώρα"
+            "COUNTRY": "Χώρα",
+            "CUSTOM_ATTRIBUTE_LIST": "Λίστα",
+            "CUSTOM_ATTRIBUTE_TEXT": "Κείμενο",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Αριθμός",
+            "CUSTOM_ATTRIBUTE_LINK": "Σύνδεσμος",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CREATED_AT": "Δημιουργήθηκε στις",
+            "LAST_ACTIVITY": "Τελευταία Δραστηριότητα"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Τυπικά Φίλτρα",
+            "ADDITIONAL_FILTERS": "Πρόσθετα Φίλτρα",
+            "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες"
         }
     }
 }

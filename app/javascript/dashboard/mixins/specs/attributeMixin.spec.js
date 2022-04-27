@@ -92,18 +92,6 @@ describe('attributeMixin', () => {
     expect(wrapper.vm.attributeDisplayType(9988)).toBe('number');
   });
 
-  it('return true if link is passed', () => {
-    const Component = {
-      render() {},
-      title: 'TestComponent',
-      mixins: [attributeMixin],
-    };
-    const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.isAttributeLink('https://www.chatwoot.com/pricing')).toBe(
-      true
-    );
-  });
-
   it('return true if number is passed', () => {
     const Component = {
       render() {},

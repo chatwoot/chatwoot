@@ -75,5 +75,14 @@ RSpec.describe SendReplyJob, type: :job do
       expect(process_service).to receive(:perform)
       described_class.perform_now(message.id)
     end
+
+    it 'calls ::Sms::SendOnSmsService when its sms message' do
+      sms_channel = create(:channel_sms)
+      message = create(:message, conversation: create(:conversation, inbox: sms_channel.inbox))
+      allow(::Sms::SendOnSmsService).to receive(:new).with(message: message).and_return(process_service)
+      expect(::Sms::SendOnSmsService).to receive(:new).with(message: message)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(message.id)
+    end
   end
 end

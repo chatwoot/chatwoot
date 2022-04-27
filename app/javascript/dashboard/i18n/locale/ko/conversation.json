@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
     "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "ASSIGN_TO_ME": "Assign to me",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
-      "PRIVATE_MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. 에이전트만 볼 수 있습니다."
+      "PRIVATE_MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. 에이전트만 볼 수 있습니다.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "답글",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "웹 편집기 보기",
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "엔터를 눌러 전송하기",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "보낸 사람:",
+    "BOT": "봇",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
       "REMOVE": "제거",
@@ -127,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "팀 구성원들을 초대하세요.",
-      "DESCRIPTION": "드디어 고객과 대화할 준비가 되었습니다. 팀원들을 초대하세요. 팀원들의 이메일 주소를 에이전트 목록에 추가함으로써 초대할 수 있습니다.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "클릭하여 팀원을 초대하세요."
     },
     "INBOXES": {
@@ -179,6 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",

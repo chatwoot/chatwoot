@@ -82,10 +82,13 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getResponses({ commit }, { page = 1, from, to } = {}) {
+  get: async function getResponses(
+    { commit },
+    { page = 1, from, to, user_ids } = {}
+  ) {
     commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: true });
     try {
-      const response = await CSATReports.get({ page, from, to });
+      const response = await CSATReports.get({ page, from, to, user_ids });
       commit(types.SET_CSAT_RESPONSE, response.data);
     } catch (error) {
       // Ignore error
@@ -93,10 +96,10 @@ export const actions = {
       commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: false });
     }
   },
-  getMetrics: async function getMetrics({ commit }, { from, to }) {
+  getMetrics: async function getMetrics({ commit }, { from, to, user_ids }) {
     commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: true });
     try {
-      const response = await CSATReports.getMetrics({ from, to });
+      const response = await CSATReports.getMetrics({ from, to, user_ids });
       commit(types.SET_CSAT_RESPONSE_METRICS, response.data);
     } catch (error) {
       // Ignore error

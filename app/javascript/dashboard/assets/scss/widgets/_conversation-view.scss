@@ -228,8 +228,14 @@
     @include flex-align(right, null);
 
     .wrap {
+      align-items: flex-end;
+      display: flex;
       margin-right: $space-normal;
       text-align: right;
+
+      .sender--info {
+        padding: var(--space-small) 0 var(--space-smaller) var(--space-small);
+      }
     }
 
     .bubble {

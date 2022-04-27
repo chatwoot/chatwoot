@@ -25,7 +25,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def attachments
-    message.attachments.map(&:file_url)
+    message.attachments.map(&:download_url)
   end
 
   def inbox

@@ -22,13 +22,14 @@
         <woot-avatar-uploader
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
           :src="avatarUrl"
+          class="settings-item"
           delete-avatar
           @change="handleImageUpload"
           @onAvatarDelete="handleAvatarDelete"
         />
         <woot-input
           v-model.trim="selectedInboxName"
-          class="medium-9 columns"
+          class="medium-9 columns settings-item"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
         />
@@ -47,7 +48,7 @@
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
-          class="medium-9 columns"
+          class="medium-9 columns settings-item"
           :class="{ error: $v.webhookUrl.$error }"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
@@ -65,7 +66,7 @@
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWebsiteUrl"
-          class="medium-9 columns"
+          class="medium-9 columns settings-item"
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
           :placeholder="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
@@ -74,7 +75,7 @@
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWelcomeTitle"
-          class="medium-9 columns"
+          class="medium-9 columns settings-item"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
           "
@@ -88,7 +89,7 @@
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWelcomeTagline"
-          class="medium-9 columns"
+          class="medium-9 columns settings-item"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
           "
@@ -99,12 +100,12 @@
           "
         />
 
-        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="inbox.widget_color" />
         </label>
 
-        <label class="medium-9 columns">
+        <label class="medium-9 columns settings-item">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
           }}
@@ -132,20 +133,23 @@
             }}
           </p>
         </label>
-        <greetings-editor
-          v-if="greetingEnabled"
-          v-model.trim="greetingMessage"
-          :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
-          "
-          :placeholder="
-            $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
-            )
-          "
-          :richtext="!textAreaChannels"
-        />
-        <label class="medium-9 columns">
+        <div v-if="greetingEnabled" class="settings-item">
+          <greetings-editor
+            v-model.trim="greetingMessage"
+            :label="
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL'
+              )
+            "
+            :placeholder="
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
+              )
+            "
+            :richtext="!textAreaChannels"
+          />
+        </div>
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
             <option key="in_a_few_minutes" value="in_a_few_minutes">
@@ -168,7 +172,7 @@
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
           <select v-model="emailCollectEnabled">
             <option :value="true">
@@ -185,7 +189,7 @@
           </p>
         </label>
 
-        <label class="medium-9 columns">
+        <label class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           <select v-model="autoAssignment">
             <option :value="true">
@@ -200,7 +204,7 @@
           </p>
         </label>
 
-        <label class="medium-9 columns">
+        <label class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -215,10 +219,51 @@
           </p>
         </label>
 
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
+          <select v-model="allowMessagesAfterResolved">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ALLOW_MESSAGES_AFTER_RESOLVED.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL') }}
+          <select v-model="continuityViaEmail">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.ENABLE_CONTINUITY_VIA_EMAIL.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
-        <div v-if="isAWebWidgetInbox" class="widget--feature-flag">
+        <div
+          v-if="isAWebWidgetInbox"
+          class="widget--feature-flag settings-item"
+        >
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -229,7 +274,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox">
+        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -238,6 +283,17 @@
           />
           <label for="emoji_picker">
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
+          </label>
+        </div>
+        <div v-if="isAWebWidgetInbox" class="settings-item settings-item">
+          <input
+            v-model="selectedFeatureFlags"
+            type="checkbox"
+            value="end_conversation"
+            @input="handleFeatureFlag"
+          />
+          <label for="end_conversation">
+            {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
 
@@ -366,7 +422,7 @@
           </settings-section>
         </div>
         <imap-settings :inbox="inbox" />
-        <smtp-settings :inbox="inbox" />
+        <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
       </div>
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
@@ -420,6 +476,8 @@ export default {
       emailCollectEnabled: false,
       isAgentListUpdating: false,
       csatSurveyEnabled: false,
+      allowMessagesAfterResolved: true,
+      continuityViaEmail: true,
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
@@ -583,6 +641,8 @@ export default {
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
+        this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
@@ -625,6 +685,7 @@ export default {
           enable_auto_assignment: this.autoAssignment,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
+          allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           channel: {
@@ -637,6 +698,7 @@ export default {
             reply_time: this.replyTime || 'in_a_few_minutes',
             hmac_mandatory: this.hmacMandatory,
             tweets_enabled: this.tweetsEnabled,
+            continuity_via_email: this.continuityViaEmail,
           },
         };
         if (this.avatarFile) {
@@ -705,5 +767,15 @@ export default {
 
 .widget--feature-flag {
   padding-top: var(--space-small);
+}
+
+.settings-item {
+  padding-bottom: var(--space-normal);
+
+  .help-text {
+    font-style: normal;
+    color: var(--b-500);
+    padding-bottom: var(--space-smaller);
+  }
 }
 </style>

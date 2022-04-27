@@ -1,9 +1,9 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
+        "TITLE": "Filtruj kontakty",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "ADD_NEW_FILTER": "Dodaj filtr",
+        "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Prześlij",
         "CANCEL_BUTTON_LABEL": "Anuluj",
@@ -11,8 +11,8 @@
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "i",
+            "OR": "albo"
         },
         "OPERATOR_LABELS": {
             "equal_to": "Equal to",
@@ -20,7 +20,10 @@
             "contains": "Contains",
             "does_not_contain": "Does not contain",
             "is_present": "Is present",
-            "is_not_present": "Is not present"
+            "is_not_present": "Is not present",
+            "is_greater_than": "Is greater than",
+            "is_lesser_than": "Is lesser than",
+            "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
             "NAME": "Nazwa",
@@ -28,7 +31,19 @@
             "PHONE_NUMBER": "Numer telefonu",
             "IDENTIFIER": "Identifier",
             "CITY": "Miasto",
-            "COUNTRY": "Kraj"
+            "COUNTRY": "Kraj",
+            "CUSTOM_ATTRIBUTE_LIST": "List",
+            "CUSTOM_ATTRIBUTE_TEXT": "Text",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CREATED_AT": "Created At",
+            "LAST_ACTIVITY": "Ostatnia aktywność"
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "Standard Filters",
+            "ADDITIONAL_FILTERS": "Dodatkowe filtry",
+            "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
         }
     }
 }

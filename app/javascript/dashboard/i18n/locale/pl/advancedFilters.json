@@ -1,17 +1,17 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "TITLE": "Filtruj rozmowy",
+    "SUBTITLE": "Dodaj poniższe filtry i kliknij 'Zastosuj filtry', aby przefiltrować rozmowy.",
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
     "CANCEL_BUTTON_LABEL": "Anuluj",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "TOOLTIP_LABEL": "Filtruj konwersacje",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "i",
+      "OR": "albo"
     },
     "OPERATOR_LABELS": {
       "equal_to": "Equal to",
@@ -19,19 +19,75 @@
       "contains": "Contains",
       "does_not_contain": "Does not contain",
       "is_present": "Is present",
-      "is_not_present": "Is not present"
+      "is_not_present": "Is not present",
+      "is_greater_than": "Is greater than",
+      "is_less_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Nazwa osoby przypisanej",
       "INBOX_NAME": "Nazwa skrzynki odbiorczej",
       "TEAM_NAME": "Team Name",
       "CONVERSATION_IDENTIFIER": "Conversation Identifier",
       "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
+      "LABELS": "Etykiety",
       "BROWSER_LANGUAGE": "Browser Language",
       "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link"
+      "REFERER_LINK": "Referer link",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "Ostatnia aktywność"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Czy chcesz zapisać ten filtr?",
+        "LABEL": "Nazwij filtr",
+        "PLACEHOLDER": "Wprowadź nazwę dla tego filtra",
+        "ERROR_MESSAGE": "Nazwa jest wymagana",
+        "SAVE_BUTTON": "Zapisz filtr",
+        "CANCEL_BUTTON": "Anuluj",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder utworzony pomyślnie",
+          "ERROR_MESSAGE": "Błąd podczas tworzenia folderu"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Usuń filtr",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Potwierdź usunięcie",
+            "MESSAGE": "Czy na pewno chcesz usunąć filtr ",
+            "YES": "Tak, usuń",
+            "NO": "Nie, zachowaj"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
+        }
+      }
     }
   }
 }

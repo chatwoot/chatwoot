@@ -5,7 +5,7 @@ describe ::Campaigns::CampaignConversationBuilder do
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account, identifier: '123') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
-  let(:campaign) { create(:campaign, inbox: inbox, account: account) }
+  let(:campaign) { create(:campaign, inbox: inbox, account: account, trigger_rules: { url: 'https://test.com' }) }
 
   describe '#perform' do
     it 'creates a conversation with campaign id and message with campaign message' do

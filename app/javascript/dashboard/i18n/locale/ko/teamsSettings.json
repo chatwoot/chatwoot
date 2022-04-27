@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "팀 생성하기",
     "HEADER": "팀",
-    "SIDEBAR_TXT": "<p><b>팀</b></p><p>팀은 에이전트들을 각 역할에 따라 그룹화할 수 있게 해줍니다. <br />사용자는 여러 팀에 소속될 수 있습니다. 만약 여러 사용자가 협업해야 할 대화가 있다면 팀에 할당할 수 있습니다.</p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "계정에 연결된 에이전트가 없습니다.",
       "EDIT_TEAM": "팀 수정하기"

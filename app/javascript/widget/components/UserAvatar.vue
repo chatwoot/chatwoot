@@ -11,9 +11,11 @@ export default {
   props: {
     src: {
       type: String,
+      default: '',
     },
     size: {
       type: String,
+      default: '',
     },
   },
   computed: {

@@ -40,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
+    "LEARN_MORE":"Learn more"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
     "MARK_ALL_DONE": "Mark All Done",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
@@ -100,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
       "GO_TO_LABEL_REPORTS": "Go to Label Reports",
       "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",

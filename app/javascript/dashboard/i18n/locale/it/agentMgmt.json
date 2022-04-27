@@ -1,8 +1,8 @@
 {
   "AGENT_MGMT": {
     "HEADER": "Agenti",
-    "HEADER_BTN_TXT": "Aggiungi Agente",
-    "LOADING": "Recupero elenco Operatori",
+    "HEADER_BTN_TXT": "Aggiungi agente",
+    "LOADING": "Recupero elenco agenti",
     "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> Un <b>agente</b> è membro del tuo team di assistenza clienti. </p><p> Gli agenti saranno in grado di visualizzare e rispondere ai messaggi dei tuoi utenti. L'elenco mostra tutti gli agenti attualmente presenti nel tuo account. </p><p> Clicca su <b>Aggiungi agente</b> per aggiungere un nuovo agente. Ogni agente che aggiungi riceverà un'email con un link di conferma per attivare il loro account, dopo di che possono accedere a Chatwoot e rispondere ai messaggi. </p><p> L'accesso alle funzionalità di Chatwoot si basa sui seguenti ruoli. </p><p> <b>Agente</b> - Gli agenti con questo ruolo possono accedere solo a messaggi, report e conversazioni. Possono assegnare conversazioni ad altri agenti o a se stessi e risolvere le conversazioni.</p><p> <b>Amministratore</b> - L'amministratore avrà accesso a tutte le funzionalità di Chatwoot abilitate per il tuo account, comprese le impostazioni, insieme a tutti i privilegi di un agente normale.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Amministratore",
@@ -12,43 +12,43 @@
       "404": "Non ci sono agenti associati a questo account",
       "TITLE": "Gestisci gli agenti nel tuo team",
       "DESC": "Puoi aggiungere/rimuovere agenti da/nel tuo team.",
-      "NAME": "nome",
+      "NAME": "Nome",
       "EMAIL": "EMAIL",
       "STATUS": "Stato",
-      "ACTIONS": "azioni",
+      "ACTIONS": "Azioni",
       "VERIFIED": "Verificato",
       "VERIFICATION_PENDING": "Verifica in sospeso"
     },
     "ADD": {
       "TITLE": "Aggiungi agente al tuo team",
-      "DESC": "Puoi aggiungere persone che saranno in grado di gestire il supporto per le tue caselle.",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "DESC": "Puoi aggiungere persone che saranno in grado di gestire il supporto per la tua casella.",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome dell'Agente",
+          "LABEL": "Nome dell'agente",
           "PLACEHOLDER": "Inserisci un nome dell'agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo Agente",
-          "PLACEHOLDER": "Seleziona un tipo",
-          "ERROR": "Tipo agente richiesto"
+          "LABEL": "Ruolo",
+          "PLACEHOLDER": "Seleziona un ruolo",
+          "ERROR": "Il ruolo è obbligatorio"
         },
         "EMAIL": {
           "LABEL": "Indirizzo email",
           "PLACEHOLDER": "Si prega di inserire un indirizzo email dell'agente"
         },
-        "SUBMIT": "Aggiungi Agente"
+        "SUBMIT": "Aggiungi agente"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agente: aggiunto correttamente",
-        "EXIST_MESSAGE": "Agente: email già in uso, prova con un altro indirizzo email",
+        "SUCCESS_MESSAGE": "Agente aggiunto correttamente",
+        "EXIST_MESSAGE": "Email dell'agente già in uso, prova un altro indirizzo email",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Agente: eliminato con successo",
+        "SUCCESS_MESSAGE": "Agente eliminato con successo",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       },
       "CONFIRM": {
@@ -62,30 +62,30 @@
       "TITLE": "Modifica agente",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome dell'Agente",
+          "LABEL": "Nome dell'agente",
           "PLACEHOLDER": "Inserisci un nome dell'agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo Agente",
-          "PLACEHOLDER": "Seleziona un tipo",
-          "ERROR": "Tipo agente richiesto"
+          "LABEL": "Ruolo",
+          "PLACEHOLDER": "Seleziona un ruolo",
+          "ERROR": "Il ruolo è obbligatorio"
         },
         "EMAIL": {
           "LABEL": "Indirizzo email",
           "PLACEHOLDER": "Si prega di inserire un indirizzo email dell'agente"
         },
-        "SUBMIT": "Modifica Agente"
+        "SUBMIT": "Modifica agente"
       },
       "BUTTON_TEXT": "Modifica",
       "CANCEL_BUTTON_TEXT": "annulla",
       "API": {
-        "SUCCESS_MESSAGE": "Agente: aggiornato correttamente",
+        "SUCCESS_MESSAGE": "Agente aggiornato correttamente",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reimpostare la password",
+        "ADMIN_RESET_BUTTON": "Reimposta la password",
         "ADMIN_SUCCESS_MESSAGE": "Un'email con le istruzioni per reimpostare la password è stata inviata all'agente",
-        "SUCCESS_MESSAGE": "Agente: reimpostata correttamente",
+        "SUCCESS_MESSAGE": "Password dell'agente reimpostata correttamente",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },

@@ -13,7 +13,7 @@
       "TITLE": "Verwalten Sie Agenten in Ihrem Team",
       "DESC": "Sie können Agenten zu / in Ihrem Team hinzufügen / entfernen.",
       "NAME": "Name",
-      "EMAIL": "E-Mail",
+      "EMAIL": "EMAIL",
       "STATUS": "Status",
       "ACTIONS": "Aktionen",
       "VERIFIED": "Verifiziert",

@@ -42,7 +42,7 @@ gem 'down', '~> 5.0'
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
 gem 'google-cloud-storage', require: false
-gem 'image_processing'
+gem 'image_processing', '~> 1.12.2'
 
 ##-- gems for database --#
 gem 'groupdate'
@@ -102,7 +102,7 @@ gem 'sentry-ruby'
 gem 'sentry-sidekiq'
 
 ##-- background job processing --##
-gem 'sidekiq'
+gem 'sidekiq', '~> 6.4.0'
 # We want cron jobs
 gem 'sidekiq-cron'
 
@@ -120,6 +120,13 @@ gem 'maxminddb'
 gem 'hairtrigger'
 
 gem 'procore-sift'
+
+# parse email
+gem 'email_reply_trimmer'
+gem 'html2text'
+
+# to calculate working hours
+gem 'working_hours'
 
 group :production, :staging do
   # we dont want request timing out in development while using byebug

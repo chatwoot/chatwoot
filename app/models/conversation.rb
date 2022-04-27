@@ -46,10 +46,14 @@ class Conversation < ApplicationRecord
   include AssignmentHandler
   include RoundRobinHandler
   include ActivityMessageHandler
+  include UrlHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
+  validates :additional_attributes, jsonb_attributes_length: true
+  validates :custom_attributes, jsonb_attributes_length: true
+  validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
@@ -86,10 +90,20 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
+    return last_message_less_than_24_hrs? if additional_attributes['type'] == 'instagram_direct_message'
+
     return true unless inbox&.channel&.has_24_hour_messaging_window?
 
-    last_incoming_message = messages.incoming.last
+    return false if last_incoming_message.nil?
 
+    last_message_less_than_24_hrs?
+  end
+
+  def last_incoming_message
+    messages&.incoming&.last
+  end
+
+  def last_message_less_than_24_hrs?
     return false if last_incoming_message.nil?
 
     Time.current < last_incoming_message.created_at + 24.hours
@@ -142,9 +156,9 @@ class Conversation < ApplicationRecord
   end
 
   def notifiable_assignee_change?
-    return false if self_assign?(assignee_id)
     return false unless saved_change_to_assignee_id?
     return false if assignee_id.blank?
+    return false if self_assign?(assignee_id)
 
     true
   end
@@ -162,6 +176,7 @@ class Conversation < ApplicationRecord
   def execute_after_update_commit_callbacks
     notify_status_change
     create_activity
+    notify_conversation_updation
   end
 
   def ensure_snooze_until_reset
@@ -181,6 +196,13 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
+  def notify_conversation_updation
+    return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
+                                                                                custom_attributes]).present?
+
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
   def self_assign?(assignee_id)
     assignee_id.present? && Current.user&.id == assignee_id
   end
@@ -197,12 +219,14 @@ class Conversation < ApplicationRecord
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event)
+      condition.call && dispatcher_dispatch(event, status_change)
     end
   end
 
-  def dispatcher_dispatch(event_name)
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
+  def dispatcher_dispatch(event_name, changed_attributes = nil)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
+                                                                       changed_attributes: changed_attributes,
+                                                                       performed_by: Current.executed_by)
   end
 
   def conversation_status_changed_to_open?
@@ -227,6 +251,12 @@ class Conversation < ApplicationRecord
 
   def mute_period
     6.hours
+  end
+
+  def validate_referer_url
+    return unless additional_attributes['referer']
+
+    self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
   end
 
   # creating db triggers

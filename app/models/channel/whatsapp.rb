@@ -85,7 +85,7 @@ class Channel::Whatsapp < ApplicationRecord
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    attachment_url = attachment.file_url
+    attachment_url = attachment.download_url
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
@@ -149,6 +149,6 @@ class Channel::Whatsapp < ApplicationRecord
         url: "#{ENV['FRONTEND_URL']}/webhooks/whatsapp/#{phone_number}"
       }.to_json
     )
-    errors.add(:bot_token, 'error setting up the webook') unless response.success?
+    errors.add(:provider_config, 'error setting up the webook') unless response.success?
   end
 end

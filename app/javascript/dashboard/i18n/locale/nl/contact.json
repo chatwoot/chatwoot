@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Verwijderen bevestigen",
       "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
-      "PLACE_HOLDER": "Voer {contactName} in om te bevestigen",
-      "YES": "Ja, verwijderen ",
-      "NO": "Nee, Behouden "
+      "YES": "Ja, verwijderen",
+      "NO": "Nee, Behouden"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contactpersoon werd succesvol verwijderd",
@@ -169,6 +168,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "Annuleren",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "Bekijken",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,6 +178,8 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filteren",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",

@@ -33,12 +33,15 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # empty values into nil values. It uses other APIs such as `resource_class`
   # and `dashboard`:
   #
-  # def resource_params
-  #   params.require(resource_class.model_name.param_key).
-  #     permit(dashboard.permitted_attributes).
-  #     transform_values { |value| value == "" ? nil : value }
-  # end
+  def resource_params
+    permitted_params = super
+    permitted_params.delete(:password) if permitted_params[:password].blank?
+    permitted_params
+  end
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
+  def find_resource(param)
+    super.becomes(User)
+  end
 end

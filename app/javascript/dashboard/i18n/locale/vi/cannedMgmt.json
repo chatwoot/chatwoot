@@ -4,25 +4,25 @@
     "HEADER_BTN_TXT": "Thêm thư mẫu phẩn hồi",
     "LOADING": "Đang tải thư mẫu phẩn hồi",
     "SEARCH_404": "Không có kết quả nào được tìm thấy",
-    "SIDEBAR_TXT": "<p><b>Thư mẫu phẩn hồi</b> </p><p> Thư mẫu phẩn hồi là các mẫu trả lời đã lưu có thể được sử dụng để nhanh chóng gửi trả lời cho một cuộc trò chuyện . </p><p> Để tạo một Thư mẫu phẩn hồi, chỉ cần click vào <b>Thêm Thư mẫu phẩn hồi</b>. Bạn cũng có thể xoá Thư mẫu phẩn hồi bởi button Xoá </p><p> Thư mẫu phẩn hồi được sử dụng với sự giúp đỡ của <b>Short Codes</b>. Nhân viên có thể truy cập câu trả lời soạn trước khi trò chuyện bằng cách nhập <b>'/'</b>. </p>",
+    "SIDEBAR_TXT": "<p><b>Tin trả lời lưu sẵn</b> </p><p> Tin trả lời lưu sẵn là các mẫu tin nhắn đã lưu có thể được sử dụng để trả lời nhanh cho một cuộc trò chuyện. </p><p> Để tạo một Tin trả lời lưu sẵn, chỉ cần ấn vào <b>Thêm Tin trả lời lưu sẵn</b>. Bạn cũng có thể sửa hoặc xoá Tin trả lời lưu sẵn \bbằng cách ấn nút Sửa hoặc Xoá </p><p> Tin trả lời lưu sẵn được sử dụng với sự giúp đỡ của <b>Mã Ngắn</b>. Nhân viên có thể truy cập Tin trả lời lưu sẵn khi trò chuyện bằng cách nhập <b>'/'</b>. </p>",
     "LIST": {
       "404": "Không có câu trả lời soạn trước nào có sẵn trong tài khoản này.",
       "TITLE": "Quản lý thư mẫu phẩn hồi",
       "DESC": "Thư mẫu phẩn hồi là các mẫu trả lời được xác định trước có thể được sử dụng để nhanh chóng gửi trả lời cho vé.",
       "TABLE_HEADER": [
-        "Short Code",
+        "Mã Ngắn",
         "Nội dung",
         "Hành động"
       ]
     },
     "ADD": {
       "TITLE": "Thêm thư mẫu phẩn hồi",
-      "DESC": "Thư mẫu phẩn hồi là các mẫu trả lời đã lưu có thể được sử dụng để nhanh chóng gửi trả lời cho cuộc trò chuyện.",
+      "DESC": "Tin trả lời lưu sẵn là các mẫu tin trả lời đã lưu, có thể được sử dụng để trả lời nhanh cho cuộc trò chuyện.",
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Vui lòng nhập một shortcode",
+          "LABEL": "Mã Ngắn",
+          "PLACEHOLDER": "Vui lòng nhập một mã ngắn",
           "ERROR": "Short Code là bắt buộc"
         },
         "CONTENT": {
@@ -42,7 +42,7 @@
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
+          "LABEL": "Mã Ngắn",
           "PLACEHOLDER": "Vui lòng nhập shortcode",
           "ERROR": "Short Code là bắt buộc"
         },

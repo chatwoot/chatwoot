@@ -89,3 +89,7 @@ export const hasPressedArrowUpKey = e => {
 export const hasPressedArrowDownKey = e => {
   return e.keyCode === 40;
 };
+
+export const hasPressedCommandPlusKKey = e => {
+  return e.metaKey && e.keyCode === 75;
+};

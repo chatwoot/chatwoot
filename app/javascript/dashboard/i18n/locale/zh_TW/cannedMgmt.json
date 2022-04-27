@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "新增預設回覆",
     "LOADING": "取得預設回覆",
     "SEARCH_404": "沒有任何項目符合此查詢",
-    "SIDEBAR_TXT": "<p><b>預設回覆</b> </p><p> 將預設回覆保存為回覆模板，用來快速發送回覆到對話。 </p><p> 若要建立預設回覆，只需點擊 <b>建立預設回覆</b>。 您也可以通過點擊編輯或刪除按鈕來編輯或刪除現有的預設回覆 </p><p> 在 <b>簡碼</b> 的幫助下使用預設的回覆方式。 客服在聊天時可以通過輸入 <b>'/'</b> 然後是簡碼使用預設回覆 </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "此帳戶中沒有可用的罐頭回覆。",
       "TITLE": "管理預設回覆",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "新增預設回覆",
-      "DESC": "預設回覆是保存的回覆模板，可以用來快速發送回覆到對話中。",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "簡碼",
-          "PLACEHOLDER": "請輸入簡碼",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "必須輸入簡碼"
         },
         "CONTENT": {

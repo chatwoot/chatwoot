@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Legg til svar",
     "LOADING": "Henter forhåndslagde svar",
     "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
-    "SIDEBAR_TXT": "<p><b>Forhåndslagde svar</b> </p><p> Forhåndslagde svar er forhåndsdefinerte maler som kan bli brukt til å sende ut et raskt svar på en samtale. </p><p> For å lage et forhåndslagd svar, klikk på <b>Legg til svar</b>. Du kan også redigere eller slette et eksisterende forhåndslagd svar ved å klikke på rediger eller slett </p><p> Forhåndslagde svar kan brukes ved hjelp av <b>Korte koder</b>. Agenter kan få tilgang til svar mens de er i en samtale ved å skrive <b>'/'</b> etterfulgt av den korte koden. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "Det er ingen forhåndslagde svar tilgjengelig i denne kontoen.",
       "TITLE": "Administrer forhåndslagde svar",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Legg til svar",
-      "DESC": "Forhåndslagde svar er predefinerte maler som kan brukes for å raskt sende ut svar til henvendelser.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Kort kode",
-          "PLACEHOLDER": "Angi en kort kode",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "Kort kode kreves"
         },
         "CONTENT": {

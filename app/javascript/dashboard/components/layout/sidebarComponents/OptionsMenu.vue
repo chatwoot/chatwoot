@@ -54,7 +54,7 @@
               :class="{ 'is-active': isActive }"
               @click="e => handleProfileSettingClick(e, navigate)"
             >
-              <fluent-icon icon="person" class="icon icon--font" />
+              <fluent-icon icon="person" size="14" class="icon icon--font" />
               <span class="button__content">
                 {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
               </span>

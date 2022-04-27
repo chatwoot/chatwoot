@@ -52,12 +52,16 @@
         <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="book-clock"
             @click="() => toggleStatus(STATUS_TYPE.PENDING)"
           >
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
         </woot-dropdown-item>
 
+        <woot-dropdown-divider v-if="isOpen" />
         <woot-dropdown-sub-menu
           v-if="isOpen"
           :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
@@ -65,6 +69,9 @@
           <woot-dropdown-item>
             <woot-button
               variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="send-clock"
               @click="() => toggleStatus(STATUS_TYPE.SNOOZED, null)"
             >
               {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
@@ -73,6 +80,9 @@
           <woot-dropdown-item>
             <woot-button
               variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="dual-screen-clock"
               @click="
                 () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)
               "
@@ -83,6 +93,9 @@
           <woot-dropdown-item>
             <woot-button
               variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="calendar-clock"
               @click="
                 () => toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)
               "
@@ -110,6 +123,8 @@ import {
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
+
 import wootConstants from '../../constants';
 import {
   getUnixTime,
@@ -129,6 +144,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
     WootDropdownSubMenu,
+    WootDropdownDivider,
   },
   mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -269,5 +285,6 @@ export default {
   margin-top: var(--space-micro);
   right: 0;
   max-width: 20rem;
+  min-width: 15.6rem;
 }
 </style>

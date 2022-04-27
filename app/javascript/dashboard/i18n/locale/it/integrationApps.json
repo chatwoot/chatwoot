@@ -1,51 +1,51 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Recupero delle integrazioni",
+    "NO_HOOK_CONFIGURED": "Non ci sono integrazioni %{integrationId} configurate in questo account.",
+    "HEADER": "Applicazioni",
     "STATUS": {
       "ENABLED": "Abilitato",
       "DISABLED": "Disabilitato"
     },
-    "CONFIGURE": "Configurare",
-    "ADD_BUTTON": "Add a new hook",
+    "CONFIGURE": "Configura",
+    "ADD_BUTTON": "Aggiungi un nuovo hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Conferma eliminazione",
+        "ACCOUNT": "Disconnetti"
       },
       "MESSAGE": {
         "INBOX": "Sei sicuro di voler eliminare?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "ACCOUNT": "Sei sicuro di volerti disconnettere?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Sì, elimina",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Sì, disconnetti"
       },
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Hook eliminato con successo",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "Recupero degli hook di integrazione",
+      "INBOX": "Casella",
       "DELETE": {
-        "BUTTON_TEXT": "Cancellare"
+        "BUTTON_TEXT": "Elimina"
       }
     },
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Seleziona casella",
+          "PLACEHOLDER": "Seleziona casella"
         },
         "SUBMIT": "Crea",
-        "CANCEL": "annulla"
+        "CANCEL": "Annulla"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Hook di integrazione aggiunto con successo",
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Connetti"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Disconnetti"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow è una piattaforma di comprensione del linguaggio naturale che rende facile progettare e integrare un'interfaccia utente conversazionale nella tua app mobile, applicazione web, dispositivo, bot, sistema di risposta vocale interattivo e così via. <br /> <br /> L'integrazione di Dialogflow con %{installationName} ti permette di configurare un bot Dialogflow con le tue caselle che consente al bot di gestire le query inizialmente e consegnarle ad un agente quando necessario. Dialogflow può essere utilizzato per qualificare i lead, ridurre il carico di lavoro degli agenti fornendo domande frequenti, ecc. <br /> <br /> Per aggiungere Dialogflow, è necessario creare un account di servizio nella console del progetto Google e condividere le credenziali. Fare riferimento ai documenti di Dialogflow per ulteriori informazioni."
     }
   }
 }

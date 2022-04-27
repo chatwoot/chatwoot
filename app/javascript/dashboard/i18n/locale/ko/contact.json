@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "삭제 확인",
       "MESSAGE": "삭제하시겠습니까? ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "예, 삭제합니다. ",
-      "NO": "아니요, 유지해주세요. "
+      "YES": "Yes, Delete",
+      "NO": "No, Keep"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -169,6 +168,7 @@
       "SUBMIT": "Send message",
       "CANCEL": "취소",
       "SUCCESS_MESSAGE": "Message sent!",
+      "GO_TO_CONVERSATION": "보기",
       "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
@@ -178,6 +178,8 @@
     "SEARCH_BUTTON": "검색",
     "SEARCH_INPUT_PLACEHOLDER": "연락처 검색",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "연락처를 불러오는 중...",
       "404": "검색과 일치하는 연락처 없음 🔍",

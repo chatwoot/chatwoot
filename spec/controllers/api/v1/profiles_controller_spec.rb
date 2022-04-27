@@ -26,6 +26,7 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['email']).to eq(agent.email)
         expect(json_response['access_token']).to eq(agent.access_token.token)
         expect(json_response['custom_attributes']['test']).to eq('test')
+        expect(json_response['message_signature']).to be_nil
       end
     end
   end
@@ -56,6 +57,21 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.name).to eq('test')
       end
 
+      it 'updates the message_signature' do
+        put '/api/v1/profile',
+            params: { profile: { name: 'test', message_signature: 'Thanks\nMy Signature' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        agent.reload
+        expect(json_response['id']).to eq(agent.id)
+        expect(json_response['name']).to eq(agent.name)
+        expect(agent.name).to eq('test')
+        expect(json_response['message_signature']).to eq('Thanks\nMy Signature')
+      end
+
       it 'updates the password when current password is provided' do
         put '/api/v1/profile',
             params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
@@ -73,6 +89,18 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'validate name' do
+        user_name = 'test' * 999
+        put '/api/v1/profile',
+            params: { profile: { name: user_name } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
 
       it 'updates avatar' do

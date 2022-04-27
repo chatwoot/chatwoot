@@ -130,6 +130,10 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    foldersId: {
+      type: [String, Number],
+      default: 0,
+    },
     showAssignee: {
       type: Boolean,
       default: false,
@@ -248,8 +252,12 @@ export default {
         id: chat.id,
         label: this.activeLabel,
         teamId: this.teamId,
+        foldersId: this.foldersId,
         conversationType: this.conversationType,
       });
+      if (this.isActiveChat) {
+        return;
+      }
       router.push({ path: frontendURL(path) });
     },
   },

@@ -19,7 +19,14 @@
       "contains": "Содержит",
       "does_not_contain": "Не содержит",
       "is_present": "Присутствует",
-      "is_not_present": "Отсутствует"
+      "is_not_present": "Отсутствует",
+      "is_greater_than": "Больше чем",
+      "is_less_than": "Меньше чем",
+      "days_before": "x дней до"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Истина",
+      "FALSE": "Ложь"
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",
@@ -31,7 +38,56 @@
       "LABELS": "Категории",
       "BROWSER_LANGUAGE": "Язык браузера",
       "COUNTRY_NAME": "Страна",
-      "REFERER_LINK": "Ссылка реферера"
+      "REFERER_LINK": "Ссылка реферера",
+      "CUSTOM_ATTRIBUTE_LIST": "Список",
+      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Число",
+      "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
+      "CREATED_AT": "Дата создания",
+      "LAST_ACTIVITY": "Последние действия"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Стандартные фильтры",
+      "ADDITIONAL_FILTERS": "Дополнительные фильтры",
+      "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Вы хотите сохранить этот фильтр?",
+        "LABEL": "Название фильтра",
+        "PLACEHOLDER": "Введите имя для этого фильтра",
+        "ERROR_MESSAGE": "Необходимо указать имя",
+        "SAVE_BUTTON": "Сохранить фильтр",
+        "CANCEL_BUTTON": "Отменить",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Папка успешно создана",
+          "ERROR_MESSAGE": "Ошибка при создании папки"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Сегмент успешно создан",
+          "ERROR_MESSAGE": "Ошибка при создании сегмента"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Удалить фильтр",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Подтвердите удаление",
+            "MESSAGE": "Вы уверены, что хотите удалить фильтр ",
+            "YES": "Да, удалить",
+            "NO": "Нет, не удалять"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Папка успешно удалена",
+          "ERROR_MESSAGE": "При удалении папки произошла ошибка"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Сегмент успешно удален",
+          "ERROR_MESSAGE": "При удалении сегмента произошла ошибка"
+        }
+      }
     }
   }
 }

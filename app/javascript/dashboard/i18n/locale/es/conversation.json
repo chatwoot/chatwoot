@@ -22,6 +22,8 @@
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
     "CANNOT_REPLY": "No puede responder debido a",
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
+    "NOT_ASSIGNED_TO_YOU": "Esta conversación no te está asignada. ¿Quieres asignarla a ti mismo?",
+    "ASSIGN_TO_ME": "Asignar a mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "SELECT_A_TWEET_TO_REPLY": "Por favor, seleccione un tweet al que responder.",
@@ -55,8 +57,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Firma del mensaje",
+      "ENABLE_SIGN_TOOLTIP": "Activar firma",
+      "DISABLE_SIGN_TOOLTIP": "Desactivar firma",
       "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
-      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
+      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del mensaje no está configurada, por favor configúrela en la configuración del perfil.",
+      "CLICK_HERE": "Haga clic aquí para actualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -67,8 +74,14 @@
       "TIP_FORMAT_ICON": "Mostrar editor de textos",
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Ingresar para enviar",
       "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Añadir bcc",
         "CC": {
@@ -90,6 +103,9 @@
     "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
     "SENT_BY": "Enviado por:",
+    "BOT": "Bot",
+    "SEND_FAILED": "¡No se pudo enviar el mensaje! Inténtalo de nuevo",
+    "TRY_AGAIN": "reintentar",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Seleccionar agente",
       "REMOVE": "Eliminar",
@@ -179,6 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "Desde",
     "TO": "Para",
     "BCC": "Bcc",
     "CC": "Cc",

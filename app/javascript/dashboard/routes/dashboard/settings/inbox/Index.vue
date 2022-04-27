@@ -48,6 +48,9 @@
                 <span v-if="item.channel_type === 'Channel::Whatsapp'">
                   Whatsapp
                 </span>
+                <span v-if="item.channel_type === 'Channel::Sms'">
+                  Sms
+                </span>
                 <span v-if="item.channel_type === 'Channel::Email'">
                   Email
                 </span>
@@ -99,7 +102,7 @@
 
       <div class="small-4 columns">
         <span
-          v-html="
+          v-dompurify-html="
             useInstallationName(
               $t('INBOX_MGMT.SIDEBAR_TXT'),
               globalConfig.installationName

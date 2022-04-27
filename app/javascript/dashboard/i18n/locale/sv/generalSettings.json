@@ -40,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Antal dagar till ett ärende ska automatlösas på grund av inaktivitet",
         "PLACEHOLDER": "30",
-        "ERROR": "Ange en giltig tid för automatlösning (minst 1 dag)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Konversationskontinuitet med e-post är aktiverat för ditt konto.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan nu ta emot e-postmeddelanden i din egna domän."
       }
     },
-    "UPDATE_CHATWOOT": "En uppdatering %{latestChatwootVersion} för Chatwoot är tillgänglig. Vänligen uppdatera din instans."
+    "UPDATE_CHATWOOT": "En uppdatering %{latestChatwootVersion} för Chatwoot är tillgänglig. Vänligen uppdatera din instans.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {

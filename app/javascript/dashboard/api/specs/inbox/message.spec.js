@@ -36,7 +36,7 @@ describe('#ConversationAPI', () => {
         echoId: 12,
         isPrivate: true,
 
-        file: new Blob(['test-content'], { type: 'application/pdf' }),
+        files: [new Blob(['test-content'], { type: 'application/pdf' })],
       });
       expect(formPayload).toBeInstanceOf(FormData);
       expect(formPayload.get('content')).toEqual('test content');

@@ -19,7 +19,14 @@
       "contains": "Contiene",
       "does_not_contain": "No contiene",
       "is_present": "Está presente",
-      "is_not_present": "No está presente"
+      "is_not_present": "No está presente",
+      "is_greater_than": "Es mayor que",
+      "is_less_than": "Es menor que",
+      "days_before": "Is x days before"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Verdadero",
+      "FALSE": "Falso"
     },
     "ATTRIBUTES": {
       "STATUS": "Estado",
@@ -31,7 +38,56 @@
       "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma del navegador",
       "COUNTRY_NAME": "Nombre del país",
-      "REFERER_LINK": "Enlace de referencia"
+      "REFERER_LINK": "Enlace de referencia",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Texto",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_LINK": "Enlace",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "Última actividad"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtros estándar",
+      "ADDITIONAL_FILTERS": "Filtros adicionales",
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "¿Desea guardar este filtro?",
+        "LABEL": "Nombre de este filtro",
+        "PLACEHOLDER": "Introduzca un nombre para este filtro",
+        "ERROR_MESSAGE": "El nombre es requerido",
+        "SAVE_BUTTON": "Guardar filtro",
+        "CANCEL_BUTTON": "Cancelar",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Carpeta creada con éxito",
+          "ERROR_MESSAGE": "Error al crear la carpeta"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmento creado con éxito",
+          "ERROR_MESSAGE": "Error al crear segmento"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Eliminar filtro",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Confirmar eliminación",
+            "MESSAGE": "¿Está seguro de que desea eliminar el filtro ",
+            "YES": "Sí, eliminar",
+            "NO": "No, mantenerlo"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito",
+          "ERROR_MESSAGE": "Error al eliminar carpeta"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmento eliminado con éxito",
+          "ERROR_MESSAGE": "Error al eliminar segmento"
+        }
+      }
     }
   }
 }

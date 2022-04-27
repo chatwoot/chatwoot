@@ -27,6 +27,7 @@ describe('#Reports API', () => {
           since: 1621103400,
           until: 1621621800,
           type: 'account',
+          timezone_offset: -0,
         },
       });
     });
@@ -92,6 +93,19 @@ describe('#Reports API', () => {
           params: {
             since: 1621103400,
             until: 1621621800,
+          },
+        }
+      );
+    });
+
+    it('#getConversationMetric', () => {
+      reportsAPI.getConversationMetric('account');
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/conversations',
+        {
+          params: {
+            type: 'account',
+            page: 1,
           },
         }
       );

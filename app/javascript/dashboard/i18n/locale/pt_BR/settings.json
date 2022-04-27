@@ -19,6 +19,18 @@
         "TITLE": "Perfil",
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Assinatura de mensagens pessoais",
+        "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens que você envia a partir da plataforma. Use o editor de conteúdo rico para criar uma assinatura altamente personalizada.",
+        "BTN_TEXT": "Salvar assinatura da mensagem",
+        "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
+        "API_SUCCESS": "Assinatura salva com sucesso"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Assinatura da mensagem",
+        "ERROR": "Assinatura da mensagem não pode estar vazia",
+        "PLACEHOLDER": "Insira aqui a assinatura de sua mensagem pessoal."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Senha",
         "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos.",
@@ -89,14 +101,14 @@
         "PLACEHOLDER": "Por favor, digite a senha atual"
       },
       "PASSWORD": {
-        "LABEL": "Senha",
+        "LABEL": "Nova senha",
         "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
         "PLACEHOLDER": "Por favor, digite uma nova senha"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirme a nova senha",
         "ERROR": "A confirmação da senha é diferente. Favor digitar novamente",
-        "PLACEHOLDER": "Por favor, digite sua senha novamente"
+        "PLACEHOLDER": "Por favor, digite sua nova senha "
       }
     }
   },
@@ -134,6 +146,7 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
@@ -153,6 +166,8 @@
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "TEAMS": "Times",
+    "CUSTOM_VIEWS_FOLDER": "Pastas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
     "TAGGED_WITH": "Marcado com",
     "NEW_LABEL": "Nova etiqueta",
@@ -167,7 +182,8 @@
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
-    "SET_AVAILABILITY_TITLE": "Defina como"
+    "SET_AVAILABILITY_TITLE": "Defina como",
+    "BETA": "Beta"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

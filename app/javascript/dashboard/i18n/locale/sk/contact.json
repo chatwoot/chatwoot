@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Potvrdiť vymazanie",
       "MESSAGE": "Určite chcete vymazať ",
-      "PLACE_HOLDER": "Prosím, zadajte {contactName} pre potvrdenie",
-      "YES": "Áno, vymazať ",
-      "NO": "Nie, ponechať "
+      "YES": "Áno, vymazať",
+      "NO": "Nie, ponechať"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt úspešne odstránený",
@@ -169,6 +168,7 @@
       "SUBMIT": "Poslať správu",
       "CANCEL": "Zrušiť",
       "SUCCESS_MESSAGE": "Správa poslaná!",
+      "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "Nepodarilo sa odoslať! Skúste to znova"
     }
   },
@@ -178,6 +178,8 @@
     "SEARCH_BUTTON": "Hľadať",
     "SEARCH_INPUT_PLACEHOLDER": "Hľadať kontakty",
     "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Kontakty sa hľadajú...",
       "404": "Žiadny kontakt nezodpovedá vášmu vyhľadávaniu 🔍",
