@@ -132,8 +132,8 @@
       "COPY_SUCCESSFUL": "Код скопирован в буфер обмена"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Показать больше",
+      "SHOW_LESS": "Показать меньше"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Скачать",
