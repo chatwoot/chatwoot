@@ -2,19 +2,19 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Интеграции",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "События с подпиской",
       "FORM": {
         "CANCEL": "Отменить",
         "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "События",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "Диалог создан",
+            "CONVERSATION_STATUS_CHANGED": "Статус диалога изменён",
+            "CONVERSATION_UPDATED": "Диалог обновлён",
+            "MESSAGE_CREATED": "Сообщение создано",
+            "MESSAGE_UPDATED": "Сообщение обновлено",
+            "WEBWIDGET_TRIGGERED": "Виджет онлайн чата, открыт пользователем"
           }
         },
         "END_POINT": {
@@ -22,7 +22,7 @@
           "PLACEHOLDER": "Пример: https://example/api/webhook",
           "ERROR": "Пожалуйста, введите правильный URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Обновить webhook",
         "ADD_SUBMIT": "Создать вебхук"
       },
       "TITLE": "Вебхук",
@@ -44,7 +44,7 @@
         "BUTTON_TEXT": "Редактировать",
         "TITLE": "Редактировать вебхук",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Конфигурация вебхука успешно обновлена",
           "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
         }
       },
@@ -52,7 +52,7 @@
         "CANCEL": "Отменить",
         "TITLE": "Добавить новый вебхук",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Конфигурация вебхука успешно добавлена",
           "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
         }
       },
@@ -64,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Подтвердите удаление",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Вы уверены, что хотите удалить вебхук? (%{webhookURL})",
           "YES": "Да, удалить ",
           "NO": "Нет, не удалять"
         }
