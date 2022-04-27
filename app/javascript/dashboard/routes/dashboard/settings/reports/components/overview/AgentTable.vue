@@ -20,8 +20,8 @@
       <ve-pagination
         :total="totalAgents"
         :page-index="pageIndex"
-        :page-size="10"
-        :page-size-option="[10]"
+        :page-size="25"
+        :page-size-option="[25]"
         @on-page-number-change="onPageNumberChange"
       />
     </div>
@@ -70,7 +70,7 @@ export default {
           agent: agent.name,
           email: agent.email,
           thumbnail: agent.thumbnail,
-          total: agent.metric.total || 0,
+          open: agent.metric.open || 0,
           unattended: agent.metric.unattended || 0,
           status: agent.availability,
         };
@@ -103,10 +103,10 @@ export default {
           ),
         },
         {
-          field: 'total',
-          key: 'total',
+          field: 'open',
+          key: 'open',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.TOTAL'
+            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
           ),
           align: 'left',
           width: 10,
