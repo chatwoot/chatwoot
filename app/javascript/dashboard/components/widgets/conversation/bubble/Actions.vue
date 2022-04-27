@@ -256,11 +256,12 @@ export default {
       white-space: nowrap;
       &.delivered {
         right: var(--space-medium);
+        line-height: 2;
       }
     }
     .read-tick {
       position: absolute;
-      bottom: var(--space-mini);
+      bottom: var(--space-small);
       right: var(--space-small);
     }
   }
