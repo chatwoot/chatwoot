@@ -54,12 +54,12 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
       "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
-      "SELECT_ONE": "เลือกหนึ่ง"
+      "SELECT_ONE": "เลือก"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "การแจ้งเตือน",
-    "MARK_ALL_DONE": "ทำเครื่องหมายว่าอ่านแล้วทั้งหมด",
+    "MARK_ALL_DONE": "ทำเครื่องหมายว่าเสร็จแล้วทั้งหมด",
     "DELETE_TITLE": "ลบ",
     "UNREAD_NOTIFICATION": {
       "TITLE": "การแจ้งเตือนที่ยังไม่ได้อ่าน",
@@ -108,7 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "ไปยังแดชบอร์ดการสนทนา",
       "GO_TO_CONTACTS_DASHBOARD": "ไปยังแดชบอร์ดรายชื่อผู้ติดต่อ",
       "GO_TO_REPORTS_OVERVIEW": "ไปยังภาพรวมรายงาน",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_CONVERSATION_REPORTS": "ไปที่หน้ารายงานการสนทนา",
       "GO_TO_AGENT_REPORTS": "ไปที่หน้ารายงานพนักงาน",
       "GO_TO_LABEL_REPORTS": "ไปที่หน้ารายงานป้ายกำกับ",
       "GO_TO_INBOX_REPORTS": "ไปที่หน้ารายงานกล่องข้อความ",
