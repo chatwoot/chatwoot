@@ -419,18 +419,18 @@
     "LIVE": "Ζωντανά",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Άνοιγμα συνομιλιών",
-      "LOADING_MESSAGE": "Φόρτωση Συνομιλιών...",
-      "TOTAL": "Σύνολο",
+      "LOADING_MESSAGE": "Φόρτωση μετρητών συνομιλίας...",
+      "OPEN": "Άνοιγμα",
       "UNATTENDED": "Χωρίς Παρακολούθηση",
       "UNASSIGNED": "Χωρίς Αντιστοίχιση"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Συζητήσεις αντιπροσώπων",
-      "LOADING_MESSAGE": "Φόρτωση Πρακτόρων...",
+      "LOADING_MESSAGE": "Φόρτωση μετρήσεων πράκτορα...",
       "NO_AGENTS": "Δεν υπάρχουν συνομιλίες από πράκτορες",
       "TABLE_HEADER": {
         "AGENT": "Πράκτορας",
-        "TOTAL": "Σύνολο",
+        "OPEN": "ΑΝΟΙΓΜΑ",
         "UNATTENDED": "Χωρίς Παρακολούθηση",
         "STATUS": "Κατάσταση"
       }
