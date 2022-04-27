@@ -106,11 +106,11 @@
       "CANCEL_LABEL": "No"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Impossibile caricare l'allegato, si prega di riprovare",
+      "LABEL_IDLE": "Carica allegato",
       "LABEL_UPLOADING": "Caricamento...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Caricato con successo",
+      "LABEL_UPLOAD_FAILED": "Caricamento fallito"
     }
   }
 }
