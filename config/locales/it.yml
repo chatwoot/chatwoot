@@ -23,7 +23,7 @@ it:
     reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
   errors:
     webhook:
-      invalid: Invalid events
+      invalid: Eventi non validi
     signup:
       disposable_email: Non consentiamo email usa e getta
       invalid_email: Hai inserito un'email non valida
