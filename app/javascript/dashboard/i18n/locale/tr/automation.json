@@ -90,8 +90,8 @@
     },
     "ACTION": {
       "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Mesajınızı buraya yazınız",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Takımları seçin"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Otomasyon Kuralını Etkinleştir",
@@ -106,11 +106,11 @@
       "CANCEL_LABEL": "Hayır"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Ek yüklenemedi, Tekrar deneyin",
+      "LABEL_IDLE": "Dosya Yükle",
       "LABEL_UPLOADING": "Yükleniyor ...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Başarıyla Yüklendi",
+      "LABEL_UPLOAD_FAILED": "Yükleme Başarısız"
     }
   }
 }
