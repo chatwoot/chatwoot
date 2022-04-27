@@ -419,18 +419,18 @@
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Conversations Loading...",
-      "TOTAL": "Total",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "സജീവം",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "നിയുക്തമാക്കാത്തത്"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Agents Loading...",
+      "LOADING_MESSAGE": "Loading agent metrics...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "ഏജന്റ്",
-        "TOTAL": "Total",
+        "OPEN": "OPEN",
         "UNATTENDED": "Unattended",
         "STATUS": "സ്റ്റാറ്റസ്"
       }
