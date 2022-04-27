@@ -419,18 +419,18 @@
     "LIVE": "Disponível",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Abrir Conversas",
-      "LOADING_MESSAGE": "Carregando conversas...",
-      "TOTAL": "Total",
+      "LOADING_MESSAGE": "Carregando métricas de conversa...",
+      "OPEN": "Abertas",
       "UNATTENDED": "Não atendidas",
       "UNASSIGNED": "Não atribuída"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversas por agentes",
-      "LOADING_MESSAGE": "Carregando Agentes...",
+      "LOADING_MESSAGE": "Carregando métricas de agente...",
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "TOTAL": "Total",
+        "OPEN": "ABERTO",
         "UNATTENDED": "Não atendidas",
         "STATUS": "SItuação"
       }
