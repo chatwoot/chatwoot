@@ -418,25 +418,25 @@
     "HEADER": "Übersicht",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Conversations Loading...",
-      "TOTAL": "Total",
-      "UNATTENDED": "Unattended",
+      "HEADER": "Offene Konversationen",
+      "LOADING_MESSAGE": "Konversationsdaten werden geladen...",
+      "OPEN": "Offen",
+      "UNATTENDED": "Unbeaufsichtigt",
       "UNASSIGNED": "Nicht zugewiesen"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Agents Loading...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Konversationen von Agenten",
+      "LOADING_MESSAGE": "Agent-Daten werden geladen...",
+      "NO_AGENTS": "Es existieren keine Konversationen von Agenten",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "TOTAL": "Total",
-        "UNATTENDED": "Unattended",
+        "OPEN": "OFFEN",
+        "UNATTENDED": "Unbeaufsichtigt",
         "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "Agentenstatus",
       "ONLINE": "Online",
       "BUSY": "Beschäftigt",
       "OFFLINE": "Offline"
