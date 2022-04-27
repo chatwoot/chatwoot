@@ -378,14 +378,14 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (8.4.0)
     nio4r (2.5.8)
-    nokogiri (1.13.3)
+    nokogiri (1.13.4)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.13.3-arm64-darwin)
+    nokogiri (1.13.4-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.3-x86_64-darwin)
+    nokogiri (1.13.4-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.3-x86_64-linux)
+    nokogiri (1.13.4-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
     orm_adapter (0.5.0)
@@ -636,6 +636,9 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     wisper (2.0.0)
+    working_hours (1.4.1)
+      activesupport (>= 3.2)
+      tzinfo
     zeitwerk (2.5.4)
 
 PLATFORMS
@@ -746,6 +749,7 @@ DEPENDENCIES
   webpacker (~> 5.x)
   webpush
   wisper (= 2.0.0)
+  working_hours
 
 RUBY VERSION
    ruby 3.0.2p107

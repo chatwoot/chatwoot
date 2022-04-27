@@ -14,6 +14,9 @@ export const getLoginRedirectURL = (ssoAccountId, user) => {
   if (ssoAccount) {
     return frontendURL(`accounts/${ssoAccountId}/dashboard`);
   }
+  if (accounts.length) {
+    return frontendURL(`accounts/${accounts[0].id}/dashboard`);
+  }
   return DEFAULT_REDIRECT_URL;
 };
 
@@ -39,15 +42,6 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/mentions/conversations/${id}`;
   }
   return url;
-};
-
-export const accountIdFromPathname = pathname => {
-  const isInsideAccountScopedURLs = pathname.includes('/app/accounts');
-  const urlParam = pathname.split('/')[3];
-  // eslint-disable-next-line no-restricted-globals
-  const isScoped = isInsideAccountScopedURLs && !isNaN(urlParam);
-  const accountId = isScoped ? Number(urlParam) : '';
-  return accountId;
 };
 
 export const isValidURL = value => {

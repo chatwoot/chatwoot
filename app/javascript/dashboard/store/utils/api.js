@@ -1,8 +1,6 @@
-/* eslint no-param-reassign: 0 */
 import fromUnixTime from 'date-fns/fromUnixTime';
 import differenceInDays from 'date-fns/differenceInDays';
 import Cookies from 'js-cookie';
-import { frontendURL } from '../../helper/URLHelper';
 import {
   ANALYTICS_IDENTITY,
   ANALYTICS_RESET,
@@ -17,14 +15,9 @@ export const setLoadingStatus = (state, status) => {
   state.fetchAPIloadingStatus = status;
 };
 
-export const setUser = (user, expiryDate, options = {}) => {
-  if (options && options.setUserInSDK) {
-    window.bus.$emit(CHATWOOT_SET_USER, { user });
-    window.bus.$emit(ANALYTICS_IDENTITY, { user });
-  }
-  Cookies.set('user', user, {
-    expires: differenceInDays(expiryDate, new Date()),
-  });
+export const setUser = user => {
+  window.bus.$emit(CHATWOOT_SET_USER, { user });
+  window.bus.$emit(ANALYTICS_IDENTITY, { user });
 };
 
 export const getHeaderExpiry = response =>
@@ -32,13 +25,14 @@ export const getHeaderExpiry = response =>
 
 export const setAuthCredentials = response => {
   const expiryDate = getHeaderExpiry(response);
-  Cookies.set('auth_data', response.headers, {
+  Cookies.set('cw_d_session_info', response.headers, {
     expires: differenceInDays(expiryDate, new Date()),
   });
   setUser(response.data.data, expiryDate);
 };
 
 export const clearBrowserSessionCookies = () => {
+  Cookies.remove('cw_d_session_info');
   Cookies.remove('auth_data');
   Cookies.remove('user');
 };
@@ -48,7 +42,6 @@ export const clearCookiesOnLogout = () => {
   window.bus.$emit(ANALYTICS_RESET);
   clearBrowserSessionCookies();
   const globalConfig = window.globalConfig || {};
-  const logoutRedirectLink =
-    globalConfig.LOGOUT_REDIRECT_LINK || frontendURL('login');
+  const logoutRedirectLink = globalConfig.LOGOUT_REDIRECT_LINK || '/';
   window.location = logoutRedirectLink;
 };

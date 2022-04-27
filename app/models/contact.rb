@@ -10,7 +10,6 @@
 #  last_activity_at      :datetime
 #  name                  :string
 #  phone_number          :string
-#  pubsub_token          :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -19,13 +18,11 @@
 #
 #  index_contacts_on_account_id                   (account_id)
 #  index_contacts_on_phone_number_and_account_id  (phone_number,account_id)
-#  index_contacts_on_pubsub_token                 (pubsub_token) UNIQUE
 #  uniq_email_per_account_contact                 (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact            (identifier,account_id) UNIQUE
 #
 
 class Contact < ApplicationRecord
-  # TODO: remove the pubsub_token attribute from this model in future.
   include Avatarable
   include AvailabilityStatusable
   include Labelable
@@ -34,8 +31,7 @@ class Contact < ApplicationRecord
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
-            allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\+[1-9]\d{1,14}\z/, message: 'should be in e164 format' }
+            allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :name, length: { maximum: 255 }
 
   belongs_to :account
@@ -45,8 +41,8 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-
   before_validation :prepare_contact_attributes
+  before_save :phone_number_format, :email_format
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -117,7 +113,6 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      pubsub_token: pubsub_token,
       thumbnail: avatar_url,
       type: 'contact'
     }
@@ -145,6 +140,18 @@ class Contact < ApplicationRecord
     return unless account.feature_enabled?('ip_lookup')
 
     ContactIpLookupJob.perform_later(self)
+  end
+
+  def phone_number_format
+    return if phone_number.blank?
+
+    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+  end
+
+  def email_format
+    return if email.blank?
+
+    self.email = email_was unless email.match(Devise.email_regexp)
   end
 
   def prepare_contact_attributes

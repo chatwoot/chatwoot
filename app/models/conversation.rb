@@ -90,10 +90,20 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
+    return last_message_less_than_24_hrs? if additional_attributes['type'] == 'instagram_direct_message'
+
     return true unless inbox&.channel&.has_24_hour_messaging_window?
 
-    last_incoming_message = messages.incoming.last
+    return false if last_incoming_message.nil?
 
+    last_message_less_than_24_hrs?
+  end
+
+  def last_incoming_message
+    messages&.incoming&.last
+  end
+
+  def last_message_less_than_24_hrs?
     return false if last_incoming_message.nil?
 
     Time.current < last_incoming_message.created_at + 24.hours
@@ -214,10 +224,9 @@ class Conversation < ApplicationRecord
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)
-    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
-
     Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
-                                                                       changed_attributes: changed_attributes)
+                                                                       changed_attributes: changed_attributes,
+                                                                       performed_by: Current.executed_by)
   end
 
   def conversation_status_changed_to_open?

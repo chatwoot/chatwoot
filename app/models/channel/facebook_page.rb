@@ -33,7 +33,7 @@ class Channel::FacebookPage < ApplicationRecord
   end
 
   def has_24_hour_messaging_window?
-    true
+    false
   end
 
   def create_contact_inbox(instagram_id, name)

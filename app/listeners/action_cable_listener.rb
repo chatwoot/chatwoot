@@ -23,6 +23,14 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data)
   end
 
+  def first_reply_created(event)
+    message, account = extract_message_and_account(event)
+    conversation = message.conversation
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, FIRST_REPLY_CREATED, message.push_event_data)
+  end
+
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
@@ -135,7 +143,8 @@ class ActionCableListener < BaseListener
   private
 
   def typing_event_listener_tokens(account, conversation, user)
-    (user_tokens(account, conversation.inbox.members) + [conversation.contact.pubsub_token]) - [user&.pubsub_token]
+    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token
+    (user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]) - [current_user_token]
   end
 
   def user_tokens(account, agents)
