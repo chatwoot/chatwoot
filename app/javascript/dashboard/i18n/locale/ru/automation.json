@@ -106,11 +106,11 @@
       "CANCEL_LABEL": "Нет"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Не удалось загрузить вложение, попробуйте еще раз",
+      "LABEL_IDLE": "Загрузка вложений",
       "LABEL_UPLOADING": "Загружаем...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Успешно загружено",
+      "LABEL_UPLOAD_FAILED": "Загрузка не удалась"
     }
   }
 }
