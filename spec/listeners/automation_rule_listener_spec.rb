@@ -381,14 +381,13 @@ describe AutomationRuleListener do
     context 'when rule matches' do
       it 'triggers automation rule send email transcript to the mentioned email' do
         mailer = double
-
-        automation_rule
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
 
         listener.message_created(event)
 
         conversation.reload
 
-        allow(mailer).to receive(:conversation_transcript)
+        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'new_agent@example.com')
       end
 
       it 'triggers automation rule send message to the contacts' do
@@ -455,14 +454,13 @@ describe AutomationRuleListener do
     context 'when rule matches' do
       it 'triggers automation rule send email transcript to the mentioned email' do
         mailer = double
-
-        automation_rule
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
 
         listener.conversation_created(event)
 
         conversation.reload
 
-        allow(mailer).to receive(:conversation_transcript)
+        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'new_agent@example.com')
       end
 
       it 'triggers automation rule send message to the contacts' do
@@ -498,6 +496,52 @@ describe AutomationRuleListener do
 
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.last.content).to eq('Incoming Message')
+      end
+    end
+  end
+
+  describe '#message_created for tweet events' do
+    before do
+      automation_rule.update!(
+        event_name: 'message_created',
+        name: 'Call actions message created',
+        description: 'Send Message in the conversation',
+        conditions: [
+          { attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }.with_indifferent_access
+        ],
+        actions: [
+          { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+          { 'action_name' => 'send_attachment', 'action_params' => [123] },
+          { 'action_name' => 'send_email_transcript', 'action_params' => ['new_agent@example.com'] }
+        ]
+      )
+    end
+
+    context 'when rule matches' do
+      let(:tweet) { create(:conversation, additional_attributes: { type: 'tweet' }, contact_inbox: contact_inbox, inbox: inbox, account: account) }
+      let!(:message) { create(:message, account: account, conversation: tweet, message_type: 'incoming') }
+
+      it 'triggers automation rule except send_message and send_attachment' do
+        mailer = double
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+
+        listener.message_created(
+          Events::Base.new('message_created', Time.zone.now, { conversation: tweet, message: message })
+        )
+        expect(mailer).to have_received(:conversation_transcript).with(tweet, 'new_agent@example.com')
+      end
+
+      it 'does not triggers automation rule send message or send attachment' do
+        expect(tweet.messages.count).to eq(1)
+
+        listener.message_created(
+          Events::Base.new('message_created', Time.zone.now, { conversation: tweet, message: message })
+        )
+
+        tweet.reload
+
+        expect(tweet.messages.count).to eq(1)
+        expect(tweet.messages.last.content).to eq(message.content)
       end
     end
   end
