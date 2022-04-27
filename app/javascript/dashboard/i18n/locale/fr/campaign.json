@@ -1,14 +1,14 @@
 {
   "CAMPAIGN": {
     "HEADER": "Campagnes",
-    "SIDEBAR_TXT": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, qui déclenchent plus de conversations. Cliquer sur <b>Ajouter une campagne</b> pour créer une nouvelle campagne. Vous pouvez également modifier ou supprimer une campagne existante en cliquant sur le bouton Éditer ou Supprimer.",
+    "SIDEBAR_TXT": "Les campagnes vous permettent d'envoyer des messages sortants à vos contacts, qui augmentent le taux de conversations. Cliquer sur <b>Ajouter une campagne</b> pour créer une nouvelle campagne. Vous pouvez également modifier ou supprimer une campagne existante en cliquant sur le bouton Éditer ou Supprimer.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Créer une campagne isolée",
-      "ONGOING": "Créer une campagne en cours"
+      "ONE_OFF": "Créer une campagne SMS",
+      "ONGOING": "Créer une campagne Web"
     },
     "ADD": {
       "TITLE": "Créer une campagne",
-      "DESC": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, ce qui déclencherait plus de conversations.",
+      "DESC": "Une campagne vous permet d'envoyer des notifications à vos contacts, dans le but d'augmenter l'engagement de vos utilisateurs.",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "CREATE_BUTTON_TEXT": "Créer",
       "FORM": {
@@ -18,47 +18,47 @@
           "ERROR": "Le titre est requis"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Horaire programmée",
-          "PLACEHOLDER": "Veuillez sélectionner l'heure",
+          "LABEL": "Planifiée pour le",
+          "PLACEHOLDER": "Veuillez sélectionner le jour et l'heure de déclenchement de la campagne",
           "CONFIRM": "Confirmer",
-          "ERROR": "L'heure programmée est requise"
+          "ERROR": "L'heure de planification est requise"
         },
         "AUDIENCE": {
           "LABEL": "Audience",
           "PLACEHOLDER": "Sélectionnez les étiquettes des clients",
-          "ERROR": "L'audience est requise"
+          "ERROR": "Au moins une étiquette est requise"
         },
         "INBOX": {
           "LABEL": "Sélectionner la boîte de réception",
-          "PLACEHOLDER": "Sélectionner la boîte de réception",
+          "PLACEHOLDER": "Sélectionner la boîte de réception à utiliser",
           "ERROR": "La boîte de réception est requise"
         },
         "MESSAGE": {
           "LABEL": "Message",
-          "PLACEHOLDER": "Veuillez entrer le titre de la campagne",
+          "PLACEHOLDER": "Veuillez entrer le message à envoyer",
           "ERROR": "Le message est obligatoire"
         },
         "SENT_BY": {
           "LABEL": "Envoyé par",
-          "PLACEHOLDER": "Veuillez sélectionner le contenu de la campagne",
+          "PLACEHOLDER": "Veuillez sélectionner l'expéditeur de la campagne",
           "ERROR": "L'expéditeur est requis"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Veuillez saisir l'URL",
+          "PLACEHOLDER": "Veuillez saisir l'URL de la page où la campagne sera active",
           "ERROR": "Veuillez entrer une URL valide"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Temps sur la page (secondes)",
-          "PLACEHOLDER": "Veuillez indiquer le temps",
-          "ERROR": "Le temps sur la page est requis"
+          "LABEL": "Délai de déclenchement (secondes)",
+          "PLACEHOLDER": "Veuillez indiquer le temps que l'utilisateur doit rester sur la page avant que la campagne ne soit déclenchée",
+          "ERROR": "Un délai est requis"
         },
         "ENABLED": "Activer la campagne",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Déclencher uniquement lors des heures ouvrées",
         "SUBMIT": "Ajouter une campagne"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Compte créé avec succès",
+        "SUCCESS_MESSAGE": "Campagne créée avec succès",
         "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer."
       }
     },
@@ -93,9 +93,9 @@
         "STATUS": "État",
         "SENDER": "Expéditeur",
         "URL": "URL",
-        "SCHEDULED_AT": "Horaire programmée",
-        "TIME_ON_PAGE": "Temps(secondes)",
-        "CREATED_AT": "Créé le"
+        "SCHEDULED_AT": "Date de planification",
+        "TIME_ON_PAGE": "Temps (secondes)",
+        "CREATED_AT": "Créée le"
       },
       "BUTTONS": {
         "ADD": "Ajouter",
@@ -113,13 +113,13 @@
       }
     },
     "ONE_OFF": {
-      "HEADER": "Campagnes isolées",
-      "404": "Il n'y a pas de campagnes isolées créées",
+      "HEADER": "Campagnes SMS",
+      "404": "Il n'y a pas de campagnes SMS créées",
       "INBOXES_NOT_FOUND": "Veuillez créer une boîte de réception SMS et commencez à ajouter des campagnes"
     },
     "ONGOING": {
-      "HEADER": "Campagnes en cours",
-      "404": "Il n'y a pas de campagnes en cours créées",
+      "HEADER": "Campagnes Web",
+      "404": "Il n'y a pas de campagnes web créées",
       "INBOXES_NOT_FOUND": "Veuillez créer une boîte de réception de site Web et commencez à ajouter des campagnes"
     }
   }
