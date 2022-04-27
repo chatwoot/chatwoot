@@ -17,7 +17,7 @@
     },
     "ADD": {
       "TITLE": "Hazır Yanıt Ekle",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Hazır Yanıtlar, sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır.",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {
         "SHORT_CODE": {
