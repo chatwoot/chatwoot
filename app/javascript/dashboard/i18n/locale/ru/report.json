@@ -416,27 +416,27 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Обзор",
-    "LIVE": "Live",
+    "LIVE": "Онлайн",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Conversations Loading...",
-      "TOTAL": "Total",
-      "UNATTENDED": "Unattended",
+      "HEADER": "Открытые диалоги",
+      "LOADING_MESSAGE": "Загрузка метрик разговора...",
+      "OPEN": "Открыть",
+      "UNATTENDED": "Несвязанные",
       "UNASSIGNED": "Неназначен"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Agents Loading...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "Диалоги по операторам",
+      "LOADING_MESSAGE": "Загрузка метрик оператора...",
+      "NO_AGENTS": "Нет диалогов связанных с операторами",
       "TABLE_HEADER": {
         "AGENT": "Оператор",
-        "TOTAL": "Total",
-        "UNATTENDED": "Unattended",
+        "OPEN": "ОТКРЫТЬ",
+        "UNATTENDED": "Несвязанные",
         "STATUS": "Статус"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "Статус Оператора",
       "ONLINE": "В сети",
       "BUSY": "Занят",
       "OFFLINE": "Оффлайн"
