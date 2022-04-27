@@ -5,7 +5,7 @@
     "BTN_TEXT": "อัปเดตข้อมูลส่วนตัว",
     "DELETE_AVATAR": "ลบรูป",
     "AVATAR_DELETE_SUCCESS": "ลบรูปสำเร็จแล้ว",
-    "AVATAR_DELETE_FAILED": "เกิดความขัดข้องขณะลบรูป โปรดลองใหม่อีกครั้ง",
+    "AVATAR_DELETE_FAILED": "เกิดข้อผิดพลาดขณะลบรูป โปรดลองใหม่อีกครั้ง",
     "UPDATE_SUCCESS": "ข้อมูลส่วนตัวของคุณได้รับการอัปเดตแล้ว",
     "PASSWORD_UPDATE_SUCCESS": "เปลี่ยนรหัสผ่านของคุณเรียบร้อยแล้ว",
     "AFTER_EMAIL_CHANGED": "ข้อมูลส่วนตัวของคุณได้รับการอัปเดตแล้ว โปรดเข้าสู่ระบบใหม่อีกครั้งเนื่องจากมีการเปลี่ยนแปลงข้อมูลสำหรับยืนยันตัวตน",
@@ -57,7 +57,7 @@
       },
       "API": {
         "UPDATE_SUCCESS": "ปรับแต่งการแจ้งเตือนสำเร็จแล้ว",
-        "UPDATE_ERROR": "พบข้อผิดพลาดขณะอัปเดต โปรดลองใหม่อีกครั้ง"
+        "UPDATE_ERROR": "เกิดข้อผิดพลาดขณะอัปเดต โปรดลองใหม่อีกครั้ง"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
         "TITLE": "การแจ้งเตือนแบบพุช",
@@ -102,7 +102,7 @@
       },
       "PASSWORD": {
         "LABEL": "รหัสผ่านใหม่",
-        "ERROR": "โปรดใส่รหัสผ่านที่มีอย่างน้อย 6 อักขระ",
+        "ERROR": "โปรดใส่รหัสผ่านที่มีอย่างน้อย 6 ตัวอักษร",
         "PLACEHOLDER": "โปรดใส่รหัสผ่านใหม่"
       },
       "PASSWORD_CONFIRMATION": {
@@ -115,7 +115,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "เปลี่ยน",
     "CHANGE_ACCOUNTS": "สลับบัญชี",
-    "CONTACT_SUPPORT": "ขอความช่วยเหลือ",
+    "CONTACT_SUPPORT": "ติดต่อฝ่ายสนับสนุน",
     "SELECTOR_SUBTITLE": "เลือกบัญชีจากรายชื่อต่อไปนี้",
     "PROFILE_SETTINGS": "ตั้งค่าข้อมูลส่วนตัว",
     "KEYBOARD_SHORTCUTS": "คีย์ลัด",
@@ -132,12 +132,12 @@
       "COPY_SUCCESSFUL": "คัดลอกไปยังคลิปบอร์ดเเล้ว"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "แสดงเพิ่มเติม",
+      "SHOW_LESS": "แสดงน้อยลง"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ดาวโหลด",
-      "UPLOADING": "กำลังอัพโหลด"
+      "UPLOADING": "กำลังอัปโหลด"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "ส่ง"
