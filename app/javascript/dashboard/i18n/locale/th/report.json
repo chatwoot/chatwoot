@@ -113,7 +113,7 @@
         "groupBy": "ปี"
       }
     ],
-    "BUSINESS_HOURS": "เวลาปฏิบัติงาน"
+    "BUSINESS_HOURS": "เวลาทำการ"
   },
   "AGENT_REPORTS": {
     "HEADER": "ภาพรวมพนักงาน",
@@ -416,27 +416,27 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "ภาพรวม",
-    "LIVE": "Live",
+    "LIVE": "ขณะนี้",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Conversations Loading...",
-      "TOTAL": "Total",
-      "UNATTENDED": "Unattended",
+      "HEADER": "การสนทนาที่เปิดอยู่",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "เปิด",
+      "UNATTENDED": "ไม่ได้เข้าร่วม",
       "UNASSIGNED": "ไม่ได้รับมอบหมาย"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Agents Loading...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "การสนทนาที่พนักงานดูแล",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "ไม่มีการสนทนาที่พนักงานดูแล",
       "TABLE_HEADER": {
         "AGENT": "พนักงาน",
-        "TOTAL": "Total",
-        "UNATTENDED": "Unattended",
+        "OPEN": "OPEN",
+        "UNATTENDED": "ไม่ได้เข้าร่วม",
         "STATUS": "สถานะ"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "สถานะพนักงาน",
       "ONLINE": "ออนไลน์",
       "BUSY": "ไม่ว่าง",
       "OFFLINE": "ออฟไลน์"
