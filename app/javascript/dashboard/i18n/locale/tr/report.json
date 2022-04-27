@@ -419,18 +419,18 @@
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Conversations Loading...",
-      "TOTAL": "Total",
+      "LOADING_MESSAGE": "Görüşme metrikleri yükleniyor...",
+      "OPEN": "Açık",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Atanmamış"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Agents Loading...",
+      "LOADING_MESSAGE": "Temsilci metrikleri yükleniyor...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Kullanıcı",
-        "TOTAL": "Total",
+        "OPEN": "OPEN",
         "UNATTENDED": "Unattended",
         "STATUS": "Durum"
       }
