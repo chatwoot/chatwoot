@@ -416,17 +416,17 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "نظرة عامة",
-    "LIVE": "Live",
+    "LIVE": "مباشر",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "المحادثات المفتوحة",
+      "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
       "OPEN": "فتح",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "غير مسند"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
+      "HEADER": "المحادثات من قبل الوكلاء",
+      "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "موظف الدعم",
