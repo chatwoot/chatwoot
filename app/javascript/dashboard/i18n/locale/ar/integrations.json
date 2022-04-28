@@ -2,19 +2,19 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "خيارات الربط",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "FORM": {
         "CANCEL": "إلغاء",
         "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "الأحداث",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "تم إنشاء المحادثة",
+            "CONVERSATION_STATUS_CHANGED": "تم تغيير حالة المحادثة",
+            "CONVERSATION_UPDATED": "تم تحديث المحادثة",
+            "MESSAGE_CREATED": "تم إنشاء رسالة",
+            "MESSAGE_UPDATED": "تم تحديث الرسالة",
+            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم"
           }
         },
         "END_POINT": {
@@ -22,7 +22,7 @@
           "PLACEHOLDER": "مثال: https://example/api/webhook",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "تحديث الويبهوك",
         "ADD_SUBMIT": "إنشاء webhook"
       },
       "TITLE": "Webhook",
@@ -44,7 +44,7 @@
         "BUTTON_TEXT": "تعديل",
         "TITLE": "تعديل webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "تم تحديث تكوين ويبهوك بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
@@ -52,7 +52,7 @@
         "CANCEL": "إلغاء",
         "TITLE": "إضافة webhook جديد",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "تم إضافة إعدادات Webhook بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
@@ -64,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "تأكيد الحذف",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "هل أنت متأكد من حذف webhook؟ (%{webhookURL})",
           "YES": "نعم، احذف ",
           "NO": "لا، احتفظ به"
         }
