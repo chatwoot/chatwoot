@@ -1,5 +1,6 @@
 default: &default
   adapter: postgresql
+  template: template0
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>

@@ -77,7 +77,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
                headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         deleted_category = Kbase::Category.find_by(id: category.id)
-        expect(deleted_category).to be nil
+        expect(deleted_category).to be_nil
       end
     end
   end
@@ -93,7 +93,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
     context 'when it is an authenticated user' do
       it 'get all portals' do
         category2 = create(:kbase_category, name: 'test_category_2', portal: portal)
-        expect(category2.id).not_to be nil
+        expect(category2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories",
             headers: agent.create_new_auth_token

@@ -106,11 +106,11 @@ class Inbox < ApplicationRecord
   def callback_webhook_url
     case channel_type
     when 'Channel::TwilioSms'
-      "#{ENV['FRONTEND_URL']}/twilio/callback"
+      "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
     when 'Channel::Sms'
-      "#{ENV['FRONTEND_URL']}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
     when 'Channel::Line'
-      "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
     end
   end
 

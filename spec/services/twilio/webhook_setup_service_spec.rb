@@ -5,8 +5,8 @@ describe Twilio::WebhookSetupService do
 
   let(:channel_twilio_sms) { create(:channel_twilio_sms) }
   let(:twilio_client) { instance_double(::Twilio::REST::Client) }
-  let(:phone_double) { instance_double('phone_double') }
-  let(:phone_record_double) { instance_double('phone_record_double') }
+  let(:phone_double) { instance_double(phone_double) }
+  let(:phone_record_double) { instance_double(phone_record_double) }
 
   before do
     allow(::Twilio::REST::Client).to receive(:new).and_return(twilio_client)

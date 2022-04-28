@@ -49,7 +49,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = JSON.parse(response.body)
         expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['contact_inboxes'].blank?).to eq(true)
+        expect(response_body['payload'].first['contact_inboxes'].blank?).to be(true)
       end
 
       it 'returns all contacts with company name desc order' do
@@ -149,7 +149,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.data_imports.count).to eq(1)
-        expect(account.data_imports.first.import_file.attached?).to eq(true)
+        expect(account.data_imports.first.import_file.attached?).to be(true)
       end
     end
 
