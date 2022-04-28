@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Salin",
       "COPY_SUCCESSFUL": "Kode berhasil disalin ke clipboard"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Unduh",
       "UPLOADING": "Mengunggah..."
@@ -173,7 +177,7 @@
     "NEW_LABEL": "Label baru",
     "NEW_TEAM": "Tim baru",
     "NEW_INBOX": "Katak masuk baru",
-    "REPORTS_OVERVIEW": "Gambaran",
+    "REPORTS_CONVERSATION": "Percakapan",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanye",
     "ONGOING": "Sedang berlangsung",
@@ -183,7 +187,8 @@
     "REPORTS_INBOX": "Kotak masuk",
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Gambaran"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

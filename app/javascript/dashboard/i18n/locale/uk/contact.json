@@ -59,21 +59,29 @@
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Імпорт",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "TITLE": "Імпорт контактів",
+    "DESC": "Імпортувати контакти через файл CSV.",
+    "DOWNLOAD_LABEL": "Завантажити зразок csv.",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "Файл CSV",
       "SUBMIT": "Імпорт",
       "CANCEL": "Скасувати"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Контакт успішно збережено",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Підтвердження видалення",
+      "MESSAGE": "Ви дійсно бажаєте видалити цю нотатку?",
+      "YES": "Так, видалити ",
+      "NO": "Ні, залиште"
+    }
+  },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Видалити контакт",
+    "TITLE": "Видалити контакт",
+    "DESC": "Видалити деталі контакту",
     "CONFIRM": {
       "TITLE": "Підтвердження видалення",
       "MESSAGE": "Справді бажаєте видалити ",
@@ -81,8 +89,8 @@
       "NO": "Ні, залишити"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Кампанію успішно видалено",
+      "ERROR_MESSAGE": "Не вдалося видалити контакт. Будь ласка, спробуйте ще раз пізніше."
     }
   },
   "CONTACT_FORM": {
@@ -107,7 +115,7 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
+        "LABEL": "Номер телефону",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
         "DUPLICATE": "This phone number is in use for another contact."
@@ -139,21 +147,21 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Контакт успішно збережено",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "Розпочати розмову",
+    "TITLE": "Новий діалог",
+    "DESC": "Розпочніть нову бесіду, надіславши нове повідомлення.",
+    "NO_INBOX": "Не вдалося знайти поштову скриньку, щоб розпочати нову розмову з цим контактом.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Для"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Вхідні",
+        "ERROR": "Оберіть канал"
       },
       "SUBJECT": {
         "LABEL": "Тема",
@@ -177,9 +185,9 @@
     "FIELDS": "Поля контактів",
     "SEARCH_BUTTON": "Пошук",
     "SEARCH_INPUT_PLACEHOLDER": "Пошук контактів",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS": "Фільтр",
+    "FILTER_CONTACTS_SAVE": "Зберегти фільтр",
+    "FILTER_CONTACTS_DELETE": "Видалити фільтр",
     "LIST": {
       "LOADING_MESSAGE": "Завантаження контактів...",
       "404": "Немає контактів, які відповідають вашому пошуку 🔍",
@@ -281,20 +289,20 @@
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Додати атрибут",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "PLACEHOLDER": "Атрибути пошуку",
+        "NO_RESULT": "Атрибути не знайдено"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Виберіть значення",
+          "SEARCH_INPUT_PLACEHOLDER": "Значення запиту",
+          "NO_RESULT": "Результатів немає"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Потрібне коректне значення",
+      "INVALID_URL": "Недопустимий URL"
     }
   },
   "MERGE_CONTACTS": {
@@ -306,8 +314,8 @@
     },
     "CHILD": {
       "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "Пошук контакту",
+      "HELP_LABEL": "Буде видалено"
     },
     "SUMMARY": {
       "TITLE": "Summary",
@@ -318,7 +326,7 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Об'єднати контакти",
       "CANCEL": "Скасувати",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"

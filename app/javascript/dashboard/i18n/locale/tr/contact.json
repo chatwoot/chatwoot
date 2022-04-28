@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Silmeyi onayla",
+      "MESSAGE": "Bu notu silmek istediğinizden emin misiniz?",
+      "YES": "Evet, Sil",
+      "NO": "Hayır, kalsın"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kişiyi Sil",
     "TITLE": "Kişiyi sil",
@@ -78,7 +86,7 @@
       "TITLE": "Silmeyi onayla",
       "MESSAGE": "Silmek istediğinize emin misiniz ?",
       "YES": "Evet, Sil",
-      "NO": "No, Keep"
+      "NO": "Hayır, Tut"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kişi başarıyla silindi",
@@ -267,50 +275,50 @@
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Yeni öznitelik oluştur ",
         "SUCCESS": "Öznitelik başarıyla eklendi",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Nitelik eklenemedi. Lütfen daha sonra tekrar deneyiniz"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Öznitelik başarıyla güncellendi",
+        "ERROR": "Nitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Öznitelik başarıyla silindi",
+        "ERROR": "Nitelik silinemedi. Lütfen daha sonra tekrar deneyiniz"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Özellik ekle",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "PLACEHOLDER": "Öznitelik ara",
+        "NO_RESULT": "Nitelik bulunamadı"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Değer seçin",
+          "SEARCH_INPUT_PLACEHOLDER": "Değer arayın",
+          "NO_RESULT": "Sonuç bulunamadı"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Geçerli değer gereklidir",
+      "INVALID_URL": "Geçersiz URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "Kişileri birleştir",
+    "DESCRIPTION": "Tüm nitelikler ve konuşmalar dahil olmak üzere iki profili tek bir profilde birleştirmek için kişileri birleştirin. Çakışma durumunda, Birincil ilgili kişinin nitelikleri öncelikli olacaktır.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Birincil kişi",
+      "HELP_LABEL": "Saklanacak"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Birleştirilecek kişi",
+      "PLACEHOLDER": "Kişileri arayın",
+      "HELP_LABEL": "Silinecek"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Özet",
       "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
@@ -318,12 +326,12 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Kişileri birleştir",
       "CANCEL": "İptal Et",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "SUCCESS_MESSAGE": "Kişi başarıyla birleştirildi",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }

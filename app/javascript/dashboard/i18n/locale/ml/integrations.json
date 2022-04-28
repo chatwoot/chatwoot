@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "സംയോജനങ്ങൾ",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "റദ്ദാക്കുക",
+        "DESC": "നിങ്ങളുടെ ചാറ്റ് വൂട്ട് അക്കൗണ്ടിൽ എന്താണ് സംഭവിക്കുന്നതെന്നതിനെക്കുറിച്ചുള്ള തത്സമയ വിവരങ്ങൾ വെബ്‌ഹൂക്ക് ഇവന്റുകൾ നൽകുന്നു. ഒരു കോൾബാക്ക് കോൺഫിഗർ ചെയ്യുന്നതിന് സാധുവായ ഒരു യുആർഎൽ നൽകുക.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
+          "PLACEHOLDER": "ഉദാഹരണം: https://example/api/webhook",
+          "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "വെബ്‌ഹുക്ക് സൃഷ്‌ടിക്കുക"
+      },
       "TITLE": "വെബ്‌ഹൂക്ക്",
       "CONFIGURE": "കോൺഫിഗർ",
       "HEADER": "വെബ്‌ഹൂക്ക് ക്രമീകരണങ്ങൾ",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
         "TITLE": "വെബ്ഹുക്ക് എഡിറ്റ് ചെയ്യുക",
-        "CANCEL": "റദ്ദാക്കുക",
-        "DESC": "നിങ്ങളുടെ ചാറ്റ് വൂട്ട് അക്കൗണ്ടിൽ എന്താണ് സംഭവിക്കുന്നതെന്നതിനെക്കുറിച്ചുള്ള തത്സമയ വിവരങ്ങൾ വെബ്‌ഹൂക്ക് ഇവന്റുകൾ നൽകുന്നു. ഒരു കോൾബാക്ക് കോൺഫിഗർ ചെയ്യുന്നതിന് സാധുവായ ഒരു യുആർഎൽ നൽകുക.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
-            "PLACEHOLDER": "ഉദാഹരണം: https://example/api/webhook",
-            "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
-          },
-          "SUBMIT": "വെബ്ഹുക്ക് എഡിറ്റ് ചെയ്യുക"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "വെബ്ഹുക്ക് URL വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തിരിക്കുന്നു",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
       "ADD": {
         "CANCEL": "റദ്ദാക്കുക",
         "TITLE": "പുതിയ വെബ്‌ഹൂക്ക് ഉണ്ടാക്കുക",
-        "DESC": "നിങ്ങളുടെ ചാറ്റ് വൂട്ട് അക്കൗണ്ടിൽ എന്താണ് സംഭവിക്കുന്നതെന്നതിനെക്കുറിച്ചുള്ള തത്സമയ വിവരങ്ങൾ വെബ്‌ഹൂക്ക് ഇവന്റുകൾ നൽകുന്നു. ഒരു കോൾബാക്ക് കോൺഫിഗർ ചെയ്യുന്നതിന് സാധുവായ ഒരു യുആർഎൽ നൽകുക.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
-            "PLACEHOLDER": "ഉദാഹരണം: https://example/api/webhook",
-            "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
-          },
-          "SUBMIT": "വെബ്‌ഹുക്ക് സൃഷ്‌ടിക്കുക"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "വെബ്‌ഹുക്ക് വിജയകരമായി ചേർത്തു",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-          "MESSAGE": "ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "അതെ, ഇല്ലാതാക്കുക ",
           "NO": "ഇല്ല, സൂക്ഷിക്കുക"
         }

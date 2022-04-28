@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Копіювати",
       "COPY_SUCCESSFUL": "Код скопійований в буфер обміну"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
       "UPLOADING": "Завантажується..."
@@ -149,7 +153,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "Згадування",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
@@ -173,7 +177,7 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Огляд",
+    "REPORTS_CONVERSATION": "Бесіди",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Маркетингові кампанії",
     "ONGOING": "У процесі",
@@ -183,7 +187,8 @@
     "REPORTS_INBOX": "Канал",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Огляд"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",

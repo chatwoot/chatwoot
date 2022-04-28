@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "会話データ",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
@@ -18,12 +18,16 @@
         "DESC": "(合計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "最初の応答時間",
-        "DESC": "(平均)"
+        "NAME": "First Response Time",
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
-        "DESC": "(平均)"
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "(合計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "最初の応答時間",
-        "DESC": "(平均)"
+        "NAME": "First Response Time",
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
-        "DESC": "(平均)"
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -193,12 +202,16 @@
         "DESC": "(合計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "最初の応答時間",
-        "DESC": "(平均)"
+        "NAME": "First Response Time",
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
-        "DESC": "(平均)"
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -256,12 +269,16 @@
         "DESC": "(合計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "最初の応答時間",
-        "DESC": "(平均)"
+        "NAME": "First Response Time",
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
-        "DESC": "(平均)"
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -319,12 +336,16 @@
         "DESC": "(合計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "最初の応答時間",
-        "DESC": "(平均)"
+        "NAME": "First Response Time",
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "処理時間",
-        "DESC": "(平均)"
+        "DESC": "(平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "処理件数",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "開く",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "未割当"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "担当者",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "状況"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "オンライン",
+      "BUSY": "取り込み中",
+      "OFFLINE": "オフライン"
     }
   }
 }

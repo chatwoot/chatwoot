@@ -22,6 +22,8 @@ ro:
     reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
     reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Nu permitem email-uri de unică folosință
       invalid_email: Ați introdus un e-mail invalid
@@ -29,78 +31,78 @@ ro:
       failed: Înregistrare eșuată
     contacts:
       import:
-        failed: File is blank
+        failed: Fișierul este necompletat
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Perioada de raportare %{since}-%{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Nume agent
+      conversations_count: Conversațiile contează
+      avg_first_response_time: Avg primul timp de răspuns (minute)
+      avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: day
+      team_name: Numele echipei
+      conversations_count: Conversațiile contează
+      avg_first_response_time: Avg primul timp de răspuns (minute)
+      avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
+    default_group_by: zi
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Conversație nouă] - #%{display_id} a fost creat în %{inbox_name}"
+      conversation_assignment: "[V-a fost atribuit] - #%{display_id} v-a fost atribuit"
+      assigned_conversation_new_message: "[Mesaj nou] - #%{display_id} %{content}"
+      conversation_mention: "Ați fost menționat în conversație [ID - %{display_id}] de către %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} menționat în poveste: "
+      deleted: Acest mesaj a fost șters
     activity:
       status:
         resolved: "Conversația a fost marcată de %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Conversația a fost rezolvată de %{contact_name}"
         open: "Conversația a fost redeschisă de %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        pending: "Conversația a fost marcată ca fiind în așteptare de către %{user_name}"
+        snoozed: "Conversația a fost snoozed de %{user_name}"
+        auto_resolved: "Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} auto-atribuit această conversație"
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
         removed: "Conversație neasociată de %{user_name}"
       team:
         assigned: "Atribuit lui %{team_name} de %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "Atribuit %{assignee_name} prin %{team_name} de către %{user_name}"
+        removed: "Neatribuit de la %{team_name} de către %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} adăugat %{labels}"
+        removed: "%{user_name} eliminat %{labels}"
+      muted: "%{user_name} a dezactivat conversația"
+      unmuted: "%{user_name} a activat conversația"
     templates:
       greeting_message_body: "%{account_name} răspunde de obicei în câteva ore."
       ways_to_reach_you_message_body: "Dă-i echipei o modalitate de a te contacta."
       email_input_box_message_body: "Primește notificări prin e-mail"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Vă rugăm să evaluați conversația"
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} din %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} din %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Mesaje noi în această conversație"
-      transcript_subject: "Conversation Transcript"
+      transcript_subject: "Trimite Transcriere"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Vă rugăm să evaluați această conversație, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} este online, încercați din nou mai târziu"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack este un instrument de chat care vă reunește toate comunicările într-un singur loc. Prin integrarea Slack, puteți fi notificat cu privire la toate conversațiile noi din cont chiar în interiorul Slack-ului."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhook-uri"
+      description: "Evenimentele Webhook vă oferă informații în timp real despre ceea ce se întâmplă în contul dvs. Puteți utiliza webhook-urile pentru a comunica evenimentele aplicațiilor preferate, cum ar fi Slack sau Github. Faceți clic pe Configurare pentru a configura webhooks dumneavoastră."
     dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      name: "Flux de dialog"
+      description: "Construiți chatboți folosind Dialogflow și conectați-i rapid la inbox. Lăsați roboții să se ocupe de interogări înainte de a le preda unui agent de servicii pentru clienți."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "Integrarea FullContact ajută la îmbogățirea profilurilor vizitatorilor. Identificați utilizatorii imediat ce își partajează adresa de e-mail și oferiți-le servicii personalizate pentru clienți. Conectați FullContact la contul dvs., partajând cheia API FullContact."

@@ -22,6 +22,8 @@ fi:
     reset_password_success: Woot! Salasanan nollauspyyntö onnistui. Tarkista sähköpostisi saadaksesi ohjeita.
     reset_password_failure: Hö! Emme löytäneet yhtään käyttäjää määritellyllä sähköpostilla.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Emme salli kertakäyttöisiä sähköposteja
       invalid_email: Olet syöttänyt virheellisen sähköpostin

@@ -22,6 +22,8 @@ sv:
     reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
     reset_password_failure: Oj då! Vi kunde inte hitta någon användare med den angivna e-postadressen.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Vi tillåter inte engångsadresser
       invalid_email: Du har angett en ogiltig e-postadress

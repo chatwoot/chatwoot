@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "전체 이름",
         "PLACEHOLDER": "전체 이름을 입력하십시오.",
-        "ERROR": "Full Name is required"
+        "REQUIRED_ERROR": "Full Name is required"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "이메일 주소",
         "PLACEHOLDER": "이메일을 입력해주세요.",
-        "ERROR": "잘못된 이메일 주소입니다."
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "올바른 전자 메일 주소를 입력하십시오."
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "전화 번호",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "메시지",
@@ -57,7 +64,8 @@
         "ERROR": "너무 짧은 메시지"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
   "CHAT_FORM": {

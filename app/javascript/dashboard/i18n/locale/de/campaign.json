@@ -29,8 +29,8 @@
           "ERROR": "Zielgruppe ist erforderlich"
         },
         "INBOX": {
-          "LABEL": "Eingang auswählen",
-          "PLACEHOLDER": "Eingang auswählen",
+          "LABEL": "Posteingang auswählen",
+          "PLACEHOLDER": "Posteingang auswählen",
           "ERROR": "Posteingang ist erforderlich"
         },
         "MESSAGE": {

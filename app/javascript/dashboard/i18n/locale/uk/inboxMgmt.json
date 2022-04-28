@@ -148,7 +148,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID акаунту",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "Це поле є обов'язковим"
           },
@@ -373,7 +373,7 @@
         "MESSAGE": "Справді бажаєте видалити ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Так, видалити ",
-        "NO": "No, Keep "
+        "NO": "Ні, залишити "
       },
       "API": {
         "SUCCESS_MESSAGE": "Скриньку успішно видалено",
@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
@@ -431,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Попередні форми чату дозволяють зберегти інформацію про користувача, перш ніж вони почнуть розмову з вами.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Ключ",
+        "TYPE": "Тип",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Увімкнути форму попереднього чату",
         "OPTIONS": {
@@ -439,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Попереднє повідомлення чату",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Це повідомлення буде видимим для користувачів разом з формою"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +478,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +494,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Увійти",
+        "PLACE_HOLDER": "Увійти"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
@@ -511,9 +522,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Увійти",
+        "PLACE_HOLDER": "Увійти"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
@@ -526,7 +537,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

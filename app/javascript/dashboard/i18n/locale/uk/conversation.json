@@ -13,29 +13,29 @@
       "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Результатів не знайдено."
     },
     "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGE": "Непрочитане повідомлення",
     "CLICK_HERE": "Натисніть тут",
     "LOADING_INBOXES": "Завантаження скриньок",
     "LOADING_CONVERSATIONS": "Завантаження бесід",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "CANNOT_REPLY": "Ви не можете відповісти через",
+    "24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
+    "NOT_ASSIGNED_TO_YOU": "Ця розмова не призначена на вас. Ви бажаєте призначити цю розмову на себе?",
     "ASSIGN_TO_ME": "Призначити мені",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Ви можете відповісти на цю розмову тільки за допомогою шаблонного повідомлення через",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
+    "SELECT_A_TWEET_TO_REPLY": "Будь ласка, виберіть твіт для відповіді.",
+    "REPLYING_TO": "Ви відповідаєте:",
+    "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
+    "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
+    "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
+    "NO_RESPONSE": "Немає відповіді",
+    "RATING_TITLE": "Оцінка",
+    "FEEDBACK_TITLE": "Зворотній зв'язок",
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",
@@ -43,9 +43,9 @@
       "OPEN": "Ще",
       "CLOSE": "Закрити",
       "DETAILS": "подробиці",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Відкладено до завтра",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Відкладено до наступного тижня",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Відкладено до наступної відповіді"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -190,13 +190,13 @@
     },
     "ATTRIBUTE_SELECT": {
       "TITLE": "Додати атрибут",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "PLACEHOLDER": "Атрибути пошуку",
+      "NO_RESULT": "Атрибути не знайдено"
     }
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "Для",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"

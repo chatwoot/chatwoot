@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Успешно запазване на контактите",
     "ERROR_MESSAGE": "Възникна грешка, моля опитайте отново"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Потвърди изтриването",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "No, Keep it"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Изтриване на контакта",
     "TITLE": "Изтриване на контакта",
