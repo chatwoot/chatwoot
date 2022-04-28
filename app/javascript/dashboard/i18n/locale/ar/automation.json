@@ -106,11 +106,11 @@
       "CANCEL_LABEL": "لا"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى",
+      "LABEL_IDLE": "ارفع المرفق",
       "LABEL_UPLOADING": "جاري الرفع...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "تم الرفع بنجاح",
+      "LABEL_UPLOAD_FAILED": "فشل الرفع"
     }
   }
 }
