@@ -3,8 +3,8 @@
     "HEADER": "Campagnes",
     "SIDEBAR_TXT": "Les messages proactifs permettent au client d'envoyer des messages sortants à ses contacts, qui déclenchent plus de conversations. Cliquer sur <b>Ajouter une campagne</b> pour créer une nouvelle campagne. Vous pouvez également modifier ou supprimer une campagne existante en cliquant sur le bouton Éditer ou Supprimer.",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Créer une campagne isolée",
-      "ONGOING": "Créer une campagne en cours"
+      "ONE_OFF": "Créer une campagne SMS",
+      "ONGOING": "Créer une campagne Web"
     },
     "ADD": {
       "TITLE": "Créer une campagne",
@@ -18,15 +18,15 @@
           "ERROR": "Le titre est requis"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Horaire programmée",
-          "PLACEHOLDER": "Veuillez sélectionner l'heure",
+          "LABEL": "Planifiée pour le",
+          "PLACEHOLDER": "Veuillez sélectionner le jour et l'heure de déclenchement de la campagne",
           "CONFIRM": "Confirmer",
-          "ERROR": "L'heure programmée est requise"
+          "ERROR": "L'heure de planification est requise"
         },
         "AUDIENCE": {
           "LABEL": "Audience",
           "PLACEHOLDER": "Sélectionnez les étiquettes des clients",
-          "ERROR": "L'audience est requise"
+          "ERROR": "Au moins une étiquette est requise"
         },
         "INBOX": {
           "LABEL": "Sélectionner la boîte de réception",
@@ -54,7 +54,7 @@
           "ERROR": "Le temps sur la page est requis"
         },
         "ENABLED": "Activer la campagne",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Déclencher uniquement pendant les heures d'ouverture",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Déclencher uniquement pendant les heures ouvrées",
         "SUBMIT": "Ajouter une campagne"
       },
       "API": {
@@ -93,7 +93,7 @@
         "STATUS": "État",
         "SENDER": "Expéditeur",
         "URL": "URL",
-        "SCHEDULED_AT": "Horaire programmée",
+        "SCHEDULED_AT": "Date de planification",
         "TIME_ON_PAGE": "Temps(secondes)",
         "CREATED_AT": "Créé le"
       },
@@ -113,13 +113,13 @@
       }
     },
     "ONE_OFF": {
-      "HEADER": "Campagnes isolées",
-      "404": "Il n'y a pas de campagnes isolées créées",
+      "HEADER": "Campagnes SMS",
+      "404": "Il n'y a pas de campagnes SMS créées",
       "INBOXES_NOT_FOUND": "Veuillez créer une boîte de réception SMS et commencez à ajouter des campagnes"
     },
     "ONGOING": {
-      "HEADER": "Campagnes en cours",
-      "404": "Il n'y a pas de campagnes en cours créées",
+      "HEADER": "Campagnes Web",
+      "404": "Il n'y a pas de campagnes web créées",
       "INBOXES_NOT_FOUND": "Veuillez créer une boîte de réception de site Web et commencez à ajouter des campagnes"
     }
   }
