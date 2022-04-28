@@ -77,7 +77,6 @@ class Whatsapp::IncomingMessageService
   end
 
   def attach_files
-    message_type = params[:messages].first[:type]
     return if %w[text button interactive].include?(message_type)
 
     attachment_payload = params[:messages].first[message_type.to_sym]
@@ -89,9 +88,13 @@ class Whatsapp::IncomingMessageService
       file_type: file_content_type(message_type),
       file: {
         io: attachment_file,
-        filename: attachment_file,
+        filename: attachment_file.original_filename,
         content_type: attachment_file.content_type
       }
     )
+  end
+
+  def message_type
+    params[:messages].first[:type]
   end
 end
