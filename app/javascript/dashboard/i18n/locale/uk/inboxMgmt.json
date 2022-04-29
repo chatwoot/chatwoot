@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Вхідні",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Джерела</b></p> <p> Коли ви підключаєте веб-сайт або сторінку у Facebook до Chatwoot, вони називаються <b>Джерелом</b>. Ви можете мати необмежену кількість джерел у своєму обліковому записі Chatwoot. </p><p> Натисніть <b>Додати папку \"Джерело\"</b>, щоб підключити веб-сайт або сторінку Facebook. </p><p> На інформаційній панелі ви можете переглядати всі бесіди з усіх своїх поштових скриньок в одному місці та відповідати на них на вкладці \"Розмови\". </p><p> Ви також можете переглянути розмови, специфічні для папки \"Джерела\", клацнувши назву папки \"Джерело\" на лівій панелі інформаційної панелі. </p>",
     "LIST": {
       "404": "В цього облікового запису немає скриньк."
     },
@@ -9,17 +9,17 @@
       {
         "title": "Оберіть канал",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Виберіть постачальника, якого ви хочете інтегрувати з Chatwoot."
       },
       {
         "title": "Створити вхідну скриньку",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Увійдіть до свого облікового запису і створіть \"Джерело\"."
       },
       {
         "title": "Додати агентів",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Додати агентів до створеного \"Джерела\"."
       },
       {
         "title": "Вуаля!",
@@ -29,27 +29,27 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "LABEL": "Назва Джерела",
+        "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)"
       },
       "WEBSITE_NAME": {
         "LABEL": "Назва сайту",
         "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "PS: Після авторизації ми отримаємо доступ лише до ваших повідомлень на сторінці. Особисті повідомлення недоступні Chatwoot.",
+        "CHOOSE_PAGE": "Вибрати сторінку",
+        "CHOOSE_PLACEHOLDER": "Виберіть сторінку зі списку",
+        "INBOX_NAME": "Назва Джерела",
+        "ADD_NAME": "Додайте назву Джерела",
+        "PICK_NAME": "Виберіть ім'я Джерела",
+        "PICK_A_VALUE": "Виберіть значення"
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
         "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Створити розмову зі згаданих твітів"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Увімкнути вітання каналу",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Відправляйте вітальне повідомлення користувачам, коли вони розпочинають розмову.",
           "ENABLED": "Увімкнено",
           "DISABLED": "Вимкнено"
         },
@@ -136,15 +136,15 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS-канал",
+        "DESC": "Розпочніть підтримувати ваших клієнтів через SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Ширина пропускної здатності"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти SMS-канал"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
@@ -263,8 +263,8 @@
           "ERROR": "Це поле є обов'язковим"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "Ідентифікатор LINE Каналу",
+          "PLACEHOLDER": "Ідентифікатор LINE Каналу"
         },
         "LINE_CHANNEL_SECRET": {
           "LABEL": "LINE Channel Secret",
