@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "TITLE": "Фільтр Контактів",
+        "SUBTITLE": "Додайте фільтри нижче та натисніть «Відправити», для фільтрації контактів.",
         "ADD_NEW_FILTER": "Додати фільтр",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "CLEAR_ALL_FILTERS": "Очистити всі фільтри",
         "FILTER_DELETE_ERROR": "Ви повинні мати хоча б один фільтр для збереження",
         "SUBMIT_BUTTON_LABEL": "Додати",
         "CANCEL_BUTTON_LABEL": "Скасувати",
         "CLEAR_BUTTON_LABEL": "Скинути фільтри",
         "EMPTY_VALUE_ERROR": "Необхідно вказати значення",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "TOOLTIP_LABEL": "Фільтрувати контакти",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "ТА",
             "OR": "АБО"
@@ -22,14 +22,14 @@
             "is_present": "Є",
             "is_not_present": "Немає",
             "is_greater_than": "Більше ніж",
-            "is_lesser_than": "Is lesser than",
+            "is_lesser_than": "Менше ніж",
             "days_before": "X днів до"
         },
         "ATTRIBUTES": {
             "NAME": "Ім'я",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Номер телефону",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "Ідентифікатор",
             "CITY": "Місто",
             "COUNTRY": "Країна",
             "CUSTOM_ATTRIBUTE_LIST": "Список",
