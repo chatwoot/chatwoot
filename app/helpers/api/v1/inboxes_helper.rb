@@ -14,7 +14,7 @@ module Api::V1::InboxesHelper
     Mail.defaults do
       retriever_method :imap, { address: channel_data[:imap_address],
                                 port: channel_data[:imap_port],
-                                user_name: channel_data[:imap_email],
+                                user_name: channel_data[:imap_login],
                                 password: channel_data[:imap_password],
                                 enable_ssl: channel_data[:imap_enable_ssl] }
     end
@@ -33,7 +33,7 @@ module Api::V1::InboxesHelper
   end
 
   def check_smtp_connection(channel_data, smtp)
-    smtp.start(channel_data[:smtp_domain], channel_data[:smtp_email], channel_data[:smtp_password],
+    smtp.start(channel_data[:smtp_domain], channel_data[:smtp_login], channel_data[:smtp_password],
                channel_data[:smtp_authentication]&.to_sym || :login)
     smtp.finish unless smtp&.nil?
   end

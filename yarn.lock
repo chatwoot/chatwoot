@@ -1111,10 +1111,10 @@
     prosemirror-state "^1.3.3"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.npmjs.org/@chatwoot/utils/-/utils-0.0.5.tgz#907cdae747abc17cf2e5c31a378aba66a2f31c6f"
-  integrity sha512-gTQMpQuYVF5EaF4+xSmaoJKXPtbwDPjNLi5cwg44FaQSfmzFxD0fjDsDUPrxzZfURLsR8eU7Z1ulVKnZdHN4yg==
+"@chatwoot/utils@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.6.tgz#76d7b17d692b5b656c565b9b714b98e0f2bc1324"
+  integrity sha512-fCvULfJSFSylDAiGh1cPAX5nQkVsmG5ASGm/E6YBYg8cox/2JU179JFstdtTxrIJg/YeHukcaq85Gc+/16ShPQ==
   dependencies:
     date-fns "^2.22.1"
 
@@ -3469,9 +3469,9 @@ async-limiter@~1.0.0:
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
 async@^2.6.2:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
-  integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.6.4.tgz#706b7ff6084664cd7eae713f6f965433b5504221"
+  integrity sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==
   dependencies:
     lodash "^4.17.14"
 
@@ -5454,6 +5454,11 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
+date-fns-tz@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.3.3.tgz#7884a4b3ed6cd95bfd81831d608e5ef8be500c86"
+  integrity sha512-Gks46gwbSauBQnV3Oofluj1wTm8J0tM7sbSJ9P+cJq/ZnTCpMohTKmmO5Tn+jQ7dyn0+b8G7cY4O2DZ5P/LXcA==
+
 date-fns@2.21.1:
   version "2.21.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.21.1.tgz#679a4ccaa584c0706ea70b3fa92262ac3009d2b0"
@@ -5837,6 +5842,11 @@ dompurify@2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.2.7.tgz#a5f055a2a471638680e779bd08fc334962d11fd8"
   integrity sha512-jdtDffdGNY+C76jvodNTu9jt5yYj59vuTUyx+wXdzcSwAGTYZDAQkQ7Iwx9zcGrA4ixC1syU4H3RZROqRxokxg==
+
+dompurify@^2.3.4:
+  version "2.3.6"
+  resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.3.6.tgz#2e019d7d7617aacac07cbbe3d88ae3ad354cf875"
+  integrity sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg==
 
 domutils@^1.5.1, domutils@^1.7.0:
   version "1.7.0"
@@ -15095,6 +15105,13 @@ vue-docgen-loader@^1.5.0:
     jscodeshift "^0.7.0"
     loader-utils "^1.2.3"
     querystring "^0.2.0"
+
+vue-dompurify-html@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/vue-dompurify-html/-/vue-dompurify-html-2.5.1.tgz#a754f4ac7b18eb8fe41f461cb2bb1c4956a9bd2d"
+  integrity sha512-B8rQj2jAPJJhtKHHa6jg5B3/RoKBmmUl/awP/GxWXGu75j4Y7+MHqv0DG52v0Uz0taEpHyZun34KEYMAfrPWnA==
+  dependencies:
+    dompurify "^2.3.4"
 
 vue-easytable@2.5.5:
   version "2.5.5"
