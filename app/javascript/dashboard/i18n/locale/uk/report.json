@@ -245,8 +245,8 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "Підтвердити",
+      "PLACEHOLDER": "Виберіть діапазон дат"
     }
   },
   "INBOX_REPORTS": {
