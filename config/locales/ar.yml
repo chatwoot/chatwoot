@@ -23,7 +23,7 @@ ar:
     reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
   errors:
     webhook:
-      invalid: Invalid events
+      invalid: أحداث غير صالحة
     signup:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
