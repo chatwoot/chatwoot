@@ -421,22 +421,22 @@
       "HEADER": "المحادثات المفتوحة",
       "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
       "OPEN": "فتح",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "بدون حضور",
       "UNASSIGNED": "غير مسند"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
       "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "NO_AGENTS": "لا توجد أي محادثات من قبل الوكلاء",
       "TABLE_HEADER": {
         "AGENT": "موظف الدعم",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "OPEN": "افتتحت",
+        "UNATTENDED": "بدون حضور",
         "STATUS": "الحالة"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "حالة الوكيل",
       "ONLINE": "متصل",
       "BUSY": "مشغول",
       "OFFLINE": "غير متصل"
