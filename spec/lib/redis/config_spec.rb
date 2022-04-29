@@ -30,9 +30,9 @@ describe ::Redis::Config do
 
     let(:expected_sentinels) do
       [
-        { host: 'sentinel_1', port: '1234', password: 'some-strong-password' },
-        { host: 'sentinel_2', port: '4321', password: 'some-strong-password' },
-        { host: 'sentinel_3', port: '26379', password: 'some-strong-password' }
+        { host: 'sentinel_1', port: '1234' },
+        { host: 'sentinel_2', port: '4321' },
+        { host: 'sentinel_3', port: '26379' }
       ]
     end
 
