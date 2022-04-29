@@ -39,13 +39,13 @@
       "FORM": {
         "INBOX": {
           "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "PLACEHOLDER": "Виділити \"Вхідні\""
         },
         "SUBMIT": "Створити",
         "CANCEL": "Скасувати"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Хук інтеграції успішно додано",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
       }
     },
