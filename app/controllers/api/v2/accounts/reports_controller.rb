@@ -82,7 +82,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def conversation_params
     {
       type: params[:type].to_sym,
-      user_id: params[:user_id]
+      user_id: params[:user_id],
+      page: params[:page].presence || 1
     }
   end
 

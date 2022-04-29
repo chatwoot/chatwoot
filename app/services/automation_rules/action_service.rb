@@ -22,6 +22,8 @@ class AutomationRules::ActionService
   private
 
   def send_attachment(blob_ids)
+    return if conversation_a_tweet?
+
     return unless @rule.files.attached?
 
     blob = ActiveStorage::Blob.find(blob_ids)
@@ -61,6 +63,8 @@ class AutomationRules::ActionService
   end
 
   def send_message(message)
+    return if conversation_a_tweet?
+
     params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
@@ -100,5 +104,11 @@ class AutomationRules::ActionService
 
   def team_belongs_to_account?(team_ids)
     @account.team_ids.include?(team_ids[0])
+  end
+
+  def conversation_a_tweet?
+    return false if @conversation.additional_attributes.blank?
+
+    @conversation.additional_attributes['type'] == 'tweet'
   end
 end
