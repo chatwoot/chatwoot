@@ -5268,6 +5268,10 @@
           "type": "string",
           "description": "Name of the contact"
         },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number of the contact"
+        },
         "avatar_url": {
           "type": "string",
           "description": "The url to a jpeg, png file for the user avatar"
