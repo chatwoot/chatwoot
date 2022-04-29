@@ -59,6 +59,13 @@
       </div>
       <div class="row">
         <div class="columns">
+          <div class="canned-response">
+            <canned-response
+              v-if="showCannedResponseMenu && hasSlashCommand"
+              :search-key="cannedResponseSearchKey"
+              @click="replaceTextWithCannedResponse"
+            />
+          </div>
           <div v-if="isAnEmailInbox || isAnWebWidgetInbox">
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
@@ -113,6 +120,7 @@ import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
+import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
@@ -124,6 +132,7 @@ export default {
     Thumbnail,
     WootMessageEditor,
     ReplyEmailHead,
+    CannedResponse,
   },
   mixins: [alertMixin],
   props: {
@@ -141,6 +150,8 @@ export default {
       name: '',
       subject: '',
       message: '',
+      showCannedResponseMenu: false,
+      cannedResponseSearchKey: '',
       selectedInbox: '',
       bccEmails: '',
       ccEmails: '',
@@ -211,6 +222,20 @@ export default {
       );
     },
   },
+  watch: {
+    message(value) {
+      this.hasSlashCommand = value[0] === '/';
+      const hasNextWord = value.includes(' ');
+      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
+      if (isShortCodeActive) {
+        this.cannedResponseSearchKey = value.substr(1, value.length);
+        this.showCannedResponseMenu = true;
+      } else {
+        this.cannedResponseSearchKey = '';
+        this.showCannedResponseMenu = false;
+      }
+    },
+  },
   methods: {
     onCancel() {
       this.$emit('cancel');
@@ -244,6 +269,11 @@ export default {
         }
       }
     },
+    replaceTextWithCannedResponse(message) {
+      setTimeout(() => {
+        this.message = message;
+      }, 50);
+    },
   },
 };
 </script>
@@ -251,9 +281,15 @@ export default {
 <style scoped lang="scss">
 .conversation--form {
   padding: var(--space-normal) var(--space-large) var(--space-large);
+}
 
-  .columns {
-    padding: 0 var(--space-smaller);
+.canned-response {
+  position: relative;
+  top: var(--space-medium);
+
+  ::v-deep .mention--box {
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
   }
 }
 

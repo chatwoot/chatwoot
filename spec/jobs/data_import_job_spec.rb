@@ -17,8 +17,5 @@ RSpec.describe DataImportJob, type: :job do
     expect(data_import.account.contacts.count).to eq(csv_length)
     expect(data_import.reload.total_records).to eq(csv_length)
     expect(data_import.reload.processed_records).to eq(csv_length)
-
-    # should generate pubsub tokens for contacts
-    expect(data_import.account.contacts.last.pubsub_token).present?
   end
 end
