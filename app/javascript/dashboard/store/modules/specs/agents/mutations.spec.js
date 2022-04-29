@@ -92,6 +92,7 @@ describe('#mutations', () => {
           id: 2,
           name: 'Agent1',
           email: 'agent1@chatwoot.com',
+          availability_status: 'offline',
         },
       ]);
     });
