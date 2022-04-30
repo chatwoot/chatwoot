@@ -150,7 +150,7 @@ import {
 } from './constants';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator.js';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
-
+import * as OPERATORS from './operators';
 export default {
   components: {
     filterInputBox,
@@ -232,7 +232,7 @@ export default {
         ],
       },
       showDeleteConfirmationModal: false,
-      customAttributes: [],
+      allCustomAttributes: [],
     };
   },
   computed: {
@@ -261,9 +261,34 @@ export default {
     },
   },
   mounted() {
-    this.customAttributes = this.$store.getters['attributes/getAttributes'];
+    const customAttributesRaw = this.$store.getters['attributes/getAttributes'];
+    const customAttributeTypes = customAttributesRaw.map(attr => {
+      return {
+        key: attr.attribute_key,
+        name: attr.attribute_display_name,
+        inputType: this.customAttributeInputType(attr.attribute_display_type),
+        filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+      };
+    });
+    AUTOMATIONS.message_created.conditions.push(...customAttributeTypes);
+    AUTOMATIONS.conversation_created.conditions.push(...customAttributeTypes);
+    AUTOMATIONS.conversation_updated.conditions.push(...customAttributeTypes);
   },
   methods: {
+    customAttributeInputType(key) {
+      switch (key) {
+        case 'date':
+          return 'date';
+        case 'text':
+          return 'plain_text';
+        case 'list':
+          return 'search_select';
+        case 'checkbox':
+          return 'search_select';
+        default:
+          return 'plain_text';
+      }
+    },
     onEventChange() {
       if (this.automation.event_name === 'message_created') {
         this.automation.conditions = [
@@ -306,8 +331,67 @@ export default {
       ].conditions.find(condition => condition.key === key);
       return type.filterOperators;
     },
+    getOperatorTypes(key) {
+      switch (key) {
+        case 'list':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'text':
+          return OPERATORS.OPERATOR_TYPES_3;
+        case 'number':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'link':
+          return OPERATORS.OPERATOR_TYPES_1;
+        case 'date':
+          return OPERATORS.OPERATOR_TYPES_4;
+        case 'checkbox':
+          return OPERATORS.OPERATOR_TYPES_1;
+        default:
+          return OPERATORS.OPERATOR_TYPES_1;
+      }
+    },
     getConditionDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      const allCustomAttributes = this.$store.getters[
+        'attributes/getAttributesByModel'
+      ](this.attributeModel);
+
+      const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
+        return (
+          attr.attribute_key === type &&
+          attr.attribute_display_type === 'checkbox'
+        );
+      });
+
+      if (isCustomAttributeCheckbox) {
+        return [
+          {
+            id: true,
+            name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
+          },
+          {
+            id: false,
+            name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
+          },
+        ];
+      }
+
+      const isCustomAttributeList = allCustomAttributes.find(attr => {
+        return (
+          attr.attribute_key === type && attr.attribute_display_type === 'list'
+        );
+      });
+
+      if (isCustomAttributeList) {
+        return allCustomAttributes
+          .find(attr => attr.attribute_key === type)
+          .attribute_values.map(item => {
+            return {
+              id: item,
+              name: item,
+            };
+          });
+      }
+
       switch (type) {
         case 'status':
           return [
@@ -340,7 +424,7 @@ export default {
         case 'labels':
           return this.$store.getters['labels/getLabels'].map(i => {
             return {
-              id: i.id,
+              id: i.title,
               name: i.title,
             };
           });
@@ -348,17 +432,6 @@ export default {
           return languages;
         case 'country_code':
           return countries;
-        case 'message_type':
-          return [
-            {
-              id: 'incoming',
-              name: 'Incoming Message',
-            },
-            {
-              id: 'outgoing',
-              name: 'Outgoing Message',
-            },
-          ];
         default:
           return undefined;
       }
