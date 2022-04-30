@@ -432,14 +432,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "نماذج ما قبل الدردشة تمكنك من التقاط معلومات المستخدم قبل بدء المحادثة معك.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "حقول نموذج الدردشة السابقة",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "FIELDS": "الحقول",
+        "LABEL": "الوسم",
+        "PLACE_HOLDER": "المحتوى",
         "KEY": "المفتاح",
         "TYPE": "النوع",
-        "REQUIRED": "Required"
+        "REQUIRED": "مطلوب"
       },
       "ENABLE": {
         "LABEL": "تمكين نموذج الدردشة السابقة",
@@ -449,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "رسالة ما قبل المحادثة",
         "PLACEHOLDER": "ستكون هذه الرسالة مرئية للمستخدمين مع النموذج"
       },
       "REQUIRE_EMAIL": {
