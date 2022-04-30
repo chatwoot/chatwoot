@@ -23,7 +23,7 @@ uk:
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
   errors:
     webhook:
-      invalid: Invalid events
+      invalid: Недійсні події
     signup:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
       invalid_email: Ви ввели неправильну адресу електронної пошти
