@@ -97,5 +97,18 @@ describe('#Reports API', () => {
         }
       );
     });
+
+    it('#getConversationMetric', () => {
+      reportsAPI.getConversationMetric('account');
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/conversations',
+        {
+          params: {
+            type: 'account',
+            page: 1,
+          },
+        }
+      );
+    });
   });
 });

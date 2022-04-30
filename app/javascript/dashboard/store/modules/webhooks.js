@@ -14,7 +14,7 @@ const state = {
 
 export const getters = {
   getWebhooks(_state) {
-    return _state.records;
+    return _state.records.sort((w1, w2) => w1.id - w2.id);
   },
   getUIFlags(_state) {
     return _state.uiFlags;
