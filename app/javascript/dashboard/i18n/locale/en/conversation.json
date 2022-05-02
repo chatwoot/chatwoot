@@ -95,11 +95,6 @@
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         }
-      },
-      "ANNOUNCEMENT_POPUP": {
-        "MESSAGE": "Now a new key shortcut (⌘ + ↵) is available to send messages. You can enable it in the ",
-        "ROUTE_NAME": "profile settings.",
-        "CANCEL": "Got it"
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
