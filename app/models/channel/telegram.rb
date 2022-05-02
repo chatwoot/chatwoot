@@ -90,6 +90,8 @@ class Channel::Telegram < ApplicationRecord
       telegram_attachment = {}
 
       case attachment[:file_type]
+      when 'audio'
+        telegram_attachment[:type] = 'audio'
       when 'image'
         telegram_attachment[:type] = 'photo'
       when 'file'
