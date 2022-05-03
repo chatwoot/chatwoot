@@ -50,7 +50,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_message?
-    thread_timestamp_available? && supported_message? && integration_hook && !message_already_present?
+    thread_timestamp_available? && supported_message? && integration_hook
   end
 
   def message
@@ -81,7 +81,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_message
-    return unless conversation
+    return if (!conversation || message_already_present?)
 
     @message = conversation.messages.create(
       message_type: :outgoing,
@@ -137,6 +137,9 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def message_already_present?
-    conversation.messages.find_by(message_type: 'outgoing', external_source_ids: { 'slack' => (params[:event][:ts]).to_s }).present?
+    conversation.messages.find_by(
+      message_type: 'outgoing',
+      external_source_ids: { 'slack' => params[:event][:ts].to_s }
+    ).present?
   end
 end
