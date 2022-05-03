@@ -66,7 +66,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def upload_file
     result = slack_client.files_upload({
       channels: hook.reference_id,
-      initial_comment: 'Attached File!',
+      initial_comment: nil,
       thread_ts: conversation.identifier
     }.merge(file_information))
     Rails.logger.info(result)
