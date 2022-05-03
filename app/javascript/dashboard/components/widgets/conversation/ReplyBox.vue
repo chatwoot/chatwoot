@@ -330,7 +330,7 @@ export default {
       );
     },
     keyShortcutNameToSendMessage() {
-      return !this.isCmdPlusEnterToSendMessage
+      return !this.commandPlusEnterToSendEnabled
         ? this.$t('CONVERSATION.REPLYBOX.ENTER_TO_SEND')
         : this.$t('CONVERSATION.REPLYBOX.CMD_PLUS_ENTER');
     },
@@ -418,16 +418,11 @@ export default {
       const { editor_message_key: isEnabled } = this.uiSettings;
       return isEnabled;
     },
-    isCmdPlusEnterToSendMessage() {
+    commandPlusEnterToSendEnabled() {
       return this.editorMessageKey === 'cmd_enter';
     },
-    hasMessageSendOnKey() {
-      return (
-        (this.showRichContentEditor &&
-          !this.hasUserMention &&
-          !this.showCannedMenu) ||
-        !this.showRichContentEditor
-      );
+    enterToSendEnabled() {
+      return this.editorMessageKey === 'enter';
     },
   },
   watch: {
@@ -496,33 +491,50 @@ export default {
       if (isEscape(e)) {
         this.hideEmojiPicker();
         this.hideMentions();
-      } else if (!this.isCmdPlusEnterToSendMessage && isEnter(e)) {
-        const shouldSendMessage =
-          this.hasMessageSendOnKey &&
-          !this.isCmdPlusEnterToSendMessage &&
-          !hasPressedCommand(e) &&
-          !hasPressedShift(e) &&
-          this.isFocused;
-        if (shouldSendMessage) {
-          e.preventDefault();
-          this.sendMessage();
-        }
+      } else if (!this.commandPlusEnterToSendEnabled && isEnter(e)) {
+        this.sendMesssageWithEnterKey(e);
       } else if (
-        this.isCmdPlusEnterToSendMessage &&
+        this.commandPlusEnterToSendEnabled &&
         hasPressedCommandAndEnter(e)
       ) {
-        const shouldSendMessage =
-          this.hasMessageSendOnKey &&
-          this.isCmdPlusEnterToSendMessage &&
-          hasPressedCommand(e) &&
-          !hasPressedShift(e) &&
-          this.isFocused;
-        if (shouldSendMessage) {
-          e.preventDefault();
-          this.sendMessage();
-        }
+        this.sendMessageWithCmdPlusEnterKey(e);
       } else if (hasPressedCommandPlusKKey(e)) {
         this.openCommandBar();
+      }
+    },
+    sendMesssageWithEnterKey(e) {
+      const hasSendOnEnterEnabled =
+        (this.showRichContentEditor &&
+          this.enterToSendEnabled &&
+          !this.hasUserMention &&
+          !this.showCannedMenu) ||
+        !this.showRichContentEditor;
+      const shouldSendMessage =
+        hasSendOnEnterEnabled &&
+        !this.commandPlusEnterToSendEnabled &&
+        !hasPressedCommand(e) &&
+        !hasPressedShift(e) &&
+        this.isFocused;
+      if (shouldSendMessage) {
+        e.preventDefault();
+        this.sendMessage();
+      }
+    },
+    sendMessageWithCmdPlusEnterKey(e) {
+      const hasSendOnCmdEnterEnabled =
+        (this.showRichContentEditor &&
+          !this.hasUserMention &&
+          !this.showCannedMenu) ||
+        !this.showRichContentEditor;
+      const shouldSendMessage =
+        hasSendOnCmdEnterEnabled &&
+        this.commandPlusEnterToSendEnabled &&
+        hasPressedCommand(e) &&
+        !hasPressedShift(e) &&
+        this.isFocused;
+      if (shouldSendMessage) {
+        e.preventDefault();
+        this.sendMessage();
       }
     },
     openCommandBar() {
