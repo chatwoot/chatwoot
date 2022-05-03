@@ -79,8 +79,35 @@
           {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
         </p>
       </div>
-      <div class="columns small-9 medium-5">
-        <woot-switch :value="enableCmdPlusEnter" @input="toggleCmdPlusEnter" />
+      <div class="columns small-9 medium-5 card-preview">
+        <button class="preview-button" @click="toggleEditorMessageKey('enter')">
+          <preview-card
+            :heading="
+              $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING')
+            "
+            :content="
+              $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT')
+            "
+            :image-src="editorEnterKeyImage"
+            :active="isEnterKeyToSendMessageEnabled"
+          />
+        </button>
+        <button @click="toggleEditorMessageKey('cmd_enter')">
+          <preview-card
+            :heading="
+              $t(
+                'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+              )
+            "
+            :content="
+              $t(
+                'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+              )
+            "
+            :image-src="editorCmdPlusEnterKeyImage"
+            :active="!isEnterKeyToSendMessageEnabled"
+          />
+        </button>
       </div>
     </div>
     <change-password v-if="!globalConfig.disableUserProfileUpdate" />
@@ -116,12 +143,17 @@ import ChangePassword from './ChangePassword';
 import MessageSignature from './MessageSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
+
+import enterKeyImage from 'dashboard/assets/images/editor/enter-key.png';
+import cmdEnterKeyImage from 'dashboard/assets/images/editor/cmd-enter-key.png';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
     MessageSignature,
+    PreviewCard,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -133,6 +165,8 @@ export default {
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
+      editorEnterKeyImage: enterKeyImage,
+      editorCmdPlusEnterKeyImage: cmdEnterKeyImage,
     };
   },
   validations: {
@@ -152,11 +186,13 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
-    enableCmdPlusEnter() {
-      const {
-        enable_cmd_plus_enter: enableCmdPlusEntertoSend,
-      } = this.uiSettings;
-      return enableCmdPlusEntertoSend;
+    editorMessageKey() {
+      const key = 'enter' || 'cmd_enter';
+      const { editor_message_key: messageKey } = this.uiSettings;
+      return messageKey || key;
+    },
+    isEnterKeyToSendMessageEnabled() {
+      return this.editorMessageKey === 'enter';
     },
   },
   watch: {
@@ -227,9 +263,9 @@ export default {
     showDeleteButton() {
       return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
-    toggleCmdPlusEnter() {
+    toggleEditorMessageKey(key) {
       this.updateUISettings({
-        enable_cmd_plus_enter: !this.enableCmdPlusEnter,
+        editor_message_key: key,
       });
       this.showAlert(
         this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
@@ -258,6 +294,13 @@ export default {
   }
   .small-9 {
     padding: $space-normal;
+  }
+  .card-preview {
+    display: flex;
+    flex-direction: row;
+    .preview-button {
+      margin-right: var(--space-normal);
+    }
   }
 }
 </style>

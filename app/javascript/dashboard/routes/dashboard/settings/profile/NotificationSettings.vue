@@ -154,14 +154,14 @@
             )
           }}
         </p>
-        <div v-else>
+        <div v-else class="push-notification--button">
           <woot-submit-button
             :button-text="
               $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.REQUEST_PUSH'
               )
             "
-            class="button nice small"
+            class="button nice small "
             type="button"
             @click="onRequestPermissions"
           />
@@ -367,5 +367,9 @@ export default {
 
 .notification--checkbox {
   font-size: $font-size-large;
+}
+
+.push-notification--button {
+  margin-bottom: var(--space-one);
 }
 </style>

@@ -20,10 +20,19 @@
         "NOTE": "Your email address is your identity and is used to log in."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Enable command + enter to send message",
-        "NOTE": "With this feature, you can send messages by key pressing command + enter instead of clicking send button.",
-        "OPTION": "Command + Enter to send message",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully"
+        "TITLE": "Send Message",
+        "NOTE": "With this settings, now you can send messages by key pressing instead of clicking send button.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "You can send messages by pressing enter key instead of clicking send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Command + Enter (⌘ + ↵)",
+            "CONTENT": "You can send messages by pressing command + enter key instead of clicking send button."
+          }
+        }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",

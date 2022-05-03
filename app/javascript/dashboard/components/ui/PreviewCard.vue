@@ -1,0 +1,99 @@
+<template>
+  <div class="preview-card--wrap" :class="{ activecard: active }">
+    <div class="header--wrap" :class="{ active: active }">
+      <div class="heading-wrap">{{ heading }}</div>
+      <woot-button v-if="active" variant="hollow" size="tiny">
+        {{ buttonText }}
+      </woot-button>
+    </div>
+    <div class="content-wrap">
+      {{ content }}
+    </div>
+    <div class="image-wrap">
+      <img :src="imageSrc" class="image" :class="{ activeimage: active }" />
+    </div>
+  </div>
+</template>
+
+<script>
+import WootButton from './WootButton.vue';
+export default {
+  components: { WootButton },
+  props: {
+    heading: {
+      type: String,
+      default: '',
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    buttonText: {
+      type: String,
+      default: 'Active',
+    },
+    imageSrc: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.preview-card--wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 26rem;
+  max-width: 40rem;
+  max-height: 34rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-normal);
+
+  .header--wrap {
+    display: flex;
+    justify-content: space-between;
+    height: 4rem;
+    border-top-left-radius: var(--border-radius-normal);
+    border-top-right-radius: var(--border-radius-normal);
+    background: var(--s-50);
+    padding: var(--space-small);
+    width: 100%;
+  }
+  .active {
+    background: var(--w-50);
+  }
+  .heading-wrap {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-smaller);
+  }
+  .content-wrap {
+    text-align: start;
+    padding: var(--space-slab) var(--space-slab) 0 var(--space-slab);
+    font-size: var(--font-size-mini);
+    line-height: 1.2;
+    color: var(--s-700);
+  }
+  .image-wrap {
+    padding: var(--space-slab);
+  }
+  .image {
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-normal);
+  }
+  .activeimage {
+    border: 1px solid var(--w-75);
+  }
+}
+.activecard {
+  border: 1px solid var(--w-75);
+  background: var(--w-25);
+}
+</style>

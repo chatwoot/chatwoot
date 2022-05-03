@@ -111,7 +111,6 @@
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      :is-cmd-plus-enter-enabled="isCmdPlusEnterToSendMessage"
     />
   </div>
 </template>
@@ -415,9 +414,20 @@ export default {
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
-    isCmdPlusEnterToSendMessage() {
-      const { enable_cmd_plus_enter: isEnabled } = this.uiSettings;
+    editorMessageKey() {
+      const { editor_message_key: isEnabled } = this.uiSettings;
       return isEnabled;
+    },
+    isCmdPlusEnterToSendMessage() {
+      return this.editorMessageKey === 'cmd_enter';
+    },
+    hasMessageSendOnKey() {
+      return (
+        (this.showRichContentEditor &&
+          !this.hasUserMention &&
+          !this.showCannedMenu) ||
+        !this.showRichContentEditor
+      );
     },
   },
   watch: {
@@ -487,14 +497,9 @@ export default {
         this.hideEmojiPicker();
         this.hideMentions();
       } else if (!this.isCmdPlusEnterToSendMessage && isEnter(e)) {
-        const hasSendOnEnterEnabled =
-          (this.showRichContentEditor &&
-            !this.isCmdPlusEnterToSendMessage &&
-            !this.hasUserMention &&
-            !this.showCannedMenu) ||
-          !this.showRichContentEditor;
         const shouldSendMessage =
-          hasSendOnEnterEnabled &&
+          this.hasMessageSendOnKey &&
+          !this.isCmdPlusEnterToSendMessage &&
           !hasPressedCommand(e) &&
           !hasPressedShift(e) &&
           this.isFocused;
@@ -506,14 +511,9 @@ export default {
         this.isCmdPlusEnterToSendMessage &&
         hasPressedCommandAndEnter(e)
       ) {
-        const hasSendOnCmdPlusEnterEnabled =
-          (this.showRichContentEditor &&
-            this.isCmdPlusEnterToSendMessage &&
-            !this.hasUserMention &&
-            !this.showCannedMenu) ||
-          !this.showRichContentEditor;
         const shouldSendMessage =
-          hasSendOnCmdPlusEnterEnabled &&
+          this.hasMessageSendOnKey &&
+          this.isCmdPlusEnterToSendMessage &&
           hasPressedCommand(e) &&
           !hasPressedShift(e) &&
           this.isFocused;
