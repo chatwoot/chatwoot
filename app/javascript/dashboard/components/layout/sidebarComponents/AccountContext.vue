@@ -1,9 +1,11 @@
 <template>
   <div v-if="showShowCurrentAccountContext" class="account-context--group">
-    {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
-    <p class="account-context--name text-ellipsis">
-      {{ account.name }}
-    </p>
+    <a @click="$emit('toggle-accounts')">
+      {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
+      <p class="account-context--name text-ellipsis">
+        {{ account.name }}
+      </p>
+    </a>
   </div>
 </template>
 <script>
