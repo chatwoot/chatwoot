@@ -2,7 +2,13 @@
   <div class="preview-card--wrap" :class="{ activecard: active }">
     <div class="header--wrap" :class="{ active: active }">
       <div class="heading-wrap">{{ heading }}</div>
-      <fluent-icon v-if="active" icon="checkmark" />
+      <fluent-icon
+        v-if="active"
+        icon="checkmark-circle"
+        type="solid"
+        size="24"
+        class="checkmark"
+      />
     </div>
     <div class="content-wrap">
       {{ content }}
@@ -57,11 +63,13 @@ export default {
     border-top-left-radius: var(--border-radius-normal);
     border-top-right-radius: var(--border-radius-normal);
     background: var(--s-50);
+    border-bottom: 1px solid var(--color-border);
     padding: var(--space-small);
     width: 100%;
   }
   .active {
     background: var(--w-50);
+    border-bottom: 1px solid var(--w-75);
   }
   .heading-wrap {
     display: flex;
@@ -69,6 +77,9 @@ export default {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
     padding: var(--space-smaller);
+  }
+  .checkmark {
+    color: var(--w-500);
   }
   .content-wrap {
     text-align: start;
