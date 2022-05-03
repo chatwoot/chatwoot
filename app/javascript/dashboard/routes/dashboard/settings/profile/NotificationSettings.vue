@@ -161,7 +161,7 @@
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.REQUEST_PUSH'
               )
             "
-            class="button nice small "
+            class="button nice small"
             type="button"
             @click="onRequestPermissions"
           />
