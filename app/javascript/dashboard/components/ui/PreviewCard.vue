@@ -89,7 +89,7 @@ export default {
   }
 }
 .activecard {
-  border: 1px solid var(--w-75);
+  border: 1px solid var(--w-300);
   background: var(--w-25);
 }
 </style>
