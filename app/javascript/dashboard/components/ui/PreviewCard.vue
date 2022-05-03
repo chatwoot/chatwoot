@@ -2,9 +2,7 @@
   <div class="preview-card--wrap" :class="{ activecard: active }">
     <div class="header--wrap" :class="{ active: active }">
       <div class="heading-wrap">{{ heading }}</div>
-      <woot-button v-if="active" variant="hollow" size="tiny">
-        {{ buttonText }}
-      </woot-button>
+      <fluent-icon v-if="active" icon="checkmark" />
     </div>
     <div class="content-wrap">
       {{ content }}
@@ -16,9 +14,7 @@
 </template>
 
 <script>
-import WootButton from './WootButton.vue';
 export default {
-  components: { WootButton },
   props: {
     heading: {
       type: String,
@@ -48,8 +44,8 @@ export default {
 .preview-card--wrap {
   display: flex;
   flex-direction: column;
-  min-width: 26rem;
-  max-width: 40rem;
+  min-width: 24rem;
+  max-width: 38rem;
   max-height: 34rem;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-normal);
