@@ -108,4 +108,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def slack_client
     @slack_client ||= Slack::Web::Client.new(token: hook.access_token)
   end
+
+  def initial_comment
+    nil
+  end
 end
