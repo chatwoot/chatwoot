@@ -12,6 +12,7 @@
 #  custom_attributes      :jsonb
 #  display_name           :string
 #  email                  :string
+#  email_digest_enabled   :boolean          default(TRUE)
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string

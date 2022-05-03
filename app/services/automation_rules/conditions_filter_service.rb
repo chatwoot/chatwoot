@@ -2,6 +2,7 @@ require 'json'
 
 class AutomationRules::ConditionsFilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
+  attr_accessor :base_relation
 
   def initialize(rule, conversation = nil, options = {})
     super([], nil)
@@ -17,12 +18,15 @@ class AutomationRules::ConditionsFilterService < FilterService
     @conversation_filters = @filters['conversations']
     @contact_filters = @filters['contacts']
     @message_filters = @filters['messages']
+    @attribute_changed_query_filter = []
 
     @rule.conditions.each_with_index do |query_hash, current_index|
+      @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
       apply_filter(query_hash, current_index)
     end
 
     records = base_relation.where(@query_string, @filter_values.with_indifferent_access)
+    perform_attribute_changed_filter(records)
     records.any?
   end
 
@@ -41,6 +45,10 @@ class AutomationRules::ConditionsFilterService < FilterService
       # send table name according to attribute key right now we are supporting contact based custom attribute filter
       @query_string += custom_attribute_query(query_hash.with_indifferent_access, 'contacts', current_index)
     end
+  end
+
+  def perform_attribute_changed_filter(records)
+    # Add the condition here to check what the old valuu was and apply the filter accordingly.
   end
 
   def message_query_string(current_filter, query_hash, current_index)

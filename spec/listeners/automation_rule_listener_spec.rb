@@ -313,6 +313,44 @@ describe AutomationRuleListener do
         allow(mailer).to receive(:conversation_transcript)
       end
     end
+
+    context 'conditions based on attribute_changed' do
+      before do
+        automation_rule.update!(
+          event_name: 'conversation_updated',
+          name: 'Call actions conversation updated when company changed from DC to Marvel',
+          description: 'Add labels, assign team after conversation updated',
+          conditions: [
+            {
+              attribute_key: 'company',
+              filter_operator: 'attribute_changed',
+              values: { from: ['DC'], to: ['Marvel'] },
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'customer_type',
+              filter_operator: 'equal_to',
+              values: ['platinum'],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+        conversation.update(status: :snoozed)
+      end
+
+      let!(:event) do
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation })
+      end
+
+      it 'triggers automation rule to assign team' do
+        expect(conversation.team_id).not_to eq(team.id)
+
+        listener.conversation_updated(event)
+
+        conversation.reload
+        expect(conversation.team_id).to eq(team.id)
+      end
+    end
   end
 
   describe '#message_created with conversation and contacts based conditions' do
