@@ -10,7 +10,8 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts"
 
       expect(response).to have_http_status(:success)
-      data = JSON.parse(response.body)
+      data = response.parsed_body
+      expect(data.keys).to include('email', 'id', 'name', 'phone_number', 'pubsub_token', 'source_id')
       expect(data['source_id']).not_to eq nil
       expect(data['pubsub_token']).not_to eq nil
     end
@@ -21,7 +22,8 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}"
 
       expect(response).to have_http_status(:success)
-      data = JSON.parse(response.body)
+      data = response.parsed_body
+      expect(data.keys).to include('email', 'id', 'name', 'phone_number', 'pubsub_token', 'source_id')
       expect(data['source_id']).to eq contact_inbox.source_id
       expect(data['pubsub_token']).to eq contact_inbox.pubsub_token
     end
@@ -33,7 +35,7 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
             params: { name: 'John Smith' }
 
       expect(response).to have_http_status(:success)
-      data = JSON.parse(response.body)
+      data = response.parsed_body
       expect(data['name']).to eq 'John Smith'
     end
   end
