@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_092033) do
+ActiveRecord::Schema.define(version: 2022_04_28_101325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -190,14 +190,14 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.boolean "imap_enabled", default: false
     t.string "imap_address", default: ""
     t.integer "imap_port", default: 0
-    t.string "imap_email", default: ""
+    t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
     t.datetime "imap_inbox_synced_at"
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
-    t.string "smtp_email", default: ""
+    t.string "smtp_login", default: ""
     t.string "smtp_password", default: ""
     t.string "smtp_domain", default: ""
     t.boolean "smtp_enable_starttls_auto", default: true
@@ -325,7 +325,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "pubsub_token"
     t.jsonb "additional_attributes", default: {}
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
@@ -334,7 +333,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
-    t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -363,6 +361,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
+    t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
   end
@@ -509,6 +508,8 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "locale", default: "en"
+    t.index ["locale", "account_id"], name: "index_kbase_categories_on_locale_and_account_id"
   end
 
   create_table "kbase_folders", force: :cascade do |t|
@@ -530,6 +531,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.text "header_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
   end
 
@@ -661,6 +663,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.datetime "event_start_time"
     t.datetime "event_end_time"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
+    t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
@@ -762,6 +765,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_092033) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
+    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "message_created", "message_updated", "webwidget_triggered"]
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

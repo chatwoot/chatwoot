@@ -17,11 +17,12 @@
 #
 # Indexes
 #
-#  index_reporting_events_on_account_id  (account_id)
-#  index_reporting_events_on_created_at  (created_at)
-#  index_reporting_events_on_inbox_id    (inbox_id)
-#  index_reporting_events_on_name        (name)
-#  index_reporting_events_on_user_id     (user_id)
+#  index_reporting_events_on_account_id       (account_id)
+#  index_reporting_events_on_conversation_id  (conversation_id)
+#  index_reporting_events_on_created_at       (created_at)
+#  index_reporting_events_on_inbox_id         (inbox_id)
+#  index_reporting_events_on_name             (name)
+#  index_reporting_events_on_user_id          (user_id)
 #
 
 class ReportingEvent < ApplicationRecord

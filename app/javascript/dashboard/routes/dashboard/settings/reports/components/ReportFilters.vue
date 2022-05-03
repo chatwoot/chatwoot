@@ -146,7 +146,9 @@
       />
     </div>
     <div class="small-12 medium-3 business-hours">
-      <span class="business-hours-text">{{ $t('REPORT.BUSINESS_HOURS') }}</span>
+      <span class="business-hours-text margin-right-small">
+        {{ $t('REPORT.BUSINESS_HOURS') }}
+      </span>
       <span>
         <woot-switch v-model="businessHoursSelected" />
       </span>
