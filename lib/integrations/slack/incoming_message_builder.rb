@@ -81,7 +81,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def create_message
-    return if (!conversation || message_already_present?)
+    return unless conversation
 
     @message = conversation.messages.create(
       message_type: :outgoing,
@@ -134,12 +134,5 @@ class Integrations::Slack::IncomingMessageBuilder
     when 'pdf'
       :file
     end
-  end
-
-  def message_already_present?
-    conversation.messages.find_by(
-      message_type: 'outgoing',
-      external_source_ids: { 'slack' => params[:event][:ts].to_s }
-    ).present?
   end
 end
