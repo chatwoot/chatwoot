@@ -62,8 +62,7 @@ export default {
   background: var(--white);
   padding: 0 var(--space-normal);
   z-index: var(--z-index-much-higher);
-  box-shadow: var(--b-200) var(--space-smaller) var(--space-smaller)
-    var(--space-normal) var(--space-smaller);
+  box-shadow: var(--b-200) 4px 4px 16px 4px;
   border-radius: var(--border-radius-normal);
 
   .popup-content {
