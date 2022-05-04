@@ -6,13 +6,13 @@ export default {
   argTypes: {
     popupMessage: {
       defaultValue:
-        'New feature! now you can send message by using keypress. You can enable it in',
+        'Now a new key shortcut (⌘ + ↵) is available to send messages. You can enable it in the',
       control: {
         type: 'text',
       },
     },
     routeText: {
-      defaultValue: 'settings',
+      defaultValue: 'profile settings',
       control: {
         type: 'text',
       },

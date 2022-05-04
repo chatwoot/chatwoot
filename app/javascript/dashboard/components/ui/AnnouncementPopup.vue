@@ -64,15 +64,6 @@ export default {
     var(--space-normal) var(--space-smaller);
   border-radius: var(--border-radius-normal);
 
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: var(--space-minus-small);
-    border-left: var(--space-small) solid transparent;
-    border-right: var(--space-small) solid transparent;
-    border-top: var(--space-small) solid var(--white);
-  }
-
   .popup-content {
     font-size: var(--font-size-mini);
     color: var(--s-700);
