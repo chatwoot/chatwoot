@@ -260,14 +260,11 @@ export const IFrameHelper = {
     if (IFrameHelper.getBubbleHolder().length) {
       return;
     }
-    createBubbleHolder();
+    createBubbleHolder(window.$chatwoot.hideMessageBubble);
     onLocationChangeListener();
 
     let className = 'woot-widget-bubble';
     let closeBtnClassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
-    if (window.$chatwoot.hideMessageBubble) {
-      className += ' woot-bubble-hidden';
-    }
 
     if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {
       className += ' woot-widget-bubble--flat';

@@ -37,12 +37,15 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     },
 
     toggleBubbleVisibility(visibility) {
-      let widgetElm = document.querySelector('.woot-widget-bubble');
+      let widgetElm = document.querySelector('.woot--bubble-holder');
+      let widgetHolder = document.querySelector('.woot-widget-holder');
       if (visibility === 'hide') {
-        addClass(widgetElm, 'woot-bubble-hidden');
+        addClass(widgetHolder, 'woot-widget--without-bubble');
+        addClass(widgetElm, 'woot-hidden');
         window.$chatwoot.hideMessageBubble = true;
       } else if (visibility === 'show') {
-        removeClass(widgetElm, 'woot-bubble-hidden');
+        removeClass(widgetElm, 'woot-hidden');
+        removeClass(widgetHolder, 'woot-widget--without-bubble');
         window.$chatwoot.hideMessageBubble = false;
       }
     },
