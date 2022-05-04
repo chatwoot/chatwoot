@@ -250,23 +250,24 @@ export default {
       });
     },
     downloadReports() {
-      const { from, to } = this;
+      const { from, to, businessHours } = this;
       const fileName = `${this.type}-report-${format(
         fromUnixTime(to),
         'dd-MM-yyyy'
       )}.csv`;
+      const params = { from, to, fileName, businessHours };
       switch (this.type) {
         case 'agent':
-          this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+          this.$store.dispatch('downloadAgentReports', params);
           break;
         case 'label':
-          this.$store.dispatch('downloadLabelReports', { from, to, fileName });
+          this.$store.dispatch('downloadLabelReports', params);
           break;
         case 'inbox':
-          this.$store.dispatch('downloadInboxReports', { from, to, fileName });
+          this.$store.dispatch('downloadInboxReports', params);
           break;
         case 'team':
-          this.$store.dispatch('downloadTeamReports', { from, to, fileName });
+          this.$store.dispatch('downloadTeamReports', params);
           break;
         default:
           break;

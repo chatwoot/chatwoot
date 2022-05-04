@@ -11,7 +11,8 @@
         type: :team,
         id: team.id,
         since: params[:since],
-        until: params[:until]
+        until: params[:until],
+        business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
       }).summary %>
   <% row = [ team.name, team_report[:conversations_count], (team_report[:avg_first_response_time]/60).to_i, (team_report[:avg_resolution_time]/60).to_i ] %>
   <%= CSV.generate_line row %>

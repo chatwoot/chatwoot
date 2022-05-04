@@ -5,7 +5,8 @@
         type: :inbox,
         id: inbox.id,
         since: params[:since],
-        until: params[:until]
+        until: params[:until],
+        business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
       }).summary %>
   <% row = [ inbox.name, inbox_report[:conversations_count], (inbox_report[:avg_first_response_time]/60).to_i, (inbox_report[:avg_resolution_time]/60).to_i ] %>
 <%=   CSV.generate_line row %>
