@@ -19,7 +19,7 @@
         },
         "END_POINT": {
           "LABEL": "Webhook-URL",
-          "PLACEHOLDER": "Beispiel: https://example/api/webhook",
+          "PLACEHOLDER": "Beispiel: https://beispiel/api/webhook",
           "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "EDIT_SUBMIT": "Webhook aktualisieren",
