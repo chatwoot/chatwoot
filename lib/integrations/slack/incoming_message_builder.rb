@@ -37,7 +37,7 @@ class Integrations::Slack::IncomingMessageBuilder
     if message.present?
       SUPPORTED_MESSAGE_TYPES.include?(message[:type])
     else
-      params[:event][:files].any?
+      params.dig(:event, :files).any?
     end
   end
 
