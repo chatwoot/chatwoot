@@ -35,9 +35,9 @@ class Integrations::Slack::IncomingMessageBuilder
 
   def supported_message?
     if message.present?
-      SUPPORTED_MESSAGE_TYPES.include?(message[:type])
+      SUPPORTED_MESSAGE_TYPES.include?(message[:type]) && !attached_file_message?
     else
-      params[:event][:files].any?
+      params[:event][:files].any? && !attached_file_message?
     end
   end
 
@@ -134,5 +134,9 @@ class Integrations::Slack::IncomingMessageBuilder
     when 'pdf'
       :file
     end
+  end
+
+  def attached_file_message?
+    params[:event][:text] == 'Attached File!'
   end
 end
