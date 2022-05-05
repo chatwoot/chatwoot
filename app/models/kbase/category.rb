@@ -14,7 +14,6 @@
 #
 # Indexes
 #
-#  index_kbase_categories_on_locale                 (locale)
 #  index_kbase_categories_on_locale_and_account_id  (locale,account_id)
 #
 class Kbase::Category < ApplicationRecord

@@ -49,8 +49,8 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
   end
 
+  # If attribute_changed type filter is present perform this against array
   def perform_attribute_changed_filter(records)
-    # Add the condition here to check what the old value was and apply the filter accordingly.
     @attribute_changed_records = []
     current_attribute_changed_record = base_relation
     filter_based_on_attribute_change(records, current_attribute_changed_record)
@@ -58,6 +58,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     @attribute_changed_records.uniq
   end
 
+  # Loop through attribute_changed_query_filter
   def filter_based_on_attribute_change(records, current_attribute_changed_record)
     @attribute_changed_query_filter.each do |filter|
       @changed_attributes = @changed_attributes.with_indifferent_access
@@ -70,6 +71,7 @@ class AutomationRules::ConditionsFilterService < FilterService
     end
   end
 
+  # We intersect with the record if query_operator-AND is present and union if query_operator-OR is present
   def attribute_changed_filter_query(filter, records, current_attribute_changed_record)
     if filter['query_operator'] == 'AND'
       @attribute_changed_records + (current_attribute_changed_record & records)
