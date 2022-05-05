@@ -352,8 +352,8 @@ export default {
     getConditionDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
       const allCustomAttributes = this.$store.getters[
-        'attributes/getAttributesByModel'
-      ](this.attributeModel);
+        'attributes/getAttributes'
+      ];
 
       const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
         return (
@@ -361,7 +361,6 @@ export default {
           attr.attribute_display_type === 'checkbox'
         );
       });
-
       if (isCustomAttributeCheckbox) {
         return [
           {
