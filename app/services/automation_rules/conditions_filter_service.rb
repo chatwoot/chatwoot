@@ -50,9 +50,23 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def perform_attribute_changed_filter(records)
-    # Add the condition here to check what the old valuu was and apply the filter accordingly.
-    attribute_changed_records = []
-    attribute_changed_record = base_relation
+    # Add the condition here to check what the old value was and apply the filter accordingly.
+    @attribute_changed_records = []
+    current_attribute_changed_record = base_relation
+    filter_based_on_attribute_change(records, current_attribute_changed_record)
+
+    @attribute_changed_records.uniq
+  end
+
+  def attribute_changed_filter_query(filter, records, current_attribute_changed_record)
+    if filter['query_operator'] == 'AND'
+      @attribute_changed_records + (current_attribute_changed_record & records)
+    else
+      @attribute_changed_records + (current_attribute_changed_record | records)
+    end
+  end
+
+  def filter_based_on_attribute_change(records, current_attribute_changed_record)
     @attribute_changed_query_filter.each do |filter|
       @changed_attributes = @changed_attributes.with_indifferent_access
       changed_attribute = @changed_attributes[filter['attribute_key']]
@@ -60,17 +74,10 @@ class AutomationRules::ConditionsFilterService < FilterService
       next if changed_attribute.blank?
 
       if changed_attribute[0].in?(filter['values']['from']) && changed_attribute[1].in?(filter['values']['to'])
-
-        attribute_changed_records = if filter['query_operator'] == 'AND'
-                                      attribute_changed_records + (attribute_changed_record & records)
-                                    else
-                                      attribute_changed_records + (attribute_changed_record | records)
-                                    end
+        @attribute_changed_records = attribute_changed_filter_query(filter, records, current_attribute_changed_record)
       end
-      attribute_changed_record = attribute_changed_records
+      current_attribute_changed_record = @attribute_changed_records
     end
-
-    attribute_changed_records.uniq
   end
 
   def message_query_string(current_filter, query_hash, current_index)
