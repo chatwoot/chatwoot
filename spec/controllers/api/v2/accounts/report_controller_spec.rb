@@ -58,7 +58,11 @@ RSpec.describe 'Reports API', type: :request do
         expect(current_day_metric.length).to eq(1)
         expect(current_day_metric[0]['value']).to eq(10)
       end
+    end
+  end
 
+  describe 'GET /api/v2/accounts/:account_id/reports/conversations' do
+    context 'when it is an authenticated user' do
       it 'return conversation metrics in account level' do
         unassigned_conversation = create(:conversation, account: account, inbox: inbox,
                                                         assignee: nil, created_at: Time.zone.today)
@@ -102,25 +106,45 @@ RSpec.describe 'Reports API', type: :request do
         expect(user_metrics['metric']['open']).to eq(2)
         expect(user_metrics['metric']['unattended']).to eq(2)
       end
+    end
 
-      it 'return conversation metrics for specific user in account level' do
-        create_list(:conversation, 2, account: account, inbox: inbox,
-                                      assignee: admin, created_at: Time.zone.today)
+    context 'when an agent1 associated to conversation having first reply from agent2' do
+      let(:listener) { ReportingEventListener.instance }
+      let(:account) { create(:account) }
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns unattended conversation count zero for agent1' do
+        agent1 = create(:user, account: account, role: :agent)
+        agent2 = create(:user, account: account, role: :agent)
+        conversation = create(:conversation, account: account,
+                                             inbox: inbox, assignee: agent2)
+
+        create(:message, message_type: 'incoming', content: 'Hi',
+                         account: account, inbox: inbox,
+                         conversation: conversation)
+        first_reply_message = create(:message, message_type: 'outgoing', content: 'Hi',
+                                               account: account, inbox: inbox, sender: agent2,
+                                               conversation: conversation)
+
+        event = Events::Base.new('first.reply.created', Time.zone.now, message: first_reply_message)
+        listener.first_reply_created(event)
+
+        conversation.assignee_id = agent1.id
+        conversation.save!
 
         get "/api/v2/accounts/#{account.id}/reports/conversations",
             params: {
-              type: :agent,
-              user_id: user.id
+              type: :agent
             },
             headers: admin.create_new_auth_token,
             as: :json
 
-        expect(response).to have_http_status(:success)
-
         json_response = JSON.parse(response.body)
-        expect(json_response.blank?).to be false
-        expect(json_response[0]['metric']['open']).to eq(10)
-        expect(json_response[0]['metric']['unattended']).to eq(10)
+        user_metrics = json_response.find { |item| item['name'] == agent1[:name] }
+        expect(user_metrics.present?).to be true
+
+        expect(user_metrics['metric']['open']).to eq(1)
+        expect(user_metrics['metric']['unattended']).to eq(0)
       end
     end
   end
