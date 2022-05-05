@@ -49,7 +49,7 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail-Adresse",
         "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
-        "REQUIRED_ERROR": "E-Mailadresse wird benötigt",
+        "REQUIRED_ERROR": "E-Mail-Adresse wird benötigt",
         "VALID_ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
       },
       "PHONE_NUMBER": {
