@@ -376,7 +376,7 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     netrc (0.11.0)
-    newrelic_rpm (8.4.0)
+    newrelic_rpm (8.7.0)
     nio4r (2.5.8)
     nokogiri (1.13.4)
       mini_portile2 (~> 2.8.0)
