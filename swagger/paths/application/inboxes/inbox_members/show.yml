@@ -1,5 +1,5 @@
 tags:
-  - Inbox
+  - Inboxes
 operationId: get-inbox-members
 summary: List Agents in Inbox
 description: Get Details of Agents in an Inbox

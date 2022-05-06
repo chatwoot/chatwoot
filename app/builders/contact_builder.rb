@@ -70,7 +70,7 @@ class ContactBuilder
       update_contact_avatar(contact)
       contact_inbox
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
       raise e
     end
   end

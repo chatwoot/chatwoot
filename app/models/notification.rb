@@ -52,13 +52,28 @@ class Notification < ApplicationRecord
       notification_type: notification_type,
       primary_actor_type: primary_actor_type,
       primary_actor_id: primary_actor_id,
-      primary_actor: primary_actor.push_event_data,
+      primary_actor: primary_actor_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
-      created_at: created_at,
-      account_id: account_id
+      created_at: created_at.to_i,
+      account_id: account_id,
+      push_message_title: push_message_title
     }
+  end
+
+  def primary_actor_data
+    if %w[assigned_conversation_new_message conversation_mention].include? notification_type
+      {
+        id: primary_actor.conversation.push_event_data[:id],
+        meta: primary_actor.conversation.push_event_data[:meta]
+      }
+    else
+      {
+        id: primary_actor.push_event_data[:id],
+        meta: primary_actor.push_event_data[:meta]
+      }
+    end
   end
 
   def fcm_push_data

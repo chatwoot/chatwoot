@@ -148,6 +148,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation_1.messages.count).to eq(1)
 
         reply_mail_without_uuid.mail['In-Reply-To'] = 'conversation/6bdc3f4d-0bec-4515-a284-5d916fdde489/messages/123'
+        reply_mail_without_uuid.mail['Message-Id'] = '0CB459E0-0336-41DA-BC88-E6E28C697SFC@chatwoot.com'
 
         described_class.receive reply_mail_without_uuid
 
@@ -173,6 +174,76 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(reply_to_mail.mail['Reply-To'].value).to include(email['from'][0])
         expect(reply_to_mail.mail['Reply-To'].value).to include(conversation_1.contact.email)
         expect(reply_to_mail.mail['From'].value).not_to include(conversation_1.contact.email)
+      end
+    end
+
+    describe 'when mail part is not present' do
+      let(:support_mail) { create_inbound_email_from_fixture('support_1.eml') }
+      let(:only_text) { create_inbound_email_from_fixture('only_text.eml') }
+      let(:only_html) { create_inbound_email_from_fixture('only_html.eml') }
+      let(:only_attachments) { create_inbound_email_from_fixture('only_attachments.eml') }
+      let(:html_and_attachments) { create_inbound_email_from_fixture('html_and_attachments.eml') }
+      let(:described_subject) { described_class.receive support_mail }
+
+      it 'Considers raw html mail body' do
+        described_subject
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+
+        expect(conversation.messages.last.content_attributes['email']['html_content']['reply']).to include(
+          <<-BODY.strip_heredoc.chomp
+            Hi,
+            We are providing you platform from here you can sell paid posts on your website.
+
+            Chatwoot | CS team | [C](https://d33wubrfki0l68.cloudfront.net/973467c532160fd8b940300a43fa85fa2d060307/dc9a0/static/brand-73f58cdefae282ae74cebfa74c1d7003.svg)
+
+            Skype: live:.cid.something
+
+            []
+          BODY
+        )
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('Get Paid to post an article')
+      end
+
+      it 'Considers only text body' do
+        described_class.receive only_text
+
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+
+        expect(conversation.messages.last.content).to eq('text only mail')
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('test text only mail')
+      end
+
+      it 'Considers only html body' do
+        described_class.receive only_html
+
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+
+        expect(conversation.messages.last.content).to eq(
+          <<-BODY.strip_heredoc.chomp
+          This is html only mail
+          BODY
+        )
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('test html only mail')
+      end
+
+      it 'Considers only attachments' do
+        described_class.receive only_attachments
+
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+
+        expect(conversation.messages.last.content).to eq(nil)
+        expect(conversation.messages.last.attachments.count).to eq(1)
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('only attachments')
+      end
+
+      it 'Considers html and attachments' do
+        described_class.receive html_and_attachments
+
+        expect(conversation.inbox.id).to eq(channel_email.inbox.id)
+
+        expect(conversation.messages.last.content).to eq('This is html and attachments only mail')
+        expect(conversation.messages.last.attachments.count).to eq(1)
+        expect(conversation.messages.last.content_attributes['email']['subject']).to eq('attachment with html')
       end
     end
   end
