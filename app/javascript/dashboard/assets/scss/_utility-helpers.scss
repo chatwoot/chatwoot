@@ -2,6 +2,10 @@
   margin-right: var(--space-small);
 }
 
+.margin-bottom-small {
+  margin-bottom: var(--space-small);
+}
+
 .margin-right-smaller {
   margin-right: var(--space-smaller);
 }
@@ -49,10 +53,6 @@
 
 .bg-white {
   background-color: var(--white);
-}
-
-.text-y-800 {
-  color: var(--y-800);
 }
 
 .text-ellipsis {

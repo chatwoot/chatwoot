@@ -166,19 +166,15 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
-
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
     if outgoing? && conversation.messages.outgoing.count == 1
-      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
+      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
 
   def dispatch_update_event
-    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
-
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by)
   end
 
   def send_reply

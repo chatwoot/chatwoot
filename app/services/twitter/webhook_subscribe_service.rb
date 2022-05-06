@@ -43,7 +43,7 @@ class Twitter::WebhookSubscribeService
 
   def register_webhook
     register_response = twitter_client.register_webhook(url: twitter_url)
-    Rails.logger.info "TWITTER_UNREGISTER_WEBHOOK: #{register_response.body}"
+    Rails.logger.info "TWITTER_REGISTER_WEBHOOK: #{register_response.body}"
   end
 
   def subscription?
