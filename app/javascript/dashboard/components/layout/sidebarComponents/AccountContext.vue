@@ -69,8 +69,14 @@ export default {
 }
 
 .account-context--switch-group {
+  --overlay-shadow: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 50%
+  );
+
   align-items: center;
-  background-image: var(--overlay-shadow--account-switcher);
+  background-image: var(--overlay-shadow);
   border-top-left-radius: 0;
   border-top-right-radius: var(--border-radius-normal);
   border-bottom-left-radius: 0;
