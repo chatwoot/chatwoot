@@ -11,6 +11,7 @@ import {
   hasUserKeys,
 } from '../sdk/cookieHelpers';
 import { addClass, removeClass } from '../sdk/DOMHelpers';
+import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
@@ -48,6 +49,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         removeClass(widgetHolder, 'woot-widget--without-bubble');
         window.$chatwoot.hideMessageBubble = false;
       }
+      IFrameHelper.sendMessage(SDK_SET_BUBBLE_VISIBILITY, {
+        hideMessageBubble: window.$chatwoot.hideMessageBubble,
+      });
     },
 
     popoutChatWindow() {
