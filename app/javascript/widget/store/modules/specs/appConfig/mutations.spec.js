@@ -9,6 +9,14 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_BUBBLE_VISIBILITY', () => {
+    it('sets bubble visibility properly', () => {
+      const state = { hideMessageBubble: false };
+      mutations.SET_BUBBLE_VISIBILITY(state, true);
+      expect(state.hideMessageBubble).toEqual(true);
+    });
+  });
+
   describe('#SET_WIDGET_COLOR', () => {
     it('sets widget color properly', () => {
       const state = { widgetColor: '' };
