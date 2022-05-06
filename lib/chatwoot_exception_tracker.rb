@@ -1,3 +1,9 @@
+###############
+# One library to capture_exception and send to the specific service.
+# # e as exception, u for user and a for account (user and account are optional)
+# Usage: ChatwootExceptionTracker(e, user: u, account: a).capture_exception
+############
+
 class ChatwootExceptionTracker
   def initialize(exception, user: nil, account: nil)
     @exception = exception
@@ -16,7 +22,7 @@ class ChatwootExceptionTracker
     Sentry.with_scope do |scope|
       scope.set_context('account', { id: @account.id, name: @account.name }) if @account.present?
       scope.set_tags(account_id: @account.id) if @account.present?
-      scope.set_user(id: @user.id, email: @user.email) if @user.present?
+      scope.set_user(id: @user.id, email: @user.email) if @user.present? && @user.is_a?(User)
       Sentry.capture_exception(@exception)
     end
   end
