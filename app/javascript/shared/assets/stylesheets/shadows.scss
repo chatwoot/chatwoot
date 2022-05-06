@@ -8,4 +8,11 @@
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --shadow-larger: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
         0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Custom Colors */
+    --overlay-shadow--account-switcher: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 50%
+      );
 }
