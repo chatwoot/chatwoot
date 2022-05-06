@@ -51,25 +51,26 @@ export default {
       type: Array,
       default: () => [],
     },
-    handlePreChatFieldOptions: {
-      type: Function,
-      default: () => {},
-    },
   },
   data() {
     return {
       preChatFieldOptions: this.preChatFields,
     };
   },
+  watch: {
+    preChatFields() {
+      this.preChatFieldOptions = this.preChatFields;
+    },
+  },
   methods: {
     isFieldEditable(item) {
       return !!standardFieldKeys[item.name] || !item.enabled;
     },
+    handlePreChatFieldOptions(event, type, item) {
+      this.$emit('update', event, type, item);
+    },
     onDragEnd() {
-      this.$emit(
-        'change-pre-chat-field-fields-order',
-        this.preChatFieldOptions
-      );
+      this.$emit('drag-end', this.preChatFieldOptions);
     },
   },
 };

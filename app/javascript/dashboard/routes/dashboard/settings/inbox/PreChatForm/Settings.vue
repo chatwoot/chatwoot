@@ -58,10 +58,8 @@
             </thead>
             <pre-chat-fields
               :pre-chat-fields="preChatFields"
-              :handle-pre-chat-field-options="handlePreChatFieldOptions"
-              @change-pre-chat-field-fields-order="
-                changePreChatFieldFieldsOrder
-              "
+              @update="handlePreChatFieldOptions"
+              @drag-end="changePreChatFieldFieldsOrder"
             />
           </table>
         </div>
