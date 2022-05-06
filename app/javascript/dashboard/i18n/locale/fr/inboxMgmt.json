@@ -434,7 +434,7 @@
       "DESCRIPTION": "Les formulaires précédant le chat vous permettent de saisir les informations de l'utilisateur avant qu'ils ne commencent à discuter avec vous.",
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
+        "FIELDS": "Champs",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Clé",
