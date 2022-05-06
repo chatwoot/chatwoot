@@ -5,11 +5,23 @@
       active: isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
+      'conversation-selected': selected,
     }"
+    @mouseenter="cardHover"
+    @mouseleave="cardLeave"
     @click="cardClick(chat)"
   >
+    <label v-if="hovered || selected" class="checkbox-wrapper">
+      <input
+        v-model="selectedConversation"
+        class="checkbox"
+        type="checkbox"
+        @click.stop
+        @change="toggleConversation()"
+      />
+    </label>
     <thumbnail
-      v-if="!hideThumbnail"
+      v-if="!hideThumbnail && !hovered && !selected"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
       class="columns"
@@ -142,8 +154,17 @@ export default {
       type: String,
       default: '',
     },
+    selected: {
+      type: Boolean,
+      default: false,
+    },
   },
-
+  data() {
+    return {
+      hovered: false,
+      selectedConversation: false,
+    };
+  },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -260,6 +281,19 @@ export default {
       }
       router.push({ path: frontendURL(path) });
     },
+    cardHover() {
+      if (!this.hideThumbnail) {
+        this.hovered = true;
+      } else this.hovered = false;
+    },
+    cardLeave() {
+      this.hovered = false;
+    },
+    toggleConversation() {
+      if (this.selectedConversation) {
+        this.$emit('selectConversation', this.chat.id);
+      } else this.$emit('deSelectConversation', this.chat.id);
+    },
   },
 };
 </script>
@@ -270,6 +304,10 @@ export default {
   &:hover {
     background: var(--color-background-light);
   }
+}
+
+.conversation-selected {
+  background: var(--color-background-light);
 }
 
 .has-inbox-name {
@@ -319,5 +357,22 @@ export default {
 .message--attachment-icon {
   margin-top: var(--space-minus-micro);
   vertical-align: middle;
+}
+.checkbox-wrapper {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  margin-top: var(--space-normal);
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(194, 225, 255);
+  }
+
+  input[type='checkbox'] {
+    margin: var(--space-zero);
+  }
 }
 </style>

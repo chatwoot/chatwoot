@@ -96,6 +96,9 @@
         :chat="chat"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
+        :selected="isConversationSelected(chat.id)"
+        @selectConversation="selectConversation"
+        @deSelectConversation="deSelectConversation"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -134,6 +137,11 @@
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
+
+    <conversation-bulk-actions
+      v-if="selectedConversations.length"
+      :conversations="selectedConversations"
+    />
   </div>
 </template>
 
@@ -152,6 +160,7 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
+import ConversationBulkActions from './widgets/conversation/ConversationBulkActions';
 
 import {
   hasPressedAltAndJKey,
@@ -166,6 +175,7 @@ export default {
     ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
+    ConversationBulkActions,
   },
   mixins: [timeMixin, conversationMixin, eventListenerMixins],
   props: {
@@ -202,6 +212,7 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
+      selectedConversations: [],
     };
   },
   computed: {
@@ -514,6 +525,17 @@ export default {
         this.$router.push({ name: 'home' });
         this.fetchConversations();
       }
+    },
+    isConversationSelected(id) {
+      return this.selectedConversations.includes(id);
+    },
+    selectConversation(id) {
+      this.selectedConversations.push(id);
+    },
+    deSelectConversation(id) {
+      this.selectedConversations = this.selectedConversations.filter(
+        item => item !== id
+      );
     },
   },
 };
