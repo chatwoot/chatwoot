@@ -151,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
