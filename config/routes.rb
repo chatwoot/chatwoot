@@ -158,14 +158,11 @@ Rails.application.routes.draw do
             member do
               post :archive
             end
-          end
-
-          namespace :kbase do
             resources :categories do
               resources :folders
             end
-            resources :articles
           end
+          resources :articles
         end
       end
       # end of account scoped api routes
