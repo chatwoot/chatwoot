@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: kbase_articles
+# Table name: articles
 #
 #  id          :bigint           not null, primary key
 #  content     :text
@@ -16,7 +16,7 @@
 #  folder_id   :integer
 #  portal_id   :integer          not null
 #
-class Kbase::Article < ApplicationRecord
+class Article < ApplicationRecord
   belongs_to :account
   belongs_to :category
   belongs_to :portal
