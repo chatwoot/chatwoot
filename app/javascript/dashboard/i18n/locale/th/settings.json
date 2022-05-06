@@ -151,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "กำลังดูอยู่:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "การสนทนา",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
     "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
