@@ -257,7 +257,8 @@ ActiveRecord::Schema.define(version: 2022_04_28_101325) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
-    t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
+    t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
+    t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|
