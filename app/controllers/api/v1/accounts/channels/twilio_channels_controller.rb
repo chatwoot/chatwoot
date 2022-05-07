@@ -7,7 +7,6 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
       build_inbox
       setup_webhooks if @twilio_channel.sms?
     rescue StandardError => e
-      Sentry.capture_exception(e)
       render_could_not_create_error(e.message)
     end
   end
