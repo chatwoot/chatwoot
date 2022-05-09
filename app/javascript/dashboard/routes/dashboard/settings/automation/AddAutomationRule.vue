@@ -138,72 +138,28 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import automationMixin from 'shared/mixins/automationMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
-import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import countries from '/app/javascript/shared/constants/countries.js';
+
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
   AUTOMATIONS,
 } from './constants';
-import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator.js';
-import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
-import * as OPERATORS from './operators';
 export default {
   components: {
     filterInputBox,
     automationActionInput,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, automationMixin],
   props: {
     onClose: {
       type: Function,
       default: () => {},
     },
   },
-  validations: {
-    automation: {
-      name: {
-        required,
-      },
-      description: {
-        required,
-      },
-      event_name: {
-        required,
-      },
-      conditions: {
-        required,
-        $each: {
-          values: {
-            required: requiredIf(prop => {
-              return !(
-                prop.filter_operator === 'is_present' ||
-                prop.filter_operator === 'is_not_present'
-              );
-            }),
-          },
-        },
-      },
-      actions: {
-        required,
-        $each: {
-          action_params: {
-            required: requiredIf(prop => {
-              if (prop.action_name === 'send_email_to_team') return true;
-              return !(
-                prop.action_name === 'mute_conversation' ||
-                prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_conversation'
-              );
-            }),
-          },
-        },
-      },
-    },
-  },
+
   data() {
     return {
       automationTypes: AUTOMATIONS,
@@ -233,6 +189,7 @@ export default {
       },
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
+      mode: 'create',
     };
   },
   computed: {
@@ -261,274 +218,7 @@ export default {
     },
   },
   mounted() {
-    const customAttributesRaw = this.$store.getters['attributes/getAttributes'];
-    const customAttributeTypes = customAttributesRaw.map(attr => {
-      return {
-        key: attr.attribute_key,
-        name: attr.attribute_display_name,
-        inputType: this.customAttributeInputType(attr.attribute_display_type),
-        filterOperators: this.getOperatorTypes(attr.attribute_display_type),
-      };
-    });
-    AUTOMATIONS.message_created.conditions.push(...customAttributeTypes);
-    AUTOMATIONS.conversation_created.conditions.push(...customAttributeTypes);
-    AUTOMATIONS.conversation_updated.conditions.push(...customAttributeTypes);
-  },
-  methods: {
-    customAttributeInputType(key) {
-      switch (key) {
-        case 'date':
-          return 'date';
-        case 'text':
-          return 'plain_text';
-        case 'list':
-          return 'search_select';
-        case 'checkbox':
-          return 'search_select';
-        default:
-          return 'plain_text';
-      }
-    },
-    onEventChange() {
-      if (this.automation.event_name === 'message_created') {
-        this.automation.conditions = [
-          {
-            attribute_key: 'message_type',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ];
-      } else {
-        this.automation.conditions = [
-          {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ];
-      }
-      this.automation.actions = [
-        {
-          action_name: 'assign_team',
-          action_params: [],
-        },
-      ];
-    },
-    getAttributes(key) {
-      return this.automationTypes[key].conditions;
-    },
-    getInputType(key) {
-      const type = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(condition => condition.key === key);
-      return type.inputType;
-    },
-    getOperators(key) {
-      const type = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(condition => condition.key === key);
-      return type.filterOperators;
-    },
-    getOperatorTypes(key) {
-      switch (key) {
-        case 'list':
-          return OPERATORS.OPERATOR_TYPES_1;
-        case 'text':
-          return OPERATORS.OPERATOR_TYPES_3;
-        case 'number':
-          return OPERATORS.OPERATOR_TYPES_1;
-        case 'link':
-          return OPERATORS.OPERATOR_TYPES_1;
-        case 'date':
-          return OPERATORS.OPERATOR_TYPES_4;
-        case 'checkbox':
-          return OPERATORS.OPERATOR_TYPES_1;
-        default:
-          return OPERATORS.OPERATOR_TYPES_1;
-      }
-    },
-    getConditionDropdownValues(type) {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
-      const allCustomAttributes = this.$store.getters[
-        'attributes/getAttributes'
-      ];
-
-      const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
-        return (
-          attr.attribute_key === type &&
-          attr.attribute_display_type === 'checkbox'
-        );
-      });
-      if (isCustomAttributeCheckbox) {
-        return [
-          {
-            id: true,
-            name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
-          },
-          {
-            id: false,
-            name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
-          },
-        ];
-      }
-
-      const isCustomAttributeList = allCustomAttributes.find(attr => {
-        return (
-          attr.attribute_key === type && attr.attribute_display_type === 'list'
-        );
-      });
-
-      if (isCustomAttributeList) {
-        return allCustomAttributes
-          .find(attr => attr.attribute_key === type)
-          .attribute_values.map(item => {
-            return {
-              id: item,
-              name: item,
-            };
-          });
-      }
-
-      switch (type) {
-        case 'status':
-          return [
-            ...Object.keys(statusFilters).map(status => {
-              return {
-                id: status,
-                name: statusFilters[status].TEXT,
-              };
-            }),
-            {
-              id: 'all',
-              name: this.$t('CHAT_LIST.FILTER_ALL'),
-            },
-          ];
-        case 'assignee_id':
-          return this.$store.getters['agents/getAgents'];
-        case 'contact':
-          return this.$store.getters['contacts/getContacts'];
-        case 'inbox_id':
-          return this.$store.getters['inboxes/getInboxes'];
-        case 'team_id':
-          return this.$store.getters['teams/getTeams'];
-        case 'campaign_id':
-          return this.$store.getters['campaigns/getAllCampaigns'].map(i => {
-            return {
-              id: i.id,
-              name: i.title,
-            };
-          });
-        case 'labels':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.title,
-              name: i.title,
-            };
-          });
-        case 'browser_language':
-          return languages;
-        case 'country_code':
-          return countries;
-        default:
-          return undefined;
-      }
-    },
-    getActionDropdownValues(type) {
-      switch (type) {
-        case 'assign_team':
-        case 'send_email_to_team':
-          return this.$store.getters['teams/getTeams'];
-        case 'add_label':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.title,
-              name: i.title,
-            };
-          });
-        default:
-          return undefined;
-      }
-    },
-    appendNewCondition() {
-      switch (this.automation.event_name) {
-        case 'message_created':
-          this.automation.conditions.push({
-            attribute_key: 'message_type',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          });
-          break;
-        default:
-          this.automation.conditions.push({
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          });
-          break;
-      }
-    },
-    appendNewAction() {
-      this.automation.actions.push({
-        action_name: 'assign_team',
-        action_params: [],
-      });
-    },
-    removeFilter(index) {
-      if (this.automation.conditions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
-      } else {
-        this.automation.conditions.splice(index, 1);
-      }
-    },
-    removeAction(index) {
-      if (this.automation.actions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
-      } else {
-        this.automation.actions.splice(index, 1);
-      }
-    },
-    submitAutomation() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
-      const automation = JSON.parse(JSON.stringify(this.automation));
-      automation.conditions[
-        automation.conditions.length - 1
-      ].query_operator = null;
-      automation.conditions = filterQueryGenerator(
-        automation.conditions
-      ).payload;
-      automation.actions = actionQueryGenerator(automation.actions);
-      this.$emit('saveAutomation', automation);
-    },
-    resetFilter(index, currentCondition) {
-      this.automation.conditions[index].filter_operator = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(
-        condition => condition.key === currentCondition.attribute_key
-      ).filterOperators[0].value;
-      this.automation.conditions[index].values = '';
-    },
-    resetAction(index) {
-      this.automation.actions[index].action_params = [];
-    },
-    showUserInput(operatorType) {
-      if (operatorType === 'is_present' || operatorType === 'is_not_present')
-        return false;
-      return true;
-    },
-    showActionInput(actionName) {
-      if (actionName === 'send_email_to_team' || actionName === 'send_message')
-        return false;
-      const type = AUTOMATION_ACTION_TYPES.find(
-        action => action.key === actionName
-      ).inputType;
-      if (type === null) return false;
-      return true;
-    },
+    this.manifestCustomAttributes();
   },
 };
 </script>
