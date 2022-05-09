@@ -145,8 +145,8 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
-import enterKeyImage from 'dashboard/assets/images/editor/enter-key.png';
-import cmdEnterKeyImage from 'dashboard/assets/images/editor/cmd-enter-key.png';
+import enterKeyImage from 'dashboard/assets/images/editor/enter-editor.png';
+import cmdEnterKeyImage from 'dashboard/assets/images/editor/cmd-editor.png';
 
 export default {
   components: {
