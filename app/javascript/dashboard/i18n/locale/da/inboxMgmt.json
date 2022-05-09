@@ -394,7 +394,8 @@
     "FEATURES": {
       "LABEL": "Funktioner",
       "DISPLAY_FILE_PICKER": "Vis filvælger på widget'en",
-      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en"
+      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger- Script",
@@ -431,6 +432,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
@@ -439,7 +449,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "This message would be visible to the users along with the form"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +478,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +494,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Log Ind",
+        "PLACE_HOLDER": "Log Ind"
       },
       "PASSWORD": {
         "LABEL": "Adgangskode",
@@ -511,9 +522,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Log Ind",
+        "PLACE_HOLDER": "Log Ind"
       },
       "PASSWORD": {
         "LABEL": "Adgangskode",
@@ -526,7 +537,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
