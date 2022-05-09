@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Celé jméno",
         "PLACEHOLDER": "Zadejte své celé jméno",
-        "ERROR": "Je vyžadováno celé jméno"
+        "REQUIRED_ERROR": "Je vyžadováno celé jméno"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-mailová adresa",
         "PLACEHOLDER": "Zadejte prosím Váš e-mail",
-        "ERROR": "Neplatná e-mailová adresa"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Zadejte prosím platnou e-mailovou adresu"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonní číslo",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -57,7 +64,8 @@
         "ERROR": "Zpráva je příliš krátká"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
   "CHAT_FORM": {
