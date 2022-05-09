@@ -310,7 +310,7 @@ export default {
     resetAction(index) {
       this.automation.actions[index].action_params = [];
     },
-    formatAutomation(automation) {
+    manifestConditions(automation) {
       const allCustomAttributes = this.$store.getters[
         'attributes/getAttributes'
       ];
@@ -321,7 +321,7 @@ export default {
           type: attr.attribute_display_type,
         };
       });
-      const formattedConditions = automation.conditions.map(condition => {
+      const conditions = automation.conditions.map(condition => {
         const isCustomAttribute = customAttributes.find(
           attr => attr.key === condition.attribute_key
         );
@@ -347,7 +347,10 @@ export default {
           ].filter(item => [...condition.values].includes(item.id)),
         };
       });
-      const formattedActions = automation.actions.map(action => {
+      return conditions;
+    },
+    manifestActions(automation) {
+      const actions = automation.actions.map(action => {
         let actionParams = [];
         if (action.action_params.length) {
           const inputType = this.automationActionTypes.find(
@@ -373,10 +376,13 @@ export default {
           action_params: actionParams,
         };
       });
+      return actions;
+    },
+    formatAutomation(automation) {
       this.automation = {
         ...automation,
-        conditions: formattedConditions,
-        actions: formattedActions,
+        conditions: this.manifestConditions(automation),
+        actions: this.manifestActions(automation),
       };
     },
     getOperatorTypes(key) {
