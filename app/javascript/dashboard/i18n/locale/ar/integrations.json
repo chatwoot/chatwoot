@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "خيارات الربط",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
+      "FORM": {
+        "CANCEL": "إلغاء",
+        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "الأحداث",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "تم إنشاء المحادثة",
+            "CONVERSATION_STATUS_CHANGED": "تم تغيير حالة المحادثة",
+            "CONVERSATION_UPDATED": "تم تحديث المحادثة",
+            "MESSAGE_CREATED": "تم إنشاء رسالة",
+            "MESSAGE_UPDATED": "تم تحديث الرسالة",
+            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "رابط Webhook",
+          "PLACEHOLDER": "مثال: https://example/api/webhook",
+          "ERROR": "الرجاء إدخال عنوان URL صالح"
+        },
+        "EDIT_SUBMIT": "تحديث الويبهوك",
+        "ADD_SUBMIT": "إنشاء webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "تهيئة",
       "HEADER": "إعدادات الـ Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "تعديل",
         "TITLE": "تعديل webhook",
-        "CANCEL": "إلغاء",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "رابط Webhook",
-            "PLACEHOLDER": "مثال: https://example/api/webhook",
-            "ERROR": "الرجاء إدخال عنوان URL صالح"
-          },
-          "SUBMIT": "تعديل webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "تم تحديث رابط Webhook بنجاح",
+          "SUCCESS_MESSAGE": "تم تحديث تكوين ويبهوك بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
       "ADD": {
         "CANCEL": "إلغاء",
         "TITLE": "إضافة webhook جديد",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "رابط Webhook",
-            "PLACEHOLDER": "مثال: https://example/api/webhook",
-            "ERROR": "الرجاء إدخال عنوان URL صالح"
-          },
-          "SUBMIT": "إنشاء webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "تم إضافة Webhook بنجاح",
+          "SUCCESS_MESSAGE": "تم إضافة إعدادات Webhook بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "تأكيد الحذف",
-          "MESSAGE": "هل أنت متأكد من الحذف ",
+          "MESSAGE": "هل أنت متأكد من حذف webhook؟ (%{webhookURL})",
           "YES": "نعم، احذف ",
           "NO": "لا، احتفظ به"
         }

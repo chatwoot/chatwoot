@@ -44,7 +44,7 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
       "CONTACT_LABELS": "Kontakt-Labels",
-      "PREVIOUS_CONVERSATIONS": "Vorherige Gespräche"
+      "PREVIOUS_CONVERSATIONS": "Vorherige Konversationen"
     }
   },
   "EDIT_CONTACT": {
@@ -65,10 +65,18 @@
     "FORM": {
       "LABEL": "CSV-Datei",
       "SUBMIT": "Importieren",
-      "CANCEL": "Stornieren"
+      "CANCEL": "Abbrechen"
     },
     "SUCCESS_MESSAGE": "Kontakte erfolgreich gespeichert",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Löschung bestätigen",
+      "MESSAGE": "Möchten Sie diese Notiz wirklich löschen?",
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalte es"
+    }
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kontakt löschen",
@@ -76,7 +84,7 @@
     "DESC": "Kontakt-Details bearbeiten",
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
-      "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+      "MESSAGE": "Sind SIe sicher, dass Sie das löschen möchten ",
       "YES": "Ja, löschen",
       "NO": "Nein, behalten"
     },
@@ -168,7 +176,7 @@
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
-      "GO_TO_CONVERSATION": "Aussicht",
+      "GO_TO_CONVERSATION": "Ansehen",
       "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
@@ -244,7 +252,7 @@
     "ADD_BUTTON_TEXT": "Attribute hinzufügen",
     "BUTTON": "Eigenes Attribut hinzufügen",
     "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
-    "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
+    "COPY_SUCCESSFUL": "Erfolgreich in die Zwischenablage kopiert",
     "ACTIONS": {
       "COPY": "Attribut kopieren",
       "DELETE": "Attribut löschen",
@@ -256,7 +264,7 @@
     },
     "FORM": {
       "CREATE": "Attribut hinzufügen",
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "NAME": {
         "LABEL": "Benutzerdefinierter Attributname",
         "PLACEHOLDER": "Beispiel: Shopify-ID",
@@ -319,7 +327,7 @@
     },
     "FORM": {
       "SUBMIT": " Kontakte zusammenführen",
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "CHILD_CONTACT": {
         "ERROR": "Wählen Sie einen Kontakt zum Zusammenführen"
       },

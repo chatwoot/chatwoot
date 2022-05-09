@@ -22,6 +22,8 @@ de:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
   errors:
+    webhook:
+      invalid: Ungültige Events
     signup:
       disposable_email: Wir erlauben keine Einweg-E-Mails
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben

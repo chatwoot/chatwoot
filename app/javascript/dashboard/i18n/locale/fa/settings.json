@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "کپی",
       "COPY_SUCCESSFUL": "کد به حافظه کپی شد"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "نمایش بیشتر",
+      "SHOW_LESS": "نمایش کمتر"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "دانلود",
       "UPLOADING": "در حال آپلود..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
+    "SWITCH": "تعویض",
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "برچسب جدید",
     "NEW_TEAM": "تیم جدید",
     "NEW_INBOX": "صندوق ورودی جدید",
-    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "REPORTS_CONVERSATION": "گفتگوها",
     "CSAT": "رضایت مشتری",
     "CAMPAIGNS": "کمپین ها",
     "ONGOING": "درحال انجام",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "صندوق ورودی",
     "REPORTS_TEAM": "تیم‌",
     "SET_AVAILABILITY_TITLE": "خود را به عنوان",
-    "BETA": "آزمایشی"
+    "BETA": "آزمایشی",
+    "REPORTS_OVERVIEW": "بررسی اجمالی"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
