@@ -33,6 +33,7 @@ import webhooks from './modules/webhooks';
 import attributes from './modules/attributes';
 import automations from './modules/automations';
 import customViews from './modules/customViews';
+import bulkActions from './modules/bulkActions';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -69,5 +70,6 @@ export default new Vuex.Store({
     attributes,
     automations,
     customViews,
+    bulkActions,
   },
 });

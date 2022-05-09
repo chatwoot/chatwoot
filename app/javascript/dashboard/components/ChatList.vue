@@ -142,6 +142,7 @@
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
       @selectAllConversations="selectAllConversations"
+      @assignAgent="onAssignAgent"
     />
   </div>
 </template>
@@ -162,6 +163,7 @@ import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/ConversationBulkActions';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -178,7 +180,7 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins],
+  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -542,6 +544,21 @@ export default {
       if (check)
         this.selectedConversations = this.conversationList.map(item => item.id);
       else this.selectedConversations = [];
+    },
+    async onAssignAgent(agent) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            agent_id: agent.id,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(`Conversations assigned successfully to ${agent.name}`);
+      } catch (err) {
+        this.showAlert(`Something went wrong, please try again`);
+      }
     },
   },
 };

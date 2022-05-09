@@ -31,7 +31,7 @@
         @click="showAgentsList = true"
       />
     </div>
-    <transition name="fade">
+    <transition name="menu-slide">
       <div v-if="showAgentsList" class="bulk-action__agents">
         <div class="header flex-between">
           <span>Select Agent</span>
@@ -50,15 +50,14 @@
                 <fluent-icon icon="search" class="search-icon" size="16" />
                 <input
                   ref="search"
+                  v-model="query"
                   type="search"
                   placeholder="Search"
                   class="agent--search_input"
-                  @input="search"
                 />
               </div>
-              <span>{{ query }}</span>
             </li>
-            <li v-for="agent in agents" :key="agent.id">
+            <li v-for="agent in filteredAgents" :key="agent.id">
               <div class="agent-list-item" @click="assignAgent(agent)">
                 <thumbnail
                   src="agent.thumbnail"
@@ -79,10 +78,19 @@
               </strong>
             </p>
             <div class="agent-confirmation-actions">
-              <woot-button color-scheme="primary" variant="smooth">
+              <woot-button
+                color-scheme="primary"
+                variant="smooth"
+                @click="goBack"
+              >
                 Go Back
               </woot-button>
-              <woot-button color-scheme="primary" variant="flat">
+              <woot-button
+                color-scheme="primary"
+                variant="flat"
+                :is-loading="uiFlags.isUpdating"
+                @click="submit"
+              >
                 Assign
               </woot-button>
             </div>
@@ -110,31 +118,36 @@ export default {
   data() {
     return {
       showAgentsList: false,
-      query: null,
-      debounce: null,
+      query: '',
       selectedAgent: null,
     };
   },
   computed: {
     ...mapGetters({
       agents: 'agents/getAgents',
+      uiFlags: 'bulkActions/getUIFlags',
     }),
+    filteredAgents() {
+      return this.agents.filter(agent =>
+        agent.name.toLowerCase().includes(this.query.toLowerCase())
+      );
+    },
   },
   mounted() {
     this.$refs.selectAllCheck.indeterminate = true;
   },
   methods: {
-    search(e) {
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(() => {
-        this.query = e.target.value;
-      }, 600);
-    },
     assignAgent(agent) {
       this.selectedAgent = agent;
     },
     selectAll(e) {
       this.$emit('selectAllConversations', e.target.checked);
+    },
+    goBack() {
+      this.selectedAgent = null;
+    },
+    submit() {
+      this.$emit('assignAgent', this.selectedAgent);
     },
   },
 };
@@ -215,15 +228,6 @@ export default {
       }
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
 }
 ul {
   margin: 0;
