@@ -29,7 +29,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   rescue Koala::Facebook::AuthenticationError
     Rails.logger.error "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
   end
 
@@ -128,10 +128,10 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       result = {}
       # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
       # We don't need to capture this error as we don't care about contact params in case of echo messages
-      Sentry.capture_exception(e) unless @outgoing_echo
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
     rescue StandardError => e
       result = {}
-      Sentry.capture_exception(e)
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
     process_contact_params_result(result)
   end

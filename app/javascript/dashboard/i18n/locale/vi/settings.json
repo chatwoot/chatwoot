@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Sao Chép",
       "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
       "UPLOADING": "Đang tải lên..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Cuộc trò chuyện",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "Nhãn mới",
     "NEW_TEAM": "Nhóm mới",
     "NEW_INBOX": "Hộp thư đến mới",
-    "REPORTS_OVERVIEW": "Tổng quan",
+    "REPORTS_CONVERSATION": "Các cuộc hội thoại",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Chiến dịch",
     "ONGOING": "Đang diễn ra",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Hộp thư đến",
     "REPORTS_TEAM": "Nhóm",
     "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Tổng quan"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",

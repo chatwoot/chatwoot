@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu"
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -102,6 +104,13 @@
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
       "CONFIRMATION_LABEL": "Có",
       "CANCEL_LABEL": "Không"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Đang tải lên...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }

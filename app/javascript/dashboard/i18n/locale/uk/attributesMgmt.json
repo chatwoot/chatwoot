@@ -1,22 +1,22 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Свої атрибути",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Додати свій атрибут",
+    "LOADING": "Отримання користувацьких атрибутів",
+    "SIDEBAR_TXT": "<p><b>Користувацькі Атрибути</b> <p>Користувацький атрибут відстежує факти про ваших контактів/розмову — наприклад, план підписки або коли вони замовили перший товар і т. д. <br /><br />Для створення Користувацького атрибуту, просто натисніть на <b>Додати Користувацький атрибут.</b> Ви також можете редагувати або видаляти існуючі користувацькі атрибути, натиснувши на кнопку Редагувати або Видалити.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Додати свій атрибут",
       "SUBMIT": "Створити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "NAME": {
           "LABEL": "Ім'я для відображення",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "PLACEHOLDER": "Введіть назву користувацького атрибута",
           "ERROR": "Назва обов'язкова"
         },
         "DESC": {
           "LABEL": "Опис",
-          "PLACEHOLDER": "Enter custom attribute description",
+          "PLACEHOLDER": "Введіть опис користувацьких атрибутів",
           "ERROR": "Необхідний опис"
         },
         "MODEL": {
@@ -29,49 +29,49 @@
           "PLACEHOLDER": "Будь ласка, оберіть тип",
           "ERROR": "Потрібен тип",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Список значень",
+            "PLACEHOLDER": "Будь ласка, введіть значення і натисніть клавішу Enter",
+            "ERROR": "Має мати принаймні одне значення"
           }
         },
         "KEY": {
           "LABEL": "Ключ",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "PLACEHOLDER": "Введіть ключ користувацького атрибуту",
+          "ERROR": "Потрібен ключ",
+          "IN_VALID": "Невірний ключ"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно додано",
+        "ERROR_MESSAGE": "Не вдалося створити користувацький атрибут, будь ласка спробуйте пізніше"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно видалено.",
+        "ERROR_MESSAGE": "Не вдалося видалити користувацький атрибут. Повторіть спробу."
       },
       "CONFIRM": {
         "TITLE": "Ви дійсно бажаєте видалити - %{attributeName}",
         "PLACE_HOLDER": "Будь ласка, введіть {attributeName} щоб підтвердити",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "MESSAGE": "Ця дія видалить користувацький атрибут",
         "YES": "Видалити ",
         "NO": "Скасувати"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Редагувати користувацький атрибут",
       "UPDATE_BUTTON_TEXT": "Оновити",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Список значень",
+          "PLACEHOLDER": "Будь ласка, введіть значення і натисніть клавішу Enter"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Користувацький атрибут успішно оновлено",
+        "ERROR_MESSAGE": "Виникла помилка при оновленні користувацького атрибуту, будь ласка, спробуйте ще раз"
       }
     },
     "TABS": {
@@ -91,8 +91,8 @@
         "DELETE": "Видалити"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Не створено жодного користувацького атрибуту",
+        "NOT_FOUND": "Немає налаштованих власних атрибутів"
       }
     }
   }

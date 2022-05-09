@@ -22,6 +22,8 @@ pt_BR:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
   errors:
+    webhook:
+      invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido
@@ -42,7 +44,7 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
-    default_group_by: day
+    default_group_by: dia
   notifications:
     notification_title:
       conversation_creation: "[Nova conversa] - #%{display_id} foi criado em %{inbox_name}"
@@ -51,12 +53,12 @@ pt_BR:
       conversation_mention: "Você foi mencionado na conversa [ID - %{display_id}] por %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} mencionou você na conversa: "
       deleted: Esta mensagem foi apagada
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "A conversa foi resolvida por %{contact_name}"
         open: "Conversa foi reaberta por %{user_name}"
         pending: "Conversa foi marcada como pendente por %{user_name}"
         snoozed: "Conversa não atribuída por %{user_name}"
