@@ -20,7 +20,7 @@ class Api::V1::Accounts::Twitter::AuthorizationsController < Api::V1::Accounts::
   end
 
   def oauth_authorize_endpoint(oauth_token)
-    "#{twitter_api_base_url}/oauth/authorize?oauth_token=#{oauth_token}"
+    "https://api.twitter.com/oauth/authorize?oauth_token=#{oauth_token}"
   end
 
   def check_authorization
