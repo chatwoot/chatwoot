@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Ενοποιήσεις",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Εγγεγραμμένα Συμβάντα",
+      "FORM": {
+        "CANCEL": "Άκυρο",
+        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Συμβάντα",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Δημιουργήθηκε Συνομιλία",
+            "CONVERSATION_STATUS_CHANGED": "Η κατάσταση της συνομιλίας άλλαξε",
+            "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
+            "MESSAGE_CREATED": "Δημιουργήθηκε Μήνυμα",
+            "MESSAGE_UPDATED": "Το μήνυμα ενημερώθηκε",
+            "WEBWIDGET_TRIGGERED": "Το widget συνομιλίας άνοιξε από τον χρήστη"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Σύνδεσμος Webhook",
+          "PLACEHOLDER": "Παράδειγμα: https://www.hmu.gr/api/webhook",
+          "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+        },
+        "EDIT_SUBMIT": "Ενημέρωση Webhook",
+        "ADD_SUBMIT": "Δημιουργία Webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Διαμόρφωση",
       "HEADER": "Ρυθμίσεις Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Επεξεργασία",
         "TITLE": "Επεξεργασία webhook",
-        "CANCEL": "Άκυρο",
-        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Σύνδεσμος Webhook",
-            "PLACEHOLDER": "Παράδειγμα: https://www.hmu.gr/api/webhook",
-            "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
-          },
-          "SUBMIT": "Επεξεργασία webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Το URL Webhook ενημερώθηκε με επιτυχία",
+          "SUCCESS_MESSAGE": "Οι ρυθμίσεις του Webhook ενημερώθηκαν με επιτυχία",
           "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
         }
       },
       "ADD": {
         "CANCEL": "Άκυρο",
         "TITLE": "Προσθήκη Νέου webhook",
-        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Σύνδεσμος Webhook",
-            "PLACEHOLDER": "Παράδειγμα: https://www.hmu.gr/api/webhook",
-            "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
-          },
-          "SUBMIT": "Δημιουργία Webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Το Webhook προστέθηκε επιτυχώς",
+          "SUCCESS_MESSAGE": "Η διαμόρφωση Webhook προστέθηκε με επιτυχία",
           "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Επιβεβαίωση Διαγραφής",
-          "MESSAGE": "Είσαστε σίγοιροι για την διαγραφή ",
+          "MESSAGE": "Είστε βέβαιοι να διαγράψετε το webhook? (%{webhookURL})",
           "YES": "Ναι, Διέγραψε ",
           "NO": "Όχι, Κράτησε τον/την"
         }
