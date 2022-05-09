@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Prehľad",
+    "HEADER": "Rozhovory",
     "LOADING_CHART": "Načítanie grafu...",
     "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
     "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
@@ -18,12 +18,16 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "Prehľad agentov",
@@ -130,12 +135,16 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -193,12 +202,16 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -256,12 +269,16 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -319,12 +336,16 @@
         "DESC": "( Spolu )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas do prvej reakcie",
-        "DESC": "( Priemer )"
+        "NAME": "First Response Time",
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas do riešenia",
-        "DESC": "( Priemer )"
+        "DESC": "( Priemer )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet vyriešených problémov",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Prehľad",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Otvorené",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Nepriradené"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Zaneprázdnený",
+      "OFFLINE": "Offline"
     }
   }
 }

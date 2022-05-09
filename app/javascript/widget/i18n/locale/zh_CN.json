@@ -22,7 +22,7 @@
     "IN_A_DAY": "通常在一天之内回复您"
   },
   "START_CONVERSATION": "开始会话",
-  "END_CONVERSATION": "End Conversation",
+  "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",
   "START_NEW_CONVERSATION": "开始新的对话",
   "UNREAD_VIEW": {
@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "名字",
         "PLACEHOLDER": "请输入您的姓名",
-        "ERROR": "必须填写姓名"
+        "REQUIRED_ERROR": "必须填写姓名"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "电子邮件地址",
         "PLACEHOLDER": "请输入您的邮箱地址",
-        "ERROR": "无效的邮箱地址"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "请输入一个有效的电子邮件"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "电话号码",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "消息",
@@ -57,7 +64,8 @@
         "ERROR": "消息太短了"
       }
     },
-    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件"
+    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {

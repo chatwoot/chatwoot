@@ -1,41 +1,41 @@
 {
   "CONVERSATION": {
     "404": "Будь ласка, виберіть бесіду з лівої панелі",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "Користувач не верифікований",
     "NO_MESSAGE_1": "Ой! Схоже, у вашій поштовій скринці немає ніяких повідомлень.",
     "NO_MESSAGE_2": " щоб надіслати повідомлення на вашу сторінку!",
     "NO_INBOX_1": "Галас! Схоже, ви ще не додали скриньк.",
     "NO_INBOX_2": " для початку",
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Пошук повідомлень у розмовах",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "Пошук повідомлень",
+      "RESULT_TITLE": "Результати пошуку",
+      "LOADING_MESSAGE": "Триває збір даних...",
+      "PLACEHOLDER": "Введіть текст для пошуку повідомлень",
+      "NO_MATCHING_RESULTS": "Результатів не знайдено."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Непрочитані повідомлення",
+    "UNREAD_MESSAGE": "Непрочитане повідомлення",
     "CLICK_HERE": "Натисніть тут",
     "LOADING_INBOXES": "Завантаження скриньок",
     "LOADING_CONVERSATIONS": "Завантаження бесід",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "CANNOT_REPLY": "Ви не можете відповісти через",
+    "24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
+    "NOT_ASSIGNED_TO_YOU": "Ця розмова не призначена на вас. Ви бажаєте призначити цю розмову на себе?",
     "ASSIGN_TO_ME": "Призначити мені",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Ви можете відповісти на цю розмову тільки за допомогою шаблонного повідомлення через",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
+    "SELECT_A_TWEET_TO_REPLY": "Будь ласка, виберіть твіт для відповіді.",
+    "REPLYING_TO": "Ви відповідаєте:",
+    "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
+    "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
+    "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
+    "NO_RESPONSE": "Немає відповіді",
+    "RATING_TITLE": "Оцінка",
+    "FEEDBACK_TITLE": "Зворотній зв'язок",
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",
@@ -43,27 +43,27 @@
       "OPEN": "Ще",
       "CLOSE": "Закрити",
       "DETAILS": "подробиці",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Відкладено до завтра",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Відкладено до наступного тижня",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Відкладено до наступної відповіді"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Позначити як \"В очікуванні\"",
       "SNOOZE": {
-        "TITLE": "Snooze until",
+        "TITLE": "Відкласти до",
         "NEXT_REPLY": "Наступна відповідь",
         "TOMORROW": "Завтра",
         "NEXT_WEEK": "Наступного тижня"
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Підпис повідомлення",
+      "ENABLE_SIGN_TOOLTIP": "Увімкнути підпис",
+      "DISABLE_SIGN_TOOLTIP": "Вимкнути підпис",
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
+      "CLICK_HERE": "Натисніть тут для оновлення"
     },
     "REPLYBOX": {
       "REPLY": "Відповісти",
@@ -74,13 +74,13 @@
       "TIP_FORMAT_ICON": "Показати текстовий редактор",
       "TIP_EMOJI_ICON": "Показати емодзі",
       "TIP_ATTACH_ICON": "Прикріпити файли",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Записати аудіо",
+      "TIP_AUDIORECORDER_PERMISSION": "Надати доступ до аудіо",
+      "TIP_AUDIORECORDER_ERROR": "Не вдалося відкрити аудіо",
       "ENTER_TO_SEND": "Enter для надсилання",
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "Почати аудіозапис",
+      "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Додати bcc",
@@ -104,8 +104,8 @@
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "Не вдалося надіслати повідомлення! Повторіть спробу",
+    "TRY_AGAIN": "повторити",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Виберіть агента",
       "REMOVE": "Видалити",
@@ -143,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Запросити членів команди",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Оскільки Ви готуєтеся поговорити зі своїм клієнтом, запросіть ваших партнерів по команді, щоб допомогти вам. Ви можете запросити ваших товаришів по команді, додавши їх адреси електронної пошти до списку співробітників.",
       "NEW_LINK": "Натисніть тут, щоб запросити учасника"
     },
     "INBOXES": {
@@ -169,36 +169,36 @@
       "CONVERSATION_ACTIONS": "Дії при бесіді",
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_ATTRIBUTES": "Атрибути контакту",
       "PREVIOUS_CONVERSATION": "Попередні бесіди"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Створити атрибут",
     "UPDATE": {
       "SUCCESS": "Атрибут успішно оновлено",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "ERROR": "Не вдалося оновити атрибут. Будь ласка, спробуйте ще раз пізніше"
     },
     "ADD": {
       "TITLE": "Додати",
       "SUCCESS": "Атрибут додано успішно",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "Неможливо додати атрибут. Будь ласка, спробуйте ще раз пізніше"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Атрибут успішно видалено",
+      "ERROR": "Неможливо видалити атрибут. Будь ласка, спробуйте ще раз пізніше"
     },
     "ATTRIBUTE_SELECT": {
       "TITLE": "Додати атрибут",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "PLACEHOLDER": "Атрибути пошуку",
+      "NO_RESULT": "Атрибути не знайдено"
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "To",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "FROM": "Від",
+    "TO": "Для",
+    "BCC": "Прихована копія",
+    "CC": "Копія",
+    "SUBJECT": "Тема"
   }
 }
