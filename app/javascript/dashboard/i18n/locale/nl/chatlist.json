@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Geen berichten",
     "NO_CONTENT": "Geen inhoud beschikbaar",
     "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
-    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst"
+    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
+    "MESSAGE_READ": "Read"
   }
 }
