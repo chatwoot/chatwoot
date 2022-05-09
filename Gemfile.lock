@@ -349,7 +349,7 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.16.0)
+    loofah (2.17.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -376,16 +376,16 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     netrc (0.11.0)
-    newrelic_rpm (8.4.0)
+    newrelic_rpm (8.7.0)
     nio4r (2.5.8)
-    nokogiri (1.13.4)
+    nokogiri (1.13.5)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.13.4-arm64-darwin)
+    nokogiri (1.13.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.4-x86_64-darwin)
+    nokogiri (1.13.5-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.4-x86_64-linux)
+    nokogiri (1.13.5-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
     orm_adapter (0.5.0)
@@ -533,16 +533,16 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.1.0)
+    sentry-rails (5.3.0)
       railties (>= 5.0)
-      sentry-ruby-core (~> 5.1.0)
-    sentry-ruby (5.1.0)
+      sentry-ruby-core (~> 5.3.0)
+    sentry-ruby (5.3.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      sentry-ruby-core (= 5.1.0)
-    sentry-ruby-core (5.1.0)
+      sentry-ruby-core (= 5.3.0)
+    sentry-ruby-core (5.3.0)
       concurrent-ruby
-    sentry-sidekiq (5.1.0)
-      sentry-ruby-core (~> 5.1.0)
+    sentry-sidekiq (5.3.0)
+      sentry-ruby-core (~> 5.3.0)
       sidekiq (>= 3.0)
     sexp_processor (4.16.0)
     shoulda-matchers (5.1.0)
@@ -726,9 +726,9 @@ DEPENDENCIES
   rubocop-rspec
   scout_apm
   seed_dump
-  sentry-rails
-  sentry-ruby
-  sentry-sidekiq
+  sentry-rails (~> 5.3)
+  sentry-ruby (~> 5.3)
+  sentry-sidekiq (~> 5.3)
   shoulda-matchers
   sidekiq (~> 6.4.0)
   sidekiq-cron (~> 1.3)
@@ -755,4 +755,4 @@ RUBY VERSION
    ruby 3.0.2p107
 
 BUNDLED WITH
-   2.3.9
+   2.3.10
