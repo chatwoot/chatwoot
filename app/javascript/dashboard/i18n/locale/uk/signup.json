@@ -5,23 +5,24 @@
     "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Назва облікового запису",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "Введіть ім'я облікового запису; наприклад: Wayne Enterprises",
+      "ERROR": "Ім'я аккаунту закоротке"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Повне ім'я",
+      "PLACEHOLDER": "Введіть ваше повне ім'я. наприклад: Bruce Wayne",
+      "ERROR": "Повне ім’я занадто коротке"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Робоча електронна пошта",
+      "PLACEHOLDER": "Введіть робочу адресу електронної пошти; наприклад: bruce@wayne.enterprises",
+      "ERROR": "Адреса електронної пошти недійсна"
     },
     "PASSWORD": {
       "LABEL": "Пароль",
       "PLACEHOLDER": "Пароль",
-      "ERROR": "Пароль занадто короткий"
+      "ERROR": "Пароль занадто короткий",
+      "IS_INVALID_PASSWORD": "Пароль повинен містити принаймні 1 велику літеру, хоча б 1 малу літеру, 1 цифру та 1 спеціальний символ"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Підтвердження пароля",
@@ -33,6 +34,6 @@
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
     },
     "SUBMIT": "Додати",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Вже маєте обліковий запис?"
   }
 }

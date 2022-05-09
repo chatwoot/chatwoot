@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Converses",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
@@ -18,12 +18,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -193,12 +202,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -256,12 +269,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -319,12 +336,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primer temps de resposta",
-        "DESC": "( Promig )"
+        "NAME": "First Response Time",
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "DESC": "( Promig )"
+        "DESC": "( Promig )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Obrir",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Sense assignar"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Estat"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "En línia",
+      "BUSY": "Ocupat",
+      "OFFLINE": "Fora de línia"
     }
   }
 }

@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "சேர்ப்புகள்",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "ரத்துசெய்",
+        "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "வெப்ஹூக் URL",
+          "PLACEHOLDER": "உதாரணமாக: https://example/api/webhook",
+          "ERROR": "சரியான URL ஐ பதிவிடவும்"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "வெப்ஹூக்கை உருவாக்கவும்"
+      },
       "TITLE": "வெப்ஹூக்",
       "CONFIGURE": "உள்ளமைக்கவும்",
       "HEADER": "வெப்ஹூக் அமைப்புகள்",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "திருத்து",
         "TITLE": "Edit webhook",
-        "CANCEL": "ரத்துசெய்",
-        "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "வெப்ஹூக் URL",
-            "PLACEHOLDER": "உதாரணமாக: https://example/api/webhook",
-            "ERROR": "சரியான URL ஐ பதிவிடவும்"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
         }
       },
       "ADD": {
         "CANCEL": "ரத்துசெய்",
         "TITLE": "புதிய வெப்ஹூக் சேர்க்கவும்",
-        "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "வெப்ஹூக் URL",
-            "PLACEHOLDER": "உதாரணமாக: https://example/api/webhook",
-            "ERROR": "சரியான URL ஐ பதிவிடவும்"
-          },
-          "SUBMIT": "வெப்ஹூக்கை உருவாக்கவும்"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "வெப்ஹூக் வெற்றிகரமாக சேர்க்கப்பட்டது",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
-          "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "ஆம், நீக்கு ",
           "NO": "இல்லை, அதை வைத்திரு"
         }
