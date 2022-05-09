@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "確認刪除",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "否，保留它"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "刪除聯絡人",
     "TITLE": "刪除聯絡人",
