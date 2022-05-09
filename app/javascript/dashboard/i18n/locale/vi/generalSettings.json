@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Thông báo",
     "MARK_ALL_DONE": "Đánh dấu tất cả đã xong",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Đang tải thông báo...",
       "404": "Không có thông báo",
@@ -101,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
       "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
       "GO_TO_REPORTS_OVERVIEW": "Đi đến Tổng quan Báo cáo",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Đại lý",
       "GO_TO_LABEL_REPORTS": "Đi đến Báo cáo Nhãn",
       "GO_TO_INBOX_REPORTS": "Đi đến Báo cáo Hộp thư đến",

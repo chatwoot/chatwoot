@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Tên đầy đủ",
         "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn",
-        "ERROR": "Tên đầy đủ là bắt buộc"
+        "REQUIRED_ERROR": "Tên đầy đủ là bắt buộc"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Email",
         "PLACEHOLDER": "Vui lòng nhập email",
-        "ERROR": "Email không hợp lệ"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Vui lòng nhập một địa chỉ email hợp lệ"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Số điện thoại",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
@@ -57,7 +64,8 @@
         "ERROR": "Tin nhắnn quá ngắn"
       }
     },
-    "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu cuộc trò chuyện"
+    "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu cuộc trò chuyện",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

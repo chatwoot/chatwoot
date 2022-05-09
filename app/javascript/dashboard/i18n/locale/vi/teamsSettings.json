@@ -83,7 +83,7 @@
       "SELECT_ALL": "chọn tất cả đại lý",
       "SELECTED_COUNT": "%{selected} trên %{total} đại lý được chọn.",
       "BUTTON_TEXT": "Thêm các nhà cung cấp",
-      "AGENT_VALIDATION_ERROR": "Chọn ít nhất một đại lý."
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "Nhóm của bạn đã sẵn sàng!",

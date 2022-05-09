@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Додати швидку відповідь",
     "LOADING": "Отримання швидких відповідей",
     "SEARCH_404": "Немає елементів, що відповідають запиту",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>Швидкі відповіді</b> </p><p> Швидкі відповіді - це збережені шаблони відповідей, які можуть бути використані для швидкого надсилання відповіді на розмову. </p><p> Для створення швидкої відповіді, просто натисніть на <b>Додати Швидку відповідь</b>. Ви також можете редагувати або видаляти існуючу Швидку відповідь, натиснувши на кнопку Редагувати або Видалити </p><p> Швидкі відповіді використовуються за допомогою <b>короткий код</b>. Агенти можуть отримувати доступ до кодів під час чату, ввівши <b>'/'</b> з коротким кодом. </p>",
     "LIST": {
       "404": "В цьому обліковому записі немає швидких відповідей.",
       "TITLE": "Керування швидкими вдіповідями",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Додати швидку відповідь",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Швидкі відповіді - це шаблони відповідей на які їх можна швидко надіслати у діалог.",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Короткий код",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Будь ласка, введіть короткий код",
           "ERROR": "Необхідно вказати короткий код"
         },
         "CONTENT": {

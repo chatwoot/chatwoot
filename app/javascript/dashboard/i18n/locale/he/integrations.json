@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "אינטגרציות",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "ביטול",
+        "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "דוגמה: https://example/api/webhook",
+          "ERROR": "אנא הכנס כתובת URL חוקית"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "צור webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "הגדר",
       "HEADER": "הגדרןת Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "ערוך",
         "TITLE": "ערוך webhook",
-        "CANCEL": "ביטול",
-        "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "דוגמה: https://example/api/webhook",
-            "ERROR": "אנא הכנס כתובת URL חוקית"
-          },
-          "SUBMIT": "ערוך webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "כתובת האתר של Webhook עודכנה בהצלחה",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         }
       },
       "ADD": {
         "CANCEL": "ביטול",
         "TITLE": "הוסף Webhook חדש",
-        "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "דוגמה: https://example/api/webhook",
-            "ERROR": "אנא הכנס כתובת URL חוקית"
-          },
-          "SUBMIT": "צור webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook נוסף בהצלחה",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "אשר מחיקה",
-          "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "כן, מחק ",
           "NO": "לא, השאר"
         }

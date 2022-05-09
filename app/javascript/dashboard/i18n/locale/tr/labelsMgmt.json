@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Etiket adı",
         "PLACEHOLDER": "Etiket adı",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Etiket ismi gereklidir",
+        "MINIMUM_LENGTH_ERROR": "En az 2 karakter gereklidir",
+        "VALID_ERROR": "Sadece yazılar, numaralar, tire işareti ve alt çizgi kullanabilirsiniz"
       },
       "DESCRIPTION": {
         "LABEL": "Açıklama",
