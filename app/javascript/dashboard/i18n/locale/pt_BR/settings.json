@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Copiar",
       "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mostrar Mais",
+      "SHOW_LESS": "Mostrar Menos"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Baixar",
       "UPLOADING": "Enviando..."
@@ -146,7 +150,8 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
+    "SWITCH": "Trocar",
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "Nova etiqueta",
     "NEW_TEAM": "Novo time",
     "NEW_INBOX": "Nova caixa de entrada",
-    "REPORTS_OVERVIEW": "Visão geral",
+    "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Visão geral"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

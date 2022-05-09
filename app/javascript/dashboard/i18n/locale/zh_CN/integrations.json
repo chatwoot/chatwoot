@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "集成方式",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "取消",
+        "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook 网址",
+          "PLACEHOLDER": "例如：https://example/api/webhook",
+          "ERROR": "请输入一个有效的 URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "创建 webhook"
+      },
       "TITLE": "回调接口地址",
       "CONFIGURE": "配置",
       "HEADER": "Webhook设置",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "编辑",
         "TITLE": "Edit webhook",
-        "CANCEL": "取消",
-        "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook 网址",
-            "PLACEHOLDER": "例如：https://example/api/webhook",
-            "ERROR": "请输入一个有效的 URL"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
         }
       },
       "ADD": {
         "CANCEL": "取消操作",
         "TITLE": "添加新的 webhook",
-        "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook 网址",
-            "PLACEHOLDER": "例如：https://example/api/webhook",
-            "ERROR": "请输入一个有效的 URL"
-          },
-          "SUBMIT": "创建 webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook 添加成功",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "确认删除",
-          "MESSAGE": "您确定要删除吗？ ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "是，删除 ",
           "NO": "否，保留它"
         }

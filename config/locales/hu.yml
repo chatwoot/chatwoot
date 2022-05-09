@@ -22,6 +22,8 @@ hu:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
       invalid_email: Hibás e-mailcímet adtál meg

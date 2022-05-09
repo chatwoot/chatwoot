@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Nincs üzenet",
     "NO_CONTENT": "Nincs elérhető tartalom",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
-    "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése"
+    "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
+    "MESSAGE_READ": "Read"
   }
 }

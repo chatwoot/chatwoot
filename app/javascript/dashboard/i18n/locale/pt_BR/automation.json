@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar"
+      "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecionar times"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar regra de automação",
@@ -102,6 +104,13 @@
       "DEACTIVATION_ERROR": "Não foi possível desativar a automação, por favor, tente novamente mais tarde",
       "CONFIRMATION_LABEL": "Sim",
       "CANCEL_LABEL": "Não"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Não foi possível fazer upload do anexo, por favor, tente novamente",
+      "LABEL_IDLE": "Fazer upload de arquivo",
+      "LABEL_UPLOADING": "Enviando...",
+      "LABEL_UPLOADED": "Upload feito com sucesso",
+      "LABEL_UPLOAD_FAILED": "Faha no upload"
     }
   }
 }
