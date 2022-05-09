@@ -141,6 +141,7 @@
     <conversation-bulk-actions
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
+      @selectAllConversations="selectAllConversations"
     />
   </div>
 </template>
@@ -536,6 +537,11 @@ export default {
       this.selectedConversations = this.selectedConversations.filter(
         item => item !== id
       );
+    },
+    selectAllConversations(check) {
+      if (check)
+        this.selectedConversations = this.conversationList.map(item => item.id);
+      else this.selectedConversations = [];
     },
   },
 };

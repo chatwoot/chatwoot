@@ -12,13 +12,7 @@
     @click="cardClick(chat)"
   >
     <label v-if="hovered || selected" class="checkbox-wrapper">
-      <input
-        v-model="selectedConversation"
-        class="checkbox"
-        type="checkbox"
-        @click.stop
-        @change="toggleConversation()"
-      />
+      <input v-model="selected" class="checkbox" type="checkbox" @click.stop />
     </label>
     <thumbnail
       v-if="!hideThumbnail && !hovered && !selected"
@@ -162,7 +156,6 @@ export default {
   data() {
     return {
       hovered: false,
-      selectedConversation: false,
     };
   },
   computed: {
@@ -264,6 +257,12 @@ export default {
       return stateInbox.name || '';
     },
   },
+  watch: {
+    selected: function(val) {
+      if (val) this.$emit('selectConversation', this.chat.id);
+      else this.$emit('deSelectConversation', this.chat.id);
+    },
+  },
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
@@ -288,11 +287,6 @@ export default {
     },
     cardLeave() {
       this.hovered = false;
-    },
-    toggleConversation() {
-      if (this.selectedConversation) {
-        this.$emit('selectConversation', this.chat.id);
-      } else this.$emit('deSelectConversation', this.chat.id);
     },
   },
 };

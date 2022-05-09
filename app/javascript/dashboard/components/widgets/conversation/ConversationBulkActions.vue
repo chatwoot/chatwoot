@@ -1,7 +1,12 @@
 <template>
   <div class="bulk-action__container flex-between">
     <div class="bulk-action__panel flex-between">
-      <input ref="selectAllCheck" type="checkbox" class="checkbox" />
+      <input
+        ref="selectAllCheck"
+        type="checkbox"
+        class="checkbox"
+        @change="selectAll($event)"
+      />
       <span>
         {{ conversations.length }}
         {{ conversations.length > 1 ? 'conversations' : 'conversation' }}
@@ -39,19 +44,22 @@
           />
         </div>
         <div class="container">
-          <ul>
+          <ul v-if="!selectedAgent">
             <li class="search-container">
               <div class="agent-list-search flex-between">
                 <fluent-icon icon="search" class="search-icon" size="16" />
                 <input
+                  ref="search"
                   type="search"
                   placeholder="Search"
                   class="agent--search_input"
+                  @input="search"
                 />
               </div>
+              <span>{{ query }}</span>
             </li>
             <li v-for="agent in agents" :key="agent.id">
-              <div class="agent-list-item" @click="assignAgent">
+              <div class="agent-list-item" @click="assignAgent(agent)">
                 <thumbnail
                   src="agent.thumbnail"
                   :username="agent.name"
@@ -62,6 +70,23 @@
               </div>
             </li>
           </ul>
+          <div v-else class="agent-confirmation-container">
+            <p>
+              Are you sure you want to assign
+              {{ conversations.length }} conversations to
+              <strong>
+                {{ selectedAgent.name }}
+              </strong>
+            </p>
+            <div class="agent-confirmation-actions">
+              <woot-button color-scheme="primary" variant="smooth">
+                Go Back
+              </woot-button>
+              <woot-button color-scheme="primary" variant="flat">
+                Assign
+              </woot-button>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -85,6 +110,9 @@ export default {
   data() {
     return {
       showAgentsList: false,
+      query: null,
+      debounce: null,
+      selectedAgent: null,
     };
   },
   computed: {
@@ -94,6 +122,20 @@ export default {
   },
   mounted() {
     this.$refs.selectAllCheck.indeterminate = true;
+  },
+  methods: {
+    search(e) {
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        this.query = e.target.value;
+      }, 600);
+    },
+    assignAgent(agent) {
+      this.selectedAgent = agent;
+    },
+    selectAll(e) {
+      this.$emit('selectAllConversations', e.target.checked);
+    },
   },
 };
 </script>
@@ -198,6 +240,22 @@ ul {
   }
   span {
     font-size: 14px;
+  }
+}
+
+.agent-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-one);
+  p {
+    flex-grow: 1;
+  }
+  .agent-confirmation-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
   }
 }
 </style>
