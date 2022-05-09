@@ -11,6 +11,6 @@ class Webhooks::Trigger
     Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
   rescue StandardError => e
     Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e).capture_exception
   end
 end

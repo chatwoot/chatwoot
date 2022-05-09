@@ -12,7 +12,7 @@ class AutomationRules::ActionService
       begin
         send(action[:action_name], action[:action_params])
       rescue StandardError => e
-        Sentry.capture_exception(e)
+        ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
   ensure
