@@ -83,7 +83,7 @@
       "SELECT_ALL": "pilih semua agen",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
       "BUTTON_TEXT": "Tambahkan Agen",
-      "AGENT_VALIDATION_ERROR": "Pilih setidaknya satu agen."
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "Tim Anda siap!",

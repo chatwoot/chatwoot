@@ -81,6 +81,7 @@
     "NO_MESSAGES": "沒有訊息",
     "NO_CONTENT": "沒有可用內容",
     "HIDE_QUOTED_TEXT": "隱藏引用文字",
-    "SHOW_QUOTED_TEXT": "顯示引用文字"
+    "SHOW_QUOTED_TEXT": "顯示引用文字",
+    "MESSAGE_READ": "Read"
   }
 }

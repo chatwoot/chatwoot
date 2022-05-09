@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Vue d'ensemble",
+    "HEADER": "Conversations",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_AGENT_REPORTS": "Télécharger les rapports de l'agent",
@@ -18,12 +18,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -60,58 +64,59 @@
       "CONFIRM": "Appliquer",
       "PLACEHOLDER": "Sélectionnez la plage de dates"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Par groupe",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Jour"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Jour"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Semaine"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Jour"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Semaine"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mois"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Jour"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Semaine"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mois"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Année"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Heures de bureau"
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Présentation des agents",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_AGENT_REPORTS": "Télécharger les rapports de l'agent",
@@ -130,12 +135,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -174,11 +183,11 @@
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "Présentation des étiquettes",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "DOWNLOAD_LABEL_REPORTS": "Télécharger les rapports d'étiquettes",
+    "FILTER_DROPDOWN_LABEL": "Sélectionnez l'étiquette",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -193,12 +202,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -237,10 +250,10 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
+    "HEADER": "Présentation de la boîte de réception",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_INBOX_REPORTS": "Télécharger les rapports de la boîte de réception",
     "FILTER_DROPDOWN_LABEL": "Sélectionner la boîte de réception",
     "METRICS": {
       "CONVERSATIONS": {
@@ -256,12 +269,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -300,11 +317,11 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
+    "HEADER": "Présentation de l'équipe",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "DOWNLOAD_TEAM_REPORTS": "Télécharger les rapports d'équipe",
+    "FILTER_DROPDOWN_LABEL": "Choisis une équipe",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -319,12 +336,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Délai de la première réponse",
-        "DESC": "(Moy.)"
+        "NAME": "First Response Time",
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "DESC": "(Moy.)"
+        "DESC": "(Moy.)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -367,7 +388,7 @@
     "NO_RECORDS": "Il n'y a aucune réponse à l'enquête CSAT disponible.",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": "Choisissez des agents"
       }
     },
     "TABLE": {
@@ -391,6 +412,34 @@
         "LABEL": "Taux de réponse",
         "TOOLTIP": "Nombre total de réponses / Nombre total de messages de l'enquête CSAT envoyés * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Vue d'ensemble",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Ouvert",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Non assigné"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "État"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "En ligne",
+      "BUSY": "Occupé(e)",
+      "OFFLINE": "Hors-ligne"
     }
   }
 }
