@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "نظرة عامة",
+    "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
@@ -19,11 +19,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "السنة"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "ساعات العمل"
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
@@ -131,11 +136,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -194,11 +203,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -257,11 +270,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -320,11 +337,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -391,6 +412,34 @@
         "LABEL": "معدل الاستجابة",
         "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لرسائل الاستقصاء التي أرسلتها CSAT * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "نظرة عامة",
+    "LIVE": "مباشر",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "المحادثات المفتوحة",
+      "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
+      "OPEN": "فتح",
+      "UNATTENDED": "بدون حضور",
+      "UNASSIGNED": "غير مسند"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "المحادثات من قبل الوكلاء",
+      "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
+      "NO_AGENTS": "لا توجد أي محادثات من قبل الوكلاء",
+      "TABLE_HEADER": {
+        "AGENT": "موظف الدعم",
+        "OPEN": "افتتحت",
+        "UNATTENDED": "بدون حضور",
+        "STATUS": "الحالة"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "حالة الوكيل",
+      "ONLINE": "متصل",
+      "BUSY": "مشغول",
+      "OFFLINE": "غير متصل"
     }
   }
 }
