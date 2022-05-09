@@ -103,9 +103,7 @@ export default {
           customAttribute.attribute_display_type
         );
       }
-      const type = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(condition => condition.key === key);
+      const type = this.getAutomationType(key);
       return type.inputType;
     },
     getOperators(key) {
@@ -115,10 +113,13 @@ export default {
           return this.getOperatorTypes(customAttribute.attribute_display_type);
         }
       }
-      const type = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(condition => condition.key === key);
+      const type = this.getAutomationType(key);
       return type.filterOperators;
+    },
+    getAutomationType(key) {
+      return this.automationTypes[this.automation.event_name].conditions.find(
+        condition => condition.key === key
+      );
     },
     getConditionDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
