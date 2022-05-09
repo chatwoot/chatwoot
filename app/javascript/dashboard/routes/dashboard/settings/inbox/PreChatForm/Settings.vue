@@ -26,8 +26,8 @@
             "
           />
         </label>
-        <label class="medium-8 columns">
-          {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}
+        <div class="medium-8 columns">
+          <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
           <table class="table table-striped w-full">
             <thead class="thead-dark">
               <tr>
@@ -58,10 +58,11 @@
             </thead>
             <pre-chat-fields
               :pre-chat-fields="preChatFields"
-              :handle-pre-chat-field-options="handlePreChatFieldOptions"
+              @update="handlePreChatFieldOptions"
+              @drag-end="changePreChatFieldFieldsOrder"
             />
           </table>
-        </label>
+        </div>
       </div>
 
       <woot-submit-button
@@ -136,6 +137,10 @@ export default {
           this.preChatFields[index][type] = !item[type];
         }
       });
+    },
+
+    changePreChatFieldFieldsOrder(updatedPreChatFieldOptions) {
+      this.preChatFields = updatedPreChatFieldOptions;
     },
 
     async updateInbox() {
