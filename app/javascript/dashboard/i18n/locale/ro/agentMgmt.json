@@ -93,19 +93,19 @@
       "NO_RESULTS": "Niciun rezultat găsit."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Nimic",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Selectați agentul",
+        "TEAM": "Selectați echipa"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Niciun agent găsit",
-          "TEAM": "No teams found"
+          "TEAM": "Nu au fost găsite echipe"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Agenți de căutare",
+          "TEAM": "Echipele de căutare"
         }
       }
     }
