@@ -17,12 +17,8 @@ export default {
     value: { type: Boolean, default: false },
   },
   methods: {
-    onClick(event) {
-      if (event.pointerId === -1) {
-        event.preventDefault();
-      } else {
-        this.$emit('input', !this.value);
-      }
+    onClick() {
+      this.$emit('input', !this.value);
     },
   },
 };
