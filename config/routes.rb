@@ -52,9 +52,10 @@ Rails.application.routes.draw do
               post :reauthorize_page
             end
           end
-          resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, except: [:edit] do
+          resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
+            post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
@@ -71,6 +72,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :direct_uploads, only: [:create]
             end
             member do
               post :mute
@@ -144,7 +146,7 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
-          resources :webhooks, except: [:show]
+          resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
@@ -179,6 +181,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -188,6 +191,7 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            get  :toggle_status
           end
         end
         resource :contact, only: [:show, :update] do
@@ -209,6 +213,7 @@ Rails.application.routes.draw do
             get :inboxes
             get :labels
             get :teams
+            get :conversations
           end
         end
       end

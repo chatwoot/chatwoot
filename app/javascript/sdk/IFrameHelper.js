@@ -26,6 +26,12 @@ import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName } from './cookieHelpers';
+import {
+  getAlertAudio,
+  initOnEvents,
+} from 'shared/helpers/AudioNotificationHelper';
+import { isFlatWidgetStyle } from './settingsHelper';
+import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -52,6 +58,10 @@ export const IFrameHelper = {
     if (window.$chatwoot.hideMessageBubble) {
       holderClassName += ` woot-widget--without-bubble`;
     }
+    if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {
+      holderClassName += ` woot-widget-holder--flat`;
+    }
+
     addClass(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
@@ -109,6 +119,19 @@ export const IFrameHelper = {
       iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
+  setupAudioListeners: () => {
+    const { baseUrl = '' } = window.$chatwoot;
+    getAlertAudio(baseUrl, 'widget').then(() =>
+      initOnEvents.forEach(event => {
+        document.removeEventListener(
+          event,
+          IFrameHelper.setupAudioListeners,
+          false
+        );
+      })
+    );
+  },
+
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -121,6 +144,8 @@ export const IFrameHelper = {
         position: window.$chatwoot.position,
         hideMessageBubble: window.$chatwoot.hideMessageBubble,
         showPopoutButton: window.$chatwoot.showPopoutButton,
+        widgetStyle: window.$chatwoot.widgetStyle,
+        darkMode: window.$chatwoot.darkMode,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -130,7 +155,16 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-      dispatchWindowEvent({ eventName: CHATWOOT_READY });
+
+      window.playAudioAlert = () => {};
+
+      initOnEvents.forEach(e => {
+        document.addEventListener(e, IFrameHelper.setupAudioListeners, false);
+      });
+
+      if (!window.$chatwoot.resetTriggered) {
+        dispatchWindowEvent({ eventName: CHATWOOT_READY });
+      }
     },
     error: ({ errorType, data }) => {
       dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data });
@@ -141,9 +175,6 @@ export const IFrameHelper = {
     },
 
     setBubbleLabel(message) {
-      if (window.$chatwoot.hideMessageBubble) {
-        return;
-      }
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
 
@@ -156,6 +187,12 @@ export const IFrameHelper = {
       }
 
       onBubbleClick(bubbleState);
+    },
+
+    popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
+      const cwCookie = Cookies.get('cw_conversation');
+      window.$chatwoot.toggle('close');
+      popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
     closeWindow: () => {
@@ -206,6 +243,10 @@ export const IFrameHelper = {
     closeChat: () => {
       onBubbleClick({ toggleValue: false });
     },
+
+    playAudio: () => {
+      window.playAudioAlert();
+    },
   },
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
@@ -219,27 +260,32 @@ export const IFrameHelper = {
     if (IFrameHelper.getBubbleHolder().length) {
       return;
     }
-    createBubbleHolder();
+    createBubbleHolder(window.$chatwoot.hideMessageBubble);
     onLocationChangeListener();
-    if (!window.$chatwoot.hideMessageBubble) {
-      const chatIcon = createBubbleIcon({
-        className: 'woot-widget-bubble',
-        src: bubbleImg,
-        target: chatBubble,
-      });
 
-      const closeIcon = closeBubble;
-      const closeIconclassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
-      addClass(closeIcon, closeIconclassName);
+    let className = 'woot-widget-bubble';
+    let closeBtnClassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
 
-      chatIcon.style.background = widgetColor;
-      closeIcon.style.background = widgetColor;
-
-      bubbleHolder.appendChild(chatIcon);
-      bubbleHolder.appendChild(closeIcon);
-      bubbleHolder.appendChild(createNotificationBubble());
-      onClickChatBubble();
+    if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {
+      className += ' woot-widget-bubble--flat';
+      closeBtnClassName += ' woot-widget-bubble--flat';
     }
+
+    const chatIcon = createBubbleIcon({
+      className,
+      src: bubbleImg,
+      target: chatBubble,
+    });
+
+    addClass(closeBubble, closeBtnClassName);
+
+    chatIcon.style.background = widgetColor;
+    closeBubble.style.background = widgetColor;
+
+    bubbleHolder.appendChild(chatIcon);
+    bubbleHolder.appendChild(closeBubble);
+    bubbleHolder.appendChild(createNotificationBubble());
+    onClickChatBubble();
   },
   toggleCloseButton: () => {
     let isMobile = false;

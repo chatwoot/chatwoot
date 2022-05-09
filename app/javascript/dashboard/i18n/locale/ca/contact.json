@@ -77,9 +77,8 @@
     "CONFIRM": {
       "TITLE": "Confirma l'esborrat",
       "MESSAGE": "N'estas segur? ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Si, esborra ",
-      "NO": "No, segueix "
+      "YES": "Si, esborra",
+      "NO": "No, segueix"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",

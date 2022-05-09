@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
-  let(:contact) { create(:contact, account: account) }
+  let(:contact) { create(:contact, account: account, email: 'test@test.com', phone_number: '+745623239') }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
@@ -36,6 +36,50 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expected_params = { contact: contact, params: params }
         expect(ContactIdentifyAction).to have_received(:new).with(expected_params)
         expect(identify_action).to have_received(:perform)
+      end
+    end
+
+    context 'with update contact' do
+      let(:params) { { website_token: web_widget.website_token } }
+
+      it 'dont update phone number if invalid phone number passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ phone_number: '45623239' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = JSON.parse(response.body)
+        expect(body['phone_number']).to eq('+745623239')
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'update phone number if valid phone number passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ phone_number: '+245623239' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = JSON.parse(response.body)
+        expect(body['phone_number']).to eq('+245623239')
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'dont update email if invalid email passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'test@' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = JSON.parse(response.body)
+        expect(body['email']).to eq('test@test.com')
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'update email if valid email passed' do
+        patch '/api/v1/widget/contact',
+              params: params.merge({ email: 'test-1@test.com' }),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        body = JSON.parse(response.body)
+        expect(body['email']).to eq('test-1@test.com')
+        expect(response).to have_http_status(:success)
       end
     end
 

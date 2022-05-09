@@ -9,8 +9,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
 
-  before do
-    2.times.each { create(:message, account: account, inbox: web_widget.inbox, conversation: conversation) }
+  before do |example|
+    2.times.each { create(:message, account: account, inbox: web_widget.inbox, conversation: conversation) } unless example.metadata[:skip_before]
   end
 
   describe 'GET /api/v1/widget/messages' do
@@ -23,9 +23,20 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-
         # 2 messages created + 2 messages by the email hook
-        expect(json_response.length).to eq(4)
+        expect(json_response['payload'].length).to eq(4)
+        expect(json_response['meta']).not_to be_empty
+      end
+
+      it 'returns empty messages', :skip_before do
+        get api_v1_widget_messages_url,
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload'].length).to eq(0)
       end
     end
   end
@@ -33,7 +44,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   describe 'POST /api/v1/widget/messages' do
     context 'when post request is made' do
       it 'creates message in conversation' do
-        conversation.destroy # Test all params
+        conversation.destroy! # Test all params
         message_params = { content: 'hello world', timestamp: Time.current }
         post api_v1_widget_messages_url,
              params: { website_token: web_widget.website_token, message: message_params },
@@ -46,7 +57,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
 
       it 'does not create the message' do
-        conversation.destroy # Test all params
+        conversation.destroy! # Test all params
         message_params = { content: "#{'h' * 150 * 1000}a", timestamp: Time.current }
         post api_v1_widget_messages_url,
              params: { website_token: web_widget.website_token, message: message_params },
@@ -87,6 +98,28 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to eq(true)
       end
+
+      it 'does not create resolved activity messages when snoozed conversation is opened' do
+        conversation.snoozed!
+
+        message_params = { content: 'hello world', timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(Conversations::ActivityMessageJob).not_to have_been_enqueued.at_least(:once).with(
+          conversation,
+          {
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            message_type: :activity,
+            content: "Conversation was resolved by #{contact.name}"
+          }
+        )
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.open?).to eq(true)
+      end
     end
   end
 
@@ -117,7 +150,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
             headers: { 'X-Auth-Token' => token },
             as: :json
 
-        expect(response).to have_http_status(:internal_server_error)
+        expect(response).to have_http_status(:success)
       end
     end
 

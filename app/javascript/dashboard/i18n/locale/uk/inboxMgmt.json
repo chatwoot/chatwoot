@@ -462,7 +462,8 @@
         "HOURS": "години",
         "VALIDATION_ERROR": "Час початку має бути менше часу закриття.",
         "CHOOSE": "Обрати"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",

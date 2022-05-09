@@ -1,5 +1,8 @@
 <template>
-  <li v-if="hasAttachments || data.content" :class="alignBubble">
+  <li
+    v-if="hasAttachments || data.content || isEmailContentType"
+    :class="alignBubble"
+  >
     <div :class="wrapClass">
       <div v-tooltip.top-start="messageToolTip" :class="bubbleClass">
         <bubble-mail-head
@@ -47,13 +50,17 @@
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
+          :story-sender="storySender"
+          :story-id="storyId"
           :is-a-tweet="isATweet"
+          :has-instagram-story="hasInstagramStory"
           :is-email="isEmailContentType"
           :is-private="data.private"
           :message-type="data.message_type"
           :readable-time="readableTime"
           :source-id="data.source_id"
           :inbox-id="data.inbox_id"
+          :message-read="showReadTicks"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
@@ -143,6 +150,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasInstagramStory: {
+      type: Boolean,
+      default: false,
+    },
+    hasUserReadMessage: {
+      type: Boolean,
+      default: false,
+    },
+    isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -197,7 +216,11 @@ export default {
         }
       }
       return (
-        this.formatMessage(this.data.content, this.isATweet) + botMessageContent
+        this.formatMessage(
+          this.data.content,
+          this.isATweet,
+          this.data.private
+        ) + botMessageContent
       );
     },
     contentAttributes() {
@@ -205,6 +228,12 @@ export default {
     },
     sender() {
       return this.data.sender || {};
+    },
+    storySender() {
+      return this.contentAttributes.story_sender || null;
+    },
+    storyId() {
+      return this.contentAttributes.story_id || null;
     },
     contentType() {
       const {
@@ -247,6 +276,14 @@ export default {
     },
     isOutgoing() {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
+    },
+    showReadTicks() {
+      return (
+        (this.isOutgoing || this.isTemplate) &&
+        this.hasUserReadMessage &&
+        this.isWebWidgetInbox &&
+        !this.data.private
+      );
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;

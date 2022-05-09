@@ -145,16 +145,26 @@
         @input="changeGroupByFilterSelection"
       />
     </div>
+    <div class="small-12 medium-3 business-hours">
+      <span class="business-hours-text margin-right-small">
+        {{ $t('REPORT.BUSINESS_HOURS') }}
+      </span>
+      <span>
+        <woot-switch v-model="businessHoursSelected" />
+      </span>
+    </div>
   </div>
 </template>
 <script>
-import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
-const CUSTOM_DATE_RANGE_ID = 5;
-import subDays from 'date-fns/subDays';
-import startOfDay from 'date-fns/startOfDay';
+import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+
 import { GROUP_BY_FILTER } from '../constants';
+const CUSTOM_DATE_RANGE_ID = 5;
 
 export default {
   components: {
@@ -186,6 +196,7 @@ export default {
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
+      businessHoursSelected: false,
     };
   },
   computed: {
@@ -194,9 +205,9 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[1]);
+        return this.toCustomDate(this.customDateRange[1]);
       }
-      return this.fromCustomDate(new Date());
+      return this.toCustomDate(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
@@ -247,6 +258,9 @@ export default {
     groupByFilterItemsList() {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
     },
+    businessHoursSelected() {
+      this.$emit('business-hours-toggle', this.businessHoursSelected);
+    },
   },
   mounted() {
     this.onDateRangeChange();
@@ -261,6 +275,9 @@ export default {
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
+    },
+    toCustomDate(date) {
+      return getUnixTime(endOfDay(date));
     },
     changeDateSelection(selectedRange) {
       this.currentDateRangeSelection = selectedRange;

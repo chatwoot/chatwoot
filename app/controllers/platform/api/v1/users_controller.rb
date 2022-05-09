@@ -7,9 +7,9 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def create
     @resource = (User.find_by(email: user_params[:email]) || User.new(user_params))
+    @resource.skip_confirmation!
     @resource.save!
-    @resource.confirm
-    @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+    @platform_app.platform_app_permissibles.find_or_create_by!(permissible: @resource)
   end
 
   def login

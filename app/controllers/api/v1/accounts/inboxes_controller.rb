@@ -48,7 +48,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     # Inbox update doesn't necessarily need channel attributes
     return if permitted_params(channel_attributes)[:channel].blank?
 
-    validate_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
+    if @inbox.inbox_type == 'Email'
+      validate_email_channel(channel_attributes)
+      @inbox.channel.reauthorized!
+    end
 
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
@@ -70,7 +73,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @inbox.destroy
+    @inbox.destroy!
     head :ok
   end
 
