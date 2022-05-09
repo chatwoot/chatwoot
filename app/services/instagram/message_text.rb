@@ -38,7 +38,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
       raise
     rescue StandardError => e
       result = {}
-      Sentry.capture_exception(e)
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 
     find_or_create_contact(result)
