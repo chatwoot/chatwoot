@@ -136,6 +136,10 @@ class Integrations::Slack::IncomingMessageBuilder
     end
   end
 
+  # Ignoring the changes added here https://github.com/chatwoot/chatwoot/blob/5b5a6d89c0cf7f3148a1439d6fcd847784a79b94/lib/integrations/slack/send_on_slack_service.rb#L69
+  # This make sure 'Attached File!' comment is not visible on CW dashboard.
+  # This is showing because of https://github.com/chatwoot/chatwoot/pull/4494/commits/07a1c0da1e522d76e37b5f0cecdb4613389ab9b6 change.
+  # As now we consider the postback message with event[:files]
   def attached_file_message?
     params[:event][:text] == 'Attached File!'
   end
