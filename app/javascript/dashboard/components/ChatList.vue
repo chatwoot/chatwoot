@@ -541,9 +541,9 @@ export default {
       );
     },
     selectAllConversations(check) {
-      if (check)
+      if (check) {
         this.selectedConversations = this.conversationList.map(item => item.id);
-      else this.selectedConversations = [];
+      } else this.selectedConversations = [];
     },
     async onAssignAgent(agent) {
       try {
