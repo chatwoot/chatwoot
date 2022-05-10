@@ -8,9 +8,11 @@
         @change="selectAll($event)"
       />
       <span>
-        {{ conversations.length }}
-        {{ conversations.length > 1 ? 'conversations' : 'conversation' }}
-        selected
+        {{
+          $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
+            conversationCount: conversations.length,
+          })
+        }}
       </span>
     </div>
     <div class="bulk-action__actions flex-between">
@@ -34,7 +36,7 @@
     <transition name="menu-slide">
       <div v-if="showAgentsList" class="bulk-action__agents">
         <div class="header flex-between">
-          <span>Select Agent</span>
+          <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
           <woot-button
             size="tiny"
             variant="clear"
@@ -71,8 +73,11 @@
           </ul>
           <div v-else class="agent-confirmation-container">
             <p>
-              Are you sure you want to assign
-              {{ conversations.length }} conversations to
+              {{
+                $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
+                  conversationCount: conversations.length,
+                })
+              }}
               <strong>
                 {{ selectedAgent.name }}
               </strong>
@@ -83,7 +88,7 @@
                 variant="smooth"
                 @click="goBack"
               >
-                Go Back
+                {{ $t('BULK_ACTION.GO_BACK_LABEL') }}
               </woot-button>
               <woot-button
                 color-scheme="primary"
@@ -91,7 +96,7 @@
                 :is-loading="uiFlags.isUpdating"
                 @click="submit"
               >
-                Assign
+                {{ $t('BULK_ACTION.ASSIGN_LABEL') }}
               </woot-button>
             </div>
           </div>
@@ -169,7 +174,7 @@ export default {
   padding: 0 var(--space-one);
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: var(--z-index-twenty);
   background-color: var(--white);
 }
 
@@ -190,12 +195,11 @@ export default {
 .bulk-action__agents {
   position: absolute;
   bottom: 40px;
-  right: 8px;
+  right: var(--space-small);
   width: 100%;
   box-shadow: 0 0.8rem 1.6rem rgb(50 50 93 / 8%),
     0 0.4rem 1.2rem rgb(0 0 0 / 7%);
   border-radius: 0.8rem;
-  border: 1px solid #f1f5f8;
   border: 1px solid var(--s-50);
   background-color: var(--white);
   width: 75%;
@@ -211,9 +215,9 @@ export default {
     overflow-y: auto;
 
     .agent-list-search {
-      padding: 0 1rem;
+      padding: 0 var(--space-one);
       border: 1px solid var(--s-100);
-      border-radius: 0.75rem;
+      border-radius: var(--border-radius-medium);
       background-color: var(--s-50);
       .search-icon {
         color: var(--s-400);
@@ -221,7 +225,7 @@ export default {
 
       .agent--search_input {
         border: 0;
-        font-size: 12px;
+        font-size: var(--font-size-mini);
         margin: 0;
         background-color: transparent;
         height: unset;
@@ -237,13 +241,13 @@ ul {
 .agent-list-item {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: var(--space-one);
   cursor: pointer;
   &:hover {
     background-color: var(--s-50);
   }
   span {
-    font-size: 14px;
+    font-size: var(--font-size-small);
   }
 }
 

@@ -551,13 +551,17 @@ export default {
           type: 'Conversation',
           ids: this.selectedConversations,
           fields: {
-            agent_id: agent.id,
+            assignee_id: agent.id,
           },
         });
         this.selectedConversations = [];
-        this.showAlert(`Conversations assigned successfully to ${agent.name}`);
+        this.showAlert(
+          this.$t('BULK_ACTION.ASSIGN_SUCCESFUl', { agentName: agent.name })
+        );
       } catch (err) {
-        this.showAlert(`Something went wrong, please try again`);
+        this.showAlert(
+          this.$t('BULK_ACTION.ASSIGN_FAILED', { agentName: agent.name })
+        );
       }
     },
   },

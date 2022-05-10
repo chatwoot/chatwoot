@@ -258,6 +258,7 @@ export default {
     },
   },
   watch: {
+    // eslint-disable-next-line func-names
     selected: function(val) {
       if (val) this.$emit('selectConversation', this.chat.id);
       else this.$emit('deSelectConversation', this.chat.id);
