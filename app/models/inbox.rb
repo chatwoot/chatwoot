@@ -115,9 +115,15 @@ class Inbox < ApplicationRecord
     end
   end
 
+  def member_ids_with_assignment_capacity
+    members.ids
+  end
+
   private
 
   def delete_round_robin_agents
     ::RoundRobin::ManageService.new(inbox: self).clear_queue
   end
 end
+
+Inbox.prepend_mod_with('Inbox')
