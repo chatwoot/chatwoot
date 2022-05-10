@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "削除の確認",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "いいえ、保存しておきます"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",

@@ -22,6 +22,8 @@ fa:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
   errors:
+    webhook:
+      invalid: رویدادهای نامعتبر
     signup:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
