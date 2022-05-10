@@ -6,6 +6,8 @@
         "GO_BACK_LABEL": "Go back",
         "ASSIGN_LABEL": "Assign",
         "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
-        "ASSIGN_FAILED": "Failed to assign conversations, please try again"
+        "ASSIGN_FAILED": "Failed to assign conversations, please try again",
+        "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
+        "RESOLVE_FAILED": "Failed to resolve conversations, please try again"
     }
 }

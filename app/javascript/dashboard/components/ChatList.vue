@@ -144,6 +144,7 @@
       :all-conversations-selected="allConversationsSelected"
       @selectAllConversations="selectAllConversations"
       @assignAgent="onAssignAgent"
+      @resolveConversations="onResolveConversations"
     />
   </div>
 </template>
@@ -565,6 +566,21 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async onResolveConversations() {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            status: 'resolved',
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.RESOLVE_SUCCESFUL'));
+      } catch (error) {
+        this.showAlert(this.$t('BULK_ACTION.RESOLVE_FAILED'));
       }
     },
   },

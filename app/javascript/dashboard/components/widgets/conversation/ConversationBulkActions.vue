@@ -20,10 +20,11 @@
       <woot-button
         v-tooltip="'Resolve'"
         size="tiny"
-        variant="smooth"
+        variant="flat"
         color-scheme="success"
         icon="checkmark"
         class="mr-small"
+        @click="resolveConversations"
       />
       <woot-button
         v-tooltip="'Assign Agent'"
@@ -158,6 +159,9 @@ export default {
     },
     submit() {
       this.$emit('assignAgent', this.selectedAgent);
+    },
+    resolveConversations() {
+      this.$emit('resolveConversations');
     },
   },
 };
