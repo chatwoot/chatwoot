@@ -1,50 +1,50 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "VIEW_PROFILE": "View Profile",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "NOT_AVAILABLE": "دستیاب نہیں ہے",
+    "EMAIL_ADDRESS": "ای میل اڈریس",
+    "PHONE_NUMBER": "فون نمبر",
+    "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
+    "COMPANY": "کمپنی",
+    "LOCATION": "مقام",
+    "CONVERSATION_TITLE": "گفتگو کی تفصیلات",
+    "VIEW_PROFILE": "پروفائل کا مشاھدہ کریں",
+    "BROWSER": "براؤزر",
+    "OS": "آپریٹنگ سسٹم",
+    "INITIATED_FROM": "سے شروع کیا گیا۔",
+    "INITIATED_AT": "پر شروع کیا گیا۔",
+    "IP_ADDRESS": "آئی پی ایڈریس",
+    "NEW_MESSAGE": "نیا پیغام",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "اس کانٹیکٹ سے وابستہ کوئی پچھلی بات چیت موجود نہیں ہے۔.",
+      "TITLE": "پچھلی بات چیت"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "کانٹیکٹ لیبلز",
+        "ERROR": "لیبلز کو اپ ڈیٹ نہیں کیا جا سکا"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "گفتگو کے لیبلز",
+        "ADD_BUTTON": "لیبلز شامل کریں۔"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "لیبلز شامل کریں۔",
+        "PLACEHOLDER": "لیبل تلاش کریں۔",
+        "NO_RESULT": "کوئی لیبل نہیں ملے"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
+    "MERGE_CONTACT": "کانٹیکٹ ضم کریں۔",
     "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Mute Conversation",
     "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit",
+    "EDIT_LABEL": "ترمیم",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Previous Conversations"
+      "CONTACT_LABELS": "کانٹیکٹ لیبلز",
+      "PREVIOUS_CONVERSATIONS": "پچھلی بات چیت"
     }
   },
   "EDIT_CONTACT": {
@@ -65,14 +65,14 @@
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
-      "CANCEL": "Cancel"
+      "CANCEL": "منسوخ کریں۔"
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
+      "TITLE": "حذف کرنے کی تصدیق کریں۔",
       "MESSAGE": "Are you want sure to delete this note?",
       "YES": "Yes, Delete it",
       "NO": "No, Keep it"
@@ -83,8 +83,8 @@
     "TITLE": "Delete contact",
     "DESC": "Delete contact details",
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
-      "MESSAGE": "Are you sure to delete ",
+      "TITLE": "حذف کرنے کی تصدیق کریں۔",
+      "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
       "YES": "Yes, Delete",
       "NO": "No, Keep"
     },
@@ -95,8 +95,8 @@
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "جمع کرائیں",
+      "CANCEL": "منسوخ کریں۔",
       "AVATAR": {
         "LABEL": "Contact Avatar"
       },
@@ -110,7 +110,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address",
+        "LABEL": "ای میل اڈریس",
         "DUPLICATE": "This email address is in use for another contact."
       },
       "PHONE_NUMBER": {
@@ -122,7 +122,7 @@
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "LABEL": "مقام"
       },
       "COMPANY_NAME": {
         "PLACEHOLDER": "Enter the company name",
@@ -134,80 +134,80 @@
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "ٹویٹر صارف کا مخصوص نام درج کریں۔",
+          "LABEL": "ٹویٹر"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "لنک ڈن صارف کا خصوصی نام درج کریں۔",
+          "LABEL": "لنک ڈن"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
-          "LABEL": "Github"
+          "PLACEHOLDER": "گٹ حب صارف کا خصوصی نام درج کریں۔",
+          "LABEL": "گٹ حب"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
+    "ERROR_MESSAGE": "ایک خامی تھی، براہ کرم دوبارہ کوشش کریں۔"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "گفتگو شروع کریں",
+    "TITLE": "نئی گفتگو",
+    "DESC": "ایک نیا پیغام بھیج کر ایک نئی گفتگو شروع کریں۔.",
+    "NO_INBOX": "اس رابطے کے ساتھ نئی بات چیت شروع کرنے کے لیے ان باکس نہیں مل سکا۔.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "کو"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "ان باکس",
+        "ERROR": "ایک ان باکس منتخب کریں۔"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "مضمون",
+        "PLACEHOLDER": "مضمون",
+        "ERROR": "موضوع خالی نہیں ہو سکتا"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "پیغام",
+        "PLACEHOLDER": "اپنا پیغام یہاں لکھیں۔",
+        "ERROR": "پیغام خالی نہیں ہو سکتا"
       },
-      "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "GO_TO_CONVERSATION": "View",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUBMIT": "پیغام بھیجیں",
+      "CANCEL": "منسوخ کریں۔",
+      "SUCCESS_MESSAGE": "پیغام چلا گیا!",
+      "GO_TO_CONVERSATION": "دیکھیں",
+      "ERROR_MESSAGE": "نہیں بھیج سکا! دوبارہ کوشش کریں"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "HEADER": "کانٹیکٹس",
+    "FIELDS": "کانٹیکٹ فیلڈز",
+    "SEARCH_BUTTON": "تلاش کریں۔",
+    "SEARCH_INPUT_PLACEHOLDER": "کانٹیکٹ تلاش کریں",
+    "FILTER_CONTACTS": "فلٹر",
+    "FILTER_CONTACTS_SAVE": "فلٹر محفوظ کریں۔",
+    "FILTER_CONTACTS_DELETE": "فلٹر کو حذف کریں۔",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "LOADING_MESSAGE": "کانٹیکٹس لوڈ ہو رہے ہیں...",
+      "404": "کوئی کانٹیکٹ آپ کی تلاش سے میل نہیں کھاتا 🔍",
+      "NO_CONTACTS": "کوئی کانٹیکٹ دستیاب نہیں ہے۔",
       "TABLE_HEADER": {
-        "NAME": "Name",
-        "PHONE_NUMBER": "Phone Number",
-        "CONVERSATIONS": "Conversations",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
-        "EMAIL_ADDRESS": "Email Address"
+        "NAME": "نام",
+        "PHONE_NUMBER": "فون نمبر",
+        "CONVERSATIONS": "مکالمات",
+        "LAST_ACTIVITY": "آخری سرگرمی",
+        "COUNTRY": "ملک",
+        "CITY": "شہر",
+        "SOCIAL_PROFILES": "سوشل پروفائلز",
+        "COMPANY": "کمپنی",
+        "EMAIL_ADDRESS": "ای میل اڈریس"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "تفصیلات دیکھیں"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
+    "BACK_BUTTON": "کانٹیکٹس",
     "LOADING": "Loading contact profile..."
   },
   "REMINDER": {
@@ -252,7 +252,7 @@
     "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",
@@ -264,7 +264,7 @@
     },
     "FORM": {
       "CREATE": "Add attribute",
-      "CANCEL": "Cancel",
+      "CANCEL": "منسوخ کریں۔",
       "NAME": {
         "LABEL": "Custom attribute name",
         "PLACEHOLDER": "Eg: shopify id",
@@ -327,7 +327,7 @@
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
-      "CANCEL": "Cancel",
+      "CANCEL": "منسوخ کریں۔",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
       },
