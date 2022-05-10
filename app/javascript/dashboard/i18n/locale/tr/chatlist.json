@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Mesaj yok",
     "NO_CONTENT": "Kullanılabilir içerik yok",
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
-    "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster"
+    "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
+    "MESSAGE_READ": "Read"
   }
 }
