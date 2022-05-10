@@ -39,7 +39,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
       "REOPEN_ACTION": "Reopen",
-      "OPEN_ACTION": "Open",
+      "OPEN_ACTION": "کھولیں۔",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
@@ -113,14 +113,14 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Delete"
+      "DELETE": "حذف کریں۔"
     }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
     "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
+    "SUBMIT": "جمع کرائیں",
+    "CANCEL": "منسوخ کریں۔",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
@@ -167,10 +167,10 @@
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
+      "CONVERSATION_LABELS": "گفتگو کے لیبلز",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations"
+      "PREVIOUS_CONVERSATION": "پچھلی بات چیت"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -196,7 +196,7 @@
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "کو",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
