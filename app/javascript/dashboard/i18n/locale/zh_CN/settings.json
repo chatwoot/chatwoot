@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "复制",
       "COPY_SUCCESSFUL": "代码复制到剪贴板成功"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
       "UPLOADING": "上传中..."
@@ -147,9 +151,10 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "会话",
     "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "MENTIONED_CONVERSATIONS": "提及",
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "Contacts",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_CONVERSATION": "会话",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

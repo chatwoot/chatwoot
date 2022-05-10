@@ -22,6 +22,8 @@ uk:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
   errors:
+    webhook:
+      invalid: Недійсні події
     signup:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
       invalid_email: Ви ввели неправильну адресу електронної пошти
@@ -42,59 +44,59 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
-    default_group_by: day
+    default_group_by: день
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
+      conversation_assignment: "[Призначено вам] - #%{display_id} було призначено вам"
+      assigned_conversation_new_message: "[Нове повідомлення] - #%{display_id} %{content}"
+      conversation_mention: "Ви були згадані в діалозі [ID - %{display_id}] від %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} згадав вас у сторіс: "
       deleted: Це повідомлення було видалено
     activity:
       status:
         resolved: "Розмова була відмічена як вирішена %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Діалог був закритий %{contact_name}"
         open: "Розмову знову відкрито %{user_name}"
         pending: "Бесіда була позначена як очікується %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        snoozed: "Розмова була відкладена %{user_name}"
+        auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} самостійно призначив цей діалог"
+        assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
+        removed: "Діалог знято %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "Призначено до %{team_name} користувачем %{user_name}"
+        assigned_with_assignee: "Призначено до %{assignee_name} користувачем %{user_name} з %{team_name}"
+        removed: "Виключений з %{team_name} користувачем %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} додав %{labels}"
+        removed: "%{user_name} видалив %{labels}"
+      muted: "%{user_name} включив безвучний режим"
+      unmuted: "%{user_name} виключив безвучний режим"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
+      greeting_message_body: "%{account_name} зазвичай відповідає за кілька годин."
       ways_to_reach_you_message_body: "Дайте команді можливість з вами зв'язатися."
       email_input_box_message_body: "Отримувати сповіщення електронною поштою"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Будь ласка, оцініть розмову"
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+          from_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} від %{inbox_name} <reply+%{reply_email}>'
+      email_subject: "Нові повідомлення в цьому діалозі"
+      transcript_subject: "Транскрипція діалогу"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Будь ласка, оцініть цю розмову, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
     webhooks:
       name: "Веб-хук"
       description: "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати web-хуки."

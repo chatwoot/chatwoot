@@ -1,48 +1,48 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Фільтр Контактів",
+        "SUBTITLE": "Додайте фільтри нижче та натисніть «Відправити», для фільтрації контактів.",
+        "ADD_NEW_FILTER": "Додати фільтр",
+        "CLEAR_ALL_FILTERS": "Очистити всі фільтри",
+        "FILTER_DELETE_ERROR": "Ви повинні мати хоча б один фільтр для збереження",
         "SUBMIT_BUTTON_LABEL": "Додати",
         "CANCEL_BUTTON_LABEL": "Скасувати",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Скинути фільтри",
+        "EMPTY_VALUE_ERROR": "Необхідно вказати значення",
+        "TOOLTIP_LABEL": "Фільтрувати контакти",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "ТА",
+            "OR": "АБО"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "equal_to": "Дорівнює",
+            "not_equal_to": "Не дорівнює",
+            "contains": "Містить",
+            "does_not_contain": "Не містить",
+            "is_present": "Є",
+            "is_not_present": "Немає",
+            "is_greater_than": "Більше ніж",
+            "is_lesser_than": "Менше ніж",
+            "days_before": "X днів до"
         },
         "ATTRIBUTES": {
             "NAME": "Ім'я",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Номер телефону",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "Ідентифікатор",
             "CITY": "Місто",
             "COUNTRY": "Країна",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CUSTOM_ATTRIBUTE_LIST": "Список",
+            "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Номер",
+            "CUSTOM_ATTRIBUTE_LINK": "Лінк",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Прапорець",
+            "CREATED_AT": "Створений в",
             "LAST_ACTIVITY": "Остання активність"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Стандартні фільтри",
+            "ADDITIONAL_FILTERS": "Додаткові фільтри",
             "CUSTOM_ATTRIBUTES": "Свої атрибути"
         }
     }

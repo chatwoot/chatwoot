@@ -76,11 +76,12 @@
     "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
     "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
     "REPLY_TO_TWEET": "Responder a éste trino",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "Ir a la historia de Instagram",
     "SENT": "Enviado con éxito",
     "NO_MESSAGES": "No hay mensajes",
     "NO_CONTENT": "No hay contenido disponible",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
-    "SHOW_QUOTED_TEXT": "Mostrar texto citado"
+    "SHOW_QUOTED_TEXT": "Mostrar texto citado",
+    "MESSAGE_READ": "Read"
   }
 }

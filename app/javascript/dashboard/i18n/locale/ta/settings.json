@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "நகல்",
       "COPY_SUCCESSFUL": "குறியீடு கிளிப்போர்டில் வெற்றிகரமாக காப்பி செய்யப்பட்டது"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "பதிவிறக்கம்",
       "UPLOADING": "பதிவேறுகிறது..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "உரையாடல்கள்",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_CONVERSATION": "உரையாடல்கள்",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "കോൺടാക്റ്റുകൾ വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "ഇല്ല, സൂക്ഷിക്കുക"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
     "TITLE": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",

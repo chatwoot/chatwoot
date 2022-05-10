@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contatos salvos com sucesso",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmar exclusão",
+      "MESSAGE": "Tem certeza que deseja excluir esta nota?",
+      "YES": "Sim, exclua",
+      "NO": "Não, mantenha"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Excluir contato",
     "TITLE": "Excluir contato",

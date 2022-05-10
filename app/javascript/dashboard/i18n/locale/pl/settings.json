@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Copy",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Pobierz",
       "UPLOADING": "Przesyłanie..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Rozmowy",
     "ALL_CONVERSATIONS": "Rozmowy",
     "MENTIONED_CONVERSATIONS": "Wzmianki",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_CONVERSATION": "Rozmowy",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampania",
     "ONGOING": "Ongoing",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Skrzynka odbiorcza",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Overview"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
