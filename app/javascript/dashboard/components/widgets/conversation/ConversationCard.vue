@@ -372,6 +372,7 @@ export default {
 
   input[type='checkbox'] {
     margin: var(--space-zero);
+    cursor: pointer;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="bulk-action__container flex-between">
-    <div class="bulk-action__panel flex-between">
+    <label class="bulk-action__panel flex-between">
       <input
         ref="selectAllCheck"
         type="checkbox"
@@ -15,7 +15,7 @@
           })
         }}
       </span>
-    </div>
+    </label>
     <div class="bulk-action__actions flex-between">
       <woot-button
         v-tooltip="'Resolve'"
@@ -174,10 +174,10 @@ export default {
   justify-content: space-between;
 }
 .bulk-action__container {
-  padding: var(--space-one);
-  background-color: var(--s-25);
-  border-top: 1px solid var(--s-100);
+  padding: var(--space-normal) var(--space-one);
+  background-color: var(--s-50);
   position: relative;
+  box-shadow: 6px 3px 22px 9px rgb(181 181 181 / 50%);
 }
 .search-container {
   padding: 0 var(--space-one);
@@ -188,12 +188,14 @@ export default {
 }
 
 .bulk-action__panel {
+  cursor: pointer;
   span {
     font-size: var(--font-size-mini);
     margin-left: var(--space-smaller);
   }
   input[type='checkbox'] {
     margin: var(--space-zero);
+    cursor: pointer;
   }
 }
 
