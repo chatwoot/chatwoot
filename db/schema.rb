@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_163839) do
+ActiveRecord::Schema.define(version: 2022_05_10_132530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -460,6 +460,7 @@ ActiveRecord::Schema.define(version: 2022_05_06_163839) do
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
+    t.jsonb "auto_assignment_config", default: {}
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
