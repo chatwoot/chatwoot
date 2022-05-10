@@ -4,7 +4,7 @@ export const createMessengerScript = pageId => `
     FB.init({
       appId: "${window.chatwootConfig.fbAppId}",
       xfbml: true,
-      version: "v4.0"
+      version: "${window.chatwootConfig.fbApiVersion}"
     });
   };
   (function(d, s, id){
