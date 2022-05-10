@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Inga meddelanden",
     "NO_CONTENT": "Inget innehåll tillgängligt",
     "HIDE_QUOTED_TEXT": "Dölj citerad text",
-    "SHOW_QUOTED_TEXT": "Visa citerad text"
+    "SHOW_QUOTED_TEXT": "Visa citerad text",
+    "MESSAGE_READ": "Read"
   }
 }

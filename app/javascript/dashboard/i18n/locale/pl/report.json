@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Rozmowy",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie otrzymaliśmy wystarczającej ilości punktów danych, aby wygenerować raport, spróbuj ponownie później.",
     "DOWNLOAD_AGENT_REPORTS": "Pobierz raporty agenta",
@@ -18,12 +18,16 @@
         "DESC": "( łącznie )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Czas pierwszej odpowiedzi",
-        "DESC": "( Średnie )"
+        "NAME": "First Response Time",
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
-        "DESC": "( Średnie )"
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Godziny pracy"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( łącznie )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Czas pierwszej odpowiedzi",
-        "DESC": "( Średnie )"
+        "NAME": "First Response Time",
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
-        "DESC": "( Średnie )"
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -193,12 +202,16 @@
         "DESC": "( łącznie )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Czas pierwszej odpowiedzi",
-        "DESC": "( Średnie )"
+        "NAME": "First Response Time",
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
-        "DESC": "( Średnie )"
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -256,12 +269,16 @@
         "DESC": "( łącznie )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Czas pierwszej odpowiedzi",
-        "DESC": "( Średnie )"
+        "NAME": "First Response Time",
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
-        "DESC": "( Średnie )"
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -319,12 +336,16 @@
         "DESC": "( łącznie )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Czas pierwszej odpowiedzi",
-        "DESC": "( Średnie )"
+        "NAME": "First Response Time",
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
-        "DESC": "( Średnie )"
+        "DESC": "( Średnie )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -391,6 +412,34 @@
         "LABEL": "Wskaźnik odpowiedzi",
         "TOOLTIP": "Całkowita liczba odpowiedzi / całkowita liczba wysłanych komunikatów z ankiety CSAT * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Otwórz",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Nieprzypisane"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Zajęty",
+      "OFFLINE": "Offline"
     }
   }
 }

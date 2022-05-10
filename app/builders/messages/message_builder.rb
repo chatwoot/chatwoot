@@ -69,6 +69,10 @@ class Messages::MessageBuilder
     @automation_rule.present? ? { content_attributes: { automation_rule_id: @automation_rule } } : {}
   end
 
+  def campaign_id
+    @params[:campaign_id].present? ? { additional_attributes: { campaign_id: @params[:campaign_id] } } : {}
+  end
+
   def message_sender
     return if @params[:sender_type] != 'AgentBot'
 
@@ -87,6 +91,6 @@ class Messages::MessageBuilder
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id]
-    }.merge(external_created_at).merge(automation_rule_id)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id)
   end
 end
