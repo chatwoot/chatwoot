@@ -12,7 +12,14 @@
     @click="cardClick(chat)"
   >
     <label v-if="hovered || selected" class="checkbox-wrapper">
-      <input v-model="selected" class="checkbox" type="checkbox" @click.stop />
+      <input
+        :value="selected"
+        :checked="selected"
+        class="checkbox"
+        type="checkbox"
+        @change="selectConversation($event.target.checked)"
+        @click.stop
+      />
     </label>
     <thumbnail
       v-if="!hideThumbnail && !hovered && !selected"
@@ -257,13 +264,6 @@ export default {
       return stateInbox.name || '';
     },
   },
-  watch: {
-    // eslint-disable-next-line func-names
-    selected: function(val) {
-      if (val) this.$emit('selectConversation', this.chat.id);
-      else this.$emit('deSelectConversation', this.chat.id);
-    },
-  },
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
@@ -288,6 +288,10 @@ export default {
     },
     cardLeave() {
       this.hovered = false;
+    },
+    selectConversation(checked) {
+      if (checked) this.$emit('selectConversation', this.chat.id);
+      else this.$emit('deSelectConversation', this.chat.id);
     },
   },
 };

@@ -3,9 +3,9 @@
         "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
         "AGENT_SELECT_LABEL": "Select Agent",
         "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} conversations to",
-        "GO_BACK": "Go back",
+        "GO_BACK_LABEL": "Go back",
         "ASSIGN_LABEL": "Assign",
-        "ASSIGN_SUCCESFUL": "Conversations assigned successfully to %{agentName}",
-        "ASSIGN_FAILED": "Failed to assign conversations to %{agentName}, please try again"
+        "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
+        "ASSIGN_FAILED": "Failed to assign conversations, please try again"
     }
 }

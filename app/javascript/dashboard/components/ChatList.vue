@@ -141,6 +141,7 @@
     <conversation-bulk-actions
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
+      :all-conversations-selected="allConversationsSelected"
       @selectAllConversations="selectAllConversations"
       @assignAgent="onAssignAgent"
     />
@@ -352,6 +353,12 @@ export default {
       }
       return {};
     },
+    allConversationsSelected() {
+      return (
+        JSON.stringify(this.selectedConversations) ===
+        JSON.stringify(this.conversationList.map(item => item.id))
+      );
+    },
   },
   watch: {
     activeTeam() {
@@ -555,13 +562,9 @@ export default {
           },
         });
         this.selectedConversations = [];
-        this.showAlert(
-          this.$t('BULK_ACTION.ASSIGN_SUCCESFUl', { agentName: agent.name })
-        );
+        this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
       } catch (err) {
-        this.showAlert(
-          this.$t('BULK_ACTION.ASSIGN_FAILED', { agentName: agent.name })
-        );
+        this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
   },

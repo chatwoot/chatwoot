@@ -5,6 +5,7 @@
         ref="selectAllCheck"
         type="checkbox"
         class="checkbox"
+        :checked="allConversationsSelected"
         @change="selectAll($event)"
       />
       <span>
@@ -118,6 +119,10 @@ export default {
     conversations: {
       type: Array,
       default: () => [],
+    },
+    allConversationsSelected: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
