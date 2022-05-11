@@ -395,7 +395,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "درجہ بندی",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
