@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "ایجنٹ",
-    "HEADER_BTN_TXT": "ایجنٹ شامل کریں",
-    "LOADING": "ایجنٹ کی فہرست حاصل کی جا رہی ہے",
+    "HEADER": "Agents",
+    "HEADER_BTN_TXT": "Add Agent",
+    "LOADING": "Fetching Agent List",
     "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "منتظم",
-      "AGENT": "ایجنٹ"
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
     },
     "LIST": {
-      "404": "اس اکاؤنٹ سے کوئی ایجنٹ منسلک نہیں ہے",
-      "TITLE": "اپنی ٹیم میں ایجنٹوں کا انتظام کریں۔",
-      "DESC": "آپ اپنی ٹیم میں ایجنٹوں کو شامل يا ہٹا سکتے ہیں.",
-      "NAME": "نام",
-      "EMAIL": "ای میل",
-      "STATUS": "اسٹیٹس",
-      "ACTIONS": "عمل",
-      "VERIFIED": "تصدیق شدہ",
-      "VERIFICATION_PENDING": "تصدیق زیر التواء"
+      "404": "There are no agents associated to this account",
+      "TITLE": "Manage agents in your team",
+      "DESC": "You can add/remove agents to/in your team.",
+      "NAME": "Name",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Actions",
+      "VERIFIED": "Verified",
+      "VERIFICATION_PENDING": "Verification Pending"
     },
     "ADD": {
-      "TITLE": "اپنی ٹیم میں ایجنٹ شامل کریں۔",
-      "DESC": "آپ ایسے لوگوں کو شامل کر سکتے ہیں جو آپ کے ان باکسز کے لیے سپورٹ کو سنبھال سکیں گے.",
-      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "TITLE": "Add agent to your team",
+      "DESC": "You can add people who will be able to handle support for your inboxes.",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {
-          "LABEL": "ایجنٹ کا نام",
-          "PLACEHOLDER": "براہ کرم ایجنٹ کا نام درج کریں۔"
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "کردار",
-          "PLACEHOLDER": "براہ کرم ایک کردار منتخب کریں۔",
-          "ERROR": "کردار کی ضرورت ہے۔"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
-          "LABEL": "ای میل اڈریس",
-          "PLACEHOLDER": "براہ کرم ایجنٹ کا ای میل ایڈریس درج کریں۔"
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
         },
-        "SUBMIT": "ایجنٹ شامل کریں"
+        "SUBMIT": "Add Agent"
       },
       "API": {
-        "SUCCESS_MESSAGE": "ایجنٹ کامیابی کے ساتھ شامل کرلیا گیا ہے",
-        "EXIST_MESSAGE": "ایجنٹ کا ای میل پہلے سے استعمال میں ہے، براہ کرم دوسرا ای میل آزمائیں۔",
-        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+        "SUCCESS_MESSAGE": "Agent added successfully",
+        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف کریں۔",
+      "BUTTON_TEXT": "Delete",
       "API": {
-        "SUCCESS_MESSAGE": "ایجنٹ کامیابی کے ساتھ حذف ہو گیا۔",
-        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "CONFIRM": {
-        "TITLE": "حذف کرنے کی تصدیق کریں۔",
-        "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
-        "YES": "ہاں، حذف کریں۔ ",
-        "NO": "نہیں ، رہنے دیں "
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
       }
     },
     "EDIT": {
-      "TITLE": "ایجنٹ میں ترمیم کریں۔",
+      "TITLE": "Edit agent",
       "FORM": {
         "NAME": {
-          "LABEL": "ایجنٹ کا نام",
-          "PLACEHOLDER": "براہ کرم ایجنٹ کا نام درج کریں۔"
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "کردار",
-          "PLACEHOLDER": "براہ کرم ایک کردار منتخب کریں۔",
-          "ERROR": "کردار کی ضرورت ہے۔"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
-          "LABEL": "ای میل اڈریس",
-          "PLACEHOLDER": "براہ کرم ایجنٹ کا ای میل ایڈریس درج کریں۔"
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
         },
-        "SUBMIT": "ایجنٹ میں ترمیم کریں۔"
+        "SUBMIT": "Edit Agent"
       },
-      "BUTTON_TEXT": "ترمیم",
-      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "API": {
-        "SUCCESS_MESSAGE": "ایجنٹ کامیابی کے ساتھ اپ ڈیٹ ہو گیا۔",
-        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "پاس ورڈ دوبارہ مرتب کریں",
-        "ADMIN_SUCCESS_MESSAGE": "ری سیٹ پاس ورڈ کی ہدایات کے ساتھ ایک ای میل ایجنٹ کو بھیج دی گئی ہے",
-        "SUCCESS_MESSAGE": "ایجنٹ کا پاس ورڈ کامیابی سے دوبارہ ترتیب ہو گیا ہے",
-        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
+        "ADMIN_RESET_BUTTON": "Reset Password",
+        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
+        "SUCCESS_MESSAGE": "Agent password reset successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "کوئی نتیجہ نہیں."
+      "NO_RESULTS": "No results found."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "کوئی نہیں۔",
+      "PLACEHOLDER": "None",
       "TITLE": {
-        "AGENT": "ایجنٹ منتخب کریں۔",
-        "TEAM": "ٹیم منتخب کریں۔"
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "کوئی ایجنٹ نہیں ملا",
-          "TEAM": "کوئی ٹیمیں نہیں ملیں۔"
+          "AGENT": "No agents found",
+          "TEAM": "No teams found"
         },
         "PLACEHOLDER": {
-          "AGENT": "ایجنٹوں کو تلاش کریں۔",
-          "TEAM": "ٹیمیں تلاش کریں۔"
+          "AGENT": "Search agents",
+          "TEAM": "Search teams"
         }
       }
     }
