@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assegnazione automatica aggiornata correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare il colore del widget. Riprova più tardi."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Abilitato",
-        "DISABLED": "Disabilitato"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag body",
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella",
+      "AGENT_ASSIGNMENT": "Assegnazione conversazione",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Aggiorna le impostazioni di assegnazione della conversazione",
       "UPDATE": "Aggiorna",
       "ENABLE_EMAIL_COLLECT_BOX": "Abilita casella di raccolta email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Abilita o disabilita la casella di raccolta email nella nuova conversazione",
