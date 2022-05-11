@@ -436,7 +436,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { required } from 'vuelidate/lib/validators';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
@@ -567,9 +566,6 @@ export default {
         return `${this.inbox.name} (${this.inbox.email})`;
       }
       return this.inbox.name;
-    },
-    messengerScript() {
-      return createMessengerScript(this.inbox.page_id);
     },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
