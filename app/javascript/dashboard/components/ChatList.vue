@@ -598,7 +598,7 @@ export default {
 .conversations-list-wrap {
   flex-shrink: 0;
   width: 34rem;
-
+  overflow: hidden;
   @include breakpoint(large up) {
     width: 36rem;
   }

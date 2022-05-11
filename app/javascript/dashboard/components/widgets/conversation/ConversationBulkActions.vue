@@ -135,17 +135,25 @@ export default {
   },
   computed: {
     ...mapGetters({
-      agents: 'agents/getAgents',
       uiFlags: 'bulkActions/getUIFlags',
+      inboxes: 'inboxes/getInboxes',
     }),
     filteredAgents() {
-      return this.agents.filter(agent =>
+      return this.assignableAgents.filter(agent =>
         agent.name.toLowerCase().includes(this.query.toLowerCase())
+      );
+    },
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inboxes[0].id
       );
     },
   },
   mounted() {
     this.$refs.selectAllCheck.indeterminate = true;
+    this.$store.dispatch('inboxAssignableAgents/fetch', {
+      inboxId: this.inboxes[0].id,
+    });
   },
   methods: {
     assignAgent(agent) {
