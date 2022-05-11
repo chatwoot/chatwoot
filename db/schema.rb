@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_080429) do
+ActiveRecord::Schema.define(version: 2022_05_11_072655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -648,6 +648,7 @@ ActiveRecord::Schema.define(version: 2022_05_06_080429) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.boolean "archived", default: false
     t.index ["slug"], name: "index_portals_on_slug", unique: true
   end
 

@@ -3,6 +3,7 @@
 # Table name: portals
 #
 #  id            :bigint           not null, primary key
+#  archived      :boolean          default(FALSE)
 #  color         :string
 #  config        :jsonb
 #  custom_domain :string

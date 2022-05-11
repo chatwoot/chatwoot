@@ -15,8 +15,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal.update!(portal_params)
   end
 
-  def archive; end
-
   def destroy
     @portal.destroy!
     head :ok
@@ -34,7 +32,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug
+      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived
     )
   end
 end

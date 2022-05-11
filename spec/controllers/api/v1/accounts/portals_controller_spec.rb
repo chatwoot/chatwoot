@@ -96,6 +96,26 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql(portal_params[:portal][:name])
       end
+
+      it 'archive portal' do
+        portal_params = {
+          portal: {
+            archived: true
+          }
+        }
+
+        expect(portal.archived).to be_falsy
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: portal_params,
+            headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['archived']).to eql(portal_params[:portal][:archived])
+
+        portal.reload
+        expect(portal.archived).to be_truthy
+      end
     end
   end
 
