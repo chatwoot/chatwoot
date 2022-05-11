@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
@@ -47,7 +47,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف کریں۔",
+      "BUTTON_TEXT": "Delete",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
@@ -57,7 +57,7 @@
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Delete ",
-        "NO": "منسوخ کریں۔"
+        "NO": "Cancel"
       }
     },
     "EDIT": {
@@ -81,14 +81,14 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "نام",
+        "Name",
         "Description",
         "Type",
         "Key"
       ],
       "BUTTONS": {
-        "EDIT": "ترمیم",
-        "DELETE": "حذف کریں۔"
+        "EDIT": "Edit",
+        "DELETE": "Delete"
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",
