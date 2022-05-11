@@ -241,6 +241,7 @@ RSpec.describe 'Reports API', type: :request do
         inbox1 = create(:inbox, account: account1)
         inbox2 = create(:inbox, account: account2)
 
+        create(:account_user, user: admin1, account: account2)
         create(:conversation, account: account1, inbox: inbox1,
                               assignee: admin1, created_at: Time.zone.today - 2.days)
         create(:conversation, account: account2, inbox: inbox2,
