@@ -285,7 +285,8 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
-    t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
+    t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
+    t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|
@@ -562,6 +563,8 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.string "sender_type"
     t.bigint "sender_id"
     t.jsonb "external_source_ids", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"

@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Tidak Ada Pesan",
     "NO_CONTENT": "Tidak ada konten yang tersedia",
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
-    "SHOW_QUOTED_TEXT": "Tampilkan Tex yang Dikutip"
+    "SHOW_QUOTED_TEXT": "Tampilkan Tex yang Dikutip",
+    "MESSAGE_READ": "Read"
   }
 }
