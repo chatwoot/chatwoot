@@ -18,7 +18,7 @@
     </label>
     <div class="bulk-action__actions flex-between">
       <woot-button
-        v-tooltip="'Resolve'"
+        v-tooltip="$t('BULK_ACTION.RESOLVE_TOOLTIP')"
         size="tiny"
         variant="flat"
         color-scheme="success"
@@ -27,7 +27,7 @@
         @click="resolveConversations"
       />
       <woot-button
-        v-tooltip="'Assign Agent'"
+        v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
         size="tiny"
         variant="flat"
         color-scheme="secondary"
@@ -175,9 +175,9 @@ export default {
 }
 .bulk-action__container {
   padding: var(--space-normal) var(--space-one);
-  background-color: var(--s-50);
+  background-color: var(--s-75);
   position: relative;
-  box-shadow: 6px 3px 22px 9px rgb(181 181 181 / 50%);
+  box-shadow: 6px 3px 22px 9px rgb(181 181 181 / 25%);
 }
 .search-container {
   padding: 0 var(--space-one);
@@ -210,7 +210,7 @@ export default {
   width: 100%;
   box-shadow: 0 0.8rem 1.6rem rgb(50 50 93 / 8%),
     0 0.4rem 1.2rem rgb(0 0 0 / 7%);
-  border-radius: 0.8rem;
+  border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
   background-color: var(--white);
   width: 75%;
@@ -274,7 +274,7 @@ ul {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: var(--space-one);
   }
 }
 </style>

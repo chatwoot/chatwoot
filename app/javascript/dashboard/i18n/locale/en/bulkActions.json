@@ -5,6 +5,8 @@
         "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} conversations to",
         "GO_BACK_LABEL": "Go back",
         "ASSIGN_LABEL": "Assign",
+        "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
+        "RESOLVE_TOOLTIP": "Resolve",
         "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
         "ASSIGN_FAILED": "Failed to assign conversations, please try again",
         "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
