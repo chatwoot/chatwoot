@@ -9,7 +9,7 @@
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "CREATE_BUTTON_TEXT": "Create",
       "FORM": {
         "TITLE": {
@@ -63,12 +63,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف کریں۔",
+      "BUTTON_TEXT": "Delete",
       "CONFIRM": {
-        "TITLE": "حذف کرنے کی تصدیق کریں۔",
+        "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure to delete?",
-        "YES": "ہاں، حذف کریں۔ ",
-        "NO": "نہیں ، رہنے دیں "
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
@@ -89,8 +89,8 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "Message",
-        "INBOX": "ان باکس",
-        "STATUS": "اسٹیٹس",
+        "INBOX": "Inbox",
+        "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
         "SCHEDULED_AT": "Scheduled time",
@@ -98,9 +98,9 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "شامل کریں۔",
-        "EDIT": "ترمیم",
-        "DELETE": "حذف کریں۔"
+        "ADD": "Add",
+        "EDIT": "Edit",
+        "DELETE": "Delete"
       },
       "STATUS": {
         "ENABLED": "Enabled",
