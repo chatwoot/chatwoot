@@ -57,7 +57,7 @@
         "TITLE": "Do you want to save this filter?",
         "LABEL": "Name this filter",
         "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
+        "ERROR_MESSAGE": "名字必填",
         "SAVE_BUTTON": "Save filter",
         "CANCEL_BUTTON": "取消",
         "API_FOLDERS": {

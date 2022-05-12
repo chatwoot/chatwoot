@@ -7,7 +7,7 @@
     "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "对话详情",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "查看资料",
     "BROWSER": "浏览器",
     "OS": "操作系统",
     "INITIATED_FROM": "启动自：",
@@ -33,8 +33,8 @@
         "NO_RESULT": "未找到标签"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "合并联系人",
+    "CONTACT_ACTIONS": "联系人操作",
     "MUTE_CONTACT": "开始会话",
     "UNMUTE_CONTACT": "取消静音",
     "MUTED_SUCCESS": "此对话被静音6小时",
@@ -58,22 +58,30 @@
     "DESC": "添加联系人的基本信息。"
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "导入",
+    "TITLE": "导入联系人",
+    "DESC": "通过 CSV 文件导入联系人",
+    "DOWNLOAD_LABEL": "下载示例 CSV.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "CSV 文件",
+      "SUBMIT": "导入",
       "CANCEL": "取消"
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "确认删除",
+      "MESSAGE": "您确定要删除此笔记吗？",
+      "YES": "是的，删除",
+      "NO": "否，保留它"
+    }
+  },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "删除联系人",
+    "TITLE": "删除联系人",
+    "DESC": "删除联系人详情",
     "CONFIRM": {
       "TITLE": "确认删除",
       "MESSAGE": "您确定要删除吗？ ",
@@ -81,7 +89,7 @@
       "NO": "不，保留"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "SUCCESS_MESSAGE": "联系人删除成功",
       "ERROR_MESSAGE": "Could not delete contact. Please try again later."
     }
   },

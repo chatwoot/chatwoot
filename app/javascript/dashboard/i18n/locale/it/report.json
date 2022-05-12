@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Panoramica",
+    "HEADER": "Conversazioni",
     "LOADING_CHART": "Caricamento dati del grafico...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza punti dati per generare il rapporto, riprova più tardi.",
     "DOWNLOAD_AGENT_REPORTS": "Scarica rapporti agente",
@@ -19,11 +19,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Anno"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Ore di lavoro"
   },
   "AGENT_REPORTS": {
     "HEADER": "Panoramica degli agenti",
@@ -131,11 +136,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -194,11 +203,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -257,11 +270,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -320,11 +337,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di prima risposta è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di risoluzione",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_TEXT": "Il tempo di risoluzione è %{metricValue} (basato su %{conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
@@ -391,6 +412,34 @@
         "LABEL": "Tasso di risposta",
         "TOOLTIP": "Numero totale di risposte / Numero totale di messaggi di sondaggio CSAT inviati * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Panoramica",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Conversazioni aperte",
+      "LOADING_MESSAGE": "Caricamento metriche conversazioni...",
+      "OPEN": "Aperte",
+      "UNATTENDED": "Non partecipate",
+      "UNASSIGNED": "Non assegnato"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversazioni degli agenti",
+      "LOADING_MESSAGE": "Caricamento metriche agenti...",
+      "NO_AGENTS": "Non ci sono conversazioni da parte degli agenti",
+      "TABLE_HEADER": {
+        "AGENT": "Agente",
+        "OPEN": "APERTE",
+        "UNATTENDED": "Non partecipate",
+        "STATUS": "Stato"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Stato agente",
+      "ONLINE": "Online",
+      "BUSY": "Occupato",
+      "OFFLINE": "Offline"
     }
   }
 }

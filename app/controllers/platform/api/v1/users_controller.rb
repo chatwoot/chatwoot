@@ -21,6 +21,10 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def update
     @resource.assign_attributes(user_update_params)
+
+    # We are using devise's reconfirmable flow for changing emails
+    # But in case of platform APIs we don't want user to go through this extra step
+    @resource.skip_reconfirmation! if user_update_params[:email].present?
     @resource.save!
   end
 
