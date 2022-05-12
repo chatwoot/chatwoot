@@ -311,10 +311,7 @@ export default {
       this.automation.actions[index].action_params = [];
     },
     manifestConditions(automation) {
-      const allCustomAttributes = this.$store.getters[
-        'attributes/getAttributes'
-      ];
-      const customAttributes = allCustomAttributes.map(attr => {
+      const customAttributes = this.allCustomAttributes.map(attr => {
         return {
           key: attr.attribute_key,
           name: attr.attribute_display_name,

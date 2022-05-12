@@ -162,7 +162,7 @@ export default {
 
   data() {
     return {
-      automationTypes: AUTOMATIONS,
+      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationActionTypes: AUTOMATION_ACTION_TYPES,
