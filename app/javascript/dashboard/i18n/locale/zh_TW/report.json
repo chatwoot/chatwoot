@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "總覽",
+    "HEADER": "對話",
     "LOADING_CHART": "正在載入图表數據...",
     "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
     "DOWNLOAD_AGENT_REPORTS": "下載客服報告",
@@ -18,12 +18,16 @@
         "DESC": "(總計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次回覆時間",
-        "DESC": "( 平均)"
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解決時間",
-        "DESC": "( 平均)"
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解決的數量",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "服務時間"
   },
   "AGENT_REPORTS": {
     "HEADER": "客服總覽",
@@ -130,12 +135,16 @@
         "DESC": "(總計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次回覆時間",
-        "DESC": "( 平均)"
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解決時間",
-        "DESC": "( 平均)"
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解決的數量",
@@ -193,12 +202,16 @@
         "DESC": "(總計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次回覆時間",
-        "DESC": "( 平均)"
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解決時間",
-        "DESC": "( 平均)"
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解決的數量",
@@ -256,12 +269,16 @@
         "DESC": "(總計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次回覆時間",
-        "DESC": "( 平均)"
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解決時間",
-        "DESC": "( 平均)"
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解決的數量",
@@ -319,12 +336,16 @@
         "DESC": "(總計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次回覆時間",
-        "DESC": "( 平均)"
+        "NAME": "First Response Time",
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "解決時間",
-        "DESC": "( 平均)"
+        "DESC": "( 平均)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "已解決的數量",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "總覽",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "打開",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "未指派的"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "客服",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "狀態"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "線上的",
+      "BUSY": "忙碌中",
+      "OFFLINE": "離線的"
     }
   }
 }

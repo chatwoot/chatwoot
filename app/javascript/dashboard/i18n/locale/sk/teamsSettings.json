@@ -83,7 +83,7 @@
       "SELECT_ALL": "vybrať všetkých agentov",
       "SELECTED_COUNT": "%{selected} z %{total} vybraných agentov.",
       "BUTTON_TEXT": "Pridať agentov",
-      "AGENT_VALIDATION_ERROR": "Vyberte aspoň jedného agenta."
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "Váš tím je pripravený!",
