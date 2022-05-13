@@ -138,8 +138,8 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import automationMethodsMixin from 'shared/mixins/automations/methodsMixin';
-import automationValidationsMixin from 'shared/mixins/automations/validationsMixin';
+import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
+import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 

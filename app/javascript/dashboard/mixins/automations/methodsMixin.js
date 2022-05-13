@@ -1,9 +1,12 @@
-import * as OPERATORS from '../../../dashboard/routes/dashboard/settings/automation/operators';
-import languages from '../../../dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import countries from '../../constants/countries';
-import filterQueryGenerator from '../../../dashboard/helper/filterQueryGenerator.js';
-import actionQueryGenerator from '../../../dashboard/helper/actionQueryGenerator.js';
-
+import * as OPERATORS from '../../routes/dashboard/settings/automation/operators';
+import languages from '../../components/widgets/conversation/advancedFilterItems/languages';
+import countries from '../../../shared/constants/countries';
+import filterQueryGenerator from '../../helper/filterQueryGenerator.js';
+import actionQueryGenerator from '../../helper/actionQueryGenerator.js';
+import {
+  getCustomAttributeInputType,
+  isACustomAttribute,
+} from '../../helper/automationHelper.js';
 const MESASAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
@@ -16,20 +19,6 @@ const MESASAGE_CONDITION_VALUES = [
 ];
 export default {
   methods: {
-    customAttributeInputType(key) {
-      switch (key) {
-        case 'date':
-          return 'date';
-        case 'text':
-          return 'plain_text';
-        case 'list':
-          return 'search_select';
-        case 'checkbox':
-          return 'search_select';
-        default:
-          return 'plain_text';
-      }
-    },
     onEventChange() {
       if (this.automation.event_name === 'message_created') {
         this.automation.conditions = [
@@ -60,15 +49,10 @@ export default {
     getAttributes(key) {
       return this.automationTypes[key].conditions;
     },
-    isACustomAttribute(key) {
-      return this.allCustomAttributes.find(attr => {
-        return attr.attribute_key === key;
-      });
-    },
     getInputType(key) {
-      const customAttribute = this.isACustomAttribute(key);
+      const customAttribute = isACustomAttribute(this.allCustomAttributes, key);
       if (customAttribute) {
-        return this.customAttributeInputType(
+        return getCustomAttributeInputType(
           customAttribute.attribute_display_type
         );
       }
@@ -77,7 +61,10 @@ export default {
     },
     getOperators(key) {
       if (this.mode === 'edit') {
-        const customAttribute = this.isACustomAttribute(key);
+        const customAttribute = isACustomAttribute(
+          this.allCustomAttributes,
+          key
+        );
         if (customAttribute) {
           return this.getOperatorTypes(customAttribute.attribute_display_type);
         }
@@ -290,7 +277,7 @@ export default {
         );
         let inputType = 'plain_text';
         if (isCustomAttribute) {
-          inputType = this.customAttributeInputType(isCustomAttribute.type);
+          inputType = getCustomAttributeInputType(isCustomAttribute.type);
         } else {
           inputType = this.automationTypes[
             automation.event_name
@@ -409,9 +396,7 @@ export default {
           return {
             key: attr.attribute_key,
             name: attr.attribute_display_name,
-            inputType: this.customAttributeInputType(
-              attr.attribute_display_type
-            ),
+            inputType: getCustomAttributeInputType(attr.attribute_display_type),
             filterOperators: this.getOperatorTypes(attr.attribute_display_type),
           };
         }
@@ -422,9 +407,7 @@ export default {
           return {
             key: attr.attribute_key,
             name: attr.attribute_display_name,
-            inputType: this.customAttributeInputType(
-              attr.attribute_display_type
-            ),
+            inputType: getCustomAttributeInputType(attr.attribute_display_type),
             filterOperators: this.getOperatorTypes(attr.attribute_display_type),
           };
         }
