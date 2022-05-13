@@ -32,6 +32,7 @@
             v-for="attribute in filterAttributes"
             :key="attribute.key"
             :value="attribute.key"
+            :disabled="attribute.disabled"
           >
             {{ attribute.name }}
           </option>

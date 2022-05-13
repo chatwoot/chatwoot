@@ -396,25 +396,61 @@ export default {
       }
     },
     manifestCustomAttributes() {
-      const customAttributesRaw = this.$store.getters[
-        'attributes/getAttributes'
+      const conversationCustomAttributesRaw = this.$store.getters[
+        'attributes/getAttributesByModel'
+      ]('conversation_attribute');
+
+      const contactCustomAttributesRaw = this.$store.getters[
+        'attributes/getAttributesByModel'
+      ]('contact_attribute');
+
+      const conversationCustomAttributeTypes = conversationCustomAttributesRaw.map(
+        attr => {
+          return {
+            key: attr.attribute_key,
+            name: attr.attribute_display_name,
+            inputType: this.customAttributeInputType(
+              attr.attribute_display_type
+            ),
+            filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+          };
+        }
+      );
+
+      const contactCustomAttributeTypes = contactCustomAttributesRaw.map(
+        attr => {
+          return {
+            key: attr.attribute_key,
+            name: attr.attribute_display_name,
+            inputType: this.customAttributeInputType(
+              attr.attribute_display_type
+            ),
+            filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+          };
+        }
+      );
+      const manifestedCustomAttributes = [
+        {
+          key: 'conversation_custom_attribute',
+          name: this.$t('AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'),
+          disabled: true,
+        },
+        ...conversationCustomAttributeTypes,
+        {
+          key: 'contact_custom_attribute',
+          name: this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL'),
+          disabled: true,
+        },
+        ...contactCustomAttributeTypes,
       ];
-      const customAttributeTypes = customAttributesRaw.map(attr => {
-        return {
-          key: attr.attribute_key,
-          name: attr.attribute_display_name,
-          inputType: this.customAttributeInputType(attr.attribute_display_type),
-          filterOperators: this.getOperatorTypes(attr.attribute_display_type),
-        };
-      });
       this.automationTypes.message_created.conditions.push(
-        ...customAttributeTypes
+        ...manifestedCustomAttributes
       );
       this.automationTypes.conversation_created.conditions.push(
-        ...customAttributeTypes
+        ...manifestedCustomAttributes
       );
       this.automationTypes.conversation_updated.conditions.push(
-        ...customAttributeTypes
+        ...manifestedCustomAttributes
       );
     },
   },
