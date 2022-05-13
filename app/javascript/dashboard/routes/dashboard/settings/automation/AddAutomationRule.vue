@@ -138,7 +138,8 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import automationMixin from 'shared/mixins/automationMixin';
+import automationMethodsMixin from 'shared/mixins/automations/methodsMixin';
+import automationValidationsMixin from 'shared/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 
@@ -152,7 +153,7 @@ export default {
     filterInputBox,
     automationActionInput,
   },
-  mixins: [alertMixin, automationMixin],
+  mixins: [alertMixin, automationMethodsMixin, automationValidationsMixin],
   props: {
     onClose: {
       type: Function,

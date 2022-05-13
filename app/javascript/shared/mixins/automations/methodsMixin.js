@@ -1,51 +1,20 @@
-import * as OPERATORS from '../../dashboard/routes/dashboard/settings/automation/operators';
-import languages from '../../dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import countries from '../../shared/constants/countries';
-import filterQueryGenerator from '../../dashboard/helper/filterQueryGenerator.js';
-import actionQueryGenerator from '../../dashboard/helper/actionQueryGenerator.js';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import * as OPERATORS from '../../../dashboard/routes/dashboard/settings/automation/operators';
+import languages from '../../../dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import countries from '../../constants/countries';
+import filterQueryGenerator from '../../../dashboard/helper/filterQueryGenerator.js';
+import actionQueryGenerator from '../../../dashboard/helper/actionQueryGenerator.js';
 
-export default {
-  validations: {
-    automation: {
-      name: {
-        required,
-      },
-      description: {
-        required,
-      },
-      event_name: {
-        required,
-      },
-      conditions: {
-        required,
-        $each: {
-          values: {
-            required: requiredIf(prop => {
-              return !(
-                prop.filter_operator === 'is_present' ||
-                prop.filter_operator === 'is_not_present'
-              );
-            }),
-          },
-        },
-      },
-      actions: {
-        required,
-        $each: {
-          action_params: {
-            required: requiredIf(prop => {
-              return !(
-                prop.action_name === 'mute_conversation' ||
-                prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_conversation'
-              );
-            }),
-          },
-        },
-      },
-    },
+const MESASAGE_CONDITION_VALUES = [
+  {
+    id: 'incoming',
+    name: 'Incoming Message',
   },
+  {
+    id: 'outgoing',
+    name: 'Outgoing Message',
+  },
+];
+export default {
   methods: {
     customAttributeInputType(key) {
       switch (key) {
@@ -121,57 +90,68 @@ export default {
         condition => condition.key === key
       );
     },
-    getConditionDropdownValues(type) {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
-
-      const isCustomAttributeCheckbox = this.allCustomAttributes.find(attr => {
+    customAttributeCheckboxDropdownValues() {
+      return [
+        {
+          id: true,
+          name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
+        },
+        {
+          id: false,
+          name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
+        },
+      ];
+    },
+    customAttributeListDropdownValues(type) {
+      return this.allCustomAttributes
+        .find(attr => attr.attribute_key === type)
+        .attribute_values.map(item => {
+          return {
+            id: item,
+            name: item,
+          };
+        });
+    },
+    isCustomAttributeCheckbox(type) {
+      return this.allCustomAttributes.find(attr => {
         return (
           attr.attribute_key === type &&
           attr.attribute_display_type === 'checkbox'
         );
       });
-      if (isCustomAttributeCheckbox) {
-        return [
-          {
-            id: true,
-            name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
-          },
-          {
-            id: false,
-            name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
-          },
-        ];
-      }
-
-      const isCustomAttributeList = this.allCustomAttributes.find(attr => {
+    },
+    isCustomAttributeList(type) {
+      return this.allCustomAttributes.find(attr => {
         return (
           attr.attribute_key === type && attr.attribute_display_type === 'list'
         );
       });
-      if (isCustomAttributeList) {
-        return this.allCustomAttributes
-          .find(attr => attr.attribute_key === type)
-          .attribute_values.map(item => {
-            return {
-              id: item,
-              name: item,
-            };
-          });
-      }
+    },
+    statusFilterDropdownValues() {
+      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      return [
+        ...Object.keys(statusFilters).map(status => {
+          return {
+            id: status,
+            name: statusFilters[status].TEXT,
+          };
+        }),
+        {
+          id: 'all',
+          name: this.$t('CHAT_LIST.FILTER_ALL'),
+        },
+      ];
+    },
+    getConditionDropdownValues(type) {
+      if (this.isCustomAttributeCheckbox(type))
+        return this.customAttributeCheckboxDropdownValues();
+
+      if (this.isCustomAttributeList(type))
+        return this.customAttributeListDropdownValues(type);
+
       switch (type) {
         case 'status':
-          return [
-            ...Object.keys(statusFilters).map(status => {
-              return {
-                id: status,
-                name: statusFilters[status].TEXT,
-              };
-            }),
-            {
-              id: 'all',
-              name: this.$t('CHAT_LIST.FILTER_ALL'),
-            },
-          ];
+          return this.statusFilterDropdownValues();
         case 'assignee_id':
           return this.$store.getters['agents/getAgents'];
         case 'contact':
@@ -199,16 +179,7 @@ export default {
         case 'country_code':
           return countries;
         case 'message_type':
-          return [
-            {
-              id: 'incoming',
-              name: 'Incoming Message',
-            },
-            {
-              id: 'outgoing',
-              name: 'Outgoing Message',
-            },
-          ];
+          return MESASAGE_CONDITION_VALUES;
         default:
           return undefined;
       }
