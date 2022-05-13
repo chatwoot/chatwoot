@@ -218,6 +218,7 @@ export default {
     },
   },
   mounted() {
+    this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.manifestCustomAttributes();
   },
 };

@@ -123,11 +123,8 @@ export default {
     },
     getConditionDropdownValues(type) {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
-      const allCustomAttributes = this.$store.getters[
-        'attributes/getAttributes'
-      ];
 
-      const isCustomAttributeCheckbox = allCustomAttributes.find(attr => {
+      const isCustomAttributeCheckbox = this.allCustomAttributes.find(attr => {
         return (
           attr.attribute_key === type &&
           attr.attribute_display_type === 'checkbox'
@@ -146,14 +143,13 @@ export default {
         ];
       }
 
-      const isCustomAttributeList = allCustomAttributes.find(attr => {
+      const isCustomAttributeList = this.allCustomAttributes.find(attr => {
         return (
           attr.attribute_key === type && attr.attribute_display_type === 'list'
         );
       });
-
       if (isCustomAttributeList) {
-        return allCustomAttributes
+        return this.allCustomAttributes
           .find(attr => attr.attribute_key === type)
           .attribute_values.map(item => {
             return {
@@ -162,7 +158,6 @@ export default {
             };
           });
       }
-
       switch (type) {
         case 'status':
           return [
@@ -331,7 +326,7 @@ export default {
           ].conditions.find(item => item.key === condition.attribute_key)
             .inputType;
         }
-        if (inputType === 'plain_text') {
+        if (inputType === 'plain_text' || inputType === 'date') {
           return {
             ...condition,
             values: condition.values[0],
@@ -346,27 +341,32 @@ export default {
       });
       return conditions;
     },
+    generateActionsArray(action) {
+      let actionParams = [];
+      const inputType = this.automationActionTypes.find(
+        item => item.key === action.action_name
+      ).inputType;
+      if (inputType === 'multi_select') {
+        actionParams = [
+          ...this.getActionDropdownValues(action.action_name),
+        ].filter(item => [...action.action_params].includes(item.id));
+      } else if (inputType === 'team_message') {
+        actionParams = {
+          team_ids: [
+            ...this.getActionDropdownValues(action.action_name),
+          ].filter(item =>
+            [...action.action_params[0].team_ids].includes(item.id)
+          ),
+          message: action.action_params[0].message,
+        };
+      } else actionParams = [...action.action_params];
+      return actionParams;
+    },
     manifestActions(automation) {
+      let actionParams = [];
       const actions = automation.actions.map(action => {
-        let actionParams = [];
         if (action.action_params.length) {
-          const inputType = this.automationActionTypes.find(
-            item => item.key === action.action_name
-          ).inputType;
-          if (inputType === 'multi_select') {
-            actionParams = [
-              ...this.getActionDropdownValues(action.action_name),
-            ].filter(item => [...action.action_params].includes(item.id));
-          } else if (inputType === 'team_message') {
-            actionParams = {
-              team_ids: [
-                ...this.getActionDropdownValues(action.action_name),
-              ].filter(item =>
-                [...action.action_params[0].team_ids].includes(item.id)
-              ),
-              message: action.action_params[0].message,
-            };
-          } else actionParams = [...action.action_params];
+          actionParams = this.generateActionsArray(action);
         }
         return {
           ...action,
