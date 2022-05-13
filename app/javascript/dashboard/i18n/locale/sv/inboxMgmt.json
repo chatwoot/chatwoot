@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tilldelning har uppdaterats",
         "ERROR_MESSAGE": "Kunde inte uppdatera widgetens färg. Försök igen senare."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Aktiverad",
-        "DISABLED": "Inaktiverad"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiverad",
         "DISABLED": "Inaktiverad"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Placera denna knapp i din body-tagg",
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Lägg till eller ta bort agenter från denna inkorg",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Uppdatera",
       "ENABLE_EMAIL_COLLECT_BOX": "Aktivera inkasso för e-post",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivera eller inaktivera insamlingsrutan för e-post på ny konversation",
