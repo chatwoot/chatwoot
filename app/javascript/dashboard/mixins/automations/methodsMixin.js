@@ -7,6 +7,7 @@ import {
   getCustomAttributeInputType,
   getOperatorTypes,
   isACustomAttribute,
+  getFileName,
 } from '../../helper/automationHelper.js';
 import { mapGetters } from 'vuex';
 
@@ -50,6 +51,7 @@ export default {
     },
   },
   methods: {
+    getFileName,
     onEventChange() {
       if (this.automation.event_name === 'message_created') {
         this.automation.conditions = [
@@ -302,14 +304,6 @@ export default {
         conditions: this.manifestConditions(automation),
         actions: this.manifestActions(automation),
       };
-    },
-    getFileName(id, actionType) {
-      if (!id) return '';
-      if (actionType === 'send_attachment') {
-        const file = this.automation.files.find(item => item.blob_id === id);
-        if (file) return file.filename.toString();
-      }
-      return '';
     },
     getActionDropdownValues(type) {
       const { labels, teams } = this;

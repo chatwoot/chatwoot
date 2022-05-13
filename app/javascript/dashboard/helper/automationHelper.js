@@ -141,10 +141,11 @@ export const getConditionOptions = ({
   return conditionFilterMaps[type];
 };
 
-export const getFileName = (id, actionType) => {
-  if (!id) return '';
-  if (actionType === 'send_attachment') {
-    const file = this.automation.files.find(item => item.blob_id === id);
+export const getFileName = (action, files = []) => {
+  const blobId = action.action_params[0];
+  if (!blobId) return '';
+  if (action.action_name === 'send_attachment') {
+    const file = files.find(item => item.blob_id === blobId);
     if (file) return file.filename.toString();
   }
   return '';

@@ -2,7 +2,7 @@
   <div class="column">
     <woot-modal-header :header-title="$t('AUTOMATION.EDIT.TITLE')" />
     <div class="row modal-content">
-      <div class="medium-12 columns">
+      <div v-if="automation" class="medium-12 columns">
         <woot-input
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
@@ -94,19 +94,10 @@
               :key="i"
               v-model="automation.actions[i]"
               :action-types="automationActionTypes"
-              :dropdown-values="
-                getActionDropdownValues(automation.actions[i].action_name)
-              "
-              :show-action-input="
-                showActionInput(automation.actions[i].action_name)
-              "
+              :dropdown-values="getActionDropdownValues(action.action_name)"
+              :show-action-input="showActionInput(action.action_name)"
               :v="$v.automation.actions.$each[i]"
-              :initial-file-name="
-                getFileName(
-                  automation.actions[i].action_params[0],
-                  automation.actions[i].action_name
-                )
-              "
+              :initial-file-name="getFileName(action, automation.files)"
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
@@ -180,25 +171,7 @@ export default {
       automationActionTypes: AUTOMATION_ACTION_TYPES,
       automationMutated: false,
       show: true,
-      automation: {
-        name: null,
-        description: null,
-        event_name: 'conversation_created',
-        conditions: [
-          {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ],
-        actions: [
-          {
-            action_name: 'assign_team',
-            action_params: [],
-          },
-        ],
-      },
+      automation: null,
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'edit',
