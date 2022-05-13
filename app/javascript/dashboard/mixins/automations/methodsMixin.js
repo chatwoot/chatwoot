@@ -1,4 +1,3 @@
-import * as OPERATORS from '../../routes/dashboard/settings/automation/operators';
 import languages from '../../components/widgets/conversation/advancedFilterItems/languages';
 import countries from '../../../shared/constants/countries';
 import filterQueryGenerator from '../../helper/filterQueryGenerator.js';
@@ -6,7 +5,13 @@ import actionQueryGenerator from '../../helper/actionQueryGenerator.js';
 import {
   getCustomAttributeInputType,
   isACustomAttribute,
+  getCustomAttributeListDropdownValues,
+  getCustomAttributeCheckboxDropdownValues,
+  isCustomAttributeCheckbox,
+  isCustomAttributeList,
+  getOperatorTypes,
 } from '../../helper/automationHelper.js';
+
 const MESASAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
@@ -66,7 +71,7 @@ export default {
           key
         );
         if (customAttribute) {
-          return this.getOperatorTypes(customAttribute.attribute_display_type);
+          return getOperatorTypes(customAttribute.attribute_display_type);
         }
       }
       const type = this.getAutomationType(key);
@@ -76,43 +81,6 @@ export default {
       return this.automationTypes[this.automation.event_name].conditions.find(
         condition => condition.key === key
       );
-    },
-    customAttributeCheckboxDropdownValues() {
-      return [
-        {
-          id: true,
-          name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
-        },
-        {
-          id: false,
-          name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
-        },
-      ];
-    },
-    customAttributeListDropdownValues(type) {
-      return this.allCustomAttributes
-        .find(attr => attr.attribute_key === type)
-        .attribute_values.map(item => {
-          return {
-            id: item,
-            name: item,
-          };
-        });
-    },
-    isCustomAttributeCheckbox(type) {
-      return this.allCustomAttributes.find(attr => {
-        return (
-          attr.attribute_key === type &&
-          attr.attribute_display_type === 'checkbox'
-        );
-      });
-    },
-    isCustomAttributeList(type) {
-      return this.allCustomAttributes.find(attr => {
-        return (
-          attr.attribute_key === type && attr.attribute_display_type === 'list'
-        );
-      });
     },
     statusFilterDropdownValues() {
       const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
@@ -130,11 +98,14 @@ export default {
       ];
     },
     getConditionDropdownValues(type) {
-      if (this.isCustomAttributeCheckbox(type))
-        return this.customAttributeCheckboxDropdownValues();
+      if (isCustomAttributeCheckbox(this.allCustomAttributes, type))
+        return getCustomAttributeCheckboxDropdownValues();
 
-      if (this.isCustomAttributeList(type))
-        return this.customAttributeListDropdownValues(type);
+      if (isCustomAttributeList(this.allCustomAttributes, type))
+        return getCustomAttributeListDropdownValues(
+          this.allCustomAttributes,
+          type
+        );
 
       switch (type) {
         case 'status':
@@ -340,24 +311,6 @@ export default {
         actions: this.manifestActions(automation),
       };
     },
-    getOperatorTypes(key) {
-      switch (key) {
-        case 'list':
-          return OPERATORS.OPERATOR_TYPES_1;
-        case 'text':
-          return OPERATORS.OPERATOR_TYPES_3;
-        case 'number':
-          return OPERATORS.OPERATOR_TYPES_1;
-        case 'link':
-          return OPERATORS.OPERATOR_TYPES_1;
-        case 'date':
-          return OPERATORS.OPERATOR_TYPES_4;
-        case 'checkbox':
-          return OPERATORS.OPERATOR_TYPES_1;
-        default:
-          return OPERATORS.OPERATOR_TYPES_1;
-      }
-    },
     getFileName(id, actionType) {
       if (!id) return '';
       if (actionType === 'send_attachment') {
@@ -397,7 +350,7 @@ export default {
             key: attr.attribute_key,
             name: attr.attribute_display_name,
             inputType: getCustomAttributeInputType(attr.attribute_display_type),
-            filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+            filterOperators: getOperatorTypes(attr.attribute_display_type),
           };
         }
       );
@@ -408,7 +361,7 @@ export default {
             key: attr.attribute_key,
             name: attr.attribute_display_name,
             inputType: getCustomAttributeInputType(attr.attribute_display_type),
-            filterOperators: this.getOperatorTypes(attr.attribute_display_type),
+            filterOperators: getOperatorTypes(attr.attribute_display_type),
           };
         }
       );
