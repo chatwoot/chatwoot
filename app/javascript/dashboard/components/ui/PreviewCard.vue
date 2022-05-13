@@ -1,7 +1,7 @@
 <template>
   <div class="preview-card--wrap" :class="{ activecard: active }">
     <div class="header--wrap" :class="{ active: active }">
-      <div class="heading-wrap">{{ heading }}</div>
+      <div class="heading-wrap text-block-title">{{ heading }}</div>
       <fluent-icon
         v-if="active"
         icon="checkmark-circle"
@@ -74,7 +74,6 @@ export default {
   .heading-wrap {
     display: flex;
     align-items: center;
-    font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
     padding: var(--space-smaller);
   }
@@ -85,7 +84,7 @@ export default {
     text-align: start;
     padding: var(--space-slab) var(--space-slab) 0 var(--space-slab);
     font-size: var(--font-size-mini);
-    line-height: 1.2;
+    line-height: 1.4;
     color: var(--s-700);
   }
   .image-wrap {
