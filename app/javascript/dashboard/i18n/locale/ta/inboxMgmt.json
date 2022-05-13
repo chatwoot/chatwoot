@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "தானியங்கு பணி வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
         "ERROR_MESSAGE": "விட்ஜெட் நிறத்தை புதுப்பிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "இயக்கப்பட்டது",
-        "DISABLED": "முடக்கப்பட்டது"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "இந்த பொத்தானை உங்கள் பாடி டேகுக்குள் வைக்கவும்",
       "INBOX_AGENTS": "ஏஜென்ட்கள்",
       "INBOX_AGENTS_SUB_TEXT": "இந்த இன்பாக்ஸிலிருந்து ஏஜென்ட்களைச் சேர்க்கவும் அல்லது அகற்றவும்",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "புதுப்பிப்பு",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

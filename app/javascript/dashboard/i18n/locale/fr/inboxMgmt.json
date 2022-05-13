@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Affectation automatique mise à jour avec succès",
         "ERROR_MESSAGE": "Impossible de mettre à jour la couleur du widget. Veuillez réessayer plus tard."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Activé",
-        "DISABLED": "Désactivé"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Placez ce code avant la fermeture de votre balise body",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
+      "AGENT_ASSIGNMENT": "Konversationsauftrag",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Aktualisieren Sie die Konversationszuweisungseinstellungen",
       "UPDATE": "Mettre à jour",
       "ENABLE_EMAIL_COLLECT_BOX": "Activer la boîte de collecte des courriels",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activer ou désactiver la boîte de collecte des courriels pour les nouvelles conversations",

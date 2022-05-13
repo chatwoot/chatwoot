@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
         "ERROR_MESSAGE": "Tidak dapat memperbarui warna widget. Silakan coba lagi nanti."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Diaktifkan",
         "DISABLED": "Nonaktif"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
       "INBOX_AGENTS": "Agen",
       "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Perbarui",
       "ENABLE_EMAIL_COLLECT_BOX": "Aktifkan kotak pengumpulan email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktifkan atau nonaktifkan kotak pengumpulan email pada percakpaan baru",

@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assignació automàtica actualitzada correctament",
         "ERROR_MESSAGE": "No s'ha pogut actualitzar el color del widget. Torneu-ho a provar més endavant."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Habilita",
-        "DISABLED": "Inhabilita"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Habilita",
         "DISABLED": "Inhabilita"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Col·loca aquest botó dins de l'etiqueta body",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Actualitza",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
