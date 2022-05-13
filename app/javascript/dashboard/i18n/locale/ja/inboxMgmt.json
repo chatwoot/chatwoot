@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自動割り当ての更新に成功しました",
         "ERROR_MESSAGE": "ウィジェットの色を更新できませんでした。後でもう一度お試しください"
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "有効です",
-        "DISABLED": "無効です"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "有効です",
         "DISABLED": "無効です"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "このボタンをbodyタグの中に配置してください。",
       "INBOX_AGENTS": "担当者",
       "INBOX_AGENTS_SUB_TEXT": "この受信トレイから担当者を追加または削除する",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "更新",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

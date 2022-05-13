@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автопризначення успішно оновлено",
         "ERROR_MESSAGE": "Не вдалося оновити колір віджету. Будь ласка, спробуйте ще раз."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Увімкнено",
-        "DISABLED": "Вимкнено"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Увімкнено",
         "DISABLED": "Вимкнено"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Оновити",
       "ENABLE_EMAIL_COLLECT_BOX": "Включити збір електронної пошти",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
