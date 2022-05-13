@@ -76,3 +76,14 @@ export const getOperatorTypes = key => {
 
   return operatorMap[key] || OPERATOR_TYPES_1;
 };
+
+export const generateCustomAttributeTypes = customAttributes => {
+  return customAttributes.map(attr => {
+    return {
+      key: attr.attribute_key,
+      name: attr.attribute_display_name,
+      inputType: getCustomAttributeInputType(attr.attribute_display_type),
+      filterOperators: getOperatorTypes(attr.attribute_display_type),
+    };
+  });
+};

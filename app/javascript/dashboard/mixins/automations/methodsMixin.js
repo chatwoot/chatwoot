@@ -10,6 +10,7 @@ import {
   isCustomAttributeCheckbox,
   isCustomAttributeList,
   getOperatorTypes,
+  generateCustomAttributeTypes,
 } from '../../helper/automationHelper.js';
 
 const MESASAGE_CONDITION_VALUES = [
@@ -344,27 +345,13 @@ export default {
         'attributes/getAttributesByModel'
       ]('contact_attribute');
 
-      const conversationCustomAttributeTypes = conversationCustomAttributesRaw.map(
-        attr => {
-          return {
-            key: attr.attribute_key,
-            name: attr.attribute_display_name,
-            inputType: getCustomAttributeInputType(attr.attribute_display_type),
-            filterOperators: getOperatorTypes(attr.attribute_display_type),
-          };
-        }
+      const conversationCustomAttributeTypes = generateCustomAttributeTypes(
+        conversationCustomAttributesRaw
+      );
+      const contactCustomAttributeTypes = generateCustomAttributeTypes(
+        contactCustomAttributesRaw
       );
 
-      const contactCustomAttributeTypes = contactCustomAttributesRaw.map(
-        attr => {
-          return {
-            key: attr.attribute_key,
-            name: attr.attribute_display_name,
-            inputType: getCustomAttributeInputType(attr.attribute_display_type),
-            filterOperators: getOperatorTypes(attr.attribute_display_type),
-          };
-        }
-      );
       const manifestedCustomAttributes = [
         {
           key: 'conversation_custom_attribute',
