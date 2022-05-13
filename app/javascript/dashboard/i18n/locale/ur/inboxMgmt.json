@@ -301,7 +301,7 @@
         "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "ایجنٹ",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
         "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
@@ -366,14 +362,14 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "حذف کریں۔",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
+        "TITLE": "حذف کرنے کی تصدیق کریں۔",
+        "MESSAGE": "کیا آپ کو یقینی طور پر حذف کرنا ہے۔ ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "ہاں، حذف کریں۔ ",
+        "NO": "نہیں ، رہنے دیں "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -400,8 +396,10 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "ایجنٹ",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

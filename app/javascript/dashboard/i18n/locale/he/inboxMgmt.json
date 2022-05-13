@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ההקצאה האוטומטית עודכנה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן היה לעדכן את צבע הווידג'ט. בבקשה נסה שוב מאוחר יותר."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "מקם את הכפתור הזה בתוך תג הגוף שלך",
       "INBOX_AGENTS": "סוכנים",
       "INBOX_AGENTS_SUB_TEXT": "הוסף או הסר נציגים מתיבת הדואר הנכנס הזו",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "עדכן",
       "ENABLE_EMAIL_COLLECT_BOX": "אפשר תיבת איסוף דוא\"ל",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",

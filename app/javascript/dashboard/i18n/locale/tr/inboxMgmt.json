@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Otomatik atama başarıyla güncellendi",
         "ERROR_MESSAGE": "Widget rengi güncellenemedi. Lütfen daha sonra tekrar deneyiniz."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Etkin",
         "DISABLED": "Devre dışı"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
+      "AGENT_ASSIGNMENT": "Görüşme Atama",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Görüşme atama ayarlarını güncelle",
       "UPDATE": "Güncelleme",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
