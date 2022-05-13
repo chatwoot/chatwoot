@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Đã cập nhật thành công bài tập tự động",
         "ERROR_MESSAGE": "Không thể cập nhật màu tiện ích. Vui lòng thử lại sau."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Bật",
-        "DISABLED": "Không bật"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Bật",
         "DISABLED": "Không bật"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
       "INBOX_AGENTS": "Nhà cung cấp",
       "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Cập nhật",
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",

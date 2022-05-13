@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自動分配成功更新",
         "ERROR_MESSAGE": "無法更新元件顏色。請稍後再試。"
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "已啟用",
-        "DISABLED": "已停用"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "已啟用",
         "DISABLED": "已停用"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "將此按鈕放置在視窗標籤中",
       "INBOX_AGENTS": "客服",
       "INBOX_AGENTS_SUB_TEXT": "新增或刪除此收件匣中的客服",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "更新",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
