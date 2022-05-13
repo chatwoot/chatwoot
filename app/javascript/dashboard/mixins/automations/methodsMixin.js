@@ -5,6 +5,7 @@ import {
   getActionOptions,
   getConditionOptions,
   getCustomAttributeInputType,
+  getOperatorTypes,
   isACustomAttribute,
 } from '../../helper/automationHelper.js';
 import { mapGetters } from 'vuex';
@@ -96,7 +97,7 @@ export default {
           key
         );
         if (customAttribute) {
-          return this.getOperatorTypes(customAttribute.attribute_display_type);
+          return getOperatorTypes(customAttribute.attribute_display_type);
         }
       }
       const type = this.getAutomationType(key);
