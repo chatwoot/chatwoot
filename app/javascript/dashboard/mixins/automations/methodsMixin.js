@@ -1,29 +1,53 @@
-import languages from '../../components/widgets/conversation/advancedFilterItems/languages';
-import countries from '../../../shared/constants/countries';
 import filterQueryGenerator from '../../helper/filterQueryGenerator.js';
 import actionQueryGenerator from '../../helper/actionQueryGenerator.js';
 import {
+  generateCustomAttributeTypes,
+  getActionOptions,
+  getConditionOptions,
   getCustomAttributeInputType,
   isACustomAttribute,
-  getCustomAttributeListDropdownValues,
-  getCustomAttributeCheckboxDropdownValues,
-  isCustomAttributeCheckbox,
-  isCustomAttributeList,
-  getOperatorTypes,
-  generateCustomAttributeTypes,
 } from '../../helper/automationHelper.js';
+import { mapGetters } from 'vuex';
 
-const MESASAGE_CONDITION_VALUES = [
-  {
-    id: 'incoming',
-    name: 'Incoming Message',
-  },
-  {
-    id: 'outgoing',
-    name: 'Outgoing Message',
-  },
-];
 export default {
+  computed: {
+    ...mapGetters({
+      agents: 'agents/getAgents',
+      campaigns: 'campaigns/getAllCampaigns',
+      contacts: 'contacts/getContacts',
+      inboxes: 'inboxes/getInboxes',
+      labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
+    }),
+    booleanFilterOptions() {
+      return [
+        {
+          id: true,
+          name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
+        },
+        {
+          id: false,
+          name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
+        },
+      ];
+    },
+
+    statusFilterOptions() {
+      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      return [
+        ...Object.keys(statusFilters).map(status => {
+          return {
+            id: status,
+            name: statusFilters[status].TEXT,
+          };
+        }),
+        {
+          id: 'all',
+          name: this.$t('CHAT_LIST.FILTER_ALL'),
+        },
+      ];
+    },
+  },
   methods: {
     onEventChange() {
       if (this.automation.event_name === 'message_created') {
@@ -72,7 +96,7 @@ export default {
           key
         );
         if (customAttribute) {
-          return getOperatorTypes(customAttribute.attribute_display_type);
+          return this.getOperatorTypes(customAttribute.attribute_display_type);
         }
       }
       const type = this.getAutomationType(key);
@@ -83,65 +107,31 @@ export default {
         condition => condition.key === key
       );
     },
-    statusFilterDropdownValues() {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
-      return [
-        ...Object.keys(statusFilters).map(status => {
-          return {
-            id: status,
-            name: statusFilters[status].TEXT,
-          };
-        }),
-        {
-          id: 'all',
-          name: this.$t('CHAT_LIST.FILTER_ALL'),
-        },
-      ];
-    },
+
     getConditionDropdownValues(type) {
-      if (isCustomAttributeCheckbox(this.allCustomAttributes, type))
-        return getCustomAttributeCheckboxDropdownValues();
-
-      if (isCustomAttributeList(this.allCustomAttributes, type))
-        return getCustomAttributeListDropdownValues(
-          this.allCustomAttributes,
-          type
-        );
-
-      switch (type) {
-        case 'status':
-          return this.statusFilterDropdownValues();
-        case 'assignee_id':
-          return this.$store.getters['agents/getAgents'];
-        case 'contact':
-          return this.$store.getters['contacts/getContacts'];
-        case 'inbox_id':
-          return this.$store.getters['inboxes/getInboxes'];
-        case 'team_id':
-          return this.$store.getters['teams/getTeams'];
-        case 'campaign_id':
-          return this.$store.getters['campaigns/getAllCampaigns'].map(i => {
-            return {
-              id: i.id,
-              name: i.title,
-            };
-          });
-        case 'labels':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.id,
-              name: i.title,
-            };
-          });
-        case 'browser_language':
-          return languages;
-        case 'country_code':
-          return countries;
-        case 'message_type':
-          return MESASAGE_CONDITION_VALUES;
-        default:
-          return undefined;
-      }
+      const {
+        agents,
+        allCustomAttributes: customAttributes,
+        booleanFilterOptions,
+        campaigns,
+        contacts,
+        inboxes,
+        labels,
+        statusFilterOptions,
+        teams,
+      } = this;
+      return getConditionOptions({
+        agents,
+        booleanFilterOptions,
+        campaigns,
+        contacts,
+        customAttributes,
+        inboxes,
+        labels,
+        statusFilterOptions,
+        teams,
+        type,
+      });
     },
     appendNewCondition() {
       if (this.mode === 'edit') {
@@ -321,20 +311,8 @@ export default {
       return '';
     },
     getActionDropdownValues(type) {
-      switch (type) {
-        case 'assign_team':
-        case 'send_email_to_team':
-          return this.$store.getters['teams/getTeams'];
-        case 'add_label':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.title,
-              name: i.title,
-            };
-          });
-        default:
-          return undefined;
-      }
+      const { labels, teams } = this;
+      return getActionOptions({ labels, teams, type });
     },
     manifestCustomAttributes() {
       const conversationCustomAttributesRaw = this.$store.getters[

@@ -4,6 +4,17 @@ import {
   OPERATOR_TYPES_4,
 } from '../routes/dashboard/settings/automation/operators';
 
+const MESSAGE_CONDITION_VALUES = [
+  {
+    id: 'incoming',
+    name: 'Incoming Message',
+  },
+  {
+    id: 'outgoing',
+    name: 'Outgoing Message',
+  },
+];
+
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
@@ -33,19 +44,6 @@ export const getCustomAttributeListDropdownValues = (
         name: item,
       };
     });
-};
-
-export const getCustomAttributeCheckboxDropdownValues = () => {
-  return [
-    {
-      id: true,
-      name: this.$t('FILTER.ATTRIBUTE_LABELS.TRUE'),
-    },
-    {
-      id: false,
-      name: this.$t('FILTER.ATTRIBUTE_LABELS.FALSE'),
-    },
-  ];
 };
 
 export const isCustomAttributeCheckbox = (customAttributes, key) => {
@@ -86,4 +84,68 @@ export const generateCustomAttributeTypes = customAttributes => {
       filterOperators: getOperatorTypes(attr.attribute_display_type),
     };
   });
+};
+
+const generateConditionOptions = options =>
+  options.map(i => {
+    return {
+      id: i.id,
+      name: i.title,
+    };
+  });
+
+export const getActionOptions = ({ teams, labels, type }) => {
+  const actionsMap = {
+    assign_team: teams,
+    send_email_to_team: teams,
+    add_label: generateConditionOptions(labels),
+  };
+  return actionsMap[type];
+};
+
+export const getConditionOptions = ({
+  agents,
+  booleanFilterOptions,
+  campaigns,
+  contacts,
+  countries,
+  customAttributes,
+  inboxes,
+  labels,
+  languages,
+  statusFilterOptions,
+  teams,
+  type,
+}) => {
+  if (isCustomAttributeCheckbox(customAttributes, type)) {
+    return booleanFilterOptions;
+  }
+
+  if (isCustomAttributeList(customAttributes, type)) {
+    return getCustomAttributeListDropdownValues(customAttributes, type);
+  }
+
+  const conditionFilterMaps = {
+    status: statusFilterOptions,
+    assignee_id: agents,
+    contact: contacts,
+    inbox_id: inboxes,
+    team_id: teams,
+    campaigns: generateConditionOptions(campaigns),
+    labels: generateConditionOptions(labels),
+    browser_language: languages,
+    country_code: countries,
+    message_type: MESSAGE_CONDITION_VALUES,
+  };
+
+  return conditionFilterMaps[type];
+};
+
+export const getFileName = (id, actionType) => {
+  if (!id) return '';
+  if (actionType === 'send_attachment') {
+    const file = this.automation.files.find(item => item.blob_id === id);
+    if (file) return file.filename.toString();
+  }
+  return '';
 };
