@@ -8,6 +8,9 @@ import {
   getOperatorTypes,
   isACustomAttribute,
   getFileName,
+  getDefaultConditions,
+  getDefaultActions,
+  filterCustomAttributes,
 } from '../../helper/automationHelper.js';
 import { mapGetters } from 'vuex';
 
@@ -53,31 +56,10 @@ export default {
   methods: {
     getFileName,
     onEventChange() {
-      if (this.automation.event_name === 'message_created') {
-        this.automation.conditions = [
-          {
-            attribute_key: 'message_type',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ];
-      } else {
-        this.automation.conditions = [
-          {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ];
-      }
-      this.automation.actions = [
-        {
-          action_name: 'assign_team',
-          action_params: [],
-        },
-      ];
+      this.automation.conditions = getDefaultConditions(
+        this.automation.event_name
+      );
+      this.automation.actions = getDefaultActions();
     },
     getAttributes(key) {
       return this.automationTypes[key].conditions;
@@ -147,30 +129,12 @@ export default {
           ].query_operator = 'and';
         }
       }
-      switch (this.automation.event_name) {
-        case 'message_created':
-          this.automation.conditions.push({
-            attribute_key: 'message_type',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          });
-          break;
-        default:
-          this.automation.conditions.push({
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          });
-          break;
-      }
+      this.automation.conditions.push(
+        ...getDefaultConditions(this.automation.event_name)
+      );
     },
     appendNewAction() {
-      this.automation.actions.push({
-        action_name: 'assign_team',
-        action_params: [],
-      });
+      this.automation.actions.push(...getDefaultActions());
     },
     removeFilter(index) {
       if (this.automation.conditions.length <= 1) {
@@ -229,13 +193,7 @@ export default {
       this.automation.actions[index].action_params = [];
     },
     manifestConditions(automation) {
-      const customAttributes = this.allCustomAttributes.map(attr => {
-        return {
-          key: attr.attribute_key,
-          name: attr.attribute_display_name,
-          type: attr.attribute_display_type,
-        };
-      });
+      const customAttributes = filterCustomAttributes(this.allCustomAttributes);
       const conditions = automation.conditions.map(condition => {
         const isCustomAttribute = customAttributes.find(
           attr => attr.key === condition.attribute_key

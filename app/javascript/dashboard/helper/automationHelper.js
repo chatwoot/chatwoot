@@ -150,3 +150,43 @@ export const getFileName = (action, files = []) => {
   }
   return '';
 };
+
+export const getDefaultConditions = eventName => {
+  if (eventName === 'message_created') {
+    return [
+      {
+        attribute_key: 'message_type',
+        filter_operator: 'equal_to',
+        values: '',
+        query_operator: 'and',
+      },
+    ];
+  }
+  return [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: '',
+      query_operator: 'and',
+    },
+  ];
+};
+
+export const getDefaultActions = () => {
+  return [
+    {
+      action_name: 'assign_team',
+      action_params: [],
+    },
+  ];
+};
+
+export const filterCustomAttributes = customAttributes => {
+  return customAttributes.map(attr => {
+    return {
+      key: attr.attribute_key,
+      name: attr.attribute_display_name,
+      type: attr.attribute_display_type,
+    };
+  });
+};
