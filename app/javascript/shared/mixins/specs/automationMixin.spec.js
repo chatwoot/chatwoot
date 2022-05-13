@@ -1,10 +1,10 @@
-import automationMixin from '../automationMixin';
+import methodsMixin from '../automations/methodsMixin';
 import { shallowMount } from '@vue/test-utils';
 import MockComponent from './MockComponent.vue';
 
 describe('Automation Mixin function', () => {
   const wrapper = shallowMount(MockComponent, {
-    mixins: [automationMixin],
+    mixins: [methodsMixin],
   });
 
   it('customAttributeInputType should be defined', () => {
@@ -19,8 +19,32 @@ describe('Automation Mixin function', () => {
   it('isACustomAttribute should be defined', () => {
     expect(wrapper.vm.isACustomAttribute).toBeTruthy();
   });
+  it('getInputType should be defined', () => {
+    expect(wrapper.vm.getInputType).toBeTruthy();
+  });
   it('getOperators should be defined', () => {
     expect(wrapper.vm.getOperators).toBeTruthy();
+  });
+  it('getAutomationType should be defined', () => {
+    expect(wrapper.vm.getAutomationType).toBeTruthy();
+  });
+  it('getAutomationType should be defined', () => {
+    expect(wrapper.vm.getAutomationType).toBeTruthy();
+  });
+  it('customAttributeCheckboxDropdownValues should be defined', () => {
+    expect(wrapper.vm.customAttributeCheckboxDropdownValues).toBeTruthy();
+  });
+  it('customAttributeListDropdownValues should be defined', () => {
+    expect(wrapper.vm.customAttributeListDropdownValues).toBeTruthy();
+  });
+  it('isCustomAttributeCheckbox should be defined', () => {
+    expect(wrapper.vm.isCustomAttributeCheckbox).toBeTruthy();
+  });
+  it('statusFilterDropdownValues should be defined', () => {
+    expect(wrapper.vm.statusFilterDropdownValues).toBeTruthy();
+  });
+  it('isCustomAttributeList should be defined', () => {
+    expect(wrapper.vm.isCustomAttributeList).toBeTruthy();
   });
   it('getConditionDropdownValues should be defined', () => {
     expect(wrapper.vm.getConditionDropdownValues).toBeTruthy();
@@ -51,6 +75,15 @@ describe('Automation Mixin function', () => {
   });
   it('resetAction should be defined', () => {
     expect(wrapper.vm.resetAction).toBeTruthy();
+  });
+  it('manifestConditions should be defined', () => {
+    expect(wrapper.vm.manifestConditions).toBeTruthy();
+  });
+  it('generateActionsArray should be defined', () => {
+    expect(wrapper.vm.generateActionsArray).toBeTruthy();
+  });
+  it('manifestActions should be defined', () => {
+    expect(wrapper.vm.manifestActions).toBeTruthy();
   });
   it('formatAutomation should be defined', () => {
     expect(wrapper.vm.formatAutomation).toBeTruthy();
