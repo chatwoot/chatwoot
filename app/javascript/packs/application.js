@@ -39,6 +39,7 @@ import {
 } from '../dashboard/helper/scriptHelpers';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 
 Vue.config.env = process.env;
 
@@ -56,16 +57,7 @@ if (window.analyticsConfig) {
   });
 }
 
-Vue.use(VueDOMPurifyHTML, {
-  hooks: {
-    afterSanitizeAttributes: currentNode => {
-      if ('target' in currentNode) {
-        currentNode.setAttribute('target', '_blank');
-      }
-    },
-  },
-});
-
+Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
