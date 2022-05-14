@@ -11,7 +11,15 @@ import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import router from '../widget/router';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
-Vue.use(VueDOMPurifyHTML);
+Vue.use(VueDOMPurifyHTML, {
+  hooks: {
+    afterSanitizeAttributes: currentNode => {
+      if ('target' in currentNode) {
+        currentNode.setAttribute('target', '_blank');
+      }
+    },
+  },
+});
 
 const i18nConfig = new VueI18n({
   locale: 'en',

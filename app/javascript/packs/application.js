@@ -55,7 +55,17 @@ if (window.analyticsConfig) {
     api_host: window.analyticsConfig.host,
   });
 }
-Vue.use(VueDOMPurifyHTML);
+
+Vue.use(VueDOMPurifyHTML, {
+  hooks: {
+    afterSanitizeAttributes: currentNode => {
+      if ('target' in currentNode) {
+        currentNode.setAttribute('target', '_blank');
+      }
+    },
+  },
+});
+
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
