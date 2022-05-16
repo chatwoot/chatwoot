@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatyczne przypisanie zaktualizowane pomyślnie",
         "ERROR_MESSAGE": "Nie można zaktualizować koloru widżetu. Spróbuj ponownie później."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Włączone",
-        "DISABLED": "Wyłączone"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Umieść ten przycisk wewnątrz znacznika ciała",
       "INBOX_AGENTS": "Agenci",
       "INBOX_AGENTS_SUB_TEXT": "Dodaj lub usuń agentów z tej skrzynki odbiorczej",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Aktualizuj",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Włącz lub wyłącz skrzynkę zbierania wiadomości e-mail w nowej konwersacji",

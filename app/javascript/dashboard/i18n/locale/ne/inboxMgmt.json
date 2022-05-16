@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

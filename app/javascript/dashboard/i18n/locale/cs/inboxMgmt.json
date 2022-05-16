@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatické přiřazení bylo úspěšně aktualizováno",
         "ERROR_MESSAGE": "Nelze aktualizovat barvu widgetu. Opakujte akci později."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Povoleno",
-        "DISABLED": "Zakázáno"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Povoleno",
         "DISABLED": "Zakázáno"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Umístěte toto tlačítko dovnitř vašeho tělesného štítku",
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Přidat nebo odebrat agenty z této složky doručené pošty",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Aktualizovat",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
