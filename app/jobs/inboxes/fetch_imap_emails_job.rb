@@ -11,7 +11,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     channel.authorization_error!
   rescue StandardError => e
     channel.authorization_error!
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
   private

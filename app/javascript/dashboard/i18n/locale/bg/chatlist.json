@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Няма съобщения",
     "NO_CONTENT": "Няма налично съдържание",
     "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",
-    "SHOW_QUOTED_TEXT": "Показване на цитирания текст"
+    "SHOW_QUOTED_TEXT": "Показване на цитирания текст",
+    "MESSAGE_READ": "Read"
   }
 }

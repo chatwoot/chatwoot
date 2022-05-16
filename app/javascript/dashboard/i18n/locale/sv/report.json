@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Konversationer",
     "LOADING_CHART": "Laddar diagramdata...",
     "NO_ENOUGH_DATA": "Vi har inte fått tillräckligt många datapunkter för att generera en rapport, försök igen senare.",
     "DOWNLOAD_AGENT_REPORTS": "Ladda ner agentrapporter",
@@ -18,12 +18,16 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Affärstimmar"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -193,12 +202,16 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -256,12 +269,16 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -319,12 +336,16 @@
         "DESC": "( Totalt )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt )"
+        "NAME": "First Response Time",
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösningstid",
-        "DESC": "( Genomsnitt )"
+        "DESC": "( Genomsnitt )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal lösta",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Öppna",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Otilldelade"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Upptagen",
+      "OFFLINE": "Offline"
     }
   }
 }
