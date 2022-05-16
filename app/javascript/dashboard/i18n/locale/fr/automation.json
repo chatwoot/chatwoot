@@ -89,19 +89,28 @@
       "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer"
+      "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "Activer la règle d'automatisation",
+      "DEACTIVATION_TITLE": "Activer la règle d'automatisation",
+      "ACTIVATION_DESCRIPTION": "Cette action activera la règle d'automatisation '{automationName}'. Êtes-vous sur de vouloir continuer?",
+      "DEACTIVATION_DESCRIPTION": "Cette action activera la règle d'automatisation '{automationName}'. Êtes-vous sur de vouloir continuer?",
+      "ACTIVATION_SUCCESFUL": "Règle d'automatisation activée avec succès",
+      "DEACTIVATION_SUCCESFUL": "Règle d'automatisation désactivée avec succès",
+      "ACTIVATION_ERROR": "Impossible d'activer l'automatisation, veuillez réessayer plus tard",
+      "DEACTIVATION_ERROR": "Impossible de désactiver l'automatisation, veuillez réessayer plus tard",
       "CONFIRMATION_LABEL": "Oui",
       "CANCEL_LABEL": "Non"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Téléversement...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }

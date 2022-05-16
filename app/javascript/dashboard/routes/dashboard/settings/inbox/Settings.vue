@@ -190,21 +190,6 @@
         </label>
 
         <label class="medium-9 columns settings-item">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
-          <select v-model="autoAssignment">
-            <option :value="true">
-              {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
-            </option>
-            <option :value="false">
-              {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
-            </option>
-          </select>
-          <p class="help-text">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
-          </p>
-        </label>
-
-        <label class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -316,114 +301,11 @@
       <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
-    <!-- update agents in inbox -->
-
     <div v-if="selectedTabKey === 'collaborators'" class="settings--content">
-      <settings-section
-        :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
-        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
-      >
-        <multiselect
-          v-model="selectedAgents"
-          :options="agentList"
-          track-by="id"
-          label="name"
-          :multiple="true"
-          :close-on-select="false"
-          :clear-on-select="false"
-          :hide-selected="true"
-          placeholder="Pick some"
-          selected-label
-          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-          @select="$v.selectedAgents.$touch"
-        />
-
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="isAgentListUpdating"
-          @click="updateAgents"
-        />
-      </settings-section>
+      <collaborators-page :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'configuration'">
-      <div v-if="isATwilioChannel" class="settings--content">
-        <settings-section
-          :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
-          :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
-        >
-          <woot-code
-            :script="inbox.callback_webhook_url"
-            lang="html"
-          ></woot-code>
-        </settings-section>
-      </div>
-      <div v-else-if="isALineChannel" class="settings--content">
-        <settings-section
-          :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
-          :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
-        >
-          <woot-code
-            :script="inbox.callback_webhook_url"
-            lang="html"
-          ></woot-code>
-        </settings-section>
-      </div>
-      <div v-else-if="isAWebWidgetInbox">
-        <div class="settings--content">
-          <settings-section
-            :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
-            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
-          >
-            <woot-code :script="inbox.web_widget_script"></woot-code>
-          </settings-section>
-
-          <settings-section
-            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
-            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
-          >
-            <woot-code :script="inbox.hmac_token"></woot-code>
-          </settings-section>
-          <settings-section
-            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
-            :sub-title="
-              $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')
-            "
-          >
-            <div class="enter-to-send--checkbox">
-              <input
-                id="hmacMandatory"
-                v-model="hmacMandatory"
-                type="checkbox"
-                @change="handleHmacFlag"
-              />
-              <label for="hmacMandatory">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
-              </label>
-            </div>
-          </settings-section>
-        </div>
-      </div>
-      <div v-else-if="isAPIInbox" class="settings--content">
-        <settings-section
-          :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
-          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
-        >
-          <woot-code :script="inbox.inbox_identifier"></woot-code>
-        </settings-section>
-      </div>
-      <div v-else-if="isAnEmailChannel">
-        <div class="settings--content">
-          <settings-section
-            :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
-            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
-          >
-            <woot-code :script="inbox.forward_to_email"></woot-code>
-          </settings-section>
-        </div>
-        <imap-settings :inbox="inbox" />
-        <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
-      </div>
+      <configuration-page :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
@@ -436,7 +318,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { required } from 'vuelidate/lib/validators';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
@@ -448,8 +329,8 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
-import ImapSettings from './ImapSettings';
-import SmtpSettings from './SmtpSettings';
+import ConfigurationPage from './settingsPage/ConfigurationPage';
+import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 
 export default {
   components: {
@@ -459,22 +340,18 @@ export default {
     PreChatFormSettings,
     WeeklyAvailability,
     GreetingsEditor,
-    ImapSettings,
-    SmtpSettings,
+    ConfigurationPage,
+    CollaboratorsPage,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
     return {
       avatarFile: null,
       avatarUrl: '',
-      selectedAgents: [],
       greetingEnabled: true,
       tweetsEnabled: true,
-      hmacMandatory: null,
       greetingMessage: '',
-      autoAssignment: false,
       emailCollectEnabled: false,
-      isAgentListUpdating: false,
       csatSurveyEnabled: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
@@ -485,22 +362,11 @@ export default {
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
       replyTime: '',
-      autoAssignmentOptions: [
-        {
-          value: true,
-          label: this.$t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED'),
-        },
-        {
-          value: false,
-          label: this.$t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED'),
-        },
-      ],
       selectedTabIndex: 0,
     };
   },
   computed: {
     ...mapGetters({
-      agentList: 'agents/getAgents',
       uiFlags: 'inboxes/getUIFlags',
     }),
     selectedTabKey() {
@@ -568,9 +434,6 @@ export default {
       }
       return this.inbox.name;
     },
-    messengerScript() {
-      return createMessengerScript(this.inbox.page_id);
-    },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL');
@@ -610,9 +473,6 @@ export default {
         e.target.value
       );
     },
-    handleHmacFlag() {
-      this.updateInbox();
-    },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
         const newSelectedFlags = selected.filter(flag => flag !== current);
@@ -630,15 +490,12 @@ export default {
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
       this.$store.dispatch('inboxes/get').then(() => {
-        this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.tweetsEnabled = this.inbox.tweets_enabled || false;
-        this.hmacMandatory = this.inbox.hmac_mandatory || false;
         this.greetingMessage = this.inbox.greeting_message || '';
-        this.autoAssignment = this.inbox.enable_auto_assignment;
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.allowMessagesAfterResolved = this.inbox.allow_messages_after_resolved;
@@ -650,39 +507,11 @@ export default {
         this.replyTime = this.inbox.reply_time;
       });
     },
-    async fetchAttachedAgents() {
-      try {
-        const response = await this.$store.dispatch('inboxMembers/get', {
-          inboxId: this.currentInboxId,
-        });
-        const {
-          data: { payload: inboxMembers },
-        } = response;
-        this.selectedAgents = inboxMembers;
-      } catch (error) {
-        //  Handle error
-      }
-    },
-    async updateAgents() {
-      const agentList = this.selectedAgents.map(el => el.id);
-      this.isAgentListUpdating = true;
-      try {
-        await this.$store.dispatch('inboxMembers/create', {
-          inboxId: this.currentInboxId,
-          agentList,
-        });
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
-      }
-      this.isAgentListUpdating = false;
-    },
     async updateInbox() {
       try {
         const payload = {
           id: this.currentInboxId,
           name: this.selectedInboxName,
-          enable_auto_assignment: this.autoAssignment,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
@@ -696,7 +525,6 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
-            hmac_mandatory: this.hmacMandatory,
             tweets_enabled: this.tweetsEnabled,
             continuity_via_email: this.continuityViaEmail,
           },
@@ -736,11 +564,6 @@ export default {
     webhookUrl: {
       required,
       shouldBeUrl,
-    },
-    selectedAgents: {
-      isEmpty() {
-        return !!this.selectedAgents.length;
-      },
     },
   },
 };

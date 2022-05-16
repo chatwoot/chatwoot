@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Žiadne správy",
     "NO_CONTENT": "Žiaden obsah nie je k dispozícii",
     "HIDE_QUOTED_TEXT": "Skryť citovaný text",
-    "SHOW_QUOTED_TEXT": "Ukázať citovaný text"
+    "SHOW_QUOTED_TEXT": "Ukázať citovaný text",
+    "MESSAGE_READ": "Read"
   }
 }

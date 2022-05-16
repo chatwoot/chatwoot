@@ -1,17 +1,40 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "การเชื่อมต่อกับระบบ",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "เหตุการณ์ที่ติดตามอยู่",
+      "FORM": {
+        "CANCEL": "ยกเลิก",
+        "DESC": "Webhook จะมีการส่งข้อมูลตลอดเวลา โดยใส่ URL ที่จะรับข้อมูลให้ถูกต้อง",
+        "SUBSCRIPTIONS": {
+          "LABEL": "เหตุการณ์",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "การสนทนาที่ถูกสร้าง",
+            "CONVERSATION_STATUS_CHANGED": "เปลี่ยนสถานะการสนทนาแล้ว",
+            "CONVERSATION_UPDATED": "อัปเดตการสนทนาแล้ว",
+            "MESSAGE_CREATED": "สร้างข้อความแล้ว",
+            "MESSAGE_UPDATED": "อัปเดตข้อความแล้ว",
+            "WEBWIDGET_TRIGGERED": "Live chat widget ถูกเปิดโดยผู้ใช้งาน"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "ลิ้ง Webhook",
+          "PLACEHOLDER": "ตัวอย่าง: https://example/api/webhook",
+          "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
+        },
+        "EDIT_SUBMIT": "อัปเดต Webhook",
+        "ADD_SUBMIT": "สร้าง Webhook"
+      },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
+      "CONFIGURE": "ตั้งค่า",
+      "HEADER": "ตั้งค่า Webhook",
+      "HEADER_BTN_TXT": "เพิ่ม Webhook ใหม่",
+      "LOADING": "กำลังดึงข้อมูล Webhook",
       "SEARCH_404": "ไม่มีรายการที่ตรงกับเนื้อหานี้",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks คือ การเรียกกลับ HTTP ซึ่งสามารถระบุได้สำหรับทุกบัญชี สามารถถูกเรียกใช้งานได้จากเหตุการณ์ เช่น ข้อความที่ถูกสร้างใน Chatwoot คุณสามารถสร้างมากกว่า 1 Webhook ได้สำหรับบัญนี้ <br /><br /> สำหรับการสร้าง <b>Webhook</b> ให้คลิกที่ <b> ปุ่มเพิ่ม Webhook ใหม่ </b> คุณยังสามารถลบ Webhook ที่ใช้งานอยู่ได้โดยการคลิกปุ่มลบ</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "ไม่มีการตั้งค่า Webhooks กับบัญชีนี้",
+        "TITLE": "จัดการ Webhooks",
         "TABLE_HEADER": [
           "Webhook endpoint",
           "การกระทำ"
@@ -19,67 +42,48 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "เเก้ไข",
-        "TITLE": "Edit webhook",
-        "CANCEL": "ยกเลิก",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "ลิ้ง Webhook",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
-          },
-          "SUBMIT": "Edit webhook"
-        },
+        "TITLE": "แก้ไข Webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "อัปเดตการตั้งค่า Webhook สำเร็จแล้ว",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         }
       },
       "ADD": {
         "CANCEL": "ยกเลิก",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "ลิ้ง Webhook",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
-          },
-          "SUBMIT": "Create webhook"
-        },
+        "TITLE": "เพิ่ม Webhook ใหม่",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
+          "SUCCESS_MESSAGE": "เพิ่มการปรับแต่ง Webhook เรียบร้อยแล้ว",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "ลบ",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "SUCCESS_MESSAGE": "ลบ Webhook สำเร็จแล้ว",
           "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
         },
         "CONFIRM": {
           "TITLE": "ยืนยันการลบ",
-          "MESSAGE": "คุณต้องการที่จะลบไหม ",
+          "MESSAGE": "คุณต้องการลบ Webhook หรือไม่? (%{webhookURL})",
           "YES": "เอาเลย ",
-          "NO": "No, Keep it"
+          "NO": "ไม่"
         }
       }
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "เชื่อมต่อกับ Slack",
+        "BODY": "<br/><p>Chatwoot จะเชื่อมข้อความทั้งหมดไว้ที่ช่อง <b><i>การสนทนากับลูกค้า</i></b> บน slack ของคุณ หากตอบกลับเธรดบน slack ในช่อง <b><i>การสนทนากับลูกค้า</i></b> จะมีสร้างการตอบกลับลูกค้าใน Chatwoot ด้วยเช่นเดียวกัน </p><p>การตอบกลับด้วย<b><i>โน๊ต</i></b>จะสร้างโน๊ตส่วนตัวแทนการตอบกลับเป็นข้อความ และหากผู้ตอบกลับบน slack มีโปรไฟล์พนักงานบน Chatwoot ซึ่งใช้อีเมลเดียวกัน การตอบกลับของเขาจะถูกส่งจากโปรไฟล์ที่เชื่อมไว้ใน Chatwoot </p><p>แต่หากผู้ตอบกลับไม่ได้มีโปรไฟล์พนักงานที่เชื่อมกัน การตอบกลับบน slack จะแสดงผลเป็นการตอบกลับที่มาจากโปรไฟล์บอทใน Chatwoot แทน</p>"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "ลบการเชื่อมต่อแล้ว"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "เชื่อมต่อ"
     }
   }
 }

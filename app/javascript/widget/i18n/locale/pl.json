@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Pełna nazwa (imię i nazwisko)",
         "PLACEHOLDER": "Podaj swoje imię i nazwisko",
-        "ERROR": "Pełne imię i nazwisko jest wymagane"
+        "REQUIRED_ERROR": "Pełne imię i nazwisko jest wymagane"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Adres e-mail",
         "PLACEHOLDER": "Wprowadź swój adres e-mail",
-        "ERROR": "Nieprawidłowy adres e-mail"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Wprowadź poprawny adres e-mail"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Numer telefonu",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Wiadomość",
@@ -57,7 +64,8 @@
         "ERROR": "Wiadomość za krótka"
       }
     },
-    "CAMPAIGN_HEADER": "Proszę podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem rozmowy"
+    "CAMPAIGN_HEADER": "Proszę podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem rozmowy",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
   "CHAT_FORM": {

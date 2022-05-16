@@ -32,6 +32,6 @@ class InboxMember < ApplicationRecord
   end
 
   def remove_agent_from_round_robin
-    ::RoundRobin::ManageService.new(inbox: inbox).remove_agent_from_queue(user_id)
+    ::RoundRobin::ManageService.new(inbox: inbox).remove_agent_from_queue(user_id) if inbox.present?
   end
 end

@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Copiar",
       "COPY_SUCCESSFUL": "Código copiado al portapapeles con éxito"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
       "UPLOADING": "Subiendo..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "Nueva etiqueta",
     "NEW_TEAM": "Nuevo equipo",
     "NEW_INBOX": "Nuevo buzón",
-    "REPORTS_OVERVIEW": "Resumen",
+    "REPORTS_CONVERSATION": "Conversaciones",
     "CSAT": "Encuestas de Satisfacción",
     "CAMPAIGNS": "Campañas",
     "ONGOING": "En Curso",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Bandeja de entrada",
     "REPORTS_TEAM": "Equipo",
     "SET_AVAILABILITY_TITLE": "Ponte como",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Resumen"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",

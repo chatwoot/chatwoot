@@ -268,7 +268,7 @@
         },
         "LINE_CHANNEL_SECRET": {
           "LABEL": "LINE-Kanal-Geheimnis",
-          "PLACEHOLDER": "LINE-Kanal-Geheimnis"
+          "PLACEHOLDER": "LINE-Kanal-Secret"
         },
         "LINE_CHANNEL_TOKEN": {
           "LABEL": "LINE-Kanal-Token",
@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
         "ERROR_MESSAGE": "Widget-Farbe konnte nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Aktiviert",
-        "DISABLED": "Deaktiviert"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
         "DISABLED": "Deaktiviert"
@@ -390,17 +386,20 @@
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
       "BUSINESS_HOURS": "Öffnungszeiten"
     },
-    "SETTINGS": "die Einstellungen",
+    "SETTINGS": "Einstellungen",
     "FEATURES": {
       "LABEL": "Funktionen",
       "DISPLAY_FILE_PICKER": "Dateiauswahl im Widget anzeigen",
-      "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen"
+      "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen",
+      "ALLOW_END_CONVERSATION": "Benutzern erlauben, die Konversation vom Widget zu beenden"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-Skript",
       "MESSENGER_SUB_HEAD": "Platzieren Sie diese Schaltfläche in Ihrem Body-Tag",
       "INBOX_AGENTS": "Agenten",
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Aktualisieren",
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre-Chat-Formulare ermöglichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins Gespräch kommen.",
+      "SET_FIELDS": "Formularfelder vor dem Chat",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Felder",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Platzhalter",
+        "KEY": "Schlüssel",
+        "TYPE": "Typ",
+        "REQUIRED": "Benötigt"
+      },
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Vorab Chat-Nachricht",
+        "LABEL": "Pre-Chat-Nachricht",
         "PLACEHOLDER": "Diese Nachricht ist für alle Benutzer dieses Formulars sichtbar"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Setzen Sie Ihre IMAP-Daten",
+      "NOTE_TEXT": "Um SMTP zu aktivieren, konfigurieren Sie bitte IMAP.",
       "UPDATE": "IMAP-Einstellungen aktualisieren",
       "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
       "TOGGLE_HELP": "Die Aktivierung von IMAP hilft dem Benutzer, E-Mails zu empfangen",
@@ -483,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Mail",
-        "PLACE_HOLDER": "E-Mail"
+      "LOGIN": {
+        "LABEL": "Einloggen",
+        "PLACE_HOLDER": "Einloggen"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
@@ -511,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Mail",
-        "PLACE_HOLDER": "E-Mail"
+      "LOGIN": {
+        "LABEL": "Einloggen",
+        "PLACE_HOLDER": "Einloggen"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Verschlüsselung",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen"
-    }
+      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen",
+      "AUTH_MECHANISM": "Authentifizierung"
+    },
+    "NOTE": "Hinweis: "
   }
 }

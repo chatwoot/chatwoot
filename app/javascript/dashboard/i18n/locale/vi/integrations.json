@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Tích hợp",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Huỷ",
+        "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
+          "ERROR": "Vui lòng nhập một URL hợp lệ"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Tạo webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Cấu hình",
       "HEADER": "Cài đặt Webhook",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Chỉnh sửa",
         "TITLE": "Sửa webhook",
-        "CANCEL": "Huỷ",
-        "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
-            "ERROR": "Vui lòng nhập một URL hợp lệ"
-          },
-          "SUBMIT": "Sửa webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL cập nhật thành công",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         }
       },
       "ADD": {
         "CANCEL": "Xoá",
         "TITLE": "Thêm mới webhook",
-        "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
-            "ERROR": "Vui lòng nhập một URL hợp lệ"
-          },
-          "SUBMIT": "Tạo webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook đã được thêm thành công",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Xác Nhận Xoá",
-          "MESSAGE": "Bạn có chắc muốn xoá? ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Có, Xoá ",
           "NO": "Không, Giữ"
         }

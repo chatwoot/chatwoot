@@ -81,6 +81,7 @@
     "NO_MESSAGES": "אין הודעות",
     "NO_CONTENT": "אין תוכן זמין",
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
-    "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט"
+    "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
+    "MESSAGE_READ": "Read"
   }
 }

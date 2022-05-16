@@ -17,7 +17,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     send_to_facebook_page attachament_message_params if message.attachments.present?
     send_to_facebook_page message_params
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific errors or else page will get disconnected
     # channel.authorization_error!
   end
@@ -39,7 +39,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.file_url
+            url: attachment.download_url
           }
         }
       }

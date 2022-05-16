@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Konverzace",
     "LOADING_CHART": "Načítání dat mapy...",
     "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
     "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
@@ -18,12 +18,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Pracovní doba"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -193,12 +202,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -256,12 +269,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -319,12 +336,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Otevřít",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Nepřiřazeno"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Stav"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Zaneprázdněn",
+      "OFFLINE": "Offline"
     }
   }
 }

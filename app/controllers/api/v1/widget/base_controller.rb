@@ -71,7 +71,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_email
-    permitted_params[:contact][:email].downcase if permitted_params[:contact].present?
+    permitted_params.dig(:contact, :email)&.downcase
   end
 
   def contact_name
@@ -79,7 +79,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_phone_number
-    params[:contact][:phone_number]
+    permitted_params.dig(:contact, :phone_number)
   end
 
   def browser_params
