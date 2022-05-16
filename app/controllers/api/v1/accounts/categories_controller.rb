@@ -1,4 +1,5 @@
-class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::Kbase::BaseController
+class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseController
+  before_action :portal
   before_action :fetch_category, except: [:index, :create]
 
   def index
@@ -22,6 +23,10 @@ class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::Kbase:
 
   def fetch_category
     @category = @portal.categories.find(params[:id])
+  end
+
+  def portal
+    @portal ||= Current.account.portals.find_by(slug: params[:portal_id])
   end
 
   def category_params
