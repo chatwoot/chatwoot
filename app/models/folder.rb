@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: kbase_folders
+# Table name: folders
 #
 #  id          :bigint           not null, primary key
 #  name        :string
@@ -9,7 +9,7 @@
 #  account_id  :integer          not null
 #  category_id :integer          not null
 #
-class Kbase::Folder < ApplicationRecord
+class Folder < ApplicationRecord
   belongs_to :account
   belongs_to :category
   has_many :articles, dependent: :nullify
