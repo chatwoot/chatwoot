@@ -1,40 +1,40 @@
 {
   "CONVERSATION": {
     "404": "Si prega di selezionare una conversazione dal pannello sinistro",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "L'identità di questo utente non è verificata",
     "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua casella.",
     "NO_MESSAGE_2": " per inviare un messaggio alla tua pagina!",
     "NO_INBOX_1": "Hola! Sembra che tu non abbia ancora aggiunto nessuna casella.",
     "NO_INBOX_2": " per iniziare",
     "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella. Per favore contatta il tuo amministratore",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Cerca messaggi nelle conversazioni",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "Cerca messaggi",
+      "RESULT_TITLE": "Risultati della ricerca",
+      "LOADING_MESSAGE": "Elaborazione dei dati...",
+      "PLACEHOLDER": "Digita qualsiasi testo per cercare i messaggi",
+      "NO_MATCHING_RESULTS": "Nessun risultato trovato."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Messaggi non letti",
+    "UNREAD_MESSAGE": "Messaggio non letto",
     "CLICK_HERE": "Clicca qui",
     "LOADING_INBOXES": "Caricamento casella",
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "Non puoi rispondere a causa di",
+    "24_HOURS_WINDOW": "Restrizione della finestra del messaggio a 24 ore",
+    "NOT_ASSIGNED_TO_YOU": "Questa conversazione non è assegnata. Vuoi assegnare questa conversazione a te stesso?",
+    "ASSIGN_TO_ME": "Assegna a me",
+    "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrizione della finestra del messaggio a 24 ore",
+    "SELECT_A_TWEET_TO_REPLY": "Seleziona un tweet a cui rispondere.",
+    "REPLYING_TO": "Stai rispondendo a:",
+    "REMOVE_SELECTION": "Rimuovi selezione",
     "DOWNLOAD": "Scarica",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
+    "UPLOADING_ATTACHMENTS": "Caricamento allegati...",
+    "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
+    "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
+    "NO_RESPONSE": "Nessuna risposta",
+    "RATING_TITLE": "Valutazione",
     "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
@@ -43,27 +43,27 @@
       "OPEN": "Altro",
       "CLOSE": "Chiudi",
       "DETAILS": "Dettagli",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Posticipato fino a domani",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Posticipato fino alla prossima settimana",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Posticipato fino alla prossima risposta"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Segna come in sospeso",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Posticipa fino a",
+        "NEXT_REPLY": "Risposta successiva",
+        "TOMORROW": "Domani",
+        "NEXT_WEEK": "Prossima settimana"
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Firma del messaggio",
+      "ENABLE_SIGN_TOOLTIP": "Abilita firma",
+      "DISABLE_SIGN_TOOLTIP": "Disabilita firma",
       "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta predefinita.",
       "PRIVATE_MSG_INPUT": "MAIUSC + INVIO per nuova linea. Questo sarà visibile solo agli agenti",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del messaggio non è configurata, configurala nelle impostazioni del profilo.",
+      "CLICK_HERE": "Clicca qui per aggiornare"
     },
     "REPLYBOX": {
       "REPLY": "Rispondi",
@@ -71,45 +71,45 @@
       "SEND": "Invia",
       "CREATE": "Aggiungi nota",
       "TWEET": "Twitta",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_FORMAT_ICON": "Mostra editor di testo ricco",
+      "TIP_EMOJI_ICON": "Mostra selettore emoji",
+      "TIP_ATTACH_ICON": "Allega file",
+      "TIP_AUDIORECORDER_ICON": "Registra audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Consenti l'accesso all'audio",
+      "TIP_AUDIORECORDER_ERROR": "Impossibile aprire l'audio",
+      "ENTER_TO_SEND": "Inserisci per inviare",
+      "DRAG_DROP": "Trascina qui per allegare",
+      "START_AUDIO_RECORDING": "Avvia registrazione audio",
+      "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
       "": "",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Aggiungi bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Email separate da virgole",
+          "ERROR": "Inserisci indirizzi email validi"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "CCN",
+          "PLACEHOLDER": "Email separate da virgole",
+          "ERROR": "Inserisci indirizzi email validi"
         }
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
     "CHANGE_STATUS": "Stato conversazione cambiato",
     "CHANGE_AGENT": "Modifica assegnatario conversazione",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "Team conversazione cambiato",
+    "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
+    "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
+    "SENT_BY": "Inviato da:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "Impossibile inviare il messaggio! Riprova",
+    "TRY_AGAIN": "riprova",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Seleziona agente",
       "REMOVE": "Rimuovi",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Assegna"
     },
     "CONTEXT_MENU": {
       "COPY": "Copia",
@@ -117,88 +117,88 @@
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Invia trascrizione conversazione",
+    "DESC": "Invia una copia della trascrizione della conversazione all'indirizzo email specificato",
     "SUBMIT": "Invia",
     "CANCEL": "Annulla",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "La trascrizione della chat è stata inviata con successo",
     "SEND_EMAIL_ERROR": "Si è verificato un errore, riprova",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Invia la trascrizione al cliente",
+      "SEND_TO_AGENT": "Invia la trascrizione all'agente assegnato",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Invia la trascrizione a un altro indirizzo email",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Inserisci un indirizzo email",
         "ERROR": "Inserisci un indirizzo email valido"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Ehi 👋, Benvenuto in %{installationName}!",
+    "DESCRIPTION": "Grazie per esserti registrato. Vogliamo che tu ottenga il massimo da %{installationName}. Ecco alcune cose che puoi fare in %{installationName} per rendere l'esperienza deliziosa.",
+    "READ_LATEST_UPDATES": "Leggi gli ultimi aggiornamenti",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Tutte le conversazioni in un unico luogo",
+      "DESCRIPTION": "Visualizza tutte le conversazioni dai tuoi clienti in una singola dashboard. È possibile filtrare le conversazioni in base al canale, all'etichetta e allo stato in arrivo."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Invita i membri del tuo team",
+      "DESCRIPTION": "Dal momento che siete sempre pronti a parlare con il vostro cliente, portare nei vostri compagni di squadra per assistervi. Puoi invitare i tuoi compagni di squadra aggiungendo i loro indirizzi email alla lista degli agenti.",
+      "NEW_LINK": "Clicca qui per invitare un membro del team"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Connetti Inbox",
+      "DESCRIPTION": "Collegare vari canali attraverso i quali i vostri clienti sarebbero parlare con voi. Può essere un sito web live-chat, la tua pagina Facebook o Twitter o anche il tuo numero WhatsApp.",
+      "NEW_LINK": "Clicca qui per creare una casella di posta"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Organizza le conversazioni con etichette",
+      "DESCRIPTION": "Le etichette forniscono un modo più semplice per categorizzare la conversazione. Crea alcune etichette come #support-enquiry, #billing-question ecc., in modo da poterle usare in una conversazione più tardi.",
+      "NEW_LINK": "Clicca qui per creare etichette"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agente assegnato",
+    "SELF_ASSIGN": "Assegna a me",
+    "TEAM_LABEL": "Team assegnato",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nessuno"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Dettagli contatto",
+      "CONVERSATION_ACTIONS": "Azioni conversazione",
       "CONVERSATION_LABELS": "Etichette conversazione",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informazioni conversazione",
+      "CONTACT_ATTRIBUTES": "Attributi contatti",
       "PREVIOUS_CONVERSATION": "Conversazioni precedenti"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Crea attributo",
     "UPDATE": {
       "SUCCESS": "Attributo aggiornato con successo",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "ERROR": "Impossibile aggiornare l'attributo. Riprova più tardi"
     },
     "ADD": {
       "TITLE": "Aggiungi",
       "SUCCESS": "Attributo aggiunto con successo",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "Impossibile aggiungere l'attributo. Riprova più tardi"
     },
     "DELETE": {
       "SUCCESS": "Attributo eliminato con successo",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "ERROR": "Impossibile eliminare l'attributo. Riprova più tardi"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Aggiungi attributi",
+      "PLACEHOLDER": "Cerca attributi",
+      "NO_RESULT": "Nessun attributo trovato"
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "To",
-    "BCC": "Bcc",
+    "FROM": "Da",
+    "TO": "A",
+    "BCC": "CCN",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Oggetto"
   }
 }

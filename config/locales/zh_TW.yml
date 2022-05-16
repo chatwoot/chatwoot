@@ -22,6 +22,8 @@ zh_TW:
     reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
     reset_password_failure: 我們找不到用戶指定的電子郵件。
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: 我們不允許一次性電子郵件。
       invalid_email: 您輸入的電子郵件無效。

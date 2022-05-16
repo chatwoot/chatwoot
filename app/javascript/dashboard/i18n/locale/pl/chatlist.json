@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Brak wiadomości",
     "NO_CONTENT": "Brak treści",
     "HIDE_QUOTED_TEXT": "Ukryj cytat",
-    "SHOW_QUOTED_TEXT": "Pokaż cytat"
+    "SHOW_QUOTED_TEXT": "Pokaż cytat",
+    "MESSAGE_READ": "Read"
   }
 }

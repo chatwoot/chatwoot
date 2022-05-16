@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Nessun messaggio",
     "NO_CONTENT": "Nessun contenuto disponibile",
     "HIDE_QUOTED_TEXT": "Nascondi testo citato",
-    "SHOW_QUOTED_TEXT": "Mostra testo citato"
+    "SHOW_QUOTED_TEXT": "Mostra testo citato",
+    "MESSAGE_READ": "Leggi"
   }
 }

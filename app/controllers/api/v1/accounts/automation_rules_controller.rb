@@ -17,6 +17,16 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     @automation_rule
   end
 
+  def attach_file
+    file_blob = ActiveStorage::Blob.create_and_upload!(
+      key: nil,
+      io: params[:attachment].tempfile,
+      filename: params[:attachment].original_filename,
+      content_type: params[:attachment].content_type
+    )
+    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
+  end
+
   def show; end
 
   def update
@@ -25,6 +35,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
       @automation_rule.actions = params[:actions] if params[:actions]
       @automation_rule.save!
       process_attachments
+
     rescue StandardError => e
       Rails.logger.error e
       render json: { error: @automation_rule.errors.messages }.to_json, status: :unprocessable_entity
@@ -43,16 +54,18 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     @automation_rule = new_rule
   end
 
-  private
-
   def process_attachments
-    return if params[:attachments].blank?
+    actions = @automation_rule.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
+    return if actions.blank?
 
-    params[:attachments].each do |uploaded_attachment|
-      @automation_rule.files.attach(uploaded_attachment)
+    actions.each do |action|
+      blob_id = action['action_params']
+      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      @automation_rule.files.attach(blob)
     end
-    @automation_rule
   end
+
+  private
 
   def automation_rules_permit
     params.permit(

@@ -15,7 +15,10 @@
         <span class="agent--name">{{ agentName }}</span>
         <span class="company--name"> {{ companyName }}</span>
       </div>
-      <div class="message-content" v-html="formatMessage(message, false)"></div>
+      <div
+        v-dompurify-html="formatMessage(message, false)"
+        class="message-content"
+      ></div>
     </button>
   </div>
 </template>

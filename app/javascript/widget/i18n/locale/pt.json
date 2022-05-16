@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Nome completo",
         "PLACEHOLDER": "Por favor, digite o seu nome completo",
-        "ERROR": "Nome completo é necessário"
+        "REQUIRED_ERROR": "Nome completo é necessário"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
         "PLACEHOLDER": "Por favor, insira um endereço de email válido",
-        "ERROR": "Endereço de email inválido"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Número de telefone",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
@@ -57,7 +64,8 @@
         "ERROR": "Mensagem muito pequena"
       }
     },
-    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa"
+    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

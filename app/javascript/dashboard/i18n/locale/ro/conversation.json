@@ -22,8 +22,8 @@
     "LOADING_CONVERSATIONS": "Încărcare conversații",
     "CANNOT_REPLY": "Nu poți răspunde din cauza",
     "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
+    "NOT_ASSIGNED_TO_YOU": "Această conversație nu vă este atribuită. Doriți să vă atribuiți această conversație?",
+    "ASSIGN_TO_ME": "Atribuie-mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Poți răspunde la această conversație doar folosind un mesaj șablon datorat",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
     "SELECT_A_TWEET_TO_REPLY": "Te rugăm să selectezi un tweet pentru a răspunde.",
@@ -57,13 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Semnătura mesajului",
+      "ENABLE_SIGN_TOOLTIP": "Activarea semnăturii",
+      "DISABLE_SIGN_TOOLTIP": "Dezactivarea semnăturii",
       "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
       "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Semnătura mesajului nu este configurată, vă rugăm să o configurați în setările profilului.",
+      "CLICK_HERE": "Click aici pentru a actualiza"
     },
     "REPLYBOX": {
       "REPLY": "Răspunde",
@@ -72,15 +72,15 @@
       "CREATE": "Adaugă Notă",
       "TWEET": "Tweet",
       "TIP_FORMAT_ICON": "Arată editorul de text",
-      "TIP_EMOJI_ICON": "Arată emoji",
+      "TIP_EMOJI_ICON": "Arată selectorul emoji",
       "TIP_ATTACH_ICON": "Ataşează fişiere",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Înregistrare audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permiteți accesul la audio",
+      "TIP_AUDIORECORDER_ERROR": "Nu s-a putut deschide audio",
       "ENTER_TO_SEND": "Introduceţi pentru a trimite",
       "DRAG_DROP": "Trageți și plasați aici pentru atașare",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "Pornirea înregistrării audio",
+      "STOP_AUDIO_RECORDING": "Mesaj audio",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adaugă bcc",
@@ -104,8 +104,8 @@
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
     "SENT_BY": "Trimis de:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "Nu a putut trimite mesaj! Încearcă din nou",
+    "TRY_AGAIN": "Reîncercare",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Selectează agent",
       "REMOVE": "Elimină",
@@ -126,55 +126,55 @@
     "FORM": {
       "SEND_TO_CONTACT": "Trimite transcrierea către client",
       "SEND_TO_AGENT": "Trimite transcrierea către agentul atribuit",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Această adresă de e-mail este folosită pentru un alt contact.",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Introduceți o adresă de e-mail",
         "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Hei 👋, Bine ati venit la %{installationName}!",
+    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de %{installationName}. Iată câteva lucruri pe care le puteți face în %{installationName} pentru a face experiența încântătoare.",
+    "READ_LATEST_UPDATES": "Citiți cele mai recente actualizări ale noastre",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Toate conversațiile într-un singur loc",
+      "DESCRIPTION": "Vizualizați toate conversațiile de la clienți într-un singur tablou de bord. Puteți filtra conversațiile după canalul, eticheta și starea primite."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Invită-ți membrii echipei",
+      "DESCRIPTION": "Din moment ce vă pregătiți să vorbiți cu clientul dvs., aduceți-vă coechipierii pentru a vă ajuta. Vă puteți invita colegii de echipă adăugând adresele lor de e-mail la lista de agenți.",
+      "NEW_LINK": "Faceți clic aici pentru a invita un membru al echipei"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Conectați casetele",
+      "DESCRIPTION": "Conectează diverse canale prin care clienții tăi ar vorbi cu tine. Poate fi un live-chat pe site, pagina ta de Facebook sau Twitter sau chiar numărul tău de WhatsApp.",
+      "NEW_LINK": "Click aici pentru a crea un inbox"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Organizarea conversațiilor cu etichete",
+      "DESCRIPTION": "Etichetele oferă o modalitate mai ușoară de a clasifica conversația. Creați unele etichete, cum ar fi #support-solicitare, #billing-întrebare etc., astfel încât să le puteți utiliza într-o conversație mai târziu.",
+      "NEW_LINK": "Click aici pentru a crea tag-uri"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agent atribuit",
+    "SELF_ASSIGN": "Atribuie-mi",
+    "TEAM_LABEL": "Echipa desemnată",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nimic"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Detalii contact",
+      "CONVERSATION_ACTIONS": "Acțiuni de conversație",
       "CONVERSATION_LABELS": "Etichete conversație",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informații despre conversație",
+      "CONTACT_ATTRIBUTES": "Atribute Contacte",
       "PREVIOUS_CONVERSATION": "Conversații anterioare"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Creare atribut",
     "UPDATE": {
       "SUCCESS": "Atribut actualizat cu succes",
       "ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu"
@@ -195,10 +195,10 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "către",
+    "FROM": "De la",
+    "TO": "Către",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Subiect"
   }
 }

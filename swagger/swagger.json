@@ -5268,6 +5268,10 @@
           "type": "string",
           "description": "Name of the contact"
         },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number of the contact"
+        },
         "avatar_url": {
           "type": "string",
           "description": "The url to a jpeg, png file for the user avatar"
@@ -5629,19 +5633,20 @@
     "agent_conversation_metrics": {
       "type": "object",
       "properties": {
-        "user": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "number"
-            },
-            "name": {
-              "type": "string"
-            },
-            "thumbnail": {
-              "type": "string"
-            }
-          }
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "availability": {
+          "type": "string"
         },
         "metric": {
           "type": "object",

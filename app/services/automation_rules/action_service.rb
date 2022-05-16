@@ -12,7 +12,7 @@ class AutomationRules::ActionService
       begin
         send(action[:action_name], action[:action_params])
       rescue StandardError => e
-        Sentry.capture_exception(e)
+        ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
   ensure
@@ -21,9 +21,16 @@ class AutomationRules::ActionService
 
   private
 
-  def send_attachments(_file_params)
-    blobs = @rule.files.map { |file, _| file.blob }
-    params = { content: nil, private: false, attachments: blobs }
+  def send_attachment(blob_ids)
+    return if conversation_a_tweet?
+
+    return unless @rule.files.attached?
+
+    blob = ActiveStorage::Blob.find(blob_ids)
+
+    return if blob.blank?
+
+    params = { content: nil, private: false, attachments: blob }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
@@ -51,12 +58,14 @@ class AutomationRules::ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: "automation_event: #{@rule.event_name}")
+    payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
     WebhookJob.perform_later(webhook_url[0], payload)
   end
 
   def send_message(message)
-    params = { content: message[0], private: false }
+    return if conversation_a_tweet?
+
+    params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
@@ -95,5 +104,11 @@ class AutomationRules::ActionService
 
   def team_belongs_to_account?(team_ids)
     @account.team_ids.include?(team_ids[0])
+  end
+
+  def conversation_a_tweet?
+    return false if @conversation.additional_attributes.blank?
+
+    @conversation.additional_attributes['type'] == 'tweet'
   end
 end

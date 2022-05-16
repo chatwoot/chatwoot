@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "نسخ",
       "COPY_SUCCESSFUL": "تم نسخ الكود إلى الحافظة بنجاح"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "إظهار المزيد",
+      "SHOW_LESS": "إظهار أقل"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "تنزيل",
       "UPLOADING": "جاري الرفع..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
+    "SWITCH": "تبديل",
     "CONVERSATIONS": "المحادثات",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
@@ -173,8 +178,8 @@
     "NEW_LABEL": "علامة جديدة",
     "NEW_TEAM": "فريق جديد",
     "NEW_INBOX": "صندوق الوارد الجديد",
-    "REPORTS_OVERVIEW": "نظرة عامة",
-    "CSAT": "CSAT",
+    "REPORTS_CONVERSATION": "المحادثات",
+    "CSAT": "تقييم رضاء العملاء",
     "CAMPAIGNS": "الحملات",
     "ONGOING": "جارية",
     "ONE_OFF": "إيقاف واحد",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
-    "BETA": "تجريبي"
+    "BETA": "تجريبي",
+    "REPORTS_OVERVIEW": "نظرة عامة"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

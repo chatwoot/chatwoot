@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto-asignación actualizada correctamente",
         "ERROR_MESSAGE": "No se pudo actualizar el color del widget. Inténtalo de nuevo más tarde."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Activado",
-        "DISABLED": "Deshabilitado"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
-      "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget"
+      "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
+      "ALLOW_END_CONVERSATION": "Benutzern erlauben, Konversationen über das Widget zu beenden"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
       "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Actualizar",
       "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Los formularios de Pre Chat le permiten capturar la información del usuario antes de que comiencen la conversación con usted.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Llave",
+        "TYPE": "Tipo",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Activar formulario de pre-chat",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Mensaje del Pre Chat",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Este mensaje sería visible para los usuarios junto con el formulario"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Configura los detalles de IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Actualizar ajustes IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar configuración IMAP para esta bandeja de entrada",
       "TOGGLE_HELP": "Habilitar IMAP ayudará al usuario a recibir correo electrónico",
@@ -483,9 +492,9 @@
         "LABEL": "Puerto",
         "PLACE_HOLDER": "Puerto"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Iniciar sesión",
+        "PLACE_HOLDER": "Iniciar sesión"
       },
       "PASSWORD": {
         "LABEL": "Contraseña",
@@ -511,9 +520,9 @@
         "LABEL": "Puerto",
         "PLACE_HOLDER": "Puerto"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Iniciar sesión",
+        "PLACE_HOLDER": "Iniciar sesión"
       },
       "PASSWORD": {
         "LABEL": "Contraseña",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Cifrado",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificación SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificación SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

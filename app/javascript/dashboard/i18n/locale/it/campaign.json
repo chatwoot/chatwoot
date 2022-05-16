@@ -68,7 +68,7 @@
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare?",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campagna eliminata con successo",

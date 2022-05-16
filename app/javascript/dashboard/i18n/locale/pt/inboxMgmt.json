@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribuição automática atualizada com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar a cor do widget. Por favor, tente novamente mais tarde."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Ativado",
-        "DISABLED": "Desabilitado"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ativado",
         "DISABLED": "Desabilitado"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar o selecionador de ficheiros no widget",
-      "DISPLAY_EMOJI_PICKER": "Mostrar seletor de emojis no widget"
+      "DISPLAY_EMOJI_PICKER": "Mostrar seletor de emojis no widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script do Messenger",
       "MESSENGER_SUB_HEAD": "Coloque esse botão dentro da sua tag corporal",
       "INBOX_AGENTS": "agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Atualização",
       "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de receção de email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de receção de emails para as novas conversas",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "O formulário de Pré-Chat permite-lhe capturar informações do utilizador antes de iniciar uma conversa.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Chave",
+        "TYPE": "Tipo",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Ativar formulário de Pré-chat",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Mensagem de Pré-Chat",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Esta mensagem estará visível aos utilizadores juntamente com o formulário"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Defina os seus dados IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Atualizar configurações IMAP",
       "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +492,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Iniciar sessão",
+        "PLACE_HOLDER": "Iniciar sessão"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
@@ -511,9 +520,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Iniciar sessão",
+        "PLACE_HOLDER": "Iniciar sessão"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Encriptação",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Abrir Modo de Verificação SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Abrir Modo de Verificação SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

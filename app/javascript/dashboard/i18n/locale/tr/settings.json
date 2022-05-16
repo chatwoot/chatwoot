@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Kopyala",
       "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "İndir",
       "UPLOADING": "Yükleniyor ..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "Yeni etiket",
     "NEW_TEAM": "Yeni ekip",
     "NEW_INBOX": "Yeni mesaj kutusu",
-    "REPORTS_OVERVIEW": "Önizleme",
+    "REPORTS_CONVERSATION": "Konuşmalar",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanyalar",
     "ONGOING": "Giden",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Önizleme"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

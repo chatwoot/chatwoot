@@ -4,8 +4,8 @@
     "TITLE": "Paramètres de profil",
     "BTN_TEXT": "Mettre à jour le profil",
     "DELETE_AVATAR": "Supprimer l'avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
+    "AVATAR_DELETE_SUCCESS": "L'avatar a été supprimé avec succès",
+    "AVATAR_DELETE_FAILED": "Une erreur est survenue lors de la mise à jour des préférences, veuillez réessayer",
     "UPDATE_SUCCESS": "Votre profil a été mis à jour avec succès",
     "PASSWORD_UPDATE_SUCCESS": "Votre mot de passe a été modifié avec succès",
     "AFTER_EMAIL_CHANGED": "Votre profil a été mis à jour avec succès, veuillez vous reconnecter car vos identifiants de connexion ont été modifiés",
@@ -20,16 +20,16 @@
         "NOTE": "Votre adresse de courriel est votre identité et est utilisée pour vous connecter."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Signature du message personnel",
+        "NOTE": "Créez une signature de message personnel qui serait ajoutée à tous les messages que vous envoyez depuis la plateforme. Utilisez l'éditeur de contenu riche pour créer une signature hautement personnalisée.",
+        "BTN_TEXT": "Enregistrer la signature du message",
+        "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
+        "API_SUCCESS": "Signature enregistrée avec succès"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Signature du message",
+        "ERROR": "La signature du message ne peut pas être vide",
+        "PLACEHOLDER": "Insérez ici votre signature personnelle."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Mot de passe",
@@ -101,21 +101,21 @@
         "PLACEHOLDER": "Veuillez entrer le mot de passe actuel"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nouveau mot de passe",
         "ERROR": "Veuillez entrer un mot de passe de 6 caractères ou plus",
         "PLACEHOLDER": "Veuillez entrer un nouveau mot de passe"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmer le nouveau mot de passe",
         "ERROR": "La confirmation du mot de passe doit correspondre au mot de passe",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Veuillez saisir à nouveau votre mot de passe"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Modifier",
     "CHANGE_ACCOUNTS": "Changer de compte",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contacter le support",
     "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "KEYBOARD_SHORTCUTS": "Raccourcis clavier",
@@ -124,12 +124,16 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "jours d'essai restants.",
     "TRAIL_BUTTON": "Acheter Maintenant",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Utilisateur supprimé"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copier",
       "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Télécharger",
@@ -146,7 +150,8 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "CURRENTLY_VIEWING_ACCOUNT": "En cours de visualisation:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Conversations",
     "ALL_CONVERSATIONS": "Toutes les conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
@@ -164,16 +169,16 @@
     "APPLICATIONS": "Applications",
     "LABELS": "Étiquettes",
     "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatisations",
     "TEAMS": "Équipes",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_FOLDER": "Dossiers",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Tous les contacts",
     "TAGGED_WITH": "Tagué avec",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Vue d'ensemble",
+    "NEW_LABEL": "Nouveau libellé",
+    "NEW_TEAM": "Créer une équipe",
+    "NEW_INBOX": "Nouvelle boîte de réception",
+    "REPORTS_CONVERSATION": "Conversations",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campagnes",
     "ONGOING": "En cours",
@@ -181,9 +186,10 @@
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Étiquettes",
     "REPORTS_INBOX": "Boîte de réception",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "REPORTS_TEAM": "Équipes",
+    "SET_AVAILABILITY_TITLE": "Se définir comme",
+    "BETA": "Bêta",
+    "REPORTS_OVERVIEW": "Vue d'ensemble"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
