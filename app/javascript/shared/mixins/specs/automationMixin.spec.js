@@ -17,29 +17,22 @@ const i18nConfig = new VueI18n({
 
 describe('Automation Mixin function', () => {
   let addAutomationRule = null;
-  let actions = null;
-  let modules = null;
+  let getters = null;
   let store = null;
 
   beforeEach(() => {
-    actions = {};
-
-    modules = {
-      auth: {
-        getters: {
-          'attributes/getAttributes': () => customAttributes,
-        },
-      },
+    getters = {
+      'attributes/getAttributesByModel': () => customAttributes,
     };
     store = new Vuex.Store({
-      actions,
-      modules,
+      getters,
     });
 
     addAutomationRule = shallowMount(AddAutomationRule, {
       localVue,
       i18n: i18nConfig,
       mixins: [methodsMixin],
+      store,
     });
   });
 

@@ -1,5 +1,5 @@
-import filterQueryGenerator from '../../helper/filterQueryGenerator.js';
-import actionQueryGenerator from '../../helper/actionQueryGenerator.js';
+import languages from '../../../dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
+import countries from '../../../shared/constants/countries.js';
 import {
   generateCustomAttributeTypes,
   getActionOptions,
@@ -11,6 +11,9 @@ import {
   getDefaultConditions,
   getDefaultActions,
   filterCustomAttributes,
+  generateAutomationPayload,
+  getStandardAttributeInputType,
+  isCustomAttribute,
 } from '../../helper/automationHelper.js';
 import { mapGetters } from 'vuex';
 
@@ -115,20 +118,12 @@ export default {
         labels,
         statusFilterOptions,
         teams,
+        languages,
+        countries,
         type,
       });
     },
     appendNewCondition() {
-      if (this.mode === 'edit') {
-        if (
-          !this.automation.conditions[this.automation.conditions.length - 1]
-            .query_operator
-        ) {
-          this.automation.conditions[
-            this.automation.conditions.length - 1
-          ].query_operator = 'and';
-        }
-      }
       this.automation.conditions.push(
         ...getDefaultConditions(this.automation.event_name)
       );
@@ -153,19 +148,8 @@ export default {
     submitAutomation() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      const automation = JSON.parse(JSON.stringify(this.automation));
-      automation.conditions[
-        automation.conditions.length - 1
-      ].query_operator = null;
-      automation.conditions = filterQueryGenerator(
-        automation.conditions
-      ).payload;
-      automation.actions = actionQueryGenerator(automation.actions);
-      this.$emit(
-        'saveAutomation',
-        automation,
-        this.mode === 'edit' ? 'EDIT' : null
-      );
+      const automation = generateAutomationPayload(this.automation);
+      this.$emit('saveAutomation', automation, this.mode);
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
@@ -175,19 +159,15 @@ export default {
       ).filterOperators[0].value;
       this.automation.conditions[index].values = '';
     },
-    showUserInput(operatorType) {
-      if (operatorType === 'is_present' || operatorType === 'is_not_present')
-        return false;
-      return true;
+    showUserInput(type) {
+      return !(type === 'is_present' || type === 'is_not_present');
     },
-    showActionInput(actionName) {
-      if (actionName === 'send_email_to_team' || actionName === 'send_message')
+    showActionInput(action) {
+      if (action === 'send_email_to_team' || action === 'send_message')
         return false;
-      const type = this.automationActionTypes.find(
-        action => action.key === actionName
-      ).inputType;
-      if (type === null) return false;
-      return true;
+      const type = this.automationActionTypes.find(i => i.key === action)
+        .inputType;
+      return !!type;
     },
     resetAction(index) {
       this.automation.actions[index].action_params = [];
@@ -195,17 +175,19 @@ export default {
     manifestConditions(automation) {
       const customAttributes = filterCustomAttributes(this.allCustomAttributes);
       const conditions = automation.conditions.map(condition => {
-        const isCustomAttribute = customAttributes.find(
-          attr => attr.key === condition.attribute_key
+        const customAttr = isCustomAttribute(
+          customAttributes,
+          condition.attribute_key
         );
         let inputType = 'plain_text';
-        if (isCustomAttribute) {
-          inputType = getCustomAttributeInputType(isCustomAttribute.type);
+        if (customAttr) {
+          inputType = getCustomAttributeInputType(customAttr.type);
         } else {
-          inputType = this.automationTypes[
-            automation.event_name
-          ].conditions.find(item => item.key === condition.attribute_key)
-            .inputType;
+          inputType = getStandardAttributeInputType(
+            this.automationTypes,
+            automation.event_name,
+            condition.attribute_key
+          );
         }
         if (inputType === 'plain_text' || inputType === 'date') {
           return {
@@ -215,6 +197,7 @@ export default {
         }
         return {
           ...condition,
+          query_operator: condition.query_operator || 'and',
           values: [
             ...this.getConditionDropdownValues(condition.attribute_key),
           ].filter(item => [...condition.values].includes(item.id)),
@@ -223,6 +206,7 @@ export default {
       return conditions;
     },
     generateActionsArray(action) {
+      const params = action.action_params;
       let actionParams = [];
       const inputType = this.automationActionTypes.find(
         item => item.key === action.action_name
@@ -230,17 +214,15 @@ export default {
       if (inputType === 'multi_select') {
         actionParams = [
           ...this.getActionDropdownValues(action.action_name),
-        ].filter(item => [...action.action_params].includes(item.id));
+        ].filter(item => [...params].includes(item.id));
       } else if (inputType === 'team_message') {
         actionParams = {
           team_ids: [
             ...this.getActionDropdownValues(action.action_name),
-          ].filter(item =>
-            [...action.action_params[0].team_ids].includes(item.id)
-          ),
-          message: action.action_params[0].message,
+          ].filter(item => [...params[0].team_ids].includes(item.id)),
+          message: params[0].message,
         };
-      } else actionParams = [...action.action_params];
+      } else actionParams = [...params];
       return actionParams;
     },
     manifestActions(automation) {

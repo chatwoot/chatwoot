@@ -3,7 +3,8 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
 } from '../routes/dashboard/settings/automation/operators';
-
+import filterQueryGenerator from './filterQueryGenerator.js';
+import actionQueryGenerator from './actionQueryGenerator.js';
 const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
@@ -189,4 +190,21 @@ export const filterCustomAttributes = customAttributes => {
       type: attr.attribute_display_type,
     };
   });
+};
+
+export const getStandardAttributeInputType = (automationTypes, event, key) => {
+  return automationTypes[event].conditions.find(item => item.key === key)
+    .inputType;
+};
+
+export const generateAutomationPayload = payload => {
+  const automation = JSON.parse(JSON.stringify(payload));
+  automation.conditions[automation.conditions.length - 1].query_operator = null;
+  automation.conditions = filterQueryGenerator(automation.conditions).payload;
+  automation.actions = actionQueryGenerator(automation.actions);
+  return automation;
+};
+
+export const isCustomAttribute = (attrs, key) => {
+  return attrs.find(attr => attr.key === key);
 };
