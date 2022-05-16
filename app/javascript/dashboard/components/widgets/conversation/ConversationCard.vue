@@ -290,8 +290,8 @@ export default {
       this.hovered = false;
     },
     selectConversation(checked) {
-      if (checked) this.$emit('selectConversation', this.chat.id);
-      else this.$emit('deSelectConversation', this.chat.id);
+      if (checked) this.$emit('select-conversation', this.chat.id);
+      else this.$emit('de-select-conversation', this.chat.id);
     },
   },
 };
@@ -367,7 +367,7 @@ export default {
   margin-top: var(--space-normal);
   cursor: pointer;
   &:hover {
-    background-color: var(--s-300);
+    background-color: var(--w-100);
   }
 
   input[type='checkbox'] {

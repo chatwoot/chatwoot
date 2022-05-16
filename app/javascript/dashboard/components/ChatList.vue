@@ -97,8 +97,8 @@
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
         :selected="isConversationSelected(chat.id)"
-        @selectConversation="selectConversation"
-        @deSelectConversation="deSelectConversation"
+        @select-conversation="selectConversation"
+        @de-select-conversation="deSelectConversation"
       />
 
       <div v-if="chatListLoading" class="text-center">
