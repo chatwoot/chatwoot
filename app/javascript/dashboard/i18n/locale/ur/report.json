@@ -1,12 +1,12 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
+    "HEADER": "مکالمات",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "مکالمات",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -123,7 +123,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Agent",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "مکالمات",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -190,7 +190,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "مکالمات",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -257,7 +257,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "مکالمات",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -324,7 +324,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "مکالمات",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -395,7 +395,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "درجہ بندی",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
@@ -420,19 +420,19 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
+      "OPEN": "کھولیں۔",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned"
+      "UNASSIGNED": "نا مقرر کیا ہوا"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
       "LOADING_MESSAGE": "Loading agent metrics...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
+        "AGENT": "ایجنٹ",
         "OPEN": "OPEN",
         "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "STATUS": "اسٹیٹس"
       }
     },
     "AGENT_STATUS": {

@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "تم تحديث إعدادات الإسناد التلقائي بنجاح",
         "ERROR_MESSAGE": "تعذر تحديث لون صندوق الدردشة. الرجاء المحاولة مرة أخرى لاحقاً."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "مفعل",
-        "DISABLED": "معطّل"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
       "INBOX_AGENTS": "موظف الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "تحديث",
       "ENABLE_EMAIL_COLLECT_BOX": "تفعيل صندوق جمع البريد الإلكتروني",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "تمكين أو تعطيل مربع جمع البريد الإلكتروني في محادثة جديدة",

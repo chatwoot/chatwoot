@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Η αυτόματη αντιστοίχιση ενημερώθηκε επιτυχώς",
         "ERROR_MESSAGE": "Δεν μπορεί να ενημερωθεί το χρώμα του widget. Παρακαλώ προσπαθήστε αργότερα."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Ενεργό",
-        "DISABLED": "Ανενεργό"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Τοποθετήσετε αυτόν τον κώδικα μέσα στο body tag της ιστοσελίδας σας",
       "INBOX_AGENTS": "Πράκτορες",
       "INBOX_AGENTS_SUB_TEXT": "Προσθέστε ή αφαιρέστε πράκτορες σε αυτό το κιβώτιο",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Ενημέρωση",
       "ENABLE_EMAIL_COLLECT_BOX": "Ενεργοποιήσετε το πλαίσιο συλλογής email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
