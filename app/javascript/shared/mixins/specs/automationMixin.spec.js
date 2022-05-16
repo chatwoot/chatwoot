@@ -1,42 +1,32 @@
 import methodsMixin from '../../../dashboard/mixins/automations/methodsMixin';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import AddAutomationRule from '../../../dashboard/routes/dashboard/settings/automation/AddAutomationRule.vue';
-import { action, files, customAttributes } from './automationFixtures';
-import VueI18n from 'vue-i18n';
-import Vuex from 'vuex';
-import i18n from 'dashboard/i18n';
-const localVue = createLocalVue();
+import { action, files, automation } from './automationFixtures';
+import { createWrapper } from '@vue/test-utils';
+import Vue from 'vue';
 
-localVue.use(VueI18n);
-localVue.use(Vuex);
+const createComponent = ({ mixins, data }) => {
+  const Component = {
+    render() {},
+    mixins,
+    data,
+  };
+  const Constructor = Vue.extend(Component);
+  const vm = new Constructor().$mount();
+  return createWrapper(vm);
+};
 
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
-
-describe('Automation Mixin function', () => {
-  let addAutomationRule = null;
-  let getters = null;
-  let store = null;
-
-  beforeEach(() => {
-    getters = {
-      'attributes/getAttributesByModel': () => customAttributes,
-    };
-    store = new Vuex.Store({
-      getters,
-    });
-
-    addAutomationRule = shallowMount(AddAutomationRule, {
-      localVue,
-      i18n: i18nConfig,
-      mixins: [methodsMixin],
-      store,
-    });
+describe('automationMixin', () => {
+  it('getFileName returns the correct file name', () => {
+    const wrapper = createComponent([methodsMixin]);
+    expect(wrapper.vm.getFileName(action, files)).toEqual(files[0].filename);
   });
 
-  it('getFileName returns the correct file name', () => {
-    expect(addAutomationRule.vm.getFileName(action, files)).toBeTruthy();
+  it('onEventChange returns the correct file name', () => {
+    const data = () => {
+      return {
+        automation,
+      };
+    };
+    const wrapper = createComponent([methodsMixin], data);
+    expect(wrapper.vm.getFileName(action, files)).toEqual(files[0].filename);
   });
 });

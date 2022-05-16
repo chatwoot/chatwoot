@@ -1,27 +1,18 @@
 export const action = {
-  action_name: 'assign_team',
-  action_params: [
-    {
-      id: 1,
-      name: 'sales team',
-      description: 'This is our internal sales team',
-      allow_auto_assign: true,
-      account_id: 1,
-      is_member: true,
-    },
-  ],
+  action_name: 'send_attachment',
+  action_params: [59],
 };
 
 export const files = [
   {
-    id: 49,
-    automation_rule_id: 158,
+    id: 50,
+    automation_rule_id: 164,
     file_type: 'image/jpeg',
     account_id: 1,
     file_url:
-      'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBQdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--6325fd90e5d921bc441f4682d0262bda1c3ac848/IMG_2460.JPG',
-    blob_id: 58,
-    filename: 'IMG_2460.JPG',
+      'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBRQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--965b4c27f4c5e47c526f0f38266b25417b72e5dd/pfp.jpeg',
+    blob_id: 59,
+    filename: 'pfp.jpeg',
   },
 ];
 
@@ -63,3 +54,23 @@ export const customAttributes = [
     updated_at: '2022-01-26T08:07:58.325Z',
   },
 ];
+
+export const automation = {
+  name: null,
+  description: null,
+  event_name: 'conversation_created',
+  conditions: [
+    {
+      attribute_key: 'status',
+      filter_operator: 'equal_to',
+      values: '',
+      query_operator: 'and',
+    },
+  ],
+  actions: [
+    {
+      action_name: 'assign_team',
+      action_params: [],
+    },
+  ],
+};
