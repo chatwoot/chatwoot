@@ -91,7 +91,7 @@
             button-class="large expanded"
           >
           </woot-submit-button>
-          <p class="accept--terms" v-html="termsLink"></p>
+          <p v-dompurify-html="termsLink" class="accept--terms"></p>
         </form>
         <div class="column text-center sigin--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>

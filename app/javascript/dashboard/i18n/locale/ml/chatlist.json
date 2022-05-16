@@ -81,6 +81,7 @@
     "NO_MESSAGES": "സന്ദേശങ്ങളൊന്നുമില്ല",
     "NO_CONTENT": "ഉള്ളടക്കമൊന്നും ലഭ്യമല്ല",
     "HIDE_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം മറയ്ക്കുക",
-    "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക"
+    "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക",
+    "MESSAGE_READ": "Read"
   }
 }

@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracje",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Anuluj",
+        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL webhooka",
+          "PLACEHOLDER": "Przykład: https://example/api/webhook",
+          "ERROR": "Wprowadź poprawny adres URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Create webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Skonfiguruj",
       "HEADER": "Ustawienia webhooka",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Edytuj",
         "TITLE": "Edit webhook",
-        "CANCEL": "Anuluj",
-        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL webhooka",
-            "PLACEHOLDER": "Przykład: https://example/api/webhook",
-            "ERROR": "Wprowadź poprawny adres URL"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
         }
       },
       "ADD": {
         "CANCEL": "Anuluj",
         "TITLE": "Dodaj nowy webhook",
-        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL webhooka",
-            "PLACEHOLDER": "Przykład: https://example/api/webhook",
-            "ERROR": "Wprowadź poprawny adres URL"
-          },
-          "SUBMIT": "Utwórz webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook został dodany",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Potwierdź usunięcie",
-          "MESSAGE": "Czy na pewno chcesz usunąć ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Tak, usuń ",
           "NO": "No, Keep it"
         }

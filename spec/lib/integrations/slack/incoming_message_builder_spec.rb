@@ -61,6 +61,15 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.count).to eql(messages_count)
       end
 
+      it 'does not create message for invalid event type and event files is not present' do
+        messages_count = conversation.messages.count
+        message_with_attachments[:event][:files] = nil
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:sender).and_return(nil)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
       it 'saves attachment if params files present' do
         expect(hook).not_to eq nil
         messages_count = conversation.messages.count
@@ -70,6 +79,18 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
         expect(conversation.messages.last.attachments).to be_any
+      end
+
+      it 'ignore message if it is postback of CW attachment message' do
+        expect(hook).not_to eq nil
+        messages_count = conversation.messages.count
+        message_with_attachments[:event][:text] = 'Attached File!'
+        builder = described_class.new(message_with_attachments)
+
+        allow(builder).to receive(:sender).and_return(nil)
+        builder.perform
+
+        expect(conversation.messages.count).to eql(messages_count)
       end
     end
   end

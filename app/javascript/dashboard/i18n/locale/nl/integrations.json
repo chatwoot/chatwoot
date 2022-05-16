@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integraties",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Annuleren",
+        "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Voorbeeld: https://voorbeeld/api/webhook",
+          "ERROR": "Voer een geldige URL in"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Maak webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Configureren",
       "HEADER": "Webhook instellingen",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Bewerken",
         "TITLE": "Edit webhook",
-        "CANCEL": "Annuleren",
-        "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Voorbeeld: https://voorbeeld/api/webhook",
-            "ERROR": "Voer een geldige URL in"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
         }
       },
       "ADD": {
         "CANCEL": "annuleren",
         "TITLE": "Nieuwe webhook toevoegen",
-        "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Voorbeeld: https://voorbeeld/api/webhook",
-            "ERROR": "Voer een geldige URL in"
-          },
-          "SUBMIT": "Maak webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook succesvol toegevoegd",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Verwijdering bevestigen",
-          "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Ja, verwijderen ",
           "NO": "Nee, Bewaar het"
         }

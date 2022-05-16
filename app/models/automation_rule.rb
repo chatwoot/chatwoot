@@ -18,6 +18,8 @@
 #  index_automation_rules_on_account_id  (account_id)
 #
 class AutomationRule < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :account
   has_many_attached :files
 
@@ -27,8 +29,22 @@ class AutomationRule < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company].freeze
-  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents send_attachments].freeze
+  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id].freeze
+  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents send_attachment].freeze
+
+  def file_base_data
+    files.map do |file|
+      {
+        id: file.id,
+        automation_rule_id: id,
+        file_type: file.content_type,
+        account_id: account_id,
+        file_url: url_for(file),
+        blob_id: file.blob_id,
+        filename: file.filename.to_s
+      }
+    end
+  end
 
   private
 

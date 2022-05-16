@@ -59,21 +59,29 @@
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Імпорт",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "TITLE": "Імпорт контактів",
+    "DESC": "Імпортувати контакти через файл CSV.",
+    "DOWNLOAD_LABEL": "Завантажити зразок csv.",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "Файл CSV",
       "SUBMIT": "Імпорт",
       "CANCEL": "Скасувати"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Контакт успішно збережено",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Підтвердження видалення",
+      "MESSAGE": "Ви дійсно бажаєте видалити цю нотатку?",
+      "YES": "Так, видалити ",
+      "NO": "Ні, залиште"
+    }
+  },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Видалити контакт",
+    "TITLE": "Видалити контакт",
+    "DESC": "Видалити деталі контакту",
     "CONFIRM": {
       "TITLE": "Підтвердження видалення",
       "MESSAGE": "Справді бажаєте видалити ",
@@ -81,8 +89,8 @@
       "NO": "Ні, залишити"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Кампанію успішно видалено",
+      "ERROR_MESSAGE": "Не вдалося видалити контакт. Будь ласка, спробуйте ще раз пізніше."
     }
   },
   "CONTACT_FORM": {
@@ -90,70 +98,70 @@
       "SUBMIT": "Додати",
       "CANCEL": "Скасувати",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Аватар Контакту"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
+        "PLACEHOLDER": "Введіть повне ім'я контакту",
         "LABEL": "Повне ім`я"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Введіть опис контакту",
+        "LABEL": "Опис"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Введіть адресу електронної пошти контакту",
         "LABEL": "Адреса електронної пошти",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "Ця електронна адреса вже використовується для іншого контакту."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "PLACEHOLDER": "Введіть номер телефону контакту",
+        "LABEL": "Номер телефону",
+        "HELP": "Номер телефону має бути в форматі E.164; наприклад: +1415555555 [+][код країни][код міста][локальний номер телефону]",
+        "ERROR": "Номер телефону повинен бути пустим, або у форматі E.164",
+        "DUPLICATE": "Цей номер телефону використовується для іншого контакту."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Введіть місце розташування контакту",
         "LABEL": "Місцезнаходження"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Введіть назву компанії",
+        "LABEL": "Назва компанії"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Введіть ім'я користувача Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Введіть ім'я користувача Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Введіть ім'я користувача LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Введіть ім'я користувача Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Контакт успішно збережено",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "Розпочати розмову",
+    "TITLE": "Новий діалог",
+    "DESC": "Розпочніть нову бесіду, надіславши нове повідомлення.",
+    "NO_INBOX": "Не вдалося знайти поштову скриньку, щоб розпочати нову розмову з цим контактом.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Для"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Вхідні",
+        "ERROR": "Оберіть канал"
       },
       "SUBJECT": {
         "LABEL": "Тема",
@@ -177,9 +185,9 @@
     "FIELDS": "Поля контактів",
     "SEARCH_BUTTON": "Пошук",
     "SEARCH_INPUT_PLACEHOLDER": "Пошук контактів",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS": "Фільтр",
+    "FILTER_CONTACTS_SAVE": "Зберегти фільтр",
+    "FILTER_CONTACTS_DELETE": "Видалити фільтр",
     "LIST": {
       "LOADING_MESSAGE": "Завантаження контактів...",
       "404": "Немає контактів, які відповідають вашому пошуку 🔍",
@@ -264,67 +272,67 @@
       },
       "VALUE": {
         "LABEL": "Значення атрибуту",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Наприклад: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Створити новий атрибут ",
         "SUCCESS": "Атрибут додано успішно",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Неможливо додати атрибут. Будь ласка, спробуйте ще раз пізніше"
       },
       "UPDATE": {
         "SUCCESS": "Атрибут успішно оновлено",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Не вдалося оновити атрибут. Будь ласка, спробуйте ще раз пізніше"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Атрибут успішно видалено",
+        "ERROR": "Неможливо видалити атрибут. Будь ласка, спробуйте ще раз пізніше"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Додати атрибут",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "PLACEHOLDER": "Атрибути пошуку",
+        "NO_RESULT": "Атрибути не знайдено"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Виберіть значення",
+          "SEARCH_INPUT_PLACEHOLDER": "Значення запиту",
+          "NO_RESULT": "Результатів немає"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Потрібне коректне значення",
+      "INVALID_URL": "Недопустимий URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "Об'єднати контакти",
+    "DESCRIPTION": "Об'єднати контакти, щоб об'єднати два профілі в один, включаючи всі атрибути та розмови. У разі конфлікту, атрибути первинних контактів будуть переважати.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Основний контакт",
+      "HELP_LABEL": "Утримуватися"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Контакт для об'єднання",
+      "PLACEHOLDER": "Пошук контакту",
+      "HELP_LABEL": "Буде видалено"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "Коротка інформація",
+      "DELETE_WARNING": "Контакт <strong>%{childContactName}</strong> буде видалено.",
+      "ATTRIBUTE_WARNING": "Контактні дані <strong>%{childContactName}</strong> буде скопійовано до <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Об'єднати контакти",
       "CANCEL": "Скасувати",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Виберіть дочірній контакт для об'єднання"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "Контакт успішно об'єднано",
+      "ERROR_MESSAGE": "Не вдалося об'єднати контакти, спробуйте ще раз!"
     }
   }
 }

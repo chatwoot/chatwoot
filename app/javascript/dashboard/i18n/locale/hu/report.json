@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Beszélgetések",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
     "DOWNLOAD_AGENT_REPORTS": "Ügynök jelentések letöltése",
@@ -18,12 +18,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Nyitvatartás"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -193,12 +202,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -256,12 +269,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -319,12 +336,16 @@
         "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Első reakció idő",
-        "DESC": "( Átlag )"
+        "NAME": "First Response Time",
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
-        "DESC": "( Átlag )"
+        "DESC": "( Átlag )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Megoldások száma",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Megnyitás",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Gazdátlan"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Ügynök",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Státusz"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Foglalt",
+      "OFFLINE": "Offline"
     }
   }
 }

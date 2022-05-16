@@ -22,6 +22,8 @@ ja:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
     reset_password_failure: メールアドレスが見つかりませんでした。
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: 使い捨てメールは許可されません
       invalid_email: 無効なメールアドレスを入力しました。

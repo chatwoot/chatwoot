@@ -38,6 +38,9 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
+
+import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
+
 export default {
   name: 'App',
   components: {
@@ -103,6 +106,7 @@ export default {
       'setAppConfig',
       'setReferrerHost',
       'setWidgetColor',
+      'setBubbleVisibility',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -151,20 +155,18 @@ export default {
     },
     registerCampaignEvents() {
       bus.$on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
-        const showPreChatForm =
-          this.preChatFormEnabled && this.preChatFormOptions.requireEmail;
-        const isUserEmailAvailable = !!this.currentUser.email;
-        if (showPreChatForm && !isUserEmailAvailable) {
+        if (this.shouldShowPreChatForm) {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');
-          bus.$emit('execute-campaign', this.activeCampaign.id);
+          bus.$emit('execute-campaign', { campaignId: this.activeCampaign.id });
         }
         this.unsetUnreadView();
       });
-      bus.$on('execute-campaign', campaignId => {
+      bus.$on('execute-campaign', campaignDetails => {
+        const { customAttributes, campaignId } = campaignDetails;
         const { websiteToken } = window.chatwootWebChannel;
-        this.executeCampaign({ campaignId, websiteToken });
+        this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
     },
@@ -287,6 +289,8 @@ export default {
           if (!message.isOpen) {
             this.resetCampaign();
           }
+        } else if (message.event === SDK_SET_BUBBLE_VISIBILITY) {
+          this.setBubbleVisibility(message.hideMessageBubble);
         }
       });
     },

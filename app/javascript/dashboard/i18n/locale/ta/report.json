@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "உரையாடல்கள்",
     "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
     "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
@@ -18,12 +18,16 @@
         "DESC": "( மொத்தம் )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "NAME": "First Response Time",
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( மொத்தம் )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "NAME": "First Response Time",
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -193,12 +202,16 @@
         "DESC": "( மொத்தம் )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "NAME": "First Response Time",
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -256,12 +269,16 @@
         "DESC": "( மொத்தம் )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "NAME": "First Response Time",
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -319,12 +336,16 @@
         "DESC": "( மொத்தம் )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "NAME": "First Response Time",
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "DESC": "(சராசரி)"
+        "DESC": "(சராசரி)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "திற",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "ஒதுக்கப்படாதது"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "ஏஜென்ட்",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "நிலை"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Busy",
+      "OFFLINE": "Offline"
     }
   }
 }

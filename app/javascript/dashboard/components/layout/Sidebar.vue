@@ -19,6 +19,7 @@
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
     />
   </aside>
 </template>

@@ -13,6 +13,7 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  conversationLastSeen: null,
 };
 
 // mutations
@@ -32,6 +33,9 @@ export const mutations = {
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;
+  },
+  [types.SET_CONVERSATION_LAST_SEEN](_state, timestamp) {
+    _state.conversationLastSeen = timestamp;
   },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);

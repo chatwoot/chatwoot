@@ -22,6 +22,8 @@ sk:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
       invalid_email: You have entered an invalid email
