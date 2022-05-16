@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "อัปเดตการมอบหมายอัตโนมัติเรียบร้อยแล้ว",
         "ERROR_MESSAGE": "ไม่สามารถอัปเดตสี widget โปรดลองใหม่อีกครั้งในภายหลัง"
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "เปิด",
-        "DISABLED": "ปิด"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "เปิด",
         "DISABLED": "ปิด"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "ใส่ปุ่มนี้ใน body tag",
       "INBOX_AGENTS": "พนักงาน",
       "INBOX_AGENTS_SUB_TEXT": "เพิ่มหรือลบพนักงานจากกล่องสนทนานี้",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "อัพเดท",
       "ENABLE_EMAIL_COLLECT_BOX": "เปิดใช้งานกล่องรวมอีเมล",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "เปิดหรือปิดการใช้งานกล่องรวมอีเมลสำหรับการสนทนาใหม่",
