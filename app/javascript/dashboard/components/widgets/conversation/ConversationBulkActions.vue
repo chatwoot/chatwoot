@@ -23,7 +23,7 @@
         variant="flat"
         color-scheme="success"
         icon="checkmark"
-        class="mr-small"
+        class="margin-right-smaller"
         @click="resolveConversations"
       />
       <woot-button
@@ -160,16 +160,16 @@ export default {
       this.selectedAgent = agent;
     },
     selectAll(e) {
-      this.$emit('selectAllConversations', e.target.checked);
+      this.$emit('select-all-conversations', e.target.checked);
     },
     goBack() {
       this.selectedAgent = null;
     },
     submit() {
-      this.$emit('assignAgent', this.selectedAgent);
+      this.$emit('assign-agent', this.selectedAgent);
     },
     resolveConversations() {
-      this.$emit('resolveConversations');
+      this.$emit('resolve-conversations');
     },
   },
 };
@@ -185,7 +185,7 @@ export default {
   padding: var(--space-normal) var(--space-one);
   background-color: var(--s-75);
   position: relative;
-  box-shadow: 6px 3px 22px 9px rgb(181 181 181 / 25%);
+  box-shadow: var(--shadow-bulk-action-container);
 }
 .search-container {
   padding: 0 var(--space-one);
@@ -207,17 +207,12 @@ export default {
   }
 }
 
-.mr-small {
-  margin-right: var(--space-smaller);
-}
-
 .bulk-action__agents {
   position: absolute;
   bottom: 40px;
   right: var(--space-small);
   width: 100%;
-  box-shadow: 0 0.8rem 1.6rem rgb(50 50 93 / 8%),
-    0 0.4rem 1.2rem rgb(0 0 0 / 7%);
+  box-shadow: var(--shadow-dropdown-pane);
   border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
   background-color: var(--white);

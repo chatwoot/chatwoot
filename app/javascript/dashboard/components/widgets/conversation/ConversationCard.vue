@@ -7,8 +7,8 @@
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
     }"
-    @mouseenter="cardHover"
-    @mouseleave="cardLeave"
+    @mouseenter="onCardHover"
+    @mouseleave="onCardLeave"
     @click="cardClick(chat)"
   >
     <label v-if="hovered || selected" class="checkbox-wrapper">
@@ -22,7 +22,7 @@
       />
     </label>
     <thumbnail
-      v-if="!hideThumbnail && !hovered && !selected"
+      v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
       class="columns"
@@ -173,7 +173,9 @@ export default {
       currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
     }),
-
+    bulkActionCheck() {
+      return !this.hideThumbnail && !this.hovered && !this.selected;
+    },
     chatMetadata() {
       return this.chat.meta || {};
     },
@@ -281,12 +283,10 @@ export default {
       }
       router.push({ path: frontendURL(path) });
     },
-    cardHover() {
-      if (!this.hideThumbnail) {
-        this.hovered = true;
-      } else this.hovered = false;
+    onCardHover() {
+      this.hovered = !this.hideThumbnail;
     },
-    cardLeave() {
+    onCardLeave() {
       this.hovered = false;
     },
     selectConversation(checked) {
@@ -367,7 +367,7 @@ export default {
   margin-top: var(--space-normal);
   cursor: pointer;
   &:hover {
-    background-color: rgb(194, 225, 255);
+    background-color: var(--s-300);
   }
 
   input[type='checkbox'] {

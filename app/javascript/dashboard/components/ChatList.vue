@@ -142,9 +142,9 @@
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
       :all-conversations-selected="allConversationsSelected"
-      @selectAllConversations="selectAllConversations"
-      @assignAgent="onAssignAgent"
-      @resolveConversations="onResolveConversations"
+      @select-all-conversations="selectAllConversations"
+      @assign-agent="onAssignAgent"
+      @resolve-conversations="onResolveConversations"
     />
   </div>
 </template>
