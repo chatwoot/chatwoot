@@ -15284,10 +15284,10 @@ vue-docgen-loader@^1.5.0:
     loader-utils "^1.2.3"
     querystring "^0.2.0"
 
-vue-dompurify-html@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/vue-dompurify-html/-/vue-dompurify-html-2.5.1.tgz#a754f4ac7b18eb8fe41f461cb2bb1c4956a9bd2d"
-  integrity sha512-B8rQj2jAPJJhtKHHa6jg5B3/RoKBmmUl/awP/GxWXGu75j4Y7+MHqv0DG52v0Uz0taEpHyZun34KEYMAfrPWnA==
+vue-dompurify-html@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/vue-dompurify-html/-/vue-dompurify-html-2.5.2.tgz#f547d4eacae4640f95eb0e9308e7ef8e223887c6"
+  integrity sha512-G6I135+BhlACJ9xftqK7fvhXyjNrgHCI594qHnUW5e2Bmp8BOTV1kz7cxwI37b4BJnHkj9IY10RwMPOtJqw+pw==
   dependencies:
     dompurify "^2.3.4"
 
