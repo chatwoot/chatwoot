@@ -1,103 +1,49 @@
-import methodsMixin from '../automations/methodsMixin';
-import { shallowMount } from '@vue/test-utils';
-import MockComponent from './MockComponent.vue';
+import methodsMixin from '../../../dashboard/mixins/automations/methodsMixin';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import AddAutomationRule from '../../../dashboard/routes/dashboard/settings/automation/AddAutomationRule.vue';
+import { action, files, customAttributes } from './automationFixtures';
+import VueI18n from 'vue-i18n';
+import Vuex from 'vuex';
+import i18n from 'dashboard/i18n';
+const localVue = createLocalVue();
+
+localVue.use(VueI18n);
+localVue.use(Vuex);
+
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
+});
 
 describe('Automation Mixin function', () => {
-  const wrapper = shallowMount(MockComponent, {
-    mixins: [methodsMixin],
+  let addAutomationRule = null;
+  let actions = null;
+  let modules = null;
+  let store = null;
+
+  beforeEach(() => {
+    actions = {};
+
+    modules = {
+      auth: {
+        getters: {
+          'attributes/getAttributes': () => customAttributes,
+        },
+      },
+    };
+    store = new Vuex.Store({
+      actions,
+      modules,
+    });
+
+    addAutomationRule = shallowMount(AddAutomationRule, {
+      localVue,
+      i18n: i18nConfig,
+      mixins: [methodsMixin],
+    });
   });
 
-  it('customAttributeInputType should be defined', () => {
-    expect(wrapper.vm.customAttributeInputType).toBeTruthy();
-  });
-  it('onEventChange should be defined', () => {
-    expect(wrapper.vm.onEventChange).toBeTruthy();
-  });
-  it('getAttributes should be defined', () => {
-    expect(wrapper.vm.getAttributes).toBeTruthy();
-  });
-  it('isACustomAttribute should be defined', () => {
-    expect(wrapper.vm.isACustomAttribute).toBeTruthy();
-  });
-  it('getInputType should be defined', () => {
-    expect(wrapper.vm.getInputType).toBeTruthy();
-  });
-  it('getOperators should be defined', () => {
-    expect(wrapper.vm.getOperators).toBeTruthy();
-  });
-  it('getAutomationType should be defined', () => {
-    expect(wrapper.vm.getAutomationType).toBeTruthy();
-  });
-  it('getAutomationType should be defined', () => {
-    expect(wrapper.vm.getAutomationType).toBeTruthy();
-  });
-  it('customAttributeCheckboxDropdownValues should be defined', () => {
-    expect(wrapper.vm.customAttributeCheckboxDropdownValues).toBeTruthy();
-  });
-  it('customAttributeListDropdownValues should be defined', () => {
-    expect(wrapper.vm.customAttributeListDropdownValues).toBeTruthy();
-  });
-  it('isCustomAttributeCheckbox should be defined', () => {
-    expect(wrapper.vm.isCustomAttributeCheckbox).toBeTruthy();
-  });
-  it('statusFilterDropdownValues should be defined', () => {
-    expect(wrapper.vm.statusFilterDropdownValues).toBeTruthy();
-  });
-  it('isCustomAttributeList should be defined', () => {
-    expect(wrapper.vm.isCustomAttributeList).toBeTruthy();
-  });
-  it('getConditionDropdownValues should be defined', () => {
-    expect(wrapper.vm.getConditionDropdownValues).toBeTruthy();
-  });
-  it('appendNewCondition should be defined', () => {
-    expect(wrapper.vm.appendNewCondition).toBeTruthy();
-  });
-  it('appendNewAction should be defined', () => {
-    expect(wrapper.vm.appendNewAction).toBeTruthy();
-  });
-  it('removeFilter should be defined', () => {
-    expect(wrapper.vm.removeFilter).toBeTruthy();
-  });
-  it('removeAction should be defined', () => {
-    expect(wrapper.vm.removeAction).toBeTruthy();
-  });
-  it('submitAutomation should be defined', () => {
-    expect(wrapper.vm.submitAutomation).toBeTruthy();
-  });
-  it('resetFilter should be defined', () => {
-    expect(wrapper.vm.resetFilter).toBeTruthy();
-  });
-  it('showUserInput should be defined', () => {
-    expect(wrapper.vm.showUserInput).toBeTruthy();
-  });
-  it('showActionInput should be defined', () => {
-    expect(wrapper.vm.showActionInput).toBeTruthy();
-  });
-  it('resetAction should be defined', () => {
-    expect(wrapper.vm.resetAction).toBeTruthy();
-  });
-  it('manifestConditions should be defined', () => {
-    expect(wrapper.vm.manifestConditions).toBeTruthy();
-  });
-  it('generateActionsArray should be defined', () => {
-    expect(wrapper.vm.generateActionsArray).toBeTruthy();
-  });
-  it('manifestActions should be defined', () => {
-    expect(wrapper.vm.manifestActions).toBeTruthy();
-  });
-  it('formatAutomation should be defined', () => {
-    expect(wrapper.vm.formatAutomation).toBeTruthy();
-  });
-  it('getOperatorTypes should be defined', () => {
-    expect(wrapper.vm.getOperatorTypes).toBeTruthy();
-  });
-  it('getFileName should be defined', () => {
-    expect(wrapper.vm.getFileName).toBeTruthy();
-  });
-  it('getActionDropdownValues should be defined', () => {
-    expect(wrapper.vm.getActionDropdownValues).toBeTruthy();
-  });
-  it('manifestCustomAttributes should be defined', () => {
-    expect(wrapper.vm.manifestCustomAttributes).toBeTruthy();
+  it('getFileName returns the correct file name', () => {
+    expect(addAutomationRule.vm.getFileName(action, files)).toBeTruthy();
   });
 });
