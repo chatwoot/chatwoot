@@ -90,6 +90,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy_async
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
+  has_many :portals, through: :portals_members
 
   before_validation :set_password_and_uid, on: :create
 

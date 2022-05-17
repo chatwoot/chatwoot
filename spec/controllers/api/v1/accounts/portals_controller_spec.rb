@@ -1,23 +1,23 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
+RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:kbase_portal, slug: 'portal-1', name: 'test_portal', account_id: account.id) }
+  let!(:portal) { create(:portal, slug: 'portal-1', name: 'test_portal', account_id: account.id) }
 
-  describe 'GET /api/v1/accounts/{account.id}/kbase/portals' do
+  describe 'GET /api/v1/accounts/{account.id}/portals' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/kbase/portals"
+        get "/api/v1/accounts/#{account.id}/portals"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
       it 'get all portals' do
-        portal2 = create(:kbase_portal, name: 'test_portal_2', account_id: account.id, slug: 'portal-2')
+        portal2 = create(:portal, name: 'test_portal_2', account_id: account.id, slug: 'portal-2')
         expect(portal2.id).not_to be nil
-        get "/api/v1/accounts/#{account.id}/kbase/portals",
+        get "/api/v1/accounts/#{account.id}/portals",
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
@@ -26,17 +26,17 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
     end
   end
 
-  describe 'GET /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}' do
+  describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/kbase/portals"
+        get "/api/v1/accounts/#{account.id}/portals"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
       it 'get one portals' do
-        get "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}",
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
@@ -45,10 +45,10 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/{account.id}/kbase/portals' do
+  describe 'POST /api/v1/accounts/{account.id}/portals' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "/api/v1/accounts/#{account.id}/kbase/portals", params: {}
+        post "/api/v1/accounts/#{account.id}/portals", params: {}
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
             slug: 'test_kbase'
           }
         }
-        post "/api/v1/accounts/#{account.id}/kbase/portals",
+        post "/api/v1/accounts/#{account.id}/portals",
              params: portal_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
@@ -71,10 +71,10 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}' do
+  describe 'PUT /api/v1/accounts/{account.id}/portals/{portal.slug}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}", params: {}
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}", params: {}
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -89,30 +89,50 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
 
         expect(portal.name).to eql('test_portal')
 
-        put "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}",
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
             params: portal_params,
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql(portal_params[:portal][:name])
       end
+
+      it 'archive portal' do
+        portal_params = {
+          portal: {
+            archived: true
+          }
+        }
+
+        expect(portal.archived).to be_falsy
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: portal_params,
+            headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['archived']).to eql(portal_params[:portal][:archived])
+
+        portal.reload
+        expect(portal.archived).to be_truthy
+      end
     end
   end
 
-  describe 'DELETE /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}' do
+  describe 'DELETE /api/v1/accounts/{account.id}/portals/{portal.slug}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}", params: {}
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}", params: {}
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
       it 'deletes portal' do
-        delete "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}",
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
                headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        deleted_portal = Kbase::Portal.find_by(id: portal.slug)
+        deleted_portal = Portal.find_by(id: portal.slug)
         expect(deleted_portal).to be nil
       end
     end
