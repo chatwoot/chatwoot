@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automaattinen delegointi päivitetty onnistuneesti",
         "ERROR_MESSAGE": "Widgetin väriä ei voitu päivittää. Yritä myöhemmin uudelleen."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Käytössä",
-        "DISABLED": "Pois käytöstä"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Käytössä",
         "DISABLED": "Pois käytöstä"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Aseta tämä painike body-tagiisi",
       "INBOX_AGENTS": "Edustajat",
       "INBOX_AGENTS_SUB_TEXT": "Lisää tai poista edustajia tästä saapuneet-kansiosta",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Päivitä",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

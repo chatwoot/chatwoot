@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_163839) do
+ActiveRecord::Schema.define(version: 2022_05_11_072655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -111,6 +111,21 @@ ActiveRecord::Schema.define(version: 2022_05_06_163839) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "articles", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
+    t.integer "category_id"
+    t.integer "folder_id"
+    t.integer "author_id"
+    t.string "title"
+    t.text "description"
+    t.text "content"
+    t.integer "status"
+    t.integer "views"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "attachments", id: :serial, force: :cascade do |t|
     t.integer "file_type", default: 0
     t.string "external_url"
@@ -167,6 +182,19 @@ ActiveRecord::Schema.define(version: 2022_05_06_163839) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "locale", default: "en"
+    t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
+    t.index ["locale"], name: "index_categories_on_locale"
   end
 
   create_table "channel_api", force: :cascade do |t|
@@ -434,6 +462,14 @@ ActiveRecord::Schema.define(version: 2022_05_06_163839) do
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
+  create_table "folders", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "category_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -484,56 +520,6 @@ ActiveRecord::Schema.define(version: 2022_05_06_163839) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "settings", default: {}
-  end
-
-  create_table "kbase_articles", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "portal_id", null: false
-    t.integer "category_id"
-    t.integer "folder_id"
-    t.integer "author_id"
-    t.string "title"
-    t.text "description"
-    t.text "content"
-    t.integer "status"
-    t.integer "views"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "kbase_categories", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "portal_id", null: false
-    t.string "name"
-    t.text "description"
-    t.integer "position"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "locale", default: "en"
-    t.index ["locale", "account_id"], name: "index_kbase_categories_on_locale_and_account_id"
-  end
-
-  create_table "kbase_folders", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "category_id", null: false
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "kbase_portals", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.string "custom_domain"
-    t.string "color"
-    t.string "homepage_link"
-    t.string "page_title"
-    t.text "header_text"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
-    t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
   end
 
   create_table "labels", force: :cascade do |t|
@@ -651,6 +637,30 @@ ActiveRecord::Schema.define(version: 2022_05_06_163839) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "portals", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "custom_domain"
+    t.string "color"
+    t.string "homepage_link"
+    t.string "page_title"
+    t.text "header_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.boolean "archived", default: false
+    t.index ["slug"], name: "index_portals_on_slug", unique: true
+  end
+
+  create_table "portals_members", id: false, force: :cascade do |t|
+    t.bigint "portal_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
+    t.index ["portal_id"], name: "index_portals_members_on_portal_id"
+    t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
   create_table "reporting_events", force: :cascade do |t|

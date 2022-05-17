@@ -5,7 +5,7 @@
     "ADD_NEW_FILTER": "Add Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
-    "CANCEL_BUTTON_LABEL": "Cancel",
+    "CANCEL_BUTTON_LABEL": "منسوخ کریں۔",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
     "TOOLTIP_LABEL": "Filter conversations",
@@ -29,7 +29,7 @@
       "FALSE": "False"
     },
     "ATTRIBUTES": {
-      "STATUS": "Status",
+      "STATUS": "اسٹیٹس",
       "ASSIGNEE_NAME": "Assignee Name",
       "INBOX_NAME": "Inbox Name",
       "TEAM_NAME": "Team Name",
@@ -45,7 +45,7 @@
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "LAST_ACTIVITY": "آخری سرگرمی"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",
@@ -59,7 +59,7 @@
         "PLACEHOLDER": "Enter a name for this filter",
         "ERROR_MESSAGE": "Name is required",
         "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "Cancel",
+        "CANCEL_BUTTON": "منسوخ کریں۔",
         "API_FOLDERS": {
           "SUCCESS_MESSAGE": "Folder created successfully",
           "ERROR_MESSAGE": "Error while creating folder"
@@ -73,7 +73,7 @@
         "DELETE_BUTTON": "Delete filter",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirm Deletion",
+            "TITLE": "حذف کرنے کی تصدیق کریں۔",
             "MESSAGE": "Are you sure to delete the filter ",
             "YES": "Yes, Delete",
             "NO": "No, Keep it"

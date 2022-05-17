@@ -51,9 +51,9 @@ class Account < ApplicationRecord
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
-  has_many :kbase_articles, dependent: :destroy_async, class_name: '::Kbase::Article'
-  has_many :kbase_categories, dependent: :destroy_async, class_name: '::Kbase::Category'
-  has_many :kbase_portals, dependent: :destroy_async, class_name: '::Kbase::Portal'
+  has_many :articles, dependent: :destroy_async, class_name: '::Article'
+  has_many :categories, dependent: :destroy_async, class_name: '::Category'
+  has_many :portals, dependent: :destroy_async, class_name: '::Portal'
   has_many :labels, dependent: :destroy_async
   has_many :line_channels, dependent: :destroy_async, class_name: '::Channel::Line'
   has_many :mentions, dependent: :destroy_async

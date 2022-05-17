@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatikus hozzárendelés sikeresen frissítve",
         "ERROR_MESSAGE": "Nem sikerült a widget szín változtatása. Kérjük próbáld később."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Ezt a gombot a body tag-en belül helyezd el",
       "INBOX_AGENTS": "Ügynökök",
       "INBOX_AGENTS_SUB_TEXT": "Ügynökök hosszáadása vagy eltávolítása az inboxból",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Frissítés",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

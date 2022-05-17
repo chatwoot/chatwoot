@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tildeling opdateret",
         "ERROR_MESSAGE": "Kunne ikke opdatere widget farve. Prøv igen senere."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Aktiveret",
-        "DISABLED": "Deaktiveret"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "Placer denne knap inde i din body tag",
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Tilføj eller fjern agenter fra denne indbakke",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Opdater",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
