@@ -159,6 +159,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:params) { { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.tomorrow.to_time.to_i.to_s } }
+
       it 'returns unauthorized for agents' do
         get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
             params: params,
@@ -176,7 +177,7 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
 
         content = CSV.parse(response.body)
         # Check rating from CSAT Row
-        expect(content[1][1]).to eq "1"
+        expect(content[1][1]).to eq '1'
         expect(content.length).to eq 3
       end
     end
