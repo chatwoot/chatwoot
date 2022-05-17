@@ -19,9 +19,9 @@
     assigned_agent ? "#{assigned_agent.name} (#{assigned_agent.email})" : nil,
     csat_response.rating,
     csat_response.feedback_message.present? ? csat_response.feedback_message : nil,
-    contact&.name,
-    contact&.email,
-    contact&.phone_number,
+    contact&.name.present? ? contact&.name: nil,
+    contact&.email.present? ? contact&.email: nil,
+    contact&.phone_number.present? ? contact&.phone_number: nil,
     conversation ? app_account_conversation_url(account_id: Current.account.id, id: conversation.display_id): nil,
     csat_response.created_at,
   ])
