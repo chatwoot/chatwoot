@@ -194,21 +194,6 @@ export default {
     };
   },
   computed: {
-    conditions() {
-      return this.automationTypes[this.automation.event_name].conditions;
-    },
-    actions() {
-      return this.automationTypes[this.automation.event_name].actions;
-    },
-    filterAttributes() {
-      return this.filterTypes.map(type => {
-        return {
-          key: type.attributeKey,
-          name: type.attributeName,
-          attributeI18nKey: type.attributeI18nKey,
-        };
-      });
-    },
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -219,6 +204,12 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('agents/get');
+    this.$store.dispatch('contacts/get');
+    this.$store.dispatch('teams/get');
+    this.$store.dispatch('labels/get');
+    this.$store.dispatch('campaigns/get');
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.manifestCustomAttributes();
   },

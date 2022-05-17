@@ -104,7 +104,6 @@ export default {
         campaigns,
         contacts,
         inboxes,
-        labels,
         statusFilterOptions,
         teams,
       } = this;
@@ -115,7 +114,6 @@ export default {
         contacts,
         customAttributes,
         inboxes,
-        labels,
         statusFilterOptions,
         teams,
         languages,

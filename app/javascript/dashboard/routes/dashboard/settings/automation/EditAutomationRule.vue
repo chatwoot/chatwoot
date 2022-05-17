@@ -162,7 +162,6 @@ export default {
       default: () => {},
     },
   },
-
   data() {
     return {
       automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
@@ -178,23 +177,17 @@ export default {
     };
   },
   computed: {
-    conditions() {
-      return this.automationTypes[this.automation.event_name].conditions;
-    },
-    actions() {
-      return this.automationTypes[this.automation.event_name].actions;
-    },
-    filterAttributes() {
-      return this.filterTypes.map(type => {
-        return {
-          key: type.attributeKey,
-          name: type.attributeName,
-          attributeI18nKey: type.attributeI18nKey,
-        };
-      });
+    hasAutomationMutated() {
+      if (
+        this.automation.conditions[0].values ||
+        this.automation.actions[0].action_params.length
+      )
+        return true;
+      return false;
     },
   },
   mounted() {
+    this.$store.dispatch('agents/get');
     this.manifestCustomAttributes();
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.formatAutomation(this.selectedResponse);

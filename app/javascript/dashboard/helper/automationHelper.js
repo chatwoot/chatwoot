@@ -87,13 +87,14 @@ export const generateCustomAttributeTypes = customAttributes => {
   });
 };
 
-const generateConditionOptions = options =>
-  options.map(i => {
+const generateConditionOptions = options => {
+  return options.map(i => {
     return {
       id: i.id,
       name: i.title,
     };
   });
+};
 
 export const getActionOptions = ({ teams, labels, type }) => {
   const actionsMap = {
@@ -112,7 +113,6 @@ export const getConditionOptions = ({
   countries,
   customAttributes,
   inboxes,
-  labels,
   languages,
   statusFilterOptions,
   teams,
@@ -133,7 +133,6 @@ export const getConditionOptions = ({
     inbox_id: inboxes,
     team_id: teams,
     campaigns: generateConditionOptions(campaigns),
-    labels: generateConditionOptions(labels),
     browser_language: languages,
     country_code: countries,
     message_type: MESSAGE_CONDITION_VALUES,
