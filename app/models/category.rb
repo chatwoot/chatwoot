@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: kbase_categories
+# Table name: categories
 #
 #  id          :bigint           not null, primary key
 #  description :text
@@ -14,9 +14,10 @@
 #
 # Indexes
 #
-#  index_kbase_categories_on_locale_and_account_id  (locale,account_id)
+#  index_categories_on_locale                 (locale)
+#  index_categories_on_locale_and_account_id  (locale,account_id)
 #
-class Kbase::Category < ApplicationRecord
+class Category < ApplicationRecord
   belongs_to :account
   belongs_to :portal
   has_many :folders, dependent: :destroy_async

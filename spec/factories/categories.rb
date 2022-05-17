@@ -1,6 +1,6 @@
 FactoryBot.define do
-  factory :kbase_category, class: 'Kbase::Category' do
-    portal { kbase_portal }
+  factory :category, class: 'Category' do
+    portal { portal }
     name { 'MyString' }
     description { 'MyText' }
     position { 1 }
