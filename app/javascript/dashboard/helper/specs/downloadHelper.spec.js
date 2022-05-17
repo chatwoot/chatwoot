@@ -1,4 +1,4 @@
-import { downloadCsvFile } from '../downloadCsvFile';
+import { downloadCsvFile, generateFileName } from '../downloadHelper';
 
 const fileName = 'test.csv';
 const fileData = `Agent name,Conversations count,Avg first response time (Minutes),Avg resolution time (Minutes)
@@ -17,5 +17,13 @@ describe('#downloadCsvFile', () => {
       `data:text/csv;charset=utf-8,${encodeURI(fileData)}`
     );
     expect(link.click).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('#generateFileName', () => {
+  it('should generate the correct file name', () => {
+    expect(generateFileName({ type: 'csat', to: 1652812199 })).toEqual(
+      'csat-report-17-05-2022.csv'
+    );
   });
 });
