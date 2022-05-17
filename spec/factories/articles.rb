@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :kbase_article, class: 'Kbase::Article' do
+  factory :article, class: 'Article' do
     account_id { 1 }
     category_id { 1 }
     folder_id { 1 }
