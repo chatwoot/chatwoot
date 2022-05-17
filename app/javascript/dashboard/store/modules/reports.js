@@ -5,7 +5,7 @@ import * as types from '../mutation-types';
 import Report from '../../api/reports';
 import Vue from 'vue';
 
-import { downloadCsvFile } from '../../helper/downloadCsvFile';
+import { downloadCsvFile } from '../../helper/downloadHelper';
 
 const state = {
   fetchingStatus: false,
