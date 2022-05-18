@@ -27,7 +27,9 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         text: message.content
-      }
+      },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'HUMAN_AGENT'
     }
   end
 
@@ -42,7 +44,9 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
             url: attachment.download_url
           }
         }
-      }
+      },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'HUMAN_AGENT'
     }
   end
 
