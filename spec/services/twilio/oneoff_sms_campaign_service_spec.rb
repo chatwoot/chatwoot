@@ -46,7 +46,7 @@ describe Twilio::OneoffSmsCampaignService do
                                                        from: twilio_sms.phone_number, to: contact_with_both_labels.phone_number).once
 
       sms_campaign_service.perform
-      expect(campaign.reload.completed?).to be true
+      expect(campaign.reload.completed?).to eq true
     end
   end
 end

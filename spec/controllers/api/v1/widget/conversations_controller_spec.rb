@@ -66,7 +66,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
-      expect(json_response['id']).not_to be_nil
+      expect(json_response['id']).not_to eq nil
       expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
       expect(json_response['contact']['phone_number']).to eq '+919745313456'
       expect(json_response['custom_attributes']['order_id']).to eq '12345'
@@ -94,7 +94,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     context 'with a conversation' do
       it 'returns the correct conversation params' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
-        expect(conversation.contact_last_seen_at).to be_nil
+        expect(conversation.contact_last_seen_at).to eq(nil)
 
         post '/api/v1/widget/conversations/update_last_seen',
              headers: { 'X-Auth-Token' => token },
@@ -103,7 +103,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        expect(conversation.reload.contact_last_seen_at).not_to be_nil
+        expect(conversation.reload.contact_last_seen_at).not_to eq(nil)
       end
     end
   end

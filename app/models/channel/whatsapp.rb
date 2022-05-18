@@ -146,7 +146,7 @@ class Channel::Whatsapp < ApplicationRecord
       "#{api_base_path}/configs/webhook",
       headers: { 'D360-API-KEY': provider_config['api_key'], 'Content-Type': 'application/json' },
       body: {
-        url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{phone_number}"
+        url: "#{ENV['FRONTEND_URL']}/webhooks/whatsapp/#{phone_number}"
       }.to_json
     )
     errors.add(:provider_config, 'error setting up the webook') unless response.success?

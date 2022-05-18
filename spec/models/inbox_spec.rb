@@ -73,7 +73,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::FacebookPage.new }
 
       it do
-        expect(inbox.facebook?).to be(true)
+        expect(inbox.facebook?).to eq(true)
         expect(inbox.inbox_type).to eq('Facebook')
       end
     end
@@ -82,7 +82,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::WebWidget.new }
 
       it do
-        expect(inbox.facebook?).to be(false)
+        expect(inbox.facebook?).to eq(false)
         expect(inbox.inbox_type).to eq('Website')
       end
     end
@@ -97,7 +97,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::WebWidget.new }
 
       it do
-        expect(inbox.web_widget?).to be(true)
+        expect(inbox.web_widget?).to eq(true)
         expect(inbox.inbox_type).to eq('Website')
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::Api.new }
 
       it do
-        expect(inbox.web_widget?).to be(false)
+        expect(inbox.web_widget?).to eq(false)
         expect(inbox.inbox_type).to eq('API')
       end
     end
@@ -121,7 +121,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::Api.new }
 
       it do
-        expect(inbox.api?).to be(true)
+        expect(inbox.api?).to eq(true)
         expect(inbox.inbox_type).to eq('API')
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::FacebookPage.new }
 
       it do
-        expect(inbox.api?).to be(false)
+        expect(inbox.api?).to eq(false)
         expect(inbox.inbox_type).to eq('Facebook')
       end
     end

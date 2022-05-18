@@ -4,7 +4,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
   let(:twitter_client) { instance_double(::Twitty::Facade) }
   let(:twitter_response) { instance_double(::Twitty::Response, status: '200', body: { message: 'Valid' }) }
   let(:raw_response) do
-    object_double(raw_response, body: 'oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
+    object_double('raw_response', body: 'oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
   end
   let(:account) { create(:account) }
   let(:webhook_service) { double }

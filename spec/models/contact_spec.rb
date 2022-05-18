@@ -50,7 +50,7 @@ RSpec.describe Contact do
       contact = create(:contact)
       contact.update_column(:phone_number, '344234')
       contact.reload
-      expect(contact.update!(name: 'test')).to be true
+      expect(contact.update!(name: 'test')).to eq true
       expect(contact.phone_number).to eq '344234'
     end
 
@@ -58,7 +58,7 @@ RSpec.describe Contact do
       contact = create(:contact)
       contact.update_column(:phone_number, '344234')
       contact.reload
-      expect(contact.update!(phone_number: '+12312312321')).to be true
+      expect(contact.update!(phone_number: '+12312312321')).to eq true
       expect(contact.phone_number).to eq '+12312312321'
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe Contact do
       contact = create(:contact)
       contact.update_column(:email, 'ssfdasdf <test@test')
       contact.reload
-      expect(contact.update!(name: 'test')).to be true
+      expect(contact.update!(name: 'test')).to eq true
       expect(contact.email).to eq 'ssfdasdf <test@test'
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Contact do
       contact = create(:contact)
       contact.update_column(:email, 'ssfdasdf <test@test')
       contact.reload
-      expect(contact.update!(email: 'test@test.com')).to be true
+      expect(contact.update!(email: 'test@test.com')).to eq true
       expect(contact.email).to eq 'test@test.com'
     end
   end

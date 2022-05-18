@@ -12,7 +12,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
     it 'shouldnt create a conversation in the channel' do
       described_subject
-      expect(conversation.present?).to be(false)
+      expect(conversation.present?).to eq(false)
     end
   end
 
@@ -231,7 +231,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
-        expect(conversation.messages.last.content).to be_nil
+        expect(conversation.messages.last.content).to eq(nil)
         expect(conversation.messages.last.attachments.count).to eq(1)
         expect(conversation.messages.last.content_attributes['email']['subject']).to eq('only attachments')
       end
