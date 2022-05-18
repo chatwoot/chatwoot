@@ -307,7 +307,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       end
 
       it 'returns for updated active flag for automation_rule' do
-        expect(automation_rule.active).to eq(true)
+        expect(automation_rule.active).to be(true)
         params = { active: false }
 
         patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
@@ -316,8 +316,8 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body, symbolize_names: true)
-        expect(body[:payload][:active]).to eq(false)
-        expect(automation_rule.reload.active).to eq(false)
+        expect(body[:payload][:active]).to be(false)
+        expect(automation_rule.reload.active).to be(false)
       end
     end
   end

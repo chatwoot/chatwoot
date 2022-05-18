@@ -221,7 +221,7 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.label_list).to match_array(labels)
 
       updated_labels = [second_label, third_label].map(&:title)
-      expect(conversation.update_labels(updated_labels)).to eq(true)
+      expect(conversation.update_labels(updated_labels)).to be(true)
       expect(conversation.label_list).to match_array(updated_labels)
 
       expect(Conversations::ActivityMessageJob)
@@ -238,25 +238,25 @@ RSpec.describe Conversation, type: :model do
   describe '#toggle_status' do
     it 'toggles conversation status to resolved when open' do
       conversation = create(:conversation, status: 'open')
-      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.toggle_status).to be(true)
       expect(conversation.reload.status).to eq('resolved')
     end
 
     it 'toggles conversation status to open when resolved' do
       conversation = create(:conversation, status: 'resolved')
-      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.toggle_status).to be(true)
       expect(conversation.reload.status).to eq('open')
     end
 
     it 'toggles conversation status to open when pending' do
       conversation = create(:conversation, status: 'pending')
-      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.toggle_status).to be(true)
       expect(conversation.reload.status).to eq('open')
     end
 
     it 'toggles conversation status to open when snoozed' do
       conversation = create(:conversation, status: 'snoozed')
-      expect(conversation.toggle_status).to eq(true)
+      expect(conversation.toggle_status).to be(true)
       expect(conversation.reload.status).to eq('open')
     end
   end
@@ -264,9 +264,9 @@ RSpec.describe Conversation, type: :model do
   describe '#ensure_snooze_until_reset' do
     it 'resets the snoozed_until when status is toggled' do
       conversation = create(:conversation, status: 'snoozed', snoozed_until: 2.days.from_now)
-      expect(conversation.snoozed_until).not_to eq nil
-      expect(conversation.toggle_status).to eq(true)
-      expect(conversation.reload.snoozed_until).to eq(nil)
+      expect(conversation.snoozed_until).not_to be_nil
+      expect(conversation.toggle_status).to be(true)
+      expect(conversation.reload.snoozed_until).to be_nil
     end
   end
 
@@ -283,12 +283,12 @@ RSpec.describe Conversation, type: :model do
 
     it 'marks conversation as resolved' do
       mute!
-      expect(conversation.reload.resolved?).to eq(true)
+      expect(conversation.reload.resolved?).to be(true)
     end
 
     it 'marks conversation as muted in redis' do
       mute!
-      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
+      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to be_nil
     end
 
     it 'creates mute message' do
@@ -335,11 +335,11 @@ RSpec.describe Conversation, type: :model do
 
     it 'return true if conversation is muted' do
       conversation.mute!
-      expect(muted?).to eq(true)
+      expect(muted?).to be(true)
     end
 
     it 'returns false if conversation is not muted' do
-      expect(muted?).to eq(false)
+      expect(muted?).to be(false)
     end
   end
 
@@ -475,7 +475,7 @@ RSpec.describe Conversation, type: :model do
       let(:conversation) { create(:conversation) }
 
       it 'returns true' do
-        expect(conversation.can_reply?).to eq true
+        expect(conversation.can_reply?).to be true
       end
     end
 
@@ -489,7 +489,7 @@ RSpec.describe Conversation, type: :model do
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
       it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq true
+        expect(conversation.can_reply?).to be true
       end
 
       it 'return false if last incoming message is outside of 24 hour window' do
@@ -500,7 +500,7 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation,
           created_at: Time.now - 25.hours
         )
-        expect(conversation.can_reply?).to eq true
+        expect(conversation.can_reply?).to be true
       end
 
       it 'return true if last incoming message is inside 24 hour window' do
@@ -510,7 +510,7 @@ RSpec.describe Conversation, type: :model do
           inbox: facebook_inbox,
           conversation: conversation
         )
-        expect(conversation.can_reply?).to eq true
+        expect(conversation.can_reply?).to be true
       end
     end
   end
@@ -530,7 +530,7 @@ RSpec.describe Conversation, type: :model do
     let(:conversation) { create(:conversation, additional_attributes: { referer: 'javascript' }) }
 
     it 'returns nil' do
-      expect(conversation['additional_attributes']['referer']).to eq(nil)
+      expect(conversation['additional_attributes']['referer']).to be_nil
     end
   end
 
