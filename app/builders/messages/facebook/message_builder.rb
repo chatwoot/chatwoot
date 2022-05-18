@@ -122,7 +122,6 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
       result = k.get_object(@sender_id) || {}
     rescue Koala::Facebook::AuthenticationError
-      @inbox.channel.authorization_error!
       raise
     rescue Koala::Facebook::ClientError => e
       result = {}
