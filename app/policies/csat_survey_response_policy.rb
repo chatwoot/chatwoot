@@ -6,4 +6,8 @@ class CsatSurveyResponsePolicy < ApplicationPolicy
   def metrics?
     @account_user.administrator?
   end
+
+  def download?
+    @account_user.administrator?
+  end
 end
