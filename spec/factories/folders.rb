@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :kbase_folder, class: 'Kbase::Folder' do
+  factory :folder, class: 'Folder' do
     account_id { 1 }
     name { 'MyString' }
     description { 'MyText' }
