@@ -24,7 +24,7 @@
     contact&.phone_number.present? ? contact&.phone_number: nil,
     conversation ? app_account_conversation_url(account_id: Current.account.id, id: conversation.display_id): nil,
     csat_response.created_at,
-  ])
+]).html_safe
 -%>
 <% end %>
 <%=

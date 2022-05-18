@@ -1,11 +1,16 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 
-export const downloadCsvFile = (fileName, fileContent) => {
+export const downloadCsvFile = (fileName, content) => {
+  const contentType = 'data:text/csv;charset=utf-8;';
+  const blob = new Blob([content], { type: contentType });
+  const url = URL.createObjectURL(blob);
+
   const link = document.createElement('a');
-  link.download = fileName;
-  link.href = `data:text/csv;charset=utf-8,` + encodeURI(fileContent);
+  link.setAttribute('download', fileName);
+  link.setAttribute('href', url);
   link.click();
+  return link;
 };
 
 export const generateFileName = ({ type, to }) =>
