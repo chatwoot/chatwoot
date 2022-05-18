@@ -45,6 +45,16 @@ es:
       avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
       avg_resolution_time: Promedio de tiempo de resolución (Minutos)
     default_group_by: día
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nombre del agente
+        rating: Calificación
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"
