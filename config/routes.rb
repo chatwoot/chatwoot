@@ -106,6 +106,7 @@ Rails.application.routes.draw do
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
@@ -154,14 +155,15 @@ Rails.application.routes.draw do
           end
           resources :working_hours, only: [:update]
 
-          namespace :kbase do
-            resources :portals do
-              resources :categories do
-                resources :folders
-              end
-              resources :articles
+          resources :portals do
+            member do
+              post :archive
+            end
+            resources :categories do
+              resources :folders
             end
           end
+          resources :articles
         end
       end
       # end of account scoped api routes

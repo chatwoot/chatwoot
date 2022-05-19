@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
+RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:kbase_portal, name: 'test_portal', account_id: account.id) }
-  let!(:category) { create(:kbase_category, name: 'category', portal: portal, account_id: account.id) }
+  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
+  let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id) }
 
-  describe 'POST /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}/categories' do
+  describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories", params: {}
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories", params: {}
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -23,7 +23,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
             position: 1
           }
         }
-        post "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories",
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
@@ -33,10 +33,10 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}/categories/{category.id}' do
+  describe 'PUT /api/v1/accounts/{account.id}/portals/{portal.slug}/categories/{category.id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories/#{category.id}", params: {}
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}", params: {}
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
 
         expect(category.name).not_to eql(category_params[:category][:name])
 
-        put "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories/#{category.id}",
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
             params: category_params,
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
@@ -63,39 +63,39 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Categories', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}/categories/{category.id}' do
+  describe 'DELETE /api/v1/accounts/{account.id}/portals/{portal.slug}/categories/{category.id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        delete "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories/#{category.id}", params: {}
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}", params: {}
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
       it 'deletes category' do
-        delete "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories/#{category.id}",
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
                headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
-        deleted_category = Kbase::Category.find_by(id: category.id)
+        deleted_category = Category.find_by(id: category.id)
         expect(deleted_category).to be nil
       end
     end
   end
 
-  describe 'GET /api/v1/accounts/{account.id}/kbase/portals/{portal.slug}/categories' do
+  describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories"
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an authenticated user' do
       it 'get all portals' do
-        category2 = create(:kbase_category, name: 'test_category_2', portal: portal)
+        category2 = create(:category, name: 'test_category_2', portal: portal)
         expect(category2.id).not_to be nil
 
-        get "/api/v1/accounts/#{account.id}/kbase/portals/#{portal.slug}/categories",
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
