@@ -36,7 +36,7 @@ export default {
   mixins: [globalConfigMixin],
   data() {
     return {
-      enabledFeatures: {},
+      enabledFeatures: [],
     };
   },
   computed: {

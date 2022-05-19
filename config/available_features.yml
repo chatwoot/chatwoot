@@ -1,0 +1,15 @@
+channels:
+  - channel_api
+  - channel_email
+  - channel_facebook_page
+  - channel_line
+  - channel_sms
+  - channel_telegram
+  - channel_twilio_sms
+  - channel_twitter_profile
+  - channel_web_widget
+  - channel_whatsapp
+
+features:
+  - ip_lookup
+  - inbound_emails

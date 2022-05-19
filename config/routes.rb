@@ -322,6 +322,7 @@ Rails.application.routes.draw do
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
+      mount Flipper::UI.app(Flipper) => '/flipper'
     end
   end
 

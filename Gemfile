@@ -128,6 +128,11 @@ gem 'html2text'
 # to calculate working hours
 gem 'working_hours'
 
+# Feature Flags
+gem 'flipper'
+gem 'flipper-active_record'
+gem 'flipper-ui'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -158,8 +163,8 @@ end
 group :development, :test do
   # TODO: is this needed ?
   # errors thrown by devise password gem
-  gem 'flay'
-  gem 'rspec'
+  # gem 'flay'
+  # gem 'rspec'
   # for error thrown by devise password gem
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false

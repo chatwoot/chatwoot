@@ -54,9 +54,13 @@ as defined by the routes in the `admin/` namespace
       <i class="ion ion ion-network"></i>
       <%= link_to "Sidekiq", sidekiq_web_url, { target: "_blank" } %>
     </li>
+    <li class="navigation__link">
+      <i class="ion ion ion-levels"></i>
+      <%= link_to "Feature Toggle", '/flipper', { target: "_blank" } %>
+    </li>
   </ul>
   <ul class="logout">
-   
+
     <li class="navigation__link">
       <i class="ion ion-log-out"></i>
       <%= link_to "Logout", super_admin_logout_url %>

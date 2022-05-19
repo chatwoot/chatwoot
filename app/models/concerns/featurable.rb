@@ -7,6 +7,7 @@ module Featurable
   }.freeze
 
   FEATURE_LIST = YAML.safe_load(File.read(Rails.root.join('config/features.yml'))).freeze
+  AVAILABLE_FEATURES = YAML.safe_load(File.read(Rails.root.join('config/available_features.yml'))).freeze
 
   FEATURES = FEATURE_LIST.each_with_object({}) do |feature, result|
     result[result.keys.size + 1] = "feature_#{feature['name']}".to_sym
@@ -52,7 +53,7 @@ module Featurable
   end
 
   def enabled_features
-    all_features.select { |_feature, enabled| enabled == true }
+    AVAILABLE_FEATURES['channels'].select { |channel| Flipper.enabled?(channel.to_sym, self) }
   end
 
   def disabled_features

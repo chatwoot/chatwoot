@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_11_072655) do
+ActiveRecord::Schema.define(version: 2022_05_18_090644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -194,7 +194,6 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "locale", default: "en"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
-    t.index ["locale"], name: "index_categories_on_locale"
   end
 
   create_table "channel_api", force: :cascade do |t|
@@ -390,7 +389,6 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
-    t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
   end
@@ -412,6 +410,17 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
   end
 
+  create_table "csml_bots", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.string "bot_config", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_csml_bots_on_account_id"
+    t.index ["name"], name: "index_csml_bots_on_name"
+  end
+
   create_table "custom_attribute_definitions", force: :cascade do |t|
     t.string "attribute_display_name"
     t.string "attribute_key"
@@ -424,7 +433,7 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -460,6 +469,22 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "flipper_features", force: :cascade do |t|
+    t.string "key", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key"], name: "index_flipper_features_on_key", unique: true
+  end
+
+  create_table "flipper_gates", force: :cascade do |t|
+    t.string "feature_key", null: false
+    t.string "key", null: false
+    t.string "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
   create_table "folders", force: :cascade do |t|
@@ -676,7 +701,6 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.datetime "event_start_time"
     t.datetime "event_end_time"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
-    t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="isEnabled"
     class="small-6 medium-4 large-3 columns channel"
     :class="{ inactive: !isActive }"
     @click="onItemClick"
@@ -50,6 +51,19 @@
   </div>
 </template>
 <script>
+const FEATURE_FLAG_KEYS = {
+  api: 'channel_api',
+  email: 'channel_email',
+  facebook: 'channel_facebook_page',
+  line: 'channel_line',
+  sms: 'channel_sms',
+  telegram: 'channel_telegram',
+  twilio: 'channel_twilio_sms',
+  twitter: 'channel_twitter_profile',
+  website: 'channel_web_widget',
+  whatsapp: 'channel_whatsapp',
+};
+
 export default {
   props: {
     channel: {
@@ -57,25 +71,28 @@ export default {
       required: true,
     },
     enabledFeatures: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },
   computed: {
+    isEnabled() {
+      return this.enabledFeatures.includes(FEATURE_FLAG_KEYS[this.channel.key]);
+    },
     isActive() {
       const { key } = this.channel;
-      if (Object.keys(this.enabledFeatures).length === 0) {
-        return false;
-      }
-      if (key === 'facebook') {
-        return this.enabledFeatures.channel_facebook;
-      }
-      if (key === 'twitter') {
-        return this.enabledFeatures.channel_twitter;
-      }
-      if (key === 'email') {
-        return this.enabledFeatures.channel_email;
-      }
+      // if (Object.keys(this.enabledFeatures).length === 0) {
+      //   return false;
+      // }
+      // if (key === 'facebook') {
+      //   return this.enabledFeatures.channel_facebook;
+      // }
+      // if (key === 'twitter') {
+      //   return this.enabledFeatures.channel_twitter;
+      // }
+      // if (key === 'email') {
+      //   return this.enabledFeatures.channel_email;
+      // }
 
       return [
         'website',
