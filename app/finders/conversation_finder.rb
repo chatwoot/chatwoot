@@ -23,6 +23,8 @@ class ConversationFinder
   def perform
     set_up
 
+    filter_by_reply_status
+
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
@@ -88,6 +90,10 @@ class ConversationFinder
       @conversations = @conversations.assigned
     end
     @conversations
+  end
+
+  def filter_by_reply_status
+    @conversations = @conversations.where(first_reply_created_at: nil) if params[:reply_status] == 'unattended'
   end
 
   def filter_by_query
