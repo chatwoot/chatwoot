@@ -385,6 +385,23 @@
   delete:
     $ref: ./application/custom_filters/delete.yml
 
+# webhooks
+/api/v1/accounts/{account_id}/webhooks:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/webhooks/index.yml
+  post:
+    $ref: ./application/webhooks/create.yml
+/api/v1/accounts/{account_id}/webhooks/{webhook_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/webhook_id'
+  patch:
+    $ref: ./application/webhooks/update.yml
+  delete:
+    $ref: ./application/webhooks/delete.yml
+
 ### Reports
 
 # List

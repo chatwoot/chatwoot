@@ -25,6 +25,9 @@ conversation_id:
 custom_filter_id:
   $ref: ./custom_filter_id.yml
 
+webhook_id:
+  $ref: ./webhook_id.yml
+
 message_id:
   $ref: ./message_id.yml
 

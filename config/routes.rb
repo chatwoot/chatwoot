@@ -106,6 +106,7 @@ Rails.application.routes.draw do
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]

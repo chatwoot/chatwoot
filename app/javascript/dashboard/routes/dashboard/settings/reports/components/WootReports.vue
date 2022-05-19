@@ -61,6 +61,7 @@ import format from 'date-fns/format';
 import { GROUP_BY_FILTER, METRIC_CHART } from '../constants';
 import reportMixin from '../../../../../mixins/reportMixin';
 import { formatTime } from '@chatwoot/utils';
+import { generateFileName } from '../../../../../helper/downloadHelper';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -250,26 +251,17 @@ export default {
       });
     },
     downloadReports() {
-      const { from, to } = this;
-      const fileName = `${this.type}-report-${format(
-        fromUnixTime(to),
-        'dd-MM-yyyy'
-      )}.csv`;
-      switch (this.type) {
-        case 'agent':
-          this.$store.dispatch('downloadAgentReports', { from, to, fileName });
-          break;
-        case 'label':
-          this.$store.dispatch('downloadLabelReports', { from, to, fileName });
-          break;
-        case 'inbox':
-          this.$store.dispatch('downloadInboxReports', { from, to, fileName });
-          break;
-        case 'team':
-          this.$store.dispatch('downloadTeamReports', { from, to, fileName });
-          break;
-        default:
-          break;
+      const { from, to, type } = this;
+      const dispatchMethods = {
+        agent: 'downloadAgentReports',
+        label: 'downloadLabelReports',
+        inbox: 'downloadInboxReports',
+        team: 'downloadTeamReports',
+      };
+      if (dispatchMethods[type]) {
+        const fileName = generateFileName({ type, to });
+        const params = { from, to, fileName };
+        this.$store.dispatch(dispatchMethods[type], params);
       }
     },
     changeSelection(index) {
