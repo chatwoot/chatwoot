@@ -2,27 +2,28 @@
 #
 # Table name: conversations
 #
-#  id                    :integer          not null, primary key
-#  additional_attributes :jsonb
-#  agent_last_seen_at    :datetime
-#  assignee_last_seen_at :datetime
-#  contact_last_seen_at  :datetime
-#  custom_attributes     :jsonb
-#  identifier            :string
-#  last_activity_at      :datetime         not null
-#  snoozed_until         :datetime
-#  status                :integer          default("open"), not null
-#  uuid                  :uuid             not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
-#  assignee_id           :integer
-#  campaign_id           :bigint
-#  contact_id            :bigint
-#  contact_inbox_id      :bigint
-#  display_id            :integer          not null
-#  inbox_id              :integer          not null
-#  team_id               :bigint
+#  id                     :integer          not null, primary key
+#  additional_attributes  :jsonb
+#  agent_last_seen_at     :datetime
+#  assignee_last_seen_at  :datetime
+#  contact_last_seen_at   :datetime
+#  custom_attributes      :jsonb
+#  first_reply_created_at :datetime
+#  identifier             :string
+#  last_activity_at       :datetime         not null
+#  snoozed_until          :datetime
+#  status                 :integer          default("open"), not null
+#  uuid                   :uuid             not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  assignee_id            :integer
+#  campaign_id            :bigint
+#  contact_id             :bigint
+#  contact_inbox_id       :bigint
+#  display_id             :integer          not null
+#  inbox_id               :integer          not null
+#  team_id                :bigint
 #
 # Indexes
 #
@@ -31,6 +32,7 @@
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
+#  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_team_id                     (team_id)
