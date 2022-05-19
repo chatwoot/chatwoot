@@ -1,4 +1,5 @@
 import methodsMixin from '../../../dashboard/mixins/automations/methodsMixin';
+import validationsMixin from '../../../dashboard/mixins/automations/validationsMixin';
 import {
   automation,
   customAttributes,
@@ -31,13 +32,20 @@ localVue.use(Vuex);
 import Vuelidate from 'vuelidate';
 Vue.use(Vuelidate);
 
-const createComponent = (mixins, data, computed = {}, methods = {}) => {
+const createComponent = (
+  mixins,
+  data,
+  computed = {},
+  methods = {},
+  validations
+) => {
   const Component = {
     render() {},
     mixins,
     data,
     computed,
     methods,
+    validations,
   };
   const Constructor = Vue.extend(Component);
   const vm = new Constructor().$mount();
@@ -85,7 +93,7 @@ const generateComputedProperties = () => {
   };
 };
 
-describe('automationMixin', () => {
+describe('automationMethodsMixin', () => {
   it('getFileName returns the correct file name', () => {
     const data = () => {
       return {};
@@ -474,5 +482,15 @@ describe('automationMixin', () => {
     expect(wrapper.vm.getActionDropdownValues('add_label')).toEqual(
       expectedActionDropdownValues
     );
+  });
+});
+
+describe('automationValidationsMixin', () => {
+  it('automationValidationsMixin is present', () => {
+    const data = () => {
+      return {};
+    };
+    const wrapper = createComponent([validationsMixin], data, {}, {});
+    expect(typeof wrapper.vm.$options.validations).toBe('object');
   });
 });
