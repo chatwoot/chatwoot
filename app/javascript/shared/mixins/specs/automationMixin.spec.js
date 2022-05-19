@@ -454,7 +454,7 @@ describe('automationMixin', () => {
     );
   });
 
-  it('getActionDropdownValues returns Action Dropdown Values', () => {
+  it('getActionDropdownValues returns Action dropdown Values', () => {
     const data = () => {
       return {};
     };
