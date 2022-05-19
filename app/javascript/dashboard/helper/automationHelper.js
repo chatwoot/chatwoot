@@ -87,7 +87,7 @@ export const generateCustomAttributeTypes = customAttributes => {
   });
 };
 
-const generateConditionOptions = options => {
+export const generateConditionOptions = options => {
   return options.map(i => {
     return {
       id: i.id,
