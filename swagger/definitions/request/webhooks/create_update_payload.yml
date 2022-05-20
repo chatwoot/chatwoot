@@ -1,0 +1,18 @@
+type: object
+properties:
+  url:
+    type: string
+    description: The url where the events should be sent
+  subscriptions:
+    type: array
+    items:
+      type: string
+      enum: [
+        "conversation_created",
+        "conversation_status_changed",
+        "conversation_updated",
+        "message_created",
+        "message_updated",
+        "webwidget_triggered"
+      ]
+    description: The events you want to subscribe to.
