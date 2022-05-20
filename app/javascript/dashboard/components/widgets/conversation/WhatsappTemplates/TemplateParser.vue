@@ -7,24 +7,30 @@
           {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
         </p>
         <div
-          v-for="variable in message.variables"
+          v-for="(variable, i) in message.variables"
           :key="variable.name"
           class="template__variable-item"
+          :set="(v = $v.message.variables.$each[i])"
         >
           <span class="label secondary">
             {{ variable.name }}
           </span>
-          <input
+          <woot-input
             v-model="variable.value"
             type="text"
             class="variable-input"
+            :class="{ error: v.value.$error }"
             :placeholder="
               $t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
                 variable: variable.name,
               })
             "
+            @blur="v.value.$touch"
           />
         </div>
+        <p v-if="showRequiredMessage" class="error">
+          All variables are required
+        </p>
       </div>
     </div>
     <footer>
@@ -39,11 +45,22 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators';
+
 export default {
   props: {
     template: {
       type: Object,
       default: () => {},
+    },
+  },
+  validations: {
+    message: {
+      variables: {
+        $each: {
+          value: { required },
+        },
+      },
     },
   },
   data() {
@@ -64,6 +81,11 @@ export default {
   },
   methods: {
     sendMessage() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.showRequiredMessage = true;
+        return;
+      }
       this.$emit('sendMessage', this.generateMessage);
     },
   },
@@ -98,5 +120,9 @@ footer {
   button {
     margin-left: var(--space-one);
   }
+}
+.error {
+  color: var(--r-400);
+  text-align: right;
 }
 </style>
