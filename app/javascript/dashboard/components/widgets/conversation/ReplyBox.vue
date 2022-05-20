@@ -113,7 +113,14 @@
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       @toggleEnterToSend="toggleEnterToSend"
+      @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
+    <woot-modal
+      :show.sync="showWhatsappTemplatesModal"
+      :on-close="hideWhatsappTemplatesModal"
+    >
+      <whatsapp-templates @close="hideWhatsappTemplatesModal" />
+    </woot-modal>
   </div>
 </template>
 
@@ -137,7 +144,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import {
   isEscape,
   isEnter,
@@ -162,6 +169,7 @@ export default {
     WootMessageEditor,
     WootAudioRecorder,
     Banner,
+    WhatsappTemplates,
   },
   mixins: [
     clickaway,
@@ -201,6 +209,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      showWhatsappTemplatesModal: false,
     };
   },
   computed: {
@@ -496,6 +505,12 @@ export default {
     },
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    },
+    openWhatsappTemplateModal() {
+      this.showWhatsappTemplatesModal = true;
+    },
+    hideWhatsappTemplatesModal() {
+      this.showWhatsappTemplatesModal = false;
     },
     onClickSelfAssign() {
       const {

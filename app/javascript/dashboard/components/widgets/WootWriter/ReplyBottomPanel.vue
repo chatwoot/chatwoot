@@ -79,6 +79,16 @@
         :title="signatureToggleTooltip"
         @click="toggleMessageSignature"
       />
+      <woot-button
+        v-if="showWhatsappTemplatesButton"
+        v-tooltip.top-end="'Whatsapp Templates'"
+        icon="whatsapp"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="'Whatsapp Templates'"
+        @click="$emit('selectWhatsappTemplate')"
+      />
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -260,6 +270,9 @@ export default {
     },
     showMessageSignatureButton() {
       return !this.isPrivate && this.isAnEmailChannel;
+    },
+    showWhatsappTemplatesButton() {
+      return !this.isPrivate;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
