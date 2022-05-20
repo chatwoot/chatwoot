@@ -119,7 +119,10 @@
       :show.sync="showWhatsappTemplatesModal"
       :on-close="hideWhatsappTemplatesModal"
     >
-      <whatsapp-templates @close="hideWhatsappTemplatesModal" />
+      <whatsapp-templates
+        @close="hideWhatsappTemplatesModal"
+        @on-send="sendWhatsappMessage"
+      />
     </woot-modal>
   </div>
 </template>
@@ -561,6 +564,24 @@ export default {
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
+    },
+    async sendWhatsappMessage(message) {
+      const messagePayload = this.getMessagePayload(message);
+      this.clearMessage();
+      this.showWhatsappTemplatesModal = false;
+      try {
+        await this.$store.dispatch(
+          'createPendingMessageAndSend',
+          messagePayload
+        );
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
+        this.showAlert(errorMessage);
+      }
+      this.hideEmojiPicker();
+      this.$emit('update:popoutReplyBox', false);
     },
     replaceText(message) {
       setTimeout(() => {

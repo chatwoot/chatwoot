@@ -1,7 +1,7 @@
 <template>
   <div>
     <woot-modal-header
-      header-title="Whatsapp Templates"
+      :header-title="$t('WHATSAPP_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"
     />
     <div class="row modal-content">
@@ -10,6 +10,7 @@
         v-else
         :template="selectedWaTemplate"
         @resetTemplate="onResetTemplate"
+        @sendMessage="onSendMessage"
       />
     </div>
   </div>
@@ -31,8 +32,10 @@ export default {
   computed: {
     modalHeaderContent() {
       return this.selectedWaTemplate
-        ? `Compile ${this.selectedWaTemplate.name}`
-        : 'Select the whatsapp template you want to send';
+        ? this.$t('WHATSAPP_TEMPLATES.MODAL.TEMPLATE_SELECTED_SUBTITLE', {
+            templateName: this.selectedWaTemplate.name,
+          })
+        : this.$t('WHATSAPP_TEMPLATES.MODAL.SUBTITLE');
     },
   },
   methods: {
@@ -41,6 +44,9 @@ export default {
     },
     onResetTemplate() {
       this.selectedWaTemplate = null;
+    },
+    onSendMessage(message) {
+      this.$emit('on-send', message);
     },
   },
 };

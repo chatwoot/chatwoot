@@ -3,7 +3,9 @@
     <textarea v-model="generateMessage" rows="4" readonly></textarea>
     <div>
       <div class="template__variables-container">
-        <p class="variables-label">Variables</p>
+        <p class="variables-label">
+          {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
+        </p>
         <div
           v-for="variable in message.variables"
           :key="variable.name"
@@ -16,16 +18,22 @@
             v-model="variable.value"
             type="text"
             class="variable-input"
-            :placeholder="`Enter ${variable.name} value`"
+            :placeholder="
+              $t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
+                variable: variable.name,
+              })
+            "
           />
         </div>
       </div>
     </div>
     <footer>
       <woot-button variant="smooth" @click="$emit('resetTemplate')">
-        Go Back
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
       </woot-button>
-      <woot-button>Send</woot-button>
+      <woot-button @click="sendMessage">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
+      </woot-button>
     </footer>
   </div>
 </template>
@@ -52,6 +60,11 @@ export default {
       return this.message.content.replace(/{([^}]+)}/g, (match, variable) => {
         return variables[variable] || `{${variable}}`;
       });
+    },
+  },
+  methods: {
+    sendMessage() {
+      this.$emit('sendMessage', this.generateMessage);
     },
   },
 };

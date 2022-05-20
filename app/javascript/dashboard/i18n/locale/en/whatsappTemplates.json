@@ -1,0 +1,19 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Whatsapp Templates",
+            "SUBTITLE": "Select the whatsapp template you want to send",
+            "TEMPLATE_SELECTED_SUBTITLE": "Compile %{templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Search Templates",
+            "NO_TEMPLATES_FOUND": "No templates found for"
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
+            "GO_BACK_LABEL": "Go Back",
+            "SEND_MESSAGE_LABEL": "Send Message"
+        }
+    }
+}

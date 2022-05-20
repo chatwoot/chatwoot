@@ -6,7 +6,7 @@
         ref="search"
         v-model="query"
         type="search"
-        placeholder="Search"
+        :placeholder="$t('WHATSAPP_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
         class="templates__search-input"
       />
     </div>
@@ -23,7 +23,8 @@
       </button>
       <div v-if="!filteredTemplates.length">
         <p>
-          No templates found for <strong>{{ query }}</strong>
+          {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
+          <strong>{{ query }}</strong>
         </p>
       </div>
     </div>
