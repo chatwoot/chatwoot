@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrări",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Renunță",
+        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL Webhook",
+          "PLACEHOLDER": "Exemplu: https://example/api/webhook",
+          "ERROR": "Te rog introdu un URL valid"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Creează webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Configurare",
       "HEADER": "Setări Webhook",
@@ -19,36 +42,17 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Editare",
-        "TITLE": "Edit webhook",
-        "CANCEL": "Renunță",
-        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL Webhook",
-            "PLACEHOLDER": "Exemplu: https://example/api/webhook",
-            "ERROR": "Te rog introdu un URL valid"
-          },
-          "SUBMIT": "Edit webhook"
-        },
+        "TITLE": "Editare webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
         }
       },
       "ADD": {
         "CANCEL": "Renunță",
         "TITLE": "Adaugă un nou webhook",
-        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL Webhook",
-            "PLACEHOLDER": "Exemplu: https://example/api/webhook",
-            "ERROR": "Te rog introdu un URL valid"
-          },
-          "SUBMIT": "Creează webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook adăugat cu succes",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmă ștergerea",
-          "MESSAGE": "Sigur doriți să ștergeți ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Da, șterge ",
           "NO": "Nu, păstreaza"
         }
@@ -68,8 +72,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Utilizarea integrării Slack",
+        "BODY": "<br/><p>Chatwoot va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin chatwoot.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în chatwoot sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>"
       }
     },
     "DELETE": {

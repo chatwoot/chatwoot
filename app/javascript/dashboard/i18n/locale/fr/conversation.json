@@ -22,7 +22,7 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "Cette conversation ne vous est pas assignée. Voulez-vous vous assigner cette conversation ?",
     "ASSIGN_TO_ME": "M’assigner la conversation",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
@@ -57,13 +57,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Signature du message",
+      "ENABLE_SIGN_TOOLTIP": "Activer la signature",
+      "DISABLE_SIGN_TOOLTIP": "Désactiver la signature",
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
       "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signature du message n'est pas configurée, veuillez le configurer dans les paramètres du profil.",
+      "CLICK_HERE": "Cliquez ici pour mettre à jour"
     },
     "REPLYBOX": {
       "REPLY": "Répondre",
@@ -74,13 +74,13 @@
       "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Enregistrer l'audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Autoriser l'accès à l'audio",
+      "TIP_AUDIORECORDER_ERROR": "Impossible d'ouvrir l'audio",
       "ENTER_TO_SEND": "Entrer pour envoyer",
       "DRAG_DROP": "Glissez et déposez ici pour lier",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "Démarrer l'enregistrement audio",
+      "STOP_AUDIO_RECORDING": "Arrêter l'enregistrement audio",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Ajouter cci",
@@ -104,8 +104,8 @@
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "Impossible d'envoyer le message ! Réessayez",
+    "TRY_AGAIN": "Réessayer",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Sélectionner un agent",
       "REMOVE": "Supprimer",
@@ -143,7 +143,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invitez les membres de votre équipe",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Puisque vous vous apprêtez à parler à votre client, amenez vos coéquipiers pour vous aider. Vous pouvez inviter vos coéquipiers en ajoutant leurs adresses e-mail à la liste des agents.",
       "NEW_LINK": "Cliquez ici pour inviter un membre de l'équipe"
     },
     "INBOXES": {
@@ -195,7 +195,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "De",
     "TO": "À",
     "BCC": "Cci",
     "CC": "Cc",

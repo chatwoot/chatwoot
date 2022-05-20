@@ -22,7 +22,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
     return unsend_message if message_is_deleted?
 
-    ensure_contact(contact_id)
+    ensure_contact(contact_id) if contacts_first_message?(contact_id)
 
     create_message
   end
@@ -36,7 +36,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     rescue Koala::Facebook::AuthenticationError
       @inbox.channel.authorization_error!
       raise
-    rescue StandardError => e
+    rescue StandardError, Koala::Facebook::ClientError => e
       result = {}
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
@@ -50,6 +50,10 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
   def message_is_deleted?
     @messaging[:message][:is_deleted].present?
+  end
+
+  def contacts_first_message?(ig_scope_id)
+    @inbox.contact_inboxes.where(source_id: ig_scope_id).empty? && @inbox.channel.instagram_id.present?
   end
 
   def unsend_message

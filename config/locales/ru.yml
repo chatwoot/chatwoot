@@ -22,6 +22,8 @@ ru:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Мы не разрешаем одноразовые почтовые ящики
       invalid_email: Вы ввели неверный email
@@ -51,7 +53,7 @@ ru:
       conversation_mention: "Вас упомянули в разговоре [ID - %{display_id}] %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} упомянул Вас в истории: "
       deleted: Это сообщение было удалено
     activity:
       status:

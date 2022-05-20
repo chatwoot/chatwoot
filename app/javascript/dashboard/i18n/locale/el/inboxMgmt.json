@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Η αυτόματη αντιστοίχιση ενημερώθηκε επιτυχώς",
         "ERROR_MESSAGE": "Δεν μπορεί να ενημερωθεί το χρώμα του widget. Παρακαλώ προσπαθήστε αργότερα."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Ενεργό",
-        "DISABLED": "Ανενεργό"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Χαρακτηριστικά",
       "DISPLAY_FILE_PICKER": "Να εμφανίζεται η επιλογή αρχείου στο widget",
-      "DISPLAY_EMOJI_PICKER": "Να εμφανίζεται ο επιλογές emoji στο widget"
+      "DISPLAY_EMOJI_PICKER": "Να εμφανίζεται ο επιλογές emoji στο widget",
+      "ALLOW_END_CONVERSATION": "Επιτρέψτε στους χρήστες να τερματίσουν τη συνομιλία από το widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Κώδικας (Script)",
       "MESSENGER_SUB_HEAD": "Τοποθετήσετε αυτόν τον κώδικα μέσα στο body tag της ιστοσελίδας σας",
       "INBOX_AGENTS": "Πράκτορες",
       "INBOX_AGENTS_SUB_TEXT": "Προσθέστε ή αφαιρέστε πράκτορες σε αυτό το κιβώτιο",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Ενημέρωση",
       "ENABLE_EMAIL_COLLECT_BOX": "Ενεργοποιήσετε το πλαίσιο συλλογής email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Οι προ-φόρμες συνομιλίας σας επιτρέπουν να συλλέξετε πληροφορίες για τον χρήστη πριν να ξεκινήσει τη συνομιλία μαζί σας.",
+      "SET_FIELDS": "Πεδία προ συνομιλίας",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Πεδία",
+        "LABEL": "Ετικέτα",
+        "PLACE_HOLDER": "Τοποθέτηση",
+        "KEY": "Κλειδί",
+        "TYPE": "Τύπος",
+        "REQUIRED": "Υποχρεωτικό"
+      },
       "ENABLE": {
         "LABEL": "Ενεργοποίηση προ-φόρμας συνομιλίας",
         "OPTIONS": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Ορισμός λεπτομερειών IMAP",
+      "NOTE_TEXT": "Για να ενεργοποιήσετε το SMTP, παρακαλώ ρυθμίστε το IMAP.",
       "UPDATE": "Ενημέρωση ρυθμίσεων IMAP",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση ρυθμίσεων IMAP για αυτά τα εισερχόμενα",
       "TOGGLE_HELP": "Η ενεργοποίηση του IMAP θα βοηθήσει το χρήστη να λάβει email",
@@ -483,9 +492,9 @@
         "LABEL": "Θύρα",
         "PLACE_HOLDER": "Θύρα"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Είσοδος",
+        "PLACE_HOLDER": "Είσοδος"
       },
       "PASSWORD": {
         "LABEL": "Κωδικός",
@@ -511,9 +520,9 @@
         "LABEL": "Θύρα",
         "PLACE_HOLDER": "Θύρα"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Είσοδος",
+        "PLACE_HOLDER": "Είσοδος"
       },
       "PASSWORD": {
         "LABEL": "Κωδικός",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Κρυπτογράφηση",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL",
+      "AUTH_MECHANISM": "Πιστοποίηση"
+    },
+    "NOTE": "Σημείωση: "
   }
 }

@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "대화",
     "LOADING_CHART": "차트 데이터 불러오는 중...",
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_AGENT_REPORTS": "다운로드 에이전트 보고서",
@@ -18,12 +18,16 @@
         "DESC": "( 총 )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "첫 번째 응답 시간",
-        "DESC": "( 평균 )"
+        "NAME": "First Response Time",
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "해결 시간",
-        "DESC": "( 평균 )"
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "해결 수",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Year"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "영업시간"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -130,12 +135,16 @@
         "DESC": "( 총 )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "첫 번째 응답 시간",
-        "DESC": "( 평균 )"
+        "NAME": "First Response Time",
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "해결 시간",
-        "DESC": "( 평균 )"
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "해결 수",
@@ -193,12 +202,16 @@
         "DESC": "( 총 )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "첫 번째 응답 시간",
-        "DESC": "( 평균 )"
+        "NAME": "First Response Time",
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "해결 시간",
-        "DESC": "( 평균 )"
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "해결 수",
@@ -256,12 +269,16 @@
         "DESC": "( 총 )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "첫 번째 응답 시간",
-        "DESC": "( 평균 )"
+        "NAME": "First Response Time",
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "해결 시간",
-        "DESC": "( 평균 )"
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "해결 수",
@@ -319,12 +336,16 @@
         "DESC": "( 총 )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "첫 번째 응답 시간",
-        "DESC": "( 평균 )"
+        "NAME": "First Response Time",
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "해결 시간",
-        "DESC": "( 평균 )"
+        "DESC": "( 평균 )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "해결 수",
@@ -391,6 +412,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "열기",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "지정되지 않음"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "에이전트",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "상태"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "온라인",
+      "BUSY": "바쁨",
+      "OFFLINE": "오프라인"
     }
   }
 }
