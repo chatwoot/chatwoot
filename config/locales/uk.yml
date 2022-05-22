@@ -47,13 +47,13 @@ uk:
     default_group_by: день
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Ім'я контакту
+        contact_email_address: Email
+        contact_phone_number: Контактний телефон
+        link_to_the_conversation: Посилання на бесіду
         agent_name: Ім'я агента
         rating: Оцінка
-        feedback: Feedback Comment
+        feedback: Відгук
         recorded_at: Recorded date
   notifications:
     notification_title:
