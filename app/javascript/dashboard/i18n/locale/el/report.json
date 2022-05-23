@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Αναφορές CSAT",
     "NO_RECORDS": "Δεν υπάρχουν διαθέσιμες απαντήσεις ερευνών CSAT.",
+    "DOWNLOAD": "Λήψη αναφορών CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Επιλέξτε Πράκτορες"

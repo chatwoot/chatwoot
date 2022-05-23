@@ -45,6 +45,16 @@ sv:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Agentens namn
+        rating: Betyg
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
