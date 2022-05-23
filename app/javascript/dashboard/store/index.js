@@ -3,10 +3,7 @@ import Vuex from 'vuex';
 
 import accounts from './modules/accounts';
 import agents from './modules/agents';
-import assignableAgents from './modules/assignableAgents';
-import attributes from './modules/attributes';
 import auth from './modules/auth';
-import automations from './modules/automations';
 import campaigns from './modules/campaigns';
 import cannedResponse from './modules/cannedResponse';
 import contactConversations from './modules/contactConversations';
@@ -21,8 +18,8 @@ import conversationSearch from './modules/conversationSearch';
 import conversationStats from './modules/conversationStats';
 import conversationTypingStatus from './modules/conversationTypingStatus';
 import csat from './modules/csat';
-import customViews from './modules/customViews';
 import globalConfig from 'shared/store/globalConfig';
+import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
 import integrations from './modules/integrations';
@@ -33,16 +30,16 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import attributes from './modules/attributes';
+import automations from './modules/automations';
+import customViews from './modules/customViews';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     accounts,
     agents,
-    assignableAgents,
-    attributes,
     auth,
-    automations,
     campaigns,
     cannedResponse,
     contactConversations,
@@ -57,8 +54,8 @@ export default new Vuex.Store({
     conversationStats,
     conversationTypingStatus,
     csat,
-    customViews,
     globalConfig,
+    inboxAssignableAgents,
     inboxes,
     inboxMembers,
     integrations,
@@ -69,5 +66,8 @@ export default new Vuex.Store({
     teams,
     userNotificationSettings,
     webhooks,
+    attributes,
+    automations,
+    customViews,
   },
 });

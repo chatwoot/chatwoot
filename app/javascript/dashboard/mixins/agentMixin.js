@@ -3,7 +3,9 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     assignableAgents() {
-      return this.$store.getters['assignableAgents/getAssignableAgents'];
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inboxId
+      );
     },
     ...mapGetters({ currentUser: 'getCurrentUser' }),
     isAgentSelected() {

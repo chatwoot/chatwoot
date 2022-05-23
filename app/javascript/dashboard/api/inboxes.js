@@ -6,6 +6,10 @@ class Inboxes extends ApiClient {
     super('inboxes', { accountScoped: true });
   }
 
+  getAssignableAgents(inboxId) {
+    return axios.get(`${this.url}/${inboxId}/assignable_agents`);
+  }
+
   getCampaigns(inboxId) {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }

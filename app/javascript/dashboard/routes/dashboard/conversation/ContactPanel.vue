@@ -150,7 +150,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
-      uiFlags: 'assignableAgents/getUIFlags',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     conversationAdditionalAttributes() {
       return this.currentConversationMetaData.additional_attributes || {};
