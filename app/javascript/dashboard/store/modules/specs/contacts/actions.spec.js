@@ -299,4 +299,18 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONTACT_FILTERS]]);
     });
   });
+
+  describe('#deleteAvatar', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({ data: { payload: contactList[0] } });
+      await actions.deleteAvatar({ commit }, contactList[0].id);
+      expect(commit.mock.calls).toEqual([[types.EDIT_CONTACT, contactList[0]]]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteAvatar({ commit }, contactList[0].id)
+      ).rejects.toThrow(Error);
+    });
+  });
 });

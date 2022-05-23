@@ -474,6 +474,19 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['attributes']).to include('phone_number')
       end
+
+      it 'updates avatar' do
+        # no avatar before upload
+        expect(contact.avatar.attached?).to eq(false)
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: valid_params.merge(avatar: file),
+              headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        contact.reload
+        expect(contact.avatar.attached?).to eq(true)
+      end
     end
   end
 
@@ -551,6 +564,35 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(contact.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/contacts/:id/destroy_avatar' do
+    let(:contact) { create(:contact, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_avatar"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        create(:contact, account: account)
+        contact.avatar.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'delete contact avatar' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_avatar",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect { contact.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
       end
     end
   end
