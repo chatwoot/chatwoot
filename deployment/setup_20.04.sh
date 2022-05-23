@@ -148,6 +148,9 @@ function configure_systemd_services() {
 
 
 function setup_ssl() {
+  echo "debug: setting up ssl"
+  echo "debug: domain: $domain_name"
+  echo "debug: letsencrypt email: $le_email"
   curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
   wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
   cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
@@ -160,9 +163,6 @@ function setup_ssl() {
   sed -i "s/http:\/\/0.0.0.0:3000/https:\/\/$domain_name/g" .env
 EOF
   systemctl restart chatwoot.target
-  echo "debug: setting up ssl"
-  echo "debug: domain: $domain_name"
-  echo "debug: letsencrypt email: $le_email"
 }
 
 function setup_logging() {
@@ -191,6 +191,7 @@ EOF
     get_domain_info
   fi
 
+  echo -en "\n"
   read -rp 'Would you like to install postgres and redis?(Answer no if you plan to use external services): ' install_pg_redis
 
   if [ "$install_pg_redis" == "no" ]
@@ -198,7 +199,7 @@ EOF
     echo "***** Skipping postgres and redis installation. ****"
   fi
 
-  echo "➥ 1/9 Installing dependencies. This takes a while."
+  echo -en "\n➥ 1/9 Installing dependencies. This takes a while."
   install_dependencies &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
