@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapports CSAT",
     "NO_RECORDS": "Il n'y a aucune réponse à l'enquête CSAT disponible.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choisissez des agents"

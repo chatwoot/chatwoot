@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Reporte de encuestas de satisfacción",
     "NO_RECORDS": "No hay respuestas de encuestas de satisfacción disponibles.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Elegir agentes"

@@ -45,6 +45,16 @@ el:
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
     default_group_by: ημέρα
+    csat:
+      headers:
+        contact_name: Όνομα Επαφής
+        contact_email_address: Διεύθυνση Email Επαφής
+        contact_phone_number: Αριθμός Τηλεφώνου Επαφής
+        link_to_the_conversation: Σύνδεσμος για την συνομιλία
+        agent_name: Όνομα Πράκτορα
+        rating: Αξιολόγηση
+        feedback: Σχόλιο ανατροφοδότησης
+        recorded_at: Ημερομηνία καταγραφής
   notifications:
     notification_title:
       conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
