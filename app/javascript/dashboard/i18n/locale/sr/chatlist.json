@@ -81,6 +81,7 @@
     "NO_MESSAGES": "Nema poruka",
     "NO_CONTENT": "Nema sadržaja",
     "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
-    "SHOW_QUOTED_TEXT": "Prikaži citirani tekst"
+    "SHOW_QUOTED_TEXT": "Prikaži citirani tekst",
+    "MESSAGE_READ": "Read"
   }
 }

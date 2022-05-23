@@ -22,6 +22,8 @@ nl:
     reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Wij staan geen verwijderbare e-mails toe
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd

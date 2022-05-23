@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatikus hozzárendelés sikeresen frissítve",
         "ERROR_MESSAGE": "Nem sikerült a widget szín változtatása. Kérjük próbáld később."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Lehetőségek",
       "DISPLAY_FILE_PICKER": "File választó megjelenítése a widgeten",
-      "DISPLAY_EMOJI_PICKER": "Emoji választó megjelenítése a widgeten"
+      "DISPLAY_EMOJI_PICKER": "Emoji választó megjelenítése a widgeten",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger szkript",
       "MESSENGER_SUB_HEAD": "Ezt a gombot a body tag-en belül helyezd el",
       "INBOX_AGENTS": "Ügynökök",
       "INBOX_AGENTS_SUB_TEXT": "Ügynökök hosszáadása vagy eltávolítása az inboxból",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Frissítés",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "A chat előtti űrlapok lehetővé teszik hogy felhasználói adatokat gyűjts mielőtt a beszélgetés megkezdődik.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Chat előtti űrlap engedélyezése",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Chat előtti üzenet",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Ez az üzenet látható lesz a felhasználók számára az űrlappal együtt"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Bejelentkezés",
+        "PLACE_HOLDER": "Bejelentkezés"
       },
       "PASSWORD": {
         "LABEL": "Jelszó",
@@ -511,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Bejelentkezés",
+        "PLACE_HOLDER": "Bejelentkezés"
       },
       "PASSWORD": {
         "LABEL": "Jelszó",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

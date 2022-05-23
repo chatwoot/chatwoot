@@ -3,10 +3,10 @@
     "LINK": "Setări profil",
     "TITLE": "Setări profil",
     "BTN_TEXT": "Actualizeaza profil",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "DELETE_AVATAR": "Șterge avatarul",
+    "AVATAR_DELETE_SUCCESS": "Avatar a fost șters cu succes",
+    "AVATAR_DELETE_FAILED": "Există o eroare în timp ce ștergeți avatarul, vă rugăm să încercați din nou",
+    "UPDATE_SUCCESS": "Profilul dvs. a fost actualizat cu succes",
     "PASSWORD_UPDATE_SUCCESS": "Parola ta a fost schimbată cu succes",
     "AFTER_EMAIL_CHANGED": "Profilul tău a fost actualizat cu succes, te rugăm să te autentifici din nou pentru că datele tale de autentificare au fost modificate",
     "FORM": {
@@ -20,40 +20,40 @@
         "NOTE": "Adresa ta de email este identitatea ta și este folosită pentru a te autentifica."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Semnătura mesajului personal",
+        "NOTE": "Creați o semnătură de mesaj personal care ar fi adăugată la toate mesajele pe care le trimiteți de pe platformă. Utilizați editorul de conținut îmbogățit pentru a crea o semnătură extrem de personalizată.",
+        "BTN_TEXT": "Salvarea semnăturii mesajului",
+        "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
+        "API_SUCCESS": "Semnătura salvată cu succes"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Semnătura mesajului",
+        "ERROR": "Semnătura mesajului nu poate fi goală",
+        "PLACEHOLDER": "Introduceți semnătura mesajului personal aici."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
         "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Schimba parola"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token acces",
         "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Notificări audio",
+        "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
+        "NONE": "Nimic",
+        "ASSIGNED": "Conversații atribuite",
+        "ALL_CONVERSATIONS": "Toate conversațiile"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări prin e-mail",
         "NOTE": "Actualizați preferințele de notificare prin e-mail aici",
         "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
         "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "Trimiterea notificărilor prin e-mail atunci când sunteți menționat într-o conversație",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor prin e-mail atunci când se creează un mesaj nou într-o conversație atribuită"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
@@ -64,8 +64,8 @@
         "NOTE": "Actualizați preferințele de notificare push aici",
         "CONVERSATION_ASSIGNMENT": "Trimite notificări push atunci când o conversație îmi este atribuită",
         "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "CONVERSATION_MENTION": "Trimiterea notificărilor push atunci când sunteți menționat într-o conversație",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Trimiterea notificărilor push atunci când se creează un mesaj nou într-o conversație atribuită",
         "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
         "REQUEST_PUSH": "Activează notificările push"
       },
@@ -96,40 +96,44 @@
         "PLACEHOLDER": "Te rugăm să introduci adresa ta de e-mail, aceasta va fi afișată în conversații"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Parola curentă",
+        "ERROR": "Vă rugăm să introduceţi un nume de agent",
+        "PLACEHOLDER": "Vă rugăm să introduceți parola curentă"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Parolă nouă",
         "ERROR": "Te rugăm să introduci o parolă pentru lungimea de 6 caractere sau mai mult",
         "PLACEHOLDER": "Te rog introdu o noua parola"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmare parolă nouă",
         "ERROR": "Confirmarea parolei trebuie să se potrivească cu parola",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Vă rugăm să reintroduceți noua parolă"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Schimba",
     "CHANGE_ACCOUNTS": "Comută contul",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contact Suport",
     "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Scurtături Tastatură",
     "LOGOUT": "Deconectare"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "zile de încercare rămase.",
     "TRAIL_BUTTON": "Cumpara acum",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Utilizator șters"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiază",
       "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
@@ -146,47 +150,49 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Conversații",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "Toate conversațiile",
+    "MENTIONED_CONVERSATIONS": "Menţionări",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
     "CONTACTS": "Contacte",
     "HOME": "Acasa",
     "AGENTS": "Agenți",
     "INBOXES": "Căsuțe",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Notificări",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
     "INTEGRATIONS": "Integrări",
     "PROFILE_SETTINGS": "Setări profil",
     "ACCOUNT_SETTINGS": "Setările contului",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Aplicatii",
     "LABELS": "Etichete",
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
-    "TEAMS": "Teams",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "Overview",
+    "TEAMS": "Echipe",
+    "CUSTOM_VIEWS_FOLDER": "Foldere",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmente",
+    "ALL_CONTACTS": "Toate persoanele de contact",
+    "TAGGED_WITH": "Etichetate cu",
+    "NEW_LABEL": "Etichetă nouă",
+    "NEW_TEAM": "Echipă nouă",
+    "NEW_INBOX": "Inbox nou",
+    "REPORTS_CONVERSATION": "Conversații",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanii",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "ONGOING": "În derulare",
+    "ONE_OFF": "Unul oprit",
     "REPORTS_AGENT": "Agenți",
     "REPORTS_LABEL": "Etichete",
     "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "REPORTS_TEAM": "Echipa",
+    "SET_AVAILABILITY_TITLE": "Setați-vă ca",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Prezentare generală"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",
     "NEW_ACCOUNT": "Cont Nou",
     "SELECTOR_SUBTITLE": "Creează un cont nou",
     "API": {
@@ -204,22 +210,22 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Deschiderea conversației",
+      "RESOLVE_AND_NEXT": "Rezolvarea și trecerea la următorul",
+      "NAVIGATE_DROPDOWN": "Navigarea elementelor verticale",
+      "RESOLVE_CONVERSATION": "Detalii conversație",
+      "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
+      "ADD_ATTACHMENT": "Fişier ataşat",
+      "GO_TO_CONTACTS_DASHBOARD": "Accesați Tabloul de bord persoane de contact",
+      "TOGGLE_SIDEBAR": "Comutare bară laterală",
+      "GO_TO_REPORTS_SIDEBAR": "Accesați bara laterală Rapoarte",
+      "MOVE_TO_NEXT_TAB": "Deplasarea la fila următoare din lista de conversații",
+      "GO_TO_SETTINGS": "Accesați Pagina Setări",
+      "SWITCH_CONVERSATION_STATUS": "Comutarea la următoarea stare a conversației",
+      "SWITCH_TO_PRIVATE_NOTE": "Comutarea la Notă privată",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Comutarea editorului de conținut îmbogățit",
+      "SWITCH_TO_REPLY": "Comutarea la Răspuns",
+      "TOGGLE_SNOOZE_DROPDOWN": "Comutați snooze dropdown"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

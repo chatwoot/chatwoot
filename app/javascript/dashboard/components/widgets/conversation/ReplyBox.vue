@@ -36,9 +36,9 @@
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
-        @state-recorder-timer-changed="onStateRecorderTimerChanged"
+        @state-recorder-progress-changed="onStateProgressRecorderChanged"
         @state-recorder-changed="onStateRecorderChanged"
-        @recorder-blob="onRecorderBlob"
+        @finish-record="onFinishRecorder"
       />
       <resizable-text-area
         v-else-if="!showRichContentEditor"
@@ -103,7 +103,7 @@
       :show-emoji-picker="showEmojiPicker"
       :on-send="sendMessage"
       :is-send-disabled="isReplyButtonDisabled"
-      :recording-audio-duration-text="recordingAudioDuration"
+      :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
       :set-format-mode="setFormatMode"
@@ -193,7 +193,7 @@ export default {
       attachedFiles: [],
       isRecordingAudio: false,
       recordingAudioState: '',
-      recordingAudioDuration: '',
+      recordingAudioDurationText: '',
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
@@ -585,11 +585,13 @@ export default {
       }
     },
     toggleAudioRecorderPlayPause() {
-      if (this.isRecordingAudio && !this.isRecorderAudioStopped) {
-        this.isRecorderAudioStopped = true;
-        this.$refs.audioRecorderInput.stopAudioRecording();
-      } else if (this.isRecordingAudio && this.isRecorderAudioStopped) {
-        this.$refs.audioRecorderInput.playPause();
+      if (this.isRecordingAudio) {
+        if (!this.isRecorderAudioStopped) {
+          this.isRecorderAudioStopped = true;
+          this.$refs.audioRecorderInput.stopAudioRecording();
+        } else if (this.isRecorderAudioStopped) {
+          this.$refs.audioRecorderInput.playPause();
+        }
       }
     },
     hideEmojiPicker() {
@@ -612,19 +614,17 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
-    onStateRecorderTimerChanged(time) {
-      this.recordingAudioDuration = time;
+    onStateProgressRecorderChanged(duration) {
+      this.recordingAudioDurationText = duration;
     },
     onStateRecorderChanged(state) {
       this.recordingAudioState = state;
-      if (state.includes('notallowederror')) {
+      if (state && 'notallowederror'.includes(state)) {
         this.toggleAudioRecorder();
       }
     },
-    onRecorderBlob(file) {
-      if (file) {
-        this.onFileUpload(file);
-      }
+    onFinishRecorder(file) {
+      return file && this.onFileUpload(file);
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;

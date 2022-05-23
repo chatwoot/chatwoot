@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Visão geral",
+    "HEADER": "Conversas",
     "LOADING_CHART": "Carregando dados da carta...",
     "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar relatórios de agentes",
@@ -18,12 +18,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeiro tempo de resposta",
-        "DESC": "(Méd. )"
+        "NAME": "First Response Time",
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Méd. )"
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de resolução",
@@ -108,7 +112,8 @@
         "id": 4,
         "groupBy": "Ano"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Horário comercial"
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
@@ -130,12 +135,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeiro tempo de resposta",
-        "DESC": "(Méd. )"
+        "NAME": "First Response Time",
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Méd. )"
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de resolução",
@@ -193,12 +202,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeiro tempo de resposta",
-        "DESC": "(Méd. )"
+        "NAME": "First Response Time",
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Méd. )"
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de resolução",
@@ -256,12 +269,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeiro tempo de resposta",
-        "DESC": "(Méd. )"
+        "NAME": "First Response Time",
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Méd. )"
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de resolução",
@@ -319,12 +336,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeiro tempo de resposta",
-        "DESC": "(Méd. )"
+        "NAME": "First Response Time",
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "DESC": "(Méd. )"
+        "DESC": "(Méd. )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Contagem de resolução",
@@ -391,6 +412,34 @@
         "LABEL": "Taxa de resposta",
         "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT enviadas * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Visão geral",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Abertas",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Não atribuído"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Representante",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "SItuação"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Disponível",
+      "BUSY": "Ocupado",
+      "OFFLINE": "Ausente"
     }
   }
 }

@@ -22,6 +22,8 @@ pt:
     reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido

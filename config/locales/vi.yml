@@ -22,6 +22,8 @@ vi:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       invalid_email: Bạn đã nhập một email không hợp lệ

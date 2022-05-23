@@ -7,7 +7,7 @@
       "404": "В цій групі немає активних бесід."
     },
     "TAB_HEADING": "Бесіди",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Згадування",
     "SEARCH": {
       "INPUT": "Пошук людей, чатів та збережених відповідей.."
     },
@@ -76,11 +76,12 @@
     "RECEIVED_VIA_EMAIL": "Отримано електронною поштою",
     "VIEW_TWEET_IN_TWITTER": "Переглянути твіт у Twitter",
     "REPLY_TO_TWEET": "Відповісти на цей твіт",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "Перейти до історії Instagram",
     "SENT": "Успішно надіслано",
     "NO_MESSAGES": "Немає повідомлень",
     "NO_CONTENT": "Немає вмісту",
     "HIDE_QUOTED_TEXT": "Приховати цитований текст",
-    "SHOW_QUOTED_TEXT": "Показати цитований текст"
+    "SHOW_QUOTED_TEXT": "Показати цитований текст",
+    "MESSAGE_READ": "Прочитано"
   }
 }

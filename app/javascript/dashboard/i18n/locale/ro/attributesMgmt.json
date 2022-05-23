@@ -1,17 +1,17 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Editează atribut personalizat",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER_BTN_TXT": "Adauga atributii personalizate",
+    "LOADING": "Preluarea atributelor particularizate",
+    "SIDEBAR_TXT": "<p><b>Atribute personalizate</b> <p>Un atribut personalizat urmărește fapte despre persoanele de contact/conversație - cum ar fi planul de abonament sau când au comandat primul element etc. <br /><br />Pentru a crea un atribut personalizat, trebuie doar să faceți clic pe <b>Adăugare atribut personalizat.</b> De asemenea, puteți edita sau șterge un atribut personalizat existent făcând clic pe butonul Editare sau Ștergere.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Adauga atributii personalizate",
       "SUBMIT": "Creeaza",
       "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "NAME": {
           "LABEL": "Nume afișat",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "PLACEHOLDER": "Introducerea numelui afișat al atributului personalizat",
           "ERROR": "Numele este obligatoriu"
         },
         "DESC": {
