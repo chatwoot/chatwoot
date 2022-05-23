@@ -1,9 +1,27 @@
 #!/usr/bin/env bash
 
 # Description: Chatwoot installation script
-# OS: Ubuntu 20.04 LTS / Ubuntu 20.10
+# OS: Ubuntu 20.04 LTS
 # Script Version: 1.0
 # Run this script as root
+
+set -eu -o pipefail
+trap exit_handler EXIT
+
+function exit_handler() {
+  echo "Some error has occured. Check '/var/log/chatwoot-setup.log for details."
+}
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo 'This script should be run as root.' >&2
+  exit 1
+fi
+
+if [[ -z "$1" ]]; then
+  BRANCH="master"
+else
+  BRANCH="$1"
+fi
 
 function get_domain_info() {
   read -rp 'Enter your sub-domain to be used for Chatwoot (chatwoot.domain.com for example) : ' domain_name
@@ -79,7 +97,7 @@ function configure_db() {
   UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';
   \c template1
   VACUUM FREEZE;
-  EOF
+EOF
 
   systemctl enable redis-server.service
   systemctl enable postgresql
@@ -100,11 +118,7 @@ function setup_chatwoot() {
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
-  if [[ -z "$1" ]]; then
-  git checkout master;
-  else
-  git checkout $1;
-  fi
+  git checkout "$BRANCH"
   bundle
   yarn
 
@@ -167,14 +181,21 @@ EOF
   echo "$le_email"
 }
 
+function setup_logging() {
+  touch /var/log/chatwoot-setup.log
+  LOG_FILE="/var/log/chatwoot-setup.log"
+}
 
 function main() {
 
+  setup_logging
   cat << EOF
 
 ***************************************************************************
               Chatwoot Installation (latest)
 ***************************************************************************
+
+Open up a second terminal and follow along using, tail -f /var/log/chatwoot.
 
 EOF
 
@@ -189,36 +210,44 @@ EOF
 
   if [ "$install_pg_redis" == "no" ]
   then
-    echo "***** Skipping pg and redis installation. ****"
+    echo "***** Skipping postgres and redis installation. ****"
   fi
 
-  install_dependencies
+  echo "➥ 1/9 Installing dependencies. This takes a while."
+  install_dependencies &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
   then
-    install_databases
+    echo "➥ 2/9 Installing databases"
+    install_databases &>> "${LOG_FILE}"
   fi
 
   if [ "$configure_webserver" == "yes" ]
   then
-    install_webserver
+    echo "➥ 3/9 Installing webserver"
+    install_webserver &>> "${LOG_FILE}"
   fi
 
-  configure_rvm
+  echo "➥ 4/9 Setting up ruby"
+  configure_rvm &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
   then
-    configure_db
+    echo "➥ 5/9 Setting up database"
+    configure_db &>> "${LOG_FILE}"
   fi
 
-  setup_chatwoot
+  echo "➥ 6/9 Installing chatwoot. This takes a while."
+  setup_chatwoot &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
   then
-    run_db_migrations
+    echo "➥ 7/9 Running migrations"
+    run_db_migrations &>> "${LOG_FILE}"
   fi
 
-  configure_systemd_services
+  echo "debug: 8/10 Setting up systemd services"
+  configure_systemd_services &>> "${LOG_FILE}"
 
   public_ip=$(curl http://checkip.amazonaws.com -s)
   
@@ -237,7 +266,8 @@ Join us at https://chatwoot.com/community
 ***************************************************************************
 EOF
   else
-    setup_ssl
+    echo "➥ 9/9 Setting up ssl/tls"
+    setup_ssl &>> "${LOG_FILE}"
     cat << EOF
 
 ***************************************************************************
