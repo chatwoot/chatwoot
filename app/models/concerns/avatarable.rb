@@ -28,5 +28,4 @@ module Avatarable
     acceptable_types = ['image/jpeg', 'image/png', 'image/gif'].freeze
     errors.add(:avatar, 'filetype not supported') unless acceptable_types.include?(avatar.content_type)
   end
-
 end

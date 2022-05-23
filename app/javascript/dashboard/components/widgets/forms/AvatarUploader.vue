@@ -3,7 +3,12 @@
     <label>
       <span v-if="label">{{ label }}</span>
     </label>
-    <woot-thumbnail v-if="src" size="80px" :src="src" :username="usernameAvatar" />
+    <woot-thumbnail
+      v-if="src"
+      size="80px"
+      :src="src"
+      :username="usernameAvatar"
+    />
     <div v-if="src && deleteAvatar" class="avatar-delete-btn">
       <woot-button
         color-scheme="alert"
