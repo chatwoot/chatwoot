@@ -1,14 +1,12 @@
-import { getters } from '../../teamMembers';
+import { getters } from '../../assignableAgents';
 import agentsData from './fixtures';
 
 describe('#getters', () => {
   it('getAssignableAgents', () => {
     const state = {
-      records: {
-        1: [agentsData[0]],
-      },
+      records: [agentsData[0]],
     };
-    expect(getters.getTeamMembers(state)(1)).toEqual([agentsData[0]]);
+    expect(getters.getAssignableAgents(state)).toEqual([agentsData[0]]);
   });
 
   it('getUIFlags', () => {

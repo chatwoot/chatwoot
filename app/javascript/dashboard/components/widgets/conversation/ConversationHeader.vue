@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'inboxAssignableAgents/getUIFlags',
+      uiFlags: 'assignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
     chatMetadata() {
