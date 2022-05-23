@@ -45,6 +45,16 @@ vi:
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     default_group_by: ngày
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Tên nhà cung cấp
+        rating: Đánh giá
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
