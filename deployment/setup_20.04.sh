@@ -9,7 +9,10 @@ set -eu -o pipefail
 trap exit_handler EXIT
 
 function exit_handler() {
-  echo "Some error has occured. Check '/var/log/chatwoot-setup.log' for details."
+  if [ "$?" -ne 0 ]; then
+   echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
+   exit 1
+  fi
 }
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -180,6 +183,7 @@ Open up a second terminal and follow along using, tail -f /var/log/chatwoot.
 
 EOF
 
+  sleep 3
   read -rp 'Would you like to configure a domain and SSL for Chatwoot?(yes or no): ' configure_webserver
 
   if [ "$configure_webserver" == "yes" ]
@@ -227,7 +231,7 @@ EOF
     run_db_migrations &>> "${LOG_FILE}"
   fi
 
-  echo "8/10 Setting up systemd services"
+  echo "➥ 8/9 Setting up systemd services"
   configure_systemd_services &>> "${LOG_FILE}"
 
   public_ip=$(curl http://checkip.amazonaws.com -s)
