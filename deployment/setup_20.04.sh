@@ -9,7 +9,7 @@ set -eu -o pipefail
 trap exit_handler EXIT
 
 function exit_handler() {
-  echo "Some error has occured. Check '/var/log/chatwoot-setup.log for details."
+  echo "Some error has occured. Check '/var/log/chatwoot-setup.log' for details."
 }
 
 if [ "$(id -u)" -ne 0 ]; then
@@ -54,22 +54,14 @@ function install_dependencies() {
       postgresql-client redis-tools \
       nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo
-
-  echo "debug: installing dependencies"
-  sleep 1
 }
 
 function install_databases() {
   apt install -y postgresql postgresql-contrib redis-server
-
-  echo "debug: installing postgres"
-  sleep 1
-  echo "debug: installing redis"
 }
 
 function install_webserver() {
   apt install -y nginx nginx-full certbot python3-certbot-nginx
-  echo "debug: installing nginx"
 }
 
 function configure_rvm() {
@@ -79,9 +71,6 @@ function configure_rvm() {
   gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
   curl -sSL https://get.rvm.io | bash -s stable
   adduser chatwoot rvm
-
-  echo "debug: installing rvm"
-  echo "debug: creating chatwoot user"
 }
 
 function configure_db() {
@@ -102,8 +91,6 @@ EOF
   systemctl enable redis-server.service
   systemctl enable postgresql
 
-  echo "debug: setting up postgres"
-  sleep 1
 }
 
 function setup_chatwoot() {
@@ -134,10 +121,6 @@ function setup_chatwoot() {
   rake assets:precompile RAILS_ENV=production
 EOF
 
-  echo "debug: cloning chatwoot repo"
-  echo "debug: installing chatwoot..."
-  echo "debug: compiling assets"
-  sleep 5
 }
 
 
@@ -148,7 +131,6 @@ function run_db_migrations(){
   RAILS_ENV=production bundle exec rake db:reset
 EOF
 
-  echo "debug: running migrations"
 }
 
 
@@ -159,7 +141,6 @@ function configure_systemd_services() {
 
   systemctl enable chatwoot.target
   systemctl start chatwoot.target
-  echo "debug: setting up systemd services"
 }
 
 
@@ -177,8 +158,8 @@ function setup_ssl() {
 EOF
   systemctl restart chatwoot.target
   echo "debug: setting up ssl"
-  echo "$domain_name"
-  echo "$le_email"
+  echo "debug: domain: $domain_name"
+  echo "debug: letsencrypt email: $le_email"
 }
 
 function setup_logging() {
@@ -246,7 +227,7 @@ EOF
     run_db_migrations &>> "${LOG_FILE}"
   fi
 
-  echo "debug: 8/10 Setting up systemd services"
+  echo "8/10 Setting up systemd services"
   configure_systemd_services &>> "${LOG_FILE}"
 
   public_ip=$(curl http://checkip.amazonaws.com -s)
@@ -288,6 +269,8 @@ After modifying .env with your external db creds, run db migrations !!!
 ***************************************************************************
 EOF
   fi
+
+exit 0
 
 }
 
