@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "รายงาน CSAT",
     "NO_RECORDS": "ไม่มีรายงาน CSAT ที่แสดงผลได้",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "เลือกพนักงาน"
