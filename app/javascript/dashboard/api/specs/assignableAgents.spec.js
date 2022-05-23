@@ -6,9 +6,11 @@ describe('#AssignableAgentsAPI', () => {
     it('#getAssignableAgents', () => {
       assignableAgentsAPI.get([1]);
       expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/accounts/1/assignable_agents',
+        '/api/v1/assignable_agents',
         {
-          inbox_ids: [1],
+          params: {
+            inbox_ids: [1],
+          },
         }
       );
     });
