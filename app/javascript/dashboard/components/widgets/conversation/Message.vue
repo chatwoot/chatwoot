@@ -60,6 +60,7 @@
           :readable-time="readableTime"
           :source-id="data.source_id"
           :inbox-id="data.inbox_id"
+          :message-read="showReadTicks"
         />
       </div>
       <spinner v-if="isPending" size="tiny" />
@@ -153,6 +154,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    hasUserReadMessage: {
+      type: Boolean,
+      default: false,
+    },
+    isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -207,7 +216,11 @@ export default {
         }
       }
       return (
-        this.formatMessage(this.data.content, this.isATweet) + botMessageContent
+        this.formatMessage(
+          this.data.content,
+          this.isATweet,
+          this.data.private
+        ) + botMessageContent
       );
     },
     contentAttributes() {
@@ -263,6 +276,14 @@ export default {
     },
     isOutgoing() {
       return this.data.message_type === MESSAGE_TYPE.OUTGOING;
+    },
+    showReadTicks() {
+      return (
+        (this.isOutgoing || this.isTemplate) &&
+        this.hasUserReadMessage &&
+        this.isWebWidgetInbox &&
+        !this.data.private
+      );
     },
     isTemplate() {
       return this.data.message_type === MESSAGE_TYPE.TEMPLATE;

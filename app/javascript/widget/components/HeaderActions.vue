@@ -1,19 +1,27 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
-      v-if="conversationStatus === 'open'"
+      v-if="conversationStatus === 'open' && hasEndConversationEnabled"
       class="button transparent compact"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
-      <fluent-icon icon="sign-out" size="22" class="text-black-900" />
+      <fluent-icon
+        icon="sign-out"
+        size="22"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+      />
     </button>
     <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button "
       @click="popoutWindow"
     >
-      <fluent-icon icon="open" size="22" class="text-black-900" />
+      <fluent-icon
+        icon="open"
+        size="22"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+      />
     </button>
     <button
       class="button transparent compact close-button"
@@ -22,19 +30,26 @@
       }"
       @click="closeWindow"
     >
-      <fluent-icon icon="dismiss" size="24" class="text-black-900" />
+      <fluent-icon
+        icon="dismiss"
+        size="24"
+        :class="$dm('text-black-900', 'dark:text-slate-50')"
+      />
     </button>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import { buildPopoutURL } from '../helpers/urlParamsHelper';
+import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
+import configMixin from 'widget/mixins/configMixin';
 
 export default {
   name: 'HeaderActions',
   components: { FluentIcon },
+  mixins: [configMixin, darkModeMixin],
   props: {
     showPopoutButton: {
       type: Boolean,
@@ -69,19 +84,12 @@ export default {
         chatwootWebChannel: { websiteToken },
         authToken,
       } = window;
-
-      const popoutWindowURL = buildPopoutURL({
+      popoutChatWindow(
         origin,
         websiteToken,
-        locale: this.$root.$i18n.locale,
-        conversationCookie: authToken,
-      });
-      const popoutWindow = window.open(
-        popoutWindowURL,
-        `webwidget_session_${websiteToken}`,
-        'resizable=off,width=400,height=600'
+        this.$root.$i18n.locale,
+        authToken
       );
-      popoutWindow.focus();
     },
     closeWindow() {
       if (IFrameHelper.isIFrame()) {

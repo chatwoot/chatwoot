@@ -7,7 +7,7 @@
       "404": "Nu sunt conversații active în acest grup."
     },
     "TAB_HEADING": "Conversații",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Mențiuni",
     "SEARCH": {
       "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
     },
@@ -47,7 +47,7 @@
         "TEXT": "Rezolvat"
       },
       "pending": {
-        "TEXT": "Asteptare"
+        "TEXT": "În aşteptare"
       },
       "snoozed": {
         "TEXT": "Amânat"
@@ -76,11 +76,12 @@
     "RECEIVED_VIA_EMAIL": "Primit prin e-mail",
     "VIEW_TWEET_IN_TWITTER": "Vezi tweet pe Twitter",
     "REPLY_TO_TWEET": "Răspunde la acest tweet",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "Accesați povestea Instagram",
     "SENT": "Trimis cu succes",
     "NO_MESSAGES": "Niciun mesaj",
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
-    "SHOW_QUOTED_TEXT": "Arată textul citat"
+    "SHOW_QUOTED_TEXT": "Arată textul citat",
+    "MESSAGE_READ": "Read"
   }
 }

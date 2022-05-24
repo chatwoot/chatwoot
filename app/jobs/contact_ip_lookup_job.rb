@@ -8,7 +8,7 @@ class ContactIpLookupJob < ApplicationJob
 
     update_contact_location_from_ip(contact)
   rescue Errno::ETIMEDOUT => e
-    Rails.logger.info "Exception: ip resolution failed : #{e.message}"
+    Rails.logger.warn "Exception: ip resolution failed : #{e.message}"
   end
 
   private

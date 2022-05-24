@@ -26,14 +26,9 @@ import {
   initOnEvents,
 } from '../shared/helpers/AudioNotificationHelper';
 import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
-import router from '../dashboard/routes';
+import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
-import vueActionCable from '../dashboard/helper/actionCable';
 import constants from '../dashboard/constants';
-import {
-  verifyServiceWorkerExistence,
-  registerSubscription,
-} from '../dashboard/helper/pushHelper';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
@@ -43,6 +38,8 @@ import {
   initializeChatwootEvents,
 } from '../dashboard/helper/scriptHelpers';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 
 Vue.config.env = process.env;
 
@@ -60,6 +57,7 @@ if (window.analyticsConfig) {
   });
 }
 
+Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
@@ -93,6 +91,7 @@ window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
 initializeAnalyticsEvents();
+initalizeRouter();
 
 window.onload = () => {
   window.WOOT = new Vue({
@@ -102,7 +101,6 @@ window.onload = () => {
     components: { App },
     template: '<App/>',
   }).$mount('#app');
-  vueActionCable.init();
 };
 
 const setupAudioListeners = () => {
@@ -113,13 +111,6 @@ const setupAudioListeners = () => {
   });
 };
 window.addEventListener('load', () => {
-  verifyServiceWorkerExistence(registration =>
-    registration.pushManager.getSubscription().then(subscription => {
-      if (subscription) {
-        registerSubscription();
-      }
-    })
-  );
   window.playAudioAlert = () => {};
   initOnEvents.forEach(e => {
     document.addEventListener(e, setupAudioListeners, false);

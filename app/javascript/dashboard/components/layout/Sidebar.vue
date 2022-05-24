@@ -8,6 +8,7 @@
       :active-menu-item="activePrimaryMenu.key"
       @toggle-accounts="toggleAccountModal"
       @key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
     />
     <secondary-sidebar
       :account-id="accountId"
@@ -18,6 +19,7 @@
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
     />
   </aside>
 </template>
@@ -175,6 +177,9 @@ export default {
     },
     showAddLabelPopup() {
       this.$emit('show-add-label-popup');
+    },
+    openNotificationPanel() {
+      this.$emit('open-notification-panel');
     },
   },
 };

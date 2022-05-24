@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Nom complet",
         "PLACEHOLDER": "Introdueix el vostre nom complet",
-        "ERROR": "El Nom Complert és obligatori"
+        "REQUIRED_ERROR": "El Nom Complert és obligatori"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Adreça de correu electrònic",
         "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
-        "ERROR": "Adreça email invàlida"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Número de telèfon",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
@@ -57,7 +64,8 @@
         "ERROR": "Missatge massa curt"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {

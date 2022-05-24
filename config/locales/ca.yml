@@ -22,6 +22,8 @@ ca:
     reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
     reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Els correus d'un sol ús no s'accepten
       invalid_email: Heu introduït un correu electrònic no vàlid

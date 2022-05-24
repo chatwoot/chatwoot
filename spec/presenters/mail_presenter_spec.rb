@@ -5,6 +5,7 @@ RSpec.describe MailPresenter do
   describe 'parsed mail decorator' do
     let(:mail) { create_inbound_email_from_fixture('welcome.eml').mail }
     let(:html_mail) { create_inbound_email_from_fixture('welcome_html.eml').mail }
+    let(:ascii_mail) { create_inbound_email_from_fixture('non_utf_encoded_mail.eml').mail }
     let(:decorated_mail) { described_class.new(mail) }
 
     let(:mail_with_no_subject) { create_inbound_email_from_fixture('mail_with_no_subject.eml').mail }
@@ -63,6 +64,14 @@ RSpec.describe MailPresenter do
       expect(decorated_html_mail.subject).to eq('Fwd: How good are you in English? How did you improve your English?')
       expect(decorated_html_mail.text_content[:reply][0..70]).to eq(
         "I'm learning English as a first language for the past 13 years, but to "
+      )
+    end
+
+    it 'encodes email to UTF-8' do
+      decorated_html_mail = described_class.new(ascii_mail)
+      expect(decorated_html_mail.subject).to eq('أهلين عميلنا الكريم ')
+      expect(decorated_html_mail.text_content[:reply][0..70]).to eq(
+        'أنظروا، أنا أحتاجها فقط لتقوم بالتدقيق في مقالتي الشخصية'
       )
     end
   end

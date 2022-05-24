@@ -9,7 +9,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     send_message_to_facebook fb_text_message_params if message.content.present?
     send_message_to_facebook fb_attachment_message_params if message.attachments.present?
   rescue Facebook::Messenger::FacebookError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific errors or else page will get disconnected
     # channel.authorization_error!
   end
@@ -22,7 +22,9 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def fb_text_message_params
     {
       recipient: { id: contact.get_source_id(inbox.id) },
-      message: { text: message.content }
+      message: { text: message.content },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'ACCOUNT_UPDATE'
     }
   end
 
@@ -34,10 +36,12 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.file_url
+            url: attachment.download_url
           }
         }
-      }
+      },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'ACCOUNT_UPDATE'
     }
   end
 

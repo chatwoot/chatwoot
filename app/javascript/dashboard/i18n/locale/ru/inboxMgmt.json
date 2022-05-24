@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автоназначение сохранено",
         "ERROR_MESSAGE": "Не удалось сохранить цвет виджета. Пожалуйста, повторите попытку позже."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Включено",
         "DISABLED": "Выключено"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Возможности",
       "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
-      "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете"
+      "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
+      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт",
       "MESSENGER_SUB_HEAD": "Поместите эту кнопку внутри тега <body>",
       "INBOX_AGENTS": "Операторы",
       "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Обновить",
       "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Предварительные формы позволяют получить информацию о пользователе, прежде чем они начнут разговор.",
+      "SET_FIELDS": "Поля отображаемые перед началом диалога",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Поля",
+        "LABEL": "Метка",
+        "PLACE_HOLDER": "Вариант ввода в поле",
+        "KEY": "Ключ",
+        "TYPE": "Тип",
+        "REQUIRED": "Обязательно"
+      },
       "ENABLE": {
         "LABEL": "Включить форму сбора предварительной информации",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Сообщение для формы, показываемой перед стартом диалога",
+        "LABEL": "Сообщение отображаемое перед началом диалога",
         "PLACEHOLDER": "Это сообщение будет отображаться вместе с формой для пользователя"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Настроить параметры IMAP",
+      "NOTE_TEXT": "Для включения SMTP, настройте IMAP.",
       "UPDATE": "Обновить настройки IMAP",
       "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
       "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
@@ -483,9 +492,9 @@
         "LABEL": "Порт",
         "PLACE_HOLDER": "Порт"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Вход",
+        "PLACE_HOLDER": "Вход"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
@@ -511,9 +520,9 @@
         "LABEL": "Порт",
         "PLACE_HOLDER": "Порт"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Вход",
+        "PLACE_HOLDER": "Вход"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Шифрование",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
+      "AUTH_MECHANISM": "Авторизация"
+    },
+    "NOTE": "Примечание: "
   }
 }

@@ -1,7 +1,6 @@
 import {
   frontendURL,
   conversationUrl,
-  accountIdFromPathname,
   isValidURL,
   getLoginRedirectURL,
 } from '../URLHelper';
@@ -39,18 +38,6 @@ describe('#URL Helpers', () => {
     });
   });
 
-  describe('accountIdFromPathname', () => {
-    it('should return account id if accont scoped url is passed', () => {
-      expect(accountIdFromPathname('/app/accounts/1/settings/general')).toBe(1);
-    });
-    it('should return empty string if accont scoped url not is passed', () => {
-      expect(accountIdFromPathname('/app/accounts/settings/general')).toBe('');
-    });
-    it('should return empty string if empty string is passed', () => {
-      expect(accountIdFromPathname('')).toBe('');
-    });
-  });
-
   describe('isValidURL', () => {
     it('should return true if valid url is passed', () => {
       expect(isValidURL('https://chatwoot.com')).toBe(true);
@@ -75,7 +62,7 @@ describe('#URL Helpers', () => {
         getLoginRedirectURL('7500', {
           accounts: [{ id: '7501', name: 'Test Account 7501' }],
         })
-      ).toBe('/app/');
+      ).toBe('/app/accounts/7501/dashboard');
       expect(getLoginRedirectURL('7500', null)).toBe('/app/');
     });
   });

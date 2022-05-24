@@ -48,6 +48,10 @@
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
+        :has-user-read-message="
+          hasUserReadMessage(message.created_at, getLastSeenAt)
+        "
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span class="text-uppercase">
@@ -66,6 +70,10 @@
         :data="message"
         :is-a-tweet="isATweet"
         :has-instagram-story="hasInstagramStory"
+        :has-user-read-message="
+          hasUserReadMessage(message.created_at, getLastSeenAt)
+        "
+        :is-web-widget-inbox="isAWebWidgetInbox"
       />
     </ul>
     <div
@@ -83,7 +91,6 @@
         </div>
       </div>
       <reply-box
-        v-on-clickaway="closePopoutReplyBox"
         :conversation-id="currentChat.id"
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
@@ -109,7 +116,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
@@ -117,7 +123,7 @@ export default {
     ReplyBox,
     Banner,
   },
-  mixins: [conversationMixin, inboxMixin, eventListenerMixins, clickaway],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -143,6 +149,7 @@ export default {
       listLoadingStatus: 'getAllMessagesLoaded',
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
+      conversationLastSeen: 'getConversationLastSeen',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
@@ -242,6 +249,11 @@ export default {
         return 'arrow-chevron-right';
       }
       return 'arrow-chevron-left';
+    },
+    getLastSeenAt() {
+      if (this.conversationLastSeen) return this.conversationLastSeen;
+      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
+      return contactLastSeenAt;
     },
   },
 

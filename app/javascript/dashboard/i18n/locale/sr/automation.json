@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "You need to have atleast one condition to save"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save"
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -102,6 +104,13 @@
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
       "CONFIRMATION_LABEL": "Yes",
       "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Dodavanje...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }
