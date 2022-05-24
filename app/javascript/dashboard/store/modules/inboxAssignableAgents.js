@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import InboxesAPI from 'dashboard/api/inboxes.js';
+import AssignableAgentsAPI from '../../api/assignableAgents';
 
 const state = {
   records: {},
@@ -31,7 +31,7 @@ export const actions = {
     try {
       const {
         data: { payload },
-      } = await InboxesAPI.getAssignableAgents(inboxId);
+      } = await AssignableAgentsAPI.get([inboxId]);
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, { inboxId, members: payload });
     } catch (error) {
       throw new Error(error);
