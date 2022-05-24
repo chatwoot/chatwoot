@@ -61,7 +61,9 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
-      "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים"
+      "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "הגב",
@@ -72,8 +74,14 @@
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
       "TIP_ATTACH_ICON": "הוסף קבצים",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "אנטר לשליחה",
       "DRAG_DROP": "גרור ושחרר כאן להוספת קובץ מצורף",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "הוסף bcc",
         "CC": {

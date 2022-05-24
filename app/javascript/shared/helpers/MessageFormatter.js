@@ -1,6 +1,6 @@
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import { escapeHtml } from './HTMLSanitizer';
+import { escapeHtml, afterSanitizeAttributes } from './HTMLSanitizer';
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT =
@@ -13,8 +13,9 @@ const TWITTER_HASH_REPLACEMENT =
 const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/(.+)/gm;
 
 class MessageFormatter {
-  constructor(message, isATweet = false) {
+  constructor(message, isATweet = false, isAPrivateNote = false) {
     this.message = DOMPurify.sanitize(escapeHtml(message || ''));
+    this.isAPrivateNote = isAPrivateNote;
     this.isATweet = isATweet;
     this.marked = marked;
 
@@ -35,7 +36,7 @@ class MessageFormatter {
   }
 
   formatMessage() {
-    if (this.isATweet) {
+    if (this.isATweet && !this.isAPrivateNote) {
       const withUserName = this.message.replace(
         TWITTER_USERNAME_REGEX,
         TWITTER_USERNAME_REPLACEMENT
@@ -47,9 +48,7 @@ class MessageFormatter {
       const markedDownOutput = marked(withHash);
       return markedDownOutput;
     }
-    DOMPurify.addHook('afterSanitizeAttributes', node => {
-      if ('target' in node) node.setAttribute('target', '_blank');
-    });
+    DOMPurify.addHook('afterSanitizeAttributes', afterSanitizeAttributes);
     return DOMPurify.sanitize(
       marked(this.message, { breaks: true, gfm: true })
     );

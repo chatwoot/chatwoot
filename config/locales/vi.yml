@@ -22,6 +22,8 @@ vi:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       invalid_email: Bạn đã nhập một email không hợp lệ
@@ -42,6 +44,17 @@ vi:
       conversations_count: Số cuộc trò chuyện
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
+    default_group_by: ngày
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Tên nhà cung cấp
+        rating: Đánh giá
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
@@ -50,10 +63,12 @@ vi:
       conversation_mention: "Bạn đã được nhắn đến trong cuộc trò chuyện [ID - %{display_id}] bởi %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Tin nhắn đã bị xoá
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
         pending: "Cuộc trò chuyện được đánh dấu là chưa giải quyết bởi %{user_name}"
         snoozed: "Cuộc trò chuyện đã được tạm dừng lại bởi %{user_name}"

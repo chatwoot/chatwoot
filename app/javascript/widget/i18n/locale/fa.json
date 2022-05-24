@@ -22,6 +22,7 @@
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
   },
   "START_CONVERSATION": "شروع گفتگو",
+  "END_CONVERSATION": "پایان گفتگو",
   "CONTINUE_CONVERSATION": "ادامه گفتگو",
   "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
   "UNREAD_VIEW": {
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "نام کامل",
         "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید",
-        "ERROR": "نام کامل مورد نیاز است"
+        "REQUIRED_ERROR": "نام کامل مورد نیاز است"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ایمیل",
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
-        "ERROR": "آدرس ایمیل اشتباه است"
+        "REQUIRED_ERROR": "آدرس ایمیل مورد نیاز است",
+        "VALID_ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "شماره تلفن",
+        "PLACEHOLDER": "لطفا شماره تلفن خود را وارد کنید",
+        "REQUIRED_ERROR": "شماره تلفن الزامی است",
+        "VALID_ERROR": "شماره تلفن باید با فرمت E.164 باشد، به عنوان مثال: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -56,7 +64,8 @@
         "ERROR": "پیام بسیار کوتاه است"
       }
     },
-    "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید"
+    "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
+    "IS_REQUIRED": "مورد نیاز است"
   },
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {

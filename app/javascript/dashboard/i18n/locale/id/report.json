@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Gambaran",
+    "HEADER": "Percakapan",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
@@ -18,12 +18,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -59,7 +63,57 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Terapkan",
       "PLACEHOLDER": "Pilih rentang tanggal"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      },
+      {
+        "id": 4,
+        "groupBy": "Year"
+      }
+    ],
+    "BUSINESS_HOURS": "Jam Kerja"
   },
   "AGENT_REPORTS": {
     "HEADER": "Gambaran Agen",
@@ -81,12 +135,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -144,12 +202,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -207,12 +269,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -270,12 +336,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Waktu respons pertama",
-        "DESC": "( Rata-Rata )"
+        "NAME": "First Response Time",
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
-        "DESC": "( Rata-Rata )"
+        "DESC": "( Rata-Rata )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Jumlah Terselesaikan",
@@ -316,6 +386,12 @@
   "CSAT_REPORTS": {
     "HEADER": "Laporan CSAT",
     "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Kontak",
@@ -337,6 +413,34 @@
         "LABEL": "Peringkat respons",
         "TOOLTIP": "Total jumlah respons / Total jumlah pesan survey CSAT yang terkirim * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Gambaran",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Terbuka",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Belum ditugaskan"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agen",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Sibuk",
+      "OFFLINE": "Offline"
     }
   }
 }

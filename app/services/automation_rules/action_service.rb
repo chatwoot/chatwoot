@@ -1,58 +1,101 @@
 class AutomationRules::ActionService
-  def initialize(rule, conversation)
+  def initialize(rule, account, conversation)
     @rule = rule
+    @account = account
     @conversation = conversation
-    @account = @conversation.account
+    Current.executed_by = rule
   end
 
   def perform
-    @rule.actions.each do |action, _current_index|
+    @rule.actions.each do |action|
       action = action.with_indifferent_access
-      send(action[:action_name], action[:action_params])
+      begin
+        send(action[:action_name], action[:action_params])
+      rescue StandardError => e
+        ChatwootExceptionTracker.new(e, account: @account).capture_exception
+      end
     end
+  ensure
+    Current.reset
   end
 
   private
 
+  def send_attachment(blob_ids)
+    return if conversation_a_tweet?
+
+    return unless @rule.files.attached?
+
+    blob = ActiveStorage::Blob.find(blob_ids)
+
+    return if blob.blank?
+
+    params = { content: nil, private: false, attachments: blob }
+    mb = Messages::MessageBuilder.new(nil, @conversation, params)
+    mb.perform
+  end
+
+  def send_email_transcript(emails)
+    emails.each do |email|
+      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
+    end
+  end
+
+  def mute_conversation(_params)
+    @conversation.mute!
+  end
+
+  def snooze_conversation(_params)
+    @conversation.snoozed!
+  end
+
+  def resolve_conversation(_params)
+    @conversation.resolved!
+  end
+
+  def change_status(status)
+    @conversation.update!(status: status[0])
+  end
+
+  def send_webhook_event(webhook_url)
+    payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
+    WebhookJob.perform_later(webhook_url[0], payload)
+  end
+
   def send_message(message)
-    # params = { content: message, private: false }
-    # mb = Messages::MessageBuilder.new(@administrator, @conversation, params)
-    # mb.perform
+    return if conversation_a_tweet?
+
+    params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
+    mb = Messages::MessageBuilder.new(nil, @conversation, params)
+    mb.perform
   end
 
   def assign_team(team_ids = [])
     return unless team_belongs_to_account?(team_ids)
 
-    @account.teams.find_by(id: team_ids)
     @conversation.update!(team_id: team_ids[0])
   end
 
-  def assign_best_agents(agent_ids = [])
+  def assign_best_agent(agent_ids = [])
     return unless agent_belongs_to_account?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)
-    @conversation.update_assignee(@agent)
+
+    @conversation.update!(assignee_id: @agent.id) if @agent.present?
   end
 
-  def add_label(labels = [])
+  def add_label(labels)
+    return if labels.empty?
+
     @conversation.add_labels(labels)
   end
 
   def send_email_to_team(params)
-    team = Team.find(params[:team_ids][0])
+    teams = Team.where(id: params[0][:team_ids])
 
-    case @rule.event_name
-    when 'conversation_created', 'conversation_status_changed'
-      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[:message])
-    when 'conversation_updated'
-      TeamNotifications::AutomationNotificationMailer.conversation_updated(@conversation, team, params[:message])
-    when 'message_created'
-      TeamNotifications::AutomationNotificationMailer.message_created(@conversation, team, params[:message])
+    teams.each do |team|
+      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
     end
-  end
-
-  def administrator
-    @administrator ||= @account.administrators.first
   end
 
   def agent_belongs_to_account?(agent_ids)
@@ -61,5 +104,11 @@ class AutomationRules::ActionService
 
   def team_belongs_to_account?(team_ids)
     @account.team_ids.include?(team_ids[0])
+  end
+
+  def conversation_a_tweet?
+    return false if @conversation.additional_attributes.blank?
+
+    @conversation.additional_attributes['type'] == 'tweet'
   end
 end

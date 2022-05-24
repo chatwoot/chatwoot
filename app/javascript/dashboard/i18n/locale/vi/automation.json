@@ -64,7 +64,7 @@
     },
     "EDIT": {
       "TITLE": "Sửa Quy tắc Tự động hoá",
-      "SUBMIT": "Chỉnh sửa",
+      "SUBMIT": "Cập nhật",
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
         "SUCCESS_MESSAGE": "Quy tắc tự động hoá thêm thành công",
@@ -84,6 +84,33 @@
       "DELETE": "Xoá",
       "CANCEL": "Huỷ",
       "RESET_MESSAGE": "Thay đổi loại sự kiện sẽ đặt lại điều kiện và sự kiện mà bạn đã thêm bên dưới"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "Có",
+      "CANCEL_LABEL": "Không"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Đang tải lên...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }

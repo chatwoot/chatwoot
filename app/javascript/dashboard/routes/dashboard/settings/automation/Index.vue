@@ -34,9 +34,9 @@
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
-                <toggle-button
-                  :active="automation.active"
-                  @click="toggleAutomation(automation, automation.active)"
+                <woot-switch
+                  :value="automation.active"
+                  @input="toggleAutomation(automation, automation.active)"
                 />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
@@ -81,7 +81,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
       </div>
     </div>
     <woot-modal
@@ -131,13 +131,11 @@ import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
-import ToggleButton from 'dashboard/components/buttons/ToggleButton';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
-    ToggleButton,
   },
   mixins: [alertMixin, timeMixin],
   data() {
@@ -231,7 +229,6 @@ export default {
           mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-
         await await this.$store.dispatch(action, payload);
         this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
@@ -256,7 +253,7 @@ export default {
           : this.$t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION', {
               automationName: automation.name,
             });
-        // Check if uses confirms to proceed
+        // Check if user confirms to proceed
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
           await await this.$store.dispatch('automations/update', {

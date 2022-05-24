@@ -37,7 +37,7 @@
     "CONTACT_ACTIONS": "Acțiuni contact",
     "MUTE_CONTACT": "Silențios conversația",
     "UNMUTE_CONTACT": "Sunet conversația",
-    "MUTED_SUCCESS": "Această conversație este silentioasa pentru 6 ore",
+    "MUTED_SUCCESS": "Această conversație este dezactivată pentru 6 ore",
     "UNMUTED_SUCCESS": "Această conversație este reactivată",
     "SEND_TRANSCRIPT": "Trimite Transcriere",
     "EDIT_LABEL": "Editare",
@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacte salvate cu succes",
     "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmă ștergerea",
+      "MESSAGE": "Doriți să ștergeți această notă?",
+      "YES": "Da, șterge ",
+      "NO": "Nu, păstreaza"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Șterge contact",
     "TITLE": "Șterge contact",
@@ -77,8 +85,7 @@
     "CONFIRM": {
       "TITLE": "Confirmă ștergerea",
       "MESSAGE": "Sigur doriți să ștergeți ",
-      "PLACE_HOLDER": "Te rugăm să introduci {contactName} pentru a confirma",
-      "YES": "Da, șterge ",
+      "YES": "Da, șterge",
       "NO": "Nu, păstreaza"
     },
     "API": {
@@ -111,7 +118,7 @@
         "LABEL": "Număr de telefon",
         "HELP": "Numărul de telefon trebuie să aibă formatul E.164, ex. +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Numărul de telefon trebuie să fie gol sau in format E.164",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "Acest număr de telefon este utilizat pentru o altă persoană de contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Introduceți locația contactului",
@@ -150,7 +157,7 @@
     "NO_INBOX": "Nu s-a putut găsi un inbox pentru a iniția o nouă conversație cu acest contact.",
     "FORM": {
       "TO": {
-        "LABEL": "către"
+        "LABEL": "Către"
       },
       "INBOX": {
         "LABEL": "Inbox",
@@ -178,9 +185,9 @@
     "FIELDS": "Câmpuri de contact",
     "SEARCH_BUTTON": "Caută",
     "SEARCH_INPUT_PLACEHOLDER": "Caută contacte",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS": "Filtru",
+    "FILTER_CONTACTS_SAVE": "Salvare filtru",
+    "FILTER_CONTACTS_DELETE": "Ștergere filtru",
     "LIST": {
       "LOADING_MESSAGE": "Se încarcă contactele...",
       "404": "Niciun contact nu se potrivește cu căutarea ta 🔍",
@@ -220,7 +227,7 @@
       "TITLE": "Notițe"
     },
     "LIST": {
-      "LABEL": "Notă adaugată"
+      "LABEL": "notă adaugată"
     },
     "ADD": {
       "BUTTON": "Adaugă",
@@ -256,7 +263,7 @@
       "DESC": "Adăugați informații personalizate acestui contact."
     },
     "FORM": {
-      "CREATE": "Adaugă atributii",
+      "CREATE": "Adaugă atribut",
       "CANCEL": "Renunță",
       "NAME": {
         "LABEL": "Nume atribut personalizat",
@@ -281,14 +288,14 @@
         "ERROR": "Imposibil de șters atributul. Vă rugăm să încercați din nou mai târziu"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Adaugă atributii",
-        "PLACEHOLDER": "Cauta atributii",
-        "NO_RESULT": "Nu s-au găsit atributii"
+        "TITLE": "Adaugă atribute",
+        "PLACEHOLDER": "Cauta atribute",
+        "NO_RESULT": "Nu s-au găsit atribute"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
           "PLACEHOLDER": "Selectați valoarea",
-          "SEARCH_INPUT_PLACEHOLDER": "Valoarea de cautare",
+          "SEARCH_INPUT_PLACEHOLDER": "Valoarea căutării",
           "NO_RESULT": "Niciun rezultat găsit"
         }
       }
@@ -325,7 +332,7 @@
         "ERROR": "Selectați un contact copil pentru a imbina"
       },
       "SUCCESS_MESSAGE": "Contact unit cu succes",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Contactele nu au putut fi îmbinate, încercați din nou!"
     }
   }
 }

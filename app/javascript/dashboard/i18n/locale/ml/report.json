@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "അവലോകനം",
+    "HEADER": "സംഭാഷണങ്ങൾ",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
     "DOWNLOAD_AGENT_REPORTS": "ഏജന്റ് റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
@@ -18,12 +18,16 @@
         "DESC": "( ആകെ )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -59,7 +63,57 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "അപേക്ഷിക്കുക",
       "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "ഗ്രൂപ്പ് പ്രകാരം",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      },
+      {
+        "id": 2,
+        "groupBy": "ആഴ്ച"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      },
+      {
+        "id": 2,
+        "groupBy": "ആഴ്ച"
+      },
+      {
+        "id": 3,
+        "groupBy": "മാസം"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "ദിവസം"
+      },
+      {
+        "id": 2,
+        "groupBy": "ആഴ്ച"
+      },
+      {
+        "id": 3,
+        "groupBy": "മാസം"
+      },
+      {
+        "id": 4,
+        "groupBy": "വർഷം"
+      }
+    ],
+    "BUSINESS_HOURS": "Business Hours"
   },
   "AGENT_REPORTS": {
     "HEADER": "ഏജന്റുമാരുടെ അവലോകനം",
@@ -81,12 +135,16 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -144,12 +202,16 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -207,12 +269,16 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -270,12 +336,16 @@
         "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "DESC": "( ശരാശരി )"
+        "NAME": "First Response Time",
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "DESC": "( ശരാശരി )"
+        "DESC": "( ശരാശരി )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
@@ -316,6 +386,12 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT റിപ്പോർട്ടുകൾ",
     "NO_RECORDS": "CSAT സർവേ പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "ബന്ധപ്പെടുക",
@@ -337,6 +413,34 @@
         "LABEL": "പ്രതികരണ നിരക്ക്",
         "TOOLTIP": "മൊത്തം പ്രതികരണങ്ങളുടെ എണ്ണം / അയച്ച CSAT സർവേ സന്ദേശങ്ങളുടെ ആകെ എണ്ണം * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "അവലോകനം",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "സജീവം",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "നിയുക്തമാക്കാത്തത്"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "ഏജന്റ്",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "സ്റ്റാറ്റസ്"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "ഓൺ‌ലൈൻ",
+      "BUSY": "തിരക്ക്",
+      "OFFLINE": "ഓഫ്‌ലൈൻ"
     }
   }
 }

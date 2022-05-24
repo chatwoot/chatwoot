@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assignació automàtica actualitzada correctament",
         "ERROR_MESSAGE": "No s'ha pogut actualitzar el color del widget. Torneu-ho a provar més endavant."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Habilita",
-        "DISABLED": "Inhabilita"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Habilita",
         "DISABLED": "Inhabilita"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Característiques",
       "DISPLAY_FILE_PICKER": "Mostra el selector de fitxers al widget",
-      "DISPLAY_EMOJI_PICKER": "Mostra el selector d'emoji al widget"
+      "DISPLAY_EMOJI_PICKER": "Mostra el selector d'emoji al widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script del missatger",
       "MESSENGER_SUB_HEAD": "Col·loca aquest botó dins de l'etiqueta body",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Actualitza",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "This message would be visible to the users along with the form"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "hores",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Tria"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Correu electrònic",
-        "PLACE_HOLDER": "Correu electrònic"
+      "LOGIN": {
+        "LABEL": "Inicia la sessió",
+        "PLACE_HOLDER": "Inicia la sessió"
       },
       "PASSWORD": {
         "LABEL": "Contrasenya",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Correu electrònic",
-        "PLACE_HOLDER": "Correu electrònic"
+      "LOGIN": {
+        "LABEL": "Inicia la sessió",
+        "PLACE_HOLDER": "Inicia la sessió"
       },
       "PASSWORD": {
         "LABEL": "Contrasenya",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

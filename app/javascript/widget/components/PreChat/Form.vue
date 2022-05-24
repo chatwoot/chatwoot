@@ -1,56 +1,44 @@
 <template>
-  <form
+  <FormulateForm
+    v-model="formValues"
     class="flex flex-1 flex-col p-6 overflow-y-auto"
-    @submit.prevent="onSubmit"
+    @submit="onSubmit"
   >
     <div
       v-if="shouldShowHeaderMessage"
-      class="text-black-800 text-sm leading-5"
+      class="mb-4 text-sm leading-5"
+      :class="$dm('text-black-800', 'dark:text-slate-50')"
     >
       {{ headerMessage }}
     </div>
-    <div v-for="(item, index) in preChatFields" :key="index">
-      <form-input
-        v-if="isContactFieldVisible('fullName', item)"
-        v-model="fullName"
-        class="mt-5"
-        :label="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.FULL_NAME.PLACEHOLDER')"
-        type="text"
-        :error="
-          $v.fullName && $v.fullName.$error
-            ? $t('PRE_CHAT_FORM.FIELDS.FULL_NAME.REQUIRED_ERROR')
-            : ''
-        "
-      />
-      <form-input
-        v-if="isContactFieldVisible('emailAddress', item)"
-        v-model="emailAddress"
-        class="mt-5"
-        :label="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.PLACEHOLDER')"
-        type="email"
-        :error="$v.emailAddress && emailErrorMessage"
-      />
-      <form-input
-        v-if="isContactFieldVisible('phoneNumber', item)"
-        v-model="phoneNumber"
-        class="mt-5"
-        :label="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.LABEL')"
-        :placeholder="$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.PLACEHOLDER')"
-        type="number"
-        :error="$v.phoneNumber && phoneNumberErrorMessage"
-      />
-    </div>
-
-    <form-text-area
+    <FormulateInput
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item)"
+      :validation="getValidation(item)"
+      :options="getOptions(item)"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :validation-messages="{
+        isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+        required: getRequiredErrorMessage(item),
+      }"
+    />
+    <FormulateInput
       v-if="!hasActiveCampaign"
-      v-model="message"
-      class="my-5"
+      name="message"
+      type="textarea"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      :error="$v.message.$error ? $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR') : ''"
+      validation="required"
     />
+
     <custom-button
       class="font-medium my-5"
       block
@@ -61,29 +49,24 @@
       <spinner v-if="isCreating" class="p-0" />
       {{ $t('START_CONVERSATION') }}
     </custom-button>
-  </form>
+  </FormulateForm>
 </template>
 
 <script>
 import CustomButton from 'shared/components/Button';
-import FormInput from '../Form/Input';
-import FormTextArea from '../Form/TextArea';
 import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
-import { required, minLength, email } from 'vuelidate/lib/validators';
 
 import { isEmptyObject } from 'widget/helpers/utils';
 import routerMixin from 'widget/mixins/routerMixin';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   components: {
-    FormInput,
-    FormTextArea,
     CustomButton,
     Spinner,
   },
-  mixins: [routerMixin],
+  mixins: [routerMixin, darkModeMixin],
   props: {
     options: {
       type: Object,
@@ -94,56 +77,16 @@ export default {
       default: false,
     },
   },
-  validations() {
-    let identityValidations = {};
-    if (this.isContactFieldRequired('emailAddress')) {
-      identityValidations = {
-        ...identityValidations,
-        emailAddress: {
-          required,
-          email,
-        },
-      };
-    }
-    if (this.isContactFieldRequired('phoneNumber')) {
-      identityValidations = {
-        ...identityValidations,
-        phoneNumber: {
-          required,
-          isPhoneE164OrEmpty,
-        },
-      };
-    }
-    if (this.isContactFieldRequired('fullName')) {
-      identityValidations = {
-        ...identityValidations,
-        fullName: {
-          required,
-        },
-      };
-    }
-
-    const messageValidation = {
-      message: {
-        required,
-        minLength: minLength(1),
-      },
-    };
-    // For campaign, message field is not required
-    if (this.hasActiveCampaign) {
-      return identityValidations;
-    }
-    return {
-      ...identityValidations,
-      ...messageValidation,
-    };
-  },
   data() {
     return {
-      fullName: '',
-      emailAddress: '',
-      phoneNumber: '',
+      locale: this.$root.$i18n.locale,
       message: '',
+      formValues: {},
+      labels: {
+        emailAddress: 'EMAIL_ADDRESS',
+        fullName: 'FULL_NAME',
+        phoneNumber: 'PHONE_NUMBER',
+      },
     };
   },
   computed: {
@@ -151,6 +94,7 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
       activeCampaign: 'campaign/getActiveCampaign',
+      currentUser: 'contacts/getCurrentUser',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -168,60 +112,206 @@ export default {
       return this.options.preChatMessage;
     },
     preChatFields() {
-      return this.options.preChatFields || [];
+      return this.disableContactFields ? [] : this.options.preChatFields;
     },
-    emailErrorMessage() {
-      let errorMessage = '';
-      if (!this.$v.emailAddress.$error) {
-        errorMessage = '';
-      } else if (!this.$v.emailAddress.required) {
-        errorMessage = this.$t(
-          'PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.REQUIRED_ERROR'
-        );
-      } else if (!this.$v.emailAddress.email) {
-        errorMessage = this.$t(
-          'PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'
-        );
-      }
-      return errorMessage;
+    filteredPreChatFields() {
+      const isUserEmailAvailable = !!this.currentUser.email;
+      const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
+      return this.preChatFields.filter(field => {
+        if (
+          (isUserEmailAvailable && field.name === 'emailAddress') ||
+          (isUserPhoneNumberAvailable && field.name === 'phoneNumber')
+        ) {
+          return false;
+        }
+        return true;
+      });
     },
-    phoneNumberErrorMessage() {
-      let errorMessage = '';
-      if (!this.$v.phoneNumber.$error) {
-        errorMessage = '';
-      } else if (!this.$v.phoneNumber.required) {
-        errorMessage = this.$t(
-          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.REQUIRED_ERROR'
-        );
-      } else if (!this.$v.phoneNumber.email) {
-        errorMessage = this.$t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR');
-      }
-      return errorMessage;
+    enabledPreChatFields() {
+      return this.filteredPreChatFields
+        .filter(field => field.enabled)
+        .map(field => ({
+          ...field,
+          type: this.findFieldType(field.type),
+        }));
+    },
+    conversationCustomAttributes() {
+      let conversationAttributes = {};
+      this.enabledPreChatFields.forEach(field => {
+        if (field.field_type === 'conversation_attribute') {
+          conversationAttributes = {
+            ...conversationAttributes,
+            [field.name]: this.getValue(field),
+          };
+        }
+      });
+      return conversationAttributes;
+    },
+    contactCustomAttributes() {
+      let contactAttributes = {};
+      this.enabledPreChatFields.forEach(field => {
+        if (field.field_type === 'contact_attribute') {
+          contactAttributes = {
+            ...contactAttributes,
+            [field.name]: this.getValue(field),
+          };
+        }
+      });
+      return contactAttributes;
+    },
+    inputStyles() {
+      return `mt-2 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
+    },
+    isInputDarkOrLightMode() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
+        'text-slate-700',
+        'dark:text-slate-50'
+      )}`;
+    },
+    inputBorderColor() {
+      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
     },
   },
   methods: {
-    isContactFieldVisible(field, item) {
-      return (
-        item.name === field &&
-        this.preChatFields.find(option => option.name === field).enabled
-      );
+    labelClass(context) {
+      const { hasErrors } = context;
+      if (!hasErrors) {
+        return `text-xs font-medium ${this.$dm(
+          'text-black-800',
+          'dark:text-slate-50'
+        )}`;
+      }
+      return `text-xs font-medium ${this.$dm(
+        'text-red-400',
+        'dark:text-red-400'
+      )}`;
+    },
+    inputClass(context) {
+      const { hasErrors, classification, type } = context;
+      if (classification === 'box' && type === 'checkbox') {
+        return '';
+      }
+      if (!hasErrors) {
+        return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;
+      }
+      return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
     },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
     },
-    onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
+    getLabel({ name, label }) {
+      if (this.labels[name])
+        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.LABEL`);
+      return label;
+    },
+    getPlaceHolder({ name, placeholder }) {
+      if (this.labels[name])
+        return this.$t(`PRE_CHAT_FORM.FIELDS.${this.labels[name]}.PLACEHOLDER`);
+      return placeholder;
+    },
+    getValue({ name, type }) {
+      if (type === 'select') {
+        return this.enabledPreChatFields.find(option => option.name === name)
+          .values[this.formValues[name]];
       }
+      return this.formValues[name] || null;
+    },
+
+    getRequiredErrorMessage({ name, label }) {
+      if (this.labels[name])
+        return this.$t(
+          `PRE_CHAT_FORM.FIELDS.${this.labels[name]}.REQUIRED_ERROR`
+        );
+      return `${label} ${this.$t('PRE_CHAT_FORM.IS_REQUIRED')}`;
+    },
+    getValidation({ type, name }) {
+      if (!this.isContactFieldRequired(name)) {
+        return '';
+      }
+      const validations = {
+        emailAddress: 'email',
+        phoneNumber: 'isPhoneE164OrEmpty',
+        url: 'url',
+        date: 'date',
+        text: null,
+        select: null,
+        number: null,
+      };
+      const validationKeys = Object.keys(validations);
+      const validation = 'bail|required';
+      if (validationKeys.includes(name) || validationKeys.includes(type)) {
+        const validationType = validations[type] || validations[name];
+        return validationType ? `${validation}|${validationType}` : validation;
+      }
+      return '';
+    },
+    findFieldType(type) {
+      if (type === 'link') {
+        return 'url';
+      }
+      if (type === 'list') {
+        return 'select';
+      }
+
+      return type;
+    },
+    getOptions(item) {
+      if (item.type === 'select') {
+        let values = {};
+        item.values.forEach((value, index) => {
+          values = {
+            ...values,
+            [index]: value,
+          };
+        });
+        return values;
+      }
+      return null;
+    },
+    onSubmit() {
+      const { emailAddress, fullName, phoneNumber, message } = this.formValues;
+      const { email } = this.currentUser;
       this.$emit('submit', {
-        fullName: this.fullName,
-        phoneNumber: this.phoneNumber,
-        emailAddress: this.emailAddress,
-        message: this.message,
+        fullName,
+        phoneNumber,
+        emailAddress: emailAddress || email,
+        message,
         activeCampaignId: this.activeCampaign.id,
+        conversationCustomAttributes: this.conversationCustomAttributes,
+        contactCustomAttributes: this.contactCustomAttributes,
       });
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  .wrapper[data-type='checkbox'] {
+    .formulate-input-wrapper {
+      display: flex;
+      align-items: center;
+
+      label {
+        margin-left: 0.2rem;
+      }
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    .wrapper {
+      .formulate-input-element--date,
+      .formulate-input-element--checkbox {
+        input {
+          color-scheme: dark;
+        }
+      }
+    }
+  }
+  .wrapper[data-type='textarea'] {
+    .formulate-input-element--textarea {
+      textarea {
+        min-height: 8rem;
+      }
+    }
+  }
+}
+</style>

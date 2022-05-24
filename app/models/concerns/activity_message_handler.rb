@@ -10,6 +10,8 @@ module ActivityMessageHandler
   end
 
   def status_change_activity(user_name)
+    return send_automation_activity if Current.executed_by.present?
+
     create_status_change_message(user_name)
   end
 
@@ -20,10 +22,17 @@ module ActivityMessageHandler
   def create_status_change_message(user_name)
     content = if user_name
                 I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+              elsif Current.contact.present? && resolved?
+                I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
               elsif resolved?
                 I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
               end
 
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def send_automation_activity
+    content = I18n.t("conversations.activity.status.#{status}", user_name: 'Automation System')
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 

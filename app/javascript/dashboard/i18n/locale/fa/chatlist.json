@@ -76,10 +76,12 @@
     "RECEIVED_VIA_EMAIL": "از طریق ایمیل دریافت شد",
     "VIEW_TWEET_IN_TWITTER": "مشاهده توییت در توییتر",
     "REPLY_TO_TWEET": "پاسخ به این توییت",
+    "LINK_TO_STORY": "برو به داستان اینستاگرام",
     "SENT": "با موفقیت ارسال شد",
     "NO_MESSAGES": "هیچ پیامی وجود ندارد",
     "NO_CONTENT": "هیچ محتوایی موجود نیست",
     "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
-    "SHOW_QUOTED_TEXT": "نمایش متن نقل قول"
+    "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
+    "MESSAGE_READ": "خوانده شده"
   }
 }

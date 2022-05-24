@@ -19,8 +19,8 @@ RSpec.describe Account do
   it { is_expected.to have_many(:webhooks).dependent(:destroy_async) }
   it { is_expected.to have_many(:notification_settings).dependent(:destroy_async) }
   it { is_expected.to have_many(:reporting_events) }
-  it { is_expected.to have_many(:kbase_portals).dependent(:destroy_async) }
-  it { is_expected.to have_many(:kbase_categories).dependent(:destroy_async) }
+  it { is_expected.to have_many(:portals).dependent(:destroy_async) }
+  it { is_expected.to have_many(:categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
 
   describe 'usage_limits' do
@@ -28,6 +28,16 @@ RSpec.describe Account do
 
     it 'returns ChatwootApp.max limits' do
       expect(account.usage_limits).to eq({ agents: ChatwootApp.max_limit, inboxes: ChatwootApp.max_limit })
+    end
+  end
+
+  context 'when after_destroy is called' do
+    it 'conv_dpid_seq and camp_dpid_seq_ are deleted' do
+      account = create(:account)
+      query = "select * from information_schema.sequences where sequence_name in  ('camp_dpid_seq_#{account.id}', 'conv_dpid_seq_#{account.id}');"
+      expect(ActiveRecord::Base.connection.execute(query).count).to eq(2)
+      account.destroy
+      expect(ActiveRecord::Base.connection.execute(query).count).to eq(0)
     end
   end
 end

@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
         "ERROR_MESSAGE": "Tidak dapat memperbarui warna widget. Silakan coba lagi nanti."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Diaktifkan",
         "DISABLED": "Nonaktif"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Fitur",
       "DISPLAY_FILE_PICKER": "Tampilkan file picker di widget",
-      "DISPLAY_EMOJI_PICKER": "Tampilkan pilihan emoji di widget"
+      "DISPLAY_EMOJI_PICKER": "Tampilkan pilihan emoji di widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
       "INBOX_AGENTS": "Agen",
       "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Perbarui",
       "ENABLE_EMAIL_COLLECT_BOX": "Aktifkan kotak pengumpulan email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktifkan atau nonaktifkan kotak pengumpulan email pada percakpaan baru",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formulir pra-obrolan memungkinkan Anda untuk menangkap informasi pengguna sebelum mereka memulai percakapan dengan Anda.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Kunci",
+        "TYPE": "Tipe",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Aktifkan formulir pra obrolan",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pesan Pra Obrolan",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Pesan ini akan terlihat oleh pengguna bersama dengan formulir"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "jam",
         "VALIDATION_ERROR": "Waktu mulai harus sebelum waktu tutup.",
         "CHOOSE": "Pilih"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Masuk",
+        "PLACE_HOLDER": "Masuk"
       },
       "PASSWORD": {
         "LABEL": "Kata Sandi",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Masuk",
+        "PLACE_HOLDER": "Masuk"
       },
       "PASSWORD": {
         "LABEL": "Kata Sandi",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

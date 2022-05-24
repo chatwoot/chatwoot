@@ -29,7 +29,7 @@ export const SDK_CSS = `
 
 .woot-widget-holder.has-unread-view {
   border-radius: 0 !important;
-  min-height: 80px;
+  min-height: 80px !important;
   height: auto;
   bottom: 94px;
   box-shadow: none !important;
@@ -226,5 +226,9 @@ export const SDK_CSS = `
     min-height: 250px !important;
     width: 400px !important;
  }
+}
+
+.woot-hidden {
+  display: none !important;
 }
 `;

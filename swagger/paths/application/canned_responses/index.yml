@@ -1,0 +1,17 @@
+tags:
+  - Canned Responses
+operationId: get-account-canned-response
+summary: List all Canned Responses in an Account
+description: Get Details of Canned Responses in an Account
+security:
+  - userApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+        type: array
+        description: 'Array of all canned responses'
+        items:
+          $ref: '#/definitions/canned_response'
+  403:
+    description: Access denied

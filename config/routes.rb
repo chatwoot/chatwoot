@@ -45,7 +45,7 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
-
+          resources :assignable_agents, only: [:index]
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -54,9 +54,10 @@ Rails.application.routes.draw do
               post :reauthorize_page
             end
           end
-          resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, except: [:edit] do
+          resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
+            post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
 
@@ -73,6 +74,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
+              resource :direct_uploads, only: [:create]
             end
             member do
               post :mute
@@ -106,6 +108,7 @@ Rails.application.routes.draw do
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
@@ -146,7 +149,7 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
-          resources :webhooks, except: [:show]
+          resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
@@ -154,14 +157,15 @@ Rails.application.routes.draw do
           end
           resources :working_hours, only: [:update]
 
-          namespace :kbase do
-            resources :portals do
-              resources :categories do
-                resources :folders
-              end
-              resources :articles
+          resources :portals do
+            member do
+              post :archive
+            end
+            resources :categories do
+              resources :folders
             end
           end
+          resources :articles
         end
       end
       # end of account scoped api routes
@@ -181,6 +185,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -190,6 +195,7 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            get  :toggle_status
           end
         end
         resource :contact, only: [:show, :update] do
@@ -211,6 +217,7 @@ Rails.application.routes.draw do
             get :inboxes
             get :labels
             get :teams
+            get :conversations
           end
         end
       end

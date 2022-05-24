@@ -1,5 +1,5 @@
 class Campaigns::CampaignConversationBuilder
-  pattr_initialize [:contact_inbox_id!, :campaign_display_id!, :conversation_additional_attributes]
+  pattr_initialize [:contact_inbox_id!, :campaign_display_id!, :conversation_additional_attributes, :custom_attributes]
 
   def perform
     @contact_inbox = ContactInbox.find(@contact_inbox_id)
@@ -21,7 +21,8 @@ class Campaigns::CampaignConversationBuilder
 
   def message_params
     ActionController::Parameters.new({
-                                       content: @campaign.message
+                                       content: @campaign.message,
+                                       campaign_id: @campaign.id
                                      })
   end
 
@@ -32,7 +33,8 @@ class Campaigns::CampaignConversationBuilder
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
       campaign_id: @campaign.id,
-      additional_attributes: conversation_additional_attributes
+      additional_attributes: conversation_additional_attributes,
+      custom_attributes: custom_attributes || {}
     }
   end
 end

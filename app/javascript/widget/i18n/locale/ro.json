@@ -8,30 +8,31 @@
       "SUBMIT": "Trimite"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Trimiteți din nou un mesaj",
+      "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "Suntem online",
+    "OFFLINE": "Suntem plecați în acest moment"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
+    "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
+    "IN_A_DAY": "De obicei, răspunsurile într-o zi"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "Începe conversația",
+  "END_CONVERSATION": "Terminați conversația",
+  "CONTINUE_CONVERSATION": "Continuați conversația",
+  "START_NEW_CONVERSATION": "Începeți o conversație nouă",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vezi mesajele noi",
     "CLOSE_MESSAGES_BUTTON": "Închide",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "de la",
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Discută cu noi"
   },
   "POWERED_BY": "Oferit de Chatwoot",
   "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
@@ -41,36 +42,44 @@
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
+        "LABEL": "Nume complet",
         "PLACEHOLDER": "Te rugăm să introduci un nume valid",
-        "ERROR": "Full Name is required"
+        "REQUIRED_ERROR": "Este necesar numele complet"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Adresa Email",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Te rugăm să-ți introduci adresa de email",
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Număr de telefon",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Introdu mesajul tău",
+        "ERROR": "Mesaj prea scurt"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Vă rugăm să furnizați numele și e-mailul înainte de a începe conversația",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Câmp invalid"
     }
   },
   "CSAT": {
     "TITLE": "Evaluează conversația ta",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "SUBMITTED_TITLE": "Vă mulțumim pentru trimiterea de rating",
     "PLACEHOLDER": "Spune-ne mai mult..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Solicitați o transcriere a conversației",
     "SEND_EMAIL_SUCCESS": "Transscrisul de chat a fost trimis cu succes",
     "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou"
   }

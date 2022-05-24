@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
       }
     },
-    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn."
+    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Thông báo",
     "MARK_ALL_DONE": "Đánh dấu tất cả đã xong",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Đang tải thông báo...",
       "404": "Không có thông báo",
@@ -100,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
       "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
       "GO_TO_REPORTS_OVERVIEW": "Đi đến Tổng quan Báo cáo",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Đại lý",
       "GO_TO_LABEL_REPORTS": "Đi đến Báo cáo Nhãn",
       "GO_TO_INBOX_REPORTS": "Đi đến Báo cáo Hộp thư đến",
@@ -108,7 +117,7 @@
       "GO_TO_SETTINGS_TEAMS": "Đi đến Cài đặt Nhóm",
       "GO_TO_SETTINGS_INBOXES": "Đi đến Cài đặt Hộp thư đến",
       "GO_TO_SETTINGS_LABELS": "Đi đến Cài đặt Nhãn",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Đi đến Cài đặt Thư mẫu phản hồi",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Đi đến Cài đặt Tin trả lời lưu sẵn",
       "GO_TO_SETTINGS_APPLICATIONS": "Đi đến Cài đặt Ứng dụng",
       "GO_TO_SETTINGS_ACCOUNT": "Đi đến Cài đặt Tài khoản",
       "GO_TO_SETTINGS_PROFILE": "Đi đến Cài đặt Hồ sơ",

@@ -12,7 +12,6 @@
 
 <script>
 const TYPING_INDICATOR_IDLE_TIME = 4000;
-
 export default {
   props: {
     placeholder: {

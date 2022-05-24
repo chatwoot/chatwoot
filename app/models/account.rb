@@ -56,9 +56,9 @@ class Account < ApplicationRecord
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
-  has_many :kbase_articles, dependent: :destroy_async, class_name: '::Kbase::Article'
-  has_many :kbase_categories, dependent: :destroy_async, class_name: '::Kbase::Category'
-  has_many :kbase_portals, dependent: :destroy_async, class_name: '::Kbase::Portal'
+  has_many :articles, dependent: :destroy_async, class_name: '::Article'
+  has_many :categories, dependent: :destroy_async, class_name: '::Category'
+  has_many :portals, dependent: :destroy_async, class_name: '::Portal'
   has_many :labels, dependent: :destroy_async
   has_many :line_channels, dependent: :destroy_async, class_name: '::Channel::Line'
   has_many :mentions, dependent: :destroy_async
@@ -77,6 +77,7 @@ class Account < ApplicationRecord
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :working_hours, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
@@ -84,6 +85,7 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_destroy :remove_account_sequences
 
   def agents
     users.where(account_users: { role: :agent })
@@ -115,7 +117,7 @@ class Account < ApplicationRecord
   end
 
   def support_email
-    super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+    super || ENV['MAILER_SENDER_EMAIL'] || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL']
   end
 
   def usage_limits
@@ -141,5 +143,14 @@ class Account < ApplicationRecord
 
   trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
+
+  def validate_limit_keys
+    # method overridden in enterprise module
+  end
+
+  def remove_account_sequences
+    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{id}")
+    ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
   end
 end

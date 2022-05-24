@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Вхідні",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Джерела</b></p> <p> Коли ви підключаєте веб-сайт або сторінку у Facebook до Chatwoot, вони називаються <b>Джерелом</b>. Ви можете мати необмежену кількість джерел у своєму обліковому записі Chatwoot. </p><p> Натисніть <b>Додати папку \"Джерело\"</b>, щоб підключити веб-сайт або сторінку Facebook. </p><p> На інформаційній панелі ви можете переглядати всі бесіди з усіх своїх поштових скриньок в одному місці та відповідати на них на вкладці \"Розмови\". </p><p> Ви також можете переглянути розмови, специфічні для папки \"Джерела\", клацнувши назву папки \"Джерело\" на лівій панелі інформаційної панелі. </p>",
     "LIST": {
       "404": "В цього облікового запису немає скриньк."
     },
@@ -9,17 +9,17 @@
       {
         "title": "Оберіть канал",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Виберіть постачальника, якого ви хочете інтегрувати з Chatwoot."
       },
       {
         "title": "Створити вхідну скриньку",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Увійдіть до свого облікового запису і створіть \"Джерело\"."
       },
       {
         "title": "Додати агентів",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Додати агентів до створеного \"Джерела\"."
       },
       {
         "title": "Вуаля!",
@@ -29,27 +29,27 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "LABEL": "Назва Джерела",
+        "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)"
       },
       "WEBSITE_NAME": {
         "LABEL": "Назва сайту",
         "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "PS: Після авторизації ми отримаємо доступ лише до ваших повідомлень на сторінці. Особисті повідомлення недоступні Chatwoot.",
+        "CHOOSE_PAGE": "Вибрати сторінку",
+        "CHOOSE_PLACEHOLDER": "Виберіть сторінку зі списку",
+        "INBOX_NAME": "Назва Джерела",
+        "ADD_NAME": "Додайте назву Джерела",
+        "PICK_NAME": "Виберіть ім'я Джерела",
+        "PICK_A_VALUE": "Виберіть значення"
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
         "ERROR_MESSAGE": "Помилка підключення до Twitter, будь ласка, спробуйте ще раз",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Створити розмову зі згаданих твітів"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Увімкнути вітання каналу",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Відправляйте вітальне повідомлення користувачам, коли вони розпочинають розмову.",
           "ENABLED": "Увімкнено",
           "DISABLED": "Вимкнено"
         },
@@ -136,35 +136,35 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS-канал",
+        "DESC": "Розпочніть підтримувати ваших клієнтів через SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти SMS-канал"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "LABEL": "ID акаунту",
+            "PLACEHOLDER": "Будь ласка, введіть ваш Ідентифікатор облікового запису Bandwidth",
             "ERROR": "Це поле є обов'язковим"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "API ключ",
+            "PLACEHOLDER": "Будь ласка, введіть ваш API ключ Bandwidth",
             "ERROR": "Це поле є обов'язковим"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "Секретний Ключ API",
+            "PLACEHOLDER": "Будь ласка, введіть ваш секретний ключ API Bandwidth",
             "ERROR": "Це поле є обов'язковим"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "ID додатку",
+            "PLACEHOLDER": "Будь ласка, введіть ваш ID додатка Bandwidth",
             "ERROR": "Це поле є обов'язковим"
           },
           "INBOX_NAME": {
@@ -177,13 +177,13 @@
             "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
             "ERROR": "Номер телефону повинен починатися з символу `+'."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Створити Bandwidth канал",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Ми не змогли авторизувати облікові дані Bandwidth, будь ласка, спробуйте ще раз"
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "Ви повинні налаштувати URL зворотнього виклику у Bandwidth з URL-адресою, згаданим тут."
           }
         }
       },
@@ -250,76 +250,76 @@
         },
         "SUBMIT_BUTTON": "Створити Канал E-mail",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти email канал"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Почніть перенаправляти листи до наступної адреси електронної пошти."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE Канал",
+        "DESC": "Інтегруйте канал LINE і почніть підтримувати клієнтів.",
         "CHANNEL_NAME": {
           "LABEL": "Назва каналу",
           "PLACEHOLDER": "Будь ласка, введіть назву каналу",
           "ERROR": "Це поле є обов'язковим"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "Ідентифікатор LINE Каналу",
+          "PLACEHOLDER": "Ідентифікатор LINE Каналу"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "Секретний ключ LINE каналу",
+          "PLACEHOLDER": "Секретний ключ LINE каналу"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "Токен каналу LINE",
+          "PLACEHOLDER": "Токен каналу LINE"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Створити LINE канал",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти канал LINE"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "Необхідно налаштувати URL вебхука у додатку LINE за допомогою URL, згаданого тут."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Канал Telegram",
+        "DESC": "Інтегруйте з Telegram каналом і починайте підтримувати клієнтів.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "Налаштуйте токен бота, який ви отримали з Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Створити канал Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Ми не змогли зберегти Telegram канал"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "Оберіть канал",
+        "DESC": "Chatwoot підтримує віджет live-Chat, сторінку Facebook, профіль Twitter, WhatsApp, Email і т. п., як канали. Якщо ви хочете створити користувацький канал, ви можете створити його за допомогою каналу API. Виберіть один канал з параметрів нижче, щоб продовжити."
       },
       "AGENTS": {
         "TITLE": "Агенти",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "DESC": "Тут Ви можете додавати агентів для керування нещодавно створеним джерелом. Тільки ці обрані агенти матимуть доступ до Вашої папки \"Вхідні\". Агенти, які не входять до цього джерела, не зможуть побачити або відповісти на повідомлення у цій папці \"Вхідні\", під час входу. <br> <b>PS:</b> Як адміністратор, якщо вам потрібен доступ до всіх джерел, ви повинні додати себе як агент до всіх \"Вхідні\", що створюєте.",
+        "VALIDATION_ERROR": "Додайте як мінімум одного агента до вашого нового Джерела",
+        "PICK_AGENTS": "Вибрати агентів для джерела"
       },
       "DETAILS": {
         "TITLE": "Деталі скриньки Вхідні",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "DESC": "З випадаючого списку виберіть сторінку Facebook, яку ви хочете підключитися до Chatwoot. Ви також можете надати довільне ім'я для вашого джерела для кращої ідентифікації."
       },
       "FINISH": {
         "TITLE": "Успіх!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "DESC": "Ви успішно закінчили інтеграцію вашої сторінки у Facebook з Chatwoot. Наступного разу, коли з’явиться клієнтська сторінка, розмова автоматично з'явиться у вашій поштовій скриньці.<br>Ми також надаємо вам сценарій роботи віджетів, який можна легко додати на ваш сайт. Як тільки це буде опубліковане на вашому сайті, клієнти можуть надсилати вам повідомлення прямо з вашого сайту без допомоги будь-якого зовнішнього інструменту, і розмова з'явиться тут, на Chatwoot.<br>Круто, так? Ну, ми дійсно намагаємося бути :)"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Автентифікація через Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "ERROR_FB_AUTH": "Щось пішло не так. Будь ласка, оновіть сторінку...",
       "CREATING_CHANNEL": "Створення скриньки Вхідні...",
-      "TITLE": "Configure Inbox Details",
+      "TITLE": "Налаштувати подробиці Джерела",
       "DESC": ""
     },
     "AGENTS": {
@@ -328,22 +328,18 @@
     },
     "FINISH": {
       "TITLE": "Ваша поштова скринька готова!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "MESSAGE": "Ви тепер можете взаємодіяти з вашими клієнтами через ваш новий канал. Щасливої підтримки ",
       "BUTTON_TEXT": "Давай туди",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Додаткові налаштування",
       "WEBSITE_SUCCESS": "Ви успішно завершили створення каналу Веб-сайт. Скопіюйте наведений нижче код і вставте його на ваш сайт. Наступного разу коли клієнт скористається онлайн чатом, розмова автоматично з'явиться в вашій скриньці Вхідні."
     },
     "REAUTH": "Повторна авторизація",
     "VIEW": "Вигляд",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "SUCCESS_MESSAGE": "Налаштування вхідних повідомлень успішно оновлені",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автопризначення успішно оновлено",
         "ERROR_MESSAGE": "Не вдалося оновити колір віджету. Будь ласка, спробуйте ще раз."
-      },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Увімкнено",
-        "DISABLED": "Вимкнено"
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Увімкнено",
@@ -362,53 +358,56 @@
         "DISABLED": "Вимкнено"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Увімкнено"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "Видалити аватар",
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",
         "MESSAGE": "Справді бажаєте видалити ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Будь ласка, введіть {inboxName} для підтвердження",
         "YES": "Так, видалити ",
-        "NO": "No, Keep "
+        "NO": "Ні, залишити "
       },
       "API": {
         "SUCCESS_MESSAGE": "Скриньку успішно видалено",
         "ERROR_MESSAGE": "Не вдалося видалити скриньку \"Вхідні\". Будь ласка, спробуйте ще раз.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "Аватар для джерела повідомлень успішно видалено",
+        "AVATAR_ERROR_MESSAGE": "Не вдалося видалити аватар \"Джерела\". Будь ласка, спробуйте ще раз пізніше."
       }
     },
     "TABS": {
       "SETTINGS": "Налаштування",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "COLLABORATORS": "Співавтори",
+      "CONFIGURATION": "Конфігурація",
+      "CAMPAIGN": "Розсилка",
+      "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
+      "BUSINESS_HOURS": "Робочий час"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Особливості",
+      "DISPLAY_FILE_PICKER": "Показувати вибір файлу на віджеті",
+      "DISPLAY_EMOJI_PICKER": "Відображати емодзі на віджеті",
+      "ALLOW_END_CONVERSATION": "Дозволити користувачам завершити розмову з віджета"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_HEADING": "Скрипт месенджера",
       "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Оновити",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Включити збір електронної пошти",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
-      "ENABLE_CSAT": "Enable CSAT",
+      "ENABLE_CSAT": "Увімкнути CSAT",
       "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
       "INBOX_UPDATE_TITLE": "Налаштування каналу",
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
@@ -420,8 +419,8 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
       "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
       "FORWARD_EMAIL_SUB_TEXT": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Повторна авторизація",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Попередні форми чату дозволяють зберегти інформацію про користувача, перш ніж вони почнуть розмову з вами.",
+      "SET_FIELDS": "Поля, що відображаються перед початком діалогу",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Поля",
+        "LABEL": "Мітка",
+        "PLACE_HOLDER": "Мітка-заповнювач",
+        "KEY": "Ключ",
+        "TYPE": "Тип",
+        "REQUIRED": "Обов'язково"
+      },
       "ENABLE": {
         "LABEL": "Увімкнути форму попереднього чату",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Попереднє повідомлення чату",
+        "LABEL": "Повідомлення, що відображається перед початком діалогу",
         "PLACEHOLDER": "Це повідомлення буде видимим для користувачів разом з формою"
       },
       "REQUIRE_EMAIL": {
@@ -462,70 +470,74 @@
         "HOURS": "години",
         "VALIDATION_ERROR": "Час початку має бути менше часу закриття.",
         "CHOOSE": "Обрати"
-      }
+      },
+      "ALL_DAY": "Увесь день"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "Встановити параметри IMAP",
+      "NOTE_TEXT": "Для увімкнення SMTP, будь ласка, налаштуйте IMAP.",
+      "UPDATE": "Оновити налаштування IMAP",
+      "TOGGLE_AVAILABILITY": "Увімкнути налаштування IMAP для цієї папки Вхідні",
+      "TOGGLE_HELP": "Увімкнення IMAP допоможе користувачу отримувати електронну пошту",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "Налаштування IMAP успішно оновлено",
+        "ERROR_MESSAGE": "Не вдалося оновити налаштування IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Адреса",
+        "PLACE_HOLDER": "Адреса (наприклад: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Порт",
+        "PLACE_HOLDER": "Порт"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Увійти",
+        "PLACE_HOLDER": "Увійти"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
         "PLACE_HOLDER": "Пароль"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Увімкнути SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Встановити параметри SMTP",
+      "UPDATE": "Оновити налаштування SMTP",
+      "TOGGLE_AVAILABILITY": "Увімкнути SMTP конфігурацію для вхідних повідомлень",
+      "TOGGLE_HELP": "Включення SMTP допоможе користувачеві надіслати email повідомлення",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "Налаштування SMTP успішно оновлено",
+        "ERROR_MESSAGE": "Неможливо оновити налаштування SMTP"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "Адреса",
+        "PLACE_HOLDER": "Адреса (наприклад: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Порт",
+        "PLACE_HOLDER": "Порт"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Увійти",
+        "PLACE_HOLDER": "Увійти"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
         "PLACE_HOLDER": "Пароль"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Домен",
+        "PLACE_HOLDER": "Домен"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Шифрування",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Режим підтвердження Open SSL",
+      "AUTH_MECHANISM": "Автентифікація"
+    },
+    "NOTE": "Замітка: "
   }
 }

@@ -14,7 +14,7 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
+        "TITLE": "Conta ID",
         "NOTE": "This ID is required if you are building an API based integration"
       },
       "NAME": {
@@ -43,11 +43,12 @@
         "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativada.",
+        "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Já pode receber emails no domínio que escolheu."
       }
     },
-    "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão."
+    "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
+    "LEARN_MORE": "Saiba mais"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaçoes",
     "MARK_ALL_DONE": "Marcar todos como Resolvidos",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "A carregar notificações...",
       "404": "Sem Notificações",
@@ -78,54 +86,55 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Desconectado do Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Atualizar"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Pesquisar ou pular para",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "Geral",
       "REPORTS": "relatórios",
-      "CONVERSATION": "Conversation",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CONVERSATION": "Conversa",
+      "CHANGE_ASSIGNEE": "Alterar Responsável",
+      "CHANGE_TEAM": "Alterar Equipa",
+      "ADD_LABEL": "Adicionar etiqueta à conversa",
+      "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Confirgurações"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
       "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
+      "GO_TO_REPORTS_OVERVIEW": "Ir para Visão Geral de Relatórios",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Ir para Relatórios de Agentes",
+      "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
+      "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
+      "GO_TO_TEAM_REPORTS": "Ir para Relatórios da Equipa",
+      "GO_TO_SETTINGS_AGENTS": "Ir para Configurações do Agente",
+      "GO_TO_SETTINGS_TEAMS": "Ir para Configurações da Equipa",
+      "GO_TO_SETTINGS_INBOXES": "Ir para Configurações da Caixa de entrada",
+      "GO_TO_SETTINGS_LABELS": "Ir para Configurações da Etiquetas",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para Configurações de Resposta Pronta",
+      "GO_TO_SETTINGS_APPLICATIONS": "Ir para Configurações da Aplicação",
+      "GO_TO_SETTINGS_ACCOUNT": "Ir para Configurações da Conta",
+      "GO_TO_SETTINGS_PROFILE": "Ir para Configurações do Perfil",
+      "GO_TO_NOTIFICATIONS": "Ir para Notificações",
+      "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
+      "ASSIGN_AN_AGENT": "Atribuir um agente",
+      "ASSIGN_A_TEAM": "Atribuir uma equipa",
+      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "UNMUTE_CONVERSATION": "Reativar conversa",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
+      "REOPEN_CONVERSATION": "Reabrir conversa",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
       "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "UNTIL_NEXT_REPLY": "Até à próxima resposta",
+      "UNTIL_NEXT_WEEK": "Até à próxima semana",
+      "UNTIL_TOMORROW": "Até amanhã"
     }
   }
 }

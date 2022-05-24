@@ -28,6 +28,7 @@ describe Webhooks::InstagramEventsJob do
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:test_params) { build(:instagram_test_text_event).with_indifferent_access }
+  let!(:unsend_event) { build(:instagram_message_unsend_event).with_indifferent_access }
   let!(:attachment_params) { build(:instagram_message_attachment_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let(:fb_object) { double }
@@ -56,9 +57,28 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(test_params[:entry])
 
         instagram_inbox.reload
-
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.content).to eq('This is a test message from facebook.')
+      end
+
+      it 'handle instagram unsend message event' do
+        create(:message,
+               source_id: 'message-id-to-delete',
+               inbox_id: instagram_inbox.id)
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          {
+            name: 'Jane',
+            id: 'Sender-id-1',
+            account_id: instagram_inbox.account_id,
+            profile_pic: 'https://chatwoot-assets.local/sample.png'
+          }.with_indifferent_access
+        )
+        expect(instagram_inbox.messages.count).to be 1
+        instagram_webhook.perform_now(unsend_event[:entry])
+
+        expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
+        expect(instagram_inbox.messages.last.reload.deleted).to eq true
       end
 
       it 'creates incoming message with attachments in the instagram inbox' do

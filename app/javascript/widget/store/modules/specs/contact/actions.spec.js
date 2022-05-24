@@ -21,6 +21,7 @@ describe('#actions', () => {
         ['get'],
         ['conversation/clearConversations', {}, { root: true }],
         ['conversation/fetchOldConversations', {}, { root: true }],
+        ['conversationAttributes/getAttributes', {}, { root: true }],
       ]);
     });
   });

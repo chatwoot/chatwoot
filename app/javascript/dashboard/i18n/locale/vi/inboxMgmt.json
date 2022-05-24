@@ -183,13 +183,13 @@
           },
           "API_CALLBACK": {
             "TITLE": "URL gọi lại",
-            "SUBTITLE": "Bạn phải cấu hình tin nhắn URL gọi lại trong Bandwith với URL được đề cập ở đây."
+            "SUBTITLE": "Bạn phải cấu hình tin nhắn URL gọi lại trong Bandwith với URL đã được đề cập ở đây."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "Kênh WhatsApp",
-        "DESC": "Bắt đầu hỗ trợ khách hàng thông qua \bWhatsApp.",
+        "DESC": "Bắt đầu hỗ trợ khách hàng thông qua WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Nhà cung cấp API",
           "TWILIO": "Twilio",
@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Đã cập nhật thành công bài tập tự động",
         "ERROR_MESSAGE": "Không thể cập nhật màu tiện ích. Vui lòng thử lại sau."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Bật",
-        "DISABLED": "Không bật"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Bật",
         "DISABLED": "Không bật"
@@ -394,18 +390,21 @@
     "FEATURES": {
       "LABEL": "Các tính năng",
       "DISPLAY_FILE_PICKER": "Hiển thị bộ chọn tệp trên tiện ích con",
-      "DISPLAY_EMOJI_PICKER": "Hiển thị bộ chọn biểu tượng cảm xúc trên tiện ích con"
+      "DISPLAY_EMOJI_PICKER": "Hiển thị bộ chọn biểu tượng cảm xúc trên tiện ích con",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Tập lệnh Messenger",
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
       "INBOX_AGENTS": "Nhà cung cấp",
       "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Cập nhật",
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",
       "AUTO_ASSIGNMENT": "Bật tự động chuyển nhượng",
-      "ENABLE_CSAT": "Bật CSAT",
+      "ENABLE_CSAT": "Bật chỉ số đo lường sự hài lòng khách hàng",
       "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc trò chuyện qua email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc trò chuyện sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Biểu mẫu trước khi trò chuyện cho phép bạn nắm bắt thông tin người dùng trước khi họ bắt đầu cuộc trò chuyện với bạn.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Khoá",
+        "TYPE": "Loại",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Bật biểu mẫu trước khi trò chuyện",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Tin nhắn trước khi trò chuyện",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Tin nhắn này sẽ hiện cho những người dùng cùng với biểu mẫu"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "giờ",
         "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ đóng cửa.",
         "CHOOSE": "Chọn"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Đặt chi tiết IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Cập nhật chi tiết IMAP",
       "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình IMAP cho hộp thư đến này",
       "TOGGLE_HELP": "Kích hoạt IMAP sẽ giúp cho người dùng nhận được email",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Thư điện tử",
-        "PLACE_HOLDER": "Thư điện tử"
+      "LOGIN": {
+        "LABEL": "Đăng nhập",
+        "PLACE_HOLDER": "Đăng nhập"
       },
       "PASSWORD": {
         "LABEL": "Mật khẩu",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Thư điện tử",
-        "PLACE_HOLDER": "Thư điện tử"
+      "LOGIN": {
+        "LABEL": "Đăng nhập",
+        "PLACE_HOLDER": "Đăng nhập"
       },
       "PASSWORD": {
         "LABEL": "Mật khẩu",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Mã hoá",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Mở Chế độ xác minh SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Mở Chế độ xác minh SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }
