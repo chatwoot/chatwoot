@@ -41,7 +41,6 @@ jobs:
       - restore_cache:
           keys:
             - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v2022-05-24-{{ checksum "Gemfile.lock" }}
-            - chatwoot-bundle
 
       - run: bundle install --frozen --path ~/.bundle
       - save_cache:
