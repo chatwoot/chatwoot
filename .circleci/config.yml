@@ -40,14 +40,14 @@ jobs:
 
       - restore_cache:
           keys:
-            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-{{ checksum "Gemfile.lock" }}
+            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v2022-05-24-{{ checksum "Gemfile.lock" }}
             - chatwoot-bundle
 
       - run: bundle install --frozen --path ~/.bundle
       - save_cache:
           paths:
             - ~/.bundle
-          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-{{ checksum "Gemfile.lock" }}
+          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v2022-05-24-{{ checksum "Gemfile.lock" }}
 
 
       # Only necessary if app uses webpacker or yarn in some other way
@@ -78,19 +78,17 @@ jobs:
             - cc-test-reporter
 
       # verify swagger specification
-
-      # disabling this step temporarily to unblock develop
-      # - run:
-      #     name: Verify swagger API specification
-      #     command: |
-      #       bundle exec rake swagger:build
-      #       if [[ `git status swagger/swagger.json --porcelain` ]]
-      #       then
-      #         echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
-      #         exit 1
-      #       fi
-      #       curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar > ~/tmp/openapi-generator-cli-5.3.0.jar
-      #       java -jar ~/tmp/openapi-generator-cli-5.3.0.jar validate -i swagger/swagger.json
+      - run:
+          name: Verify swagger API specification
+          command: |
+            bundle exec rake swagger:build
+            if [[ `git status swagger/swagger.json --porcelain` ]]
+            then
+              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
+              exit 1
+            fi
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar > ~/tmp/openapi-generator-cli-5.3.0.jar
+            java -jar ~/tmp/openapi-generator-cli-5.3.0.jar validate -i swagger/swagger.json
 
 
       # Database setup
