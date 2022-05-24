@@ -27,8 +27,8 @@ else
 fi
 
 function get_domain_info() {
-  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com):' domain_name
-  read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
+  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com) :' domain_name
+  read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal :' le_email
   cat << EOF
 
 This script will generate SSL certificates via LetsEncrypt and serve Chatwoot at
@@ -154,7 +154,7 @@ function setup_ssl() {
   curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
   wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
   cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
-  certbot certonly --non-interactive --agree-tos --nginx -m $le_email -d $domain_name
+  certbot certonly --non-interactive --agree-tos --nginx -m "$le_email" -d "$domain_name"
   sed -i "s/chatwoot.domain.com/$domain_name/g" /etc/nginx/sites-available/nginx_chatwoot.conf
   ln -s /etc/nginx/sites-available/nginx_chatwoot.conf /etc/nginx/sites-enabled/nginx_chatwoot.conf
   systemctl restart nginx
@@ -179,7 +179,7 @@ function main() {
               Chatwoot Installation (latest)
 ***************************************************************************
 
-Open up a second terminal and follow along using, tail -f /var/log/chatwoot.
+For more verbose logs, open up a second terminal and follow along using, `tail -f /var/log/chatwoot`.
 
 EOF
 
@@ -252,7 +252,7 @@ Join the community at https://chatwoot.com/community
 ***************************************************************************
 EOF
   else
-    echo "➥ 9/9 Setting up SSL & TLS"
+    echo "➥ 9/9 Setting up SSL/TLS"
     setup_ssl &>> "${LOG_FILE}"
     cat << EOF
 
@@ -269,8 +269,11 @@ EOF
   then
 cat <<EOF
 ***************************************************************************
-The database migrations had not run as Postgres and Redis were not installed as a part of the installation process.
-After modifying the environment variables (in the .env file) with your external database credentials, run the database migrations using the command `RAILS_ENV=production bundle exec rails db:chatwoot_prepare`.
+The database migrations had not run as Postgres and Redis were not installed
+as part of the installation process. After modifying the environment
+variables (in the .env file) with your external database credentials, run
+the database migrations using the below command.
+`RAILS_ENV=production bundle exec rails db:chatwoot_prepare`.
 ***************************************************************************
 EOF
   fi
