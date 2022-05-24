@@ -23,19 +23,19 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def message_params
-    {
+    params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         text: message.content
-      },
-      messaging_type: 'MESSAGE_TAG',
-      tag: 'HUMAN_AGENT'
+      }
     }
+
+    merge_human_agent_tag(params)
   end
 
   def attachament_message_params
     attachment = message.attachments.first
-    {
+    params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
@@ -44,10 +44,10 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
             url: attachment.download_url
           }
         }
-      },
-      messaging_type: 'MESSAGE_TAG',
-      tag: 'HUMAN_AGENT'
+      }
     }
+
+    merge_human_agent_tag(params)
   end
 
   # Deliver a message with the given payload.
@@ -99,5 +99,15 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def config
     Facebook::Messenger.config
+  end
+
+  def merge_human_agent_tag(params)
+    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+
+    return unless global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+
+    params[:messaging_type] = 'MESSAGE_TAG'
+    params[:tag] = 'HUMAN_AGENT'
+    params
   end
 end
