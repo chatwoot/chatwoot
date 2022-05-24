@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "Contraseña",
       "PLACEHOLDER": "Contraseña",
-      "ERROR": "La contraseña es demasiado corta"
+      "ERROR": "La contraseña es demasiado corta",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar contraseña",

@@ -75,7 +75,7 @@ class Sms::IncomingMessageService
 
     params[:media].each do |media_url|
       # we don't need to process this files since chatwoot doesn't support it
-      next if media_url.end_with? '.smil'
+      next if media_url.end_with?('.smil', '.xml')
 
       attachment_file = Down.download(
         media_url,
@@ -87,7 +87,7 @@ class Sms::IncomingMessageService
         file_type: file_type(attachment_file.content_type),
         file: {
           io: attachment_file,
-          filename: attachment_file,
+          filename: attachment_file.original_filename,
           content_type: attachment_file.content_type
         }
       )

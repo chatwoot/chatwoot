@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacts enregistrés avec succès",
     "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmer la suppression",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Non, conservez-le"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Supprimer le contact",
     "TITLE": "Supprimer le contact",
@@ -77,9 +85,8 @@
     "CONFIRM": {
       "TITLE": "Confirmer la suppression",
       "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
-      "PLACE_HOLDER": "Veuillez taper {contactName} pour confirmer",
-      "YES": "Oui, supprimer ",
-      "NO": "Non, Conserver "
+      "YES": "Oui, supprimer",
+      "NO": "Non, Conserver"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact supprimé avec succès",
@@ -111,7 +118,7 @@
         "LABEL": "Numéro de téléphone",
         "HELP": "Le numéro de téléphone doit être au format E.164. Ex. : +1415555555 [+][code pays][code régional][numéro de téléphone local]",
         "ERROR": "Le numéro de téléphone doit être soit vide soit au format E.164",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "Ce numéro de téléphone est utilisé par un autre contact."
       },
       "LOCATION": {
         "PLACEHOLDER": "Entrez l'emplacement du contact",
@@ -179,8 +186,8 @@
     "SEARCH_BUTTON": "Rechercher",
     "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
     "FILTER_CONTACTS": "Filtrer",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Enregistrer le filtre",
+    "FILTER_CONTACTS_DELETE": "Supprimer le filtre",
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",

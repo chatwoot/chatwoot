@@ -141,7 +141,7 @@
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "پهنای‌باند"
+          "BANDWIDTH": "Bandwidth"
         },
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال پیامک را ذخیره کنیم"
@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "واگذاری خودکار گفتگو به ایجنت ها تنظیم شد",
         "ERROR_MESSAGE": "در حال حاضر امکان تغییر رنگ ویجت امکان‌پذیر نیست. لطفا بعدا امتحان کنید."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "فعال",
-        "DISABLED": "غیرفعال"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "امکانات",
       "DISPLAY_FILE_PICKER": "نمایش گزینه ضمیه فایل در ویجت",
-      "DISPLAY_EMOJI_PICKER": "نمایش گزینه انتخاب ایموجی در ویجت"
+      "DISPLAY_EMOJI_PICKER": "نمایش گزینه انتخاب ایموجی در ویجت",
+      "ALLOW_END_CONVERSATION": "به کاربران اجازه دهید مکالمه را از ویجت پایان دهند"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "اسکریپت ویجت",
       "MESSENGER_SUB_HEAD": "این دکمه را در تگ body قرار دهید",
       "INBOX_AGENTS": "ایجنت ها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی ایجنت به صندوق ورودی",
+      "AGENT_ASSIGNMENT": "واگذاری مکالمه",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "تنظیمات واگذاری مکالمه را به روز کنید",
       "UPDATE": "اعمال شود",
       "ENABLE_EMAIL_COLLECT_BOX": "فعال سازی فرم دریافت ایمیل از کاربر",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "فرم های پیش چت به شما امکان می دهد اطلاعات کاربران را قبل از شروع مکالمه با شما ذخیره کنید.",
+      "SET_FIELDS": "فیلدهای فرم قبل از چت",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "فیلدها",
+        "LABEL": "برچسب",
+        "PLACE_HOLDER": "نگهدارنده",
+        "KEY": "کلید",
+        "TYPE": "نوع",
+        "REQUIRED": "ضروری"
+      },
       "ENABLE": {
         "LABEL": "فعال کردن فرم پیش چت",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "پیام پیش چت",
+        "LABEL": "پیام قبل از چت",
         "PLACEHOLDER": "این پیام به همراه فرم برای کاربران قابل مشاهده است"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "ساعت",
         "VALIDATION_ERROR": "زمان شروع باید قبل از زمان بسته شدن باشد.",
         "CHOOSE": "انتخاب کنید"
-      }
+      },
+      "ALL_DAY": "تمام روز"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "جزئیات IMAP خود را تنظیم کنید",
+      "NOTE_TEXT": "برای فعال کردن SMTP، لطفا IMAP را پیکربندی کنید.",
       "UPDATE": "به‌روزرسانی تنظیمات IMAP",
       "TOGGLE_AVAILABILITY": "پیکربندی IMAP را برای این صندوق ورودی فعال کنید",
       "TOGGLE_HELP": "در حال فعال کردن IMAP به کاربر در دریافت ایمیل کمک می‌کند",
@@ -482,9 +492,9 @@
         "LABEL": "درگاه",
         "PLACE_HOLDER": "درگاه"
       },
-      "EMAIL": {
-        "LABEL": "ایمیل",
-        "PLACE_HOLDER": "ایمیل"
+      "LOGIN": {
+        "LABEL": "ورود",
+        "PLACE_HOLDER": "ورود"
       },
       "PASSWORD": {
         "LABEL": "رمز عبور",
@@ -510,9 +520,9 @@
         "LABEL": "درگاه",
         "PLACE_HOLDER": "درگاه"
       },
-      "EMAIL": {
-        "LABEL": "ایمیل",
-        "PLACE_HOLDER": "ایمیل"
+      "LOGIN": {
+        "LABEL": "ورود",
+        "PLACE_HOLDER": "ورود"
       },
       "PASSWORD": {
         "LABEL": "رمز عبور",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "رمزگذاری",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL",
+      "AUTH_MECHANISM": "احراز هویت"
+    },
+    "NOTE": "یادداشت: "
   }
 }

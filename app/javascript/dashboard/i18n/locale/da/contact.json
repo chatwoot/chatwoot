@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Bekræft Sletning",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nej, behold det"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -77,9 +85,8 @@
     "CONFIRM": {
       "TITLE": "Bekræft Sletning",
       "MESSAGE": "Er du sikker på du vil slette ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Ja, Slet ",
-      "NO": "Nej, Behold "
+      "YES": "Ja, Slet",
+      "NO": "Nej, Behold"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",

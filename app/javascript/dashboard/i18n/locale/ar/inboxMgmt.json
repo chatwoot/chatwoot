@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "تم تحديث إعدادات الإسناد التلقائي بنجاح",
         "ERROR_MESSAGE": "تعذر تحديث لون صندوق الدردشة. الرجاء المحاولة مرة أخرى لاحقاً."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "مفعل",
-        "DISABLED": "معطّل"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "الخصائص",
       "DISPLAY_FILE_PICKER": "عرض أداة انتقاء الملفات في الـ widget",
-      "DISPLAY_EMOJI_PICKER": "عرض منتقي الرموز التعبيرية على الـ widget"
+      "DISPLAY_EMOJI_PICKER": "عرض منتقي الرموز التعبيرية على الـ widget",
+      "ALLOW_END_CONVERSATION": "السماح للمستخدمين بإنهاء المحادثة من عنصر واجهة المستخدم"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
       "INBOX_AGENTS": "موظف الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
+      "AGENT_ASSIGNMENT": "إسناد المحادثات",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "تحديث إعدادات إسناد المحادثات",
       "UPDATE": "تحديث",
       "ENABLE_EMAIL_COLLECT_BOX": "تفعيل صندوق جمع البريد الإلكتروني",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "تمكين أو تعطيل مربع جمع البريد الإلكتروني في محادثة جديدة",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "نماذج ما قبل الدردشة تمكنك من التقاط معلومات المستخدم قبل بدء المحادثة معك.",
+      "SET_FIELDS": "حقول نموذج الدردشة السابقة",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "الحقول",
+        "LABEL": "الوسم",
+        "PLACE_HOLDER": "المحتوى",
+        "KEY": "المفتاح",
+        "TYPE": "النوع",
+        "REQUIRED": "مطلوب"
+      },
       "ENABLE": {
         "LABEL": "تمكين نموذج الدردشة السابقة",
         "OPTIONS": {
@@ -462,11 +470,13 @@
         "HOURS": "ساعات",
         "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
         "CHOOSE": "اختر"
-      }
+      },
+      "ALL_DAY": "جميع الأيام"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "تعيين تفاصيل IMAP الخاصة بك",
+      "NOTE_TEXT": "لتمكين SMTP ، الرجاء تكوين IMAP.",
       "UPDATE": "تحديث الإعدادات",
       "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
       "TOGGLE_HELP": "تمكين IMAP سيساعد المستخدم على تلقي البريد الإلكتروني",
@@ -482,9 +492,9 @@
         "LABEL": "المنفذ",
         "PLACE_HOLDER": "المنفذ"
       },
-      "EMAIL": {
-        "LABEL": "البريد الإلكتروني",
-        "PLACE_HOLDER": "البريد الإلكتروني"
+      "LOGIN": {
+        "LABEL": "تسجيل الدخول",
+        "PLACE_HOLDER": "تسجيل الدخول"
       },
       "PASSWORD": {
         "LABEL": "كلمة المرور",
@@ -510,9 +520,9 @@
         "LABEL": "المنفذ",
         "PLACE_HOLDER": "المنفذ"
       },
-      "EMAIL": {
-        "LABEL": "البريد الإلكتروني",
-        "PLACE_HOLDER": "البريد الإلكتروني"
+      "LOGIN": {
+        "LABEL": "تسجيل الدخول",
+        "PLACE_HOLDER": "تسجيل الدخول"
       },
       "PASSWORD": {
         "LABEL": "كلمة المرور",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "التشفير",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL",
+      "AUTH_MECHANISM": "المصادقة"
+    },
+    "NOTE": "ملاحظة: "
   }
 }

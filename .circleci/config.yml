@@ -12,8 +12,8 @@ defaults: &defaults
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
     # documented at https://circleci.com/docs/2.0/circleci-images/
-    - image: circleci/postgres:alpine
-    - image: circleci/redis:alpine
+    - image: cimg/postgres:14.1
+    - image: cimg/redis:6.2.6
   environment:
       - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
       - RAILS_LOG_TO_STDOUT: false
@@ -91,6 +91,7 @@ jobs:
             fi
             curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar > ~/tmp/openapi-generator-cli-5.3.0.jar
             java -jar ~/tmp/openapi-generator-cli-5.3.0.jar validate -i swagger/swagger.json
+            
       # Database setup
       - run: yarn install --check-files
       - run: bundle exec rake db:create
@@ -124,6 +125,7 @@ jobs:
           name: Code Climate Test Coverage
           command: |
             ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+
       - persist_to_workspace:
           root: coverage
           paths:

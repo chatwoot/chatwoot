@@ -7,7 +7,7 @@
     "COMPANY": "Şirket",
     "LOCATION": "Yer",
     "CONVERSATION_TITLE": "Sohbet Ayrıntıları",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Profili Görüntüle",
     "BROWSER": "Tarayıcı",
     "OS": "İşletim sistemi",
     "INITIATED_FROM": "Başlatıldı",
@@ -20,8 +20,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Kişi Etiketleri",
+        "ERROR": "Etiketler güncellenemedi"
       },
       "CONVERSATION": {
         "TITLE": "Konuşma Etiketleri",
@@ -33,8 +33,8 @@
         "NO_RESULT": "Etiket bulunamadı"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Kişileri birleştir",
+    "CONTACT_ACTIONS": "Kişi Eylemleri",
     "MUTE_CONTACT": "Konuşmayı Sessize Al",
     "UNMUTE_CONTACT": "Konuşmanın Sesini Aç",
     "MUTED_SUCCESS": "Bu konuşma 6 saatliğine sessize alınır",
@@ -43,7 +43,7 @@
     "EDIT_LABEL": "Düzenle",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
-      "CONTACT_LABELS": "Contact Labels",
+      "CONTACT_LABELS": "Kişi Etiketleri",
       "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler"
     }
   },
@@ -58,32 +58,39 @@
     "DESC": "Kişi hakkındaki temel bilgileri giriniz."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "İçe Aktar",
+    "TITLE": "Kişileri İçe Aktar",
+    "DESC": "Kişileri CSV dosyası olarak içe aktar.",
+    "DOWNLOAD_LABEL": "Örnek csv dosyası indir.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "CSV Dosyası",
+      "SUBMIT": "İçe Aktar",
       "CANCEL": "İptal Et"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Kişiler başarıyla kaydedildi",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Silmeyi onayla",
+      "MESSAGE": "Bu notu silmek istediğinizden emin misiniz?",
+      "YES": "Evet, Sil",
+      "NO": "Hayır, kalsın"
+    }
+  },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Kişiyi Sil",
+    "TITLE": "Kişiyi sil",
+    "DESC": "Kişi ayrıntılarını sil",
     "CONFIRM": {
       "TITLE": "Silmeyi onayla",
       "MESSAGE": "Silmek istediğinize emin misiniz ?",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Evet, Sil ",
+      "YES": "Evet, Sil",
       "NO": "Hayır, Tut"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Kişi başarıyla silindi",
+      "ERROR_MESSAGE": "Kişi silinemedi. Lütfen daha sonra tekrar deneyiniz."
     }
   },
   "CONTACT_FORM": {
@@ -109,9 +116,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Kişinin telefon numarasını girin",
         "LABEL": "Telefon numarası",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "Telefon numarası E.164 formatında olmalı örn: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Telefon numarası boş ya da E.164 formatında olabilir",
+        "DUPLICATE": "Bu telefon numarası başkası tarafından kullanılıyor."
       },
       "LOCATION": {
         "PLACEHOLDER": "Kişinin konumunu girin",
@@ -144,10 +151,10 @@
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Görüşmeyi Başlatın",
     "TITLE": "Yeni görüşme",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Mesaj göndererek yeni bir görüşme başlatın.",
+    "NO_INBOX": "Bu kişiyle yeni bir görüşme başlatılamadı.",
     "FORM": {
       "TO": {
         "LABEL": "ya"
@@ -157,13 +164,13 @@
         "ERROR": "Gelen kutusu seç"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "Konu",
+        "PLACEHOLDER": "Konu",
+        "ERROR": "Konu boş bırakılamaz"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
-        "PLACEHOLDER": "Write your message here",
+        "PLACEHOLDER": "Mesajınızı buraya yazınız",
         "ERROR": "Mesaj boş olamaz"
       },
       "SUBMIT": "Mesaj yolla",
@@ -178,9 +185,9 @@
     "FIELDS": "İletişim alanları",
     "SEARCH_BUTTON": "Arama",
     "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS": "Filtre",
+    "FILTER_CONTACTS_SAVE": "Filtreyi kaydet",
+    "FILTER_CONTACTS_DELETE": "Filtreyi sil",
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",
@@ -201,7 +208,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Kişiler",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "Kişi profili yükleniyor..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -214,13 +221,13 @@
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "Notlar alınıyor...",
+    "NOT_AVAILABLE": "Bu kişi için kaydedilmiş bir not yok",
     "HEADER": {
       "TITLE": "Notlar"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "not eklendi"
     },
     "ADD": {
       "BUTTON": "Ekle",
@@ -228,7 +235,7 @@
       "TITLE": "Yeni not oluşturmak için shift + enter ' a basınız"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Notu sil"
     }
   },
   "EVENTS": {
@@ -242,76 +249,76 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Özellik ekle",
+    "BUTTON": "Belirli bir özellik ekle",
+    "NOT_AVAILABLE": "Bu kişi için belirlenmiş bir özellik yok.",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Özellik kopyala",
+      "DELETE": "Özellik sil",
+      "EDIT": "Özellik düzenle"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Belirli bir özellik ekle",
+      "DESC": "Bu kişiye özel bilgi ekle."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Özellik ekle",
       "CANCEL": "İptal Et",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Özel nitelik ismi",
+        "PLACEHOLDER": "Örn. shopify id",
+        "ERROR": "Geçersiz özellik ismi"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Özellik değeri",
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Yeni öznitelik oluştur ",
         "SUCCESS": "Öznitelik başarıyla eklendi",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Nitelik eklenemedi. Lütfen daha sonra tekrar deneyiniz"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Öznitelik başarıyla güncellendi",
+        "ERROR": "Nitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Öznitelik başarıyla silindi",
+        "ERROR": "Nitelik silinemedi. Lütfen daha sonra tekrar deneyiniz"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Özellik ekle",
+        "PLACEHOLDER": "Öznitelik ara",
+        "NO_RESULT": "Nitelik bulunamadı"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Değer seçin",
+          "SEARCH_INPUT_PLACEHOLDER": "Değer arayın",
+          "NO_RESULT": "Sonuç bulunamadı"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Geçerli değer gereklidir",
+      "INVALID_URL": "Geçersiz URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "Kişileri birleştir",
+    "DESCRIPTION": "Tüm nitelikler ve konuşmalar dahil olmak üzere iki profili tek bir profilde birleştirmek için kişileri birleştirin. Çakışma durumunda, Birincil ilgili kişinin nitelikleri öncelikli olacaktır.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Birincil kişi",
+      "HELP_LABEL": "Saklanacak"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Birleştirilecek kişi",
+      "PLACEHOLDER": "Kişileri arayın",
+      "HELP_LABEL": "Silinecek"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Özet",
       "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
@@ -319,12 +326,12 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Kişileri birleştir",
       "CANCEL": "İptal Et",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "SUCCESS_MESSAGE": "Kişi başarıyla birleştirildi",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
   }

@@ -44,7 +44,7 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
       "CONTACT_LABELS": "Kontakt-Labels",
-      "PREVIOUS_CONVERSATIONS": "Vorherige Gespräche"
+      "PREVIOUS_CONVERSATIONS": "Vorherige Konversationen"
     }
   },
   "EDIT_CONTACT": {
@@ -65,10 +65,18 @@
     "FORM": {
       "LABEL": "CSV-Datei",
       "SUBMIT": "Importieren",
-      "CANCEL": "Stornieren"
+      "CANCEL": "Abbrechen"
     },
     "SUCCESS_MESSAGE": "Kontakte erfolgreich gespeichert",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Löschung bestätigen",
+      "MESSAGE": "Möchten Sie diese Notiz wirklich löschen?",
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalte es"
+    }
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Kontakt löschen",
@@ -76,10 +84,9 @@
     "DESC": "Kontakt-Details bearbeiten",
     "CONFIRM": {
       "TITLE": "Löschung bestätigen",
-      "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
-      "PLACE_HOLDER": "Bitte {contactName} zur Bestätigung eingeben",
-      "YES": "Ja, löschen ",
-      "NO": "Nein, behalten "
+      "MESSAGE": "Sind SIe sicher, dass Sie das löschen möchten ",
+      "YES": "Ja, löschen",
+      "NO": "Nein, behalten"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
@@ -146,7 +153,7 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Gespräch starten",
     "TITLE": "Neue Unterhaltung",
-    "DESC": "Starte eine Unterhaltung mit einer neuen Nachricht",
+    "DESC": "Starten Sie eine neue Konversation, indem Sie eine neue Nachricht senden.",
     "NO_INBOX": "Konnte keinen Posteingang finden, um eine neue Unterhaltung mit diesem Kontakt zu starten.",
     "FORM": {
       "TO": {
@@ -169,7 +176,7 @@
       "SUBMIT": "Nachricht senden",
       "CANCEL": "Abbrechen",
       "SUCCESS_MESSAGE": "Nachricht gesendet!",
-      "GO_TO_CONVERSATION": "Aussicht",
+      "GO_TO_CONVERSATION": "Ansehen",
       "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
@@ -183,7 +190,7 @@
     "FILTER_CONTACTS_DELETE": "Filter löschen",
     "LIST": {
       "LOADING_MESSAGE": "Kontakte werden geladen...",
-      "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
+      "404": "Keine Kontakte entsprechen Ihrer Suche 🔍",
       "NO_CONTACTS": "Keine Kontakte verfügbar",
       "TABLE_HEADER": {
         "NAME": "Name",
@@ -238,14 +245,14 @@
     "BUTTON": {
       "PILL_BUTTON_NOTES": "Notizen",
       "PILL_BUTTON_EVENTS": "Veranstaltungen",
-      "PILL_BUTTON_CONVO": "gespräche"
+      "PILL_BUTTON_CONVO": "Konversation"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Attribute hinzufügen",
     "BUTTON": "Eigenes Attribut hinzufügen",
     "NOT_AVAILABLE": "Für diesen Kontakt sind keine benutzerdefinierten Attribute verfügbar.",
-    "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
+    "COPY_SUCCESSFUL": "Erfolgreich in die Zwischenablage kopiert",
     "ACTIONS": {
       "COPY": "Attribut kopieren",
       "DELETE": "Attribut löschen",
@@ -257,11 +264,11 @@
     },
     "FORM": {
       "CREATE": "Attribut hinzufügen",
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "NAME": {
         "LABEL": "Benutzerdefinierter Attributname",
-        "PLACEHOLDER": "Bsp.: Shopify Id",
-        "ERROR": "Ungültiger eigener Attributname"
+        "PLACEHOLDER": "Beispiel: Shopify-ID",
+        "ERROR": "Ungültiger benutzerdefinierter Attributname"
       },
       "VALUE": {
         "LABEL": "Attributwert",
@@ -320,7 +327,7 @@
     },
     "FORM": {
       "SUBMIT": " Kontakte zusammenführen",
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "CHILD_CONTACT": {
         "ERROR": "Wählen Sie einen Kontakt zum Zusammenführen"
       },

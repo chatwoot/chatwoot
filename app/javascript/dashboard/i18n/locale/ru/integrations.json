@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Интеграции",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "События с подпиской",
+      "FORM": {
+        "CANCEL": "Отменить",
+        "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "События",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Диалог создан",
+            "CONVERSATION_STATUS_CHANGED": "Статус диалога изменён",
+            "CONVERSATION_UPDATED": "Диалог обновлён",
+            "MESSAGE_CREATED": "Сообщение создано",
+            "MESSAGE_UPDATED": "Сообщение обновлено",
+            "WEBWIDGET_TRIGGERED": "Виджет онлайн чата, открыт пользователем"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL вебхука",
+          "PLACEHOLDER": "Пример: https://example/api/webhook",
+          "ERROR": "Пожалуйста, введите правильный URL"
+        },
+        "EDIT_SUBMIT": "Обновить webhook",
+        "ADD_SUBMIT": "Создать вебхук"
+      },
       "TITLE": "Вебхук",
       "CONFIGURE": "Настроить",
       "HEADER": "Настройки вебхуков",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Редактировать",
         "TITLE": "Редактировать вебхук",
-        "CANCEL": "Отменить",
-        "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL вебхука",
-            "PLACEHOLDER": "Пример: https://example/api/webhook",
-            "ERROR": "Пожалуйста, введите правильный URL"
-          },
-          "SUBMIT": "Редактировать вебхук"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Вебхук добавлен",
+          "SUCCESS_MESSAGE": "Конфигурация вебхука успешно обновлена",
           "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
         }
       },
       "ADD": {
         "CANCEL": "Отменить",
         "TITLE": "Добавить новый вебхук",
-        "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL вебхука",
-            "PLACEHOLDER": "Пример: https://example/api/webhook",
-            "ERROR": "Пожалуйста, введите правильный URL"
-          },
-          "SUBMIT": "Создать вебхук"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Вебхук добавлен",
+          "SUCCESS_MESSAGE": "Конфигурация вебхука успешно добавлена",
           "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Подтвердите удаление",
-          "MESSAGE": "Вы точно хотите удалить ",
+          "MESSAGE": "Вы уверены, что хотите удалить вебхук? (%{webhookURL})",
           "YES": "Да, удалить ",
           "NO": "Нет, не удалять"
         }

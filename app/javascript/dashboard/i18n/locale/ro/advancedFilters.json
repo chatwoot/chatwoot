@@ -1,84 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Filtrarea conversațiilor",
+    "SUBTITLE": "Adăugați filtre mai jos și apăsați pe \"Aplicați filtre\" pentru a filtra conversațiile.",
+    "ADD_NEW_FILTER": "Adăugare filtru",
+    "FILTER_DELETE_ERROR": "Ar trebui să aveți atleast un filtru pentru a salva",
+    "SUBMIT_BUTTON_LABEL": "Aplicarea filtrelor",
     "CANCEL_BUTTON_LABEL": "Renunță",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Elimină filtre",
+    "EMPTY_VALUE_ERROR": "Este necesară o valoare validă",
+    "TOOLTIP_LABEL": "Filtrarea conversațiilor",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "ȘI",
+      "OR": "SAU"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_lesser_than": "Is lesser than"
+      "equal_to": "Egal cu",
+      "not_equal_to": "Nu este egal cu",
+      "contains": "Conține",
+      "does_not_contain": "Nu conține",
+      "is_present": "Este prezent",
+      "is_not_present": "Nu este prezent",
+      "is_greater_than": "Este mai mare decât",
+      "is_less_than": "Este mai mică decât",
+      "days_before": "Este x zile înainte"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Adevărat",
+      "FALSE": "Fals"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Nume cesionar",
       "INBOX_NAME": "Nume Inbox",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Numele echipei",
+      "CONVERSATION_IDENTIFIER": "Identificator de conversație",
+      "CAMPAIGN_NAME": "Numele campaniei",
       "LABELS": "Etichete",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "BROWSER_LANGUAGE": "Limba browserului",
+      "COUNTRY_NAME": "Numele țării",
+      "REFERER_LINK": "Link referer",
+      "CUSTOM_ATTRIBUTE_LIST": "Listă",
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+      "CUSTOM_ATTRIBUTE_NUMBER": "Număr",
+      "CUSTOM_ATTRIBUTE_LINK": "Legătură",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
+      "CREATED_AT": "Creat la",
+      "LAST_ACTIVITY": "Ultima activitate"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Filtre standard",
+      "ADDITIONAL_FILTERS": "Filtre suplimentare",
       "CUSTOM_ATTRIBUTES": "Editează atribut personalizat"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "Doriți să salvați acest filtru?",
+        "LABEL": "Denumiți acest filtru",
+        "PLACEHOLDER": "Introduceți un nume pentru acest filtru",
         "ERROR_MESSAGE": "Numele este obligatoriu",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "Salvare filtru",
         "CANCEL_BUTTON": "Renunță",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Folder creat cu succes",
+          "ERROR_MESSAGE": "Eroare la crearea folderului"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment creat cu succes",
+          "ERROR_MESSAGE": "Eroare la crearea segmentului"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Ștergere filtru",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirmă ștergerea",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Sunteți sigur că ștergeți filtrul ",
             "YES": "Da, șterge",
             "NO": "Nu, păstreaza"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Folder șters cu succes",
+          "ERROR_MESSAGE": "Eroare la ștergerea folderului"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Contact șters cu succes",
+          "ERROR_MESSAGE": "Eroare la ștergerea segmentului"
         }
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <div v-if="hasSecondaryMenu" class="main-nav secondary-menu">
-    <account-context />
+    <account-context @toggle-accounts="toggleAccountModal" />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -85,14 +85,20 @@ export default {
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
         toStateName: 'settings_inbox_new',
         newLinkRouteName: 'settings_inbox_new',
-        children: this.inboxes.map(inbox => ({
-          id: inbox.id,
-          label: inbox.name,
-          truncateLabel: true,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
-          type: inbox.channel_type,
-          phoneNumber: inbox.phone_number,
-        })),
+        children: this.inboxes
+          .map(inbox => ({
+            id: inbox.id,
+            label: inbox.name,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/inbox/${inbox.id}`
+            ),
+            type: inbox.channel_type,
+            phoneNumber: inbox.phone_number,
+          }))
+          .sort((a, b) =>
+            a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
+          ),
       };
     },
     labelSection() {
@@ -218,6 +224,9 @@ export default {
     showAddLabelPopup() {
       this.$emit('add-label');
     },
+    toggleAccountModal() {
+      this.$emit('toggle-accounts');
+    },
   },
 };
 </script>
@@ -225,7 +234,7 @@ export default {
 .secondary-menu {
   background: var(--white);
   border-right: 1px solid var(--s-50);
-  height: 100vh;
+  height: 100%;
   width: 19rem;
   flex-shrink: 0;
   overflow: hidden;

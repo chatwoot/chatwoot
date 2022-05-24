@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Otomatik atama başarıyla güncellendi",
         "ERROR_MESSAGE": "Widget rengi güncellenemedi. Lütfen daha sonra tekrar deneyiniz."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Etkin",
         "DISABLED": "Devre dışı"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Özellikleri",
       "DISPLAY_FILE_PICKER": "Widget'ta dosya seçiciyi görüntüle",
-      "DISPLAY_EMOJI_PICKER": "Widget'ta emoji seçiciyi görüntüleyin"
+      "DISPLAY_EMOJI_PICKER": "Widget'ta emoji seçiciyi görüntüleyin",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Komut Dosyası",
       "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
+      "AGENT_ASSIGNMENT": "Görüşme Atama",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Görüşme atama ayarlarını güncelle",
       "UPDATE": "Güncelleme",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Sohbet giriş formu alanları",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Alanlar",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Anahtar",
+        "TYPE": "Tip",
+        "REQUIRED": "Zorunlu"
+      },
       "ENABLE": {
         "LABEL": "Görüşme öncesi formu aktif et",
         "OPTIONS": {
@@ -462,11 +470,13 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Posta",
-        "PLACE_HOLDER": "E-Posta"
+      "LOGIN": {
+        "LABEL": "Oturum aç",
+        "PLACE_HOLDER": "Oturum aç"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Posta",
-        "PLACE_HOLDER": "E-Posta"
+      "LOGIN": {
+        "LABEL": "Oturum aç",
+        "PLACE_HOLDER": "Oturum aç"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

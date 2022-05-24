@@ -15,7 +15,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       set_instagram_id(page_access_token, facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     rescue StandardError => e
-      Sentry.capture_exception(e)
+      ChatwootExceptionTracker.new(e).capture_exception
     end
   end
 
@@ -60,7 +60,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       set_instagram_id(access_token, fb_page)
       fb_page&.reauthorized!
     rescue StandardError => e
-      Sentry.capture_exception(e)
+      ChatwootExceptionTracker.new(e).capture_exception
     end
   end
 
@@ -77,7 +77,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     koala = Koala::Facebook::OAuth.new(GlobalConfigService.load('FB_APP_ID', ''), GlobalConfigService.load('FB_APP_SECRET', ''))
     koala.exchange_access_token_info(omniauth_token)['access_token']
   rescue StandardError => e
-    Rails.logger.info e
+    Rails.logger.error e
   end
 
   def mark_already_existing_facebook_pages(data)

@@ -121,6 +121,7 @@ Rails.application.configure do
     allow do
       origins '*'
       resource '/packs/*', headers: :any, methods: [:get, :options]
+      resource '/audio/*', headers: :any, methods: [:get, :options]
       if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
         resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
       end

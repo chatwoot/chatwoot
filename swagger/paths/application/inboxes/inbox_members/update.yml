@@ -1,5 +1,5 @@
 tags:
-  - Inbox
+  - Inboxes
 operationId: update-agents-in-inbox
 summary: Update Agents in Inbox
 description: All agents except the one passed in params will be removed

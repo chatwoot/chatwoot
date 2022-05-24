@@ -3,15 +3,15 @@
     "HEADER": "Benutzerdefinierte Attribute",
     "HEADER_BTN_TXT": "Benutzerdefiniertes Attribut hinzufügen",
     "LOADING": "Benutzerdefinierte Attribute abrufen",
-    "SIDEBAR_TXT": "<p><b>Benutzerdefinierte Attribute</b> <p>Ein benutzerdefiniertes Attribut verfolgt Fakten über Ihre Kontakte/Gespräche – wie den Abonnementplan oder die Bestellung des ersten Artikels usw. Um ein benutzerdefiniertes Attribut zu erstellen, klicken Sie einfach auf <b>Benutzerdefiniertes Attribut hinzufügen.</b> Sie können ein vorhandenes benutzerdefiniertes Attribut auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.</p>",
+    "SIDEBAR_TXT": "<p><b>Benutzerdefinierte Attribute</b> <p>Ein benutzerdefiniertes Attribut verfolgt Fakten über Ihre Kontakte/Konversationen – wie den Abonnementplan oder wann sie den ersten Artikel bestellt haben usw. <br/><br/> Um ein benutzerdefiniertes Attribut zu erstellen, klicken Sie einfach auf <b>Benutzerdefiniertes Attribut hinzufügen.</b> Sie können auch ein vorhandenes benutzerdefiniertes Attribut bearbeiten oder löschen, indem Sie auf die Schaltfläche „Bearbeiten“ oder „Löschen“ klicken.</p>",
     "ADD": {
       "TITLE": "Benutzerdefiniertes Attribut hinzufügen",
       "SUBMIT": "Erstellen",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "NAME": {
           "LABEL": "Anzeigename",
-          "PLACEHOLDER": "Gebe den Anzeigenamen des benutzerdefinierten Attributs ein",
+          "PLACEHOLDER": "Geben Sie den Anzeigenamen des benutzerdefinierten Attributs ein",
           "ERROR": "Name wird benötigt"
         },
         "DESC": {
@@ -50,14 +50,14 @@
       "BUTTON_TEXT": "Löschen",
       "API": {
         "SUCCESS_MESSAGE": "Benutzerdefiniertes Attribut erfolgreich gelöscht.",
-        "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuch es noch einmal."
+        "ERROR_MESSAGE": "Das benutzerdefinierte Attribut konnte nicht gelöscht werden. Versuchen Sie es noch einmal."
       },
       "CONFIRM": {
         "TITLE": "Sind Sie sicher, dass Sie %{attributeName} löschen möchten",
         "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
         "MESSAGE": "Beim Löschen wird das benutzerdefinierte Attribut entfernt",
         "YES": "Löschen ",
-        "NO": "Stornieren"
+        "NO": "Abbrechen"
       }
     },
     "EDIT": {
@@ -76,7 +76,7 @@
     },
     "TABS": {
       "HEADER": "Benutzerdefinierte Attribute",
-      "CONVERSATION": "Unterhaltung",
+      "CONVERSATION": "Konversation",
       "CONTACT": "Kontakt"
     },
     "LIST": {

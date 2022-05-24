@@ -341,17 +341,13 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
-      },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Zapnuté",
+        "DISABLED": "Vypnuté"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Zapnuté",
+        "DISABLED": "Vypnuté"
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Zapnuté",
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formuláre pred konverzáciou vám umožnia zachytiť informácie o používateľovi ešte predtým, ako s vami začne konverzovať.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Povoliť formulár pred konverzáciou",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Správa pred konverzáciou",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Táto správa sa zobrazí používateľom spolu s formulárom"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "hodiny",
         "VALIDATION_ERROR": "Začiatočný čas by mal byť pred zatváracím časom.",
         "CHOOSE": "Vybrať"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Nastaviť IMAP detaily",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Aktualizovať IMAP nastavenia",
       "TOGGLE_AVAILABILITY": "Povolenie konfigurácie IMAP pre túto schránku",
       "TOGGLE_HELP": "Povolenie protokolu IMAP pomôže používateľovi prijímať e-maily",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Prihlásenie",
+        "PLACE_HOLDER": "Prihlásenie"
       },
       "PASSWORD": {
         "LABEL": "Heslo",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "Email",
-        "PLACE_HOLDER": "Email"
+      "LOGIN": {
+        "LABEL": "Prihlásenie",
+        "PLACE_HOLDER": "Prihlásenie"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

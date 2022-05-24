@@ -1,342 +1,446 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "การสนทนา",
+    "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
+    "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
+    "DOWNLOAD_AGENT_REPORTS": "ดาวน์โหลดรายงานพนักงาน",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
-        "DESC": "( Total )"
+        "DESC": "( ทั้งหมด )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ได้รับ",
+        "DESC": "( ทั้งหมด )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ส่ง",
+        "DESC": "( ทั้งหมด )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "จำนวนความละเอียด",
+        "DESC": "( ทั้งหมด )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 วันที่ผ่านมา"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 วันที่ผ่านมา"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 เดือนที่ผ่านมา"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 เดือนที่ผ่านมา"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ปีที่ผ่านมา"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
-    }
+      "CONFIRM": "ใช้งาน",
+      "PLACEHOLDER": "เลือกช่วงเวลา"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "จัดกลุ่มโดย",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "วัน"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "วัน"
+      },
+      {
+        "id": 2,
+        "groupBy": "สัปดาห์"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "วัน"
+      },
+      {
+        "id": 2,
+        "groupBy": "สัปดาห์"
+      },
+      {
+        "id": 3,
+        "groupBy": "เดือน"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "วัน"
+      },
+      {
+        "id": 2,
+        "groupBy": "สัปดาห์"
+      },
+      {
+        "id": 3,
+        "groupBy": "เดือน"
+      },
+      {
+        "id": 4,
+        "groupBy": "ปี"
+      }
+    ],
+    "BUSINESS_HOURS": "เวลาทำการ"
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "ภาพรวมพนักงาน",
+    "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
+    "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
+    "DOWNLOAD_AGENT_REPORTS": "ดาวน์โหลดรายงานพนักงาน",
     "FILTER_DROPDOWN_LABEL": "เลือกพนักงาน",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
-        "DESC": "( Total )"
+        "DESC": "( ทั้งหมด )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ได้รับ",
+        "DESC": "( ทั้งหมด )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ส่ง",
+        "DESC": "( ทั้งหมด )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "การสนทนาที่เสร็จสิ้น",
+        "DESC": "( ทั้งหมด )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 วันที่ผ่านมา"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 วันที่ผ่านมา"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 เดือนที่ผ่านมา"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 เดือนที่ผ่านมา"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ปีที่ผ่านมา"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "ใช้งาน",
+      "PLACEHOLDER": "เลือกช่วงเวลา"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "ภาพรวมป้ายกำกับ",
+    "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
+    "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
+    "DOWNLOAD_LABEL_REPORTS": "ดาวน์โหลดรายงานป้ายกำกับ",
+    "FILTER_DROPDOWN_LABEL": "เลือกป้ายกำกับ",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
-        "DESC": "( Total )"
+        "DESC": "( ทั้งหมด )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ได้รับ",
+        "DESC": "( ทั้งหมด )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ส่ง",
+        "DESC": "( ทั้งหมด )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "จำนวนความละเอียด",
+        "DESC": "( ทั้งหมด )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 วันที่ผ่านมา"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 วันที่ผ่านมา"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 เดือนที่ผ่านมา"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 เดือนที่ผ่านมา"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ปีที่ผ่านมา"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "ใช้งาน",
+      "PLACEHOLDER": "เลือกช่วงเวลา"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "ภาพรวมกล่องข้อความ",
+    "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
+    "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
+    "DOWNLOAD_INBOX_REPORTS": "ดาวน์โหลดรายงานกล่องข้อความ",
+    "FILTER_DROPDOWN_LABEL": "เลือกกล่องข้อความ",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
-        "DESC": "( Total )"
+        "DESC": "( ทั้งหมด )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ได้รับ",
+        "DESC": "( ทั้งหมด )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ส่ง",
+        "DESC": "( ทั้งหมด )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "จำนวนความละเอียด",
+        "DESC": "( ทั้งหมด )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 วันที่ผ่านมา"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 วันที่ผ่านมา"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 เดือนที่ผ่านมา"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 เดือนที่ผ่านมา"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ปีที่ผ่านมา"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "ใช้งาน",
+      "PLACEHOLDER": "เลือกช่วงเวลา"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "ภาพรวมทีม",
+    "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
+    "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
+    "DOWNLOAD_TEAM_REPORTS": "ดาวน์โหลดรายงานทีม",
+    "FILTER_DROPDOWN_LABEL": "เลือกทีม",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
-        "DESC": "( Total )"
+        "DESC": "( ทั้งหมด )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ได้รับ",
+        "DESC": "( ทั้งหมด )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "ข้อความที่ส่ง",
+        "DESC": "( ทั้งหมด )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "ระยะเวลาในการจบการสนทนา",
+        "DESC": "( เฉลี่ย )",
+        "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "จำนวนความละเอียด",
+        "DESC": "( ทั้งหมด )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 วันที่ผ่านมา"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 วันที่ผ่านมา"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "3 เดือนที่ผ่านมา"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "6 เดือนที่ผ่านมา"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ปีที่ผ่านมา"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "กำหนดช่วงระยะเวลา"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "ใช้งาน",
+      "PLACEHOLDER": "เลือกช่วงเวลา"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "HEADER": "รายงาน CSAT",
+    "NO_RECORDS": "ไม่มีรายงาน CSAT ที่แสดงผลได้",
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "เลือกพนักงาน"
+      }
+    },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "CONTACT_NAME": "ผู้ติดต่อ",
+        "AGENT_NAME": "พนักงานที่ได้รับมอบหมาย",
         "RATING": "การประเมิน",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "FEEDBACK_TEXT": "คำติชม"
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "การตอบกลับทั้งหมด",
+        "TOOLTIP": "จำนวนการตอบกลับทั้งหมดที่บันทึกไว้"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "คะแนนความพึงพอใจ",
+        "TOOLTIP": "จำนวนการตอบกลับเชิงบวก / จำนวนการตอบกลับทั้งหมด * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "อัตราการตอบกลับ",
+        "TOOLTIP": "จำนวนการตอบกลับทั้งหมด / จำนวนข้อความทั้งหมดที่แบบสอบถาม CSAT ส่ง * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "ภาพรวม",
+    "LIVE": "ขณะนี้",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "การสนทนาที่เปิดอยู่",
+      "LOADING_MESSAGE": "กำโหลดตัวชี้วัดการสนทนา",
+      "OPEN": "เปิด",
+      "UNATTENDED": "ไม่ได้เข้าร่วม",
+      "UNASSIGNED": "ไม่ได้รับมอบหมาย"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "การสนทนาที่พนักงานดูแล",
+      "LOADING_MESSAGE": "กำลังโหลดตัวชี้วัดพนักงาน",
+      "NO_AGENTS": "ไม่มีการสนทนาที่พนักงานดูแล",
+      "TABLE_HEADER": {
+        "AGENT": "พนักงาน",
+        "OPEN": "เปิดอยู่",
+        "UNATTENDED": "ไม่ได้เข้าร่วม",
+        "STATUS": "สถานะ"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "สถานะพนักงาน",
+      "ONLINE": "ออนไลน์",
+      "BUSY": "ไม่ว่าง",
+      "OFFLINE": "ออฟไลน์"
     }
   }
 }

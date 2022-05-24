@@ -76,10 +76,12 @@
     "RECEIVED_VIA_EMAIL": "Получено чрез имейл",
     "VIEW_TWEET_IN_TWITTER": "Виж туита в Twitter",
     "REPLY_TO_TWEET": "Отговори на този туит",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Успено изпратено",
     "NO_MESSAGES": "Няма съобщения",
     "NO_CONTENT": "Няма налично съдържание",
     "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",
-    "SHOW_QUOTED_TEXT": "Показване на цитирания текст"
+    "SHOW_QUOTED_TEXT": "Показване на цитирания текст",
+    "MESSAGE_READ": "Read"
   }
 }

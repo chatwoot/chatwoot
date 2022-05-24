@@ -7,7 +7,7 @@
       "404": "没有有效的对话在这个群组里面"
     },
     "TAB_HEADING": "会话",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "提及",
     "SEARCH": {
       "INPUT": "搜索人、聊天室、保存回复"
     },
@@ -76,10 +76,12 @@
     "RECEIVED_VIA_EMAIL": "通过电子邮件接收",
     "VIEW_TWEET_IN_TWITTER": "在 Twitter 中查看 tweet",
     "REPLY_TO_TWEET": "回复此推文",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "查看 Instagram 故事",
+    "SENT": "发送成功",
     "NO_MESSAGES": "没有信息",
     "NO_CONTENT": "没有可用的内容",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "HIDE_QUOTED_TEXT": "隐藏引用文字",
+    "SHOW_QUOTED_TEXT": "显示引用文字",
+    "MESSAGE_READ": "Read"
   }
 }

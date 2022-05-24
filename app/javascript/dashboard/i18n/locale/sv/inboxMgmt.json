@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tilldelning har uppdaterats",
         "ERROR_MESSAGE": "Kunde inte uppdatera widgetens färg. Försök igen senare."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Aktiverad",
-        "DISABLED": "Inaktiverad"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiverad",
         "DISABLED": "Inaktiverad"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Funktioner",
       "DISPLAY_FILE_PICKER": "Visa filväljare på widgeten",
-      "DISPLAY_EMOJI_PICKER": "Visa emoji-väljare på widgeten"
+      "DISPLAY_EMOJI_PICKER": "Visa emoji-väljare på widgeten",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skript för Messenger",
       "MESSENGER_SUB_HEAD": "Placera denna knapp i din body-tagg",
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Lägg till eller ta bort agenter från denna inkorg",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Uppdatera",
       "ENABLE_EMAIL_COLLECT_BOX": "Aktivera inkasso för e-post",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivera eller inaktivera insamlingsrutan för e-post på ny konversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Förre chattformulär gör det möjligt för dig att samla in användarinformation innan de börjar samtala med dig.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Aktivera förchattformulär",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Förre chattinlägg",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Detta meddelande skulle vara synligt för användarna tillsammans med formuläret"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-post",
-        "PLACE_HOLDER": "E-post"
+      "LOGIN": {
+        "LABEL": "Logga in",
+        "PLACE_HOLDER": "Logga in"
       },
       "PASSWORD": {
         "LABEL": "Lösenord",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-post",
-        "PLACE_HOLDER": "E-post"
+      "LOGIN": {
+        "LABEL": "Logga in",
+        "PLACE_HOLDER": "Logga in"
       },
       "PASSWORD": {
         "LABEL": "Lösenord",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

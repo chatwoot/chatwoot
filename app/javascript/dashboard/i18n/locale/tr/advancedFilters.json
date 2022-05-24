@@ -1,84 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Görüşmeleri Filtrele",
+    "SUBTITLE": "Filtreleri aşağıya ekleyin ve görüşmeleri filtrelemek için 'Filtreleri Uygula' butonuna basın.",
+    "ADD_NEW_FILTER": "Filtre Ekle",
+    "FILTER_DELETE_ERROR": "Kaydetmek için en az bir filtre ekleyin",
+    "SUBMIT_BUTTON_LABEL": "Filtreleri uygula",
     "CANCEL_BUTTON_LABEL": "İptal Et",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Filtreleri Temizle",
+    "EMPTY_VALUE_ERROR": "Değer gereklidir",
+    "TOOLTIP_LABEL": "Görüşmeleri filtrele",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "VE",
+      "OR": "YA DA"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_lesser_than": "Is lesser than"
+      "equal_to": "Eşit",
+      "not_equal_to": "Eşit değil",
+      "contains": "İçerir",
+      "does_not_contain": "İçermez",
+      "is_present": "Şu an",
+      "is_not_present": "Şu an değil",
+      "is_greater_than": "Şundan büyük",
+      "is_less_than": "Şundan daha az",
+      "days_before": "x gün önce"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Doğru",
+      "FALSE": "Yanlış"
     },
     "ATTRIBUTES": {
       "STATUS": "Durum",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Atama İsmi",
       "INBOX_NAME": "Gelen Kutusu Adı",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Takım Adı",
+      "CONVERSATION_IDENTIFIER": "Görüşme Doğrulama",
+      "CAMPAIGN_NAME": "Kampanya Adı",
       "LABELS": "Etiketler",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+      "BROWSER_LANGUAGE": "Tarayıcı Dili",
+      "COUNTRY_NAME": "Ülke Adı",
+      "REFERER_LINK": "Yönlendirme bağlantısı",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Yazı",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Sayı",
+      "CUSTOM_ATTRIBUTE_LINK": "Bağlantı",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
+      "CREATED_AT": "Oluşturma",
+      "LAST_ACTIVITY": "Son Etkinlik"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Standart Filtreler",
+      "ADDITIONAL_FILTERS": "Gelişmiş Filtreler",
       "CUSTOM_ATTRIBUTES": "Özel Nitelikler"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "Bu filtreyi kaydetmek ister misiniz?",
+        "LABEL": "Bu filtreye isim ver",
+        "PLACEHOLDER": "Bu filtre için bir isim yazın",
+        "ERROR_MESSAGE": "İsim gereklidir",
+        "SAVE_BUTTON": "Filtreyi kaydet",
         "CANCEL_BUTTON": "İptal Et",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Klasör başarıyla oluşturuldu",
+          "ERROR_MESSAGE": "Klasör oluşturulurken hata oluştu"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment başarıyla oluşturuldu",
+          "ERROR_MESSAGE": "Segment oluşturulurken hata oluştu"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Filtreyi sil",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Silmeyi onayla",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Filtreyi silmek istediğinizden emin misiniz ",
             "YES": "Evet, Sil",
             "NO": "Hayır, kalsın"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Klasör başarıyla silindi",
+          "ERROR_MESSAGE": "Klasör silinirken hata oluştu"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segment başarıyla silindi",
+          "ERROR_MESSAGE": "Segment silinirken hata oluştu"
         }
       }
     }

@@ -2,30 +2,32 @@
 #
 # Table name: messages
 #
-#  id                  :integer          not null, primary key
-#  content             :text
-#  content_attributes  :json
-#  content_type        :integer          default("text"), not null
-#  external_source_ids :jsonb
-#  message_type        :integer          not null
-#  private             :boolean          default(FALSE)
-#  sender_type         :string
-#  status              :integer          default("sent")
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  account_id          :integer          not null
-#  conversation_id     :integer          not null
-#  inbox_id            :integer          not null
-#  sender_id           :bigint
-#  source_id           :string
+#  id                    :integer          not null, primary key
+#  additional_attributes :jsonb
+#  content               :text
+#  content_attributes    :json
+#  content_type          :integer          default("text"), not null
+#  external_source_ids   :jsonb
+#  message_type          :integer          not null
+#  private               :boolean          default(FALSE)
+#  sender_type           :string
+#  status                :integer          default("sent")
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#  conversation_id       :integer          not null
+#  inbox_id              :integer          not null
+#  sender_id             :bigint
+#  source_id             :string
 #
 # Indexes
 #
-#  index_messages_on_account_id                 (account_id)
-#  index_messages_on_conversation_id            (conversation_id)
-#  index_messages_on_inbox_id                   (inbox_id)
-#  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
-#  index_messages_on_source_id                  (source_id)
+#  index_messages_on_account_id                         (account_id)
+#  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
+#  index_messages_on_conversation_id                    (conversation_id)
+#  index_messages_on_inbox_id                           (inbox_id)
+#  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
+#  index_messages_on_source_id                          (source_id)
 #
 
 class Message < ApplicationRecord
@@ -64,7 +66,7 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at], coder: JSON
+                                         :external_created_at, :story_sender, :story_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -166,15 +168,15 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
-    if outgoing? && conversation.messages.outgoing.count == 1
-      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
+    if outgoing? && conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null").count == 1
+      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
 
   def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by)
   end
 
   def send_reply

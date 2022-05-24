@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "نظرة عامة",
+    "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
@@ -19,11 +19,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -59,7 +63,57 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "تطبيق",
       "PLACEHOLDER": "اختر نطاق المدة"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "تجميع بواسطة",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      },
+      {
+        "id": 2,
+        "groupBy": "الأسبوع"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      },
+      {
+        "id": 2,
+        "groupBy": "الأسبوع"
+      },
+      {
+        "id": 3,
+        "groupBy": "الشهر"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "اليوم"
+      },
+      {
+        "id": 2,
+        "groupBy": "الأسبوع"
+      },
+      {
+        "id": 3,
+        "groupBy": "الشهر"
+      },
+      {
+        "id": 4,
+        "groupBy": "السنة"
+      }
+    ],
+    "BUSINESS_HOURS": "ساعات العمل"
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
@@ -82,11 +136,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -145,11 +203,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -208,11 +270,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -271,11 +337,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "DESC": "(متوسط)"
+        "DESC": "(متوسط)",
+        "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -316,6 +386,12 @@
   "CSAT_REPORTS": {
     "HEADER": "تقارير CSAT",
     "NO_RECORDS": "لا توجد ردود متوفرة على الدراسة الاستقصائية CSAT.",
+    "DOWNLOAD": "تحميل تقرير رضاء خدمة العملاء",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "اختر الوكلاء"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "جهات الاتصال",
@@ -337,6 +413,34 @@
         "LABEL": "معدل الاستجابة",
         "TOOLTIP": "العدد الإجمالي للردود / العدد الإجمالي لرسائل الاستقصاء التي أرسلتها CSAT * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "نظرة عامة",
+    "LIVE": "مباشر",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "المحادثات المفتوحة",
+      "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
+      "OPEN": "فتح",
+      "UNATTENDED": "بدون حضور",
+      "UNASSIGNED": "غير مسند"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "المحادثات من قبل الوكلاء",
+      "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
+      "NO_AGENTS": "لا توجد أي محادثات من قبل الوكلاء",
+      "TABLE_HEADER": {
+        "AGENT": "موظف الدعم",
+        "OPEN": "افتتحت",
+        "UNATTENDED": "بدون حضور",
+        "STATUS": "الحالة"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "حالة الوكيل",
+      "ONLINE": "متصل",
+      "BUSY": "مشغول",
+      "OFFLINE": "غير متصل"
     }
   }
 }

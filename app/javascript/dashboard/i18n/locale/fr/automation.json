@@ -1,41 +1,41 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "Automatisations",
+    "HEADER_BTN_TXT": "Ajouter une règle d'automatisation",
+    "LOADING": "Récupération des règles d'automatisation",
+    "SIDEBAR_TXT": "<p><b>Règles d'automatisation</b> <p>L'automatisation peut remplacer et automatiser les processus existants qui nécessitent des efforts manuels. Vous pouvez faire beaucoup de choses avec l'automatisation, y compris ajouter des étiquettes et assigner des conversations au meilleur agent. Ainsi, l'équipe se concentre sur ce qu'elle fait de mieux et passe plus peu de temps sur les tâches manuelles.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "Ajouter une règle d'automatisation",
       "SUBMIT": "Créer",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Nom de la règle",
+          "PLACEHOLDER": "Entrez le nom de la règle",
           "ERROR": "Le nom est requis"
         },
         "DESC": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Entrez la description de la règle",
           "ERROR": "La description est requise"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "Événement",
+          "PLACEHOLDER": "Veuillez en sélectionner un",
+          "ERROR": "L'événement est requis"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Condition"
         },
         "ACTIONS": {
           "LABEL": "Actions"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Ajouter une condition",
+      "ACTION_BUTTON_LABEL": "Ajouter une action",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Règle d'automatisation ajoutée avec succès",
+        "ERROR_MESSAGE": "Impossible de créer une règle d'automatisation, veuillez réessayer plus tard"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "Nom",
         "Description",
         "Actif",
-        "Created on"
+        "Créé le"
       ],
-      "404": "No automation rules found"
+      "404": "Aucune règle d'automatisation trouvée"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Supprimer la règle d'automatisation",
       "SUBMIT": "Supprimer",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "Non, Conserver "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Intégration supprimée avec succès",
+        "ERROR_MESSAGE": "Impossible de créer une règle d'automatisation, veuillez réessayer plus tard"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Modifier",
+      "TITLE": "Modifier la règle d'automatisation",
+      "SUBMIT": "Mettre à jour",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Règle d'automatisation mise à jour avec succès",
+        "ERROR_MESSAGE": "Impossible de mettre à jour la règle d'automatisation, veuillez réessayer plus tard"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Cloner",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automation clonée avec succès",
+        "ERROR_MESSAGE": "Impossible de cloner la règle d'automatisation, veuillez réessayer plus tard"
       }
     },
     "FORM": {
@@ -83,7 +83,34 @@
       "CREATE": "Créer",
       "DELETE": "Supprimer",
       "CANCEL": "Annuler",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Changer le type d'événement réinitialisera les conditions et les événements que vous avez ajoutés ci-dessous"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activer la règle d'automatisation",
+      "DEACTIVATION_TITLE": "Activer la règle d'automatisation",
+      "ACTIVATION_DESCRIPTION": "Cette action activera la règle d'automatisation '{automationName}'. Êtes-vous sur de vouloir continuer?",
+      "DEACTIVATION_DESCRIPTION": "Cette action activera la règle d'automatisation '{automationName}'. Êtes-vous sur de vouloir continuer?",
+      "ACTIVATION_SUCCESFUL": "Règle d'automatisation activée avec succès",
+      "DEACTIVATION_SUCCESFUL": "Règle d'automatisation désactivée avec succès",
+      "ACTIVATION_ERROR": "Impossible d'activer l'automatisation, veuillez réessayer plus tard",
+      "DEACTIVATION_ERROR": "Impossible de désactiver l'automatisation, veuillez réessayer plus tard",
+      "CONFIRMATION_LABEL": "Oui",
+      "CANCEL_LABEL": "Non"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Téléversement...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }

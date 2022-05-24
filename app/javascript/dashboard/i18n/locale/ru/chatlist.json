@@ -76,10 +76,12 @@
     "RECEIVED_VIA_EMAIL": "Получено по email",
     "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
     "REPLY_TO_TWEET": "Ответить на этот твит",
+    "LINK_TO_STORY": "Перейти к истории Instagram",
     "SENT": "Успешно отправлено",
     "NO_MESSAGES": "Нет сообщений",
     "NO_CONTENT": "Содержимое отсутствует",
     "HIDE_QUOTED_TEXT": "Скрыть цитируемый текст",
-    "SHOW_QUOTED_TEXT": "Показать цитируемый текст"
+    "SHOW_QUOTED_TEXT": "Показать цитируемый текст",
+    "MESSAGE_READ": "Читать"
   }
 }

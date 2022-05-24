@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatyczne przypisanie zaktualizowane pomyślnie",
         "ERROR_MESSAGE": "Nie można zaktualizować koloru widżetu. Spróbuj ponownie później."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Włączone",
-        "DISABLED": "Wyłączone"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Włączone",
         "DISABLED": "Wyłączone"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Funkcje",
       "DISPLAY_FILE_PICKER": "Wyświetl selektor plików w widżecie",
-      "DISPLAY_EMOJI_PICKER": "Wyświetl selektor emoji w widżecie"
+      "DISPLAY_EMOJI_PICKER": "Wyświetl selektor emoji w widżecie",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skrypt Messengera",
       "MESSENGER_SUB_HEAD": "Umieść ten przycisk wewnątrz znacznika ciała",
       "INBOX_AGENTS": "Agenci",
       "INBOX_AGENTS_SUB_TEXT": "Dodaj lub usuń agentów z tej skrzynki odbiorczej",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Aktualizuj",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Włącz lub wyłącz skrzynkę zbierania wiadomości e-mail w nowej konwersacji",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formularze czatu umożliwiają przechwytywanie informacji o użytkowniku przed rozpoczęciem rozmowy z Tobą.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Klucz",
+        "TYPE": "Typ",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Włącz formularz przed czatem",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Wiadomość na czacie",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "Ta wiadomość będzie widoczna dla użytkowników wraz z formularzem"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "godzin",
         "VALIDATION_ERROR": "Czas rozpoczęcia powinien być przed czasem zakończenia.",
         "CHOOSE": "Wybierz"
-      }
+      },
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Ustaw szczegóły IMAP",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Aktualizuj ustawienia IMAP",
       "TOGGLE_AVAILABILITY": "Włącz konfigurację IMAP dla tej skrzynki odbiorczej",
       "TOGGLE_HELP": "Włączenie IMAP pomoże użytkownikowi otrzymywać e-mail",
@@ -482,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Zaloguj się",
+        "PLACE_HOLDER": "Zaloguj się"
       },
       "PASSWORD": {
         "LABEL": "Hasło",
@@ -510,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-mail",
-        "PLACE_HOLDER": "E-mail"
+      "LOGIN": {
+        "LABEL": "Zaloguj się",
+        "PLACE_HOLDER": "Zaloguj się"
       },
       "PASSWORD": {
         "LABEL": "Hasło",
@@ -525,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Otwórz tryb weryfikacji SSL"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Otwórz tryb weryfikacji SSL",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

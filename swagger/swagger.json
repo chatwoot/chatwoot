@@ -1118,7 +1118,7 @@
       ],
       "get": {
         "tags": [
-          "Agent"
+          "Agents"
         ],
         "operationId": "get-account-agents",
         "summary": "List Agents in Account",
@@ -1148,7 +1148,7 @@
       },
       "post": {
         "tags": [
-          "Agent"
+          "Agents"
         ],
         "operationId": "add-new-agent-to-account",
         "summary": "Add a New Agent",
@@ -1227,7 +1227,7 @@
       ],
       "patch": {
         "tags": [
-          "Agent"
+          "Agents"
         ],
         "operationId": "update-agent-in-account",
         "summary": "Update Agent in Account",
@@ -1299,7 +1299,7 @@
       },
       "delete": {
         "tags": [
-          "Agent"
+          "Agents"
         ],
         "operationId": "delete-agent-from-account",
         "summary": "Remove an Agent from Account",
@@ -1333,10 +1333,367 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/canned_responses": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Canned Responses"
+        ],
+        "operationId": "get-account-canned-response",
+        "summary": "List all Canned Responses in an Account",
+        "description": "Get Details of Canned Responses in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all canned responses",
+              "items": {
+                "$ref": "#/definitions/canned_response"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Canned Responses"
+        ],
+        "operationId": "add-new-canned-response-to-account",
+        "summary": "Add a New Canned Response",
+        "description": "Add a new Canned Response to Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/canned_response_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/canned_response"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/canned_responses/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Canned Response"
+        ],
+        "operationId": "update-canned-response-in-account",
+        "summary": "Update Canned Response in Account",
+        "description": "Update a Canned Response in Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the canned response to be updated."
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/canned_response_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/canned_response"
+            }
+          },
+          "404": {
+            "description": "Agent not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Canned Responses"
+        ],
+        "operationId": "delete-canned-response-from-account",
+        "summary": "Remove a Canned Response from Account",
+        "description": "Remove a Canned Response from Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the canned response to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Canned Response not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/custom_attribute_definitions": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Custom Attributes"
+        ],
+        "operationId": "get-account-custom-attribute",
+        "summary": "List all custom attributes in an account",
+        "parameters": [
+          {
+            "name": "attribute_model",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "0",
+              "1"
+            ],
+            "description": "conversation_attribute(0)/contact_attribute(1)",
+            "required": true
+          }
+        ],
+        "description": "Get details of custom attributes in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all custom attributes",
+              "items": {
+                "$ref": "#/definitions/custom_attribute"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Custom Attributes"
+        ],
+        "operationId": "add-new-custom-attribute-to-account",
+        "summary": "Add a new custom attribute",
+        "description": "Add a new custom attribute to account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/custom_attribute_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/custom_attribute"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/custom_attribute_definitions/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Custom Attributes"
+        ],
+        "operationId": "get-details-of-a-single-custom-attribute",
+        "summary": "Get a custom attribute details",
+        "description": "Get the details of a custom attribute in the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/custom_attribute"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given attribute ID does not exist in the account"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Custom Attributes"
+        ],
+        "operationId": "update-custom-attribute-in-account",
+        "summary": "Update custom attribute in Account",
+        "description": "Update a custom attribute in account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the custom attribute to be updated."
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/custom_attribute_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/custom_attribute"
+            }
+          },
+          "404": {
+            "description": "Agent not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Custom Attributes"
+        ],
+        "operationId": "delete-custom-attribute-from-account",
+        "summary": "Remove a custom attribute from account",
+        "description": "Remove a custom attribute from account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the custom attribute to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Custom attribute not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/contacts": {
       "get": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactList",
         "description": "Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number",
@@ -1369,7 +1726,7 @@
       },
       "post": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactCreate",
         "description": "Create a new Contact",
@@ -1418,7 +1775,7 @@
       ],
       "get": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactDetails",
         "summary": "Show Contact",
@@ -1440,7 +1797,7 @@
       },
       "put": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactUpdate",
         "summary": "Update Contact",
@@ -1472,7 +1829,7 @@
       },
       "delete": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactDelete",
         "summary": "Delete Contact",
@@ -1492,7 +1849,7 @@
     "/api/v1/accounts/{account_id}/contacts/{id}/conversations": {
       "get": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactConversations",
         "summary": "Contact Conversations",
@@ -1528,7 +1885,7 @@
     "/api/v1/accounts/{account_id}/contacts/search": {
       "get": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactSearch",
         "description": "Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number",
@@ -1579,7 +1936,7 @@
       ],
       "post": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "operationId": "contactFilter",
         "description": "Filter contacts with custom filter options and pagination",
@@ -1778,6 +2135,93 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/meta": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "conversationListMeta",
+        "description": "Get open, unassigned and all Conversation counts",
+        "summary": "Get Conversation Counts",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending",
+              "snoozed"
+            ],
+            "default": "open",
+            "description": "Filter by conversation status."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "description": "Filters conversations with messages containing the search term"
+          },
+          {
+            "name": "inbox_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "labels",
+            "in": "query",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "mine_count": {
+                      "type": "number"
+                    },
+                    "unassigned_count": {
+                      "type": "number"
+                    },
+                    "assigned_count": {
+                      "type": "number"
+                    },
+                    "all_count": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations": {
       "parameters": [
         {
@@ -1786,7 +2230,7 @@
       ],
       "get": {
         "tags": [
-          "Conversation"
+          "Conversations"
         ],
         "operationId": "conversationList",
         "description": "List all the conversations with pagination",
@@ -1802,7 +2246,8 @@
               "all",
               "assigned"
             ],
-            "required": true
+            "default": "all",
+            "description": "Filter conversations by assignee type."
           },
           {
             "name": "status",
@@ -1811,18 +2256,25 @@
             "enum": [
               "open",
               "resolved",
-              "pending"
+              "pending",
+              "snoozed"
             ],
-            "required": true
+            "default": "open",
+            "description": "Filter by conversation status."
           },
           {
-            "name": "page",
+            "name": "q",
             "in": "query",
-            "type": "integer",
-            "required": true
+            "type": "string",
+            "description": "Filters conversations with messages containing the search term"
           },
           {
             "name": "inbox_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "team_id",
             "in": "query",
             "type": "integer"
           },
@@ -1833,6 +2285,13 @@
             "items": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "default": 1,
+            "description": "paginate through conversations"
           }
         ],
         "responses": {
@@ -1852,7 +2311,7 @@
       },
       "post": {
         "tags": [
-          "Conversation"
+          "Conversations"
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
@@ -1949,7 +2408,7 @@
       ],
       "post": {
         "tags": [
-          "Conversation"
+          "Conversations"
         ],
         "operationId": "conversationFilter",
         "description": "Filter conversations with custom filter options and pagination",
@@ -2060,7 +2519,7 @@
       ],
       "get": {
         "tags": [
-          "Conversation"
+          "Conversations"
         ],
         "operationId": "get-details-of-a-conversation",
         "summary": "Conversation Details",
@@ -2092,7 +2551,7 @@
       ],
       "post": {
         "tags": [
-          "Conversation"
+          "Conversations"
         ],
         "operationId": "toggle-status-of-a-conversation",
         "summary": "Toggle Status",
@@ -2277,7 +2736,7 @@
     "/api/v1/accounts/{account_id}/inboxes": {
       "get": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "listAllInboxes",
         "summary": "List all inboxes",
@@ -2310,7 +2769,7 @@
     "/api/v1/accounts/{account_id}/inboxes/{id}/": {
       "get": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "GetInbox",
         "summary": "Get an inbox",
@@ -2346,7 +2805,7 @@
     "/api/v1/accounts/{account_id}/inboxes/": {
       "post": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "inboxCreation",
         "summary": "Create an inbox",
@@ -2425,7 +2884,7 @@
     "/api/v1/accounts/{account_id}/inboxes/{id}": {
       "patch": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "updateInbox",
         "summary": "Update Inbox",
@@ -2512,7 +2971,7 @@
     "/api/v1/accounts/{account_id}/inboxes/{id}/agent_bot": {
       "get": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "getInboxAgentBot",
         "summary": "Show Inbox Agent Bot",
@@ -2548,7 +3007,7 @@
     "/api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot": {
       "post": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "updateAgentBot",
         "summary": "Add or remove agent bot",
@@ -2606,7 +3065,7 @@
       ],
       "get": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "get-inbox-members",
         "summary": "List Agents in Inbox",
@@ -2642,72 +3101,9 @@
           }
         }
       },
-      "post": {
-        "tags": [
-          "Inbox"
-        ],
-        "operationId": "add-new-agent-to-inbox",
-        "summary": "Add a New Agent",
-        "description": "Add a new Agent to Inbox",
-        "security": [
-          {
-            "userApiKey": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
-              "properties": {
-                "inbox_id": {
-                  "type": "string",
-                  "description": "The ID of the inbox"
-                },
-                "user_ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  },
-                  "description": "IDs of users to be added to the inbox"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "description": "Array of all active agents",
-              "items": {
-                "$ref": "#/definitions/agent"
-              }
-            }
-          },
-          "404": {
-            "description": "Inbox not found"
-          },
-          "403": {
-            "description": "Access denied"
-          },
-          "422": {
-            "description": "User must exist"
-          }
-        }
-      },
       "patch": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "update-agents-in-inbox",
         "summary": "Update Agents in Inbox",
@@ -2770,7 +3166,7 @@
       },
       "delete": {
         "tags": [
-          "Inbox"
+          "Inboxes"
         ],
         "operationId": "delete-agent-in-inbox",
         "summary": "Remove an Agent from Inbox",
@@ -2812,6 +3208,76 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/inbox_members": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Inboxes"
+        ],
+        "operationId": "add-new-agent-to-inbox",
+        "summary": "Add a New Agent",
+        "description": "Add a new Agent to Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox"
+                },
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the inbox"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
           },
           "404": {
             "description": "Inbox not found"
@@ -3165,7 +3631,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/teams/{id}": {
+    "/api/v1/accounts/{account_id}/teams/{team_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3245,6 +3711,222 @@
         }
       }
     },
+    "/accounts/{account-id}/teams/{team_id}/team_members": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/team_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "get-team-members",
+        "summary": "List Agents in Team",
+        "description": "Get Details of Agents in an Team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/team_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all agents in the team",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "add-new-agent-to-team",
+        "summary": "Add a New Agent",
+        "description": "Add a new Agent to Team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "user_ids"
+              ],
+              "properties": {
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the team"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Team not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "update-agents-in-team",
+        "summary": "Update Agents in Team",
+        "description": "All agents except the one passed in params will be removed",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "user_ids"
+              ],
+              "properties": {
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the team"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all agents in the team",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Team not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "delete-agent-in-team",
+        "summary": "Remove an Agent from Team",
+        "description": "Remove an Agent from Team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "team_id",
+                "user_ids"
+              ],
+              "properties": {
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be deleted from the team"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Team not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/custom_filters": {
       "parameters": [
         {
@@ -3265,7 +3947,7 @@
       ],
       "get": {
         "tags": [
-          "Custom Filter"
+          "Custom Filters"
         ],
         "operationId": "list-all-filters",
         "summary": "List all custom filters",
@@ -3288,7 +3970,7 @@
       },
       "post": {
         "tags": [
-          "Custom Filter"
+          "Custom Filters"
         ],
         "operationId": "create-a-custom-filter",
         "summary": "Create a custom filter",
@@ -3330,7 +4012,7 @@
       ],
       "get": {
         "tags": [
-          "Custom Filter"
+          "Custom Filters"
         ],
         "operationId": "get-details-of-a-single-custom-filter",
         "summary": "Get a custom filter details",
@@ -3352,7 +4034,7 @@
       },
       "patch": {
         "tags": [
-          "Custom Filter"
+          "Custom Filters"
         ],
         "operationId": "update-a-custom-filter",
         "summary": "Update a custom filter",
@@ -3381,7 +4063,7 @@
       },
       "delete": {
         "tags": [
-          "Custom Filter"
+          "Custom Filters"
         ],
         "operationId": "delete-a-custom-filter",
         "summary": "Delete a custom filter",
@@ -3395,6 +4077,129 @@
           },
           "404": {
             "description": "The custom filter does not exist in the account"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/webhooks": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "list-all-webhooks",
+        "summary": "List all webhooks",
+        "description": "List all webhooks in the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of webhook objects",
+              "items": {
+                "$ref": "#/definitions/webhook"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "create-a-webhook",
+        "summary": "Add a webhook",
+        "description": "Add a webhook subscription to the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/webhook_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/webhook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/webhooks/{webhook_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/webhook_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "update-a-webhook",
+        "summary": "Update a webhook object",
+        "description": "Update a webhook object in the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/webhook_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/webhook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "delete-a-webhook",
+        "summary": "Delete a webhook",
+        "description": "Delete a webhook from the account",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The webhook does not exist in the account"
           }
         }
       }
@@ -3443,7 +4248,15 @@
               "type": "array",
               "description": "Array of date based conversation statistics",
               "items": {
-                "$ref": "#/definitions/report"
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string"
+                  },
+                  "timestamp": {
+                    "type": "number"
+                  }
+                }
               }
             }
           },
@@ -3494,10 +4307,106 @@
           "200": {
             "description": "Success",
             "schema": {
+              "$ref": "#/definitions/account_summary"
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/conversations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "type": "string",
+          "enum": [
+            "account"
+          ],
+          "required": true,
+          "description": "Type of report"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-account-conversation-metrics",
+        "summary": "Account Conversation Metrics",
+        "description": "Get conversation metrics for Account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "description": "Object of account conversation metrics",
+              "properties": {
+                "open": {
+                  "type": "number"
+                },
+                "unattended": {
+                  "type": "number"
+                },
+                "unassigned": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "reports not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/conversations/": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "type",
+          "type": "string",
+          "enum": [
+            "agent"
+          ],
+          "required": true,
+          "description": "Type of report"
+        },
+        {
+          "in": "query",
+          "name": "user_id",
+          "type": "string",
+          "description": "The numeric ID of the user"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-agent-conversation-metrics",
+        "summary": "Agent Conversation Metrics",
+        "description": "Get conversation metrics for Agent",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
               "type": "array",
-              "description": "Array of date based conversation statistics",
+              "description": "Array of agent based conversation metrics",
               "items": {
-                "$ref": "#/definitions/report"
+                "$ref": "#/definitions/agent_conversation_metrics"
               }
             }
           },
@@ -3546,6 +4455,68 @@
       "properties": {
         "id": {
           "type": "number"
+        }
+      }
+    },
+    "canned_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID of the canned response"
+        },
+        "content": {
+          "type": "string",
+          "description": "Message content for canned response"
+        },
+        "short_code": {
+          "type": "string",
+          "description": "Short Code for quick access of the canned response"
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account Id"
+        }
+      }
+    },
+    "custom_attribute": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Identifier"
+        },
+        "attribute_display_name": {
+          "type": "string",
+          "description": "Attribute display name"
+        },
+        "attribute_display_type": {
+          "type": "string",
+          "description": "Attribute display type (text, number, currency, percent, link, date, list, checkbox)"
+        },
+        "attribute_description": {
+          "type": "string",
+          "description": "Attribute description"
+        },
+        "attribute_key": {
+          "type": "string",
+          "description": "Attribute unique key value"
+        },
+        "attribute_values": {
+          "type": "string",
+          "description": "Attribute values"
+        },
+        "default_value": {
+          "type": "string",
+          "description": "Attribute default value"
+        },
+        "attribute_model": {
+          "type": "string",
+          "description": "Attribute type(conversation_attribute/contact_attribute)"
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account Id"
         }
       }
     },
@@ -3924,6 +4895,38 @@
         }
       }
     },
+    "webhook": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "The ID of the webhook"
+        },
+        "url": {
+          "type": "string",
+          "description": "The url to which the events will be send"
+        },
+        "subscriptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "conversation_created",
+              "conversation_status_changed",
+              "conversation_updated",
+              "message_created",
+              "message_updated",
+              "webwidget_triggered"
+            ]
+          },
+          "description": "The list of subscribed events"
+        },
+        "account_id": {
+          "type": "number",
+          "description": "The id of the account which the webhook object belongs to"
+        }
+      }
+    },
     "account": {
       "type": "object",
       "properties": {
@@ -4196,6 +5199,51 @@
         }
       }
     },
+    "canned_response_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Message content for canned response"
+        },
+        "short_code": {
+          "type": "string",
+          "description": "Short Code for quick access of the canned response"
+        }
+      }
+    },
+    "custom_attribute_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "attribute_display_name": {
+          "type": "string",
+          "description": "Attribute display name"
+        },
+        "attribute_display_type": {
+          "type": "integer",
+          "description": "Attribute display type (text- 0, number- 1, currency- 2, percent- 3, link- 4, date- 5, list- 6, checkbox- 7)"
+        },
+        "attribute_description": {
+          "type": "string",
+          "description": "Attribute description"
+        },
+        "attribute_key": {
+          "type": "string",
+          "description": "Attribute unique key value"
+        },
+        "attribute_values": {
+          "type": "array",
+          "description": "Attribute values",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attribute_model": {
+          "type": "integer",
+          "description": "Attribute type(conversation_attribute- 0, contact_attribute- 1)"
+        }
+      }
+    },
     "contact_create": {
       "type": "object",
       "required": [
@@ -4330,6 +5378,30 @@
         }
       }
     },
+    "webhook_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The url where the events should be sent"
+        },
+        "subscriptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "conversation_created",
+              "conversation_status_changed",
+              "conversation_updated",
+              "message_created",
+              "message_updated",
+              "webwidget_triggered"
+            ]
+          },
+          "description": "The events you want to subscribe to."
+        }
+      }
+    },
     "integrations_hook_create_payload": {
       "type": "object",
       "properties": {
@@ -4374,6 +5446,10 @@
         "name": {
           "type": "string",
           "description": "Name of the contact"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number of the contact"
         },
         "avatar_url": {
           "type": "string",
@@ -4521,6 +5597,9 @@
                   "type": "number"
                 },
                 "unassigned_count": {
+                  "type": "number"
+                },
+                "assigned_count": {
                   "type": "number"
                 },
                 "all_count": {
@@ -4684,23 +5763,81 @@
         }
       ]
     },
-    "report": {
-      "type": "array",
-      "description": "array of conversation count based on date",
-      "items": {
-        "allOf": [
-          {
-            "type": "object",
-            "properties": {
-              "value": {
-                "type": "number"
-              },
-              "timestamp": {
-                "type": "string"
-              }
+    "account_summary": {
+      "type": "object",
+      "properties": {
+        "avg_first_response_time": {
+          "type": "string"
+        },
+        "avg_resolution_time": {
+          "type": "string"
+        },
+        "conversations_count": {
+          "type": "number"
+        },
+        "incoming_messages_count": {
+          "type": "number"
+        },
+        "outgoing_messages_count": {
+          "type": "number"
+        },
+        "resolutions_count": {
+          "type": "number"
+        },
+        "previous": {
+          "type": "object",
+          "properties": {
+            "avg_first_response_time": {
+              "type": "string"
+            },
+            "avg_resolution_time": {
+              "type": "string"
+            },
+            "conversations_count": {
+              "type": "number"
+            },
+            "incoming_messages_count": {
+              "type": "number"
+            },
+            "outgoing_messages_count": {
+              "type": "number"
+            },
+            "resolutions_count": {
+              "type": "number"
             }
           }
-        ]
+        }
+      }
+    },
+    "agent_conversation_metrics": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "availability": {
+          "type": "string"
+        },
+        "metric": {
+          "type": "object",
+          "properties": {
+            "open": {
+              "type": "number"
+            },
+            "unattended": {
+              "type": "number"
+            }
+          }
+        }
       }
     }
   },
@@ -4721,7 +5858,7 @@
     },
     "team_id": {
       "in": "path",
-      "name": "id",
+      "name": "team_id",
       "type": "integer",
       "required": true,
       "description": "The ID of the team to be updated"
@@ -4747,20 +5884,6 @@
       "type": "string",
       "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
-    "conversation_id": {
-      "in": "path",
-      "name": "conversation_id",
-      "type": "integer",
-      "required": true,
-      "description": "The numeric ID of the conversation"
-    },
-    "message_id": {
-      "in": "path",
-      "name": "message_id",
-      "type": "integer",
-      "required": true,
-      "description": "The numeric ID of the message"
-    },
     "contact_sort_param": {
       "in": "query",
       "name": "sort",
@@ -4778,6 +5901,34 @@
       "required": false,
       "description": "The attribute by which list should be sorted"
     },
+    "conversation_id": {
+      "in": "path",
+      "name": "conversation_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the conversation"
+    },
+    "custom_filter_id": {
+      "in": "path",
+      "name": "custom_filter_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the custom filter"
+    },
+    "webhook_id": {
+      "in": "path",
+      "name": "webhook_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the webhook"
+    },
+    "message_id": {
+      "in": "path",
+      "name": "message_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the message"
+    },
     "page": {
       "in": "query",
       "name": "page",
@@ -4793,16 +5944,9 @@
       "required": true,
       "description": "The numeric ID of the user on the platform"
     },
-    "custom_filter_id": {
-      "in": "path",
-      "name": "custom_filter_id",
-      "type": "integer",
-      "required": true,
-      "description": "The numeric ID of the custom filter"
-    },
     "report_type": {
       "in": "query",
-      "name": "report_type",
+      "name": "type",
       "type": "string",
       "enum": [
         "account",
@@ -4858,18 +6002,21 @@
       "name": "Application",
       "tags": [
         "Account AgentBots",
-        "Agent",
-        "Contact",
-        "Conversation",
+        "Agents",
+        "Canned Responses",
+        "Contacts",
         "Conversation Assignment",
         "Conversation Labels",
-        "Inbox",
-        "Messages",
+        "Conversations",
+        "Custom Attributes",
+        "Custom Filters",
+        "Inboxes",
         "Integrations",
+        "Messages",
         "Profile",
+        "Reports",
         "Teams",
-        "Custom Filter",
-        "Reports"
+        "Webhooks"
       ]
     },
     {

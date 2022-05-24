@@ -22,6 +22,8 @@ pl:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
     reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
@@ -42,6 +44,17 @@ pl:
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nazwa agenta
+        rating: Ocena
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
@@ -50,10 +63,12 @@ pl:
       conversation_mention: "Zostałeś wspomniany w konwersacji [ID - %{display_id}] przez %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Ta wiadomość została usunięta
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
         pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
         snoozed: "Rozmowa została uśpiona przez %{user_name}"

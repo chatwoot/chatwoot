@@ -100,7 +100,7 @@
         "SUBMIT_BUTTON": "Criar caixa de entrada"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "TITLE": "Canal Twilio SMS/WhatsApp",
         "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Agente atualizado com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar a cor do widget. Por favor, tente novamente mais tarde."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Ativado",
-        "DISABLED": "Desativado"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Funcionalidades",
       "DISPLAY_FILE_PICKER": "Exibir seletor de arquivos no widget",
-      "DISPLAY_EMOJI_PICKER": "Exibir seletor de emoji no widget"
+      "DISPLAY_EMOJI_PICKER": "Exibir seletor de emoji no widget",
+      "ALLOW_END_CONVERSATION": "Permitir que usuários terminem a conversa a partir do widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Código Menssageiro <scripit>",
       "MESSENGER_SUB_HEAD": "Favor, insira essse código <script> dentro da tag Body de sua página html",
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
+      "AGENT_ASSIGNMENT": "Atribuição de conversa",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Atualizar configurações de atribuição de conversa",
       "UPDATE": "Atualizar",
       "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de coleta de e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novas conversas",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Formulários de bate-papo permitem que você capture informações de usuário antes de iniciar uma conversa com você.",
+      "SET_FIELDS": "Campos do formulário Pré Chat",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Campos",
+        "LABEL": "Nome do campo",
+        "PLACE_HOLDER": "Valor de exemplo",
+        "KEY": "Chave",
+        "TYPE": "Tipo",
+        "REQUIRED": "Obrigatório"
+      },
       "ENABLE": {
         "LABEL": "Ativar formulário de bate-papo antes",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pré Mensagem de bate-papo",
+        "LABEL": "Mensagem pré chat",
         "PLACEHOLDER": "Esta mensagem será visível para os usuários junto com o formulário"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +470,13 @@
         "HOURS": "horas",
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
-      }
+      },
+      "ALL_DAY": "Todos os Dias"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Defina seus dados IMAP",
+      "NOTE_TEXT": "Para habilitar o SMTP, por favor configure o IMAP.",
       "UPDATE": "Atualizar configurações do IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Habilitar o IMAP ajudará o usuário a receber e-mail",
@@ -482,9 +492,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Entrar",
+        "PLACE_HOLDER": "Entrar"
       },
       "PASSWORD": {
         "LABEL": "Senha",
@@ -510,9 +520,9 @@
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
-      "EMAIL": {
-        "LABEL": "e-mail",
-        "PLACE_HOLDER": "e-mail"
+      "LOGIN": {
+        "LABEL": "Entrar",
+        "PLACE_HOLDER": "Entrar"
       },
       "PASSWORD": {
         "LABEL": "Senha",
@@ -522,10 +532,12 @@
         "LABEL": "Domínio",
         "PLACE_HOLDER": "Domínio"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Criptografia",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificação SSL",
+      "AUTH_MECHANISM": "Autenticação"
+    },
+    "NOTE": "Observação: "
   }
 }
