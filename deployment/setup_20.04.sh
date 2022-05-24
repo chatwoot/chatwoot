@@ -27,11 +27,11 @@ else
 fi
 
 function get_domain_info() {
-  read -rp 'Enter your sub-domain to be used for Chatwoot (chatwoot.domain.com for example) : ' domain_name
-  read -rp 'Enter the email LetsEncrypt can use to send reminders when your SSL certificate is up for renewal: ' le_email
+  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com):' domain_name
+  read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
   cat << EOF
 
-This script will try to generate SSL certificates via LetsEncrypt and serve chatwoot at
+This script will generate SSL certificates via LetsEncrypt and serve Chatwoot at
 https://$domain_name. Proceed further once you have pointed your DNS to the IP of the instance.
 
 EOF
@@ -192,11 +192,11 @@ EOF
   fi
 
   echo -en "\n"
-  read -rp 'Would you like to install postgres and redis?(Answer no if you plan to use external services): ' install_pg_redis
+  read -rp 'Would you like to install Postgres and Redis? (Answer no if you plan to use external services): ' install_pg_redis
 
   if [ "$install_pg_redis" == "no" ]
   then
-    echo "***** Skipping postgres and redis installation. ****"
+    echo "***** Skipping Postgres and Redis installation. ****"
   fi
 
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while."
@@ -214,16 +214,16 @@ EOF
     install_webserver &>> "${LOG_FILE}"
   fi
 
-  echo "➥ 4/9 Setting up ruby"
+  echo "➥ 4/9 Setting up Ruby"
   configure_rvm &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
   then
-    echo "➥ 5/9 Setting up database"
+    echo "➥ 5/9 Setting up the database"
     configure_db &>> "${LOG_FILE}"
   fi
 
-  echo "➥ 6/9 Installing chatwoot. This takes a while."
+  echo "➥ 6/9 Installing Chatwoot. This takes a while."
   setup_chatwoot &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
@@ -242,25 +242,25 @@ EOF
     cat << EOF
 
 ***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete
+Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
 To configure a domain and SSL certificate, follow the guide at 
 https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
 
-Join us at https://chatwoot.com/community
+Join the community at https://chatwoot.com/community
 ***************************************************************************
 EOF
   else
-    echo "➥ 9/9 Setting up ssl/tls"
+    echo "➥ 9/9 Setting up SSL & TLS"
     setup_ssl &>> "${LOG_FILE}"
     cat << EOF
 
 ***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete
+Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at https://$domain_name
 
-Join us at https://chatwoot.com/community
+Join the community at https://chatwoot.com/community
 ***************************************************************************
 EOF
   fi
@@ -269,8 +269,8 @@ EOF
   then
 cat <<EOF
 ***************************************************************************
-DB migrations are not run as pg and redis is not installed.
-After modifying .env with your external db creds, run db migrations !!!
+The database migrations had not run as Postgres and Redis were not installed as a part of the installation process.
+After modifying the environment variables (in the .env file) with your external database credentials, run the database migrations using the command `RAILS_ENV=production bundle exec rails db:chatwoot_prepare`.
 ***************************************************************************
 EOF
   fi
