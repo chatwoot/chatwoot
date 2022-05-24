@@ -54,6 +54,7 @@ class Api::V1::Widget::BaseController < ApplicationController
       ).perform
     else
       @contact.update!(email: email)
+      @contact.update!(name: contact_name) if contact_name.present?
     end
   end
 
