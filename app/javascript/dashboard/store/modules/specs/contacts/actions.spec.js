@@ -73,7 +73,14 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends correct mutations if API is success', async () => {
       axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
-      await actions.update({ commit }, contactList[0]);
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          formData: false,
+          contactParams: contactList[0],
+        }
+      );
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
         [types.EDIT_CONTACT, contactList[0]],
@@ -101,9 +108,16 @@ describe('#actions', () => {
           },
         },
       });
-      await expect(actions.update({ commit }, contactList[0])).rejects.toThrow(
-        DuplicateContactException
-      );
+      await expect(
+        actions.update(
+          { commit },
+          {
+            id: contactList[0].id,
+            formData: false,
+            contactParams: contactList[0],
+          }
+        )
+      ).rejects.toThrow(DuplicateContactException);
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
@@ -116,7 +130,13 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: { payload: { contact: contactList[0] } },
       });
-      await actions.create({ commit }, contactList[0]);
+      await actions.create(
+        { commit },
+        {
+          formData: false,
+          contactParams: contactList[0],
+        }
+      );
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
         [types.SET_CONTACT_ITEM, contactList[0]],
@@ -142,9 +162,15 @@ describe('#actions', () => {
           },
         },
       });
-      await expect(actions.create({ commit }, contactList[0])).rejects.toThrow(
-        ExceptionWithMessage
-      );
+      await expect(
+        actions.create(
+          { commit },
+          {
+            formData: false,
+            contactParams: contactList[0],
+          }
+        )
+      ).rejects.toThrow(ExceptionWithMessage);
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
         [types.SET_CONTACT_UI_FLAG, { isCreating: false }],

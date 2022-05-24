@@ -360,7 +360,7 @@ RSpec.describe 'Contacts API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
-    let(:valid_params) { { contact: { name: 'test', custom_attributes: custom_attributes } } }
+    let(:valid_params) { { name: 'test', custom_attributes: custom_attributes } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -388,7 +388,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'does not create the contact' do
-        valid_params[:contact][:name] = 'test' * 999
+        valid_params[:name] = 'test' * 999
 
         post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
                                                         params: valid_params
@@ -413,7 +413,7 @@ RSpec.describe 'Contacts API', type: :request do
   describe 'PATCH /api/v1/accounts/{account.id}/contacts/:id' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
     let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
-    let(:valid_params) { { contact: { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } } }
+    let(:valid_params) { { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -456,7 +456,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               headers: admin.create_new_auth_token,
-              params: valid_params[:contact].merge({ email: other_contact.email }),
+              params: valid_params.merge({ email: other_contact.email }),
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
@@ -468,7 +468,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               headers: admin.create_new_auth_token,
-              params: valid_params[:contact].merge({ phone_number: other_contact.phone_number }),
+              params: valid_params.merge({ phone_number: other_contact.phone_number }),
               as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
