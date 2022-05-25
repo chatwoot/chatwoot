@@ -12,33 +12,11 @@
       "INPUT": "Искать людей, чаты, сохраненные ответы .."
     },
     "FILTER_ALL": "Все",
-    "STATUS_TABS": [
-      {
-        "NAME": "Открыть",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Закрыт",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Мои",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Неназначен",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Все",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Мои",
+      "unassigned": "Неназначен",
+      "all": "Все"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Открыть"
