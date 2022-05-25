@@ -9,7 +9,7 @@ module Api::V2::Accounts::ReportsHelper
   def generate_inboxes_report
     Current.account.inboxes.map do |inbox|
       inbox_report = generate_report({ type: :inbox, id: inbox.id })
-      [inbox.name, inbox.channel?.name] + generate_readable_report_metrics(inbox_report)
+      [inbox.name, inbox.channel&.name] + generate_readable_report_metrics(inbox_report)
     end
   end
 
@@ -31,11 +31,12 @@ module Api::V2::Accounts::ReportsHelper
     V2::ReportBuilder.new(
       Current.account,
       report_params.merge(
-      {
-        since: params[:since],
-        until: params[:until],
-        business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
-      })
+        {
+          since: params[:since],
+          until: params[:until],
+          business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
+        }
+      )
     ).summary
   end
 
