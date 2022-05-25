@@ -12,6 +12,11 @@
       "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
     },
     "FILTER_ALL": "Kaikki",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minun",
+      "unassigned": "Osoittamaton",
+      "all": "Kaikki"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Avaa"
