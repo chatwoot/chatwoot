@@ -47,14 +47,14 @@ it:
     default_group_by: giorno
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Nome contatto
+        contact_email_address: Indirizzo email contatto
+        contact_phone_number: Numero di telefono contatto
+        link_to_the_conversation: Link alla conversazione
         agent_name: Nome dell'agente
         rating: Valutazione
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: Commento del feedback
+        recorded_at: Data di registrazione
   notifications:
     notification_title:
       conversation_creation: "[Nuova conversazione] - #%{display_id} è stato creato in %{inbox_name}"
