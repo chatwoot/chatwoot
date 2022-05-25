@@ -22,6 +22,8 @@ hu:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
       invalid_email: Hibás e-mailcímet adtál meg
@@ -43,6 +45,16 @@ hu:
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
     default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Ügynök neve
+        rating: Rating
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"

@@ -1,4 +1,5 @@
 import {
+  SET_BUBBLE_VISIBILITY,
   SET_REFERRER_HOST,
   SET_WIDGET_APP_CONFIG,
   SET_WIDGET_COLOR,
@@ -57,6 +58,9 @@ export const actions = {
   setReferrerHost({ commit }, referrerHost) {
     commit(SET_REFERRER_HOST, referrerHost);
   },
+  setBubbleVisibility({ commit }, hideMessageBubble) {
+    commit(SET_BUBBLE_VISIBILITY, hideMessageBubble);
+  },
 };
 
 export const mutations = {
@@ -75,6 +79,9 @@ export const mutations = {
   },
   [SET_REFERRER_HOST]($state, referrerHost) {
     $state.referrerHost = referrerHost;
+  },
+  [SET_BUBBLE_VISIBILITY]($state, hideMessageBubble) {
+    $state.hideMessageBubble = hideMessageBubble;
   },
 };
 

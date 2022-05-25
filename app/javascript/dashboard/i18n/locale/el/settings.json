@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Αντιγραφή",
       "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Εμφάνιση Περισσότερων",
+      "SHOW_LESS": "Εμφάνιση Λιγότερων"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
       "UPLOADING": "Ανέβασμα ..."
@@ -147,6 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
+    "SWITCH": "Εναλλαγή",
     "CONVERSATIONS": "Συζητήσεις",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
     "MENTIONED_CONVERSATIONS": "Αναφορές",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "Νέα ετικέτα",
     "NEW_TEAM": "Νέα ομάδα",
     "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
-    "REPORTS_OVERVIEW": "Επισκόπηση",
+    "REPORTS_CONVERSATION": "Συζητήσεις",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Εισερχόμενα",
     "REPORTS_TEAM": "Ομάδα",
     "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Επισκόπηση"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
