@@ -68,6 +68,9 @@
                 )
               "
               :show-query-operator="i !== automation.conditions.length - 1"
+              :custom-attribute-type="
+                getCustomAttributeType(automation.conditions[i].attribute_key)
+              "
               :v="$v.automation.conditions.$each[i]"
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
@@ -179,6 +182,7 @@ export default {
             filter_operator: 'equal_to',
             values: '',
             query_operator: 'and',
+            custom_attribute_type: '',
           },
         ],
         actions: [

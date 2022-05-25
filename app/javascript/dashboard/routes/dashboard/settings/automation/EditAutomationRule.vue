@@ -64,6 +64,9 @@
                   automation.conditions[i].attribute_key
                 )
               "
+              :custom-attribute-type="
+                getCustomAttributeType(automation.conditions[i].attribute_key)
+              "
               :show-query-operator="i !== automation.conditions.length - 1"
               :v="$v.automation.conditions.$each[i]"
               @resetFilter="resetFilter(i, automation.conditions[i])"
@@ -187,7 +190,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('agents/get');
     this.manifestCustomAttributes();
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.formatAutomation(this.selectedResponse);

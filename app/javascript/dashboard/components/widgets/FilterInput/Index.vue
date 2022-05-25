@@ -174,6 +174,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    customAttributeType: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     attributeKey: {
@@ -215,6 +219,29 @@ export default {
         const payload = this.value || {};
         this.$emit('input', { ...payload, query_operator: value });
       },
+    },
+    custom_attribute_type: {
+      get() {
+        if (!this.customAttributeType) return '';
+        return this.customAttributeType;
+      },
+      set() {
+        const payload = this.value || {};
+        this.$emit('input', {
+          ...payload,
+          custom_attribute_type: this.customAttributeType,
+        });
+      },
+    },
+  },
+  watch: {
+    customAttributeType: {
+      handler(value) {
+        if (value === 'conversation' || value === 'contact') {
+          this.value.custom_attribute_type = this.customAttributeType;
+        } else this.value.custom_attribute_type = '';
+      },
+      immediate: true,
     },
   },
   methods: {

@@ -76,13 +76,14 @@ export const getOperatorTypes = key => {
   return operatorMap[key] || OPERATOR_TYPES_1;
 };
 
-export const generateCustomAttributeTypes = customAttributes => {
+export const generateCustomAttributeTypes = (customAttributes, type) => {
   return customAttributes.map(attr => {
     return {
       key: attr.attribute_key,
       name: attr.attribute_display_name,
       inputType: getCustomAttributeInputType(attr.attribute_display_type),
       filterOperators: getOperatorTypes(attr.attribute_display_type),
+      customAttributeType: type,
     };
   });
 };
@@ -159,6 +160,7 @@ export const getDefaultConditions = eventName => {
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
+        custom_attribute_type: '',
       },
     ];
   }
@@ -168,6 +170,7 @@ export const getDefaultConditions = eventName => {
       filter_operator: 'equal_to',
       values: '',
       query_operator: 'and',
+      custom_attribute_type: '',
     },
   ];
 };

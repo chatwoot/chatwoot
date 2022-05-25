@@ -174,6 +174,12 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('agents/get');
+    this.$store.dispatch('contacts/get');
+    this.$store.dispatch('teams/get');
+    this.$store.dispatch('labels/get');
+    this.$store.dispatch('campaigns/get');
     this.$store.dispatch('automations/get');
   },
   methods: {

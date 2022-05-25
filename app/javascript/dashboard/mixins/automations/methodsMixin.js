@@ -95,7 +95,12 @@ export default {
         condition => condition.key === key
       );
     },
-
+    getCustomAttributeType(key) {
+      const type = this.automationTypes[
+        this.automation.event_name
+      ].conditions.find(i => i.key === key).customAttributeType;
+      return type;
+    },
     getConditionDropdownValues(type) {
       const {
         agents,
@@ -257,10 +262,12 @@ export default {
       ]('contact_attribute');
 
       const conversationCustomAttributeTypes = generateCustomAttributeTypes(
-        conversationCustomAttributesRaw
+        conversationCustomAttributesRaw,
+        'conversation'
       );
       const contactCustomAttributeTypes = generateCustomAttributeTypes(
-        contactCustomAttributesRaw
+        contactCustomAttributesRaw,
+        'contact'
       );
 
       const manifestedCustomAttributes = [
