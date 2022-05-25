@@ -41,7 +41,6 @@ module Reauthorizable
       AdministratorNotifications::ChannelNotificationsMailer.with(account: account).slack_disconnect.deliver_later
     elsif is_a? Channel::FacebookPage
       AdministratorNotifications::ChannelNotificationsMailer.with(account: account).facebook_disconnect(inbox).deliver_later
-      AgentNotifications::ChannelNotificationMailer.with(account: account).facebook_disconnect(inbox).deliver_later
     elsif is_a? Channel::Email
       AdministratorNotifications::ChannelNotificationsMailer.with(account: account).email_disconnect(inbox).deliver_later
     end
