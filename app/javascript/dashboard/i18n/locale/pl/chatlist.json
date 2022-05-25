@@ -12,33 +12,11 @@
       "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
     },
     "FILTER_ALL": "Wszystkie",
-    "STATUS_TABS": [
-      {
-        "NAME": "Otwórz",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Rozwiązano",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Kopalnia",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Nieprzypisane",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Wszystkie",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Kopalnia",
+      "unassigned": "Nieprzypisane",
+      "all": "Wszystkie"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Otwarte"
