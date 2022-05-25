@@ -529,7 +529,7 @@ RSpec.describe Conversation, type: :model do
           expect(conversation.can_reply?).to eq true
         end
 
-        it 'return true without HUMAN_AGENT if it is outside of 24 hour window' do
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
           InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
 
           conversation.update(additional_attributes: { type: 'instagram_direct_message' })
