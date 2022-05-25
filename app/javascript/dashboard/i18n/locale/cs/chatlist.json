@@ -12,33 +12,11 @@
       "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
     },
     "FILTER_ALL": "Vše",
-    "STATUS_TABS": [
-      {
-        "NAME": "Otevřít",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Vyřešeno",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Důl",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Nepřiřazeno",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Vše",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Důl",
+      "unassigned": "Nepřiřazeno",
+      "all": "Vše"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Otevřít"
