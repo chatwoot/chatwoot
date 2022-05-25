@@ -4,7 +4,6 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::Email do
-
   let(:channel) { create(:channel_email) }
 
   describe 'concerns' do

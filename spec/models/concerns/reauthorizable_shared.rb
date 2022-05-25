@@ -16,7 +16,7 @@ shared_examples_for 'reauthorizable' do
     obj = FactoryBot.create(model.to_s.underscore.tr('/', '_').to_sym)
     expect(obj.reauthorization_required?).to eq false
 
-    obj.class::AUTHORIZATION_ERROR_THRESHOLD.times do 
+    obj.class::AUTHORIZATION_ERROR_THRESHOLD.times do
       obj.authorization_error!
     end
 
