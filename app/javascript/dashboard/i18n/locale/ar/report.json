@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "تقارير CSAT",
     "NO_RECORDS": "لا توجد ردود متوفرة على الدراسة الاستقصائية CSAT.",
+    "DOWNLOAD": "تحميل تقرير رضاء خدمة العملاء",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "اختر الوكلاء"
