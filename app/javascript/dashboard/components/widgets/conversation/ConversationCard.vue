@@ -290,8 +290,9 @@ export default {
       this.hovered = false;
     },
     selectConversation(checked) {
-      if (checked) this.$emit('select-conversation', this.chat.id);
-      else this.$emit('de-select-conversation', this.chat.id);
+      if (checked)
+        this.$emit('select-conversation', this.chat.id, this.inbox.id);
+      else this.$emit('de-select-conversation', this.chat.id, this.inbox.id);
     },
   },
 };

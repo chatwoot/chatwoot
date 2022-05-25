@@ -11,6 +11,7 @@
         "ASSIGN_FAILED": "Failed to assign conversations, please try again",
         "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
         "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
-        "ALL_CONVERSATIONS_SELECTED_ALERT": "Only converssation on this page are selected."
+        "ALL_CONVERSATIONS_SELECTED_ALERT": "Only converssation on this page are selected.",
+        "AGENT_LIST_LOADING": "Loading Agents"
     }
 }

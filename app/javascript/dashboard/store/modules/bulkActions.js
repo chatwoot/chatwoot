@@ -14,7 +14,7 @@ export const getters = {
 };
 
 export const actions = {
-  process: async function createAutomation({ commit }, payload) {
+  process: async function processAction({ commit }, payload) {
     commit(types.SET_BULK_ACTIONS_FLAG, { isUpdating: true });
     try {
       await BulkActionsAPI.create(payload);

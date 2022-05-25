@@ -142,6 +142,7 @@
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
       :all-conversations-selected="allConversationsSelected"
+      :selected-inboxes="uniqueInboxes"
       @select-all-conversations="selectAllConversations"
       @assign-agent="onAssignAgent"
       @resolve-conversations="onResolveConversations"
@@ -164,7 +165,7 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
-import ConversationBulkActions from './widgets/conversation/ConversationBulkActions';
+import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Actions.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import {
@@ -218,6 +219,7 @@ export default {
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
       selectedConversations: [],
+      selectedInboxes: [],
     };
   },
   computed: {
@@ -233,6 +235,7 @@ export default {
       conversationStats: 'conversationStats/getStats',
       appliedFilters: 'getAppliedConversationFilters',
       folders: 'customViews/getCustomViews',
+      inboxes: 'inboxes/getInboxes',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -359,6 +362,9 @@ export default {
         JSON.stringify(this.selectedConversations) ===
         JSON.stringify(this.conversationList.map(item => item.id))
       );
+    },
+    uniqueInboxes() {
+      return [...new Set(this.selectedInboxes)];
     },
   },
   watch: {
@@ -540,12 +546,16 @@ export default {
     isConversationSelected(id) {
       return this.selectedConversations.includes(id);
     },
-    selectConversation(id) {
-      this.selectedConversations.push(id);
+    selectConversation(conversationId, inboxId) {
+      this.selectedConversations.push(conversationId);
+      this.selectedInboxes.push(inboxId);
     },
-    deSelectConversation(id) {
+    deSelectConversation(conversationId, inboxId) {
       this.selectedConversations = this.selectedConversations.filter(
-        item => item !== id
+        item => item !== conversationId
+      );
+      this.selectedInboxes = this.selectedConversations.filter(
+        item => item !== inboxId
       );
     },
     selectAllConversations(check) {
