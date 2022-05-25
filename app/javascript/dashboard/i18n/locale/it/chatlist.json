@@ -12,33 +12,11 @@
       "INPUT": "Cerca persone, Chat, risposte salvate .."
     },
     "FILTER_ALL": "Tutti",
-    "STATUS_TABS": [
-      {
-        "NAME": "Aperte",
-        "KEY": "contaaperture"
-      },
-      {
-        "NAME": "Risolti",
-        "KEY": "Conteggio"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mie",
-        "KEY": "Io",
-        "COUNT_KEY": "contaMinore"
-      },
-      {
-        "NAME": "Non assegnato",
-        "KEY": "non assegnato",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Tutti",
-        "KEY": "Tutti",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mie",
+      "unassigned": "Non assegnato",
+      "all": "Tutti"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Aperte"
