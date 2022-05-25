@@ -45,6 +45,16 @@ uk:
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
     default_group_by: день
+    csat:
+      headers:
+        contact_name: Ім'я контакту
+        contact_email_address: Email
+        contact_phone_number: Контактний телефон
+        link_to_the_conversation: Посилання на бесіду
+        agent_name: Ім'я агента
+        rating: Оцінка
+        feedback: Відгук
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
