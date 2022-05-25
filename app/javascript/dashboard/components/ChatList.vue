@@ -243,7 +243,7 @@ export default {
       return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
         const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
         return {
-          key: key,
+          key,
           name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
           count,
         };
