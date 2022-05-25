@@ -12,33 +12,6 @@
       "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
     },
     "FILTER_ALL": "Kaikki",
-    "STATUS_TABS": [
-      {
-        "NAME": "Avaa",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Ratkaistu",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minun",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Osoittamaton",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Kaikki",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Avaa"

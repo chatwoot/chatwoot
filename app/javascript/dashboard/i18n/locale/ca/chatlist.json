@@ -12,33 +12,11 @@
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
     "FILTER_ALL": "Totes",
-    "STATUS_TABS": [
-      {
-        "NAME": "Obrir",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resoltes",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Meves",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Sense assignar",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Totes",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meves",
+      "unassigned": "Sense assignar",
+      "all": "Totes"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Obrir"
