@@ -235,11 +235,16 @@ export default {
       return {};
     },
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
-        const count = this.conversationStats[item.COUNT_KEY] || 0;
+      const ASSIGNEE_TYPE_TAB_KEYS = {
+        me: 'mineCount',
+        unassigned: 'unAssignedCount',
+        all: 'allCount',
+      };
+      return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
+        const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
         return {
-          key: item.KEY,
-          name: item.NAME,
+          key,
+          name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
           count,
         };
       });
