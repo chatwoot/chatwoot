@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapoarte CSAT",
     "NO_RECORDS": "Nu există răspunsuri predefinite disponibile în acest cont.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Alege agenți"
