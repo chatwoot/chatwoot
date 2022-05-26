@@ -7,6 +7,8 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     return unless should_fetch_email?(channel)
 
     process_mail_for_channel(channel)
+    # clearing old failures like timeouts since the mail is now successfully processed
+    channel.reauthorized!
   rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError
     channel.authorization_error!
   rescue StandardError => e
