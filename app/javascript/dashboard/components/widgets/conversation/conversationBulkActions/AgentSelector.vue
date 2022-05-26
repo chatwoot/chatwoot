@@ -1,5 +1,5 @@
 <template>
-  <div class="bulk-action__agents">
+  <div v-on-clickaway="onClose" class="bulk-action__agents">
     <div class="header flex-between">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
       <woot-button
@@ -7,7 +7,7 @@
         variant="clear"
         color-scheme="secondary"
         icon="dismiss"
-        @click="$emit('close')"
+        @click="onClose"
       />
     </div>
     <div class="container">
@@ -77,12 +77,14 @@
 import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner';
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
   },
+  mixins: [clickaway],
   props: {
     selectedInboxes: {
       type: Array,
@@ -106,20 +108,21 @@ export default {
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     filteredAgents() {
-      return this.assignableAgents.filter(agent =>
-        agent.name.toLowerCase().includes(this.query.toLowerCase())
-      );
+      if (this.query) {
+        return this.assignableAgents.filter(agent =>
+          agent.name.toLowerCase().includes(this.query.toLowerCase())
+        );
+      }
+      return this.assignableAgents;
     },
     assignableAgents() {
       return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inboxes[0].id
+        this.selectedInboxes.join(',')
       );
     },
   },
   mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', {
-      inboxId: this.selectedInboxes.join(','),
-    });
+    this.$store.dispatch('inboxAssignableAgents/fetch', this.selectedInboxes);
   },
   methods: {
     submit() {
@@ -130,6 +133,9 @@ export default {
     },
     assignAgent(agent) {
       this.selectedAgent = agent;
+    },
+    onClose() {
+      this.$emit('close');
     },
   },
 };

@@ -96,36 +96,40 @@ export default {
 
 <style scoped lang="scss">
 .flex-between {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
 }
+
 .bulk-action__container {
-  padding: var(--space-normal) var(--space-one);
-  border-top: 1px solid var(--s-100);
   background-color: var(--s-50);
-  position: relative;
+  border-top: 1px solid var(--s-100);
   box-shadow: var(--shadow-bulk-action-container);
+  padding: var(--space-normal) var(--space-one);
+  position: relative;
 }
 
 .bulk-action__panel {
   cursor: pointer;
+
   span {
     font-size: var(--font-size-mini);
     margin-left: var(--space-smaller);
   }
+
   input[type='checkbox'] {
-    margin: var(--space-zero);
     cursor: pointer;
+    margin: var(--space-zero);
   }
 }
+
 .bulk-action__alert {
-  border: 1px solid var(--y-300);
   background-color: var(--y-50);
-  color: var(--y-700);
-  padding: var(--space-half) var(--space-one);
-  font-size: var(--font-size-mini);
   border-radius: var(--border-radius-small);
+  border: 1px solid var(--y-300);
+  color: var(--y-700);
+  font-size: var(--font-size-mini);
   margin-top: var(--space-small);
+  padding: var(--space-half) var(--space-one);
 }
 </style>
