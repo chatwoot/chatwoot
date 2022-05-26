@@ -17,7 +17,7 @@
         "DESC": {
           "LABEL": "描述信息",
           "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "ERROR": "描述是必需的"
         },
         "EVENT": {
           "LABEL": "Event",

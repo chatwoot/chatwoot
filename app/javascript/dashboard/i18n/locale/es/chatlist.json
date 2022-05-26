@@ -14,7 +14,7 @@
     "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
       "me": "Mías",
-      "unassigned": "Unassigned",
+      "unassigned": "Sin asignar",
       "all": "Todos"
     },
     "CHAT_STATUS_FILTER_ITEMS": {

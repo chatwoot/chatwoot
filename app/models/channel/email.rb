@@ -36,6 +36,8 @@ class Channel::Email < ApplicationRecord
   include Channelable
   include Reauthorizable
 
+  AUTHORIZATION_ERROR_THRESHOLD = 10
+
   self.table_name = 'channel_email'
   EDITABLE_ATTRS = [:email, :imap_enabled, :imap_login, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, :imap_inbox_synced_at,
                     :smtp_enabled, :smtp_login, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,

@@ -421,7 +421,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Otvorené",
+      "OPEN": "Otvoriť",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Nepriradené"
     },
