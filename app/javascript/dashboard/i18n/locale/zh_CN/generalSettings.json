@@ -97,7 +97,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "报告",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "会话",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",
       "ADD_LABEL": "Add label to the conversation",
