@@ -7,7 +7,8 @@
 
 set -eu -o pipefail
 trap exit_handler EXIT
-
+pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
+ 
 function exit_handler() {
   if [ "$?" -ne 0 ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
@@ -77,8 +78,7 @@ function configure_rvm() {
 }
 
 function configure_db() {
-  pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
-  sudo -i -u postgres psql << EOF
+ sudo -i -u postgres psql << EOF
   \set pass `echo $pg_pass`
   CREATE USER chatwoot CREATEDB;
   ALTER USER chatwoot PASSWORD :'pass';
