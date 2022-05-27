@@ -97,14 +97,14 @@ gem 'brakeman'
 gem 'ddtrace'
 gem 'newrelic_rpm'
 gem 'scout_apm'
-gem 'sentry-rails'
-gem 'sentry-ruby'
-gem 'sentry-sidekiq'
+gem 'sentry-rails', '~> 5.3'
+gem 'sentry-ruby', '~> 5.3'
+gem 'sentry-sidekiq', '~> 5.3'
 
 ##-- background job processing --##
 gem 'sidekiq', '~> 6.4.0'
 # We want cron jobs
-gem 'sidekiq-cron'
+gem 'sidekiq-cron', '~> 1.3'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -124,6 +124,9 @@ gem 'procore-sift'
 # parse email
 gem 'email_reply_trimmer'
 gem 'html2text'
+
+# to calculate working hours
+gem 'working_hours'
 
 group :production, :staging do
   # we dont want request timing out in development while using byebug

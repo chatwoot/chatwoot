@@ -90,6 +90,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy_async
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
+  has_many :portals, through: :portals_members
 
   before_validation :set_password_and_uid, on: :create
 
@@ -188,10 +189,10 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
-  def notifications_meta
+  def notifications_meta(account_id)
     {
-      unread_count: notifications.where(read_at: nil).count,
-      count: notifications.count
+      unread_count: notifications.where(account_id: account_id, read_at: nil).count,
+      count: notifications.where(account_id: account_id).count
     }
   end
 end

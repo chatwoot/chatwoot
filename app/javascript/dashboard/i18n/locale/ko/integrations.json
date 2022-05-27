@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "통합",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "취소",
+        "DESC": "웹훅 이벤트는 Chatwoot 계정에서 일어나는 일에 대한 실시간 정보를 제공합니다. 콜백을 구성하려면 유효한 URL을 입력하십시오.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "웹훅 URL",
+          "PLACEHOLDER": "예시: https://example/api/webhook",
+          "ERROR": "올바른 URL을 입력하십시오."
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "웹훅 만들기"
+      },
       "TITLE": "웹훅",
       "CONFIGURE": "구성",
       "HEADER": "웹훅 설정",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "수정",
         "TITLE": "Edit webhook",
-        "CANCEL": "취소",
-        "DESC": "웹훅 이벤트는 Chatwoot 계정에서 일어나는 일에 대한 실시간 정보를 제공합니다. 콜백을 구성하려면 유효한 URL을 입력하십시오.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "웹훅 URL",
-            "PLACEHOLDER": "예시: https://example/api/webhook",
-            "ERROR": "올바른 URL을 입력하십시오."
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
         }
       },
       "ADD": {
         "CANCEL": "취소",
         "TITLE": "새 웹훅 추가",
-        "DESC": "웹훅 이벤트는 Chatwoot 계정에서 일어나는 일에 대한 실시간 정보를 제공합니다. 콜백을 구성하려면 유효한 URL을 입력하십시오.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "웹훅 URL",
-            "PLACEHOLDER": "예시: https://example/api/webhook",
-            "ERROR": "올바른 URL을 입력하십시오."
-          },
-          "SUBMIT": "웹훅 만들기"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "웹훅이 성공적으로 추가됨",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "삭제 확인",
-          "MESSAGE": "삭제하시겠습니까? ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "예, 삭제합니다. ",
           "NO": "아니요, 유지합니다."
         }

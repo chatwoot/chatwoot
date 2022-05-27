@@ -25,8 +25,8 @@
       "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Đúng",
+      "FALSE": "Sai"
     },
     "ATTRIBUTES": {
       "STATUS": "Trạng thái",

@@ -54,7 +54,8 @@ RSpec.describe Conversation, type: :model do
     it 'runs after_create callbacks' do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: nil, performed_by: nil)
     end
   end
 
@@ -115,14 +116,21 @@ RSpec.describe Conversation, type: :model do
         assignee: new_assignee,
         label_list: [label.title]
       )
+      status_change = conversation.status_change
+      changed_attributes = conversation.previous_changes
+
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                     changed_attributes: status_change, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                 changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
     end
 
     it 'will not run conversation_updated event for empty updates' do
@@ -481,7 +489,7 @@ RSpec.describe Conversation, type: :model do
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
       it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return false if last incoming message is outside of 24 hour window' do
@@ -492,7 +500,7 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation,
           created_at: Time.now - 25.hours
         )
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return true if last incoming message is inside 24 hour window' do
@@ -503,6 +511,38 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation
         )
         expect(conversation.can_reply?).to eq true
+      end
+
+      context 'when instagram channel' do
+        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq true
+        end
+
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq false
+        end
       end
     end
   end
@@ -515,6 +555,22 @@ RSpec.describe Conversation, type: :model do
     it 'delete associated notifications if conversation is deleted' do
       conversation.destroy!
       expect { notification.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+
+  describe 'validate invalid referer url' do
+    let(:conversation) { create(:conversation, additional_attributes: { referer: 'javascript' }) }
+
+    it 'returns nil' do
+      expect(conversation['additional_attributes']['referer']).to eq(nil)
+    end
+  end
+
+  describe 'validate valid referer url' do
+    let(:conversation) { create(:conversation, additional_attributes: { referer: 'https://www.chatwoot.com/' }) }
+
+    it 'returns nil' do
+      expect(conversation['additional_attributes']['referer']).to eq('https://www.chatwoot.com/')
     end
   end
 end

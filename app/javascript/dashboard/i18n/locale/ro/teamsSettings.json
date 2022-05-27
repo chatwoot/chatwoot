@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Crează o echipă nouă",
     "HEADER": "Echipe",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Echipe</b></p> <p>Echipele vă permit să vă organizați agenții în grupuri în funcție de responsabilitățile lor. <br /> Un agent poate face parte din mai multe echipe. Puteți atribui conversații unei echipe atunci când lucrați în colaborare. </p>",
     "LIST": {
       "404": "Nu există echipe create în acest cont.",
       "EDIT_TEAM": "Editează echipa"
@@ -15,111 +15,111 @@
       "AGENTS": {
         "BUTTON_TEXT": "Adaugă agenți în echipă",
         "TITLE": "Adăugați agenți în echipă - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație."
       },
       "WIZARD": [
         {
           "title": "Creeaza",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "route": "setări_echipă_nou",
+          "body": "Creați o nouă echipă de agenți."
         },
         {
           "title": "Adaugă Agent",
-          "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "route": "setări_echipă_adaugă_agenți",
+          "body": "Adăugați agenți în echipă."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_finish",
+          "title": "Finalizează",
+          "route": "setări_echipă_finalizare",
           "body": "Toate setarile sunt facute!"
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Editarea detaliilor echipei",
+        "DESC": "Editați titlul și descrierea echipei dvs.",
+        "BUTTON_TEXT": "Actualizați echipa"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
+        "BUTTON_TEXT": "Actualizați agenții din echipă",
         "TITLE": "Adăugați agenți în echipă - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "Adăugați agenți în echipa nou creată. Toți agenții adăugați vor fi anunțați atunci când o conversație este atribuită acestei echipe."
       },
       "WIZARD": [
         {
-          "title": "Team details",
-          "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "title": "Detalii despre echipă",
+          "route": "setări_echipă_editează",
+          "body": "Modificați numele, descrierea și alte detalii."
         },
         {
-          "title": "Edit Agents",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "title": "Editarea agenților",
+          "route": "setări_echipă_editează_membrii",
+          "body": "Editați agenții din echipa dvs."
         },
         {
-          "title": "Finish",
-          "route": "settings_teams_edit_finish",
+          "title": "Finalizează",
+          "route": "setări_echipă_editează_finalizare",
           "body": "Toate setarile sunt facute!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Nu a putut salva detaliile echipei. Încearcă din nou."
     },
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "E-MAIL",
       "BUTTON_TEXT": "Adaugă Agent",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Adăugarea agenților în echipa ta...",
+      "SELECT": "selectează",
+      "SELECT_ALL": "selectați toți agenții",
+      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați."
     },
     "ADD": {
       "TITLE": "Adăugați agenți în echipă - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație.",
+      "SELECT": "selectează",
+      "SELECT_ALL": "selectați toți agenții",
+      "SELECTED_COUNT": "%{selected} din %{total} agenți selectați.",
       "BUTTON_TEXT": "Adaugă Agent",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Selectați cel puțin un agent."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Echipa ta e gata!",
+      "MESSAGE": "Acum puteți colabora ca o echipă la conversații. Sprijin fericit ",
+      "BUTTON_TEXT": "Finalizează"
     },
     "DELETE": {
       "BUTTON_TEXT": "Şterge",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Echipa a fost ștearsă cu succes.",
+        "ERROR_MESSAGE": "Nu a putut șterge echipa. Încearcă din nou."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Sunteți sigur că doriți să ștergeți - %{teamName}",
+        "PLACE_HOLDER": "Vă rugăm să tastați {teamName} pentru a confirma",
+        "MESSAGE": "Ștergerea echipei va elimina atribuirea echipei din conversațiile atribuite acestei echipe.",
         "YES": "Şterge ",
         "NO": "Renunță"
       }
     },
     "SETTINGS": "Setări",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Actualizați echipa",
+      "CREATE": "Creați o echipă",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Numele echipei",
+        "PLACEHOLDER": "Exemplu: Vânzări, Asistență clienți"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Descrierea echipei",
+        "PLACEHOLDER": "Scurtă descriere despre această echipă."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Permiteți atribuirea automată pentru această echipă."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Creați o echipă"
     }
   }
 }

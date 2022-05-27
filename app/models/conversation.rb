@@ -2,27 +2,28 @@
 #
 # Table name: conversations
 #
-#  id                    :integer          not null, primary key
-#  additional_attributes :jsonb
-#  agent_last_seen_at    :datetime
-#  assignee_last_seen_at :datetime
-#  contact_last_seen_at  :datetime
-#  custom_attributes     :jsonb
-#  identifier            :string
-#  last_activity_at      :datetime         not null
-#  snoozed_until         :datetime
-#  status                :integer          default("open"), not null
-#  uuid                  :uuid             not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
-#  assignee_id           :integer
-#  campaign_id           :bigint
-#  contact_id            :bigint
-#  contact_inbox_id      :bigint
-#  display_id            :integer          not null
-#  inbox_id              :integer          not null
-#  team_id               :bigint
+#  id                     :integer          not null, primary key
+#  additional_attributes  :jsonb
+#  agent_last_seen_at     :datetime
+#  assignee_last_seen_at  :datetime
+#  contact_last_seen_at   :datetime
+#  custom_attributes      :jsonb
+#  first_reply_created_at :datetime
+#  identifier             :string
+#  last_activity_at       :datetime         not null
+#  snoozed_until          :datetime
+#  status                 :integer          default("open"), not null
+#  uuid                   :uuid             not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  assignee_id            :integer
+#  campaign_id            :bigint
+#  contact_id             :bigint
+#  contact_inbox_id       :bigint
+#  display_id             :integer          not null
+#  inbox_id               :integer          not null
+#  team_id                :bigint
 #
 # Indexes
 #
@@ -31,6 +32,8 @@
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
+#  index_conversations_on_first_reply_created_at      (first_reply_created_at)
+#  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_team_id                     (team_id)
 #
@@ -46,12 +49,14 @@ class Conversation < ApplicationRecord
   include AssignmentHandler
   include RoundRobinHandler
   include ActivityMessageHandler
+  include UrlHelper
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
@@ -88,13 +93,35 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
-    return true unless inbox&.channel&.has_24_hour_messaging_window?
+    return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
-    last_incoming_message = messages.incoming.last
+    return true unless inbox&.channel&.has_24_hour_messaging_window?
 
     return false if last_incoming_message.nil?
 
+    last_message_less_than_24_hrs?
+  end
+
+  def last_incoming_message
+    messages&.incoming&.last
+  end
+
+  def last_message_less_than_24_hrs?
+    return false if last_incoming_message.nil?
+
     Time.current < last_incoming_message.created_at + 24.hours
+  end
+
+  def can_reply_on_instagram?
+    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+
+    return false if last_incoming_message.nil?
+
+    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+      Time.current < last_incoming_message.created_at + 7.days
+    else
+      last_message_less_than_24_hrs?
+    end
   end
 
   def update_assignee(agent = nil)
@@ -188,7 +215,7 @@ class Conversation < ApplicationRecord
     return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
                                                                                 custom_attributes]).present?
 
-    dispatcher_dispatch(CONVERSATION_UPDATED)
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
   def self_assign?(assignee_id)
@@ -207,14 +234,14 @@ class Conversation < ApplicationRecord
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event)
+      condition.call && dispatcher_dispatch(event, status_change)
     end
   end
 
-  def dispatcher_dispatch(event_name)
-    return if Current.executed_by.present? && Current.executed_by.instance_of?(AutomationRule)
-
-    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?)
+  def dispatcher_dispatch(event_name, changed_attributes = nil)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
+                                                                       changed_attributes: changed_attributes,
+                                                                       performed_by: Current.executed_by)
   end
 
   def conversation_status_changed_to_open?
@@ -239,6 +266,12 @@ class Conversation < ApplicationRecord
 
   def mute_period
     6.hours
+  end
+
+  def validate_referer_url
+    return unless additional_attributes['referer']
+
+    self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
   end
 
   # creating db triggers

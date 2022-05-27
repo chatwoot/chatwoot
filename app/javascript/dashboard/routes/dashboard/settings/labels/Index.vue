@@ -72,7 +72,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('LABEL_MGMT.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('LABEL_MGMT.SIDEBAR_TXT')"></span>
       </div>
     </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">

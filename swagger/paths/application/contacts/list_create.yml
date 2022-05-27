@@ -1,6 +1,6 @@
 get:
   tags:
-    - Contact
+    - Contacts
   operationId: contactList
   description: Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number
   summary: List Contacts
@@ -20,7 +20,7 @@ get:
 
 post:
   tags:
-    - Contact
+    - Contacts
   operationId: contactCreate
   description: Create a new Contact
   summary: Create Contact

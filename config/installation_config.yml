@@ -59,3 +59,6 @@
 - name: DISABLE_USER_PROFILE_UPDATE
   value: false
   locked: false
+- name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
+  value: false
+  locked: false

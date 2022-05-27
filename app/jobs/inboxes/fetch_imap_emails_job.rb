@@ -7,11 +7,13 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     return unless should_fetch_email?(channel)
 
     process_mail_for_channel(channel)
+    # clearing old failures like timeouts since the mail is now successfully processed
+    channel.reauthorized!
   rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError
     channel.authorization_error!
   rescue StandardError => e
     channel.authorization_error!
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end
 
   private
@@ -26,7 +28,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Mail.defaults do
       retriever_method :imap, address: channel.imap_address,
                               port: channel.imap_port,
-                              user_name: channel.imap_email,
+                              user_name: channel.imap_login,
                               password: channel.imap_password,
                               enable_ssl: channel.imap_enable_ssl
     end

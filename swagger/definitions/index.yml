@@ -14,6 +14,8 @@ generic_id:
   $ref: ./resource/extension/generic.yml
 canned_response:
   $ref: ./resource/canned_response.yml
+custom_attribute:
+  $ref: ./resource/custom_attribute.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
@@ -34,6 +36,8 @@ contactable_inboxes:
   $ref: ./resource/contactable_inboxes.yml
 custom_filter:
   $ref: ./resource/custom_filter.yml
+webhook:
+  $ref: ./resource/webhook.yml
 account:
   $ref: ./resource/account.yml
 platform_account:
@@ -69,6 +73,8 @@ user_create_update_payload:
 canned_response_create_update_payload:
   $ref: ./request/canned_response/create_update_payload.yml
 
+custom_attribute_create_update_payload:
+  $ref: ./request/custom_attribute/create_update_payload.yml
 ## contact
 contact_create:
   $ref: ./request/contact/create.yml
@@ -86,6 +92,9 @@ team_create_update_payload:
 # Custom Filter request Payload
 custom_filter_create_update_payload:
   $ref: ./request/custom_filter/create_update_payload.yml
+
+webhook_create_update_payload:
+  $ref: ./request/webhooks/create_update_payload.yml
 
 integrations_hook_create_payload:
   $ref: ./request/integrations/hook_create_payload.yml
@@ -154,6 +163,3 @@ account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
-    
-    
-
