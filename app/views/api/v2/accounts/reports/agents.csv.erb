@@ -6,14 +6,7 @@
   ]
 %>
 <%= CSV.generate_line headers -%>
-<% Current.account.users.each do |agent| %>
-  <% agent_report = V2::ReportBuilder.new(Current.account, {
-        type: :agent,
-        id: agent.id,
-        since: params[:since],
-        until: params[:until]
-      }).summary %>
-  <% row = [ agent.name, agent_report[:conversations_count], (agent_report[:avg_first_response_time]/60).to_i, (agent_report[:avg_resolution_time]/60).to_i ] %>
+<% @report_data.each do |row| %>
 <%= CSV.generate_line row -%>
 <% end %>
 <%= CSV.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>

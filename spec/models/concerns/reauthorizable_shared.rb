@@ -12,12 +12,22 @@ shared_examples_for 'reauthorizable' do
     expect(obj.authorization_error_count).to eq 1
   end
 
+  it 'prompts reauthorization when error threshold is passed' do
+    obj = FactoryBot.create(model.to_s.underscore.tr('/', '_').to_sym)
+    expect(obj.reauthorization_required?).to eq false
+
+    obj.class::AUTHORIZATION_ERROR_THRESHOLD.times do
+      obj.authorization_error!
+    end
+
+    expect(obj.reauthorization_required?).to eq true
+  end
+
   it 'prompt_reauthorization!' do
     obj = FactoryBot.create(model.to_s.underscore.tr('/', '_').to_sym)
     expect(obj.reauthorization_required?).to eq false
 
     obj.prompt_reauthorization!
-
     expect(obj.reauthorization_required?).to eq true
   end
 
