@@ -103,8 +103,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.0.2"
-  rvm use 3.0.2 --default
+  rvm install "ruby-3.0.4"
+  rvm use 3.0.4 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
@@ -236,7 +236,7 @@ EOF
   configure_systemd_services &>> "${LOG_FILE}"
 
   public_ip=$(curl http://checkip.amazonaws.com -s)
-  
+
   if [ "$configure_webserver" != "yes" ]
   then
     cat << EOF
@@ -245,7 +245,7 @@ EOF
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
-To configure a domain and SSL certificate, follow the guide at 
+To configure a domain and SSL certificate, follow the guide at
 https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
 
 Join the community at https://chatwoot.com/community
