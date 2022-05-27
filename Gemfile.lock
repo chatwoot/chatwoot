@@ -752,7 +752,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.0.2p107
+   ruby 3.0.4p208
 
 BUNDLED WITH
    2.3.10
