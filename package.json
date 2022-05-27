@@ -114,7 +114,7 @@
     "lint-staged": "10.5.4",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "vue-jest": "3.0.7",
+    "vue-jest": "4",
     "webpack-dev-server": "3.11.2"
   },
   "engines": {
