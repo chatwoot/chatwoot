@@ -404,6 +404,7 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
+      this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
@@ -519,12 +520,17 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        this.resetBulkActions();
         bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
         }
       }
+    },
+    resetBulkActions() {
+      this.selectedConversations = [];
+      this.selectedInboxes = [];
     },
     updateStatusType(index) {
       if (this.activeStatus !== index) {
