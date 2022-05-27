@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "گزارشات رضایت مشتری",
     "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
+    "DOWNLOAD": "دانلود گزارش CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "ایجنت را انتخاب کنید"

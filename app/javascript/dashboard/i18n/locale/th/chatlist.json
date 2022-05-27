@@ -12,33 +12,11 @@
       "INPUT": "ค้นหาผู้คน, เเชท, หรือการตอบกลับ"
     },
     "FILTER_ALL": "ทั้งหมด",
-    "STATUS_TABS": [
-      {
-        "NAME": "เปิด",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "เสร็จสิ้น",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "ของฉัน",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "ไม่ได้รับมอบหมาย",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "ทั้งหมด",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "ของฉัน",
+      "unassigned": "ไม่ได้รับมอบหมาย",
+      "all": "ทั้งหมด"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "เปิด"
