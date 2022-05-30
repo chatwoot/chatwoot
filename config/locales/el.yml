@@ -39,6 +39,17 @@ el:
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    inbox_csv:
+      inbox_name: Όνομα Κιβωτίου
+      inbox_type: Τύπος κιβωτίου εισερχόμενων
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    label_csv:
+      label_title: Ετικέτα
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
     team_csv:
       team_name: Όνομα ομάδας
       conversations_count: Αριθμός συνομιλιών
