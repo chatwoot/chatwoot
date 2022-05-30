@@ -39,6 +39,17 @@ ro:
       conversations_count: Conversațiile contează
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg primul timp de răspuns (minute)
+      avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg primul timp de răspuns (minute)
+      avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     team_csv:
       team_name: Numele echipei
       conversations_count: Conversațiile contează

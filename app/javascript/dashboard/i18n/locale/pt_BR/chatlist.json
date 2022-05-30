@@ -12,33 +12,11 @@
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
     "FILTER_ALL": "Todos",
-    "STATUS_TABS": [
-      {
-        "NAME": "Abertas",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resolvida",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minha",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Não atribuída",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Todos",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minha",
+      "unassigned": "Não atribuída",
+      "all": "Todos"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Abertas"

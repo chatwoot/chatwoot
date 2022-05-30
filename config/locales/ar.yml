@@ -39,6 +39,17 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
       avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    label_csv:
+      label_title: الوسم
+      conversations_count: No. of conversations
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
