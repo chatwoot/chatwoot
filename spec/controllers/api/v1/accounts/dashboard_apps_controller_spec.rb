@@ -54,7 +54,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/dashboard_apps' do
-    let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', link: 'https://link.com' }] } } }
+    let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -83,7 +83,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/dashboard_apps/:id' do
-    let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', link: 'https://link.com' }] } } }
+    let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
     let(:user) { create(:user, account: account) }
     let!(:dashboard_app) { create(:dashboard_app, user: user, account: account) }
 

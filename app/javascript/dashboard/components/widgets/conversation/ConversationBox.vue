@@ -6,7 +6,21 @@
       :is-contact-panel-open="isContactPanelOpen"
       @contact-panel-toggle="onToggleContactPanel"
     />
-    <div class="messages-and-sidebar">
+    <woot-tabs
+      v-if="dashboardApps.length && currentChat.id"
+      :index="activeIndex"
+      class="tab-bg"
+      @change="onDashboardAppTabChange"
+    >
+      <woot-tabs-item
+        v-for="item in items"
+        :key="item.key"
+        :name="item.name"
+        :count="item.count"
+        :show-badge="false"
+      />
+    </woot-tabs>
+    <div v-if="!activeIndex" class="messages-and-sidebar">
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
@@ -14,7 +28,6 @@
         @contact-panel-toggle="onToggleContactPanel"
       />
       <empty-state v-else />
-
       <div v-show="showContactPanel" class="conversation-sidebar-wrap">
         <contact-panel
           v-if="showContactPanel"
@@ -24,21 +37,27 @@
         />
       </div>
     </div>
+    <dashboard-app-frame
+      v-else
+      :config="dashboardApps[activeIndex - 1].content"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
 import ConversationHeader from './ConversationHeader';
+import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState';
 import MessagesView from './MessagesView';
 
 export default {
   components: {
-    EmptyState,
-    MessagesView,
     ContactPanel,
     ConversationHeader,
+    DashboardAppFrame,
+    EmptyState,
+    MessagesView,
   },
 
   props: {
@@ -52,8 +71,23 @@ export default {
       default: true,
     },
   },
+  data() {
+    return { activeIndex: 0 };
+  },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      dashboardApps: 'dashboardApps/getRecords',
+    }),
+    items() {
+      return [
+        { key: 'messages', name: 'Messages' },
+        ...this.dashboardApps.map(dashboardApp => ({
+          key: `dashboard-${dashboardApp.id}`,
+          name: dashboardApp.title,
+        })),
+      ];
+    },
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
     },
@@ -70,6 +104,7 @@ export default {
   },
   mounted() {
     this.fetchLabels();
+    this.$store.dispatch('dashboardApps/get');
   },
   methods: {
     fetchLabels() {
@@ -80,6 +115,9 @@ export default {
     },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
+    },
+    onDashboardAppTabChange(index) {
+      this.activeIndex = index;
     },
   },
 };
@@ -94,6 +132,11 @@ export default {
   width: 100%;
   border-left: 1px solid var(--color-border);
   background: var(--color-background-light);
+}
+
+.tab-bg {
+  background: var(--white);
+  margin-top: -1px;
 }
 
 .messages-and-sidebar {
