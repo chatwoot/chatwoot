@@ -13,9 +13,9 @@
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
-        v-for="item in items"
-        :key="item.key"
-        :name="item.name"
+        v-for="tab in dashboardAppTabs"
+        :key="tab.key"
+        :name="tab.name"
         :show-badge="false"
       />
     </woot-tabs>
@@ -80,9 +80,12 @@ export default {
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
-    items() {
+    dashboardAppTabs() {
       return [
-        { key: 'messages', name: 'Messages' },
+        {
+          key: 'messages',
+          name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
+        },
         ...this.dashboardApps.map(dashboardApp => ({
           key: `dashboard-${dashboardApp.id}`,
           name: dashboardApp.title,
