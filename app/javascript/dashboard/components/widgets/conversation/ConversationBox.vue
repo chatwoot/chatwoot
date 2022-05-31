@@ -9,14 +9,13 @@
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="tab-bg"
+      class="dashboard-app--tabs"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
         v-for="item in items"
         :key="item.key"
         :name="item.name"
-        :count="item.count"
         :show-badge="false"
       />
     </woot-tabs>
@@ -136,7 +135,7 @@ export default {
   background: var(--color-background-light);
 }
 
-.tab-bg {
+.dashboard-app--tabs {
   background: var(--white);
   margin-top: -1px;
 }
