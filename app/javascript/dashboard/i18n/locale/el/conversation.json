@@ -30,6 +30,7 @@
     "REPLYING_TO": "Απαντάτε στο:",
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
     "DOWNLOAD": "Κατέβασμα",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
     "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
