@@ -6,7 +6,7 @@
       class="dashboard-app--list"
     >
       <iframe
-        v-if="configItem.type === 'frame'"
+        v-if="configItem.type === 'frame' && configItem.url"
         :id="`dashboard-app--frame-${index}`"
         :src="configItem.url"
         @load="() => onIframeLoad(index)"

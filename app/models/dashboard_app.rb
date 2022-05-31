@@ -23,4 +23,27 @@
 class DashboardApp < ApplicationRecord
   belongs_to :user
   belongs_to :account
+  validate :validate_content
+
+  private
+
+  def validate_content
+    has_invalid_data = self[:content].blank? || !self[:content].is_a?(Array)
+    self[:content] = [] if has_invalid_data
+
+    content_schema = {
+      'type' => 'array',
+      'items' => {
+        'type' => 'object',
+        'required' => %w[url type],
+        'properties' => {
+          'type' => { 'enum': ['frame'] },
+          'url' => { 'type': 'string', 'format' => 'uri' }
+        }
+      },
+      'additionalProperties' => false,
+      'minItems' => 1
+    }
+    errors.add(:content, ': Invalid data') unless JSONSchemer.schema(content_schema.to_json).valid?(self[:content])
+  end
 end

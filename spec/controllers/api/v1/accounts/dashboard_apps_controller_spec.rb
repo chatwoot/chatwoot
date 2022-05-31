@@ -55,6 +55,8 @@ RSpec.describe 'DashboardAppsController', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/dashboard_apps' do
     let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
+    let(:invalid_type_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'dda', url: 'https://link.com' }] } } }
+    let(:invalid_url_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'com' }] } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -78,6 +80,26 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(json_response['title']).to eq 'CRM Dashboard'
         expect(json_response['content'][0]['link']).to eq payload[:dashboard_app][:content][0][:link]
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
+      end
+
+      it 'does not create the dashboard app if invalid URL' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
+                                                                params: invalid_url_payload
+        end.to change(DashboardApp, :count).by(0)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eq 'Content : Invalid data'
+      end
+
+      it 'does not create the dashboard app if invalid type' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
+                                                                params: invalid_type_payload
+        end.to change(DashboardApp, :count).by(0)
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
