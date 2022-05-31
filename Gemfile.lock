@@ -182,6 +182,7 @@ GEM
       regexp_parser (~> 2.2)
     email_reply_trimmer (0.1.13)
     erubi (1.10.0)
+    erubis (2.7.0)
     et-orbi (1.2.7)
       tzinfo
     execjs (2.8.1)
@@ -203,8 +204,8 @@ GEM
       faraday (~> 1)
     ffi (1.15.5)
     flag_shih_tzu (0.3.23)
-    flay (2.13.0)
-      erubi (~> 1.10)
+    flay (2.12.1)
+      erubis (~> 2.7.0)
       path_expander (~> 1.0)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
@@ -754,4 +755,4 @@ RUBY VERSION
    ruby 3.0.4p208
 
 BUNDLED WITH
-   2.3.9
+   2.3.10
