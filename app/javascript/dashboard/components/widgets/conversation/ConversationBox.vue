@@ -39,7 +39,9 @@
     </div>
     <dashboard-app-frame
       v-else
+      :key="currentChat.id"
       :config="dashboardApps[activeIndex - 1].content"
+      :current-chat="currentChat"
     />
   </div>
 </template>
