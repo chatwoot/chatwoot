@@ -10,6 +10,19 @@ const lowerCaseValues = (operator, values) => {
   return values;
 };
 
+const generateObjectTypeValues = values => {
+  if (
+    Object.prototype.hasOwnProperty.call(values, 'from') &&
+    Object.prototype.hasOwnProperty.call(values, 'to')
+  ) {
+    return {
+      from: values.from,
+      to: values.to,
+    };
+  }
+  return values.id;
+};
+
 const generatePayload = data => {
   // Make a copy of data to avoid vue data reactivity issues
   const filters = JSON.parse(JSON.stringify(data));
@@ -17,7 +30,7 @@ const generatePayload = data => {
     if (Array.isArray(item.values)) {
       item.values = item.values.map(val => val.id);
     } else if (typeof item.values === 'object') {
-      item.values = [item.values.id];
+      item.values = generateObjectTypeValues(item.values);
     } else if (!item.values) {
       item.values = [];
     } else {

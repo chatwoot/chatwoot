@@ -163,7 +163,11 @@ export default {
       this.automation.conditions[index].values = '';
     },
     showUserInput(type) {
-      return !(type === 'is_present' || type === 'is_not_present');
+      return !(
+        type === 'is_present' ||
+        type === 'is_not_present' ||
+        type === 'attribute_changed'
+      );
     },
     showActionInput(action) {
       if (action === 'send_email_to_team' || action === 'send_message')
@@ -293,6 +297,9 @@ export default {
       this.automationTypes.conversation_updated.conditions.push(
         ...manifestedCustomAttributes
       );
+    },
+    isOperatorTypeChange(type) {
+      return type === 'attribute_changed';
     },
   },
 };

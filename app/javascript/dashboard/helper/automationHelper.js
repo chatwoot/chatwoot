@@ -72,8 +72,15 @@ export const getOperatorTypes = key => {
     date: OPERATOR_TYPES_4,
     checkbox: OPERATOR_TYPES_1,
   };
-
-  return operatorMap[key] || OPERATOR_TYPES_1;
+  const attributeChangesOp = {
+    value: 'attribute_changed',
+    label: 'Attribute changed',
+  };
+  const operators = [
+    ...(operatorMap[key] || OPERATOR_TYPES_1),
+    attributeChangesOp,
+  ];
+  return operators;
 };
 
 export const generateCustomAttributeTypes = (customAttributes, type) => {

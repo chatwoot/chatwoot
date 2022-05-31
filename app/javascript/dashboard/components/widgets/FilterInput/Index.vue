@@ -1,111 +1,125 @@
 <template>
   <div class="filters">
     <div class="filter" :class="{ error: v.values.$dirty && v.values.$error }">
-      <div class="filter-inputs">
-        <select
-          v-if="groupedFilters"
-          v-model="attributeKey"
-          class="filter__question"
-          @change="resetFilter()"
-        >
-          <optgroup
-            v-for="(group, i) in filterGroups"
-            :key="i"
-            :label="group.name"
+      <div class="filter-container">
+        <div class="filter-inputs">
+          <select
+            v-if="groupedFilters"
+            v-model="attributeKey"
+            class="filter__question"
+            @change="resetFilter()"
+          >
+            <optgroup
+              v-for="(group, i) in filterGroups"
+              :key="i"
+              :label="group.name"
+            >
+              <option
+                v-for="attribute in group.attributes"
+                :key="attribute.key"
+                :value="attribute.key"
+              >
+                {{ attribute.name }}
+              </option>
+            </optgroup>
+          </select>
+          <select
+            v-else
+            v-model="attributeKey"
+            class="filter__question"
+            :class="{ 'filter__question--fill-width': !showUserInput }"
+            @change="resetFilter()"
           >
             <option
-              v-for="attribute in group.attributes"
+              v-for="attribute in filterAttributes"
               :key="attribute.key"
               :value="attribute.key"
+              :disabled="attribute.disabled"
             >
               {{ attribute.name }}
             </option>
-          </optgroup>
-        </select>
-        <select
-          v-else
-          v-model="attributeKey"
-          class="filter__question"
-          @change="resetFilter()"
-        >
-          <option
-            v-for="attribute in filterAttributes"
-            :key="attribute.key"
-            :value="attribute.key"
-            :disabled="attribute.disabled"
-          >
-            {{ attribute.name }}
-          </option>
-        </select>
+          </select>
 
-        <select v-model="filterOperator" class="filter__operator">
-          <option
-            v-for="(operator, o) in operators"
-            :key="o"
-            :value="operator.value"
+          <select
+            v-model="filterOperator"
+            class="filter__operator"
+            :class="{ 'filter__operator--fill-width': !showUserInput }"
           >
-            {{ $t(`FILTER.OPERATOR_LABELS.${operator.value}`) }}
-          </option>
-        </select>
+            <option
+              v-for="(operator, o) in operators"
+              :key="o"
+              :value="operator.value"
+            >
+              {{ $t(`FILTER.OPERATOR_LABELS.${operator.value}`) }}
+            </option>
+          </select>
 
-        <div v-if="showUserInput" class="filter__answer--wrap">
-          <div
-            v-if="inputType === 'multi_select'"
-            class="multiselect-wrap--small"
-          >
-            <multiselect
-              v-model="values"
-              track-by="id"
-              label="name"
-              :placeholder="'Select'"
-              :multiple="true"
-              selected-label
-              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-              deselect-label=""
-              :max-height="160"
-              :options="dropdownValues"
-              :allow-empty="false"
-            />
-          </div>
-          <div
-            v-else-if="inputType === 'search_select'"
-            class="multiselect-wrap--small"
-          >
-            <multiselect
-              v-model="values"
-              track-by="id"
-              label="name"
-              :placeholder="'Select'"
-              selected-label
-              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-              deselect-label=""
-              :max-height="160"
-              :options="dropdownValues"
-              :allow-empty="false"
-              :option-height="104"
-            />
-          </div>
-          <div v-else-if="inputType === 'date'" class="multiselect-wrap--small">
+          <div v-if="showUserInput" class="filter__answer--wrap">
+            <div
+              v-if="inputType === 'multi_select'"
+              class="multiselect-wrap--small"
+            >
+              <multiselect
+                v-model="values"
+                track-by="id"
+                label="name"
+                :placeholder="'Select'"
+                :multiple="true"
+                selected-label
+                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                deselect-label=""
+                :max-height="160"
+                :options="dropdownValues"
+                :allow-empty="false"
+              />
+            </div>
+            <div
+              v-else-if="inputType === 'search_select'"
+              class="multiselect-wrap--small"
+            >
+              <multiselect
+                v-model="values"
+                track-by="id"
+                label="name"
+                :placeholder="'Select'"
+                selected-label
+                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                deselect-label=""
+                :max-height="160"
+                :options="dropdownValues"
+                :allow-empty="false"
+                :option-height="104"
+              />
+            </div>
+            <div
+              v-else-if="inputType === 'date'"
+              class="multiselect-wrap--small"
+            >
+              <input
+                v-model="values"
+                type="date"
+                :editable="false"
+                class="answer--text-input datepicker"
+              />
+            </div>
             <input
+              v-else
               v-model="values"
-              type="date"
-              :editable="false"
-              class="answer--text-input datepicker"
+              type="text"
+              class="answer--text-input"
+              placeholder="Enter value"
             />
           </div>
-          <input
-            v-else
-            v-model="values"
-            type="text"
-            class="answer--text-input"
-            placeholder="Enter value"
+          <woot-button
+            icon="dismiss"
+            variant="clear"
+            color-scheme="secondary"
+            @click="removeFilter"
           />
         </div>
-        <woot-button
-          icon="dismiss"
-          variant="clear"
-          color-scheme="secondary"
-          @click="removeFilter"
+        <attribute-change-input
+          v-if="operatorTypeAttrChange"
+          v-model="values"
         />
       </div>
       <p v-if="v.values.$dirty && v.values.$error" class="filter-error">
@@ -128,7 +142,11 @@
 </template>
 
 <script>
+import attributeChangeInput from './AttributeChangeInput.vue';
 export default {
+  components: {
+    attributeChangeInput,
+  },
   props: {
     value: {
       type: Object,
@@ -177,6 +195,10 @@ export default {
     customAttributeType: {
       type: String,
       default: '',
+    },
+    operatorTypeAttrChange: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -284,10 +306,16 @@ export default {
 
 .filter__question {
   max-width: 30%;
+  &.filter__question--fill-width {
+    max-width: 50%;
+  }
 }
 
 .filter__operator {
   max-width: 20%;
+  &.filter__operator--fill-width {
+    max-width: 50%;
+  }
 }
 
 .filter__answer--wrap {

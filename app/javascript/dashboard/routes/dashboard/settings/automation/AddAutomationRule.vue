@@ -68,8 +68,11 @@
                 )
               "
               :show-query-operator="i !== automation.conditions.length - 1"
-              :custom-attribute-type="
-                getCustomAttributeType(automation.conditions[i].attribute_key)
+              :show-user-input="
+                showUserInput(automation.conditions[i].filter_operator)
+              "
+              :operator-type-attr-change="
+                isOperatorTypeChange(automation.conditions[i].filter_operator)
               "
               :v="$v.automation.conditions.$each[i]"
               @resetFilter="resetFilter(i, automation.conditions[i])"
