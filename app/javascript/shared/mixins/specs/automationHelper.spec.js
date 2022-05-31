@@ -187,6 +187,7 @@ describe('automationMethodsMixin', () => {
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
+        custom_attribute_type: '',
       },
     ];
     const genericConditionModel = [
@@ -195,6 +196,7 @@ describe('automationMethodsMixin', () => {
         filter_operator: 'equal_to',
         values: '',
         query_operator: 'and',
+        custom_attribute_type: '',
       },
     ];
     expect(helpers.getDefaultConditions('message_created')).toEqual(

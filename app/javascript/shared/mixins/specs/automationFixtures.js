@@ -656,6 +656,7 @@ export const automationToSubmit = {
       filter_operator: 'equal_to',
       values: [{ id: 'open', name: 'Open' }],
       query_operator: 'and',
+      custom_attribute_type: '',
     },
   ],
   actions: [

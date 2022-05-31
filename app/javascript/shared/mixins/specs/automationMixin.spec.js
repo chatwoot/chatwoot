@@ -193,6 +193,7 @@ describe('automationMethodsMixin', () => {
       filter_operator: 'equal_to',
       values: '',
       query_operator: 'and',
+      custom_attribute_type: '',
     };
     const data = () => {
       return {
@@ -287,24 +288,7 @@ describe('automationMethodsMixin', () => {
       filter_operator: 'equal_to',
       values: '',
       query_operator: 'and',
-    };
-    const wrapper = createComponent([methodsMixin], data);
-    wrapper.vm.resetFilter(0, automationToSubmit.conditions[0]);
-    expect(automation.conditions[0]).toEqual(conditionAfterReset);
-  });
-
-  it('resetFilter resets the current automation conditions', () => {
-    const data = () => {
-      return {
-        automation: automationToSubmit,
-        automationTypes: AUTOMATIONS,
-      };
-    };
-    const conditionAfterReset = {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: '',
-      query_operator: 'and',
+      custom_attribute_type: '',
     };
     const wrapper = createComponent([methodsMixin], data);
     wrapper.vm.resetFilter(0, automationToSubmit.conditions[0]);
