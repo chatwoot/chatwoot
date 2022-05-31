@@ -39,6 +39,17 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
     team_csv:
       team_name: Nama Tim
       conversations_count: Jumlah percakapan

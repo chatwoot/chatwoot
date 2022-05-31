@@ -39,6 +39,17 @@ fr:
       conversations_count: Nombre de conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Temps de réponse moyen (Minutes)
+      avg_resolution_time: Temps moyen de résolution (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Temps de réponse moyen (Minutes)
+      avg_resolution_time: Temps moyen de résolution (Minutes)
     team_csv:
       team_name: Nom de l'équipe
       conversations_count: Nombre de conversations

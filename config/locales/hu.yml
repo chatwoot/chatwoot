@@ -39,6 +39,17 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Átlagos első reakcióidő (perc)
+      avg_resolution_time: Átlagos megoldási idő (perc)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Átlagos első reakcióidő (perc)
+      avg_resolution_time: Átlagos megoldási idő (perc)
     team_csv:
       team_name: Csapatnév
       conversations_count: Beszélgetésszám
