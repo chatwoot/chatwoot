@@ -30,6 +30,7 @@
     "REPLYING_TO": "Ви відповідаєте:",
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
