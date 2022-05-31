@@ -30,6 +30,7 @@
     "REPLYING_TO": "Estas responent a:",
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
