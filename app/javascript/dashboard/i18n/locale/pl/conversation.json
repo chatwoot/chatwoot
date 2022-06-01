@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Wybierz rozmowę z lewej strony",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Tożsamość tego użytkownika nie jest zweryfikowana",
     "NO_MESSAGE_1": "Ups! Wygląda na to, że nie ma wiadomości od klientów w Twojej skrzynce odbiorczej.",
     "NO_MESSAGE_2": " aby wysłać wiadomość na swoją stronę!",
