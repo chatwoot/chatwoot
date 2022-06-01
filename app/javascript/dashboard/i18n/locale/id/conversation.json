@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Pilih percakapan dari panel kiri",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
     "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
