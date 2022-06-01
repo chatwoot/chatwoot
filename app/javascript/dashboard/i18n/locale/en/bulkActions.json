@@ -2,7 +2,7 @@
     "BULK_ACTION": {
         "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
         "AGENT_SELECT_LABEL": "Select Agent",
-        "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} conversations to",
+        "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
         "GO_BACK_LABEL": "Go back",
         "ASSIGN_LABEL": "Assign",
         "ASSIGN_AGENT_TOOLTIP": "Assign Agent",

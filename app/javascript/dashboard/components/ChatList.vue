@@ -470,6 +470,7 @@ export default {
       }
     },
     resetAndFetchData() {
+      this.resetBulkActions();
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');

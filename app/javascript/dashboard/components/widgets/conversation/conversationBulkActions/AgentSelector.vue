@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="onClose" class="bulk-action__agents">
+  <div class="bulk-action__agents">
     <div class="header flex-between">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
       <woot-button
@@ -15,7 +15,7 @@
         <spinner />
         <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
       </div>
-      <div v-else>
+      <div v-else class="agent__list-container">
         <ul v-if="!selectedAgent">
           <li class="search-container">
             <div class="agent-list-search flex-between">
@@ -44,7 +44,10 @@
         <div v-else class="agent-confirmation-container">
           <p>
             {{
-              $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', { conversationCount })
+              $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
+                conversationCount,
+                conversationLabel,
+              })
             }}
             <strong>
               {{ selectedAgent.name }}
@@ -120,6 +123,9 @@ export default {
         this.selectedInboxes.join(',')
       );
     },
+    conversationLabel() {
+      return this.conversationCount > 1 ? 'conversations' : 'conversation';
+    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', this.selectedInboxes);
@@ -167,7 +173,9 @@ export default {
   .container {
     height: 240px;
     overflow-y: auto;
-
+    .agent__list-container {
+      height: 100%;
+    }
     .agent-list-search {
       padding: 0 var(--space-one);
       border: 1px solid var(--s-100);
