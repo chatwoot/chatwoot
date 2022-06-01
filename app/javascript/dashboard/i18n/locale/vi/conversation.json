@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Danh tính của người dùng này không được xác thực",
     "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
     "NO_MESSAGE_2": " gửi tin nhắn đến trang của bạn!",
