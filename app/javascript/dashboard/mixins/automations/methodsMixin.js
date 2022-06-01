@@ -263,11 +263,11 @@ export default {
 
       const conversationCustomAttributeTypes = generateCustomAttributeTypes(
         conversationCustomAttributesRaw,
-        'conversation'
+        'conversation_attribute'
       );
       const contactCustomAttributeTypes = generateCustomAttributeTypes(
         contactCustomAttributesRaw,
-        'contact'
+        'contact_attribute'
       );
 
       const manifestedCustomAttributes = [
