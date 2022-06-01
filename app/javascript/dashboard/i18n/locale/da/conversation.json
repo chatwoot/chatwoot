@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vælg venligst en samtale fra venstre rude",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Åh oh! Det ser ud til, at der ikke er nogen beskeder fra kunder i din indbakke.",
     "NO_MESSAGE_2": " for at sende en besked til din side!",
