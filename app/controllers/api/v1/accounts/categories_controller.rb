@@ -31,7 +31,7 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
 
   def category_params
     params.require(:category).permit(
-      :name, :description, :position
+      :name, :description, :position, :slug, :locale
     )
   end
 end

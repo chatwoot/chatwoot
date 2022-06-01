@@ -7,6 +7,7 @@
 #  locale      :string           default("en")
 #  name        :string
 #  position    :integer
+#  slug        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :integer          not null
@@ -16,6 +17,7 @@
 #
 #  index_categories_on_locale                 (locale)
 #  index_categories_on_locale_and_account_id  (locale,account_id)
+#  index_categories_on_slug_and_locale        (slug,locale) UNIQUE
 #
 class Category < ApplicationRecord
   belongs_to :account
@@ -26,6 +28,8 @@ class Category < ApplicationRecord
   before_validation :ensure_account_id
   validates :account_id, presence: true
   validates :name, presence: true
+  validates :locale, uniqueness: { scope: :slug,
+                                   message: 'should be unique in the category' }
 
   private
 
