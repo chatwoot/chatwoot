@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vyberte si konverzáciu z ľavého panela",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Totožnosť tohto používateľa nie je overená",
     "NO_MESSAGE_1": "Zdá sa, že v doručenej pošte nemáte žiadne správy od zákazníkov.",
     "NO_MESSAGE_2": " poslať správu na svoju stránku!",
