@@ -237,7 +237,10 @@ export default {
   watch: {
     customAttributeType: {
       handler(value) {
-        if (value === 'conversation_attribute' || value === 'contact_attribute') {
+        if (
+          value === 'conversation_attribute' ||
+          value === 'contact_attribute'
+        ) {
           this.value.custom_attribute_type = this.customAttributeType;
         } else this.value.custom_attribute_type = '';
       },

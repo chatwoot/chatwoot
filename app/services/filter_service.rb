@@ -52,8 +52,6 @@ class FilterService
       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
     when 'message_type'
       query_hash['values'].map { |x| Message.message_types[x.to_sym] }
-    when 'list_attributes', 'text_attributes', 'link_attributes'
-      query_hash['values'].map { |x| x.downcase }
     else
       query_hash['values']
     end
@@ -67,7 +65,7 @@ class FilterService
 
   def lt_gt_filter_values(query_hash)
     attribute_key = query_hash[:attribute_key]
-    attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
+    attribute_type = custom_attribute(attribute_key, @account, query_hash[:custom_attribute_type]).try(:attribute_display_type)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
     value = query_hash['values'][0]
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
@@ -89,10 +87,10 @@ class FilterService
     ]
   end
 
-  def custom_attribute_query(query_hash, current_index)
+  def custom_attribute_query(query_hash, custom_attribute_type, current_index)
     attribute_key = query_hash[:attribute_key]
     query_operator = query_hash[:query_operator]
-    attribute_model = query_hash[:custom_attribute_type] || self.class::ATTRIBUTE_MODEL
+    attribute_model = custom_attribute_type || self.class::ATTRIBUTE_MODEL
 
     attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
     filter_operator_value = filter_operation(query_hash, current_index)
@@ -109,7 +107,7 @@ class FilterService
 
   private
 
-  def custom_attribute(attribute_key, account = nil, custom_attribute_type)
+  def custom_attribute(attribute_key, account, custom_attribute_type)
     current_account = account || Current.account
     attribute_model = custom_attribute_type || self.class::ATTRIBUTE_MODEL
     @custom_attribute = current_account.custom_attribute_definitions.where(
