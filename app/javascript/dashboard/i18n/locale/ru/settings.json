@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Подпись личных сообщений",
-        "NOTE": "Создайте подпись для личных сообщений, которая будет добавлена ко всем сообщениям, которые вы отправляете из платформы. Используйте редактор контента для создания персональной подписи.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Сохранить подпись",
         "API_ERROR": "Не удалось сохранить подпись! Повторите попытку",
         "API_SUCCESS": "Подпись успешно сохранена"
