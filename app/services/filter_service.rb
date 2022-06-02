@@ -96,7 +96,7 @@ class FilterService
     filter_operator_value = filter_operation(query_hash, current_index)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
 
-    return ' ' unless @custom_attribute.present?
+    return ' ' if @custom_attribute.blank?
 
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
