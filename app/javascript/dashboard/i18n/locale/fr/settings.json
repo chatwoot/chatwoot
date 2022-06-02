@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Créez une signature de message personnel qui serait ajoutée à tous les messages que vous envoyez depuis la plateforme. Utilisez l'éditeur de contenu riche pour créer une signature hautement personnalisée.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
         "API_SUCCESS": "Signature enregistrée avec succès"
