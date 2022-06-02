@@ -96,13 +96,11 @@ class FilterService
     filter_operator_value = filter_operation(query_hash, current_index)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
 
-    if @custom_attribute.present?
-      table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
+    return ' ' unless @custom_attribute.present?
 
-      "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-    else
-      ' '
-    end
+    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
+
+    "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
   end
 
   private
