@@ -7,7 +7,8 @@
 
 set -eu -o pipefail
 trap exit_handler EXIT
-
+pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
+ 
 function exit_handler() {
   if [ "$?" -ne 0 ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
@@ -77,8 +78,7 @@ function configure_rvm() {
 }
 
 function configure_db() {
-  pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
-  sudo -i -u postgres psql << EOF
+ sudo -i -u postgres psql << EOF
   \set pass `echo $pg_pass`
   CREATE USER chatwoot CREATEDB;
   ALTER USER chatwoot PASSWORD :'pass';
@@ -103,8 +103,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.0.2"
-  rvm use 3.0.2 --default
+  rvm install "ruby-3.0.4"
+  rvm use 3.0.4 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
@@ -236,7 +236,7 @@ EOF
   configure_systemd_services &>> "${LOG_FILE}"
 
   public_ip=$(curl http://checkip.amazonaws.com -s)
-  
+
   if [ "$configure_webserver" != "yes" ]
   then
     cat << EOF
@@ -245,7 +245,7 @@ EOF
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
-To configure a domain and SSL certificate, follow the guide at 
+To configure a domain and SSL certificate, follow the guide at
 https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
 
 Join the community at https://chatwoot.com/community
