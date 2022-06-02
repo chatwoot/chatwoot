@@ -37,14 +37,14 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     Mail.find(what: :last, count: 10, order: :desc).each do |inbound_mail|
       next unless inbound_mail.date.utc >= channel.imap_inbox_synced_at
 
-      process_mail(inbound_mail)
+      process_mail(inbound_mail, channel)
       new_mails = true
     end
 
     channel.update(imap_inbox_synced_at: Time.now.utc) if new_mails
   end
 
-  def process_mail(inbound_mail)
+  def process_mail(inbound_mail, channel)
     Imap::ImapMailbox.new.process(inbound_mail, channel)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
