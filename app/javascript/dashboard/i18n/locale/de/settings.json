@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Persönliche Nachrichtensignatur",
-        "NOTE": "Erstelle eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Du von der Plattform sendest. Verwende den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
+        "NOTE": "Erstellen Sie eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Sie aus Ihrem E-Mail-Posteingang senden. Verwenden Sie den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
         "BTN_TEXT": "Nachrichten-Signatur speichern",
         "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
         "API_SUCCESS": "Signatur erfolgreich gespeichert"
