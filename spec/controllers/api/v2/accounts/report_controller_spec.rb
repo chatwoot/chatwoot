@@ -223,6 +223,40 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:success)
       end
     end
+
+    context 'when an agent has access to multiple accounts' do
+      let(:account1) { create(:account) }
+      let(:account2) { create(:account) }
+
+      let(:params) do
+        super().merge(
+          type: :agent,
+          since: 30.days.ago.to_i.to_s,
+          until: date_timestamp.to_s
+        )
+      end
+
+      it 'returns agent metrics from the current account' do
+        admin1 = create(:user, account: account1, role: :administrator)
+        inbox1 = create(:inbox, account: account1)
+        inbox2 = create(:inbox, account: account2)
+
+        create(:account_user, user: admin1, account: account2)
+        create(:conversation, account: account1, inbox: inbox1,
+                              assignee: admin1, created_at: Time.zone.today - 2.days)
+        create(:conversation, account: account2, inbox: inbox2,
+                              assignee: admin1, created_at: Time.zone.today - 2.days)
+
+        get "/api/v2/accounts/#{account1.id}/reports/summary",
+            params: params.merge({ id: admin1.id }),
+            headers: admin1.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+
+        json_response = JSON.parse(response.body)
+        expect(json_response['conversations_count']).to eq(1)
+      end
+    end
   end
 
   describe 'GET /api/v2/accounts/:account_id/reports/inboxes' do

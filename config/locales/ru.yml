@@ -39,12 +39,33 @@ ru:
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
+    label_csv:
+      label_title: Метка
+      conversations_count: No. of conversations
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
     default_group_by: день
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Имя оператора
+        rating: Оценка
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Новая беседа] - #%{display_id} была создана в %{inbox_name}"

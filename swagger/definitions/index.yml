@@ -36,6 +36,8 @@ contactable_inboxes:
   $ref: ./resource/contactable_inboxes.yml
 custom_filter:
   $ref: ./resource/custom_filter.yml
+webhook:
+  $ref: ./resource/webhook.yml
 account:
   $ref: ./resource/account.yml
 platform_account:
@@ -90,6 +92,9 @@ team_create_update_payload:
 # Custom Filter request Payload
 custom_filter_create_update_payload:
   $ref: ./request/custom_filter/create_update_payload.yml
+
+webhook_create_update_payload:
+  $ref: ./request/webhooks/create_update_payload.yml
 
 integrations_hook_create_payload:
   $ref: ./request/integrations/hook_create_payload.yml
@@ -158,6 +163,3 @@ account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
-
-
-

@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "자동 할당 업데이트 완료",
         "ERROR_MESSAGE": "위젯 색상을 업데이트할 수 없음. 나중에 다시 시도해 주십시오."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "사용함",
-        "DISABLED": "사용 안 함"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
@@ -402,6 +398,8 @@
       "MESSENGER_SUB_HEAD": "이 버튼을 당신의 body 태그 안에 넣으세요.",
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "업데이트",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",

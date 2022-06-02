@@ -12,33 +12,11 @@
       "INPUT": "人物、チャット、保存された返信を検索する"
     },
     "FILTER_ALL": "すべて",
-    "STATUS_TABS": [
-      {
-        "NAME": "開く",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "解決済み",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "自分",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "未割当",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "すべて",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "自分",
+      "unassigned": "未割当",
+      "all": "すべて"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "開く"
