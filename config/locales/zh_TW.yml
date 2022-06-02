@@ -39,6 +39,17 @@ zh_TW:
       conversations_count: 對話數量
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
     team_csv:
       team_name: 團隊名稱
       conversations_count: 對話數量
