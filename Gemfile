@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.4'
+ruby '3.0.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
