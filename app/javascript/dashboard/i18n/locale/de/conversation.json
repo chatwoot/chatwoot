@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
     "UNVERIFIED_SESSION": "Die Identität dieses Benutzers ist nicht verifiziert",
     "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
     "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
