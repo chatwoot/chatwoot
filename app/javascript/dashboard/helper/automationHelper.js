@@ -88,10 +88,10 @@ export const generateCustomAttributeTypes = (customAttributes, type) => {
   });
 };
 
-export const generateConditionOptions = options => {
+export const generateConditionOptions = (options, key = 'id') => {
   return options.map(i => {
     return {
-      id: i.id,
+      id: i[key],
       name: i.title,
     };
   });
@@ -101,7 +101,7 @@ export const getActionOptions = ({ teams, labels, type }) => {
   const actionsMap = {
     assign_team: teams,
     send_email_to_team: teams,
-    add_label: generateConditionOptions(labels),
+    add_label: generateConditionOptions(labels, 'title'),
   };
   return actionsMap[type];
 };
