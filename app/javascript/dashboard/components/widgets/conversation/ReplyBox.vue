@@ -119,7 +119,7 @@
       :inbox-id="inbox.id"
       :show="showWhatsappTemplatesModal"
       @close="hideWhatsappTemplatesModal"
-      @on-send="sendWhatsappMessage"
+      @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
   </div>
@@ -509,7 +509,7 @@ export default {
     openWhatsappTemplateModal() {
       this.showWhatsappTemplatesModal = true;
     },
-    hideWhatsAppTemplateModal() {
+    hideWhatsappTemplatesModal() {
       this.showWhatsappTemplatesModal = false;
     },
     onClickSelfAssign() {
