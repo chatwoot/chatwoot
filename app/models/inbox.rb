@@ -92,6 +92,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::TwitterProfile'
   end
 
+  def whatsapp?
+    channel_type == 'Channel::Whatsapp'
+  end
+
   def inbox_type
     channel.name
   end
