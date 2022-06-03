@@ -11,19 +11,38 @@
       />
     </div>
     <div class="template__list-container">
-      <button
-        v-for="template in filteredTemplates"
-        :key="template.id"
-        class="template__list-item"
-        @click="$emit('onSelect', template)"
-      >
-        <p>
-          {{ template.name }}
-        </p>
-        <p>Category: {{ template.category }}</p>
-        <p>Lang: {{ template.language }}</p>
-        <p>Body: {{ getTemplatebody(template) }}</p>
-      </button>
+      <template v-for="(template, i) in filteredTemplates">
+        <button
+          :key="template.id"
+          class="template__list-item"
+          @click="$emit('onSelect', template)"
+        >
+          <div>
+            <div class="flex-between">
+              <p class="label-title">
+                {{ template.name }}
+              </p>
+              <span class="label-lang label">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
+                {{ template.language }}
+              </span>
+            </div>
+            <div>
+              <p class="strong">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.TEMPLATE_BODY') }}
+              </p>
+              <p class="label-body">{{ getTemplatebody(template) }}</p>
+            </div>
+            <div class="label-category">
+              <p class="strong">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.CATEGORY') }}
+              </p>
+              <p>{{ template.category }}</p>
+            </div>
+          </div>
+        </button>
+        <hr v-if="i != filteredTemplates.length - 1" :key="`hr-${i}`" />
+      </template>
       <div v-if="!filteredTemplates.length">
         <p>
           {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
@@ -67,6 +86,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-one);
+}
 .templates__list-search {
   display: flex;
   align-items: center;
@@ -79,16 +103,16 @@ export default {
     color: var(--s-400);
   }
   .templates__search-input {
-    border: 0;
+    border: var(--space-large);
     font-size: var(--font-size-mini);
-    margin: 0;
+    margin: var(--space-zero);
     background-color: transparent;
     height: unset;
   }
 }
 .template__list-container {
   background-color: var(--s-25);
-  max-height: 16rem;
+  max-height: var(--space-large);
   padding: var(--space-one);
   overflow-y: auto;
   border-radius: var(--border-radius-medium);
@@ -102,6 +126,30 @@ export default {
     &:hover {
       background-color: var(--w-50);
     }
+
+    .label-title {
+      font-size: var(--font-size-small);
+    }
+    .label-category {
+      margin-top: var(--space-two);
+      span {
+        font-size: var(--font-size-small);
+        font-weight: var(--font-weight-bold);
+      }
+    }
+    .label-body {
+      font-family: monospace;
+    }
   }
+}
+.strong {
+  font-size: var(--font-size-mini);
+  font-weight: var(--font-weight-bold);
+}
+
+hr {
+  max-width: 95%;
+  margin: var(--space-one) auto;
+  border-bottom: 1px solid var(--s-100);
 }
 </style>

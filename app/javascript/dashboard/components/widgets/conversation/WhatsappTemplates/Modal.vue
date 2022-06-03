@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <woot-modal :show.sync="show" :on-close="onClose" size="modal-big">
     <woot-modal-header
       :header-title="$t('WHATSAPP_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"
@@ -17,7 +17,7 @@
         @sendMessage="onSendMessage"
       />
     </div>
-  </div>
+  </woot-modal>
 </template>
 
 <script>
@@ -32,6 +32,10 @@ export default {
     inboxId: {
       type: Number,
       default: undefined,
+    },
+    show: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -57,6 +61,9 @@ export default {
     },
     onSendMessage(message) {
       this.$emit('on-send', message);
+    },
+    onClose() {
+      this.$emit('cancel');
     },
   },
 };

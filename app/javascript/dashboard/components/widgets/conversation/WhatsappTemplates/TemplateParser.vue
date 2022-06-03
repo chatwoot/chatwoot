@@ -1,6 +1,11 @@
 <template>
   <div class="medium-12 columns">
-    <textarea v-model="processedString" rows="4" readonly></textarea>
+    <textarea
+      v-model="processedString"
+      rows="4"
+      readonly
+      class="template-input"
+    ></textarea>
     <div>
       <div class="template__variables-container">
         <p class="variables-label">
@@ -11,17 +16,18 @@
           :key="key"
           class="template__variable-item"
         >
-          <span class="label secondary">
+          <span class="variable-label">
             {{ key }}
           </span>
           <woot-input
             v-model="processedParams[key]"
             type="text"
             class="variable-input"
+            :styles="{ marginBottom: 0 }"
           />
         </div>
         <p v-if="showRequiredMessage" class="error">
-          All variables are required
+          {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
         </p>
       </div>
     </div>
@@ -133,6 +139,7 @@ export default {
 .template__variable-item {
   display: flex;
   align-items: center;
+  margin-bottom: var(--space-one);
   .label {
     font-size: var(--font-size-mini);
   }
@@ -140,6 +147,13 @@ export default {
     flex: 1;
     margin-left: var(--space-one);
     font-size: var(--font-size-small);
+  }
+  .variable-label {
+    background-color: var(--s-75);
+    border-radius: var(--border-radius-normal);
+    display: inline-block;
+    padding: var(--space-one) var(--space-medium);
+    font-size: var(--font-size-mini);
   }
 }
 
@@ -151,7 +165,13 @@ footer {
   }
 }
 .error {
-  color: var(--r-400);
-  text-align: right;
+  color: var(--r-800);
+  text-align: center;
+  padding: var(--space-one);
+  border-radius: var(--border-radius-normal);
+  background-color: var(--r-100);
+}
+.template-input {
+  background-color: var(--s-25);
 }
 </style>

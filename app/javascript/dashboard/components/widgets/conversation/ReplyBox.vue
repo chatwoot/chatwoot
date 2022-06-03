@@ -115,16 +115,13 @@
       @toggleEnterToSend="toggleEnterToSend"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
-    <woot-modal
-      :show.sync="showWhatsappTemplatesModal"
-      :on-close="hideWhatsappTemplatesModal"
-    >
-      <whatsapp-templates
-        :inbox-id="inbox.id"
-        @close="hideWhatsappTemplatesModal"
-        @on-send="sendWhatsappMessage"
-      />
-    </woot-modal>
+    <whatsapp-templates
+      :inbox-id="inbox.id"
+      :show="showWhatsappTemplatesModal"
+      @close="hideWhatsappTemplatesModal"
+      @on-send="sendWhatsappMessage"
+      @cancel="hideWhatsappTemplatesModal"
+    />
   </div>
 </template>
 
