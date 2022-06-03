@@ -179,7 +179,8 @@ function main() {
               Chatwoot Installation (latest)
 ***************************************************************************
 
-For more verbose logs, open up a second terminal and follow along using, `tail -f /var/log/chatwoot`.
+For more verbose logs, open up a second terminal and follow along using,
+'tail -f /var/log/chatwoot'.
 
 EOF
 
@@ -199,7 +200,7 @@ EOF
     echo "***** Skipping Postgres and Redis installation. ****"
   fi
 
-  echo -en "\n➥ 1/9 Installing dependencies. This takes a while."
+  echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
@@ -273,7 +274,7 @@ The database migrations had not run as Postgres and Redis were not installed
 as part of the installation process. After modifying the environment
 variables (in the .env file) with your external database credentials, run
 the database migrations using the below command.
-`RAILS_ENV=production bundle exec rails db:chatwoot_prepare`.
+'RAILS_ENV=production bundle exec rails db:chatwoot_prepare'.
 ***************************************************************************
 EOF
   fi
