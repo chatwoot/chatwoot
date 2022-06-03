@@ -29,6 +29,15 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def processable_channel_message_template
+    if message.template_params.present?
+      return [
+        message.template_params['name'],
+        message.template_params['namespace'],
+        message.template_params['langauge'],
+        message.template_params['processed_parameters']
+      ]
+    end
+
     # see if we can match the message content to a template
     # An example template may look like "Your package has been shipped. It will be delivered in {{1}} business days.
     # We want to iterate over these templates with our message body and see if we can fit it to any of the templates
