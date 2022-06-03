@@ -74,7 +74,7 @@ class Messages::MessageBuilder
   end
 
   def template_params
-    @params[:template_params].present? ? { additional_attributes: @params[:template_params] } : {}
+    @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
   end
 
   def message_sender

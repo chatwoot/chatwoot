@@ -17,6 +17,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   def send_template_message
     channel.sync_templates
     name, namespace, lang_code, processed_parameters = processable_channel_message_template
+
     return if name.blank?
 
     message_id = channel.send_template(message.conversation.contact_inbox.source_id, {
@@ -29,12 +30,14 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def processable_channel_message_template
-    if message.template_params.present?
+    template_params = message.additional_attributes && message.additional_attributes['template_params']
+
+    if template_params.present?
       return [
-        message.template_params['name'],
-        message.template_params['namespace'],
-        message.template_params['langauge'],
-        message.template_params['processed_parameters']
+        template_params['name'],
+        template_params['namespace'],
+        template_params['language'],
+        template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
       ]
     end
 

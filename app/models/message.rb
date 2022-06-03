@@ -68,9 +68,6 @@ class Message < ApplicationRecord
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id], coder: JSON
 
-  # [:template_params]: Message template params for WhatsApp Template messages
-  store :additional_attributes, accessors: [:template_params, :campaign_id], coder: JSON
-
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be

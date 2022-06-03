@@ -101,7 +101,7 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :show-emoji-picker="showEmojiPicker"
-      :on-send="sendMessage"
+      :on-send="onSendReply"
       :is-send-disabled="isReplyButtonDisabled"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
@@ -493,7 +493,7 @@ export default {
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
         if (shouldSendMessage) {
           e.preventDefault();
-          this.sendMessage();
+          this.onSendReply();
         }
       } else if (hasPressedCommandPlusKKey(e)) {
         this.openCommandBar();
@@ -509,7 +509,7 @@ export default {
     openWhatsappTemplateModal() {
       this.showWhatsappTemplatesModal = true;
     },
-    hideWhatsappTemplatesModal() {
+    hideWhatsAppTemplateModal() {
       this.showWhatsappTemplatesModal = false;
     },
     onClickSelfAssign() {
@@ -535,7 +535,7 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async sendMessage() {
+    async onSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -546,26 +546,12 @@ export default {
         }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
-        try {
-          await this.$store.dispatch(
-            'createPendingMessageAndSend',
-            messagePayload
-          );
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        } catch (error) {
-          const errorMessage =
-            error?.response?.data?.error ||
-            this.$t('CONVERSATION.MESSAGE_ERROR');
-          this.showAlert(errorMessage);
-        }
+        this.sendMessage(messagePayload);
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
     },
-    async sendWhatsappMessage(message) {
-      const messagePayload = this.getMessagePayload(message);
-      this.clearMessage();
-      this.showWhatsappTemplatesModal = false;
+    async sendMessage(messagePayload) {
       try {
         await this.$store.dispatch(
           'createPendingMessageAndSend',
@@ -577,8 +563,13 @@ export default {
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
         this.showAlert(errorMessage);
       }
-      this.hideEmojiPicker();
-      this.$emit('update:popoutReplyBox', false);
+    },
+    async onSendWhatsAppReply(messagePayload) {
+      this.sendMessage({
+        conversationId: this.currentChat.id,
+        ...messagePayload,
+      });
+      this.hideWhatsAppTemplateModal();
     },
     replaceText(message) {
       setTimeout(() => {

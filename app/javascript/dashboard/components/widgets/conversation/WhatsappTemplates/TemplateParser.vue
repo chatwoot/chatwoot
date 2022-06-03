@@ -97,7 +97,7 @@ export default {
         return;
       }
       const message = {
-        content: this.processedString,
+        message: this.processedString,
         templateParams: {
           name: this.template.name,
           category: this.template.category,
