@@ -47,6 +47,12 @@ export const getters = {
   getInboxes($state) {
     return $state.records;
   },
+  getWhatsappTempaltes: $state => inboxId => {
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
+    return inbox.message_templates || [];
+  },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
       const {

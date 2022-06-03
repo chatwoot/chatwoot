@@ -120,6 +120,7 @@
       :on-close="hideWhatsappTemplatesModal"
     >
       <whatsapp-templates
+        :inbox-id="inbox.id"
         @close="hideWhatsappTemplatesModal"
         @on-send="sendWhatsappMessage"
       />
@@ -224,7 +225,6 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
     }),
-
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;

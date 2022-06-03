@@ -5,7 +5,11 @@
       :header-content="modalHeaderContent"
     />
     <div class="row modal-content">
-      <templates-picker v-if="!selectedWaTemplate" @onSelect="pickTemplate" />
+      <templates-picker
+        v-if="!selectedWaTemplate"
+        :inbox-id="inboxId"
+        @onSelect="pickTemplate"
+      />
       <template-parser
         v-else
         :template="selectedWaTemplate"
@@ -23,6 +27,12 @@ export default {
   components: {
     TemplatesPicker,
     TemplateParser,
+  },
+  props: {
+    inboxId: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {

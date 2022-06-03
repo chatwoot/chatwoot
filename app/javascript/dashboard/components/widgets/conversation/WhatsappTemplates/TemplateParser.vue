@@ -1,36 +1,28 @@
 <template>
   <div class="medium-12 columns">
-    <textarea v-model="generateMessage" rows="4" readonly></textarea>
+    <textarea v-model="processedString" rows="4" readonly></textarea>
     <div>
       <div class="template__variables-container">
         <p class="variables-label">
           {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
         </p>
         <div
-          v-for="(variable, i) in message.variables"
-          :key="variable.name"
+          v-for="(variable, key) in processedParams"
+          :key="key"
           class="template__variable-item"
-          :set="(v = $v.message.variables.$each[i])"
         >
           <span class="label secondary">
-            {{ variable.name }}
+            {{ key }}
           </span>
           <woot-input
-            v-model="variable.value"
+            v-model="processedParams[key]"
             type="text"
             class="variable-input"
-            :class="{ error: v.value.$error }"
-            :placeholder="
-              $t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
-                variable: variable.name,
-              })
-            "
-            @blur="v.value.$touch"
           />
         </div>
-        <p v-if="showRequiredMessage" class="error">
+        <!-- <p v-if="showRequiredMessage" class="error">
           All variables are required
-        </p>
+        </p> -->
       </div>
     </div>
     <footer>
@@ -45,7 +37,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+// import { required } from 'vuelidate/lib/validators';
 
 export default {
   props: {
@@ -54,30 +46,40 @@ export default {
       default: () => {},
     },
   },
-  validations: {
-    message: {
-      variables: {
-        $each: {
-          value: { required },
-        },
-      },
-    },
-  },
+  // validations: {
+  //   message: {
+  //     processedParams: {
+  //       $each: {
+  //         value: { required },
+  //       },
+  //     },
+  //   },
+  // },
   data() {
     return {
       message: this.template.message,
+      processedParams: {},
     };
   },
   computed: {
-    generateMessage() {
-      const variables = this.message.variables.reduce((acc, variable) => {
-        acc[variable.name] = variable.value;
-        return acc;
-      }, {});
-      return this.message.content.replace(/{([^}]+)}/g, (match, variable) => {
-        return variables[variable] || `{${variable}}`;
+    variables() {
+      const variables = this.templateString.match(/{{([^}]+)}}/g);
+      return variables;
+    },
+    templateString() {
+      return this.template.components.find(
+        component => component.type === 'BODY'
+      ).text;
+    },
+    processedString() {
+      return this.templateString.replace(/{{([^}]+)}}/g, (match, variable) => {
+        const variableKey = this.processVariable(variable);
+        return this.processedParams[variableKey] || `{{${variable}}}`;
       });
     },
+  },
+  mounted() {
+    this.generateVariables();
   },
   methods: {
     sendMessage() {
@@ -86,7 +88,32 @@ export default {
         this.showRequiredMessage = true;
         return;
       }
-      this.$emit('sendMessage', this.generateMessage);
+      const message = {
+        content: this.processedString,
+        templateParams: {
+          name: this.template.name,
+          category: this.template.category,
+          language: this.template.language,
+          namespace: this.template.namespace,
+          processed_params: this.processedParams,
+        },
+      };
+      this.$emit('sendMessage', message);
+    },
+    processVariable(str) {
+      return str.replace(/{{|}}/g, '');
+    },
+    generateVariables() {
+      const templateString = this.template.components.find(
+        component => component.type === 'BODY'
+      ).text;
+      const variables = templateString.match(/{{([^}]+)}}/g).map(variable => {
+        return this.processVariable(variable);
+      });
+      this.processedParams = variables.reduce((acc, variable) => {
+        acc[variable] = '';
+        return acc;
+      }, {});
     },
   },
 };
