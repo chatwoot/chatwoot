@@ -20,9 +20,9 @@
             class="variable-input"
           />
         </div>
-        <!-- <p v-if="showRequiredMessage" class="error">
+        <p v-if="showRequiredMessage" class="error">
           All variables are required
-        </p> -->
+        </p>
       </div>
     </div>
     <footer>
@@ -37,8 +37,12 @@
 </template>
 
 <script>
-// import { required } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 
+const allKeysRequired = value => {
+  const keys = Object.keys(value);
+  return keys.every(key => value[key]);
+};
 export default {
   props: {
     template: {
@@ -46,19 +50,17 @@ export default {
       default: () => {},
     },
   },
-  // validations: {
-  //   message: {
-  //     processedParams: {
-  //       $each: {
-  //         value: { required },
-  //       },
-  //     },
-  //   },
-  // },
+  validations: {
+    processedParams: {
+      required,
+      allKeysRequired,
+    },
+  },
   data() {
     return {
       message: this.template.message,
       processedParams: {},
+      showRequiredMessage: false,
     };
   },
   computed: {
