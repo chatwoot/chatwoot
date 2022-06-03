@@ -17,7 +17,7 @@
         :checked="selected"
         class="checkbox"
         type="checkbox"
-        @change="selectConversation($event.target.checked)"
+        @change="onSelectConversation($event.target.checked)"
         @click.stop
       />
     </label>
@@ -289,10 +289,9 @@ export default {
     onCardLeave() {
       this.hovered = false;
     },
-    selectConversation(checked) {
-      if (checked)
-        this.$emit('select-conversation', this.chat.id, this.inbox.id);
-      else this.$emit('de-select-conversation', this.chat.id, this.inbox.id);
+    onSelectConversation(checked) {
+      const action = checked ? 'select-conversation' : 'de-select-conversation';
+      this.$emit(action, this.chat.id, this.inbox.id);
     },
   },
 };

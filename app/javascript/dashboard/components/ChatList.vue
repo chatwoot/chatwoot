@@ -566,14 +566,17 @@ export default {
       this.selectedConversations = this.selectedConversations.filter(
         item => item !== conversationId
       );
-      this.selectedInboxes = this.selectedConversations.filter(
+      this.selectedInboxes = this.selectedInboxes.filter(
         item => item !== inboxId
       );
     },
     selectAllConversations(check) {
       if (check) {
         this.selectedConversations = this.conversationList.map(item => item.id);
-      } else this.selectedConversations = [];
+        this.selectedInboxes = this.conversationList.map(item => item.inbox_id);
+      } else {
+        this.resetBulkActions();
+      }
     },
     async onAssignAgent(agent) {
       try {
