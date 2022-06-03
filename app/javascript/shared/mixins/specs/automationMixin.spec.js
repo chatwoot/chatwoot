@@ -459,8 +459,8 @@ describe('automationMethodsMixin', () => {
       },
     };
     const expectedActionDropdownValues = [
-      { id: 2, name: 'testlabel' },
-      { id: 1, name: 'snoozes' },
+      { id: 'testlabel', name: 'testlabel' },
+      { id: 'snoozes', name: 'snoozes' },
     ];
     const wrapper = createComponent([methodsMixin], data, computed);
     expect(wrapper.vm.getActionDropdownValues('add_label')).toEqual(
