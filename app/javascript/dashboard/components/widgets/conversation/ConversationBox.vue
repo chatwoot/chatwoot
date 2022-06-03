@@ -99,7 +99,7 @@ export default {
   watch: {
     'currentChat.inbox_id'(inboxId) {
       if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', { inboxId });
+        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
       }
     },
     'currentChat.id'() {
