@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe ChatwootExceptionTracker do
-  it 'returns nil if no tracker is configured' do
-    expect(described_class.new('random').capture_exception).to eq(nil)
+  it 'use rails logger if no tracker is configured' do
+    expect(Rails.logger).to receive(:error).with('random')
+    described_class.new('random').capture_exception
   end
 
   context 'with sentry DSN' do
