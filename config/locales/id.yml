@@ -39,12 +39,33 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
     team_csv:
       team_name: Nama Tim
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nama Agen
+        rating: Peringkat
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"

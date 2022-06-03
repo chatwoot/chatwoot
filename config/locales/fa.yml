@@ -39,12 +39,33 @@ fa:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: نام صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: برچسب
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
       team_name: نام تیم
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     default_group_by: روز
+    csat:
+      headers:
+        contact_name: نام تماس
+        contact_email_address: آدرس ایمیل تماس
+        contact_phone_number: شماره تلفن تماس
+        link_to_the_conversation: پیوند به گفتگو
+        agent_name: اسم ایجنت
+        rating: رتبه
+        feedback: بازخورد نظر
+        recorded_at: تاریخ ثبت شده
   notifications:
     notification_title:
       conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"

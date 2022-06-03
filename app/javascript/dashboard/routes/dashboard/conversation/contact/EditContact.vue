@@ -52,6 +52,10 @@ export default {
     },
     async onSubmit(contactItem) {
       await this.$store.dispatch('contacts/update', contactItem);
+      await this.$store.dispatch(
+        'contacts/fetchContactableInbox',
+        this.contact.id
+      );
     },
   },
 };
