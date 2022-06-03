@@ -1,4 +1,4 @@
-import { getInboxClassByType } from '../inbox';
+import { getInboxClassByType, getInboxWarningIconClass } from '../inbox';
 
 describe('#Inbox Helpers', () => {
   describe('getInboxClassByType', () => {
@@ -37,7 +37,9 @@ describe('#Inbox Helpers', () => {
 
   describe('getInboxWarningIconClass', () => {
     it('should return correct class for warning', () => {
-      expect(getInboxWarningIconClass('Channel::FacebookPage', true)).toEqual('warning');
+      expect(getInboxWarningIconClass('Channel::FacebookPage', true)).toEqual(
+        'warning'
+      );
     });
   })
 });
