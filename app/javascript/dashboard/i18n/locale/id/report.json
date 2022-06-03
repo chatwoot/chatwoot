@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Laporan CSAT",
     "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"

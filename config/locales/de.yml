@@ -39,12 +39,33 @@ de:
       conversations_count: Anzahl Gespräche
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    inbox_csv:
+      inbox_name: Posteingangsname
+      inbox_type: Posteingangstyp
+      conversations_count: Anzahl der Konversationen
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    label_csv:
+      label_title: Label
+      conversations_count: Anzahl der Konversationen
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     team_csv:
       team_name: Teamname
       conversations_count: Anzahl Gespräche
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     default_group_by: Tag
+    csat:
+      headers:
+        contact_name: Kontaktname
+        contact_email_address: Kontakt-E-Mail-Adresse
+        contact_phone_number: Kontakt Telefonnummer
+        link_to_the_conversation: Link zur Konversation
+        agent_name: Agentenname
+        rating: Bewertung
+        feedback: Feedback-Kommentar
+        recorded_at: Aufnahmedatum
   notifications:
     notification_title:
       conversation_creation: "[Neues Gespräch] - #%{display_id} wurde in %{inbox_name} erstellt"

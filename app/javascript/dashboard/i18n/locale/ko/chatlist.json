@@ -12,33 +12,11 @@
       "INPUT": "사람 검색, 채팅, 저장된 응답..."
     },
     "FILTER_ALL": "모두",
-    "STATUS_TABS": [
-      {
-        "NAME": "열기",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "해결됨",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "나에게 할당",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "지정되지 않음",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "모두",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "나에게 할당",
+      "unassigned": "지정되지 않음",
+      "all": "모두"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "열기"
