@@ -112,6 +112,7 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
+      :has-whatsapp-templates="hasWhatsappTemplates"
       @toggleEnterToSend="toggleEnterToSend"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
@@ -265,7 +266,9 @@ export default {
 
       return false;
     },
-
+    hasWhatsappTemplates() {
+      return !!this.inbox.message_templates;
+    },
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },

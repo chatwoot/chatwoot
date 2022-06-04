@@ -228,6 +228,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    hasWhatsappTemplates: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isNote() {
@@ -272,7 +276,7 @@ export default {
       return !this.isPrivate && this.isAnEmailChannel;
     },
     showWhatsappTemplatesButton() {
-      return !this.isPrivate;
+      return !this.isOnPrivateNote && this.hasWhatsappTemplates;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;

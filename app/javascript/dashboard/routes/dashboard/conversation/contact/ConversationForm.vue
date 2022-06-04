@@ -6,7 +6,7 @@
       </p>
     </div>
     <div v-else>
-      <div class="row">
+      <div class="row gutter-small">
         <div class="columns">
           <label :class="{ error: $v.targetInbox.$error }">
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
@@ -88,6 +88,12 @@
               </label>
             </label>
           </div>
+          <whatsapp-templates
+            v-else-if="hasWhatsappTemplates"
+            :inbox-id="selectedInbox.inbox.id"
+            @onSelectTemplate="toggleWaTemplate"
+            @onSend="sendWhatsappReply"
+          />
           <label v-else :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
@@ -104,7 +110,7 @@
         </div>
       </div>
     </div>
-    <div class="modal-footer">
+    <div v-if="!hasWhatsappTemplates" class="modal-footer">
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
@@ -121,7 +127,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-
+import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -133,6 +139,7 @@ export default {
     WootMessageEditor,
     ReplyEmailHead,
     CannedResponse,
+    WhatsappTemplates,
   },
   mixins: [alertMixin],
   props: {
@@ -155,6 +162,7 @@ export default {
       selectedInbox: '',
       bccEmails: '',
       ccEmails: '',
+      whatsappTemplateSelected: false,
     };
   },
   validations: {
@@ -221,6 +229,9 @@ export default {
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.WEB
       );
     },
+    hasWhatsappTemplates() {
+      return !!this.selectedInbox.inbox?.message_templates;
+    },
   },
   watch: {
     message(value) {
@@ -274,6 +285,33 @@ export default {
         this.message = message;
       }, 50);
     },
+    toggleWaTemplate(val) {
+      this.whatsappTemplateSelected = val;
+    },
+    // To be tested
+    async onSendWhatsAppReply(messagePayload) {
+      try {
+        const data = await this.onSubmit(messagePayload);
+        // TO be done
+        const action = {
+          type: 'link',
+          to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
+          message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+        };
+        this.onSuccess();
+        this.showAlert(
+          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
+          action
+        );
+      } catch (error) {
+        if (error instanceof ExceptionWithMessage) {
+          this.showAlert(error.data);
+        } else {
+          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
+        }
+      }
+      this.hideWhatsAppTemplateModal();
+    },
   },
 };
 </script>
@@ -320,5 +358,8 @@ export default {
 .modal-footer {
   display: flex;
   justify-content: flex-end;
+}
+.row.gutter-small {
+  gap: var(--space-small);
 }
 </style>
