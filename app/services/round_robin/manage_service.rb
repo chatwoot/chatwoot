@@ -1,3 +1,6 @@
+# NOTE: available agent method now expect allowed_member_ids to be passed in always because of inbox limits feature
+# need to refactor this class and split the queue managment into a seperate class
+
 # If allowed_member_ids are supplied round robin service will only fetch a member from member id
 # This is used in case of team assignment
 class RoundRobin::ManageService
@@ -18,17 +21,19 @@ class RoundRobin::ManageService
     ::Redis::Alfred.lrem(round_robin_key, user_id)
   end
 
+  def reset_queue
+    clear_queue
+    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
+  end
+
+  # end of queue management functions
+
   def available_agent(priority_list: [])
     reset_queue unless validate_queue?
     user_id = get_member_via_priority_list(priority_list)
     # incase priority list was empty or inbox members weren't present
     user_id ||= fetch_user_id
     inbox.inbox_members.find_by(user_id: user_id)&.user if user_id.present?
-  end
-
-  def reset_queue
-    clear_queue
-    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
   end
 
   private

@@ -8,9 +8,6 @@ module Enterprise::Inbox
   private
 
   def get_agent_ids_over_assignment_limit(limit)
-    # since we are checking for > than, lets reduce one from the number
-    # .abs will handle cases when the limit configured to be 0
-    validated_limit = (limit - 1).abs
-    conversations.open.select(:assignee_id).group(:assignee_id).having("count(*) > #{validated_limit}").filter_map(&:assignee_id)
+    conversations.open.select(:assignee_id).group(:assignee_id).having("count(*) >= #{limit.to_i}").filter_map(&:assignee_id)
   end
 end
