@@ -53,7 +53,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -61,56 +61,56 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Den"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Den"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Týden"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Den"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Týden"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Měsíc"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Den"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Týden"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Měsíc"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Rok"
       }
     ],
     "BUSINESS_HOURS": "Pracovní doba"
@@ -170,7 +170,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -178,7 +178,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -237,7 +237,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -245,7 +245,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -304,7 +304,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -312,7 +312,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -371,7 +371,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -379,13 +379,14 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"

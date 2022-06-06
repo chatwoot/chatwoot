@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_11_072655) do
+ActiveRecord::Schema.define(version: 2022_05_25_141844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -385,11 +385,13 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.datetime "snoozed_until"
     t.jsonb "custom_attributes", default: {}
     t.datetime "assignee_last_seen_at"
+    t.datetime "first_reply_created_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
+    t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
     t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
@@ -437,6 +439,17 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_custom_filters_on_account_id"
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
+  end
+
+  create_table "dashboard_apps", force: :cascade do |t|
+    t.string "title", null: false
+    t.jsonb "content", default: []
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_dashboard_apps_on_account_id"
+    t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
 
   create_table "data_imports", force: :cascade do |t|
@@ -815,6 +828,8 @@ ActiveRecord::Schema.define(version: 2022_05_11_072655) do
   add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
+  add_foreign_key "dashboard_apps", "accounts"
+  add_foreign_key "dashboard_apps", "users"
   add_foreign_key "data_imports", "accounts", on_delete: :cascade
   add_foreign_key "mentions", "conversations", on_delete: :cascade
   add_foreign_key "mentions", "users", on_delete: :cascade

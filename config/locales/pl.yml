@@ -39,12 +39,33 @@ pl:
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     team_csv:
       team_name: Nazwa zespołu
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nazwa agenta
+        rating: Ocena
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"

@@ -39,12 +39,33 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Середній час першої відповіді (Хвилин)
+      avg_resolution_time: Середній час вирішення (Хвилин)
+    label_csv:
+      label_title: Мітка
+      conversations_count: No. of conversations
+      avg_first_response_time: Середній час першої відповіді (Хвилин)
+      avg_resolution_time: Середній час вирішення (Хвилин)
     team_csv:
       team_name: Назва команди
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
     default_group_by: день
+    csat:
+      headers:
+        contact_name: Ім'я контакту
+        contact_email_address: Email
+        contact_phone_number: Контактний телефон
+        link_to_the_conversation: Посилання на бесіду
+        agent_name: Ім'я агента
+        rating: Оцінка
+        feedback: Відгук
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
