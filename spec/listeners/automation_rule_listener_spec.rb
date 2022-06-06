@@ -329,7 +329,7 @@ describe AutomationRuleListener do
       end
 
       context 'when rule doesnt match' do
-        it 'when automation rule  is triggered it will not assign team' do
+        it 'when automation rule is triggered it will not assign team' do
           conversation.update(status: :open)
 
           expect(conversation.team_id).not_to eq(team.id)
