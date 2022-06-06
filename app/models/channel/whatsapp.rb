@@ -83,7 +83,7 @@ class Channel::Whatsapp < ApplicationRecord
       }.to_json
     )
 
-    response.success? ? response['messages'].first['id'] : nil
+    process_response(response)
   end
 
   def send_attachment_message(phone_number, message)
@@ -103,7 +103,7 @@ class Channel::Whatsapp < ApplicationRecord
       }.to_json
     )
 
-    response.success? ? response['messages'].first['id'] : nil
+    process_response(response)
   end
 
   def send_template_message(phone_number, template_info)
@@ -117,7 +117,16 @@ class Channel::Whatsapp < ApplicationRecord
       }.to_json
     )
 
-    response.success? ? response['messages'].first['id'] : nil
+    process_response(response)
+  end
+
+  def process_response(response)
+    if response.success?
+      response['messages'].first['id']
+    else
+      Rails.logger.error response.body
+      nil
+    end
   end
 
   def template_body_parameters(template_info)

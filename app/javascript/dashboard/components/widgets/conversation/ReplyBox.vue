@@ -118,7 +118,7 @@
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
-      :show="showWhatsappTemplatesModal"
+      :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
@@ -211,7 +211,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
-      showWhatsappTemplatesModal: false,
+      showWhatsAppTemplatesModal: false,
     };
   },
   computed: {
@@ -510,10 +510,10 @@ export default {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     openWhatsappTemplateModal() {
-      this.showWhatsappTemplatesModal = true;
+      this.showWhatsAppTemplatesModal = true;
     },
     hideWhatsappTemplatesModal() {
-      this.showWhatsappTemplatesModal = false;
+      this.showWhatsAppTemplatesModal = false;
     },
     onClickSelfAssign() {
       const {
@@ -572,7 +572,7 @@ export default {
         conversationId: this.currentChat.id,
         ...messagePayload,
       });
-      this.hideWhatsAppTemplateModal();
+      this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
       setTimeout(() => {

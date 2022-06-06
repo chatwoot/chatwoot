@@ -131,45 +131,51 @@ export default {
 .template__variables-container {
   padding: var(--space-one);
 }
+
 .variables-label {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-one);
 }
+
 .template__variable-item {
-  display: flex;
   align-items: center;
+  display: flex;
   margin-bottom: var(--space-one);
+
   .label {
     font-size: var(--font-size-mini);
   }
+
   .variable-input {
     flex: 1;
-    margin-left: var(--space-one);
     font-size: var(--font-size-small);
+    margin-left: var(--space-one);
   }
+
   .variable-label {
     background-color: var(--s-75);
     border-radius: var(--border-radius-normal);
     display: inline-block;
-    padding: var(--space-one) var(--space-medium);
     font-size: var(--font-size-mini);
+    padding: var(--space-one) var(--space-medium);
   }
 }
 
 footer {
   display: flex;
   justify-content: flex-end;
+
   button {
     margin-left: var(--space-one);
   }
 }
 .error {
-  color: var(--r-800);
-  text-align: center;
-  padding: var(--space-one);
-  border-radius: var(--border-radius-normal);
   background-color: var(--r-100);
+  border-radius: var(--border-radius-normal);
+  color: var(--r-800);
+  padding: var(--space-one);
+  text-align: center;
 }
 .template-input {
   background-color: var(--s-25);

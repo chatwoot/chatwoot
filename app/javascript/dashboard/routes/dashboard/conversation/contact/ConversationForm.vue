@@ -1,5 +1,5 @@
 <template>
-  <form class="conversation--form" @submit.prevent="handleSubmit">
+  <form class="conversation--form" @submit.prevent="onFormSubmit">
     <div v-if="showNoInboxAlert" class="callout warning">
       <p>
         {{ $t('NEW_CONVERSATION.NO_INBOX') }}
@@ -91,8 +91,8 @@
           <whatsapp-templates
             v-else-if="hasWhatsappTemplates"
             :inbox-id="selectedInbox.inbox.id"
-            @onSelectTemplate="toggleWaTemplate"
-            @onSend="sendWhatsappReply"
+            @on-select-template="toggleWaTemplate"
+            @on-send="onSendWhatsAppReply"
           />
           <label v-else :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
@@ -182,7 +182,7 @@ export default {
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
     }),
-    getNewConversation() {
+    emailMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.inbox.id,
         sourceId: this.targetInbox.source_id,
@@ -202,7 +202,7 @@ export default {
     },
     targetInbox: {
       get() {
-        return this.selectedInbox || '';
+        return this.selectedInbox || {};
       },
       set(value) {
         this.selectedInbox = value;
@@ -254,13 +254,30 @@ export default {
     onSuccess() {
       this.$emit('success');
     },
-    async handleSubmit() {
+    replaceTextWithCannedResponse(message) {
+      setTimeout(() => {
+        this.message = message;
+      }, 50);
+    },
+    prepareWhatsAppMessagePayload({ message: content, templateParams }) {
+      const payload = {
+        inboxId: this.targetInbox.inbox.id,
+        sourceId: this.targetInbox.source_id,
+        contactId: this.contact.id,
+        message: { content, templateParams },
+        assigneeId: this.currentUser.id,
+      };
+      return payload;
+    },
+    onFormSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
+      this.createConversation(this.emailMessagePayload);
+    },
+    async createConversation(payload) {
       try {
-        const payload = this.getNewConversation;
         const data = await this.onSubmit(payload);
         const action = {
           type: 'link',
@@ -280,37 +297,13 @@ export default {
         }
       }
     },
-    replaceTextWithCannedResponse(message) {
-      setTimeout(() => {
-        this.message = message;
-      }, 50);
-    },
+
     toggleWaTemplate(val) {
       this.whatsappTemplateSelected = val;
     },
-    // To be tested
     async onSendWhatsAppReply(messagePayload) {
-      try {
-        const data = await this.onSubmit(messagePayload);
-        // TO be done
-        const action = {
-          type: 'link',
-          to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
-          message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
-        };
-        this.onSuccess();
-        this.showAlert(
-          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
-          action
-        );
-      } catch (error) {
-        if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
-        } else {
-          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
-        }
-      }
-      this.hideWhatsAppTemplateModal();
+      const payload = this.prepareWhatsAppMessagePayload(messagePayload);
+      await this.createConversation(payload);
     },
   },
 };

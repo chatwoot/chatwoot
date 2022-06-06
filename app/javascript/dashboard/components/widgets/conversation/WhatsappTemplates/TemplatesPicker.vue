@@ -11,9 +11,8 @@
       />
     </div>
     <div class="template__list-container">
-      <template v-for="(template, i) in filteredTemplates">
+      <div v-for="(template, i) in filteredTemplateMessages" :key="template.id">
         <button
-          :key="template.id"
           class="template__list-item"
           @click="$emit('onSelect', template)"
         >
@@ -41,9 +40,9 @@
             </div>
           </div>
         </button>
-        <hr v-if="i != filteredTemplates.length - 1" :key="`hr-${i}`" />
-      </template>
-      <div v-if="!filteredTemplates.length">
+        <hr v-if="i != filteredTemplateMessages.length - 1" :key="`hr-${i}`" />
+      </div>
+      <div v-if="!filteredTemplateMessages.length">
         <p>
           {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
           <strong>{{ query }}</strong>
@@ -67,11 +66,11 @@ export default {
     };
   },
   computed: {
-    alltemplates() {
-      return this.$store.getters['inboxes/getWhatsappTempaltes'](this.inboxId);
+    whatsAppTemplateMessages() {
+      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId);
     },
-    filteredTemplates() {
-      return this.alltemplates.filter(template =>
+    filteredTemplateMessages() {
+      return this.whatsAppTemplateMessages.filter(template =>
         template.name.toLowerCase().includes(this.query.toLowerCase())
       );
     },
@@ -91,38 +90,43 @@ export default {
   justify-content: space-between;
   margin-bottom: var(--space-one);
 }
+
 .templates__list-search {
-  display: flex;
   align-items: center;
-  padding: 0 var(--space-one);
-  border: 1px solid var(--s-100);
-  border-radius: var(--border-radius-medium);
   background-color: var(--s-25);
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--s-100);
+  display: flex;
   margin-bottom: var(--space-one);
+  padding: 0 var(--space-one);
+
   .search-icon {
     color: var(--s-400);
   }
+
   .templates__search-input {
+    background-color: transparent;
     border: var(--space-large);
     font-size: var(--font-size-mini);
-    margin: var(--space-zero);
-    background-color: transparent;
     height: unset;
+    margin: var(--space-zero);
   }
 }
 .template__list-container {
   background-color: var(--s-25);
-  max-height: 30rem;
-  padding: var(--space-one);
-  overflow-y: auto;
   border-radius: var(--border-radius-medium);
+  max-height: 30rem;
+  overflow-y: auto;
+  padding: var(--space-one);
+
   .template__list-item {
-    width: 100%;
-    display: block;
-    text-align: left;
-    padding: var(--space-one);
-    cursor: pointer;
     border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    display: block;
+    padding: var(--space-one);
+    text-align: left;
+    width: 100%;
+
     &:hover {
       background-color: var(--w-50);
     }
@@ -130,26 +134,30 @@ export default {
     .label-title {
       font-size: var(--font-size-small);
     }
+
     .label-category {
       margin-top: var(--space-two);
+
       span {
         font-size: var(--font-size-small);
         font-weight: var(--font-weight-bold);
       }
     }
+
     .label-body {
       font-family: monospace;
     }
   }
 }
+
 .strong {
   font-size: var(--font-size-mini);
   font-weight: var(--font-weight-bold);
 }
 
 hr {
-  max-width: 95%;
-  margin: var(--space-one) auto;
   border-bottom: 1px solid var(--s-100);
+  margin: var(--space-one) auto;
+  max-width: 95%;
 }
 </style>
