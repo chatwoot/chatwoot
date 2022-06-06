@@ -9,6 +9,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def create
     @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
     @automation_rule.actions = params[:actions]
+    @automation_rule.conditions = params[:conditions]
 
     render json: { error: @automation_rule.errors.messages }, status: :unprocessable_entity and return unless @automation_rule.valid?
 
@@ -33,6 +34,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     ActiveRecord::Base.transaction do
       @automation_rule.update!(automation_rules_permit)
       @automation_rule.actions = params[:actions] if params[:actions]
+      @automation_rule.conditions = params[:conditions] if params[:conditions]
       @automation_rule.save!
       process_attachments
 
