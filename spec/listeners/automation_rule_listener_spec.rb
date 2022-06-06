@@ -328,8 +328,8 @@ describe AutomationRuleListener do
         end
       end
 
-      context 'when rule doesnt matche' do
-        it 'when triggers automation rule not to assign team' do
+      context 'when rule doesnt match' do
+        it 'when automation rule  is triggered it will not assign team' do
           conversation.update(status: :open)
 
           expect(conversation.team_id).not_to eq(team.id)
@@ -340,7 +340,7 @@ describe AutomationRuleListener do
           expect(conversation.team_id).not_to eq(team.id)
         end
 
-        it 'when triggers automation rule not to assign team with attribute_changed values' do
+        it 'when automation rule is triggers, it will not assign team on attribute_changed values' do
           conversation.update(status: :snoozed)
           event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation,
                                                                             changed_attributes: { company: %w[Marvel DC] } })

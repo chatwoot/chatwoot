@@ -32,10 +32,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def update
     ActiveRecord::Base.transaction do
-      @automation_rule.update!(automation_rules_permit)
-      @automation_rule.actions = params[:actions] if params[:actions]
-      @automation_rule.conditions = params[:conditions] if params[:conditions]
-      @automation_rule.save!
+      automation_rule_update
       process_attachments
 
     rescue StandardError => e
@@ -68,6 +65,13 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   private
+
+  def automation_rule_update
+    @automation_rule.update!(automation_rules_permit)
+    @automation_rule.actions = params[:actions] if params[:actions]
+    @automation_rule.conditions = params[:conditions] if params[:conditions]
+    @automation_rule.save!
+  end
 
   def automation_rules_permit
     params.permit(
