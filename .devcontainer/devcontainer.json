@@ -26,8 +26,8 @@
   "forwardPorts": [8025],
   //your application may need to listen on all interfaces (0.0.0.0) not just localhost for it to be available externally. Defaults to []
   "appPort": [3000, 3035],
-
-  "postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
+  //"postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
+  "postCreateCommand": ".devcontainer/scripts/setup.sh && yarn",
   "portsAttributes": {
     "3000": {
       "label": "Rails Server"
