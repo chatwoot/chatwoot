@@ -51,7 +51,15 @@ export const getters = {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
     );
-    return inbox.message_templates || [];
+    // filtering out the whatsapp templates with media
+    if (inbox.message_templates) {
+      return inbox.message_templates.filter(template => {
+        return !template.components.some(
+          i => i.format === 'IMAGE' || i.format === 'VIDEO'
+        );
+      });
+    }
+    return [];
   },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
