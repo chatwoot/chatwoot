@@ -25,10 +25,11 @@
 #  fk_rails_...  (author_id => users.id)
 #
 class Article < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :account
   belongs_to :category
   belongs_to :portal
-  # belongs_to :folder
   belongs_to :author, class_name: 'User'
 
   before_validation :ensure_account_id
@@ -40,15 +41,30 @@ class Article < ApplicationRecord
 
   enum status: { draft: 0, published: 1 }
 
-  scope :search_by_category_slug, lambda { |category_slug| where('categories.slug = ?', category_slug) if category_slug.present? }
-  scope :search_by_category_locale, lambda { |locale| where('categories.locale = ?', locale) if locale.present? }
+  scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
+  scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
 
-  def self.search(query)
-    joins(
+  # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
+  pg_search_scope(
+    :text_search,
+    against: %i[
+      title
+      description
+      content
+    ],
+    using: {
+      tsearch: {
+        prefix: true
+      }
+    }
+  )
+
+  def self.search(params)
+    records = joins(
       :category
-    ).search_by_category_slug(query[:category_slug]
-    ).search_by_category_locale(query[:locale]
-    ).
+    ).search_by_category_slug(params[:category_slug]).search_by_category_locale(params[:locale])
+    records.text_search(params[:query]) if params[:query].present?
+    records
   end
 
   private
