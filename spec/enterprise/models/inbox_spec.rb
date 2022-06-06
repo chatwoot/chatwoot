@@ -18,6 +18,13 @@ RSpec.describe Inbox do
       create_list(:conversation, 3, inbox: inbox, assignee: inbox_member_3.user)
     end
 
+    it 'validated max_assignment_limit' do
+      account = create(:account)
+      expect(build(:inbox, account: account, auto_assignment_config: { max_assignment_limit: 0 })).not_to be_valid
+      expect(build(:inbox, account: account, auto_assignment_config: {})).to be_valid
+      expect(build(:inbox, account: account, auto_assignment_config: { max_assignment_limit: 1 })).to be_valid
+    end
+
     it 'returns member ids with assignment capacity with inbox max_assignment_limit is configured' do
       # agent 1 has 1 conversations, agent 2 has 2 conversations, agent 3 has 3 conversations and agent 4 with none
       inbox.update(auto_assignment_config: { max_assignment_limit: 2 })
