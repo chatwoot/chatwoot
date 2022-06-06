@@ -156,7 +156,6 @@ group :test do
 end
 
 group :development, :test do
-  # for error thrown by devise password gem
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri

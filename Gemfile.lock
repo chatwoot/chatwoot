@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/chatwoot/devise-secure_password
-  revision: de11e8765654b8242d42101ee9c8ffc8126f7975
+  revision: d777b04f12652d576b1272b8f39857e3e0b3fc26
   specs:
     devise-secure_password (2.0.1)
       devise (>= 4.0.0, < 5.0.0)
@@ -742,4 +742,4 @@ RUBY VERSION
    ruby 3.0.4p208
 
 BUNDLED WITH
-   2.3.9
+   2.3.14
