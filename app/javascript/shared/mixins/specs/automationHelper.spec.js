@@ -109,11 +109,11 @@ describe('automationMethodsMixin', () => {
   it('getActionOptions returns expected actions options array', () => {
     const expectedOptions = [
       {
-        id: 2,
+        id: 'testlabel',
         name: 'testlabel',
       },
       {
-        id: 1,
+        id: 'snoozes',
         name: 'snoozes',
       },
     ];
