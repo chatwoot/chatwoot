@@ -47,7 +47,7 @@ export const getters = {
   getInboxes($state) {
     return $state.records;
   },
-  getWhatsappTempaltes: $state => inboxId => {
+  getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
     );
