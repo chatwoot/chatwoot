@@ -21,6 +21,7 @@ import { default as _setNewPassword } from './setNewPassword.json';
 import { default as _settings } from './settings.json';
 import { default as _signup } from './signup.json';
 import { default as _teamsSettings } from './teamsSettings.json';
+import { default as _whatsappTemplates } from './whatsappTemplates.json';
 import { default as _bulkActions } from './bulkActions.json';
 
 export default {
@@ -47,5 +48,6 @@ export default {
   ..._settings,
   ..._signup,
   ..._teamsSettings,
+  ..._whatsappTemplates,
   ..._bulkActions,
 };
