@@ -64,7 +64,11 @@ class Article < ApplicationRecord
       :category
     ).search_by_category_slug(params[:category_slug]).search_by_category_locale(params[:locale])
     records.text_search(params[:query]) if params[:query].present?
-    records
+    records.page(current_page(params))
+  end
+
+  def self.current_page(params)
+    params[:page] || 1
   end
 
   private
