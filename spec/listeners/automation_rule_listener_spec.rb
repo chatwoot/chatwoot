@@ -259,6 +259,101 @@ describe AutomationRuleListener do
         expect(conversation.messages.first.content).to eq('Send this message.')
       end
     end
+
+    context 'when conditions based on attribute_changed' do
+      before do
+        automation_rule.update!(
+          event_name: 'conversation_updated',
+          name: 'Call actions conversation updated when company changed from DC to Marvel',
+          description: 'Add labels, assign team after conversation updated',
+          conditions: [
+            {
+              attribute_key: 'company',
+              filter_operator: 'attribute_changed',
+              values: { from: ['DC'], to: ['Marvel'] },
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
+              values: ['snoozed'],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+        conversation.update(status: :snoozed)
+      end
+
+      let!(:event) do
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, changed_attributes: {
+                           company: %w[DC Marvel]
+                         } })
+      end
+
+      context 'when rule matches' do
+        it 'triggers automation rule to assign team' do
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).to eq(team.id)
+        end
+
+        it 'triggers automation rule to assign team with OR operator' do
+          conversation.update(status: :open)
+          automation_rule.update!(
+            conditions: [
+              {
+                attribute_key: 'company',
+                filter_operator: 'attribute_changed',
+                values: { from: ['DC'], to: ['Marvel'] },
+                query_operator: 'OR'
+              }.with_indifferent_access,
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['snoozed'],
+                query_operator: nil
+              }.with_indifferent_access
+            ]
+          )
+
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).to eq(team.id)
+        end
+      end
+
+      context 'when rule doesnt match' do
+        it 'when automation rule is triggered it will not assign team' do
+          conversation.update(status: :open)
+
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).not_to eq(team.id)
+        end
+
+        it 'when automation rule is triggers, it will not assign team on attribute_changed values' do
+          conversation.update(status: :snoozed)
+          event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation,
+                                                                            changed_attributes: { company: %w[Marvel DC] } })
+
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).not_to eq(team.id)
+        end
+      end
+    end
   end
 
   describe '#message_created' do
