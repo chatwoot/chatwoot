@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "ทีม",
     "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "ภาพรวม"
+    "REPORTS_OVERVIEW": "ภาพรวม",
+    "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",
