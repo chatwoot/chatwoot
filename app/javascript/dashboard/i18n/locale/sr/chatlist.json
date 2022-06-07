@@ -12,33 +12,11 @@
       "INPUT": "Tražite osobe, razgovore, gotove odgovore .."
     },
     "FILTER_ALL": "Sve",
-    "STATUS_TABS": [
-      {
-        "NAME": "Otvoreni",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Rešeni",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Moji",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Nedodeljen",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Svi",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Moji",
+      "unassigned": "Nedodeljen",
+      "all": "Sve"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Otvoreni"

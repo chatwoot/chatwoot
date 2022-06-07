@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT റിപ്പോർട്ടുകൾ",
     "NO_RECORDS": "CSAT സർവേ പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"

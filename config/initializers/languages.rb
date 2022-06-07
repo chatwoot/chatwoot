@@ -34,7 +34,8 @@ LANGUAGES_CONFIG = {
   29 => { name: 'norsk (no)', iso_639_3_code: 'nor', iso_639_1_code: 'no', enabled: true },
   30 => { name: '中文 (zh-CN)', iso_639_3_code: 'zho', iso_639_1_code: 'zh_CN', enabled: true },
   31 => { name: 'język polski (pl)', iso_639_3_code: 'pol', iso_639_1_code: 'pl', enabled: true },
-  32 => { name: 'slovenčina (sk)', iso_639_3_code: 'slk', iso_639_1_code: 'sk', enabled: true }
+  32 => { name: 'slovenčina (sk)', iso_639_3_code: 'slk', iso_639_1_code: 'sk', enabled: true },
+  33 => { name: 'украї́нська мо́ва (uk)', iso_639_3_code: 'ukr', iso_639_1_code: 'uk', enabled: true }
 }.filter { |_key, val| val[:enabled] }.freeze
 
 Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }
