@@ -38,6 +38,9 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
+
+import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
+
 export default {
   name: 'App',
   components: {
@@ -103,6 +106,7 @@ export default {
       'setAppConfig',
       'setReferrerHost',
       'setWidgetColor',
+      'setBubbleVisibility',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -285,6 +289,8 @@ export default {
           if (!message.isOpen) {
             this.resetCampaign();
           }
+        } else if (message.event === SDK_SET_BUBBLE_VISIBILITY) {
+          this.setBubbleVisibility(message.hideMessageBubble);
         }
       });
     },

@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ההקצאה האוטומטית עודכנה בהצלחה",
         "ERROR_MESSAGE": "לא ניתן היה לעדכן את צבע הווידג'ט. בבקשה נסה שוב מאוחר יותר."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "מופעל",
         "DISABLED": "כבוי"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "מאפיינים",
       "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
-      "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט"
+      "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "סקריפט מסנג'ר",
       "MESSENGER_SUB_HEAD": "מקם את הכפתור הזה בתוך תג הגוף שלך",
       "INBOX_AGENTS": "סוכנים",
       "INBOX_AGENTS_SUB_TEXT": "הוסף או הסר נציגים מתיבת הדואר הנכנס הזו",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "עדכן",
       "ENABLE_EMAIL_COLLECT_BOX": "אפשר תיבת איסוף דוא\"ל",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "טפסי טרום צ'אט מאפשרים לך ללכוד מידע על המשתמש לפני שהם מתחילים בשיחה איתך.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "מפתח",
+        "TYPE": "סוג",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "אפשר טופס טרום צ'אט",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "הודעת צ'אט מקדימה",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "הודעה זו תהיה גלויה למשתמשים יחד עם הטופס"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "אימייל",
-        "PLACE_HOLDER": "אימייל"
+      "LOGIN": {
+        "LABEL": "התחבר",
+        "PLACE_HOLDER": "התחבר"
       },
       "PASSWORD": {
         "LABEL": "סיסמה",
@@ -511,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "אימייל",
-        "PLACE_HOLDER": "אימייל"
+      "LOGIN": {
+        "LABEL": "התחבר",
+        "PLACE_HOLDER": "התחבר"
       },
       "PASSWORD": {
         "LABEL": "סיסמה",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

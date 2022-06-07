@@ -42,11 +42,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: ${{ github.head_ref }}
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
 
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0.2 # Not needed with a .ruby-version file
+        ruby-version: 3.0.4 # Not needed with a .ruby-version file
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
     - name: yarn

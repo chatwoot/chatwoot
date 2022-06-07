@@ -16,6 +16,7 @@ describe ::Campaigns::CampaignConversationBuilder do
 
       expect(campaign_conversation.campaign_id).to eq(campaign.id)
       expect(campaign_conversation.messages.first.content).to eq(campaign.message)
+      expect(campaign_conversation.messages.first.additional_attributes['campaign_id']).to eq(campaign.id)
     end
 
     it 'will not create a conversation with campaign id if another conversation exists' do

@@ -12,33 +12,11 @@
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
     "FILTER_ALL": "Alle",
-    "STATUS_TABS": [
-      {
-        "NAME": "Offen",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Gelöst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Meine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Nicht zugewiesen",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meine",
+      "unassigned": "Nicht zugewiesen",
+      "all": "Alle"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Öffnen"
@@ -81,6 +59,7 @@
     "NO_MESSAGES": "Keine Nachrichten",
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
-    "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen"
+    "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
+    "MESSAGE_READ": "Lesen"
   }
 }

@@ -44,27 +44,36 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getAgentReports(since, until) {
+  getConversationMetric(type = 'account', page = 1) {
+    return axios.get(`${this.url}/conversations`, {
+      params: {
+        type,
+        page,
+      },
+    });
+  }
+
+  getAgentReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/agents`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 
-  getLabelReports(since, until) {
+  getLabelReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/labels`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 
-  getInboxReports(since, until) {
+  getInboxReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/inboxes`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 
-  getTeamReports(since, until) {
+  getTeamReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/teams`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 }

@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ഓട്ടോമാറ്റിക് അസൈൻമെന്റ് വിജയകരമായി അപ്‌ഡേറ്റുചെയ്‌തു",
         "ERROR_MESSAGE": "വിജറ്റ് നിറം അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
-        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "മെസഞ്ചർ സ്ക്രിപ്റ്റ്",
       "MESSENGER_SUB_HEAD": "ഈ ബട്ടൺ നിങ്ങളുടെ ബോഡി ടാഗിനുള്ളിൽ സ്ഥാപിക്കുക",
       "INBOX_AGENTS": "ഏജന്റുമാർ",
       "INBOX_AGENTS_SUB_TEXT": "ഈ ഇൻ‌ബോക്സിൽ നിന്ന് ഏജന്റുമാരെ ചേർക്കുക അല്ലെങ്കിൽ നീക്കംചെയ്യുക",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "അപ്‌ഡേറ്റ്",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "കീ",
+        "TYPE": "തരം",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "This message would be visible to the users along with the form"
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "ഇമെയിൽ",
-        "PLACE_HOLDER": "ഇമെയിൽ"
+      "LOGIN": {
+        "LABEL": "സൈൻ ഇൻ",
+        "PLACE_HOLDER": "സൈൻ ഇൻ"
       },
       "PASSWORD": {
         "LABEL": "പാസ്‌വേഡ്",
@@ -511,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "ഇമെയിൽ",
-        "PLACE_HOLDER": "ഇമെയിൽ"
+      "LOGIN": {
+        "LABEL": "സൈൻ ഇൻ",
+        "PLACE_HOLDER": "സൈൻ ഇൻ"
       },
       "PASSWORD": {
         "LABEL": "പാസ്‌വേഡ്",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div v-if="hasSecondaryMenu" class="main-nav secondary-menu">
-    <account-context />
+    <account-context @toggle-accounts="toggleAccountModal" />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -223,6 +223,9 @@ export default {
   methods: {
     showAddLabelPopup() {
       this.$emit('add-label');
+    },
+    toggleAccountModal() {
+      this.$emit('toggle-accounts');
     },
   },
 };

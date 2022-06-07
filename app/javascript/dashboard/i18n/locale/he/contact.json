@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
     "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "אשר מחיקה",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "לא, השאר"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "מחק איש קשר",
     "TITLE": "מחק איש קשר",
