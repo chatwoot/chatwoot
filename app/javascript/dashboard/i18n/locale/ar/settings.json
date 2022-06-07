@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "الفريق",
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
     "BETA": "تجريبي",
-    "REPORTS_OVERVIEW": "نظرة عامة"
+    "REPORTS_OVERVIEW": "نظرة عامة",
+    "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
