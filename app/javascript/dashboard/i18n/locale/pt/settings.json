@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Equipa",
     "SET_AVAILABILITY_TITLE": "Defina-se como",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Visão geral"
+    "REPORTS_OVERVIEW": "Visão geral",
+    "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
