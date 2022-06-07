@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Ajouter une réponse standardisée",
     "LOADING": "Récupération des réponses standardisées",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>Réponses standardisées</b> </p><p> Les réponses standardisées sont des modèles de réponse enregistrés qui peuvent être utilisés pour envoyer rapidement une réponse à une conversation. </p><p> Pour créer une réponse en conserve, cliquez simplement sur <b>Ajouter une réponse en conserve</b>. Vous pouvez également modifier ou supprimer une réponse en conserve existante en cliquant sur le bouton Modifier ou Supprimer </p><p> Les réponses en conserve sont utilisées à l'aide de <b>codes courts</b>. Les agents peuvent accéder aux réponses standardisées lors d'un chat en tapant <b>'/'</b> suivi du code court. </p>",
     "LIST": {
       "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
       "TITLE": "Gérer les réponses standardisées",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Ajouter une réponse standardisée",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Les réponses en conserve sont des modèles de réponse enregistrés qui peuvent être utilisés pour envoyer rapidement une réponse à une conversation.",
       "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Raccourcis",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Veuillez entrer un code court",
           "ERROR": "Le raccourci est requis"
         },
         "CONTENT": {

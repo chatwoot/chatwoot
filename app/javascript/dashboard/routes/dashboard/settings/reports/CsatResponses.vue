@@ -3,9 +3,18 @@
     <report-filter-selector
       agents-filter
       :agents-filter-items-list="agentList"
+      :show-business-hours-switch="false"
       @date-range-change="onDateRangeChange"
       @agents-filter-change="onAgentsFilterChange"
     />
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="arrow-download"
+      @click="downloadReports"
+    >
+      {{ $t('CSAT_REPORTS.DOWNLOAD') }}
+    </woot-button>
     <csat-metrics />
     <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>
@@ -15,6 +24,7 @@ import CsatMetrics from './components/CsatMetrics';
 import CsatTable from './components/CsatTable';
 import ReportFilterSelector from './components/FilterSelector';
 import { mapGetters } from 'vuex';
+import { generateFileName } from '../../../../helper/downloadHelper';
 
 export default {
   name: 'CsatResponses',
@@ -24,7 +34,7 @@ export default {
     ReportFilterSelector,
   },
   data() {
-    return { pageIndex: 1, from: 0, to: 0, user_ids: [] };
+    return { pageIndex: 1, from: 0, to: 0, userIds: [] };
   },
   computed: {
     ...mapGetters({
@@ -39,7 +49,7 @@ export default {
       this.$store.dispatch('csat/getMetrics', {
         from: this.from,
         to: this.to,
-        user_ids: this.user_ids,
+        user_ids: this.userIds,
       });
       this.getResponses();
     },
@@ -48,7 +58,7 @@ export default {
         page: this.pageIndex,
         from: this.from,
         to: this.to,
-        user_ids: this.user_ids,
+        user_ids: this.userIds,
       });
     },
     onPageNumberChange(pageIndex) {
@@ -61,8 +71,17 @@ export default {
       this.getAllData();
     },
     onAgentsFilterChange(agents) {
-      this.user_ids = agents.map(el => el.id);
+      this.userIds = agents.map(el => el.id);
       this.getAllData();
+    },
+    downloadReports() {
+      const type = 'csat';
+      this.$store.dispatch('csat/downloadCSATReports', {
+        from: this.from,
+        to: this.to,
+        user_ids: this.userIds,
+        fileName: generateFileName({ type, to: this.to }),
+      });
     },
   },
 };

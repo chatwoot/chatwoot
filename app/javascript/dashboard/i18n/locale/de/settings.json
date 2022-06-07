@@ -131,6 +131,10 @@
       "BUTTON_TEXT": "Kopieren",
       "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mehr zeigen",
+      "SHOW_LESS": "Weniger zeigen"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
       "UPLOADING": "Wird hochgeladen..."
@@ -147,8 +151,9 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
+    "SWITCH": "Wechseln",
     "CONVERSATIONS": "Gespräche",
-    "ALL_CONVERSATIONS": "Alle Unterhaltungen",
+    "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
@@ -173,7 +178,7 @@
     "NEW_LABEL": "Neues Label",
     "NEW_TEAM": "Neues Team",
     "NEW_INBOX": "Neuer Posteingang",
-    "REPORTS_OVERVIEW": "Übersicht",
+    "REPORTS_CONVERSATION": "Gespräche",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampagnen",
     "ONGOING": "Im Gange",
@@ -183,7 +188,8 @@
     "REPORTS_INBOX": "Posteingang",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Übersicht"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",

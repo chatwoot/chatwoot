@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Koko nimi",
         "PLACEHOLDER": "Syötä koko nimesi",
-        "ERROR": "Full Name is required"
+        "REQUIRED_ERROR": "Full Name is required"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
         "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Puhelinnumero",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -57,7 +64,8 @@
         "ERROR": "Message too short"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {

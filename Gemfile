@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.0.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -97,14 +97,14 @@ gem 'brakeman'
 gem 'ddtrace'
 gem 'newrelic_rpm'
 gem 'scout_apm'
-gem 'sentry-rails'
-gem 'sentry-ruby'
-gem 'sentry-sidekiq'
+gem 'sentry-rails', '~> 5.3'
+gem 'sentry-ruby', '~> 5.3'
+gem 'sentry-sidekiq', '~> 5.3'
 
 ##-- background job processing --##
 gem 'sidekiq', '~> 6.4.0'
 # We want cron jobs
-gem 'sidekiq-cron'
+gem 'sidekiq-cron', '~> 1.3'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -156,11 +156,6 @@ group :test do
 end
 
 group :development, :test do
-  # TODO: is this needed ?
-  # errors thrown by devise password gem
-  gem 'flay'
-  gem 'rspec'
-  # for error thrown by devise password gem
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri

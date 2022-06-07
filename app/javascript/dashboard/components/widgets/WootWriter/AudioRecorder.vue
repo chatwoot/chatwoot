@@ -1,15 +1,28 @@
 <template>
   <div class="audio-wave-wrapper">
-    <div id="audio-wave"></div>
+    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin"></audio>
   </div>
 </template>
 
 <script>
-import WaveSurfer from 'wavesurfer.js';
-import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
-import RecordRTC from 'recordrtc';
+import 'video.js/dist/video-js.css';
+import 'videojs-record/dist/css/videojs.record.css';
+
+import videojs from 'video.js';
+
 import inboxMixin from '../../../../shared/mixins/inboxMixin';
 import alertMixin from '../../../../shared/mixins/alertMixin';
+
+import Recorder from 'opus-recorder';
+import encoderWorker from 'opus-recorder/dist/encoderWorker.min';
+
+import WaveSurfer from 'wavesurfer.js';
+import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
+import 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
+
+import 'videojs-record/dist/videojs.record.js';
+import 'videojs-record/dist/plugins/videojs.record.opus-recorder.js';
+import { format, addSeconds } from 'date-fns';
 
 WaveSurfer.microphone = MicrophonePlugin;
 
@@ -18,104 +31,116 @@ export default {
   mixins: [inboxMixin, alertMixin],
   data() {
     return {
-      wavesurfer: false,
-      recorder: false,
-      recordingInterval: false,
-      recordingDateStarted: new Date().getTime(),
-      timeDuration: '00:00',
+      player: false,
+      recordingDateStarted: new Date(0),
       initialTimeDuration: '00:00',
-      options: {
-        container: '#audio-wave',
-        backend: 'WebAudio',
-        interact: true,
-        cursorWidth: 1,
-        plugins: [
-          WaveSurfer.microphone.create({
-            bufferSize: 4096,
-            numberOfInputChannels: 1,
-            numberOfOutputChannels: 1,
-            constraints: {
-              video: false,
-              audio: true,
-            },
-          }),
-        ],
-      },
-      optionsRecorder: {
-        type: 'audio',
-        mimeType: 'audio/wav',
-        disableLogs: true,
-        recorderType: RecordRTC.StereoAudioRecorder,
-        sampleRate: 44100,
-        numberOfAudioChannels: 2,
-        checkForInactiveTracks: true,
-        bufferSize: 4096,
+      recorderOptions: {
+        debug: true,
+        controls: true,
+        bigPlayButton: false,
+        fluid: false,
+        controlBar: {
+          deviceButton: false,
+          fullscreenToggle: false,
+          cameraButton: false,
+          volumePanel: false,
+        },
+        plugins: {
+          wavesurfer: {
+            backend: 'WebAudio',
+            waveColor: '#1f93ff',
+            progressColor: 'rgb(25, 118, 204)',
+            cursorColor: 'rgba(43, 51, 63, 0.7)',
+            backgroundColor: 'none',
+            barWidth: 1,
+            cursorWidth: 1,
+            hideScrollbar: true,
+            plugins: [
+              WaveSurfer.microphone.create({
+                bufferSize: 4096,
+                numberOfInputChannels: 1,
+                numberOfOutputChannels: 1,
+                constraints: {
+                  video: false,
+                  audio: true,
+                },
+              }),
+            ],
+          },
+          record: {
+            audio: true,
+            video: false,
+            displayMilliseconds: false,
+            maxLength: 300,
+            audioEngine: 'opus-recorder',
+            audioWorkerURL: encoderWorker,
+            audioChannels: 1,
+            audioSampleRate: 48000,
+            audioBitRate: 128,
+          },
+        },
       },
     };
   },
   computed: {
     isRecording() {
-      if (this.recorder) {
-        return this.recorder.getState() === 'recording';
-      }
-      return false;
+      return this.player && this.player.record().isRecording();
     },
   },
   mounted() {
-    this.wavesurfer = WaveSurfer.create(this.options);
-    this.wavesurfer.on('play', this.playingRecorder);
-    this.wavesurfer.on('pause', this.pausedRecorder);
-    this.wavesurfer.microphone.on('deviceReady', this.startRecording);
-    this.wavesurfer.microphone.on('deviceError', this.deviceError);
-    this.wavesurfer.microphone.start();
-    this.fireStateRecorderTimerChanged(this.initialTimeDuration);
+    window.Recorder = Recorder;
+    this.fireProgressRecord(this.initialTimeDuration);
+    this.player = videojs('#audio-wave', this.recorderOptions, () => {
+      this.$nextTick(() => {
+        this.player.record().getDevice();
+      });
+    });
+    this.player.on('deviceReady', this.deviceReady);
+    this.player.on('deviceError', this.deviceError);
+    this.player.on('startRecord', this.startRecord);
+    this.player.on('stopRecord', this.stopRecord);
+    this.player.on('progressRecord', this.progressRecord);
+    this.player.on('finishRecord', this.finishRecord);
+    this.player.on('playbackFinish', this.playbackFinish);
   },
   beforeDestroy() {
-    if (this.recorder) {
-      this.recorder.destroy();
+    if (this.player) {
+      this.player.dispose();
     }
-    if (this.wavesurfer) {
-      this.wavesurfer.destroy();
+    if (window.Recorder) {
+      window.Recorder = undefined;
     }
   },
   methods: {
-    startRecording(stream) {
-      this.recorder = RecordRTC(stream, this.optionsRecorder);
-      this.recorder.onStateChanged = this.onStateRecorderChanged;
-      this.recorder.startRecording();
+    deviceReady() {
+      this.player.record().start();
+    },
+    startRecord() {
+      this.fireStateRecorderChanged('recording');
+    },
+    stopRecord() {
+      this.fireStateRecorderChanged('stopped');
+    },
+    finishRecord() {
+      const file = new File(
+        [this.player.recordedData],
+        this.player.recordedData.name,
+        { type: this.player.recordedData.type }
+      );
+      this.fireRecorderBlob(file);
+    },
+    progressRecord() {
+      this.fireProgressRecord(this.formatTimeProgress());
     },
     stopAudioRecording() {
-      if (this.isRecording) {
-        this.recorder.stopRecording(() => {
-          this.wavesurfer.microphone.stopDevice();
-          this.wavesurfer.loadBlob(this.recorder.getBlob());
-          this.wavesurfer.stop();
-          this.fireRecorderBlob(this.getAudioFile());
-        });
-      }
+      this.player.record().stop();
     },
-    getAudioFile() {
-      if (this.hasAudio()) {
-        return new File([this.recorder.getBlob()], this.getAudioFileName(), {
-          type: 'audio/wav',
-        });
-      }
-      return false;
-    },
-    hasAudio() {
-      return !(this.isRecording || this.wavesurfer.isPlaying());
-    },
-    playingRecorder() {
-      this.fireStateRecorderChanged('playing');
-    },
-    pausedRecorder() {
-      this.fireStateRecorderChanged('paused');
-    },
-    deviceError(err) {
+    deviceError() {
+      const deviceError = this.player.deviceErrorCode;
+      const deviceErrorName = deviceError?.name.toLowerCase();
       if (
-        err?.name &&
-        (err.name.toLowerCase().includes('notallowederror') ||
-          err.name.toLowerCase().includes('permissiondeniederror'))
+        deviceErrorName?.includes('notallowederror') ||
+        deviceErrorName?.includes('permissiondeniederror')
       ) {
         this.showAlert(
           this.$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_PERMISSION')
@@ -127,56 +152,37 @@ export default {
         );
       }
     },
-    onStateRecorderChanged(state) {
-      // recording stopped inactive destroyed
-      switch (state) {
-        case 'recording':
-          this.timerDurationChanged();
-          break;
-        case 'stopped':
-          this.timerDurationChanged();
-          break;
-        default:
-          break;
-      }
-      this.fireStateRecorderChanged(state);
-    },
-    timerDurationChanged() {
-      if (this.isRecording) {
-        this.recordingInterval = setInterval(() => {
-          this.calculateTimeDuration(
-            (new Date().getTime() - this.recordingDateStarted) / 1000
-          );
-          this.fireStateRecorderTimerChanged(this.timeDuration);
-        }, 1000);
-      } else {
-        clearInterval(this.recordingInterval);
-      }
-    },
-    calculateTimeDuration(secs) {
-      let hr = Math.floor(secs / 3600);
-      let min = Math.floor((secs - hr * 3600) / 60);
-      let sec = Math.floor(secs - hr * 3600 - min * 60);
-      if (min < 10) {
-        min = '0' + min;
-      }
-      if (sec < 10) {
-        sec = '0' + sec;
-      }
-      if (hr <= 0) {
-        this.timeDuration = min + ':' + sec;
-      } else {
-        if (hr < 10) {
-          hr = '0' + hr;
-        }
-        this.timeDuration = hr + ':' + min + ':' + sec;
-      }
+    formatTimeProgress() {
+      return format(
+        addSeconds(
+          new Date(this.recordingDateStarted.getTimezoneOffset() * 1000 * 60),
+          this.player.record().getDuration()
+        ),
+        'mm:ss'
+      );
     },
     playPause() {
-      this.wavesurfer.playPause();
+      if (this.player.wavesurfer().surfer.isPlaying()) {
+        this.fireStateRecorderChanged('paused');
+      } else {
+        this.fireStateRecorderChanged('playing');
+      }
+      this.player.wavesurfer().surfer.playPause();
+    },
+    play() {
+      this.fireStateRecorderChanged('playing');
+      this.player.wavesurfer().play();
+    },
+    pause() {
+      this.fireStateRecorderChanged('paused');
+      this.player.wavesurfer().pause();
+    },
+    playbackFinish() {
+      this.fireStateRecorderChanged('paused');
+      this.player.wavesurfer().pause();
     },
     fireRecorderBlob(blob) {
-      this.$emit('recorder-blob', {
+      this.$emit('finish-record', {
         name: blob.name,
         type: blob.type,
         size: blob.size,
@@ -186,29 +192,8 @@ export default {
     fireStateRecorderChanged(state) {
       this.$emit('state-recorder-changed', state);
     },
-    fireStateRecorderTimerChanged(duration) {
-      this.$emit('state-recorder-timer-changed', duration);
-    },
-    getAudioFileName() {
-      const d = new Date();
-      return `audio-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${this.getRandomString()}.wav`;
-    },
-    getRandomString() {
-      if (
-        window.crypto &&
-        window.crypto.getRandomValues &&
-        navigator.userAgent.indexOf('Safari') === -1
-      ) {
-        let a = window.crypto.getRandomValues(new Uint32Array(3));
-        let token = '';
-        for (let i = 0, l = a.length; i < l; i += 1) {
-          token += a[i].toString(36);
-        }
-        return token.toLowerCase();
-      }
-      return (Math.random() * new Date().getTime())
-        .toString(36)
-        .replace(/\./g, '');
+    fireProgressRecord(duration) {
+      this.$emit('state-recorder-progress-changed', duration);
     },
   },
 };
@@ -217,7 +202,9 @@ export default {
 <style lang="scss">
 .audio-wave-wrapper {
   min-height: 8rem;
-  max-height: 12rem;
-  overflow: hidden;
+  height: 8rem;
+}
+.video-js .vjs-control-bar {
+  background-color: transparent;
 }
 </style>

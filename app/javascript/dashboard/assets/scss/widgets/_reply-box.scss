@@ -27,6 +27,16 @@
       padding: 0 $space-small;
     }
 
+    .video-js {
+      background: transparent;
+      // Override min-height : 50px in foundation
+      //
+      max-height: $space-mega * 2.4;
+      min-height: 4.8rem;
+      padding: var(--space-normal) 0 0;
+      resize: none;
+    }
+
     >textarea {
       @include ghost-input();
       @include margin(0);

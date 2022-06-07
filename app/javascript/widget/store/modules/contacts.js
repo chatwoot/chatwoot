@@ -61,9 +61,10 @@ export const actions = {
         dispatch('conversationAttributes/getAttributes', {}, { root: true });
       }
     } catch (error) {
-      const {
-        response: { data },
-      } = error;
+      const data =
+        error && error.response && error.response.data
+          ? error.response.data
+          : error;
       IFrameHelper.sendMessage({
         event: 'error',
         errorType: SET_USER_ERROR,
