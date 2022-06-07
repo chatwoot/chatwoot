@@ -20,7 +20,8 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
           category: {
             name: 'test_category',
             description: 'test_description',
-            position: 1
+            position: 1,
+            locale: 'es'
           }
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
@@ -92,7 +93,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
     context 'when it is an authenticated user' do
       it 'get all portals' do
-        category2 = create(:category, name: 'test_category_2', portal: portal)
+        category2 = create(:category, name: 'test_category_2', portal: portal, locale: 'es')
         expect(category2.id).not_to be nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",

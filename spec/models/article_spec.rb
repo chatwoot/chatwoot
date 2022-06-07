@@ -36,11 +36,10 @@ RSpec.describe Article, type: :model do
 
     context 'when no parameters passed' do
       it 'returns all the articles in portal' do
-        params = {}
-        records = portal_1.articles.search(params)
+        records = portal_1.articles.search({})
         expect(records.count).to eq(portal_1.articles.count)
 
-        records = portal_2.articles.search(params)
+        records = portal_2.articles.search({})
         expect(records.count).to eq(portal_2.articles.count)
       end
     end
@@ -48,7 +47,7 @@ RSpec.describe Article, type: :model do
     context 'when params passed' do
       it 'returns all the articles with all the params filters' do
         params = { query: 'title', locale: 'es', category_slug: 'category_3' }
-        records = portal_1.articles.search(params)
+        records = portal_2.articles.search(params)
         expect(records.count).to eq(1)
 
         params = { query: 'this', locale: 'en', category_slug: 'category_1' }
@@ -81,7 +80,7 @@ RSpec.describe Article, type: :model do
 
         params = { query: 'title' }
         records = portal_1.articles.search(params)
-        expect(records.count).to eq(5)
+        expect(records.count).to eq(4)
 
         params = { query: 'the content' }
         records = portal_2.articles.search(params)
