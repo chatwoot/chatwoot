@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview"
+    "REPORTS_OVERVIEW": "Overview",
+    "FACEBOOK_REAUTHORIZE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
