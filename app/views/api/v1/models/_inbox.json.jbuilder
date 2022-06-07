@@ -79,3 +79,6 @@ if resource.api?
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
 end
+
+### WhatsApp Channel
+json.message_templates resource.channel.try(:message_templates) if resource.whatsapp?
