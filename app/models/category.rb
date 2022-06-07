@@ -71,6 +71,16 @@ class Category < ApplicationRecord
     params[:page] || 1
   end
 
+  scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
+
+  def self.search(params)
+    search_by_locale(params[:locale]).page(current_page(params)).order(position: :asc)
+  end
+
+  def self.current_page(params)
+    params[:page] || 1
+  end
+
   private
 
   def ensure_account_id
