@@ -3,7 +3,7 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   before_action :fetch_category, except: [:index, :create]
 
   def index
-    @categories = @portal.categories
+    @categories = @portal.categories.search(params)
   end
 
   def create
