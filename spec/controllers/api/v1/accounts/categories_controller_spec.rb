@@ -241,6 +241,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         category_count = Category.all.count
 
         category2 = create(:category, name: 'test_category_2', portal: portal, locale: 'es', slug: 'category_slug_2')
+
         expect(category2.id).not_to be nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
