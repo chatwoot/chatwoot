@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview"
+    "REPORTS_OVERVIEW": "Overview",
+    "FACEBOOK_REAUTHORIZE": "Facebookの接続が期限切れになりました。サービスを継続するには、Facebookページを再接続してください。"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
