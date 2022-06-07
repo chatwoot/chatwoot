@@ -3,7 +3,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :fetch_article, except: [:index, :create]
 
   def index
-    @articles = @portal.articles.search(params[:payload])
+    @articles = @portal.articles
+    @articles.search(params[:payload]) if params[:payload].present?
   end
 
   def create
