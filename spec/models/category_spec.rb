@@ -19,7 +19,7 @@ RSpec.describe Category, type: :model do
     let!(:portal_1) { create(:portal, account_id: account.id) }
     let!(:portal_2) { create(:portal, account_id: account.id) }
 
-    before :each do
+    before do
       create(:category, slug: 'category_1', locale: 'en', portal_id: portal_1.id)
       create(:category, slug: 'category_2', locale: 'es', portal_id: portal_1.id)
       create(:category, slug: 'category_3', locale: 'es', portal_id: portal_2.id)
