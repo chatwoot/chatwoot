@@ -54,17 +54,21 @@
         class="max-assignment-container"
       >
         <woot-input
-          v-model="maxAssignmentLimit"
+          v-model.trim="maxAssignmentLimit"
           type="number"
-          class="medium-9 columns mt-2"
+          :class="{ error: $v.maxAssignmentLimit.$error }"
+          :error="maxAssignmentLimitErrors"
           :label="$t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT')"
+          @blur="$v.maxAssignmentLimit.$touch"
         />
+
         <p class="help-text">
           {{ $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT') }}
         </p>
 
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :disabled="$v.maxAssignmentLimit.$invalid"
           @click="updateInbox"
         />
       </div>
@@ -74,6 +78,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { minValue } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../../components/SettingsSection';
@@ -101,6 +106,14 @@ export default {
     ...mapGetters({
       agentList: 'agents/getAgents',
     }),
+    maxAssignmentLimitErrors() {
+      if (this.$v.maxAssignmentLimit.$error) {
+        return this.$t(
+          'INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_RANGE_ERROR'
+        );
+      }
+      return '';
+    },
   },
   watch: {
     inbox() {
@@ -169,6 +182,9 @@ export default {
       isEmpty() {
         return !!this.selectedAgents.length;
       },
+    },
+    maxAssignmentLimit: {
+      minValue: minValue(1),
     },
   },
 };
