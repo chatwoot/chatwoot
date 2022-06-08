@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Signature du message personnel",
-        "NOTE": "Créez une signature de message personnel qui serait ajoutée à tous les messages que vous envoyez depuis la plateforme. Utilisez l'éditeur de contenu riche pour créer une signature hautement personnalisée.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Enregistrer la signature du message",
         "API_ERROR": "Impossible d'enregistrer la signature ! Réessayez",
         "API_SUCCESS": "Signature enregistrée avec succès"
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Équipes",
     "SET_AVAILABILITY_TITLE": "Se définir comme",
     "BETA": "Bêta",
-    "REPORTS_OVERVIEW": "Vue d'ensemble"
+    "REPORTS_OVERVIEW": "Vue d'ensemble",
+    "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",

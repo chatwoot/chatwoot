@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "请从左侧窗格选择一个对话",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "您的收件箱中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的页面发送一条消息！",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "下载",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
