@@ -4,7 +4,14 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
 } from '../../../dashboard/routes/dashboard/settings/automation/operators';
-import { customAttributes, labels, automation } from './automationFixtures';
+import {
+  customAttributes,
+  labels,
+  automation,
+  contactAttrs,
+  conversationAttrs,
+  expectedOutputForCustomAttributeGenerator,
+} from './automationFixtures';
 import { AUTOMATIONS } from '../../../dashboard/routes/dashboard/settings/automation/constants.js';
 
 describe('automationMethodsMixin', () => {
@@ -301,5 +308,16 @@ describe('automationMethodsMixin', () => {
     expect(helpers.isCustomAttribute(attrs, 'link')).toBeTruthy();
     expect(helpers.isCustomAttribute(attrs, 'prime_user')).toBeTruthy();
     expect(helpers.isCustomAttribute(attrs, 'hello')).toBeFalsy();
+  });
+
+  it('generateCustomAttributes generates and returns correct condition attribute', () => {
+    expect(
+      helpers.generateCustomAttributes(
+        conversationAttrs,
+        contactAttrs,
+        'Conversation Custom Attributes',
+        'Contact Custom Attributes'
+      )
+    ).toEqual(expectedOutputForCustomAttributeGenerator);
   });
 });

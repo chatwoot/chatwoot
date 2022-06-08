@@ -686,3 +686,78 @@ export const savedAutomation = {
   created_on: 1652776043,
   active: true,
 };
+
+export const contactAttrs = [
+  {
+    key: 'contact_list',
+    name: 'Contact List',
+    inputType: 'search_select',
+    filterOperators: [
+      {
+        value: 'equal_to',
+        label: 'Equal to',
+      },
+      {
+        value: 'not_equal_to',
+        label: 'Not equal to',
+      },
+    ],
+  },
+];
+export const conversationAttrs = [
+  {
+    key: 'text_attr',
+    name: 'Text Attr',
+    inputType: 'plain_text',
+    filterOperators: [
+      {
+        value: 'equal_to',
+        label: 'Equal to',
+      },
+      {
+        value: 'not_equal_to',
+        label: 'Not equal to',
+      },
+      {
+        value: 'is_present',
+        label: 'Is present',
+      },
+      {
+        value: 'is_not_present',
+        label: 'Is not present',
+      },
+    ],
+  },
+];
+export const expectedOutputForCustomAttributeGenerator = [
+  {
+    key: 'conversation_custom_attribute',
+    name: 'Conversation Custom Attributes',
+    disabled: true,
+  },
+  {
+    key: 'text_attr',
+    name: 'Text Attr',
+    inputType: 'plain_text',
+    filterOperators: [
+      { value: 'equal_to', label: 'Equal to' },
+      { value: 'not_equal_to', label: 'Not equal to' },
+      { value: 'is_present', label: 'Is present' },
+      { value: 'is_not_present', label: 'Is not present' },
+    ],
+  },
+  {
+    key: 'contact_custom_attribute',
+    name: 'Contact Custom Attributes',
+    disabled: true,
+  },
+  {
+    key: 'contact_list',
+    name: 'Contact List',
+    inputType: 'search_select',
+    filterOperators: [
+      { value: 'equal_to', label: 'Equal to' },
+      { value: 'not_equal_to', label: 'Not equal to' },
+    ],
+  },
+];
