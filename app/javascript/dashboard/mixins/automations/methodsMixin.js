@@ -269,21 +269,29 @@ export default {
         contactCustomAttributesRaw,
         'contact_attribute'
       );
-
-      const manifestedCustomAttributes = [
-        {
-          key: 'conversation_custom_attribute',
-          name: this.$t('AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'),
-          disabled: true,
-        },
-        ...conversationCustomAttributeTypes,
-        {
-          key: 'contact_custom_attribute',
-          name: this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL'),
-          disabled: true,
-        },
-        ...contactCustomAttributeTypes,
-      ];
+      let manifestedCustomAttributes = [];
+      if (conversationCustomAttributeTypes.length) {
+        manifestedCustomAttributes.push(
+          {
+            key: 'conversation_custom_attribute',
+            name: this.$t(
+              'AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'
+            ),
+            disabled: true,
+          },
+          ...conversationCustomAttributeTypes
+        );
+      }
+      if (contactCustomAttributeTypes.length) {
+        manifestedCustomAttributes.push(
+          {
+            key: 'contact_custom_attribute',
+            name: this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL'),
+            disabled: true,
+          },
+          ...contactCustomAttributeTypes
+        );
+      }
       this.automationTypes.message_created.conditions.push(
         ...manifestedCustomAttributes
       );
