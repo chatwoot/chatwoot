@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
+  before_action :check_authorization
   before_action :fetch_article, except: [:index, :create]
 
   def index

@@ -158,6 +158,7 @@ Rails.application.routes.draw do
           resources :portals do
             member do
               post :archive
+              put :add_members
             end
             resources :categories
             resources :articles

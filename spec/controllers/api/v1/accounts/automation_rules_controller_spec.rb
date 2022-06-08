@@ -115,10 +115,10 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       it 'Saves for automation_rules for account with status conditions' do
         params[:conditions] = [
           {
-            'attribute_key': 'status',
-            'filter_operator': 'equal_to',
-            'values': ['resolved'],
-            'query_operator': nil
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['resolved'],
+            query_operator: nil
           }
         ]
         expect(account.automation_rules.count).to eq(0)

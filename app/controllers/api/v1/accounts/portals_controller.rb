@@ -1,8 +1,16 @@
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   before_action :fetch_portal, except: [:index, :create]
+  before_action :check_authorization
 
   def index
     @portals = Current.account.portals
+  end
+
+  def add_members
+    agents = Current.account.agents.where(id: portal_member_params[:member_ids])
+    if @portal.members << agents
+      # sens email notification to agents for this
+    end
   end
 
   def show; end
@@ -33,6 +41,12 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def portal_params
     params.require(:portal).permit(
       :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived
+    )
+  end
+
+  def portal_member_params
+    params.require(:portal).permit(
+      :account_id, :member_ids
     )
   end
 end
