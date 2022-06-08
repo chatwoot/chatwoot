@@ -7,7 +7,7 @@
 #  locale      :string           default("en")
 #  name        :string
 #  position    :integer
-#  slug        :string
+#  slug        :string           default("Category"), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :integer          not null
@@ -15,9 +15,9 @@
 #
 # Indexes
 #
-#  index_categories_on_locale                 (locale)
-#  index_categories_on_locale_and_account_id  (locale,account_id)
-#  index_categories_on_slug_and_locale        (slug,locale) UNIQUE
+#  index_categories_on_locale                         (locale)
+#  index_categories_on_locale_and_account_id          (locale,account_id)
+#  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
 #
 class Category < ApplicationRecord
   belongs_to :account
@@ -28,8 +28,8 @@ class Category < ApplicationRecord
   before_validation :ensure_account_id
   validates :account_id, presence: true
   validates :name, presence: true
-  validates :locale, uniqueness: { scope: :slug,
-                                   message: 'should be unique in the category' }
+  validates :locale, uniqueness: { scope: %i[slug portal_id],
+                                   message: 'should be unique in the category and portal' }
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
 

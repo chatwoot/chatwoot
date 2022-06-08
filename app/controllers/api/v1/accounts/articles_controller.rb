@@ -3,13 +3,17 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :fetch_article, except: [:index, :create]
 
   def index
-    @articles = @portal.articles.where(status: :published)
-    @articles.search(params[:payload]) if params[:payload].present?
+    @articles = @portal.articles
+    @articles.search(list_params) if params[:payload].present?
   end
 
   def create
     @article = @portal.articles.create!(article_params)
   end
+
+  def edit; end
+
+  def show; end
 
   def update
     @article.update!(article_params)
@@ -33,6 +37,12 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def article_params
     params.require(:article).permit(
       :title, :content, :description, :position, :category_id, :author_id
+    )
+  end
+
+  def list_params
+    params.require(:payload).permit(
+      :category_slug, :locale, :query
     )
   end
 end

@@ -23,7 +23,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             description: 'test description',
             title: 'MyTitle',
             content: 'This is my content.',
-            status: 1,
+            status: :published,
             author_id: agent.id
           }
         }
@@ -104,6 +104,33 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 2
+      end
+
+      it 'get all articles with searched params' do
+        article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
+        expect(article2.id).not_to be nil
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+            headers: agent.create_new_auth_token,
+            params: { payload: { category_slug: category.slug } }
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload'].count).to be 2
+      end
+    end
+
+    describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/{article.id}' do
+      it 'get article' do
+        article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
+        expect(article2.id).not_to be nil
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article2.id}",
+            headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+
+        expect(json_response['payload']['title']).to eq(article2.title)
+        expect(json_response['payload']['id']).to eq(article2.id)
       end
     end
   end

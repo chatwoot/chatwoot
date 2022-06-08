@@ -5,8 +5,6 @@ json.content article.content
 json.description article.description
 json.status article.status
 json.account_id article.account_id
-json.portal_id article.portal_id
+json.portal article.portal
 json.views article.views
-json.author_id article.author_id
-json.category_id article.category_id
-json.folder_id article.folder_id
+json.author article.author

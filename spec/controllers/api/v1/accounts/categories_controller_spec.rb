@@ -30,6 +30,13 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['name']).to eql('test_category')
+
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
+             params: category_params,
+             headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = JSON.parse(response.body)
+        expect(json_response['message']).to eql('Locale should be unique in the category and portal')
       end
     end
   end
