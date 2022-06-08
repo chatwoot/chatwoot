@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import NotificationSubscriptions from '../api/notificationSubscription';
-import auth from '../api/auth';
+import { hasAuthCookie } from './APIHelper';
 
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
@@ -44,7 +44,7 @@ export const getPushSubscriptionPayload = subscription => ({
 });
 
 export const sendRegistrationToServer = subscription => {
-  if (auth.hasAuthCookie()) {
+  if (hasAuthCookie()) {
     return NotificationSubscriptions.create(
       getPushSubscriptionPayload(subscription)
     );

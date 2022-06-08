@@ -1,8 +1,8 @@
-/* global axios */
-
-import Cookies from 'js-cookie';
 import endPoints from './endPoints';
 import { setAuthCredentials, clearCookiesOnLogout } from '../store/utils/api';
+import { createAxiosClient } from '../helper/APIHelper';
+
+const axios = createAxiosClient();
 
 export default {
   login(creds) {
@@ -58,15 +58,6 @@ export default {
         });
     });
     return fetchPromise;
-  },
-  hasAuthCookie() {
-    return !!Cookies.getJSON('cw_d_session_info');
-  },
-  getAuthData() {
-    if (this.hasAuthCookie()) {
-      return Cookies.getJSON('cw_d_session_info');
-    }
-    return false;
   },
   verifyPasswordToken({ confirmationToken }) {
     return new Promise((resolve, reject) => {

@@ -1,5 +1,3 @@
-/* global axios */
-
 import ApiClient from './ApiClient';
 
 class IntegrationsAPI extends ApiClient {
@@ -8,21 +6,21 @@ class IntegrationsAPI extends ApiClient {
   }
 
   connectSlack(code) {
-    return axios.post(`${this.baseUrl()}/integrations/slack`, {
+    return this.axios.post(`${this.baseUrl()}/integrations/slack`, {
       code: code,
     });
   }
 
   delete(integrationId) {
-    return axios.delete(`${this.baseUrl()}/integrations/${integrationId}`);
+    return this.axios.delete(`${this.baseUrl()}/integrations/${integrationId}`);
   }
 
   createHook(hookData) {
-    return axios.post(`${this.baseUrl()}/integrations/hooks`, hookData);
+    return this.axios.post(`${this.baseUrl()}/integrations/hooks`, hookData);
   }
 
   deleteHook(hookId) {
-    return axios.delete(`${this.baseUrl()}/integrations/hooks/${hookId}`);
+    return this.axios.delete(`${this.baseUrl()}/integrations/hooks/${hookId}`);
   }
 }
 

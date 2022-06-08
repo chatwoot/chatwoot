@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class InboxMembers extends ApiClient {
@@ -7,7 +6,7 @@ class InboxMembers extends ApiClient {
   }
 
   update({ inboxId, agentList }) {
-    return axios.patch(this.url, {
+    return this.axios.patch(this.url, {
       inbox_id: inboxId,
       user_ids: agentList,
     });

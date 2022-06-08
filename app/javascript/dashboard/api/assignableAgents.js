@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class AssignableAgents extends ApiClient {
@@ -7,7 +6,7 @@ class AssignableAgents extends ApiClient {
   }
 
   get(inboxIds) {
-    return axios.get(this.url, {
+    return this.axios.get(this.url, {
       params: { inbox_ids: inboxIds },
     });
   }

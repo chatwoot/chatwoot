@@ -1,5 +1,5 @@
 /* eslint no-console: 0 */
-/* global axios */
+
 import ApiClient from '../ApiClient';
 
 export const buildCreatePayload = ({
@@ -55,7 +55,7 @@ class MessageApi extends ApiClient {
     bccEmails = '',
     templateParams,
   }) {
-    return axios({
+    return this.axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,
       data: buildCreatePayload({
@@ -72,11 +72,13 @@ class MessageApi extends ApiClient {
   }
 
   delete(conversationID, messageId) {
-    return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
+    return this.axios.delete(
+      `${this.url}/${conversationID}/messages/${messageId}`
+    );
   }
 
   getPreviousMessages({ conversationId, before }) {
-    return axios.get(`${this.url}/${conversationId}/messages`, {
+    return this.axios.get(`${this.url}/${conversationId}/messages`, {
       params: { before },
     });
   }

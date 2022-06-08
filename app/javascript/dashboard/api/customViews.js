@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class CustomViewsAPI extends ApiClient {
@@ -7,11 +6,11 @@ class CustomViewsAPI extends ApiClient {
   }
 
   getCustomViewsByFilterType(type) {
-    return axios.get(`${this.url}?filter_type=${type}`);
+    return this.axios.get(`${this.url}?filter_type=${type}`);
   }
 
   deleteCustomViews(id, type) {
-    return axios.delete(`${this.url}/${id}?filter_type=${type}`);
+    return this.axios.delete(`${this.url}/${id}?filter_type=${type}`);
   }
 }
 

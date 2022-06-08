@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class ConversationApi extends ApiClient {
@@ -7,11 +6,11 @@ class ConversationApi extends ApiClient {
   }
 
   getLabels(conversationID) {
-    return axios.get(`${this.url}/${conversationID}/labels`);
+    return this.axios.get(`${this.url}/${conversationID}/labels`);
   }
 
   updateLabels(conversationID, labels) {
-    return axios.post(`${this.url}/${conversationID}/labels`, { labels });
+    return this.axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
 }
 

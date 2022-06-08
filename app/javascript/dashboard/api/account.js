@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class AccountAPI extends ApiClient {
@@ -7,7 +6,7 @@ class AccountAPI extends ApiClient {
   }
 
   createAccount(data) {
-    return axios.post(`${this.apiVersion}/accounts`, data);
+    return this.axios.post(`${this.apiVersion}/accounts`, data);
   }
 }
 

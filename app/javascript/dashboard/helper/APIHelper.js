@@ -1,19 +1,31 @@
-import Auth from '../api/auth';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
-const parseErrorCode = error => Promise.reject(error);
+export const hasAuthCookie = () => {
+  return !!Cookies.getJSON('cw_d_session_info');
+};
 
-export default axios => {
+export const getAuthData = () => {
+  if (hasAuthCookie()) {
+    return Cookies.getJSON('cw_d_session_info');
+  }
+  return false;
+};
+
+export const parseErrorCode = error => Promise.reject(error);
+
+export const createAxiosClient = () => {
   const { apiHost = '' } = window.chatwootConfig || {};
   const wootApi = axios.create({ baseURL: `${apiHost}/` });
   // Add Auth Headers to requests if logged in
-  if (Auth.hasAuthCookie()) {
+  if (hasAuthCookie()) {
     const {
       'access-token': accessToken,
       'token-type': tokenType,
       client,
       expiry,
       uid,
-    } = Auth.getAuthData();
+    } = getAuthData();
     Object.assign(wootApi.defaults.headers.common, {
       'access-token': accessToken,
       'token-type': tokenType,

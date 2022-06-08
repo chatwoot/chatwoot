@@ -3,6 +3,7 @@ import types from '../mutation-types';
 import authAPI from '../../api/auth';
 import { setUser, clearCookiesOnLogout } from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
+import { hasAuthCookie } from '../../helper/APIHelper';
 
 const initialState = {
   currentUser: {
@@ -110,7 +111,7 @@ export const actions = {
     }
   },
   async setUser({ commit, dispatch }) {
-    if (authAPI.hasAuthCookie()) {
+    if (hasAuthCookie()) {
       await dispatch('validityCheck');
     } else {
       commit(types.CLEAR_USER);

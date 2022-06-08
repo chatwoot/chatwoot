@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class Inboxes extends ApiClient {
@@ -7,11 +6,11 @@ class Inboxes extends ApiClient {
   }
 
   getCampaigns(inboxId) {
-    return axios.get(`${this.url}/${inboxId}/campaigns`);
+    return this.axios.get(`${this.url}/${inboxId}/campaigns`);
   }
 
   deleteInboxAvatar(inboxId) {
-    return axios.delete(`${this.url}/${inboxId}/avatar`);
+    return this.axios.delete(`${this.url}/${inboxId}/avatar`);
   }
 }
 

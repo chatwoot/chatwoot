@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from '../ApiClient';
 
 class FBChannel extends ApiClient {
@@ -7,14 +6,14 @@ class FBChannel extends ApiClient {
   }
 
   create(params) {
-    return axios.post(
+    return this.axios.post(
       `${this.url.replace(this.resource, '')}callbacks/register_facebook_page`,
       params
     );
   }
 
   reauthorizeFacebookPage({ omniauthToken, inboxId }) {
-    return axios.post(`${this.baseUrl()}/callbacks/reauthorize_page`, {
+    return this.axios.post(`${this.baseUrl()}/callbacks/reauthorize_page`, {
       omniauth_token: omniauthToken,
       inbox_id: inboxId,
     });

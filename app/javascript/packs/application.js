@@ -1,12 +1,6 @@
-/* eslint no-console: 0 */
-/* eslint-env browser */
-/* eslint-disable no-new */
-/* Vue Core */
-
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
-import axios from 'axios';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
@@ -19,7 +13,6 @@ import VTooltip from 'v-tooltip';
 import WootUiKit from '../dashboard/components';
 import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
-import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
 import {
   getAlertAudio,
@@ -87,7 +80,6 @@ sync(store, router);
 commonHelpers();
 
 window.WootConstants = constants;
-window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
 initializeAnalyticsEvents();

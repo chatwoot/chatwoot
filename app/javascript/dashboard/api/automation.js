@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class AutomationsAPI extends ApiClient {
@@ -7,11 +6,11 @@ class AutomationsAPI extends ApiClient {
   }
 
   clone(automationId) {
-    return axios.post(`${this.url}/${automationId}/clone`);
+    return this.axios.post(`${this.url}/${automationId}/clone`);
   }
 
   attachment(file) {
-    return axios.post(`${this.url}/attach_file`, file, {
+    return this.axios.post(`${this.url}/attach_file`, file, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

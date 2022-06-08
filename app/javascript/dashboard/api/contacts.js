@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 export const buildContactParams = (page, sortAttr, label, search) => {
@@ -24,23 +23,23 @@ class ContactAPI extends ApiClient {
       label,
       ''
     )}`;
-    return axios.get(requestURL);
+    return this.axios.get(requestURL);
   }
 
   getConversations(contactId) {
-    return axios.get(`${this.url}/${contactId}/conversations`);
+    return this.axios.get(`${this.url}/${contactId}/conversations`);
   }
 
   getContactableInboxes(contactId) {
-    return axios.get(`${this.url}/${contactId}/contactable_inboxes`);
+    return this.axios.get(`${this.url}/${contactId}/contactable_inboxes`);
   }
 
   getContactLabels(contactId) {
-    return axios.get(`${this.url}/${contactId}/labels`);
+    return this.axios.get(`${this.url}/${contactId}/labels`);
   }
 
   updateContactLabels(contactId, labels) {
-    return axios.post(`${this.url}/${contactId}/labels`, { labels });
+    return this.axios.post(`${this.url}/${contactId}/labels`, { labels });
   }
 
   search(search = '', page = 1, sortAttr = 'name', label = '') {
@@ -50,26 +49,29 @@ class ContactAPI extends ApiClient {
       label,
       search
     )}`;
-    return axios.get(requestURL);
+    return this.axios.get(requestURL);
   }
 
   filter(page = 1, sortAttr = 'name', queryPayload) {
     let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;
-    return axios.post(requestURL, queryPayload);
+    return this.axios.post(requestURL, queryPayload);
   }
 
   importContacts(file) {
     const formData = new FormData();
     formData.append('import_file', file);
-    return axios.post(`${this.url}/import`, formData, {
+    return this.axios.post(`${this.url}/import`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
 
   destroyCustomAttributes(contactId, customAttributes) {
-    return axios.post(`${this.url}/${contactId}/destroy_custom_attributes`, {
-      custom_attributes: customAttributes,
-    });
+    return this.axios.post(
+      `${this.url}/${contactId}/destroy_custom_attributes`,
+      {
+        custom_attributes: customAttributes,
+      }
+    );
   }
 }
 

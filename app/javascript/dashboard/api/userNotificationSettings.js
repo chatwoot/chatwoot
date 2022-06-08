@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class UserNotificationSettings extends ApiClient {
@@ -7,7 +6,7 @@ class UserNotificationSettings extends ApiClient {
   }
 
   update(params) {
-    return axios.patch(`${this.url}`, params);
+    return this.axios.patch(`${this.url}`, params);
   }
 }
 

@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 const getTimeOffset = () => -new Date().getTimezoneOffset() / 60;
@@ -17,7 +16,7 @@ class ReportsAPI extends ApiClient {
     group_by,
     business_hours
   ) {
-    return axios.get(`${this.url}`, {
+    return this.axios.get(`${this.url}`, {
       params: {
         metric,
         since,
@@ -32,7 +31,7 @@ class ReportsAPI extends ApiClient {
   }
 
   getSummary(since, until, type = 'account', id, group_by, business_hours) {
-    return axios.get(`${this.url}/summary`, {
+    return this.axios.get(`${this.url}/summary`, {
       params: {
         since,
         until,
@@ -45,7 +44,7 @@ class ReportsAPI extends ApiClient {
   }
 
   getConversationMetric(type = 'account', page = 1) {
-    return axios.get(`${this.url}/conversations`, {
+    return this.axios.get(`${this.url}/conversations`, {
       params: {
         type,
         page,
@@ -54,25 +53,25 @@ class ReportsAPI extends ApiClient {
   }
 
   getAgentReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/agents`, {
+    return this.axios.get(`${this.url}/agents`, {
       params: { since, until, business_hours: businessHours },
     });
   }
 
   getLabelReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/labels`, {
+    return this.axios.get(`${this.url}/labels`, {
       params: { since, until, business_hours: businessHours },
     });
   }
 
   getInboxReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/inboxes`, {
+    return this.axios.get(`${this.url}/inboxes`, {
       params: { since, until, business_hours: businessHours },
     });
   }
 
   getTeamReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/teams`, {
+    return this.axios.get(`${this.url}/teams`, {
       params: { since, until, business_hours: businessHours },
     });
   }

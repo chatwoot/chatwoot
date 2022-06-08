@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from '../ApiClient';
 
 class ConversationApi extends ApiClient {
@@ -15,7 +14,7 @@ class ConversationApi extends ApiClient {
     teamId,
     conversationType,
   }) {
-    return axios.get(this.url, {
+    return this.axios.get(this.url, {
       params: {
         inbox_id: inboxId,
         team_id: teamId,
@@ -29,7 +28,7 @@ class ConversationApi extends ApiClient {
   }
 
   filter(payload) {
-    return axios.post(`${this.url}/filter`, payload.queryData, {
+    return this.axios.post(`${this.url}/filter`, payload.queryData, {
       params: {
         page: payload.page,
       },
@@ -37,7 +36,7 @@ class ConversationApi extends ApiClient {
   }
 
   search({ q }) {
-    return axios.get(`${this.url}/search`, {
+    return this.axios.get(`${this.url}/search`, {
       params: {
         q,
         page: 1,
@@ -46,14 +45,14 @@ class ConversationApi extends ApiClient {
   }
 
   toggleStatus({ conversationId, status, snoozedUntil = null }) {
-    return axios.post(`${this.url}/${conversationId}/toggle_status`, {
+    return this.axios.post(`${this.url}/${conversationId}/toggle_status`, {
       status,
       snoozed_until: snoozedUntil,
     });
   }
 
   assignAgent({ conversationId, agentId }) {
-    return axios.post(
+    return this.axios.post(
       `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,
       {}
     );
@@ -61,30 +60,33 @@ class ConversationApi extends ApiClient {
 
   assignTeam({ conversationId, teamId }) {
     const params = { team_id: teamId };
-    return axios.post(`${this.url}/${conversationId}/assignments`, params);
+    return this.axios.post(`${this.url}/${conversationId}/assignments`, params);
   }
 
   markMessageRead({ id }) {
-    return axios.post(`${this.url}/${id}/update_last_seen`);
+    return this.axios.post(`${this.url}/${id}/update_last_seen`);
   }
 
   toggleTyping({ conversationId, status, isPrivate }) {
-    return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
-      typing_status: status,
-      is_private: isPrivate,
-    });
+    return this.axios.post(
+      `${this.url}/${conversationId}/toggle_typing_status`,
+      {
+        typing_status: status,
+        is_private: isPrivate,
+      }
+    );
   }
 
   mute(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/mute`);
+    return this.axios.post(`${this.url}/${conversationId}/mute`);
   }
 
   unmute(conversationId) {
-    return axios.post(`${this.url}/${conversationId}/unmute`);
+    return this.axios.post(`${this.url}/${conversationId}/unmute`);
   }
 
   meta({ inboxId, status, assigneeType, labels, teamId, conversationType }) {
-    return axios.get(`${this.url}/meta`, {
+    return this.axios.get(`${this.url}/meta`, {
       params: {
         inbox_id: inboxId,
         status,
@@ -97,11 +99,13 @@ class ConversationApi extends ApiClient {
   }
 
   sendEmailTranscript({ conversationId, email }) {
-    return axios.post(`${this.url}/${conversationId}/transcript`, { email });
+    return this.axios.post(`${this.url}/${conversationId}/transcript`, {
+      email,
+    });
   }
 
   updateCustomAttributes({ conversationId, customAttributes }) {
-    return axios.post(`${this.url}/${conversationId}/custom_attributes`, {
+    return this.axios.post(`${this.url}/${conversationId}/custom_attributes`, {
       custom_attributes: customAttributes,
     });
   }

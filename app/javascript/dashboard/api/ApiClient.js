@@ -1,4 +1,4 @@
-/* global axios */
+import { createAxiosClient } from '../helper/APIHelper';
 
 const DEFAULT_API_VERSION = 'v1';
 
@@ -7,6 +7,7 @@ class ApiClient {
     this.apiVersion = `/api/${options.apiVersion || DEFAULT_API_VERSION}`;
     this.options = options;
     this.resource = resource;
+    this.axios = createAxiosClient();
   }
 
   get url() {
@@ -30,23 +31,23 @@ class ApiClient {
   }
 
   get() {
-    return axios.get(this.url);
+    return this.axios.get(this.url);
   }
 
   show(id) {
-    return axios.get(`${this.url}/${id}`);
+    return this.axios.get(`${this.url}/${id}`);
   }
 
   create(data) {
-    return axios.post(this.url, data);
+    return this.axios.post(this.url, data);
   }
 
   update(id, data) {
-    return axios.patch(`${this.url}/${id}`, data);
+    return this.axios.patch(`${this.url}/${id}`, data);
   }
 
   delete(id) {
-    return axios.delete(`${this.url}/${id}`);
+    return this.axios.delete(`${this.url}/${id}`);
   }
 }
 

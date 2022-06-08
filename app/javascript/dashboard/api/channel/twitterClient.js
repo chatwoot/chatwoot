@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from '../ApiClient';
 
 class TwitterClient extends ApiClient {
@@ -7,7 +6,7 @@ class TwitterClient extends ApiClient {
   }
 
   generateAuthorization() {
-    return axios.post(`${this.url}/authorization`);
+    return this.axios.post(`${this.url}/authorization`);
   }
 }
 

@@ -1,4 +1,3 @@
-/* global axios */
 import ApiClient from './ApiClient';
 
 class AttributeAPI extends ApiClient {
@@ -7,7 +6,7 @@ class AttributeAPI extends ApiClient {
   }
 
   getAttributesByModel() {
-    return axios.get(this.url);
+    return this.axios.get(this.url);
   }
 }
 
