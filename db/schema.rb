@@ -194,7 +194,7 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "locale", default: "en"
-    t.string "slug", default: "Category", null: false
+    t.string "slug", null: false
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
     t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true

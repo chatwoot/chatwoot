@@ -5,10 +5,16 @@ json.content article.content
 json.description article.description
 json.status article.status
 json.account_id article.account_id
-json.portal do
-  json.partial! 'api/v1/accounts/portals/portal.json.jbuilder', portal: article.portal
+
+if article.portal.present?
+  json.portal do
+    json.partial! 'api/v1/accounts/portals/portal.json.jbuilder', portal: article.portal
+  end
 end
 json.views article.views
-json.author do
-  json.partial! 'api/v1/models/agent.json.jbuilder', resource: article.author
+
+if article.author.present?
+  json.author do
+    json.partial! 'api/v1/models/agent.json.jbuilder', resource: article.author
+  end
 end

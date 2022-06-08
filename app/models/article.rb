@@ -2,26 +2,30 @@
 #
 # Table name: articles
 #
-#  id          :bigint           not null, primary key
-#  content     :text
-#  description :text
-#  status      :integer
-#  title       :string
-#  views       :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :integer          not null
-#  author_id   :bigint
-#  category_id :integer
-#  folder_id   :integer
-#  portal_id   :integer          not null
+#  id                       :bigint           not null, primary key
+#  content                  :text
+#  description              :text
+#  status                   :integer
+#  title                    :string
+#  views                    :integer
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_id               :integer          not null
+#  associated_article_id    :integer
+#  associated_article_id_id :bigint
+#  author_id                :bigint
+#  category_id              :integer
+#  folder_id                :integer
+#  portal_id                :integer          not null
 #
 # Indexes
 #
-#  index_articles_on_author_id  (author_id)
+#  index_articles_on_associated_article_id_id  (associated_article_id_id)
+#  index_articles_on_author_id                 (author_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (associated_article_id_id => articles.id)
 #  fk_rails_...  (author_id => users.id)
 #
 class Article < ApplicationRecord
