@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Будь ласка, виберіть бесіду з лівої панелі",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Користувач не верифікований",
     "NO_MESSAGE_1": "Ой! Схоже, у вашій поштовій скринці немає ніяких повідомлень.",
     "NO_MESSAGE_2": " щоб надіслати повідомлення на вашу сторінку!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Ви відповідаєте:",
     "REMOVE_SELECTION": "Видалити вибране",
     "DOWNLOAD": "Звантажити",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
