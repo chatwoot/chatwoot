@@ -96,6 +96,9 @@
         :chat="chat"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
+        :selected="isConversationSelected(chat.id)"
+        @select-conversation="selectConversation"
+        @de-select-conversation="deSelectConversation"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -134,6 +137,16 @@
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
+
+    <conversation-bulk-actions
+      v-if="selectedConversations.length"
+      :conversations="selectedConversations"
+      :all-conversations-selected="allConversationsSelected"
+      :selected-inboxes="uniqueInboxes"
+      @select-all-conversations="selectAllConversations"
+      @assign-agent="onAssignAgent"
+      @resolve-conversations="onResolveConversations"
+    />
   </div>
 </template>
 
@@ -152,6 +165,8 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
+import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Actions.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -166,8 +181,9 @@ export default {
     ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
+    ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins],
+  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -202,6 +218,8 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
+      selectedConversations: [],
+      selectedInboxes: [],
     };
   },
   computed: {
@@ -217,6 +235,7 @@ export default {
       conversationStats: 'conversationStats/getStats',
       appliedFilters: 'getAppliedConversationFilters',
       folders: 'customViews/getCustomViews',
+      inboxes: 'inboxes/getInboxes',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -343,6 +362,15 @@ export default {
       }
       return {};
     },
+    allConversationsSelected() {
+      return (
+        JSON.stringify(this.selectedConversations) ===
+        JSON.stringify(this.conversationList.map(item => item.id))
+      );
+    },
+    uniqueInboxes() {
+      return [...new Set(this.selectedInboxes)];
+    },
   },
   watch: {
     activeTeam() {
@@ -376,6 +404,7 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
+      this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
@@ -441,6 +470,7 @@ export default {
       }
     },
     resetAndFetchData() {
+      this.resetBulkActions();
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
@@ -491,12 +521,17 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        this.resetBulkActions();
         bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
         }
       }
+    },
+    resetBulkActions() {
+      this.selectedConversations = [];
+      this.selectedInboxes = [];
     },
     updateStatusType(index) {
       if (this.activeStatus !== index) {
@@ -520,6 +555,59 @@ export default {
         this.fetchConversations();
       }
     },
+    isConversationSelected(id) {
+      return this.selectedConversations.includes(id);
+    },
+    selectConversation(conversationId, inboxId) {
+      this.selectedConversations.push(conversationId);
+      this.selectedInboxes.push(inboxId);
+    },
+    deSelectConversation(conversationId, inboxId) {
+      this.selectedConversations = this.selectedConversations.filter(
+        item => item !== conversationId
+      );
+      this.selectedInboxes = this.selectedInboxes.filter(
+        item => item !== inboxId
+      );
+    },
+    selectAllConversations(check) {
+      if (check) {
+        this.selectedConversations = this.conversationList.map(item => item.id);
+        this.selectedInboxes = this.conversationList.map(item => item.inbox_id);
+      } else {
+        this.resetBulkActions();
+      }
+    },
+    async onAssignAgent(agent) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            assignee_id: agent.id,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async onResolveConversations() {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            status: 'resolved',
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.RESOLVE_SUCCESFUL'));
+      } catch (error) {
+        this.showAlert(this.$t('BULK_ACTION.RESOLVE_FAILED'));
+      }
+    },
   },
 };
 </script>
@@ -535,7 +623,7 @@ export default {
 .conversations-list-wrap {
   flex-shrink: 0;
   width: 34rem;
-
+  overflow: hidden;
   @include breakpoint(large up) {
     width: 36rem;
   }
