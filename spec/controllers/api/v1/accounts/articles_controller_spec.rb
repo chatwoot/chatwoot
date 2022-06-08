@@ -4,8 +4,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
-  let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en') }
-  let!(:article) { create(:article, category: category, portal: portal, account_id: account.id) }
+  let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
+  let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
     context 'when it is an unauthenticated user' do
