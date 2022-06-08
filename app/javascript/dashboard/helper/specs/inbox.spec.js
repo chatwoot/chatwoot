@@ -41,5 +41,5 @@ describe('#Inbox Helpers', () => {
         'warning'
       );
     });
-  })
+  });
 });

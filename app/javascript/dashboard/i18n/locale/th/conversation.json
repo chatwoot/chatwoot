@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "กรุณาเลือกการสนทนาจากด้านซ้าย",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "ข้อมูลระบุตัวตนของผู้ใช้รายนี้ยังไม่ได้รับการยืนยัน",
     "NO_MESSAGE_1": "โอ้ว ไม่นะเหมือนจะไม่มีข้อความจากลูกค้าของคุณในกล่องข้อความ",
     "NO_MESSAGE_2": " เพื่อส่งข้อความไปยังเพจของคุณ!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "คุณกำลังตอบกลับ:",
     "REMOVE_SELECTION": "ลบตัวเลือก",
     "DOWNLOAD": "ดาวโหลด",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "กำลังอัปโหลดไฟล์แนบ",
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",

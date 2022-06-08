@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully"
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview"
+    "REPORTS_OVERVIEW": "Overview",
+    "FACEBOOK_REAUTHORIZE": "您的 Facebook 连接已过期，请重新连接您的 Facebook 页面以继续服务"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
