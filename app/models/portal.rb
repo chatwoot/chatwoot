@@ -25,7 +25,7 @@ class Portal < ApplicationRecord
   has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
   has_many :articles, dependent: :destroy_async
-  has_many :users, through: :portals_members
+  has_and_belongs_to_many :members, class_name: 'User', foreign_key: :user_id, join_table: 'portals_members'
 
   validates :account_id, presence: true
   validates :name, presence: true
