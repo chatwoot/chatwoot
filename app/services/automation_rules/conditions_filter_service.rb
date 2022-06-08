@@ -21,7 +21,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     @attribute_changed_query_filter = []
 
     @rule.conditions.each_with_index do |query_hash, current_index|
-      query_hash = query_hash.with_indifferent_access
       @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
 
       apply_filter(query_hash, current_index)
