@@ -118,6 +118,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = JSON.parse(response.body)
+
         expect(json_response['message']).to eql("Slug can't be blank")
       end
     end
