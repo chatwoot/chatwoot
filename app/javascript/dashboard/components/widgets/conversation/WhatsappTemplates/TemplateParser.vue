@@ -25,7 +25,7 @@
           :styles="{ marginBottom: 0 }"
         />
       </div>
-      <p v-if="showRequiredMessage" class="error">
+      <p v-if="$v.$dirty && $v.$invalid" class="error">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>
     </div>
@@ -54,14 +54,13 @@ export default {
   },
   validations: {
     processedParams: {
-      allKeysRequired,
+      required: allKeysRequired,
     },
   },
   data() {
     return {
       message: this.template.message,
       processedParams: {},
-      showRequiredMessage: false,
     };
   },
   computed: {
@@ -87,10 +86,7 @@ export default {
   methods: {
     sendMessage() {
       this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showRequiredMessage = true;
-        return;
-      }
+      if (this.$v.$invalid) return;
       const payload = {
         message: this.processedString,
         templateParams: {
