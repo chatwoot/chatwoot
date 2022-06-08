@@ -65,7 +65,7 @@ class FilterService
 
   def lt_gt_filter_values(query_hash)
     attribute_key = query_hash[:attribute_key]
-    attribute_type = custom_attribute(attribute_key, @account, query_hash[:custom_attribute_type]).try(:attribute_display_type)
+    attribute_type = custom_attribute(attribute_key, @account, query_hash['custom_attribute_type']).try(:attribute_display_type)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
     value = query_hash['values'][0]
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
