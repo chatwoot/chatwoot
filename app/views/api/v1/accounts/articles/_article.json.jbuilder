@@ -5,6 +5,10 @@ json.content article.content
 json.description article.description
 json.status article.status
 json.account_id article.account_id
-json.portal article.portal
+json.portal do
+  json.partial! 'api/v1/accounts/portals/portal.json.jbuilder', portal: article.portal
+end
 json.views article.views
-json.author article.author
+json.author do
+  json.partial! 'api/v1/models/agent.json.jbuilder', resource: article.author
+end
