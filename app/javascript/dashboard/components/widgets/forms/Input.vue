@@ -6,6 +6,7 @@
       :type="type"
       :placeholder="placeholder"
       :readonly="readonly"
+      :style="styles"
       @input="onChange"
       @blur="onBlur"
     />
@@ -46,6 +47,10 @@ export default {
     readonly: {
       type: Boolean,
       deafaut: false,
+    },
+    styles: {
+      type: Object,
+      default: () => {},
     },
   },
   methods: {
