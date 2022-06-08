@@ -14,6 +14,7 @@ import {
   generateAutomationPayload,
   getStandardAttributeInputType,
   isCustomAttribute,
+  generateCustomAttributes,
 } from '../../helper/automationHelper.js';
 import { mapGetters } from 'vuex';
 
@@ -260,7 +261,6 @@ export default {
       const contactCustomAttributesRaw = this.$store.getters[
         'attributes/getAttributesByModel'
       ]('contact_attribute');
-
       const conversationCustomAttributeTypes = generateCustomAttributeTypes(
         conversationCustomAttributesRaw,
         'conversation_attribute'
@@ -269,29 +269,13 @@ export default {
         contactCustomAttributesRaw,
         'contact_attribute'
       );
-      let manifestedCustomAttributes = [];
-      if (conversationCustomAttributeTypes.length) {
-        manifestedCustomAttributes.push(
-          {
-            key: 'conversation_custom_attribute',
-            name: this.$t(
-              'AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'
-            ),
-            disabled: true,
-          },
-          ...conversationCustomAttributeTypes
-        );
-      }
-      if (contactCustomAttributeTypes.length) {
-        manifestedCustomAttributes.push(
-          {
-            key: 'contact_custom_attribute',
-            name: this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL'),
-            disabled: true,
-          },
-          ...contactCustomAttributeTypes
-        );
-      }
+      let manifestedCustomAttributes = generateCustomAttributes(
+        conversationCustomAttributeTypes,
+        contactCustomAttributeTypes,
+        this.$t('AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'),
+        this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL')
+      );
+
       this.automationTypes.message_created.conditions.push(
         ...manifestedCustomAttributes
       );

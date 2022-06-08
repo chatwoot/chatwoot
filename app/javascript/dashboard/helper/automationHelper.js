@@ -210,3 +210,33 @@ export const generateAutomationPayload = payload => {
 export const isCustomAttribute = (attrs, key) => {
   return attrs.find(attr => attr.key === key);
 };
+
+export const generateCustomAttributes = (
+  conversationAttributes = [],
+  contactAttribtues = [],
+  conversationlabel,
+  contactlabel
+) => {
+  const customAttributes = [];
+  if (conversationAttributes.length) {
+    customAttributes.push(
+      {
+        key: `conversation_custom_attribute`,
+        name: conversationlabel,
+        disabled: true,
+      },
+      ...conversationAttributes
+    );
+  }
+  if (contactAttribtues.length) {
+    customAttributes.push(
+      {
+        key: `contact_custom_attribute`,
+        name: contactlabel,
+        disabled: true,
+      },
+      ...contactAttribtues
+    );
+  }
+  return customAttributes;
+};
