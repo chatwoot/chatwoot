@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
         "BTN_TEXT": "Salva firma del messaggio",
         "API_ERROR": "Impossibile salvare la firma! Riprova",
         "API_SUCCESS": "Firma salvata con successo"
