@@ -5,7 +5,7 @@
       rows="4"
       readonly
       class="template-input"
-    ></textarea>
+    />
     <div>
       <div class="template__variables-container">
         <p class="variables-label">
