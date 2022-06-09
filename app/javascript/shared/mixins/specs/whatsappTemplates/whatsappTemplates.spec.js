@@ -4,8 +4,6 @@ import { templates } from './fixtures';
 const localVue = createLocalVue();
 import VueI18n from 'vue-i18n';
 import Vue from 'vue';
-// import WootButton from 'dashboard/components/ui/WootButton';
-// import WootInput from '../../../../widget/components/Form/Input.vue';
 
 import Vuelidate from 'vuelidate';
 Vue.use(Vuelidate);
@@ -13,16 +11,14 @@ Vue.use(Vuelidate);
 import i18n from 'dashboard/i18n';
 
 localVue.use(VueI18n);
-// localVue.component('woot-button', WootButton);
-// localVue.component('woot-input', WootInput);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
 });
 
-describe('whatsappTemplates', () => {
-  it('returns all variables from a tempalate string', () => {
+describe('#WhatsAppTemplates', () => {
+  it('returns all variables from a template string', () => {
     const wrapper = mount(TemplateParser, {
       localVue,
       propsData: {
@@ -33,7 +29,7 @@ describe('whatsappTemplates', () => {
     expect(wrapper.vm.variables).toEqual(['{{1}}', '{{2}}', '{{3}}']);
   });
 
-  it('returns no variables from a tempalate string if it does not contain variables', () => {
+  it('returns no variables from a template string if it does not contain variables', () => {
     const wrapper = mount(TemplateParser, {
       localVue,
       propsData: {
