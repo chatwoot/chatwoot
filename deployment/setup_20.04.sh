@@ -180,7 +180,7 @@ function main() {
 ***************************************************************************
 
 For more verbose logs, open up a second terminal and follow along using,
-'tail -f /var/log/chatwoot'.
+'tail -f /var/log/chatwoot-setup.log'.
 
 EOF
 
@@ -195,11 +195,6 @@ EOF
   echo -en "\n"
   read -rp 'Would you like to install Postgres and Redis? (Answer no if you plan to use external services): ' install_pg_redis
 
-  if [ "$install_pg_redis" == "no" ]
-  then
-    echo "***** Skipping Postgres and Redis installation. ****"
-  fi
-
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
 
@@ -207,12 +202,16 @@ EOF
   then
     echo "➥ 2/9 Installing databases"
     install_databases &>> "${LOG_FILE}"
+  else
+    echo "➥ 2/9 Skipping Postgres and Redis installation"
   fi
 
   if [ "$configure_webserver" == "yes" ]
   then
     echo "➥ 3/9 Installing webserver"
     install_webserver &>> "${LOG_FILE}"
+  else
+    echo "➥ 3/9 Skipping webserver installation"
   fi
 
   echo "➥ 4/9 Setting up Ruby"
@@ -222,15 +221,19 @@ EOF
   then
     echo "➥ 5/9 Setting up the database"
     configure_db &>> "${LOG_FILE}"
+  else
+    echo "➥ 5/9 Skipping database setup"
   fi
 
-  echo "➥ 6/9 Installing Chatwoot. This takes a while."
+  echo "➥ 6/9 Installing Chatwoot. This takes a long while."
   setup_chatwoot &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]
   then
-    echo "➥ 7/9 Running migrations"
+    echo "➥ 7/9 Running database migrations"
     run_db_migrations &>> "${LOG_FILE}"
+  else
+    echo "➥ 7/9 Skipping database migrations"
   fi
 
   echo "➥ 8/9 Setting up systemd services"
@@ -241,6 +244,7 @@ EOF
   if [ "$configure_webserver" != "yes" ]
   then
     cat << EOF
+➥ 9/9 Skipping SSL/TLS setup
 
 ***************************************************************************
 Woot! Woot!! Chatwoot server installation is complete.
@@ -269,6 +273,7 @@ EOF
   if [ "$install_pg_redis" == "no" ]
   then
 cat <<EOF
+
 ***************************************************************************
 The database migrations had not run as Postgres and Redis were not installed
 as part of the installation process. After modifying the environment
