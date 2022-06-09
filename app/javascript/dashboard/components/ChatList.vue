@@ -85,7 +85,15 @@
     <p v-if="!chatListLoading && !conversationList.length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
-
+    <conversation-bulk-actions
+      v-if="selectedConversations.length"
+      :conversations="selectedConversations"
+      :all-conversations-selected="allConversationsSelected"
+      :selected-inboxes="uniqueInboxes"
+      @select-all-conversations="selectAllConversations"
+      @assign-agent="onAssignAgent"
+      @resolve-conversations="onResolveConversations"
+    />
     <div ref="activeConversation" class="conversations-list">
       <conversation-card
         v-for="chat in conversationList"
@@ -137,16 +145,6 @@
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
-
-    <conversation-bulk-actions
-      v-if="selectedConversations.length"
-      :conversations="selectedConversations"
-      :all-conversations-selected="allConversationsSelected"
-      :selected-inboxes="uniqueInboxes"
-      @select-all-conversations="selectAllConversations"
-      @assign-agent="onAssignAgent"
-      @resolve-conversations="onResolveConversations"
-    />
   </div>
 </template>
 
@@ -165,7 +163,7 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
-import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Actions.vue';
+import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import {

@@ -19,13 +19,13 @@
       </label>
       <div class="bulk-action__actions flex-between">
         <woot-button
-          v-tooltip="$t('BULK_ACTION.RESOLVE_TOOLTIP')"
+          v-tooltip="$t('BULK_ACTION.UPDATE.UPDATE_CONVERSATIONS_LABEL')"
           size="tiny"
           variant="flat"
           color-scheme="success"
-          icon="checkmark"
+          icon="send"
           class="margin-right-smaller"
-          @click="resolveConversations"
+          @click="showUpdateActions = true"
         />
         <woot-button
           v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
@@ -36,13 +36,22 @@
           @click="showAgentsList = true"
         />
       </div>
-      <transition name="menu-slide">
+      <transition name="popover-animation">
         <agent-selector
           v-if="showAgentsList"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
           @select="submit"
           @close="showAgentsList = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <update-actions
+          v-if="showUpdateActions"
+          :selected-inboxes="selectedInboxes"
+          :conversation-count="conversations.length"
+          @select="submit"
+          @close="showUpdateActions = false"
         />
       </transition>
     </div>
@@ -54,9 +63,11 @@
 
 <script>
 import AgentSelector from './AgentSelector.vue';
+import UpdateActions from './UpdateActions.vue';
 export default {
   components: {
     AgentSelector,
+    UpdateActions,
   },
   props: {
     conversations: {
@@ -75,6 +86,7 @@ export default {
   data() {
     return {
       showAgentsList: false,
+      showUpdateActions: false,
     };
   },
   mounted() {
@@ -102,9 +114,7 @@ export default {
 }
 
 .bulk-action__container {
-  background-color: var(--s-50);
-  border-top: 1px solid var(--s-100);
-  box-shadow: var(--shadow-bulk-action-container);
+  border-bottom: 1px solid var(--s-100);
   padding: var(--space-normal) var(--space-one);
   position: relative;
 }
@@ -131,5 +141,25 @@ export default {
   font-size: var(--font-size-mini);
   margin-top: var(--space-small);
   padding: var(--space-half) var(--space-one);
+}
+.popover-animation-enter-active,
+.popover-animation-leave-active {
+  transition: transform ease-out 0.1s;
+}
+.popover-animation-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.popover-animation-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+.popover-animation-leave {
+  opacity: 1;
+  transform: scale(1);
+}
+.popover-animation-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
 }
 </style>

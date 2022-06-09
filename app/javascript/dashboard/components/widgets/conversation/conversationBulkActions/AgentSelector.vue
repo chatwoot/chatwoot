@@ -1,5 +1,16 @@
 <template>
-  <div class="bulk-action__agents">
+  <div v-on-clickaway="onClose" class="bulk-action__agents">
+    <div class="triangle">
+      <svg height="12" viewBox="0 0 24 12" width="24">
+        <path
+          d="M20 12l-8-8-12 12"
+          fill="var(--white)"
+          fill-rule="evenodd"
+          stroke="var(--s-50)"
+          stroke-width="1px"
+        ></path>
+      </svg>
+    </div>
     <div class="header flex-between">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
       <woot-button
@@ -154,8 +165,9 @@ export default {
   justify-content: space-between;
 }
 .bulk-action__agents {
+  transform-origin: top right;
   position: absolute;
-  bottom: 40px;
+  top: 48px;
   right: var(--space-small);
   width: 100%;
   box-shadow: var(--shadow-dropdown-pane);
@@ -163,6 +175,7 @@ export default {
   border: 1px solid var(--s-50);
   background-color: var(--white);
   width: 75%;
+  z-index: 20;
   .header {
     padding: var(--space-one);
     span {
@@ -193,6 +206,15 @@ export default {
         height: unset;
       }
     }
+  }
+  .triangle {
+    display: block;
+    line-height: 11px;
+    z-index: 1;
+    position: absolute;
+    top: -12px;
+    right: 2px;
+    text-align: left;
   }
 }
 ul {
