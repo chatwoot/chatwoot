@@ -1,6 +1,6 @@
 import Index from './Index';
 import SettingsContent from '../Wrapper';
-import Webhook from './Webhook';
+import Webhook from './Webhooks/Index';
 import ShowIntegration from './ShowIntegration';
 import { frontendURL } from '../../../../helper/URLHelper';
 

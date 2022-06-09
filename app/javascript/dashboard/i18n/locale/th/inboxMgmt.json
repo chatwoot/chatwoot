@@ -30,7 +30,7 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "ชื่อกล่องข้อความ",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "กรอกชื่อกล่องข้อความ (เช่น Acme Inc)"
       },
       "WEBSITE_NAME": {
         "LABEL": "ชื่อเว็บไซต์",
@@ -47,9 +47,9 @@
       },
       "TWITTER": {
         "HELP": "ในการเพิ่มโปรไฟล์ Twitter ของคุณเป็นช่องคุณต้องตรวจสอบสิทธิ์โปรไฟล์ Twitter ของคุณโดยคลิกที่ \"ลงชื่อเข้าใช้ด้วย Twitter\" ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดในการเชื่อมต่อกับ Twitter โปรดลองอีกครั้ง",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "สร้างการสนทนาใหม่จากการกล่าวถึงในทวีต"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -61,7 +61,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "ลิ้ง Webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "กรอก Webhook URL",
           "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
         },
         "CHANNEL_DOMAIN": {
@@ -82,16 +82,16 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "เปิดข้อความต้อนรับ",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "ส่งข้อความต้อนรับให้ผู้ใช้ เมื่อพวกเขาเริ่มต้นการสนทนา",
           "ENABLED": "เปิด",
           "DISABLED": "ปิด"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "ตั้งเวลาตอบกลับ",
+          "IN_A_FEW_MINUTES": "ในไม่กี่นาที",
+          "IN_A_FEW_HOURS": "ในไม่กี่ชั่วโมง",
+          "IN_A_DAY": "ในหนึ่งวัน",
+          "HELP_TEXT": "เวลาในการตอบกลับจะแสดงใน live chat widget"
         },
         "WIDGET_COLOR": {
           "LABEL": "สีของวิดเจ็ต",
@@ -100,8 +100,8 @@
         "SUBMIT_BUTTON": "สร้างกล่องข้อความ"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "ช่องทาง Twilio SMS/WhatsApp",
+        "DESC": "เชื่อมต่อกับ Twilio และเริ่มสนับสนุนลูกค้าของคุณผ่าน SMS หรือ Whatsapp",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "กรุณากรอก Twilio Account SID",
@@ -118,7 +118,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "ชื่อกล่องข้อความ",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "โปรดกรอกชื่อกล่องข้อความ",
           "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
         },
         "PHONE_NUMBER": {
@@ -136,40 +136,40 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "ช่องทาง SMS",
+        "DESC": "เริ่มสนับสนุนลูกค้าของคุณผ่านช่องทาง SMS",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "ผู้ให้บริการ API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "เราไม่สามารถบันทึกช่องทาง SMS ได้"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "PLACEHOLDER": "โปรดกรอก Account ID ของ Bandwidth",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "โปรดกรอก Bandwith API Key",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "โปรดกรอก Bandwith API Secret",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "APPLICATION_ID": {
             "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "PLACEHOLDER": "โปรดกรอก Bandwidth Application ID",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "INBOX_NAME": {
             "LABEL": "ชื่อกล่องข้อความ",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "โปรดกรอกชื่อกล่องข้อความ",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "PHONE_NUMBER": {
@@ -177,27 +177,27 @@
             "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
             "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "สร้างช่องทาง Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "เราไม่สามารถยืนยันใบรับรองของ Bandwidth ได้กรุณาลองใหม่อีกครั้ง"
           },
           "API_CALLBACK": {
             "TITLE": "ลิ้งเรียกกลับ",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "คุณต้องตั้งค่าข้อความ callback URL ใน Bandwidth ด้วยลิงก์ที่มาจากที่นี่"
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "ช่องทาง WhatsApp",
+        "DESC": "เริ่มสนับสนุนลูกค้าของคุณผ่านช่องทาง WhatsApp",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "ผู้ให้บริการ API",
           "TWILIO": "Twilio",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "ชื่อกล่องข้อความ",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "กรุณากรอกชื่อกล่องข้อความ",
           "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
         },
         "PHONE_NUMBER": {
@@ -207,14 +207,14 @@
         },
         "API_KEY": {
           "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
+          "SUBTITLE": "ตั้งค่า WhatsApp API key",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
-          "ERROR": "Please enter a valid value."
+          "APPLY_FOR_ACCESS": "ไม่มี API key ใช่ไหม? สมัครเปิดใช้ที่นี่",
+          "ERROR": "โปรดกรอกค่าที่ถูกต้อง"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "สร้างช่องทาง WhatsApp",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "เราไม่สามารถบันทึกช่องทาง WhatsApp ได้"
         }
       },
       "API_CHANNEL": {
@@ -255,8 +255,8 @@
         "FINISH_MESSAGE": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "ช่องทาง LINE",
+        "DESC": "เชื่อมต่อกับ LINE และเริ่มสนับสนุนลูกค้าของคุณ",
         "CHANNEL_NAME": {
           "LABEL": "ชื่อช่อง",
           "PLACEHOLDER": "กรุณากรอกชื่อช่อง",
@@ -274,76 +274,72 @@
           "LABEL": "LINE Channel Token",
           "PLACEHOLDER": "LINE Channel Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "สร้างช่องทาง LINE",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "เราไม่สามารถบันทึกช่องทาง LINE นี้ได้"
         },
         "API_CALLBACK": {
           "TITLE": "ลิ้งเรียกกลับ",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "คุณต้องตั้งค่า webhook URL ที่ LINE ด้วย URL นี้"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "ช่องทาง Telegram",
+        "DESC": "เชื่อมต่อกับ Telegram และเริ่มสนับสนุนลูกค้าของคุณ",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "ตั้งค่า bot token ที่ได้จาก Telegram BotFather",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "สร้างช่องทาง Telegram",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "เราไม่สามารถบันทึกช่องทาง Telegram นี้ได้"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "TITLE": "เลือกช่องทาง",
+        "DESC": "Chatwoot รองรับ live-chat widget, Facebook, Twitter, WhatsApp, Email และช่องทางอื่น ๆ ถ้าคุณต้องการสร้างช่องทางพิเศษ คุณสามารถสร้างได้โดยใช้ API channel เลือกช่องทางด้านล่างนี้เพื่อดำเนินการต่อ"
       },
       "AGENTS": {
         "TITLE": "พนักงาน",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "DESC": "คุณสามารถเพิ่มพนักงานเพื่อจัดการกล่องข้อความที่สร้างใหม่ พนักงานที่ได้รับสิทธิ์เท่านั้นที่สามารถเข้าถึงกล่องข้อความนี้ได้ พนักงานที่ไม่มีสิทธิ์จะไม่สามารถเห็นหรือใช้กล่องสนทนานี้ได้ <br><b>หมายเหตุ:</b>ในฐานะของผู้ดูแล คุณจะสามารถเพิ่มตัวเองในกล่องข้อความทุกกล่องที่คุณสร้าง",
+        "VALIDATION_ERROR": "ต้องเพิ่มพนักงานอย่างน้อยหนึ่งคนสำหรับกล่องข้อความใหม่",
+        "PICK_AGENTS": "เลือกพนักงานสำหรับกล่องข้อความนี้"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "รายละเอียดกล่องข้อความ",
+        "DESC": "คุณสามารถเลือก facebook Page ที่ต้องการเชื่อมต่อกับ Chatwoot จากรายการข้างล่าง คุณยังสามารถตั้งชื่อให้กล่องข้อความของคุณเพื่อการจัดการที่ง่ายขึ้น"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "เรียบร้อย!",
+        "DESC": "เชื่อมต่อ Facebook Page กับ Chatwoot สำเร็จแล้ว เมื่อมีคนส่งข้อความมาที่เพจของคุณ การสนทนาจะแสดงในกล่องข้อความของคุณโดยอัตโนมัติ<br>เรายังได้เตรียมสคริปท์สำหรับสร้าง widget เพื่อให้คุณนำไปติดตั้งที่เว็บไซต์ของคุณได้ง่ายขึ้นอีกด้วย เมื่อคุณติดตั้งสำเร็จแล้ว ลูกค้าสามารถส่งข้อความมาหาคุณได้โดยตรงจากทางเว็บไซต์ของคุณโดยที่ไม่ต้องใช้เครื่องมืออื่นๆ อีก และการสนทนาจะมาปรากฎบน Chatwoot <br>เจ๋งใช่มั้ยล่ะ? นั่นแหละที่พวกเราพยายามจะเป็น :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "กำลังตรวจสอบสิทธิ์ของคุณกับ Facebook...",
+      "ERROR_FB_AUTH": "มีข้อผิดพลาดเกิดขึ้น โปรดโหลดหน้านี้ใหม่อีกครั้ง",
+      "CREATING_CHANNEL": "กำลังสร้างกล่องข้อความ...",
+      "TITLE": "ตั้งค่ารายละเอียดกล่องข้อความ",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "เพิ่มพนักงาน",
+      "ADD_AGENTS": "กำลังเพิ่มพนักงานสำหรับกล่องข้อความนี้..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "กล่องข้อความของคุณพร้อมใช้แล้ว!",
+      "MESSAGE": "ตอนนี้คุณสามารถมีส่วนร่วมกับลูกค้าของคุณผ่านช่องทางใหม่ได้แล้ว ขอให้มีความสุขกับการคุย ",
+      "BUTTON_TEXT": "พาฉันไปที่นั่น",
+      "MORE_SETTINGS": "ตั้งค่าเพิ่มเติม",
+      "WEBSITE_SUCCESS": "คุณได้สร้างช่องทางเว็บไซต์สำเร็จแล้ว คัดลอกโค้ดข้างล่างแล้วนำไปแปะที่เว็บไซต์ของคุณ ครั้งถัดไปที่ลูกค้าใช้ live chat การสนทนาจะปรากฎที่กล่องข้อความของคุณโดยอัตโนมัติ"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "ขอสิทธิ์อีกครั้ง",
+    "VIEW": "ดู",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
-      },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "เปิด",
-        "DISABLED": "ปิด"
+        "SUCCESS_MESSAGE": "อัปเดตการตั้งค่ากล่องข้อความเรียบร้อยแล้ว",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "อัปเดตการมอบหมายอัตโนมัติเรียบร้อยแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถอัปเดตสี widget โปรดลองใหม่อีกครั้งในภายหลัง"
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "เปิด",
@@ -362,171 +358,186 @@
         "DISABLED": "ปิด"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "เปิดใช้งาน"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "ลบรูป",
       "CONFIRM": {
         "TITLE": "ยืนยันการลบ",
         "MESSAGE": "คุณต้องการที่จะลบไหม ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "โปรดพิมพ์ {inboxName} เพื่อยืนยัน",
         "YES": "เอาเลย ",
         "NO": "ไม่อะเก็บไว้ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "ลบกล่องข้อความเรียบร้อยแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบกล่องข้อความได้ โปรดลองใหม่อีกครั้ง",
+        "AVATAR_SUCCESS_MESSAGE": "ลบรูปเรียบร้อยแล้ว",
+        "AVATAR_ERROR_MESSAGE": "ไม่สามารถลบรูปของกล่องข้อความได้ โปรดลองอีกครั้งในภายหลัง"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "SETTINGS": "ตั้งค่า",
+      "COLLABORATORS": "การร่วมมือ",
+      "CONFIGURATION": "ตั้งค่า",
       "CAMPAIGN": "แคมเปญ",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "แบบสอบถามก่อนแชท",
+      "BUSINESS_HOURS": "เวลาทำการ"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "ตั้งค่า",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "ฟีเจอร์",
+      "DISPLAY_FILE_PICKER": "แสดงตัวเลือกไฟล์ใน widget",
+      "DISPLAY_EMOJI_PICKER": "แสดงตัวเลือกอีโมจิใน widget",
+      "ALLOW_END_CONVERSATION": "อนุญาตให้ลูกค้าปิดการสนทนาจาก widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "MESSENGER_SUB_HEAD": "ใส่ปุ่มนี้ใน body tag",
       "INBOX_AGENTS": "พนักงาน",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "INBOX_AGENTS_SUB_TEXT": "เพิ่มหรือลบพนักงานจากกล่องสนทนานี้",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "อัพเดท",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ENABLE_EMAIL_COLLECT_BOX": "เปิดใช้งานกล่องรวมอีเมล",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "เปิดหรือปิดการใช้งานกล่องรวมอีเมลสำหรับการสนทนาใหม่",
+      "AUTO_ASSIGNMENT": "เปิดการมอบหมายงานอัตโนมัติ",
+      "ENABLE_CSAT": "เปิด CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "เปิดหรือปิด CSAT(แบบสอบถามความพีงพอใจลูกค้า) หลังจากเสร็จสิ้นการสนทนา",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "เปิดให้มีการสนทนาต่อทางอีเมลได้",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "การสนทนาจะสามารถดำเนินการต่อผ่านทางอีเมลได้ หากลูกค้าให้อีเมลไว้",
+      "INBOX_UPDATE_TITLE": "ตั้งค่ากล่องข้อความ",
+      "INBOX_UPDATE_SUB_TEXT": "อัปเดตกล่องข้อความ",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "เปิดหรือปิดระบบมอบหมายงานอัตโนมัติสำหรับข้อความใหม่ให้กับพนักงานในกล่องสนทนานี้",
+      "HMAC_VERIFICATION": "การตรวจสอบตัวตนผู้ใช้งาน",
+      "HMAC_DESCRIPTION": "SDK อนุญาตให้คุณส่งต่อ `identifier_hash` สำหรับผู้ใช้งานแค่ละคนเพื่อที่ตรวจสอบตัวตนผู้ใช้งาน คุณสามารถสร้าง HMAC โดยใช้ 'sha256' ร่วมกับคีย์ที่ปรากฎอยู่",
+      "HMAC_MANDATORY_VERIFICATION": "บังคับใช้การตรวจสอบตัวตนผู้ใช้งาน",
+      "HMAC_MANDATORY_DESCRIPTION": "หากเปิดใช้งาน วิธี SDKs setUser ของ Chatwoot จะไม่สามารถใช้งานได้ นอกจากจะมีการสร้าง `identifier_hash` สำหรับแต่ละผู้ใช้งาน",
+      "INBOX_IDENTIFIER": "ตัวระบุกล่องข้อความ",
+      "INBOX_IDENTIFIER_SUB_TEXT": "ใช้ 'ตัวระบุกล่องข้อความ' ที่ปรากฎที่นี่เพื่อรับรองสิทธิ์ API clients ของคุณ",
+      "FORWARD_EMAIL_TITLE": "ส่งต่อไปยังอีเมล",
+      "FORWARD_EMAIL_SUB_TEXT": "เริ่มส่งต่ออีเมลของคุณไปยังที่อยู่ตามนี้",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "อนุญาตให้รับข้อความหลังจากจบการสนทนาแล้ว",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "อนุญาตให้ลูกค้าส่งข้อความหลังจากจบการสนทนาแล้ว"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "TITLE": "ขอสิทธิ์อีกครั้ง",
+      "SUBTITLE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
+      "MESSAGE_SUCCESS": "เชื่อมต่อสำเร็จ",
       "MESSAGE_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "แบบสอบถามก่อนเริ่มแชทจะช่วยเก็บข้อมูลลูกค้าก่อนที่จะเริ่มการสนทนา",
+      "SET_FIELDS": "รูปแบบของแบบสอบถามก่อนเริ่มแชท",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "รูปแบบ",
+        "LABEL": "ป้ายกำกับ",
+        "PLACE_HOLDER": "ข้อความตัวอย่าง",
+        "KEY": "คีย์",
+        "TYPE": "ประเภท",
+        "REQUIRED": "โปรดระบุ"
+      },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "เปิดใช้งานแบบสอบถามก่อนเริ่มแชท",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "ใช่",
+          "DISABLED": "ไม่"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "ข้อความสำหรับแบบสอบถามก่อนเริ่มแชท",
+        "PLACEHOLDER": "ลูกค้าจะเห็นข้อความนี้ขณะที่กรอกข้อมูลในแบบสอบถาม"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "ลูกค้าควรให้ชื่อและอีเมลก่อนเริ่มสนทนา"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "ตั้งค่าความพร้อมในการให้บริการ",
+      "SUBTITLE": "ตั้งค่าความพร้อมในการให้บริการของคุณบน livechat widget",
+      "WEEKLY_TITLE": "ตั้งค่าเวลาทำการ",
+      "TIMEZONE_LABEL": "ตั้งค่าโซนเวลา",
+      "UPDATE": "อัปเดตเวลาทำการ",
+      "TOGGLE_AVAILABILITY": "แสดงความพร้อมในการให้บริการสำหรับกล่องข้อความนี้",
+      "UNAVAILABLE_MESSAGE_LABEL": "ข้อความที่ต้องการแสดงเมื่ออยู่นอกเวลาทำการ",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "เรายังไม่มีทีมที่พร้อมตอบคำถามในตอนนี้ โปรดทิ้งข้อความไว้ แล้วเราจะติดต่อกลับเมื่อทีมกลับมา",
+      "TOGGLE_HELP": "การเปิดใช้ความพร้อมในการให้บริการจะแสดงเวลาทำการบน live-chat widget แม้ว่าพนักงานทุกคนจะออฟไลน์ เมื่อมีลูกค้าต้องการติดต่อนอกเวลาทำการจะมีข้อความแจ้งเตือน และแสดงแบบสอบถามก่อนเริ่มแชทให้กับลูกค้า",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "เปิดใช้ความพร้อมในการให้บริการสำหรับวันนี้",
+        "UNAVAILABLE": "ไม่พร้อมให้บริการ",
+        "HOURS": "ชั่วโมง",
+        "VALIDATION_ERROR": "เวลาเปิดทำการควรเริ่มก่อนเวลาปิดทำการ",
+        "CHOOSE": "เลือก"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "ทั้งวัน"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "ตั้งค่ารายละเอียด IMAP",
+      "NOTE_TEXT": "โปรดตั้งค่า IMAP หากคุณต้องการเปิดใช้ SMTP",
+      "UPDATE": "อัปเดตการตั้งค่า IMAP",
+      "TOGGLE_AVAILABILITY": "เปิดใช้งานการตั้งค่า IMAP สำหรับกล่องข้อความนี้",
+      "TOGGLE_HELP": "การเปิดใช้งาน IMAP จะช่วยให้ลูกค้าได้รับอีเมล",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "อัปเดตการตั้งค่า IMAP สำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถอัปเดตการตั้งค่า IMAP ได้"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "ที่อยู่",
+        "PLACE_HOLDER": "ที่อยู่ (เช่น imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "พอร์ท",
+        "PLACE_HOLDER": "พอร์ท"
       },
-      "EMAIL": {
-        "LABEL": "อีเมล์",
-        "PLACE_HOLDER": "อีเมล์"
+      "LOGIN": {
+        "LABEL": "เข้าสู่ระบบ",
+        "PLACE_HOLDER": "เข้าสู่ระบบ"
       },
       "PASSWORD": {
         "LABEL": "หรัสผ่าน",
         "PLACE_HOLDER": "หรัสผ่าน"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "เปิดใช้ SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "ตั้งค่า SMTP",
+      "UPDATE": "อัปเดตการตั้งค่า SMTP",
+      "TOGGLE_AVAILABILITY": "เปิดใช้งาน SMTP กับกล่องสนทนานี้",
+      "TOGGLE_HELP": "การเปิด SMTP จะช่วยให้ระบบส่งอีเมล์ได้",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "ตั้งค่า SMTP สำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถตั้งค่า SMTP ได้"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "ที่อยู่",
+        "PLACE_HOLDER": "ที่อยู่ (เช่น smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "พอร์ท",
+        "PLACE_HOLDER": "พอร์ท"
       },
-      "EMAIL": {
-        "LABEL": "อีเมล์",
-        "PLACE_HOLDER": "อีเมล์"
+      "LOGIN": {
+        "LABEL": "เข้าสู่ระบบ",
+        "PLACE_HOLDER": "เข้าสู่ระบบ"
       },
       "PASSWORD": {
         "LABEL": "หรัสผ่าน",
         "PLACE_HOLDER": "หรัสผ่าน"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "โดเมน",
+        "PLACE_HOLDER": "โดเมน"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "การเข้ารหัส",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "เปิดโหมดตรวจสอบ SSL",
+      "AUTH_MECHANISM": "การตรวจสอบสิทธิ์"
+    },
+    "NOTE": "หมายเหตุ: "
   }
 }

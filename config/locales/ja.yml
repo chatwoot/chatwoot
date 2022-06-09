@@ -22,6 +22,8 @@ ja:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
     reset_password_failure: メールアドレスが見つかりませんでした。
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: 使い捨てメールは許可されません
       invalid_email: 無効なメールアドレスを入力しました。
@@ -37,12 +39,33 @@ ja:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: 担当者名
+        rating: Rating
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"

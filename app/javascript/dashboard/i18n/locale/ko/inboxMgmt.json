@@ -341,10 +341,6 @@
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "자동 할당 업데이트 완료",
         "ERROR_MESSAGE": "위젯 색상을 업데이트할 수 없음. 나중에 다시 시도해 주십시오."
       },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "사용함",
-        "DISABLED": "사용 안 함"
-      },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
@@ -394,13 +390,16 @@
     "FEATURES": {
       "LABEL": "특징",
       "DISPLAY_FILE_PICKER": "위젯에 파일 선택기 표시",
-      "DISPLAY_EMOJI_PICKER": "위젯에 이모지 선택기 표시"
+      "DISPLAY_EMOJI_PICKER": "위젯에 이모지 선택기 표시",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "메신저 스크립트",
       "MESSENGER_SUB_HEAD": "이 버튼을 당신의 body 태그 안에 넣으세요.",
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "업데이트",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -431,6 +430,15 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "대화 전 설문을 통해, 실제 대화 전에 사용자 정보를 확보할 수 있습니다.",
+      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Fields",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Placeholder",
+        "KEY": "Key",
+        "TYPE": "Type",
+        "REQUIRED": "Required"
+      },
       "ENABLE": {
         "LABEL": "대화 전 설문 사용하기",
         "OPTIONS": {
@@ -439,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "대화 전 설문용 메시지",
+        "LABEL": "Pre chat message",
         "PLACEHOLDER": "이 메시지가 대화전 설문과 함께 사용자에게 보여집니다."
       },
       "REQUIRE_EMAIL": {
@@ -468,6 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
@@ -483,9 +492,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "이메일",
-        "PLACE_HOLDER": "이메일"
+      "LOGIN": {
+        "LABEL": "로그인",
+        "PLACE_HOLDER": "로그인"
       },
       "PASSWORD": {
         "LABEL": "비밀번호",
@@ -511,9 +520,9 @@
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "이메일",
-        "PLACE_HOLDER": "이메일"
+      "LOGIN": {
+        "LABEL": "로그인",
+        "PLACE_HOLDER": "로그인"
       },
       "PASSWORD": {
         "LABEL": "비밀번호",
@@ -526,7 +535,9 @@
       "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode"
-    }
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
+      "AUTH_MECHANISM": "Authentication"
+    },
+    "NOTE": "Note: "
   }
 }

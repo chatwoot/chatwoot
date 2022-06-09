@@ -489,7 +489,7 @@ RSpec.describe Conversation, type: :model do
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
       it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return false if last incoming message is outside of 24 hour window' do
@@ -500,7 +500,7 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation,
           created_at: Time.now - 25.hours
         )
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return true if last incoming message is inside 24 hour window' do
@@ -511,6 +511,38 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation
         )
         expect(conversation.can_reply?).to eq true
+      end
+
+      context 'when instagram channel' do
+        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq true
+        end
+
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq false
+        end
       end
     end
   end

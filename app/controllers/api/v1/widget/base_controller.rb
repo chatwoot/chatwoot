@@ -54,6 +54,7 @@ class Api::V1::Widget::BaseController < ApplicationController
       ).perform
     else
       @contact.update!(email: email)
+      update_contact_name
     end
   end
 
@@ -67,11 +68,16 @@ class Api::V1::Widget::BaseController < ApplicationController
       ).perform
     else
       @contact.update!(phone_number: phone_number)
+      update_contact_name
     end
   end
 
+  def update_contact_name
+    @contact.update!(name: contact_name) if contact_name.present?
+  end
+
   def contact_email
-    permitted_params[:contact][:email].downcase if permitted_params[:contact].present?
+    permitted_params.dig(:contact, :email)&.downcase
   end
 
   def contact_name
@@ -79,7 +85,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_phone_number
-    params[:contact][:phone_number]
+    permitted_params.dig(:contact, :phone_number)
   end
 
   def browser_params

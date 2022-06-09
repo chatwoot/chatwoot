@@ -9,6 +9,7 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @automation_rule = @params&.dig(:content_attributes, :automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
@@ -64,6 +65,18 @@ class Messages::MessageBuilder
     @params[:external_created_at].present? ? { external_created_at: @params[:external_created_at] } : {}
   end
 
+  def automation_rule_id
+    @automation_rule.present? ? { content_attributes: { automation_rule_id: @automation_rule } } : {}
+  end
+
+  def campaign_id
+    @params[:campaign_id].present? ? { additional_attributes: { campaign_id: @params[:campaign_id] } } : {}
+  end
+
+  def template_params
+    @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
+  end
+
   def message_sender
     return if @params[:sender_type] != 'AgentBot'
 
@@ -82,6 +95,6 @@ class Messages::MessageBuilder
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id]
-    }.merge(external_created_at)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
   end
 end

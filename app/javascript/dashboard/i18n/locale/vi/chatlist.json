@@ -12,33 +12,11 @@
       "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
     },
     "FILTER_ALL": "Tất cả",
-    "STATUS_TABS": [
-      {
-        "NAME": "Mở",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Đã được giải quyết",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Của tôi",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Chưa được phân công",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Tất cả",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Của tôi",
+      "unassigned": "Chưa được phân công",
+      "all": "Tất cả"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Mở"
@@ -81,6 +59,7 @@
     "NO_MESSAGES": "Không có tin nhắn",
     "NO_CONTENT": "Không có nội dung",
     "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",
-    "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn"
+    "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn",
+    "MESSAGE_READ": "Read"
   }
 }

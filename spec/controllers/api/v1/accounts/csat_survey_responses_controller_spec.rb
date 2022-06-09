@@ -148,4 +148,38 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/csat_survey_responses/download' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/download"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) { { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.tomorrow.to_time.to_i.to_s } }
+
+      it 'returns unauthorized for agents' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns summary' do
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
+            params: params,
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+
+        content = CSV.parse(response.body)
+        # Check rating from CSAT Row
+        expect(content[1][1]).to eq '1'
+        expect(content.length).to eq 3
+      end
+    end
+  end
 end

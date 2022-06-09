@@ -1,7 +1,8 @@
 {
   "CONVERSATION": {
     "404": "Vyberte prosím konverzaci z levého panelu",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "UNVERIFIED_SESSION": "Identita tohoto uživatele není ověřena",
     "NO_MESSAGE_1": "Ale ne! Vypadá to, že ve vaší schránce nejsou žádné zprávy od zákazníků.",
     "NO_MESSAGE_2": " pro odeslání zprávy na vaši stránku!",
     "NO_INBOX_1": "Hola! Zdá se, že jste ještě nepřidali žádné schránky.",
@@ -22,17 +23,18 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "Tato konverzace vám není přiřazena. Chcete si přiřadit tuto konverzaci?",
     "ASSIGN_TO_ME": "Přiřadit mi",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Na tuto konverzaci můžete odpovědět pouze pomocí šablony zprávy z důvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Vyberte prosím tweet, na který chcete odpovědět.",
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
     "NO_RESPONSE": "Bez odpovědi",
     "RATING_TITLE": "Hodnocení",
     "FEEDBACK_TITLE": "Zpětná vazba",
@@ -43,12 +45,12 @@
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Označit jako nevyřízené",
       "SNOOZE": {
         "TITLE": "Odložit do",
         "NEXT_REPLY": "Další odpověď",
@@ -57,13 +59,13 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Podpis zprávy",
+      "ENABLE_SIGN_TOOLTIP": "Povolit podpis",
+      "DISABLE_SIGN_TOOLTIP": "Zakázat podpis",
       "MSG_INPUT": "Shift + zadejte pro nový řádek. Začněte '/' pro výběr zrušené odpovědi.",
       "PRIVATE_MSG_INPUT": "Shift + zadejte pro nový řádek. Toto bude viditelné pouze pro agenty",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Klikněte zde pro aktualizaci"
     },
     "REPLYBOX": {
       "REPLY": "Odpověď",
@@ -74,13 +76,13 @@
       "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_AUDIORECORDER_ICON": "Nahrát zvuk",
+      "TIP_AUDIORECORDER_PERMISSION": "Povolit přístup ke zvuku",
+      "TIP_AUDIORECORDER_ERROR": "Zvuk se nepodařilo otevřít",
+      "ENTER_TO_SEND": "Enterem odeslat",
+      "DRAG_DROP": "Přetažením sem připojíte",
+      "START_AUDIO_RECORDING": "Spustit nahrávání zvuku",
+      "STOP_AUDIO_RECORDING": "Zastavit nahrávání zvuku",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Přidat bcc",
@@ -101,11 +103,11 @@
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
     "CHANGE_TEAM": "Tým konverzace se změnil",
     "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "Odeslání zprávy se nezdařilo! Zkuste to znovu",
+    "TRY_AGAIN": "opakovat",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
       "REMOVE": "Odebrat",
@@ -165,37 +167,37 @@
       "PLACEHOLDER": "Nic"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
-      "CONVERSATION_LABELS": "Conversation Labels",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_DETAILS": "Podrobnosti kontaktu",
+      "CONVERSATION_ACTIONS": "Akce konverzace",
+      "CONVERSATION_LABELS": "Štítky konverzace",
+      "CONVERSATION_INFO": "Informace o konverzaci",
+      "CONTACT_ATTRIBUTES": "Atributy kontaktu",
       "PREVIOUS_CONVERSATION": "Předchozí konverzace"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Vytvořit atribut",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "Atribut byl úspěšně aktualizován",
+      "ERROR": "Atribut nelze aktualizovat. Zkuste to prosím později"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "Přidat",
+      "SUCCESS": "Atribut byl úspěšně přidán",
+      "ERROR": "Nelze přidat atribut. Zkuste to prosím později"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "Atribut byl úspěšně odstraněn",
+      "ERROR": "Atribut nelze odstranit. Zkuste to prosím později"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "Přidat atributy",
+      "PLACEHOLDER": "Hledat atributy",
+      "NO_RESULT": "Nebyly nalezeny žádné atributy"
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "Od",
     "TO": "Komu",
     "BCC": "Bcc",
     "CC": "Cc",
