@@ -51,9 +51,9 @@
           v-if="showUpdateActions"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
-          :show-resolve="!allSelectedConversationsAreResolved"
-          :show-reopen="!allSelectedConversationsAreOpen"
-          :show-snooze="!allSelectedConversationsAreSnoozed"
+          :show-resolve="!showResolvedAction"
+          :show-reopen="!showOpenAction"
+          :show-snooze="!showSnoozedActions"
           @update="updateConversations"
           @close="showUpdateActions = false"
         />
@@ -86,15 +86,15 @@ export default {
       type: Array,
       default: () => [],
     },
-    allSelectedConversationsAreOpen: {
+    showOpenAction: {
       type: Boolean,
       default: false,
     },
-    allSelectedConversationsAreResolved: {
+    showResolvedAction: {
       type: Boolean,
       default: false,
     },
-    allSelectedConversationsAreSnoozed: {
+    showSnoozedActions: {
       type: Boolean,
       default: false,
     },

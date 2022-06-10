@@ -90,15 +90,9 @@
       :conversations="selectedConversations"
       :all-conversations-selected="allConversationsSelected"
       :selected-inboxes="uniqueInboxes"
-      :all-selected-conversations-are-open="
-        allSelectedConversationsStatus('open')
-      "
-      :all-selected-conversations-are-resolved="
-        allSelectedConversationsStatus('resolved')
-      "
-      :all-selected-conversations-are-snoozed="
-        allSelectedConversationsStatus('snoozed')
-      "
+      :show-open-action="allSelectedConversationsStatus('open')"
+      :show-resolved-action="allSelectedConversationsStatus('resolved')"
+      :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
       @select-all-conversations="selectAllConversations"
       @assign-agent="onAssignAgent"
       @update-conversations="onUpdateConversations"
@@ -135,8 +129,8 @@
       <p
         v-if="
           conversationList.length &&
-            hasCurrentPageEndReached &&
-            !chatListLoading
+          hasCurrentPageEndReached &&
+          !chatListLoading
         "
         class="text-center text-muted end-of-list-text"
       >
@@ -455,10 +449,8 @@ export default {
     },
     handleKeyEvents(e) {
       if (hasPressedAltAndJKey(e)) {
-        const {
-          allConversations,
-          activeConversationIndex,
-        } = this.getKeyboardListenerParams();
+        const { allConversations, activeConversationIndex } =
+          this.getKeyboardListenerParams();
         if (activeConversationIndex === -1) {
           allConversations[0].click();
         }
