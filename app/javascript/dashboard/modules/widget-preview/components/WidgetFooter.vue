@@ -1,6 +1,6 @@
 <template>
   <div class="footer-wrap">
-    <div class="input-area"></div>
+    <div class="input-area" />
   </div>
 </template>
 
