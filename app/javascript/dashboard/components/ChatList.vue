@@ -90,12 +90,14 @@
       :conversations="selectedConversations"
       :all-conversations-selected="allConversationsSelected"
       :selected-inboxes="uniqueInboxes"
-      :all-selected-conversations-are-open="allSelectedConversationsAreOpen"
+      :all-selected-conversations-are-open="
+        allSelectedConversationsStatus('open')
+      "
       :all-selected-conversations-are-resolved="
-        allSelectedConversationsAreResolved
+        allSelectedConversationsStatus('resolved')
       "
       :all-selected-conversations-are-snoozed="
-        allSelectedConversationsAreSnoozed
+        allSelectedConversationsStatus('snoozed')
       "
       @select-all-conversations="selectAllConversations"
       @assign-agent="onAssignAgent"
@@ -379,28 +381,6 @@ export default {
     uniqueInboxes() {
       return [...new Set(this.selectedInboxes)];
     },
-    allSelectedConversationsAreOpen() {
-      if (!this.selectedConversations.length) return false;
-      return this.selectedConversations.every(item => {
-        return this.$store.getters.getConversationById(item).status === 'open';
-      });
-    },
-    allSelectedConversationsAreResolved() {
-      if (!this.selectedConversations.length) return false;
-      return this.selectedConversations.every(item => {
-        return (
-          this.$store.getters.getConversationById(item).status === 'resolved'
-        );
-      });
-    },
-    allSelectedConversationsAreSnoozed() {
-      if (!this.selectedConversations.length) return false;
-      return this.selectedConversations.every(item => {
-        return (
-          this.$store.getters.getConversationById(item).status === 'snoozed'
-        );
-      });
-    },
   },
   watch: {
     activeTeam() {
@@ -652,6 +632,12 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('BULK_ACTION.RESOLVE_FAILED'));
       }
+    },
+    allSelectedConversationsStatus(status) {
+      if (!this.selectedConversations.length) return false;
+      return this.selectedConversations.every(item => {
+        return this.$store.getters.getConversationById(item).status === status;
+      });
     },
   },
 };
