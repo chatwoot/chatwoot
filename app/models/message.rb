@@ -116,18 +116,19 @@ class Message < ApplicationRecord
 
   def webhook_data
     {
-      id: id,
-      content: content,
-      created_at: created_at,
-      message_type: message_type,
-      content_type: content_type,
-      private: private,
+      account: account.webhook_data,
+      additional_attributes: additional_attributes,
       content_attributes: content_attributes,
-      source_id: source_id,
-      sender: sender.try(:webhook_data),
-      inbox: inbox.webhook_data,
+      content_type: content_type,
+      content: content,
       conversation: conversation.webhook_data,
-      account: account.webhook_data
+      created_at: created_at,
+      id: id,
+      inbox: inbox.webhook_data,
+      message_type: message_type,
+      private: private,
+      sender: sender.try(:webhook_data),
+      source_id: source_id
     }
   end
 

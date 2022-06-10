@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_25_141844) do
+ActiveRecord::Schema.define(version: 2022_06_10_091206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -205,6 +205,7 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
     t.string "identifier"
     t.string "hmac_token"
     t.boolean "hmac_mandatory", default: false
+    t.jsonb "additional_attributes", default: {}
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
