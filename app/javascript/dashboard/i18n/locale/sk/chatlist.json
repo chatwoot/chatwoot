@@ -12,33 +12,11 @@
       "INPUT": "Vyhľadávanie ľudí, konverzácií, uložených odpovedí.."
     },
     "FILTER_ALL": "Všetko",
-    "STATUS_TABS": [
-      {
-        "NAME": "Otvorené",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Vyriešené",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Moje",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Nepriradené",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Všetko",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Moje",
+      "unassigned": "Nepriradené",
+      "all": "Všetko"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Otvorené"

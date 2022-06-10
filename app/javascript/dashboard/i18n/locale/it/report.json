@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapporti CSAT",
     "NO_RECORDS": "Non ci sono risposte al sondaggio CSAT disponibili.",
+    "DOWNLOAD": "Scarica report CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Scegli agenti"
@@ -420,7 +421,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversazioni aperte",
       "LOADING_MESSAGE": "Caricamento metriche conversazioni...",
-      "OPEN": "Aperte",
+      "OPEN": "Apri",
       "UNATTENDED": "Non partecipate",
       "UNASSIGNED": "Non assegnato"
     },

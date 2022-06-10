@@ -186,8 +186,8 @@
     "SEARCH_BUTTON": "搜索",
     "SEARCH_INPUT_PLACEHOLDER": "搜索联系人",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "保存过滤器",
+    "FILTER_CONTACTS_DELETE": "删除过滤器",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",

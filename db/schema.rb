@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_13_145010) do
+ActiveRecord::Schema.define(version: 2022_06_10_091206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -205,6 +205,7 @@ ActiveRecord::Schema.define(version: 2022_05_13_145010) do
     t.string "identifier"
     t.string "hmac_token"
     t.boolean "hmac_mandatory", default: false
+    t.jsonb "additional_attributes", default: {}
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
@@ -439,6 +440,17 @@ ActiveRecord::Schema.define(version: 2022_05_13_145010) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_custom_filters_on_account_id"
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
+  end
+
+  create_table "dashboard_apps", force: :cascade do |t|
+    t.string "title", null: false
+    t.jsonb "content", default: []
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_dashboard_apps_on_account_id"
+    t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
 
   create_table "data_imports", force: :cascade do |t|
@@ -817,6 +829,8 @@ ActiveRecord::Schema.define(version: 2022_05_13_145010) do
   add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
+  add_foreign_key "dashboard_apps", "accounts"
+  add_foreign_key "dashboard_apps", "users"
   add_foreign_key "data_imports", "accounts", on_delete: :cascade
   add_foreign_key "mentions", "conversations", on_delete: :cascade
   add_foreign_key "mentions", "users", on_delete: :cascade

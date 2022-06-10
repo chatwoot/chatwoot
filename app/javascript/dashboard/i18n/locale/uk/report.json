@@ -386,6 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Звіти CSAT",
     "NO_RECORDS": "Немає доступних відповідей для опитувань CSAT.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Виберіть Агентів"

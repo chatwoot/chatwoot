@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vælg venligst en samtale fra venstre rude",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Åh oh! Det ser ud til, at der ikke er nogen beskeder fra kunder i din indbakke.",
     "NO_MESSAGE_2": " for at sende en besked til din side!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Du svarer til:",
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",

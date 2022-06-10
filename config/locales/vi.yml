@@ -39,12 +39,33 @@ vi:
       conversations_count: Số cuộc trò chuyện
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
+      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
+      avg_resolution_time: Thời gian giải quyết trung bình (phút)
     team_csv:
       team_name: Tên nhóm
       conversations_count: Số cuộc trò chuyện
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     default_group_by: ngày
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Tên nhà cung cấp
+        rating: Đánh giá
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"

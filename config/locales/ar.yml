@@ -39,12 +39,33 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
       avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    inbox_csv:
+      inbox_name: اسم صندوق الوارد
+      inbox_type: نوع صندوق البريد
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+    label_csv:
+      label_title: الوسم
+      conversations_count: عدد المحادثات
+      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
+      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
       avg_resolution_time: متوسط وقت المحادثة (الدقائق)
     default_group_by: اليوم
+    csat:
+      headers:
+        contact_name: اسم جهة الاتصال
+        contact_email_address: عنوان البريد الإلكتروني الخاص بجهة الاتصال
+        contact_phone_number: رقم هاتف جهة الاتصال
+        link_to_the_conversation: رابط إلى المحادثة
+        agent_name: اسم الموظف
+        rating: التقييم
+        feedback: التعليق على الملاحظات
+        recorded_at: تاريخ التسجيل
   notifications:
     notification_title:
       conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"

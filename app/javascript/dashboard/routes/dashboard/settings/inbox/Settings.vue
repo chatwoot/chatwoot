@@ -318,7 +318,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -426,7 +425,7 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
+      if (this.isATwilioSMSChannel || this.isAWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       if (this.isAnEmailChannel) {
@@ -562,7 +561,6 @@ export default {
   },
   validations: {
     webhookUrl: {
-      required,
       shouldBeUrl,
     },
   },

@@ -14,7 +14,7 @@
       "ERROR": "姓名太短了"
     },
     "EMAIL": {
-      "LABEL": "Work email",
+      "LABEL": "工作電子郵件",
       "PLACEHOLDER": "輸入你的工作 Email。例如： bruce@wayne.enterprises",
       "ERROR": "Email 無效"
     },
