@@ -13,8 +13,8 @@
         "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
         "AGENT_LIST_LOADING": "Loading Agents",
         "UPDATE": {
-            "UPDATE_CONVERSATIONS_LABEL": "Update Conversations",
-            "UPDATE_SUCCESFUL": "Conversations updated successfully",
+            "UPDATE_CONVERSATIONS_LABEL": "Change status",
+            "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
             "UPDATE_FAILED": "Failed to update conversations, please try again"
         }
     }

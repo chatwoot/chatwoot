@@ -24,7 +24,7 @@
           size="tiny"
           variant="flat"
           color-scheme="success"
-          icon="send"
+          icon="repeat"
           class="margin-right-smaller"
           @click="showUpdateActions = true"
         />

@@ -167,7 +167,7 @@ export default {
 .bulk-action__agents {
   transform-origin: top right;
   position: absolute;
-  top: 48px;
+  top: 4.8rem;
   right: var(--space-small);
   width: 100%;
   box-shadow: var(--shadow-dropdown-pane);
@@ -184,7 +184,7 @@ export default {
     }
   }
   .container {
-    height: 240px;
+    height: 24rem;
     overflow-y: auto;
     .agent__list-container {
       height: 100%;
@@ -209,11 +209,10 @@ export default {
   }
   .triangle {
     display: block;
-    line-height: 11px;
     z-index: 1;
     position: absolute;
-    top: -12px;
-    right: 2px;
+    top: calc(var(--space-slab) * -1);
+    right: var(--space-micro);
     text-align: left;
   }
 }

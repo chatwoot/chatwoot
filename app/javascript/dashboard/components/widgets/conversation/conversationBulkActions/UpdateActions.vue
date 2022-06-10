@@ -32,7 +32,7 @@
               :icon="action.icon"
               @click="updateConversations(action.key)"
             >
-              {{ action.label }}
+              {{ actionLabel(action.key) }}
             </woot-button>
           </woot-dropdown-item>
         </template>
@@ -114,6 +114,14 @@ export default {
       };
       return actionsMap[key] || false;
     },
+    actionLabel(key) {
+      const labelsMap = {
+        resolve: this.$t('CONVERSATION.HEADER.RESOLVE_ACTION'),
+        open: this.$t('CONVERSATION.HEADER.REOPEN_ACTION'),
+        snoozed: this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY'),
+      };
+      return labelsMap[key] || '';
+    },
   },
 };
 </script>
@@ -149,11 +157,10 @@ export default {
   }
   .triangle {
     display: block;
-    line-height: 11px;
     z-index: 1;
     position: absolute;
-    top: -12px;
-    right: 28px;
+    top: calc(var(--space-slab) * -1);
+    right: 2.8rem;
     text-align: left;
   }
 }
