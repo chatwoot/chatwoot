@@ -6,30 +6,28 @@
       readonly
       class="template-input"
     ></textarea>
-    <div>
-      <div class="template__variables-container">
-        <p class="variables-label">
-          {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
-        </p>
-        <div
-          v-for="(variable, key) in processedParams"
-          :key="key"
-          class="template__variable-item"
-        >
-          <span class="variable-label">
-            {{ key }}
-          </span>
-          <woot-input
-            v-model="processedParams[key]"
-            type="text"
-            class="variable-input"
-            :styles="{ marginBottom: 0 }"
-          />
-        </div>
-        <p v-if="showRequiredMessage" class="error">
-          {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
-        </p>
+    <div v-if="variables" class="template__variables-container">
+      <p class="variables-label">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
+      </p>
+      <div
+        v-for="(variable, key) in processedParams"
+        :key="key"
+        class="template__variable-item"
+      >
+        <span class="variable-label">
+          {{ key }}
+        </span>
+        <woot-input
+          v-model="processedParams[key]"
+          type="text"
+          class="variable-input"
+          :styles="{ marginBottom: 0 }"
+        />
       </div>
+      <p v-if="$v.$dirty && $v.$invalid" class="error">
+        {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
+      </p>
     </div>
     <footer>
       <woot-button variant="smooth" @click="$emit('resetTemplate')">
@@ -43,12 +41,11 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
-
 const allKeysRequired = value => {
   const keys = Object.keys(value);
   return keys.every(key => value[key]);
 };
+import { requiredIf } from 'vuelidate/lib/validators';
 export default {
   props: {
     template: {
@@ -58,15 +55,13 @@ export default {
   },
   validations: {
     processedParams: {
-      required,
+      requiredIfKeysPresent: requiredIf('variables'),
       allKeysRequired,
     },
   },
   data() {
     return {
-      message: this.template.message,
       processedParams: {},
-      showRequiredMessage: false,
     };
   },
   computed: {
@@ -92,11 +87,8 @@ export default {
   methods: {
     sendMessage() {
       this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showRequiredMessage = true;
-        return;
-      }
-      const message = {
+      if (this.$v.$invalid) return;
+      const payload = {
         message: this.processedString,
         templateParams: {
           name: this.template.name,
@@ -106,18 +98,16 @@ export default {
           processed_params: this.processedParams,
         },
       };
-      this.$emit('sendMessage', message);
+      this.$emit('sendMessage', payload);
     },
     processVariable(str) {
       return str.replace(/{{|}}/g, '');
     },
     generateVariables() {
-      const templateString = this.template.components.find(
-        component => component.type === 'BODY'
-      ).text;
-      const variables = templateString.match(/{{([^}]+)}}/g).map(variable => {
-        return this.processVariable(variable);
-      });
+      const matchedVariables = this.templateString.match(/{{([^}]+)}}/g);
+      if (!matchedVariables) return;
+
+      const variables = matchedVariables.map(i => this.processVariable(i));
       this.processedParams = variables.reduce((acc, variable) => {
         acc[variable] = '';
         return acc;
