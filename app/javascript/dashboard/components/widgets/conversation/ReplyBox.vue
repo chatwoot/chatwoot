@@ -267,7 +267,7 @@ export default {
       return false;
     },
     hasWhatsappTemplates() {
-      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+      return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
         .length;
     },
     enterToSendEnabled() {
