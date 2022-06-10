@@ -23,17 +23,19 @@
     </div>
     <div class="container">
       <woot-dropdown-menu>
-        <woot-dropdown-item v-for="action in actions" :key="action.key">
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            size="small"
-            :icon="action.icon"
-            @click="updateConversations(action.key)"
-          >
-            {{ action.label }}
-          </woot-button>
-        </woot-dropdown-item>
+        <template v-for="action in actions">
+          <woot-dropdown-item v-if="showAction(action.key)" :key="action.key">
+            <woot-button
+              variant="clear"
+              color-scheme="secondary"
+              size="small"
+              :icon="action.icon"
+              @click="updateConversations(action.key)"
+            >
+              {{ action.label }}
+            </woot-button>
+          </woot-dropdown-item>
+        </template>
       </woot-dropdown-menu>
     </div>
   </div>
@@ -58,6 +60,18 @@ export default {
       type: Number,
       default: 0,
     },
+    showResolve: {
+      type: Boolean,
+      default: true,
+    },
+    showReopen: {
+      type: Boolean,
+      default: true,
+    },
+    showSnooze: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -72,7 +86,7 @@ export default {
         {
           icon: 'arrow-redo',
           label: 'Reopen Conversations',
-          key: 'reopen',
+          key: 'open',
         },
         {
           icon: 'send-clock',
@@ -84,13 +98,21 @@ export default {
   },
   methods: {
     updateConversations(key) {
-      this.$emit('update-conversations', key);
+      this.$emit('update', key);
     },
     goBack() {
       this.selectedAgent = null;
     },
     onClose() {
       this.$emit('close');
+    },
+    showAction(key) {
+      const actionsMap = {
+        resolve: this.showResolve,
+        open: this.showReopen,
+        snooze: this.showSnooze,
+      };
+      return actionsMap[key] || false;
     },
   },
 };

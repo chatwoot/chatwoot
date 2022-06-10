@@ -50,7 +50,10 @@
           v-if="showUpdateActions"
           :selected-inboxes="selectedInboxes"
           :conversation-count="conversations.length"
-          @select="submit"
+          :show-resolve="!allSelectedConversationsAreResolved"
+          :show-reopen="!allSelectedConversationsAreOpen"
+          :show-snooze="!allSelectedConversationsAreSnoozed"
+          @update="updateConversations"
           @close="showUpdateActions = false"
         />
       </transition>
@@ -82,6 +85,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    allSelectedConversationsAreOpen: {
+      type: Boolean,
+      default: false,
+    },
+    allSelectedConversationsAreResolved: {
+      type: Boolean,
+      default: false,
+    },
+    allSelectedConversationsAreSnoozed: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -98,6 +113,9 @@ export default {
     },
     submit(agent) {
       this.$emit('assign-agent', agent);
+    },
+    updateConversations(status) {
+      this.$emit('update-conversations', status);
     },
     resolveConversations() {
       this.$emit('resolve-conversations');

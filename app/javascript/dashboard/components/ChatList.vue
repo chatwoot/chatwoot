@@ -90,8 +90,16 @@
       :conversations="selectedConversations"
       :all-conversations-selected="allConversationsSelected"
       :selected-inboxes="uniqueInboxes"
+      :all-selected-conversations-are-open="allSelectedConversationsAreOpen"
+      :all-selected-conversations-are-resolved="
+        allSelectedConversationsAreResolved
+      "
+      :all-selected-conversations-are-snoozed="
+        allSelectedConversationsAreSnoozed
+      "
       @select-all-conversations="selectAllConversations"
       @assign-agent="onAssignAgent"
+      @update-conversations="onUpdateConversations"
       @resolve-conversations="onResolveConversations"
     />
     <div ref="activeConversation" class="conversations-list">
@@ -369,6 +377,28 @@ export default {
     uniqueInboxes() {
       return [...new Set(this.selectedInboxes)];
     },
+    allSelectedConversationsAreOpen() {
+      if (!this.selectedConversations.length) return false;
+      return this.selectedConversations.every(item => {
+        return this.$store.getters.getConversationById(item).status === 'open';
+      });
+    },
+    allSelectedConversationsAreResolved() {
+      if (!this.selectedConversations.length) return false;
+      return this.selectedConversations.every(item => {
+        return (
+          this.$store.getters.getConversationById(item).status === 'resolved'
+        );
+      });
+    },
+    allSelectedConversationsAreSnoozed() {
+      if (!this.selectedConversations.length) return false;
+      return this.selectedConversations.every(item => {
+        return (
+          this.$store.getters.getConversationById(item).status === 'snoozed'
+        );
+      });
+    },
   },
   watch: {
     activeTeam() {
@@ -589,6 +619,21 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async onUpdateConversations(status) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            status,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
       }
     },
     async onResolveConversations() {
