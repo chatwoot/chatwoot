@@ -7,6 +7,7 @@
           type="checkbox"
           class="checkbox"
           :checked="allConversationsSelected"
+          :indeterminate.prop="!allConversationsSelected"
           @change="selectAll($event)"
         />
         <span>
@@ -103,9 +104,6 @@ export default {
       showAgentsList: false,
       showUpdateActions: false,
     };
-  },
-  mounted() {
-    this.$refs.selectAllCheck.indeterminate = true;
   },
   methods: {
     selectAll(e) {

@@ -370,8 +370,10 @@ export default {
     },
     allConversationsSelected() {
       return (
-        JSON.stringify(this.selectedConversations) ===
-        JSON.stringify(this.conversationList.map(item => item.id))
+        this.conversationList.length === this.selectedConversations.length &&
+        this.conversationList.every(el =>
+          this.selectedConversations.includes(el.id)
+        )
       );
     },
     uniqueInboxes() {
