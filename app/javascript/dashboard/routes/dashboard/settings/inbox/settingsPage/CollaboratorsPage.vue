@@ -49,8 +49,9 @@
         </p>
       </label>
 
+      <!-- disabling this block temporarily -->
       <div
-        v-if="enableAutoAssignment && isEnterprise"
+        v-if="enableAutoAssignment && isEnterprise && false"
         class="max-assignment-container"
       >
         <woot-input
