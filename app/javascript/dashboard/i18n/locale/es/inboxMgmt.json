@@ -398,8 +398,8 @@
       "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Asignación de conversación",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Actualizar configuración de la asignación de conversación",
       "UPDATE": "Actualizar",
       "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
@@ -430,14 +430,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Los formularios de Pre Chat le permiten capturar la información del usuario antes de que comiencen la conversación con usted.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Campos del formulario del chat",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "FIELDS": "Campos",
+        "LABEL": "Etiqueta",
+        "PLACE_HOLDER": "Marca de posición",
         "KEY": "Llave",
         "TYPE": "Tipo",
-        "REQUIRED": "Required"
+        "REQUIRED": "Requerido"
       },
       "ENABLE": {
         "LABEL": "Activar formulario de pre-chat",
@@ -447,7 +447,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Mensaje de prechat",
         "PLACEHOLDER": "Este mensaje sería visible para los usuarios junto con el formulario"
       },
       "REQUIRE_EMAIL": {
@@ -476,7 +476,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Configura los detalles de IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Para habilitar SMTP, por favor configure IMAP.",
       "UPDATE": "Actualizar ajustes IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar configuración IMAP para esta bandeja de entrada",
       "TOGGLE_HELP": "Habilitar IMAP ayudará al usuario a recibir correo electrónico",
@@ -536,8 +536,8 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificación SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "Autenticación"
     },
-    "NOTE": "Note: "
+    "NOTE": "Nota: "
   }
 }
