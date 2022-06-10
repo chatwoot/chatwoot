@@ -18,7 +18,7 @@
       </label>
     </div>
 
-    <twilio v-if="provider === 'twilio'" type="whatsapp"></twilio>
+    <twilio v-if="provider === 'twilio'" type="whatsapp" />
     <three-sixty-dialog-whatsapp v-else />
   </div>
 </template>
