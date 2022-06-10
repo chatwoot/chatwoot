@@ -80,17 +80,14 @@ export default {
       actions: [
         {
           icon: 'checkmark',
-          label: 'Resolve Conversations',
           key: 'resolve',
         },
         {
           icon: 'arrow-redo',
-          label: 'Reopen Conversations',
           key: 'open',
         },
         {
           icon: 'send-clock',
-          label: 'Snooze until next reply',
           key: 'snoozed',
         },
       ],
