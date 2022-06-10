@@ -5,7 +5,7 @@
       rows="4"
       readonly
       class="template-input"
-    ></textarea>
+    />
     <div v-if="variables" class="template__variables-container">
       <p class="variables-label">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}

@@ -18,7 +18,7 @@
       <div
         v-dompurify-html="formatMessage(message, false)"
         class="message-content"
-      ></div>
+      />
     </button>
   </div>
 </template>

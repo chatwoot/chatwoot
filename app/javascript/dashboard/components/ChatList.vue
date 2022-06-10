@@ -1,6 +1,6 @@
 <template>
   <div class="conversations-list-wrap">
-    <slot></slot>
+    <slot />
     <div
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
@@ -53,8 +53,7 @@
           size="small"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
-        >
-        </woot-button>
+        />
       </div>
     </div>
 
@@ -102,7 +101,7 @@
       />
 
       <div v-if="chatListLoading" class="text-center">
-        <span class="spinner"></span>
+        <span class="spinner" />
       </div>
 
       <woot-button

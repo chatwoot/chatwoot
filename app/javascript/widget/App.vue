@@ -15,7 +15,7 @@
       'is-flat-design': isWidgetStyleFlat,
     }"
   >
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
