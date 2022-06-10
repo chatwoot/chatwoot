@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="onClose" class="bulk-action__agents">
+  <div class="bulk-action__agents">
     <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path

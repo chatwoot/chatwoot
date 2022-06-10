@@ -91,7 +91,7 @@ export default {
         {
           icon: 'send-clock',
           label: 'Snooze until next reply',
-          key: 'snooze',
+          key: 'snoozed',
         },
       ],
     };
@@ -110,7 +110,7 @@ export default {
       const actionsMap = {
         resolve: this.showResolve,
         open: this.showReopen,
-        snooze: this.showSnooze,
+        snoozed: this.showSnooze,
       };
       return actionsMap[key] || false;
     },
