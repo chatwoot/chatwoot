@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "توقيع الرسالة الشخصية",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "إنشاء توقيع رسالة شخصية يتم إضافتها إلى جميع الرسائل التي ترسلها من المنصة. استخدم محرر المحتوى الغني لإنشاء توقيع شديد التخصيص.",
         "BTN_TEXT": "حفظ توقيع الرسالة",
         "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
         "API_SUCCESS": "تم حفظ التوقيع بنجاح"
