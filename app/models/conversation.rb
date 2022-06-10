@@ -136,7 +136,6 @@ class Conversation < ApplicationRecord
   end
 
   def mute!
-    resolved!
     Redis::Alfred.setex(mute_key, 1, mute_period)
     create_muted_message
   end
