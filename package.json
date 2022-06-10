@@ -3,7 +3,8 @@
   "version": "2.5.0",
   "license": "MIT",
   "scripts": {
-    "eslint": "eslint app/**/*.{js,vue} --fix",
+    "eslint": "eslint app/**/*.{js,vue}",
+    "eslint:fix": "eslint app/**/*.{js,vue} --fix",
     "pretest": "rimraf .jest-cache",
     "test": "jest  -w 1 --no-cache",
     "test:watch": "jest -w 1 --watch --no-cache",
