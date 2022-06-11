@@ -32,8 +32,7 @@
         class="sidebar-toggle--button"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
-      >
-      </woot-button>
+      />
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">

@@ -56,8 +56,7 @@
                   color-scheme="secondary"
                   icon="edit"
                   @click="openEditPopup(cannedItem)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
                   variant="smooth"
@@ -67,8 +66,7 @@
                   class-names="grey-btn"
                   :is-loading="loading[cannedItem.id]"
                   @click="openDeletePopup(cannedItem, index)"
-                >
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -76,7 +74,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
     <!-- Add Agent -->

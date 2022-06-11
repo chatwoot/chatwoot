@@ -2,7 +2,7 @@
   <li class="sub-menu-container">
     <ul class="sub-menu-li-container">
       <woot-dropdown-header :title="title" />
-      <slot></slot>
+      <slot />
     </ul>
   </li>
 </template>

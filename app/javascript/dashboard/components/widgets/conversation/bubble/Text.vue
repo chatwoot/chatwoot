@@ -6,7 +6,7 @@
       'hide--quoted': !showQuotedContent,
     }"
   >
-    <div v-dompurify-html="message" class="text-content"></div>
+    <div v-dompurify-html="message" class="text-content" />
     <button
       v-if="displayQuotedButton"
       class="quoted-text--button"
