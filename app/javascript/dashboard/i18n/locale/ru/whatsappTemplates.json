@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Шаблоны Whatsapp",
+            "SUBTITLE": "Выберите шаблон whatsapp, который вы хотите отправить",
+            "TEMPLATE_SELECTED_SUBTITLE": "Обработка %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Найти шаблоны",
+            "NO_TEMPLATES_FOUND": "Не найдено шаблонов для",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Язык",
+                "TEMPLATE_BODY": "Тело шаблона",
+                "CATEGORY": "Категория"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Переменные",
+            "VARIABLE_PLACEHOLDER": "Введите значение %{variable}",
+            "GO_BACK_LABEL": "Вернуться",
+            "SEND_MESSAGE_LABEL": "Отправить сообщение",
+            "FORM_ERROR_MESSAGE": "Пожалуйста, заполните все переменные перед отправкой"
         }
     }
 }
