@@ -126,11 +126,7 @@
       </woot-button>
 
       <p
-        v-if="
-          conversationList.length &&
-          hasCurrentPageEndReached &&
-          !chatListLoading
-        "
+        v-if="showEndOfListMessage"
         class="text-center text-muted end-of-list-text"
       >
         {{ $t('CHAT_LIST.EOF') }}
@@ -253,6 +249,13 @@ export default {
         this.fetchSavedFilteredConversations(payload);
       }
       return {};
+    },
+    showEndOfListMessage() {
+      return (
+        this.conversationList.length &&
+        this.hasCurrentPageEndReached &&
+        !this.chatListLoading
+      );
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
@@ -448,8 +451,10 @@ export default {
     },
     handleKeyEvents(e) {
       if (hasPressedAltAndJKey(e)) {
-        const { allConversations, activeConversationIndex } =
-          this.getKeyboardListenerParams();
+        const {
+          allConversations,
+          activeConversationIndex,
+        } = this.getKeyboardListenerParams();
         if (activeConversationIndex === -1) {
           allConversations[0].click();
         }

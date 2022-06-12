@@ -8,7 +8,7 @@
           fill-rule="evenodd"
           stroke="var(--s-50)"
           stroke-width="1px"
-        ></path>
+        />
       </svg>
     </div>
     <div class="header flex-between">
@@ -159,30 +159,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 .bulk-action__agents {
-  transform-origin: top right;
-  position: absolute;
-  top: 4.8rem;
-  right: var(--space-small);
-  width: 100%;
-  box-shadow: var(--shadow-dropdown-pane);
+  background-color: var(--white);
   border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
-  background-color: var(--white);
-  width: 75%;
+  box-shadow: var(--shadow-dropdown-pane);
+  max-width: 75%;
+  position: absolute;
+  right: var(--space-small);
+  top: 4.8rem;
+  transform-origin: top right;
+  width: auto;
   z-index: 20;
+
   .header {
     padding: var(--space-one);
+
     span {
-      font-size: var(--font-size-default);
+      font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
     }
   }
+
   .container {
     height: 24rem;
     overflow-y: auto;
