@@ -209,7 +209,6 @@
           "LABEL": "API key",
           "SUBTITLE": "Configure the WhatsApp API key.",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
           "ERROR": "Ange ett giltigt värde."
         },
         "SUBMIT_BUTTON": "Skapa WhatsApp-kanal",
