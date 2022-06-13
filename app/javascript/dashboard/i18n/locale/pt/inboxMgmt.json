@@ -209,7 +209,6 @@
           "LABEL": "Chave da API",
           "SUBTITLE": "Configure a chave API do WhatsApp.",
           "PLACEHOLDER": "Chave da API",
-          "APPLY_FOR_ACCESS": "Não tem nenhuma chave de API? Solicite acesso aqui",
           "ERROR": "Por favor, insira um valor válido."
         },
         "SUBMIT_BUTTON": "Criar Canal do WhatsApp",
