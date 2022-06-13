@@ -128,6 +128,9 @@ gem 'html2text'
 # to calculate working hours
 gem 'working_hours'
 
+# full text search for articles
+gem 'pg_search'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'

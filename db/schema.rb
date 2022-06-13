@@ -116,7 +116,6 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.integer "portal_id", null: false
     t.integer "category_id"
     t.integer "folder_id"
-    t.integer "author_id"
     t.string "title"
     t.text "description"
     t.text "content"
@@ -124,6 +123,8 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.integer "views"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_articles_on_author_id"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -193,8 +194,10 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "locale", default: "en"
+    t.string "slug", null: false
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
+    t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true
   end
 
   create_table "channel_api", force: :cascade do |t|
@@ -817,6 +820,7 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
+  add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
