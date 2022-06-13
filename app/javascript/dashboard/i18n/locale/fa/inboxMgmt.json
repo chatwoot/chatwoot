@@ -209,7 +209,6 @@
           "LABEL": "API key",
           "SUBTITLE": "WhatsApp API key را پیکربندی کنید.",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "API key ندارید؟ برای دسترسی از اینجا درخواست دهید",
           "ERROR": "لطفا یک مقدار معتبر وارد کنید."
         },
         "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
