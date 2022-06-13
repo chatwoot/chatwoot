@@ -93,23 +93,27 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
+    channel = inbox&.channel
+
+    if inbox.api? && channel&.message_window_enabled?
+      return last_message_in_messaging_window?(channel.additional_attributes['agent_reply_time_window'].to_i)
+    end
+
     return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
-    return true unless inbox&.channel&.has_24_hour_messaging_window?
+    return true unless channel&.has_24_hour_messaging_window?
 
-    return false if last_incoming_message.nil?
-
-    last_message_less_than_24_hrs?
+    last_message_in_messaging_window?(24)
   end
 
   def last_incoming_message
     messages&.incoming&.last
   end
 
-  def last_message_less_than_24_hrs?
+  def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
 
-    Time.current < last_incoming_message.created_at + 24.hours
+    Time.current < last_incoming_message.created_at + time.hours
   end
 
   def can_reply_on_instagram?
