@@ -209,7 +209,6 @@
           "LABEL": "API κλειδί",
           "SUBTITLE": "Ρυθμίστε το κλειδί WhatsApp API.",
           "PLACEHOLDER": "API κλειδί",
-          "APPLY_FOR_ACCESS": "Δεν έχετε κανένα κλειδί API? Αίτηση για πρόσβαση εδώ",
           "ERROR": "Παρακαλώ εισάγετε μια έγκυρη τιμή."
         },
         "SUBMIT_BUTTON": "Δημιουργία Καναλιού WhatsApp",
