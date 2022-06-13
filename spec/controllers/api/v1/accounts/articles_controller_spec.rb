@@ -95,7 +95,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
     context 'when it is an authenticated user' do
       it 'get all articles' do
-        article2 = create(:article, account_id: account.id, portal: portal, category: category)
+        article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
         expect(article2.id).not_to be nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
