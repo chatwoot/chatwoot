@@ -48,20 +48,47 @@
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
         </p>
       </label>
+
+      <!-- disabling this block temporarily -->
+      <div
+        v-if="enableAutoAssignment && isEnterprise && false"
+        class="max-assignment-container"
+      >
+        <woot-input
+          v-model.trim="maxAssignmentLimit"
+          type="number"
+          :class="{ error: $v.maxAssignmentLimit.$error }"
+          :error="maxAssignmentLimitErrors"
+          :label="$t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT')"
+          @blur="$v.maxAssignmentLimit.$touch"
+        />
+
+        <p class="help-text">
+          {{ $t('INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_SUB_TEXT') }}
+        </p>
+
+        <woot-submit-button
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :disabled="$v.maxAssignmentLimit.$invalid"
+          @click="updateInbox"
+        />
+      </div>
     </settings-section>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { minValue } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../../components/SettingsSection';
 
 export default {
   components: {
     SettingsSection,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, configMixin],
   props: {
     inbox: {
       type: Object,
@@ -73,12 +100,21 @@ export default {
       selectedAgents: [],
       isAgentListUpdating: false,
       enableAutoAssignment: false,
+      maxAssignmentLimit: null,
     };
   },
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
     }),
+    maxAssignmentLimitErrors() {
+      if (this.$v.maxAssignmentLimit.$error) {
+        return this.$t(
+          'INBOX_MGMT.AUTO_ASSIGNMENT.MAX_ASSIGNMENT_LIMIT_RANGE_ERROR'
+        );
+      }
+      return '';
+    },
   },
   watch: {
     inbox() {
@@ -91,6 +127,8 @@ export default {
   methods: {
     setDefaults() {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
+      this.maxAssignmentLimit =
+        this.inbox.auto_assignment_config.max_assignment_limit || null;
       this.fetchAttachedAgents();
     },
     async fetchAttachedAgents() {
@@ -129,6 +167,9 @@ export default {
           id: this.inbox.id,
           formData: false,
           enable_auto_assignment: this.enableAutoAssignment,
+          auto_assignment_config: {
+            max_assignment_limit: this.maxAssignmentLimit,
+          },
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
@@ -143,6 +184,19 @@ export default {
         return !!this.selectedAgents.length;
       },
     },
+    maxAssignmentLimit: {
+      minValue: minValue(1),
+    },
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
+
+.max-assignment-container {
+  padding-top: var(--space-slab);
+  padding-bottom: var(--space-slab);
+}
+</style>

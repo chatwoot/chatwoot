@@ -513,6 +513,7 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
+    t.jsonb "auto_assignment_config", default: {}
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 

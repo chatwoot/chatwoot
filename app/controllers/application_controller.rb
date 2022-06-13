@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   include RequestExceptionHandler
-  include Pundit
+  include Pundit::Authorization
   include SwitchLocale
 
   skip_before_action :verify_authenticity_token
