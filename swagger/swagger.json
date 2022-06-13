@@ -1589,7 +1589,7 @@
           "name": "id",
           "in": "path",
           "type": "number",
-          "description": "ID of the custom attribute definitions",
+          "description": "ID of the custom attribute",
           "required": true
         }
       ],
@@ -1600,6 +1600,18 @@
         "operationId": "get-details-of-a-single-custom-attribute",
         "summary": "Get a custom attribute details",
         "description": "Get the details of a custom attribute in the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the custom attribute to be updated."
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1869,11 +1881,11 @@
             "$ref": "#/parameters/account_id"
           },
           {
-            "in": "path",
             "name": "id",
-            "type": "integer",
-            "required": true,
-            "description": "The ID of contact"
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
           }
         ],
         "responses": {
@@ -2235,7 +2247,7 @@
           "name": "id",
           "in": "path",
           "type": "number",
-          "description": "ID of the automation rule",
+          "description": "ID of the Automation Rule",
           "required": true
         }
       ],
@@ -2246,6 +2258,15 @@
         "operationId": "get-details-of-a-single-automation-rule",
         "summary": "Get a automation rule details",
         "description": "Get the details of a automation rule in the account",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the automation rule to be updated."
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2299,11 +2320,11 @@
               "$ref": "#/definitions/automation_rule"
             }
           },
-          "404": {
-            "description": "Agent not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "Rule not found"
           }
         }
       },
@@ -2334,11 +2355,11 @@
           "200": {
             "description": "Success"
           },
-          "404": {
-            "description": "automation rule not found"
-          },
           "403": {
             "description": "Access denied"
+          },
+          "404": {
+            "description": "automation rule not found"
           }
         }
       }
@@ -2561,12 +2582,12 @@
                   "description": "Lets you specify attributes like browser information"
                 },
                 "custom_attributes": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "example": { "attribut_key": "attribute_value", "priority_conversation_number": 3 }
-                  },
-                  "description": "The object to save custom attributes for conversation, accepts custom attributes key and value"
+                  "type": "object",
+                  "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
+                  "example": {
+                    "attribut_key": "attribute_value",
+                    "priority_conversation_number": 3
+                  }
                 },
                 "status": {
                   "type": "string",
@@ -3952,6 +3973,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/parameters/account_id"
+          },
+          {
             "$ref": "#/parameters/team_id"
           }
         ],
@@ -4736,6 +4760,68 @@
         }
       }
     },
+    "automation_rule": {
+      "type": "object",
+      "properties": {
+        "event_name": {
+          "type": "string",
+          "description": "Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)",
+          "enum": [
+            "conversation_created",
+            "conversation_updated",
+            "message_created"
+          ],
+          "example": "message_created"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the rule",
+          "example": "Add label on message create event"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description to give more context about the rule",
+          "example": "Add label support and sales on message create event if incoming message content contains text help"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Enable/disable automation rule"
+        },
+        "actions": {
+          "type": "array",
+          "description": "Array of actions which we perform when condition matches",
+          "items": {
+            "type": "object",
+            "example": {
+              "action_name": "add_label",
+              "action_params": [
+                "support",
+                "sales"
+              ]
+            }
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Array of conditions on which conversation/message filter would work",
+          "items": {
+            "type": "object",
+            "example": {
+              "attribute_key": "content",
+              "filter_operator": "contains",
+              "values": [
+                "help"
+              ],
+              "query_operator": "nil"
+            }
+          }
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account Id"
+        }
+      }
+    },
     "contact": {
       "type": "object",
       "properties": {
@@ -4760,63 +4846,18 @@
           "description": "The object containing additional attributes related to the contact"
         },
         "custom_attributes": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": { "attribut_key": "attribute_value", "signed_up_at": "dd/mm/yyyy" }
-          },
-          "description": "The object to save custom attributes for contact, accepts custom attributes key and value"
+          "type": "object",
+          "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
+          "example": {
+            "attribut_key": "attribute_value",
+            "signed_up_at": "dd/mm/yyyy"
+          }
         },
         "contact_inboxes": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/contact_inboxes"
           }
-        }
-      }
-    },
-     "automation_rule": {
-      "type": "object",
-      "properties": {
-        "event_name": {
-          "type": "string",
-          "description": "Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)",
-          "enum": ["conversation_created", "conversation_updated", "message_created"],
-          "example": "message_created"
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the rule",
-          "example": "Add label on message create event"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description to give more context about the rule",
-          "example": "Add label support and sales on message create event if incoming message content contains text help"
-        },
-        "active": {
-          "type": "boolean",
-          "description": "Enable/disable automation rule"
-        },
-        "actions": {
-          "type": "array",
-          "description": "Array of actions which we perform when condition matches",
-          "items": {
-            "type": "object",
-            "example": { "action_name": "add_label", "action_params": ["support", "sales"] }
-          }
-        },
-        "conditions": {
-          "type": "array",
-          "description": "Array of conditions on which conversation/message filter would work",
-          "items": {
-            "type": "object",
-            "example": { "attribute_key": "content", "filter_operator": "contains", "values": ["help"], "query_operator": "nil"}
-          }
-        },
-        "account_id": {
-          "type": "integer",
-          "description": "Account Id"
         }
       }
     },
@@ -4869,12 +4910,12 @@
           "description": "The object containing additional attributes related to the conversation"
         },
         "custom_attributes": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "example": { "attribut_key": "attribute_value", "priority_conversation_number": 3 }
-          },
-          "description": "The object to save custom attributes for conversation, accepts custom attributes key and value"
+          "type": "object",
+          "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
+          "example": {
+            "attribut_key": "attribute_value",
+            "priority_conversation_number": 3
+          }
         }
       }
     },
@@ -5521,47 +5562,6 @@
         }
       }
     },
-    "automation_rule_create_update_payload": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Rule name",
-          "example": "Add label on message create event"
-        },
-        "description": {
-          "type": "string",
-          "description": "The description about the automation and actions",
-          "example": "Add label support and sales on message create event if incoming message content contains text help"
-        },
-        "event_name": {
-          "type": "string",
-          "enum": ["conversation_created", "conversation_updated", "message_created"],
-          "example": "message_created",
-          "description": "The event when you want to execute the automation actions"
-        },
-        "active": {
-          "type": "boolean",
-          "description": "Enable/disable automation rule"
-        },
-        "actions": {
-          "type": "array",
-          "description": "Array of actions which you want to perform when condition matches, e.g add label support if message contains content help.",
-          "items": {
-            "type": "object",
-            "example": { "action_name": "add_label", "action_params": ["support"] }
-          }
-        },
-        "conditions": {
-          "type": "array",
-          "description": "Array of conditions on which conversation filter would work, e.g message content contains text help.",
-          "items": {
-            "type": "object",
-            "example": {"attribute_key": "content", "filter_operator": "contains", "values": ["help"], "query_operator": "nil"}
-          }
-        }
-      }
-    },
     "contact_create": {
       "type": "object",
       "required": [
@@ -5743,6 +5743,63 @@
         "settings": {
           "type": "object",
           "description": "The settings required by the integration"
+        }
+      }
+    },
+    "automation_rule_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Rule name",
+          "example": "Add label on message create event"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the automation and actions",
+          "example": "Add label support and sales on message create event if incoming message content contains text help"
+        },
+        "event_name": {
+          "type": "string",
+          "enum": [
+            "conversation_created",
+            "conversation_updated",
+            "message_created"
+          ],
+          "example": "message_created",
+          "description": "The event when you want to execute the automation actions"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Enable/disable automation rule"
+        },
+        "actions": {
+          "type": "array",
+          "description": "Array of actions which you want to perform when condition matches, e.g add label support if message contains content help.",
+          "items": {
+            "type": "object",
+            "example": {
+              "action_name": "add_label",
+              "action_params": [
+                "support"
+              ]
+            }
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Array of conditions on which conversation filter would work, e.g message content contains text help.",
+          "items": {
+            "type": "object",
+            "example": {
+              "attribute_key": "content",
+              "filter_operator": "contains",
+              "query_operator": "nil",
+              "values": [
+                "help"
+              ]
+            }
+          }
         }
       }
     },

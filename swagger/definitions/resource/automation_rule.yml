@@ -38,7 +38,7 @@ properties:
         attribute_key: content
         filter_operator: contains
         values:
-          - KYC
+          - help
         query_operator: nil
   account_id:
     type: integer

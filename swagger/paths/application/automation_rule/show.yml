@@ -3,6 +3,12 @@ tags:
 operationId: get-details-of-a-single-automation-rule
 summary: Get a automation rule details
 description: Get the details of a automation rule in the account
+parameters:
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the automation rule to be updated.
 responses:
   '200':
     description: Success

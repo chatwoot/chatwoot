@@ -229,6 +229,8 @@
       type: number
       description: ID of the Automation Rule
       required: true
+  get:
+    $ref: ./application/automation_rule/show.yml
   patch:
     $ref: ./application/automation_rule/update.yml
   delete:
@@ -372,7 +374,7 @@
     $ref: ./application/teams/update.yml
   delete:
     $ref: ./application/teams/delete.yml
-/accounts/{account-id}/teams/{team_id}/team_members:
+/accounts/{account_id}/teams/{team_id}/team_members:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'

@@ -24,4 +24,4 @@ responses:
   '403':
     description: Access denied
   '404':
-    description: Agent not found
+    description: Rule not found
