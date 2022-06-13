@@ -209,7 +209,6 @@
           "LABEL": "API key",
           "SUBTITLE": "ตั้งค่า WhatsApp API key",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "ไม่มี API key ใช่ไหม? สมัครเปิดใช้ที่นี่",
           "ERROR": "โปรดกรอกค่าที่ถูกต้อง"
         },
         "SUBMIT_BUTTON": "สร้างช่องทาง WhatsApp",
