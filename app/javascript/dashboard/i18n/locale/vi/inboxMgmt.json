@@ -209,7 +209,6 @@
           "LABEL": "Khoá API",
           "SUBTITLE": "Cấu hình Khoá API WhatsApp.",
           "PLACEHOLDER": "Khoá API",
-          "APPLY_FOR_ACCESS": "Không có khoá API? Đăng ký quyền truy cập ở đây",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
         },
         "SUBMIT_BUTTON": "Tạo kênh WhatsApp",
