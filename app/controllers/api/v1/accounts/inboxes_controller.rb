@@ -42,7 +42,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @inbox.update(permitted_params.except(:channel))
+    @inbox.update!(permitted_params.except(:channel))
     @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
     channel_attributes = get_channel_attributes(@inbox.channel_type)
 
@@ -109,10 +109,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.save!
   end
 
+  def inbox_attributes
+    [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
+     :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved]
+  end
+
   def permitted_params(channel_attributes = [])
     params.permit(
-      :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
-      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
+      *inbox_attributes,
       channel: [:type, *channel_attributes]
     )
   end
@@ -129,18 +133,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     }[permitted_params[:channel][:type]]
   end
 
-  def account_channels_method
-    {
-      'web_widget' => Current.account.web_widgets,
-      'api' => Current.account.api_channels,
-      'email' => Current.account.email_channels,
-      'line' => Current.account.line_channels,
-      'telegram' => Current.account.telegram_channels,
-      'whatsapp' => Current.account.whatsapp_channels,
-      'sms' => Current.account.sms_channels
-    }[permitted_params[:channel][:type]]
-  end
-
   def get_channel_attributes(channel_type)
     if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
       channel_type.constantize::EDITABLE_ATTRS.presence
@@ -148,10 +140,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       []
     end
   end
-
-  def validate_limit
-    return unless Current.account.inboxes.count >= Current.account.usage_limits[:inboxes]
-
-    render_payment_required('Account limit exceeded. Upgrade to a higher plan')
-  end
 end
+
+Api::V1::Accounts::InboxesController.prepend_mod_with('Api::V1::Accounts::InboxesController')
