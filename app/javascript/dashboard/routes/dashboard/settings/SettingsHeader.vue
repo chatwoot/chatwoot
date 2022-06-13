@@ -1,14 +1,14 @@
 <template>
   <div class="settings-header">
     <h1 class="page-title">
-      <woot-sidemenu-icon></woot-sidemenu-icon>
+      <woot-sidemenu-icon />
       <back-button
         v-if="showBackButton"
         :button-label="backButtonLabel"
         :back-url="backUrl"
       />
       <fluent-icon v-if="icon" :icon="icon" :class="iconClass" />
-      <slot></slot>
+      <slot />
       <span>{{ headerTitle }}</span>
     </h1>
     <router-link

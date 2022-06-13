@@ -4,7 +4,7 @@
       :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
     >
-      <woot-code :script="inbox.callback_webhook_url" lang="html"></woot-code>
+      <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </settings-section>
   </div>
   <div v-else-if="isALineChannel" class="settings--content">
@@ -12,7 +12,7 @@
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
     >
-      <woot-code :script="inbox.callback_webhook_url" lang="html"></woot-code>
+      <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </settings-section>
   </div>
   <div v-else-if="isAWebWidgetInbox">
@@ -21,14 +21,14 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
       >
-        <woot-code :script="inbox.web_widget_script"></woot-code>
+        <woot-code :script="inbox.web_widget_script" />
       </settings-section>
 
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
       >
-        <woot-code :script="inbox.hmac_token"></woot-code>
+        <woot-code :script="inbox.hmac_token" />
       </settings-section>
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
@@ -53,7 +53,7 @@
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
     >
-      <woot-code :script="inbox.inbox_identifier"></woot-code>
+      <woot-code :script="inbox.inbox_identifier" />
     </settings-section>
   </div>
   <div v-else-if="isAnEmailChannel">
@@ -62,7 +62,7 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
       >
-        <woot-code :script="inbox.forward_to_email"></woot-code>
+        <woot-code :script="inbox.forward_to_email" />
       </settings-section>
     </div>
     <imap-settings :inbox="inbox" />

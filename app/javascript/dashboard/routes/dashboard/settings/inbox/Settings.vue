@@ -318,7 +318,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -562,7 +561,6 @@ export default {
   },
   validations: {
     webhookUrl: {
-      required,
       shouldBeUrl,
     },
   },

@@ -50,8 +50,7 @@
                   :is-loading="loading[automation.id]"
                   icon="edit"
                   @click="openEditPopup(automation)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
                   variant="smooth"
@@ -61,8 +60,7 @@
                   :is-loading="loading[automation.id]"
                   icon="copy"
                   @click="cloneAutomation(automation.id)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
@@ -72,8 +70,7 @@
                   class-names="grey-btn"
                   :is-loading="loading[automation.id]"
                   @click="openDeletePopup(automation, index)"
-                >
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -81,7 +78,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-modal
