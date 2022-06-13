@@ -84,7 +84,18 @@
     <p v-if="!chatListLoading && !conversationList.length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
-
+    <conversation-bulk-actions
+      v-if="selectedConversations.length"
+      :conversations="selectedConversations"
+      :all-conversations-selected="allConversationsSelected"
+      :selected-inboxes="uniqueInboxes"
+      :show-open-action="allSelectedConversationsStatus('open')"
+      :show-resolved-action="allSelectedConversationsStatus('resolved')"
+      :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
+      @select-all-conversations="selectAllConversations"
+      @assign-agent="onAssignAgent"
+      @update-conversations="onUpdateConversations"
+    />
     <div ref="activeConversation" class="conversations-list">
       <conversation-card
         v-for="chat in conversationList"
@@ -114,11 +125,7 @@
       </woot-button>
 
       <p
-        v-if="
-          conversationList.length &&
-            hasCurrentPageEndReached &&
-            !chatListLoading
-        "
+        v-if="showEndOfListMessage"
         class="text-center text-muted end-of-list-text"
       >
         {{ $t('CHAT_LIST.EOF') }}
@@ -136,16 +143,6 @@
         @applyFilter="onApplyFilter"
       />
     </woot-modal>
-
-    <conversation-bulk-actions
-      v-if="selectedConversations.length"
-      :conversations="selectedConversations"
-      :all-conversations-selected="allConversationsSelected"
-      :selected-inboxes="uniqueInboxes"
-      @select-all-conversations="selectAllConversations"
-      @assign-agent="onAssignAgent"
-      @resolve-conversations="onResolveConversations"
-    />
   </div>
 </template>
 
@@ -164,7 +161,7 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
-import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Actions.vue';
+import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import {
@@ -251,6 +248,13 @@ export default {
         this.fetchSavedFilteredConversations(payload);
       }
       return {};
+    },
+    showEndOfListMessage() {
+      return (
+        this.conversationList.length &&
+        this.hasCurrentPageEndReached &&
+        !this.chatListLoading
+      );
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {
@@ -363,8 +367,10 @@ export default {
     },
     allConversationsSelected() {
       return (
-        JSON.stringify(this.selectedConversations) ===
-        JSON.stringify(this.conversationList.map(item => item.id))
+        this.conversationList.length === this.selectedConversations.length &&
+        this.conversationList.every(el =>
+          this.selectedConversations.includes(el.id)
+        )
       );
     },
     uniqueInboxes() {
@@ -592,20 +598,26 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
-    async onResolveConversations() {
+    async onUpdateConversations(status) {
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
           ids: this.selectedConversations,
           fields: {
-            status: 'resolved',
+            status,
           },
         });
         this.selectedConversations = [];
-        this.showAlert(this.$t('BULK_ACTION.RESOLVE_SUCCESFUL'));
-      } catch (error) {
-        this.showAlert(this.$t('BULK_ACTION.RESOLVE_FAILED'));
+        this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
       }
+    },
+    allSelectedConversationsStatus(status) {
+      if (!this.selectedConversations.length) return false;
+      return this.selectedConversations.every(item => {
+        return this.$store.getters.getConversationById(item).status === status;
+      });
     },
   },
 };
