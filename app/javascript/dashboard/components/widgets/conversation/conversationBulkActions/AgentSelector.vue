@@ -170,7 +170,7 @@ export default {
   top: var(--space-larger);
   transform-origin: top right;
   width: auto;
-  z-index: 20;
+  z-index: var(--z-index-twenty);
 
   .header {
     padding: var(--space-one);
