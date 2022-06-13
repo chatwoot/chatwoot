@@ -1584,6 +1584,13 @@
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "description": "ID of the custom attribute definitions",
+          "required": true
         }
       ],
       "get": {
@@ -1669,6 +1676,9 @@
           }
         ],
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "in": "path",
             "name": "id",
@@ -1859,11 +1869,11 @@
             "$ref": "#/parameters/account_id"
           },
           {
-            "name": "id",
             "in": "path",
-            "type": "number",
-            "description": "ID of the contact",
-            "required": true
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of contact"
           }
         ],
         "responses": {
@@ -2549,6 +2559,14 @@
                 "additional_attributes": {
                   "type": "object",
                   "description": "Lets you specify attributes like browser information"
+                },
+                "custom_attributes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": { "attribut_key": "attribute_value", "priority_conversation_number": 3 }
+                  },
+                  "description": "The object to save custom attributes for conversation, accepts custom attributes key and value"
                 },
                 "status": {
                   "type": "string",
@@ -3909,7 +3927,7 @@
         }
       }
     },
-    "/accounts/{account-id}/teams/{team_id}/team_members": {
+    "/accounts/{account_id}/teams/{team_id}/team_members": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -4741,6 +4759,14 @@
           "type": "object",
           "description": "The object containing additional attributes related to the contact"
         },
+        "custom_attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "example": { "attribut_key": "attribute_value", "signed_up_at": "dd/mm/yyyy" }
+          },
+          "description": "The object to save custom attributes for contact, accepts custom attributes key and value"
+        },
         "contact_inboxes": {
           "type": "array",
           "items": {
@@ -4841,6 +4867,14 @@
         "additional_attributes": {
           "type": "object",
           "description": "The object containing additional attributes related to the conversation"
+        },
+        "custom_attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "example": { "attribut_key": "attribute_value", "priority_conversation_number": 3 }
+          },
+          "description": "The object to save custom attributes for conversation, accepts custom attributes key and value"
         }
       }
     },

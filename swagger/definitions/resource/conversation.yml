@@ -30,3 +30,9 @@ properties:
   additional_attributes:
     type: object
     description: The object containing additional attributes related to the conversation
+  custom_attributes:
+    type: array
+    items:
+      type: object
+      example: { attribut_key: attribute_value, priority_conversation_number: 3 }
+    description: The object to save custom attributes for conversation, accepts custom attributes key and value
