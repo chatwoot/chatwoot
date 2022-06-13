@@ -209,7 +209,6 @@
           "LABEL": "Ключ API",
           "SUBTITLE": "Настройте ключ API WhatsApp.",
           "PLACEHOLDER": "Ключ API",
-          "APPLY_FOR_ACCESS": "У вас нет ключа API? Примените здесь",
           "ERROR": "Пожалуйста, введите правильное значение."
         },
         "SUBMIT_BUTTON": "Создать канал WhatsApp",
