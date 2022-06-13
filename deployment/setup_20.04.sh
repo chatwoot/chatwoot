@@ -39,25 +39,27 @@ fi
 eval set -- "$PARSED"
 
 # d=n f=n v=n outFile=-
-c=n h=n i=y l=n s=y u=n w=y BRANCH=master
+c=n h=n i=n l=n s=n u=n w=n BRANCH=master SERVICE=web
 # now enjoy the options in order and nicely split until we see --
 while true; do
     case "$1" in
         -c|--console)
             c=y
-            shift
+            break
             ;;
         -h|--help)
             h=y
-            shift
+            break
             ;;
         -i|--install)
             i=y
-            shift
+            BRANCH="$2"
+            break
             ;;
         -l|--logs)
             l=y
-            shift
+            SERVICE="$2"
+            break
             ;;
         -s|--ssl)
             s=y
@@ -65,35 +67,25 @@ while true; do
             ;;
         -u|--upgrade)
             u=y
-            shift
+            break
             ;;
         -w|--webserver)
             w=y
             shift
-            ;;
-        -o|--output)
-            outFile="$2"
-            shift 2
             ;;
         --)
             shift
             break
             ;;
         *)
-            echo "Programming error"
+            echo "Invalid option(s) specified. Use help(-h) to learn more."
             exit 3
             ;;
     esac
 done
 
-# handle non-option arguments
-if [[ $# -ne 1 ]]; then
-    echo "$0: A single input file is required."
-    exit 4
-fi
-
 #echo "verbose: $v, force: $f, debug: $d, in: $1, out: $outFile"
-echo "install: $i, BRANCH: $BRANCH"
+echo "console: $c, help: $h, install: $i, BRANCH: $BRANCH, logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
 
 
 trap exit_handler EXIT
@@ -111,11 +103,11 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-if [[ -z "$1" ]]; then
-  BRANCH="master"
-else
-  BRANCH="$1"
-fi
+# if [[ -z "$1" ]]; then
+#   BRANCH="master"
+# else
+#   BRANCH="$1"
+# fi
 
 function get_domain_info() {
   read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com) :' domain_name
@@ -262,9 +254,8 @@ function setup_logging() {
   LOG_FILE="/var/log/chatwoot-setup.log"
 }
 
-function main() {
+function install() {
 
-  setup_logging
   cat << EOF
 
 ***************************************************************************
@@ -380,4 +371,141 @@ exit 0
 
 }
 
-main "$@"
+function get_console() {
+  sudo -i -u chatwoot bash -c " cd chatwoot && RAILS_ENV=production bundle exec rails c"
+}
+
+function help() {
+
+  cat <<EOF
+
+Usage: cwctl [OPTION]...
+Install/Update/Configure/Manage your Chatwoot installation
+Example: cwctl -i master
+Example: cwctl -l web
+Example: cwctl --logs worker
+Example: cwctl --upgrade
+Example: cwctl -c
+
+Installation/Upgrade:
+  -i, --install             install Chatwoot with the git branch specified
+  -u, --upgrade             upgrade Chatwoot to latest version
+  -s, --ssl                 fetch and install ssl certificates using LetsEncrypt
+  -w, --webserver           install and configure Nginx webserver
+
+Management:
+  -c, --console             open ruby console
+  -l, --logs                tail logs from Chatwoot. Supported values include web/worker.
+  
+Miscellaneous:
+  -d, --debug               suppress error messages
+  -v, --version             display version information and exit
+  -h, --help                display this help text and exit
+
+Report bugs to: vishnu@chatwoot.com
+Get help, https://chatwoot.com/community
+EOF
+
+}
+
+function get_logs() {
+  if [ "$SERVICE" == "worker" ]
+  then
+    journalctl -u chatwoot-worker.1.service -f
+  else
+    journalctl -u chatwoot-web.1.service -f
+  fi
+}
+
+function ssl() {
+   echo "setting up ssl"
+   get_domain_info
+   setup_ssl
+}
+
+function upgrade() {
+  echo "upgrading Chatwoot to latest version"
+
+  sudo -i -u chatwoot << EOF
+
+  # Navigate to the Chatwoot directory
+  cd chatwoot
+
+  # Pull the latest version of the master branch
+  git checkout master && git pull
+
+  # Ensure the ruby version is upto date
+  # TODO: parse latest ruby version from version file
+  rvm install "ruby-3.0.2"
+  rvm use 3.0.2 --default
+
+  # Update dependencies
+  bundle
+  yarn
+
+  # Recompile the assets
+  rake assets:precompile RAILS_ENV=production
+
+  # Migrate the database schema
+  RAILS_ENV=production bundle exec rake db:migrate
+
+
+EOF
+
+  # Copy the updated targets
+  cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
+  cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
+  cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
+
+  # Restart the chatwoot server
+  systemctl restart chatwoot.target
+
+}
+
+function webserver() {
+  echo "installing nginx"
+  install_webserver
+  ssl
+  #TODO: allow installing nginx only without SSL
+}
+
+function main() {
+  setup_logging
+
+  if [ "$c" == "y" ]
+  then
+    get_console
+  fi
+  
+  if [ "$h" == "y" ]
+  then
+    help
+  fi
+
+  if [ "$i" == "y" ]
+  then
+    install
+  fi
+
+  if [ "$l" == "y" ]
+  then
+    get_logs
+  fi
+  
+  if [ "$s" == "y" ]
+  then
+    ssl
+  fi
+
+  if [ "$u" == "y" ]
+  then
+    upgrade
+  fi
+
+  if [ "$w" == "y" ]
+  then
+    webserver
+  fi
+}
+
+main2 "$@"
