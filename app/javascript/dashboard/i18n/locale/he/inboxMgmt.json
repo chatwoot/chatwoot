@@ -209,7 +209,6 @@
           "LABEL": "API key",
           "SUBTITLE": "הגדר את מפתח ה-API של וואטסאפ.",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "אין לך מפתח API? הגש בקשה לגישה כאן",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "SUBMIT_BUTTON": "צור ערוץ וואטסאפ",
