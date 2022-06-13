@@ -1,6 +1,6 @@
 <template>
   <div class="conversations-list-wrap">
-    <slot></slot>
+    <slot />
     <div
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
@@ -53,8 +53,7 @@
           size="small"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
-        >
-        </woot-button>
+        />
       </div>
     </div>
 
@@ -113,7 +112,7 @@
       />
 
       <div v-if="chatListLoading" class="text-center">
-        <span class="spinner"></span>
+        <span class="spinner" />
       </div>
 
       <woot-button
@@ -126,11 +125,7 @@
       </woot-button>
 
       <p
-        v-if="
-          conversationList.length &&
-            hasCurrentPageEndReached &&
-            !chatListLoading
-        "
+        v-if="showEndOfListMessage"
         class="text-center text-muted end-of-list-text"
       >
         {{ $t('CHAT_LIST.EOF') }}
@@ -253,6 +248,13 @@ export default {
         this.fetchSavedFilteredConversations(payload);
       }
       return {};
+    },
+    showEndOfListMessage() {
+      return (
+        this.conversationList.length &&
+        this.hasCurrentPageEndReached &&
+        !this.chatListLoading
+      );
     },
     assigneeTabItems() {
       const ASSIGNEE_TYPE_TAB_KEYS = {

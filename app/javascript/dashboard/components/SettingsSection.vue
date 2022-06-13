@@ -13,7 +13,7 @@
       </p>
     </div>
     <div class="medium-6 small-12">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

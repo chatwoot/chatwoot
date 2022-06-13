@@ -8,11 +8,11 @@
           fill-rule="evenodd"
           stroke="var(--s-50)"
           stroke-width="1px"
-        ></path>
+        />
       </svg>
     </div>
     <div class="header flex-between">
-      <span>{{ $t('BULK_ACTION.UPDATE.UPDATE_CONVERSATIONS_LABEL') }}</span>
+      <span>{{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}</span>
       <woot-button
         size="tiny"
         variant="clear"
@@ -115,7 +115,7 @@ export default {
       const labelsMap = {
         resolved: this.$t('CONVERSATION.HEADER.RESOLVE_ACTION'),
         open: this.$t('CONVERSATION.HEADER.REOPEN_ACTION'),
-        snoozed: this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY'),
+        snoozed: this.$t('BULK_ACTION.UPDATE.SNOOZE_UNTIL_NEXT_REPLY'),
       };
       return labelsMap[key] || '';
     },
@@ -124,27 +124,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 .actions-container {
-  transform-origin: top right;
-  position: absolute;
-  top: 48px;
-  right: var(--space-small);
-  width: 100%;
-  box-shadow: var(--shadow-dropdown-pane);
+  background-color: var(--white);
   border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
-  background-color: var(--white);
-  width: 50%;
+  box-shadow: var(--shadow-dropdown-pane);
+  position: absolute;
+  right: var(--space-small);
+  top: 48px;
+  transform-origin: top right;
+  width: auto;
   z-index: var(--z-index-twenty);
+
   .header {
     padding: var(--space-one);
+
     span {
-      font-size: var(--font-size-default);
+      font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
     }
   }
@@ -152,15 +148,17 @@ export default {
     padding: var(--space-one);
     padding-top: var(--space-zero);
   }
+
   .triangle {
     display: block;
-    z-index: var(--z-index-one);
     position: absolute;
-    top: calc(var(--space-slab) * -1);
     right: 2.8rem;
     text-align: left;
+    top: calc(var(--space-slab) * -1);
+    z-index: var(--z-index-one);
   }
 }
+
 ul {
   margin: 0;
   list-style: none;

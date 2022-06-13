@@ -20,13 +20,13 @@
       </label>
       <div class="bulk-action__actions flex-between">
         <woot-button
-          v-tooltip="$t('BULK_ACTION.UPDATE.UPDATE_CONVERSATIONS_LABEL')"
+          v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
           size="tiny"
           variant="flat"
           color-scheme="success"
           icon="repeat"
           class="margin-right-smaller"
-          @click="showUpdateActions = true"
+          @click="toggleUpdateActions"
         />
         <woot-button
           v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
@@ -34,7 +34,7 @@
           variant="flat"
           color-scheme="secondary"
           icon="person-assign"
-          @click="showAgentsList = true"
+          @click="toggleAgentList"
         />
       </div>
       <transition name="popover-animation">
@@ -53,7 +53,7 @@
           :conversation-count="conversations.length"
           :show-resolve="!showResolvedAction"
           :show-reopen="!showOpenAction"
-          :show-snooze="!showSnoozedActions"
+          :show-snooze="!showSnoozedAction"
           @update="updateConversations"
           @close="showUpdateActions = false"
         />
@@ -94,7 +94,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    showSnoozedActions: {
+    showSnoozedAction: {
       type: Boolean,
       default: false,
     },
@@ -115,17 +115,20 @@ export default {
     updateConversations(status) {
       this.$emit('update-conversations', status);
     },
+    resolveConversations() {
+      this.$emit('resolve-conversations');
+    },
+    toggleUpdateActions() {
+      this.showUpdateActions = !this.showUpdateActions;
+    },
+    toggleAgentList() {
+      this.showAgentsList = !this.showAgentsList;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.flex-between {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
-
 .bulk-action__container {
   border-bottom: 1px solid var(--s-100);
   padding: var(--space-normal) var(--space-one);
@@ -155,22 +158,27 @@ export default {
   margin-top: var(--space-small);
   padding: var(--space-half) var(--space-one);
 }
+
 .popover-animation-enter-active,
 .popover-animation-leave-active {
   transition: transform ease-out 0.1s;
 }
+
 .popover-animation-enter {
   opacity: 0;
   transform: scale(0.95);
 }
+
 .popover-animation-enter-to {
   opacity: 1;
   transform: scale(1);
 }
+
 .popover-animation-leave {
   opacity: 1;
   transform: scale(1);
 }
+
 .popover-animation-leave-to {
   opacity: 0;
   transform: scale(0.95);

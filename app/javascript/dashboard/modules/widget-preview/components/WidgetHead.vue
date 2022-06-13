@@ -11,7 +11,7 @@
         <div v-if="!config.isExpanded">
           <div class="title-block text-base font-medium">
             <span class="mr-1">{{ config.websiteName }}</span>
-            <div v-if="config.isOnline" class="online-dot"></div>
+            <div v-if="config.isOnline" class="online-dot" />
           </div>
           <div class="text-xs mt-1 text-black-700">
             {{ responseTime }}
