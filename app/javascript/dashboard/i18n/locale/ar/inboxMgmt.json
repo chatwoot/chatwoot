@@ -209,7 +209,6 @@
           "LABEL": "مفتاح API",
           "SUBTITLE": "تكوين مفتاح واتسآب API.",
           "PLACEHOLDER": "مفتاح API",
-          "APPLY_FOR_ACCESS": "ليس لديك أي مفتاح API؟ تقدم بطلب الوصول إلى هنا",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
