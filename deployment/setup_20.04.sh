@@ -5,7 +5,97 @@
 # Script Version: 1.0
 # Run this script as root
 
-set -eu -o pipefail
+# set -eu -o pipefail
+# More safety, by turning some bugs into errors.
+# Without `errexit` you don’t need ! and can replace
+# ${PIPESTATUS[0]} with a simple $?, but I prefer safety.
+set -eu -o errexit -o pipefail -o noclobber -o nounset
+
+# -allow a command to fail with !’s side effect on errexit
+# -use return value from ${PIPESTATUS[0]}, because ! hosed $?
+! getopt --test > /dev/null 
+if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
+    echo 'I’m sorry, `getopt --test` failed in this environment.'
+    exit 1
+fi
+
+# option --output/-o requires 1 argument
+# LONGOPTS=debug,force,output:,verbose
+# OPTIONS=dfo:v
+LONGOPTS=console,help,install:,logs:,ssl,upgrade,webserver
+OPTIONS=chi:l:suw
+
+# -regarding ! and PIPESTATUS see above
+# -temporarily store output to be able to check for errors
+# -activate quoting/enhanced mode (e.g. by writing out “--options”)
+# -pass arguments only via   -- "$@"   to separate them correctly
+! PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@")
+if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+    # e.g. return value is 1
+    #  then getopt has complained about wrong arguments to stdout
+    exit 2
+fi
+# read getopt’s output this way to handle the quoting right:
+eval set -- "$PARSED"
+
+# d=n f=n v=n outFile=-
+c=n h=n i=y l=n s=y u=n w=y BRANCH=master
+# now enjoy the options in order and nicely split until we see --
+while true; do
+    case "$1" in
+        -c|--console)
+            c=y
+            shift
+            ;;
+        -h|--help)
+            h=y
+            shift
+            ;;
+        -i|--install)
+            i=y
+            shift
+            ;;
+        -l|--logs)
+            l=y
+            shift
+            ;;
+        -s|--ssl)
+            s=y
+            shift
+            ;;
+        -u|--upgrade)
+            u=y
+            shift
+            ;;
+        -w|--webserver)
+            w=y
+            shift
+            ;;
+        -o|--output)
+            outFile="$2"
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "Programming error"
+            exit 3
+            ;;
+    esac
+done
+
+# handle non-option arguments
+if [[ $# -ne 1 ]]; then
+    echo "$0: A single input file is required."
+    exit 4
+fi
+
+#echo "verbose: $v, force: $f, debug: $d, in: $1, out: $outFile"
+echo "install: $i, BRANCH: $BRANCH"
+
+
 trap exit_handler EXIT
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
  
