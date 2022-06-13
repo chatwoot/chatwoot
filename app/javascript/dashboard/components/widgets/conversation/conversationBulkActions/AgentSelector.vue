@@ -167,7 +167,7 @@ export default {
 .bulk-action__agents {
   transform-origin: top right;
   position: absolute;
-  top: 4.8rem;
+  top: var(--space-larger);
   right: var(--space-small);
   width: 100%;
   box-shadow: var(--shadow-dropdown-pane);
@@ -175,7 +175,7 @@ export default {
   border: 1px solid var(--s-50);
   background-color: var(--white);
   width: 75%;
-  z-index: 20;
+  z-index: var(--z-index-twenty);
   .header {
     padding: var(--space-one);
     span {
@@ -209,7 +209,7 @@ export default {
   }
   .triangle {
     display: block;
-    z-index: 1;
+    z-index: var(--z-index-one);
     position: absolute;
     top: calc(var(--space-slab) * -1);
     right: var(--space-micro);

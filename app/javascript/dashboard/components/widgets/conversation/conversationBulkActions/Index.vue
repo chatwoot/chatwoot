@@ -115,9 +115,6 @@ export default {
     updateConversations(status) {
       this.$emit('update-conversations', status);
     },
-    resolveConversations() {
-      this.$emit('resolve-conversations');
-    },
   },
 };
 </script>

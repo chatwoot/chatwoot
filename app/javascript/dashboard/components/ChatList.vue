@@ -96,7 +96,6 @@
       @select-all-conversations="selectAllConversations"
       @assign-agent="onAssignAgent"
       @update-conversations="onUpdateConversations"
-      @resolve-conversations="onResolveConversations"
     />
     <div ref="activeConversation" class="conversations-list">
       <conversation-card
@@ -129,8 +128,8 @@
       <p
         v-if="
           conversationList.length &&
-          hasCurrentPageEndReached &&
-          !chatListLoading
+            hasCurrentPageEndReached &&
+            !chatListLoading
         "
         class="text-center text-muted end-of-list-text"
       >
@@ -449,8 +448,10 @@ export default {
     },
     handleKeyEvents(e) {
       if (hasPressedAltAndJKey(e)) {
-        const { allConversations, activeConversationIndex } =
-          this.getKeyboardListenerParams();
+        const {
+          allConversations,
+          activeConversationIndex,
+        } = this.getKeyboardListenerParams();
         if (activeConversationIndex === -1) {
           allConversations[0].click();
         }
@@ -608,21 +609,6 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
-      }
-    },
-    async onResolveConversations() {
-      try {
-        await this.$store.dispatch('bulkActions/process', {
-          type: 'Conversation',
-          ids: this.selectedConversations,
-          fields: {
-            status: 'resolved',
-          },
-        });
-        this.selectedConversations = [];
-        this.showAlert(this.$t('BULK_ACTION.RESOLVE_SUCCESFUL'));
-      } catch (error) {
-        this.showAlert(this.$t('BULK_ACTION.RESOLVE_FAILED'));
       }
     },
     allSelectedConversationsStatus(status) {

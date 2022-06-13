@@ -80,7 +80,7 @@ export default {
       actions: [
         {
           icon: 'checkmark',
-          key: 'resolve',
+          key: 'resolved',
         },
         {
           icon: 'arrow-redo',
@@ -105,7 +105,7 @@ export default {
     },
     showAction(key) {
       const actionsMap = {
-        resolve: this.showResolve,
+        resolved: this.showResolve,
         open: this.showReopen,
         snoozed: this.showSnooze,
       };
@@ -113,7 +113,7 @@ export default {
     },
     actionLabel(key) {
       const labelsMap = {
-        resolve: this.$t('CONVERSATION.HEADER.RESOLVE_ACTION'),
+        resolved: this.$t('CONVERSATION.HEADER.RESOLVE_ACTION'),
         open: this.$t('CONVERSATION.HEADER.REOPEN_ACTION'),
         snoozed: this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY'),
       };
@@ -140,7 +140,7 @@ export default {
   border: 1px solid var(--s-50);
   background-color: var(--white);
   width: 50%;
-  z-index: 20;
+  z-index: var(--z-index-twenty);
   .header {
     padding: var(--space-one);
     span {
@@ -154,7 +154,7 @@ export default {
   }
   .triangle {
     display: block;
-    z-index: 1;
+    z-index: var(--z-index-one);
     position: absolute;
     top: calc(var(--space-slab) * -1);
     right: 2.8rem;
