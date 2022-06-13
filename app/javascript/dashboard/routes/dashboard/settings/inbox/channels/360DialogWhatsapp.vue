@@ -74,10 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-      globalConfig: 'globalConfig/get',
-    }),
+    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
   },
   validations: {
     inboxName: { required },
