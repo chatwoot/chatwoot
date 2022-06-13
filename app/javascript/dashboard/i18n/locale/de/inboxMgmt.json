@@ -209,7 +209,6 @@
           "LABEL": "API-Schlüssel",
           "SUBTITLE": "Konfigurieren Sie den WhatsApp API-Schlüssel.",
           "PLACEHOLDER": "API-Schlüssel",
-          "APPLY_FOR_ACCESS": "Sie haben keinen API-Schlüssel? Für den Zugriff hier beantragen",
           "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
