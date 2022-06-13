@@ -209,7 +209,6 @@
           "LABEL": "Cheie API",
           "SUBTITLE": "Configurați cheia API WhatsApp.",
           "PLACEHOLDER": "Cheie API",
-          "APPLY_FOR_ACCESS": "Nu aveți nicio cheie API? Aplicați pentru acces aici",
           "ERROR": "Vă rugăm să introduceți o valoare validă."
         },
         "SUBMIT_BUTTON": "Creați canalul WhatsApp",
