@@ -421,6 +421,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة."
     },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
       "SUBTITLE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
