@@ -15,7 +15,6 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_template_message
-    channel.sync_templates
     name, namespace, lang_code, processed_parameters = processable_channel_message_template
 
     return if name.blank?
