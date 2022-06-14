@@ -6,6 +6,7 @@ description: Get Details of Agents in an Team
 security:
   - userApiKey: []
 parameters:
+  - $ref: '#/parameters/account_id'
   - $ref: '#/parameters/team_id'
 responses:
   200:

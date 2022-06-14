@@ -1584,6 +1584,13 @@
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "description": "ID of the custom attribute",
+          "required": true
         }
       ],
       "get": {
@@ -1593,6 +1600,18 @@
         "operationId": "get-details-of-a-single-custom-attribute",
         "summary": "Get a custom attribute details",
         "description": "Get the details of a custom attribute in the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the custom attribute to be updated."
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1669,6 +1688,9 @@
           }
         ],
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "in": "path",
             "name": "id",
@@ -2135,6 +2157,213 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/automation_rule_definitions": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Automation Rule"
+        ],
+        "operationId": "get-account-automation-rule",
+        "summary": "List all automation rules in an account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "$ref": "#/parameters/page"
+          }
+        ],
+        "description": "Get details of automation rules in an Account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all automation rules",
+              "items": {
+                "$ref": "#/definitions/automation_rule"
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Automation Rule"
+        ],
+        "operationId": "add-new-automation-rule-to-account",
+        "summary": "Add a new automation rule",
+        "description": "Add a new automation rule to account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/automation_rule_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/automation_rule"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/automation_rule_definitions/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "type": "number",
+          "description": "ID of the Automation Rule",
+          "required": true
+        }
+      ],
+      "get": {
+        "tags": [
+          "Automation Rule"
+        ],
+        "operationId": "get-details-of-a-single-automation-rule",
+        "summary": "Get a automation rule details",
+        "description": "Get the details of a automation rule in the account",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the automation rule to be updated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/automation_rule"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given rule ID does not exist in the account"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Automation Rule"
+        ],
+        "operationId": "update-automation-rule-in-account",
+        "summary": "Update automation rule in Account",
+        "description": "Update a automation rule in account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the automation rule to be updated."
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/automation_rule_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/automation_rule"
+            }
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Rule not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Automation Rule"
+        ],
+        "operationId": "delete-automation-rule-from-account",
+        "summary": "Remove a automation rule from account",
+        "description": "Remove a automation rule from account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "description": "The ID of the automation rule to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "automation rule not found"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/meta": {
       "parameters": [
         {
@@ -2351,6 +2580,14 @@
                 "additional_attributes": {
                   "type": "object",
                   "description": "Lets you specify attributes like browser information"
+                },
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
+                  "example": {
+                    "attribute_key": "attribute_value",
+                    "priority_conversation_number": 3
+                  }
                 },
                 "status": {
                   "type": "string",
@@ -3101,69 +3338,6 @@
           }
         }
       },
-      "patch": {
-        "tags": [
-          "Inboxes"
-        ],
-        "operationId": "update-agents-in-inbox",
-        "summary": "Update Agents in Inbox",
-        "description": "All agents except the one passed in params will be removed",
-        "security": [
-          {
-            "userApiKey": [
-
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "required": [
-                "inbox_id",
-                "user_ids"
-              ],
-              "properties": {
-                "inbox_id": {
-                  "type": "string",
-                  "description": "The ID of the inbox"
-                },
-                "user_ids": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer"
-                  },
-                  "description": "IDs of users to be added to the inbox"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "description": "Array of all active agents",
-              "items": {
-                "$ref": "#/definitions/agent"
-              }
-            }
-          },
-          "404": {
-            "description": "Inbox not found"
-          },
-          "403": {
-            "description": "Access denied"
-          },
-          "422": {
-            "description": "User must exist"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Inboxes"
@@ -3234,6 +3408,69 @@
         "operationId": "add-new-agent-to-inbox",
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "inbox_id",
+                "user_ids"
+              ],
+              "properties": {
+                "inbox_id": {
+                  "type": "string",
+                  "description": "The ID of the inbox"
+                },
+                "user_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "IDs of users to be added to the inbox"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of all active agents",
+              "items": {
+                "$ref": "#/definitions/agent"
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "422": {
+            "description": "User must exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Inboxes"
+        ],
+        "operationId": "update-agents-in-inbox",
+        "summary": "Update Agents in Inbox",
+        "description": "All agents except the one passed in params will be removed",
         "security": [
           {
             "userApiKey": [
@@ -3711,7 +3948,7 @@
         }
       }
     },
-    "/accounts/{account-id}/teams/{team_id}/team_members": {
+    "/accounts/{account_id}/teams/{team_id}/team_members": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -3735,6 +3972,9 @@
           }
         ],
         "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
           {
             "$ref": "#/parameters/team_id"
           }
@@ -4520,6 +4760,68 @@
         }
       }
     },
+    "automation_rule": {
+      "type": "object",
+      "properties": {
+        "event_name": {
+          "type": "string",
+          "description": "Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)",
+          "enum": [
+            "conversation_created",
+            "conversation_updated",
+            "message_created"
+          ],
+          "example": "message_created"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the rule",
+          "example": "Add label on message create event"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description to give more context about the rule",
+          "example": "Add label support and sales on message create event if incoming message content contains text help"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Enable/disable automation rule"
+        },
+        "actions": {
+          "type": "array",
+          "description": "Array of actions which we perform when condition matches",
+          "items": {
+            "type": "object",
+            "example": {
+              "action_name": "add_label",
+              "action_params": [
+                "support",
+                "sales"
+              ]
+            }
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Array of conditions on which conversation/message filter would work",
+          "items": {
+            "type": "object",
+            "example": {
+              "attribute_key": "content",
+              "filter_operator": "contains",
+              "values": [
+                "help"
+              ],
+              "query_operator": "nil"
+            }
+          }
+        },
+        "account_id": {
+          "type": "integer",
+          "description": "Account Id"
+        }
+      }
+    },
     "contact": {
       "type": "object",
       "properties": {
@@ -4542,6 +4844,14 @@
         "additional_attributes": {
           "type": "object",
           "description": "The object containing additional attributes related to the contact"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
+          "example": {
+            "attribute_key": "attribute_value",
+            "signed_up_at": "dd/mm/yyyy"
+          }
         },
         "contact_inboxes": {
           "type": "array",
@@ -4598,6 +4908,14 @@
         "additional_attributes": {
           "type": "object",
           "description": "The object containing additional attributes related to the conversation"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
+          "example": {
+            "attribute_key": "attribute_value",
+            "priority_conversation_number": 3
+          }
         }
       }
     },
@@ -5428,6 +5746,63 @@
         }
       }
     },
+    "automation_rule_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Rule name",
+          "example": "Add label on message create event"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the automation and actions",
+          "example": "Add label support and sales on message create event if incoming message content contains text help"
+        },
+        "event_name": {
+          "type": "string",
+          "enum": [
+            "conversation_created",
+            "conversation_updated",
+            "message_created"
+          ],
+          "example": "message_created",
+          "description": "The event when you want to execute the automation actions"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Enable/disable automation rule"
+        },
+        "actions": {
+          "type": "array",
+          "description": "Array of actions which you want to perform when condition matches, e.g add label support if message contains content help.",
+          "items": {
+            "type": "object",
+            "example": {
+              "action_name": "add_label",
+              "action_params": [
+                "support"
+              ]
+            }
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Array of conditions on which conversation filter would work, e.g message content contains text help.",
+          "items": {
+            "type": "object",
+            "example": {
+              "attribute_key": "content",
+              "filter_operator": "contains",
+              "query_operator": "nil",
+              "values": [
+                "help"
+              ]
+            }
+          }
+        }
+      }
+    },
     "public_contact_create_update_payload": {
       "type": "object",
       "properties": {
@@ -6016,7 +6391,8 @@
         "Profile",
         "Reports",
         "Teams",
-        "Webhooks"
+        "Webhooks",
+        "Automation Rule"
       ]
     },
     {
