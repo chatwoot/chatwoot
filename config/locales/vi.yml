@@ -46,7 +46,7 @@ vi:
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     label_csv:
-      label_title: Label
+      label_title: Nhãn
       conversations_count: No. of conversations
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
