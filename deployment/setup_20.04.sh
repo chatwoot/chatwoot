@@ -2,7 +2,7 @@
 
 # Description: Chatwoot installation script
 # OS: Ubuntu 20.04 LTS
-# Script Version: 1.0
+# Script Version: 2.0
 # Run this script as root
 
 # set -eu -o pipefail
@@ -22,8 +22,8 @@ fi
 # option --output/-o requires 1 argument
 # LONGOPTS=debug,force,output:,verbose
 # OPTIONS=dfo:v
-LONGOPTS=console,help,install:,logs:,ssl,upgrade,webserver
-OPTIONS=chi:l:suw
+LONGOPTS=console,help,install:,logs:,ssl,upgrade,webserver,version
+OPTIONS=chi:l:suwv
 
 # -regarding ! and PIPESTATUS see above
 # -temporarily store output to be able to check for errors
@@ -39,7 +39,7 @@ fi
 eval set -- "$PARSED"
 
 # d=n f=n v=n outFile=-
-c=n h=n i=n l=n s=n u=n w=n BRANCH=master SERVICE=web
+c=n h=n i=n l=n s=n u=n w=n v=n BRANCH=master SERVICE=web
 # now enjoy the options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -71,6 +71,10 @@ while true; do
             ;;
         -w|--webserver)
             w=y
+            shift
+            ;;
+        -v|--version)
+            v=y
             shift
             ;;
         --)
@@ -150,8 +154,15 @@ function install_webserver() {
   apt install -y nginx nginx-full certbot python3-certbot-nginx
 }
 
+function create_cw_user() {
+  if ! id -u "chatwoot"
+  then
+    adduser --disabled-login --gecos "" chatwoot
+  fi
+}
+
 function configure_rvm() {
-  adduser --disabled-login --gecos "" chatwoot
+  create_cw_user
 
   gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
   gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
@@ -438,8 +449,8 @@ function upgrade() {
 
   # Ensure the ruby version is upto date
   # TODO: parse latest ruby version from version file
-  rvm install "ruby-3.0.2"
-  rvm use 3.0.2 --default
+  rvm install "ruby-3.0.4"
+  rvm use 3.0.4 --default
 
   # Update dependencies
   bundle
@@ -473,6 +484,10 @@ function webserver() {
   install_webserver
   ssl
   #TODO: allow installing nginx only without SSL
+}
+
+function version() {
+  echo "cwctl v2.0.0"
 }
 
 function main() {
@@ -512,6 +527,12 @@ function main() {
   then
     webserver
   fi
+
+  if [ "$v" == "y"]
+  then
+    version
+  fi
+
 }
 
 main "$@"
