@@ -76,7 +76,7 @@
                 reports-option__item
                 reports-option__label--swatch
               "
-            ></div>
+            />
             <span class="reports-option__desc">
               <span class="reports-option__title">
                 {{ props.option.title }}

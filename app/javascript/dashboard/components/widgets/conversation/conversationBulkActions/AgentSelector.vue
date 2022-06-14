@@ -1,5 +1,16 @@
 <template>
   <div class="bulk-action__agents">
+    <div class="triangle">
+      <svg height="12" viewBox="0 0 24 12" width="24">
+        <path
+          d="M20 12l-8-8-12 12"
+          fill="var(--white)"
+          fill-rule="evenodd"
+          stroke="var(--s-50)"
+          stroke-width="1px"
+        />
+      </svg>
+    </div>
     <div class="header flex-between">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
       <woot-button
@@ -148,30 +159,30 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 .bulk-action__agents {
-  position: absolute;
-  bottom: 40px;
-  right: var(--space-small);
-  width: 100%;
-  box-shadow: var(--shadow-dropdown-pane);
+  background-color: var(--white);
   border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
-  background-color: var(--white);
-  width: 75%;
+  box-shadow: var(--shadow-dropdown-pane);
+  max-width: 75%;
+  position: absolute;
+  right: var(--space-small);
+  top: var(--space-larger);
+  transform-origin: top right;
+  width: auto;
+  z-index: var(--z-index-twenty);
+
   .header {
     padding: var(--space-one);
+
     span {
-      font-size: var(--font-size-default);
+      font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
     }
   }
+
   .container {
-    height: 240px;
+    height: 24rem;
     overflow-y: auto;
     .agent__list-container {
       height: 100%;
@@ -193,6 +204,14 @@ export default {
         height: unset;
       }
     }
+  }
+  .triangle {
+    display: block;
+    z-index: var(--z-index-one);
+    position: absolute;
+    top: calc(var(--space-slab) * -1);
+    right: var(--space-micro);
+    text-align: left;
   }
 }
 ul {

@@ -19,18 +19,32 @@ module.exports = {
     'jsx-a11y/label-has-for': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'import/no-unresolved': 'off',
-    'vue/max-attributes-per-line': ['error', {
-      'singleline': 20,
-      'multiline': {
-        'max': 1,
-        'allowFirstLine': false
+    'vue/max-attributes-per-line': [
+      'error',
+      {
+        singleline: 20,
+        multiline: {
+          max: 1,
+          allowFirstLine: false,
+        },
       },
-    }],
-    'vue/html-self-closing': 'off',
-    "vue/no-v-html": 'off',
+    ],
+    'vue/html-self-closing': [
+      'error',
+      {
+        html: {
+          void: 'always',
+          normal: 'always',
+          component: 'always',
+        },
+        svg: 'always',
+        math: 'always',
+      },
+    ],
+    'vue/no-v-html': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
-    'no-console': 'error'
+    'no-console': 'error',
   },
   settings: {
     'import/resolver': {
@@ -41,12 +55,10 @@ module.exports = {
   },
   env: {
     browser: true,
-    node: true,
     jest: true,
-    jasmine: true
+    node: true,
   },
   globals: {
-    __WEBPACK_ENV__: true,
     bus: true,
   },
 };
