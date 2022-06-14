@@ -33,4 +33,4 @@ properties:
   custom_attributes:
     type: object
     description: The object to save custom attributes for conversation, accepts custom attributes key and value
-    example: { attribut_key: attribute_value, priority_conversation_number: 3 }
+    example: { attribute_key: attribute_value, priority_conversation_number: 3 }

@@ -2585,7 +2585,7 @@
                   "type": "object",
                   "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
                   "example": {
-                    "attribut_key": "attribute_value",
+                    "attribute_key": "attribute_value",
                     "priority_conversation_number": 3
                   }
                 },
@@ -4849,7 +4849,7 @@
           "type": "object",
           "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
           "example": {
-            "attribut_key": "attribute_value",
+            "attribute_key": "attribute_value",
             "signed_up_at": "dd/mm/yyyy"
           }
         },
@@ -4913,7 +4913,7 @@
           "type": "object",
           "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
           "example": {
-            "attribut_key": "attribute_value",
+            "attribute_key": "attribute_value",
             "priority_conversation_number": 3
           }
         }
