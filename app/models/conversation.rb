@@ -95,15 +95,12 @@ class Conversation < ApplicationRecord
   def can_reply?
     channel = inbox&.channel
 
-    if inbox.api? && channel&.message_window_enabled?
-      return last_message_in_messaging_window?(channel.additional_attributes['agent_reply_time_window'].to_i)
-    end
-
     return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
-    return true unless channel&.has_24_hour_messaging_window?
+    return true unless channel&.messaging_window_enabled?
 
-    last_message_in_messaging_window?(24)
+    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
+    last_message_in_messaging_window?(messaging_window)
   end
 
   def last_incoming_message
@@ -124,7 +121,7 @@ class Conversation < ApplicationRecord
     if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
       Time.current < last_incoming_message.created_at + 7.days
     else
-      last_message_less_than_24_hrs?
+      last_message_in_messaging_window?(24)
     end
   end
 
