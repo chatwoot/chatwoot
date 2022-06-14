@@ -13,10 +13,10 @@
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Nur auf dieser Seite sichtbaren Konversationen sind ausgewählt.",
     "AGENT_LIST_LOADING": "Agenten werden geladen",
     "UPDATE": {
-      "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
-      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations, please try again"
+      "CHANGE_STATUS": "Status ändern",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort zurückstellen",
+      "UPDATE_SUCCESFUL": "Der Konversationsstatus wurde erfolgreich aktualisiert.",
+      "UPDATE_FAILED": "Konversationen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut"
     }
   }
 }
