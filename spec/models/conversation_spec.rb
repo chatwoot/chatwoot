@@ -573,4 +573,44 @@ RSpec.describe Conversation, type: :model do
       expect(conversation['additional_attributes']['referer']).to eq('https://www.chatwoot.com/')
     end
   end
+
+  describe 'Custom Sort' do
+    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days) }
+    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days) }
+    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days) }
+    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days) }
+
+    before do
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+    end
+
+    it 'Sort conversations based on created_at' do
+      records = described_class.sort_on_created_at
+
+      expect(records.first.id).to eq(conversation_4.id)
+      expect(records.last.id).to eq(conversation_2.id)
+    end
+
+    it 'Sort conversations based on last_user_message_at' do
+      records = described_class.last_user_message_at
+
+      expect(records[0]['id']).to eq(conversation_2.id)
+      expect(records[1]['id']).to eq(conversation_3.id)
+    end
+
+    it 'Sort conversations based on last_activity_at' do
+      records = described_class.latest
+
+      expect(records.first.id).to eq(conversation_4.id)
+      expect(records.last.id).to eq(conversation_1.id)
+    end
+  end
 end

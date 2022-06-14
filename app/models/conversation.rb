@@ -193,8 +193,6 @@ class Conversation < ApplicationRecord
   end
 
   def self.last_user_message_at
-    # joins('LEFT OUTER JOIN messages ON conversations.id = messages.conversation_id').select("conversations.*, messages.created_at").group('conversations.id, messages.created_at').having('MAX("messages"."created_at") >= "messages"."created_at"').order('messages.created_at ASC')
-
     # INNER query finds the last message created in the conversation group
     # The outer query JOINS with the latest created message conversations
     # Then select only latest incoming message from the conversations which doesn't have last message as outgoing
