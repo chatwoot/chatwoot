@@ -50,7 +50,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return if permitted_params(channel_attributes)[:channel].blank?
 
     if @inbox.inbox_type == 'Email'
-      validate_email_channel(channel_attributes)
+      begin
+        validate_email_channel(channel_attributes)
+      rescue StandardError => e
+        render json: { message: e }, status: :unprocessable_entity and return
+      end
       @inbox.channel.reauthorized!
     end
 
@@ -87,12 +91,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_agent_bot
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
-  end
-
-  def inbox_name(channel)
-    return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
-
-    permitted_params[:name]
   end
 
   def create_channel
@@ -139,14 +137,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'whatsapp' => Current.account.whatsapp_channels,
       'sms' => Current.account.sms_channels
     }[permitted_params[:channel][:type]]
-  end
-
-  def get_channel_attributes(channel_type)
-    if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
-      channel_type.constantize::EDITABLE_ATTRS.presence
-    else
-      []
-    end
   end
 
   def validate_limit
