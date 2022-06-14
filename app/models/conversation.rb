@@ -197,16 +197,15 @@ class Conversation < ApplicationRecord
     # The outer query JOINS with the latest created message conversations
     # Then select only latest incoming message from the conversations which doesn't have last message as outgoing
     # Order by message created_at
-    ActiveRecord::Base.connection.execute(
-      "SELECT conversations.* FROM conversations
-      INNER JOIN(
-        SELECT DISTINCT ON (conversation_id) *
-        FROM messages
-        ORDER BY conversation_id, created_at DESC
-      ) grouped_conversations
-      ON grouped_conversations.conversation_id = conversations.id
-      WHERE grouped_conversations.message_type = 0
-      ORDER BY grouped_conversations.created_at ASC"
+    last_messaged_conversations = Message.except(:order).select('DISTINCT ON (conversation_id) *').order('conversation_id, created_at DESC')
+
+    Conversation.joins(
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) grouped_conversations
+      ON grouped_conversations.conversation_id = conversations.id"
+    ).where(
+      'grouped_conversations.message_type = 0'
+    ).order(
+      'grouped_conversations.created_at ASC'
     )
   end
   # .where(

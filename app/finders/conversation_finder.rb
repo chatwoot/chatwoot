@@ -136,7 +136,8 @@ class ConversationFinder
     if params[:conversation_type] == 'mention'
       @conversations.page(current_page)
     else
-      @conversations.latest.page(current_page)
+      sort_by = params[:sort_by] || 'latest'
+      @conversations.send(sort_by).page(current_page)
     end
   end
 end
