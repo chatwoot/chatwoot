@@ -26,8 +26,22 @@ class Channel::Api < ApplicationRecord
 
   has_secure_token :identifier
   has_secure_token :hmac_token
+  validate :ensure_valid_agent_reply_time_window
 
   def name
     'API'
+  end
+
+  def messaging_window_enabled?
+    additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
+  end
+
+  private
+
+  def ensure_valid_agent_reply_time_window
+    return if additional_attributes['agent_reply_time_window'].blank?
+    return if additional_attributes['agent_reply_time_window'].to_i.positive?
+
+    errors.add(:agent_reply_time_window, 'agent_reply_time_window must be greater than 0')
   end
 end
