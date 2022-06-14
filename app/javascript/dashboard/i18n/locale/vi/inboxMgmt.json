@@ -390,15 +390,15 @@
       "LABEL": "Các tính năng",
       "DISPLAY_FILE_PICKER": "Hiển thị bộ chọn tệp trên tiện ích con",
       "DISPLAY_EMOJI_PICKER": "Hiển thị bộ chọn biểu tượng cảm xúc trên tiện ích con",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Cho phép người dùng kết thúc cuộc trò chuyện từ công cụ chat"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Tập lệnh Messenger",
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
       "INBOX_AGENTS": "Nhà cung cấp",
       "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Phân công cuộc trò chuyện",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Cập nhật phân công cuộc trò chuyện",
       "UPDATE": "Cập nhật",
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",
@@ -421,6 +421,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc trò chuyện được giải quyết",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết."
     },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Giới hạn tự động phân công tối đa",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Xin nhập vào một số lớn hơn 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Giới hạn số cuộc trò chuyện tối đa từ hộp thư này mà có thể được tự động phân công cho một hỗ trợ viên"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ủy quyền lại",
       "SUBTITLE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
@@ -429,14 +434,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Biểu mẫu trước khi trò chuyện cho phép bạn nắm bắt thông tin người dùng trước khi họ bắt đầu cuộc trò chuyện với bạn.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Những ô cần điền vào trước cuộc trò chuyện",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "FIELDS": "Ô cần điền",
+        "LABEL": "Nhãn",
+        "PLACE_HOLDER": "Cụm từ hiện nền trong ô",
         "KEY": "Khoá",
         "TYPE": "Loại",
-        "REQUIRED": "Required"
+        "REQUIRED": "Bắt buộc"
       },
       "ENABLE": {
         "LABEL": "Bật biểu mẫu trước khi trò chuyện",
@@ -446,7 +451,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Tin nhắn trước khi trò chuyện",
         "PLACEHOLDER": "Tin nhắn này sẽ hiện cho những người dùng cùng với biểu mẫu"
       },
       "REQUIRE_EMAIL": {
@@ -470,12 +475,12 @@
         "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ đóng cửa.",
         "CHOOSE": "Chọn"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Cả ngày"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Đặt chi tiết IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Để bật chế độ SMTP, xin hãy cấu hình IMAP.",
       "UPDATE": "Cập nhật chi tiết IMAP",
       "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình IMAP cho hộp thư đến này",
       "TOGGLE_HELP": "Kích hoạt IMAP sẽ giúp cho người dùng nhận được email",
@@ -535,8 +540,8 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Mở Chế độ xác minh SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "Xác minh"
     },
-    "NOTE": "Note: "
+    "NOTE": "Ghi chú: "
   }
 }
