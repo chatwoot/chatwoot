@@ -421,6 +421,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷം സന്ദേശങ്ങൾ അനുവദിക്കുക",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "സംഭാഷണം പരിഹരിച്ചതിന് ശേഷവും സന്ദേശങ്ങൾ അയയ്ക്കാൻ അന്തിമ ഉപയോക്താക്കളെ അനുവദിക്കുക."
     },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "വീണ്ടും അംഗീകാരം നൽകുക",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
