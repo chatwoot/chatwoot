@@ -38,9 +38,9 @@ FactoryBot.define do
       sync_templates { true }
     end
 
-    before(:create) do |channel_telegram, options|
+    before(:create) do |channel_whatsapp, options|
       # since factory already has the required message templates, we just need to bypass it getting updated
-      channel_telegram.define_singleton_method(:sync_templates) { return } unless options.sync_templates
+      channel_whatsapp.define_singleton_method(:sync_templates) { return } unless options.sync_templates
     end
 
     after(:create) do |channel_whatsapp|
