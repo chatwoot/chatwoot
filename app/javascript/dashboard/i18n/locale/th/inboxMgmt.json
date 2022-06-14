@@ -421,6 +421,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "อนุญาตให้รับข้อความหลังจากจบการสนทนาแล้ว",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "อนุญาตให้ลูกค้าส่งข้อความหลังจากจบการสนทนาแล้ว"
     },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "ขอสิทธิ์อีกครั้ง",
       "SUBTITLE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
