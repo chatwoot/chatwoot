@@ -421,6 +421,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен."
     },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
       "SUBTITLE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
