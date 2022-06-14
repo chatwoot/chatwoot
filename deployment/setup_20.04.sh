@@ -225,6 +225,8 @@ function configure_systemd_services() {
   cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
 
   cp /home/chatwoot/chatwoot/deployment/chatwoot /etc/sudoers.d/chatwoot
+  cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
+  chmod +x /usr/local/bin/cwctl
 
   systemctl enable chatwoot.target
   systemctl start chatwoot.target
@@ -457,6 +459,10 @@ EOF
   cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
   cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
 
+  cp /home/chatwoot/chatwoot/deployment/chatwoot /etc/sudoers.d/chatwoot
+  cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
+  chmod +x /usr/local/bin/cwctl
+
   # Restart the chatwoot server
   systemctl restart chatwoot.target
 
@@ -508,4 +514,4 @@ function main() {
   fi
 }
 
-main2 "$@"
+main "$@"
