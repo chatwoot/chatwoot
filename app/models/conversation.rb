@@ -61,9 +61,12 @@ class Conversation < ApplicationRecord
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
   scope :latest, -> { order(last_activity_at: :desc) }
-  scope :last_message_created_at, -> { order(created_at: :asc) }
-  scope :last_user_message_at, -> { sort_by{ |conversation| conversation.last_incoming_message.try(:created_at) || (DateTime.now + 50.years) } }
-
+  scope :sort_on_created_at, -> { order(created_at: :asc) }
+  scope :last_user_message_at_scope, lambda {
+                                       sort_by do |conversation|
+                                         conversation.last_incoming_message.try(:created_at) || (DateTime.now + 50.years)
+                                       end
+                                     }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
@@ -188,6 +191,29 @@ class Conversation < ApplicationRecord
   def recent_messages
     messages.chat.last(5)
   end
+
+  def self.last_user_message_at
+    # joins('LEFT OUTER JOIN messages ON conversations.id = messages.conversation_id').select("conversations.*, messages.created_at").group('conversations.id, messages.created_at').having('MAX("messages"."created_at") >= "messages"."created_at"').order('messages.created_at ASC')
+
+    # INNER query finds the last message created in the conversation group
+    # The outer query JOINS with the latest created message conversations
+    # Then select only latest incoming message from the conversations which doesn't have last message as outgoing
+    # Order by message created_at
+    ActiveRecord::Base.connection.execute(
+      "SELECT conversations.* FROM conversations
+      INNER JOIN(
+        SELECT DISTINCT ON (conversation_id) *
+        FROM messages
+        ORDER BY conversation_id, created_at DESC
+      ) grouped_conversations
+      ON grouped_conversations.conversation_id = conversations.id
+      WHERE grouped_conversations.message_type = 0
+      ORDER BY grouped_conversations.created_at ASC"
+    )
+  end
+  # .where(
+  # 'messages.message_type = ?', 0
+  # )
 
   private
 
