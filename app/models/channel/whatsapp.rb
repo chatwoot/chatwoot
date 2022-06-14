@@ -57,7 +57,7 @@ class Channel::Whatsapp < ApplicationRecord
     { 'D360-API-KEY' => provider_config['api_key'], 'Content-Type' => 'application/json' }
   end
 
-  def has_24_hour_messaging_window?
+  def messaging_window_enabled?
     true
   end
 
