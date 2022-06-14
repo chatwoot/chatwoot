@@ -60,7 +60,6 @@
       </ul>
       <footer class="labels-list__footer">
         <woot-button
-          variant="smooth"
           size="small"
           color-scheme="primary"
           :disabled="!selectedLabels.length"
