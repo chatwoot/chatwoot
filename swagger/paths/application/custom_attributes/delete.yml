@@ -6,6 +6,7 @@ description: Remove a custom attribute from account
 security:
   - userApiKey: []
 parameters:
+  - $ref: '#/parameters/account_id'
   - in: path
     name: id
     type: integer
