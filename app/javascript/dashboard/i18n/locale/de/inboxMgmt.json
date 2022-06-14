@@ -421,6 +421,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist."
     },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Bitte geben Sie einen Wert größer als 0 ein",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Beschränken Sie die maximale Anzahl von Konversationen aus diesem Posteingang, die einem Agenten automatisch zugewiesen werden können"
+    },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
       "SUBTITLE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
