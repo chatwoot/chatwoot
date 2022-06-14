@@ -40,7 +40,7 @@ get:
       type: integer
       default: 1
       description: paginate through conversations
-   
+
   responses:
     200:
       description: Success
@@ -79,6 +79,10 @@ post:
           additional_attributes:
             type: object
             description: Lets you specify attributes like browser information
+          custom_attributes:
+            type: object
+            description: The object to save custom attributes for conversation, accepts custom attributes key and value
+            example: { attribute_key: attribute_value, priority_conversation_number: 3 }
           status:
             type: string
             enum: ['open', 'resolved', 'pending']
