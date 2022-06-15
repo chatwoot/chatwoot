@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_24_081117) do
+ActiveRecord::Schema.define(version: 2022_06_10_091206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -111,6 +111,22 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "articles", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
+    t.integer "category_id"
+    t.integer "folder_id"
+    t.string "title"
+    t.text "description"
+    t.text "content"
+    t.integer "status"
+    t.integer "views"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_articles_on_author_id"
+  end
+
   create_table "attachments", id: :serial, force: :cascade do |t|
     t.integer "file_type", default: 0
     t.string "external_url"
@@ -169,6 +185,21 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "locale", default: "en"
+    t.string "slug", null: false
+    t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
+    t.index ["locale"], name: "index_categories_on_locale"
+    t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true
+  end
+
   create_table "channel_api", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "webhook_url"
@@ -177,6 +208,7 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.string "identifier"
     t.string "hmac_token"
     t.boolean "hmac_mandatory", default: false
+    t.jsonb "additional_attributes", default: {}
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
@@ -257,7 +289,8 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
-    t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
+    t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
+    t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|
@@ -356,11 +389,14 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "snoozed_until"
     t.jsonb "custom_attributes", default: {}
     t.datetime "assignee_last_seen_at"
+    t.datetime "first_reply_created_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
+    t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
+    t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
   end
@@ -409,6 +445,17 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.index ["user_id"], name: "index_custom_filters_on_user_id"
   end
 
+  create_table "dashboard_apps", force: :cascade do |t|
+    t.string "title", null: false
+    t.jsonb "content", default: []
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_dashboard_apps_on_account_id"
+    t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
+  end
+
   create_table "data_imports", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "data_type", null: false
@@ -430,6 +477,14 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "folders", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "category_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -458,6 +513,7 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
+    t.jsonb "auto_assignment_config", default: {}
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -482,56 +538,6 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "settings", default: {}
-  end
-
-  create_table "kbase_articles", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "portal_id", null: false
-    t.integer "category_id"
-    t.integer "folder_id"
-    t.integer "author_id"
-    t.string "title"
-    t.text "description"
-    t.text "content"
-    t.integer "status"
-    t.integer "views"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "kbase_categories", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "portal_id", null: false
-    t.string "name"
-    t.text "description"
-    t.integer "position"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "locale", default: "en"
-    t.index ["locale", "account_id"], name: "index_kbase_categories_on_locale_and_account_id"
-  end
-
-  create_table "kbase_folders", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.integer "category_id", null: false
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "kbase_portals", force: :cascade do |t|
-    t.integer "account_id", null: false
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.string "custom_domain"
-    t.string "color"
-    t.string "homepage_link"
-    t.string "page_title"
-    t.text "header_text"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
-    t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
   end
 
   create_table "labels", force: :cascade do |t|
@@ -575,6 +581,8 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.string "sender_type"
     t.bigint "sender_id"
     t.jsonb "external_source_ids", default: {}
+    t.jsonb "additional_attributes", default: {}
+    t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
@@ -649,6 +657,30 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "portals", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "custom_domain"
+    t.string "color"
+    t.string "homepage_link"
+    t.string "page_title"
+    t.text "header_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.boolean "archived", default: false
+    t.index ["slug"], name: "index_portals_on_slug", unique: true
+  end
+
+  create_table "portals_members", id: false, force: :cascade do |t|
+    t.bigint "portal_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
+    t.index ["portal_id"], name: "index_portals_members_on_portal_id"
+    t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
   create_table "reporting_events", force: :cascade do |t|
     t.string "name"
     t.float "value"
@@ -662,6 +694,7 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
     t.datetime "event_start_time"
     t.datetime "event_end_time"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
+    t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
@@ -788,6 +821,7 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
+  add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
@@ -800,6 +834,8 @@ ActiveRecord::Schema.define(version: 2022_04_24_081117) do
   add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
+  add_foreign_key "dashboard_apps", "accounts"
+  add_foreign_key "dashboard_apps", "users"
   add_foreign_key "data_imports", "accounts", on_delete: :cascade
   add_foreign_key "mentions", "conversations", on_delete: :cascade
   add_foreign_key "mentions", "users", on_delete: :cascade

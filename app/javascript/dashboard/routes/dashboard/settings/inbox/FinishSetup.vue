@@ -10,40 +10,35 @@
           <woot-code
             v-if="currentInbox.web_widget_script"
             :script="currentInbox.web_widget_script"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isATwilioInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isALineInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isASmsInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isAEmailInbox"
             lang="html"
             :script="currentInbox.forward_to_email"
-          >
-          </woot-code>
+          />
         </div>
         <div class="footer">
           <router-link

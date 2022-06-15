@@ -83,7 +83,7 @@
       "SELECT_ALL": "選取所有克服",
       "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取",
       "BUTTON_TEXT": "新增客服",
-      "AGENT_VALIDATION_ERROR": "至少選擇一個客服"
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "你的團隊已經準備好了",

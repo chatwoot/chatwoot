@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "連携",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "キャンセル",
+        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "例: https://example/api/webhook",
+          "ERROR": "有効な URL を入力してください"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Webhookを作成"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "設定",
       "HEADER": "Webhookの設定",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "編集",
         "TITLE": "Edit webhook",
-        "CANCEL": "キャンセル",
-        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "例: https://example/api/webhook",
-            "ERROR": "有効な URL を入力してください"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
         }
       },
       "ADD": {
         "CANCEL": "キャンセル",
         "TITLE": "新しいWebhookを追加",
-        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "例: https://example/api/webhook",
-            "ERROR": "有効な URL を入力してください"
-          },
-          "SUBMIT": "Webhookを作成"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhookの追加に成功しました",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "削除の確認",
-          "MESSAGE": "削除してもよろしいですか？ ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "削除する ",
           "NO": "いいえ、保存しておきます"
         }

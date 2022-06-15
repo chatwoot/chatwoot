@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "Adgangskode",
       "PLACEHOLDER": "Adgangskode",
-      "ERROR": "Adgangskoden er for kort"
+      "ERROR": "Adgangskoden er for kort",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Bekræft Adgangskode",

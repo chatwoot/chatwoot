@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifiche",
     "MARK_ALL_DONE": "Contrassegna tutto come fatto",
+    "DELETE_TITLE": "eliminato",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notifiche non lette",
+      "ALL_NOTIFICATIONS": "Visualizza tutte le notifiche",
+      "LOADING_UNREAD_MESSAGE": "Caricamento notifiche non lette...",
+      "EMPTY_MESSAGE": "Non hai notifiche non lette"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Caricamento notifiche...",
       "404": "Nessuna notifica",
@@ -89,7 +96,7 @@
     "SEARCH_PLACEHOLDER": "Cerca o salta a",
     "SECTIONS": {
       "GENERAL": "Generale",
-      "REPORTS": "Segnalazioni",
+      "REPORTS": "Rapporti",
       "CONVERSATION": "Conversazioni",
       "CHANGE_ASSIGNEE": "Cambia assegnatario",
       "CHANGE_TEAM": "Cambia Team",
@@ -101,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Vai alla dashboard Conversazioni",
       "GO_TO_CONTACTS_DASHBOARD": "Vai alla dashboard Contatti",
       "GO_TO_REPORTS_OVERVIEW": "Vai alla panoramica dei report",
+      "GO_TO_CONVERSATION_REPORTS": "Vai ai report della conversazione",
       "GO_TO_AGENT_REPORTS": "Vai ai report degli agenti",
       "GO_TO_LABEL_REPORTS": "Vai ai report delle etichette",
       "GO_TO_INBOX_REPORTS": "Vai ai report delle caselle",

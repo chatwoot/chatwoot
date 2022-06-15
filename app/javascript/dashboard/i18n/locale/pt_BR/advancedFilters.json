@@ -22,7 +22,7 @@
       "is_not_present": "Não está presente",
       "is_greater_than": "É maior que",
       "is_less_than": "É menor que",
-      "days_before": "Is x days before"
+      "days_before": "É x dias antes"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Verdadeiro",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Criado em",
       "LAST_ACTIVITY": "Última atividade"
     },
     "GROUPS": {
