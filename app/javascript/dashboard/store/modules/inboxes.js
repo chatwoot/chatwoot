@@ -216,7 +216,11 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, {
         isUpdatingIMAP: false,
       });
-      throw new Error(error);
+      if (error.response?.data?.message) {
+        throw new Error(error.response?.data?.message);
+      } else {
+        throw new Error(error);
+      }
     }
   },
   updateInboxSMTP: async (
