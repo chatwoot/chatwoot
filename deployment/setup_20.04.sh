@@ -223,8 +223,7 @@ EOF
 function run_db_migrations(){
   sudo -i -u chatwoot << EOF
   cd chatwoot
-  RAILS_ENV=production bundle exec rake db:create
-  RAILS_ENV=production bundle exec rake db:reset
+  RAILS_ENV=production bundle exec rails db:chatwoot_prepare
 EOF
 
 }
