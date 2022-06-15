@@ -95,6 +95,7 @@
       @select-all-conversations="selectAllConversations"
       @assign-agent="onAssignAgent"
       @update-conversations="onUpdateConversations"
+      @assign-labels="onAssignLabels"
     />
     <div ref="activeConversation" class="conversations-list">
       <conversation-card
@@ -596,6 +597,21 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async onAssignLabels(labels) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          labels: {
+            add: labels,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
       }
     },
     async onUpdateConversations(status) {
