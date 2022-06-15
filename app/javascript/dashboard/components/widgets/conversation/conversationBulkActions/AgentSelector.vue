@@ -174,7 +174,7 @@ export default {
   transform-origin: top right;
   width: auto;
   z-index: var(--z-index-twenty);
-
+  min-width: var(--space-giga);
   .header {
     padding: var(--space-one);
 
@@ -185,7 +185,7 @@ export default {
   }
 
   .container {
-    max-height: 24rem;
+    max-height: var(--space-giga);
     overflow-y: auto;
     .agent__list-container {
       height: 100%;
