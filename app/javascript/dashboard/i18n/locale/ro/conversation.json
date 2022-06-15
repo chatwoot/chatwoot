@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Identitatea acestui utilizator nu este verificată",
     "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
     "NO_MESSAGE_2": " pentru a trimite un mesaj către pagina ta!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Răspundeți la:",
     "REMOVE_SELECTION": "Elimină selecția",
     "DOWNLOAD": "Descărcare",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Se încarcă atașamentele...",
     "SUCCESS_DELETE_MESSAGE": "Mesaj şters cu succes",
     "FAIL_DELETE_MESSSAGE": "Mesajul nu a putut fi șters! Încercați din nou",

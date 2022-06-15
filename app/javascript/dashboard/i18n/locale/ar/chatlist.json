@@ -12,33 +12,11 @@
       "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
     },
     "FILTER_ALL": "الكل",
-    "STATUS_TABS": [
-      {
-        "NAME": "فتح",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "مغلقة",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "محادثاتي",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "غير مسند",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "الكل",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "محادثاتي",
+      "unassigned": "غير مسند",
+      "all": "الكل"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "فتح"

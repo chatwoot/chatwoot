@@ -42,55 +42,55 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     context 'when it is an authenticated user' do
       let(:params) do
         {
-          name: 'Notify Conversation Created and mark priority query',
-          description: 'Notify all administrator about conversation created and mark priority query',
-          event_name: 'conversation_created',
-          conditions: [
+          'name': 'Notify Conversation Created and mark priority query',
+          'description': 'Notify all administrator about conversation created and mark priority query',
+          'event_name': 'conversation_created',
+          'conditions': [
             {
-              attribute_key: 'browser_language',
-              filter_operator: 'equal_to',
-              values: ['en'],
-              query_operator: 'AND'
+              'attribute_key': 'browser_language',
+              'filter_operator': 'equal_to',
+              'values': ['en'],
+              'query_operator': 'AND'
             },
             {
-              attribute_key: 'country_code',
-              filter_operator: 'equal_to',
-              values: %w[USA UK],
-              query_operator: nil
+              'attribute_key': 'country_code',
+              'filter_operator': 'equal_to',
+              'values': %w[USA UK],
+              'query_operator': nil
             }
           ],
-          actions: [
+          'actions': [
             {
-              action_name: :send_message,
-              action_params: ['Welcome to the chatwoot platform.']
+              'action_name': :send_message,
+              'action_params': ['Welcome to the chatwoot platform.']
             },
             {
-              action_name: :assign_team,
-              action_params: [1]
+              'action_name': :assign_team,
+              'action_params': [1]
             },
             {
-              action_name: :add_label,
-              action_params: %w[support priority_customer]
+              'action_name': :add_label,
+              'action_params': %w[support priority_customer]
             },
             {
-              action_name: :assign_best_administrator,
-              action_params: [1]
+              'action_name': :assign_best_administrator,
+              'action_params': [1]
             },
             {
-              action_name: :update_additional_attributes,
-              action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
+              'action_name': :update_additional_attributes,
+              'action_params': [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
             }
           ]
-        }.with_indifferent_access
+        }
       end
 
       it 'throws an error for unknown attributes in condtions' do
         expect(account.automation_rules.count).to eq(0)
         params[:conditions] << {
-          attribute_key: 'unknown_attribute',
-          filter_operator: 'equal_to',
-          values: ['en'],
-          query_operator: 'AND'
+          'attribute_key': 'unknown_attribute',
+          'filter_operator': 'equal_to',
+          'values': ['en'],
+          'query_operator': 'AND'
         }
 
         post "/api/v1/accounts/#{account.id}/automation_rules",
@@ -115,11 +115,11 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       it 'Saves for automation_rules for account with status conditions' do
         params[:conditions] = [
           {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: ['resolved'],
-            query_operator: nil
-          }.with_indifferent_access
+            'attribute_key': 'status',
+            'filter_operator': 'equal_to',
+            'values': ['resolved'],
+            'query_operator': nil
+          }
         ]
         expect(account.automation_rules.count).to eq(0)
 
@@ -149,12 +149,12 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         params[:actions] = [
           {
-            action_name: :send_message,
-            action_params: ['Welcome to the chatwoot platform.']
+            'action_name': :send_message,
+            'action_params': ['Welcome to the chatwoot platform.']
           },
           {
-            action_name: :send_attachment,
-            action_params: [blob['blob_id']]
+            'action_name': :send_attachment,
+            'action_params': [blob['blob_id']]
           }
         ]
 
@@ -185,12 +185,12 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         params[:actions] = [
           {
-            action_name: :send_attachment,
-            action_params: [blob_1['blob_id']]
+            'action_name': :send_attachment,
+            'action_params': [blob_1['blob_id']]
           },
           {
-            action_name: :send_attachment,
-            action_params: [blob_2['blob_id']]
+            'action_name': :send_attachment,
+            'action_params': [blob_2['blob_id']]
           }
         ]
 
@@ -271,23 +271,23 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     context 'when it is an authenticated user' do
       let(:update_params) do
         {
-          description: 'Update description',
-          name: 'Update name',
-          conditions: [
+          'description': 'Update description',
+          'name': 'Update name',
+          'conditions': [
             {
-              attribute_key: 'browser_language',
-              filter_operator: 'equal_to',
-              values: ['en'],
-              query_operator: 'AND'
+              'attribute_key': 'browser_language',
+              'filter_operator': 'equal_to',
+              'values': ['en'],
+              'query_operator': 'AND'
             }
           ],
-          actions: [
+          'actions': [
             {
-              action_name: :update_additional_attributes,
-              action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
+              'action_name': :update_additional_attributes,
+              'action_params': [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
             }
           ]
-        }.with_indifferent_access
+        }
       end
 
       it 'returns for cloned automation_rule for account' do

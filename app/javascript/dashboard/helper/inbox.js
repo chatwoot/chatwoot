@@ -35,3 +35,10 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'chat';
   }
 };
+
+export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
+  if (type === INBOX_TYPES.FB && reauthorizationRequired) {
+    return 'warning';
+  }
+  return '';
+};

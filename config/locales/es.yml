@@ -23,7 +23,7 @@ es:
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
   errors:
     webhook:
-      invalid: Invalid events
+      invalid: Eventos inválidos
     signup:
       disposable_email: No permitimos correos electrónicos desechables
       invalid_email: Ha introducido un correo electrónico no válido
@@ -39,12 +39,33 @@ es:
       conversations_count: Cantidad de conversaciones
       avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
       avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+    inbox_csv:
+      inbox_name: Nombre de la bandeja de entrada
+      inbox_type: Tipo de bandeja de entrada
+      conversations_count: Núm. de conversaciones
+      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
+      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+    label_csv:
+      label_title: Etiqueta
+      conversations_count: Núm. de conversaciones
+      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
+      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
     team_csv:
       team_name: Nombre del equipo
       conversations_count: Cantidad de conversaciones
       avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
       avg_resolution_time: Promedio de tiempo de resolución (Minutos)
     default_group_by: día
+    csat:
+      headers:
+        contact_name: Nombre de Contacto
+        contact_email_address: Correo electrónico de contacto
+        contact_phone_number: Número de teléfono de contacto
+        link_to_the_conversation: Enlace a la conversación
+        agent_name: Nombre del agente
+        rating: Calificación
+        feedback: Comentario de opinión
+        recorded_at: Fecha registrada
   notifications:
     notification_title:
       conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"

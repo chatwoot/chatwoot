@@ -2,19 +2,19 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integraciones",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Eventos suscritos",
       "FORM": {
         "CANCEL": "Cancelar",
         "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Eventos",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "Conversación creada",
+            "CONVERSATION_STATUS_CHANGED": "Estado de la conversación cambiado",
+            "CONVERSATION_UPDATED": "Conversación actualizada",
+            "MESSAGE_CREATED": "Mensaje creado",
+            "MESSAGE_UPDATED": "Mensaje actualizado",
+            "WEBWIDGET_TRIGGERED": "Widget de Live Chat abierto por el usuario"
           }
         },
         "END_POINT": {
@@ -22,7 +22,7 @@
           "PLACEHOLDER": "Ejemplo: https://example/api/webhook",
           "ERROR": "Por favor, introduzca una URL válida"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Actualizar webhook",
         "ADD_SUBMIT": "Crear webhook"
       },
       "TITLE": "Webhook",
@@ -44,7 +44,7 @@
         "BUTTON_TEXT": "Editar",
         "TITLE": "Editar Webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Configuración de webhook actualizada correctamente",
           "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
         }
       },
@@ -52,7 +52,7 @@
         "CANCEL": "Cancelar",
         "TITLE": "Añadir nuevo webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Configuración de webhook añadida correctamente",
           "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
         }
       },
@@ -64,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Confirmar eliminación",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "¿Está seguro de eliminar el webhook? (%{webhookURL})",
           "YES": "Sí, eliminar ",
           "NO": "No, mantenerlo"
         }
