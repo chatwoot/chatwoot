@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Semnătura mesajului personal",
-        "NOTE": "Creați o semnătură de mesaj personal care ar fi adăugată la toate mesajele pe care le trimiteți de pe platformă. Utilizați editorul de conținut îmbogățit pentru a crea o semnătură extrem de personalizată.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Salvarea semnăturii mesajului",
         "API_ERROR": "Nu s-a putut trimite! Încearcă din nou",
         "API_SUCCESS": "Semnătura salvată cu succes"
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Echipa",
     "SET_AVAILABILITY_TITLE": "Setați-vă ca",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Prezentare generală"
+    "REPORTS_OVERVIEW": "Prezentare generală",
+    "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",

@@ -47,6 +47,31 @@ export const getters = {
   getInboxes($state) {
     return $state.records;
   },
+  getWhatsAppTemplates: $state => inboxId => {
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
+
+    const {
+      message_templates: whatsAppMessageTemplates,
+      additional_attributes: additionalAttributes,
+    } = inbox;
+
+    const { message_templates: apiInboxMessageTemplates } =
+      additionalAttributes || {};
+    const messagesTemplates =
+      whatsAppMessageTemplates || apiInboxMessageTemplates;
+
+    // filtering out the whatsapp templates with media
+    if (messagesTemplates) {
+      return messagesTemplates.filter(template => {
+        return !template.components.some(
+          i => i.format === 'IMAGE' || i.format === 'VIDEO'
+        );
+      });
+    }
+    return [];
+  },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
       const {

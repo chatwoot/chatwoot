@@ -1,0 +1,17 @@
+{
+    "BULK_ACTION": {
+        "CONVERSATIONS_SELECTED": "%{conversationCount} Konversationen ausgewählt",
+        "AGENT_SELECT_LABEL": "Agent auswählen",
+        "ASSIGN_CONFIRMATION_LABEL": "Sind Sie sicher, dass Sie %{conversationCount} %{conversationLabel} zuweisen möchten",
+        "GO_BACK_LABEL": "Zurück",
+        "ASSIGN_LABEL": "Zuordnen",
+        "ASSIGN_AGENT_TOOLTIP": "Agent zuweisen",
+        "RESOLVE_TOOLTIP": "Fall schließen",
+        "ASSIGN_SUCCESFUL": "Konversationen erfolgreich zugewiesen",
+        "ASSIGN_FAILED": "Konversationen konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut",
+        "RESOLVE_SUCCESFUL": "Konversationen erfolgreich gelöst",
+        "RESOLVE_FAILED": "Konversationen konnten nicht gelöst werden. Bitte versuchen Sie es erneut",
+        "ALL_CONVERSATIONS_SELECTED_ALERT": "Nur auf dieser Seite sichtbaren Konversationen sind ausgewählt.",
+        "AGENT_LIST_LOADING": "Agenten werden geladen"
+    }
+}

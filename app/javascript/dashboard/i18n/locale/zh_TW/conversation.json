@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "請從左側窗格選擇一個對話",
+    "DASHBOARD_APP_TAB_MESSAGES": "訊息",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "您的收件匣中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的頁面發送一條消息！",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "你正在回覆到：",
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",

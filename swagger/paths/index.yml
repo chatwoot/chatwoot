@@ -181,6 +181,11 @@
 /api/v1/accounts/{account_id}/custom_attribute_definitions/{id}:
   parameters:
     - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the custom attribute
+      required: true
   get:
     $ref: './application/custom_attributes/show.yml'
   patch:
@@ -206,6 +211,30 @@
   $ref: ./application/contact_inboxes/create.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
+
+
+# Automation Rule
+/api/v1/accounts/{account_id}/automation_rule_definitions:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/automation_rule/index.yml
+  post:
+    $ref: ./application/automation_rule/create.yml
+/api/v1/accounts/{account_id}/automation_rule_definitions/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the Automation Rule
+      required: true
+  get:
+    $ref: ./application/automation_rule/show.yml
+  patch:
+    $ref: ./application/automation_rule/update.yml
+  delete:
+    $ref: ./application/automation_rule/delete.yml
 
 
 # Conversations
@@ -273,8 +302,6 @@
     - $ref: '#/parameters/inbox_id'
   get:
     $ref: ./application/inboxes/inbox_members/show.yml
-  patch:
-    $ref: ./application/inboxes/inbox_members/update.yml
   delete:
     $ref: ./application/inboxes/inbox_members/delete.yml
 
@@ -283,6 +310,8 @@
     - $ref: '#/parameters/account_id'
   post:
     $ref: ./application/inboxes/inbox_members/create.yml
+  patch:
+    $ref: ./application/inboxes/inbox_members/update.yml
 
 
 
@@ -345,7 +374,7 @@
     $ref: ./application/teams/update.yml
   delete:
     $ref: ./application/teams/delete.yml
-/accounts/{account-id}/teams/{team_id}/team_members:
+/accounts/{account_id}/teams/{team_id}/team_members:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'
