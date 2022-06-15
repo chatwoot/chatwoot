@@ -266,6 +266,18 @@ function setup_logging() {
   LOG_FILE="/var/log/chatwoot-setup.log"
 }
 
+function ssl_success_message() {
+    cat << EOF
+
+***************************************************************************
+Woot! Woot!! Chatwoot server installation is complete.
+The server will be accessible at https://$domain_name
+
+Join the community at https://chatwoot.com/community
+***************************************************************************
+EOF
+}
+
 function install() {
 
   cat << EOF
@@ -354,15 +366,7 @@ EOF
   else
     echo "➥ 9/9 Setting up SSL/TLS"
     setup_ssl &>> "${LOG_FILE}"
-    cat << EOF
-
-***************************************************************************
-Woot! Woot!! Chatwoot server installation is complete.
-The server will be accessible at https://$domain_name
-
-Join the community at https://chatwoot.com/community
-***************************************************************************
-EOF
+    ssl_success_message
   fi
 
   if [ "$install_pg_redis" == "no" ]
@@ -403,11 +407,11 @@ Installation/Upgrade:
   -i, --install             install Chatwoot with the git branch specified
   -u, --upgrade             upgrade Chatwoot to latest version
   -s, --ssl                 fetch and install ssl certificates using LetsEncrypt
-  -w, --webserver           install and configure Nginx webserver
+  -w, --webserver           install and configure Nginx webserver with SSL
 
 Management:
   -c, --console             open ruby console
-  -l, --logs                tail logs from Chatwoot. Supported values include web/worker.
+  -l, --logs                view logs from Chatwoot. Supported values include web/worker.
   
 Miscellaneous:
   -d, --debug               suppress error messages
@@ -432,7 +436,11 @@ function get_logs() {
 function ssl() {
    echo "setting up ssl"
    get_domain_info
+   if ! systemctl -q is-active nginx; then
+    install_webserver
+   fi
    setup_ssl
+   ssl_success_message
 }
 
 function upgrade() {
@@ -481,8 +489,7 @@ EOF
 }
 
 function webserver() {
-  echo "installing nginx"
-  install_webserver
+  echo "installing nginx and setting up ssl"
   ssl
   #TODO: allow installing nginx only without SSL
 }
