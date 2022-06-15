@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Włącz powitanie dla kanału",
-          "HELP_TEXT": "Wyślij wiadomość powitalną użytkownikowi, gdy rozpocznie rozmowę.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Włączone",
           "DISABLED": "Wyłączone"
         },
