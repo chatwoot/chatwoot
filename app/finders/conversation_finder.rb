@@ -133,11 +133,7 @@ class ConversationFinder
     @conversations = @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
-    if params[:conversation_type] == 'mention'
-      @conversations.page(current_page)
-    else
-      sort_by = params[:sort_by] || 'latest'
-      @conversations.send(sort_by).page(current_page)
-    end
+    sort_by = params[:sort_by] || 'latest'
+    @conversations.send(sort_by).page(current_page)
   end
 end
