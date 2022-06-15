@@ -17,6 +17,13 @@
       "SNOOZE_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση",
       "UPDATE_SUCCESFUL": "Η κατάσταση συνομιλίας ενημερώθηκε με επιτυχία.",
       "UPDATE_FAILED": "Αποτυχία ενημέρωσης συνομιλιών, παρακαλώ προσπαθήστε ξανά"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign Labels",
+      "NO_LABELS_FOUND": "No labels found for",
+      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
+      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
+      "ASSIGN_FAILED": "Failed to assign labels, please try again"
     }
   }
 }
