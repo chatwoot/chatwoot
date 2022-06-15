@@ -473,6 +473,8 @@ EOF
   cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
   chmod +x /usr/local/bin/cwctl
 
+  systemctl daemon-reload
+
   # Restart the chatwoot server
   systemctl restart chatwoot.target
 
