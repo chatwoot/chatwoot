@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal Begrüßung aktivieren",
-          "HELP_TEXT": "Senden Sie eine Begrüßungsnachricht an die Benutzer, wenn sie das Gespräch beginnen.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Aktiviert",
           "DISABLED": "Deaktiviert"
         },
