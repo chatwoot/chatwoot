@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Välj en konversation från vänster panel",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Oj då! Det ser ut som att det inte finns några meddelanden från kunder i din inkorg.",
     "NO_MESSAGE_2": " för att skicka ett meddelande till din sida!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Du svarar:",
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",

@@ -12,33 +12,11 @@
       "INPUT": "Пошук людей, чатів та збережених відповідей.."
     },
     "FILTER_ALL": "Всі",
-    "STATUS_TABS": [
-      {
-        "NAME": "Відкриті",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Вирішені",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Мої",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Непризначені",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Всі",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Мої",
+      "unassigned": "Непризначені",
+      "all": "Всі"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Відкриті"

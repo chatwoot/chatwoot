@@ -39,12 +39,33 @@ ro:
       conversations_count: Conversațiile contează
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg primul timp de răspuns (minute)
+      avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg primul timp de răspuns (minute)
+      avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     team_csv:
       team_name: Numele echipei
       conversations_count: Conversațiile contează
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     default_group_by: zi
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nume Agent
+        rating: Evaluare
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Conversație nouă] - #%{display_id} a fost creat în %{inbox_name}"

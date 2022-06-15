@@ -13,8 +13,8 @@
         <div
           v-if="!notificationItem.read_at"
           class="notification-unread--indicator"
-        ></div>
-        <div v-else class="empty flex-view"></div>
+        />
+        <div v-else class="empty flex-view" />
         <div class="notification-content--wrap w-full flex-space-between">
           <div class="flex-space-between">
             <div class="title-wrap flex-view ">

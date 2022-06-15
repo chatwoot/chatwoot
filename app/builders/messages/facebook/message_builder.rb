@@ -27,7 +27,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     end
     ensure_contact_avatar
   rescue Koala::Facebook::AuthenticationError
-    Rails.logger.error "Facebook Authorization expired for Inbox #{@inbox.id}"
+    @inbox.channel.authorization_error!
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
