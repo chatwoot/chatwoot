@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="add-agents__header"></div>
+    <div class="add-agents__header" />
     <table class="woot-table">
       <thead>
         <tr>

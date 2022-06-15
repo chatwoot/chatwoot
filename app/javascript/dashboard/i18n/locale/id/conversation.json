@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Pilih percakapan dari panel kiri",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
     "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Anda membalas:",
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
