@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
