@@ -22,7 +22,10 @@
       />
     </div>
     <div class="container">
-      <div v-if="uiFlags.isUpdating" class="agent__list-loading">
+      <div
+        v-if="assignableAgentsUiFlags.isFetching"
+        class="agent__list-loading"
+      >
         <spinner />
         <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
       </div>
@@ -264,5 +267,6 @@ ul {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: var(--space-two);
 }
 </style>
