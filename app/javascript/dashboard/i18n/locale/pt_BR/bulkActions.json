@@ -17,6 +17,13 @@
       "SNOOZE_UNTIL_NEXT_REPLY": "Adiar até a próxima resposta",
       "UPDATE_SUCCESFUL": "Status da conversa atualizado com sucesso.",
       "UPDATE_FAILED": "Falha ao atualizar as conversas. Por favor, tente novamente"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Atribuir rótulo",
+      "NO_LABELS_FOUND": "Não há rótulos encontrados para",
+      "ASSIGN_SELECTED_LABELS": "Atribuir rótulos selecionados",
+      "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso",
+      "ASSIGN_FAILED": "Falha ao atribuir rótulos, por favor, tente novamente"
     }
   }
 }
