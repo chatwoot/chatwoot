@@ -17,6 +17,13 @@
       "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
       "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
       "UPDATE_FAILED": "Failed to update conversations, please try again"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign Labels",
+      "NO_LABELS_FOUND": "No labels found for",
+      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
+      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
+      "ASSIGN_FAILED": "Failed to assign labels, please try again"
     }
   }
 }
