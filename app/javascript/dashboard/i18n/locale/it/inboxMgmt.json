@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Abilita messaggio di benvenuto sul canale",
-          "HELP_TEXT": "Invia un messaggio di saluto agli utenti quando iniziano la conversazione.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
