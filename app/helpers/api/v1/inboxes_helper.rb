@@ -5,14 +5,6 @@ module Api::V1::InboxesHelper
     permitted_params[:name]
   end
 
-  def get_channel_attributes(channel_type)
-    if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
-      channel_type.constantize::EDITABLE_ATTRS.presence
-    else
-      []
-    end
-  end
-
   def validate_email_channel(attributes)
     channel_data = permitted_params(attributes)[:channel]
 
