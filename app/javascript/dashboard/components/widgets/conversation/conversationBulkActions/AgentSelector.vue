@@ -182,7 +182,7 @@ export default {
   }
 
   .container {
-    height: 24rem;
+    max-height: 24rem;
     overflow-y: auto;
     .agent__list-container {
       height: 100%;
