@@ -108,20 +108,25 @@ export default {
 
 <style scoped lang="scss">
 .labels-list {
-  min-height: auto;
-  max-height: 24rem;
   display: flex;
   flex-direction: column;
+  max-height: 24rem;
+  min-height: auto;
+
   .labels-list__header {
     background-color: var(--white);
     padding: 0 var(--space-one);
   }
+
   .labels-list__body {
-    overflow-y: auto;
     flex: 1;
+    overflow-y: auto;
+    padding: var(--space-one) 0;
   }
+
   .labels-list__footer {
     padding: var(--space-small);
+
     button {
       width: 100%;
     }
@@ -129,20 +134,21 @@ export default {
 }
 
 .label-list-search {
-  padding: 0 var(--space-one);
-  border: 1px solid var(--s-100);
-  border-radius: var(--border-radius-medium);
   background-color: var(--s-50);
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--s-100);
+  padding: 0 var(--space-one);
+
   .search-icon {
     color: var(--s-400);
   }
 
   .label--search_input {
+    background-color: transparent;
     border: 0;
     font-size: var(--font-size-mini);
-    margin: 0;
-    background-color: transparent;
     height: unset;
+    margin: 0;
   }
 }
 
@@ -151,14 +157,15 @@ export default {
   border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
   box-shadow: var(--shadow-dropdown-pane);
+  max-width: 24rem;
+  min-width: 24rem;
   position: absolute;
   right: 4.5rem;
-  top: 48px;
+  top: var(--space-larger);
   transform-origin: top right;
   width: auto;
   z-index: var(--z-index-twenty);
-  max-width: 24rem;
-  min-width: 24rem;
+
   .header {
     padding: var(--space-one);
 
@@ -167,9 +174,11 @@ export default {
       font-weight: var(--font-weight-medium);
     }
   }
+
   .container {
     max-height: 24rem;
     overflow-y: auto;
+
     .label__list-container {
       height: 100%;
     }
@@ -206,57 +215,66 @@ ul {
   margin: 0;
   list-style: none;
 }
+
 .labels-placeholder {
   padding: var(--space-small);
 }
 
 .label__list-item {
-  margin: 4px 0;
+  margin: var(--space-smaller) 0;
   padding: 0 var(--space-one);
+
   .item {
-    display: flex;
     align-items: center;
-    padding: var(--space-one);
-    cursor: pointer;
     border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    display: flex;
+    padding: var(--space-smaller) var(--space-one);
+
     &:hover {
       background-color: var(--s-50);
     }
+
     &.label-selected {
       background-color: var(--s-50);
     }
+
     span {
       font-size: var(--font-size-small);
     }
+
     .label-checkbox {
       margin: 0 var(--space-one) 0 0;
     }
+
     .label-title {
       flex-grow: 1;
     }
+
     .label-pill {
-      width: var(--space-normal);
-      height: var(--space-normal);
-      border-radius: var(--border-radius-medium);
       background-color: var(--s-50);
+      border-radius: var(--border-radius-medium);
+      height: var(--space-slab);
+      width: var(--space-slab);
     }
   }
 }
 
 .search-container {
+  background-color: var(--white);
   padding: 0 var(--space-one);
   position: sticky;
   top: 0;
   z-index: var(--z-index-twenty);
-  background-color: var(--white);
 }
 
 .actions-container {
+  background-color: var(--white);
+  bottom: 0;
   padding: var(--space-small);
   position: sticky;
-  bottom: 0;
   z-index: var(--z-index-twenty);
-  background-color: var(--white);
+
   button {
     width: 100%;
   }
