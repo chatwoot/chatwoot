@@ -62,11 +62,6 @@ class Conversation < ApplicationRecord
 
   scope :latest, -> { order(last_activity_at: :desc) }
   scope :sort_on_created_at, -> { order(created_at: :asc) }
-  scope :last_user_message_at_scope, lambda {
-                                       sort_by do |conversation|
-                                         conversation.last_incoming_message.try(:created_at) || (DateTime.now + 50.years)
-                                       end
-                                     }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
