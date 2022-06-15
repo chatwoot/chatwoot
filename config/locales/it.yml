@@ -32,6 +32,13 @@ it:
     contacts:
       import:
         failed: Il file è vuoto
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
   reports:
     period: Periodo di segnalazione da %{since} a %{until}
     agent_csv:
