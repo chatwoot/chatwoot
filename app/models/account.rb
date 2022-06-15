@@ -20,7 +20,6 @@ class Account < ApplicationRecord
   include FlagShihTzu
   include Reportable
   include Featurable
-  prepend_mod_with('Account')
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
@@ -39,27 +38,31 @@ class Account < ApplicationRecord
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :agent_bots, dependent: :destroy_async
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
+  has_many :articles, dependent: :destroy_async, class_name: '::Article'
+  has_many :automation_rules, dependent: :destroy
   has_many :campaigns, dependent: :destroy_async
   has_many :canned_responses, dependent: :destroy_async
+  has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async
+  has_many :dashboard_apps, dependent: :destroy
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
-  has_many :articles, dependent: :destroy_async, class_name: '::Article'
-  has_many :categories, dependent: :destroy_async, class_name: '::Category'
-  has_many :portals, dependent: :destroy_async, class_name: '::Portal'
   has_many :labels, dependent: :destroy_async
   has_many :line_channels, dependent: :destroy_async, class_name: '::Channel::Line'
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   has_many :notification_settings, dependent: :destroy_async
+  has_many :notifications, dependent: :destroy
+  has_many :portals, dependent: :destroy_async, class_name: '::Portal'
+  has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :teams, dependent: :destroy_async
   has_many :telegram_bots, dependent: :destroy_async
   has_many :telegram_channels, dependent: :destroy_async, class_name: '::Channel::Telegram'
@@ -69,10 +72,7 @@ class Account < ApplicationRecord
   has_many :web_widgets, dependent: :destroy_async, class_name: '::Channel::WebWidget'
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
-  has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :working_hours, dependent: :destroy_async
-  has_many :automation_rules, dependent: :destroy
-  has_many :notifications, dependent: :destroy
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
@@ -145,3 +145,5 @@ class Account < ApplicationRecord
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
   end
 end
+
+Account.prepend_mod_with('Account')

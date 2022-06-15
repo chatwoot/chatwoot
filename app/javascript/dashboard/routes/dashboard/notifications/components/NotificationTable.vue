@@ -6,8 +6,7 @@
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
       @click="onMarkAllDoneClick"
-    >
-    </woot-submit-button>
+    />
 
     <table class="woot-table notifications-table">
       <tbody v-show="!isLoading">

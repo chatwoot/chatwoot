@@ -386,7 +386,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Отчёты CSAT",
     "NO_RECORDS": "Нет ответов на опрос CSAT.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD": "Скачать отчёты CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Выберите Операторов"

@@ -259,6 +259,126 @@ describe AutomationRuleListener do
         expect(conversation.messages.first.content).to eq('Send this message.')
       end
     end
+
+    context 'when conditions based on attribute_changed' do
+      before do
+        automation_rule.update!(
+          event_name: 'conversation_updated',
+          name: 'Call actions conversation updated when company changed from DC to Marvel',
+          description: 'Add labels, assign team after conversation updated',
+          conditions: [
+            {
+              attribute_key: 'company',
+              filter_operator: 'attribute_changed',
+              values: { from: ['DC'], to: ['Marvel'] },
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'status',
+              filter_operator: 'equal_to',
+              values: ['snoozed'],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+        conversation.update(status: :snoozed)
+      end
+
+      let!(:event) do
+        Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, changed_attributes: {
+                           company: %w[DC Marvel]
+                         } })
+      end
+
+      context 'when rule matches' do
+        it 'triggers automation rule to assign team' do
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).to eq(team.id)
+        end
+
+        it 'triggers automation rule to assign team with OR operator' do
+          conversation.update(status: :open)
+          automation_rule.update!(
+            conditions: [
+              {
+                attribute_key: 'company',
+                filter_operator: 'attribute_changed',
+                values: { from: ['DC'], to: ['Marvel'] },
+                query_operator: 'OR'
+              }.with_indifferent_access,
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['snoozed'],
+                query_operator: nil
+              }.with_indifferent_access
+            ]
+          )
+
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).to eq(team.id)
+        end
+      end
+
+      context 'when rule doesnt match' do
+        it 'when automation rule is triggered it will not assign team' do
+          conversation.update(status: :open)
+
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).not_to eq(team.id)
+        end
+
+        it 'when automation rule is triggers, it will not assign team on attribute_changed values' do
+          conversation.update(status: :snoozed)
+          event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation,
+                                                                            changed_attributes: { company: %w[Marvel DC] } })
+
+          expect(conversation.team_id).not_to eq(team.id)
+
+          listener.conversation_updated(event)
+
+          conversation.reload
+          expect(conversation.team_id).not_to eq(team.id)
+        end
+      end
+    end
+  end
+
+  describe '#message_created event based on case in-sensitive filter' do
+    before do
+      automation_rule.update!(
+        event_name: 'message_created',
+        name: 'Call actions message created based on case in-sensitive filter',
+        description: 'Add labels, assign team after message created',
+        conditions: [{ 'values': ['KYC'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }]
+      )
+    end
+
+    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'kyc message') }
+    let!(:event) do
+      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
+    end
+
+    it 'triggers automation rule based on case in-sensitive filter' do
+      expect(conversation.labels).to eq([])
+      expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+      listener.message_created(event)
+      conversation.reload
+
+      expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
+    end
   end
 
   describe '#message_created' do

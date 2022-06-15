@@ -12,33 +12,11 @@
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
     "FILTER_ALL": "Hepsi",
-    "STATUS_TABS": [
-      {
-        "NAME": "Açık",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Çözüldü",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Benim",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Atanmamış",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Hepsi",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Benim",
+      "unassigned": "Atanmamış",
+      "all": "Hepsi"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Açık"

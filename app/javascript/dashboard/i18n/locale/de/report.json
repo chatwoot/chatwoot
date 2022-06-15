@@ -421,7 +421,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Offene Konversationen",
       "LOADING_MESSAGE": "Konversationsdaten werden geladen...",
-      "OPEN": "Offen",
+      "OPEN": "Öffnen",
       "UNATTENDED": "Unbeaufsichtigt",
       "UNASSIGNED": "Nicht zugewiesen"
     },
