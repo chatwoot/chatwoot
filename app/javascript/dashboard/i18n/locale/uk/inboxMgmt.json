@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Увімкнути вітання каналу",
-          "HELP_TEXT": "Відправляйте вітальне повідомлення користувачам, коли вони розпочинають розмову.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Увімкнено",
           "DISABLED": "Вимкнено"
         },
