@@ -6,10 +6,11 @@
       :type="type"
       :placeholder="placeholder"
       :readonly="readonly"
+      :style="styles"
       @input="onChange"
       @blur="onBlur"
     />
-    <p v-if="helpText" class="help-text"></p>
+    <p v-if="helpText" class="help-text" />
     <span v-if="error" class="message">
       {{ error }}
     </span>
@@ -46,6 +47,10 @@ export default {
     readonly: {
       type: Boolean,
       deafaut: false,
+    },
+    styles: {
+      type: Object,
+      default: () => {},
     },
   },
   methods: {

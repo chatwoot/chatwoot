@@ -6,7 +6,7 @@ module Channelable
     has_one :inbox, as: :channel, dependent: :destroy_async
   end
 
-  def has_24_hour_messaging_window?
+  def messaging_window_enabled?
     false
   end
 end

@@ -12,8 +12,11 @@ class ChatwootExceptionTracker
   end
 
   def capture_exception
-    capture_exception_with_sentry if ENV['SENTRY_DSN'].present?
-    # Implement other providers like honeybadger, rollbar etc in future
+    if ENV['SENTRY_DSN'].present?
+      capture_exception_with_sentry
+    else
+      Rails.logger.error @exception
+    end
   end
 
   private

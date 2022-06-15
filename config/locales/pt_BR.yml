@@ -39,12 +39,33 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
+    inbox_csv:
+      inbox_name: Nome da Caixa de Entrada
+      inbox_type: Tipo da Caixa de Entrada
+      conversations_count: Nº de Conversas
+      avg_first_response_time: Média de tempo da primeira resposta (minutos)
+      avg_resolution_time: Tempo médio de resolução (minutos)
+    label_csv:
+      label_title: Nome do campo
+      conversations_count: Nº de Conversas
+      avg_first_response_time: Tempo médio de primeira resposta (minutos)
+      avg_resolution_time: Tempo médio de resolução (minutos)
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
     default_group_by: dia
+    csat:
+      headers:
+        contact_name: Nome do contato
+        contact_email_address: E-mail de contato
+        contact_phone_number: Telefone de contato
+        link_to_the_conversation: Link para a conversa
+        agent_name: Nome do Agente
+        rating: Classificação
+        feedback: Comentário de Feedback
+        recorded_at: Data de gravação
   notifications:
     notification_title:
       conversation_creation: "[Nova conversa] - #%{display_id} foi criado em %{inbox_name}"

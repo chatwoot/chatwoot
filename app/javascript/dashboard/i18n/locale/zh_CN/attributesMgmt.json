@@ -3,7 +3,7 @@
     "HEADER": "自定义属性",
     "HEADER_BTN_TXT": "添加自定义属性",
     "LOADING": "正在获取自定义属性",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "SIDEBAR_TXT": "<p><b>自定义属性</b> <p>自定义属性跟踪您的联系人/对话 — 就像订阅计划 或者当他们订购第一个物品等时。 <br /><br />要创建自定义属性，只需点击<b>添加自定义属性。</b> 您也可以通过点击编辑或删除按钮编辑或删除现有的自定义属性。</p>",
     "ADD": {
       "TITLE": "添加自定义属性",
       "SUBMIT": "创建",
@@ -16,67 +16,67 @@
         },
         "DESC": {
           "LABEL": "描述信息",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "输入自定义属性描述",
+          "ERROR": "描述是必需的"
         },
         "MODEL": {
           "LABEL": "应用到",
           "PLACEHOLDER": "请选择一个",
-          "ERROR": "Model is required"
+          "ERROR": "模型是必需的"
         },
         "TYPE": {
           "LABEL": "类型",
           "PLACEHOLDER": "请选择一个类型",
-          "ERROR": "Type is required",
+          "ERROR": "类型是必需的",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "列表值",
+            "PLACEHOLDER": "请输入值并按回车键",
+            "ERROR": "必须至少有一个值"
           }
         },
         "KEY": {
           "LABEL": "键",
-          "PLACEHOLDER": "Enter custom attribute key",
+          "PLACEHOLDER": "输入自定义属性键",
           "ERROR": "键是必需的",
           "IN_VALID": "无效键"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "自定义属性添加成功",
+        "ERROR_MESSAGE": "无法创建自定义属性，请稍后再试"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "自定义属性删除成功",
+        "ERROR_MESSAGE": "无法删除自定义属性。请重试。"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "您确定要删除 - %{attributeName}",
+        "PLACE_HOLDER": "请输入 {attributeName} 以确认",
+        "MESSAGE": "删除将删除自定义属性",
         "YES": "删除 ",
         "NO": "取消"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "编辑自定义属性",
       "UPDATE_BUTTON_TEXT": "更新",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "列表值",
+          "PLACEHOLDER": "请输入值并按输入键"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "自定义属性更新成功",
+        "ERROR_MESSAGE": "更新自定义属性时出错，请重试"
       }
     },
     "TABS": {
       "HEADER": "自定义属性",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "会话",
       "CONTACT": "联系人"
     },
     "LIST": {
@@ -91,8 +91,8 @@
         "DELETE": "删除"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "没有创建自定义属性",
+        "NOT_FOUND": "没有配置自定义属性"
       }
     }
   }
