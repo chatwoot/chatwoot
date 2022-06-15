@@ -17,6 +17,13 @@
       "SNOOZE_UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort zurückstellen",
       "UPDATE_SUCCESFUL": "Der Konversationsstatus wurde erfolgreich aktualisiert.",
       "UPDATE_FAILED": "Konversationen konnten nicht aktualisiert werden. Bitte versuchen Sie es erneut"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Labels zuweisen",
+      "NO_LABELS_FOUND": "Keine Labels gefunden für",
+      "ASSIGN_SELECTED_LABELS": "Ausgewählte Labels zuweisen",
+      "ASSIGN_SUCCESFUL": "Labels erfolgreich zugewiesen",
+      "ASSIGN_FAILED": "Label konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut"
     }
   }
 }
