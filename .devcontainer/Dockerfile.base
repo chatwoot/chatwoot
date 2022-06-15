@@ -28,7 +28,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     git \
     imagemagick \
     tmux \
-    zsh
+    zsh \
+    git-flow
 
 
 # Install overmind
