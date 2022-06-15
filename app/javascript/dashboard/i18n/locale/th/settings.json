@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "ลายเซ็นส่วนตัว",
-        "NOTE": "สร้างลายเซ็นส่วนตัวที่จะเพิ่มในส่วนท้ายของข้อความที่คุณส่ง คุณสามารถใช้เครื่องมือแก้ไขริชคอนเทนท์เพื่อปรับแต่งลายเซ็นของคุณให้มีเอกลักษณ์ยิ่งขึ้น",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "บันทึกลายเซ็น",
         "API_ERROR": "ไม่สามารถบันทึกลายเซ็นได้ โปรดลองใหม่อีกครั้ง",
         "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว"
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "ทีม",
     "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "ภาพรวม"
+    "REPORTS_OVERVIEW": "ภาพรวม",
+    "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",

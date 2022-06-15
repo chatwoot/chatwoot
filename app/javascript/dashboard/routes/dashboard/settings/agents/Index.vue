@@ -66,8 +66,7 @@
                       icon="edit"
                       class-names="grey-btn"
                       @click="openEditPopup(agent)"
-                    >
-                    </woot-button>
+                    />
                     <woot-button
                       v-if="showDeleteAction(agent)"
                       v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
@@ -78,8 +77,7 @@
                       class-names="grey-btn"
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
-                    >
-                    </woot-button>
+                    />
                   </div>
                 </td>
               </tr>

@@ -33,8 +33,7 @@
                       color-scheme="secondary"
                       class-names="grey-btn"
                       icon="settings"
-                    >
-                    </woot-button>
+                    />
                   </router-link>
                   <woot-button
                     v-if="isAdmin"
@@ -46,8 +45,7 @@
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"
-                  >
-                  </woot-button>
+                  />
                 </div>
               </td>
             </tr>

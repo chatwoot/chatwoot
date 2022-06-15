@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
-        "NOTE": "Створити особистий підпис повідомлення, який буде додано до всіх надісланих вами повідомлень на платформі. Використовуйте редактор контенту для створення персоналізованого підпису.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Зберегти підпис повідомлення",
         "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
         "API_SUCCESS": "Підпис успішно збережено"
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
     "BETA": "Бета-версія",
-    "REPORTS_OVERVIEW": "Огляд"
+    "REPORTS_OVERVIEW": "Огляд",
+    "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",

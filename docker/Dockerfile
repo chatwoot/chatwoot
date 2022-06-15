@@ -15,8 +15,7 @@ ENV RAILS_ENV ${RAILS_ENV}
 
 ENV BUNDLE_PATH="/gems"
 
-RUN apk update \
-  && apk add \
+RUN apk add --no-cache \
     openssl \
     tar \
     build-base \
@@ -85,7 +84,7 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
-RUN apk add --update --no-cache \
+RUN apk add --no-cache \
     openssl \
     tzdata \
     postgresql-client \
@@ -94,7 +93,7 @@ RUN apk add --update --no-cache \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add nodejs yarn; \
+  apk add --no-cache nodejs yarn; \
   fi
 
 COPY --from=pre-builder /gems/ /gems/

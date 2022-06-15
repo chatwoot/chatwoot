@@ -64,8 +64,7 @@
             icon="chevron-left"
             :disabled="inFirstPage"
             @click="onClickPreviousPage"
-          >
-          </woot-button>
+          />
         </div>
         <span class="page-count"> {{ currentPage }} - {{ lastPage }} </span>
         <div class="flex-view">
@@ -76,8 +75,7 @@
             icon="chevron-right"
             :disabled="inLastPage"
             @click="onClickNextPage"
-          >
-          </woot-button>
+          />
           <woot-button
             size="medium"
             variant="clear"
@@ -95,7 +93,7 @@
           </woot-button>
         </div>
       </div>
-      <div v-else></div>
+      <div v-else />
     </div>
   </div>
 </template>

@@ -14,7 +14,7 @@
       </div>
       <div class="agent-message-wrap">
         <div class="agent-message">
-          <div class="avatar-wrap"></div>
+          <div class="avatar-wrap" />
           <div class="message-wrap">
             <div class="chat-bubble agent">
               <div class="message-content">

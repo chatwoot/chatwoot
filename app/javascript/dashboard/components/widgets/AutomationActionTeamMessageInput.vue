@@ -20,7 +20,7 @@
         rows="4"
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         @input="updateValue"
-      ></textarea>
+      />
     </div>
   </div>
 </template>

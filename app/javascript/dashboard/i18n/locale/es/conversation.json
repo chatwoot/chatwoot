@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecciona una conversación del panel izquierdo",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mensajes",
     "UNVERIFIED_SESSION": "La identidad de este usuario no está verificada",
     "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
     "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
+    "UNKNOWN_FILE_TYPE": "Archivo desconocido",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
