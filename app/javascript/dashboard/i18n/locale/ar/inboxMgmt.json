@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "تفعيل رسالة الترحيب التلقائية",
-          "HELP_TEXT": "إرسال رسالة ترحيب إلى المستخدم عند بدء المحادثة.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "مفعل",
           "DISABLED": "معطّل"
         },
