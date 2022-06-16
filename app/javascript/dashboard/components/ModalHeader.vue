@@ -7,7 +7,7 @@
     <p v-if="headerContent" class="small-12 column">
       {{ headerContent }}
     </p>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

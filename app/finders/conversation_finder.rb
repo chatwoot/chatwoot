@@ -51,6 +51,7 @@ class ConversationFinder
     filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
+    filter_by_reply_status
   end
 
   def set_inboxes
@@ -88,6 +89,10 @@ class ConversationFinder
       @conversations = @conversations.assigned
     end
     @conversations
+  end
+
+  def filter_by_reply_status
+    @conversations = @conversations.where(first_reply_created_at: nil) if params[:reply_status] == 'unattended'
   end
 
   def filter_by_query

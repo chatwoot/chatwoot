@@ -1,0 +1,17 @@
+{
+    "BULK_ACTION": {
+        "CONVERSATIONS_SELECTED": "%{conversationCount} бесед выбрано",
+        "AGENT_SELECT_LABEL": "Выбрать Агента",
+        "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить %{conversationCount} %{conversationLabel}",
+        "GO_BACK_LABEL": "Вернуться",
+        "ASSIGN_LABEL": "Назначить",
+        "ASSIGN_AGENT_TOOLTIP": "Назначенный оператор",
+        "RESOLVE_TOOLTIP": "Завершить",
+        "ASSIGN_SUCCESFUL": "Беседы успешно назначены",
+        "ASSIGN_FAILED": "Не удалось назначить беседы, попробуйте еще раз",
+        "RESOLVE_SUCCESFUL": "Беседы успешно завершены",
+        "RESOLVE_FAILED": "Не удалось завершить беседы, попробуйте еще раз",
+        "ALL_CONVERSATIONS_SELECTED_ALERT": "Беседы, видимые на этой странице, выбраны.",
+        "AGENT_LIST_LOADING": "Загрузка Операторов"
+    }
+}

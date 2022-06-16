@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Fulde Navn",
         "PLACEHOLDER": "Indtast venligst dit fulde navn",
-        "ERROR": "Det fulde navn er påkrævet"
+        "REQUIRED_ERROR": "Det fulde navn er påkrævet"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail Adresse",
         "PLACEHOLDER": "Indtast venligst din e-mail adresse",
-        "ERROR": "Ugyldig e-mailadresse"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Indtast venligst en gyldig e-mailadresse"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Besked",
@@ -57,7 +64,8 @@
         "ERROR": "Beskeden er for kort"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {

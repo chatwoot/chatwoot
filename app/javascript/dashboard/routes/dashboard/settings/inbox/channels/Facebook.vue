@@ -163,7 +163,7 @@ export default {
           FB.init({
             appId: window.chatwootConfig.fbAppId,
             xfbml: true,
-            version: 'v12.0',
+            version: window.chatwootConfig.fbApiVersion,
             status: true,
           });
           window.fbSDKLoaded = true;

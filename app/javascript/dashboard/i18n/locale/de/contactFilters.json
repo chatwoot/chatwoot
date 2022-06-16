@@ -6,7 +6,7 @@
         "CLEAR_ALL_FILTERS": "Alle Filter löschen",
         "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
         "SUBMIT_BUTTON_LABEL": "Einreichen",
-        "CANCEL_BUTTON_LABEL": "Stornieren",
+        "CANCEL_BUTTON_LABEL": "Abbrechen",
         "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
         "EMPTY_VALUE_ERROR": "Wert ist erforderlich",
         "TOOLTIP_LABEL": "Kontakte filtern",

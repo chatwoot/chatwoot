@@ -1,0 +1,20 @@
+tags:
+  - Automation Rule
+operationId: add-new-automation-rule-to-account
+summary: Add a new automation rule
+description: Add a new automation rule to account
+security:
+  - userApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/automation_rule_create_update_payload'
+responses:
+  '200':
+    description: Success
+    schema:
+      $ref: '#/definitions/automation_rule'
+  '403':
+    description: Access denied

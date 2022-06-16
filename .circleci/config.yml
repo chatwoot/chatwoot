@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     # specify the version you desire here
-    - image: cimg/ruby:3.0.2-browsers
+    - image: cimg/ruby:3.0.4-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -40,14 +40,13 @@ jobs:
 
       - restore_cache:
           keys:
-            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-{{ checksum "Gemfile.lock" }}
-            - chatwoot-bundle
+            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install --frozen --path ~/.bundle
       - save_cache:
           paths:
             - ~/.bundle
-          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-{{ checksum "Gemfile.lock" }}
+          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
 
       # Only necessary if app uses webpacker or yarn in some other way

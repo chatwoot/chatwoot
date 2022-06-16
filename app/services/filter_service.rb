@@ -58,14 +58,14 @@ class FilterService
   end
 
   def string_filter_values(query_hash)
-    return query_hash['values'][0] if query_hash['values'].is_a?(Array)
+    return query_hash['values'][0].downcase if query_hash['values'].is_a?(Array)
 
-    query_hash['values']
+    query_hash['values'].downcase
   end
 
   def lt_gt_filter_values(query_hash)
     attribute_key = query_hash[:attribute_key]
-    attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
+    attribute_type = custom_attribute(attribute_key, @account, query_hash['custom_attribute_type']).try(:attribute_display_type)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
     value = query_hash['values'][0]
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
@@ -87,27 +87,29 @@ class FilterService
     ]
   end
 
-  def custom_attribute_query(query_hash, table_name, current_index)
+  def custom_attribute_query(query_hash, custom_attribute_type, current_index)
     attribute_key = query_hash[:attribute_key]
     query_operator = query_hash[:query_operator]
+    attribute_model = custom_attribute_type || self.class::ATTRIBUTE_MODEL
 
-    attribute_type = custom_attribute(attribute_key, @account).try(:attribute_display_type)
+    attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
     filter_operator_value = filter_operation(query_hash, current_index)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
 
-    if custom_attribute(attribute_key, @account)
-      "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-    else
-      ' '
-    end
+    return ' ' if @custom_attribute.blank?
+
+    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
+
+    "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
   end
 
   private
 
-  def custom_attribute(attribute_key, account = nil)
+  def custom_attribute(attribute_key, account, custom_attribute_type)
     current_account = account || Current.account
+    attribute_model = custom_attribute_type || self.class::ATTRIBUTE_MODEL
     @custom_attribute = current_account.custom_attribute_definitions.where(
-      attribute_model: self.class::ATTRIBUTE_MODEL
+      attribute_model: attribute_model
     ).find_by(attribute_key: attribute_key)
   end
 
