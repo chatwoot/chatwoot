@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Afegeix una resposta predeterminada",
     "LOADING": "S'estan recollint les respostes predeterminades",
     "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta",
-    "SIDEBAR_TXT": "<p><b>Respostes predeterminades</b> </p><p> Les respostes predeterminades són plantilles de resposta que es poden utilitzar per enviar ràpidament una resposta a una conversa .</p><p> Per crear una Resposta Predeterminada, clica en <b>Afegir Resposta Predeterminada</b>. També pots editar o suprimir una resposta predeterminada fent clic al botó Edita o Suprimeix </p><p> Les respostes predeterminades s'utilitzen amb l'ajuda dels <b>Codi curt</b>. Els agents poden accedir a les respostes predeterminades en un xat escrivint <b>'/'</b> seguit del codi curt. </p>",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
       "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
       "TITLE": "Gestiona les respostes predeterminades",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Afegeix Resposta Predeterminada",
-      "DESC": "Les respostes predeterminades són plantilles de resposta que es poden utilitzar per enviar ràpidament les respostes a les converses.",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Codi curt",
-          "PLACEHOLDER": "Introduïu un codi curt",
+          "PLACEHOLDER": "Please enter a short code",
           "ERROR": "És necessari el codi curt"
         },
         "CONTENT": {

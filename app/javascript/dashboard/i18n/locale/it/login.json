@@ -2,12 +2,12 @@
   "LOGIN": {
     "TITLE": "Accedi a Chatwoot",
     "EMAIL": {
-      "LABEL": "email",
-      "PLACEHOLDER": "E-mail es.: qualcuno@esempio.com"
+      "LABEL": "Email",
+      "PLACEHOLDER": "Email es.: qualcuno@esempio.com"
     },
     "PASSWORD": {
-      "LABEL": "password",
-      "PLACEHOLDER": "password"
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password"
     },
     "API": {
       "SUCCESS_MESSAGE": "Accesso riuscito",

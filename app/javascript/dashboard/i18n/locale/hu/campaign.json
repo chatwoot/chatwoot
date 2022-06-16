@@ -54,6 +54,7 @@
           "ERROR": "Time on page is required"
         },
         "ENABLED": "Enable campaign",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
         "SUBMIT": "Add Campaign"
       },
       "API": {
@@ -88,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "Üzenet",
-        "INBOX": "Inbox",
+        "INBOX": "Fiók",
         "STATUS": "Státusz",
         "SENDER": "Sender",
         "URL": "URL",
@@ -97,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Hozzáadás",
         "EDIT": "Szerkesztés",
         "DELETE": "Törlés"
       },

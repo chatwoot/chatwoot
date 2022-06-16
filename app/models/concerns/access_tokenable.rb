@@ -1,7 +1,7 @@
 module AccessTokenable
   extend ActiveSupport::Concern
   included do
-    has_one :access_token, as: :owner, dependent: :destroy
+    has_one :access_token, as: :owner, dependent: :destroy_async
     after_create :create_access_token
   end
 

@@ -7,84 +7,59 @@
       "404": "Bu grupta aktif görüşme yok."
     },
     "TAB_HEADING": "Konuşmalar",
+    "MENTION_HEADING": "Bahsedilmeler",
     "SEARCH": {
       "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Açık",
-        "KEY": "openCount"
+    "FILTER_ALL": "Hepsi",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Benim",
+      "unassigned": "Atanmamış",
+      "all": "Hepsi"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Açık"
       },
-      {
-        "NAME": "Çözüldü",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Çözüldü"
+      },
+      "pending": {
+        "TEXT": "Bekliyor"
+      },
+      "snoozed": {
+        "TEXT": "Susturuldu"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Benim",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Atanmamış",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Hepsi",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Açık",
-        "VALUE": "open"
-      },
-      {
-        "TEXT": "Çözüldü",
-        "VALUE": "resolved"
-      },
-      {
-        "TEXT": "Bekliyor",
-        "VALUE": "pending"
-      },
-      {
-        "TEXT": "Susturuldu",
-        "VALUE": "snoozed"
-      }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Görsel mesaj"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Sesli mesaj"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video mesajı"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Dosya eklentisi"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Yer"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "bir url paylaştı"
       }
     },
     "RECEIVED_VIA_EMAIL": "E-posta ile alındı",
     "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin",
     "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
+    "LINK_TO_STORY": "Instagram hikayesine git",
+    "SENT": "Başarıyla gönderildi",
     "NO_MESSAGES": "Mesaj yok",
-    "NO_CONTENT": "İçerik yok"
+    "NO_CONTENT": "Kullanılabilir içerik yok",
+    "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
+    "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
+    "MESSAGE_READ": "Read"
   }
 }

@@ -13,7 +13,8 @@
 #
 # Indexes
 #
-#  index_channel_twilio_sms_on_account_id_and_phone_number  (account_id,phone_number) UNIQUE
+#  index_channel_twilio_sms_on_account_sid_and_phone_number  (account_sid,phone_number) UNIQUE
+#  index_channel_twilio_sms_on_phone_number                  (phone_number) UNIQUE
 #
 
 class Channel::TwilioSms < ApplicationRecord
@@ -23,7 +24,9 @@ class Channel::TwilioSms < ApplicationRecord
 
   validates :account_sid, presence: true
   validates :auth_token, presence: true
-  validates :phone_number, uniqueness: { scope: :account_id }, presence: true
+  # NOTE: allowing nil for future when we suppor twilio messaging services
+  # https://github.com/chatwoot/chatwoot/pull/4242
+  validates :phone_number, uniqueness: true, allow_nil: true
 
   enum medium: { sms: 0, whatsapp: 1 }
 
@@ -31,7 +34,7 @@ class Channel::TwilioSms < ApplicationRecord
     medium == 'sms' ? 'Twilio SMS' : 'Whatsapp'
   end
 
-  def has_24_hour_messaging_window?
+  def messaging_window_enabled?
     medium == 'whatsapp'
   end
 end

@@ -14,7 +14,7 @@
       <h3>
         {{ item.title }}
         <span v-if="isOver(item)" class="completed">
-          <i class="ion-checkmark"></i>
+          <fluent-icon icon="checkmark" />
         </span>
       </h3>
       <span class="step">

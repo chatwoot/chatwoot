@@ -1,0 +1,93 @@
+{
+  "FILTER": {
+    "TITLE": "过滤会话",
+    "SUBTITLE": "在下方添加过滤器并点击“应用过滤器”到过滤对话。",
+    "ADD_NEW_FILTER": "添加过滤器",
+    "FILTER_DELETE_ERROR": "您至少需要一个过滤器来保存",
+    "SUBMIT_BUTTON_LABEL": "应用过滤器",
+    "CANCEL_BUTTON_LABEL": "取消",
+    "CLEAR_BUTTON_LABEL": "清除过滤器",
+    "EMPTY_VALUE_ERROR": "必须填写值",
+    "TOOLTIP_LABEL": "过滤会话",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "和",
+      "OR": "或"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "等于",
+      "not_equal_to": "不等于",
+      "contains": "包含",
+      "does_not_contain": "不包含",
+      "is_present": "存在",
+      "is_not_present": "不存在",
+      "is_greater_than": "大于",
+      "is_less_than": "小于：",
+      "days_before": "是 x 天前"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "真的",
+      "FALSE": "错误"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "状态",
+      "ASSIGNEE_NAME": "指派人姓名",
+      "INBOX_NAME": "收件箱名称",
+      "TEAM_NAME": "团队名称",
+      "CONVERSATION_IDENTIFIER": "会话标识符",
+      "CAMPAIGN_NAME": "活动名称",
+      "LABELS": "标签",
+      "BROWSER_LANGUAGE": "浏览器语言",
+      "COUNTRY_NAME": "国家",
+      "REFERER_LINK": "引用链接",
+      "CUSTOM_ATTRIBUTE_LIST": "列表",
+      "CUSTOM_ATTRIBUTE_TEXT": "文本",
+      "CUSTOM_ATTRIBUTE_NUMBER": "号码",
+      "CUSTOM_ATTRIBUTE_LINK": "链接",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
+      "CREATED_AT": "创建于",
+      "LAST_ACTIVITY": "上次活动"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "标准过滤器",
+      "ADDITIONAL_FILTERS": "附加过滤器",
+      "CUSTOM_ATTRIBUTES": "自定义属性"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "您想要保存此过滤器吗？",
+        "LABEL": "给此过滤器命名",
+        "PLACEHOLDER": "输入此过滤器的名称",
+        "ERROR_MESSAGE": "名字必填",
+        "SAVE_BUTTON": "保存过滤器",
+        "CANCEL_BUTTON": "取消",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "文件夹创建成功",
+          "ERROR_MESSAGE": "文件夹创建失败"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "片段创建成功",
+          "ERROR_MESSAGE": "创建片段时出错"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "删除过滤器",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "确认删除",
+            "MESSAGE": "您确定要删除过滤器吗？ ",
+            "YES": "是，删除",
+            "NO": "否，保留它"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "文件夹删除成功",
+          "ERROR_MESSAGE": "删除文件夹时出错"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "片段删除成功",
+          "ERROR_MESSAGE": "删除片段时出错"
+        }
+      }
+    }
+  }
+}

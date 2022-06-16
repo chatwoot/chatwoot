@@ -25,6 +25,7 @@ $default-button-height: 4.0rem;
   // @TODDO - Remove after moving all buttons to woot-button
   .icon+.button__content {
     padding-left: var(--space-small);
+    width: auto;
   }
 
   &.expanded {
@@ -61,7 +62,33 @@ $default-button-height: 4.0rem;
     }
 
     &.warning {
-      @include button-style(var(--y-100), var(--y-200), var(--y-900));
+      @include button-style(var(--y-100), var(--y-200), var(--y-700));
+    }
+  }
+
+  &.clear {
+    &.warning {
+      color: var(--y-600);
+    }
+
+    &.button--only-icon:hover {
+      background: var(--w-50);
+
+      &.secondary {
+        background: var(--s-50);
+      }
+
+      &.success {
+        background: var(--g-50);
+      }
+
+      &.alert {
+        background: var(--r-50);
+      }
+
+      &.warning {
+        background: var(--y-50);
+      }
     }
   }
 
@@ -102,7 +129,6 @@ $default-button-height: 4.0rem;
     margin: 0;
     padding: 0;
   }
-
 
 }
 

@@ -7,84 +7,59 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "TAB_HEADING": "Conversas",
+    "MENTION_HEADING": "Menções",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Abertas",
-        "KEY": "openCount"
+    "FILTER_ALL": "TODOS",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minerar",
+      "unassigned": "Não atribuído",
+      "all": "TODOS"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Abertas"
       },
-      {
-        "NAME": "Resolvido",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Resolvido"
+      },
+      "pending": {
+        "TEXT": "Pendente"
+      },
+      "snoozed": {
+        "TEXT": "Adiado"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minerar",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Não atribuído",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "TODOS",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Abertas",
-        "VALUE": "open"
-      },
-      {
-        "TEXT": "Resolvido",
-        "VALUE": "resolved"
-      },
-      {
-        "TEXT": "Pendente",
-        "VALUE": "pending"
-      },
-      {
-        "TEXT": "Adiado",
-        "VALUE": "snoozed"
-      }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Mensagem de imagem"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Mensagem de áudio"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Mensagem de vídeo"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Arquivo anexo"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Local:"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "compartilhou uma url"
       }
     },
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver mensagem no Twitter",
     "REPLY_TO_TWEET": "Responder à mensagem",
+    "LINK_TO_STORY": "Ir para story do instagram",
+    "SENT": "Enviado com sucesso",
     "NO_MESSAGES": "Nenhuma mensagem",
-    "NO_CONTENT": "Sem conteúdo disponível"
+    "NO_CONTENT": "Sem conteúdo disponível",
+    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
+    "MESSAGE_READ": "Read"
   }
 }

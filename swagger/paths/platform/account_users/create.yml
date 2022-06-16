@@ -11,15 +11,16 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - user_id
+        - role
       properties: 
         user_id:
           type: integer
           description: The ID of the user
-          required: true
         role:
           type: string
           description: whether user is an administrator or agent
-          required: true
       
 responses:
   200:

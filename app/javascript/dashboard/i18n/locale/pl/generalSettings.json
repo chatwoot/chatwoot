@@ -13,6 +13,10 @@
         "TITLE": "Ustawienia ogólne",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "ID konta",
+        "NOTE": "This ID is required if you are building an API based integration"
+      },
       "NAME": {
         "LABEL": "Nazwa konta",
         "PLACEHOLDER": "Nazwa konta",
@@ -36,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Liczba dni, po upływie których, zgłoszenie powinno zostać automatycznie rozwiązane z powodu braku aktywności",
         "PLACEHOLDER": "30",
-        "ERROR": "Wprowadź prawidłowy czas automatycznego rozwiązywania (minimum 1 dzień)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Kontynuacja rozmów za pomocą wiadomości e-mail jest włączona dla Twojego konta.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz otrzymywać e-maile w swojej niestandardowej domenie."
       }
     },
-    "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję."
+    "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję.",
+    "LEARN_MORE": "Dowiedz się więcej"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -55,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Powiadomienia",
     "MARK_ALL_DONE": "Zaznacz wszystko jako zakończone",
+    "DELETE_TITLE": "usunięte",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "Zobacz wszystkie powiadomienia",
+      "LOADING_UNREAD_MESSAGE": "Ładowanie nieprzeczytanych powiadomień...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Wczytywanie powiadomień...",
       "404": "Brak powiadomień",
@@ -70,6 +82,59 @@
       "conversation_assignment": "Rozmowa przypisana",
       "assigned_conversation_new_message": "Nowa wiadomość",
       "conversation_mention": "Wzmianka"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Disconnected from Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Odśwież"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Szukaj lub przejdź do",
+    "SECTIONS": {
+      "GENERAL": "Ogólne",
+      "REPORTS": "Raporty",
+      "CONVERSATION": "Rozmowa",
+      "CHANGE_ASSIGNEE": "Zmień przypisaną osobę",
+      "CHANGE_TEAM": "Zmień zespół",
+      "ADD_LABEL": "Dodaj etykietę do rozmowy",
+      "REMOVE_LABEL": "Usuń etykietę z rozmowy",
+      "SETTINGS": "Ustawienia"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Przejdź do Panelu Rozmów",
+      "GO_TO_CONTACTS_DASHBOARD": "Przejdź do Panelu Kontaktów",
+      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
+      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
+      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
+      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
+      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
+      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
+      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "Przejdź do Ustawień Aplikacji",
+      "GO_TO_SETTINGS_ACCOUNT": "Przejdź do ustawień konta",
+      "GO_TO_SETTINGS_PROFILE": "Przejdź do ustawień profilu",
+      "GO_TO_NOTIFICATIONS": "Przejdź do Powiadomień",
+      "ADD_LABELS_TO_CONVERSATION": "Dodaj etykietę do rozmowy",
+      "ASSIGN_AN_AGENT": "Przypisz przedstawiciela",
+      "ASSIGN_A_TEAM": "Przypisz zespół",
+      "MUTE_CONVERSATION": "Wycisz rozmowę",
+      "UNMUTE_CONVERSATION": "Wyłącz wyciszenie rozmowy",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Usuń etykietę z rozmowy",
+      "REOPEN_CONVERSATION": "Otwórz ponownie rozmowę",
+      "RESOLVE_CONVERSATION": "Rozwiąż rozmowę",
+      "SEND_TRANSCRIPT": "Wyślij transkrypt rozmowy",
+      "SNOOZE_CONVERSATION": "Wycisz rozmowę",
+      "UNTIL_NEXT_REPLY": "Do następnej odpowiedzi",
+      "UNTIL_NEXT_WEEK": "Do następnego tygodnia",
+      "UNTIL_TOMORROW": "Do jutra"
     }
   }
 }

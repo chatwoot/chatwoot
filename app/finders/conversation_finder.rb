@@ -51,11 +51,12 @@ class ConversationFinder
     filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
+    filter_by_reply_status
   end
 
   def set_inboxes
     @inbox_ids = if params[:inbox_id]
-                   current_account.inboxes.where(id: params[:inbox_id])
+                   @current_user.assigned_inboxes.where(id: params[:inbox_id])
                  else
                    @current_user.assigned_inboxes.pluck(:id)
                  end
@@ -70,7 +71,12 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    if params[:conversation_type] == 'mention'
+      conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
+      @conversations = current_account.conversations.where(id: conversation_ids)
+    else
+      @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    end
   end
 
   def filter_by_assignee_type
@@ -83,6 +89,10 @@ class ConversationFinder
       @conversations = @conversations.assigned
     end
     @conversations
+  end
+
+  def filter_by_reply_status
+    @conversations = @conversations.where(first_reply_created_at: nil) if params[:reply_status] == 'unattended'
   end
 
   def filter_by_query
@@ -121,8 +131,12 @@ class ConversationFinder
 
   def conversations
     @conversations = @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
-    @conversations.latest.page(current_page)
+    if params[:conversation_type] == 'mention'
+      @conversations.page(current_page)
+    else
+      @conversations.latest.page(current_page)
+    end
   end
 end

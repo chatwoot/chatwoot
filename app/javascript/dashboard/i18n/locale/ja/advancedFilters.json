@@ -1,0 +1,93 @@
+{
+  "FILTER": {
+    "TITLE": "Filter Conversations",
+    "SUBTITLE": "会話のフィルターを行うには、適用したいフィルターを選択して「フィルターを適用」を押してください。",
+    "ADD_NEW_FILTER": "フィルターを追加",
+    "FILTER_DELETE_ERROR": "保存するには少なくとも一つのフィルター選択が必要です。",
+    "SUBMIT_BUTTON_LABEL": "フィルターを適用",
+    "CANCEL_BUTTON_LABEL": "キャンセル",
+    "CLEAR_BUTTON_LABEL": "フィルターをクリア",
+    "EMPTY_VALUE_ERROR": "値は必須です",
+    "TOOLTIP_LABEL": "会話をフィルターする",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "AND",
+      "OR": "OR"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "等しい",
+      "not_equal_to": "等しくない",
+      "contains": "含む",
+      "does_not_contain": "含まない",
+      "is_present": "存在する",
+      "is_not_present": "存在しない",
+      "is_greater_than": "より大きい",
+      "is_less_than": "より小さい",
+      "days_before": "x日前"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "状況",
+      "ASSIGNEE_NAME": "担当者名",
+      "INBOX_NAME": "受信トレイ名",
+      "TEAM_NAME": "チーム名",
+      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
+      "CAMPAIGN_NAME": "キャンペーンの名前",
+      "LABELS": "ラベル",
+      "BROWSER_LANGUAGE": "ブラウザの言語",
+      "COUNTRY_NAME": "国名",
+      "REFERER_LINK": "参照者のリンク",
+      "CUSTOM_ATTRIBUTE_LIST": "リスト",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "Last Activity"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "カスタム属性"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "ERROR_MESSAGE": "名前が必須です",
+        "SAVE_BUTTON": "フィルターの保存",
+        "CANCEL_BUTTON": "キャンセル",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "フォルダが正常に作成されました",
+          "ERROR_MESSAGE": "フォルダの作成中にエラーが発生しました"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "削除の確認",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "削除する",
+            "NO": "いいえ、保存しておきます"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
+        }
+      }
+    }
+  }
+}

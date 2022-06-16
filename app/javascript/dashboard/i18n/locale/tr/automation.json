@@ -1,0 +1,116 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Otomasyon",
+    "HEADER_BTN_TXT": "Otomasyon Kuralı Ekle",
+    "LOADING": "Otomasyon kuralları getiriliyor",
+    "SIDEBAR_TXT": "<p><b>Otomasyon Kuralları</b> <p>Otomasyonlar, manuel olarak yapacağınız işlemleri otomatik olarak yapmanıza yardımcı olur. Otomasyonlar ile, görüşmelere etiket ekleme ve en iyi temsilcinizi atama gibi bir çok işlemi yapabilirsiniz. Yani takımınız en iyi yapabildiği şeye odaklanır ve manuel işlemlere daha az zaman harcar.</p>",
+    "ADD": {
+      "TITLE": "Otomasyon Kuralı Ekle",
+      "SUBMIT": "Yarat",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Kural Adı",
+          "PLACEHOLDER": "Kural ismi yazınız",
+          "ERROR": "İsim gereklidir"
+        },
+        "DESC": {
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Kural açıklaması yazınız",
+          "ERROR": "Açıklama zorunludur"
+        },
+        "EVENT": {
+          "LABEL": "Olay",
+          "PLACEHOLDER": "Lütfen birini seçiniz",
+          "ERROR": "Olay seçilmelidir"
+        },
+        "CONDITIONS": {
+          "LABEL": "Koşullar"
+        },
+        "ACTIONS": {
+          "LABEL": "Hareketler"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Koşul Ekle",
+      "ACTION_BUTTON_LABEL": "Olay Ekle",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon kuralı başarıyla eklendi",
+        "ERROR_MESSAGE": "Otomasyon kuralı oluşturulamadı, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "İsim",
+        "Açıklama",
+        "Aktif",
+        "Oluşturma"
+      ],
+      "404": "Otomasyon kuralı bulunamadı"
+    },
+    "DELETE": {
+      "TITLE": "Otomasyon Kuralını Sil",
+      "SUBMIT": "Sil",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon kuralı başarıyla silindi",
+        "ERROR_MESSAGE": "Otomasyon kuralı silinemedi, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Otomasyon Kuralını Düzenle",
+      "SUBMIT": "Güncelleme",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon kuralı başarıyla güncellendi",
+        "ERROR_MESSAGE": "Otomasyon kuralı güncellenemedi, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Kopyala",
+      "API": {
+        "SUCCESS_MESSAGE": "Otomasyon başarıyla kopyalandı",
+        "ERROR_MESSAGE": "Otomasyon kuralı kopyalanamadı, lütfen daha sonra tekrar deneyin"
+      }
+    },
+    "FORM": {
+      "EDIT": "Düzenle",
+      "CREATE": "Yarat",
+      "DELETE": "Sil",
+      "CANCEL": "İptal Et",
+      "RESET_MESSAGE": "Olay seçimini değiştirmek tüm koşulları ve aşağıda eklenmiş etkinlikleri değiştirecektir"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Kaydetmek için en az bir koşul eklemelisiniz"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Mesajınızı buraya yazınız",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Takımları seçin"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Otomasyon Kuralını Etkinleştir",
+      "DEACTIVATION_TITLE": "Otomasyon Kuralını Pasifleştir",
+      "ACTIVATION_DESCRIPTION": "'{automationName}' isimli otomasyon kuralı etkinleştirilecek. Devam etmek istiyor musunuz?",
+      "DEACTIVATION_DESCRIPTION": "'{automationName}' isimli otomasyon kuralı pasifleştirilecek. Devam etmek istiyor musunuz?",
+      "ACTIVATION_SUCCESFUL": "Otomasyon Kuralı Başarıyla Etkinleştirildi",
+      "DEACTIVATION_SUCCESFUL": "Otomasyon Kuralı Başarıyla Pasifleştirildi",
+      "ACTIVATION_ERROR": "Otomasyon Kuralı Aktifleştirilemedi, Lütfen daha sonra tekrar deneyin",
+      "DEACTIVATION_ERROR": "Otomasyon Kuralı Pasifleştirilemedi, Lütfen daha sonra tekrar deneyin",
+      "CONFIRMATION_LABEL": "Evet",
+      "CANCEL_LABEL": "Hayır"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Ek yüklenemedi, Tekrar deneyin",
+      "LABEL_IDLE": "Dosya Yükle",
+      "LABEL_UPLOADING": "Yükleniyor ...",
+      "LABEL_UPLOADED": "Başarıyla Yüklendi",
+      "LABEL_UPLOAD_FAILED": "Yükleme Başarısız"
+    }
+  }
+}

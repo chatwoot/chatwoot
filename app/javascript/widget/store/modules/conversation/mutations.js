@@ -72,6 +72,16 @@ export const mutations = {
     };
   },
 
+  updateMessageMeta($state, { id, meta }) {
+    const message = $state.conversations[id];
+    if (!message) return;
+
+    const newMeta = message.meta ? { ...message.meta, ...meta } : { ...meta };
+    Vue.set(message, 'meta', {
+      ...newMeta,
+    });
+  },
+
   deleteMessage($state, id) {
     const messagesInbox = $state.conversations;
     Vue.delete(messagesInbox, id);

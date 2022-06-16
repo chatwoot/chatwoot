@@ -1,64 +1,41 @@
 <template>
-  <div class="status">
-    <div class="status-view">
-      <availability-status-badge :status="currentUserAvailabilityStatus" />
-      <div class="status-view--title">
-        {{ availabilityDisplayLabel }}
-      </div>
-    </div>
-
-    <div class="status-change">
-      <transition name="menu-slide">
-        <div
-          v-if="isStatusMenuOpened"
-          v-on-clickaway="closeStatusMenu"
-          class="dropdown-pane dropdowm--top"
-        >
-          <woot-dropdown-menu>
-            <woot-dropdown-item
-              v-for="status in availabilityStatuses"
-              :key="status.value"
-              class="status-items"
-            >
-              <woot-button
-                variant="clear"
-                size="small"
-                color-scheme="secondary"
-                class-names="status-change--dropdown-button"
-                :is-disabled="status.disabled"
-                @click="changeAvailabilityStatus(status.value)"
-              >
-                <availability-status-badge :status="status.value" />
-                {{ status.label }}
-              </woot-button>
-            </woot-dropdown-item>
-          </woot-dropdown-menu>
-        </div>
-      </transition>
-
+  <woot-dropdown-menu>
+    <woot-dropdown-header :title="$t('SIDEBAR.SET_AVAILABILITY_TITLE')" />
+    <woot-dropdown-item
+      v-for="status in availabilityStatuses"
+      :key="status.value"
+      class="status-items"
+    >
       <woot-button
-        variant="clear"
-        color-scheme="secondary"
-        class-names="status-change--change-button link"
-        @click="openStatusMenu"
+        size="small"
+        :color-scheme="status.disabled ? '' : 'secondary'"
+        :variant="status.disabled ? 'smooth' : 'clear'"
+        class-names="status-change--dropdown-button"
+        @click="changeAvailabilityStatus(status.value)"
       >
-        {{ $t('SIDEBAR_ITEMS.CHANGE_AVAILABILITY_STATUS') }}
+        <availability-status-badge :status="status.value" />
+        {{ status.label }}
       </woot-button>
-    </div>
-  </div>
+    </woot-dropdown-item>
+    <woot-dropdown-divider />
+  </woot-dropdown-menu>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
 
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
   components: {
+    WootDropdownHeader,
+    WootDropdownDivider,
     WootDropdownMenu,
     WootDropdownItem,
     AvailabilityStatusBadge,
@@ -75,18 +52,19 @@ export default {
 
   computed: {
     ...mapGetters({
-      currentUser: 'getCurrentUser',
+      getCurrentUserAvailability: 'getCurrentUserAvailability',
+      currentAccountId: 'getCurrentAccountId',
     }),
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
-        key => key === this.currentUserAvailabilityStatus
+        key => key === this.currentUserAvailability
       );
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
         availabilityIndex
       ];
     },
-    currentUserAvailabilityStatus() {
-      return this.currentUser.availability_status;
+    currentUserAvailability() {
+      return this.getCurrentUserAvailability;
     },
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
@@ -94,8 +72,7 @@ export default {
           label: statusLabel,
           value: AVAILABILITY_STATUS_KEYS[index],
           disabled:
-            this.currentUserAvailabilityStatus ===
-            AVAILABILITY_STATUS_KEYS[index],
+            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
         })
       );
     },
@@ -109,15 +86,16 @@ export default {
       this.isStatusMenuOpened = false;
     },
     changeAvailabilityStatus(availability) {
+      const accountId = this.currentAccountId;
       if (this.isUpdating) {
         return;
       }
 
       this.isUpdating = true;
-
       this.$store
         .dispatch('updateAvailability', {
-          availability,
+          availability: availability,
+          account_id: accountId,
         })
         .finally(() => {
           this.isUpdating = false;

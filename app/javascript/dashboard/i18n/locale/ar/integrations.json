@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "خيارات الربط",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
+      "FORM": {
+        "CANCEL": "إلغاء",
+        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "الأحداث",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "تم إنشاء المحادثة",
+            "CONVERSATION_STATUS_CHANGED": "تم تغيير حالة المحادثة",
+            "CONVERSATION_UPDATED": "تم تحديث المحادثة",
+            "MESSAGE_CREATED": "تم إنشاء رسالة",
+            "MESSAGE_UPDATED": "تم تحديث الرسالة",
+            "WEBWIDGET_TRIGGERED": "أداة الدردشة المباشرة مفتوحة من قبل المستخدم"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "رابط Webhook",
+          "PLACEHOLDER": "مثال: https://example/api/webhook",
+          "ERROR": "الرجاء إدخال عنوان URL صالح"
+        },
+        "EDIT_SUBMIT": "تحديث الويبهوك",
+        "ADD_SUBMIT": "إنشاء webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "تهيئة",
       "HEADER": "إعدادات الـ Webhook",
@@ -19,36 +42,17 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "تعديل",
-        "TITLE": "Edit webhook",
-        "CANCEL": "إلغاء",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "رابط Webhook",
-            "PLACEHOLDER": "مثال: https://example/api/webhook",
-            "ERROR": "الرجاء إدخال عنوان URL صالح"
-          },
-          "SUBMIT": "Edit webhook"
-        },
+        "TITLE": "تعديل webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "تم تحديث تكوين ويبهوك بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
       "ADD": {
         "CANCEL": "إلغاء",
         "TITLE": "إضافة webhook جديد",
-        "DESC": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. الرجاء إدخال عنوان URL صالح لتكوين callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "رابط Webhook",
-            "PLACEHOLDER": "مثال: https://example/api/webhook",
-            "ERROR": "الرجاء إدخال عنوان URL صالح"
-          },
-          "SUBMIT": "إنشاء webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "تم إضافة Webhook بنجاح",
+          "SUCCESS_MESSAGE": "تم إضافة إعدادات Webhook بنجاح",
           "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "تأكيد الحذف",
-          "MESSAGE": "هل أنت متأكد من الحذف ",
+          "MESSAGE": "هل أنت متأكد من حذف webhook؟ (%{webhookURL})",
           "YES": "نعم، احذف ",
           "NO": "لا، احتفظ به"
         }
@@ -68,8 +72,8 @@
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "استخدام تكامل Slack",
+        "BODY": "<br/><p>ستتم الآن مزامنة جميع المحادثات الواردة إلى <b><i>محادثة الزبائن</i></b> داخل مكان العمل الخاص بك.</p><p>الرد على موضوع محادثة في <b><i>محادثة العملاء</i></b> قناة الركود سوف تقوم بإنشاء رد على العميل من خلال المحادثة.</p><p>ابدأ الردود ب <b><i>ملاحظة:</i></b> لإنشاء ملاحظات خاصة بدلاً من الردود.</p><p>إذا كان للرد على slack ملف تعريف الوكيل في الدردشة تحت نفس البريد الإلكتروني، فسيتم ربط الردود وفقا لذلك.</p><p>عندما لا يكون للرد ملف شخصي للوكيل المرتبط، ستتم الردود من ملف بوت الشخصي.</p>"
       }
     },
     "DELETE": {

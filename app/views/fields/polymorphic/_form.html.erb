@@ -1,0 +1,29 @@
+<%#
+# Polymorphic Form Partial
+
+This partial renders an input element for polymorphic relationships.
+
+## Local variables:
+
+- `f`:
+  A Rails form generator, used to help create the appropriate input fields.
+- `field`:
+  An instance of [Administrate::Field::Polymorphic][1].
+  A wrapper around the polymorphic belongs_to relationship
+  pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Polymorphic
+%>
+
+<%= f.fields_for field.attribute do |pf| %>
+  <div class="field-unit__label">
+    <%= pf.label :value, field.name.humanize %>
+  </div>
+
+  <div class="field-unit__field">
+    <%= pf.hidden_field(:type, value: field.class.name) %>
+    <%= pf.select(:value) do %>
+      <%= grouped_options_for_select(field.associated_resource_grouped_options, field.selected_global_id, prompt: true) %>
+    <% end %>
+  </div>
+<% end %>

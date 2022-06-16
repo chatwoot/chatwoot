@@ -8,3 +8,5 @@ files:
     translation: /config/locales/devise.%two_letters_code%.yml
   - source: /app/javascript/widget/i18n/locale/en.json
     translation: /app/javascript/widget/i18n/locale/%two_letters_code%.json
+  - source: /app/javascript/survey/i18n/locale/en.json
+    translation: /app/javascript/survey/i18n/locale/%two_letters_code%.json

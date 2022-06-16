@@ -10,7 +10,7 @@ class WidgetsController < ActionController::Base
   private
 
   def set_global_config
-    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL')
+    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL', 'DIRECT_UPLOADS_ENABLED')
   end
 
   def set_web_widget
@@ -29,21 +29,21 @@ class WidgetsController < ActionController::Base
   def set_contact
     return if @auth_token_params[:source_id].nil?
 
-    contact_inbox = ::ContactInbox.find_by(
+    @contact_inbox = ::ContactInbox.find_by(
       inbox_id: @web_widget.inbox.id,
       source_id: @auth_token_params[:source_id]
     )
 
-    @contact = contact_inbox ? contact_inbox.contact : nil
+    @contact = @contact_inbox ? @contact_inbox.contact : nil
   end
 
   def build_contact
     return if @contact.present?
 
-    contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
-    @contact = contact_inbox.contact
+    @contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
+    @contact = @contact_inbox.contact
 
-    payload = { source_id: contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
+    payload = { source_id: @contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
     @token = ::Widget::TokenService.new(payload: payload).generate_token
   end
 

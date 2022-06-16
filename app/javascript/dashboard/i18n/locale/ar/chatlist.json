@@ -7,84 +7,59 @@
       "404": "لا توجد محادثات نشطة في هذه المجموعة."
     },
     "TAB_HEADING": "المحادثات",
+    "MENTION_HEADING": "الإشارات",
     "SEARCH": {
       "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "فتح",
-        "KEY": "openCount"
+    "FILTER_ALL": "الكل",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "محادثاتي",
+      "unassigned": "غير مسند",
+      "all": "الكل"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "فتح"
       },
-      {
-        "NAME": "مغلقة",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "مغلقة"
+      },
+      "pending": {
+        "TEXT": "معلق"
+      },
+      "snoozed": {
+        "TEXT": "غفوة"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "محادثاتي",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "غير مسند",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "الكل",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "فتح",
-        "VALUE": "open"
-      },
-      {
-        "TEXT": "مغلقة",
-        "VALUE": "resolved"
-      },
-      {
-        "TEXT": "معلق",
-        "VALUE": "pending"
-      },
-      {
-        "TEXT": "غفوة",
-        "VALUE": "snoozed"
-      }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "رسالة صورة"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "رسالة صوتية"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "رسالة فيديو"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "مرفقات"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "الموقع الجغرافي"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "قام بمشاركة رابط"
       }
     },
     "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
     "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
     "REPLY_TO_TWEET": "الرد على هذه التغريدة",
+    "LINK_TO_STORY": "الذهاب إلى قصة الإنستقرام",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "لا توجد رسائل",
-    "NO_CONTENT": "لم يتم العثور على محتوى"
+    "NO_CONTENT": "لم يتم العثور على محتوى",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "قرائة"
   }
 }

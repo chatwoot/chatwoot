@@ -11,11 +11,12 @@ parameters:
     required: true
     schema:
       type: object
+      required:
+        - user_id
       properties: 
         user_id:
           type: integer
           description: The ID of the user
-          required: true
 
 responses:
   200:

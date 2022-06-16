@@ -3,10 +3,10 @@
 module OutOfOffisable
   extend ActiveSupport::Concern
 
-  OFFISABLE_ATTRS = %w[day_of_week closed_all_day open_hour open_minutes close_hour close_minutes].freeze
+  OFFISABLE_ATTRS = %w[day_of_week closed_all_day open_hour open_minutes close_hour close_minutes open_all_day].freeze
 
   included do
-    has_many :working_hours, dependent: :destroy
+    has_many :working_hours, dependent: :destroy_async
     after_create :create_default_working_hours
   end
 
@@ -29,7 +29,8 @@ module OutOfOffisable
   #      "open_hour"=>9,
   #      "open_minutes"=>0,
   #      "close_hour"=>17,
-  #      "close_minutes"=>0},...]
+  #      "close_minutes"=>0,
+  #      "open_all_day=>false" },...]
   def update_working_hours(params)
     ActiveRecord::Base.transaction do
       params.each do |working_hour|
@@ -41,12 +42,12 @@ module OutOfOffisable
   private
 
   def create_default_working_hours
-    working_hours.create!(day_of_week: 0, closed_all_day: true)
-    working_hours.create!(day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
-    working_hours.create!(day_of_week: 2, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
-    working_hours.create!(day_of_week: 3, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
-    working_hours.create!(day_of_week: 4, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
-    working_hours.create!(day_of_week: 5, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
-    working_hours.create!(day_of_week: 6, closed_all_day: true)
+    working_hours.create!(day_of_week: 0, closed_all_day: true, open_all_day: false)
+    working_hours.create!(day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
+    working_hours.create!(day_of_week: 2, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
+    working_hours.create!(day_of_week: 3, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
+    working_hours.create!(day_of_week: 4, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
+    working_hours.create!(day_of_week: 5, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
+    working_hours.create!(day_of_week: 6, closed_all_day: true, open_all_day: false)
   end
 end

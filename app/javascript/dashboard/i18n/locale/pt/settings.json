@@ -3,6 +3,9 @@
     "LINK": "Configurações do perfil",
     "TITLE": "Configurações do perfil",
     "BTN_TEXT": "Atualizar o perfil",
+    "DELETE_AVATAR": "Apagar Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar foi apagado com sucesso",
+    "AVATAR_DELETE_FAILED": "Ocorreu um erro a apagar o avatar. Por favor, tente novamente",
     "UPDATE_SUCCESS": "O seu perfil foi atualizado com sucesso",
     "PASSWORD_UPDATE_SUCCESS": "Sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso, faça o login novamente pois suas credenciais foram alteradas",
@@ -15,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Perfil",
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para entrar."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Assinatura de mensagem pessoal",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Salvar assinatura da mensagem",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Palavra-passe",
@@ -86,20 +101,21 @@
         "PLACEHOLDER": "Por favor, digite a password atual"
       },
       "PASSWORD": {
-        "LABEL": "Palavra-passe",
+        "LABEL": "Nova senha",
         "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
         "PLACEHOLDER": "Por favor, digite uma nova senha"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirme a nova senha",
         "ERROR": "Confirme a senha deve corresponder à senha",
-        "PLACEHOLDER": "Por favor, digite sua senha novamente"
+        "PLACEHOLDER": "Por favor, digite novamente a sua senha nova"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
     "CHANGE_ACCOUNTS": "Trocar de conta",
+    "CONTACT_SUPPORT": "Contactar Suporte",
     "SELECTOR_SUBTITLE": "Escolha uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
@@ -107,12 +123,17 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
-    "TRAIL_BUTTON": "Comprar agora"
+    "TRAIL_BUTTON": "Comprar agora",
+    "DELETED_USER": "Usuário Excluído"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
       "COPY_SUCCESSFUL": "Código copiado com sucesso para área de transferência"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "BAIXAR",
@@ -129,28 +150,47 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Conversas",
+    "ALL_CONVERSATIONS": "Todas as conversas",
+    "MENTIONED_CONVERSATIONS": "Menções",
     "REPORTS": "relatórios",
     "SETTINGS": "Confirgurações",
-    "CONTACTS": "Contatos",
+    "CONTACTS": "Contactos",
     "HOME": "Principal",
     "AGENTS": "agentes",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificaçoes",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
+    "PROFILE_SETTINGS": "Configurações do perfil",
     "ACCOUNT_SETTINGS": "Configurações da conta",
     "APPLICATIONS": "Aplicações",
     "LABELS": "Etiquetas",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Atributos personalizados",
+    "AUTOMATION": "Automatização",
     "TEAMS": "Equipas",
+    "CUSTOM_VIEWS_FOLDER": "Pastas",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os contatos",
     "TAGGED_WITH": "Etiquetada com",
-    "REPORTS_OVERVIEW": "Visão geral",
+    "NEW_LABEL": "Nova etiqueta",
+    "NEW_TEAM": "Nova equipa",
+    "NEW_INBOX": "Nova caixa de entrada",
+    "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em curso",
-    "ONE_OFF": "Pontual"
+    "ONE_OFF": "Pontual",
+    "REPORTS_AGENT": "Agentes",
+    "REPORTS_LABEL": "Etiquetas",
+    "REPORTS_INBOX": "Caixa de Entrada",
+    "REPORTS_TEAM": "Equipa",
+    "SET_AVAILABILITY_TITLE": "Defina-se como",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
@@ -182,7 +222,7 @@
       "GO_TO_REPORTS_SIDEBAR": "Ir para barra lateral de Relatórios",
       "MOVE_TO_NEXT_TAB": "Mover para próximo separador da lista de conversas",
       "GO_TO_SETTINGS": "Ir para as configurações",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo estado de conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
       "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo",
       "SWITCH_TO_REPLY": "Mudar para resposta",

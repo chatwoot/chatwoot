@@ -27,6 +27,7 @@
             >
               <div class="user-wrap">
                 <Thumbnail
+                  v-if="hasThumbnail"
                   :src="option.thumbnail"
                   size="24px"
                   :username="option.name"
@@ -39,9 +40,9 @@
                   >
                     {{ option.name }}
                   </span>
-                  <i
+                  <fluent-icon
                     v-if="option.id === (selectedItem && selectedItem.id)"
-                    class="icon ion-checkmark-round"
+                    icon="checkmark"
                   />
                 </div>
               </div>
@@ -60,6 +61,7 @@
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
 export default {
   components: {
     WootDropdownItem,
@@ -75,6 +77,10 @@ export default {
     selectedItem: {
       type: Object,
       default: () => ({}),
+    },
+    hasThumbnail: {
+      type: Boolean,
+      default: true,
     },
     inputPlaceholder: {
       type: String,

@@ -9,7 +9,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CAMPAIGN.ONGOING.HEADER',
-        icon: 'ion-arrow-swap',
+        icon: 'arrow-swap',
       },
       children: [
         {
@@ -29,7 +29,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CAMPAIGN.ONE_OFF.HEADER',
-        icon: 'ion-radio-waves',
+        icon: 'sound-source',
       },
       children: [
         {

@@ -6,7 +6,10 @@ describe ::ContactIdentifyAction do
   let!(:account) { create(:account) }
   let(:custom_attributes) { { test: 'test', test1: 'test1' } }
   let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
-  let(:params) { { name: 'test', identifier: 'test_id', custom_attributes: { test: 'new test', test2: 'test2' } } }
+  let(:params) do
+    { name: 'test', identifier: 'test_id', additional_attributes: { location: 'Bengaulru', company_name: 'Meta' },
+      custom_attributes: { test: 'new test', test2: 'test2' } }
+  end
 
   describe '#perform' do
     it 'updates the contact' do
@@ -15,11 +18,20 @@ describe ::ContactIdentifyAction do
       expect(contact.reload.name).to eq 'test'
       # custom attributes are merged properly without overwriting existing ones
       expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
+      expect(contact.additional_attributes).to eq({ 'company_name' => 'Meta', 'location' => 'Bengaulru' })
       expect(contact.reload.identifier).to eq 'test_id'
     end
 
+    it 'merge deeply nested additional attributes' do
+      create(:contact, account: account, identifier: '', email: 'test@test.com',
+                       additional_attributes: { location: 'Bengaulru', company_name: 'Meta', social_profiles: { linkedin: 'saras' } })
+      params = { email: 'test@test.com', additional_attributes: { social_profiles: { twitter: 'saras' } } }
+      result = described_class.new(contact: contact, params: params).perform
+      expect(result.additional_attributes['social_profiles']).to eq({ 'linkedin' => 'saras', 'twitter' => 'saras' })
+    end
+
     it 'enques avatar job when avatar url parameter is passed' do
-      params = { name: 'test', avatar_url: 'https://via.placeholder.com/250x250.png' }
+      params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
       expect(ContactAvatarJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
       described_class.new(contact: contact, params: params).perform
     end

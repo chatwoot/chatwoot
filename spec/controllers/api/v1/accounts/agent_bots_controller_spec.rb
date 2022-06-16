@@ -25,6 +25,8 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(agent_bot.name)
         expect(response.body).to include(global_bot.name)
+        expect(response.body).to include(agent_bot.access_token.token)
+        expect(response.body).not_to include(global_bot.access_token.token)
       end
     end
   end
@@ -46,6 +48,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(agent_bot.name)
+        expect(response.body).to include(agent_bot.access_token.token)
       end
 
       it 'will show a global agent bot' do
@@ -56,6 +59,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(global_bot.name)
+        expect(response.body).not_to include(global_bot.access_token.token)
       end
     end
   end
@@ -113,6 +117,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(agent_bot.reload.name).to eq('test_updated')
+        expect(response.body).to include(agent_bot.access_token.token)
       end
 
       it 'would not update the agent bot when agent' do
@@ -134,6 +139,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
         expect(response).to have_http_status(:not_found)
         expect(agent_bot.reload.name).not_to eq('test_updated')
+        expect(response.body).not_to include(global_bot.access_token.token)
       end
     end
   end

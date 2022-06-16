@@ -1,0 +1,190 @@
+{
+  "conversations": {
+    "status": {
+      "attribute_name": "Status",
+      "input_type": "multi_select",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to" ],
+      "attribute_type": "standard"
+    },
+    "assignee_id": {
+      "attribute_name": "Assignee Name",
+      "input_type": "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "contact_id": {
+      "attribute_name": "Contact Name",
+      "input_type": "plain_text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "inbox_id": {
+      "attribute_name": "Inbox Name",
+      "input_type": "search_box",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "team_id": {
+      "attribute_name": "Team Name",
+      "input_type": "search_box",
+      "data_type": "number",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "display_id": {
+      "attribute_name": "Conversation Identifier",
+      "input_type": "textbox",
+      "data_type": "Number",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "campaign_id": {
+      "attribute_name": "Campaign Name",
+      "input_type": "textbox",
+      "data_type": "Number",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present" ],
+      "attribute_type": "standard"
+    },
+    "labels": {
+      "attribute_name": "Labels",
+      "input_type": "tags",
+      "data_type": "text",
+      "filter_operators": ["exactly_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
+    },
+    "browser_language": {
+      "attribute_name": "Browser Language",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "additional_attributes"
+    },
+    "country_code": {
+      "attribute_name": "Country Name",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "present", "is_not_present" ],
+      "attribute_type": "additional_attributes"
+    },
+    "referer": {
+      "attribute_name": "Referer link",
+      "input_type": "textbox",
+      "data_type": "link",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain", "present", "is_not_present" ],
+      "attribute_type": "additional_attributes"
+    },
+    "created_at": {
+      "attribute_name": "Created At",
+      "input_type": "date",
+      "data_type": "date",
+      "filter_operators": [ "is_greater_than", "is_less_than", "days_before" ],
+      "attribute_type": "date_attributes"
+    },
+    "last_activity_at": {
+      "attribute_name": "Created At",
+      "input_type": "date",
+      "data_type": "date",
+      "filter_operators": [ "is_greater_than", "is_less_than", "days_before" ],
+      "attribute_type": "date_attributes"
+    }
+  },
+  "contacts": {
+    "name": {
+      "attribute_name": "Name",
+      "input_type": "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
+    },
+    "phone_number": {
+      "attribute_name": "Phone Number",
+      "input_type": "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
+    },
+    "email": {
+      "attribute_name": "Email",
+      "input_type":  "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators":  [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
+    },
+    "identifier": {
+      "attribute_name": "Contact Identifier",
+      "input_type": "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to" ],
+      "attribute_type": "standard"
+    },
+    "country_code": {
+      "attribute_name": "Country",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to" ],
+      "attribute_type": "additional_attributes"
+    },
+    "city": {
+      "attribute_name": "City",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "additional_attributes"
+    },
+    "browser_language": {
+      "attribute_name": "Browser Language",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "additional_attributes"
+    },
+    "company": {
+      "attribute_name": "Company",
+      "input_type": "textbox",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "additional_attributes"
+    },
+    "labels": {
+      "attribute_name": "Labels",
+      "input_type": "tags",
+      "data_type": "text",
+      "filter_operators": ["exactly_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"
+    },
+    "created_at": {
+      "attribute_name": "Created At",
+      "input_type": "date",
+      "data_type": "date",
+      "filter_operators": [ "is_greater_than", "is_less_than", "days_before" ],
+      "attribute_type": "date_attributes"
+    },
+    "last_activity_at": {
+      "attribute_name": "Created At",
+      "input_type": "date",
+      "data_type": "date",
+      "filter_operators": [ "is_greater_than", "is_less_than", "days_before" ],
+      "attribute_type": "date_attributes"
+    }
+  },
+  "messages": {
+    "message_type": {
+      "attribute_name": "Message Type",
+      "input_type": "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to" ],
+      "attribute_type": "standard"
+    },
+    "content": {
+      "attribute_name": "Message Content",
+      "input_type": "search_box with name tags/plain text",
+      "data_type": "text",
+      "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
+      "attribute_type": "standard"  
+    }
+  }
+}

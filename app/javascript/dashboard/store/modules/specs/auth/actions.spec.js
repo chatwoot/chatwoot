@@ -29,7 +29,9 @@ describe('#actions', () => {
       });
       await actions.validityCheck({ commit });
       expect(setUser).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
+      ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({
@@ -47,23 +49,36 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.updateProfile({ commit }, { name: 'Pranav' });
-      expect(setUser).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
+      ]);
     });
   });
 
   describe('#updateAvailability', () => {
     it('sends correct actions if API is success', async () => {
-      axios.put.mockResolvedValue({
-        data: { id: 1, name: 'John', availability_status: 'offline' },
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          name: 'John',
+          accounts: [{ account_id: 1, availability_status: 'offline' }],
+        },
         headers: { expiry: 581842904 },
       });
       await actions.updateAvailability(
         { commit, dispatch },
-        { availability: 'offline' }
+        { availability: 'offline', account_id: 1 }
       );
-      expect(setUser).toHaveBeenCalledTimes(1);
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_CURRENT_USER,
+          {
+            id: 1,
+            name: 'John',
+            accounts: [{ account_id: 1, availability_status: 'offline' }],
+          },
+        ],
+      ]);
       expect(dispatch.mock.calls).toEqual([
         ['agents/updatePresence', { 1: 'offline' }],
       ]);
@@ -85,13 +100,20 @@ describe('#actions', () => {
         { commit, dispatch },
         { uiSettings: { is_contact_sidebar_open: false } }
       );
-      expect(setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [
           types.default.SET_CURRENT_USER_UI_SETTINGS,
           { uiSettings: { is_contact_sidebar_open: false } },
         ],
-        [types.default.SET_CURRENT_USER],
+        [
+          types.default.SET_CURRENT_USER,
+          {
+            id: 1,
+            name: 'John',
+            availability_status: 'offline',
+            ui_settings: { is_contact_sidebar_open: true },
+          },
+        ],
       ]);
     });
   });
@@ -100,21 +122,24 @@ describe('#actions', () => {
     it('sends correct actions if user is logged in', async () => {
       Cookies.getJSON.mockImplementation(() => true);
       actions.setUser({ commit, dispatch });
-      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['validityCheck']]);
     });
 
     it('sends correct actions if user is not logged in', async () => {
       Cookies.getJSON.mockImplementation(() => false);
       actions.setUser({ commit, dispatch });
-      expect(commit.mock.calls).toEqual([[types.default.CLEAR_USER]]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.CLEAR_USER],
+        [types.default.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],
+      ]);
       expect(dispatch).toHaveBeenCalledTimes(0);
     });
   });
 
-  describe('#setCurrentUserAvailabilityStatus', () => {
+  describe('#setCurrentUserAvailability', () => {
     it('sends correct mutations if user id is available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },
@@ -127,7 +152,7 @@ describe('#actions', () => {
     });
 
     it('does not send correct mutations if user id is not available', async () => {
-      actions.setCurrentUserAvailabilityStatus(
+      actions.setCurrentUserAvailability(
         {
           commit,
           state: { currentUser: { id: 1 } },

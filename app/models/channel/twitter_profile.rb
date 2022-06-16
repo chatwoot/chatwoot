@@ -3,6 +3,7 @@
 # Table name: channel_twitter_profiles
 #
 #  id                          :bigint           not null, primary key
+#  tweets_enabled              :boolean          default(TRUE)
 #  twitter_access_token        :string           not null
 #  twitter_access_token_secret :string           not null
 #  created_at                  :datetime         not null
@@ -24,6 +25,8 @@ class Channel::TwitterProfile < ApplicationRecord
 
   before_destroy :unsubscribe
 
+  EDITABLE_ATTRS = [:tweets_enabled].freeze
+
   def name
     'Twitter'
   end
@@ -37,7 +40,7 @@ class Channel::TwitterProfile < ApplicationRecord
         source_id: profile_id
       )
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
     end
   end
 
@@ -59,6 +62,6 @@ class Channel::TwitterProfile < ApplicationRecord
     unsubscribe_response = twitter_client.remove_subscription(user_id: profile_id)
     Rails.logger.info "TWITTER_UNSUBSCRIBE: #{unsubscribe_response.body}"
   rescue StandardError => e
-    Rails.logger.info e
+    Rails.logger.error e
   end
 end

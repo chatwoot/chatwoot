@@ -14,6 +14,17 @@
             :src="avatarUrl"
             @change="handleImageUpload"
           />
+          <div v-if="showDeleteButton" class="avatar-delete-btn">
+            <woot-button
+              type="button"
+              color-scheme="alert"
+              variant="hollow"
+              size="small"
+              @click="deleteAvatar"
+            >
+              {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
+            </woot-button>
+          </div>
           <label :class="{ error: $v.name.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
             <input
@@ -37,7 +48,10 @@
               @input="$v.displayName.$touch"
             />
           </label>
-          <label :class="{ error: $v.email.$error }">
+          <label
+            v-if="!globalConfig.disableUserProfileUpdate"
+            :class="{ error: $v.email.$error }"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
             <input
               v-model.trim="email"
@@ -55,17 +69,25 @@
         </div>
       </div>
     </form>
-    <change-password />
+    <message-signature />
+    <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
     <div class="profile--settings--row row">
       <div class="columns small-3">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
         </h4>
-        <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
+        <p>
+          {{
+            useInstallationName(
+              $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
+              globalConfig.installationName
+            )
+          }}
+        </p>
       </div>
       <div class="columns small-9 medium-5">
-        <woot-code :script="currentUser.access_token"></woot-code>
+        <woot-code :script="currentUser.access_token" />
       </div>
     </div>
   </div>
@@ -77,14 +99,17 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
-import ChangePassword from './ChangePassword.vue';
+import ChangePassword from './ChangePassword';
+import MessageSignature from './MessageSignature';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
+    MessageSignature,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   data() {
     return {
       avatarFile: '',
@@ -111,6 +136,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
+      globalConfig: 'globalConfig/get',
     }),
   },
   watch: {
@@ -167,6 +193,19 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
+    },
+    async deleteAvatar() {
+      try {
+        await this.$store.dispatch('deleteAvatar');
+        this.avatarUrl = '';
+        this.avatarFile = '';
+        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+      } catch (error) {
+        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
+      }
+    },
+    showDeleteButton() {
+      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
   },
 };

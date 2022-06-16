@@ -28,11 +28,13 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
+import flag from 'country-code-emoji';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 
 export default {
   components: {
@@ -94,10 +96,10 @@ export default {
           ...item,
           phone_number: item.phone_number || '---',
           company: additional.company_name || '---',
-          location: additional.location || '---',
           profiles: additional.social_profiles || {},
           city: additional.city || '---',
-          country: additional.country || '---',
+          country: additional.country,
+          countryCode: additional.country_code,
           conversationsCount: item.conversations_count || '---',
           last_activity_at: lastActivityAt
             ? this.dynamicTime(lastActivityAt)
@@ -128,12 +130,17 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="sub-block-title user-name text-truncate">
-                    {row.name}
+                  <h6 class="sub-block-title text-truncate">
+                    <router-link
+                      to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
+                      class="user-name"
+                    >
+                      {row.name}
+                    </router-link>
                   </h6>
-                  <span class="button clear small link">
+                  <button class="button clear small link view-details--button">
                     {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-                  </span>
+                  </button>
                 </div>
               </div>
             </woot-button>
@@ -172,12 +179,14 @@ export default {
         {
           field: 'company',
           key: 'company',
+          sortBy: this.sortConfig.company_name || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
           align: 'left',
         },
         {
           field: 'city',
           key: 'city',
+          sortBy: this.sortConfig.city || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
           align: 'left',
         },
@@ -186,6 +195,17 @@ export default {
           key: 'country',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
           align: 'left',
+          sortBy: this.sortConfig.country || '',
+          renderBodyCell: ({ row }) => {
+            if (row.country) {
+              return (
+                <div class="text-truncate">
+                  {`${flag(row.countryCode)} ${row.country}`}
+                </div>
+              );
+            }
+            return '---';
+          },
         },
         {
           field: 'profiles',
@@ -209,7 +229,7 @@ export default {
                         rel="noopener noreferrer nofollow"
                         href={`https://${profile}.com/${profiles[profile]}`}
                       >
-                        <i class={`ion-social-${profile}`} />
+                        <FluentIcon icon={`brand-${profile}`} />
                       </a>
                     )
                 )}
@@ -281,8 +301,13 @@ export default {
 
     .user-name {
       font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
       margin: 0;
       text-transform: capitalize;
+    }
+
+    .view-details--button {
+      color: var(--color-body);
     }
 
     .user-email {

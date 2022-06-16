@@ -7,9 +7,7 @@ export default {
         this.inboxId
       );
     },
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-    }),
+    ...mapGetters({ currentUser: 'getCurrentUser' }),
     isAgentSelected() {
       return this.currentChat?.meta?.assignee;
     },

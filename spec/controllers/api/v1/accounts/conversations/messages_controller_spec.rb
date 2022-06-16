@@ -35,6 +35,21 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content).to eq(params[:content])
       end
 
+      it 'does not create the message' do
+        params = { content: "#{'h' * 150 * 1000}a", private: true }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        json_response = JSON.parse(response.body)
+
+        expect(json_response['error']).to eq('Validation failed: Content is too long (maximum is 150000 characters)')
+      end
+
       it 'creates an outgoing text message with a specific bot sender' do
         agent_bot = create(:agent_bot)
         time_stamp = Time.now.utc.to_s
@@ -148,7 +163,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id' do
-    let(:message) { create(:message, account: account) }
+    let(:message) { create(:message, account: account, content_attributes: { bcc_emails: ['hello@chatwoot.com'] }) }
     let(:conversation) { message.conversation }
 
     context 'when it is an unauthenticated user' do
@@ -173,6 +188,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response).to have_http_status(:success)
         expect(message.reload.content).to eq 'This message was deleted'
         expect(message.reload.deleted).to eq true
+        expect(message.reload.content_attributes['bcc_emails']).to eq nil
       end
     end
 

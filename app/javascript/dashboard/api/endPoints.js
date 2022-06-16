@@ -13,6 +13,9 @@ const endPoints = {
   profileUpdate: {
     url: '/api/v1/profile',
   },
+  availabilityUpdate: {
+    url: '/api/v1/profile/availability',
+  },
   logout: {
     url: 'auth/sign_out',
   },
@@ -32,6 +35,10 @@ const endPoints = {
       return `api/v1/accounts/${accountId}/callbacks/facebook_pages.json`;
     },
     params: { omniauth_token: '' },
+  },
+
+  deleteAvatar: {
+    url: '/api/v1/profile/avatar',
   },
 };
 

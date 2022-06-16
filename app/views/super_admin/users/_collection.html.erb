@@ -57,13 +57,13 @@ to display a collection of resources in an HTML table.
       <tr class="js-table-row"
           tabindex="0"
           <% if valid_action? :show, collection_presenter.resource_name %>
-            <%= %(role=link data-url=#{polymorphic_path([namespace, resource])}) %>
+            <%= %(role=link data-url=#{polymorphic_path([namespace, resource.becomes(User)])}) %>
           <% end %>
           >
         <% collection_presenter.attributes_for(resource).each do |attribute| %>
           <td class="cell-data cell-data--<%= attribute.html_class %>">
             <% if show_action? :show, resource -%>
-              <a href="<%= polymorphic_path([namespace, resource]) -%>"
+              <a href="<%= polymorphic_path([namespace, resource.becomes(User)]) -%>"
                  class="action-show"
                  >
                 <%= render_field attribute %>
@@ -75,7 +75,7 @@ to display a collection of resources in an HTML table.
         <% if valid_action? :edit, collection_presenter.resource_name %>
           <td><%= link_to(
             t("administrate.actions.edit"),
-            [:edit, namespace, resource],
+            [:edit, namespace, resource.becomes(User)],
             class: "action-edit",
           ) if show_action? :edit, resource%></td>
         <% end %>
@@ -83,7 +83,7 @@ to display a collection of resources in an HTML table.
         <% if valid_action? :destroy, collection_presenter.resource_name %>
           <td><%= link_to(
             t("administrate.actions.destroy"),
-            [namespace, resource],
+            [namespace, resource.becomes(User)],
             class: "text-color-red",
             method: :delete,
             data: { confirm: t("administrate.actions.confirm") }

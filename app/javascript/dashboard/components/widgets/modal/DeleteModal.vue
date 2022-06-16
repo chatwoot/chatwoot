@@ -21,12 +21,12 @@ export default {
   },
   props: {
     show: Boolean,
-    onClose: Function,
-    onConfirm: Function,
-    title: String,
-    message: String,
-    confirmText: String,
-    rejectText: String,
+    onClose: { type: Function, default: () => {} },
+    onConfirm: { type: Function, default: () => {} },
+    title: { type: String, default: '' },
+    message: { type: String, default: '' },
+    confirmText: { type: String, default: '' },
+    rejectText: { type: String, default: '' },
   },
 };
 </script>

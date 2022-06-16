@@ -23,11 +23,11 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (assigned_agent_id => users.id)
-#  fk_rails_...  (contact_id => contacts.id)
-#  fk_rails_...  (conversation_id => conversations.id)
-#  fk_rails_...  (message_id => messages.id)
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
+#  fk_rails_...  (assigned_agent_id => users.id) ON DELETE => cascade
+#  fk_rails_...  (contact_id => contacts.id) ON DELETE => cascade
+#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
+#  fk_rails_...  (message_id => messages.id) ON DELETE => cascade
 #
 class CsatSurveyResponse < ApplicationRecord
   belongs_to :account
@@ -40,4 +40,7 @@ class CsatSurveyResponse < ApplicationRecord
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :conversation_id, presence: true
+
+  scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
+  scope :filter_by_assigned_agent_id, ->(user_ids) { where(assigned_agent_id: user_ids) if user_ids.present? }
 end

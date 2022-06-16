@@ -1,0 +1,93 @@
+{
+  "FILTER": {
+    "TITLE": "تصفية المحادثات",
+    "SUBTITLE": "إضافة فلاتر أدناه واضغط على 'إرسال' لتصفية المحادثات.",
+    "ADD_NEW_FILTER": "إضافة فلتر",
+    "FILTER_DELETE_ERROR": "يجب ان يكون لديك فلتر واحد على الاقل",
+    "SUBMIT_BUTTON_LABEL": "تطبيق الفلاتر",
+    "CANCEL_BUTTON_LABEL": "إلغاء",
+    "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
+    "EMPTY_VALUE_ERROR": "القيمة مطلوبة",
+    "TOOLTIP_LABEL": "تصفية المحادثة",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "و",
+      "OR": "أو"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "يساوي",
+      "not_equal_to": "لا يساوي",
+      "contains": "يحتوي",
+      "does_not_contain": "لا يحتوي",
+      "is_present": "موجود",
+      "is_not_present": "غير موجود",
+      "is_greater_than": "هو أكبر من",
+      "is_less_than": "هو أقل من",
+      "days_before": "قبل x أيام"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "صحيح",
+      "FALSE": "خاطئ"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "الحالة",
+      "ASSIGNEE_NAME": "اسم المحال إليه",
+      "INBOX_NAME": "اسم صندوق الوارد لقناة التواصل",
+      "TEAM_NAME": "اسم الفريق",
+      "CONVERSATION_IDENTIFIER": "معرف المحادثة",
+      "CAMPAIGN_NAME": "اسم الحملة",
+      "LABELS": "الوسوم",
+      "BROWSER_LANGUAGE": "لغة المتصفح",
+      "COUNTRY_NAME": "اسم الدولة",
+      "REFERER_LINK": "رابط المرجع",
+      "CUSTOM_ATTRIBUTE_LIST": "القائمة",
+      "CUSTOM_ATTRIBUTE_TEXT": "النص",
+      "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
+      "CUSTOM_ATTRIBUTE_LINK": "الرابط",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
+      "CREATED_AT": "تم إنشاؤها في",
+      "LAST_ACTIVITY": "آخر نشاط"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "الفلاتر القياسية",
+      "ADDITIONAL_FILTERS": "فلاتر إضافية",
+      "CUSTOM_ATTRIBUTES": "سمات مخصصة"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "هل تريد حفظ هذا الفلتر؟",
+        "LABEL": "تسمية هذا الفلتر",
+        "PLACEHOLDER": "أدخل اسم لهذا الفلتر",
+        "ERROR_MESSAGE": "الاسم مطلوب",
+        "SAVE_BUTTON": "حفظ الفلتر",
+        "CANCEL_BUTTON": "إلغاء",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "حذف الفلتر",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "تأكيد الحذف",
+            "MESSAGE": "هل أنت متأكد من حذف الفلتر ",
+            "YES": "نعم، احذف",
+            "NO": "لا، احتفظ به"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "تم حذف طريقة عرض مخصصة بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "تم حذف العرض المخصص بنجاح",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف طريقة عرض مخصصة"
+        }
+      }
+    }
+  }
+}

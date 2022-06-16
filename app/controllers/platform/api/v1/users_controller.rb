@@ -7,19 +7,24 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def create
     @resource = (User.find_by(email: user_params[:email]) || User.new(user_params))
+    @resource.skip_confirmation!
     @resource.save!
-    @resource.confirm
-    @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+    @platform_app.platform_app_permissibles.find_or_create_by!(permissible: @resource)
   end
 
   def login
-    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{@resource.email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
+    encoded_email = ERB::Util.url_encode(@resource.email)
+    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
   def show; end
 
   def update
     @resource.assign_attributes(user_update_params)
+
+    # We are using devise's reconfirmable flow for changing emails
+    # But in case of platform APIs we don't want user to go through this extra step
+    @resource.skip_reconfirmation! if user_update_params[:email].present?
     @resource.save!
   end
 

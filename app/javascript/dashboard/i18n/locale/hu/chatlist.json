@@ -7,84 +7,59 @@
       "404": "Nincs aktív üzenetváltás ebben a csoportban."
     },
     "TAB_HEADING": "Beszélgetések",
+    "MENTION_HEADING": "Megemlítések",
     "SEARCH": {
       "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Megnyitás",
-        "KEY": "openCount"
+    "FILTER_ALL": "Mind",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Enyém",
+      "unassigned": "Gazdátlan",
+      "all": "Mind"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Megnyitás"
       },
-      {
-        "NAME": "Megoldva",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Megoldva"
+      },
+      "pending": {
+        "TEXT": "Függőben lévő"
+      },
+      "snoozed": {
+        "TEXT": "Elnémított"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Enyém",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Gazdátlan",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Mind",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Megnyitás",
-        "VALUE": "open"
-      },
-      {
-        "TEXT": "Megoldva",
-        "VALUE": "resolved"
-      },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
-      },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
-      }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Képüzenet"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Hangüzenet"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Videoüzenet"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Csatolt file"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Hely"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "megosztott URL-t tartalmaz"
       }
     },
     "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
     "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
     "REPLY_TO_TWEET": "Válasz",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Sikeresen elküldve",
     "NO_MESSAGES": "Nincs üzenet",
-    "NO_CONTENT": "Nincs elérhető tartalom"
+    "NO_CONTENT": "Nincs elérhető tartalom",
+    "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
+    "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
+    "MESSAGE_READ": "Read"
   }
 }

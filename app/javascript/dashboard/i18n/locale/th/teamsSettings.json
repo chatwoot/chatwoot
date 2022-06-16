@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "สร้างทีมใหม่",
+    "HEADER": "ทีม",
+    "SIDEBAR_TXT": "<p><b>ทีม</b></p> <p>คุณสามารถจัดกลุ่มให้กับพนักงานตามความรับผิดชอบที่พวกเขาได้รับ <br /> พนักงานหนึ่งคนสามารถเข้าร่วมได้หลายทีม มอบหมายการสนทนาให้กับทีมเมื่อต้องทำงานร่วมกัน </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "ยังไม่มีทีมที่ถูกสร้างในบัญชีนี้",
+      "EDIT_TEAM": "แก้ไขทีม"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "สร้างทีมใหม่",
+        "DESC": "เพิ่มชื่อและคำอธิบายทีม"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "เพิ่มพนักงานเข้าทีม",
+        "TITLE": "เพิ่มพนักงานเข้าทีม %{teamName}",
+        "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ ซึ่งจะช่วยให้คุณทำงานร่วมกันเป็นทีมเพื่อตอบรับการสนทนาและรับการแจ้งเตือนจากการสนทนาเดียวกัน"
       },
       "WIZARD": [
         {
           "title": "สร้าง",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "สร้างทีมใหม่สำหรับพนักงาน"
         },
         {
           "title": "เพิ่มพนักงาน",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "เพิ่มพนักงานเข้าทีม"
         },
         {
-          "title": "Finish",
+          "title": "เสร็จสิ้น",
           "route": "settings_teams_finish",
           "body": "คุณพร้อมเเล้ว"
         }
@@ -37,89 +37,89 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "แก้ไขรายละเอียดของทีม",
+        "DESC": "แก้ไขชื่อและคำอธิบายทีม",
+        "BUTTON_TEXT": "อัปเดตทีม"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "อัพเดทพนักงานในทีม",
+        "TITLE": "เพิ่มพนักงานเข้าทีม %{teamName}",
+        "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ พนักงานทุกคนในทีมจะได้รับการแจ้งเตือนเมื่อทีมได้รับมอบหมายให้ดูแลการสนทนา"
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "รายละเอียดของทีม",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "เปลี่ยนชื่อ คำอธิบาย และรายละเอียดอื่นๆ"
         },
         {
-          "title": "Edit Agents",
+          "title": "เเก้ไขพนักงาน",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "แก้ไขพนักงานในทีมของคุณ"
         },
         {
-          "title": "Finish",
+          "title": "เสร็จสิ้น",
           "route": "settings_teams_edit_finish",
           "body": "คุณพร้อมเเล้ว"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "ไม่สามารถบันทึกรายละเอียดของทีมได้ โปรดลองใหม่อีกครั้ง"
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "พนักงาน",
       "EMAIL": "อีเมล์",
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "BUTTON_TEXT": "เพิ่มพนักงาน",
+      "ADD_AGENTS": "กำลังเพิ่มพนักงานเข้าทีมของคุณ...",
+      "SELECT": "เลือก",
+      "SELECT_ALL": "เลือกพนักงานทั้งหมด",
+      "SELECTED_COUNT": "เลือก %{selected} จากพนักงานทั้งหมด %{total} คน"
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Add agents",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "TITLE": "เพิ่มพนักงานเข้าทีม %{teamName}",
+      "DESC": "เพิ่มพนักงานเข้าทีมที่สร้างใหม่ของคุณ ซึ่งจะช่วยให้คุณทำงานร่วมกันเป็นทีมเพื่อตอบรับการสนทนาและรับการแจ้งเตือนจากการสนทนาเดียวกัน",
+      "SELECT": "เลือก",
+      "SELECT_ALL": "เลือกพนักงานทั้งหมด",
+      "SELECTED_COUNT": "เลือก %{selected} จากพนักงานทั้งหมด %{total} คน",
+      "BUTTON_TEXT": "เพิ่มพนักงาน",
+      "AGENT_VALIDATION_ERROR": "เลือกพนักงานอย่างน้อย 1 คน"
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "ทีมของคุณพร้อมแล้ว!",
+      "MESSAGE": "ตอนนี้ทีมของคุณสามารถทำงานร่วมกันเพื่อดูแลการสนทนา ขอให้สนุกกับการทำงาน ",
+      "BUTTON_TEXT": "เสร็จสิ้น"
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "ลบทีมสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบทีมได้ โปรดลองใหม่อีกครั้ง"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "คุณแน่ใจว่าต้องการลบ %{teamName} หรือไม่",
+        "PLACE_HOLDER": "โปรดพิมพ์ {teamName} เพื่อยืนยัน",
+        "MESSAGE": "การลบทีมจะยกเลิกการมอบหมายการสนทนาที่ทีมนี้รับผิดชอบไปด้วย",
         "YES": "ลบ ",
         "NO": "ยกเลิก"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "ตั้งค่า",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "อัปเดตทีม",
+      "CREATE": "สร้างทีม",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "ชื่อทีม",
+        "PLACEHOLDER": "เช่น ฝ่ายขาย ฝ่ายสนับสนุนลูกค้า"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "คำอธิบายทีม",
+        "PLACEHOLDER": "คำอธิบายสั้นๆเกี่ยวกับทีม"
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "เปิดใช้การมอบหมายงานอัตโนมัติสำหรับทีมนี้"
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "สร้างทีม"
     }
   }
 }

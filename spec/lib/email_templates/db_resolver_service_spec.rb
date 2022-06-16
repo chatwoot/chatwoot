@@ -56,7 +56,7 @@ describe ::EmailTemplates::DbResolverService do
         Current.account = nil
       end
 
-      it 'return installation template when  current account dont have template' do
+      it 'return installation template when current account dont have template' do
         Current.account = create(:account)
         handler = ActionView::Template.registered_template_handler(:liquid)
         template_details = {

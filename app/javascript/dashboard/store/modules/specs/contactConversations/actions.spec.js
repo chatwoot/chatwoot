@@ -19,7 +19,6 @@ describe('#actions', () => {
           types.default.SET_CONTACT_CONVERSATIONS,
           { id: 1, data: conversationList },
         ],
-        [types.default.SET_ALL_CONVERSATION, conversationList, { root: true }],
         [
           types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
           { isFetching: false },
@@ -44,7 +43,13 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({ data: conversationList[0] });
       await actions.create(
         { commit },
-        { inboxId: 1, message: { content: 'hi' }, contactId: 4, sourceId: 5 }
+        {
+          inboxId: 1,
+          message: { content: 'hi' },
+          contactId: 4,
+          sourceId: 5,
+          mailSubject: 'Mail Subject',
+        }
       );
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
@@ -65,7 +70,13 @@ describe('#actions', () => {
       await expect(
         actions.create(
           { commit },
-          { inboxId: 1, message: { content: 'hi' }, contactId: 4, sourceId: 5 }
+          {
+            inboxId: 1,
+            message: { content: 'hi' },
+            contactId: 4,
+            sourceId: 5,
+            mailSubject: 'Mail Subject',
+          }
         )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([

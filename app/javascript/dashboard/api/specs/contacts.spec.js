@@ -11,6 +11,7 @@ describe('#ContactsAPI', () => {
     expect(contactAPI).toHaveProperty('update');
     expect(contactAPI).toHaveProperty('delete');
     expect(contactAPI).toHaveProperty('getConversations');
+    expect(contactAPI).toHaveProperty('filter');
   });
 
   describeWithAPIMock('API calls', context => {
@@ -60,6 +61,16 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#destroyCustomAttributes', () => {
+      contactAPI.destroyCustomAttributes(1, ['cloudCustomer']);
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/destroy_custom_attributes',
+        {
+          custom_attributes: ['cloudCustomer'],
+        }
+      );
+    });
+
     it('#importContacts', () => {
       const file = 'file';
       contactAPI.importContacts(file);
@@ -69,6 +80,24 @@ describe('#ContactsAPI', () => {
         {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
+      );
+    });
+
+    it('#filter', () => {
+      const queryPayload = {
+        payload: [
+          {
+            attribute_key: 'email',
+            filter_operator: 'contains',
+            values: ['fayaz'],
+            query_operator: null,
+          },
+        ],
+      };
+      contactAPI.filter(1, 'name', queryPayload);
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/filter?include_contact_inboxes=false&page=1&sort=name',
+        queryPayload
       );
     });
   });

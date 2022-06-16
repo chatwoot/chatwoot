@@ -10,7 +10,7 @@
         />
       </woot-tabs>
 
-      <div class="columns with-right-space ">
+      <div class="columns with-right-space">
         <p
           v-if="!uiFlags.isFetching && !attributes.length"
           class="no-items-error-message"
@@ -50,23 +50,23 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  variant="link"
+                  v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
+                  variant="smooth"
+                  size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
-                  icon="ion-edit"
+                  icon="edit"
                   @click="openEditPopup(attribute)"
-                >
-                  {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT') }}
-                </woot-button>
+                />
                 <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  icon="ion-close-circled"
+                  v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
                   class-names="grey-btn"
                   @click="openDelete(attribute)"
-                >
-                  {{ $t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE') }}
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -74,7 +74,7 @@
       </div>
     </div>
     <div class="small-4 columns">
-      <span v-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')"></span>
+      <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-attribute

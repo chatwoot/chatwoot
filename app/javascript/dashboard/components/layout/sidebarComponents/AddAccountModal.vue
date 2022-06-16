@@ -12,7 +12,7 @@
       <div v-if="!hasAccounts" class="alert-wrap">
         <div class="callout alert">
           <div class="icon-wrap">
-            <i class="ion-alert-circled"></i>
+            <fluent-icon icon="warning" />
           </div>
           {{ $t('CREATE_ACCOUNT.NO_ACCOUNT_WARNING') }}
         </div>
@@ -102,18 +102,19 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .alert-wrap {
-  margin: var(--space-zero) var(--space-large);
-  margin-top: var(--space-medium);
+  font-size: var(--font-size-small);
+  margin: var(--space-medium) var(--space-large) var(--space-zero);
+
   .callout {
+    align-items: center;
+    border-radius: var(--border-radius-normal);
     display: flex;
-    justify-content: center;
   }
 }
 
 .icon-wrap {
-  font-size: var(--font-size-big);
   margin-left: var(--space-smaller);
   margin-right: var(--space-slab);
 }

@@ -9,8 +9,7 @@ module RequestExceptionHandler
 
   def handle_with_exception
     yield
-  rescue ActiveRecord::RecordNotFound => e
-    Sentry.capture_exception(e)
+  rescue ActiveRecord::RecordNotFound
     render_not_found_error('Resource could not be found')
   rescue Pundit::NotAuthorizedError
     render_unauthorized('You are not authorized to do this action')
@@ -31,13 +30,18 @@ module RequestExceptionHandler
     render json: { error: message }, status: :unprocessable_entity
   end
 
+  def render_payment_required(message)
+    render json: { error: message }, status: :payment_required
+  end
+
   def render_internal_server_error(message)
     render json: { error: message }, status: :internal_server_error
   end
 
   def render_record_invalid(exception)
     render json: {
-      message: exception.record.errors.full_messages.join(', ')
+      message: exception.record.errors.full_messages.join(', '),
+      attributes: exception.record.errors.attribute_names
     }, status: :unprocessable_entity
   end
 

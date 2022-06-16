@@ -66,4 +66,12 @@ export const mutations = {
       }
     });
   },
+
+  [types.SET_CONTACT_FILTERS](_state, data) {
+    _state.appliedFilters = data;
+  },
+
+  [types.CLEAR_CONTACT_FILTERS](_state) {
+    _state.appliedFilters = [];
+  },
 };

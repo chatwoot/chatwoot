@@ -1,0 +1,19 @@
+tags:
+  - Messages
+operationId: list-all-messages
+summary: Get messages
+description: List all messages of a conversation
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: Array of messages
+      items:
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
+  404:
+    description: Conversation not found
+  401:
+    description: Unauthorized

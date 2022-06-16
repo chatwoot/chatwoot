@@ -5,7 +5,7 @@ import VTooltip from 'v-tooltip';
 
 import Button from 'dashboard/components/buttons/Button';
 import i18n from 'dashboard/i18n';
-
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import MoreActions from '../MoreActions';
 
 const localVue = createLocalVue();
@@ -13,6 +13,7 @@ localVue.use(Vuex);
 localVue.use(VueI18n);
 localVue.use(VTooltip);
 
+localVue.component('fluent-icon', FluentIcon);
 localVue.component('woot-button', Button);
 
 const i18nConfig = new VueI18n({
@@ -33,6 +34,8 @@ describe('MoveActions', () => {
   beforeEach(() => {
     window.bus = {
       $emit: jest.fn(),
+      $on: jest.fn(),
+      $off: jest.fn(),
     };
 
     state = {
@@ -81,7 +84,8 @@ describe('MoveActions', () => {
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
-        'This conversation is muted for 6 hours'
+        'This conversation is muted for 6 hours',
+        undefined
       );
     });
   });
@@ -106,7 +110,8 @@ describe('MoveActions', () => {
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
-        'This conversation is unmuted'
+        'This conversation is unmuted',
+        undefined
       );
     });
   });

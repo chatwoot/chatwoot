@@ -48,6 +48,11 @@ const sendEmailTranscript = async ({ email }) => {
     { email }
   );
 };
+const toggleStatus = async () => {
+  return API.get(
+    `/api/v1/widget/conversations/toggle_status${window.location.search}`
+  );
+};
 
 export {
   createConversationAPI,
@@ -58,4 +63,5 @@ export {
   toggleTyping,
   setUserLastSeenAt,
   sendEmailTranscript,
+  toggleStatus,
 };

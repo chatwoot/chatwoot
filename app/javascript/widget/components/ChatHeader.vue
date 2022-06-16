@@ -1,25 +1,40 @@
 <template>
-  <header class="header-collapsed">
-    <div class="header-branding">
+  <header
+    class="flex justify-between p-5 w-full"
+    :class="$dm('bg-white', 'dark:bg-slate-900')"
+  >
+    <div class="flex items-center">
+      <button v-if="showBackButton" @click="onBackButtonClick">
+        <fluent-icon
+          icon="chevron-left"
+          size="24"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
+        />
+      </button>
       <img
         v-if="avatarUrl"
-        class="inbox--avatar mr-3"
+        class="h-8 w-8 rounded-full mr-3"
         :src="avatarUrl"
         alt="avatar"
       />
       <div>
-        <div class="text-black-900 font-medium text-base flex items-center">
-          <span class="mr-1" v-html="title" />
+        <div
+          class="font-medium text-base flex items-center"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
+        >
+          <span v-dompurify-html="title" class="mr-1" />
           <div
             :class="
-              `status-view--badge rounded-full leading-4 ${
-                isOnline ? 'bg-green-500' : 'hidden'
-              }`
+              `h-2 w-2 rounded-full leading-4
+              ${isOnline ? 'bg-green-500' : 'hidden'}`
             "
           />
         </div>
-        <div class="text-xs mt-1 text-black-700">
-          {{ replyWaitMeessage }}
+        <div
+          class="text-xs mt-1"
+          :class="$dm('text-black-700', 'dark:text-slate-400')"
+        >
+          {{ replyWaitMessage }}
         </div>
       </div>
     </div>
@@ -29,15 +44,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import HeaderActions from './HeaderActions';
+
 import availabilityMixin from 'widget/mixins/availability';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import HeaderActions from './HeaderActions';
+import routerMixin from 'widget/mixins/routerMixin';
+import darkMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'ChatHeader',
   components: {
+    FluentIcon,
     HeaderActions,
   },
-  mixins: [availabilityMixin],
+  mixins: [availabilityMixin, routerMixin, darkMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -48,6 +68,10 @@ export default {
       default: '',
     },
     showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
+    showBackButton: {
       type: Boolean,
       default: false,
     },
@@ -69,47 +93,16 @@ export default {
       }
       return anyAgentOnline;
     },
-    replyWaitMeessage() {
+    replyWaitMessage() {
       return this.isOnline
         ? this.replyTimeStatus
         : this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
   },
+  methods: {
+    onBackButtonClick() {
+      this.replaceRoute('home');
+    },
+  },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
-
-.header-collapsed {
-  display: flex;
-  justify-content: space-between;
-  padding: $space-two $space-medium;
-  width: 100%;
-  box-sizing: border-box;
-
-  .header-branding {
-    display: flex;
-    align-items: center;
-
-    img {
-      border-radius: 50%;
-    }
-  }
-
-  .title {
-    font-weight: $font-weight-medium;
-  }
-
-  .inbox--avatar {
-    height: 32px;
-    width: 32px;
-  }
-}
-
-.status-view--badge {
-  height: $space-small;
-  width: $space-small;
-}
-</style>

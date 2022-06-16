@@ -4,22 +4,24 @@
 #
 # Table name: inboxes
 #
-#  id                     :integer          not null, primary key
-#  channel_type           :string
-#  csat_survey_enabled    :boolean          default(FALSE)
-#  email_address          :string
-#  enable_auto_assignment :boolean          default(TRUE)
-#  enable_email_collect   :boolean          default(TRUE)
-#  greeting_enabled       :boolean          default(FALSE)
-#  greeting_message       :string
-#  name                   :string           not null
-#  out_of_office_message  :string
-#  timezone               :string           default("UTC")
-#  working_hours_enabled  :boolean          default(FALSE)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  account_id             :integer          not null
-#  channel_id             :integer          not null
+#  id                            :integer          not null, primary key
+#  allow_messages_after_resolved :boolean          default(TRUE)
+#  auto_assignment_config        :jsonb
+#  channel_type                  :string
+#  csat_survey_enabled           :boolean          default(FALSE)
+#  email_address                 :string
+#  enable_auto_assignment        :boolean          default(TRUE)
+#  enable_email_collect          :boolean          default(TRUE)
+#  greeting_enabled              :boolean          default(FALSE)
+#  greeting_message              :string
+#  name                          :string           not null
+#  out_of_office_message         :string
+#  timezone                      :string           default("UTC")
+#  working_hours_enabled         :boolean          default(FALSE)
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#  account_id                    :integer          not null
+#  channel_id                    :integer          not null
 #
 # Indexes
 #
@@ -34,24 +36,25 @@ class Inbox < ApplicationRecord
   validates :name, presence: true
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
+  validate :ensure_valid_max_assignment_limit
 
   belongs_to :account
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
-  has_many :campaigns, dependent: :destroy
-  has_many :contact_inboxes, dependent: :destroy
+  has_many :campaigns, dependent: :destroy_async
+  has_many :contact_inboxes, dependent: :destroy_async
   has_many :contacts, through: :contact_inboxes
 
-  has_many :inbox_members, dependent: :destroy
+  has_many :inbox_members, dependent: :destroy_async
   has_many :members, through: :inbox_members, source: :user
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
   has_many :messages, through: :conversations
 
-  has_one :agent_bot_inbox, dependent: :destroy
+  has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
-  has_many :webhooks, dependent: :destroy
-  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
+  has_many :webhooks, dependent: :destroy_async
+  has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
   after_destroy :delete_round_robin_agents
 
@@ -87,6 +90,14 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::TwilioSms'
   end
 
+  def twitter?
+    channel_type == 'Channel::TwitterProfile'
+  end
+
+  def whatsapp?
+    channel_type == 'Channel::Whatsapp'
+  end
+
   def inbox_type
     channel.name
   end
@@ -102,14 +113,26 @@ class Inbox < ApplicationRecord
     case channel_type
     when 'Channel::TwilioSms'
       "#{ENV['FRONTEND_URL']}/twilio/callback"
+    when 'Channel::Sms'
+      "#{ENV['FRONTEND_URL']}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
     when 'Channel::Line'
       "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
     end
   end
 
+  def member_ids_with_assignment_capacity
+    members.ids
+  end
+
   private
+
+  def ensure_valid_max_assignment_limit
+    # overridden in enterprise/app/models/enterprise/inbox.rb
+  end
 
   def delete_round_robin_agents
     ::RoundRobin::ManageService.new(inbox: self).clear_queue
   end
 end
+
+Inbox.prepend_mod_with('Inbox')

@@ -13,6 +13,10 @@
         "TITLE": "Ajustes generales",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "ID de Cuenta",
+        "NOTE": "Este ID es necesario si estás construyendo una integración basada en API"
+      },
       "NAME": {
         "LABEL": "Nombre de cuenta",
         "PLACEHOLDER": "Tu nombre de cuenta",
@@ -36,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Número de días después de que un ticket se resuelva automáticamente si no hay actividad",
         "PLACEHOLDER": "30",
-        "ERROR": "Por favor, introduzca una duración válida de resolución automática (mínimo 1 día)"
+        "ERROR": "Por favor introduzca una duración válida de resolución automática (mínimo 1 día y máximo 999 días)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puede recibir emails en su dominio personalizado."
       }
     },
-    "UPDATE_CHATWOOT": "Hay una actualización %{latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia."
+    "UPDATE_CHATWOOT": "Hay una actualización %{latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia.",
+    "LEARN_MORE": "Más información"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -55,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaciones",
     "MARK_ALL_DONE": "Marcar Todo Hecho",
+    "DELETE_TITLE": "Eliminado",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notificaciones sin leer",
+      "ALL_NOTIFICATIONS": "Ver todas las notificaciones",
+      "LOADING_UNREAD_MESSAGE": "Cargando notificaciones no leídas...",
+      "EMPTY_MESSAGE": "No tiene notificaciones sin leer"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Cargando notificaciones...",
       "404": "Aún no hay notificaciones",
@@ -70,6 +82,59 @@
       "conversation_assignment": "Conversación asignada",
       "assigned_conversation_new_message": "Nuevo mensaje",
       "conversation_mention": "Mención"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Desconectado de Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Actualizar"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Buscar o saltar a",
+    "SECTIONS": {
+      "GENERAL": "General",
+      "REPORTS": "Informes",
+      "CONVERSATION": "Conversación",
+      "CHANGE_ASSIGNEE": "Cambiar Asignado",
+      "CHANGE_TEAM": "Cambiar equipo",
+      "ADD_LABEL": "Añadir etiqueta a la conversación",
+      "REMOVE_LABEL": "Eliminar etiqueta de la conversación",
+      "SETTINGS": "Ajustes"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
+      "GO_TO_CONTACTS_DASHBOARD": "Ir al panel de contactos",
+      "GO_TO_REPORTS_OVERVIEW": "Ir al Resumen de Reportes",
+      "GO_TO_CONVERSATION_REPORTS": "Ir a Reportes de Conversación",
+      "GO_TO_AGENT_REPORTS": "Ir a Reportes de Agente",
+      "GO_TO_LABEL_REPORTS": "Ir a Reportes de Etiquetas",
+      "GO_TO_INBOX_REPORTS": "Ir a Reportes de Entrada",
+      "GO_TO_TEAM_REPORTS": "Ir a Reportes de Equipo",
+      "GO_TO_SETTINGS_AGENTS": "Ir a la configuración del agente",
+      "GO_TO_SETTINGS_TEAMS": "Ir a Configuración de Equipo",
+      "GO_TO_SETTINGS_INBOXES": "Ir a Ajustes de la Bandeja de Entrada",
+      "GO_TO_SETTINGS_LABELS": "Ir a Configuración de Etiqueta",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir a Configuración de Respuesta Predefinida",
+      "GO_TO_SETTINGS_APPLICATIONS": "Ir a la configuración de la aplicación",
+      "GO_TO_SETTINGS_ACCOUNT": "Ir a Configuración de Cuenta",
+      "GO_TO_SETTINGS_PROFILE": "Ir a Configuración del Perfil",
+      "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
+      "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
+      "ASSIGN_AN_AGENT": "Asignar un agente",
+      "ASSIGN_A_TEAM": "Asignar un equipo",
+      "MUTE_CONVERSATION": "Silenciar conversación",
+      "UNMUTE_CONVERSATION": "Quitar silencio de conversación",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Eliminar etiqueta de la conversación",
+      "REOPEN_CONVERSATION": "Resolver conversación",
+      "RESOLVE_CONVERSATION": "Resolver conversación",
+      "SEND_TRANSCRIPT": "Enviar una transcripción por email",
+      "SNOOZE_CONVERSATION": "Posponer conversación",
+      "UNTIL_NEXT_REPLY": "Hasta la siguiente respuesta",
+      "UNTIL_NEXT_WEEK": "Hasta la próxima semana",
+      "UNTIL_TOMORROW": "Hasta mañana"
     }
   }
 }

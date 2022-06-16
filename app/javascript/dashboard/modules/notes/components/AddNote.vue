@@ -1,45 +1,64 @@
 <template>
   <div class="card">
-    <textarea
-      v-model="inputText"
-      :placeholder="$t('NOTES.ADD.PLACEHOLDER')"
+    <woot-message-editor
+      v-model="noteContent"
       class="input--note"
-      @keydown.enter.shift.exact="onAdd"
+      :placeholder="$t('NOTES.ADD.PLACEHOLDER')"
+      :enable-suggestions="false"
     />
     <div class="footer">
       <woot-button
-        size="tiny"
         color-scheme="warning"
         :title="$t('NOTES.ADD.TITLE')"
         :is-disabled="buttonDisabled"
         @click="onAdd"
       >
-        {{ $t('NOTES.ADD.BUTTON') }}
+        {{ $t('NOTES.ADD.BUTTON') }} (⌘⏎)
       </woot-button>
     </div>
   </div>
 </template>
 
 <script>
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import { hasPressedCommandAndEnter } from 'shared/helpers/KeyboardHelpers';
 export default {
+  components: {
+    WootMessageEditor,
+  },
+
   data() {
     return {
-      inputText: '',
+      noteContent: '',
     };
   },
 
   computed: {
     buttonDisabled() {
-      return this.inputText === '';
+      return this.noteContent === '';
     },
   },
 
+  mounted() {
+    document.addEventListener('keydown', this.onMetaEnter);
+  },
+
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.onMetaEnter);
+  },
+
   methods: {
-    onAdd() {
-      if (this.inputText !== '') {
-        this.$emit('add', this.inputText);
+    onMetaEnter(e) {
+      if (hasPressedCommandAndEnter(e)) {
+        e.preventDefault();
+        this.onAdd();
       }
-      this.inputText = '';
+    },
+    onAdd() {
+      if (this.noteContent !== '') {
+        this.$emit('add', this.noteContent);
+      }
+      this.noteContent = '';
     },
   },
 };
@@ -47,12 +66,14 @@ export default {
 
 <style lang="scss" scoped>
 .input--note {
-  font-size: var(--font-size-mini);
-  border-color: transparent;
-  margin-bottom: var(--space-small);
-  padding: 0;
-  resize: none;
-  min-height: var(--space-larger);
+  &::v-deep .ProseMirror-menubar {
+    padding: 0;
+    margin-top: var(--space-minus-small);
+  }
+
+  &::v-deep .ProseMirror-woot-style {
+    max-height: 36rem;
+  }
 }
 
 .footer {

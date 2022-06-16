@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
     "404": "Lütfen sol bölmeden bir konuşma seçin",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mesajlar",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Görünüşe göre gelen kutunuzda müşterilerden hiç mesaj yok.",
     "NO_MESSAGE_2": "sayfanıza bir mesaj göndermek için!",
     "NO_INBOX_1": "Görünüşe göre henüz gelen kutusu eklemediniz.",
@@ -9,7 +11,7 @@
     "SEARCH_MESSAGES": "Sohbetlerde ara",
     "SEARCH": {
       "TITLE": "Mesajları ara",
-      "RESULT_TITLE": "Search Results",
+      "RESULT_TITLE": "Arama Sonucu",
       "LOADING_MESSAGE": "Veriler işleniyor ...",
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
       "NO_MATCHING_RESULTS": "Sonuç bulunamadı."
@@ -21,15 +23,18 @@
     "LOADING_CONVERSATIONS": "Loading Conversations\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
+    "ASSIGN_TO_ME": "Bana ata",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "Lütfen yanıtlamak için bir tweet seçin.",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
+    "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
+    "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
@@ -39,7 +44,10 @@
       "OPEN_ACTION": "Açık",
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
-      "DETAILS": "detaylar"
+      "DETAILS": "detaylar",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -47,12 +55,17 @@
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "NEXT_WEEK": "Sonraki hafta"
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "İmzanız",
+      "ENABLE_SIGN_TOOLTIP": "İmzayı aktif et",
+      "DISABLE_SIGN_TOOLTIP": "İmzayı pasif et",
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
-      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir"
+      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Güncellemek için tıklayın"
     },
     "REPLYBOX": {
       "REPLY": "Cevapla",
@@ -63,19 +76,25 @@
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
+      "TIP_AUDIORECORDER_ICON": "Ses kaydet",
+      "TIP_AUDIORECORDER_PERMISSION": "Mikrofon erişimine izin ver",
+      "TIP_AUDIORECORDER_ERROR": "Mikrofon açılamadı",
       "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
-      "DRAG_DROP": "Drag and drop here to attach",
+      "DRAG_DROP": "Eklemek için buraya sürükleyip bırakın",
+      "START_AUDIO_RECORDING": "Ses kaydetmeye başla",
+      "STOP_AUDIO_RECORDING": "Ses kaydetmeyi durdur",
+      "": "",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Add bcc",
+        "ADD_BCC": "Bcc ekle",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
+          "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
+          "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         }
       }
     },
@@ -84,7 +103,11 @@
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
     "CHANGE_TEAM": "Görüşme takımı değişti",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Tarafından gönderildi:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
@@ -122,7 +145,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
@@ -152,7 +175,29 @@
       "PREVIOUS_CONVERSATION": "Önceki Sohbetler"
     }
   },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Öznitelik başarıyla güncellendi",
+      "ERROR": "Nitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"
+    },
+    "ADD": {
+      "TITLE": "Ekle",
+      "SUCCESS": "Öznitelik başarıyla eklendi",
+      "ERROR": "Nitelik eklenemedi. Lütfen daha sonra tekrar deneyiniz"
+    },
+    "DELETE": {
+      "SUCCESS": "Öznitelik başarıyla silindi",
+      "ERROR": "Nitelik silinemedi. Lütfen daha sonra tekrar deneyiniz"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Özellik ekle",
+      "PLACEHOLDER": "Öznitelik ara",
+      "NO_RESULT": "Nitelik bulunamadı"
+    }
+  },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "ya",
     "BCC": "Bcc",
     "CC": "Cc",

@@ -1,84 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Attributes",
-    "HEADER_BTN_TXT": "Add Attribute",
-    "LOADING": "Fetching attributes",
-    "SIDEBAR_TXT": "<p><b>Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Attributes, just click on the <b>Add Attribute.</b> You can also edit or delete an existing  Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Attributi personalizzati",
+    "HEADER_BTN_TXT": "Aggiungi attributo personalizzato",
+    "LOADING": "Recupero degli attributi personalizzati",
+    "SIDEBAR_TXT": "<p><b>Attributi personalizzati</b> <p>Un attributo personalizzato tiene traccia dei dati relativi ai tuoi contatti/conversazioni — come il piano di abbonamento, o quando hanno ordinato il primo oggetto, ecc. <br /><br />Per creare un attributo personalizzato, basta cliccare sul pulsante <b>Aggiungi attributo personalizzato.</b> Puoi anche modificare o eliminare un attributo personalizzato esistente facendo clic sul pulsante Modifica o Elimina.</p>",
     "ADD": {
-      "TITLE": "Add attribute",
-      "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "TITLE": "Aggiungi attributo personalizzato",
+      "SUBMIT": "Crea",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Nome visualizzato",
+          "PLACEHOLDER": "Inserisci il nome di visualizzazione dell'attributo personalizzato",
+          "ERROR": "Il nome è obbligatorio"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter attribute description",
-          "ERROR": "Description is required"
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Inserisci una descrizione dell'attributo personalizzato",
+          "ERROR": "La descrizione è obbligatoria"
         },
         "MODEL": {
-          "LABEL": "Model",
-          "PLACEHOLDER": "Please select a model",
-          "ERROR": "Model is required"
+          "LABEL": "Si applica a",
+          "PLACEHOLDER": "Si prega di selezionarne uno",
+          "ERROR": "Il modello è obbligatorio"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required"
+          "LABEL": "Tipo",
+          "PLACEHOLDER": "Seleziona un tipo",
+          "ERROR": "Il tipo è obbligatorio",
+          "LIST": {
+            "LABEL": "Elenco valori",
+            "PLACEHOLDER": "Inserisci il valore e premi il tasto Invio",
+            "ERROR": "Deve avere almeno un valore"
+          }
         },
         "KEY": {
-          "LABEL": "Key"
+          "LABEL": "Chiave",
+          "PLACEHOLDER": "Inserisci la chiave dell'attributo personalizzato",
+          "ERROR": "La chiave è obbligatoria",
+          "IN_VALID": "Chiave non valida"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create an attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Attributo personalizzato aggiunto con successo",
+        "ERROR_MESSAGE": "Impossibile creare un attributo personalizzato, riprova più tardi"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the attribute. Try again."
+        "SUCCESS_MESSAGE": "Attributo personalizzato eliminato con successo.",
+        "ERROR_MESSAGE": "Impossibile eliminare l'attributo personalizzato. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the attribute",
-        "YES": "Cancellare ",
-        "NO": "annulla"
+        "TITLE": "Sei sicuro di voler eliminare - %{attributeName}",
+        "PLACE_HOLDER": "Digita {attributeName} per confermare",
+        "MESSAGE": "L'eliminazione rimuoverà l'attributo personalizzato",
+        "YES": "Elimina ",
+        "NO": "Annulla"
       }
     },
     "EDIT": {
-      "TITLE": "Edit attribute",
-      "UPDATE_BUTTON_TEXT": "Aggiornamento",
+      "TITLE": "Modifica attributo personalizzato",
+      "UPDATE_BUTTON_TEXT": "Aggiorna",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Elenco valori",
+          "PLACEHOLDER": "Inserire i valori e premere il tasto Invio"
+        }
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating attribute, please try again"
+        "SUCCESS_MESSAGE": "Attributo personalizzato aggiornato con successo",
+        "ERROR_MESSAGE": "Si è verificato un errore durante l'aggiornamento dell'attributo personalizzato, si prega di riprovare"
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Attributi personalizzati",
+      "CONVERSATION": "Conversazioni",
+      "CONTACT": "Contatto"
     },
     "LIST": {
       "TABLE_HEADER": [
-        "nome",
-        "Description",
-        "Type",
-        "Key"
+        "Nome",
+        "Descrizione",
+        "Tipo",
+        "Chiave"
       ],
       "BUTTONS": {
         "EDIT": "Modifica",
-        "DELETE": "Cancellare"
+        "DELETE": "Elimina"
       },
       "EMPTY_RESULT": {
-        "404": "There are no attributes created",
-        "NOT_FOUND": "There are no attributes configured"
+        "404": "Non ci sono attributi personalizzati creati",
+        "NOT_FOUND": "Non ci sono attributi personalizzati configurati"
       }
     }
   }

@@ -1,0 +1,26 @@
+get:
+  tags:
+    - Contacts
+  operationId: contactSearch
+  description: Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number
+  summary: Search Contacts
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: q
+      in: query
+      type: string
+      description: Search using contact `name`, `identifier`, `email` or `phone number`
+    - $ref: '#/parameters/contact_sort_param'
+    - $ref: '#/parameters/page'
+  responses:
+    200:
+      description: Success
+      schema:
+        type: object
+        properties:
+          payload:
+            $ref: '#/definitions/contact_list'
+    401:
+      description: Authentication error
+      schema:
+        $ref: '#/definitions/bad_request_error'

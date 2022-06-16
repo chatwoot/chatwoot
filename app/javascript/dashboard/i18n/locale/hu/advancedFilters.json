@@ -1,0 +1,93 @@
+{
+  "FILTER": {
+    "TITLE": "Filter Conversations",
+    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "ADD_NEW_FILTER": "Add Filter",
+    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "CANCEL_BUTTON_LABEL": "Mégse",
+    "CLEAR_BUTTON_LABEL": "Clear Filters",
+    "EMPTY_VALUE_ERROR": "Value is required",
+    "TOOLTIP_LABEL": "Filter conversations",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "AND",
+      "OR": "OR"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Equal to",
+      "not_equal_to": "Not equal to",
+      "contains": "Contains",
+      "does_not_contain": "Does not contain",
+      "is_present": "Is present",
+      "is_not_present": "Is not present",
+      "is_greater_than": "Is greater than",
+      "is_less_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Státusz",
+      "ASSIGNEE_NAME": "Assignee Name",
+      "INBOX_NAME": "Fiók név",
+      "TEAM_NAME": "Team Name",
+      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
+      "CAMPAIGN_NAME": "Campaign Name",
+      "LABELS": "Cimkék",
+      "BROWSER_LANGUAGE": "Browser Language",
+      "COUNTRY_NAME": "Country Name",
+      "REFERER_LINK": "Referer link",
+      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "Utolsó aktivitás"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standard Filters",
+      "ADDITIONAL_FILTERS": "Additional Filters",
+      "CUSTOM_ATTRIBUTES": "Egyedi atribútumok"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Do you want to save this filter?",
+        "LABEL": "Name this filter",
+        "PLACEHOLDER": "Enter a name for this filter",
+        "ERROR_MESSAGE": "Name is required",
+        "SAVE_BUTTON": "Save filter",
+        "CANCEL_BUTTON": "Mégse",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder created successfully",
+          "ERROR_MESSAGE": "Error while creating folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment created successfully",
+          "ERROR_MESSAGE": "Error while creating segment"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Delete filter",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Törlés megerősítése",
+            "MESSAGE": "Are you sure to delete the filter ",
+            "YES": "Igen, Törlés",
+            "NO": "Nem, tartsa meg"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Folder deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting folder"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "ERROR_MESSAGE": "Error while deleting segment"
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,14 @@
 <template>
-  <note-list :notes="notes" @add="onAdd" @delete="onDelete" />
+  <note-list
+    :is-fetching="uiFlags.isFetching"
+    :notes="notes"
+    @add="onAdd"
+    @delete="onDelete"
+  />
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import NoteList from './components/NoteList';
 
 export default {
@@ -16,6 +22,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({ uiFlags: 'contactNotes/getUIFlags' }),
     notes() {
       return this.$store.getters['contactNotes/getAllNotesByContact'](
         this.contactId

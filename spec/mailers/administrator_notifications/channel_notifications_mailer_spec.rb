@@ -25,6 +25,10 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer, type: :ma
   end
 
   describe 'facebook_disconnect' do
+    before do
+      stub_request(:post, /graph.facebook.com/)
+    end
+
     let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
     let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
     let(:mail) { described_class.with(account: account).facebook_disconnect(facebook_inbox).deliver_now }

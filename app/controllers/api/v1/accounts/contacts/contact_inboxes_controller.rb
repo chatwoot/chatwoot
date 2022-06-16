@@ -1,5 +1,4 @@
-class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts::BaseController
-  before_action :ensure_contact
+class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts::Contacts::BaseController
   before_action :ensure_inbox, only: [:create]
 
   def create
@@ -12,9 +11,5 @@ class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts:
   def ensure_inbox
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @inbox, :show?
-  end
-
-  def ensure_contact
-    @contact = Current.account.contacts.find(params[:contact_id])
   end
 end

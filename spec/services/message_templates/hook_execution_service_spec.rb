@@ -62,20 +62,6 @@ describe ::MessageTemplates::HookExecutionService do
       expect(email_collect_service).to have_received(:perform)
     end
 
-    it 'doesnot calls ::MessageTemplates::Template::EmailCollect when prechat form is enabled' do
-      contact = create(:contact, email: nil)
-      conversation = create(:conversation, contact: contact)
-
-      # ensure prechat form is enabled
-      conversation.inbox.channel.update(pre_chat_form_enabled: true)
-      allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(true)
-
-      # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
-
-      expect(::MessageTemplates::Template::EmailCollect).not_to have_received(:new).with(conversation: message.conversation)
-    end
-
     it 'doesnot calls ::MessageTemplates::Template::EmailCollect on campaign conversations' do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact, campaign: create(:campaign))
@@ -117,6 +103,9 @@ describe ::MessageTemplates::HookExecutionService do
       conversation.inbox.update(csat_survey_enabled: true)
 
       conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
 
       expect(::MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
       expect(csat_survey).to have_received(:perform)
@@ -126,6 +115,9 @@ describe ::MessageTemplates::HookExecutionService do
       conversation.inbox.update(csat_survey_enabled: false)
 
       conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
 
       expect(::MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
       expect(csat_survey).not_to have_received(:perform)
@@ -138,6 +130,9 @@ describe ::MessageTemplates::HookExecutionService do
       conversation.inbox.update(csat_survey_enabled: true)
 
       conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
 
       expect(::MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
       expect(csat_survey).not_to have_received(:perform)
@@ -148,6 +143,9 @@ describe ::MessageTemplates::HookExecutionService do
       conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
 
       conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
 
       expect(::MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
       expect(csat_survey).not_to have_received(:perform)

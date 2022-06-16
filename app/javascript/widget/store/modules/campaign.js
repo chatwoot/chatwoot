@@ -9,61 +9,115 @@ const state = {
   records: [],
   uiFlags: {
     isError: false,
-    hasFetched: false,
   },
   activeCampaign: {},
 };
 
-const resetCampaignTimers = (campaigns, currentURL) => {
+const resetCampaignTimers = (
+  campaigns,
+  currentURL,
+  websiteToken,
+  isInBusinessHours
+) => {
   const formattedCampaigns = formatCampaigns({ campaigns });
   // Find all campaigns that matches the current URL
   const filteredCampaigns = filterCampaigns({
     campaigns: formattedCampaigns,
     currentURL,
+    isInBusinessHours,
   });
-  campaignTimer.initTimers({ campaigns: filteredCampaigns });
+  campaignTimer.initTimers({ campaigns: filteredCampaigns }, websiteToken);
 };
 
 export const getters = {
-  getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
   getActiveCampaign: $state => $state.activeCampaign,
 };
 
 export const actions = {
-  fetchCampaigns: async ({ commit }, { websiteToken, currentURL }) => {
+  fetchCampaigns: async (
+    { commit },
+    { websiteToken, currentURL, isInBusinessHours }
+  ) => {
     try {
       const { data: campaigns } = await getCampaigns(websiteToken);
       commit('setCampaigns', campaigns);
       commit('setError', false);
-      commit('setHasFetched', true);
-      resetCampaignTimers(campaigns, currentURL);
+      resetCampaignTimers(
+        campaigns,
+        currentURL,
+        websiteToken,
+        isInBusinessHours
+      );
     } catch (error) {
       commit('setError', true);
-      commit('setHasFetched', true);
     }
   },
   initCampaigns: async (
     { getters: { getCampaigns: campaigns }, dispatch },
-    { currentURL, websiteToken }
+    { currentURL, websiteToken, isInBusinessHours }
   ) => {
     if (!campaigns.length) {
-      dispatch('fetchCampaigns', { websiteToken, currentURL });
+      dispatch('fetchCampaigns', {
+        websiteToken,
+        currentURL,
+        isInBusinessHours,
+      });
     } else {
-      resetCampaignTimers(campaigns, currentURL);
+      resetCampaignTimers(
+        campaigns,
+        currentURL,
+        websiteToken,
+        isInBusinessHours
+      );
     }
   },
   startCampaign: async (
-    { getters: { getCampaigns: campaigns }, commit },
-    { campaignId }
+    {
+      commit,
+      rootState: {
+        appConfig: { isWidgetOpen },
+      },
+    },
+    { websiteToken, campaignId }
   ) => {
-    const campaign = campaigns.find(item => item.id === campaignId);
-    commit('setActiveCampaign', campaign);
+    // Disable campaign execution if widget is opened
+    if (!isWidgetOpen) {
+      const { data: campaigns } = await getCampaigns(websiteToken);
+      // Check campaign is disabled or not
+      const campaign = campaigns.find(item => item.id === campaignId);
+      if (campaign) {
+        commit('setActiveCampaign', campaign);
+      }
+    }
   },
 
-  executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
+  executeCampaign: async (
+    { commit },
+    { campaignId, websiteToken, customAttributes }
+  ) => {
     try {
-      await triggerCampaign({ campaignId, websiteToken });
+      commit(
+        'conversation/setConversationUIFlag',
+        { isCreating: true },
+        { root: true }
+      );
+      await triggerCampaign({ campaignId, websiteToken, customAttributes });
+      commit('setCampaignExecuted', true);
+      commit('setActiveCampaign', {});
+    } catch (error) {
+      commit('setError', true);
+    } finally {
+      commit(
+        'conversation/setConversationUIFlag',
+        { isCreating: false },
+        { root: true }
+      );
+    }
+  },
+  resetCampaign: async ({ commit }) => {
+    try {
+      commit('setCampaignExecuted', false);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -83,6 +137,9 @@ export const mutations = {
   },
   setHasFetched($state, value) {
     Vue.set($state.uiFlags, 'hasFetched', value);
+  },
+  setCampaignExecuted($state, data) {
+    Vue.set($state, 'campaignHasExecuted', data);
   },
 };
 

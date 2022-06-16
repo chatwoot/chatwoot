@@ -5,8 +5,8 @@ import {
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
+  toggleStatus,
 } from 'widget/api/conversation';
-import { refreshActionCableConnector } from '../../../helpers/actionCable';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 
@@ -15,13 +15,9 @@ export const actions = {
     commit('setConversationUIFlag', { isCreating: true });
     try {
       const { data } = await createConversationAPI(params);
-      const {
-        contact: { pubsub_token: pubsubToken },
-        messages,
-      } = data;
+      const { messages } = data;
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
-      refreshActionCableConnector(pubsubToken);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
     } catch (error) {
       // Ignore error
@@ -29,15 +25,35 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  sendMessage: async ({ commit }, params) => {
+  sendMessage: async ({ dispatch }, params) => {
     const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage({ content }));
-    await sendMessageAPI(content);
+    const message = createTemporaryMessage({ content });
+
+    dispatch('sendMessageWithData', message);
+  },
+  sendMessageWithData: async ({ commit }, message) => {
+    const { id, content, meta = {} } = message;
+
+    commit('pushMessageToConversation', message);
+    commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
+    try {
+      const { data } = await sendMessageAPI(content);
+
+      commit('deleteMessage', message.id);
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
+    } catch (error) {
+      commit('pushMessageToConversation', { ...message, status: 'failed' });
+      commit('updateMessageMeta', {
+        id,
+        meta: { ...meta, error: '' },
+      });
+    }
   },
 
   sendAttachment: async ({ commit }, params) => {
     const {
       attachment: { thumbUrl, fileType },
+      meta = {},
     } = params;
     const attachment = {
       thumb_url: thumbUrl,
@@ -55,15 +71,25 @@ export const actions = {
         message: data,
         tempId: tempMessage.id,
       });
+      commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
+      commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
+      commit('updateMessageMeta', {
+        id: tempMessage.id,
+        meta: { ...meta, error: '' },
+      });
       // Show error
     }
   },
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getMessagesAPI({ before });
-      const formattedMessages = getNonDeletedMessages({ messages: data });
+      const {
+        data: { payload, meta },
+      } = await getMessagesAPI({ before });
+      const { contact_last_seen_at: lastSeen } = meta;
+      const formattedMessages = getNonDeletedMessages({ messages: payload });
+      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
     } catch (error) {
@@ -108,5 +134,9 @@ export const actions = {
     } catch (error) {
       // IgnoreError
     }
+  },
+
+  resolveConversation: async () => {
+    await toggleStatus();
   },
 };

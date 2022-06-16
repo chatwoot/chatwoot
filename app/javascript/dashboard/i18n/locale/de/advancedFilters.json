@@ -1,0 +1,93 @@
+{
+  "FILTER": {
+    "TITLE": "Gespräche filtern",
+    "SUBTITLE": "Fügen Sie unten Filter hinzu und klicken Sie auf „Filter anwenden“, um Konversationen zu filtern.",
+    "ADD_NEW_FILTER": "Filter hinzufügen",
+    "FILTER_DELETE_ERROR": "Sie sollten mindestens einen Filter zum Speichern haben",
+    "SUBMIT_BUTTON_LABEL": "Filter übernehmen",
+    "CANCEL_BUTTON_LABEL": "Abbrechen",
+    "CLEAR_BUTTON_LABEL": "Filter zurücksetzen",
+    "EMPTY_VALUE_ERROR": "Wert ist erforderlich",
+    "TOOLTIP_LABEL": "Gespräche filtern",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "UND",
+      "OR": "ODER"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Gleich",
+      "not_equal_to": "Nicht gleich",
+      "contains": "Enthält",
+      "does_not_contain": "Beinhaltet nicht",
+      "is_present": "Ist anwesend",
+      "is_not_present": "Ist nicht anwesend",
+      "is_greater_than": "Ist größer als",
+      "is_less_than": "Ist kleiner als",
+      "days_before": "Ist x Tage her"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Ja",
+      "FALSE": "Nein"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Status",
+      "ASSIGNEE_NAME": "Name des Bevollmächtigten",
+      "INBOX_NAME": "Posteingangsname",
+      "TEAM_NAME": "Teamname",
+      "CONVERSATION_IDENTIFIER": "Gesprächsidentifikation",
+      "CAMPAIGN_NAME": "Kampagnenname",
+      "LABELS": "Labels",
+      "BROWSER_LANGUAGE": "Browsersprache",
+      "COUNTRY_NAME": "Ländername",
+      "REFERER_LINK": "Referer-Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Liste",
+      "CUSTOM_ATTRIBUTE_TEXT": "Text",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Erstellt am",
+      "LAST_ACTIVITY": "Letzte Aktivität"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Standardfilter",
+      "ADDITIONAL_FILTERS": "Zusätzliche Filter",
+      "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Möchten Sie diesen Filter speichern?",
+        "LABEL": "Diesen Filter benennen",
+        "PLACEHOLDER": "Geben Sie einen Namen für diesen Filter ein",
+        "ERROR_MESSAGE": "Name wird benötigt",
+        "SAVE_BUTTON": "Filter speichern",
+        "CANCEL_BUTTON": "Abbrechen",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ordner erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Ordners"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment erfolgreich erstellt",
+          "ERROR_MESSAGE": "Fehler beim Erstellen des Segments"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Filter löschen",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Löschung bestätigen",
+            "MESSAGE": "Möchten Sie den Filter wirklich löschen ",
+            "YES": "Ja, löschen",
+            "NO": "Nein, behalte es"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Ordner erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Ordners"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segment erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Fehler beim Löschen des Segments"
+        }
+      }
+    }
+  }
+}

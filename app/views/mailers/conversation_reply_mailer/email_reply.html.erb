@@ -1,0 +1,8 @@
+<% if @message.content %>
+  <%= CommonMarker.render_html(@message.content).html_safe %>
+<% end %>
+<% if @message.attachments %>
+  <% @message.attachments.each do |attachment| %>
+    attachment [<a href="<%= attachment.file_url %>" _target="blank">click here to view</a>]
+  <% end %>
+<% end %>

@@ -1,0 +1,116 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automations",
+    "HEADER_BTN_TXT": "Add Automation Rule",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "ADD": {
+      "TITLE": "Add Automation Rule",
+      "SUBMIT": "സൃഷ്ടിക്കുക",
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "നാമം ആവശ്യമാണ്"
+        },
+        "DESC": {
+          "LABEL": "വിവരണം",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "വിവരണം ആവശ്യമാണ്"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "ദയവായി തിരഞ്ഞെടുക്കുക",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "പ്രവർത്തനങ്ങൾ"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "പേര്",
+        "വിവരണം",
+        "സജീവമാണ്",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "ഇല്ലാതാക്കുക",
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "CONFIRM": {
+        "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+        "MESSAGE": "<p><b>ഏജന്റുമാർ</b></p><p> ഒരു <b>ഏജൻറ്</b> നിങ്ങളുടെ ഉപഭോക്തൃ പിന്തുണാ ടീമിലെ ഒരു അംഗമാണ്. </p><p> ഏജന്റുമാർക്ക് നിങ്ങളുടെ ഉപയോക്താക്കളിൽ നിന്നുള്ള സന്ദേശങ്ങൾ കാണാനും മറുപടി നൽകാനും കഴിയും. നിങ്ങളുടെ അക്കൗണ്ടിലുള്ള എല്ലാ ഏജന്റുമാരെയും ഈ പട്ടിക കാണിക്കുന്നു. </ p> <p> ഒരു പുതിയ ഏജന്റിനെ ചേർക്കുന്നതിന് <b> ഏജന്റിനെ ചേർക്കുക </ b> ബട്ടൺ ക്ലിക്കുചെയ്യുക. നിങ്ങൾ ചേർത്ത ഏജന്റിന് അവരുടെ അക്കൗണ്ട് സജീവമാക്കുന്നതിന് ഒരു സ്ഥിരീകരണ ലിങ്കുള്ള ഇമെയിൽ ലഭിക്കും. അതിനുശേഷം അവർക്ക് ചാറ്റ് വൂട്ട് ആക്സസ് ചെയ്യാനും സന്ദേശങ്ങളോട് പ്രതികരിക്കാനും കഴിയും.</p> <p> ചാറ്റ് വൂട്ടിന്റെ സവിശേഷതകളിലേക്കുള്ള ആക്സസ് ഇനിപ്പറയുന്ന റോളുകളെ അടിസ്ഥാനമാക്കിയുള്ളതാണ്. </p><p> <b>ഏജൻറ്</ b> - ഈ റോൾ‌ ഉള്ള ഏജന്റുമാർ‌ക്ക് ഇൻ‌ബോക്‍സുകൾ‌, റിപ്പോർ‌ട്ടുകൾ‌, സംഭാഷണങ്ങൾ‌ എന്നിവ മാത്രമേ ആക്‌സസ് ചെയ്യാൻ‌ കഴിയൂ. അവർക്ക് മറ്റ് ഏജന്റുമാരുടെയോ അല്ലെങ്കിൽ‌ തങ്ങളുടേയോ സംഭാഷണങ്ങൾ‌ നിർ‌ണ്ണയിക്കാനും സംഭാഷണങ്ങൾ‌ പരിഹരിക്കാനും കഴിയും.</p><p> <b>അഡ്മിനിസ്ട്രേറ്റർ</b> - ഒരു സാധാരണ ഏജന്റിന്റെ പ്രത്യേകാവകാശങ്ങളോടൊപ്പം ക്രമീകരണങ്ങളും ബില്ലിംഗും ഉൾപ്പെടെ നിങ്ങളുടെ അക്കൗണ്ടിൽ ലഭ്യമായ എല്ലാ ചാറ്റ് വൂട്ട് സവിശേഷതകളിലേക്കും ആക്‌സസ് ഉണ്ടായിരിക്കുക. </ p> ",
+        "YES": "അതെ, ഇല്ലാതാക്കുക ",
+        "NO": "ഇല്ല, സൂക്ഷിക്കുക"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "അപ്‌ഡേറ്റ്",
+      "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "എഡിറ്റുചെയ്യുക",
+      "CREATE": "സൃഷ്ടിക്കുക",
+      "DELETE": "ഇല്ലാതാക്കുക",
+      "CANCEL": "റദ്ദാക്കുക",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "CONFIRMATION_LABEL": "Yes",
+      "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു...",
+      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
+    }
+  }
+}

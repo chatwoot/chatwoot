@@ -1,0 +1,55 @@
+tags:
+  - Conversations
+operationId: conversationFilter
+description: Filter conversations with custom filter options and pagination
+summary: Conversations Filter
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+parameters:
+  - name: page
+    in: query
+    type: integer
+  - name: payload
+    in: body
+    required: true
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          attribute_key:
+            type: string
+            description: filter attribute name
+          filter_operator:
+            type: string
+            description: filter operator name
+            enum: [ equal_to, not_equal_to, contains, does_not_contain ]
+          values:
+            type: array
+            items:
+              type: string
+            description: array of the attribute values to filter
+          query_operator:
+            type: string
+            description: query operator name
+            enum: [ AND, OR ]
+      example:
+        - attribute_key: 'browser_language'
+          filter_operator: 'not_eq'
+          values: ['en']
+          query_operator: 'AND'
+        - attribute_key: 'status'
+          filter_operator: 'eq'
+          values: ['pending']
+          query_operator: nil
+
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/conversation_list'
+  400:
+    description: Bad Request Error
+    schema:
+      $ref: '#/definitions/bad_request_error'

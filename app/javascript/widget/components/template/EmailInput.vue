@@ -3,23 +3,23 @@
     <form
       v-if="!hasSubmitted"
       class="email-input-group"
-      @submit.prevent="onSubmit()"
+      @submit.prevent="onSubmit"
     >
       <input
         v-model.trim="email"
         class="form-input"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
-        :class="{ error: $v.email.$error }"
+        :class="inputHasError"
         @input="$v.email.$touch"
-        @keyup.enter="onSubmit"
+        @keydown.enter="onSubmit"
       />
       <button
-        class="button"
+        class="button small"
         :disabled="$v.email.$invalid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
-        <spinner v-else />
+        <fluent-icon v-if="!isUpdating" icon="chevron-right" />
+        <spinner v-else class="mx-2" />
       </button>
     </form>
   </div>
@@ -27,13 +27,18 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
 import { required, email } from 'vuelidate/lib/validators';
+
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import Spinner from 'shared/components/Spinner';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
+    FluentIcon,
     Spinner,
   },
+  mixins: [darkModeMixin],
   props: {
     messageId: {
       type: Number,
@@ -59,6 +64,15 @@ export default {
         this.messageContentAttributes &&
         this.messageContentAttributes.submitted_email
       );
+    },
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+    },
+    inputHasError() {
+      return this.$v.email.$error
+        ? `${this.inputColor} error`
+        : `${this.inputColor}`;
     },
   },
   validations: {
@@ -100,7 +114,11 @@ export default {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     padding: $space-one;
-    width: auto;
+    width: 100%;
+
+    &::placeholder {
+      color: $color-light-gray;
+    }
 
     &.error {
       border-color: $color-error;

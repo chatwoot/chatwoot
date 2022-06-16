@@ -2,7 +2,9 @@ import Index from './Index';
 import AgentReports from './AgentReports';
 import LabelReports from './LabelReports';
 import InboxReports from './InboxReports';
+import TeamReports from './TeamReports';
 import CsatResponses from './CsatResponses';
+import LiveReports from './LiveReports';
 import SettingsContent from '../Wrapper';
 import { frontendURL } from '../../../../helper/URLHelper';
 
@@ -12,8 +14,8 @@ export default {
       path: frontendURL('accounts/:accountId/reports'),
       component: SettingsContent,
       props: {
-        headerTitle: 'REPORT.HEADER',
-        icon: 'ion-arrow-graph-up-right',
+        headerTitle: 'OVERVIEW_REPORTS.HEADER',
+        icon: 'arrow-trending-lines',
         keepAlive: false,
       },
       children: [
@@ -23,7 +25,24 @@ export default {
         },
         {
           path: 'overview',
-          name: 'settings_account_reports',
+          name: 'account_overview_reports',
+          roles: ['administrator'],
+          component: LiveReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'REPORT.HEADER',
+        icon: 'chat',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'conversation',
+          name: 'conversation_reports',
           roles: ['administrator'],
           component: Index,
         },
@@ -34,7 +53,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'CSAT_REPORTS.HEADER',
-        icon: 'ion-happy-outline',
+        icon: 'emoji',
         keepAlive: false,
       },
       children: [
@@ -51,7 +70,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'AGENT_REPORTS.HEADER',
-        icon: 'ion-ios-people',
+        icon: 'people',
         keepAlive: false,
       },
       children: [
@@ -68,7 +87,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'LABEL_REPORTS.HEADER',
-        icon: 'ion-pricetags',
+        icon: 'tag',
         keepAlive: false,
       },
       children: [
@@ -85,7 +104,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'INBOX_REPORTS.HEADER',
-        icon: 'ion-archive',
+        icon: 'mail-inbox-all',
         keepAlive: false,
       },
       children: [
@@ -94,6 +113,22 @@ export default {
           name: 'inbox_reports',
           roles: ['administrator'],
           component: InboxReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TEAM_REPORTS.HEADER',
+        icon: 'people-team',
+      },
+      children: [
+        {
+          path: 'teams',
+          name: 'team_reports',
+          roles: ['administrator'],
+          component: TeamReports,
         },
       ],
     },

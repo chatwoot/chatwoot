@@ -1,0 +1,22 @@
+get:
+  tags:
+    - Contacts
+  operationId: contactConversations
+  summary: Contact Conversations
+  description: Get conversations associated to that contact
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the contact
+      required: true
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/contact_conversations'
+    404:
+      description: Contact not found
+    403:
+      description: Access denied

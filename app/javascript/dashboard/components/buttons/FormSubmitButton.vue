@@ -6,7 +6,7 @@
     :class="computedClass"
     @click="onClick"
   >
-    <i v-if="!!iconClass" :class="iconClass" class="icon" />
+    <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>
     <spinner v-if="loading" />
   </button>
@@ -57,3 +57,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+button:disabled {
+  opacity: 1;
+  background-color: var(--w-100);
+
+  &:hover {
+    background-color: var(--w-100);
+  }
+}
+</style>

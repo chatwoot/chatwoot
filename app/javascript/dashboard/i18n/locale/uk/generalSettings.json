@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Налаштування облікового запису",
     "SUBMIT": "Оновити налаштування",
-    "BACK": "Back",
+    "BACK": "Назад",
     "UPDATE": {
       "ERROR": "Не вдалося оновити налаштування, спробуйте ще раз!",
       "SUCCESS": "Налаштування облікового запису успішно оновлено"
@@ -12,6 +12,10 @@
       "GENERAL_SECTION": {
         "TITLE": "Загальні налаштування",
         "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID акаунту",
+        "NOTE": "Цей ID необхідний, якщо ви створюєте інтеграцію з API"
       },
       "NAME": {
         "LABEL": "Назва облікового запису",
@@ -24,52 +28,113 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Домен вхідної пошти",
+        "PLACEHOLDER": "Домен, на який ви будете отримувати електронні листи",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "Email підтримки",
+        "PLACEHOLDER": "Email підтримки вашої компанії",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Кількість днів після того, як заявка повинна автоматично буде закрита, якщо немає активності",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Будь ласка, введіть допустиму тривалість автозакртиття (мінімум 1 день і максимум 999 днів)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "Продовження діалогу з е-поштою активоване для вашого облікового запису.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Тепер ви можете отримувати електронні листи на власний домен."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Доступне оновлення %{latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
+    "LEARN_MORE": "Детальніше"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Натисніть Enter, щоб обрати",
+      "ENTER_TO_REMOVE": "Натисніть Enter, щоб видалити",
+      "SELECT_ONE": "Виберіть"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Сповіщення",
+    "MARK_ALL_DONE": "Позначити все готове",
+    "DELETE_TITLE": "видалено",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Непрочитані сповіщення",
+      "ALL_NOTIFICATIONS": "Переглянути всі сповіщення",
+      "LOADING_UNREAD_MESSAGE": "Завантаження непрочитаних сповіщень...",
+      "EMPTY_MESSAGE": "У вас немає непрочитаних сповіщень"
+    },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Завантаження сповіщень...",
+      "404": "Немає сповіщень",
       "TABLE_HEADER": [
         "Ім'я",
-        "Phone Number",
+        "Номер телефону",
         "Бесіди",
-        "Last Contacted"
+        "Останній контакт"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Новий діалог",
+      "conversation_assignment": "Діалог призначений",
+      "assigned_conversation_new_message": "Нове повідомлення",
+      "conversation_mention": "Відмітка"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Відключено від Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Оновити"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Шукати чи перейти до",
+    "SECTIONS": {
+      "GENERAL": "Загальні",
+      "REPORTS": "Звіти",
+      "CONVERSATION": "Діалог",
+      "CHANGE_ASSIGNEE": "Змінити виконавця",
+      "CHANGE_TEAM": "Змінити команду",
+      "ADD_LABEL": "Додати мітку до діалогу",
+      "REMOVE_LABEL": "Видалити мітку з діалогу",
+      "SETTINGS": "Налаштування"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
+      "GO_TO_CONTACTS_DASHBOARD": "Перейти до панелі керування контактами",
+      "GO_TO_REPORTS_OVERVIEW": "До Звітів",
+      "GO_TO_CONVERSATION_REPORTS": "Перейти до Звітів про розмову",
+      "GO_TO_AGENT_REPORTS": "Перейти до звітів Співробітника",
+      "GO_TO_LABEL_REPORTS": "Перейти до Звітів з Мітками",
+      "GO_TO_INBOX_REPORTS": "Перейти до Вхідних Звітів",
+      "GO_TO_TEAM_REPORTS": "Перейти до Командних Звітів",
+      "GO_TO_SETTINGS_AGENTS": "Перейдіть до налаштувань Співробітника",
+      "GO_TO_SETTINGS_TEAMS": "Перейти до Налаштування команди",
+      "GO_TO_SETTINGS_INBOXES": "Перейти до Налаштування вхідних повідомлень",
+      "GO_TO_SETTINGS_LABELS": "Перейти до Налаштування Міток",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "До налаштувань швидкої відповіді",
+      "GO_TO_SETTINGS_APPLICATIONS": "Перейти до Налаштування додатку",
+      "GO_TO_SETTINGS_ACCOUNT": "Перейти до Налаштування облікового запису",
+      "GO_TO_SETTINGS_PROFILE": "Перейти до Налаштування профілю",
+      "GO_TO_NOTIFICATIONS": "Перейти до сповіщень",
+      "ADD_LABELS_TO_CONVERSATION": "Додати мітку до діалогу",
+      "ASSIGN_AN_AGENT": "Призначити агента",
+      "ASSIGN_A_TEAM": "Призначити команду",
+      "MUTE_CONVERSATION": "Вимкнути звук для розмови",
+      "UNMUTE_CONVERSATION": "Увімкнути звук для розмови",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Видалити мітку з діалогу",
+      "REOPEN_CONVERSATION": "Повторно відкрити розмову",
+      "RESOLVE_CONVERSATION": "Закрити розмову",
+      "SEND_TRANSCRIPT": "Надіслати історію розмови на електронну пошту",
+      "SNOOZE_CONVERSATION": "Відкласти розмову",
+      "UNTIL_NEXT_REPLY": "До наступної відповіді",
+      "UNTIL_NEXT_WEEK": "До наступного тижня",
+      "UNTIL_TOMORROW": "До завтра"
     }
   }
 }

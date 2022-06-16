@@ -16,7 +16,8 @@ class ChatwootHub
       installation_identifier: installation_identifier,
       installation_version: Chatwoot.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host,
-      installation_env: ENV.fetch('INSTALLATION_ENV', '')
+      installation_env: ENV.fetch('INSTALLATION_ENV', ''),
+      edition: ENV.fetch('CW_EDITION', '')
     }
   end
 
@@ -39,9 +40,9 @@ class ChatwootHub
       response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
       version = JSON.parse(response)['version']
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-      Rails.logger.info "Exception: #{e.message}"
+      Rails.logger.error "Exception: #{e.message}"
     rescue StandardError => e
-      Sentry.capture_exception(e)
+      ChatwootExceptionTracker.new(e).capture_exception
     end
     version
   end
@@ -50,18 +51,18 @@ class ChatwootHub
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.info "Exception: #{e.message}"
+    Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e).capture_exception
   end
 
   def self.send_browser_push(fcm_token_list, fcm_options)
     info = { fcm_token_list: fcm_token_list, fcm_options: fcm_options }
     RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.info "Exception: #{e.message}"
+    Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e).capture_exception
   end
 
   def self.emit_event(event_name, event_data)
@@ -70,8 +71,8 @@ class ChatwootHub
     info = { event_name: event_name, event_data: event_data }
     RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.info "Exception: #{e.message}"
+    Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e).capture_exception
   end
 end

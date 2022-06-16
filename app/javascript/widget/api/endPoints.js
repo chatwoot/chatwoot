@@ -10,12 +10,14 @@ const createConversation = params => {
       contact: {
         name: params.fullName,
         email: params.emailAddress,
+        phone_number: params.phoneNumber,
       },
       message: {
         content: params.message,
         timestamp: new Date().toString(),
         referer_url: referrerURL,
       },
+      custom_attributes: params.customAttributes,
     },
   };
 };
@@ -41,7 +43,12 @@ const sendAttachment = ({ attachment }) => {
   const { file } = attachment;
 
   const formData = new FormData();
-  formData.append('message[attachments][]', file, file.name);
+  if (typeof file === 'string') {
+    formData.append('message[attachments][]', file);
+  } else {
+    formData.append('message[attachments][]', file, file.name);
+  }
+
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
   return {
@@ -71,12 +78,13 @@ const getCampaigns = token => ({
     website_token: token,
   },
 });
-const triggerCampaign = ({ websiteToken, campaignId }) => ({
+const triggerCampaign = ({ websiteToken, campaignId, customAttributes }) => ({
   url: '/api/v1/widget/events',
   data: {
     name: 'campaign.triggered',
     event_info: {
       campaign_id: campaignId,
+      custom_attributes: customAttributes,
       ...generateEventParams(),
     },
   },

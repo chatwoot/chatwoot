@@ -1,0 +1,17 @@
+tags:
+  - Agents
+operationId: get-account-agents
+summary: List Agents in Account
+description: Get Details of Agents in an Account
+security:
+  - userApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+        type: array
+        description: 'Array of all active agents'
+        items:
+          $ref: '#/definitions/agent'
+  403:
+    description: Access denied

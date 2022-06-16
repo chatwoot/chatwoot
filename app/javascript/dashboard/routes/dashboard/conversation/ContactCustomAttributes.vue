@@ -9,7 +9,7 @@
         {{ attribute }}
       </div>
       <div>
-        <span v-html="valueWithLink(customAttributes[attribute])"></span>
+        <span v-dompurify-html="valueWithLink(customAttributes[attribute])" />
       </div>
     </div>
     <p v-if="!listOfAttributes.length">
@@ -59,10 +59,6 @@ export default {
 <style scoped>
 .custom-attributes--panel {
   margin-bottom: var(--space-normal);
-}
-
-.conv-details--item {
-  padding-bottom: 0;
 }
 
 .custom-attribute--row__attribute {

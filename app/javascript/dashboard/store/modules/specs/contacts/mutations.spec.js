@@ -64,4 +64,42 @@ describe('#mutations', () => {
       });
     });
   });
+
+  describe('#SET_CONTACT_FILTERS', () => {
+    it('set contact filter', () => {
+      const appliedFilters = [
+        {
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: ['fayaz'],
+          query_operator: 'and',
+        },
+      ];
+      mutations[types.SET_CONTACT_FILTERS](appliedFilters);
+      expect(appliedFilters).toEqual([
+        {
+          attribute_key: 'name',
+          filter_operator: 'equal_to',
+          values: ['fayaz'],
+          query_operator: 'and',
+        },
+      ]);
+    });
+  });
+  describe('#CLEAR_CONTACT_FILTERS', () => {
+    it('clears applied contact filters', () => {
+      const state = {
+        appliedFilters: [
+          {
+            attribute_key: 'name',
+            filter_operator: 'equal_to',
+            values: ['fayaz'],
+            query_operator: 'and',
+          },
+        ],
+      };
+      mutations[types.CLEAR_CONTACT_FILTERS](state);
+      expect(state.appliedFilters).toEqual([]);
+    });
+  });
 });

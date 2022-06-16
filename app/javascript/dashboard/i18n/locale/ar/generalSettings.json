@@ -13,6 +13,10 @@
         "TITLE": "الإعدادات العامة",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "معرف الحساب",
+        "NOTE": "هذا المعرف مطلوب إذا كنت بصدد بناء تكامل على API"
+      },
       "NAME": {
         "LABEL": "اسم الحساب",
         "PLACEHOLDER": "اسم الحساب الخاص بك",
@@ -36,14 +40,15 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "عدد الأيام بعد التذكرة التي يجب أن يحل تلقائياً إذا لم يكن هناك أي نشاط",
         "PLACEHOLDER": "30",
-        "ERROR": "الرجاء إدخال مدة الحل التلقائي صحيحة (يوم واحد على الأقل)"
+        "ERROR": "الرجاء إدخال مدة حل تلقائي صالحة (حد أدنى 1 يوم والحد الأقصى 999 يوما)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "الاستمرار في المحادثة عبر رسائل البريد الإلكتروني مفعّل لحسابك.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث."
+    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "LEARN_MORE": "اعرف المزيد"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -55,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "الإشعارات",
     "MARK_ALL_DONE": "وضع علامة على جميع المنجز",
+    "DELETE_TITLE": "تم الحذف",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "إشعارات غير مقروءة",
+      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
+      "LOADING_UNREAD_MESSAGE": "تحميل الإشعارات الغير مقروءة...",
+      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
+    },
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
       "404": "لا يوجد إشعارات",
@@ -70,6 +82,59 @@
       "conversation_assignment": "تم تعيين المحادثة",
       "assigned_conversation_new_message": "رسالة جديدة",
       "conversation_mention": "إشارة"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "قطع الاتصال من Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "تحديث"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "البحث أو القفز إلى",
+    "SECTIONS": {
+      "GENERAL": "عام",
+      "REPORTS": "التقارير",
+      "CONVERSATION": "المحادثات",
+      "CHANGE_ASSIGNEE": "تغيير المحال إليه",
+      "CHANGE_TEAM": "تغيير الفريق",
+      "ADD_LABEL": "إضافة تسمية إلى المحادثة",
+      "REMOVE_LABEL": "إزالة التسمية من المحادثة",
+      "SETTINGS": "الإعدادات"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
+      "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
+      "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير",
+      "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
+      "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير التسمية",
+      "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
+      "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
+      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
+      "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات علبة الوارد",
+      "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات التسمية",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الاستجابة المسبقة",
+      "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
+      "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
+      "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
+      "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
+      "ADD_LABELS_TO_CONVERSATION": "إضافة تسمية إلى المحادثة",
+      "ASSIGN_AN_AGENT": "تعيين وكيل",
+      "ASSIGN_A_TEAM": "تعيين فريق",
+      "MUTE_CONVERSATION": "كتم المحادثة",
+      "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
+      "REMOVE_LABEL_FROM_CONVERSATION": "إزالة التسمية من المحادثة",
+      "REOPEN_CONVERSATION": "إعادة فتح المحادثة",
+      "RESOLVE_CONVERSATION": "حل المحادثة",
+      "SEND_TRANSCRIPT": "إرسال نسخة نصية للبريد الإلكتروني",
+      "SNOOZE_CONVERSATION": "تأجيل المحادثة",
+      "UNTIL_NEXT_REPLY": "حتى الرد القادم",
+      "UNTIL_NEXT_WEEK": "حتى الأسبوع القادم",
+      "UNTIL_TOMORROW": "حتى الغد"
     }
   }
 }

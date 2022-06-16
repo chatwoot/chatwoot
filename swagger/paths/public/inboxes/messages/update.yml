@@ -3,8 +3,7 @@ tags:
 operationId: update-a-message
 summary: Update a message
 description: Update a message
-security:
-  - nil
+security: []
 parameters:
   - name: data
     in: body

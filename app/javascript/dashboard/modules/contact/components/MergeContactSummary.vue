@@ -5,9 +5,9 @@
     </h5>
     <ul class="summary-items">
       <li>
-        <span>❌</span>
+        <span class="bullet">❌</span>
         <span
-          v-html="
+          v-dompurify-html="
             $t('MERGE_CONTACTS.SUMMARY.DELETE_WARNING', {
               childContactName,
             })
@@ -15,9 +15,9 @@
         />
       </li>
       <li>
-        <span>✅</span>
+        <span class="bullet">✅</span>
         <span
-          v-html="
+          v-dompurify-html="
             $t('MERGE_CONTACTS.SUMMARY.ATTRIBUTE_WARNING', {
               childContactName,
               primaryContactName,
@@ -58,5 +58,10 @@ export default {
   li {
     margin-bottom: var(--space-smaller);
   }
+}
+
+.bullet {
+  display: inline-block;
+  margin-right: var(--space-smaller);
 }
 </style>

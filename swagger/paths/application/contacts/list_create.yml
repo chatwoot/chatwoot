@@ -1,0 +1,42 @@
+get:
+  tags:
+    - Contacts
+  operationId: contactList
+  description: Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number
+  summary: List Contacts
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/contact_sort_param'
+    - $ref: '#/parameters/page'
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/contact_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+
+post:
+  tags:
+    - Contacts
+  operationId: contactCreate
+  description: Create a new Contact
+  summary: Create Contact
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: data
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/contact_create'
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/extended_contact'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'

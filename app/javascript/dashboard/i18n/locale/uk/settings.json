@@ -3,8 +3,11 @@
     "LINK": "Налаштування облікового запису",
     "TITLE": "Налаштування облікового запису",
     "BTN_TEXT": "Оновити обліковий запис",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "DELETE_AVATAR": "Видалити аватар",
+    "AVATAR_DELETE_SUCCESS": "Аватар був успішно видалений",
+    "AVATAR_DELETE_FAILED": "Виникла помилка під час видалення аватару, будь ласка, спробуйте ще раз",
+    "UPDATE_SUCCESS": "Ваш профіль було успішно оновлено",
+    "PASSWORD_UPDATE_SUCCESS": "Ваш пароль було успішно змінено",
     "AFTER_EMAIL_CHANGED": "Ваш обліковий запис було успішно оновлено. Будь ласка, увійдіть знову, оскільки ваші дані були змінені",
     "FORM": {
       "AVATAR": "Зображення облікового запису",
@@ -16,63 +19,75 @@
         "TITLE": "Анкета",
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Підпис особистого повідомлення",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Зберегти підпис повідомлення",
+        "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
+        "API_SUCCESS": "Підпис успішно збережено"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Підпис повідомлення",
+        "ERROR": "Підпис повідомлення не може бути порожнім",
+        "PLACEHOLDER": "Вставити свій персональний підпис повідомлення тут."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
         "NOTE": "Оновлення вашого пароля призведе до скидання ваших записів про вхід на інших пристроях.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Змінити пароль"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Ключ доступу",
         "NOTE": "Цей ключ можна використовувати, якщо ви створюєте API-інтеграцію"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Звукові сповіщення",
+        "NOTE": "Увімкніть звукові сповіщення в інформаційній панелі для нових повідомлень і розмов.",
+        "NONE": "Нiчого",
+        "ASSIGNED": "Призначені розмови",
+        "ALL_CONVERSATIONS": "Всі розмови"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",
         "NOTE": "Тут оновлюються налаштування повідомлень електронною поштою",
         "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
         "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "Надсилати сповіщення електронною поштою, коли вас згадують в розмові",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
         "UPDATE_ERROR": "Виникла помилка під час оновлення налаштувань, будь ласка, спробуйте ще раз"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Push-сповіщення",
+        "NOTE": "Оновіть ваші налаштування push-сповіщень тут",
+        "CONVERSATION_ASSIGNMENT": "Надсилати push-повідомлення, коли мені призначено розмову",
+        "CONVERSATION_CREATION": "Надсилати push-повідомлення, коли створюється нова розмова",
+        "CONVERSATION_MENTION": "Надсилати push-повідомлення, коли вас згадують в розмові",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
+        "HAS_ENABLED_PUSH": "Ви увімкнули push для цього браузера.",
+        "REQUEST_PUSH": "Увімкнути push-сповіщення"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Зображення облікового запису"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Ваше повне ім'я",
+        "ERROR": "Будь ласка, введіть своє повне ім'я",
+        "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Ім'я для відображення",
+        "ERROR": "Будь ласка, введіть коректне ім'я",
+        "PLACEHOLDER": "Будь ласка, введіть ім'я, яке буде показано у розмовах"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Присутність",
         "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
+          "Онлайн",
+          "Зайнятий",
+          "Не в мережі"
         ]
       },
       "EMAIL": {
@@ -81,38 +96,44 @@
         "PLACEHOLDER": "Введіть адресу електронної пошти, її буде видно в бесідах"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Поточний пароль",
+        "ERROR": "Будь ласка, введіть поточний пароль",
+        "PLACEHOLDER": "Будь ласка, введіть поточний пароль"
       },
       "PASSWORD": {
-        "LABEL": "Пароль",
+        "LABEL": "Новий пароль",
         "ERROR": "Будь ласка, введіть пароль довжиною 6 або більше символів",
         "PLACEHOLDER": "Будь ласка, введіть новий пароль"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Підвердіть новий пароль",
         "ERROR": "Підтвердження пароля має відповідати паролю",
-        "PLACEHOLDER": "Введіть ваш пароль ще раз"
+        "PLACEHOLDER": "Будь ласка, введіть новий пароль ще раз"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Змінити",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CHANGE_ACCOUNTS": "Змінити обліковий запис",
+    "CONTACT_SUPPORT": "Звернутися зі службою підтримки",
+    "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
     "LOGOUT": "Вийти"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Придбати зараз"
+    "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
+    "TRAIL_BUTTON": "Придбати зараз",
+    "DELETED_USER": "Видалений користувач"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Копіювати",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "COPY_SUCCESSFUL": "Код скопійований в буфер обміну"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Показати більше",
+      "SHOW_LESS": "Показати менше"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Звантажити",
@@ -122,43 +143,62 @@
       "SUBMIT": "Додати"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Перевірка...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Додати канал"
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Бесіди",
+    "ALL_CONVERSATIONS": "Всі розмови",
+    "MENTIONED_CONVERSATIONS": "Згадування",
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Контакти",
     "HOME": "Головна",
     "AGENTS": "Агенти",
     "INBOXES": "Вхідні",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
     "INTEGRATIONS": "Інтеграції",
+    "PROFILE_SETTINGS": "Налаштування облікового запису",
     "ACCOUNT_SETTINGS": "Налаштування акаунту",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
-    "TEAMS": "Teams",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "REPORTS_OVERVIEW": "Overview",
+    "APPLICATIONS": "Додатки",
+    "LABELS": "Мітки",
+    "CUSTOM_ATTRIBUTES": "Свої атрибути",
+    "AUTOMATION": "Автоматизація",
+    "TEAMS": "Команди",
+    "CUSTOM_VIEWS_FOLDER": "Папки",
+    "CUSTOM_VIEWS_SEGMENTS": "Сегменти",
+    "ALL_CONTACTS": "Усі контакти",
+    "TAGGED_WITH": "З тегами",
+    "NEW_LABEL": "Нова мітка",
+    "NEW_TEAM": "Нова команда",
+    "NEW_INBOX": "Нове джерело",
+    "REPORTS_CONVERSATION": "Бесіди",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off"
+    "CAMPAIGNS": "Розсилки",
+    "ONGOING": "У процесі",
+    "ONE_OFF": "Один з",
+    "REPORTS_AGENT": "Агенти",
+    "REPORTS_LABEL": "Мітки",
+    "REPORTS_INBOX": "Канал",
+    "REPORTS_TEAM": "Команда",
+    "SET_AVAILABILITY_TITLE": "Позначити себе як",
+    "BETA": "Бета-версія",
+    "REPORTS_OVERVIEW": "Огляд",
+    "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",
+    "NEW_ACCOUNT": "Новий акаунт",
+    "SELECTOR_SUBTITLE": "Створити новий обліковий запис",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Обліковий запис створено",
+      "EXIST_MESSAGE": "Обліковий запис вже існує",
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
     },
     "FORM": {
@@ -171,22 +211,22 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Відкрити розмову",
+      "RESOLVE_AND_NEXT": "Вирішити і перейти до наступного",
+      "NAVIGATE_DROPDOWN": "Навігація випадаючих елементів",
+      "RESOLVE_CONVERSATION": "Вирішити розмову",
+      "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
+      "ADD_ATTACHMENT": "Додати вкладення",
+      "GO_TO_CONTACTS_DASHBOARD": "Перейти до панелі керування контактами",
+      "TOGGLE_SIDEBAR": "Перемикач бічної панелі",
+      "GO_TO_REPORTS_SIDEBAR": "Перейти до бічної панелі звітів",
+      "MOVE_TO_NEXT_TAB": "Перейти до наступної вкладки в списку бесід",
+      "GO_TO_SETTINGS": "Перейти до налаштувань",
+      "SWITCH_CONVERSATION_STATUS": "Перейти до статусу наступної розмови",
+      "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Перемкнути редагування Rich Content",
+      "SWITCH_TO_REPLY": "Перейти до відповіді",
+      "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

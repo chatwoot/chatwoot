@@ -13,6 +13,10 @@
         "TITLE": "Cài đặt chung",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "ID Tài khoản",
+        "NOTE": "ID này là bắt buộc nếu bạn đang xây dựng tích hợp dựa trên API"
+      },
       "NAME": {
         "LABEL": "Tên tài khoản",
         "PLACEHOLDER": "Tên tài khoản của bạn",
@@ -34,42 +38,103 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Số ngày sau đó mà vé sẽ tự động giải quyết nếu không có hoạt động nào",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Bấm enter để chọn",
+      "ENTER_TO_REMOVE": "Bấm enter để xoá",
+      "SELECT_ONE": "Chọn một"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Thông báo",
+    "MARK_ALL_DONE": "Đánh dấu tất cả đã xong",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Đang tải thông báo...",
+      "404": "Không có thông báo",
       "TABLE_HEADER": [
         "Tên",
         "Số điện thoại",
         "Các cuộc hội thoại",
-        "Last Contacted"
+        "Liên hệ lần cuối"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Tạo mới cuộc trò chuyện",
+      "conversation_assignment": "Cuộc trò chuyện được phân công",
+      "assigned_conversation_new_message": "Tin nhắn mới",
+      "conversation_mention": "Nhắn đến"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Đã ngắt kết nối khỏi Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Làm mới"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Tìm kiếm hoặc nhảy đến",
+    "SECTIONS": {
+      "GENERAL": "Chung",
+      "REPORTS": "Báo cáo",
+      "CONVERSATION": "Cuộc trò chuyện",
+      "CHANGE_ASSIGNEE": "Thay đổi người được phân công",
+      "CHANGE_TEAM": "Thay đổi nhóm",
+      "ADD_LABEL": "Thêm nhãn vào cuộc trò chuyện",
+      "REMOVE_LABEL": "Xoá nhãn khỏi cuộc trò chuyện",
+      "SETTINGS": "Cài đặt"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
+      "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
+      "GO_TO_REPORTS_OVERVIEW": "Đi đến Tổng quan Báo cáo",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Đại lý",
+      "GO_TO_LABEL_REPORTS": "Đi đến Báo cáo Nhãn",
+      "GO_TO_INBOX_REPORTS": "Đi đến Báo cáo Hộp thư đến",
+      "GO_TO_TEAM_REPORTS": "Đi đến Báo cáo Nhóm",
+      "GO_TO_SETTINGS_AGENTS": "Đi đến Cài đặt Đại lý",
+      "GO_TO_SETTINGS_TEAMS": "Đi đến Cài đặt Nhóm",
+      "GO_TO_SETTINGS_INBOXES": "Đi đến Cài đặt Hộp thư đến",
+      "GO_TO_SETTINGS_LABELS": "Đi đến Cài đặt Nhãn",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Đi đến Cài đặt Tin trả lời lưu sẵn",
+      "GO_TO_SETTINGS_APPLICATIONS": "Đi đến Cài đặt Ứng dụng",
+      "GO_TO_SETTINGS_ACCOUNT": "Đi đến Cài đặt Tài khoản",
+      "GO_TO_SETTINGS_PROFILE": "Đi đến Cài đặt Hồ sơ",
+      "GO_TO_NOTIFICATIONS": "Đi đến Thông báo",
+      "ADD_LABELS_TO_CONVERSATION": "Thêm nhãn vào cuộc trò chuyện",
+      "ASSIGN_AN_AGENT": "Phân công một đại lý",
+      "ASSIGN_A_TEAM": "Phân công một nhóm",
+      "MUTE_CONVERSATION": "Tắt tiếng",
+      "UNMUTE_CONVERSATION": "Bật tiếng cuộc trò chuyện",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Xoá nhãn khỏi cuộc trò chuyện",
+      "REOPEN_CONVERSATION": "Mở lại cuộc trò chuyện",
+      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
+      "SEND_TRANSCRIPT": "Gửi bản ghi email",
+      "SNOOZE_CONVERSATION": "Tạm dừng Cuộc trò chuyện",
+      "UNTIL_NEXT_REPLY": "Cho đến phản hồi kế tiếp",
+      "UNTIL_NEXT_WEEK": "Cho đến tuần sau",
+      "UNTIL_TOMORROW": "Cho đến ngày mai"
     }
   }
 }

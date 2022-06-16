@@ -3,8 +3,7 @@ tags:
 operationId: get-details-of-a-contact
 summary: Get a contact
 description: Get the details of a contact
-security:
-  - nil
+security: []
 responses:
   200:
     description: Success

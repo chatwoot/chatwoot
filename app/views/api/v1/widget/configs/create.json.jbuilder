@@ -22,7 +22,7 @@ json.chatwoot_widget_defaults do
   json.use_inbox_avatar_for_bot ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false))
 end
 json.contact do
-  json.pubsub_token @contact.pubsub_token
+  json.pubsub_token @contact_inbox.pubsub_token
 end
 json.auth_token @token
 json.global_config @global_config

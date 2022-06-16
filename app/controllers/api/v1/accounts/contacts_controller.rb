@@ -1,17 +1,19 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   include Sift
-
   sort_on :email, type: :string
-  sort_on :name, type: :string
+  sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
   sort_on :phone_number, type: :string
-  sort_on :last_activity_at, type: :datetime
+  sort_on :last_activity_at, internal_name: :order_on_last_activity_at, type: :scope, scope_params: [:direction]
+  sort_on :company, internal_name: :order_on_company_name, type: :scope, scope_params: [:direction]
+  sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
+  sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
 
   before_action :check_authorization
-  before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes]
-  before_action :set_include_contact_inboxes, only: [:index, :search]
+  before_action :set_current_page, only: [:index, :active, :search, :filter]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
     @contacts_count = resolved_contacts.count
@@ -50,9 +52,22 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def show; end
 
+  def filter
+    result = ::Contacts::FilterService.new(params.permit!, current_user).perform
+    contacts = result[:contacts]
+    @contacts_count = result[:count]
+    @contacts = fetch_contacts_with_conversation_count(contacts)
+  end
+
   def contactable_inboxes
     @all_contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
     @contactable_inboxes = @all_contactable_inboxes.select { |contactable_inbox| policy(contactable_inbox[:inbox]).show? }
+  end
+
+  # TODO : refactor this method into dedicated contacts/custom_attributes controller class and routes
+  def destroy_custom_attributes
+    @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
+    @contact.save!
   end
 
   def create
@@ -66,11 +81,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def update
     @contact.assign_attributes(contact_update_params)
     @contact.save!
-  rescue ActiveRecord::RecordInvalid => e
-    render json: {
-      message: e.record.errors.full_messages.join(', '),
-      contact: Current.account.contacts.find_by(email: contact_params[:email])
-    }, status: :unprocessable_entity
   end
 
   def destroy
@@ -91,10 +101,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
-    @resolved_contacts = Current.account.contacts
-                                .where.not(email: [nil, ''])
-                                .or(Current.account.contacts.where.not(phone_number: [nil, '']))
-                                .or(Current.account.contacts.where.not(identifier: [nil, '']))
+    @resolved_contacts = Current.account.contacts.resolved_contacts
+
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
     @resolved_contacts
   end

@@ -1,0 +1,116 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automazioni",
+    "HEADER_BTN_TXT": "Aggiungi regola di automazione",
+    "LOADING": "Recupero delle regole di automazione",
+    "SIDEBAR_TXT": "<p><b>Regole di automazione</b> <p>L'automazione può sostituire e automatizzare i processi esistenti che richiedono uno sforzo manuale. È possibile fare molte cose con l'automazione, tra cui l'aggiunta di etichette e l'assegnazione di una conversazione al miglior agente. Così il team si concentra su quello che fanno meglio e spende meno tempo per le attività manuali.</p>",
+    "ADD": {
+      "TITLE": "Aggiungi regola di automazione",
+      "SUBMIT": "Crea",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nome regola",
+          "PLACEHOLDER": "Inserisci il nome della regola",
+          "ERROR": "Il nome è obbligatorio"
+        },
+        "DESC": {
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Inserisci la descrizione della regola",
+          "ERROR": "La descrizione è obbligatoria"
+        },
+        "EVENT": {
+          "LABEL": "Evento",
+          "PLACEHOLDER": "Si prega di selezionarne uno",
+          "ERROR": "L'evento è obbligatorio"
+        },
+        "CONDITIONS": {
+          "LABEL": "Condizioni"
+        },
+        "ACTIONS": {
+          "LABEL": "Azioni"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Aggiungi condizione",
+      "ACTION_BUTTON_LABEL": "Aggiungi azione",
+      "API": {
+        "SUCCESS_MESSAGE": "Regola di automazione aggiunta con successo",
+        "ERROR_MESSAGE": "Impossibile creare una regola di automazione, riprova più tardi"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nome",
+        "Descrizione",
+        "Attivo",
+        "Creato il"
+      ],
+      "404": "Nessuna regola di automazione trovata"
+    },
+    "DELETE": {
+      "TITLE": "Elimina regola di automazione",
+      "SUBMIT": "Elimina",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "CONFIRM": {
+        "TITLE": "Conferma eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, elimina ",
+        "NO": "No, conserva "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Regola di automazione eliminata con successo",
+        "ERROR_MESSAGE": "Impossibile eliminare una regola di automazione, riprova più tardi"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Modifica regola di automazione",
+      "SUBMIT": "Aggiorna",
+      "CANCEL_BUTTON_TEXT": "Annulla",
+      "API": {
+        "SUCCESS_MESSAGE": "Regola di automazione aggiornata con successo",
+        "ERROR_MESSAGE": "Impossibile aggiornare la regola di automazione, riprova più tardi"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clona",
+      "API": {
+        "SUCCESS_MESSAGE": "Automazione clonata con successo",
+        "ERROR_MESSAGE": "Impossibile clonare la regola di automazione, riprova più tardi"
+      }
+    },
+    "FORM": {
+      "EDIT": "Modifica",
+      "CREATE": "Crea",
+      "DELETE": "Elimina",
+      "CANCEL": "Annulla",
+      "RESET_MESSAGE": "Cambiare il tipo di evento resetterà le condizioni e gli eventi che hai aggiunto di seguito"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "È necessario avere almeno una condizione per salvare"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Inserisci qui il tuo messaggio",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleziona i team"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Attiva regola di automazione",
+      "DEACTIVATION_TITLE": "Disattiva regola di automazione",
+      "ACTIVATION_DESCRIPTION": "Questa azione attiverà la regola di automazione '{automationName}'. Sei sicuro di voler procedere?",
+      "DEACTIVATION_DESCRIPTION": "Questa azione disattiverà la regola di automazione '{automationName}'. Sei sicuro di voler procedere?",
+      "ACTIVATION_SUCCESFUL": "Regola di automazione attivata con successo",
+      "DEACTIVATION_SUCCESFUL": "Regola di automazione disattivata con successo",
+      "ACTIVATION_ERROR": "Impossibile attivare l'automazione, riprova più tardi",
+      "DEACTIVATION_ERROR": "Impossibile disattivare l'automazione, riprova più tardi",
+      "CONFIRMATION_LABEL": "Sì",
+      "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Impossibile caricare l'allegato, si prega di riprovare",
+      "LABEL_IDLE": "Carica allegato",
+      "LABEL_UPLOADING": "Caricamento...",
+      "LABEL_UPLOADED": "Caricato con successo",
+      "LABEL_UPLOAD_FAILED": "Caricamento fallito"
+    }
+  }
+}

@@ -1,6 +1,10 @@
 <template>
   <div class="chat-bubble-wrap">
-    <button class="chat-bubble agent" @click="onClickMessage">
+    <button
+      class="chat-bubble agent"
+      :class="$dm('bg-white', 'dark:bg-slate-50')"
+      @click="onClickMessage"
+    >
       <div v-if="showSender" class="row--agent-block">
         <thumbnail
           :src="avatarUrl"
@@ -11,7 +15,10 @@
         <span class="agent--name">{{ agentName }}</span>
         <span class="company--name"> {{ companyName }}</span>
       </div>
-      <div class="message-content" v-html="formatMessage(message, false)"></div>
+      <div
+        v-dompurify-html="formatMessage(message, false)"
+        class="message-content"
+      />
     </button>
   </div>
 </template>
@@ -21,10 +28,15 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import {
+  ON_CAMPAIGN_MESSAGE_CLICK,
+  ON_UNREAD_MESSAGE_CLICK,
+} from '../constants/widgetBusEvents';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },
-  mixins: [messageFormatterMixin, configMixin],
+  mixins: [messageFormatterMixin, configMixin, darkModeMixin],
   props: {
     message: {
       type: String,
@@ -82,7 +94,9 @@ export default {
     },
     onClickMessage() {
       if (this.campaignId) {
-        bus.$emit('on-campaign-view-clicked', this.campaignId);
+        bus.$emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
+      } else {
+        bus.$emit(ON_UNREAD_MESSAGE_CLICK);
       }
     },
   },

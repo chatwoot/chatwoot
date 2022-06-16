@@ -10,10 +10,9 @@
         variant="hollow"
         size="tiny"
         @click="onAvatarDelete"
-        >{{
-          this.$t('INBOX_MGMT.DELETE.AVATAR_DELETE_BUTTON_TEXT')
-        }}</woot-button
       >
+        {{ this.$t('INBOX_MGMT.DELETE.AVATAR_DELETE_BUTTON_TEXT') }}
+      </woot-button>
     </div>
     <label>
       <input
@@ -23,10 +22,9 @@
         accept="image/png, image/jpeg, image/gif"
         @change="handleImageUpload"
       />
-      <slot></slot>
+      <slot />
     </label>
   </div>
-
 </template>
 
 <script>

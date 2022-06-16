@@ -11,16 +11,16 @@
     "ADD_BUTTON": "Add a new hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "刪除確認",
+        "ACCOUNT": "取消連結"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "您確定要刪除嗎？",
+        "ACCOUNT": "您確定要取消連結嗎？"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "是，刪除",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "是的，取消連結"
       },
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
@@ -38,8 +38,8 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "選擇收件匣",
+          "PLACEHOLDER": "選擇收件匣"
         },
         "SUBMIT": "建立",
         "CANCEL": "取消"

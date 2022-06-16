@@ -7,23 +7,33 @@ export const buildCreatePayload = ({
   isPrivate,
   contentAttributes,
   echoId,
-  file,
+  files,
+  ccEmails = '',
+  bccEmails = '',
+  templateParams,
 }) => {
   let payload;
-  if (file) {
+  if (files && files.length !== 0) {
     payload = new FormData();
-    payload.append('attachments[]', file, file.name);
     if (message) {
       payload.append('content', message);
     }
+    files.forEach(file => {
+      payload.append('attachments[]', file);
+    });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
+    payload.append('cc_emails', ccEmails);
+    payload.append('bcc_emails', bccEmails);
   } else {
     payload = {
       content: message,
       private: isPrivate,
       echo_id: echoId,
       content_attributes: contentAttributes,
+      cc_emails: ccEmails,
+      bcc_emails: bccEmails,
+      template_params: templateParams,
     };
   }
   return payload;
@@ -40,7 +50,10 @@ class MessageApi extends ApiClient {
     private: isPrivate,
     contentAttributes,
     echo_id: echoId,
-    file,
+    files,
+    ccEmails = '',
+    bccEmails = '',
+    templateParams,
   }) {
     return axios({
       method: 'post',
@@ -50,7 +63,10 @@ class MessageApi extends ApiClient {
         isPrivate,
         contentAttributes,
         echoId,
-        file,
+        files,
+        ccEmails,
+        bccEmails,
+        templateParams,
       }),
     });
   }

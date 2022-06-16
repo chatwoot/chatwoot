@@ -2,80 +2,84 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrazioni",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Eventi iscritti",
+      "FORM": {
+        "CANCEL": "annulla",
+        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Eventi",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversazione creata",
+            "CONVERSATION_STATUS_CHANGED": "Stato conversazione cambiato",
+            "CONVERSATION_UPDATED": "Conversazione aggiornata",
+            "MESSAGE_CREATED": "Messaggio creato",
+            "MESSAGE_UPDATED": "Messaggio aggiornato",
+            "WEBWIDGET_TRIGGERED": "Widget live chat aperto dall'utente"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL del webhook",
+          "PLACEHOLDER": "Esempio: https://example/api/webhook",
+          "ERROR": "Inserisci un URL valido"
+        },
+        "EDIT_SUBMIT": "Aggiorna webhook",
+        "ADD_SUBMIT": "Crea webhook"
+      },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configurare",
+      "CONFIGURE": "Configura",
       "HEADER": "Impostazioni Webhook",
       "HEADER_BTN_TXT": "Aggiungi nuovo webhook",
-      "LOADING": "Recupero webhook allegati",
+      "LOADING": "Recupero dei webhooks collegati",
       "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in Chatwoot. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul <b>Aggiungi nuovo webhook</b> pulsante. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in Chatwoot. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul pulsante <b>Aggiungi nuovo webhook</b>. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
       "LIST": {
         "404": "Non ci sono webhook configurati per questo account.",
         "TITLE": "Gestisci webhook",
         "TABLE_HEADER": [
           "Endpoint Webhook",
-          "azioni"
+          "Azioni"
         ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Modifica",
-        "TITLE": "Edit webhook",
-        "CANCEL": "annulla",
-        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL del webhook",
-            "PLACEHOLDER": "Esempio: https://example/api/webhook",
-            "ERROR": "Inserisci un URL valido"
-          },
-          "SUBMIT": "Edit webhook"
-        },
+        "TITLE": "Modifica webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Configurazione Webhook aggiornata correttamente",
           "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
         }
       },
       "ADD": {
-        "CANCEL": "annulla",
+        "CANCEL": "Annulla",
         "TITLE": "Aggiungi nuovo webhook",
-        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL del webhook",
-            "PLACEHOLDER": "Esempio: https://example/api/webhook",
-            "ERROR": "Inserisci un URL valido"
-          },
-          "SUBMIT": "Crea webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook aggiunto correttamente",
+          "SUCCESS_MESSAGE": "Configurazione Webhook aggiunta correttamente",
           "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Cancellare",
+        "BUTTON_TEXT": "Elimina",
         "API": {
           "SUCCESS_MESSAGE": "Webhook eliminato con successo",
           "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
         },
         "CONFIRM": {
           "TITLE": "Conferma eliminazione",
-          "MESSAGE": "Sei sicuro di voler eliminare ",
+          "MESSAGE": "Sei sicuro di voler eliminare il webhook? (%{webhookURL})",
           "YES": "Sì, elimina ",
-          "NO": "No, Conserva"
+          "NO": "No, conserva"
         }
       }
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Stai utilizzando l'integrazione Slack",
+        "BODY": "<br/><p>Chatwoot ora sincronizzerà tutte le conversazioni in arrivo nel canale <b><i>conversazioni dei clienti</i></b> all'interno del tuo spazio di lavoro Slack.</p><p>Rispondendo a un thread di conversazione nel canale Slack <b><i>conversazioni dei clienti</i></b> verrà creata una risposta al cliente attraverso chatwoot.</p><p>Inizia le risposte con <b><i>nota:</i></b> per creare note private invece che risposte.</p><p>Se il replicante su slack ha un profilo agente in chatwoot sotto la stessa email, le risposte saranno associate di conseguenza.</p><p>Quando il replicante non ha un profilo di agente associato, le risposte saranno fatte dal profilo del bot.</p>"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Cancellare",
+      "BUTTON_TEXT": "Elimina",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrazione eliminata con successo"
       }
     },
     "CONNECT": {

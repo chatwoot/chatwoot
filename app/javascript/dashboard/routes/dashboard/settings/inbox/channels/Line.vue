@@ -81,7 +81,6 @@ import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
-
 export default {
   components: {
     PageHeader,
@@ -114,15 +113,18 @@ export default {
       }
 
       try {
-        const lineChannel = await this.$store.dispatch('inboxes/createChannel', {
-          name: this.channelName,
-          channel: {
-            type: 'line',
-            line_channel_id: this.lineChannelId,
-            line_channel_secret: this.lineChannelSecret,
-            line_channel_token: this.lineChannelToken,
-          },
-        });
+        const lineChannel = await this.$store.dispatch(
+          'inboxes/createChannel',
+          {
+            name: this.channelName,
+            channel: {
+              type: 'line',
+              line_channel_id: this.lineChannelId,
+              line_channel_secret: this.lineChannelSecret,
+              line_channel_token: this.lineChannelToken,
+            },
+          }
+        );
 
         router.replace({
           name: 'settings_inboxes_add_agents',
@@ -132,7 +134,9 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.LINE_CHANNEL.API.ERROR_MESSAGE'));
+        this.showAlert(
+          this.$t('INBOX_MGMT.ADD.LINE_CHANNEL.API.ERROR_MESSAGE')
+        );
       }
     },
   },

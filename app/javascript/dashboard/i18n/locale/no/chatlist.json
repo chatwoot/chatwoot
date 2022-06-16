@@ -7,84 +7,59 @@
       "404": "Det er ingen aktive samtaler i denne gruppen."
     },
     "TAB_HEADING": "Samtaler",
+    "MENTION_HEADING": "Mentions",
     "SEARCH": {
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },
-    "STATUS_TABS": [
-      {
-        "NAME": "Åpne",
-        "KEY": "openCount"
+    "FILTER_ALL": "Alle",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Ikke tildelt",
+      "all": "Alle"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Åpne"
       },
-      {
-        "NAME": "Løst",
-        "KEY": "allConvCount"
+      "resolved": {
+        "TEXT": "Løst"
+      },
+      "pending": {
+        "TEXT": "Pending"
+      },
+      "snoozed": {
+        "TEXT": "Snoozed"
       }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Ikke tildelt",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
-    "CHAT_STATUS_ITEMS": [
-      {
-        "TEXT": "Åpne",
-        "VALUE": "open"
-      },
-      {
-        "TEXT": "Løst",
-        "VALUE": "resolved"
-      },
-      {
-        "TEXT": "Pending",
-        "VALUE": "pending"
-      },
-      {
-        "TEXT": "Snoozed",
-        "VALUE": "snoozed"
-      }
-    ],
+    },
     "ATTACHMENTS": {
       "image": {
-        "ICON": "ion-image",
         "CONTENT": "Bildemelding"
       },
       "audio": {
-        "ICON": "ion-volume-high",
         "CONTENT": "Lydmelding"
       },
       "video": {
-        "ICON": "ion-ios-videocam",
         "CONTENT": "Video beskjed"
       },
       "file": {
-        "ICON": "ion-document",
         "CONTENT": "Vedlegg"
       },
       "location": {
-        "ICON": "ion-ios-location",
         "CONTENT": "Plassering"
       },
       "fallback": {
-        "ICON": "ion-link",
         "CONTENT": "har delt en URL"
       }
     },
     "RECEIVED_VIA_EMAIL": "Mottatt via e-post",
     "VIEW_TWEET_IN_TWITTER": "Vis tweet i Twitter",
     "REPLY_TO_TWEET": "Svar på denne tweeten",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Sent successfully",
     "NO_MESSAGES": "Ingen meldinger",
-    "NO_CONTENT": "No content available"
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
   }
 }

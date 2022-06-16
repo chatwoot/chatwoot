@@ -1,0 +1,31 @@
+post:
+  tags:
+    - Inboxes
+  operationId: updateAgentBot
+  summary: Add or remove agent bot
+  description: To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the inbox
+      required: true
+    - name: data
+      in: body
+      required: true
+      schema:
+        type: object
+        required:
+          - agent_bot
+        properties:
+          agent_bot:
+            type: number
+            description: 'Agent bot ID'
+  responses:
+    204:
+      description: Success
+    404:
+      description: Inbox not found, Agent bot not found
+    403:
+      description: Access denied

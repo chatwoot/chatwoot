@@ -22,11 +22,16 @@ id:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       invalid_email: Anda telah memasukkan email yang tidak valid
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       failed: Pendaftaran gagal
+    contacts:
+      import:
+        failed: File kosong
   reports:
     period: Periode pelaporan %{since} hingga %{until}
     agent_csv:
@@ -34,6 +39,33 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    team_csv:
+      team_name: Nama Tim
+      conversations_count: Jumlah percakapan
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nama Agen
+        rating: Peringkat
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
@@ -42,13 +74,15 @@ id:
       conversation_mention: "Anda telah di mention dalam percakapan [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Pesan ini telah terhapus
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Percakapan telah dibuka kembali oleh %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
+        pending: "Percakapan telah ditandai sebagai tertunda oleh %{user_name}"
+        snoozed: "Percakapan telah ditunda oleh %{user_name}"
         auto_resolved: "Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari"
       assignee:
         self_assigned: "%{user_name} menetapkan sendiri percakapan ini"
@@ -67,12 +101,19 @@ id:
       greeting_message_body: "%{account_name} biasanya membalas dalam beberapa jam."
       ways_to_reach_you_message_body: "Beri tim cara untuk menghubungi Anda."
       email_input_box_message_body: "Dapatkan pemberitahuan melalui email"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Silakan beri peringkat percakapan ini"
     reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Pesan baru pada percakapan ini"
       transcript_subject: "Transkrip Percakapan"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Silakan beri peringkat percakapan ini, %{link}"
+  contacts:
+    online:
+      delete: "%{contact_name} sedang Online, silakan coba lagi nanti"
   integration_apps:
     slack:
       name: "Slack"
@@ -82,7 +123,7 @@ id:
       description: "Webhook event memberi Anda informasi realtime tentang apa yang terjadi di akun Anda. Anda dapat menggunakan webhook untuk mengkomunikasikan acara ke aplikasi favorit Anda seperti Slack atau GitHub. Klik Konfigurasi untuk mengatur webhook Anda."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Pembuatan chatbot menggunakan Dialogflow dan menghubungkannya ke kotak masuk Anda secepatnya. Biarkan bot menangani semua permintaan sebelum menyerahkannya pada agen layanan pelanggan."
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."

@@ -1,28 +1,20 @@
-/* eslint no-param-reassign: 0 */
-import axios from 'axios';
 import Vue from 'vue';
-import * as types from '../mutation-types';
+import types from '../mutation-types';
 import authAPI from '../../api/auth';
-import createAxios from '../../helper/APIHelper';
-import actionCable from '../../helper/actionCable';
-import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
-import { DEFAULT_REDIRECT_URL } from '../../constants';
+import { setUser, clearCookiesOnLogout } from '../utils/api';
+import { getLoginRedirectURL } from '../../helper/URLHelper';
 
-const state = {
+const initialState = {
   currentUser: {
     id: null,
     account_id: null,
-    channel: null,
+    accounts: [],
     email: null,
     name: null,
-    provider: null,
-    uid: null,
-    subscription: {
-      state: null,
-      expiry: null,
-    },
   },
-  currentAccountId: null,
+  uiFlags: {
+    isFetching: true,
+  },
 };
 
 // getters
@@ -31,46 +23,73 @@ export const getters = {
     return !!$state.currentUser.id;
   },
 
-  getCurrentUserID(_state) {
-    return _state.currentUser.id;
+  getCurrentUserID($state) {
+    return $state.currentUser.id;
   },
 
-  getUISettings(_state) {
-    return _state.currentUser.ui_settings || {};
+  getUISettings($state) {
+    return $state.currentUser.ui_settings || {};
   },
 
-  getCurrentUserAvailabilityStatus(_state) {
-    return _state.currentUser.availability_status;
+  getAuthUIFlags($state) {
+    return $state.uiFlags;
   },
 
-  getCurrentAccountId(_state) {
-    return _state.currentAccountId;
-  },
-
-  getCurrentRole(_state) {
-    const { accounts = [] } = _state.currentUser;
+  getCurrentUserAvailability($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
     const [currentAccount = {}] = accounts.filter(
-      account => account.id === _state.currentAccountId
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.availability;
+  },
+
+  getCurrentAccountId(_, __, rootState) {
+    if (rootState.route.params && rootState.route.params.accountId) {
+      return Number(rootState.route.params.accountId);
+    }
+    return null;
+  },
+
+  getCurrentRole($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
     );
     return currentAccount.role;
   },
 
-  getCurrentUser(_state) {
-    return _state.currentUser;
+  getCurrentUser($state) {
+    return $state.currentUser;
+  },
+
+  getMessageSignature($state) {
+    const { message_signature: messageSignature } = $state.currentUser;
+
+    return messageSignature || '';
+  },
+
+  getCurrentAccount($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount || {};
+  },
+
+  getUserAccounts($state) {
+    const { accounts = [] } = $state.currentUser;
+    return accounts;
   },
 };
 
 // actions
 export const actions = {
-  login({ commit }, credentials) {
+  login(_, { ssoAccountId, ...credentials }) {
     return new Promise((resolve, reject) => {
       authAPI
         .login(credentials)
-        .then(() => {
-          commit(types.default.SET_CURRENT_USER);
-          window.axios = createAxios(axios);
-          actionCable.init(Vue);
-          window.location = DEFAULT_REDIRECT_URL;
+        .then(response => {
+          window.location = getLoginRedirectURL(ssoAccountId, response.data);
           resolve();
         })
         .catch(error => {
@@ -81,91 +100,86 @@ export const actions = {
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
-      setUser(response.data.payload.data, getHeaderExpiry(response), {
-        setUserInSDK: true,
-      });
-      context.commit(types.default.SET_CURRENT_USER);
+      const currentUser = response.data.payload.data;
+      setUser(currentUser);
+      context.commit(types.SET_CURRENT_USER, currentUser);
     } catch (error) {
       if (error?.response?.status === 401) {
         clearCookiesOnLogout();
       }
     }
   },
-  setUser({ commit, dispatch }) {
-    if (authAPI.isLoggedIn()) {
-      commit(types.default.SET_CURRENT_USER);
-      dispatch('validityCheck');
+  async setUser({ commit, dispatch }) {
+    if (authAPI.hasAuthCookie()) {
+      await dispatch('validityCheck');
     } else {
-      commit(types.default.CLEAR_USER);
+      commit(types.CLEAR_USER);
     }
+    commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
   },
   logout({ commit }) {
-    commit(types.default.CLEAR_USER);
+    commit(types.CLEAR_USER);
   },
 
   updateProfile: async ({ commit }, params) => {
     // eslint-disable-next-line no-useless-catch
     try {
       const response = await authAPI.profileUpdate(params);
-      setUser(response.data, getHeaderExpiry(response));
-      commit(types.default.SET_CURRENT_USER);
+      commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
       throw error;
     }
   },
 
-  updateUISettings: async ({ commit }, params) => {
+  deleteAvatar: async () => {
     try {
-      commit(types.default.SET_CURRENT_USER_UI_SETTINGS, params);
-      const response = await authAPI.updateUISettings(params);
-      setUser(response.data, getHeaderExpiry(response));
-      commit(types.default.SET_CURRENT_USER);
+      await authAPI.deleteAvatar();
     } catch (error) {
       // Ignore error
     }
   },
 
-  updateAvailability: ({ commit, dispatch }, { availability }) => {
-    authAPI.updateAvailability({ availability }).then(response => {
+  updateUISettings: async ({ commit }, params) => {
+    try {
+      commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
+      const response = await authAPI.updateUISettings(params);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
+  updateAvailability: async ({ commit, dispatch }, params) => {
+    try {
+      const response = await authAPI.updateAvailability(params);
       const userData = response.data;
-      const { id, availability_status: availabilityStatus } = userData;
-      setUser(userData, getHeaderExpiry(response));
-      commit(types.default.SET_CURRENT_USER);
-      dispatch('agents/updatePresence', { [id]: availabilityStatus });
-    });
+      const { id } = userData;
+      commit(types.SET_CURRENT_USER, response.data);
+      dispatch('agents/updatePresence', { [id]: params.availability });
+    } catch (error) {
+      // Ignore error
+    }
   },
 
-  setCurrentAccountId({ commit }, accountId) {
-    commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
-  },
-
-  setCurrentUserAvailabilityStatus({ commit, state: $state }, data) {
+  setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
-      commit(
-        types.default.SET_CURRENT_USER_AVAILABILITY,
-        data[$state.currentUser.id]
-      );
+      commit(types.SET_CURRENT_USER_AVAILABILITY, data[$state.currentUser.id]);
     }
   },
 };
 
 // mutations
 export const mutations = {
-  [types.default.SET_CURRENT_USER_AVAILABILITY](_state, status) {
-    Vue.set(_state.currentUser, 'availability_status', status);
+  [types.SET_CURRENT_USER_AVAILABILITY](_state, availability) {
+    Vue.set(_state.currentUser, 'availability', availability);
   },
-  [types.default.CLEAR_USER](_state) {
-    _state.currentUser.id = null;
+  [types.CLEAR_USER](_state) {
+    _state.currentUser = initialState.currentUser;
   },
-  [types.default.SET_CURRENT_USER](_state) {
-    const currentUser = {
-      ...authAPI.getAuthData(),
-      ...authAPI.getCurrentUser(),
-    };
-
+  [types.SET_CURRENT_USER](_state, currentUser) {
     Vue.set(_state, 'currentUser', currentUser);
   },
-  [types.default.SET_CURRENT_USER_UI_SETTINGS](_state, { uiSettings }) {
+  [types.SET_CURRENT_USER_UI_SETTINGS](_state, { uiSettings }) {
     Vue.set(_state, 'currentUser', {
       ..._state.currentUser,
       ui_settings: {
@@ -174,13 +188,14 @@ export const mutations = {
       },
     });
   },
-  [types.default.SET_CURRENT_ACCOUNT_ID](_state, accountId) {
-    Vue.set(_state, 'currentAccountId', Number(accountId));
+
+  [types.SET_CURRENT_USER_UI_FLAGS](_state, { isFetching }) {
+    Vue.set(_state, 'uiFlags', { isFetching });
   },
 };
 
 export default {
-  state,
+  state: initialState,
   getters,
   actions,
   mutations,

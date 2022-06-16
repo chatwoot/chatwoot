@@ -45,7 +45,7 @@
           </div>
           <div class="medium-6 columns text-right">
             <woot-button
-              icon="ion-locked"
+              icon="lock-closed"
               variant="clear"
               @click.prevent="resetPassword"
             >

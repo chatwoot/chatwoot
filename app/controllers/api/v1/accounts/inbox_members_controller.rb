@@ -1,11 +1,11 @@
 class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox
-  before_action :current_agents_ids, only: [:update]
+  before_action :current_agents_ids, only: [:create, :update]
 
   def create
     authorize @inbox, :create?
     ActiveRecord::Base.transaction do
-      params[:user_ids].map { |user_id| @inbox.add_member(user_id) }
+      agents_to_be_added_ids.map { |user_id| @inbox.add_member(user_id) }
     end
     fetch_updated_agents
   end

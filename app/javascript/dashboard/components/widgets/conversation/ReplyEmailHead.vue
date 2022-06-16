@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="input-group-wrap">
-      <div class="input-group small" :class="{ error: $v.ccEmails.$error }">
+      <div class="input-group small" :class="{ error: $v.ccEmailsVal.$error }">
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
         <div class="input-group-field">
           <woot-input
-            v-model.trim="ccEmails"
-            type="email"
-            :class="{ error: $v.ccEmails.$error }"
+            v-model.trim="$v.ccEmailsVal.$model"
+            type="text"
+            :class="{ error: $v.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
-            @blur="$v.ccEmails.$touch"
+            @blur="onBlur"
           />
         </div>
         <woot-button
@@ -23,28 +23,28 @@
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC') }}
         </woot-button>
       </div>
-      <span v-if="$v.ccEmails.$error" class="message">
+      <span v-if="$v.ccEmailsVal.$error" class="message">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
       </span>
     </div>
     <div v-if="showBcc" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: $v.bccEmails.$error }">
+      <div class="input-group small" :class="{ error: $v.bccEmailsVal.$error }">
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
         <div class="input-group-field">
           <woot-input
-            v-model.trim="bccEmails"
-            type="email"
-            :class="{ error: $v.bccEmails.$error }"
+            v-model.trim="$v.bccEmailsVal.$model"
+            type="text"
+            :class="{ error: $v.bccEmailsVal.$error }"
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
             "
-            @blur="$v.bccEmails.$touch"
+            @blur="onBlur"
           />
         </div>
       </div>
-      <span v-if="$v.bccEmails.$error" class="message">
+      <span v-if="$v.bccEmailsVal.$error" class="message">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
       </span>
     </div>
@@ -67,15 +67,33 @@ export default {
   data() {
     return {
       showBcc: false,
+      ccEmailsVal: '',
+      bccEmailsVal: '',
     };
   },
+  watch: {
+    bccEmails(newVal) {
+      if (newVal !== this.bccEmailsVal) {
+        this.bccEmailsVal = newVal;
+      }
+    },
+    ccEmails(newVal) {
+      if (newVal !== this.ccEmailsVal) {
+        this.ccEmailsVal = newVal;
+      }
+    },
+  },
+  mounted() {
+    this.ccEmailsVal = this.ccEmails;
+    this.bccEmailsVal = this.bccEmails;
+  },
   validations: {
-    ccEmails: {
+    ccEmailsVal: {
       hasValidEmails(value) {
         return validEmailsByComma(value);
       },
     },
-    bccEmails: {
+    bccEmailsVal: {
       hasValidEmails(value) {
         return validEmailsByComma(value);
       },
@@ -84,6 +102,11 @@ export default {
   methods: {
     handleAddBcc() {
       this.showBcc = true;
+    },
+    onBlur() {
+      this.$v.$touch();
+      this.$emit('update:bccEmails', this.bccEmailsVal);
+      this.$emit('update:ccEmails', this.ccEmailsVal);
     },
   },
 };

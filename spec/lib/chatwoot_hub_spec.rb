@@ -18,12 +18,12 @@ describe ChatwootHub do
 
     it 'will not send instance metrics when telemetry is disabled' do
       version = '1.1.1'
-      ENV['DISABLE_TELEMETRY'] = 'true'
-      allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
-      expect(described_class.latest_version).to eq version
-      expect(RestClient).to have_received(:post).with(described_class::PING_URL,
-                                                      described_class.instance_config.to_json, { content_type: :json, accept: :json })
-      ENV['DISABLE_TELEMETRY'] = nil
+      with_modified_env DISABLE_TELEMETRY: 'true' do
+        allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
+        expect(described_class.latest_version).to eq version
+        expect(RestClient).to have_received(:post).with(described_class::PING_URL,
+                                                        described_class.instance_config.to_json, { content_type: :json, accept: :json })
+      end
     end
 
     it 'returns nil when chatwoot hub is down' do
@@ -59,13 +59,14 @@ describe ChatwootHub do
     end
 
     it 'will not send instance events when telemetry is disabled' do
-      ENV['DISABLE_TELEMETRY'] = 'true'
-      info = { event_name: event_name, event_data: event_data }
-      allow(RestClient).to receive(:post)
-      described_class.emit_event(event_name, event_data)
-      expect(RestClient).not_to have_received(:post).with(described_class::EVENTS_URL,
-                                                          info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
-      ENV['DISABLE_TELEMETRY'] = nil
+      with_modified_env DISABLE_TELEMETRY: 'true' do
+        info = { event_name: event_name, event_data: event_data }
+        allow(RestClient).to receive(:post)
+        described_class.emit_event(event_name, event_data)
+        expect(RestClient).not_to have_received(:post)
+          .with(described_class::EVENTS_URL,
+                info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
+      end
     end
   end
 end

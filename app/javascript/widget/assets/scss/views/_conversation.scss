@@ -1,0 +1,251 @@
+.file-uploads .attachment-button+label {
+  cursor: pointer;
+}
+
+.conversation-wrap {
+  .agent-message {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0 0 $space-micro $space-small;
+    max-width: 88%;
+
+    .avatar-wrap {
+      flex-shrink: 0;
+      height: $space-medium;
+      width: $space-medium;
+
+      .user-thumbnail-box {
+        margin-top: -$space-large;
+      }
+    }
+
+    .message-wrap {
+      flex-grow: 1;
+      flex-shrink: 0;
+      margin-left: $space-small;
+      max-width: 90%;
+    }
+  }
+
+  &.is-typing .messages-wrap div:last-child {
+    .agent-message {
+      .agent-name {
+        display: none;
+      }
+
+      .user-thumbnail-box {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .agent-name {
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    margin: $space-small 0;
+    padding-left: $space-micro;
+  }
+
+  .has-attachment {
+    overflow: hidden;
+
+    :not([audio]) {
+      padding: 0;
+    }
+
+    &.has-text {
+      margin-top: $space-smaller;
+    }
+  }
+
+  .agent-message-wrap {
+    +.agent-message-wrap {
+      margin-top: $space-micro;
+
+      .agent-message .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+    }
+
+    +.user-message-wrap {
+      margin-top: $space-normal;
+    }
+
+    &.has-response+.user-message-wrap {
+      margin-top: $space-micro;
+
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
+
+    &.has-response+.agent-message-wrap {
+      margin-top: $space-normal;
+    }
+  }
+
+  .user-message {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0 $space-smaller $space-micro auto;
+    max-width: 85%;
+    text-align: right;
+
+    .message-wrap {
+      margin-right: $space-small;
+      max-width: 100%;
+    }
+
+    .in-progress,
+    .is-failed {
+      opacity: 0.6;
+    }
+
+    .is-failed {
+      align-items: flex-end;
+      display: flex;
+      flex-direction: row-reverse;
+
+      .chat-bubble.user {
+        background: $color-error !important;
+        // TODO: Remove the important
+      }
+    }
+  }
+
+
+  .user.has-attachment {
+    .icon-wrap {
+      color: $color-white;
+    }
+
+    .download {
+      color: $color-white;
+    }
+  }
+
+  .user-message-wrap {
+    +.user-message-wrap {
+      margin-top: $space-micro;
+
+      .user-message .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
+
+    +.agent-message-wrap {
+      margin-top: $space-normal;
+    }
+  }
+
+  p:not(:last-child) {
+    margin-bottom: $space-normal;
+  }
+}
+
+
+.unread-messages {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-top: 0;
+  overflow-y: auto;
+  padding-bottom: $space-small;
+  width: 100%;
+
+  .chat-bubble-wrap {
+    margin-bottom: $space-smaller;
+
+    &:first-child {
+      margin-top: auto;
+    }
+
+    .chat-bubble {
+      border: 1px solid $color-border-dark;
+    }
+
+    +.chat-bubble-wrap {
+      .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+    }
+
+    &:last-child .chat-bubble {
+      border-bottom-left-radius: $space-two;
+    }
+  }
+}
+
+.is-widget-right .unread-wrap {
+  overflow: hidden;
+  text-align: right;
+
+  .chat-bubble-wrap {
+    .chat-bubble {
+      border-bottom-right-radius: $space-smaller;
+      border-radius: $space-two;
+    }
+
+    +.chat-bubble-wrap {
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
+
+    &:last-child .chat-bubble {
+      border-bottom-right-radius: $space-two;
+    }
+  }
+
+  .close-unread-wrap {
+    text-align: right;
+  }
+}
+
+
+.chat-bubble {
+  @include light-shadow;
+  border-radius: $space-two;
+  color: $color-white;
+  display: inline-block;
+  font-size: $font-size-default;
+  line-height: 1.5;
+  padding: $space-slab $space-normal;
+  text-align: left;
+  word-break: break-word;
+
+  :not([audio]) {
+    max-width: 100%;
+  }
+
+  >a {
+    color: $color-primary;
+    word-break: break-all;
+  }
+
+  .link {
+    text-decoration: underline;
+  }
+
+  &.user {
+    border-bottom-right-radius: $space-smaller;
+
+    >a {
+      color: $color-white;
+    }
+  }
+
+  &.agent {
+    border-bottom-left-radius: $space-smaller;
+    color: $color-body;
+
+    .link {
+      color: $color-woot;
+      word-break: break-word;
+    }
+  }
+}

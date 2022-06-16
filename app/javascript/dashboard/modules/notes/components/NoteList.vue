@@ -1,39 +1,37 @@
 <template>
   <div>
-    <div class="notelist-wrap">
-      <h3 class="block-title">
-        {{ $t('NOTES.HEADER.TITLE') }}
-      </h3>
-      <add-note @add="onAddNote" />
-      <contact-note
-        v-for="note in notes"
-        :id="note.id"
-        :key="note.id"
-        :note="note.content"
-        :user-name="note.user.name"
-        :time-stamp="note.created_at"
-        :thumbnail="note.user.thumbnail"
-        @edit="onEditNote"
-        @delete="onDeleteNote"
-      />
-      <div class="button-wrap">
-        <woot-button variant="link" @click="onclick">
-          {{ $t('NOTES.FOOTER.BUTTON') }}
-          <i class="ion-arrow-right-c" />
-        </woot-button>
-      </div>
+    <add-note @add="onAddNote" />
+    <contact-note
+      v-for="note in notes"
+      :id="note.id"
+      :key="note.id"
+      :note="note.content"
+      :user="note.user"
+      :created-at="note.created_at"
+      @edit="onEditNote"
+      @delete="onDeleteNote"
+    />
+
+    <div v-if="isFetching" class="text-center p-normal fs-default">
+      <spinner size="" />
+      <span>{{ $t('NOTES.FETCHING_NOTES') }}</span>
+    </div>
+    <div v-else-if="!notes.length" class="text-center p-normal fs-default">
+      <span>{{ $t('NOTES.NOT_AVAILABLE') }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import ContactNote from './ContactNote';
 import AddNote from './AddNote';
+import ContactNote from './ContactNote';
+import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
-    ContactNote,
     AddNote,
+    ContactNote,
+    Spinner,
   },
 
   props: {
@@ -41,12 +39,13 @@ export default {
       type: Array,
       default: () => [],
     },
+    isFetching: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
-    onclick() {
-      this.$emit('show');
-    },
     onAddNote(value) {
       this.$emit('add', value);
     },
@@ -59,9 +58,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.button-wrap {
-  margin-top: var(--space-one);
-}
-</style>

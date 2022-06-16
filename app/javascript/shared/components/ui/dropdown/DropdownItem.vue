@@ -7,7 +7,7 @@
     :tabindex="disabled ? null : -1"
     :aria-disabled="disabled"
   >
-    <slot></slot>
+    <slot />
   </li>
 </template>
 <script>
@@ -35,8 +35,12 @@ export default {
     .button {
       width: 100%;
       text-align: left;
+      color: var(--s-700);
       white-space: nowrap;
       display: inline-flex;
+      padding: var(--space-small);
+      padding-top: var(--space-small);
+      padding-bottom: var(--space-small);
       border-radius: var(--border-radius-normal);
 
       &:hover {

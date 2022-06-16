@@ -1,0 +1,15 @@
+tags:
+  - Reports
+operationId: list-all-conversation-statistics-summary
+summary: Get Account reports summary
+description: Get Account reports summary for a specific type and date range
+responses:
+  200:
+    description: Success
+    schema:
+      description: 'Object of summary metrics'
+      $ref: '#/definitions/account_summary'
+  404:
+    description: reports not found
+  403:
+    description: Access denied

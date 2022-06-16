@@ -23,8 +23,7 @@
         outline-none
       "
       :class="{
-        'border-black-200 hover:border-black-300 focus:border-black-300':
-          !error,
+        'border-black-200 hover:border-black-300 focus:border-black-300': !error,
         'border-red-200 hover:border-red-300 focus:border-red-300': error,
       }"
       :placeholder="placeholder"

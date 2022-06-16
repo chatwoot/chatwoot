@@ -50,4 +50,42 @@ RSpec.describe WorkingHour do
       expect(described_class.today.closed_now?).to be true
     end
   end
+
+  context 'when open_all_day is true' do
+    let(:inbox) { create(:inbox) }
+
+    before do
+      Time.zone = 'UTC'
+      inbox.working_hours.find_by(day_of_week: 5).update(open_all_day: true)
+      travel_to '18.02.2022 11:00'.to_datetime
+    end
+
+    it 'updates open hour and close hour' do
+      expect(described_class.today.open_all_day?).to be true
+      expect(described_class.today.open_hour).to be 0
+      expect(described_class.today.open_minutes).to be 0
+      expect(described_class.today.close_hour).to be 23
+      expect(described_class.today.close_minutes).to be 59
+    end
+  end
+
+  context 'when open_all_day and closed_all_day true at the same time' do
+    let(:inbox) { create(:inbox) }
+
+    before do
+      Time.zone = 'UTC'
+      inbox.working_hours.find_by(day_of_week: 5).update(open_all_day: true)
+      travel_to '18.02.2022 11:00'.to_datetime
+    end
+
+    it 'throws validation error' do
+      working_hour = inbox.working_hours.find_by(day_of_week: 5)
+      working_hour.closed_all_day = true
+      expect(working_hour.invalid?).to be true
+      expect do
+        working_hour.save!
+      end.to raise_error(ActiveRecord::RecordInvalid,
+                         'Validation failed: open_all_day and closed_all_day cannot be true at the same time')
+    end
+  end
 end

@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "TITLE": "تنظیمات حساب",
-    "SUBMIT": "تغییر تنظیمات",
+    "SUBMIT": "به‌روزرسانی تنظیمات",
     "BACK": "بازگشت",
     "UPDATE": {
-      "ERROR": "تنظیمات تغییری نکرد، دوباره امتحان کنید!",
+      "ERROR": "تنظیمات به‌روزرسانی نشد، دوباره امتحان کنید!",
       "SUCCESS": "تنظیمات با موفقیت اعمال شد"
     },
     "FORM": {
@@ -13,14 +13,18 @@
         "TITLE": "تنظیمات عمومی",
         "NOTE": ""
       },
+      "ACCOUNT_ID": {
+        "TITLE": "شناسه حساب‌کاربری",
+        "NOTE": "اگر شما در حال ساخت یک یکپارچه‌سازی مبتنی بر API هستید، این شناسه مورد نیاز است"
+      },
       "NAME": {
-        "LABEL": "عنوان حساب",
-        "PLACEHOLDER": "عنوان حساب شما",
-        "ERROR": "لطفا عنوان حساب را به درستی وارد نمایید"
+        "LABEL": "نام حساب‌کاربری",
+        "PLACEHOLDER": "نام حساب‌کاربری شما",
+        "ERROR": "لطفا نام حساب‌کاربری را به درستی وارد نمایید"
       },
       "LANGUAGE": {
         "LABEL": "زبان سایت (آزمایشی)",
-        "PLACEHOLDER": "زبان نمایش المان‌های متنی سایت",
+        "PLACEHOLDER": "نام حساب‌کاربری شما",
         "ERROR": ""
       },
       "DOMAIN": {
@@ -35,15 +39,16 @@
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "تعداد روزهایی که اگر فعالیتی وجود نداشته باشد، گفتگو به صورت خودکار بسته شود",
-        "PLACEHOLDER": "30",
-        "ERROR": "لطفاً یک مدت زمان حل خودکار معتبر (حداقل 1 روز) وارد کنید"
+        "PLACEHOLDER": "۳۰",
+        "ERROR": "لطفا یک مدت زمان حل خودکار معبر (بین حداقل 1 روز تا حداکثر 999 روز) وارد کنید"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "تداوم مکالمه با ایمیل برای حساب شما فعال است.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "اکنون می‌توانید ایمیل‌ها را در دامنه سفارشی خود دریافت کنید."
       }
     },
-    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید."
+    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید.",
+    "LEARN_MORE": "بیشتر بدانید"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -55,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "اعلان ها",
     "MARK_ALL_DONE": "همه را به انجام شده تغییر بده",
+    "DELETE_TITLE": "حذف شده",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "آگاه‌سازی‌های خوانده نشده",
+      "ALL_NOTIFICATIONS": "مشاهده همه آگاه‌سازی‌ها",
+      "LOADING_UNREAD_MESSAGE": "در حال بارگیری آگاه‌سازی‌های خوانده نشده...",
+      "EMPTY_MESSAGE": "شما هیچ آگاه‌سازی‌ خوانده نشده‌ای ندارید"
+    },
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
       "404": "اعلانی وجود ندارد",
@@ -70,6 +82,59 @@
       "conversation_assignment": "مکالمه اختصاص داده شد",
       "assigned_conversation_new_message": "پیام جدید",
       "conversation_mention": "اشاره"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "قطع کردن Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "تازه کردن"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "جستجو یا پرش به",
+    "SECTIONS": {
+      "GENERAL": "عمومی",
+      "REPORTS": "گزارشات",
+      "CONVERSATION": "گفتگو",
+      "CHANGE_ASSIGNEE": "نماینده را تغییر دهید",
+      "CHANGE_TEAM": "تیم را تغییر دهید",
+      "ADD_LABEL": "برچسب را به مکالمه اضافه کنید",
+      "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
+      "SETTINGS": "تنظیمات"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
+      "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "GO_TO_REPORTS_OVERVIEW": "به نمای کلی گزارش ها بروید",
+      "GO_TO_CONVERSATION_REPORTS": "به گزارش های گفتگو بروید",
+      "GO_TO_AGENT_REPORTS": "به گزارش های ایجنت بروید",
+      "GO_TO_LABEL_REPORTS": "به گزارش برچسب بروید",
+      "GO_TO_INBOX_REPORTS": "به گزارش صندوق ورودی بروید",
+      "GO_TO_TEAM_REPORTS": "به گزارش تیم بروید",
+      "GO_TO_SETTINGS_AGENTS": "به تنظیمات ایجنت بروید",
+      "GO_TO_SETTINGS_TEAMS": "به تنظیمات تیم بروید",
+      "GO_TO_SETTINGS_INBOXES": "به تنظیمات صندوق ورودی بروید",
+      "GO_TO_SETTINGS_LABELS": "به تنظیمات برچسب بروید",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "به تنظیمات Canned Response بروید",
+      "GO_TO_SETTINGS_APPLICATIONS": "به تنظیمات برنامه بروید",
+      "GO_TO_SETTINGS_ACCOUNT": "به تنظیمات حساب بروید",
+      "GO_TO_SETTINGS_PROFILE": "به تنظیمات پروفایل بروید",
+      "GO_TO_NOTIFICATIONS": "به اعلان ها بروید",
+      "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
+      "ASSIGN_AN_AGENT": "یک ایجنت تعیین کنید",
+      "ASSIGN_A_TEAM": "یک تیم را تعیین کنید",
+      "MUTE_CONVERSATION": "صدای گفتگو را قطع کن",
+      "UNMUTE_CONVERSATION": "مکالمه را باصدا کنید",
+      "REMOVE_LABEL_FROM_CONVERSATION": "برچسب را از مکالمه حذف کنید",
+      "REOPEN_CONVERSATION": "مکالمه را دوباره باز کنید",
+      "RESOLVE_CONVERSATION": "گفتگو حل شده",
+      "SEND_TRANSCRIPT": "یک متن ایمیل ارسال کنید",
+      "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
+      "UNTIL_NEXT_REPLY": "تا پاسخ بعدی",
+      "UNTIL_NEXT_WEEK": "تا هفته بعد",
+      "UNTIL_TOMORROW": "تا فردا"
     }
   }
 }

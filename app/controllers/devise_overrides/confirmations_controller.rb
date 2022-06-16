@@ -28,10 +28,7 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   end
 
   def create_reset_token_link(user)
-    raw, enc = Devise.token_generator.generate(user.class, :reset_password_token)
-    user.reset_password_token   = enc
-    user.reset_password_sent_at = Time.now.utc
-    user.save(validate: false)
-    "/app/auth/password/edit?config=default&redirect_url=&reset_password_token=#{raw}"
+    token = user.send(:set_reset_password_token)
+    "/app/auth/password/edit?config=default&redirect_url=&reset_password_token=#{token}"
   end
 end

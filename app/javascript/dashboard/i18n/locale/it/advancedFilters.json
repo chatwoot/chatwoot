@@ -1,0 +1,93 @@
+{
+  "FILTER": {
+    "TITLE": "Filtra conversazioni",
+    "SUBTITLE": "Aggiungi filtri qui sotto e premi 'Applica filtri' per filtrare le conversazioni.",
+    "ADD_NEW_FILTER": "Aggiungi filtro",
+    "FILTER_DELETE_ERROR": "Dovresti avere almeno un filtro da salvare",
+    "SUBMIT_BUTTON_LABEL": "Applica filtri",
+    "CANCEL_BUTTON_LABEL": "Annulla",
+    "CLEAR_BUTTON_LABEL": "Cancella filtri",
+    "EMPTY_VALUE_ERROR": "Il valore è obbligatorio",
+    "TOOLTIP_LABEL": "Filtra conversazioni",
+    "QUERY_DROPDOWN_LABELS": {
+      "AND": "E",
+      "OR": "O"
+    },
+    "OPERATOR_LABELS": {
+      "equal_to": "Uguale a",
+      "not_equal_to": "Non uguale a",
+      "contains": "Contiene",
+      "does_not_contain": "Non contiene",
+      "is_present": "È presente",
+      "is_not_present": "Non è presente",
+      "is_greater_than": "È maggiore di",
+      "is_less_than": "È minore di",
+      "days_before": "È x giorni prima"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Vero",
+      "FALSE": "Falso"
+    },
+    "ATTRIBUTES": {
+      "STATUS": "Stato",
+      "ASSIGNEE_NAME": "Nome assegnatario",
+      "INBOX_NAME": "Nome Casella",
+      "TEAM_NAME": "Nome team",
+      "CONVERSATION_IDENTIFIER": "Identificativo conversazione",
+      "CAMPAIGN_NAME": "Nome campagna",
+      "LABELS": "Etichette",
+      "BROWSER_LANGUAGE": "Lingua del browser",
+      "COUNTRY_NAME": "Nome del paese",
+      "REFERER_LINK": "Link referente",
+      "CUSTOM_ATTRIBUTE_LIST": "Elenco",
+      "CUSTOM_ATTRIBUTE_TEXT": "Testo",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numero",
+      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Creato il",
+      "LAST_ACTIVITY": "Ultima attività"
+    },
+    "GROUPS": {
+      "STANDARD_FILTERS": "Filtri standard",
+      "ADDITIONAL_FILTERS": "Filtri addizionali",
+      "CUSTOM_ATTRIBUTES": "Attributi personalizzati"
+    },
+    "CUSTOM_VIEWS": {
+      "ADD": {
+        "TITLE": "Vuoi salvare questo filtro?",
+        "LABEL": "Dai un nome a questo filtro",
+        "PLACEHOLDER": "Inserisci un nome per questo filtro",
+        "ERROR_MESSAGE": "Il nome è obbligatorio",
+        "SAVE_BUTTON": "Salva filtro",
+        "CANCEL_BUTTON": "Annulla",
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Cartella creata con successo",
+          "ERROR_MESSAGE": "Errore durante la creazione della cartella"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmento creato con successo",
+          "ERROR_MESSAGE": "Errore durante la creazione del segmento"
+        }
+      },
+      "DELETE": {
+        "DELETE_BUTTON": "Elimina filtro",
+        "MODAL": {
+          "CONFIRM": {
+            "TITLE": "Conferma eliminazione",
+            "MESSAGE": "Sei sicuro di voler eliminare il filtro ",
+            "YES": "Sì, elimina",
+            "NO": "No, mantienilo"
+          }
+        },
+        "API_FOLDERS": {
+          "SUCCESS_MESSAGE": "Cartella eliminata con successo",
+          "ERROR_MESSAGE": "Errore durante l'eliminazione della cartella"
+        },
+        "API_SEGMENTS": {
+          "SUCCESS_MESSAGE": "Segmento eliminato con successo",
+          "ERROR_MESSAGE": "Errore durante l'eliminazione del segmento"
+        }
+      }
+    }
+  }
+}

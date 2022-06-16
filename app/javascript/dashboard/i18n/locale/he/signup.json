@@ -4,7 +4,7 @@
     "TITLE": "Register",
     "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account name",
+      "LABEL": "שם החשבון",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
       "ERROR": "Account name is too short"
     },
@@ -21,11 +21,12 @@
     "PASSWORD": {
       "LABEL": "סיסמה",
       "PLACEHOLDER": "סיסמה",
-      "ERROR": "Password is too short"
+      "ERROR": "הסיסמה קצרה מדי",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
+      "LABEL": "אמת סיסמה",
+      "PLACEHOLDER": "אמת סיסמה",
       "ERROR": "Password doesnot match"
     },
     "API": {

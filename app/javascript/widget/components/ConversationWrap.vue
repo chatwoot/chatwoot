@@ -2,14 +2,14 @@
   <div class="conversation--container">
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
-        <spinner></spinner>
+        <spinner />
       </div>
       <div
         v-for="groupedMessage in groupedMessages"
         :key="groupedMessage.date"
         class="messages-wrap"
       >
-        <date-separator :date="groupedMessage.date"></date-separator>
+        <date-separator :date="groupedMessage.date" />
         <chat-message
           v-for="message in groupedMessage.messages"
           :key="message.id"
@@ -109,6 +109,7 @@ export default {
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
+  color-scheme: light dark;
 }
 
 .conversation-wrap {
@@ -118,17 +119,5 @@ export default {
 
 .message--loader {
   text-align: center;
-}
-</style>
-<style lang="scss">
-.conversation-wrap.is-typing .messages-wrap div:last-child {
-  .agent-message {
-    .agent-name {
-      display: none;
-    }
-    .user-thumbnail-box {
-      margin-top: 0;
-    }
-  }
 }
 </style>

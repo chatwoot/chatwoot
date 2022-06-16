@@ -43,7 +43,7 @@ class Channel::Telegram < ApplicationRecord
     response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })
     return nil unless response.success?
 
-    photos = response.parsed_response['result']['photos']
+    photos = response.parsed_response.dig('result', 'photos')
     return if photos.blank?
 
     get_telegram_file_path(photos.first.last['file_id'])
@@ -90,12 +90,14 @@ class Channel::Telegram < ApplicationRecord
       telegram_attachment = {}
 
       case attachment[:file_type]
+      when 'audio'
+        telegram_attachment[:type] = 'audio'
       when 'image'
         telegram_attachment[:type] = 'photo'
       when 'file'
         telegram_attachment[:type] = 'document'
       end
-      telegram_attachment[:media] = attachment.file_url
+      telegram_attachment[:media] = attachment.download_url
       telegram_attachments << telegram_attachment
     end
 

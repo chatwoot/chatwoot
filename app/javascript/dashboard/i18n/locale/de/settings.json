@@ -3,7 +3,10 @@
     "LINK": "Profileinstellungen",
     "TITLE": "Profileinstellungen",
     "BTN_TEXT": "Profil aktualisieren",
-    "UPDATE_SUCCESS": "Dein Profil wurde erfolgreich aktualisiert",
+    "DELETE_AVATAR": "Avatar löschen",
+    "AVATAR_DELETE_SUCCESS": "Avatar wurde erfolgreich gelöscht",
+    "AVATAR_DELETE_FAILED": "Beim Löschen des Avatars ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut",
+    "UPDATE_SUCCESS": "Ihr Profil wurde erfolgreich aktualisiert",
     "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
     "FORM": {
@@ -15,6 +18,18 @@
       "PROFILE_SECTION": {
         "TITLE": "Profil",
         "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Persönliche Nachrichtensignatur",
+        "NOTE": "Erstellen Sie eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Sie aus Ihrem E-Mail-Posteingang senden. Verwenden Sie den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
+        "BTN_TEXT": "Nachrichten-Signatur speichern",
+        "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
+        "API_SUCCESS": "Signatur erfolgreich gespeichert"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Nachrichten-Signatur",
+        "ERROR": "Nachrichten-Signatur darf nicht leer sein",
+        "PLACEHOLDER": "Füge hier Deine persönliche Nachrichtensignatur ein."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Passwort",
@@ -37,8 +52,8 @@
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
-        "CONVERSATION_MENTION": "Sende E-Mail-Benachrichtigungen, wenn du in einer Unterhaltung erwähnt wirst",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sende E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Unterhaltung erstellt wird"
+        "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -49,8 +64,8 @@
         "NOTE": "Aktualisieren Sie hier Ihre Push-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Push-Benachrichtigungen senden, wenn mir ein Gespräch zugewiesen wird",
         "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
-        "CONVERSATION_MENTION": "Sende Push-Benachrichtigungen, wenn du in einer Unterhaltung erwähnt wirst",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Unterhaltung erstellt wird",
+        "CONVERSATION_MENTION": "Senden Sie Push-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
       },
@@ -58,7 +73,7 @@
         "LABEL": "Profilbild"
       },
       "NAME": {
-        "LABEL": "Dein Name",
+        "LABEL": "Ihr vollständiger Name",
         "ERROR": "Bitte geben Sie einen gültigen Namen ein",
         "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt"
       },
@@ -86,7 +101,7 @@
         "PLACEHOLDER": "Bitte geben Sie das aktuelle Passwort ein"
       },
       "PASSWORD": {
-        "LABEL": "Passwort",
+        "LABEL": "Passwort zurücksetzen",
         "ERROR": "Bitte geben Sie ein Passwort mit einer Länge von 6 oder mehr ein",
         "PLACEHOLDER": "Bitte geben Sie ein neues Passwort ein"
       },
@@ -100,6 +115,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ändern",
     "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
+    "CONTACT_SUPPORT": "Support kontaktieren",
     "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
     "KEYBOARD_SHORTCUTS": "Tastenkombinationen",
@@ -107,12 +123,17 @@
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
-    "TRAIL_BUTTON": "Jetzt kaufen"
+    "TRAIL_BUTTON": "Jetzt kaufen",
+    "DELETED_USER": "Gelöschter Benutzer"
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopieren",
       "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mehr zeigen",
+      "SHOW_LESS": "Weniger zeigen"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
@@ -122,14 +143,18 @@
       "SUBMIT": "Abschicken"
     }
   },
-  "CONFIRM_EMAIL": "Überprüft...",
+  "CONFIRM_EMAIL": "Überprüfen...",
   "SETTINGS": {
     "INBOXES": {
       "NEW_INBOX": "Posteingang hinzufügen"
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
+    "SWITCH": "Wechseln",
     "CONVERSATIONS": "Gespräche",
+    "ALL_CONVERSATIONS": "Alle Konversationen",
+    "MENTIONED_CONVERSATIONS": "Erwähnungen",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
     "CONTACTS": "Kontakte",
@@ -139,18 +164,33 @@
     "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
     "INTEGRATIONS": "Integrationen",
+    "PROFILE_SETTINGS": "Profileinstellungen",
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
     "APPLICATIONS": "Anwendungen",
     "LABELS": "Labels",
-    "ATTRIBUTES": "Attributes",
+    "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
+    "AUTOMATION": "Automatisierung",
     "TEAMS": "Teams",
+    "CUSTOM_VIEWS_FOLDER": "Ordner",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Alle Kontakte",
     "TAGGED_WITH": "Markiert mit",
-    "REPORTS_OVERVIEW": "Übersicht",
+    "NEW_LABEL": "Neues Label",
+    "NEW_TEAM": "Neues Team",
+    "NEW_INBOX": "Neuer Posteingang",
+    "REPORTS_CONVERSATION": "Gespräche",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampagnen",
     "ONGOING": "Im Gange",
-    "ONE_OFF": "Einmalig"
+    "ONE_OFF": "Einmalig",
+    "REPORTS_AGENT": "Agenten",
+    "REPORTS_LABEL": "Labels",
+    "REPORTS_INBOX": "Posteingang",
+    "REPORTS_TEAM": "Team",
+    "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Übersicht",
+    "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
@@ -174,15 +214,15 @@
       "OPEN_CONVERSATION": "Unterhaltung öffnen",
       "RESOLVE_AND_NEXT": "Lösen und zum Nächsten gehen",
       "NAVIGATE_DROPDOWN": "Dropdown-Elemente navigieren",
-      "RESOLVE_CONVERSATION": "Unterhaltung lösen",
-      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
+      "RESOLVE_CONVERSATION": "Unterhaltung als gelöst kennzeichnen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
       "ADD_ATTACHMENT": "Anhang hinzufügen",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "TOGGLE_SIDEBAR": "Seitenleiste umschalten",
       "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
       "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
       "GO_TO_SETTINGS": "Zu den Einstellungen",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
+      "SWITCH_CONVERSATION_STATUS": "Zum nächsten Gesprächsstatus wechseln",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
       "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",
