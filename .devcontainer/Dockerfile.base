@@ -1,6 +1,5 @@
-# pre-build stage
-ARG VARIANT=latest
-FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
+ARG VARIANT=ubuntu-20.04
+FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
 ARG USER_UID=1000
@@ -11,26 +10,36 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         && chmod -R $USER_UID:$USER_GID /home/vscode; \
     fi
 
-# [Option] Install Node.js
-ARG INSTALL_NODE="true"
-ARG NODE_VERSION="lts/*"
-RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
-# install the required ruby version from chatwoot
-# RUN su vscode -c "source /usr/local/rvm/scripts/rvm && rvm install 3.0.4"
-
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
   && apt-get -y install --no-install-recommends \
+    build-essential \
     libssl-dev \
+    zlib1g-dev \
+    gnupg2 \
     tar \
     tzdata \
     postgresql-client \
+    libpq-dev \
     yarn \
     git \
     imagemagick \
     tmux \
     zsh \
-    git-flow
+    git-flow \
+    nodejs
 
+# Install rbenv and ruby
+ARG RUBY_VERSION="3.0.4"
+RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
+    &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
+    &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
+RUN git clone https://github.com/rbenv/ruby-build.git && \
+    PREFIX=/usr/local ./ruby-build/install.sh
+
+RUN rbenv install $RUBY_VERSION && \
+    rbenv global $RUBY_VERSION && \
+    rbenv versions
 
 # Install overmind
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
@@ -41,8 +50,8 @@ RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmi
 # Do the set up required for chatwoot app 
 WORKDIR /workspace
 COPY . /workspace
-RUN yarn
 
 COPY Gemfile Gemfile.lock ./
-# RUN gem install bundler && bundle install
 
+RUN gem install bundler && bundle install
+RUN yarn
