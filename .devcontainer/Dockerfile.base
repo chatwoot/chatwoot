@@ -1,3 +1,4 @@
+
 ARG VARIANT=ubuntu-20.04
 FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
 
@@ -26,7 +27,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     tmux \
     zsh \
     git-flow \
-    nodejs
+    nodejs \
+    npm
 
 # Install rbenv and ruby
 ARG RUBY_VERSION="3.0.4"
