@@ -406,9 +406,9 @@ function get_console() {
 function help() {
 
   cat <<EOF
-
 Usage: cwctl [OPTION]...
-Install/Update/Configure/Manage your Chatwoot installation
+Install and manage your Chatwoot installation.
+
 Example: cwctl -i master
 Example: cwctl -l web
 Example: cwctl --logs worker
@@ -430,8 +430,12 @@ Miscellaneous:
   -v, --version             display version information and exit
   -h, --help                display this help text and exit
 
+Exit status:
+Returns 0 if successful; non-zero otherwise.
+
 Report bugs to: vishnu@chatwoot.com
 Get help, https://chatwoot.com/community
+
 EOF
 
 }
@@ -446,7 +450,7 @@ function get_logs() {
 }
 
 function ssl() {
-   echo "setting up ssl"
+   echo "Setting up ssl"
    get_domain_info
    if ! systemctl -q is-active nginx; then
     install_webserver
@@ -456,7 +460,7 @@ function ssl() {
 }
 
 function upgrade() {
-  echo "upgrading Chatwoot to latest version"
+  echo "Upgrading Chatwoot to latest version"
 
   sudo -i -u chatwoot << EOF
 
@@ -467,9 +471,10 @@ function upgrade() {
   git checkout master && git pull
 
   # Ensure the ruby version is upto date
-  # TODO: parse latest ruby version from version file
-  rvm install "ruby-3.0.4"
-  rvm use 3.0.4 --default
+  # Parse the latest ruby version
+  latest_ruby_version="$(cat '.ruby-version')"
+  rvm install "ruby-$latest_ruby_version"
+  rvm use "$latest_ruby_version" --default
 
   # Update dependencies
   bundle
@@ -480,7 +485,6 @@ function upgrade() {
 
   # Migrate the database schema
   RAILS_ENV=production bundle exec rake db:migrate
-
 
 EOF
 
@@ -501,7 +505,7 @@ EOF
 }
 
 function webserver() {
-  echo "installing nginx and setting up ssl"
+  echo "Installing nginx"
   ssl
   #TODO: allow installing nginx only without SSL
 }
