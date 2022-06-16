@@ -54,4 +54,5 @@ COPY . /workspace
 COPY Gemfile Gemfile.lock ./
 
 RUN gem install bundler && bundle install
+RUN npm install --global yarn
 RUN yarn
