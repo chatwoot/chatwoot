@@ -2,7 +2,7 @@
 
 # Description: Chatwoot installation script
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0
+# Script Version: 2.0.3
 # Run this script as root
 
 # set -eu -o pipefail
@@ -24,6 +24,7 @@ fi
 # OPTIONS=dfo:v
 LONGOPTS=console,debug,help,install:,logs:,ssl,upgrade,webserver,version
 OPTIONS=cdhi:l:suwv
+CWCTL_VERSION="2.0.3"
 
 # if user does not specify an option
 if test -z "$@"
@@ -511,7 +512,7 @@ function webserver() {
 }
 
 function version() {
-  echo "cwctl v2.0.0"
+  echo "cwctl v$CWCTL_VERSION alpha build"
 }
 
 function main() {
