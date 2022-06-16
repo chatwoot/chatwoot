@@ -112,7 +112,6 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
-      @toggleEnterToSend="toggleEnterToSend"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
     <whatsapp-templates
@@ -270,9 +269,6 @@ export default {
     hasWhatsappTemplates() {
       return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
         .length;
-    },
-    enterToSendEnabled() {
-      return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsappChannel) {
@@ -534,7 +530,7 @@ export default {
         this.isFocused;
       if (shouldSendMessage) {
         e.preventDefault();
-        this.sendMessage();
+        this.onSendReply();
       }
     },
     sendMessageWithCmdPlusEnterKey(e) {
@@ -551,15 +547,12 @@ export default {
         this.isFocused;
       if (shouldSendMessage) {
         e.preventDefault();
-        this.sendMessage();
+        this.onSendReply();
       }
     },
     openCommandBar() {
       const ninja = document.querySelector('ninja-keys');
       ninja.open();
-    },
-    toggleEnterToSend(enterToSendEnabled) {
-      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;
