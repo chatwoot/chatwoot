@@ -25,6 +25,13 @@ fi
 LONGOPTS=console,help,install:,logs:,ssl,upgrade,webserver,version
 OPTIONS=chi:l:suwv
 
+# if user does not specify an option
+if test -z "$@"
+then
+  echo "No options specified. Use --help to learn more."
+  exit 1
+fi
+
 # -regarding ! and PIPESTATUS see above
 # -temporarily store output to be able to check for errors
 # -activate quoting/enhanced mode (e.g. by writing out “--options”)
