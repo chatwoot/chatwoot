@@ -22,8 +22,8 @@ fi
 # option --output/-o requires 1 argument
 # LONGOPTS=debug,force,output:,verbose
 # OPTIONS=dfo:v
-LONGOPTS=console,help,install:,logs:,ssl,upgrade,webserver,version
-OPTIONS=chi:l:suwv
+LONGOPTS=console,debug,help,install:,logs:,ssl,upgrade,webserver,version
+OPTIONS=cdhi:l:suwv
 
 # if user does not specify an option
 if test -z "$@"
@@ -46,12 +46,16 @@ fi
 eval set -- "$PARSED"
 
 # d=n f=n v=n outFile=-
-c=n h=n i=n l=n s=n u=n w=n v=n BRANCH=master SERVICE=web
+c=n d=n h=n i=n l=n s=n u=n w=n v=n BRANCH=master SERVICE=web
 # now enjoy the options in order and nicely split until we see --
 while true; do
     case "$1" in
         -c|--console)
             c=y
+            break
+            ;;
+        -d|--debug)
+            d=y
             break
             ;;
         -h|--help)
@@ -95,9 +99,10 @@ while true; do
     esac
 done
 
-#echo "verbose: $v, force: $f, debug: $d, in: $1, out: $outFile"
-echo "console: $c, help: $h, install: $i, BRANCH: $BRANCH, logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
-
+if [ "$d" == "y" ]; then
+  echo "console: $c, debug: $d, help: $h, install: $i, BRANCH: $BRANCH, \
+  logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
+fi
 
 trap exit_handler EXIT
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
@@ -421,7 +426,7 @@ Management:
   -l, --logs                view logs from Chatwoot. Supported values include web/worker.
   
 Miscellaneous:
-  -d, --debug               suppress error messages
+  -d, --debug               show debug messages
   -v, --version             display version information and exit
   -h, --help                display this help text and exit
 
@@ -543,7 +548,7 @@ function main() {
     webserver
   fi
 
-  if [ "$v" == "y"]
+  if [ "$v" == "y" ]
   then
     version
   fi
