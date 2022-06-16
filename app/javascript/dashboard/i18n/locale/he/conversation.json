@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "אנא בחר שיחה מהחלונית השמאלית",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
     "NO_MESSAGE_1": "או - או! נראה שאין הודעות מלקוחות בתיבת הדואר הנכנס שלך.",
     "NO_MESSAGE_2": " לשלוח הודעה לעמוד שלך!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",

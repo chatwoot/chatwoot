@@ -101,7 +101,7 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :show-emoji-picker="showEmojiPicker"
-      :on-send="sendMessage"
+      :on-send="onSendReply"
       :is-send-disabled="isReplyButtonDisabled"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
@@ -111,6 +111,16 @@
       :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
+      :has-whatsapp-templates="hasWhatsappTemplates"
+      @toggleEnterToSend="toggleEnterToSend"
+      @selectWhatsappTemplate="openWhatsappTemplateModal"
+    />
+    <whatsapp-templates
+      :inbox-id="inbox.id"
+      :show="showWhatsAppTemplatesModal"
+      @close="hideWhatsappTemplatesModal"
+      @on-send="onSendWhatsAppReply"
+      @cancel="hideWhatsappTemplatesModal"
     />
   </div>
 </template>
@@ -135,7 +145,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import {
   isEnter,
   isEscape,
@@ -162,6 +172,7 @@ export default {
     WootMessageEditor,
     WootAudioRecorder,
     Banner,
+    WhatsappTemplates,
   },
   mixins: [
     clickaway,
@@ -201,6 +212,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      showWhatsAppTemplatesModal: false,
     };
   },
   computed: {
@@ -212,7 +224,6 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
     }),
-
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -256,7 +267,13 @@ export default {
 
       return false;
     },
-
+    hasWhatsappTemplates() {
+      return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+        .length;
+    },
+    enterToSendEnabled() {
+      return !!this.uiSettings.enter_to_send_enabled;
+    },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsappChannel) {
         return this.isOnPrivateNote;
@@ -541,6 +558,15 @@ export default {
       const ninja = document.querySelector('ninja-keys');
       ninja.open();
     },
+    toggleEnterToSend(enterToSendEnabled) {
+      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    },
+    openWhatsappTemplateModal() {
+      this.showWhatsAppTemplatesModal = true;
+    },
+    hideWhatsappTemplatesModal() {
+      this.showWhatsAppTemplatesModal = false;
+    },
     onClickSelfAssign() {
       const {
         account_id,
@@ -564,7 +590,7 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async sendMessage() {
+    async onSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -575,21 +601,30 @@ export default {
         }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
-        try {
-          await this.$store.dispatch(
-            'createPendingMessageAndSend',
-            messagePayload
-          );
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        } catch (error) {
-          const errorMessage =
-            error?.response?.data?.error ||
-            this.$t('CONVERSATION.MESSAGE_ERROR');
-          this.showAlert(errorMessage);
-        }
+        this.sendMessage(messagePayload);
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
+    },
+    async sendMessage(messagePayload) {
+      try {
+        await this.$store.dispatch(
+          'createPendingMessageAndSend',
+          messagePayload
+        );
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
+        this.showAlert(errorMessage);
+      }
+    },
+    async onSendWhatsAppReply(messagePayload) {
+      this.sendMessage({
+        conversationId: this.currentChat.id,
+        ...messagePayload,
+      });
+      this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
       setTimeout(() => {

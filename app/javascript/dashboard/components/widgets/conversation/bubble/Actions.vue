@@ -7,7 +7,7 @@
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.SENT')"
         icon="checkmark"
-        size="16"
+        size="14"
       />
     </span>
     <fluent-icon
@@ -165,7 +165,11 @@ export default {
       return `https://www.instagram.com/stories/${storySender}/${storyId}`;
     },
     showSentIndicator() {
-      return this.isOutgoing && this.sourceId && this.isAnEmailChannel;
+      return (
+        this.isOutgoing &&
+        this.sourceId &&
+        (this.isAnEmailChannel || this.isAWhatsappChannel)
+      );
     },
   },
   methods: {

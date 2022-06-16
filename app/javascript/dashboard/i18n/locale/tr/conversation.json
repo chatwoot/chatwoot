@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Lütfen sol bölmeden bir konuşma seçin",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mesajlar",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Görünüşe göre gelen kutunuzda müşterilerden hiç mesaj yok.",
     "NO_MESSAGE_2": "sayfanıza bir mesaj göndermek için!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
+    "UNKNOWN_FILE_TYPE": "Bilinmeyen Dosya",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
