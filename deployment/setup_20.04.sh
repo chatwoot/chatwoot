@@ -2,32 +2,26 @@
 
 # Description: Chatwoot installation script
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.3
+# Script Version: 2.0.4
 # Run this script as root
 
-# set -eu -o pipefail
-# More safety, by turning some bugs into errors.
-# Without `errexit` you don’t need ! and can replace
-# ${PIPESTATUS[0]} with a simple $?, but I prefer safety.
 set -eu -o errexit -o pipefail -o noclobber -o nounset
 
 # -allow a command to fail with !’s side effect on errexit
 # -use return value from ${PIPESTATUS[0]}, because ! hosed $?
 ! getopt --test > /dev/null 
 if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
-    echo 'I’m sorry, `getopt --test` failed in this environment.'
+    echo '`getopt --test` failed in this environment.'
     exit 1
 fi
 
 # option --output/-o requires 1 argument
-# LONGOPTS=debug,force,output:,verbose
-# OPTIONS=dfo:v
 LONGOPTS=console,debug,help,install:,logs:,ssl,upgrade,webserver,version
 OPTIONS=cdhi:l:suwv
-CWCTL_VERSION="2.0.3"
+CWCTL_VERSION="2.0.4"
 
 # if user does not specify an option
-if test -z "$@"
+if [ -z "$1" ]
 then
   echo "No options specified. Use --help to learn more."
   exit 1
@@ -46,9 +40,8 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-# d=n f=n v=n outFile=-
 c=n d=n h=n i=n l=n s=n u=n w=n v=n BRANCH=master SERVICE=web
-# now enjoy the options in order and nicely split until we see --
+# Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
         -c|--console)
@@ -107,7 +100,7 @@ fi
 
 trap exit_handler EXIT
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
- 
+
 function exit_handler() {
   if [ "$?" -ne 0 ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
@@ -119,12 +112,6 @@ if [ "$(id -u)" -ne 0 ]; then
   echo 'This script should be run as root.' >&2
   exit 1
 fi
-
-# if [[ -z "$1" ]]; then
-#   BRANCH="master"
-# else
-#   BRANCH="$1"
-# fi
 
 function get_domain_info() {
   read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com) :' domain_name
@@ -241,7 +228,6 @@ EOF
 
 }
 
-
 function configure_systemd_services() {
   cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
   cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
@@ -254,7 +240,6 @@ function configure_systemd_services() {
   systemctl enable chatwoot.target
   systemctl start chatwoot.target
 }
-
 
 function setup_ssl() {
   echo "debug: setting up ssl"
@@ -438,7 +423,6 @@ Report bugs to: vishnu@chatwoot.com
 Get help, https://chatwoot.com/community
 
 EOF
-
 }
 
 function get_logs() {
