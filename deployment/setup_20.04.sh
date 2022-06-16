@@ -495,8 +495,9 @@ EOF
   cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
 
   cp /home/chatwoot/chatwoot/deployment/chatwoot /etc/sudoers.d/chatwoot
-  cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
-  chmod +x /usr/local/bin/cwctl
+  # TODO:(@vn) handle cwctl updates
+  #cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
+  #chmod +x /usr/local/bin/cwctl
 
   systemctl daemon-reload
 
