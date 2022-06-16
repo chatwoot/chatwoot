@@ -48,6 +48,14 @@ RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmi
   && sudo mv overmind /usr/local/bin \
   && chmod +x /usr/local/bin/overmind 
 
+
+# Install gh
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+   && sudo apt update \
+   && sudo apt install gh
+
+
 # Do the set up required for chatwoot app 
 WORKDIR /workspace
 COPY . /workspace
