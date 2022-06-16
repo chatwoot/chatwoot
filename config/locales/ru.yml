@@ -34,11 +34,11 @@ ru:
         failed: Пустой файл
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
+        no_response_error: Проверьте учетные данные IMAP и повторите попытку.
+        host_unreachable_error: Хост недоступен. Проверьте адрес IMAP, порт IMAP и повторите попытку.
+        connection_timed_out_error: Время ожидания соединения для %{address}:%{port} истекло
+        connection_closed_error: Соединение закрыто.
   reports:
     period: Отчётный период с %{since} по %{until}
     agent_csv:
