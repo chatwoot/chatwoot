@@ -6,4 +6,3 @@ FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 WORKDIR /workspace
 COPY . /workspace
 RUN yarn && gem install bundler && bundle install
- 
