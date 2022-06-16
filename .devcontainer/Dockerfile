@@ -5,6 +5,4 @@ FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 # Do the set up required for chatwoot app 
 WORKDIR /workspace
 COPY . /workspace
-# to fix the webpacker error wtih ssl provider
-ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN yarn && gem install bundler && bundle install
