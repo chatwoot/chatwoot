@@ -27,7 +27,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     tmux \
     zsh \
     git-flow \
-    nodejs \
     npm
 
 # Install rbenv and ruby
@@ -56,5 +55,8 @@ COPY . /workspace
 COPY Gemfile Gemfile.lock ./
 
 RUN gem install bundler && bundle install
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n latest
 RUN npm install --global yarn
 RUN yarn
