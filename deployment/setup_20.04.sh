@@ -295,6 +295,10 @@ Join the community at https://chatwoot.com/community
 EOF
 }
 
+function cwctl_message() {
+  echo $'\U0001F680 Try out the all new Chatwoot CLI tool to manage your installation. Type 'cwctl --help' to learn more.'
+}
+
 function install() {
 
   cat << EOF
@@ -375,10 +379,12 @@ https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
 Join the community at https://chatwoot.com/community
 ***************************************************************************
 EOF
+  cwctl_message
   else
     echo "➥ 9/9 Setting up SSL/TLS."
     setup_ssl &>> "${LOG_FILE}"
     ssl_success_message
+    cwctl_message
   fi
 
   if [ "$install_pg_redis" == "no" ]
@@ -393,6 +399,7 @@ the database migrations using the below command.
 'RAILS_ENV=production bundle exec rails db:chatwoot_prepare'.
 ***************************************************************************
 EOF
+  cwctl_message
   fi
 
 exit 0
