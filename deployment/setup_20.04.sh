@@ -114,8 +114,8 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 function get_domain_info() {
-  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com) :' domain_name
-  read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal :' le_email
+  read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com): ' domain_name
+  read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
   cat << EOF
 
 This script will generate SSL certificates via LetsEncrypt and serve Chatwoot at
@@ -305,18 +305,18 @@ EOF
 
   if [ "$install_pg_redis" != "no" ]
   then
-    echo "➥ 2/9 Installing databases"
+    echo "➥ 2/9 Installing databases."
     install_databases &>> "${LOG_FILE}"
   else
-    echo "➥ 2/9 Skipping Postgres and Redis installation"
+    echo "➥ 2/9 Skipping Postgres and Redis installation."
   fi
 
   if [ "$configure_webserver" == "yes" ]
   then
-    echo "➥ 3/9 Installing webserver"
+    echo "➥ 3/9 Installing webserver."
     install_webserver &>> "${LOG_FILE}"
   else
-    echo "➥ 3/9 Skipping webserver installation"
+    echo "➥ 3/9 Skipping webserver installation."
   fi
 
   echo "➥ 4/9 Setting up Ruby"
@@ -324,10 +324,10 @@ EOF
 
   if [ "$install_pg_redis" != "no" ]
   then
-    echo "➥ 5/9 Setting up the database"
+    echo "➥ 5/9 Setting up the database."
     configure_db &>> "${LOG_FILE}"
   else
-    echo "➥ 5/9 Skipping database setup"
+    echo "➥ 5/9 Skipping database setup."
   fi
 
   echo "➥ 6/9 Installing Chatwoot. This takes a long while."
@@ -335,13 +335,13 @@ EOF
 
   if [ "$install_pg_redis" != "no" ]
   then
-    echo "➥ 7/9 Running database migrations"
+    echo "➥ 7/9 Running database migrations."
     run_db_migrations &>> "${LOG_FILE}"
   else
-    echo "➥ 7/9 Skipping database migrations"
+    echo "➥ 7/9 Skipping database migrations."
   fi
 
-  echo "➥ 8/9 Setting up systemd services"
+  echo "➥ 8/9 Setting up systemd services."
   configure_systemd_services &>> "${LOG_FILE}"
 
   public_ip=$(curl http://checkip.amazonaws.com -s)
@@ -349,7 +349,7 @@ EOF
   if [ "$configure_webserver" != "yes" ]
   then
     cat << EOF
-➥ 9/9 Skipping SSL/TLS setup
+➥ 9/9 Skipping SSL/TLS setup.
 
 ***************************************************************************
 Woot! Woot!! Chatwoot server installation is complete.
@@ -362,7 +362,7 @@ Join the community at https://chatwoot.com/community
 ***************************************************************************
 EOF
   else
-    echo "➥ 9/9 Setting up SSL/TLS"
+    echo "➥ 9/9 Setting up SSL/TLS."
     setup_ssl &>> "${LOG_FILE}"
     ssl_success_message
   fi
@@ -419,7 +419,7 @@ Miscellaneous:
 Exit status:
 Returns 0 if successful; non-zero otherwise.
 
-Report bugs to: vishnu@chatwoot.com
+Report bugs at https://github.com/chatwoot/chatwoot/issues
 Get help, https://chatwoot.com/community
 
 EOF
