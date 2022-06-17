@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Description: Chatwoot installation script
+# Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.4
+# Script Version: 2.0.5
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -15,10 +15,12 @@ if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     exit 1
 fi
 
+# Global variables
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install:,logs:,ssl,upgrade,webserver,version
 OPTIONS=cdhi:l:suwv
-CWCTL_VERSION="2.0.4"
+CWCTL_VERSION="2.0.5"
+pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
 if [ -z "$1" ]; then
@@ -92,14 +94,30 @@ while true; do
     esac
 done
 
+# log if debug flag set
 if [ "$d" == "y" ]; then
   echo "console: $c, debug: $d, help: $h, install: $i, BRANCH: $BRANCH, \
   logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
 fi
 
-trap exit_handler EXIT
-pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
+# exit if script is not run as root
+if [ "$(id -u)" -ne 0 ]; then
+  echo 'This needs to be run as root.' >&2
+  exit 1
+fi
 
+trap exit_handler EXIT
+
+##############################################################################
+# Invoked upon EXIT signal from bash
+# Upon non-zero exit, notifies the user to check log file.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function exit_handler() {
   if [ "$?" -ne 0 ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
@@ -107,11 +125,16 @@ function exit_handler() {
   fi
 }
 
-if [ "$(id -u)" -ne 0 ]; then
-  echo 'This script should be run as root.' >&2
-  exit 1
-fi
-
+##############################################################################
+# Read user input related to domain setup
+# Globals:
+#   domain_name
+#   le_email
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function get_domain_info() {
   read -rp 'Enter the domain/subdomain for Chatwoot (e.g., chatwoot.domain.com): ' domain_name
   read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
@@ -127,6 +150,15 @@ EOF
   fi
 }
 
+##############################################################################
+# Install common dependencies
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function install_dependencies() {
   apt update && apt upgrade -y
   apt install -y curl
@@ -144,20 +176,56 @@ function install_dependencies() {
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo
 }
 
+##############################################################################
+# Install postgres and redis
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function install_databases() {
   apt install -y postgresql postgresql-contrib redis-server
 }
 
+##############################################################################
+# Install nginx and cerbot for LetsEncrypt
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function install_webserver() {
   apt install -y nginx nginx-full certbot python3-certbot-nginx
 }
 
+##############################################################################
+# Create chatwoot linux user
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function create_cw_user() {
   if ! id -u "chatwoot"; then
     adduser --disabled-login --gecos "" chatwoot
   fi
 }
 
+##############################################################################
+# Install rvm(ruby version manager)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function configure_rvm() {
   create_cw_user
 
@@ -167,7 +235,15 @@ function configure_rvm() {
   adduser chatwoot rvm
 }
 
-# save the pgpass used to setup postgres
+##############################################################################
+# Save the pgpass used to setup postgres
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function save_pgpass() {
   mkdir -p /opt/chatwoot/config
   file="/opt/chatwoot/config/.pg_pass"
@@ -176,8 +252,16 @@ function save_pgpass() {
   fi
 }
 
-# get the pgpass used to setup postgres if installation fails midway
+##############################################################################
+# Get the pgpass used to setup postgres if installation fails midway
 # and needs to be re-run
+# Globals:
+#   pg_pass
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function get_pgpass() {
   file="/opt/chatwoot/config/.pg_pass"
   if test -f "$file"; then
@@ -186,6 +270,16 @@ function get_pgpass() {
 
 }
 
+##############################################################################
+# Configure postgres to create chatwoot db user.
+# Enable postgres and redis systemd services.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function configure_db() {
   save_pg_pass
   sudo -i -u postgres psql << EOF
@@ -205,9 +299,19 @@ EOF
   systemctl enable postgresql
 }
 
+##############################################################################
+# Install Chatwoot
+# This includes setting up ruby, cloning repo and installing dependencies.
+# Globals:
+#   pg_pass
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function setup_chatwoot() {
-  secret=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 63 ; echo '')
-  RAILS_ENV=production
+  local secret=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 63 ; echo '')
+  local RAILS_ENV=production
   get_pgpass
 
   sudo -i -u chatwoot << EOF
@@ -233,18 +337,33 @@ function setup_chatwoot() {
 
   rake assets:precompile RAILS_ENV=production
 EOF
-
 }
 
-
+##############################################################################
+# Run database migrations.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function run_db_migrations(){
   sudo -i -u chatwoot << EOF
   cd chatwoot
   RAILS_ENV=production bundle exec rails db:chatwoot_prepare
 EOF
-
 }
 
+##############################################################################
+# Setup Chatwoot systemd services and cwctl CLI
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function configure_systemd_services() {
   cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
   cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
@@ -258,6 +377,18 @@ function configure_systemd_services() {
   systemctl start chatwoot.target
 }
 
+##############################################################################
+# Fetch and install SSL certificates from LetsEncrypt
+# Modify the nginx config and restart nginx.
+# Also modifies FRONTEND_URL in .env file.
+# Globals:
+#   None
+# Arguments:
+#   domain_name
+#   le_email
+# Outputs:
+#   None
+##############################################################################
 function setup_ssl() {
   if [ "$d" == "y" ]; then
     echo "debug: setting up ssl"
@@ -278,6 +409,15 @@ EOF
   systemctl restart chatwoot.target
 }
 
+##############################################################################
+# Setup logging
+# Globals:
+#   LOG_FILE
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function setup_logging() {
   touch /var/log/chatwoot-setup.log
   LOG_FILE="/var/log/chatwoot-setup.log"
@@ -299,6 +439,16 @@ function cwctl_message() {
   echo $'\U0001F680 Try out the all new Chatwoot CLI tool to manage your installation. Type 'cwctl --help' to learn more.'
 }
 
+##############################################################################
+# This function handles the installation(-i/--install)
+# Globals:
+#   configure_webserver
+#   install_pg_redis
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function install() {
 
   cat << EOF
@@ -406,10 +556,28 @@ exit 0
 
 }
 
+##############################################################################
+# Access ruby console (-c/--console)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function get_console() {
   sudo -i -u chatwoot bash -c " cd chatwoot && RAILS_ENV=production bundle exec rails c"
 }
 
+##############################################################################
+# Prints the help message (-c/--console)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function help() {
 
   cat <<EOF
@@ -446,6 +614,15 @@ Get help, https://chatwoot.com/community
 EOF
 }
 
+##############################################################################
+# Get Chatwoot web/worker logs (-l/--logs)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function get_logs() {
   if [ "$SERVICE" == "worker" ]; then
     journalctl -u chatwoot-worker.1.service -f
@@ -454,6 +631,17 @@ function get_logs() {
   fi
 }
 
+##############################################################################
+# Setup SSL (-s/--ssl)
+# Installs nginx if not available.
+# Globals:
+#   domain_name
+#   le_email
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function ssl() {
    echo "Setting up ssl"
    get_domain_info
@@ -464,6 +652,15 @@ function ssl() {
    ssl_success_message
 }
 
+##############################################################################
+# Upgrade an existing installation to latest stable version(-u/--upgrade)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function upgrade() {
   echo "Upgrading Chatwoot to latest version"
 
@@ -510,16 +707,44 @@ EOF
 
 }
 
+##############################################################################
+# Install nginx and setup SSL (-w/--webserver)
+# Globals:
+#   domain_name
+#   le_email
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function webserver() {
   echo "Installing nginx"
   ssl
-  #TODO: allow installing nginx only without SSL
+  #TODO(@vn): allow installing nginx only without SSL
 }
 
+##############################################################################
+# Print cwctl version (-v/--version)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function version() {
   echo "cwctl v$CWCTL_VERSION alpha build"
 }
 
+##############################################################################
+# main function that handles the control flow
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
 function main() {
   setup_logging
 
