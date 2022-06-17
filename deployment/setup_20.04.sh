@@ -21,8 +21,7 @@ OPTIONS=cdhi:l:suwv
 CWCTL_VERSION="2.0.4"
 
 # if user does not specify an option
-if [ -z "$1" ]
-then
+if [ -z "$1" ]; then
   echo "No options specified. Use --help to learn more."
   exit 1
 fi
@@ -123,8 +122,7 @@ https://$domain_name. Proceed further once you have pointed your DNS to the IP o
 
 EOF
   read -rp 'Do you wish to proceed? (yes or no): ' exit_true
-  if [ "$exit_true" == "no" ]
-  then
+  if [ "$exit_true" == "no" ]; then
     exit 1
   fi
 }
@@ -155,8 +153,7 @@ function install_webserver() {
 }
 
 function create_cw_user() {
-  if ! id -u "chatwoot"
-  then
+  if ! id -u "chatwoot"; then
     adduser --disabled-login --gecos "" chatwoot
   fi
 }
@@ -174,7 +171,7 @@ function configure_rvm() {
 function save_pgpass() {
   mkdir -p /opt/chatwoot/config
   file="/opt/chatwoot/config/.pg_pass"
-  if ! test -f "$file";then
+  if ! test -f "$file"; then
     echo $pg_pass > /opt/chatwoot/config/.pg_pass
   fi
 }
@@ -183,7 +180,7 @@ function save_pgpass() {
 # and needs to be re-run
 function get_pgpass() {
   file="/opt/chatwoot/config/.pg_pass"
-  if test -f "$file";then
+  if test -f "$file"; then
     pg_pass=$(cat $file)
   fi
 
@@ -206,7 +203,6 @@ EOF
 
   systemctl enable redis-server.service
   systemctl enable postgresql
-
 }
 
 function setup_chatwoot() {
@@ -315,8 +311,7 @@ EOF
   sleep 3
   read -rp 'Would you like to configure a domain and SSL for Chatwoot?(yes or no): ' configure_webserver
 
-  if [ "$configure_webserver" == "yes" ]
-  then
+  if [ "$configure_webserver" == "yes" ]; then
     get_domain_info
   fi
 
@@ -326,16 +321,14 @@ EOF
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
 
-  if [ "$install_pg_redis" != "no" ]
-  then
+  if [ "$install_pg_redis" != "no" ]; then
     echo "➥ 2/9 Installing databases."
     install_databases &>> "${LOG_FILE}"
   else
     echo "➥ 2/9 Skipping Postgres and Redis installation."
   fi
 
-  if [ "$configure_webserver" == "yes" ]
-  then
+  if [ "$configure_webserver" == "yes" ]; then
     echo "➥ 3/9 Installing webserver."
     install_webserver &>> "${LOG_FILE}"
   else
@@ -345,8 +338,7 @@ EOF
   echo "➥ 4/9 Setting up Ruby"
   configure_rvm &>> "${LOG_FILE}"
 
-  if [ "$install_pg_redis" != "no" ]
-  then
+  if [ "$install_pg_redis" != "no" ]; then
     echo "➥ 5/9 Setting up the database."
     configure_db &>> "${LOG_FILE}"
   else
@@ -356,8 +348,7 @@ EOF
   echo "➥ 6/9 Installing Chatwoot. This takes a long while."
   setup_chatwoot &>> "${LOG_FILE}"
 
-  if [ "$install_pg_redis" != "no" ]
-  then
+  if [ "$install_pg_redis" != "no" ]; then
     echo "➥ 7/9 Running database migrations."
     run_db_migrations &>> "${LOG_FILE}"
   else
@@ -449,8 +440,7 @@ EOF
 }
 
 function get_logs() {
-  if [ "$SERVICE" == "worker" ]
-  then
+  if [ "$SERVICE" == "worker" ]; then
     journalctl -u chatwoot-worker.1.service -f
   else
     journalctl -u chatwoot-web.1.service -f
@@ -526,43 +516,35 @@ function version() {
 function main() {
   setup_logging
 
-  if [ "$c" == "y" ]
-  then
+  if [ "$c" == "y" ]; then
     get_console
   fi
   
-  if [ "$h" == "y" ]
-  then
+  if [ "$h" == "y" ]; then
     help
   fi
 
-  if [ "$i" == "y" ]
-  then
+  if [ "$i" == "y" ]; then
     install
   fi
 
-  if [ "$l" == "y" ]
-  then
+  if [ "$l" == "y" ]; then
     get_logs
   fi
   
-  if [ "$s" == "y" ]
-  then
+  if [ "$s" == "y" ]; then
     ssl
   fi
 
-  if [ "$u" == "y" ]
-  then
+  if [ "$u" == "y" ]; then
     upgrade
   fi
 
-  if [ "$w" == "y" ]
-  then
+  if [ "$w" == "y" ]; then
     webserver
   fi
 
-  if [ "$v" == "y" ]
-  then
+  if [ "$v" == "y" ]; then
     version
   fi
 
