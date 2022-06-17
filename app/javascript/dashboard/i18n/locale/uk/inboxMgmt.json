@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Увімкнути вітання каналу",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "Автоматично надсилати привітальне повідомлення після створення нової розмови.",
           "ENABLED": "Увімкнено",
           "DISABLED": "Вимкнено"
         },
@@ -397,8 +397,8 @@
       "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Призначення до розмови",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Оновити налаштування призначення для бесіди",
       "UPDATE": "Оновити",
       "ENABLE_EMAIL_COLLECT_BOX": "Включити збір електронної пошти",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
@@ -422,9 +422,9 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови."
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Будь ласка, введіть значення, більше за 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Обмеження максимальної кількості розмов із цього джерела, яку можна автоматично призначити агенту"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Повторна авторизація",
