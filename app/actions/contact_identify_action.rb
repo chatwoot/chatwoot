@@ -2,6 +2,8 @@ class ContactIdentifyAction
   pattr_initialize [:contact!, :params!]
 
   def perform
+    @identifier_params_to_be_updated = [:identifier, :name, :email, :phone]
+
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
       merge_if_existing_email_contact
@@ -18,15 +20,15 @@ class ContactIdentifyAction
   end
 
   def merge_if_existing_identified_contact
-    @contact = merge_contact(existing_identified_contact, @contact) if merge_contacts?(existing_identified_contact, @contact)
+    @contact = merge_contact(existing_identified_contact, @contact) if merge_contacts?(existing_identified_contact, :identifier)
   end
 
   def merge_if_existing_email_contact
-    @contact = merge_contact(existing_email_contact, @contact) if merge_contacts?(existing_email_contact, @contact)
+    @contact = merge_contact(existing_email_contact, @contact) if merge_contacts?(existing_email_contact, :email)
   end
 
   def merge_if_existing_phone_number_contact
-    @contact = merge_contact(existing_phone_number_contact, @contact) if merge_contacts?(existing_phone_number_contact, @contact)
+    @contact = merge_contact(existing_phone_number_contact, @contact) if merge_contacts?(existing_phone_number_contact, :phone_number)
   end
 
   def existing_identified_contact
@@ -47,20 +49,35 @@ class ContactIdentifyAction
     @existing_phone_number_contact ||= Contact.where(account_id: account.id).find_by(phone_number: params[:phone_number])
   end
 
-  def merge_contacts?(existing_contact, _contact)
-    existing_contact && existing_contact.id != @contact.id
+  def merge_contacts?(existing_contact, key)
+    return false unless existing_contact
+
+    if params[:identifier].present? && existing_contact.identifier == params[:identifier]
+      @identifier_params_to_be_updated.delete(key)
+      return false
+    end
+
+    if key == :phone_number && params[:email].present? && existing_contact.email != params[:email]
+      @identifier_params_to_be_updated.delete(key)
+      return false
+    end
+
+    true
   end
 
   def update_contact
+    params_to_updated = params.slice(@identifier_params_to_be_updated).reject do |_k, v|
+      v.blank?
+    end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
-    @contact.update!(params.slice(:name, :email, :identifier, :phone_number).reject do |_k, v|
-                       v.blank?
-                     end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes }))
+    @contact.update!(params_to_updated)
     ContactAvatarJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
   def merge_contact(base_contact, merge_contact)
+    return if base_contact.id == merge_contact.id
+
     ContactMergeAction.new(
       account: account,
       base_contact: base_contact,
