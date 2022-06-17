@@ -447,7 +447,7 @@ function ssl() {
 function upgrade() {
   echo "Upgrading Chatwoot to latest version"
 
-  sudo -i -u chatwoot << EOF
+  sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
   cd chatwoot
