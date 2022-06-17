@@ -2,7 +2,7 @@ class ContactIdentifyAction
   pattr_initialize [:contact!, :params!]
 
   def perform
-    @identifier_params_to_be_updated = [:identifier, :name, :email, :phone]
+    @attributes_to_update = [:identifier, :name, :email, :phone_number]
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
@@ -50,28 +50,38 @@ class ContactIdentifyAction
   end
 
   def merge_contacts?(existing_contact, key)
-    return false unless existing_contact
+    return if existing_contact.blank?
 
-    if params[:identifier].present? && existing_contact.identifier == params[:identifier]
-      @identifier_params_to_be_updated.delete(key)
+    # we want to prevent merging contacts with different identifiers
+    if params[:identifier].present? && existing_contact.identifier != params[:identifier]
+      # we will remove attribute from update list
+      @attributes_to_update.delete(key)
       return false
     end
 
-    if key == :phone_number && params[:email].present? && existing_contact.email != params[:email]
-      @identifier_params_to_be_updated.delete(key)
-      return false
-    end
+    return mergable_phone_contact? if key == :phone_number
 
     true
   end
 
+  # case: contact 1: email: 1@test.com, phone: 123456789
+  # params: email: 2@test.com, phone: 123456789
+  # we don't want to overwrite 1@test.com since email parameter takes higer priority
+  def mergable_phone_contact?
+    if params[:email].present? && existing_contact.email != params[:email]
+      @attributes_to_update.delete(:phone_number)
+      return false
+    end
+    true
+  end
+
   def update_contact
-    params_to_updated = params.slice(@identifier_params_to_be_updated).reject do |_k, v|
+    params_to_update = params.slice(*@attributes_to_update).reject do |_k, v|
       v.blank?
     end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
-    @contact.update!(params_to_updated)
+    @contact.update!(params_to_update)
     ContactAvatarJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
