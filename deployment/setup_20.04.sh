@@ -170,18 +170,38 @@ function configure_rvm() {
   adduser chatwoot rvm
 }
 
+# save the pgpass used to setup postgres
+function save_pgpass() {
+  mkdir -p /opt/chatwoot/config
+  file="/opt/chatwoot/config/.pg_pass"
+  if ! test -f "$file";then
+    echo $pg_pass > /opt/chatwoot/config/.pg_pass
+  fi
+}
+
+# get the pgpass used to setup postgres if installation fails midway
+# and needs to be re-run
+function get_pgpass() {
+  file="/opt/chatwoot/config/.pg_pass"
+  if test -f "$file";then
+    pg_pass=$(cat $file)
+  fi
+
+}
+
 function configure_db() {
- sudo -i -u postgres psql << EOF
-  \set pass `echo $pg_pass`
-  CREATE USER chatwoot CREATEDB;
-  ALTER USER chatwoot PASSWORD :'pass';
-  ALTER ROLE chatwoot SUPERUSER;
-  UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1';
-  DROP DATABASE template1;
-  CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UNICODE';
-  UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';
-  \c template1
-  VACUUM FREEZE;
+  save_pg_pass
+  sudo -i -u postgres psql << EOF
+    \set pass `echo $pg_pass`
+    CREATE USER chatwoot CREATEDB;
+    ALTER USER chatwoot PASSWORD :'pass';
+    ALTER ROLE chatwoot SUPERUSER;
+    UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1';
+    DROP DATABASE template1;
+    CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UNICODE';
+    UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';
+    \c template1
+    VACUUM FREEZE;
 EOF
 
   systemctl enable redis-server.service
@@ -192,6 +212,7 @@ EOF
 function setup_chatwoot() {
   secret=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 63 ; echo '')
   RAILS_ENV=production
+  get_pgpass
 
   sudo -i -u chatwoot << EOF
   rvm --version
@@ -242,9 +263,11 @@ function configure_systemd_services() {
 }
 
 function setup_ssl() {
-  echo "debug: setting up ssl"
-  echo "debug: domain: $domain_name"
-  echo "debug: letsencrypt email: $le_email"
+  if [ "$d" == "y" ]; then
+    echo "debug: setting up ssl"
+    echo "debug: domain: $domain_name"
+    echo "debug: letsencrypt email: $le_email"
+  fi
   curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
   wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
   cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
