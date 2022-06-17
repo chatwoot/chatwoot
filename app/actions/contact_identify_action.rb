@@ -85,7 +85,7 @@ class ContactIdentifyAction
   # params: email: 2@test.com, phone: 123456789
   # we don't want to overwrite 1@test.com since email parameter takes higer priority
   def mergable_phone_contact?
-    if params[:email].present? && existing_contact.email != params[:email]
+    if params[:email].present? && existing_phone_number_contact.email != params[:email]
       @attributes_to_update.delete(:phone_number)
       return false
     end
