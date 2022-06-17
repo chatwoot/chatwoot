@@ -1,5 +1,12 @@
+# retain_original_contact_name: false / true
+# In case of setUser we want to update the name of the identified contact,
+# which is the default behaviour
+#
+# But, In case of contact merge during prechat form contact update.
+# We don't want to update the name of the identified original contact.
+
 class ContactIdentifyAction
-  pattr_initialize [:contact!, :params!]
+  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false }]
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
@@ -20,15 +27,27 @@ class ContactIdentifyAction
   end
 
   def merge_if_existing_identified_contact
-    @contact = merge_contact(existing_identified_contact, @contact) if merge_contacts?(existing_identified_contact, :identifier)
+    return unless merge_contacts?(existing_identified_contact, :identifier)
+
+    process_contact_merge(existing_identified_contact)
   end
 
   def merge_if_existing_email_contact
-    @contact = merge_contact(existing_email_contact, @contact) if merge_contacts?(existing_email_contact, :email)
+    return unless merge_contacts?(existing_email_contact, :email)
+
+    process_contact_merge(existing_email_contact)
   end
 
   def merge_if_existing_phone_number_contact
-    @contact = merge_contact(existing_phone_number_contact, @contact) if merge_contacts?(existing_phone_number_contact, :phone_number)
+    return unless merge_contacts?(existing_phone_number_contact, :phone_number)
+    return unless mergable_phone_contact?
+
+    process_contact_merge(existing_phone_number_contact)
+  end
+
+  def process_contact_merge(mergee_contact)
+    @contact = merge_contact(mergee_contact, @contact)
+    @attributes_to_update.delete(:name) if retain_original_contact_name
   end
 
   def existing_identified_contact
@@ -58,8 +77,6 @@ class ContactIdentifyAction
       @attributes_to_update.delete(key)
       return false
     end
-
-    return mergable_phone_contact? if key == :phone_number
 
     true
   end
