@@ -281,7 +281,8 @@ function get_pgpass() {
 #   None
 ##############################################################################
 function configure_db() {
-  save_pg_pass
+  save_pgpass
+  get_pgpass
   sudo -i -u postgres psql << EOF
     \set pass `echo $pg_pass`
     CREATE USER chatwoot CREATEDB;
@@ -432,11 +433,13 @@ The server will be accessible at https://$domain_name
 
 Join the community at https://chatwoot.com/community
 ***************************************************************************
+
 EOF
 }
 
 function cwctl_message() {
-  echo $'\U0001F680 Try out the all new Chatwoot CLI tool to manage your installation. Type 'cwctl --help' to learn more.'
+  echo $'\U0001F680 Try out the all new Chatwoot CLI tool to manage your installation.'
+  echo $'\U0001F680 Type "cwctl --help" to learn more.'
 }
 
 
@@ -542,6 +545,7 @@ https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
 
 Join the community at https://chatwoot.com/community
 ***************************************************************************
+
 EOF
   cwctl_message
   else
@@ -562,6 +566,7 @@ variables (in the .env file) with your external database credentials, run
 the database migrations using the below command.
 'RAILS_ENV=production bundle exec rails db:chatwoot_prepare'.
 ***************************************************************************
+
 EOF
   cwctl_message
   fi
