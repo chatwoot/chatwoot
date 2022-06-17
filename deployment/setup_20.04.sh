@@ -140,8 +140,9 @@ function get_domain_info() {
   read -rp 'Enter an email address for LetsEncrypt to send reminders when your SSL certificate is up for renewal: ' le_email
   cat << EOF
 
-This script will generate SSL certificates via LetsEncrypt and serve Chatwoot at
-https://$domain_name. Proceed further once you have pointed your DNS to the IP of the instance.
+This script will generate SSL certificates via LetsEncrypt and
+serve Chatwoot at https://$domain_name.
+Proceed further once you have pointed your DNS to the IP of the instance.
 
 EOF
   read -rp 'Do you wish to proceed? (yes or no): ' exit_true
