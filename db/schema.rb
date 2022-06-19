@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_25_141844) do
+ActiveRecord::Schema.define(version: 2022_06_10_091206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -116,7 +116,6 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
     t.integer "portal_id", null: false
     t.integer "category_id"
     t.integer "folder_id"
-    t.integer "author_id"
     t.string "title"
     t.text "description"
     t.text "content"
@@ -124,6 +123,8 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
     t.integer "views"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_articles_on_author_id"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -193,8 +194,10 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "locale", default: "en"
+    t.string "slug", null: false
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
+    t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true
   end
 
   create_table "channel_api", force: :cascade do |t|
@@ -205,6 +208,7 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
     t.string "identifier"
     t.string "hmac_token"
     t.boolean "hmac_mandatory", default: false
+    t.jsonb "additional_attributes", default: {}
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
@@ -509,6 +513,7 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
+    t.jsonb "auto_assignment_config", default: {}
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -816,6 +821,7 @@ ActiveRecord::Schema.define(version: 2022_05_25_141844) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
+  add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade

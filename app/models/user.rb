@@ -92,6 +92,7 @@ class User < ApplicationRecord
   has_many :portals, through: :portals_members
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
+  has_many :articles, foreign_key: 'author_id', dependent: :nullify
 
   before_validation :set_password_and_uid, on: :create
 

@@ -51,9 +51,20 @@ export const getters = {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
     );
+
+    const {
+      message_templates: whatsAppMessageTemplates,
+      additional_attributes: additionalAttributes,
+    } = inbox;
+
+    const { message_templates: apiInboxMessageTemplates } =
+      additionalAttributes || {};
+    const messagesTemplates =
+      whatsAppMessageTemplates || apiInboxMessageTemplates;
+
     // filtering out the whatsapp templates with media
-    if (inbox.message_templates) {
-      return inbox.message_templates.filter(template => {
+    if (messagesTemplates) {
+      return messagesTemplates.filter(template => {
         return !template.components.some(
           i => i.format === 'IMAGE' || i.format === 'VIDEO'
         );
@@ -205,7 +216,11 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, {
         isUpdatingIMAP: false,
       });
-      throw new Error(error);
+      if (error.response?.data?.message) {
+        throw new Error(error.response?.data?.message);
+      } else {
+        throw new Error(error);
+      }
     }
   },
   updateInboxSMTP: async (
