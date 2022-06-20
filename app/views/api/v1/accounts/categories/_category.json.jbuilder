@@ -7,7 +7,7 @@ json.position category.position
 json.account_id category.account_id
 
 if category.linked_categories.any?
-  json.array! category.linked_categories do |linked_category|
+  json.array! category.linked_categories.each do |linked_category|
     json.partial! 'api/v1/accounts/categories/associated_category.json.jbuilder', category: linked_category
   end
 end
