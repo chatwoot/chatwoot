@@ -89,9 +89,8 @@
             :button-text="$t('REGISTER.SUBMIT')"
             :loading="isSignupInProgress"
             button-class="large expanded"
-          >
-          </woot-submit-button>
-          <p v-dompurify-html="termsLink" class="accept--terms"></p>
+          />
+          <p v-dompurify-html="termsLink" class="accept--terms" />
         </form>
         <div class="column text-center sigin--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>

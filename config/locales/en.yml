@@ -46,12 +46,30 @@ en:
     contacts:
       import:
         failed: File is blank
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
 
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:

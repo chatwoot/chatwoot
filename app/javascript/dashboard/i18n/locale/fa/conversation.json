@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
+    "DASHBOARD_APP_TAB_MESSAGES": "پیام‌ها",
     "UNVERIFIED_SESSION": "هویت این کاربر تایید نشده است",
     "NO_MESSAGE_1": "اوه اوه! به نظر می‌رسد هیچ پیامی از طرف مشتری در صندوق ورودی شما وجود ندارد.",
     "NO_MESSAGE_2": " برای ارسال پیام به صفحه خود بروید!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
+    "UNKNOWN_FILE_TYPE": "پرونده ناشناخته",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",

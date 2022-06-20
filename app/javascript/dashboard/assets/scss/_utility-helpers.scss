@@ -60,3 +60,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.flex-between {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

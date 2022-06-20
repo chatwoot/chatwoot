@@ -120,7 +120,7 @@ export const actions = {
     commit(types.default.UPDATE_REPORT_AGENTS_STATUS, data);
   },
   downloadAgentReports(_, reportObj) {
-    return Report.getAgentReports(reportObj.from, reportObj.to)
+    return Report.getAgentReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -129,7 +129,7 @@ export const actions = {
       });
   },
   downloadLabelReports(_, reportObj) {
-    return Report.getLabelReports(reportObj.from, reportObj.to)
+    return Report.getLabelReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -138,7 +138,7 @@ export const actions = {
       });
   },
   downloadInboxReports(_, reportObj) {
-    return Report.getInboxReports(reportObj.from, reportObj.to)
+    return Report.getInboxReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -147,7 +147,7 @@ export const actions = {
       });
   },
   downloadTeamReports(_, reportObj) {
-    return Report.getTeamReports(reportObj.from, reportObj.to)
+    return Report.getTeamReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })

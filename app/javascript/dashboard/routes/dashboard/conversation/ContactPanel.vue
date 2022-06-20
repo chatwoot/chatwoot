@@ -50,8 +50,7 @@
               <conversation-info
                 :conversation-attributes="conversationAdditionalAttributes"
                 :contact-attributes="contactAdditionalAttributes"
-              >
-              </conversation-info>
+              />
             </accordion-item>
           </div>
           <div v-else-if="element.name === 'contact_attributes'">

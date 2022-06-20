@@ -10,9 +10,9 @@
       :show-new-button="showNewButton"
     />
     <keep-alive v-if="keepAlive">
-      <router-view></router-view>
+      <router-view />
     </keep-alive>
-    <router-view v-else></router-view>
+    <router-view v-else />
   </div>
 </template>
 

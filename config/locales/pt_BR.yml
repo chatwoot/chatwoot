@@ -39,6 +39,17 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos)
       avg_resolution_time: Tempo médio de resolução (minutos)
+    inbox_csv:
+      inbox_name: Nome da Caixa de Entrada
+      inbox_type: Tipo da Caixa de Entrada
+      conversations_count: Nº de Conversas
+      avg_first_response_time: Média de tempo da primeira resposta (minutos)
+      avg_resolution_time: Tempo médio de resolução (minutos)
+    label_csv:
+      label_title: Nome do campo
+      conversations_count: Nº de Conversas
+      avg_first_response_time: Tempo médio de primeira resposta (minutos)
+      avg_resolution_time: Tempo médio de resolução (minutos)
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas

@@ -1,9 +1,10 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "license": "MIT",
   "scripts": {
-    "eslint": "eslint app/**/*.{js,vue} --fix",
+    "eslint": "eslint app/**/*.{js,vue}",
+    "eslint:fix": "eslint app/**/*.{js,vue} --fix",
     "pretest": "rimraf .jest-cache",
     "test": "jest  -w 1 --no-cache",
     "test:watch": "jest -w 1 --watch --no-cache",
@@ -114,7 +115,7 @@
     "lint-staged": "10.5.4",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "vue-jest": "3.0.7",
+    "vue-jest": "4",
     "webpack-dev-server": "3.11.2"
   },
   "engines": {

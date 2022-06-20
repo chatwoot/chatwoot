@@ -58,7 +58,7 @@ Rails.application.routes.draw do
             post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
-
+          resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -162,8 +162,8 @@ Rails.application.routes.draw do
             resources :categories do
               resources :folders
             end
+            resources :articles
           end
-          resources :articles
         end
       end
       # end of account scoped api routes
