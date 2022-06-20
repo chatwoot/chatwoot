@@ -2,22 +2,28 @@
 #
 # Table name: categories
 #
-#  id          :bigint           not null, primary key
-#  description :text
-#  locale      :string           default("en")
-#  name        :string
-#  position    :integer
-#  slug        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :integer          not null
-#  portal_id   :integer          not null
+#  id                 :bigint           not null, primary key
+#  description        :text
+#  locale             :string           default("en")
+#  name               :string
+#  position           :integer
+#  slug               :string           not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer          not null
+#  parent_category_id :bigint
+#  portal_id          :integer          not null
 #
 # Indexes
 #
 #  index_categories_on_locale                         (locale)
 #  index_categories_on_locale_and_account_id          (locale,account_id)
+#  index_categories_on_parent_category_id             (parent_category_id)
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (parent_category_id => categories.id)
 #
 class Category < ApplicationRecord
   belongs_to :account
