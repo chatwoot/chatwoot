@@ -22,7 +22,10 @@
       />
     </div>
     <div class="container">
-      <div v-if="uiFlags.isUpdating" class="agent__list-loading">
+      <div
+        v-if="assignableAgentsUiFlags.isFetching"
+        class="agent__list-loading"
+      >
         <spinner />
         <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
       </div>
@@ -171,7 +174,7 @@ export default {
   transform-origin: top right;
   width: auto;
   z-index: var(--z-index-twenty);
-
+  min-width: var(--space-giga);
   .header {
     padding: var(--space-one);
 
@@ -182,7 +185,7 @@ export default {
   }
 
   .container {
-    max-height: 24rem;
+    max-height: var(--space-giga);
     overflow-y: auto;
     .agent__list-container {
       height: 100%;
@@ -264,5 +267,6 @@ ul {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: var(--space-two);
 }
 </style>
