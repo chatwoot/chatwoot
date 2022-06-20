@@ -220,7 +220,7 @@ export default {
   }
 
   .user-online-status--busy {
-    background: var(--y-700);
+    background: var(--y-500);
   }
 
   .user-online-status--offline {

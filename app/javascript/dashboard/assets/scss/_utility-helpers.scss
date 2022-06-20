@@ -2,6 +2,10 @@
   margin-right: var(--space-small);
 }
 
+.margin-bottom-small {
+  margin-bottom: var(--space-small);
+}
+
 .margin-right-smaller {
   margin-right: var(--space-smaller);
 }
@@ -51,12 +55,14 @@
   background-color: var(--white);
 }
 
-.text-y-800 {
-  color: var(--y-800);
-}
-
 .text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.flex-between {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }

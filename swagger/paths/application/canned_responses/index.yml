@@ -1,5 +1,5 @@
 tags:
-  - Canned Response
+  - Canned Responses
 operationId: get-account-canned-response
 summary: List all Canned Responses in an Account
 description: Get Details of Canned Responses in an Account

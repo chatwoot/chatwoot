@@ -55,7 +55,7 @@ RSpec.describe Conversation, type: :model do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
-                                                                    changed_attributes: nil)
+                                                                    changed_attributes: nil, performed_by: nil)
     end
   end
 
@@ -121,16 +121,16 @@ RSpec.describe Conversation, type: :model do
 
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                     changed_attributes: status_change)
+                                                                     changed_attributes: status_change, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                 changed_attributes: nil)
+                                                                 changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                changed_attributes: nil)
+                                                                changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
-                                                                    changed_attributes: changed_attributes)
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
     end
 
     it 'will not run conversation_updated event for empty updates' do
@@ -489,7 +489,7 @@ RSpec.describe Conversation, type: :model do
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
       it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return false if last incoming message is outside of 24 hour window' do
@@ -500,7 +500,7 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation,
           created_at: Time.now - 25.hours
         )
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return true if last incoming message is inside 24 hour window' do
@@ -511,6 +511,86 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation
         )
         expect(conversation.can_reply?).to eq true
+      end
+
+      context 'when instagram channel' do
+        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq true
+        end
+
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq false
+        end
+      end
+    end
+
+    describe 'on API channels' do
+      let!(:api_channel) { create(:channel_api, additional_attributes: {}) }
+      let!(:api_channel_with_limit) { create(:channel_api, additional_attributes: { agent_reply_time_window: '12' }) }
+
+      context 'when agent_reply_time_window is not configured' do
+        it 'return true irrespective of the last message time' do
+          conversation = create(:conversation, inbox: api_channel.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel.additional_attributes['agent_reply_time_window']).to eq nil
+          expect(conversation.can_reply?).to eq true
+        end
+      end
+
+      context 'when agent_reply_time_window is configured' do
+        it 'return false if it is outside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'
+          expect(conversation.can_reply?).to eq false
+        end
+
+        it 'return true if it is inside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation
+          )
+          expect(conversation.can_reply?).to eq true
+        end
       end
     end
   end

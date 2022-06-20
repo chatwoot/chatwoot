@@ -43,7 +43,7 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
-
+          resources :assignable_agents, only: [:index]
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -55,9 +55,10 @@ Rails.application.routes.draw do
           resources :canned_responses, only: [:index, :create, :update, :destroy]
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
+            post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
-
+          resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -105,6 +106,7 @@ Rails.application.routes.draw do
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
@@ -153,13 +155,14 @@ Rails.application.routes.draw do
           end
           resources :working_hours, only: [:update]
 
-          namespace :kbase do
-            resources :portals do
-              resources :categories do
-                resources :folders
-              end
-              resources :articles
+          resources :portals do
+            member do
+              post :archive
             end
+            resources :categories do
+              resources :folders
+            end
+            resources :articles
           end
         end
       end

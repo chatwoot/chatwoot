@@ -21,13 +21,15 @@ class SupportMailbox < ApplicationMailbox
   private
 
   def find_channel
-    mail.to.each do |email|
-      @channel = Channel::Email.find_by('lower(email) = ? OR lower(forward_to_email) = ?', email.downcase, email.downcase)
-      break if @channel.present?
-    end
+    find_channel_with_to_mail if @channel.blank?
+
     raise 'Email channel/inbox not found' if @channel.nil?
 
     @channel
+  end
+
+  def find_channel_with_to_mail
+    @channel = EmailChannelFinder.new(mail).perform
   end
 
   def load_account

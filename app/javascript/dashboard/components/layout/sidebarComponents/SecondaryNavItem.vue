@@ -34,6 +34,7 @@
         :label-color="child.color"
         :should-truncate="child.truncateLabel"
         :icon="computedInboxClass(child)"
+        :warning-icon="computedInboxErrorClass(child)"
       />
       <router-link
         v-if="showItem(menuItem)"
@@ -63,7 +64,10 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../../mixins/isAdmin';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
+import {
+  getInboxClassByType,
+  getInboxWarningIconClass,
+} from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
 
@@ -135,6 +139,15 @@ export default {
       if (!type) return '';
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
+    },
+    computedInboxErrorClass(child) {
+      const { type, reauthorizationRequired } = child;
+      if (!type) return '';
+      const warningClass = getInboxWarningIconClass(
+        type,
+        reauthorizationRequired
+      );
+      return warningClass;
     },
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {

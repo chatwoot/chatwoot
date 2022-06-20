@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Kontakty zapisane pomyślnie",
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Potwierdź usunięcie",
+      "MESSAGE": "Czy na pewno chcesz usunąć tę notatkę?",
+      "YES": "Tak, usuń ją",
+      "NO": "Nie, zachowaj"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Usuń kontakt",
     "TITLE": "Usuń kontakt",

@@ -1,0 +1,21 @@
+tags:
+  - Custom Attributes
+operationId: get-details-of-a-single-custom-attribute
+summary: Get a custom attribute details
+description: Get the details of a custom attribute in the account
+parameters:
+  - $ref: '#/parameters/account_id'
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the custom attribute to be updated.
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/custom_attribute'
+  401:
+    description: Unauthorized
+  404:
+    description: The given attribute ID does not exist in the account

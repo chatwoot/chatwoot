@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrasjoner",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Avbryt",
+        "DESC": "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer i din Chatwoot-konto. Skriv inn en gyldig nettadresse for å konfigurere en callback.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook URL",
+          "PLACEHOLDER": "Eksempel: https://example/api/webhook",
+          "ERROR": "Vennligst skriv inn en gyldig URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Opprett webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Konfigurer",
       "HEADER": "Webhook-innstillinger",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Rediger",
         "TITLE": "Edit webhook",
-        "CANCEL": "Avbryt",
-        "DESC": "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer i din Chatwoot-konto. Skriv inn en gyldig nettadresse for å konfigurere en callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Eksempel: https://example/api/webhook",
-            "ERROR": "Vennligst skriv inn en gyldig URL"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
         }
       },
       "ADD": {
         "CANCEL": "Avbryt",
         "TITLE": "Legg til ny webhook",
-        "DESC": "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer i din Chatwoot-konto. Skriv inn en gyldig nettadresse for å konfigurere en callback.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Eksempel: https://example/api/webhook",
-            "ERROR": "Vennligst skriv inn en gyldig URL"
-          },
-          "SUBMIT": "Opprett webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook ble lagt til",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Bekreft sletting",
-          "MESSAGE": "Er du sikker på at du vil slette ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Ja, slett ",
           "NO": "Nei, behold den"
         }

@@ -65,7 +65,6 @@
       </div>
       <div class="contact-actions">
         <woot-button
-          v-if="showNewMessage"
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
@@ -171,10 +170,6 @@ export default {
     channelType: {
       type: String,
       default: '',
-    },
-    showNewMessage: {
-      type: Boolean,
-      default: false,
     },
     showAvatar: {
       type: Boolean,

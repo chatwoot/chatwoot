@@ -4,11 +4,24 @@
     :class="{
       active: isActiveChat,
       'unread-chat': hasUnread,
+      'has-inbox-name': showInboxName,
+      'conversation-selected': selected,
     }"
+    @mouseenter="onCardHover"
+    @mouseleave="onCardLeave"
     @click="cardClick(chat)"
   >
+    <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
+      <input
+        :value="selected"
+        :checked="selected"
+        class="checkbox"
+        type="checkbox"
+        @change="onSelectConversation($event.target.checked)"
+      />
+    </label>
     <thumbnail
-      v-if="!hideThumbnail"
+      v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
       :username="currentContact.name"
@@ -172,8 +185,16 @@ export default {
       type: String,
       default: '',
     },
+    selected: {
+      type: Boolean,
+      default: false,
+    },
   },
-
+  data() {
+    return {
+      hovered: false,
+    };
+  },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -187,6 +208,9 @@ export default {
       return this.chat.id;
     },
 
+    bulkActionCheck() {
+      return !this.hideThumbnail && !this.hovered && !this.selected;
+    },
     chatMetadata() {
       return this.chat.meta || {};
     },
@@ -290,6 +314,16 @@ export default {
       }
       router.push({ path: frontendURL(path) });
     },
+    onCardHover() {
+      this.hovered = !this.hideThumbnail;
+    },
+    onCardLeave() {
+      this.hovered = false;
+    },
+    onSelectConversation(checked) {
+      const action = checked ? 'select-conversation' : 'de-select-conversation';
+      this.$emit(action, this.chat.id, this.inbox.id);
+    },
   },
 };
 </script>
@@ -328,6 +362,20 @@ export default {
       margin-left: 0;
       padding-left: var(--space-small);
     }
+  }
+}
+
+.conversation-selected {
+  background: var(--color-background-light);
+}
+
+.has-inbox-name {
+  &::v-deep .user-thumbnail-box {
+    margin-top: var(--space-normal);
+    align-items: flex-start;
+  }
+  .conversation--meta {
+    margin-top: var(--space-normal);
   }
 }
 
@@ -456,5 +504,23 @@ export default {
   color: var(--w-800);
   flex-shrink: 0;
   font-weight: var(--font-weight-medium);
+}
+.checkbox-wrapper {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  margin-top: var(--space-normal);
+  cursor: pointer;
+  &:hover {
+    background-color: var(--w-100);
+  }
+
+  input[type='checkbox'] {
+    margin: var(--space-zero);
+    cursor: pointer;
+  }
 }
 </style>

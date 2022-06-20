@@ -8,9 +8,9 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
-    ></sidebar>
+    />
     <section class="app-content columns" :class="contentClassName">
-      <router-view></router-view>
+      <router-view />
       <command-bar />
       <account-selector
         :show-account-modal="showAccountModal"
@@ -92,7 +92,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);

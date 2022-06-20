@@ -3,7 +3,7 @@
     "HEADER": "Atributos personalizados",
     "HEADER_BTN_TXT": "Adicionar Atributo Personalizado",
     "LOADING": "Obtendo atributos personalizados",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia factos sobre os seus contactos/conversação - como o plano de assinatura, ou quando encomendaram o primeiro artigo, etc. <br /><br />Para criar um Atributo Personalizado, basta clicar no botão <b>Adicionar Atributo Personalizado.</b> Também pode editar ou apagar um Atributo Personalizado existente, clicando no botão Editar ou Apagar.</p>",
     "ADD": {
       "TITLE": "Adicionar Atributo Personalizado",
       "SUBMIT": "Criar",
@@ -11,12 +11,12 @@
       "FORM": {
         "NAME": {
           "LABEL": "Mostrar Nome",
-          "PLACEHOLDER": "Enter custom attribute display name",
+          "PLACEHOLDER": "Introduzia um nome de exibição de atributo personalizado",
           "ERROR": "Nome é obrigatório"
         },
         "DESC": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Enter custom attribute description",
+          "PLACEHOLDER": "Introduza a descrição do atributo personalizado",
           "ERROR": "Descrição é obrigatória"
         },
         "MODEL": {
@@ -43,19 +43,19 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Atributo Personalizado adicionado com sucesso",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "ERROR_MESSAGE": "Não foi possível criar um atributo personalizado, por favor tente novamente mais tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Atributo personalizado eliminado com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível apagar o atributo personalizado. Tente novamente."
       },
       "CONFIRM": {
         "TITLE": "Tem a certeza que quer apagar a equipa - %{attributeName}",
         "PLACE_HOLDER": "Por favor, digite {attributeName} para confirmar",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "MESSAGE": "A eliminação irá remover o atributo personalizado",
         "YES": "excluir ",
         "NO": "cancelar"
       }
@@ -70,8 +70,8 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Atributo personalizado atualizado com sucesso",
+        "ERROR_MESSAGE": "Houve um erro na actualização do atributo personalizado, por favor tente novamente"
       }
     },
     "TABS": {

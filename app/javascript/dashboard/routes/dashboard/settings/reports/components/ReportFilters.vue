@@ -17,7 +17,8 @@
         <template slot="singleLabel" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -30,7 +31,8 @@
         <template slot="option" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -76,7 +78,7 @@
                 reports-option__item
                 reports-option__label--swatch
               "
-            ></div>
+            />
             <span class="reports-option__desc">
               <span class="reports-option__title">
                 {{ props.option.title }}
@@ -145,6 +147,14 @@
         @input="changeGroupByFilterSelection"
       />
     </div>
+    <div class="small-12 medium-3 business-hours">
+      <span class="business-hours-text margin-right-small">
+        {{ $t('REPORT.BUSINESS_HOURS') }}
+      </span>
+      <span>
+        <woot-switch v-model="businessHoursSelected" />
+      </span>
+    </div>
   </div>
 </template>
 <script>
@@ -188,6 +198,7 @@ export default {
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
+      businessHoursSelected: false,
     };
   },
   computed: {
@@ -248,6 +259,9 @@ export default {
     },
     groupByFilterItemsList() {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
+    },
+    businessHoursSelected() {
+      this.$emit('business-hours-toggle', this.businessHoursSelected);
     },
   },
   mounted() {
