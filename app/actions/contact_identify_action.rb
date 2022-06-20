@@ -53,26 +53,28 @@ class ContactIdentifyAction
   def existing_identified_contact
     return if params[:identifier].blank?
 
-    @existing_identified_contact ||= Contact.where(account_id: account.id).find_by(identifier: params[:identifier])
+    @existing_identified_contact ||= account.contacts.find_by(identifier: params[:identifier])
   end
 
   def existing_email_contact
     return if params[:email].blank?
 
-    @existing_email_contact ||= Contact.where(account_id: account.id).find_by(email: params[:email])
+    @existing_email_contact ||= account.contacts.find_by(email: params[:email])
   end
 
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    @existing_phone_number_contact ||= Contact.where(account_id: account.id).find_by(phone_number: params[:phone_number])
+    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
   end
 
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
+    return true if params[:identifier].blank?
+
     # we want to prevent merging contacts with different identifiers
-    if params[:identifier].present? && existing_contact.identifier != params[:identifier]
+    if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
       return false
@@ -85,7 +87,9 @@ class ContactIdentifyAction
   # params: email: 2@test.com, phone: 123456789
   # we don't want to overwrite 1@test.com since email parameter takes higer priority
   def mergable_phone_contact?
-    if params[:email].present? && existing_phone_number_contact.email != params[:email]
+    return true if params[:email].blank?
+
+    if existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
       @attributes_to_update.delete(:phone_number)
       return false
     end
@@ -103,7 +107,7 @@ class ContactIdentifyAction
   end
 
   def merge_contact(base_contact, merge_contact)
-    return if base_contact.id == merge_contact.id
+    return base_contact if base_contact.id == merge_contact.id
 
     ContactMergeAction.new(
       account: account,
@@ -113,14 +117,14 @@ class ContactIdentifyAction
   end
 
   def custom_attributes
-    params[:custom_attributes] ? @contact.custom_attributes.deep_merge(params[:custom_attributes].stringify_keys) : @contact.custom_attributes
+    return @contact.custom_attributes if params[:custom_attributes].blank?
+
+    (@contact.custom_attributes || {}).deep_merge(params[:custom_attributes].stringify_keys)
   end
 
   def additional_attributes
-    if params[:additional_attributes]
-      @contact.additional_attributes.deep_merge(params[:additional_attributes].stringify_keys)
-    else
-      @contact.additional_attributes
-    end
+    return @contact.additional_attributes if params[:additional_attributes]
+
+    (@contact.additional_attributes || {}).deep_merge(params[:additional_attributes].stringify_keys)
   end
 end
