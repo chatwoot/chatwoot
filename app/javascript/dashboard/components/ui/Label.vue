@@ -1,13 +1,18 @@
 <template>
   <div :class="labelClass" :style="labelStyle" :title="description">
-    <button v-if="icon" class="label-action--button" @click="onClick">
+    <span v-if="icon" class="label-action--button">
       <fluent-icon :icon="icon" size="12" class="label--icon" />
-    </button>
+    </span>
+    <span
+      v-if="variant === 'smooth'"
+      :style="{ background: color }"
+      class="label-color-dot"
+    />
     <span v-if="!href">{{ title }}</span>
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
     <button
       v-if="showClose"
-      class="label-action--button"
+      class="label-close--button "
       :style="{ color: textColor }"
       @click="onClick"
     >
@@ -56,9 +61,14 @@ export default {
       type: String,
       default: '',
     },
+    variant: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     textColor() {
+      if (this.variant === 'smooth') return '';
       return this.color || getContrastingTextColor(this.bgColor);
     },
     labelClass() {
@@ -98,6 +108,11 @@ export default {
   font-weight: var(--font-weight-medium);
   margin-right: var(--space-smaller);
   margin-bottom: var(--space-smaller);
+  padding: var(--space-smaller);
+  background: var(--s-50);
+  color: var(--s-800);
+  border: 1px solid var(--s-75);
+  height: var(--space-medium);
 
   text-shadow: 0.1px 0 rgb(0 0 0 / 5%), 0 0.1px rgb(0 0 0 / 5%),
     -0.1px 0 rgb(0 0 0 / 5%), 0 -0.1px rgb(0 0 0 / 5%);
@@ -112,11 +127,6 @@ export default {
   .label--icon {
     cursor: pointer;
     margin-right: var(--space-smaller);
-  }
-
-  .close--icon {
-    cursor: pointer;
-    margin-left: var(--space-smaller);
   }
 
   &.small .label--icon,
@@ -174,7 +184,31 @@ export default {
   }
 }
 
+.label-close--button {
+  color: var(--s-800);
+  margin-bottom: var(--space-minus-micro);
+  margin-left: var(--space-smaller);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: var(--s-100);
+  }
+}
+
 .label-action--button {
   margin-bottom: var(--space-minus-micro);
+}
+
+.label-color-dot {
+  display: inline-block;
+  width: var(--space-one);
+  height: var(--space-one);
+  border-radius: var(--border-radius-small);
+  margin-right: var(--space-smaller);
 }
 </style>
