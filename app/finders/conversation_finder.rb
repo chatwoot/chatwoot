@@ -142,4 +142,3 @@ class ConversationFinder
     @conversations.send(sort_by).page(current_page)
   end
 end
-

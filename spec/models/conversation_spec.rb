@@ -653,20 +653,25 @@ RSpec.describe Conversation, type: :model do
       expect(records.pluck(:id)).not_to include(conversation_4.id)
     end
 
-    before do
-      travel_to DateTime.now + 1.day
-    end
+    context 'when last_activity_at updated by some actions' do
+      before do
+        travel_to DateTime.now + 1.day
+      end
 
-    it 'Sort conversations based on last_activity_at' do
-      records = described_class.latest
+      it 'Sort conversations with latest resolved conversation at first' do
+        conversation_4.resolved!
+        records = described_class.latest
 
-      expect(records.first.id).to eq(conversation_4.id)
-      expect(records.last.id).to eq(conversation_2.id)
+        expect(records.first.id).to eq(conversation_4.id)
+        expect(records.last.id).to eq(conversation_2.id)
+      end
 
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now + 1.day)
-      records = described_class.latest
+      it 'Sort conversations with latest mes' do
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now)
+        records = described_class.latest
 
-      expect(records.first.id).to eq(conversation_3.id)
+        expect(records.first.id).to eq(conversation_3.id)
+      end
     end
   end
 end

@@ -22,10 +22,6 @@ RSpec.describe Mention, type: :model do
     let!(:mention_2) { create(:mention, account: account, conversation: conversation_2, user: user_1) }
     let!(:mention_3) { create(:mention, account: account, conversation: conversation_3, user: user_1) }
 
-    before do
-
-    end
-
     it 'Sort mentioned conversations based on created_at' do
       records = described_class.sort_on_created_at
 
@@ -60,10 +56,12 @@ RSpec.describe Mention, type: :model do
       expect(records.first.conversation_id).to eq(conversation_3.id)
       expect(records.last.conversation_id).to eq(conversation_1.id)
 
-      create(:mention, account: account, conversation: conversation_2, user: user_2)
+      travel_to DateTime.now + 1.day
+      mention = create(:mention, account: account, conversation: conversation_2, user: user_2)
       records = described_class.latest
 
       expect(records.first.conversation_id).to eq(conversation_2.id)
+      expect(mention.created_at).to eq(DateTime.now)
     end
   end
 end
