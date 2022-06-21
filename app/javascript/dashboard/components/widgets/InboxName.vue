@@ -29,7 +29,6 @@ export default {
 .label.secondary.inbox--name {
   background: none;
   color: var(--s-600);
-  padding: 0;
 
   .label__title {
     line-height: 1.2;

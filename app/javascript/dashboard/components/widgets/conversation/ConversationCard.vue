@@ -110,7 +110,8 @@
           :key="label.id"
           :title="label.title"
           :description="label.description"
-          :bg-color="label.color"
+          :color="label.color"
+          variant="smooth"
           small
         />
       </div>
@@ -369,16 +370,6 @@ export default {
   background: var(--color-background-light);
 }
 
-.has-inbox-name {
-  &::v-deep .user-thumbnail-box {
-    margin-top: var(--space-normal);
-    align-items: flex-start;
-  }
-  .conversation--meta {
-    margin-top: var(--space-normal);
-  }
-}
-
 .message {
   width: 100%;
   min-width: 0;
@@ -436,8 +427,7 @@ export default {
 .content {
   display: flex;
   align-items: center;
-  padding-top: var(--space-smaller);
-  padding-bottom: var(--space-micro);
+  padding: var(--space-micro) 0 var(--space-micro);
 
   .badge {
     color: var(--white);
@@ -449,6 +439,7 @@ export default {
   display: flex;
   align-items: center;
   margin-right: var(--space-smaller);
+  margin-bottom: var(--space-smaller);
 }
 
 .assignee-arrow {
@@ -474,7 +465,6 @@ export default {
   .label {
     background: none;
     color: var(--s-600);
-    padding: var(--space-micro) 0;
     margin-bottom: 0;
     margin-right: 0;
     max-width: 12rem;
@@ -484,10 +474,11 @@ export default {
 .footer {
   display: flex;
   align-items: center;
+  flex-flow: row wrap;
   margin-top: var(--space-smaller);
 
   .label {
-    margin-bottom: 0;
+    margin-bottom: var(--space-smaller);
   }
 }
 
@@ -506,16 +497,20 @@ export default {
   font-weight: var(--font-weight-medium);
 }
 .checkbox-wrapper {
-  height: 40px;
-  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 100%;
-  margin-top: var(--space-normal);
+  flex: 1 0 auto;
+
+  height: var(--space-large);
+  width: var(--space-large);
+  border-radius: var(--space-medium);
+
+  margin: var(--space-small) var(--space-smaller) 0;
   cursor: pointer;
+
   &:hover {
-    background-color: var(--w-100);
+    background-color: var(--w-75);
   }
 
   input[type='checkbox'] {

@@ -24,5 +24,6 @@ export default {
 .label--add {
   margin-bottom: var(--space-micro);
   margin-right: var(--space-micro);
+  height: var(--space-two);
 }
 </style>

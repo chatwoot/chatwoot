@@ -112,16 +112,12 @@ export default {
   background: var(--s-50);
   color: var(--s-800);
   border: 1px solid var(--s-75);
-  height: var(--space-medium);
-
-  text-shadow: 0.1px 0 rgb(0 0 0 / 5%), 0 0.1px rgb(0 0 0 / 5%),
-    -0.1px 0 rgb(0 0 0 / 5%), 0 -0.1px rgb(0 0 0 / 5%);
+  height: var(--space-two);
+  line-height: 1.2;
 
   &.small {
     font-size: var(--font-size-micro);
     padding: var(--space-micro) var(--space-smaller);
-    line-height: 1.2;
-    letter-spacing: 0.15px;
   }
 
   .label--icon {
