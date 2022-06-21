@@ -2,16 +2,16 @@
 #
 # Table name: categories
 #
-#  id                        :bigint           not null, primary key
-#  description               :text
-#  locale                    :string           default("en")
-#  name                      :string
-#  position                  :integer
-#  slug                      :string           not null
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  account_id                :integer          not null
-#  portal_id                 :integer          not null
+#  id          :bigint           not null, primary key
+#  description :text
+#  locale      :string           default("en")
+#  name        :string
+#  position    :integer
+#  slug        :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  account_id  :integer          not null
+#  portal_id   :integer          not null
 #
 # Indexes
 #
