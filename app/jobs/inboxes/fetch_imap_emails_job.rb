@@ -32,7 +32,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
                               enable_ssl: channel.imap_enable_ssl
     end
 
-    Mail.find(what: :last, count: 60, order: :asc).each do |inbound_mail|
+    Mail.find(what: :last, count: 10, order: :asc).each do |inbound_mail|
       next if Message.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
