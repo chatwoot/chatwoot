@@ -36,9 +36,6 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
       next if Message.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
-      channel.update(imap_inbox_synced_at: inbound_mail.date.utc)
-    rescue StandardError => e
-      Rails.logger.error e
     end
   end
 
