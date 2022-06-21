@@ -214,14 +214,14 @@
 
 
 # Automation Rule
-/api/v1/accounts/{account_id}/automation_rule_definitions:
+/api/v1/accounts/{account_id}/automation_rules:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
     $ref: ./application/automation_rule/index.yml
   post:
     $ref: ./application/automation_rule/create.yml
-/api/v1/accounts/{account_id}/automation_rule_definitions/{id}:
+/api/v1/accounts/{account_id}/automation_rules/{id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - name: id
