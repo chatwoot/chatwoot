@@ -623,10 +623,12 @@ RSpec.describe Conversation, type: :model do
   end
 
   describe 'Custom Sort' do
-    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days) }
-    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days) }
-    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days) }
-    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days) }
+    include ActiveJob::TestHelper
+
+    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
+    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days) }
+    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days) }
+    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days) }
 
     it 'Sort conversations based on created_at' do
       records = described_class.sort_on_created_at
@@ -636,15 +638,15 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'Sort conversations based on last_user_message_at' do
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
-      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
-      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
-      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
       create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
 
       records = described_class.last_user_message_at
 
@@ -655,18 +657,32 @@ RSpec.describe Conversation, type: :model do
 
     context 'when last_activity_at updated by some actions' do
       before do
-        travel_to DateTime.now + 1.day
+        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
       end
 
-      it 'Sort conversations with latest resolved conversation at first' do
-        conversation_4.resolved!
+      it 'sort conversations with latest resolved conversation at first' do
         records = described_class.latest
 
-        expect(records.first.id).to eq(conversation_4.id)
-        expect(records.last.id).to eq(conversation_2.id)
+        expect(records.first.id).to eq(conversation_3.id)
+
+        conversation_1.toggle_status
+        perform_enqueued_jobs do
+          Conversations::ActivityMessageJob.perform_later(
+            conversation_1,
+            account_id: conversation_1.account_id,
+            inbox_id: conversation_1.inbox_id,
+            message_type: :activity,
+            content: 'Conversation was marked resolved by system due to  days of inactivity'
+          )
+        end
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_1.id)
       end
 
-      it 'Sort conversations with latest mes' do
+      it 'Sort conversations with latest message' do
         create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now)
         records = described_class.latest
 
