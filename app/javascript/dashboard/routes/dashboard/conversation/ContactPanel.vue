@@ -9,13 +9,14 @@
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
+      animation="200"
       class="list-group"
       ghost-class="ghost"
       handle=".drag-handle"
       @start="dragging = true"
       @end="onDragEnd"
     >
-      <transition-group>
+      <transition-group type="transition" :name="!drag ? 'flip-list' : null">
         <div
           v-for="element in conversationSidebarItems"
           :key="element.name"
@@ -297,5 +298,15 @@ export default {
 
 .contact-info {
   margin-top: var(--space-two);
+}
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>
