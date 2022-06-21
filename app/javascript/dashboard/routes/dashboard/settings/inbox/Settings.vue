@@ -45,24 +45,24 @@
           />
           {{ $t('INBOX_MGMT.ADD.TWITTER.TWEETS.ENABLE') }}
         </label>
-        <woot-input
-          v-if="isAPIInbox"
-          v-model.trim="webhookUrl"
-          class="medium-9 columns settings-item"
-          :class="{ error: $v.webhookUrl.$error }"
-          :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
-          "
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
-          "
-          :error="
-            $v.webhookUrl.$error
-              ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
-              : ''
-          "
-          @blur="$v.webhookUrl.$touch"
-        />
+        <!--
+				<woot-input v-if="isAPIInbox"
+										v-model.trim="webhookUrl"
+										class="medium-9 columns settings-item"
+										:class="{ error: $v.webhookUrl.$error }"
+										:label="
+											$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
+										"
+										:placeholder="
+											$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
+										"
+										:error="
+											$v.webhookUrl.$error
+												? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
+												: ''
+										"
+										@blur="$v.webhookUrl.$touch" />
+				-->
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWebsiteUrl"
@@ -189,7 +189,7 @@
           </p>
         </label>
 
-        <label class="medium-9 columns settings-item">
+        <!-- <label class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -202,7 +202,7 @@
           <p class="help-text">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
           </p>
-        </label>
+        </label> -->
 
         <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
@@ -304,9 +304,9 @@
     <div v-if="selectedTabKey === 'collaborators'" class="settings--content">
       <collaborators-page :inbox="inbox" />
     </div>
-    <div v-if="selectedTabKey === 'configuration'">
+    <!-- <div v-if="selectedTabKey === 'configuration'">
       <configuration-page :inbox="inbox" />
-    </div>
+    </div> -->
     <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
     </div>
@@ -328,7 +328,7 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
-import ConfigurationPage from './settingsPage/ConfigurationPage';
+// import ConfigurationPage from './settingsPage/ConfigurationPage';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 
 export default {
@@ -339,7 +339,7 @@ export default {
     PreChatFormSettings,
     WeeklyAvailability,
     GreetingsEditor,
-    ConfigurationPage,
+    // ConfigurationPage,
     CollaboratorsPage,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
@@ -394,10 +394,10 @@ export default {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
-          {
-            key: 'configuration',
-            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          },
+          // {
+          // 	key: 'configuration',
+          // 	name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          // },
         ];
       }
 
@@ -409,10 +409,10 @@ export default {
       ) {
         return [
           ...visibleToAllChannelTabs,
-          {
-            key: 'configuration',
-            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          },
+          // {
+          // 	key: 'configuration',
+          // 	name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          // },
         ];
       }
 

@@ -48,7 +48,7 @@
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
       />
-      <woot-button
+      <!--<woot-button
         v-if="showAudioRecorderButton"
         :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
         emoji="🎤"
@@ -57,7 +57,7 @@
         size="small"
         :title="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         @click="toggleAudioRecorder"
-      />
+      />-->
       <woot-button
         v-if="showAudioPlayStopButton"
         :icon="audioRecorderPlayStopIcon"

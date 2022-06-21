@@ -81,7 +81,7 @@
                   </router-link>
 
                   <woot-button
-                    v-if="isAdmin"
+                    v-if="isAdmin && item.channel_type !== 'Channel::Api'"
                     v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
                     variant="smooth"
                     color-scheme="alert"
