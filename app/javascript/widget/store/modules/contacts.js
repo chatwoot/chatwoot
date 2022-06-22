@@ -1,6 +1,7 @@
 import { IFrameHelper } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
+import { setHeader } from '../../helpers/axios';
 const state = {
   currentUser: {},
 };
@@ -22,13 +23,21 @@ export const actions = {
       // Ignore error
     }
   },
-  update: async ({ dispatch }, { identifier, user: userObject }) => {
+  update: async ({ dispatch }, { user }) => {
+    try {
+      await ContactsAPI.update(user);
+      dispatch('get');
+    } catch (error) {
+      // Ignore error
+    }
+  },
+  setUser: async ({ dispatch }, { identifier, user: userObject }) => {
     try {
       const {
         email,
         name,
         avatar_url,
-        identifier_hash,
+        identifier_hash: identifierHash,
         phone_number,
         company_name,
         city,
@@ -41,7 +50,7 @@ export const actions = {
         email,
         name,
         avatar_url,
-        identifier_hash,
+        identifier_hash: identifierHash,
         phone_number,
         additional_attributes: {
           company_name,
@@ -52,10 +61,20 @@ export const actions = {
         },
         custom_attributes,
       };
-      await ContactsAPI.update(identifier, user);
+      const {
+        data: { widget_auth_token: widgetAuthToken },
+      } = await ContactsAPI.setUser(identifier, user);
+
+      if (widgetAuthToken) {
+        setHeader(widgetAuthToken);
+        IFrameHelper.sendMessage({
+          event: 'setAuthCookie',
+          data: { widgetAuthToken },
+        });
+      }
 
       dispatch('get');
-      if (identifier_hash) {
+      if (identifierHash || widgetAuthToken) {
         dispatch('conversation/clearConversations', {}, { root: true });
         dispatch('conversation/fetchOldConversations', {}, { root: true });
         dispatch('conversationAttributes/getAttributes', {}, { root: true });
