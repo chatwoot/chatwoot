@@ -20,10 +20,19 @@
       </label>
       <div class="bulk-action__actions flex-between">
         <woot-button
+          v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="tag"
+          class="margin-right-smaller"
+          @click="toggleLabelActions"
+        />
+        <woot-button
           v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
           size="tiny"
-          variant="flat"
-          color-scheme="success"
+          variant="smooth"
+          color-scheme="secondary"
           icon="repeat"
           class="margin-right-smaller"
           @click="toggleUpdateActions"
@@ -31,12 +40,19 @@
         <woot-button
           v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
           size="tiny"
-          variant="flat"
+          variant="smooth"
           color-scheme="secondary"
           icon="person-assign"
           @click="toggleAgentList"
         />
       </div>
+      <transition name="popover-animation">
+        <label-actions
+          v-if="showLabelActions"
+          @assign="assignLabels"
+          @close="showLabelActions = false"
+        />
+      </transition>
       <transition name="popover-animation">
         <agent-selector
           v-if="showAgentsList"
@@ -68,10 +84,12 @@
 <script>
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
+import LabelActions from './LabelActions.vue';
 export default {
   components: {
     AgentSelector,
     UpdateActions,
+    LabelActions,
   },
   props: {
     conversations: {
@@ -103,6 +121,7 @@ export default {
     return {
       showAgentsList: false,
       showUpdateActions: false,
+      showLabelActions: false,
     };
   },
   methods: {
@@ -115,11 +134,17 @@ export default {
     updateConversations(status) {
       this.$emit('update-conversations', status);
     },
+    assignLabels(labels) {
+      this.$emit('assign-labels', labels);
+    },
     resolveConversations() {
       this.$emit('resolve-conversations');
     },
     toggleUpdateActions() {
       this.showUpdateActions = !this.showUpdateActions;
+    },
+    toggleLabelActions() {
+      this.showLabelActions = !this.showLabelActions;
     },
     toggleAgentList() {
       this.showAgentsList = !this.showAgentsList;

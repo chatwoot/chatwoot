@@ -17,7 +17,8 @@
         <template slot="singleLabel" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -30,7 +31,8 @@
         <template slot="option" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"

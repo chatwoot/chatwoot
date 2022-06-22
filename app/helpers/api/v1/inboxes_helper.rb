@@ -1,4 +1,10 @@
 module Api::V1::InboxesHelper
+  def inbox_name(channel)
+    return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
+
+    permitted_params[:name]
+  end
+
   def validate_email_channel(attributes)
     channel_data = permitted_params(attributes)[:channel]
 
@@ -19,8 +25,7 @@ module Api::V1::InboxesHelper
                                 enable_ssl: channel_data[:imap_enable_ssl] }
     end
 
-    Mail.connection do # rubocop:disable:block
-    end
+    check_imap_connection(channel_data)
   end
 
   def validate_smtp(channel_data)
@@ -30,6 +35,25 @@ module Api::V1::InboxesHelper
 
     set_smtp_encryption(channel_data, smtp)
     check_smtp_connection(channel_data, smtp)
+  end
+
+  def check_imap_connection(channel_data)
+    Mail.connection {} # rubocop:disable:block
+  rescue SocketError => e
+    raise StandardError, I18n.t('errors.inboxes.imap.socket_error')
+  rescue Net::IMAP::NoResponseError => e
+    raise StandardError, I18n.t('errors.inboxes.imap.no_response_error')
+  rescue Errno::EHOSTUNREACH => e
+    raise StandardError, I18n.t('errors.inboxes.imap.host_unreachable_error')
+  rescue Net::OpenTimeout => e
+    raise StandardError,
+          I18n.t('errors.inboxes.imap.connection_timed_out_error', address: channel_data[:imap_address], port: channel_data[:imap_port])
+  rescue Net::IMAP::Error => e
+    raise StandardError, I18n.t('errors.inboxes.imap.connection_closed_error')
+  rescue StandardError => e
+    raise StandardError, e.message
+  ensure
+    Rails.logger.error e if e.present?
   end
 
   def check_smtp_connection(channel_data, smtp)
