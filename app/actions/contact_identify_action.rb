@@ -123,7 +123,7 @@ class ContactIdentifyAction
   end
 
   def additional_attributes
-    return @contact.additional_attributes if params[:additional_attributes]
+    return @contact.additional_attributes if params[:additional_attributes].blank?
 
     (@contact.additional_attributes || {}).deep_merge(params[:additional_attributes].stringify_keys)
   end
