@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhi:l:rsuwv
-CWCTL_VERSION="2.0.5"
+CWCTL_VERSION="2.0.7"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -742,6 +742,7 @@ EOF
 ##############################################################################
 function restart() {
   systemctl restart chatwoot.target
+  systemctl status chatwoot.target
 }
 
 ##############################################################################
