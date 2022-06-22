@@ -50,6 +50,7 @@ class Conversation < ApplicationRecord
   include RoundRobinHandler
   include ActivityMessageHandler
   include UrlHelper
+  include SortHandler
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -60,7 +61,6 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
-  scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
@@ -68,6 +68,13 @@ class Conversation < ApplicationRecord
     return [] if auto_resolve_duration.to_i.zero?
 
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+  }
+
+  scope :last_user_message_at, lambda {
+    joins(
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) grouped_conversations
+      ON grouped_conversations.conversation_id = conversations.id"
+    ).sort_on_last_user_message_at
   }
 
   belongs_to :account
