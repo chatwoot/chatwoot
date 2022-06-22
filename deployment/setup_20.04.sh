@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.5
+# Script Version: 2.0.7
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -623,6 +623,7 @@ Installation/Upgrade:
 Management:
   -c, --console             open ruby console
   -l, --logs                view logs from Chatwoot. Supported values include web/worker.
+  -r, --restart             restart Chatwoot server
   
 Miscellaneous:
   -d, --debug               show debug messages
