@@ -5,14 +5,12 @@ class CsmlEngine
     @host_url = GlobalConfigService.load('CSML_BOT_HOST', '')
     @api_key = GlobalConfigService.load('CSML_BOT_API_KEY', '')
 
-    raise StandardError, 'Missing Credentials' if @host_url.blank? || @api_key.blank?
+    raise ArgumentError, 'Missing Credentials' if @host_url.blank? || @api_key.blank?
   end
 
   def status
     response = HTTParty.get("#{@host_url}/status")
-    return response.parsed_response if response.success?
-
-    { error: response.parsed_response, status: response.code }
+    process_response(response)
   end
 
   def run(bot, params)
@@ -27,19 +25,21 @@ class CsmlEngine
       }
     }
     response = post('run', payload)
-    return response.parsed_response if response.success?
-
-    { error: response.parsed_response, status: response.code }
+    process_response(response)
   end
 
   def validate(bot)
     response = post('validate', bot)
+    process_response(response)
+  end
+
+  private
+
+  def process_response(response)
     return response.parsed_response if response.success?
 
     { error: response.parsed_response, status: response.code }
   end
-
-  private
 
   def post(path, payload)
     HTTParty.post(
