@@ -21,7 +21,7 @@ class AgentBots::ValidateBotService
         {
           id: SecureRandom.uuid,
           name: 'Default',
-          content: agent_bot[:bot_config],
+          content: agent_bot.bot_config['csml_content'],
           commands: []
         }
       ]

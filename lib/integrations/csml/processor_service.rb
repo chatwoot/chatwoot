@@ -49,7 +49,7 @@ class Integrations::Csml::ProcessorService < Integrations::BotProcessorService
         {
           id: "chatwoot-csml-bot-flow-#{agent_bot.id}-inbox-#{conversation.inbox.id}",
           name: 'chatwoot_bot_flow',
-          content: agent_bot.bot_config,
+          content: agent_bot.bot_config['csml_content'],
           commands: []
         }
       ]
