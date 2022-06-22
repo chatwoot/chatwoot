@@ -7,7 +7,8 @@ const state = {
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
-
+const parseErrorData = error =>
+  error && error.response && error.response.data ? error.response.data : error;
 export const updateWidgetAuthToken = widgetAuthToken => {
   if (widgetAuthToken) {
     setHeader(widgetAuthToken);
@@ -82,10 +83,7 @@ export const actions = {
         dispatch('conversationAttributes/getAttributes', {}, { root: true });
       }
     } catch (error) {
-      const data =
-        error && error.response && error.response.data
-          ? error.response.data
-          : error;
+      const data = parseErrorData(error);
       sendMessage({ event: 'error', errorType: SET_USER_ERROR, data });
     }
   },
