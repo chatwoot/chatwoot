@@ -8,7 +8,6 @@ class CsmlEngine
 
   def status
     response = HTTParty.get("#{@host_url}/status")
-
     return response.parsed_response if response.success?
 
     { error: response.parsed_response, status: response.code }
@@ -25,30 +24,27 @@ class CsmlEngine
         ttl_duration: 4000
       }
     }
-    response = HTTParty.post(
-      "#{@host_url}/run", {
-        headers: { API_KEY_HEADER => @api_key, 'Content-Type' => 'application/json' },
-        body: payload.to_json,
-        debug_output: $stdout
-      }
-    )
-
+    response = post('run', payload)
     return response.parsed_response if response.success?
 
     { error: response.parsed_response, status: response.code }
   end
 
   def validate(bot)
-    response = HTTParty.post(
-      "#{@host_url}/validate", {
-        headers: { API_KEY_HEADER => @api_key, 'Content-Type' => 'application/json' },
-        body: bot.to_json,
-        debug_output: $stdout
-      }
-    )
-
+    response = post('validate', bot)
     return response.parsed_response if response.success?
 
     { error: response.parsed_response, status: response.code }
+  end
+
+  private
+
+  def post(path, payload)
+    HTTParty.post(
+      "#{@host_url}/#{path}", {
+        headers: { API_KEY_HEADER => @api_key, 'Content-Type' => 'application/json' },
+        body: payload.to_json
+      }
+    )
   end
 end
