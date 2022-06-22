@@ -554,12 +554,13 @@ ActiveRecord::Schema.define(version: 2022_06_14_064311) do
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
-  create_table "linked_categories", force: :cascade do |t|
-    t.bigint "category_id1"
-    t.bigint "category_id2"
+  create_table "linked_categories", id: false, force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "linked_category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id1", "category_id2"], name: "index_linked_categories_on_category_id1_and_category_id2", unique: true
+    t.index ["category_id", "linked_category_id"], name: "index_linked_categories_on_category_id_and_linked_category_id", unique: true
+    t.index ["linked_category_id", "category_id"], name: "index_linked_categories_on_linked_category_id_and_category_id", unique: true
   end
 
   create_table "mentions", force: :cascade do |t|

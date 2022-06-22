@@ -30,10 +30,14 @@ class Category < ApplicationRecord
   belongs_to :portal
   has_many :folders, dependent: :destroy_async
   has_many :articles, dependent: :nullify
-  has_many :linked_categories, class_name: :Category, foreign_key: :linked_category_id, dependent: :nullify, inverse_of: 'linked_category'
-  # belongs_to :linked_category, class_name: :Category
-  has_many :sub_categories, class_name: :Category, foreign_key: :parent_category_id, dependent: :nullify, inverse_of: 'parent_category'
-  # belongs_to :parent_category, class_name: :Category
+  has_and_belongs_to_many :linked_categories,
+                          class_name: 'Category',
+                          join_table: 'linked_categories',
+                          association_foreign_key: :linked_category_id
+  accepts_nested_attributes_for :linked_categories
+  has_many :sub_categories, class_name: :Category, foreign_key: :parent_category_id, dependent: :nullify,
+                            inverse_of: 'parent_category'
+  belongs_to :parent_category, class_name: :Category, optional: true
 
   before_validation :ensure_account_id
   validates :account_id, presence: true
