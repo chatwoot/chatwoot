@@ -80,7 +80,7 @@
         @click="toggleMessageSignature"
       />
       <woot-button
-        v-if="showWhatsappTemplatesButton"
+        v-if="hasWhatsappTemplates"
         v-tooltip.top-end="'Whatsapp Templates'"
         icon="whatsapp"
         color-scheme="secondary"
@@ -274,9 +274,6 @@ export default {
     },
     showMessageSignatureButton() {
       return !this.isPrivate && this.isAnEmailChannel;
-    },
-    showWhatsappTemplatesButton() {
-      return !this.isOnPrivateNote && this.hasWhatsappTemplates;
     },
     sendWithSignature() {
       const { send_with_signature: isEnabled } = this.uiSettings;
