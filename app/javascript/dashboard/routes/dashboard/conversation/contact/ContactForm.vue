@@ -20,6 +20,9 @@
             :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
             @input="$v.email.$touch"
           />
+          <span v-if="$v.email.$error" class="message">
+            {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
+          </span>
         </label>
       </div>
     </div>
@@ -101,7 +104,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import { required } from 'vuelidate/lib/validators';
 
-import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import { isPhoneE164OrEmpty, isValidEmail } from 'shared/helpers/Validators';
 
 export default {
   mixins: [alertMixin],
@@ -145,7 +148,9 @@ export default {
       required,
     },
     description: {},
-    email: {},
+    email: {
+      isValidEmail,
+    },
     companyName: {},
     phoneNumber: {
       isPhoneE164OrEmpty,
