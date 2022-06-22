@@ -3,9 +3,7 @@ class Integrations::BotProcessorService
 
   def perform
     message = event_data[:message]
-    return if message.private?
-    return unless processable_message?(message)
-    return unless conversation.pending?
+    return unless should_run_processor?(message)
 
     process_content(message)
   rescue StandardError => e
@@ -13,6 +11,14 @@ class Integrations::BotProcessorService
   end
 
   private
+
+  def should_run_processor?(message)
+    return if message.private?
+    return unless processable_message?(message)
+    return unless conversation.pending?
+
+    true
+  end
 
   def conversation
     message = event_data[:message]

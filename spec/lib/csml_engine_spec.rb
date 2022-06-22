@@ -48,10 +48,10 @@ describe CsmlEngine do
         allow(csml_request).to receive(:success?).and_return(true)
         allow(csml_request).to receive(:parsed_response).and_return({ 'success': true })
 
-        response = described_class.new.run({ flow: 'default ' }, { client: 'client', payload: { id: 1 }, metadata: {} })
+        response = described_class.new.run({ flow: 'default' }, { client: 'client', payload: { id: 1 }, metadata: {} })
 
         payload = {
-          bot: { flow: 'default ' },
+          bot: { flow: 'default' },
           event: {
             request_id: 'xxxx-yyyy-wwww-cccc',
             client: 'client',
@@ -80,7 +80,7 @@ describe CsmlEngine do
         allow(csml_request).to receive(:success?).and_return(true)
         allow(csml_request).to receive(:parsed_response).and_return({ 'success': true })
 
-        payload = { flow: 'default ' }
+        payload = { flow: 'default' }
         response = described_class.new.validate(payload)
 
         expect(HTTParty).to have_received(:post)
