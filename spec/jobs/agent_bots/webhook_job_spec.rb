@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AgentBotJob, type: :job do
+RSpec.describe AgentBots::WebhookJob, type: :job do
   subject(:job) { described_class.perform_later(url, payload) }
 
   let(:url) { 'https://test.com' }

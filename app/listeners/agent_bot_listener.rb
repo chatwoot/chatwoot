@@ -6,7 +6,7 @@ class AgentBotListener < BaseListener
 
     event = __method__.to_s
     payload = conversation.webhook_data.merge(event: event)
-    process_webhook_bot_event(event, inbox.agent_bot, payload)
+    process_webhook_bot_event(inbox.agent_bot, payload)
   end
 
   def conversation_opened(event)
@@ -16,7 +16,7 @@ class AgentBotListener < BaseListener
 
     event = __method__.to_s
     payload = conversation.webhook_data.merge(event: event)
-    process_webhook_bot_event(event, inbox.agent_bot, payload)
+    process_webhook_bot_event(inbox.agent_bot, payload)
   end
 
   def message_created(event)
@@ -47,7 +47,7 @@ class AgentBotListener < BaseListener
     event = __method__.to_s
     payload = contact_inbox.webhook_data.merge(event: event)
     payload[:event_info] = event.data[:event_info]
-    process_webhook_bot_event(event, inbox.agent_bot, payload)
+    process_webhook_bot_event(inbox.agent_bot, payload)
   end
 
   private
@@ -62,21 +62,20 @@ class AgentBotListener < BaseListener
   def process_message_event(event, agent_bot, message)
     case agent_bot.bot_type
     when 'webhook'
-      payload = message.webhook_data.merge(event: process_webhook_bot_event)
-      process_webhook_bot_event(event, agent_bot, payload)
+      payload = message.webhook_data.merge(event: event)
+      process_webhook_bot_event(agent_bot, payload)
     when 'csml'
       process_csml_bot_event(event, agent_bot, message)
     end
   end
 
-  def process_webhook_bot_event(_event, agent_bot, payload)
+  def process_webhook_bot_event(agent_bot, payload)
     return if agent_bot.outgoing_url.blank?
 
-    AgentBotJob.perform_later(agent_bot.outgoing_url, payload)
+    AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload)
   end
 
   def process_csml_bot_event(event, agent_bot, message)
-    event_data = { message: message }
-    Integrations::Csml::ProcessorService.new(event_name: event, agent_bot: agent_bot, event_data: event_data).perform
+    AgentBots::CsmlJob.perform_later(event, agent_bot, message)
   end
 end

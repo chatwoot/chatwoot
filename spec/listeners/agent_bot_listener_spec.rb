@@ -13,11 +13,11 @@ describe AgentBotListener do
   let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
 
   describe '#message_created' do
-    let(:event_name) { :'conversation.created' }
+    let(:event_name) { :'message.created' }
 
     context 'when agent bot is not configured' do
       it 'does not send message to agent bot' do
-        expect(AgentBotJob).to receive(:perform_later).exactly(0).times
+        expect(AgentBots::WebhookJob).to receive(:perform_later).exactly(0).times
         listener.message_created(event)
       end
     end
@@ -25,7 +25,24 @@ describe AgentBotListener do
     context 'when agent bot is configured' do
       it 'sends message to agent bot' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        expect(AgentBotJob).to receive(:perform_later).with(agent_bot.outgoing_url, message.webhook_data.merge(event: 'message_created')).once
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
+                                                                      message.webhook_data.merge(event: 'message_created')).once
+        listener.message_created(event)
+      end
+
+      it 'does not send message to agent bot if url is empty' do
+        agent_bot = create(:agent_bot, outgoing_url: '')
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+        listener.message_created(event)
+      end
+    end
+
+    context 'when agent bot csml type is configured' do
+      it 'sends message to agent bot' do
+        agent_bot_csml = create(:agent_bot, :skip_validate, bot_type: 'csml')
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot_csml)
+        expect(AgentBots::CsmlJob).to receive(:perform_later).with('message_created', agent_bot_csml, message).once
         listener.message_created(event)
       end
     end
