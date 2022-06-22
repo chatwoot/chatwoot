@@ -17,8 +17,8 @@ fi
 
 # Global variables
 # option --output/-o requires 1 argument
-LONGOPTS=console,debug,help,install:,logs:,ssl,upgrade,webserver,version
-OPTIONS=cdhi:l:suwv
+LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
+OPTIONS=cdhi:l:rsuwv
 CWCTL_VERSION="2.0.5"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
@@ -41,7 +41,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-c=n d=n h=n i=n l=n s=n u=n w=n v=n BRANCH=master SERVICE=web
+c=n d=n h=n i=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
 # Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -65,6 +65,10 @@ while true; do
         -l|--logs)
             l=y
             SERVICE="$2"
+            break
+            ;;
+        -r|--restart)
+            r=y
             break
             ;;
         -s|--ssl)
@@ -718,14 +722,25 @@ EOF
 
   cp /home/chatwoot/chatwoot/deployment/chatwoot /etc/sudoers.d/chatwoot
   # TODO:(@vn) handle cwctl updates
-  #cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
-  #chmod +x /usr/local/bin/cwctl
 
   systemctl daemon-reload
 
   # Restart the chatwoot server
   systemctl restart chatwoot.target
 
+}
+
+##############################################################################
+# Restart Chatwoot server (-r/--restart)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function restart() {
+  systemctl restart chatwoot.target
 }
 
 ##############################################################################
@@ -783,6 +798,10 @@ function main() {
 
   if [ "$l" == "y" ]; then
     get_logs
+  fi
+
+  if [ "$r" == "y" ]; then
+    restart
   fi
   
   if [ "$s" == "y" ]; then
