@@ -1,4 +1,4 @@
-import { IFrameHelper } from 'widget/helpers/utils';
+import { sendMessage } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
@@ -7,6 +7,16 @@ const state = {
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
+export const updateWidgetAuthToken = widgetAuthToken => {
+  if (widgetAuthToken) {
+    setHeader(widgetAuthToken);
+    sendMessage({
+      event: 'setAuthCookie',
+      data: { widgetAuthToken },
+    });
+  }
+};
 
 export const getters = {
   getCurrentUser(_state) {
@@ -64,15 +74,7 @@ export const actions = {
       const {
         data: { widget_auth_token: widgetAuthToken },
       } = await ContactsAPI.setUser(identifier, user);
-
-      if (widgetAuthToken) {
-        setHeader(widgetAuthToken);
-        IFrameHelper.sendMessage({
-          event: 'setAuthCookie',
-          data: { widgetAuthToken },
-        });
-      }
-
+      updateWidgetAuthToken(widgetAuthToken);
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
         dispatch('conversation/clearConversations', {}, { root: true });
@@ -84,11 +86,7 @@ export const actions = {
         error && error.response && error.response.data
           ? error.response.data
           : error;
-      IFrameHelper.sendMessage({
-        event: 'error',
-        errorType: SET_USER_ERROR,
-        data,
-      });
+      sendMessage({ event: 'error', errorType: SET_USER_ERROR, data });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {
