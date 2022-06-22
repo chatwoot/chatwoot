@@ -4,10 +4,10 @@
 #
 #  id           :bigint           not null, primary key
 #  bot_config   :jsonb
+#  bot_type     :integer          default(0)
 #  description  :string
 #  name         :string
 #  outgoing_url :string
-#  type         :integer          default(0)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :bigint
@@ -29,7 +29,7 @@ class AgentBot < ApplicationRecord
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :restrict_with_exception
   belongs_to :account, optional: true
-  enum type: { webhook: 0, csml: 1 }
+  enum bot_type: { webhook: 0, csml: 1 }
 
   validate :validate_agent_bot_config
 
@@ -57,6 +57,6 @@ class AgentBot < ApplicationRecord
   private
 
   def validate_agent_bot_config
-    errors.add(:bot_config, 'Invalid Bot Configuration') unless AgentBot::ValidateBotService.new(agent_bot: self).perform
+    errors.add(:bot_config, 'Invalid Bot Configuration') unless AgentBots::ValidateBotService.new(agent_bot: self).perform
   end
 end

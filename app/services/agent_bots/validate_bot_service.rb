@@ -1,7 +1,7 @@
-class AgentBot::ValidateBotService
+class AgentBots::ValidateBotService
   pattr_initialize [:agent_bot]
   def perform
-    return true unless agent_bot.type == :csml
+    return true unless agent_bot.bot_type == 'csml'
 
     validate_csml_bot
   end
@@ -19,15 +19,15 @@ class AgentBot::ValidateBotService
 
   def csml_bot_payload
     {
-      id: permitted_payload[:name],
-      name: permitted_payload[:name],
+      id: agent_bot[:name],
+      name: agent_bot[:name],
       default_flow: 'Default',
       flows: [
         {
-          id: SecureRandom.hex,
+          id: SecureRandom.uuid,
           name: 'Default',
-          content: permitted_params[:bot_config],
-          commands: ['trigger keyword']
+          content: agent_bot[:bot_config],
+          commands: []
         }
       ]
     }
@@ -36,12 +36,8 @@ class AgentBot::ValidateBotService
   def validate_csml_bot
     return false if csml_client.blank?
 
-    csml_client = CsmlEngine.new(csml_host, csml_bot_api_key)
-    response = csml_client.validate(
-      csml_bot_payload
-    )
-
-    response.blank? || response['valid'].blank?
+    response = csml_client.validate(csml_bot_payload)
+    response.blank? || response['valid']
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: agent_bot).capture_exception
     false
