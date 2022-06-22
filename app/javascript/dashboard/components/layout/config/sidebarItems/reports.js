@@ -26,13 +26,13 @@ const reports = accountId => ({
       toState: frontendURL(`accounts/${accountId}/reports/conversation`),
       toStateName: 'conversation_reports',
     },
-    {
-      icon: 'emoji',
-      label: 'CSAT',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/reports/csat`),
-      toStateName: 'csat_reports',
-    },
+    // {
+    //   icon: 'emoji',
+    //   label: 'CSAT',
+    //   hasSubMenu: false,
+    //   toState: frontendURL(`accounts/${accountId}/reports/csat`),
+    //   toStateName: 'csat_reports',
+    // },
     {
       icon: 'people',
       label: 'REPORTS_AGENT',
