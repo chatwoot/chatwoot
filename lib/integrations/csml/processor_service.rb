@@ -4,12 +4,7 @@ class Integrations::Csml::ProcessorService < Integrations::BotProcessorService
   private
 
   def csml_client
-    csml_host = GlobalConfigService.load('CSML_BOT_HOST', '')
-    csml_bot_api_key = GlobalConfigService.load('CSML_BOT_API_KEY', '')
-
-    return if csml_host.blank? || csml_bot_api_key.blank?
-
-    @csml_client ||= CsmlEngine.new(csml_host, csml_bot_api_key)
+    @csml_client ||= CsmlEngine.new
   end
 
   def get_response(session_id, content)

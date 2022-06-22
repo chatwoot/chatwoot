@@ -3,7 +3,6 @@ class Integrations::BotProcessorService
 
   def perform
     message = event_data[:message]
-
     return if message.private?
     return unless processable_message?(message)
     return unless conversation.pending?
@@ -11,6 +10,8 @@ class Integrations::BotProcessorService
     content = message_content(message)
     response = get_response(conversation.contact_inbox.source_id, content) if content.present?
     process_response(message, response) if response.present?
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: agent_bot).capture_exception
   end
 
   private

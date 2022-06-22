@@ -1,9 +1,11 @@
 class CsmlEngine
   API_KEY_HEADER = 'X-Api-Key'.freeze
 
-  def initialize(host_url, api_key)
-    @host_url = host_url
-    @api_key = api_key
+  def initialize
+    @host_url = GlobalConfigService.load('CSML_BOT_HOST', '')
+    @api_key = GlobalConfigService.load('CSML_BOT_API_KEY', '')
+
+    raise StandardError, 'Missing Credentials' if @host_url.blank? || @api_key.blank?
   end
 
   def status

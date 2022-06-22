@@ -9,12 +9,7 @@ class AgentBots::ValidateBotService
   private
 
   def csml_client
-    csml_host = GlobalConfigService.load('CSML_BOT_HOST', '')
-    csml_bot_api_key = GlobalConfigService.load('CSML_BOT_API_KEY', '')
-
-    return if csml_host.blank? || csml_bot_api_key.blank?
-
-    @csml_client ||= CsmlEngine.new(csml_host, csml_bot_api_key)
+    @csml_client ||= CsmlEngine.new
   end
 
   def csml_bot_payload
@@ -34,8 +29,6 @@ class AgentBots::ValidateBotService
   end
 
   def validate_csml_bot
-    return false if csml_client.blank?
-
     response = csml_client.validate(csml_bot_payload)
     response.blank? || response['valid']
   rescue StandardError => e
