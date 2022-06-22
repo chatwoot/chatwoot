@@ -30,8 +30,15 @@
         <woot-input
           v-model.trim="selectedInboxName"
           class="medium-9 columns settings-item"
+          :class="{ error: $v.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
+          :error="
+            $v.selectedInboxName.$error
+              ? $t('INBOX_MGMT.ADD.CHANNEL_NAME.ERROR')
+              : ''
+          "
+          @blur="$v.selectedInboxName.$touch"
         />
         <label
           v-if="isATwitterInbox"
@@ -293,6 +300,7 @@
         <woot-submit-button
           v-else
           type="submit"
+          :disabled="$v.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
@@ -318,7 +326,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { shouldBeUrl } from 'shared/helpers/Validators';
+import { shouldBeUrl, isValidName } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -563,6 +571,7 @@ export default {
     webhookUrl: {
       shouldBeUrl,
     },
+    selectedInboxName: { isValidName },
   },
 };
 </script>
