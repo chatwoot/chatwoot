@@ -105,7 +105,7 @@
           <woot-color-picker v-model="inbox.widget_color" />
         </label>
 
-        <label class="medium-9 columns settings-item">
+        <!--<label class="medium-9 columns settings-item">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
           }}
@@ -148,7 +148,7 @@
             "
             :richtext="!textAreaChannels"
           />
-        </div>
+        </div>-->
         <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
@@ -327,7 +327,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
-import GreetingsEditor from 'shared/components/GreetingsEditor';
+// import GreetingsEditor from 'shared/components/GreetingsEditor';
 // import ConfigurationPage from './settingsPage/ConfigurationPage';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 
@@ -338,7 +338,7 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
-    GreetingsEditor,
+    // GreetingsEditor,
     // ConfigurationPage,
     CollaboratorsPage,
   },
