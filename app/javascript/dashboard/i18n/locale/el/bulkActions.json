@@ -19,11 +19,11 @@
       "UPDATE_FAILED": "Αποτυχία ενημέρωσης συνομιλιών, παρακαλώ προσπαθήστε ξανά"
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign Labels",
-      "NO_LABELS_FOUND": "No labels found for",
-      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
-      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+      "ASSIGN_LABELS": "Ανάθεση Ετικετών",
+      "NO_LABELS_FOUND": "Δεν βρέθηκαν πρότυπα για",
+      "ASSIGN_SELECTED_LABELS": "Ανάθεση επιλεγμένων ετικετών",
+      "ASSIGN_SUCCESFUL": "Επιτυχής ανάθεση ετικετών",
+      "ASSIGN_FAILED": "Αποτυχία στην ανάθεση ετικετών, παρακαλώ δοκιμάστε αργότερα"
     }
   }
 }
