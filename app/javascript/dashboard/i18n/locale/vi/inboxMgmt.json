@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Tên hộp thư đến",
-        "PLACEHOLDER": "Nhập tên hộp thư đến của bạn (ví dụ: Acme Inc)"
+        "PLACEHOLDER": "Nhập tên hộp thư đến của bạn (ví dụ: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Tên trang web",
