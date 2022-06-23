@@ -199,6 +199,7 @@ Rails.application.routes.draw do
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
+            patch :set_user
           end
         end
         resources :inbox_members, only: [:index]
