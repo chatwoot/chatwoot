@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome casella",
-        "PLACEHOLDER": "Inserisci il nome della tua casella di posta (ad esempio: Acme Inc)"
+        "PLACEHOLDER": "Inserisci il nome della tua casella di posta (ad esempio: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nome sito web",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Abilita messaggio di benvenuto sul canale",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "Invia automaticamente un messaggio di benvenuto quando viene creata una nuova conversazione.",
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
@@ -422,9 +423,9 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo la risoluzione della conversazione."
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Limite assegnazione automatica",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Inserisci un valore maggiore di 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limita il numero massimo di conversazioni da questa casella di posta che possono essere assegnate automaticamente ad un agente"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",
