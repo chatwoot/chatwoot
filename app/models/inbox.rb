@@ -33,7 +33,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
 
-  validates :name, presence: true
+  validates :name, presence: true, format: { with: /^\b[\w\s]*\b$/, multiline: true }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validate :ensure_valid_max_assignment_limit
