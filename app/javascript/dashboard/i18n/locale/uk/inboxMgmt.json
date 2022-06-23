@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Назва Джерела",
-        "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)"
+        "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Назва сайту",
