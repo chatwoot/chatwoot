@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nazwa skrzynki odbiorczej",
-        "PLACEHOLDER": "Wprowadź nazwę skrzynki odbiorczej (np. Acme Inc)"
+        "PLACEHOLDER": "Wprowadź nazwę skrzynki odbiorczej (np. Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nazwa strony",
