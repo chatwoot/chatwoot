@@ -21,7 +21,12 @@ class Channel::Whatsapp < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_whatsapp'
-  EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
+  EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
+
+  # default at the moment is 360dialog lets change later.
+  PROVIDERS = %w(default whatsapp_cloud)
+
+  validates :provider, :inclusion => {:in => PROVIDERS }
 
   validates :phone_number, presence: true, uniqueness: true
   before_save :validate_provider_config
@@ -143,6 +148,8 @@ class Channel::Whatsapp < ApplicationRecord
 
   # Extract later into provider Service
   def validate_provider_config
+    return if provider == 'whatsapp_cloud'
+
     response = HTTParty.post(
       "#{api_base_path}/configs/webhook",
       headers: { 'D360-API-KEY': provider_config['api_key'], 'Content-Type': 'application/json' },

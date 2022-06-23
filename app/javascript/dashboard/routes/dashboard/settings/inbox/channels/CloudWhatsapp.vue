@@ -30,6 +30,23 @@
       </label>
     </div>
 
+     <div class="medium-8 columns">
+      <label :class="{ error: $v.phoneNumberId.$error }">
+        <span>
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.LABEL') }}
+        </span>
+        <input
+          v-model.trim="phoneNumberId"
+          type="text"
+          :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.PLACEHOLDER')"
+          @blur="$v.phoneNumberId.$touch"
+        />
+        <span v-if="$v.phoneNumberId.$error" class="message">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.ERROR') }}
+        </span>
+      </label>
+    </div>
+
     <div class="medium-8 columns">
       <label :class="{ error: $v.apiKey.$error }">
         <span>
@@ -71,6 +88,7 @@ export default {
       inboxName: '',
       phoneNumber: '',
       apiKey: '',
+      phoneNumberId: '',
     };
   },
   computed: {
@@ -80,6 +98,7 @@ export default {
     inboxName: { required },
     phoneNumber: { required, shouldStartWithPlusSign },
     apiKey: { required },
+    phoneNumberId: { required },
   },
   methods: {
     async createChannel() {
@@ -96,8 +115,10 @@ export default {
             channel: {
               type: 'whatsapp',
               phone_number: this.phoneNumber,
+              provider: 'whatsapp_cloud',
               provider_config: {
                 api_key: this.apiKey,
+                phone_number_id: this.phoneNumberId,
               },
             },
           }

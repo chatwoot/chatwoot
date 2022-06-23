@@ -207,6 +207,11 @@
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
           "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
+        },
         "API_KEY": {
           "LABEL": "API key",
           "SUBTITLE": "Configure the WhatsApp API key.",
