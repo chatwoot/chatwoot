@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Kérjük válassz egy beszélgetést a bal sávból",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Jajj ne! Úgy tűnik, hogy nincs több ügyfélbeszélgetés az inboxodban.",
     "NO_MESSAGE_2": "egy üzenet küldéséhez az oldaladra!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Neki válaszolsz:",
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",

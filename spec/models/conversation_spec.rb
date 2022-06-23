@@ -512,6 +512,86 @@ RSpec.describe Conversation, type: :model do
         )
         expect(conversation.can_reply?).to eq true
       end
+
+      context 'when instagram channel' do
+        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq true
+        end
+
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq false
+        end
+      end
+    end
+
+    describe 'on API channels' do
+      let!(:api_channel) { create(:channel_api, additional_attributes: {}) }
+      let!(:api_channel_with_limit) { create(:channel_api, additional_attributes: { agent_reply_time_window: '12' }) }
+
+      context 'when agent_reply_time_window is not configured' do
+        it 'return true irrespective of the last message time' do
+          conversation = create(:conversation, inbox: api_channel.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel.additional_attributes['agent_reply_time_window']).to eq nil
+          expect(conversation.can_reply?).to eq true
+        end
+      end
+
+      context 'when agent_reply_time_window is configured' do
+        it 'return false if it is outside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'
+          expect(conversation.can_reply?).to eq false
+        end
+
+        it 'return true if it is inside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation
+          )
+          expect(conversation.can_reply?).to eq true
+        end
+      end
     end
   end
 

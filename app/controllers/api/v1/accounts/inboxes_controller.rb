@@ -12,6 +12,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def show; end
 
+  # Deprecated: This API will be removed in 2.7.0
   def assignable_agents
     @assignable_agents = (Current.account.users.where(id: @inbox.members.select(:user_id)) + Current.account.administrators).uniq
   end
@@ -41,20 +42,28 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @inbox.update(permitted_params.except(:channel))
-    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
+    @inbox.update!(permitted_params.except(:channel))
+    update_inbox_working_hours
     channel_attributes = get_channel_attributes(@inbox.channel_type)
 
     # Inbox update doesn't necessarily need channel attributes
     return if permitted_params(channel_attributes)[:channel].blank?
 
     if @inbox.inbox_type == 'Email'
-      validate_email_channel(channel_attributes)
+      begin
+        validate_email_channel(channel_attributes)
+      rescue StandardError => e
+        render json: { message: e }, status: :unprocessable_entity and return
+      end
       @inbox.channel.reauthorized!
     end
 
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
+  end
+
+  def update_inbox_working_hours
+    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
   end
 
   def agent_bot
@@ -88,12 +97,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
-  def inbox_name(channel)
-    return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
-
-    permitted_params[:name]
-  end
-
   def create_channel
     return unless %w[web_widget api email line telegram whatsapp sms].include?(permitted_params[:channel][:type])
 
@@ -108,10 +111,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.save!
   end
 
+  def inbox_attributes
+    [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
+     :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved]
+  end
+
   def permitted_params(channel_attributes = [])
     params.permit(
-      :name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
-      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
+      *inbox_attributes,
       channel: [:type, *channel_attributes]
     )
   end
@@ -128,18 +135,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     }[permitted_params[:channel][:type]]
   end
 
-  def account_channels_method
-    {
-      'web_widget' => Current.account.web_widgets,
-      'api' => Current.account.api_channels,
-      'email' => Current.account.email_channels,
-      'line' => Current.account.line_channels,
-      'telegram' => Current.account.telegram_channels,
-      'whatsapp' => Current.account.whatsapp_channels,
-      'sms' => Current.account.sms_channels
-    }[permitted_params[:channel][:type]]
-  end
-
   def get_channel_attributes(channel_type)
     if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
       channel_type.constantize::EDITABLE_ATTRS.presence
@@ -147,10 +142,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       []
     end
   end
-
-  def validate_limit
-    return unless Current.account.inboxes.count >= Current.account.usage_limits[:inboxes]
-
-    render_payment_required('Account limit exceeded. Upgrade to a higher plan')
-  end
 end
+
+Api::V1::Accounts::InboxesController.prepend_mod_with('Api::V1::Accounts::InboxesController')

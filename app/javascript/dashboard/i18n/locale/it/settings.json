@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
-        "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla piattaforma. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
+        "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
         "BTN_TEXT": "Salva firma del messaggio",
         "API_ERROR": "Impossibile salvare la firma! Riprova",
         "API_SUCCESS": "Firma salvata con successo"
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Panoramica"
+    "REPORTS_OVERVIEW": "Panoramica",
+    "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",

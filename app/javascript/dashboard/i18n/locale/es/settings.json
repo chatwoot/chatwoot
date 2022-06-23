@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
-        "NOTE": "Cree una firma de mensaje personal que se añadiría a todos los mensajes que envíe desde la plataforma. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
+        "NOTE": "Cree una firma de mensaje personal que se añadirá a todos los mensajes que envíe desde su buzón de correo electrónico. Utilice el rico editor de contenidos para crear una firma altamente personalizada.",
         "BTN_TEXT": "Guardar firma de mensaje",
         "API_ERROR": "¡No se pudo guardar la firma! Inténtalo de nuevo",
         "API_SUCCESS": "Firma guardada correctamente"
@@ -132,8 +132,8 @@
       "COPY_SUCCESSFUL": "Código copiado al portapapeles con éxito"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Mostrar más",
+      "SHOW_LESS": "Mostrar menos"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
@@ -151,7 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
-    "SWITCH": "Switch",
+    "SWITCH": "Cambiar",
     "CONVERSATIONS": "Conversaciones",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
     "MENTIONED_CONVERSATIONS": "Menciones",
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Equipo",
     "SET_AVAILABILITY_TITLE": "Ponte como",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Resumen"
+    "REPORTS_OVERVIEW": "Resumen",
+    "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",

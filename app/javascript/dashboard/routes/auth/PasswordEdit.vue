@@ -38,8 +38,7 @@
         :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
         :loading="newPasswordAPI.showLoading"
         button-class="expanded"
-      >
-      </woot-submit-button>
+      />
       <!-- <input type="submit" class="button " v-on:click.prevent="login()" v-bind:value="" > -->
     </div>
   </form>

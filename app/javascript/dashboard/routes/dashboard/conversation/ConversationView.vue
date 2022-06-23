@@ -14,8 +14,7 @@
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       @contact-panel-toggle="onToggleContactPanel"
-    >
-    </conversation-box>
+    />
   </section>
 </template>
 

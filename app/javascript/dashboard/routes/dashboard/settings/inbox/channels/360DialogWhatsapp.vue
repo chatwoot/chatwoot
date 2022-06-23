@@ -34,14 +34,6 @@
       <label :class="{ error: $v.apiKey.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.LABEL') }}
-          <a
-            v-if="globalConfig.installationName === 'Chatwoot'"
-            href="https://hub.360dialog.com/lp/whatsapp/L9dj7aPA"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-          >
-            ({{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.APPLY_FOR_ACCESS') }})
-          </a>
         </span>
         <input
           v-model.trim="apiKey"
@@ -82,10 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-      globalConfig: 'globalConfig/get',
-    }),
+    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
   },
   validations: {
     inboxName: { required },

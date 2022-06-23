@@ -31,8 +31,8 @@
           <table class="table table-striped w-full">
             <thead class="thead-dark">
               <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col" />
+                <th scope="col" />
                 <th scope="col">
                   {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
                 </th>
