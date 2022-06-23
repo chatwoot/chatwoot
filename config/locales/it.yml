@@ -34,11 +34,11 @@ it:
         failed: Il file è vuoto
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
+        no_response_error: Controlla le credenziali IMAP e riprova.
+        host_unreachable_error: Host irraggiungibile, Controlla l'indirizzo IMAP, la porta IMAP e riprova.
+        connection_timed_out_error: Connessione scaduta per %{address}:%{port}
+        connection_closed_error: Connessione chiusa.
   reports:
     period: Periodo di segnalazione da %{since} a %{until}
     agent_csv:
