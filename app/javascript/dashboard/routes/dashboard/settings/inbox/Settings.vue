@@ -326,7 +326,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { shouldBeUrl, isValidName } from 'shared/helpers/Validators';
+import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -571,7 +571,7 @@ export default {
     webhookUrl: {
       shouldBeUrl,
     },
-    selectedInboxName: { isValidName },
+    selectedInboxName: {},
   },
 };
 </script>
