@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nume Inbox",
-        "PLACEHOLDER": "Introduceți numele inboxului (de exemplu: Acme Inc)"
+        "PLACEHOLDER": "Introduceți numele inboxului (de exemplu: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nume website",
