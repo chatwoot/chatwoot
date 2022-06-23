@@ -1,17 +1,8 @@
 class RemoveSpecialCharactersFromInboxName < ActiveRecord::Migration[6.1]
-  def change
-    remove_special_characters_from_inbox_name
-  end
+  # This PR tried to remove special characters from the inbox name
+  # It broke in the Chatwoot Cloud as there were inboxes with valid special characters
+  # We had to push a temporary fix to continue the deployment by removing the logic
+  # from this migration. Keeping this migration here to remove inconsistency.
 
-  private
-
-  def remove_special_characters_from_inbox_name
-    ::Inbox.find_in_batches do |inbox_batch|
-      Rails.logger.info "Migrated till #{inbox_batch.first.id}\n"
-      inbox_batch.each do |inbox|
-        inbox.name = inbox.name.gsub(/[^\w\s_]/, '')
-        inbox.save!
-      end
-    end
-  end
+  def change; end
 end
