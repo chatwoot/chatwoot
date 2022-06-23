@@ -6,14 +6,14 @@ describe AgentBotListener do
   let!(:inbox) { create(:inbox, account: account) }
   let!(:agent_bot) { create(:agent_bot) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
-  let!(:message) do
-    create(:message, message_type: 'outgoing',
-                     account: account, inbox: inbox, conversation: conversation)
-  end
-  let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
 
   describe '#message_created' do
     let(:event_name) { :'message.created' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
+    let!(:message) do
+      create(:message, message_type: 'outgoing',
+                       account: account, inbox: inbox, conversation: conversation)
+    end
 
     context 'when agent bot is not configured' do
       it 'does not send message to agent bot' do
@@ -44,6 +44,32 @@ describe AgentBotListener do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot_csml)
         expect(AgentBots::CsmlJob).to receive(:perform_later).with('message_created', agent_bot_csml, message).once
         listener.message_created(event)
+      end
+    end
+  end
+
+  describe '#webwidget_triggered' do
+    let(:event_name) { :'webwidget.triggered' }
+
+    context 'when agent bot is configured' do
+      it 'send message to agent bot URL' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+
+        event = double
+        allow(event).to receive(:data)
+          .and_return(
+            {
+              contact_inbox: conversation.contact_inbox,
+              event_info: { country: 'US' }
+            }
+          )
+        expect(AgentBots::WebhookJob).to receive(:perform_later)
+          .with(
+            agent_bot.outgoing_url,
+            conversation.contact_inbox.webhook_data.merge(event: 'webwidget_triggered', event_info: { country: 'US' })
+          ).once
+
+        listener.webwidget_triggered(event)
       end
     end
   end

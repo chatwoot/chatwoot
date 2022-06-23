@@ -4,8 +4,8 @@ class AgentBotListener < BaseListener
     inbox = conversation.inbox
     return unless connected_agent_bot_exist?(inbox)
 
-    event = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event)
+    event_name = __method__.to_s
+    payload = conversation.webhook_data.merge(event: event_name)
     process_webhook_bot_event(inbox.agent_bot, payload)
   end
 
@@ -14,8 +14,8 @@ class AgentBotListener < BaseListener
     inbox = conversation.inbox
     return unless connected_agent_bot_exist?(inbox)
 
-    event = __method__.to_s
-    payload = conversation.webhook_data.merge(event: event)
+    event_name = __method__.to_s
+    payload = conversation.webhook_data.merge(event: event_name)
     process_webhook_bot_event(inbox.agent_bot, payload)
   end
 
@@ -25,8 +25,8 @@ class AgentBotListener < BaseListener
     return unless connected_agent_bot_exist?(inbox)
     return unless message.webhook_sendable?
 
-    event = __method__.to_s
-    process_message_event(event, inbox.agent_bot, message)
+    event_name = __method__.to_s
+    process_message_event(event_name, inbox.agent_bot, message)
   end
 
   def message_updated(event)
@@ -35,8 +35,8 @@ class AgentBotListener < BaseListener
     return unless connected_agent_bot_exist?(inbox)
     return unless message.webhook_sendable?
 
-    event = __method__.to_s
-    process_message_event(event, inbox.agent_bot, message)
+    event_name = __method__.to_s
+    process_message_event(event_name, inbox.agent_bot, message)
   end
 
   def webwidget_triggered(event)
@@ -44,8 +44,8 @@ class AgentBotListener < BaseListener
     inbox = contact_inbox.inbox
     return unless connected_agent_bot_exist?(inbox)
 
-    event = __method__.to_s
-    payload = contact_inbox.webhook_data.merge(event: event)
+    event_name = __method__.to_s
+    payload = contact_inbox.webhook_data.merge(event: event_name)
     payload[:event_info] = event.data[:event_info]
     process_webhook_bot_event(inbox.agent_bot, payload)
   end
