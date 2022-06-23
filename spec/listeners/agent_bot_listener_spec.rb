@@ -8,7 +8,7 @@ describe AgentBotListener do
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
   describe '#message_created' do
-    let(:event_name) { :'message.created' }
+    let(:event_name) { 'message.created' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
     let!(:message) do
       create(:message, message_type: 'outgoing',
@@ -26,7 +26,7 @@ describe AgentBotListener do
       it 'sends message to agent bot' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
-                                                                      message.webhook_data.merge(event: 'message_created')).once
+                                                                      message.webhook_data.merge(event: 'message.created')).once
         listener.message_created(event)
       end
 
@@ -49,7 +49,7 @@ describe AgentBotListener do
   end
 
   describe '#webwidget_triggered' do
-    let(:event_name) { :'webwidget.triggered' }
+    let(:event_name) { 'webwidget.triggered' }
 
     context 'when agent bot is configured' do
       it 'send message to agent bot URL' do

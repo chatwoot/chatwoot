@@ -25,8 +25,8 @@ class AgentBotListener < BaseListener
     return unless connected_agent_bot_exist?(inbox)
     return unless message.webhook_sendable?
 
-    event_name = __method__.to_s
-    process_message_event(event_name, inbox.agent_bot, message)
+    method_name = __method__.to_s
+    process_message_event(method_name, inbox.agent_bot, message, event)
   end
 
   def message_updated(event)
@@ -35,8 +35,8 @@ class AgentBotListener < BaseListener
     return unless connected_agent_bot_exist?(inbox)
     return unless message.webhook_sendable?
 
-    event_name = __method__.to_s
-    process_message_event(event_name, inbox.agent_bot, message)
+    method_name = __method__.to_s
+    process_message_event(method_name, inbox.agent_bot, message, event)
   end
 
   def webwidget_triggered(event)
@@ -59,13 +59,13 @@ class AgentBotListener < BaseListener
     true
   end
 
-  def process_message_event(event, agent_bot, message)
+  def process_message_event(method_name, agent_bot, message, event)
     case agent_bot.bot_type
     when 'webhook'
-      payload = message.webhook_data.merge(event: event)
+      payload = message.webhook_data.merge(event: method_name)
       process_webhook_bot_event(agent_bot, payload)
     when 'csml'
-      process_csml_bot_event(event, agent_bot, message)
+      process_csml_bot_event(event.name, agent_bot, message)
     end
   end
 
