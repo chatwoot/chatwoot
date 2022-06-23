@@ -24,7 +24,7 @@ describe Integrations::Dialogflow::ProcessorService do
 
     before do
       allow(dialogflow_service).to receive(:query_result).and_return(dialogflow_response)
-      allow(processor).to receive(:get_dialogflow_response).and_return(dialogflow_service)
+      allow(processor).to receive(:get_response).and_return(dialogflow_service)
       allow(dialogflow_text_double).to receive(:to_h).and_return({ text: ['hello payload'] })
     end
 
