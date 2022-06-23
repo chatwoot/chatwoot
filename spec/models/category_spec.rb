@@ -11,7 +11,7 @@ RSpec.describe Category, type: :model do
     it { is_expected.to belong_to(:portal) }
     it { is_expected.to have_many(:articles) }
     it { is_expected.to have_many(:sub_categories) }
-    it { is_expected.to have_and_belong_to_many(:linked_categories) }
+    it { is_expected.to have_many(:linked_categories) }
   end
 
   describe 'search' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_14_064311) do
+ActiveRecord::Schema.define(version: 2022_06_23_113604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -554,7 +554,7 @@ ActiveRecord::Schema.define(version: 2022_06_14_064311) do
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
-  create_table "linked_categories", id: false, force: :cascade do |t|
+  create_table "linked_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "linked_category_id"
     t.datetime "created_at", precision: 6, null: false

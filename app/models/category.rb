@@ -30,13 +30,18 @@ class Category < ApplicationRecord
   belongs_to :portal
   has_many :folders, dependent: :destroy_async
   has_many :articles, dependent: :nullify
-  has_and_belongs_to_many :linked_categories,
-                          class_name: 'Category',
-                          join_table: 'linked_categories',
-                          association_foreign_key: :linked_category_id
-  accepts_nested_attributes_for :linked_categories
-  has_many :sub_categories, class_name: :Category, foreign_key: :parent_category_id, dependent: :nullify,
-                            inverse_of: 'parent_category'
+  has_many :category_linked_categories,
+           class_name: 'LinkedCategory',
+           dependent: :destroy_async
+  has_many :linked_categories,
+           through: :category_linked_categories,
+           class_name: 'Category',
+           dependent: :nullify
+  has_many :sub_categories,
+           class_name: :Category,
+           foreign_key: :parent_category_id,
+           dependent: :nullify,
+           inverse_of: 'parent_category'
   belongs_to :parent_category, class_name: :Category, optional: true
 
   before_validation :ensure_account_id
@@ -45,6 +50,7 @@ class Category < ApplicationRecord
   validates :name, presence: true
   validates :locale, uniqueness: { scope: %i[slug portal_id],
                                    message: 'should be unique in the category and portal' }
+  accepts_nested_attributes_for :linked_categories
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
 

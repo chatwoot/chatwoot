@@ -1,8 +1,6 @@
-class AddLinkedAndParentIdInCategory < ActiveRecord::Migration[6.1]
+class CreateLinkedCategories < ActiveRecord::Migration[6.1]
   def change
-    add_reference :categories, :parent_category, foreign_key: { to_table: :categories }
-
-    create_table :linked_categories, id: false do |t|
+    create_table :linked_categories do |t|
       t.bigint :category_id
       t.bigint :linked_category_id
       t.timestamps
