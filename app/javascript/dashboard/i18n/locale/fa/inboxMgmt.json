@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "عنوان صندوق ورودی",
-        "PLACEHOLDER": "نام صندوق ورودی خود را وارد کنید (به عنوان مثال: Acme Inc)"
+        "PLACEHOLDER": "نام صندوق ورودی خود را وارد کنید (به عنوان مثال: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "عنوان سایت",
