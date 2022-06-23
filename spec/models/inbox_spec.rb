@@ -135,4 +135,42 @@ RSpec.describe Inbox do
       end
     end
   end
+
+  describe '#validations' do
+    let(:inbox) { FactoryBot.create(:inbox) }
+
+    context 'when validating inbox name' do
+      it 'does not allow any special character at the end' do
+        inbox.name = 'this is my inbox name-'
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages).to eq(
+          ['Name Should not start and end with symbols and should not have < > / \\ @ symbols']
+        )
+      end
+
+      it 'does not allow any special character at the start' do
+        inbox.name = '-this is my inbox name'
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages).to eq(
+          ['Name Should not start and end with symbols and should not have < > / \\ @ symbols']
+        )
+      end
+
+      it 'does not allow chacters like /\@<> in the entire string' do
+        inbox.name = 'inbox@name'
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages).to eq(
+          ['Name Should not start and end with symbols and should not have < > / \\ @ symbols']
+        )
+      end
+
+      it 'does allow special characters except /\@<> in between' do
+        inbox.name = 'inbox-name'
+        expect(inbox).to be_valid
+
+        inbox.name = 'inbox_name.and_1'
+        expect(inbox).to be_valid
+      end
+    end
+  end
 end

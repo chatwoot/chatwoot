@@ -33,7 +33,10 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
 
-  validates :name, presence: true, format: { with: /^\b[\w\s]*\b$/, multiline: true }
+  # Not allowing characters:
+  validates :name, presence: true,
+                   format: { with: %r{^^\b[^/\\<>@]*\b$}, multiline: true,
+                             message: 'Should not start and end with symbols and should not have < > / \ @ symbols' }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validate :ensure_valid_max_assignment_limit
