@@ -26,7 +26,7 @@ describe AgentBotListener do
       it 'sends message to agent bot' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
-                                                                      message.webhook_data.merge(event: 'message.created')).once
+                                                                      message.webhook_data.merge(event: 'message_created')).once
         listener.message_created(event)
       end
 
@@ -42,7 +42,7 @@ describe AgentBotListener do
       it 'sends message to agent bot' do
         agent_bot_csml = create(:agent_bot, :skip_validate, bot_type: 'csml')
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot_csml)
-        expect(AgentBots::CsmlJob).to receive(:perform_later).with('message_created', agent_bot_csml, message).once
+        expect(AgentBots::CsmlJob).to receive(:perform_later).with('message.created', agent_bot_csml, message).once
         listener.message_created(event)
       end
     end
