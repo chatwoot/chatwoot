@@ -6,12 +6,10 @@ class RemoveSpecialCharactersFromInboxName < ActiveRecord::Migration[6.1]
   private
 
   def remove_special_characters_from_inbox_name
-    ::Inbox.find_in_batches do |inbox_batch|
-      Rails.logger.info "Migrated till #{inbox_batch.first.id}\n"
-      inbox_batch.each do |inbox|
-        inbox.name = inbox.name.gsub(/[^\w\s_]/, '')
-        inbox.save!
-      end
-    end
+    # ::Inbox.find_in_batches do |inbox_batch|
+    #   inbox_batch.map do |inbox|
+    #     inbox.name.gsub(/[^\w\s_]/, '')
+    #   end
+    # end
   end
 end
