@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",
-        "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)"
+        "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
