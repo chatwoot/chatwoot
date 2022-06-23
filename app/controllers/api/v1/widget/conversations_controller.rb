@@ -14,8 +14,11 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def process_update_contact
-    update_contact(contact_email) if @contact.email.blank? && contact_email.present?
-    update_contact_phone_number(contact_phone_number) if @contact.phone_number.blank? && contact_phone_number.present?
+    @contact = ContactIdentifyAction.new(
+      contact: @contact,
+      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
+      retain_original_contact_name: true
+    ).perform
   end
 
   def update_last_seen
