@@ -49,13 +49,4 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
                                                         inbox_id: conversation.inbox_id
                                                       }))
   end
-
-  def process_action(message, action)
-    case action
-    when 'handoff'
-      message.conversation.open!
-    when 'resolve'
-      message.conversation.resolved!
-    end
-  end
 end

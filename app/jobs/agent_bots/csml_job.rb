@@ -1,4 +1,4 @@
-class AgentBots::CsmlJob < WebhookJob
+class AgentBots::CsmlJob < ApplicationJob
   queue_as :bots
 
   def perform(event, agent_bot, message)
