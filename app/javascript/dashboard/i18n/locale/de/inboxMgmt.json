@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
-        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)"
+        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)",
+        "ERROR": "Bitte geben Sie einen gültigen Posteingangsnamen ein"
       },
       "WEBSITE_NAME": {
         "LABEL": "Webseiten-Name",
