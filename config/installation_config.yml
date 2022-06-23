@@ -67,3 +67,4 @@
   locked: false
 - name: CSML_BOT_API_KEY
   value:
+  locked: false
