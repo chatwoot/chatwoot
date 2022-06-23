@@ -16,3 +16,4 @@ export const isValidPassword = value => {
     containsSpecialCharacter
   );
 };
+export const isValidName = value => /^\b[\w\s]*\b$/.test(value);
