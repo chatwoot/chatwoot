@@ -9,10 +9,13 @@ describe AgentBots::ValidateBotService do
     end
 
     it 'returns true if validate csml returns true' do
-      agent_bot = create(:agent_bot, :skip_validation, type: 'csml', bot_config: {})
+      agent_bot = create(:agent_bot, :skip_validate, bot_type: 'csml', bot_config: {})
       csml_client = double
+      csml_response = double
       allow(CsmlEngine).to receive(:new).and_return(csml_client)
-      allow(csml_client).to receive(:validate).and_return({ 'valid': true })
+      allow(csml_client).to receive(:validate).and_return(csml_response)
+      allow(csml_response).to receive(:blank?).and_return(false)
+      allow(csml_response).to receive(:[]).with('valid').and_return(true)
 
       valid = described_class.new(agent_bot: agent_bot).perform
       expect(valid).to be true
