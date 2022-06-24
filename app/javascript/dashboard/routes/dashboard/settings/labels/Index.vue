@@ -203,7 +203,7 @@ export default {
   height: $space-normal;
   margin-right: $space-smaller;
   width: $space-normal;
-  border: 1px solid var(--s-75);
+  border: 1px solid var(--color-border-light);
 }
 .label-title {
   span {
