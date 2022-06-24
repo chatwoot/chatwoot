@@ -17,6 +17,16 @@
               :integration-action="item.action"
             />
           </div>
+          <div class="small-12 columns integration">
+            <integration
+              integration-id="dashboard-apps"
+              integration-logo="dashboard-apps.svg"
+              integration-name="Dashboard apps"
+              integration-description="Dashboard apps lets you add custom applications right into chatwoot dashboard, using the conversation context that chatwoot provides. You can read more about it in the documentation."
+              integration-enabled
+              integration-action="/dashboard-apps"
+            />
+          </div>
         </div>
       </div>
     </div>
