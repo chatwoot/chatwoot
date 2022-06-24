@@ -48,12 +48,21 @@ describe ::ContactIdentifyAction do
 
     context 'when contact with same email exists' do
       it 'merges the current contact to email contact' do
-        existing_email_contact = create(:contact, account: account, email: 'test@test.com')
-        params = { email: 'test@test.com' }
+        existing_email_contact = create(:contact, account: account, email: 'test@test.com', name: 'old name')
+        params = { name: 'new name', email: 'test@test.com' }
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).to eq existing_email_contact.id
-        expect(result.name).to eq existing_email_contact.name
+        expect(result.name).to eq 'new name'
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'will not merge the current contact to email contact if identifier of email contact is different' do
+        existing_email_contact = create(:contact, account: account, identifier: '1', email: 'test@test.com')
+        params = { identifier: '2', email: 'test@test.com' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq existing_email_contact.id
+        expect(result.identifier).to eq params[:identifier]
+        expect(result.email).to eq nil
       end
     end
 
@@ -66,6 +75,24 @@ describe ::ContactIdentifyAction do
         expect(result.name).to eq existing_phone_number_contact.name
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
+
+      it 'will not merge the current contact to phone contact if identifier of phone contact is different' do
+        existing_phone_number_contact = create(:contact, account: account, identifier: '1', phone_number: '+919999888877')
+        params = { identifier: '2', phone_number: '+919999888877' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq existing_phone_number_contact.id
+        expect(result.identifier).to eq params[:identifier]
+        expect(result.email).to eq nil
+      end
+
+      it 'will not overide the phone contacts email when params contains different email' do
+        existing_phone_number_contact = create(:contact, account: account, email: '1@test.com', phone_number: '+919999888877')
+        params = { email: '2@test.com', phone_number: '+919999888877' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq existing_phone_number_contact.id
+        expect(result.email).to eq params[:email]
+        expect(result.phone_number).to eq nil
+      end
     end
 
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
@@ -75,6 +102,17 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).to eq contact.id
         expect(result.name).to eq 'new name'
+      end
+    end
+
+    context 'when retain_original_contact_name is set to true' do
+      it 'will not update the name of the existing contact' do
+        existing_email_contact = create(:contact, account: account, name: 'old name', email: 'test@test.com')
+        params = { email: 'test@test.com', name: 'new name' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.name).to eq 'old name'
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "account_id"
+    t.integer "bot_type", default: 0
+    t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
