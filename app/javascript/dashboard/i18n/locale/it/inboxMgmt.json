@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "Nome casella",
         "PLACEHOLDER": "Inserisci il nome della tua casella di posta (ad esempio: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Inserisci un nome per la casella valido"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nome sito web",
