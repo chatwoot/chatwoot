@@ -144,7 +144,7 @@ RSpec.describe Inbox do
         inbox.name = 'this is my inbox name-'
         expect(inbox).not_to be_valid
         expect(inbox.errors.full_messages).to eq(
-          ['Name Should not start and end with symbols and should not have < > / \\ @ symbols']
+          ['Name should not start or end with symbols, and it should not have < > / \\ @ characters.']
         )
       end
 
@@ -152,7 +152,7 @@ RSpec.describe Inbox do
         inbox.name = '-this is my inbox name'
         expect(inbox).not_to be_valid
         expect(inbox.errors.full_messages).to eq(
-          ['Name Should not start and end with symbols and should not have < > / \\ @ symbols']
+          ['Name should not start or end with symbols, and it should not have < > / \\ @ characters.']
         )
       end
 
@@ -160,7 +160,7 @@ RSpec.describe Inbox do
         inbox.name = 'inbox@name'
         expect(inbox).not_to be_valid
         expect(inbox.errors.full_messages).to eq(
-          ['Name Should not start and end with symbols and should not have < > / \\ @ symbols']
+          ['Name should not start or end with symbols, and it should not have < > / \\ @ characters.']
         )
       end
 

@@ -36,7 +36,7 @@ class Inbox < ApplicationRecord
   # Not allowing characters:
   validates :name, presence: true,
                    format: { with: %r{^^\b[^/\\<>@]*\b$}, multiline: true,
-                             message: 'Should not start and end with symbols and should not have < > / \ @ symbols' }
+                             message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validate :ensure_valid_max_assignment_limit
