@@ -6,6 +6,7 @@ require Rails.root.join 'spec/models/concerns/out_of_offisable_shared.rb'
 RSpec.describe Inbox do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:account_id) }
+    it { is_expected.to validate_presence_of(:name) }
   end
 
   describe 'associations' do
@@ -164,12 +165,30 @@ RSpec.describe Inbox do
         )
       end
 
+      it 'does not empty string' do
+        inbox.name = ''
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages[0]).to eq(
+          "Name can't be blank"
+        )
+      end
+
       it 'does allow special characters except /\@<> in between' do
         inbox.name = 'inbox-name'
         expect(inbox).to be_valid
 
         inbox.name = 'inbox_name.and_1'
         expect(inbox).to be_valid
+      end
+
+      context 'when special characters allowed for some channel' do
+        let!(:tw_channel_val) { FactoryBot.create(:channel_twitter_profile) }
+        let(:inbox) { create(:inbox, channel: tw_channel_val) }
+
+        it 'does allow chacters like /\@<> for Facebook Channel' do
+          inbox.name = 'inbox@name'
+          expect(inbox).to be_valid
+        end
       end
     end
   end
