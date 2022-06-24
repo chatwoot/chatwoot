@@ -66,7 +66,7 @@
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
-        v-tooltip.top="tooltipForSender"
+        v-tooltip.left="tooltipForSender"
         class="sender--info"
       >
         <woot-thumbnail
@@ -313,7 +313,6 @@ export default {
       return showTooltip
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${name}`,
-            classes: 'top',
           }
         : false;
     },
