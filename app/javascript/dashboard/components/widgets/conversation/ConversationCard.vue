@@ -10,6 +10,7 @@
     @mouseenter="onCardHover"
     @mouseleave="onCardLeave"
     @click="cardClick(chat)"
+    @contextmenu="openContextMenu($event)"
   >
     <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
       <input
@@ -91,6 +92,56 @@
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
     </div>
+    <woot-context-menu ref="menu" :display="showContextMenu">
+      <woot-dropdown-menu>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="book-clock"
+          >
+            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
+          </woot-button>
+        </woot-dropdown-item>
+
+        <woot-dropdown-divider />
+        <woot-dropdown-sub-menu
+          :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
+        >
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="send-clock"
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
+            </woot-button>
+          </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="dual-screen-clock"
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TOMORROW') }}
+            </woot-button>
+          </woot-dropdown-item>
+          <woot-dropdown-item>
+            <woot-button
+              variant="clear"
+              color-scheme="secondary"
+              size="small"
+              icon="calendar-clock"
+            >
+              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
+            </woot-button>
+          </woot-dropdown-item>
+        </woot-dropdown-sub-menu>
+      </woot-dropdown-menu>
+    </woot-context-menu>
   </div>
 </template>
 <script>
@@ -114,10 +165,18 @@ const ATTACHMENT_ICONS = {
   fallback: 'link',
 };
 
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 export default {
   components: {
     InboxName,
     Thumbnail,
+    WootDropdownItem,
+    WootDropdownSubMenu,
+    WootDropdownMenu,
+    WootDropdownDivider,
   },
 
   mixins: [inboxMixin, timeMixin, conversationMixin, messageFormatterMixin],
@@ -162,6 +221,7 @@ export default {
   data() {
     return {
       hovered: false,
+      showContextMenu: false,
     };
   },
   computed: {
@@ -292,6 +352,10 @@ export default {
       const action = checked ? 'select-conversation' : 'de-select-conversation';
       this.$emit(action, this.chat.id, this.inbox.id);
     },
+    openContextMenu(e) {
+      e.preventDefault();
+      this.$refs.menu.open(e);
+    },
   },
 };
 </script>
@@ -372,6 +436,17 @@ export default {
   input[type='checkbox'] {
     margin: var(--space-zero);
     cursor: pointer;
+  }
+}
+.right-click-menu {
+  list-style: none;
+  margin: 0;
+  font-size: var(--font-size-mini);
+}
+.right-click-menu__item {
+  display: flex;
+  svg {
+    margin-right: 0.6rem;
   }
 }
 </style>
