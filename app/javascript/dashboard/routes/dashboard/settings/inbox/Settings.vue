@@ -294,7 +294,7 @@
           type="submit"
           :disabled="$v.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
         <woot-submit-button
@@ -302,7 +302,7 @@
           type="submit"
           :disabled="$v.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
       </settings-section>
@@ -542,7 +542,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       }
     },
     handleImageUpload({ file, url }) {
