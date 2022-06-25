@@ -98,7 +98,10 @@
           "LABEL": "Widget Farbe",
           "PLACEHOLDER": "Aktualisieren Sie die im Widget verwendete Widget-Farbe"
         },
-        "SUBMIT_BUTTON": "Posteingang erstellen"
+        "SUBMIT_BUTTON": "Posteingang erstellen",
+        "API": {
+          "ERROR_MESSAGE": "Wir konnten keinen Website-Kanal erstellen, bitte versuchen Sie es erneut"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp-Kanal",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Posteingangseinstellungen erfolgreich aktualisiert",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Widget-Farbe konnte nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal."
+        "ERROR_MESSAGE": "Die Posteingangseinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es später erneut."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
