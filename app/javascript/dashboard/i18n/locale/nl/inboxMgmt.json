@@ -98,7 +98,10 @@
           "LABEL": "Kleur van widget",
           "PLACEHOLDER": "Update de widget kleur gebruikt in widget"
         },
-        "SUBMIT_BUTTON": "Postvak in maken"
+        "SUBMIT_BUTTON": "Postvak in maken",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Inbox instellingen succesvol bijgewerkt",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische toewijzing succesvol bijgewerkt",
-        "ERROR_MESSAGE": "Kan de kleur van de widget niet bijwerken. Probeer het later opnieuw."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ingeschakeld",
