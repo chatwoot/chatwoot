@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "عنوان صندوق ورودی",
         "PLACEHOLDER": "نام صندوق ورودی خود را وارد کنید (به عنوان مثال: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "لطفاً یک نام صندوق ورودی معتبر وارد کنید"
       },
       "WEBSITE_NAME": {
         "LABEL": "عنوان سایت",
@@ -98,7 +98,10 @@
           "LABEL": "رنگ ویجت",
           "PLACEHOLDER": "رنگی که در ویجت استفاده می‌شود را تعیین کنید"
         },
-        "SUBMIT_BUTTON": "ساختن صندوق ورودی"
+        "SUBMIT_BUTTON": "ساختن صندوق ورودی",
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال وب‌سایت را ایجاد کنیم، لطفا دوباره امتحان کنید"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/کانال WhatsApp",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "تنظمیات صندوق ورودی اعمال شد",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "واگذاری خودکار گفتگو به ایجنت ها تنظیم شد",
-        "ERROR_MESSAGE": "در حال حاضر امکان تغییر رنگ ویجت امکان‌پذیر نیست. لطفا بعدا امتحان کنید."
+        "ERROR_MESSAGE": "ما نمی‌توانیم تنظیمات صندوق ورودی را به‌روزرسانی کنیم. لطفا بعدا دوباره امتحان کنید."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "فعال",
@@ -423,9 +426,9 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند."
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "لطفا مقداری بزرگ‌تر از عدد 0 وارد کنید",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "حداکثر تعداد مکالماتی را که می توان به طور خودکار به یک نماینده اختصاص داد، از این صندوق ورودی محدود کنید"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "احراز هویت مجدد",
