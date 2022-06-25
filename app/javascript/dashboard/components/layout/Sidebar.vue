@@ -191,6 +191,7 @@ export default {
   display: flex;
   min-height: 0;
   height: 100%;
+  width: fit-content;
 }
 </style>
 

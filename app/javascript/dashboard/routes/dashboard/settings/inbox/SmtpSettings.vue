@@ -79,7 +79,7 @@
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdatingSMTP"
           :disabled="($v.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
         />
       </form>
@@ -215,7 +215,6 @@ export default {
       try {
         const payload = {
           id: this.inbox.id,
-          formData: false,
           channel: {
             smtp_enabled: this.isSMTPEnabled,
             smtp_address: this.address,
