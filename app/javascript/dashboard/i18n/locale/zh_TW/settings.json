@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully"
@@ -74,12 +74,12 @@
       },
       "NAME": {
         "LABEL": "你的姓名",
-        "ERROR": "Please enter a valid full name",
+        "ERROR": "請輸入一個有效的完整姓名",
         "PLACEHOLDER": "請輸入您的完整姓名"
       },
       "DISPLAY_NAME": {
         "LABEL": "顯示名稱",
-        "ERROR": "Please enter a valid display name",
+        "ERROR": "請輸入一個有效的顯示名稱",
         "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
@@ -101,14 +101,14 @@
         "PLACEHOLDER": "請輸入目前的密碼"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "新密碼",
         "ERROR": "請輸入長度6或更長的密碼",
         "PLACEHOLDER": "請輸入新密碼"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "重新輸入一次密碼",
         "ERROR": "兩次密碼不一致",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "請重複您的新密碼"
       }
     }
   },
@@ -164,7 +164,7 @@
     "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
-    "PROFILE_SETTINGS": "個人資料設定",
+    "PROFILE_SETTINGS": "個人檔案設定",
     "ACCOUNT_SETTINGS": "帳戶設定",
     "APPLICATIONS": "Applications",
     "LABELS": "標籤",
@@ -189,7 +189,8 @@
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "總覽"
+    "REPORTS_OVERVIEW": "總覽",
+    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

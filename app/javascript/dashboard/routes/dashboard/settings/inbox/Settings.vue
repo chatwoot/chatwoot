@@ -30,8 +30,15 @@
         <woot-input
           v-model.trim="selectedInboxName"
           class="medium-9 columns settings-item"
+          :class="{ error: $v.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
+          :error="
+            $v.selectedInboxName.$error
+              ? $t('INBOX_MGMT.ADD.CHANNEL_NAME.ERROR')
+              : ''
+          "
+          @blur="$v.selectedInboxName.$touch"
         />
         <label
           v-if="isATwitterInbox"
@@ -287,14 +294,15 @@
           type="submit"
           :disabled="$v.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
         <woot-submit-button
           v-else
           type="submit"
+          :disabled="$v.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
       </settings-section>
@@ -318,7 +326,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -426,7 +433,7 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
+      if (this.isATwilioSMSChannel || this.isAWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       if (this.isAnEmailChannel) {
@@ -535,7 +542,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       }
     },
     handleImageUpload({ file, url }) {
@@ -562,9 +571,9 @@ export default {
   },
   validations: {
     webhookUrl: {
-      required,
       shouldBeUrl,
     },
+    selectedInboxName: {},
   },
 };
 </script>

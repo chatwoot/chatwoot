@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "براہ کرم بائیں پین سے گفتگو کا انتخاب کریں۔",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "اس صارف کی شناخت کی تصدیق نہیں ہوئی ہے۔",
     "NO_MESSAGE_1": "اوہ! ایسا لگتا ہے کہ آپ کے ان باکس میں صارفین کی جانب سے کوئی پیغامات نہیں ہیں۔.",
     "NO_MESSAGE_2": " اپنے صفحہ پر پیغام بھیجنے کے لیے!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "آپ جواب دے رہے ہیں:",
     "REMOVE_SELECTION": "انتخاب کو ہٹا دیں۔",
     "DOWNLOAD": "ڈاؤن لوڈ کریں",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "منسلکات اپ لوڈ ہو رہی ہیں...",
     "SUCCESS_DELETE_MESSAGE": "پیغام کامیابی سے حذف ہو گیا۔",
     "FAIL_DELETE_MESSSAGE": "پیغام کو حذف نہیں کیا جا سکا! دوبارہ کوشش کریں",

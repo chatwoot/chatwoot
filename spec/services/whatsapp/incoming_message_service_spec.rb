@@ -6,7 +6,7 @@ describe Whatsapp::IncomingMessageService do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
     end
 
-    let!(:whatsapp_channel) { create(:channel_whatsapp) }
+    let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
 
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do

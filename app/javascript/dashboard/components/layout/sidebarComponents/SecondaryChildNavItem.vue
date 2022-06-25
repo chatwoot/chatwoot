@@ -30,6 +30,14 @@
         <span v-if="count" class="badge" :class="{ secondary: !isActive }">
           {{ count }}
         </span>
+        <span v-if="warningIcon" class="badge--icon">
+          <fluent-icon
+            v-tooltip.top-end="$t('SIDEBAR.FACEBOOK_REAUTHORIZE')"
+            class="inbox-icon"
+            :icon="warningIcon"
+            size="12"
+          />
+        </span>
       </a>
     </li>
   </router-link>
@@ -54,6 +62,10 @@ export default {
       default: false,
     },
     icon: {
+      type: String,
+      default: '',
+    },
+    warningIcon: {
       type: String,
       default: '',
     },
@@ -134,6 +146,7 @@ $label-badge-size: var(--space-slab);
   height: $label-badge-size;
   min-width: $label-badge-size;
   margin-left: var(--space-smaller);
+  border: 1px solid var(--color-border-light);
 }
 
 .badge.secondary {
