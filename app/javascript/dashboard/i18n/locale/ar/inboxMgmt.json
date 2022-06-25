@@ -98,7 +98,10 @@
           "LABEL": "لون صندوق الدردشة",
           "PLACEHOLDER": "تحديث اللون الرئيسي لصندوق الدردشة"
         },
-        "SUBMIT_BUTTON": "إنشاء قناة تواصل"
+        "SUBMIT_BUTTON": "إنشاء قناة تواصل",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "قناة Twilio SMS/WhatsApp",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "تم تحديث إعدادات قناة التواصل بنجاح",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "تم تحديث إعدادات الإسناد التلقائي بنجاح",
-        "ERROR_MESSAGE": "تعذر تحديث لون صندوق الدردشة. الرجاء المحاولة مرة أخرى لاحقاً."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "مفعل",
