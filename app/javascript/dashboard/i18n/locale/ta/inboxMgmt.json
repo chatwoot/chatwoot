@@ -98,7 +98,10 @@
           "LABEL": "விட்ஜெட் நிறம்",
           "PLACEHOLDER": "விட்ஜெட்டில் பயன்படுத்தப்படும் விட்ஜெட் நிறத்தைப் புதுப்பிக்கவும்"
         },
-        "SUBMIT_BUTTON": "இன்பாக்ஸை உருவாக்கவும்"
+        "SUBMIT_BUTTON": "இன்பாக்ஸை உருவாக்கவும்",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "இன்பாக்ஸ் அமைப்புகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "தானியங்கு பணி வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
-        "ERROR_MESSAGE": "விட்ஜெட் நிறத்தை புதுப்பிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "இயக்கப்பட்டது",
