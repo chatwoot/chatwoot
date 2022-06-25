@@ -98,7 +98,10 @@
           "LABEL": "視窗小元件顏色",
           "PLACEHOLDER": "更新小元件中使用的元件顏色"
         },
-        "SUBMIT_BUTTON": "建立收件匣"
+        "SUBMIT_BUTTON": "建立收件匣",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "已成功更新收件匣設定",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自動分配成功更新",
-        "ERROR_MESSAGE": "無法更新元件顏色。請稍後再試。"
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "已啟用",
