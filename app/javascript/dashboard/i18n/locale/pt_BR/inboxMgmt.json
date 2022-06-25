@@ -98,7 +98,10 @@
           "LABEL": "Cor do Widget",
           "PLACEHOLDER": "Atualize a cor do widget"
         },
-        "SUBMIT_BUTTON": "Criar caixa de entrada"
+        "SUBMIT_BUTTON": "Criar caixa de entrada",
+        "API": {
+          "ERROR_MESSAGE": "Não conseguimos criar um canal de site, por favor, tente novamente"
+        }
       },
       "TWILIO": {
         "TITLE": "Canal Twilio SMS/WhatsApp",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Configurações de caixa de entrada atualizadas com sucesso",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Agente atualizado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar a cor do widget. Por favor, tente novamente mais tarde."
+        "ERROR_MESSAGE": "Não foi possível atualizar as configurações da caixa de entrada. Por favor, tente novamente mais tarde."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ativado",
