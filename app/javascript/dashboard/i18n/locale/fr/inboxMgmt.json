@@ -98,7 +98,10 @@
           "LABEL": "Couleur du Widget",
           "PLACEHOLDER": "Mettre à jour la couleur utilisée dans le widget"
         },
-        "SUBMIT_BUTTON": "Créer une boîte de réception"
+        "SUBMIT_BUTTON": "Créer une boîte de réception",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Chaîne Twilio SMS/WhatsApp",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Paramètres de boîte de réception mis à jour avec succès",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Affectation automatique mise à jour avec succès",
-        "ERROR_MESSAGE": "Impossible de mettre à jour la couleur du widget. Veuillez réessayer plus tard."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activé",
