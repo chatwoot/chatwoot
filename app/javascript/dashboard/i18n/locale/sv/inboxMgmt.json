@@ -98,7 +98,10 @@
           "LABEL": "Widgetfärg",
           "PLACEHOLDER": "Uppdatera den widgetfärg som används i widget"
         },
-        "SUBMIT_BUTTON": "Skapa inkorg"
+        "SUBMIT_BUTTON": "Skapa inkorg",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Inkorgen har uppdaterats",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tilldelning har uppdaterats",
-        "ERROR_MESSAGE": "Kunde inte uppdatera widgetens färg. Försök igen senare."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiverad",
