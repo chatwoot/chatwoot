@@ -98,7 +98,10 @@
           "LABEL": "Widget szín",
           "PLACEHOLDER": "Frissítsd a widget színét"
         },
-        "SUBMIT_BUTTON": "Fiók létrehozása"
+        "SUBMIT_BUTTON": "Fiók létrehozása",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Inbox beállítások sikeresen frissítve",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatikus hozzárendelés sikeresen frissítve",
-        "ERROR_MESSAGE": "Nem sikerült a widget szín változtatása. Kérjük próbáld később."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Engedélyezve",
