@@ -7,7 +7,7 @@
     "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "對話詳細資訊",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "查看個人檔案",
     "BROWSER": "瀏覽器",
     "OS": "作業系统",
     "INITIATED_FROM": "發起自：",
@@ -199,7 +199,7 @@
         "LAST_ACTIVITY": "最後活動",
         "COUNTRY": "國家",
         "CITY": "城市",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "社群檔案",
         "COMPANY": "公司",
         "EMAIL_ADDRESS": "電子信箱地址"
       },
@@ -208,7 +208,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "聯絡人",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "正在讀取聯絡人檔案..."
   },
   "REMINDER": {
     "ADD_BUTTON": {

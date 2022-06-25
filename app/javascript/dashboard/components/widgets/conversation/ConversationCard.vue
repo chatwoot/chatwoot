@@ -11,14 +11,13 @@
     @mouseleave="onCardLeave"
     @click="cardClick(chat)"
   >
-    <label v-if="hovered || selected" class="checkbox-wrapper">
+    <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
       <input
         :value="selected"
         :checked="selected"
         class="checkbox"
         type="checkbox"
         @change="onSelectConversation($event.target.checked)"
-        @click.stop
       />
     </label>
     <thumbnail

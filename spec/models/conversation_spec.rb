@@ -545,6 +545,54 @@ RSpec.describe Conversation, type: :model do
         end
       end
     end
+
+    describe 'on API channels' do
+      let!(:api_channel) { create(:channel_api, additional_attributes: {}) }
+      let!(:api_channel_with_limit) { create(:channel_api, additional_attributes: { agent_reply_time_window: '12' }) }
+
+      context 'when agent_reply_time_window is not configured' do
+        it 'return true irrespective of the last message time' do
+          conversation = create(:conversation, inbox: api_channel.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel.additional_attributes['agent_reply_time_window']).to eq nil
+          expect(conversation.can_reply?).to eq true
+        end
+      end
+
+      context 'when agent_reply_time_window is configured' do
+        it 'return false if it is outside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'
+          expect(conversation.can_reply?).to eq false
+        end
+
+        it 'return true if it is inside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation
+          )
+          expect(conversation.can_reply?).to eq true
+        end
+      end
+    end
   end
 
   describe '#delete conversation' do
@@ -571,6 +619,75 @@ RSpec.describe Conversation, type: :model do
 
     it 'returns nil' do
       expect(conversation['additional_attributes']['referer']).to eq('https://www.chatwoot.com/')
+    end
+  end
+
+  describe 'Custom Sort' do
+    include ActiveJob::TestHelper
+
+    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
+    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days) }
+    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days) }
+    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days) }
+
+    it 'Sort conversations based on created_at' do
+      records = described_class.sort_on_created_at
+
+      expect(records.first.id).to eq(conversation_4.id)
+      expect(records.last.id).to eq(conversation_2.id)
+    end
+
+    it 'Sort conversations based on last_user_message_at' do
+      create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+
+      records = described_class.last_user_message_at
+
+      expect(records[0]['id']).to eq(conversation_2.id)
+      expect(records[1]['id']).to eq(conversation_3.id)
+      expect(records.pluck(:id)).not_to include(conversation_4.id)
+    end
+
+    context 'when last_activity_at updated by some actions' do
+      before do
+        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+      end
+
+      it 'sort conversations with latest resolved conversation at first' do
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_3.id)
+
+        conversation_1.toggle_status
+        perform_enqueued_jobs do
+          Conversations::ActivityMessageJob.perform_later(
+            conversation_1,
+            account_id: conversation_1.account_id,
+            inbox_id: conversation_1.inbox_id,
+            message_type: :activity,
+            content: 'Conversation was marked resolved by system due to  days of inactivity'
+          )
+        end
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_1.id)
+      end
+
+      it 'Sort conversations with latest message' do
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now)
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_3.id)
+      end
     end
   end
 end

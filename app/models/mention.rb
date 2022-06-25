@@ -23,6 +23,8 @@
 #  fk_rails_...  (user_id => users.id) ON DELETE => cascade
 #
 class Mention < ApplicationRecord
+  include SortHandler
+
   before_validation :ensure_account_id
   validates :mentioned_at, presence: true
   validates :account_id, presence: true
@@ -37,6 +39,17 @@ class Mention < ApplicationRecord
   after_commit :notify_mentioned_user
 
   scope :latest, -> { order(mentioned_at: :desc) }
+
+  def self.last_user_message_at
+    # INNER query finds the last message created in the conversation group
+    # The outer query JOINS with the latest created message conversations
+    # Then select only latest incoming message from the conversations which doesn't have last message as outgoing
+    # Order by message created_at
+    Mention.joins(
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) grouped_conversations
+      ON grouped_conversations.conversation_id = mentions.conversation_id"
+    ).sort_on_last_user_message_at
+  end
 
   private
 

@@ -1,3 +1,6 @@
+# NOTE: available agent method now expect allowed_member_ids to be passed in always because of inbox limits feature
+# need to refactor this class and split the queue managment into a seperate class
+
 # If allowed_member_ids are supplied round robin service will only fetch a member from member id
 # This is used in case of team assignment
 class RoundRobin::ManageService
@@ -18,6 +21,13 @@ class RoundRobin::ManageService
     ::Redis::Alfred.lrem(round_robin_key, user_id)
   end
 
+  def reset_queue
+    clear_queue
+    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
+  end
+
+  # end of queue management functions
+
   def available_agent(priority_list: [])
     reset_queue unless validate_queue?
     user_id = get_member_via_priority_list(priority_list)
@@ -26,29 +36,22 @@ class RoundRobin::ManageService
     inbox.inbox_members.find_by(user_id: user_id)&.user if user_id.present?
   end
 
-  def reset_queue
-    clear_queue
-    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
-  end
-
   private
 
   def fetch_user_id
-    if allowed_member_ids_in_str.present?
-      user_id = queue.intersection(allowed_member_ids_in_str).pop
-      pop_push_to_queue(user_id)
-      user_id
-    else
-      ::Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
-    end
+    return nil if allowed_member_ids_in_str.blank?
+
+    user_id = queue.intersection(allowed_member_ids_in_str).pop
+    pop_push_to_queue(user_id)
+    user_id
   end
 
-  # priority list is usually the members who are online passed from assignmebt service
+  # priority list is usually the members who are online passed from assignment service
   def get_member_via_priority_list(priority_list)
     return if priority_list.blank?
 
-    # when allowed member ids is passed we will be looking to get members from that list alone
-    priority_list = priority_list.intersection(allowed_member_ids_in_str) if allowed_member_ids_in_str.present?
+    # When allowed member ids is passed we will be looking to get members from that list alone
+    priority_list = priority_list.intersection(allowed_member_ids_in_str)
     return if priority_list.blank?
 
     user_id = queue.intersection(priority_list.map(&:to_s)).pop
