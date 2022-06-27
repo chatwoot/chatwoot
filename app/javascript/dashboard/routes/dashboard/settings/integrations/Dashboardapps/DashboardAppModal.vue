@@ -20,46 +20,22 @@
           data-testid="app-title"
           @input="$v.app.title.$touch"
         />
-        <div
-          v-for="(item, i) in app.content"
-          :key="i"
-          class="content-row"
-          :set="(v = $v.app.content.$each[i])"
-        >
-          <woot-input
-            v-model.trim="item.url"
-            :class="{ error: v.url.$error }"
-            class="medium-12 columns app--url_input"
-            :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
-            :placeholder="
-              $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
-            "
-            :error="
-              v.url.$error
-                ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
-                : null
-            "
-            data-testid="app-url"
-            @input="v.url.$touch"
-          />
-          <woot-button
-            v-if="app.content.length > 1"
-            variant="smooth"
-            color-scheme="alert"
-            icon="delete"
-            class="app--url_add_btn"
-            type="button"
-            @click="removeFrame(i)"
-          />
-          <woot-button
-            variant="smooth"
-            color-scheme="secondary"
-            icon="add"
-            class="app--url_add_btn"
-            type="button"
-            @click="addNewFrame"
-          />
-        </div>
+        <woot-input
+          v-model.trim="app.content.url"
+          :class="{ error: $v.app.content.url.$error }"
+          class="medium-12 columns app--url_input"
+          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
+          "
+          :error="
+            $v.app.content.url.$error
+              ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
+              : null
+          "
+          data-testid="app-url"
+          @input="$v.app.content.url.$touch"
+        />
         <div class="modal-footer">
           <div class="medium-12 columns">
             <woot-button :is-disabled="$v.$invalid" data-testid="label-submit">
@@ -97,14 +73,10 @@ export default {
   },
   validations: {
     app: {
-      title: {
-        required,
-      },
+      title: { required },
       content: {
-        $each: {
-          type: { required },
-          url: { required, url },
-        },
+        type: { required },
+        url: { required, url },
       },
     },
   },
@@ -112,12 +84,10 @@ export default {
     return {
       app: {
         title: '',
-        content: [
-          {
-            type: 'frame',
-            url: '',
-          },
-        ],
+        content: {
+          type: 'frame',
+          url: '',
+        },
       },
     };
   },
@@ -133,21 +103,17 @@ export default {
   },
   mounted() {
     if (this.mode === 'UPDATE' && this.selectedAppData) {
-      this.app = this.selectedAppData;
+      this.app.title = this.selectedAppData.title;
+      this.app.content = this.selectedAppData.content[0];
     }
   },
   methods: {
-    getUrlErrorMessage() {},
-    addNewFrame() {
-      this.app.content.push({
-        type: 'frame',
-        url: '',
-      });
-    },
-    removeFrame(i) {
-      this.app.content.splice(i, 1);
-    },
     closeModal() {
+      // Reset the data once closed
+      this.app = {
+        title: '',
+        content: { type: 'frame', url: '' },
+      };
       this.$emit('close');
     },
     async submit() {
@@ -155,7 +121,12 @@ export default {
         this.$v.$touch();
         if (this.$v.$invalid) return;
         const action = this.mode === 'UPDATE' ? 'update' : 'create';
-        await this.$store.dispatch(`dashboardApps/${action}`, this.app);
+        const payload = {
+          title: this.app.title,
+          content: [this.app.content],
+        };
+        if (action === 'update') payload.id = this.selectedAppData.id;
+        await this.$store.dispatch(`dashboardApps/${action}`, payload);
         this.showAlert(
           this.$t(
             `INTEGRATION_SETTINGS.DASHBOARD_APPS.${this.mode}.API_SUCCESS`
