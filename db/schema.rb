@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_23_113604) do
+ActiveRecord::Schema.define(version: 2022_06_27_135753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -126,6 +126,9 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
+    t.integer "associated_article_id"
+    t.bigint "associated_article_id_id"
+    t.index ["associated_article_id_id"], name: "index_articles_on_associated_article_id_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
   end
 
@@ -147,8 +150,8 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.string "name", null: false
     t.text "description"
     t.string "event_name", null: false
-    t.jsonb "conditions", default: "{}", null: false
-    t.jsonb "actions", default: "{}", null: false
+    t.jsonb "conditions", default: "[]", null: false
+    t.jsonb "actions", default: "[]", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
@@ -198,6 +201,8 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.string "locale", default: "en"
     t.string "slug", null: false
     t.bigint "parent_category_id"
+    t.bigint "linked_category_id"
+    t.index ["linked_category_id"], name: "index_categories_on_linked_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
@@ -434,7 +439,7 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -554,15 +559,6 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_labels_on_account_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
-  end
-
-  create_table "linked_categories", force: :cascade do |t|
-    t.bigint "category_id"
-    t.bigint "linked_category_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["category_id", "linked_category_id"], name: "index_linked_categories_on_category_id_and_linked_category_id", unique: true
-    t.index ["linked_category_id", "category_id"], name: "index_linked_categories_on_linked_category_id_and_category_id", unique: true
   end
 
   create_table "mentions", force: :cascade do |t|
@@ -692,6 +688,15 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
     t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
     t.index ["portal_id"], name: "index_portals_members_on_portal_id"
     t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "related_categories", force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "related_category_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id", "related_category_id"], name: "index_related_categories_on_category_id_and_related_category_id", unique: true
+    t.index ["related_category_id", "category_id"], name: "index_related_categories_on_related_category_id_and_category_id", unique: true
   end
 
   create_table "reporting_events", force: :cascade do |t|
@@ -834,9 +839,11 @@ ActiveRecord::Schema.define(version: 2022_06_23_113604) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
+  add_foreign_key "articles", "articles", column: "associated_article_id_id"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
+  add_foreign_key "categories", "categories", column: "linked_category_id"
   add_foreign_key "categories", "categories", column: "parent_category_id"
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
   add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade

@@ -5,8 +5,9 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug') }
-  let!(:linked_category_1) { create(:category, name: 'linked category', portal: portal, account_id: account.id, slug: 'category_slug_1') }
-  let!(:linked_category_2) { create(:category, name: 'linked category', portal: portal, account_id: account.id, slug: 'category_slug_2') }
+  let!(:category_to_link) { create(:category, name: 'linked category', portal: portal, account_id: account.id, slug: 'linked_category_slug') }
+  let!(:related_category_1) { create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1') }
+  let!(:related_category_2) { create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2') }
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
@@ -26,7 +27,8 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             locale: 'es',
             slug: 'test_category_1',
             parent_category_id: category.id,
-            linked_category_ids: [linked_category_1.id, linked_category_2.id]
+            linked_category_id: category_to_link.id,
+            related_category_ids: [related_category_1.id, related_category_2.id]
           }
         }
       end
@@ -40,7 +42,8 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             locale: 'es',
             slug: 'test_category_2',
             parent_category_id: category.id,
-            linked_category_ids: [linked_category_1.id, linked_category_2.id]
+            linked_category_id: category_to_link.id,
+            related_category_ids: [related_category_1.id, related_category_2.id]
           }
         }
       end
@@ -53,11 +56,12 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         json_response = JSON.parse(response.body)
 
-        expect(json_response['payload']['name']).to eql('test_category')
-        expect(json_response['payload']['linked_categories'][0]['id']).to eql(linked_category_1.id)
-        expect(json_response['payload']['linked_categories'][1]['id']).to eql(linked_category_2.id)
+        expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
+        expect(json_response['payload']['related_categories'][1]['id']).to eql(related_category_2.id)
         expect(json_response['payload']['parent_category']['id']).to eql(category.id)
+        expect(json_response['payload']['linked_category']['id']).to eql(category_to_link.id)
         expect(category.reload.sub_category_ids).to eql([Category.last.id])
+        expect(category_to_link.reload.linked_category_ids).to eql([Category.last.id])
       end
 
       it 'creates multiple sub_categories under one parent_category' do
@@ -71,6 +75,19 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(category.reload.sub_category_ids).to eql(Category.last(2).pluck(:id))
+      end
+
+      it 'creates multiple linked_categories with one category' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
+             params: category_params,
+             headers: agent.create_new_auth_token
+
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
+             params: category_params_2,
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(category_to_link.reload.linked_category_ids).to eql(Category.last(2).pluck(:id))
       end
 
       it 'will throw an error on locale, category_id uniqueness' do
@@ -121,13 +138,13 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             name: 'test_category_2',
             description: 'test_description',
             position: 1,
-            linked_category_ids: [linked_category_1.id],
-            parent_category_id: linked_category_2.id
+            related_category_ids: [related_category_1.id],
+            parent_category_id: related_category_2.id
           }
         }
 
         expect(category.name).not_to eql(category_params[:category][:name])
-        expect(category.linked_categories).to be_empty
+        expect(category.related_categories).to be_empty
         expect(category.parent_category).to be_nil
 
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
@@ -137,21 +154,21 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response['payload']['name']).to eql(category_params[:category][:name])
-        expect(json_response['payload']['linked_categories'][0]['id']).to eql(linked_category_1.id)
-        expect(json_response['payload']['parent_category']['id']).to eql(linked_category_2.id)
-        expect(linked_category_2.reload.sub_category_ids).to eql([category.id])
+        expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
+        expect(json_response['payload']['parent_category']['id']).to eql(related_category_2.id)
+        expect(related_category_2.reload.sub_category_ids).to eql([category.id])
       end
 
-      it 'updates linked categories' do
+      it 'updates related categories' do
         category_params = {
           category: {
-            linked_category_ids: [linked_category_1.id]
+            related_category_ids: [related_category_1.id]
           }
         }
-        category.linked_categories << linked_category_2
+        category.related_categories << related_category_2
         category.save!
 
-        expect(category.linked_category_ids).to eq([linked_category_2.id])
+        expect(category.related_category_ids).to eq([related_category_2.id])
 
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
             params: category_params,
@@ -162,32 +179,32 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response['payload']['name']).to eql(category.name)
-        expect(json_response['payload']['linked_categories'][0]['id']).to eql(linked_category_1.id)
-        expect(category.reload.linked_category_ids).to eq([linked_category_1.id])
-        expect(linked_category_1.reload.linked_category_ids).to be_empty
+        expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
+        expect(category.reload.related_category_ids).to eq([related_category_1.id])
+        expect(related_category_1.reload.related_category_ids).to be_empty
       end
 
       # [category_1, category_2] !== [category_2, category_1]
-      it 'update reverse associations for linked categories' do
-        category.linked_categories << linked_category_2
+      it 'update reverse associations for related categories' do
+        category.related_categories << related_category_2
         category.save!
 
-        expect(category.linked_category_ids).to eq([linked_category_2.id])
+        expect(category.related_category_ids).to eq([related_category_2.id])
 
         category_params = {
           category: {
-            linked_category_ids: [category.id]
+            related_category_ids: [category.id]
           }
         }
 
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{linked_category_2.id}",
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{related_category_2.id}",
             params: category_params,
             headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
 
-        expect(category.reload.linked_category_ids).to eq([linked_category_2.id])
-        expect(linked_category_2.reload.linked_category_ids).to eq([category.id])
+        expect(category.reload.related_category_ids).to eq([related_category_2.id])
+        expect(related_category_2.reload.related_category_ids).to eq([category.id])
       end
     end
   end
