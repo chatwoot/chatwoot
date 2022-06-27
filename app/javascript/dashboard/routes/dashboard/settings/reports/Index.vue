@@ -63,7 +63,7 @@ const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
   INCOMING_MESSAGES: 'incoming_messages_count',
   OUTGOING_MESSAGES: 'outgoing_messages_count',
-  FIRST_RESPONSE_TIME: 'avg_first_response_time',
+  // FIRST_RESPONSE_TIME: 'avg_first_response_time',
   RESOLUTION_TIME: 'avg_resolution_time',
   RESOLUTION_COUNT: 'resolutions_count',
 };
@@ -169,14 +169,14 @@ export default {
         'CONVERSATIONS',
         'INCOMING_MESSAGES',
         'OUTGOING_MESSAGES',
-        'FIRST_RESPONSE_TIME',
+        // 'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
         'RESOLUTION_COUNT',
       ];
       const infoText = {
-        FIRST_RESPONSE_TIME: this.$t(
-          `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
-        ),
+        // FIRST_RESPONSE_TIME: this.$t(
+        //   `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
+        // ),
         RESOLUTION_TIME: this.$t(`REPORT.METRICS.RESOLUTION_TIME.INFO_TEXT`),
       };
       return reportKeys.map(key => ({

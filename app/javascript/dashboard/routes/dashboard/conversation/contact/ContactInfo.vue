@@ -14,7 +14,8 @@
           <h3 class="sub-block-title contact--name">
             {{ contact.name }}
           </h3>
-          <a
+          <!--
+					<a
             :href="contactProfileLink"
             class="fs-default"
             target="_blank"
@@ -27,6 +28,7 @@
               color-scheme="secondary"
             />
           </a>
+					-->
         </div>
         <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
@@ -64,7 +66,8 @@
         </div>
       </div>
       <div class="contact-actions">
-        <woot-button
+        <!--
+				<woot-button
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
@@ -72,6 +75,7 @@
           size="small"
           @click="toggleConversationModal"
         />
+				-->
         <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
           title="$t('EDIT_CONTACT.BUTTON_LABEL')"
