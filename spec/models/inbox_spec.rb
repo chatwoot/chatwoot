@@ -185,7 +185,7 @@ RSpec.describe Inbox do
         let!(:tw_channel_val) { FactoryBot.create(:channel_twitter_profile) }
         let(:inbox) { create(:inbox, channel: tw_channel_val) }
 
-        it 'does allow chacters like /\@<> for Facebook Channel' do
+        it 'does allow special chacters like /\@<> for Facebook Channel' do
           inbox.name = 'inbox@name'
           expect(inbox).to be_valid
         end
