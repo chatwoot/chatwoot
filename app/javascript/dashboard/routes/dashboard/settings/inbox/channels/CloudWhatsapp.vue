@@ -30,7 +30,7 @@
       </label>
     </div>
 
-     <div class="medium-8 columns">
+    <div class="medium-8 columns">
       <label :class="{ error: $v.phoneNumberId.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.LABEL') }}
@@ -38,7 +38,9 @@
         <input
           v-model.trim="phoneNumberId"
           type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.PLACEHOLDER')"
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WHATSAPP.PHONE_NUMBER_ID.PLACEHOLDER')
+          "
           @blur="$v.phoneNumberId.$touch"
         />
         <span v-if="$v.phoneNumberId.$error" class="message">
