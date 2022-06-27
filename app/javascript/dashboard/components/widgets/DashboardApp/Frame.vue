@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-app--container">
+  <div class="dashboard-app--container overflow-y-auto">
     <div
       v-for="(configItem, index) in config"
       :key="index"
@@ -57,7 +57,9 @@ export default {
   height: 100%;
   width: 100%;
 }
-
+.overflow-y-auto {
+  overflow-y: auto;
+}
 .dashboard-app--list iframe {
   border: 0;
 }
