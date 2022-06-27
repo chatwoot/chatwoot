@@ -16,7 +16,7 @@ const state = {
 
 export const getters = {
   getAccount: $state => id => {
-    return $state.records.find(record => record.id === Number(id));
+    return $state.records.find(record => record.id === Number(id)) || {};
   },
   getUIFlags($state) {
     return $state.uiFlags;

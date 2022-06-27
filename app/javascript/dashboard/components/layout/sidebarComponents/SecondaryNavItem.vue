@@ -16,7 +16,7 @@
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
-        v-if="menuItem.label === 'AUTOMATION'"
+        v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
         class="beta"

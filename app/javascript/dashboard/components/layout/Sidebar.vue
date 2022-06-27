@@ -58,11 +58,12 @@ export default {
 
   computed: {
     ...mapGetters({
+      getAccount: 'accounts/getAccount',
+      accountId: 'getCurrentAccountId',
+      currentRole: 'getCurrentRole',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
-      accountId: 'getCurrentAccountId',
-      currentRole: 'getCurrentRole',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
@@ -87,7 +88,8 @@ export default {
       );
     },
     sideMenuConfig() {
-      return getSidebarItems(this.accountId);
+      const { features = {} } = this.getAccount(this.accountId);
+      return getSidebarItems(this.accountId, features);
     },
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;

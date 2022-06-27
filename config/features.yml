@@ -8,4 +8,6 @@
 - name: channel_twitter
   enabled: true
 - name: ip_lookup
+  enabled: true
+- name: agent_bots
   enabled: false
