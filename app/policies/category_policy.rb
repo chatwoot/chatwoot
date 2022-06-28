@@ -1,31 +1,31 @@
 class CategoryPolicy < ApplicationPolicy
   def index?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || @account.users.include?(@user)
   end
 
   def update?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || portal_member?
   end
 
   def show?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || portal_member?
   end
 
-   def edit?
-    @account_user.administrator? || is_portal_member?
+  def edit?
+    @account_user.administrator? || portal_member?
   end
 
   def create?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || portal_member?
   end
 
   def destroy?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || portal_member?
   end
 
   private
 
-  def is_portal_member?
-    @portal.members.include?(@account_user)
+  def portal_member?
+    @record.first.portal.members.include?(@user)
   end
 end

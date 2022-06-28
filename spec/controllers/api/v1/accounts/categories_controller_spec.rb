@@ -9,6 +9,8 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let!(:related_category_1) { create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1') }
   let!(:related_category_2) { create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2') }
 
+  before { create(:portal_member, user: agent, portal: portal) }
+
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

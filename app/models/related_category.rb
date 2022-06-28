@@ -2,10 +2,10 @@
 #
 # Table name: related_categories
 #
-#  id                 :bigint           not null, primary key
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  category_id        :bigint
+#  id                  :bigint           not null, primary key
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  category_id         :bigint
 #  related_category_id :bigint
 #
 # Indexes
