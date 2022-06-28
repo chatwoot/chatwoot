@@ -37,5 +37,9 @@ export default {
       default: () => ({}),
     },
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 };
 </script>

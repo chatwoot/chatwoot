@@ -83,13 +83,12 @@ import { mapGetters } from 'vuex';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 export default {
   components: {
     DashboardAppModal,
     DashboardAppsRow,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
