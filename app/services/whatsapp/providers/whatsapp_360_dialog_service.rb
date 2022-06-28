@@ -37,19 +37,20 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     errors.add(:provider_config, 'error setting up the webook') unless response.success?
   end
 
-  private
-
-  def api_base_path
-    # provide the environment variable when testing against sandbox : 'https://waba-sandbox.360dialog.io/v1'
-    ENV.fetch('360DIALOG_BASE_URL', 'https://waba.360dialog.io/v1')
+  def api_headers
+    { 'D360-API-KEY' => whatsapp_channel.provider_config['api_key'], 'Content-Type' => 'application/json' }
   end
+
 
   def media_url(media_id)
     "#{api_base_path}/media/#{media_id}"
   end
 
-  def api_headers
-    { 'D360-API-KEY' => whatsapp_channel.provider_config['api_key'], 'Content-Type' => 'application/json' }
+  private
+
+  def api_base_path
+    # provide the environment variable when testing against sandbox : 'https://waba-sandbox.360dialog.io/v1'
+    ENV.fetch('360DIALOG_BASE_URL', 'https://waba.360dialog.io/v1')
   end
 
   def send_text_message(phone_number, message)

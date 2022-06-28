@@ -31,6 +31,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     true
   end
 
+  def api_headers
+    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+  end
+
+
+  def media_url(media_id)
+    "#{phone_id_path}/media/#{media_id}"
+  end
+
   private
 
   def phone_id_path
@@ -39,14 +48,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def business_account_path
     "https://graph.facebook.com/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
-  end
-
-  def media_url(media_id)
-    "#{phone_id_path}/media/#{media_id}"
-  end
-
-  def api_headers
-    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
   def send_text_message(phone_number, message)
