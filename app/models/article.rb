@@ -88,7 +88,7 @@ class Article < ApplicationRecord
 
     root_articles_query = self.class.find_root_articles(article.id)
     root_articles = Article.find_by_sql(root_articles_query)
-    
+
     return unless root_articles.any?
 
     root_article_id = root_articles.first.try(:associated_article_id)
