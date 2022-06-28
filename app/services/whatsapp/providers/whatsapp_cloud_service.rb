@@ -35,7 +35,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
-
   def media_url(media_id)
     "#{phone_id_path}/media/#{media_id}"
   end

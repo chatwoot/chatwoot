@@ -277,8 +277,9 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
-  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
+  get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
+  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
