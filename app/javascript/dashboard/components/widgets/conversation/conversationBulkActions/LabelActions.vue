@@ -258,6 +258,7 @@ ul {
       height: var(--space-slab);
       width: var(--space-slab);
       flex-shrink: 0;
+      border: 1px solid var(--color-border-light);
     }
   }
 }
