@@ -3,7 +3,7 @@
 
 module MetaTokenVerifyConcern
   def verify
-    service = self.is_a?(Webhooks::WhatsappController) ? 'whatsapp' : 'instagram'
+    service = is_a?(Webhooks::WhatsappController) ? 'whatsapp' : 'instagram'
 
     if valid_token?(params['hub.verify_token'], service)
       Rails.logger.info("#{service.capitalize} webhook verified")
@@ -16,10 +16,10 @@ module MetaTokenVerifyConcern
   private
 
   def valid_token?(token, service)
-    if service == 'whatsapp'
-      token == GlobalConfigService.load('WHATSAPP_VERIFY_TOKEN', '')
-    else
-      token == GlobalConfigService.load('IG_VERIFY_TOKEN', '')
-    end
+    token == if service == 'whatsapp'
+               GlobalConfigService.load('WHATSAPP_VERIFY_TOKEN', '')
+             else
+               GlobalConfigService.load('IG_VERIFY_TOKEN', '')
+             end
   end
 end

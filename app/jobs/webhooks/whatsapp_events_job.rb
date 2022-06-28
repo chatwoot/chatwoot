@@ -7,7 +7,6 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
     return unless channel
 
-
     if channel.provider == 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params['whatsapp'].with_indifferent_access).perform
     else

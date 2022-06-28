@@ -5,7 +5,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService
   pattr_initialize [:inbox!, :params!]
 
   def perform
-    @processed_params = params[:entry].first["changes"].first["value"] 
+    @processed_params = params[:entry].first['changes'].first['value']
     set_contact
     return unless @contact
 
