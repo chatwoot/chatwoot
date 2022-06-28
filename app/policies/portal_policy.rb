@@ -1,6 +1,6 @@
 class PortalPolicy < ApplicationPolicy
   def index?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || @account.users.include?(@user)
   end
 
   def update?
@@ -8,10 +8,10 @@ class PortalPolicy < ApplicationPolicy
   end
 
   def show?
-    @account_user.administrator? || is_portal_member?
+    @account_user.administrator? || portal_member?
   end
 
-   def edit?
+  def edit?
     @account_user.administrator?
   end
 
@@ -29,7 +29,7 @@ class PortalPolicy < ApplicationPolicy
 
   private
 
-  def is_portal_member?
-    @portal.members.include?(@account_user)
+  def portal_member?
+    @record.first.members.include?(@user)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_27_135753) do
+ActiveRecord::Schema.define(version: 2022_06_28_124837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -126,9 +126,8 @@ ActiveRecord::Schema.define(version: 2022_06_27_135753) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
-    t.integer "associated_article_id"
-    t.bigint "associated_article_id_id"
-    t.index ["associated_article_id_id"], name: "index_articles_on_associated_article_id_id"
+    t.bigint "associated_article_id"
+    t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
   end
 
@@ -150,8 +149,8 @@ ActiveRecord::Schema.define(version: 2022_06_27_135753) do
     t.string "name", null: false
     t.text "description"
     t.string "event_name", null: false
-    t.jsonb "conditions", default: "[]", null: false
-    t.jsonb "actions", default: "[]", null: false
+    t.jsonb "conditions", default: "{}", null: false
+    t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
@@ -439,7 +438,7 @@ ActiveRecord::Schema.define(version: 2022_06_27_135753) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -666,6 +665,15 @@ ActiveRecord::Schema.define(version: 2022_06_27_135753) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "portal_members", force: :cascade do |t|
+    t.bigint "portal_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
+    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
+  end
+
   create_table "portals", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "name", null: false
@@ -839,7 +847,7 @@ ActiveRecord::Schema.define(version: 2022_06_27_135753) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
-  add_foreign_key "articles", "articles", column: "associated_article_id_id"
+  add_foreign_key "articles", "articles", column: "associated_article_id"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade

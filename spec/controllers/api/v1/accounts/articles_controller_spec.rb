@@ -7,6 +7,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
 
+  before { create(:portal_member, user: agent, portal: portal) }
+
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -33,6 +35,58 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql('MyTitle')
+      end
+
+      it 'associate to the root article' do
+        root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
+        parent_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+                                          associated_article_id: root_article.id)
+
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'MyTitle',
+            content: 'This is my content.',
+            status: :published,
+            author_id: agent.id,
+            associated_article_id: parent_article.id
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+             params: article_params,
+             headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload']['title']).to eql('MyTitle')
+
+        category = Article.find(json_response['payload']['id'])
+        expect(category.associated_article_id).to eql(root_article.id)
+      end
+
+      it 'associate to the current parent article' do
+        parent_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
+
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'MyTitle',
+            content: 'This is my content.',
+            status: :published,
+            author_id: agent.id,
+            associated_article_id: parent_article.id
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+             params: article_params,
+             headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload']['title']).to eql('MyTitle')
+
+        category = Article.find(json_response['payload']['id'])
+        expect(category.associated_article_id).to eql(parent_article.id)
       end
     end
   end

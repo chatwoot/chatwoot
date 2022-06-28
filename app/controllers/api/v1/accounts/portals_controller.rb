@@ -8,9 +8,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def add_members
     agents = Current.account.agents.where(id: portal_member_params[:member_ids])
-    if @portal.members << agents
-      # sens email notification to agents for this
-    end
+    @portal.members << agents
   end
 
   def show; end
@@ -45,8 +43,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def portal_member_params
-    params.require(:portal).permit(
-      :account_id, :member_ids
-    )
+    params.require(:portal).permit(:account_id, member_ids: [])
   end
 end

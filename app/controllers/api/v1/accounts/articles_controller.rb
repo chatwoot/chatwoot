@@ -10,6 +10,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def create
     @article = @portal.articles.create!(article_params)
+    @article.associate_root_article(article_params[:associated_article_id])
+    render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 
   def edit; end
@@ -37,7 +39,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def article_params
     params.require(:article).permit(
-      :title, :content, :description, :position, :category_id, :author_id
+      :title, :content, :description, :position, :category_id, :author_id, :associated_article_id
     )
   end
 

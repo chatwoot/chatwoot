@@ -9,8 +9,10 @@ json.slug portal.slug
 json.archived portal.archived
 json.config portal.config
 
-if portal.members.any?
-  json.array! portal.members do |member|
-    json.partial! 'api/v1/models/agent.json.jbuilder', resource: member
+json.portal_members do
+  if portal.members.any?
+    json.array! portal.members.each do |member|
+      json.partial! 'api/v1/models/agent.json.jbuilder', resource: member
+    end
   end
 end
