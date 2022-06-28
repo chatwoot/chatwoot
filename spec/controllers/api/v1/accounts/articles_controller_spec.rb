@@ -186,6 +186,24 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['title']).to eq(article2.title)
         expect(json_response['payload']['id']).to eq(article2.id)
       end
+
+      it 'get associated articles' do
+        root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
+        child_article_1 = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+                                          associated_article_id: root_article.id)
+        child_article_2 = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+                                          associated_article_id: root_article.id)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",
+            headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+
+        expect(json_response['payload']['associated_articles'].length).to eq(2)
+        expect(json_response['payload']['associated_articles'][0]['id']).to eq(child_article_1.id)
+        expect(json_response['payload']['associated_articles'][1]['id']).to eq(child_article_2.id)
+        expect(json_response['payload']['id']).to eq(root_article.id)
+      end
     end
   end
 end
