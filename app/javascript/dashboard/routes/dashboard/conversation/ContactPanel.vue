@@ -53,7 +53,7 @@
               />
             </accordion-item>
           </div>
-          <div v-else-if="element.name === 'contact_attributes'">
+          <!--<div v-else-if="element.name === 'contact_attributes'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
               :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
@@ -91,7 +91,7 @@
                 :conversation-id="conversationId"
               />
             </accordion-item>
-          </div>
+          </div>-->
         </div>
       </transition-group>
     </draggable>
@@ -102,24 +102,24 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
-import ContactConversations from './ContactConversations.vue';
+// import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 
 import ContactInfo from './contact/ContactInfo';
 import ConversationInfo from './ConversationInfo';
-import CustomAttributes from './customAttributes/CustomAttributes.vue';
-import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
+// import CustomAttributes from './customAttributes/CustomAttributes.vue';
+// import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
     AccordionItem,
-    ContactConversations,
+    // ContactConversations,
     ContactInfo,
     ConversationInfo,
-    CustomAttributes,
-    CustomAttributeSelector,
+    // CustomAttributes,
+    // CustomAttributeSelector,
     ConversationAction,
     draggable,
   },
