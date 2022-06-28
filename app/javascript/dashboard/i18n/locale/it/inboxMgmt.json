@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "Crea casella",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Non siamo stati in grado di creare un canale del sito web, si prega di riprovare"
         }
       },
       "TWILIO": {
@@ -342,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Impostazioni della casella, aggiornate con successo",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assegnazione automatica aggiornata correttamente",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni della casella. Riprova più tardi."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Abilitato",
