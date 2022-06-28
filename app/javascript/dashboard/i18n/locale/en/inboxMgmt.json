@@ -212,6 +212,11 @@
           "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
           "ERROR": "Please enter a valid value."
         },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
+        },
         "API_KEY": {
           "LABEL": "API key",
           "SUBTITLE": "Configure the WhatsApp API key.",

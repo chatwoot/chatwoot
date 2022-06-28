@@ -50,6 +50,25 @@
     </div>
 
     <div class="medium-8 columns">
+      <label :class="{ error: $v.businessAccountId.$error }">
+        <span>
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.BUSINESS_ACCOUNT_ID.LABEL') }}
+        </span>
+        <input
+          v-model.trim="businessAccountId"
+          type="text"
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WHATSAPP.BUSINESS_ACCOUNT_ID.PLACEHOLDER')
+          "
+          @blur="$v.businessAccountId.$touch"
+        />
+        <span v-if="$v.businessAccountId.$error" class="message">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.BUSINESS_ACCOUNT_ID.ERROR') }}
+        </span>
+      </label>
+    </div>
+
+    <div class="medium-8 columns">
       <label :class="{ error: $v.apiKey.$error }">
         <span>
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.LABEL') }}
@@ -91,6 +110,7 @@ export default {
       phoneNumber: '',
       apiKey: '',
       phoneNumberId: '',
+      businessAccountId: '',
     };
   },
   computed: {
@@ -101,6 +121,7 @@ export default {
     phoneNumber: { required, shouldStartWithPlusSign },
     apiKey: { required },
     phoneNumberId: { required },
+    businessAccountId: { required },
   },
   methods: {
     async createChannel() {
@@ -121,6 +142,7 @@ export default {
               provider_config: {
                 api_key: this.apiKey,
                 phone_number_id: this.phoneNumberId,
+                business_account_id: this.businessAccountId,
               },
             },
           }
