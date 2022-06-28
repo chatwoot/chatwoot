@@ -159,9 +159,7 @@ Rails.application.routes.draw do
             member do
               post :archive
             end
-            resources :categories do
-              resources :folders
-            end
+            resources :categories
             resources :articles
           end
         end
