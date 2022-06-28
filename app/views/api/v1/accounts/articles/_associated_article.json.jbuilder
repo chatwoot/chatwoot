@@ -19,11 +19,3 @@ if article.author.present?
     json.partial! 'api/v1/models/agent.json.jbuilder', resource: article.author
   end
 end
-
-json.associated_articles do
-  if article.associated_articles.any?
-    json.array! article.associated_articles.each do |associated_article|
-      json.partial! 'api/v1/accounts/articles/associated_article.json.jbuilder', article: associated_article
-    end
-  end
-end
