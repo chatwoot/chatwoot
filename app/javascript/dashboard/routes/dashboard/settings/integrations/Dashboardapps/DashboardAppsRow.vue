@@ -1,12 +1,7 @@
 <template>
   <tr>
     <td>{{ app.title }}</td>
-    <td>
-      {{ app.content[0].url }}
-      <span v-if="app.content.length > 1">
-        (+{{ app.content.length - 1 }})
-      </span>
-    </td>
+    <td>{{ app.content[0].url }}</td>
     <td class="button-wrapper">
       <woot-button
         v-tooltip.top="
