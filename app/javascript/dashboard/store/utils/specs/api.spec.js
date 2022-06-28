@@ -1,4 +1,8 @@
-import { getLoadingStatus, setLoadingStatus } from '../api';
+import {
+  getLoadingStatus,
+  parseAPIErrorResponse,
+  setLoadingStatus,
+} from '../api';
 
 describe('#getLoadingStatus', () => {
   it('returns correct status', () => {
@@ -11,5 +15,25 @@ describe('#setLoadingStatus', () => {
     const state = { fetchAPIloadingStatus: true };
     setLoadingStatus(state, false);
     expect(state.fetchAPIloadingStatus).toBe(false);
+  });
+});
+
+describe('#parseAPIErrorResponse', () => {
+  it('returns correct values', () => {
+    expect(
+      parseAPIErrorResponse({
+        response: { data: { message: 'Error Message [message]' } },
+      })
+    ).toBe('Error Message [message]');
+
+    expect(
+      parseAPIErrorResponse({
+        response: { data: { error: 'Error Message [error]' } },
+      })
+    ).toBe('Error Message [error]');
+
+    expect(parseAPIErrorResponse('Error: 422 Failed')).toBe(
+      'Error: 422 Failed'
+    );
   });
 });

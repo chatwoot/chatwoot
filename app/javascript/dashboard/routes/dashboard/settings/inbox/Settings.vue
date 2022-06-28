@@ -294,7 +294,7 @@
           type="submit"
           :disabled="$v.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
         <woot-submit-button
@@ -302,7 +302,7 @@
           type="submit"
           :disabled="$v.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
       </settings-section>
@@ -326,7 +326,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { shouldBeUrl, isValidName } from 'shared/helpers/Validators';
+import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
@@ -542,7 +542,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       }
     },
     handleImageUpload({ file, url }) {
@@ -571,7 +573,7 @@ export default {
     webhookUrl: {
       shouldBeUrl,
     },
-    selectedInboxName: { isValidName },
+    selectedInboxName: {},
   },
 };
 </script>
