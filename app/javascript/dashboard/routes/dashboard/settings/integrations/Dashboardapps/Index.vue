@@ -32,44 +32,14 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="app in records" :key="app.id">
-              <td>{{ app.title }}</td>
-              <td>{{ app.content[0].type }}</td>
-              <td>
-                {{ app.content[0].url }}
-                <span v-if="app.content.length > 1">
-                  (+{{ app.content.length - 1 }})
-                </span>
-              </td>
-              <td class="button-wrapper">
-                <woot-button
-                  v-tooltip.top="
-                    $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')
-                  "
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
-                  :is-loading="loading[app.id]"
-                  icon="edit"
-                  @click="editApp(app)"
-                />
-                <woot-button
-                  v-tooltip.top="
-                    $t(
-                      'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.DELETE_TOOLTIP'
-                    )
-                  "
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  :is-loading="loading[app.id]"
-                  @click="openDeletePopup(app)"
-                />
-              </td>
-            </tr>
+            <dashboard-apps-row
+              v-for="(dashboardAppItem, index) in records"
+              :key="dashboardAppItem.id"
+              :index="index"
+              :app="dashboardAppItem"
+              @edit="editApp"
+              @delete="openDeletePopup"
+            />
           </tbody>
         </table>
       </div>
@@ -102,26 +72,22 @@
         })
       "
       :confirm-text="
-        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_YES', {
-          appName: selectedApp.title,
-        })
+        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_YES')
       "
-      :reject-text="
-        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_NO', {
-          appName: selectedApp.title,
-        })
-      "
+      :reject-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_NO')"
     />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import DashboardAppModal from './DashboardAppModal.vue';
+import DashboardAppsRow from './DashboardAppsRow.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 export default {
   components: {
     DashboardAppModal,
+    DashboardAppsRow,
   },
   mixins: [alertMixin, globalConfigMixin],
   data() {
@@ -155,6 +121,7 @@ export default {
     },
     editApp(app) {
       this.mode = 'UPDATE';
+      this.loading[app.id] = true;
       this.showDashboardAppPopup = true;
       this.selectedApp = app;
     },

@@ -86,48 +86,47 @@
       "BUTTON_TEXT": "Connect"
     },
     "DASHBOARD_APPS": {
-      "HEADER_BTN_TXT": "Add new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b> </p> <p>Dashboard apps allow you to create custom pages(apps) right inside your conversations page in chatwoot dashboard. Chatwoot sends the current conversation context(a JSON payload) which contains the user datails and conversation as a window event, which you can use to create your own pages.</p><p>You can read more about dashboard apps here and the demo here in the <a href='#'>docs</a></p>",
+      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "LIST": {
-        "404": "There are no dashboard apps configured yet",
+        "404": "There are no dashboard apps configured on this account  yet",
         "LOADING": "Fetching dashboard apps",
         "TABLE_HEADER": [
           "Name",
-          "Type",
           "URL"
         ],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
       "FORM": {
-        "TITLE_LABEL": "Dashboard app name",
+        "TITLE_LABEL": "Name",
         "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "App name required",
-        "URL_LABEL": "Iframe url",
-        "URL_PLACEHOLDER": "Enter your app url",
-        "URL_ERROR": "Valid URL required"
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "URL_ERROR": "A valid URL is required"
       },
       "CREATE": {
         "HEADER": "Add new dashboard app",
         "FORM_SUBMIT": "Submit",
         "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured succesfully",
-        "API_ERROR": "Could not create app, Please try again later"
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "We could not create an app. Please try again later"
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
         "FORM_SUBMIT": "Update",
         "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated succesfully",
-        "API_ERROR": "Could not update app, Please try again later"
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "We couldn't update the app. Please try again later"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes Delete %{appName}",
-        "CONFIRM_NO": "No Keep %{appName}",
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete %{appName}",
-        "API_SUCCESS": "Dashboard app deleted succesfully",
-        "API_ERROR": "Could not delete app, Please try again later"
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "Are you sure to delete the app - %{appName}",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "We could not delete the app. Please try again later"
       }
     }
   }
