@@ -21,8 +21,12 @@
             <integration
               integration-id="dashboard-apps"
               integration-logo="dashboard-apps.svg"
-              integration-name="Dashboard apps"
-              integration-description="Dashboard apps lets you add custom applications right into chatwoot dashboard, using the conversation context that chatwoot provides. You can read more about it in the documentation."
+              :integration-name="
+                $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')
+              "
+              :integration-description="
+                $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')
+              "
               integration-enabled
               integration-action="/dashboard-apps"
             />
