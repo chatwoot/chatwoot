@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
       "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used in the integration with the 360Dialog WhatsApp channel.",
+      "WHATSAPP_SECTION_TITLE": "مفتاح API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
