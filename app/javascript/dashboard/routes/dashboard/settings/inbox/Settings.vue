@@ -413,7 +413,8 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAnEmailChannel
+        this.isAnEmailChannel ||
+        this.isAWhatsappChannel
       ) {
         return [
           ...visibleToAllChannelTabs,
