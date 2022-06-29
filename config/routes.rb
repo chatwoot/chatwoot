@@ -157,7 +157,7 @@ Rails.application.routes.draw do
 
           resources :portals do
             member do
-              post :archive
+              patch :archive
               put :add_members
             end
             resources :categories
@@ -258,9 +258,11 @@ Rails.application.routes.draw do
             end
           end
         end
-        resources :portal, only: [:index, :show] do
-          resources :categories, only: [:index, :show] do
-            resources :articles, only: [:index, :show]
+        resources :portals, only: [:index, :show], param: :slug do
+          scope module: :portals do
+            resources :categories, only: [:index, :show], param: :slug do
+              resources :articles, only: [:index, :show], param: :slug
+            end
           end
         end
         resources :csat_survey, only: [:show, :update]

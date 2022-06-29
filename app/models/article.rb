@@ -53,7 +53,7 @@ class Article < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true
 
-  enum status: { draft: 0, published: 1 }
+  enum status: { draft: 0, published: 1, archived: 2 }
 
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
@@ -98,6 +98,10 @@ class Article < ApplicationRecord
   # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
     article.associated_article_id || article.id
+  end
+
+  def draft!
+    update(status: :draft)
   end
 
   private
