@@ -80,9 +80,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService
   def attach_files
     return if %w[text button interactive].include?(message_type)
 
-    attachment_payload = @processed_params[:messages].first[message_type.to_sym]
-    attachment_file = Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
-
+    attachment_file = download_attachment_file
     @message.content ||= attachment_payload[:caption]
     @message.attachments.new(
       account_id: @message.account_id,
@@ -93,6 +91,12 @@ class Whatsapp::IncomingMessageWhatsappCloudService
         content_type: attachment_file.content_type
       }
     )
+  end
+
+  def download_attachment_file
+    attachment_payload = @processed_params[:messages].first[message_type.to_sym]
+    url_response = HTTParty.get(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
+    Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
   end
 
   def message_type

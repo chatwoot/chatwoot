@@ -36,7 +36,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "#{phone_id_path}/media/#{media_id}"
+    "https://graph.facebook.com/v13.0/#{media_id}"
   end
 
   private
