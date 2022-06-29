@@ -258,6 +258,11 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :portal, only: [:index, :show] do
+          resources :categories, only: [:index, :show] do
+            resources :articles, only: [:index, :show]
+          end
+        end
         resources :csat_survey, only: [:show, :update]
       end
     end
