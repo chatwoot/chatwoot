@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "Προώθηση στο email",
       "FORWARD_EMAIL_SUB_TEXT": "Προώθηση των email σας στην ακόλουθη διεύθυνση email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Επιτρέψτε τα μηνύματα μετά την επίλυση της συνομιλίας",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Επιτρέψτε στους τελικούς χρήστες να στέλνουν μηνύματα ακόμη και μετά την επίλυση της συζήτησης."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Επιτρέψτε στους τελικούς χρήστες να στέλνουν μηνύματα ακόμη και μετά την επίλυση της συζήτησης.",
+      "WHATSAPP_SECTION_SUBHEADER": "Αυτό το κλειδί API χρησιμοποιείται στην ενσωμάτωση του καναλιού 360Dialog WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "Κλειδί API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Αυτόματο όριο ανάθεσης",
