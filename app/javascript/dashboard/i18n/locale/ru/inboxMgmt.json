@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
       "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
+      "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется при интеграции с каналом WhatsApp и 360Dialog.",
+      "WHATSAPP_SECTION_TITLE": "Ключ API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
