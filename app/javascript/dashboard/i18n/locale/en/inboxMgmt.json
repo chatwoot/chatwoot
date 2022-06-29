@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "Forward to Email",
       "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used in the integration with the 360Dialog WhatsApp channel.",
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT":{
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
