@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "Redirecționare către e-mail",
       "FORWARD_EMAIL_SUB_TEXT": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used in the integration with the 360Dialog WhatsApp channel.",
+      "WHATSAPP_SECTION_TITLE": "Cheie API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
