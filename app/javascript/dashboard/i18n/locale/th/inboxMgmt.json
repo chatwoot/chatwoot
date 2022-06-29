@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "ส่งต่อไปยังอีเมล",
       "FORWARD_EMAIL_SUB_TEXT": "เริ่มส่งต่ออีเมลของคุณไปยังที่อยู่ตามนี้",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "อนุญาตให้รับข้อความหลังจากจบการสนทนาแล้ว",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "อนุญาตให้ลูกค้าส่งข้อความหลังจากจบการสนทนาแล้ว"
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "อนุญาตให้ลูกค้าส่งข้อความหลังจากจบการสนทนาแล้ว",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used in the integration with the 360Dialog WhatsApp channel.",
+      "WHATSAPP_SECTION_TITLE": "API Key"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
