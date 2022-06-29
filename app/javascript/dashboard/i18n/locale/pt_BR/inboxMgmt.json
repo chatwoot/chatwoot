@@ -423,7 +423,9 @@
       "FORWARD_EMAIL_TITLE": "Encaminhar para o E-mail",
       "FORWARD_EMAIL_SUB_TEXT": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que a conversa for resolvida."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que a conversa for resolvida.",
+      "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada na integração com o canal do WhatsApp 360Dialog.",
+      "WHATSAPP_SECTION_TITLE": "Chave API"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Limite de atribuição automática",
