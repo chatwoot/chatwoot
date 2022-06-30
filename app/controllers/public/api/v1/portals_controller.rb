@@ -1,9 +1,5 @@
 class Public::Api::V1::PortalsController < PublicController
-  before_action :set_portal, except: [:index]
-
-  def index
-    @portals = Portal.all
-  end
+  before_action :set_portal
 
   def show; end
 

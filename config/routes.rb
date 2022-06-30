@@ -258,7 +258,7 @@ Rails.application.routes.draw do
             end
           end
         end
-        resources :portals, only: [:index, :show], param: :slug do
+        resources :portals, only: [:show], param: :slug do
           scope module: :portals do
             resources :categories, only: [:index, :show], param: :slug do
               resources :articles, only: [:index, :show], param: :slug

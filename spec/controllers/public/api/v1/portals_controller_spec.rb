@@ -18,14 +18,4 @@ RSpec.describe 'Public Portals API', type: :request do
       expect(json_response['slug']).to eql 'test-portal'
     end
   end
-
-  describe 'GET /public/api/v1/portals' do
-    it 'All portals available at the endpoint belonging to the portal' do
-      get '/public/api/v1/portals'
-
-      expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-      expect(json_response.length).to be 3
-    end
-  end
 end
