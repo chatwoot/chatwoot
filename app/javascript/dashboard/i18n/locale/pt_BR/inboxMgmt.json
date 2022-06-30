@@ -197,7 +197,7 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "360_DIALOG": "360Diálogo"
+          "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Nome da Caixa de Entrada",
@@ -424,7 +424,7 @@
       "FORWARD_EMAIL_SUB_TEXT": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que a conversa for resolvida.",
-      "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada na integração com o canal do WhatsApp 360Dialog.",
+      "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada na integração do canal WhatsApp com a 360Dialog.",
       "WHATSAPP_SECTION_TITLE": "Chave API"
     },
     "AUTO_ASSIGNMENT": {
