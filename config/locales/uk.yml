@@ -39,6 +39,8 @@ uk:
         host_unreachable_error: Хост недоступний. Будь-ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
         connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
         connection_closed_error: З'єднання закрито.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Період звіту %{since} до %{until}
     agent_csv:
