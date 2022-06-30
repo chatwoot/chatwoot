@@ -424,7 +424,7 @@
       "FORWARD_EMAIL_SUB_TEXT": "Inizia a inoltrare le tue email al seguente indirizzo email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo la risoluzione della conversazione.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used in the integration with the 360Dialog WhatsApp channel.",
+      "WHATSAPP_SECTION_SUBHEADER": "Questa chiave API viene utilizzata nell'integrazione con il canale 360Dialog WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Chiave API"
     },
     "AUTO_ASSIGNMENT": {
