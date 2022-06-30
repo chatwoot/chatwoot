@@ -39,6 +39,8 @@ es:
         host_unreachable_error: Host inaccesible. Verifique la dirección IMAP, el puerto IMAP e intente nuevamente.
         connection_timed_out_error: Se agotó el tiempo de conexión para %{address}:%{port}
         connection_closed_error: Conexión cerrada.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     agent_csv:
