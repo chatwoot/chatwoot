@@ -40,7 +40,7 @@ de:
         connection_timed_out_error: Zeitüberschreitung der Verbindung für %{address}:%{port}
         connection_closed_error: Verbindung geschlossen.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
