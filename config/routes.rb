@@ -159,9 +159,7 @@ Rails.application.routes.draw do
             member do
               post :archive
             end
-            resources :categories do
-              resources :folders
-            end
+            resources :categories
             resources :articles
           end
         end
@@ -199,6 +197,7 @@ Rails.application.routes.draw do
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
+            patch :set_user
           end
         end
         resources :inbox_members, only: [:index]

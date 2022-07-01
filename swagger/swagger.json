@@ -2157,7 +2157,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/automation_rule_definitions": {
+    "/api/v1/accounts/{account_id}/automation_rules": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
@@ -2238,7 +2238,7 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/automation_rule_definitions/{id}": {
+    "/api/v1/accounts/{account_id}/automation_rules/{id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"

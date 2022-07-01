@@ -50,7 +50,7 @@
               :value="label.title"
               class="label-checkbox"
             />
-            <span class="label-title">{{ label.title }}</span>
+            <span class="label-title text-truncate">{{ label.title }}</span>
             <span
               class="label-pill"
               :style="{ backgroundColor: label.color }"
@@ -249,6 +249,7 @@ ul {
 
     .label-title {
       flex-grow: 1;
+      width: 100%;
     }
 
     .label-pill {
@@ -256,6 +257,8 @@ ul {
       border-radius: var(--border-radius-medium);
       height: var(--space-slab);
       width: var(--space-slab);
+      flex-shrink: 0;
+      border: 1px solid var(--color-border-light);
     }
   }
 }
