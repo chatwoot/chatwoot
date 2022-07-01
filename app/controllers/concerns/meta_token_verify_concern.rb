@@ -4,22 +4,17 @@
 module MetaTokenVerifyConcern
   def verify
     service = is_a?(Webhooks::WhatsappController) ? 'whatsapp' : 'instagram'
-
-    if valid_token?(params['hub.verify_token'], service)
+    if valid_token?(params['hub.verify_token'])
       Rails.logger.info("#{service.capitalize} webhook verified")
       render json: params['hub.challenge']
     else
-      render json: { error: 'Error; wrong verify token', status: 403 }
+      render status: :unauthorized, json: { error: 'Error; wrong verify token' }
     end
   end
 
   private
 
-  def valid_token?(token, service)
-    token == if service == 'whatsapp'
-               GlobalConfigService.load('WHATSAPP_VERIFY_TOKEN', '')
-             else
-               GlobalConfigService.load('IG_VERIFY_TOKEN', '')
-             end
+  def valid_token?(_token)
+    raise 'Overwrite this method your controller'
   end
 end

@@ -7,9 +7,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
     case channel.provider
     when 'whatsapp_cloud'
-      Whatsapp::IncomingMessageWhatsappCloudService.new(channel: channel, params: params).perform
+      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
     else
-      Whatsapp::IncomingMessageWhatsappService.new(channel: channel, params: params).perform
+      Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
   end
 

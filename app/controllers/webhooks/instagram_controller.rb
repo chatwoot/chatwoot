@@ -11,4 +11,10 @@ class Webhooks::InstagramController < ActionController::API
       head :unprocessable_entity
     end
   end
+
+  private
+
+  def valid_token?(token)
+    token == GlobalConfigService.load('IG_VERIFY_TOKEN', '')
+  end
 end

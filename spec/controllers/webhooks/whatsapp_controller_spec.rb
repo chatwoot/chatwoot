@@ -1,24 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe 'Webhooks::WhatsappController', type: :request do
+  let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false) }
+
   describe 'GET /webhooks/verify' do
-    it 'returns 404 when valid params are not present' do
-      get '/webhooks/instagram/verify'
-      expect(response).to have_http_status(:not_found)
+    it 'returns 401 when valid params are not present' do
+      get "/webhooks/whatsapp/#{channel.phone_number}"
+      expect(response).to have_http_status(:unauthorized)
     end
 
-    it 'returns 404 when invalid params' do
-      with_modified_env WHATSAPP_VERIFY_TOKEN: '123456' do
-        get '/webhooks/instagram/verify', params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => 'invalid' }
-        expect(response).to have_http_status(:not_found)
-      end
+    it 'returns 401 when invalid params' do
+      get "/webhooks/whatsapp/#{channel.phone_number}",
+          params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => 'invalid' }
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'returns challenge when valid params' do
-      with_modified_env WHATSAPP_VERIFY_TOKEN: '123456' do
-        get '/webhooks/instagram/verify', params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => '123456' }
-        expect(response.body).to include '123456'
-      end
+      get "/webhooks/whatsapp/#{channel.phone_number}",
+          params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => channel.provider_config['webhook_verify_token'] }
+      expect(response.body).to include '123456'
     end
   end
 

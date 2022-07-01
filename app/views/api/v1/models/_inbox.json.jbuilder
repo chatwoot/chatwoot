@@ -83,6 +83,7 @@ end
 
 ### WhatsApp Channel
 if resource.whatsapp?
+  json.provider resource.channel.try(:provider)
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config)
 end

@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Webhooks::InstagramController', type: :request do
   describe 'GET /webhooks/verify' do
-    it 'returns 404 when valid params are not present' do
+    it 'returns 401 when valid params are not present' do
       get '/webhooks/instagram/verify'
       expect(response).to have_http_status(:not_found)
     end
 
-    it 'returns 404 when invalid params' do
+    it 'returns 401 when invalid params' do
       with_modified_env IG_VERIFY_TOKEN: '123456' do
         get '/webhooks/instagram/verify', params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => 'invalid' }
         expect(response).to have_http_status(:not_found)

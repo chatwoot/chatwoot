@@ -42,7 +42,8 @@ FactoryBot.define do
       # since factory already has the required message templates, we just need to bypass it getting updated
       channel_whatsapp.define_singleton_method(:sync_templates) { return } unless options.sync_templates
       if channel_whatsapp.provider == 'whatsapp_cloud'
-        channel_whatsapp.provider_config = { 'api_key' => 'test_key', 'phone_number_id' => '123456789', 'business_account_id' => '123456789' }
+        channel_whatsapp.provider_config = { 'api_key' => 'test_key', 'phone_number_id' => '123456789', 'business_account_id' => '123456789',
+                                             'webhook_verify_token': 'test_token' }
       end
     end
 
