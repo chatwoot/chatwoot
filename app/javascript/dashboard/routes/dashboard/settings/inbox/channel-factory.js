@@ -2,7 +2,7 @@ import Facebook from './channels/Facebook';
 // import Website from './channels/Website';
 // import Twitter from './channels/Twitter';
 // import Api from './channels/Api';
-// import Email from './channels/Email';
+import Email from './channels/Email';
 // import Sms from './channels/Sms';
 // import Whatsapp from './channels/Whatsapp';
 // import Line from './channels/Line';
@@ -13,7 +13,7 @@ const channelViewList = {
   // website: Website,
   // twitter: Twitter,
   // api: Api,
-  // email: Email,
+  email: Email,
   // sms: Sms,
   // whatsapp: Whatsapp,
   // line: Line,

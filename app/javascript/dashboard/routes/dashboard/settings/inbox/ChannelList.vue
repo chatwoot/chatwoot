@@ -51,7 +51,7 @@ export default {
         // { key: 'twitter', name: 'Twitter' },
         // { key: 'whatsapp', name: 'WhatsApp' },
         // { key: 'sms', name: 'SMS' },
-        // { key: 'email', name: 'Email' },
+        { key: 'email', name: 'Email' },
         // {
         //   key: 'api',
         //   name: apiChannelName || 'API',
