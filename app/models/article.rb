@@ -2,41 +2,45 @@
 #
 # Table name: articles
 #
-#  id                :bigint           not null, primary key
-#  content           :text
-#  description       :text
-#  status            :integer
-#  title             :string
-#  views             :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :integer          not null
-#  author_id         :bigint
-#  category_id       :integer
-#  folder_id         :integer
-#  linked_article_id :bigint
-#  portal_id         :integer          not null
+#  id                    :bigint           not null, primary key
+#  content               :text
+#  description           :text
+#  status                :integer
+#  title                 :string
+#  views                 :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#  associated_article_id :bigint
+#  author_id             :bigint
+#  category_id           :integer
+#  folder_id             :integer
+#  portal_id             :integer          not null
 #
 # Indexes
 #
-#  index_articles_on_author_id          (author_id)
-#  index_articles_on_linked_article_id  (linked_article_id)
+#  index_articles_on_associated_article_id  (associated_article_id)
+#  index_articles_on_author_id              (author_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (associated_article_id => articles.id)
 #  fk_rails_...  (author_id => users.id)
-#  fk_rails_...  (linked_article_id => articles.id)
 #
 class Article < ApplicationRecord
   include PgSearch::Model
 
-  has_many :linked_articles,
+  has_many :associated_articles,
            class_name: :Article,
-           foreign_key: :linked_article_id,
+           foreign_key: :associated_article_id,
            dependent: :nullify,
-           inverse_of: 'linked_article'
+           inverse_of: 'root_article'
 
-  belongs_to :linked_article, class_name: :Article, optional: true
+  belongs_to :root_article,
+             class_name: :Article,
+             foreign_key: :associated_article_id,
+             inverse_of: :associated_articles,
+             optional: true
   belongs_to :account
   belongs_to :category
   belongs_to :portal
@@ -81,19 +85,19 @@ class Article < ApplicationRecord
     params[:page] || 1
   end
 
-  def link_root_article(linked_article_id)
-    article = portal.articles.find(linked_article_id) if linked_article_id.present?
+  def associate_root_article(associated_article_id)
+    article = portal.articles.find(associated_article_id) if associated_article_id.present?
 
     return if article.nil?
 
     root_article_id = self.class.find_root_article_id(article)
 
-    update(linked_article_id: root_article_id) if root_article_id.present?
+    update(associated_article_id: root_article_id) if root_article_id.present?
   end
 
   # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
-    article.linked_article.try(:id) || article.id
+    article.associated_article_id || article.id
   end
 
   private
