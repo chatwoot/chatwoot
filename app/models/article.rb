@@ -91,7 +91,7 @@ class Article < ApplicationRecord
     update(linked_article_id: root_article_id) if root_article_id.present?
   end
 
-  # Mkes sure we always associate the parent's associated id to avoid the deeper associations od articles.
+  # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
     article.linked_article.try(:id) || article.id
   end
