@@ -42,16 +42,6 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
 
-  # Mount Action Cable outside main process or domain
-  # config.action_cable.mount_path = nil
-  # config.action_cable.url = 'wss://example.com/cable'
-
-  # to enable connecting to the API channel public APIs
-  config.action_cable.disable_request_forgery_protection = true
-  # if ENV['FRONTEND_URL'].present?
-  #   config.action_cable.allowed_request_origins = [ENV['FRONTEND_URL'], %r{https?://#{URI.parse(ENV['FRONTEND_URL']).host}(:[0-9]+)?}]
-  # end
-
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
 
@@ -113,18 +103,4 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
-
-  # font cors issue with CDN
-  # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
-  # ref: https://github.com/cyu/rack-cors
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '/packs/*', headers: :any, methods: [:get, :options]
-      resource '/audio/*', headers: :any, methods: [:get, :options]
-      if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
-        resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
-      end
-    end
-  end
 end
