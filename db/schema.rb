@@ -126,9 +126,9 @@ ActiveRecord::Schema.define(version: 2022_06_28_124837) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
-    t.bigint "associated_article_id"
-    t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
+    t.bigint "linked_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["linked_article_id"], name: "index_articles_on_linked_article_id"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -847,7 +847,7 @@ ActiveRecord::Schema.define(version: 2022_06_28_124837) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
-  add_foreign_key "articles", "articles", column: "associated_article_id"
+  add_foreign_key "articles", "articles", column: "linked_article_id"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
