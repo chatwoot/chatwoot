@@ -9,6 +9,8 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let!(:related_category_1) { create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1') }
   let!(:related_category_2) { create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2') }
 
+  before { create(:portal_member, user: agent, portal: portal) }
+
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -118,6 +120,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = JSON.parse(response.body)
+
         expect(json_response['message']).to eql("Slug can't be blank")
       end
     end
@@ -241,6 +244,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         category_count = Category.all.count
 
         category2 = create(:category, name: 'test_category_2', portal: portal, locale: 'es', slug: 'category_slug_2')
+
         expect(category2.id).not_to be nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
