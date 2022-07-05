@@ -39,4 +39,6 @@ class Portal < ApplicationRecord
   validates :slug, presence: true, uniqueness: true
 
   accepts_nested_attributes_for :members
+
+  scope :active, -> { where(archived: false) }
 end
