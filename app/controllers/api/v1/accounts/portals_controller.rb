@@ -26,6 +26,11 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def archive
+    @portal.update(archive: true)
+    head :ok
+  end
+
   private
 
   def fetch_portal
