@@ -80,6 +80,7 @@ RSpec.describe Article, type: :model do
 
         params = { query: 'title' }
         records = portal_1.articles.search(params)
+
         expect(records.count).to eq(4)
 
         params = { query: 'the content' }

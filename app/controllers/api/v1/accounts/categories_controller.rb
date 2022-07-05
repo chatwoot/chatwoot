@@ -1,5 +1,6 @@
 class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseController
   before_action :portal
+  before_action :check_authorization
   before_action :fetch_category, except: [:index, :create]
 
   def index
