@@ -146,6 +146,7 @@ $label-badge-size: var(--space-slab);
   height: $label-badge-size;
   min-width: $label-badge-size;
   margin-left: var(--space-smaller);
+  border: 1px solid var(--color-border-light);
 }
 
 .badge.secondary {

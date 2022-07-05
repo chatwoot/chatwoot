@@ -25,9 +25,20 @@ class Portal < ApplicationRecord
   has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
   has_many :articles, dependent: :destroy_async
-  has_many :users, through: :portals_members
+  has_many :portal_members,
+           class_name: :PortalMember,
+           dependent: :destroy_async
+  has_many :members,
+           through: :portal_members,
+           class_name: :User,
+           dependent: :nullify,
+           source: :user
 
   validates :account_id, presence: true
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
+
+  accepts_nested_attributes_for :members
+
+  scope :active, -> { where(archived: false) }
 end

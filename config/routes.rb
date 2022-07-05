@@ -157,11 +157,10 @@ Rails.application.routes.draw do
 
           resources :portals do
             member do
-              post :archive
+              patch :archive
+              put :add_members
             end
-            resources :categories do
-              resources :folders
-            end
+            resources :categories
             resources :articles
           end
         end
@@ -199,6 +198,7 @@ Rails.application.routes.draw do
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
+            patch :set_user
           end
         end
         resources :inbox_members, only: [:index]
@@ -255,6 +255,13 @@ Rails.application.routes.draw do
               resources :conversations, only: [:index, :create] do
                 resources :messages, only: [:index, :create, :update]
               end
+            end
+          end
+        end
+        resources :portals, only: [:show], param: :slug do
+          scope module: :portals do
+            resources :categories, only: [:index, :show], param: :slug do
+              resources :articles, only: [:index, :show], param: :slug
             end
           end
         end
