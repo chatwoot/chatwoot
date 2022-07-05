@@ -35,6 +35,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql('MyTitle')
+        expect(json_response['payload']['status']).to eql('draft')
       end
 
       it 'associate to the root article' do
@@ -100,10 +101,11 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'updates category' do
+      it 'updates article' do
         article_params = {
           article: {
             title: 'MyTitle2',
+            status: 'published',
             description: 'test_description'
           }
         }
@@ -116,6 +118,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
+        expect(json_response['payload']['status']).to eql(article_params[:article][:status])
       end
     end
   end
