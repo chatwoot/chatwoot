@@ -83,12 +83,11 @@ export default {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
-      setHeader('X-Auth-Token', window.authToken);
     } else {
-      setHeader('X-Auth-Token', window.authToken);
       this.fetchOldConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
@@ -253,7 +252,7 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contacts/update', message);
+          this.$store.dispatch('contacts/setUser', message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',
