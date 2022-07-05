@@ -477,6 +477,16 @@ RSpec.describe Conversation, type: :model do
       it 'returns true' do
         expect(conversation.can_reply?).to eq true
       end
+
+      it 'return true for facebook channels' do
+        stub_request(:post, /graph.facebook.com/)
+        facebook_channel = create(:channel_facebook_page)
+        facebook_inbox = create(:inbox, channel: facebook_channel, account: facebook_channel.account)
+        fb_conversation = create(:conversation, inbox: facebook_inbox, account: facebook_channel.account)
+
+        expect(fb_conversation.can_reply?).to eq true
+        expect(facebook_channel.messaging_window_enabled?).to eq false
+      end
     end
 
     describe 'on channels with 24 hour restriction' do
@@ -487,31 +497,6 @@ RSpec.describe Conversation, type: :model do
       let!(:facebook_channel) { create(:channel_facebook_page) }
       let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: facebook_channel.account) }
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
-
-      it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq true
-      end
-
-      it 'return false if last incoming message is outside of 24 hour window' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: Time.now - 25.hours
-        )
-        expect(conversation.can_reply?).to eq true
-      end
-
-      it 'return true if last incoming message is inside 24 hour window' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation
-        )
-        expect(conversation.can_reply?).to eq true
-      end
 
       context 'when instagram channel' do
         it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
@@ -637,22 +622,45 @@ RSpec.describe Conversation, type: :model do
       expect(records.last.id).to eq(conversation_2.id)
     end
 
-    it 'Sort conversations based on last_user_message_at' do
-      create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
-      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
-      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
-      create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
-      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
-      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+    context 'when sort on last_user_message_at' do
+      before do
+        create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
+        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+        create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
+        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+      end
 
-      records = described_class.last_user_message_at
+      # conversation_2 has last unanswered incoming message 6 days ago
+      # conversation_3 has last unanswered incoming message 2 days ago
+      # conversation_1 has incoming message 8 days ago but outgoing message on 7 days ago
+      # so we won't consider it to show it on top of the sort as it is answered/replied conversation
+      it 'Sort conversations with oldest unanswered incoming message first' do
+        conversation_with_message_count = described_class.joins(:messages).uniq.count
+        records = described_class.last_user_message_at
 
-      expect(records[0]['id']).to eq(conversation_2.id)
-      expect(records[1]['id']).to eq(conversation_3.id)
-      expect(records.pluck(:id)).not_to include(conversation_4.id)
+        expect(records.length).to eq(conversation_with_message_count)
+        expect(records[0]['id']).to eq(conversation_2.id)
+        expect(records[1]['id']).to eq(conversation_3.id)
+        expect(records[2]['id']).to eq(conversation_1.id)
+        expect(records.pluck(:id)).not_to include(conversation_4.id)
+      end
+
+      # Now we have no incoming message the sprt will happen on the created at
+      it 'Sort based on oldest message first when there are no incoming message' do
+        Message.where(message_type: :incoming).update(message_type: :template)
+        conversation_with_message_count = described_class.joins(:messages).uniq.count
+        records = described_class.last_user_message_at
+
+        expect(records.length).to eq(conversation_with_message_count)
+        expect(records[0]['id']).to eq(conversation_1.id)
+        expect(records[1]['id']).to eq(conversation_2.id)
+        expect(records[2]['id']).to eq(conversation_3.id)
+      end
     end
 
     context 'when last_activity_at updated by some actions' do
@@ -674,7 +682,7 @@ RSpec.describe Conversation, type: :model do
             account_id: conversation_1.account_id,
             inbox_id: conversation_1.inbox_id,
             message_type: :activity,
-            content: 'Conversation was marked resolved by system due to  days of inactivity'
+            content: 'Conversation was marked resolved by system due to days of inactivity'
           )
         end
         records = described_class.latest
