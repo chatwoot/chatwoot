@@ -28,7 +28,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def validate_provider_config
-    true
+    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    errors.add(:provider_config, 'Invalid Credentials') unless response.success?
   end
 
   def api_headers
