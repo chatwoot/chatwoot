@@ -477,6 +477,17 @@ RSpec.describe Conversation, type: :model do
       it 'returns true' do
         expect(conversation.can_reply?).to eq true
       end
+
+      it 'return true for facebook channels' do
+        stub_request(:post, /graph.facebook.com/)
+        
+        facebook_channel = create(:channel_facebook_page)
+        facebook_inbox = create(:inbox, channel: facebook_channel, account: facebook_channel.account)
+        fb_conversation = create(:conversation, inbox: facebook_inbox, account: facebook_channel.account)
+
+        expect(fb_conversation.can_reply?).to eq true
+        expect(facebook_channel.messaging_window_enabled?).to eq false
+      end
     end
 
     describe 'on channels with 24 hour restriction' do
@@ -487,31 +498,6 @@ RSpec.describe Conversation, type: :model do
       let!(:facebook_channel) { create(:channel_facebook_page) }
       let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: facebook_channel.account) }
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
-
-      it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq true
-      end
-
-      it 'return false if last incoming message is outside of 24 hour window' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation,
-          created_at: Time.now - 25.hours
-        )
-        expect(conversation.can_reply?).to eq true
-      end
-
-      it 'return true if last incoming message is inside 24 hour window' do
-        create(
-          :message,
-          account: conversation.account,
-          inbox: facebook_inbox,
-          conversation: conversation
-        )
-        expect(conversation.can_reply?).to eq true
-      end
 
       context 'when instagram channel' do
         it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
