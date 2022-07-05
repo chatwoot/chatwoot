@@ -480,7 +480,6 @@ RSpec.describe Conversation, type: :model do
 
       it 'return true for facebook channels' do
         stub_request(:post, /graph.facebook.com/)
-        
         facebook_channel = create(:channel_facebook_page)
         facebook_inbox = create(:inbox, channel: facebook_channel, account: facebook_channel.account)
         fb_conversation = create(:conversation, inbox: facebook_inbox, account: facebook_channel.account)
