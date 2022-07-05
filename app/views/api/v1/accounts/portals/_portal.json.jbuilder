@@ -8,3 +8,11 @@ json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
 json.config portal.config
+
+json.portal_members do
+  if portal.members.any?
+    json.array! portal.members.each do |member|
+      json.partial! 'api/v1/models/agent.json.jbuilder', resource: member
+    end
+  end
+end

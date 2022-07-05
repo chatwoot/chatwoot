@@ -356,6 +356,31 @@ describe AutomationRuleListener do
     end
   end
 
+  describe '#message_created event based on case in-sensitive filter' do
+    before do
+      automation_rule.update!(
+        event_name: 'message_created',
+        name: 'Call actions message created based on case in-sensitive filter',
+        description: 'Add labels, assign team after message created',
+        conditions: [{ 'values': ['KYC'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }]
+      )
+    end
+
+    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'kyc message') }
+    let!(:event) do
+      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
+    end
+
+    it 'triggers automation rule based on case in-sensitive filter' do
+      expect(conversation.labels).to eq([])
+      expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+      listener.message_created(event)
+      conversation.reload
+
+      expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
+    end
+  end
+
   describe '#message_created' do
     before do
       automation_rule.update!(

@@ -21,6 +21,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let!(:channel_email) { create(:channel_email, account: account) }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
+    let(:support_in_reply_to_mail) { create_inbound_email_from_fixture('support_in_reply_to.eml') }
     let(:described_subject) { described_class.receive support_mail }
     let(:serialized_attributes) do
       %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments subject
@@ -32,6 +33,17 @@ RSpec.describe SupportMailbox, type: :mailbox do
       # this email is hardcoded in the support.eml, that's why we are updating this
       channel_email.email = 'care@example.com'
       channel_email.save
+    end
+
+    describe 'covers email address format' do
+      before do
+        described_class.receive support_in_reply_to_mail
+      end
+
+      it 'creates contact with proper email address' do
+        expect(support_in_reply_to_mail.mail['reply_to'].try(:value)).to eq('Sony Mathew <sony@chatwoot.com>')
+        expect(conversation.contact.email).to eq('sony@chatwoot.com')
+      end
     end
 
     describe 'covers basic ticket creation' do

@@ -6,6 +6,7 @@
 #
 #  id                            :integer          not null, primary key
 #  allow_messages_after_resolved :boolean          default(TRUE)
+#  auto_assignment_config        :jsonb
 #  channel_type                  :string
 #  csat_survey_enabled           :boolean          default(FALSE)
 #  email_address                 :string
@@ -32,9 +33,13 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
 
+  # Not allowing characters:
   validates :name, presence: true
+  validates :name, if: :check_channel_type?, format: { with: %r{^^\b[^/\\<>@]*\b$}, multiline: true,
+                                                       message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
+  validate :ensure_valid_max_assignment_limit
 
   belongs_to :account
 
@@ -118,9 +123,23 @@ class Inbox < ApplicationRecord
     end
   end
 
+  def member_ids_with_assignment_capacity
+    members.ids
+  end
+
   private
+
+  def ensure_valid_max_assignment_limit
+    # overridden in enterprise/app/models/enterprise/inbox.rb
+  end
 
   def delete_round_robin_agents
     ::RoundRobin::ManageService.new(inbox: self).clear_queue
   end
+
+  def check_channel_type?
+    ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+  end
 end
+
+Inbox.prepend_mod_with('Inbox')

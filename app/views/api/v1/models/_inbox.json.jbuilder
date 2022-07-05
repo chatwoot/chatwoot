@@ -9,6 +9,7 @@ json.working_hours_enabled resource.working_hours_enabled
 json.enable_email_collect resource.enable_email_collect
 json.csat_survey_enabled resource.csat_survey_enabled
 json.enable_auto_assignment resource.enable_auto_assignment
+json.auto_assignment_config resource.auto_assignment_config
 json.out_of_office_message resource.out_of_office_message
 json.working_hours resource.weekly_schedule
 json.timezone resource.timezone
@@ -81,4 +82,7 @@ if resource.api?
 end
 
 ### WhatsApp Channel
-json.message_templates resource.channel.try(:message_templates) if resource.whatsapp?
+if resource.whatsapp?
+  json.message_templates resource.channel.try(:message_templates)
+  json.provider_config resource.channel.try(:provider_config)
+end
