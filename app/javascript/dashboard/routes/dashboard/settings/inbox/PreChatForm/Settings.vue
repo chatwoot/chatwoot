@@ -64,10 +64,9 @@
           </table>
         </div>
       </div>
-
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :loading="uiFlags.isUpdatingInbox"
+        :loading="uiFlags.isUpdating"
       />
     </form>
   </div>
