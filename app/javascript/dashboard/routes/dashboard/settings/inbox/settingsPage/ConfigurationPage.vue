@@ -60,7 +60,7 @@
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
     >
-      <woot-code :script="inbox.hmac_token"></woot-code>
+      <woot-code :script="inbox.hmac_token" />
     </settings-section>
     <settings-section
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
