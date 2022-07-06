@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_28_124837) do
+ActiveRecord::Schema.define(version: 2022_07_06_085458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -200,8 +200,8 @@ ActiveRecord::Schema.define(version: 2022_06_28_124837) do
     t.string "locale", default: "en"
     t.string "slug", null: false
     t.bigint "parent_category_id"
-    t.bigint "linked_category_id"
-    t.index ["linked_category_id"], name: "index_categories_on_linked_category_id"
+    t.bigint "associated_category_id"
+    t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
@@ -851,7 +851,7 @@ ActiveRecord::Schema.define(version: 2022_06_28_124837) do
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
-  add_foreign_key "categories", "categories", column: "linked_category_id"
+  add_foreign_key "categories", "categories", column: "associated_category_id"
   add_foreign_key "categories", "categories", column: "parent_category_id"
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
   add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
