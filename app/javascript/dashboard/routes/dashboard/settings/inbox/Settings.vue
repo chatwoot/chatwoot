@@ -30,8 +30,15 @@
         <woot-input
           v-model.trim="selectedInboxName"
           class="medium-9 columns settings-item"
+          :class="{ error: $v.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
+          :error="
+            $v.selectedInboxName.$error
+              ? $t('INBOX_MGMT.ADD.CHANNEL_NAME.ERROR')
+              : ''
+          "
+          @blur="$v.selectedInboxName.$touch"
         />
         <label
           v-if="isATwitterInbox"
@@ -287,14 +294,15 @@
           type="submit"
           :disabled="$v.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
         <woot-submit-button
           v-else
           type="submit"
+          :disabled="$v.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
       </settings-section>
@@ -405,7 +413,8 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAnEmailChannel
+        this.isAnEmailChannel ||
+        this.isAWhatsappChannel
       ) {
         return [
           ...visibleToAllChannelTabs,
@@ -534,7 +543,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       }
     },
     handleImageUpload({ file, url }) {
@@ -563,6 +574,7 @@ export default {
     webhookUrl: {
       shouldBeUrl,
     },
+    selectedInboxName: {},
   },
 };
 </script>
