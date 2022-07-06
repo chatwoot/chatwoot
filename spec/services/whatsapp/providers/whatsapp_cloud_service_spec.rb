@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Whatsapp::Providers::WhatsappCloudService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
-  let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud') }
+  let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
   let(:message) { create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox) }
   let(:response_headers) { { 'Content-Type' => 'application/json' } }
   let(:whatsapp_response) { { messages: [{ id: 'message_id' }] } }
@@ -110,7 +110,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'returns false if invalid' do
         stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key').to_return(status: 401)
         expect(subject.validate_provider_config?).to eq(false)
-        expect(whatsapp_channel.errors.present?).to eq(true)
       end
     end
   end
