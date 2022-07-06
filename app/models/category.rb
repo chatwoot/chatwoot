@@ -45,13 +45,17 @@ class Category < ApplicationRecord
            foreign_key: :parent_category_id,
            dependent: :nullify,
            inverse_of: 'parent_category'
-  has_many :linked_categories,
+  has_many :associated_categories,
            class_name: :Category,
-           foreign_key: :linked_category_id,
+           foreign_key: :associated_category_id,
            dependent: :nullify,
-           inverse_of: 'linked_category'
+           inverse_of: 'root_category'
   belongs_to :parent_category, class_name: :Category, optional: true
-  belongs_to :linked_category, class_name: :Category, optional: true
+  belongs_to :root_category,
+             class_name: :Category,
+             foreign_key: :associated_category_id,
+             inverse_of: :associated_categories,
+             optional: true
 
   before_validation :ensure_account_id
   validates :account_id, presence: true
