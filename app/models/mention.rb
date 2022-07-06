@@ -46,7 +46,7 @@ class Mention < ApplicationRecord
     # Then select only latest incoming message from the conversations which doesn't have last message as outgoing
     # Order by message created_at
     Mention.joins(
-      "INNER JOIN (#{last_messaged_conversations.to_sql}) grouped_conversations
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
       ON grouped_conversations.conversation_id = mentions.conversation_id"
     ).sort_on_last_user_message_at
   end
