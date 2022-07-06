@@ -5,7 +5,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def index
     @articles = @portal.articles
-    @articles.search(list_params) if params[:payload].present?
+    @articles = @articles.search(list_params) if params[:payload].present?
   end
 
   def create

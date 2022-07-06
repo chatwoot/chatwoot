@@ -4,7 +4,7 @@ class Public::Api::V1::Portals::ArticlesController < ApplicationController
 
   def index
     @articles = @portal.articles
-    @articles.search(list_params) if params[:payload].present?
+    @articles = @articles.search(list_params) if params[:payload].present?
   end
 
   def show; end
@@ -12,7 +12,7 @@ class Public::Api::V1::Portals::ArticlesController < ApplicationController
   private
 
   def set_article
-    @article = @portal.articles.find_by!(slug: params[:slug])
+    @article = @portal.articles.find(params[:id])
   end
 
   def set_portal
