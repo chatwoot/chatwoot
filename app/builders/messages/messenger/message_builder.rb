@@ -71,6 +71,10 @@ class Messages::Messenger::MessageBuilder
   rescue Koala::Facebook::AuthenticationError
     @inbox.channel.authorization_error!
     raise
+  rescue Koala::Facebook::ClientError => e
+    # The exception occurs when we are trying fetch the deleted story or blocked story.
+    Rails.logger.error e
+    {}
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     {}
