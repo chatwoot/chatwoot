@@ -29,7 +29,7 @@ class Channel::Whatsapp < ApplicationRecord
   validates :provider, inclusion: { in: PROVIDERS }
 
   validates :phone_number, presence: true, uniqueness: true
-  before_save :validate_provider_config
+  validate :validate_provider_config
   after_create :sync_templates
 
   def name
@@ -57,6 +57,6 @@ class Channel::Whatsapp < ApplicationRecord
   private
 
   def validate_provider_config
-    provider_service.validate_provider_config
+    errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 end

@@ -26,7 +26,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     whatsapp_channel.update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
-  def validate_provider_config
+  def validate_provider_config?
     response = HTTParty.post(
       "#{api_base_path}/configs/webhook",
       headers: { 'D360-API-KEY': whatsapp_channel.provider_config['api_key'], 'Content-Type': 'application/json' },
@@ -34,7 +34,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         url: "#{ENV['FRONTEND_URL']}/webhooks/whatsapp/#{whatsapp_channel.phone_number}"
       }.to_json
     )
-    errors.add(:provider_config, 'error setting up the webook') unless response.success?
+    response.success?
   end
 
   def api_headers

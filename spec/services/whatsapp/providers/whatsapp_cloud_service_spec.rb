@@ -101,9 +101,16 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe '#validate_provider_config' do
     context 'when called' do
-      it 'returns true' do
+      it 'returns true if valid' do
         stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
-        expect(subject.validate_provider_config).to eq(true)
+        expect(subject.validate_provider_config?).to eq(true)
+        expect(whatsapp_channel.errors.present?).to eq(false)
+      end
+
+      it 'returns false if invalid' do
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key').to_return(status: 401)
+        expect(subject.validate_provider_config?).to eq(false)
+        expect(whatsapp_channel.errors.present?).to eq(true)
       end
     end
   end
