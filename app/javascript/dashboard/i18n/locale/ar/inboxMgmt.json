@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "اسم صندوق الوارد لقناة التواصل",
-        "PLACEHOLDER": "أدخل اسم صندوق الوارد الخاص بك (مثال: Acme Inc)"
+        "PLACEHOLDER": "أدخل اسم صندوق الوارد الخاص بك (مثال: Acme Inc)",
+        "ERROR": "الرجاء إدخال اسم صندوق الوارد صالح"
       },
       "WEBSITE_NAME": {
         "LABEL": "اسم الموقع",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "تفعيل رسالة الترحيب التلقائية",
-          "HELP_TEXT": "إرسال رسالة ترحيب إلى المستخدم عند بدء المحادثة.",
+          "HELP_TEXT": "إرسال رسالة تحية تلقائياً عند إنشاء محادثة جديدة.",
           "ENABLED": "مفعل",
           "DISABLED": "معطّل"
         },
@@ -97,7 +98,10 @@
           "LABEL": "لون صندوق الدردشة",
           "PLACEHOLDER": "تحديث اللون الرئيسي لصندوق الدردشة"
         },
-        "SUBMIT_BUTTON": "إنشاء قناة تواصل"
+        "SUBMIT_BUTTON": "إنشاء قناة تواصل",
+        "API": {
+          "ERROR_MESSAGE": "لم نتمكن من إنشاء قناة موقع، الرجاء المحاولة مرة أخرى"
+        }
       },
       "TWILIO": {
         "TITLE": "قناة Twilio SMS/WhatsApp",
@@ -209,7 +213,6 @@
           "LABEL": "مفتاح API",
           "SUBTITLE": "تكوين مفتاح واتسآب API.",
           "PLACEHOLDER": "مفتاح API",
-          "APPLY_FOR_ACCESS": "ليس لديك أي مفتاح API؟ تقدم بطلب الوصول إلى هنا",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
@@ -339,7 +342,7 @@
       "API": {
         "SUCCESS_MESSAGE": "تم تحديث إعدادات قناة التواصل بنجاح",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "تم تحديث إعدادات الإسناد التلقائي بنجاح",
-        "ERROR_MESSAGE": "تعذر تحديث لون صندوق الدردشة. الرجاء المحاولة مرة أخرى لاحقاً."
+        "ERROR_MESSAGE": "تعذر تحديث إعدادات صندوق الوارد. الرجاء المحاولة مرة أخرى لاحقاً."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "مفعل",
@@ -420,7 +423,14 @@
       "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
       "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
+      "WHATSAPP_SECTION_SUBHEADER": "يتم استخدام مفتاح API هذا في التكامل مع قناة واتساب 360Dialog WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "مفتاح API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "حد الإسناد التلقائي",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "الرجاء إدخال قيمة أكبر من 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "تحديد الحد الأقصى لعدد المحادثات من علبة الوارد هذه التي يمكن تعيينها تلقائياً إلى وكيل"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
