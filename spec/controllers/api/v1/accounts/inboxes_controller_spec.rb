@@ -41,6 +41,25 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
       end
+
+      context 'when provider_config' do
+        let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+
+        it 'returns provider config attributes for admin' do
+          get "/api/v1/accounts/#{account.id}/inboxes",
+              headers: admin.create_new_auth_token,
+              as: :json
+          expect(JSON.parse(response.body)['payload'].last.key?('provider_config')).to eq(true)
+        end
+
+        it 'will not return provider config for agent' do
+          get "/api/v1/accounts/#{account.id}/inboxes",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(JSON.parse(response.body)['payload'].last.key?('provider_config')).to eq(false)
+        end
+      end
     end
   end
 
