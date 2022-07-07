@@ -45,12 +45,11 @@
               :button-text="$t('LOGIN.SUBMIT')"
               :loading="loginApi.showLoading"
               button-class="large expanded"
-            >
-            </woot-submit-button>
+            />
           </div>
         </form>
         <div class="column text-center sigin__footer">
-          <p>
+          <p v-if="!globalConfig.disableUserProfileUpdate">
             <router-link to="auth/reset/password">
               {{ $t('LOGIN.FORGOT_PASSWORD') }}
             </router-link>
@@ -80,6 +79,7 @@ export default {
   mixins: [globalConfigMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
+    ssoAccountId: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
     config: { type: String, default: '' },
     email: { type: String, default: '' },
@@ -138,6 +138,7 @@ export default {
           : this.credentials.email,
         password: this.credentials.password,
         sso_auth_token: this.ssoAuthToken,
+        ssoAccountId: this.ssoAccountId,
       };
       this.$store
         .dispatch('login', credentials)

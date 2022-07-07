@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Resumen",
+    "HEADER": "Conversaciones",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
@@ -18,12 +18,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primera respuesta",
-        "DESC": "( Media )"
+        "NAME": "Tiempo de primera respuesta",
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -59,7 +63,57 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplicar",
       "PLACEHOLDER": "Seleccione rango de fechas"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar por",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mes"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Día"
+      },
+      {
+        "id": 2,
+        "groupBy": "Semana"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mes"
+      },
+      {
+        "id": 4,
+        "groupBy": "Año"
+      }
+    ],
+    "BUSINESS_HOURS": "Horarios"
   },
   "AGENT_REPORTS": {
     "HEADER": "Resumen de agentes",
@@ -81,12 +135,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primera respuesta",
-        "DESC": "( Media )"
+        "NAME": "Tiempo de primera respuesta",
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -144,12 +202,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primera respuesta",
-        "DESC": "( Media )"
+        "NAME": "Tiempo de primera respuesta",
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -207,12 +269,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primera respuesta",
-        "DESC": "( Media )"
+        "NAME": "Tiempo de primera respuesta",
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -270,12 +336,16 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primera respuesta",
-        "DESC": "( Media )"
+        "NAME": "Tiempo de primera respuesta",
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "Tiempo de primera respuesta es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
-        "DESC": "( Media )"
+        "DESC": "( Media )",
+        "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_TEXT": "El tiempo de resolución es %{metricValue} (basado en %{conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Número de resoluciones",
@@ -316,6 +386,12 @@
   "CSAT_REPORTS": {
     "HEADER": "Reporte de encuestas de satisfacción",
     "NO_RECORDS": "No hay respuestas de encuestas de satisfacción disponibles.",
+    "DOWNLOAD": "Descargar reportes CSAT",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Elegir agentes"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contacto",
@@ -337,6 +413,34 @@
         "LABEL": "Tasa de respuesta",
         "TOOLTIP": "Número total de respuestas / Número total de mensajes de la encuesta de satisfacción enviados * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Resumen",
+    "LIVE": "En vivo",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Conversaciones abiertas",
+      "LOADING_MESSAGE": "Cargando métricas de conversación...",
+      "OPEN": "Abrir",
+      "UNATTENDED": "Desatendido",
+      "UNASSIGNED": "Sin asignar"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversaciones por agentes",
+      "LOADING_MESSAGE": "Cargando métricas del agente...",
+      "NO_AGENTS": "No hay conversaciones por agentes",
+      "TABLE_HEADER": {
+        "AGENT": "Agente",
+        "OPEN": "ABIERTA",
+        "UNATTENDED": "Desatendido",
+        "STATUS": "Estado"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Estado del agente",
+      "ONLINE": "En línea",
+      "BUSY": "Ocupado",
+      "OFFLINE": "Fuera de línea"
     }
   }
 }

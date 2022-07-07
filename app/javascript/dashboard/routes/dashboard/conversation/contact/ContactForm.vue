@@ -20,6 +20,9 @@
             :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
             @input="$v.email.$touch"
           />
+          <span v-if="$v.email.$error" class="message">
+            {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
+          </span>
         </label>
       </div>
     </div>
@@ -99,7 +102,7 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { required } from 'vuelidate/lib/validators';
+import { required, email } from 'vuelidate/lib/validators';
 
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
@@ -130,11 +133,13 @@ export default {
         facebook: '',
         twitter: '',
         linkedin: '',
+        github: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
+        { key: 'github', prefixURL: 'https://github.com/' },
       ],
     };
   },
@@ -143,7 +148,9 @@ export default {
       required,
     },
     description: {},
-    email: {},
+    email: {
+      email,
+    },
     companyName: {},
     phoneNumber: {
       isPhoneE164OrEmpty,
@@ -167,11 +174,15 @@ export default {
       this.$emit('success');
     },
     setContactObject() {
-      const { email: email, phone_number: phoneNumber, name } = this.contact;
+      const {
+        email: emailAddress,
+        phone_number: phoneNumber,
+        name,
+      } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
 
       this.name = name || '';
-      this.email = email || '';
+      this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
       this.companyName = additionalAttributes.company_name || '';
       this.description = additionalAttributes.description || '';
@@ -183,6 +194,7 @@ export default {
         twitter: socialProfiles.twitter || twitterScreenName || '',
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
+        github: socialProfiles.github || '',
       };
     },
     getContactObject() {

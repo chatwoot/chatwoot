@@ -11,7 +11,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @campaign.destroy
+    @campaign.destroy!
     head :ok
   end
 

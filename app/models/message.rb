@@ -2,30 +2,32 @@
 #
 # Table name: messages
 #
-#  id                  :integer          not null, primary key
-#  content             :text
-#  content_attributes  :json
-#  content_type        :integer          default("text"), not null
-#  external_source_ids :jsonb
-#  message_type        :integer          not null
-#  private             :boolean          default(FALSE)
-#  sender_type         :string
-#  status              :integer          default("sent")
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  account_id          :integer          not null
-#  conversation_id     :integer          not null
-#  inbox_id            :integer          not null
-#  sender_id           :bigint
-#  source_id           :string
+#  id                    :integer          not null, primary key
+#  additional_attributes :jsonb
+#  content               :text
+#  content_attributes    :json
+#  content_type          :integer          default("text"), not null
+#  external_source_ids   :jsonb
+#  message_type          :integer          not null
+#  private               :boolean          default(FALSE)
+#  sender_type           :string
+#  status                :integer          default("sent")
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#  conversation_id       :integer          not null
+#  inbox_id              :integer          not null
+#  sender_id             :bigint
+#  source_id             :string
 #
 # Indexes
 #
-#  index_messages_on_account_id                 (account_id)
-#  index_messages_on_conversation_id            (conversation_id)
-#  index_messages_on_inbox_id                   (inbox_id)
-#  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
-#  index_messages_on_source_id                  (source_id)
+#  index_messages_on_account_id                         (account_id)
+#  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
+#  index_messages_on_conversation_id                    (conversation_id)
+#  index_messages_on_inbox_id                           (inbox_id)
+#  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
+#  index_messages_on_source_id                          (source_id)
 #
 
 class Message < ApplicationRecord
@@ -64,7 +66,7 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
-                                         :external_created_at], coder: JSON
+                                         :external_created_at, :story_sender, :story_id], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -114,18 +116,19 @@ class Message < ApplicationRecord
 
   def webhook_data
     {
-      id: id,
-      content: content,
-      created_at: created_at,
-      message_type: message_type,
-      content_type: content_type,
-      private: private,
+      account: account.webhook_data,
+      additional_attributes: additional_attributes,
       content_attributes: content_attributes,
-      source_id: source_id,
-      sender: sender.try(:webhook_data),
-      inbox: inbox.webhook_data,
+      content_type: content_type,
+      content: content,
       conversation: conversation.webhook_data,
-      account: account.webhook_data
+      created_at: created_at,
+      id: id,
+      inbox: inbox.webhook_data,
+      message_type: message_type,
+      private: private,
+      sender: sender.try(:webhook_data),
+      source_id: source_id
     }
   end
 
@@ -134,6 +137,14 @@ class Message < ApplicationRecord
     return self[:content] if !input_csat? || inbox.web_widget?
 
     I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
+  end
+
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
   end
 
   private
@@ -158,15 +169,15 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
-    if outgoing? && conversation.messages.outgoing.count == 1
-      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
+    if outgoing? && conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null").count == 1
+      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
 
   def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by)
   end
 
   def send_reply
@@ -192,13 +203,6 @@ class Message < ApplicationRecord
 
   def email_notifiable_channel?
     email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
-  end
-
-  def email_notifiable_message?
-    return false unless outgoing? || input_csat?
-    return false if private?
-
-    true
   end
 
   def can_notify_via_mail?

@@ -1,4 +1,5 @@
 import {
+  SET_BUBBLE_VISIBILITY,
   SET_REFERRER_HOST,
   SET_WIDGET_APP_CONFIG,
   SET_WIDGET_COLOR,
@@ -6,14 +7,16 @@ import {
 } from '../types';
 
 const state = {
-  showPopoutButton: false,
   hideMessageBubble: false,
-  position: 'right',
-  isWebWidgetTriggered: false,
   isCampaignViewClicked: false,
+  isWebWidgetTriggered: false,
   isWidgetOpen: false,
-  widgetColor: '',
+  position: 'right',
   referrerHost: '',
+  showPopoutButton: false,
+  widgetColor: '',
+  widgetStyle: 'standard',
+  darkMode: 'light',
 };
 
 export const getters = {
@@ -23,14 +26,27 @@ export const getters = {
   getIsWidgetOpen: $state => $state.isWidgetOpen,
   getWidgetColor: $state => $state.widgetColor,
   getReferrerHost: $state => $state.referrerHost,
+  isWidgetStyleFlat: $state => $state.widgetStyle === 'flat',
+  darkMode: $state => $state.darkMode,
 };
 
 export const actions = {
-  setAppConfig({ commit }, { showPopoutButton, position, hideMessageBubble }) {
+  setAppConfig(
+    { commit },
+    {
+      showPopoutButton,
+      position,
+      hideMessageBubble,
+      widgetStyle = 'rounded',
+      darkMode = 'light',
+    }
+  ) {
     commit(SET_WIDGET_APP_CONFIG, {
-      showPopoutButton: !!showPopoutButton,
-      position: position || 'right',
       hideMessageBubble: !!hideMessageBubble,
+      position: position || 'right',
+      showPopoutButton: !!showPopoutButton,
+      widgetStyle,
+      darkMode,
     });
   },
   toggleWidgetOpen({ commit }, isWidgetOpen) {
@@ -42,6 +58,9 @@ export const actions = {
   setReferrerHost({ commit }, referrerHost) {
     commit(SET_REFERRER_HOST, referrerHost);
   },
+  setBubbleVisibility({ commit }, hideMessageBubble) {
+    commit(SET_BUBBLE_VISIBILITY, hideMessageBubble);
+  },
 };
 
 export const mutations = {
@@ -49,6 +68,8 @@ export const mutations = {
     $state.showPopoutButton = data.showPopoutButton;
     $state.position = data.position;
     $state.hideMessageBubble = data.hideMessageBubble;
+    $state.widgetStyle = data.widgetStyle;
+    $state.darkMode = data.darkMode;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;
@@ -58,6 +79,9 @@ export const mutations = {
   },
   [SET_REFERRER_HOST]($state, referrerHost) {
     $state.referrerHost = referrerHost;
+  },
+  [SET_BUBBLE_VISIBILITY]($state, hideMessageBubble) {
+    $state.hideMessageBubble = hideMessageBubble;
   },
 };
 

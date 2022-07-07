@@ -1,9 +1,10 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import axios from 'axios';
+import { IFrameHelper } from 'widget/helpers/utils';
+
 import { showBadgeOnFavicon } from './faviconHelper';
 
-export const getAlertAudio = async () => {
-  window.playAudioAlert = () => {};
+export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
+export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const playsound = audioBuffer => {
     window.playAudioAlert = () => {
@@ -16,11 +17,15 @@ export const getAlertAudio = async () => {
   };
 
   try {
-    const response = await axios.get('/dashboard/audios/ding.mp3', {
-      responseType: 'arraybuffer',
-    });
+    const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
+    const audioRequest = new Request(resourceUrl);
 
-    audioCtx.decodeAudioData(response.data).then(playsound);
+    fetch(audioRequest)
+      .then(response => response.arrayBuffer())
+      .then(buffer => {
+        audioCtx.decodeAudioData(buffer).then(playsound);
+        return new Promise(res => res());
+      });
   } catch (error) {
     // error
   }
@@ -48,6 +53,10 @@ export const shouldPlayAudio = (
     message_type: messageType,
     private: isPrivate,
   } = message;
+  if (!isDocHidden && messageType === MESSAGE_TYPE.INCOMING) {
+    showBadgeOnFavicon();
+    return false;
+  }
   const isFromCurrentUser = userId === senderId;
 
   const playAudio =
@@ -89,6 +98,7 @@ export const newMessageNotification = data => {
     currentUserId,
     assigneeId
   );
+
   if (playAudio && isNotificationEnabled) {
     window.playAudioAlert();
     showBadgeOnFavicon();
@@ -96,5 +106,7 @@ export const newMessageNotification = data => {
 };
 
 export const playNewMessageNotificationInWidget = () => {
-  window.playAudioAlert();
+  IFrameHelper.sendMessage({
+    event: 'playAudio',
+  });
 };

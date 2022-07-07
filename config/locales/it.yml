@@ -22,6 +22,8 @@ it:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
     reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
   errors:
+    webhook:
+      invalid: Eventi non validi
     signup:
       disposable_email: Non consentiamo email usa e getta
       invalid_email: Hai inserito un'email non valida
@@ -37,11 +39,33 @@ it:
       conversations_count: Numero di conversazioni
       avg_first_response_time: Tempo medio di prima risposta (minuti)
       avg_resolution_time: Tempo medio di risoluzione (minuti)
+    inbox_csv:
+      inbox_name: Nome casella
+      inbox_type: Tipo casella
+      conversations_count: Numero di conversazioni
+      avg_first_response_time: Tempo medio di prima risposta (minuti)
+      avg_resolution_time: Tempo medio di risoluzione (minuti)
+    label_csv:
+      label_title: Etichetta
+      conversations_count: Numero di conversazioni
+      avg_first_response_time: Tempo medio di prima risposta (minuti)
+      avg_resolution_time: Tempo medio di risoluzione (minuti)
     team_csv:
       team_name: Nome del team
       conversations_count: Numero di conversazioni
       avg_first_response_time: Tempo medio di prima risposta (minuti)
       avg_resolution_time: Tempo medio di risoluzione (minuti)
+    default_group_by: giorno
+    csat:
+      headers:
+        contact_name: Nome contatto
+        contact_email_address: Indirizzo email contatto
+        contact_phone_number: Numero di telefono contatto
+        link_to_the_conversation: Link alla conversazione
+        agent_name: Nome dell'agente
+        rating: Valutazione
+        feedback: Commento del feedback
+        recorded_at: Data di registrazione
   notifications:
     notification_title:
       conversation_creation: "[Nuova conversazione] - #%{display_id} è stato creato in %{inbox_name}"
@@ -50,10 +74,12 @@ it:
       conversation_mention: "Sei stato menzionato nella conversazione [ID - %{display_id}] da %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} ti ha menzionato nella storia: "
       deleted: Questo messaggio è stato eliminato
     activity:
       status:
         resolved: "La conversazione è stata contrassegnata come risolta da %{user_name}"
+        contact_resolved: "La conversazione è stata risolta da %{contact_name}"
         open: "La conversazione è stata riaperta da %{user_name}"
         pending: "La conversazione è stata contrassegnata come in attesa da %{user_name}"
         snoozed: "La conversazione è stata posticipata da %{user_name}"
@@ -97,7 +123,7 @@ it:
       description: "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account. Puoi utilizzare i webhooks per comunicare gli eventi alle tue app preferite, come Slack o Github. Clicca su Configura per configurare i tuoi webhook."
     dialogflow:
       name: "Dialogflow"
-      description: "Costruisci chatbot usando Dialogflow e collegali rapidamente alla tua casella di posta. Lascia che i bot gestiscano le domande prima di consegnarle ad un agente del servizio clienti."
+      description: "Costruisci chatbot usando Dialogflow e collegali rapidamente alla tua casella. Lascia che i bot gestiscano le domande prima di consegnarle ad un agente del servizio clienti."
     fullcontact:
       name: "Fullcontact"
       description: "L'integrazione di FullContact aiuta ad arricchire i profili dei visitatori. Identifica gli utenti non appena condividono il loro indirizzo email e offri loro un servizio clienti personalizzato. Collega FullContact al tuo account condividendo la chiave API di FullContent."

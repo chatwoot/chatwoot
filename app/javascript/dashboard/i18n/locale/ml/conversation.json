@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "ഇടത് പാളിയിൽ നിന്ന് ഒരു സംഭാഷണം തിരഞ്ഞെടുക്കുക",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ഉപഭോക്താക്കളിൽ നിന്ന് സന്ദേശങ്ങളൊന്നും ഇല്ലെന്ന് തോന്നുന്നു.",
     "NO_MESSAGE_2": " നിങ്ങളുടെ പേജിലേക്ക് ഒരു സന്ദേശം അയയ്‌ക്കാൻ!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "നിങ്ങൾ ഇതിന് മറുപടി നൽകുന്നു:",
     "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
     "DOWNLOAD": "ഡൗൺലോഡ്",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -57,8 +59,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഒരു ക്യാൻഡ് പ്രതികരണം തിരഞ്ഞു എടുക്കാൻ വേണ്ടി '/ ' വച്ച് ടൈപ്പ് ചെയ്തു തുടങ്ങുക.",
-      "PRIVATE_MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഇത് ഏജന്റുമാർക്ക് മാത്രമേ ദൃശ്യമാകൂ"
+      "PRIVATE_MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഇത് ഏജന്റുമാർക്ക് മാത്രമേ ദൃശ്യമാകൂ",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "മറുപടി",
@@ -69,8 +76,14 @@
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter to send",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -184,6 +197,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "From",
     "TO": "To",
     "BCC": "Bcc",
     "CC": "Cc",

@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecciona una conversación del panel izquierdo",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mensajes",
     "UNVERIFIED_SESSION": "La identidad de este usuario no está verificada",
     "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
     "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
@@ -22,7 +23,7 @@
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
     "CANNOT_REPLY": "No puede responder debido a",
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "Esta conversación no te está asignada. ¿Quieres asignarla a ti mismo?",
     "ASSIGN_TO_ME": "Asignar a mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
+    "UNKNOWN_FILE_TYPE": "Archivo desconocido",
     "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
@@ -57,8 +59,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Firma del mensaje",
+      "ENABLE_SIGN_TOOLTIP": "Activar firma",
+      "DISABLE_SIGN_TOOLTIP": "Desactivar firma",
       "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
-      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
+      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del mensaje no está configurada, por favor configúrela en la configuración del perfil.",
+      "CLICK_HERE": "Haga clic aquí para actualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -69,8 +76,14 @@
       "TIP_FORMAT_ICON": "Mostrar editor de textos",
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
+      "TIP_AUDIORECORDER_ICON": "Grabar audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permitir el acceso a audio",
+      "TIP_AUDIORECORDER_ERROR": "No se pudo abrir el audio",
       "ENTER_TO_SEND": "Ingresar para enviar",
       "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
+      "START_AUDIO_RECORDING": "Iniciar grabación de audio",
+      "STOP_AUDIO_RECORDING": "Detener grabación de audio",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Añadir bcc",
         "CC": {
@@ -132,7 +145,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite a los miembros de su equipo",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Ya que usted se está preparando para hablar con su cliente, traiga a sus compañeros para asistirle. Puedes invitar a sus compañeros de equipo añadiendo su dirección de correo electrónico a la lista de agentes.",
       "NEW_LINK": "Haga clic aquí para invitar a un miembro del equipo"
     },
     "INBOXES": {
@@ -184,6 +197,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "Desde",
     "TO": "Para",
     "BCC": "Bcc",
     "CC": "Cc",

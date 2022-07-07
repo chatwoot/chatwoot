@@ -22,7 +22,7 @@
         accept="image/png, image/jpeg, image/gif"
         @change="handleImageUpload"
       />
-      <slot></slot>
+      <slot />
     </label>
   </div>
 </template>

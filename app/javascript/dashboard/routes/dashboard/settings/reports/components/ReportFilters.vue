@@ -1,7 +1,7 @@
 <template>
   <div class="flex-container flex-dir-column medium-flex-dir-row">
     <div v-if="type === 'agent'" class="small-12 medium-3 pull-right">
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
@@ -17,7 +17,8 @@
         <template slot="singleLabel" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -30,7 +31,8 @@
         <template slot="option" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -41,7 +43,7 @@
       </multiselect>
     </div>
     <div v-else-if="type === 'label'" class="small-12 medium-3 pull-right">
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
@@ -76,7 +78,7 @@
                 reports-option__item
                 reports-option__label--swatch
               "
-            ></div>
+            />
             <span class="reports-option__desc">
               <span class="reports-option__title">
                 {{ props.option.title }}
@@ -87,7 +89,7 @@
       </multiselect>
     </div>
     <div v-else class="small-12 medium-3 pull-right">
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
@@ -105,6 +107,9 @@
       />
     </div>
     <div class="small-12 medium-3 pull-right margin-left-small">
+      <p>
+        {{ $t('REPORT.DURATION_FILTER_LABEL') }}
+      </p>
       <multiselect
         v-model="currentDateRangeSelection"
         track-by="name"
@@ -127,15 +132,44 @@
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onChange"
     />
+    <div
+      v-if="notLast7Days"
+      class="small-12 medium-3 pull-right margin-left-small"
+    >
+      <p>
+        {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+      </p>
+      <multiselect
+        v-model="currentSelectedGroupByFilter"
+        track-by="id"
+        label="groupBy"
+        :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+        :options="groupByFilterItemsList"
+        :allow-empty="false"
+        :show-labels="false"
+        @input="changeGroupByFilterSelection"
+      />
+    </div>
+    <div class="small-12 medium-3 business-hours">
+      <span class="business-hours-text margin-right-small">
+        {{ $t('REPORT.BUSINESS_HOURS') }}
+      </span>
+      <span>
+        <woot-switch v-model="businessHoursSelected" />
+      </span>
+    </div>
   </div>
 </template>
 <script>
-import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
-const CUSTOM_DATE_RANGE_ID = 5;
-import subDays from 'date-fns/subDays';
-import startOfDay from 'date-fns/startOfDay';
+import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+
+import { GROUP_BY_FILTER } from '../constants';
+const CUSTOM_DATE_RANGE_ID = 5;
 
 export default {
   components: {
@@ -147,9 +181,17 @@ export default {
       type: Array,
       default: () => [],
     },
+    groupByFilterItemsList: {
+      type: Array,
+      default: () => [],
+    },
     type: {
       type: String,
       default: 'agent',
+    },
+    selectedGroupByFilter: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -158,6 +200,8 @@ export default {
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
+      currentSelectedGroupByFilter: null,
+      businessHoursSelected: false,
     };
   },
   computed: {
@@ -166,9 +210,9 @@ export default {
     },
     to() {
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[1]);
+        return this.toCustomDate(this.customDateRange[1]);
       }
-      return this.fromCustomDate(new Date());
+      return this.toCustomDate(new Date());
     },
     from() {
       if (this.isDateRangeSelected) {
@@ -194,11 +238,33 @@ export default {
       };
       return typeLabels[this.type] || this.$t('FORMS.MULTISELECT.SELECT_ONE');
     },
+    groupBy() {
+      if (this.isDateRangeSelected) {
+        return GROUP_BY_FILTER[4].period;
+      }
+      const groupRange = {
+        0: GROUP_BY_FILTER[1].period,
+        1: GROUP_BY_FILTER[2].period,
+        2: GROUP_BY_FILTER[3].period,
+        3: GROUP_BY_FILTER[3].period,
+        4: GROUP_BY_FILTER[3].period,
+      };
+      return groupRange[this.currentDateRangeSelection.id];
+    },
+    notLast7Days() {
+      return this.groupBy !== GROUP_BY_FILTER[1].period;
+    },
   },
   watch: {
     filterItemsList(val) {
       this.currentSelectedFilter = val[0];
       this.changeFilterSelection();
+    },
+    groupByFilterItemsList() {
+      this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
+    },
+    businessHoursSelected() {
+      this.$emit('business-hours-toggle', this.businessHoursSelected);
     },
   },
   mounted() {
@@ -206,10 +272,17 @@ export default {
   },
   methods: {
     onDateRangeChange() {
-      this.$emit('date-range-change', { from: this.from, to: this.to });
+      this.$emit('date-range-change', {
+        from: this.from,
+        to: this.to,
+        groupBy: this.groupBy,
+      });
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
+    },
+    toCustomDate(date) {
+      return getUnixTime(endOfDay(date));
     },
     changeDateSelection(selectedRange) {
       this.currentDateRangeSelection = selectedRange;
@@ -221,6 +294,9 @@ export default {
     onChange(value) {
       this.customDateRange = value;
       this.onDateRangeChange();
+    },
+    changeGroupByFilterSelection() {
+      this.$emit('group-by-filter-change', this.currentSelectedGroupByFilter);
     },
   },
 };

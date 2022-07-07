@@ -22,6 +22,7 @@
     "IN_A_DAY": "Svarer vanligvis innen en dag"
   },
   "START_CONVERSATION": "Start samtale",
+  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Fullt navn",
         "PLACEHOLDER": "Skriv inn fullt navn",
-        "ERROR": "Fullt navn er påkrevd"
+        "REQUIRED_ERROR": "Fullt navn er påkrevd"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadresse",
         "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
-        "ERROR": "Ugyldig e-postadresse"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Vennligst skriv inn en gyldig e-postadresse"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Melding",
@@ -56,7 +64,8 @@
         "ERROR": "Meldingen er for kort"
       }
     },
-    "CAMPAIGN_HEADER": "Angi navn og e-post før du starter samtalen"
+    "CAMPAIGN_HEADER": "Angi navn og e-post før du starter samtalen",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Filens størrelse overskrider grensen på {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

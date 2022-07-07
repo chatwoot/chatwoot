@@ -28,6 +28,9 @@ export default {
     onImgError() {
       this.$emit('error');
     },
+    onClick() {
+      this.$emit('click');
+    },
   },
 };
 </script>

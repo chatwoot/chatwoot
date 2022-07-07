@@ -22,6 +22,8 @@ tr:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
@@ -29,7 +31,7 @@ tr:
       failed: Kayıt başarısız oldu
     contacts:
       import:
-        failed: File is blank
+        failed: Dosya boş
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
@@ -37,11 +39,33 @@ tr:
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     team_csv:
-      team_name: Team name
+      team_name: Ekip İsmi
       conversations_count: Konuşma sayısı
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    default_group_by: gün
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Görüşmenin bağlantısı
+        agent_name: Kullanıcı Adı
+        rating: Değerlendirme
+        feedback: Değerlendirme Yorumu
+        recorded_at: Kaydedilen tarih
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,10 +74,12 @@ tr:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
       deleted: Bu mesaj silinmiş
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
+        contact_resolved: "Görüşme %{contact_name} tarafından çözüldü olarak işaretlendi"
         open: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
@@ -75,7 +101,7 @@ tr:
       greeting_message_body: "%{account_name} genellikle birkaç saat içinde yanıt verir."
       ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
       email_input_box_message_body: "E-posta ile haberdar olun"
-      csat_input_message_body: "Lütfen konuşmayı oylayın"
+      csat_input_message_body: "Lütfen görüşmeyi değerlendirin"
     reply:
       email:
         header:
@@ -84,7 +110,7 @@ tr:
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
     survey:
-      response: "Lütfen konuşmayı oylayın, %{link}"
+      response: "Lütfen bu görüşmeyi değerlendirin, %{link}"
   contacts:
     online:
       delete: "%{contact_name} is Online, please try again later"

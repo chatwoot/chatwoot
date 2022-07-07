@@ -54,7 +54,39 @@ RSpec.describe Conversation, type: :model do
     it 'runs after_create callbacks' do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: nil, performed_by: nil)
+    end
+  end
+
+  describe '.validate jsonb attributes' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        contact: create(:contact, account: account),
+        inbox: inbox,
+        assignee: nil
+      )
+    end
+
+    it 'validate length of additional_attributes value' do
+      conversation.additional_attributes = { company_name: 'some_company' * 200, contact_number: 19_999_999_999 }
+      conversation.valid?
+      error_messages = conversation.errors.messages
+      expect(error_messages[:additional_attributes][0]).to eq('company_name length should be < 1500')
+      expect(error_messages[:additional_attributes][1]).to eq('contact_number value should be < 9999999999')
+    end
+
+    it 'validate length of custom_attributes value' do
+      conversation.custom_attributes = { company_name: 'some_company' * 200, contact_number: 19_999_999_999 }
+      conversation.valid?
+      error_messages = conversation.errors.messages
+      expect(error_messages[:custom_attributes][0]).to eq('company_name length should be < 1500')
+      expect(error_messages[:custom_attributes][1]).to eq('contact_number value should be < 9999999999')
     end
   end
 
@@ -84,12 +116,33 @@ RSpec.describe Conversation, type: :model do
         assignee: new_assignee,
         label_list: [label.title]
       )
+      status_change = conversation.status_change
+      changed_attributes = conversation.previous_changes
+
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                     changed_attributes: status_change, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                 changed_attributes: nil, performed_by: nil)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                changed_attributes: nil, performed_by: nil)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true,
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
+    end
+
+    it 'will not run conversation_updated event for empty updates' do
+      conversation.save!
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+    end
+
+    it 'will not run conversation_updated event for non whitelisted keys' do
+      conversation.update(updated_at: DateTime.now.utc)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
 
     it 'creates conversation activities' do
@@ -436,7 +489,7 @@ RSpec.describe Conversation, type: :model do
       let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
 
       it 'returns false if there are no incoming messages' do
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return false if last incoming message is outside of 24 hour window' do
@@ -447,7 +500,7 @@ RSpec.describe Conversation, type: :model do
           conversation: conversation,
           created_at: Time.now - 25.hours
         )
-        expect(conversation.can_reply?).to eq false
+        expect(conversation.can_reply?).to eq true
       end
 
       it 'return true if last incoming message is inside 24 hour window' do
@@ -459,6 +512,86 @@ RSpec.describe Conversation, type: :model do
         )
         expect(conversation.can_reply?).to eq true
       end
+
+      context 'when instagram channel' do
+        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq true
+        end
+
+        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
+          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
+
+          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
+          create(
+            :message,
+            account: conversation.account,
+            inbox: facebook_inbox,
+            conversation: conversation,
+            created_at: Time.now - 48.hours
+          )
+
+          expect(conversation.can_reply?).to eq false
+        end
+      end
+    end
+
+    describe 'on API channels' do
+      let!(:api_channel) { create(:channel_api, additional_attributes: {}) }
+      let!(:api_channel_with_limit) { create(:channel_api, additional_attributes: { agent_reply_time_window: '12' }) }
+
+      context 'when agent_reply_time_window is not configured' do
+        it 'return true irrespective of the last message time' do
+          conversation = create(:conversation, inbox: api_channel.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel.additional_attributes['agent_reply_time_window']).to eq nil
+          expect(conversation.can_reply?).to eq true
+        end
+      end
+
+      context 'when agent_reply_time_window is configured' do
+        it 'return false if it is outside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation,
+            created_at: Time.now - 13.hours
+          )
+
+          expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'
+          expect(conversation.can_reply?).to eq false
+        end
+
+        it 'return true if it is inside of agent_reply_time_window' do
+          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
+          create(
+            :message,
+            account: conversation.account,
+            inbox: api_channel_with_limit.inbox,
+            conversation: conversation
+          )
+          expect(conversation.can_reply?).to eq true
+        end
+      end
     end
   end
 
@@ -468,8 +601,93 @@ RSpec.describe Conversation, type: :model do
     let!(:notification) { create(:notification, notification_type: 'conversation_creation', primary_actor: conversation) }
 
     it 'delete associated notifications if conversation is deleted' do
-      conversation.destroy
+      conversation.destroy!
       expect { notification.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+
+  describe 'validate invalid referer url' do
+    let(:conversation) { create(:conversation, additional_attributes: { referer: 'javascript' }) }
+
+    it 'returns nil' do
+      expect(conversation['additional_attributes']['referer']).to eq(nil)
+    end
+  end
+
+  describe 'validate valid referer url' do
+    let(:conversation) { create(:conversation, additional_attributes: { referer: 'https://www.chatwoot.com/' }) }
+
+    it 'returns nil' do
+      expect(conversation['additional_attributes']['referer']).to eq('https://www.chatwoot.com/')
+    end
+  end
+
+  describe 'Custom Sort' do
+    include ActiveJob::TestHelper
+
+    let!(:conversation_4) { create(:conversation, created_at: DateTime.now - 10.days, last_activity_at: DateTime.now - 10.days) }
+    let!(:conversation_3) { create(:conversation, created_at: DateTime.now - 9.days, last_activity_at: DateTime.now - 9.days) }
+    let!(:conversation_1) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 8.days) }
+    let!(:conversation_2) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 6.days) }
+
+    it 'Sort conversations based on created_at' do
+      records = described_class.sort_on_created_at
+
+      expect(records.first.id).to eq(conversation_4.id)
+      expect(records.last.id).to eq(conversation_2.id)
+    end
+
+    it 'Sort conversations based on last_user_message_at' do
+      create(:message, conversation_id: conversation_3.id, message_type: :outgoing, created_at: DateTime.now - 9.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+      create(:message, conversation_id: conversation_1.id, message_type: :outgoing, created_at: DateTime.now - 7.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+      create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+
+      records = described_class.last_user_message_at
+
+      expect(records[0]['id']).to eq(conversation_2.id)
+      expect(records[1]['id']).to eq(conversation_3.id)
+      expect(records.pluck(:id)).not_to include(conversation_4.id)
+    end
+
+    context 'when last_activity_at updated by some actions' do
+      before do
+        create(:message, conversation_id: conversation_1.id, message_type: :incoming, created_at: DateTime.now - 8.days)
+        create(:message, conversation_id: conversation_2.id, message_type: :incoming, created_at: DateTime.now - 6.days)
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now - 2.days)
+      end
+
+      it 'sort conversations with latest resolved conversation at first' do
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_3.id)
+
+        conversation_1.toggle_status
+        perform_enqueued_jobs do
+          Conversations::ActivityMessageJob.perform_later(
+            conversation_1,
+            account_id: conversation_1.account_id,
+            inbox_id: conversation_1.inbox_id,
+            message_type: :activity,
+            content: 'Conversation was marked resolved by system due to  days of inactivity'
+          )
+        end
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_1.id)
+      end
+
+      it 'Sort conversations with latest message' do
+        create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now)
+        records = described_class.latest
+
+        expect(records.first.id).to eq(conversation_3.id)
+      end
     end
   end
 end

@@ -22,6 +22,8 @@ pt:
     reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido
@@ -29,7 +31,7 @@ pt:
       failed: Falha na inscrição
     contacts:
       import:
-        failed: File is blank
+        failed: Arquivo está vazio
   reports:
     period: Período do relatório de %{since} a %{until}
     agent_csv:
@@ -37,11 +39,33 @@ pt:
       conversations_count: Número de conversas
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Média do tempo de resposta (minutos)
+      avg_resolution_time: Média do tempo de resolução (minutos)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Média do tempo de resposta (minutos)
+      avg_resolution_time: Média do tempo de resolução (minutos)
     team_csv:
       team_name: Nome da equipa
       conversations_count: Número de conversas
       avg_first_response_time: Média do tempo de resposta (minutos)
       avg_resolution_time: Média do tempo de resolução (minutos)
+    default_group_by: dia
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nome do Representante
+        rating: Avaliar
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Nova conversa] - #%{display_id} foi criada em %{inbox_name}"
@@ -50,10 +74,12 @@ pt:
       conversation_mention: "Foi mencionado na conversa [ID - %{display_id}] por %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mencionou você na história: "
       deleted: Esta mensagem foi apagada
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
+        contact_resolved: "Conversa foi resolvida por %{contact_name}"
         open: "Conversa foi reaberta por %{user_name}"
         pending: "Conversa marcada como pendente por %{user_name}"
         snoozed: "Conversa adiada por %{user_name}"
@@ -79,15 +105,15 @@ pt:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
     survey:
       response: "Por favor, avalie esta conversa, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} está Online, por favor, tente novamente mais tarde"
   integration_apps:
     slack:
       name: "Slack"

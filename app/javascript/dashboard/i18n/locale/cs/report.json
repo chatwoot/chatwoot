@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Overview",
+    "HEADER": "Konverzace",
     "LOADING_CHART": "Načítání dat mapy...",
     "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
     "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
@@ -18,12 +18,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -49,7 +53,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -57,9 +61,59 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Den"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Den"
+      },
+      {
+        "id": 2,
+        "groupBy": "Týden"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Den"
+      },
+      {
+        "id": 2,
+        "groupBy": "Týden"
+      },
+      {
+        "id": 3,
+        "groupBy": "Měsíc"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Den"
+      },
+      {
+        "id": 2,
+        "groupBy": "Týden"
+      },
+      {
+        "id": 3,
+        "groupBy": "Měsíc"
+      },
+      {
+        "id": 4,
+        "groupBy": "Rok"
+      }
+    ],
+    "BUSINESS_HOURS": "Pracovní doba"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -81,12 +135,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -112,7 +170,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -120,7 +178,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -144,12 +202,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -175,7 +237,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -183,7 +245,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -207,12 +269,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -238,7 +304,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -246,7 +312,7 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
@@ -270,12 +336,16 @@
         "DESC": "( celkem)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First Response Time",
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "DESC": "(Průměrný)",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
@@ -301,7 +371,7 @@
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Poslední rok"
       },
       {
         "id": 5,
@@ -309,13 +379,19 @@
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
+      "CONFIRM": "Použít",
       "PLACEHOLDER": "Select date range"
     }
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",
+    "DOWNLOAD": "Download CSAT Reports",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Choose Agents"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contact",
@@ -337,6 +413,34 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Otevřít",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Nepřiřazeno"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Stav"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Zaneprázdněn",
+      "OFFLINE": "Offline"
     }
   }
 }

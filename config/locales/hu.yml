@@ -22,6 +22,8 @@ hu:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
       invalid_email: Hibás e-mailcímet adtál meg
@@ -37,11 +39,33 @@ hu:
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Átlagos első reakcióidő (perc)
+      avg_resolution_time: Átlagos megoldási idő (perc)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Átlagos első reakcióidő (perc)
+      avg_resolution_time: Átlagos megoldási idő (perc)
     team_csv:
       team_name: Csapatnév
       conversations_count: Beszélgetésszám
       avg_first_response_time: Átlagos első reakcióidő (perc)
       avg_resolution_time: Átlagos megoldási idő (perc)
+    default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Ügynök neve
+        rating: Rating
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
@@ -50,10 +74,12 @@ hu:
       conversation_mention: "%{name} megemlítet ebben a beszélgetésben [ID - %{display_id}]"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: Az üzenet törölve lett
     activity:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "A beszélgetést újranyitotta %{user_name}"
         pending: "A beszélgetést %{user_name} folyamatban lévőnek jelölte"
         snoozed: "A beszélgetést %{user_name} elnémította"

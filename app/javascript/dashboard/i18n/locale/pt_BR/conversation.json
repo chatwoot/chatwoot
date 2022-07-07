@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecione uma conversa no painel da esquerda",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mensagens",
     "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
+    "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
@@ -57,8 +59,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
+      "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
+      "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
-      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes"
+      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
+      "CLICK_HERE": "Clique aqui para atualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -69,8 +76,14 @@
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
       "TIP_ATTACH_ICON": "Anexar arquivos",
+      "TIP_AUDIORECORDER_ICON": "Gravar áudio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
+      "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
       "ENTER_TO_SEND": "Enter para enviar",
       "DRAG_DROP": "Arraste e solte aqui para anexar",
+      "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
+      "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adicionar cco",
         "CC": {
@@ -184,6 +197,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "De",
     "TO": "Para",
     "BCC": "CCO",
     "CC": "Cc",

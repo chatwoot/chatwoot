@@ -7,38 +7,16 @@
       "404": "Non ci sono conversazioni attive in questo gruppo."
     },
     "TAB_HEADING": "Conversazioni",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Menzioni",
     "SEARCH": {
       "INPUT": "Cerca persone, Chat, risposte salvate .."
     },
     "FILTER_ALL": "Tutti",
-    "STATUS_TABS": [
-      {
-        "NAME": "Aperte",
-        "KEY": "contaaperture"
-      },
-      {
-        "NAME": "Risolti",
-        "KEY": "Conteggio"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mie",
-        "KEY": "Io",
-        "COUNT_KEY": "contaMinore"
-      },
-      {
-        "NAME": "Non assegnato",
-        "KEY": "non assegnato",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Tutti",
-        "KEY": "Tutti",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mie",
+      "unassigned": "Non assegnato",
+      "all": "Tutti"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Aperte"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Ricevuto via email",
     "VIEW_TWEET_IN_TWITTER": "Visualizza tweet su Twitter",
     "REPLY_TO_TWEET": "Rispondi a questo tweet",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Vai alla storia di instagram",
+    "SENT": "Inviato correttamente",
     "NO_MESSAGES": "Nessun messaggio",
     "NO_CONTENT": "Nessun contenuto disponibile",
     "HIDE_QUOTED_TEXT": "Nascondi testo citato",
-    "SHOW_QUOTED_TEXT": "Mostra testo citato"
+    "SHOW_QUOTED_TEXT": "Mostra testo citato",
+    "MESSAGE_READ": "Leggi"
   }
 }

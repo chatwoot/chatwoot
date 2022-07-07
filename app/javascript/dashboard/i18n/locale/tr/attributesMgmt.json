@@ -1,11 +1,11 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Özel Nitelikler",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
+    "HEADER_BTN_TXT": "Nitelik Ekle",
+    "LOADING": "Özel Nitelikler getiriliyor",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "Nitelik Ekle",
       "SUBMIT": "Yarat",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "FORM": {

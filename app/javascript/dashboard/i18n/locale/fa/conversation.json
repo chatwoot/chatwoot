@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
+    "DASHBOARD_APP_TAB_MESSAGES": "پیام‌ها",
     "UNVERIFIED_SESSION": "هویت این کاربر تایید نشده است",
     "NO_MESSAGE_1": "اوه اوه! به نظر می‌رسد هیچ پیامی از طرف مشتری در صندوق ورودی شما وجود ندارد.",
     "NO_MESSAGE_2": " برای ارسال پیام به صفحه خود بروید!",
@@ -22,7 +23,7 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "این گفتگو به شما اختصاص داده نشده است. آیا می خواهید این گفتگو را به خودتان اختصاص دهید؟",
     "ASSIGN_TO_ME": "اختصاص به من",
     "TWILIO_WHATSAPP_CAN_REPLY": "شما فقط می توانید با استفاده از یک پیام الگو به این مکالمه پاسخ دهید",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
+    "UNKNOWN_FILE_TYPE": "پرونده ناشناخته",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
@@ -57,8 +59,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "امضای پیام",
+      "ENABLE_SIGN_TOOLTIP": "امضا را فعال کنید",
+      "DISABLE_SIGN_TOOLTIP": "غیرفعال کردن امضا",
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
-      "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود"
+      "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
+      "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید"
     },
     "REPLYBOX": {
       "REPLY": "پاسخ",
@@ -69,8 +76,14 @@
       "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
+      "TIP_AUDIORECORDER_ICON": "ضبط صدا",
+      "TIP_AUDIORECORDER_PERMISSION": "اجازه دسترسی به صدا",
+      "TIP_AUDIORECORDER_ERROR": "صدا را نمی‌توان باز کند",
       "ENTER_TO_SEND": "برای ارسال Enter را بزنید",
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
+      "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
+      "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "افزودن bcc",
         "CC": {
@@ -184,6 +197,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "از",
     "TO": "به",
     "BCC": "Bcc",
     "CC": "Cc",

@@ -34,12 +34,10 @@
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
-                <fluent-icon
-                  v-if="automation.active"
-                  icon="checkmark-square"
-                  type="solid"
+                <woot-switch
+                  :value="automation.active"
+                  @input="toggleAutomation(automation, automation.active)"
                 />
-                <fluent-icon v-else icon="square" />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
               <td class="button-wrapper">
@@ -52,8 +50,7 @@
                   :is-loading="loading[automation.id]"
                   icon="edit"
                   @click="openEditPopup(automation)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
                   variant="smooth"
@@ -63,8 +60,7 @@
                   :is-loading="loading[automation.id]"
                   icon="copy"
                   @click="cloneAutomation(automation.id)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
@@ -74,8 +70,7 @@
                   class-names="grey-btn"
                   :is-loading="loading[automation.id]"
                   @click="openDeletePopup(automation, index)"
-                >
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -83,7 +78,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-modal
@@ -120,6 +115,11 @@
         @saveAutomation="submitAutomation"
       />
     </woot-modal>
+    <woot-confirm-modal
+      ref="confirmDialog"
+      :title="toggleModalTitle"
+      :description="toggleModalDescription"
+    />
   </div>
 </template>
 <script>
@@ -142,6 +142,10 @@ export default {
       showEditPopup: false,
       showDeleteConfirmationPopup: false,
       selectedResponse: {},
+      toggleModalTitle: this.$t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'),
+      toggleModalDescription: this.$t(
+        'AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION'
+      ),
     };
   },
   computed: {
@@ -219,20 +223,47 @@ export default {
         const action =
           mode === 'EDIT' ? 'automations/update' : 'automations/create';
         const successMessage =
-          mode === 'edit'
+          mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-
         await await this.$store.dispatch(action, payload);
         this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
         this.hideEditPopup();
       } catch (error) {
         const errorMessage =
-          mode === 'edit'
+          mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
+      }
+    },
+    async toggleAutomation(automation, status) {
+      try {
+        this.toggleModalTitle = status
+          ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_TITLE')
+          : this.$t('AUTOMATION.TOGGLE.ACTIVATION_TITLE');
+        this.toggleModalDescription = status
+          ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_DESCRIPTION', {
+              automationName: automation.name,
+            })
+          : this.$t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION', {
+              automationName: automation.name,
+            });
+        // Check if user confirms to proceed
+        const ok = await this.$refs.confirmDialog.showConfirmation();
+        if (ok) {
+          await await this.$store.dispatch('automations/update', {
+            id: automation.id,
+            active: !status,
+          });
+          const message = status
+            ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_SUCCESFUL')
+            : this.$t('AUTOMATION.TOGGLE.ACTIVATION_SUCCESFUL');
+          this.showAlert(message);
+        }
+      } catch (error) {
+        this.showAlert(this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
       }
     },
     readableTime(date) {

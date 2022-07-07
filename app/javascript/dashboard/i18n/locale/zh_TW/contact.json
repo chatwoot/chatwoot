@@ -7,7 +7,7 @@
     "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "對話詳細資訊",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "查看個人檔案",
     "BROWSER": "瀏覽器",
     "OS": "作業系统",
     "INITIATED_FROM": "發起自：",
@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "確認刪除",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "否，保留它"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "刪除聯絡人",
     "TITLE": "刪除聯絡人",
@@ -77,9 +85,8 @@
     "CONFIRM": {
       "TITLE": "確認刪除",
       "MESSAGE": "您確定要刪除嗎？ ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "是，刪除 ",
-      "NO": "不，保留 "
+      "YES": "是，刪除",
+      "NO": "不，保留"
     },
     "API": {
       "SUCCESS_MESSAGE": "聯絡人刪除成功",
@@ -192,7 +199,7 @@
         "LAST_ACTIVITY": "最後活動",
         "COUNTRY": "國家",
         "CITY": "城市",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "社群檔案",
         "COMPANY": "公司",
         "EMAIL_ADDRESS": "電子信箱地址"
       },
@@ -201,7 +208,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "聯絡人",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "正在讀取聯絡人檔案..."
   },
   "REMINDER": {
     "ADD_BUTTON": {

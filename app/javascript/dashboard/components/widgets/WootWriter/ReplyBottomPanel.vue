@@ -2,6 +2,7 @@
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
       <woot-button
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="emoji"
         emoji="😊"
@@ -10,10 +11,10 @@
         size="small"
         @click="toggleEmojiPicker"
       />
-
       <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         :size="4096 * 4096"
         :accept="allowedFileTypes"
         :multiple="enableMultipleFileUpload"
@@ -23,7 +24,7 @@
           direct_upload_url: '/rails/active_storage/direct_uploads',
           direct_upload: true,
         }"
-        @input-file="onDirectFileUpload"
+        @input-file="onFileUpload"
       >
         <woot-button
           v-if="showAttachButton"
@@ -38,6 +39,7 @@
       </file-upload>
       <woot-button
         v-if="enableRichEditor && !isOnPrivateNote"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         icon="quote"
         emoji="🖊️"
         color-scheme="secondary"
@@ -45,6 +47,47 @@
         size="small"
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
+      />
+      <woot-button
+        v-if="showAudioRecorderButton"
+        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
+        emoji="🎤"
+        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
+        variant="smooth"
+        size="small"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+        @click="toggleAudioRecorder"
+      />
+      <woot-button
+        v-if="showAudioPlayStopButton"
+        :icon="audioRecorderPlayStopIcon"
+        emoji="🎤"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="toggleAudioRecorderPlayPause"
+      >
+        <span>{{ recordingAudioDurationText }}</span>
+      </woot-button>
+      <woot-button
+        v-if="showMessageSignatureButton"
+        v-tooltip.top-end="signatureToggleTooltip"
+        icon="signature"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="signatureToggleTooltip"
+        @click="toggleMessageSignature"
+      />
+      <woot-button
+        v-if="hasWhatsappTemplates"
+        v-tooltip.top-end="'Whatsapp Templates'"
+        icon="whatsapp"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="'Whatsapp Templates'"
+        @click="$emit('selectWhatsappTemplate')"
       />
       <transition name="modal-fade">
         <div
@@ -90,13 +133,16 @@ import {
   hasPressedAltAndAKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import inboxMixin from 'shared/mixins/inboxMixin';
+
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
-  name: 'ReplyTopPanel',
+  name: 'ReplyBottomPanel',
   components: { FileUpload },
-  mixins: [eventListenerMixins],
+  mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
       type: String,
@@ -110,11 +156,23 @@ export default {
       type: String,
       default: '',
     },
+    recordingAudioDurationText: {
+      type: String,
+      default: '',
+    },
+    inbox: {
+      type: Object,
+      default: () => ({}),
+    },
     showFileUpload: {
       type: Boolean,
       default: false,
     },
-    onDirectFileUpload: {
+    showAudioRecorder: {
+      type: Boolean,
+      default: false,
+    },
+    onFileUpload: {
       type: Function,
       default: () => {},
     },
@@ -125,6 +183,22 @@ export default {
     toggleEmojiPicker: {
       type: Function,
       default: () => {},
+    },
+    toggleAudioRecorder: {
+      type: Function,
+      default: () => {},
+    },
+    toggleAudioRecorderPlayPause: {
+      type: Function,
+      default: () => {},
+    },
+    isRecordingAudio: {
+      type: Boolean,
+      default: false,
+    },
+    recordingAudioState: {
+      type: String,
+      default: '',
     },
     isSendDisabled: {
       type: Boolean,
@@ -154,6 +228,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    hasWhatsappTemplates: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isNote() {
@@ -172,8 +250,39 @@ export default {
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
+    showAudioRecorderButton() {
+      return this.showAudioRecorder;
+    },
+    showAudioPlayStopButton() {
+      return this.showAudioRecorder && this.isRecordingAudio;
+    },
     allowedFileTypes() {
       return ALLOWED_FILE_TYPES;
+    },
+    audioRecorderPlayStopIcon() {
+      switch (this.recordingAudioState) {
+        // playing paused recording stopped inactive destroyed
+        case 'playing':
+          return 'microphone-pause';
+        case 'paused':
+          return 'microphone-play';
+        case 'stopped':
+          return 'microphone-play';
+        default:
+          return 'microphone-stop';
+      }
+    },
+    showMessageSignatureButton() {
+      return !this.isPrivate && this.isAnEmailChannel;
+    },
+    sendWithSignature() {
+      const { send_with_signature: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    signatureToggleTooltip() {
+      return this.sendWithSignature
+        ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
   },
   mounted() {
@@ -193,6 +302,11 @@ export default {
     },
     toggleEnterToSend() {
       this.$emit('toggleEnterToSend', !this.enterToSendEnabled);
+    },
+    toggleMessageSignature() {
+      this.updateUISettings({
+        send_with_signature: !this.sendWithSignature,
+      });
     },
   },
 };

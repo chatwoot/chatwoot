@@ -92,14 +92,18 @@ export const actions = {
     }
   },
 
-  executeCampaign: async ({ commit }, { campaignId, websiteToken }) => {
+  executeCampaign: async (
+    { commit },
+    { campaignId, websiteToken, customAttributes }
+  ) => {
     try {
       commit(
         'conversation/setConversationUIFlag',
         { isCreating: true },
         { root: true }
       );
-      await triggerCampaign({ campaignId, websiteToken });
+      await triggerCampaign({ campaignId, websiteToken, customAttributes });
+      commit('setCampaignExecuted', true);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -113,6 +117,7 @@ export const actions = {
   },
   resetCampaign: async ({ commit }) => {
     try {
+      commit('setCampaignExecuted', false);
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
@@ -129,6 +134,12 @@ export const mutations = {
   },
   setError($state, value) {
     Vue.set($state.uiFlags, 'isError', value);
+  },
+  setHasFetched($state, value) {
+    Vue.set($state.uiFlags, 'hasFetched', value);
+  },
+  setCampaignExecuted($state, data) {
+    Vue.set($state, 'campaignHasExecuted', data);
   },
 };
 

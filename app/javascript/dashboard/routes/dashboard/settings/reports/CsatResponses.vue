@@ -1,6 +1,20 @@
 <template>
   <div class="column content-box">
-    <report-date-range-selector @date-range-change="onDateRangeChange" />
+    <report-filter-selector
+      agents-filter
+      :agents-filter-items-list="agentList"
+      :show-business-hours-switch="false"
+      @date-range-change="onDateRangeChange"
+      @agents-filter-change="onAgentsFilterChange"
+    />
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="arrow-download"
+      @click="downloadReports"
+    >
+      {{ $t('CSAT_REPORTS.DOWNLOAD') }}
+    </woot-button>
     <csat-metrics />
     <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>
@@ -8,21 +22,35 @@
 <script>
 import CsatMetrics from './components/CsatMetrics';
 import CsatTable from './components/CsatTable';
-import ReportDateRangeSelector from './components/DateRangeSelector';
+import ReportFilterSelector from './components/FilterSelector';
+import { mapGetters } from 'vuex';
+import { generateFileName } from '../../../../helper/downloadHelper';
 
 export default {
   name: 'CsatResponses',
   components: {
     CsatMetrics,
     CsatTable,
-    ReportDateRangeSelector,
+    ReportFilterSelector,
   },
   data() {
-    return { pageIndex: 1, from: 0, to: 0 };
+    return { pageIndex: 1, from: 0, to: 0, userIds: [] };
+  },
+  computed: {
+    ...mapGetters({
+      agentList: 'agents/getAgents',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('agents/get');
   },
   methods: {
     getAllData() {
-      this.$store.dispatch('csat/getMetrics', { from: this.from, to: this.to });
+      this.$store.dispatch('csat/getMetrics', {
+        from: this.from,
+        to: this.to,
+        user_ids: this.userIds,
+      });
       this.getResponses();
     },
     getResponses() {
@@ -30,6 +58,7 @@ export default {
         page: this.pageIndex,
         from: this.from,
         to: this.to,
+        user_ids: this.userIds,
       });
     },
     onPageNumberChange(pageIndex) {
@@ -40,6 +69,19 @@ export default {
       this.from = from;
       this.to = to;
       this.getAllData();
+    },
+    onAgentsFilterChange(agents) {
+      this.userIds = agents.map(el => el.id);
+      this.getAllData();
+    },
+    downloadReports() {
+      const type = 'csat';
+      this.$store.dispatch('csat/downloadCSATReports', {
+        from: this.from,
+        to: this.to,
+        user_ids: this.userIds,
+        fileName: generateFileName({ type, to: this.to }),
+      });
     },
   },
 };

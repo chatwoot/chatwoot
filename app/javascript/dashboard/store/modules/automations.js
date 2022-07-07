@@ -48,7 +48,7 @@ export const actions = {
     commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: true });
     try {
       const response = await AutomationAPI.update(id, updateObj);
-      commit(types.EDIT_AUTOMATION, response.data);
+      commit(types.EDIT_AUTOMATION, response.data.payload);
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -74,6 +74,14 @@ export const actions = {
       throw new Error(error);
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: false });
+    }
+  },
+  uploadAttachment: async (_, file) => {
+    try {
+      const { data } = await AutomationAPI.attachment(file);
+      return data.blob_id;
+    } catch (error) {
+      throw new Error(error);
     }
   },
 };

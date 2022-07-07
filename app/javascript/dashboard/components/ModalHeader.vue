@@ -4,10 +4,10 @@
     <h2 class="page-sub-title">
       {{ headerTitle }}
     </h2>
-    <p v-if="headerContent" class="small-12 column">
+    <p v-if="headerContent" class="small-12 column wrap-content">
       {{ headerContent }}
     </p>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -29,3 +29,8 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.wrap-content {
+  word-wrap: break-word;
+}
+</style>

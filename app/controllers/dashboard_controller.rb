@@ -25,7 +25,11 @@ class DashboardController < ActionController::Base
       'API_CHANNEL_NAME',
       'API_CHANNEL_THUMBNAIL',
       'ANALYTICS_TOKEN',
-      'ANALYTICS_HOST'
+      'ANALYTICS_HOST',
+      'DIRECT_UPLOADS_ENABLED',
+      'HCAPTCHA_SITE_KEY',
+      'LOGOUT_REDIRECT_LINK',
+      'DISABLE_USER_PROFILE_UPDATE'
     ).merge(app_config)
   end
 
@@ -34,9 +38,13 @@ class DashboardController < ActionController::Base
   end
 
   def app_config
-    { APP_VERSION: Chatwoot.config[:version],
+    {
+      APP_VERSION: Chatwoot.config[:version],
       VAPID_PUBLIC_KEY: VapidService.public_key,
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
-      FB_APP_ID: GlobalConfigService.load('FB_APP_ID', '') }
+      FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
+      FACEBOOK_API_VERSION: 'v14.0',
+      IS_ENTERPRISE: ChatwootApp.enterprise?
+    }
   end
 end

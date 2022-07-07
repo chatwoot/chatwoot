@@ -22,6 +22,8 @@ ru:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Мы не разрешаем одноразовые почтовые ящики
       invalid_email: Вы ввели неверный email
@@ -37,11 +39,33 @@ ru:
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
+    label_csv:
+      label_title: Метка
+      conversations_count: No. of conversations
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
+    default_group_by: день
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Имя оператора
+        rating: Оценка
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Новая беседа] - #%{display_id} была создана в %{inbox_name}"
@@ -50,10 +74,12 @@ ru:
       conversation_mention: "Вас упомянули в разговоре [ID - %{display_id}] %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} упомянул Вас в истории: "
       deleted: Это сообщение было удалено
     activity:
       status:
         resolved: "%{user_name} завершил диалог"
+        contact_resolved: "Разговор был закрыт %{contact_name}"
         open: "%{user_name} открыл заново диалог"
         pending: "Разговор был помечен как ожидающий %{user_name}"
         snoozed: "Разговор был помечен как отложенный %{user_name}"

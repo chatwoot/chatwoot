@@ -15,7 +15,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def update
     if @message.content_type == 'input_email'
       @message.update!(submitted_email: contact_email)
-      update_contact(contact_email)
+      ContactIdentifyAction.new(
+        contact: @contact,
+        params: { email: contact_email }
+      ).perform
     else
       @message.update!(message_update_params[:message])
     end
@@ -29,10 +32,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     return if params[:message][:attachments].blank?
 
     params[:message][:attachments].each do |uploaded_attachment|
-      @message.attachments.new(
+      attachment = @message.attachments.new(
         account_id: @message.account_id,
         file: uploaded_attachment
       )
+
+      attachment.file_type = helpers.file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
     end
   end
 

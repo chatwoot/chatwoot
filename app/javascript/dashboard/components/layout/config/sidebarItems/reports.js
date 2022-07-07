@@ -3,7 +3,8 @@ import { frontendURL } from '../../../../helper/URLHelper';
 const reports = accountId => ({
   parentNav: 'reports',
   routes: [
-    'settings_account_reports',
+    'account_overview_reports',
+    'conversation_reports',
     'csat_reports',
     'agent_reports',
     'label_reports',
@@ -16,7 +17,14 @@ const reports = accountId => ({
       label: 'REPORTS_OVERVIEW',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/overview`),
-      toStateName: 'settings_account_reports',
+      toStateName: 'account_overview_reports',
+    },
+    {
+      icon: 'chat',
+      label: 'REPORTS_CONVERSATION',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/conversation`),
+      toStateName: 'conversation_reports',
     },
     {
       icon: 'emoji',

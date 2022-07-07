@@ -1,14 +1,14 @@
 {
   "CAMPAIGN": {
     "HEADER": "Kampagnen",
-    "SIDEBAR_TXT": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde. Klicke auf <b>Kampagne hinzufügen</b> um eine neue Kampagne zu erstellen. Sie können auch eine bestehende Kampagne bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.",
+    "SIDEBAR_TXT": "Proaktive Nachrichten ermöglichen es dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, die mehr Gespräche auslösen würden. Klicken Sie auf <b>Kampagne hinzufügen</b>, um eine neue Kampagne zu erstellen. Sie können eine bestehende Kampagne auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.",
     "HEADER_BTN_TXT": {
       "ONE_OFF": "Eine einmalige Kampagne erstellen",
       "ONGOING": "Eine laufende Kampagne erstellen"
     },
     "ADD": {
       "TITLE": "Kampagne erstellen",
-      "DESC": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde.",
+      "DESC": "Proaktive Nachrichten ermöglichen es dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, die mehr Konversationen auslösen würden.",
       "CANCEL_BUTTON_TEXT": "Abbrechen",
       "CREATE_BUTTON_TEXT": "Erstellen",
       "FORM": {
@@ -29,8 +29,8 @@
           "ERROR": "Zielgruppe ist erforderlich"
         },
         "INBOX": {
-          "LABEL": "Eingang auswählen",
-          "PLACEHOLDER": "Eingang auswählen",
+          "LABEL": "Posteingang auswählen",
+          "PLACEHOLDER": "Posteingang auswählen",
           "ERROR": "Posteingang ist erforderlich"
         },
         "MESSAGE": {
@@ -66,7 +66,7 @@
       "BUTTON_TEXT": "Löschen",
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
-        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "MESSAGE": "Sind Sie sicher, dass Sie das löschen möchten?",
         "YES": "Ja, löschen ",
         "NO": "Nein, behalten "
       },

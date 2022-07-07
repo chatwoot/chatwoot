@@ -22,6 +22,8 @@ zh_TW:
     reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
     reset_password_failure: 我們找不到用戶指定的電子郵件。
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: 我們不允許一次性電子郵件。
       invalid_email: 您輸入的電子郵件無效。
@@ -37,11 +39,33 @@ zh_TW:
       conversations_count: 對話數量
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
     team_csv:
       team_name: 團隊名稱
       conversations_count: 對話數量
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
+    default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: 客服姓名
+        rating: Rating
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[新對話] - #%{display_id} 已經在 %{inbox_name} 中被建立"
@@ -50,10 +74,12 @@ zh_TW:
       conversation_mention: "你在對話 %{name} 的 [ID - %{display_id}] 中被提及"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
       deleted: 訊息已被刪除
     activity:
       status:
         resolved: "被%{user_name}標記的對話已解決。"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "被%{user_name}恢復對話。"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"

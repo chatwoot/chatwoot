@@ -131,11 +131,12 @@ RSpec.describe 'Campaigns API', type: :request do
         twilio_inbox = create(:inbox, channel: twilio_sms)
         label1 = create(:label, account: account)
         label2 = create(:label, account: account)
+        scheduled_at = 2.days.from_now
 
         post "/api/v1/accounts/#{account.id}/campaigns",
              params: {
                inbox_id: twilio_inbox.id, title: 'test', message: 'test message',
-               scheduled_at: 2.days.from_now,
+               scheduled_at: scheduled_at,
                audience: [{ type: 'Label', id: label1.id }, { type: 'Label', id: label2.id }]
              },
              headers: administrator.create_new_auth_token,
@@ -145,6 +146,7 @@ RSpec.describe 'Campaigns API', type: :request do
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data[:campaign_type]).to eq('one_off')
         expect(response_data[:scheduled_at].present?).to eq true
+        expect(response_data[:scheduled_at]).to eq(scheduled_at.to_i)
         expect(response_data[:audience].pluck(:id)).to include(label1.id, label2.id)
       end
     end

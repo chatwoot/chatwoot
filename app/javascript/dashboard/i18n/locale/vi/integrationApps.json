@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Đang lấy Tích hợp",
+    "NO_HOOK_CONFIGURED": "Không có tích hợp %{integrationId} được cấu hình đối với tài khoản này.",
+    "HEADER": "Ứng dụng",
     "STATUS": {
       "ENABLED": "Bật",
       "DISABLED": "Không bật"
     },
     "CONFIGURE": "Cấu hình",
-    "ADD_BUTTON": "Add a new hook",
+    "ADD_BUTTON": "Thêm một hook mới",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Xác nhận xoá",
+        "ACCOUNT": "Ngắt kết nối"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "Bạn có chắc muốn xoá?",
+        "ACCOUNT": "Bạn có chắc muốn ngắt kết nối?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Có, Xoá",
-        "ACCOUNT": "Yes, Disconnect"
+        "ACCOUNT": "Có, ngắt kết nối"
       },
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Hook đã được xoá thành công",
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "Đang lấy hook tích hợp",
+      "INBOX": "Hộp thư đến",
       "DELETE": {
         "BUTTON_TEXT": "Xoá"
       }
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Chọn Hộp thư đến",
+          "PLACEHOLDER": "Chọn Hộp thư đến"
         },
         "SUBMIT": "Tạo",
         "CANCEL": "Huỷ"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Hook tích hợp đã được thêm thành công",
         "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Kết nối"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Ngắt kết nối"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow là một nền tảng hiểu ngôn ngữ tự nhiên giúp bạn dễ dàng thiết kế và tích hợp giao diện người dùng trò chuyện vào ứng dụng di động, ứng dụng web, thiết bị, bot, hệ thống phản hồi giọng nói tương tác, v. v. Tích hợp <br/> <br/> Dialogflow với %{installationName} cho phép bạn định cấu hình bot Dialogflow với hộp thư đến của bạn, điều này cho phép bot xử lý các truy vấn ban đầu và giao chúng cho đại lý khi cần. Dialogflow có thể được sử dụng để xác định khách hàng tiềm năng, giảm khối lượng công việc của các đại lý bằng cách cung cấp các câu hỏi thường gặp, v. v. <br/> <br/> Để thêm Dialogflow, bạn cần tạo Tài khoản dịch vụ trong bảng điều khiển dự án của Google và chia sẻ chứng chỉ. Vui lòng tham khảo tài liệu Dialogflow để biết thêm thông tin."
     }
   }
 }

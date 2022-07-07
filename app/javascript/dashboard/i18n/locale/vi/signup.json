@@ -5,23 +5,24 @@
     "TERMS_ACCEPT": "Bằng cách đăng ký, bạn đồng ý với <a href=\"https://www.chatwoot.com/terms\">T & C</a> và <a href=\"https://www.chatwoot.com/privacy-policy\">Chính sách bảo mật</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Tên tài khoản",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "Nhập tên tài khoản. ví dụ: Wayne Enterprises",
+      "ERROR": "Tên tài khoản quá ngắn"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Tên đầy đủ",
+      "PLACEHOLDER": "Nhập tên đầy đủ của bạn. ví dụ: Wayne Enterprises",
+      "ERROR": "Tên đầy đủ quá ngắn"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Email công việc",
+      "PLACEHOLDER": "Nhập email công việc của bạn. ví dụ: bruce@wayne.enterprises",
+      "ERROR": "Địa chỉ email hợp lệ"
     },
     "PASSWORD": {
       "LABEL": "Mật khẩu",
       "PLACEHOLDER": "Mật khẩu",
-      "ERROR": "Mật khẩu quá ngắn"
+      "ERROR": "Mật khẩu quá ngắn",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Xác nhận mật khẩu",
@@ -33,6 +34,6 @@
       "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
     },
     "SUBMIT": "Gửi",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Đã có tài khoản?"
   }
 }

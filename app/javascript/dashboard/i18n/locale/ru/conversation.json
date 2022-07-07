@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Пожалуйста, выберите диалог из левой панели",
+    "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
     "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
     "NO_MESSAGE_2": " чтобы отправить сообщение на вашу страницу!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
+    "UNKNOWN_FILE_TYPE": "Неизвестный файл",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
@@ -57,8 +59,13 @@
       }
     },
     "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
+      "ENABLE_SIGN_TOOLTIP": "Включить подпись",
+      "DISABLE_SIGN_TOOLTIP": "Отключить подпись",
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
-      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам"
+      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Подпись сообщения не настроена, пожалуйста настройте её в настройках профиля.",
+      "CLICK_HERE": "Нажмите здесь, чтобы обновить"
     },
     "REPLYBOX": {
       "REPLY": "Ответить",
@@ -69,8 +76,14 @@
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
+      "TIP_AUDIORECORDER_ICON": "Записать аудио",
+      "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
+      "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
       "ENTER_TO_SEND": "Введите чтобы отправить",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
+      "START_AUDIO_RECORDING": "Начать запись аудио",
+      "STOP_AUDIO_RECORDING": "Остановить запись аудио",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Добавить bcc",
         "CC": {
@@ -184,6 +197,7 @@
     }
   },
   "EMAIL_HEADER": {
+    "FROM": "От",
     "TO": "Кому",
     "BCC": "Bcc",
     "CC": "Cc",

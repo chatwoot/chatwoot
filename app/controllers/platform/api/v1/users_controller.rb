@@ -7,9 +7,9 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def create
     @resource = (User.find_by(email: user_params[:email]) || User.new(user_params))
+    @resource.skip_confirmation!
     @resource.save!
-    @resource.confirm
-    @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+    @platform_app.platform_app_permissibles.find_or_create_by!(permissible: @resource)
   end
 
   def login
@@ -21,6 +21,10 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def update
     @resource.assign_attributes(user_update_params)
+
+    # We are using devise's reconfirmable flow for changing emails
+    # But in case of platform APIs we don't want user to go through this extra step
+    @resource.skip_reconfirmation! if user_update_params[:email].present?
     @resource.save!
   end
 

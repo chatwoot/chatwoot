@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Contacten werden succesvol opgeslagen",
     "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Verwijderen bevestigen",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nee, Bewaar het"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Contactpersoon verwijderen",
     "TITLE": "Contactpersoon verwijderen",
@@ -77,9 +85,8 @@
     "CONFIRM": {
       "TITLE": "Verwijderen bevestigen",
       "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
-      "PLACE_HOLDER": "Voer {contactName} in om te bevestigen",
-      "YES": "Ja, verwijderen ",
-      "NO": "Nee, Behouden "
+      "YES": "Ja, verwijderen",
+      "NO": "Nee, Behouden"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contactpersoon werd succesvol verwijderd",

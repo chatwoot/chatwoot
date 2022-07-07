@@ -8,13 +8,13 @@
       "SUBMIT": "Yolla"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Mesajı tekrar gönder",
+      "ERROR_MESSAGE": "Gönderilemedi, tekrar deneyin"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Çevrimiçi",
-    "OFFLINE": "Şuan operatörlerimiz müsait değil"
+    "OFFLINE": "Şu an operatörlerimiz müsait değil"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
@@ -22,8 +22,9 @@
     "IN_A_DAY": "Genellikle bir gün içinde yanıtlar"
   },
   "START_CONVERSATION": "Görüşmeyi Başlatın",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Görüşmeyi Başlatın",
+  "END_CONVERSATION": "Görüşmeyi Sonlandır",
+  "CONTINUE_CONVERSATION": "Görüşmeye devam et",
+  "START_NEW_CONVERSATION": "Yeni Görüşme Başlatın",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
     "CLOSE_MESSAGES_BUTTON": "Kapat",
@@ -43,20 +44,28 @@
       "FULL_NAME": {
         "LABEL": "Ad Soyad",
         "PLACEHOLDER": "lütfen tam adınızı giriniz",
-        "ERROR": "Tam isim gerekli"
+        "REQUIRED_ERROR": "Tam isim gerekli"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-posta adresi",
-        "PLACEHOLDER": "Lütfen E-postanızı girin",
-        "ERROR": "Geçersiz email adresi"
+        "PLACEHOLDER": "Lütfen e-postanızı girin",
+        "REQUIRED_ERROR": "e-Posta adresi zorunludur",
+        "VALID_ERROR": "Lütfen geçerli bir e-posta adresi girin"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefon numarası",
+        "PLACEHOLDER": "Lütfen telefon numaranızı yazınız",
+        "REQUIRED_ERROR": "Telefon numarası zorunludur",
+        "VALID_ERROR": "Telefon numarası E.164 formatında olmalıdır örn: +905555555"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
-        "PLACEHOLDER": "Lütfen E-postanızı girin",
+        "PLACEHOLDER": "Lütfen mesajınızı girin",
         "ERROR": "Mesaj çok kısa"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz",
+    "IS_REQUIRED": "zorunlu"
   },
   "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
   "CHAT_FORM": {
@@ -65,8 +74,8 @@
     }
   },
   "CSAT": {
-    "TITLE": "Konuşmanızı oylayın",
-    "SUBMITTED_TITLE": "Konuşmanızı oyladığınız için teşekkürler",
+    "TITLE": "Görüşmenizi değerlendirin",
+    "SUBMITTED_TITLE": "Değerlendirmeniz için teşekkürler",
     "PLACEHOLDER": "Biraz daha fazla bilgi verin..."
   },
   "EMAIL_TRANSCRIPT": {

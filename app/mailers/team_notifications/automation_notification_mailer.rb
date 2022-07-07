@@ -4,50 +4,31 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
 
     @agents = team.team_members
     @conversation = conversation
-    @message = message
+    @custom_message = message
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
 
     send_an_email_to_team
-  end
-
-  def conversation_updated(conversation, team)
-    return unless smtp_config_set_or_development?
-
-    @agents = team.team_members
-    @conversation = conversation
-    @message = message
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-
-    send_an_email_to_team
-  end
-
-  def message_created(message, agent)
-    return unless smtp_config_set_or_development?
-
-    @agent = agent
-    @conversation = message.conversation
-    @message = message
-    subject = "#{@agent.available_name}, You have been mentioned in conversation [ID - #{@conversation.display_id}]"
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    send_mail_with_liquid(to: @agent.email, subject: subject)
   end
 
   private
 
   def send_an_email_to_team
-    @agents.each do |agent|
-      subject = "#{@agent.available_name}, A new conversation [ID - #{@conversation.display_id}] has been created in #{@conversation.inbox&.name}."
-      @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-      send_mail_with_liquid(to: agent.email, subject: subject)
-    end
+    subject = 'This email has been sent via automation rule actions.'
+    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
+    @agent_emails = @agents.collect(&:user).pluck(:email)
+    send_mail_with_liquid(to: @agent_emails, subject: subject) and return
   end
 
   def liquid_droppables
-    super.merge({
-                  user: @agent,
-                  conversation: @conversation,
-                  inbox: @conversation.inbox,
-                  message: @message
-                })
+    super.merge!({
+                   conversation: @conversation,
+                   inbox: @conversation.inbox
+                 })
+  end
+
+  def liquid_locals
+    super.merge!({
+                   custom_message: @custom_message
+                 })
   end
 end

@@ -15,13 +15,12 @@
           {{ $t('NETWORK.BUTTON.REFRESH') }}
         </woot-button>
         <woot-button
-          variant="clear"
+          variant="smooth"
           size="small"
-          color-scheme="secondary"
+          color-scheme="warning"
           icon="dismiss-circle"
           @click="closeNotification"
-        >
-        </woot-button>
+        />
       </div>
     </div>
   </transition>
@@ -30,6 +29,7 @@
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   mixins: [globalConfigMixin],
@@ -46,6 +46,9 @@ export default {
 
   mounted() {
     window.addEventListener('offline', this.updateOnlineStatus);
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
+      this.updateOnlineStatus({ type: 'offline' });
+    });
   },
 
   beforeDestroy() {

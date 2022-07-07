@@ -1,6 +1,6 @@
 import { addClass, removeClass, toggleClass, wootOn } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
-import { BUBBLE_DESIGN } from './constants';
+import { isExpandedView } from './settingsHelper';
 
 export const bubbleImg =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAUVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////8IN+deAAAAGnRSTlMAAwgJEBk0TVheY2R5eo+ut8jb5OXs8fX2+cjRDTIAAADsSURBVHgBldZbkoMgFIThRgQv8SKKgGf/C51UnJqaRI30/9zfe+NQUQ3TvG7bOk9DVeCmshmj/CuOTYnrdBfkUOg0zlOtl9OWVuEk4+QyZ3DIevmSt/ioTvK1VH/s5bY3YdM9SBZ/mUUyWgx+U06ycgp7D8msxSvtc4HXL9BLdj2elSEfhBJAI0QNgJEBI1BEBsQClVBVGDgwYOLAhJkDM1YOrNg4sLFAsLJgZsHEgoEFFQt0JAFGFjQsKAMJ0LFAexKgZYFyJIDxJIBNJEDNAtSJBLCeBDCOBFAPzwFA94ED+zmhwDO9358r8ANtIsMXi7qVAwAAAABJRU5ErkJggg==';
@@ -12,10 +12,6 @@ export const bubbleHolder = document.createElement('div');
 export const chatBubble = document.createElement('button');
 export const closeBubble = document.createElement('button');
 export const notificationBubble = document.createElement('span');
-
-export const getBubbleView = type =>
-  BUBBLE_DESIGN.includes(type) ? type : BUBBLE_DESIGN[0];
-export const isExpandedView = type => getBubbleView(type) === BUBBLE_DESIGN[1];
 
 export const setBubbleText = bubbleText => {
   if (isExpandedView(window.$chatwoot.type)) {
@@ -43,7 +39,10 @@ export const createBubbleIcon = ({ className, src, target }) => {
   return target;
 };
 
-export const createBubbleHolder = () => {
+export const createBubbleHolder = hideMessageBubble => {
+  if (hideMessageBubble) {
+    addClass(bubbleHolder, 'woot-hidden');
+  }
   addClass(bubbleHolder, 'woot--bubble-holder');
   body.appendChild(bubbleHolder);
 };

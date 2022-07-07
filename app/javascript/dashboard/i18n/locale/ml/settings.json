@@ -19,6 +19,18 @@
         "TITLE": "പ്രൊഫൈൽ",
         "NOTE": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം നിങ്ങളുടെ ഐഡന്റിറ്റിയാണ്, ഒപ്പം ലോഗിൻ ചെയ്യാൻ ഇതാണ്  ഉപയോഗിക്കേണ്ടത്."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Personal message signature",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Save message signature",
+        "API_ERROR": "Couldn't save signature! Try again",
+        "API_SUCCESS": "Signature saved successfully"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Message Signature",
+        "ERROR": "Message Signature cannot be empty",
+        "PLACEHOLDER": "Insert your personal message signature here."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "പാസ്‌വേഡ്",
         "NOTE": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്യുന്നത് ഒന്നിലധികം ഉപകരണങ്ങളിൽ നിങ്ങളുടെ ലോഗിനുകൾ പുനഃസജ്ജീകരിക്കും.",
@@ -119,6 +131,10 @@
       "BUTTON_TEXT": "പകർത്തുക",
       "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ഡൗൺലോഡ്",
       "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു..."
@@ -134,6 +150,8 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "പരാമർശിക്കുന്നു",
@@ -160,7 +178,7 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "അവലോകനം",
+    "REPORTS_CONVERSATION": "സംഭാഷണങ്ങൾ",
     "CSAT": "CSAT",
     "CAMPAIGNS": "പ്രചാരണങ്ങൾ",
     "ONGOING": "Ongoing",
@@ -169,7 +187,10 @@
     "REPORTS_LABEL": "ലേബലുകൾ",
     "REPORTS_INBOX": "ഇൻബോക്സ്",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as"
+    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "അവലോകനം",
+    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

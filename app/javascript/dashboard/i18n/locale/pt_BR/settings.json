@@ -19,6 +19,18 @@
         "TITLE": "Perfil",
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
       },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "Assinatura de mensagens pessoais",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "BTN_TEXT": "Salvar assinatura da mensagem",
+        "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
+        "API_SUCCESS": "Assinatura salva com sucesso"
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "Assinatura da mensagem",
+        "ERROR": "Assinatura da mensagem não pode estar vazia",
+        "PLACEHOLDER": "Insira aqui a assinatura de sua mensagem pessoal."
+      },
       "PASSWORD_SECTION": {
         "TITLE": "Senha",
         "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos.",
@@ -119,6 +131,10 @@
       "BUTTON_TEXT": "Copiar",
       "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
     },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mostrar Mais",
+      "SHOW_LESS": "Mostrar Menos"
+    },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Baixar",
       "UPLOADING": "Enviando..."
@@ -134,6 +150,8 @@
     }
   },
   "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
+    "SWITCH": "Trocar",
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
@@ -160,7 +178,7 @@
     "NEW_LABEL": "Nova etiqueta",
     "NEW_TEAM": "Novo time",
     "NEW_INBOX": "Nova caixa de entrada",
-    "REPORTS_OVERVIEW": "Visão geral",
+    "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
@@ -169,7 +187,10 @@
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
-    "SET_AVAILABILITY_TITLE": "Defina como"
+    "SET_AVAILABILITY_TITLE": "Defina como",
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

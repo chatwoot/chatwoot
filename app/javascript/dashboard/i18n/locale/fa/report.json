@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "بررسی اجمالی",
+    "HEADER": "گفتگوها",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
@@ -18,12 +18,16 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "زمان تا اولین پاسخ",
-        "DESC": "( میانگین )"
+        "NAME": "اولین زمان پاسخگویی",
+        "DESC": "( میانگین )",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
-        "DESC": "( میانگین )"
+        "DESC": "( میانگین )",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -59,7 +63,57 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "درخواست دادن",
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
-    }
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "دسته بندی بر اساس",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      },
+      {
+        "id": 0,
+        "groupBy": "هفته"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      },
+      {
+        "id": 0,
+        "groupBy": "هفته"
+      },
+      {
+        "id": 0,
+        "groupBy": "ماه"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "روز"
+      },
+      {
+        "id": 0,
+        "groupBy": "هفته"
+      },
+      {
+        "id": 0,
+        "groupBy": "ماه"
+      },
+      {
+        "id": 0,
+        "groupBy": "سال"
+      }
+    ],
+    "BUSINESS_HOURS": "ساعت کاری"
   },
   "AGENT_REPORTS": {
     "HEADER": "نمای کلی ایجنت ها",
@@ -81,12 +135,16 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "زمان تا اولین پاسخ",
-        "DESC": "« میانگین »"
+        "NAME": "اولین زمان پاسخگویی",
+        "DESC": "« میانگین »",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
-        "DESC": "« میانگین »"
+        "DESC": "« میانگین »",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -144,12 +202,16 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "زمان تا اولین پاسخ",
-        "DESC": "( میانگین )"
+        "NAME": "اولین زمان پاسخگویی",
+        "DESC": "( میانگین )",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
-        "DESC": "( میانگین )"
+        "DESC": "( میانگین )",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -207,12 +269,16 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "زمان تا اولین پاسخ",
-        "DESC": "« میانگین »"
+        "NAME": "اولین زمان پاسخگویی",
+        "DESC": "« میانگین »",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
-        "DESC": "« میانگین »"
+        "DESC": "« میانگین »",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -270,12 +336,16 @@
         "DESC": "( جمع کل )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "زمان تا اولین پاسخ",
-        "DESC": "« میانگین »"
+        "NAME": "اولین زمان پاسخگویی",
+        "DESC": "« میانگین »",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
-        "DESC": "« میانگین »"
+        "DESC": "« میانگین »",
+        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -316,6 +386,12 @@
   "CSAT_REPORTS": {
     "HEADER": "گزارشات رضایت مشتری",
     "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
+    "DOWNLOAD": "دانلود گزارش CSAT",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "ایجنت را انتخاب کنید"
+      }
+    },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "مخاطب",
@@ -337,6 +413,34 @@
         "LABEL": "نرخ پاسخ",
         "TOOLTIP": "تعداد کل پاسخ ها / تعداد کل پیام های نظرسنجی رضایت مشتری ارسال شده از 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "بررسی اجمالی",
+    "LIVE": "زنده",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "گفتگوها را باز کنید",
+      "LOADING_MESSAGE": "در حال بارگیری معیارهای مکالمه...",
+      "OPEN": "باز",
+      "UNATTENDED": "بی سرپرست",
+      "UNASSIGNED": "تخصیص داده نشده"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "گفتگوهای ایجنت ها",
+      "LOADING_MESSAGE": "در حال بارگیری معیارهای ایجنت...",
+      "NO_AGENTS": "هیچ مکالمه ای توسط ایجنت ها وجود ندارد",
+      "TABLE_HEADER": {
+        "AGENT": "ایجنت",
+        "OPEN": "باز",
+        "UNATTENDED": "بی سرپرست",
+        "STATUS": "وضعیت"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "وضعیت ایجنت",
+      "ONLINE": "آنلاین",
+      "BUSY": "مشغول",
+      "OFFLINE": "آفلاین"
     }
   }
 }
