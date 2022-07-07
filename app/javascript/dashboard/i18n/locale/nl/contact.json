@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Voer het e-mailadres van de contactpersoon in",
         "LABEL": "Uw e-mailadres",
-        "DUPLICATE": "Dit e-mailadres is reeds in gebruik voor een ander contact."
+        "DUPLICATE": "Dit e-mailadres is reeds in gebruik voor een ander contact.",
+        "ERROR": "Voer een geldig e-mailadres in."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Voer het telefoonnummer van de contactpersoon in",
