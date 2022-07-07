@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Skriv inn e-postadressen til kontakten",
         "LABEL": "E-postadresse",
-        "DUPLICATE": "Denne e-postadressen er allerede i bruk av en annen kontakt."
+        "DUPLICATE": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
+        "ERROR": "Vennligst skriv inn en gyldig e-postadresse."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Skriv inn telefonnummeret til kontakten",

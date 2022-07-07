@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Добавете имейл на контакта",
         "LABEL": "Имейл адрес",
-        "DUPLICATE": "Този имейл се използва от друг контакт."
+        "DUPLICATE": "Този имейл се използва от друг контакт.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Добавете телефона на контакта",
