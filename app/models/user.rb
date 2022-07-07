@@ -89,10 +89,17 @@ class User < ApplicationRecord
   has_many :notification_settings, dependent: :destroy_async
   has_many :notification_subscriptions, dependent: :destroy_async
   has_many :notifications, dependent: :destroy_async
-  has_many :portals, through: :portals_members
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :articles, foreign_key: 'author_id', dependent: :nullify
+  has_many :portal_members,
+           class_name: :PortalMember,
+           dependent: :destroy_async
+  has_many :portals,
+           through: :portals_members,
+           class_name: :Portal,
+           dependent: :nullify,
+           source: :portal
 
   before_validation :set_password_and_uid, on: :create
 

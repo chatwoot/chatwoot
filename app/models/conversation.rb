@@ -72,7 +72,7 @@ class Conversation < ApplicationRecord
 
   scope :last_user_message_at, lambda {
     joins(
-      "INNER JOIN (#{last_messaged_conversations.to_sql}) grouped_conversations
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
       ON grouped_conversations.conversation_id = conversations.id"
     ).sort_on_last_user_message_at
   }

@@ -21,6 +21,13 @@
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
+            v-if="isAWhatsappWhatsappCloudInbox"
+            lang="html"
+            :script="currentInbox.callback_webhook_url"
+          />
+        </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
             v-if="isALineInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
@@ -92,6 +99,12 @@ export default {
     isASmsInbox() {
       return this.currentInbox.channel_type === 'Channel::Sms';
     },
+    isAWhatsappWhatsappCloudInbox() {
+      return (
+        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
+        this.currentInbox.provider === 'whatsapp_cloud'
+      );
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
@@ -108,6 +121,12 @@ export default {
       if (this.isALineInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isAWhatsappWhatsappCloudInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
