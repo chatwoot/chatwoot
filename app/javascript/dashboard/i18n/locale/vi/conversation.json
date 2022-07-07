@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "DASHBOARD_APP_TAB_MESSAGES": "Tin nhắn",
     "UNVERIFIED_SESSION": "Danh tính của người dùng này không được xác thực",
     "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
     "NO_MESSAGE_2": " gửi tin nhắn đến trang của bạn!",
@@ -31,7 +31,7 @@
     "REPLYING_TO": "Bạn đang trả lời:",
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "Tập tin chưa xác định",
     "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
@@ -64,8 +64,8 @@
       "DISABLE_SIGN_TOOLTIP": "Tắt chữ ký",
       "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
       "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Chứ ký cuối tin nhắn chưa được cài đặt, xin hãy cài đặt một chữ ký trong phần cài đặt hồ sơ.",
+      "CLICK_HERE": "Bấm vào đây để cập nhật"
     },
     "REPLYBOX": {
       "REPLY": "Trả lời",
@@ -76,13 +76,13 @@
       "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
       "TIP_EMOJI_ICON": "Hiển thị chọn emoji",
       "TIP_ATTACH_ICON": "Đính kèm files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "Ghi âm",
+      "TIP_AUDIORECORDER_PERMISSION": "Cho phép truy cập ghi âm",
+      "TIP_AUDIORECORDER_ERROR": "Không thể mở bản ghi âm",
       "ENTER_TO_SEND": "Nhấn Enter để gửi",
       "DRAG_DROP": "Kéo thả vào đây để đính kèm",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "Bắt đầu ghi âm",
+      "STOP_AUDIO_RECORDING": "Dừng ghi âm",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Thêm bcc",
