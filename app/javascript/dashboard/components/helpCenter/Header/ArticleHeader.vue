@@ -4,12 +4,13 @@
       <h3 class="page-title">{{ headerTitle }}</h3>
       <span class="text-block-title count-view">{{ `(${count})` }}</span>
     </div>
-    <div class="header-right--wrap">
+    <div>
       <woot-button
         class-names="article--buttons"
         icon="filter"
         color-scheme="secondary"
         variant="hollow"
+        size="small"
         @click="openFilterModal"
       >
         {{ $t('HELP_CENTER.HEADER.FILTER') }}
@@ -18,6 +19,7 @@
         class-names="article--buttons"
         icon="arrow-sort"
         color-scheme="secondary"
+        size="small"
         variant="hollow"
         @click="openDropdown"
       >
@@ -70,9 +72,14 @@
         icon="settings"
         class-names="article--buttons"
         variant="hollow"
+        size="small"
         color-scheme="secondary"
       />
-      <woot-button class-names="article--buttons" color-scheme="primary">
+      <woot-button
+        class-names="article--buttons"
+        size="small"
+        color-scheme="primary"
+      >
         {{ buttonLabel }}
       </woot-button>
     </div>

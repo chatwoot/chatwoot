@@ -20,6 +20,7 @@
         icon="globe"
         color-scheme="secondary"
         variant="hollow"
+        size="small"
         @click="showPreview"
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
@@ -29,6 +30,7 @@
         icon="add"
         color-scheme="secondary"
         variant="hollow"
+        size="small"
         @click="onClickAdd"
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
@@ -39,6 +41,7 @@
         icon="pane-open"
         class-names="article--buttons"
         variant="hollow"
+        size="small"
         color-scheme="secondary"
         @click="openSidebar"
       />
@@ -48,10 +51,15 @@
         icon="pane-close"
         class-names="article--buttons"
         variant="hollow"
+        size="small"
         color-scheme="secondary"
         @click="closeSidebar"
       />
-      <woot-button class-names="article--buttons" color-scheme="primary">
+      <woot-button
+        class-names="article--buttons"
+        size="small"
+        color-scheme="primary"
+      >
         {{ actionButtonLabel }}
       </woot-button>
     </div>
@@ -137,6 +145,6 @@ export default {
   margin-right: var(--space-one);
   color: var(--s-500);
   align-items: center;
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-mini);
 }
 </style>

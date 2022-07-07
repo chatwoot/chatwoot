@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import ArticleHeader from './ArticleHeader';
 
 export default {
-  title: 'Components/Help Center/Article Header',
+  title: 'Components/Help Center/Header',
   component: ArticleHeader,
   argTypes: {
     headerTitle: {
@@ -12,7 +12,7 @@ export default {
       },
     },
     count: {
-      defaultValue: 100,
+      defaultValue: 112,
       control: {
         type: 'number',
       },
@@ -42,7 +42,7 @@ const Template = (args, { argTypes }) => ({
 export const ArticleHeaderView = Template.bind({});
 ArticleHeaderView.args = {
   headerTitle: 'All articles',
-  count: '100',
+  count: 112,
   buttonLabel: 'New Article',
   selectedValue: 'Status',
   openFilterModal: action('openedFilterModal'),

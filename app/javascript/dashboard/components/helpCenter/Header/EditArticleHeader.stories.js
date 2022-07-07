@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import EditArticleHeader from './EditArticleHeader';
 
 export default {
-  title: 'Components/Help Center/Article Header',
+  title: 'Components/Help Center/Header',
   component: EditArticleHeader,
   argTypes: {
     backButtonLabel: {
