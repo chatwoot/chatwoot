@@ -73,6 +73,7 @@ class Messages::Messenger::MessageBuilder
     raise
   rescue Koala::Facebook::ClientError => e
     # The exception occurs when we are trying fetch the deleted story or blocked story.
+    @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
     Rails.logger.error e
     {}
   rescue StandardError => e

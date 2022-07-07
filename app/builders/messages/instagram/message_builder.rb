@@ -18,15 +18,12 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     return if @inbox.channel.reauthorization_required?
 
     ActiveRecord::Base.transaction do
-    binding.pry
-
       build_message
     end
   rescue Koala::Facebook::AuthenticationError
     @inbox.channel.authorization_error!
     raise
   rescue StandardError => e
-    binding.pry
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
   end

@@ -5,7 +5,7 @@ describe  ::Messages::Instagram::MessageBuilder do
 
   before do
     stub_request(:post, /graph.facebook.com/)
-    stub_request(:get, 'https://imagekit.io/blog/content/images/2020/05/media_library.jpeg')
+    stub_request(:get, 'https://www.example.com/test.jpeg')
   end
 
   let!(:account) { create(:account) }
@@ -46,7 +46,10 @@ describe  ::Messages::Instagram::MessageBuilder do
 
     it 'raises exception on deleted story' do
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
-      allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError.new(190, 'This Message has been deleted by the user or the business.'))
+      allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError.new(
+                                                           190,
+                                                           'This Message has been deleted by the user or the business.'
+                                                         ))
 
       messaging = story_mention_params[:entry][0][:messaging][0]
       contact_inbox
@@ -54,8 +57,18 @@ describe  ::Messages::Instagram::MessageBuilder do
 
       instagram_inbox.reload
 
-      expect(instagram_inbox.conversations.count).to be 0
-      expect(instagram_inbox.messages.count).to be 0
+      # we would have contact created, message created but the empty message because the story mention has been deleted later
+      # As they show it in instagram that this story is no longer available
+      # and external attachments link would be reachable
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
+
+      contact = instagram_channel.inbox.contacts.first
+      message = instagram_channel.inbox.messages.first
+
+      expect(contact.name).to eq('Jane Dae')
+      expect(message.content).to eq('This story is no longer available.')
+      expect(message.attachments.count).to eq(1)
     end
   end
 end
