@@ -12,9 +12,9 @@ export default {
       },
     },
     count: {
-      defaultValue: '100',
+      defaultValue: 100,
       control: {
-        type: 'text',
+        type: 'number',
       },
     },
     buttonLabel: {
@@ -36,7 +36,7 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ArticleHeader },
   template:
-    '<article-header v-bind="$props" @open="openDropdown" @close="closeDropdown" ></article-header>',
+    '<article-header v-bind="$props" @openModal="openFilterModal" @open="openDropdown" @close="closeDropdown" ></article-header>',
 });
 
 export const Header = Template.bind({});
@@ -45,6 +45,7 @@ Header.args = {
   count: '100',
   buttonLabel: 'New Article',
   selectedValue: 'Status',
+  openFilterModal: action('openedFilterModal'),
   openDropdown: action('opened'),
   closeDropdown: action('closed'),
 };

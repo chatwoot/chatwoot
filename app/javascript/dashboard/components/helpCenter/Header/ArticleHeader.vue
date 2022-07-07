@@ -10,6 +10,7 @@
         icon="filter"
         color-scheme="secondary"
         variant="hollow"
+        @click="openFilterModal"
       >
         {{ $t('HELP_CENTER.HEADER.FILTER') }}
       </woot-button>
@@ -97,8 +98,8 @@ export default {
       default: '',
     },
     count: {
-      type: String,
-      default: '',
+      type: Number,
+      default: 0,
     },
     buttonLabel: {
       type: String,
@@ -115,6 +116,9 @@ export default {
     };
   },
   methods: {
+    openFilterModal() {
+      this.$emit('openModal');
+    },
     openDropdown() {
       this.$emit('open');
       this.showSortByDropdown = true;
