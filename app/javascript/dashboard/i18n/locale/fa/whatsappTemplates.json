@@ -9,17 +9,17 @@
             "SEARCH_PLACEHOLDER": "Search Templates",
             "NO_TEMPLATES_FOUND": "No templates found for",
             "LABELS": {
-                "LANGUAGE": "Language",
+                "LANGUAGE": "زبان",
                 "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "CATEGORY": "دسته‌بندی"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "متغیرها",
+            "VARIABLE_PLACEHOLDER": "مقدار %{variable} را وارد کنید",
+            "GO_BACK_LABEL": "بازگشت",
+            "SEND_MESSAGE_LABEL": "ارسال پیام",
+            "FORM_ERROR_MESSAGE": "لطفا قبل از ارسال همه متغیرها را پر کنید"
         }
     }
 }
