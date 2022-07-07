@@ -271,6 +271,17 @@ export default {
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
       const { email } = this.currentUser;
+
+      let payload = {
+        fullName: fullName,
+        emailAddress: emailAddress,
+        phoneNumber: phoneNumber,
+        message:message,
+        email: email
+        //location: this.cities
+      }
+      //send prechat form data to parent window - smsp main website
+      window.parent.postMessage({ message: "getPrechatData", value: payload }, "*");
       this.$emit('submit', {
         fullName,
         phoneNumber,
