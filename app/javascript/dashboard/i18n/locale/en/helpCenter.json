@@ -4,6 +4,14 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "SETTINGS_BUTTON": "Settings"
+    },
+    "EDIT_HEADER": {
+      "PREVIEW": "Preview",
+      "ADD_TRANSLATION": "Add translation",
+      "OPEN_SIDEBAR": "Open sidebar",
+      "CLOSE_SIDEBAR": "Close sidebar",
+      "SAVING": "Draft saving...",
+      "SAVED": "Draft saved"
     }
   }
 }

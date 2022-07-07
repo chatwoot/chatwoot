@@ -39,8 +39,8 @@ const Template = (args, { argTypes }) => ({
     '<article-header v-bind="$props" @openModal="openFilterModal" @open="openDropdown" @close="closeDropdown" ></article-header>',
 });
 
-export const Header = Template.bind({});
-Header.args = {
+export const ArticleHeaderView = Template.bind({});
+ArticleHeaderView.args = {
   headerTitle: 'All articles',
   count: '100',
   buttonLabel: 'New Article',
