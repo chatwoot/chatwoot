@@ -55,6 +55,29 @@
     >
       <woot-code :script="inbox.inbox_identifier" />
     </settings-section>
+
+    <settings-section
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
+    >
+      <woot-code :script="inbox.hmac_token" />
+    </settings-section>
+    <settings-section
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
+    >
+      <div class="enter-to-send--checkbox">
+        <input
+          id="hmacMandatory"
+          v-model="hmacMandatory"
+          type="checkbox"
+          @change="handleHmacFlag"
+        />
+        <label for="hmacMandatory">
+          {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
+        </label>
+      </div>
+    </settings-section>
   </div>
   <div v-else-if="isAnEmailChannel">
     <div class="settings--content">

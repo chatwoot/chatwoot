@@ -76,6 +76,7 @@ end
 
 ## API Channel Attributes
 if resource.api?
+  json.hmac_token resource.channel.try(:hmac_token)
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
@@ -83,6 +84,7 @@ end
 
 ### WhatsApp Channel
 if resource.whatsapp?
+  json.provider resource.channel.try(:provider)
   json.message_templates resource.channel.try(:message_templates)
-  json.provider_config resource.channel.try(:provider_config)
+  json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
 end
