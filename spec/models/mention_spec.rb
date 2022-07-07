@@ -45,7 +45,7 @@ RSpec.describe Mention, type: :model do
 
       expect(records.first.id).to eq(mention_2.id)
       expect(records.first.conversation_id).to eq(conversation_2.id)
-      expect(records.last.conversation_id).to eq(conversation_3.id)
+      expect(records.last.conversation_id).to eq(conversation_1.id)
       expect(records.pluck(:id)).not_to include(conversation_4.id)
     end
 

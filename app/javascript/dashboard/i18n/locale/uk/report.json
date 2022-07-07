@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Виберіть діапазон дат"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Групувати за",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -386,7 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Звіти CSAT",
     "NO_RECORDS": "Немає доступних відповідей для опитувань CSAT.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD": "Завантажити CSAT звіти",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Виберіть Агентів"
