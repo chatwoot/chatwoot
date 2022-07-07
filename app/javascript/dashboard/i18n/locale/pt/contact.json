@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Digite o endereço de e-mail do contato",
         "LABEL": "Endereço de e-mail",
-        "DUPLICATE": "Esse e-mail está a ser utilizado por outro contato."
+        "DUPLICATE": "Esse e-mail está a ser utilizado por outro contato.",
+        "ERROR": "Por favor, insira um endereço de e-mail válido."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Digite o número de telefone do contato",

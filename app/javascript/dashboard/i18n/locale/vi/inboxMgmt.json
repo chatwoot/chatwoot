@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Tên hộp thư đến",
-        "PLACEHOLDER": "Nhập tên hộp thư đến của bạn (ví dụ: Acme Inc)"
+        "PLACEHOLDER": "Nhập tên hộp thư đến của bạn (ví dụ: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Tên trang web",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Bật lời chào kênh",
-          "HELP_TEXT": "Gửi tin nhắn chào mừng đến người dùng khi họ bắt đầu cuộc trò chuyện.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Bật",
           "DISABLED": "Không bật"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Màu tiện ích",
           "PLACEHOLDER": "Cập nhật màu tiện ích con được sử dụng trong tiện ích con"
         },
-        "SUBMIT_BUTTON": "Tạo hộp thư đến"
+        "SUBMIT_BUTTON": "Tạo hộp thư đến",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Kênh Twilio SMS/WhatsApp",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "Nhà cung cấp API",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
           "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Vui lòng điền giá trị hợp lệ."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Vui lòng điền giá trị hợp lệ."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Vui lòng điền giá trị hợp lệ."
+        },
         "API_KEY": {
           "LABEL": "Khoá API",
           "SUBTITLE": "Cấu hình Khoá API WhatsApp.",
           "PLACEHOLDER": "Khoá API",
-          "APPLY_FOR_ACCESS": "Không có khoá API? Đăng ký quyền truy cập ở đây",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL gọi lại",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Tạo kênh WhatsApp",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "Chọn kênh",
-        "DESC": "Chatwoot hỗ trợ tiện ích trò chuyện trực tiếp, trang Facebook, hồ sơ Twitter, WhatsApp, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh, bạn có thể tạo bằng cách sử dụng kênh API. Chọn một kênh từ các tùy chọn bên dưới để tiếp tục."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Đã cập nhật cài đặt hộp thư đến thành công",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Đã cập nhật thành công bài tập tự động",
-        "ERROR_MESSAGE": "Không thể cập nhật màu tiện ích. Vui lòng thử lại sau."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Bật",
@@ -391,15 +414,15 @@
       "LABEL": "Các tính năng",
       "DISPLAY_FILE_PICKER": "Hiển thị bộ chọn tệp trên tiện ích con",
       "DISPLAY_EMOJI_PICKER": "Hiển thị bộ chọn biểu tượng cảm xúc trên tiện ích con",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": "Cho phép người dùng kết thúc cuộc trò chuyện từ công cụ chat"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Tập lệnh Messenger",
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
       "INBOX_AGENTS": "Nhà cung cấp",
       "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Phân công cuộc trò chuyện",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Cập nhật phân công cuộc trò chuyện",
       "UPDATE": "Cập nhật",
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
       "HMAC_VERIFICATION": "Xác thực danh tính người dùng",
-      "HMAC_DESCRIPTION": "Để xác thực danh tính của người dùng, SDK cho phép bạn gửi thêm `identifier_hash` cho mỗi người dùng. Bạn có thể tạo HMAC bằng cách sử dụng 'sha256' với khóa được hiển thị ở đây.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Bắt buộc Xác thực danh tính người dùng",
-      "HMAC_MANDATORY_DESCRIPTION": "Nếu được bật, phương thức SetUser của Chatwoot SDKs sẽ không hoạt động trừ khi `identifier_hash` được cung cấp cho mỗi người dùng.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Định danh hộp thư đến",
       "INBOX_IDENTIFIER_SUB_TEXT": "Dùng token định danh hộp thư đến hiện ở đây để xác thực các ứng dụng khách API của bạn.",
       "FORWARD_EMAIL_TITLE": "Chuyển tiếp đến Email",
       "FORWARD_EMAIL_SUB_TEXT": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc trò chuyện được giải quyết",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Khoá API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Giới hạn tự động phân công tối đa",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Xin nhập vào một số lớn hơn 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Giới hạn số cuộc trò chuyện tối đa từ hộp thư này mà có thể được tự động phân công cho một hỗ trợ viên"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ủy quyền lại",
@@ -430,14 +460,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Biểu mẫu trước khi trò chuyện cho phép bạn nắm bắt thông tin người dùng trước khi họ bắt đầu cuộc trò chuyện với bạn.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Những ô cần điền vào trước cuộc trò chuyện",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "FIELDS": "Ô cần điền",
+        "LABEL": "Nhãn",
+        "PLACE_HOLDER": "Cụm từ hiện nền trong ô",
         "KEY": "Khoá",
         "TYPE": "Loại",
-        "REQUIRED": "Required"
+        "REQUIRED": "Bắt buộc"
       },
       "ENABLE": {
         "LABEL": "Bật biểu mẫu trước khi trò chuyện",
@@ -447,7 +477,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Tin nhắn trước khi trò chuyện",
         "PLACEHOLDER": "Tin nhắn này sẽ hiện cho những người dùng cùng với biểu mẫu"
       },
       "REQUIRE_EMAIL": {
@@ -471,12 +501,12 @@
         "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ đóng cửa.",
         "CHOOSE": "Chọn"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Cả ngày"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Đặt chi tiết IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Để bật chế độ SMTP, xin hãy cấu hình IMAP.",
       "UPDATE": "Cập nhật chi tiết IMAP",
       "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình IMAP cho hộp thư đến này",
       "TOGGLE_HELP": "Kích hoạt IMAP sẽ giúp cho người dùng nhận được email",
@@ -536,8 +566,8 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Mở Chế độ xác minh SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "Xác minh"
     },
-    "NOTE": "Note: "
+    "NOTE": "Ghi chú: "
   }
 }

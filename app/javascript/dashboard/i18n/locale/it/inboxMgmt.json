@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome casella",
-        "PLACEHOLDER": "Inserisci il nome della tua casella di posta (ad esempio: Acme Inc)"
+        "PLACEHOLDER": "Inserisci il nome della tua casella di posta (ad esempio: Acme Inc)",
+        "ERROR": "Inserisci un nome per la casella valido"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nome sito web",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Abilita messaggio di benvenuto sul canale",
-          "HELP_TEXT": "Invia un messaggio di saluto agli utenti quando iniziano la conversazione.",
+          "HELP_TEXT": "Invia automaticamente un messaggio di benvenuto quando viene creata una nuova conversazione.",
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Colore del widget",
           "PLACEHOLDER": "Aggiorna il colore del widget utilizzato nel widget"
         },
-        "SUBMIT_BUTTON": "Crea casella"
+        "SUBMIT_BUTTON": "Crea casella",
+        "API": {
+          "ERROR_MESSAGE": "Non siamo stati in grado di creare un canale del sito web, si prega di riprovare"
+        }
       },
       "TWILIO": {
         "TITLE": "Canale Twilio SMS/WhatsApp",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "Provider API",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
           "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Inserisci un valore valido."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Inserisci un valore valido."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Inserisci un valore valido."
+        },
         "API_KEY": {
           "LABEL": "Chiave API",
           "SUBTITLE": "Configura la chiave API di WhatsApp.",
           "PLACEHOLDER": "Chiave API",
-          "APPLY_FOR_ACCESS": "Non hai alcuna chiave API? Richiedi l'accesso qui",
           "ERROR": "Inserisci un valore valido."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL di callback",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Crea un canale WhatsApp",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "Scegli un canale",
-        "DESC": "Chatwoot supporta il widget chat live, pagina Facebook, profilo Twitter, WhatsApp, Email ecc., come canali. Se si desidera costruire un canale personalizzato, è possibile crearlo utilizzando il canale API. Selezionare un canale dalle opzioni sottostanti per procedere."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Impostazioni della casella, aggiornate con successo",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assegnazione automatica aggiornata correttamente",
-        "ERROR_MESSAGE": "Impossibile aggiornare il colore del widget. Riprova più tardi."
+        "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni della casella. Riprova più tardi."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Abilitato",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della casella",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella.",
       "HMAC_VERIFICATION": "Convalida identità utente",
-      "HMAC_DESCRIPTION": "Inorder to validate the user identity, the SDK allows you to pass an `identifier_hash` for each user. Puoi generare HMAC usando 'sha256' con la chiave mostrata qui.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Forza la convalida identità utente",
-      "HMAC_MANDATORY_DESCRIPTION": "Se abilitato, il metodo setUser di Chatwoot SDKs non funzionerà a meno che il file `identifier_hash` non sia fornito per ogni utente.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Identificatore casella",
       "INBOX_IDENTIFIER_SUB_TEXT": "Usa il token `inbox_identifier` mostrato qui per l'autenticazione dei tuoi client API.",
       "FORWARD_EMAIL_TITLE": "Inoltra all'email",
       "FORWARD_EMAIL_SUB_TEXT": "Inizia a inoltrare le tue email al seguente indirizzo email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo la risoluzione della conversazione."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo la risoluzione della conversazione.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Chiave API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Limite assegnazione automatica",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Inserisci un valore maggiore di 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limita il numero massimo di conversazioni da questa casella di posta che possono essere assegnate automaticamente ad un agente"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Riautorizza",

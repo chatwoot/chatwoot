@@ -32,6 +32,15 @@ fa:
     contacts:
       import:
         failed: پرونده خالی است
+    inboxes:
+      imap:
+        socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
+        no_response_error: لطفا اعتبارنامه IMAP را بررسی کنید و دوباره امتحان کنید.
+        host_unreachable_error: میزبان غیرقابل دسترسی است، لطفا آدرس IMAP و پورت IMAP را بررسی کنید و دوباره امتحان کنید.
+        connection_timed_out_error: زمان اتصال برای %{address}:%{port} تمام شد
+        connection_closed_error: اتصال بسته شد.
+      validations:
+        name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
