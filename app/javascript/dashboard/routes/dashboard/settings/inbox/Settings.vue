@@ -437,6 +437,7 @@ export default {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
           this.inbox.phone_number})`;
+      }
       if (this.isAWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
