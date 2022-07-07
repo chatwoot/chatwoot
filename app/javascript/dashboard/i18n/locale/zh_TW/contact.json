@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "請輸入聯絡人電子信箱",
         "LABEL": "電子信箱地址",
-        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
+        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。",
+        "ERROR": "請輸入一個有效的電子信箱."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "請輸入聯絡人電話",

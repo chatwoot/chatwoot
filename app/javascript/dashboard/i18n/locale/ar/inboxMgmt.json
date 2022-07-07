@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "اسم صندوق الوارد لقناة التواصل",
-        "PLACEHOLDER": "أدخل اسم صندوق الوارد الخاص بك (مثال: Acme Inc)"
+        "PLACEHOLDER": "أدخل اسم صندوق الوارد الخاص بك (مثال: Acme Inc)",
+        "ERROR": "الرجاء إدخال اسم صندوق الوارد صالح"
       },
       "WEBSITE_NAME": {
         "LABEL": "اسم الموقع",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "تفعيل رسالة الترحيب التلقائية",
-          "HELP_TEXT": "إرسال رسالة ترحيب إلى المستخدم عند بدء المحادثة.",
+          "HELP_TEXT": "إرسال رسالة تحية تلقائياً عند إنشاء محادثة جديدة.",
           "ENABLED": "مفعل",
           "DISABLED": "معطّل"
         },
@@ -97,7 +98,10 @@
           "LABEL": "لون صندوق الدردشة",
           "PLACEHOLDER": "تحديث اللون الرئيسي لصندوق الدردشة"
         },
-        "SUBMIT_BUTTON": "إنشاء قناة تواصل"
+        "SUBMIT_BUTTON": "إنشاء قناة تواصل",
+        "API": {
+          "ERROR_MESSAGE": "لم نتمكن من إنشاء قناة موقع، الرجاء المحاولة مرة أخرى"
+        }
       },
       "TWILIO": {
         "TITLE": "قناة Twilio SMS/WhatsApp",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "تويليو",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي سيتم إرسال الرسائل منه.",
           "ERROR": "الرجاء إدخال قيمة صحيحة. يجب أن يبدأ رقم الهاتف بعلامة `+`."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "الرجاء إدخال اسم صالح."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "الرجاء إدخال اسم صالح."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "الرجاء إدخال اسم صالح."
+        },
         "API_KEY": {
           "LABEL": "مفتاح API",
           "SUBTITLE": "تكوين مفتاح واتسآب API.",
           "PLACEHOLDER": "مفتاح API",
-          "APPLY_FOR_ACCESS": "ليس لديك أي مفتاح API؟ تقدم بطلب الوصول إلى هنا",
           "ERROR": "الرجاء إدخال اسم صالح."
+        },
+        "API_CALLBACK": {
+          "TITLE": "عنوان Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "اختر قناة",
-        "DESC": "ندعم أداة الدردشة المباشرة، صفحة الفيسبوك، ملف تويتر الشخصي، واتسب، البريد الإلكتروني وما إلى ذلك، كقنوات. إذا كنت ترغب في إنشاء قناة مخصصة، يمكنك إنشاءها باستخدام قناة API. حدد قناة واحدة من الخيارات أدناه للمتابعة."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "موظف الدعم",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "تم تحديث إعدادات قناة التواصل بنجاح",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "تم تحديث إعدادات الإسناد التلقائي بنجاح",
-        "ERROR_MESSAGE": "تعذر تحديث لون صندوق الدردشة. الرجاء المحاولة مرة أخرى لاحقاً."
+        "ERROR_MESSAGE": "تعذر تحديث إعدادات صندوق الوارد. الرجاء المحاولة مرة أخرى لاحقاً."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "مفعل",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
       "HMAC_VERIFICATION": "التحقق من هوية المستخدم",
-      "HMAC_DESCRIPTION": "من أجل التحقق من هوية المستخدم، يسمح لك SDK بتمرير 'المعرفة_hash' لكل مستخدم. يمكنك إنشاء HMAC باستخدام 'sha256' مع المفتاح المعروض هنا.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "فرض التحقق من هوية المستخدم",
-      "HMAC_MANDATORY_DESCRIPTION": "في حالة التمكين، لن تعمل طريقة حساب SDKs إلا إذا تم توفير `IDer_hash` لكل مستخدم.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "معرف صندوق الوارد",
       "INBOX_IDENTIFIER_SUB_TEXT": "استخدم رمز 'inbox_identifier' المعروض هنا للمصادقة على عملاء API الخاص بك.",
       "FORWARD_EMAIL_TITLE": "إعادة التوجيه إلى البريد الإلكتروني",
       "FORWARD_EMAIL_SUB_TEXT": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "مفتاح API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "حد الإسناد التلقائي",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "الرجاء إدخال قيمة أكبر من 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "تحديد الحد الأقصى لعدد المحادثات من علبة الوارد هذه التي يمكن تعيينها تلقائياً إلى وكيل"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
