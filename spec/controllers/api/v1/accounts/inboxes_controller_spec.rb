@@ -49,7 +49,7 @@ RSpec.describe 'Inboxes API', type: :request do
           get "/api/v1/accounts/#{account.id}/inboxes",
               headers: admin.create_new_auth_token,
               as: :json
-          expect(JSON.parse(response.body)['payload'].last.key?('provider_config')).to eq(true)
+          expect(response.body).to include('provider_config')
         end
 
         it 'will not return provider config for agent' do
@@ -57,7 +57,7 @@ RSpec.describe 'Inboxes API', type: :request do
               headers: agent.create_new_auth_token,
               as: :json
 
-          expect(JSON.parse(response.body)['payload'].last.key?('provider_config')).to eq(false)
+          expect(response.body).not_to include('provider_config')
         end
       end
     end
