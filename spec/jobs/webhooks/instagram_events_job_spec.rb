@@ -6,7 +6,7 @@ describe Webhooks::InstagramEventsJob do
 
   before do
     stub_request(:post, /graph.facebook.com/)
-    stub_request(:get, 'https://imagekit.io/blog/content/images/2020/05/media_library.jpeg')
+    stub_request(:get, 'https://www.example.com/test.jpeg')
       .with(
         headers: {
           'Accept' => '*/*',
@@ -102,8 +102,7 @@ describe Webhooks::InstagramEventsJob do
           { story:
             {
               mention: {
-                link:
-                 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=17920786367196703&signature=Aby8EXbvNu4on9efDQecXDasiJX2s0FgWhFGz3mNFB__CsHR22O_1bJiYHkbp3mC1NQeW4jHxls9WyqVgRPcyonUbSJmD44UwLfFhbCK2obesWnFi7VOnisqLu48Xd6KYuNex7uSCQKWM-nw55zQ23bBgfCYw6h5hiJjFHwJDZYm65zXpQ',
+                link: 'https://www.example.com/test.jpeg',
                 id: '17920786367196703'
               }
             },
