@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Anna yhteyshenkilön sähköpostiosoite",
         "LABEL": "Sähköpostiosoite",
-        "DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle."
+        "DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
+        "ERROR": "Ole hyvä ja syötä validi sähköposti."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Anna yhteystiedon puhelinnumero",

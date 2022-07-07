@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Introdueix l'adreça de correu electrònic del contacte",
         "LABEL": "Adreça de correu electrònic",
-        "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte."
+        "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
+        "ERROR": "Introduïu una adreça de correu electrònic vàlida."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
