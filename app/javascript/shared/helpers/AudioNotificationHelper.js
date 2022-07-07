@@ -4,7 +4,7 @@ import { IFrameHelper } from 'widget/helpers/utils';
 import { showBadgeOnFavicon } from './faviconHelper';
 
 export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
-export const getAlertAudio = async (baseUrl = '') => {
+export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const playsound = audioBuffer => {
     window.playAudioAlert = () => {
@@ -17,7 +17,7 @@ export const getAlertAudio = async (baseUrl = '') => {
   };
 
   try {
-    const resourceUrl = `${baseUrl}/dashboard/audios/ding.mp3`;
+    const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
     const audioRequest = new Request(resourceUrl);
 
     fetch(audioRequest)

@@ -6,6 +6,7 @@ require Rails.root.join 'spec/models/concerns/out_of_offisable_shared.rb'
 RSpec.describe Inbox do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:account_id) }
+    it { is_expected.to validate_presence_of(:name) }
   end
 
   describe 'associations' do
@@ -132,6 +133,62 @@ RSpec.describe Inbox do
       it do
         expect(inbox.api?).to eq(false)
         expect(inbox.inbox_type).to eq('Facebook')
+      end
+    end
+  end
+
+  describe '#validations' do
+    let(:inbox) { FactoryBot.create(:inbox) }
+
+    context 'when validating inbox name' do
+      it 'does not allow any special character at the end' do
+        inbox.name = 'this is my inbox name-'
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages).to eq(
+          ['Name should not start or end with symbols, and it should not have < > / \\ @ characters.']
+        )
+      end
+
+      it 'does not allow any special character at the start' do
+        inbox.name = '-this is my inbox name'
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages).to eq(
+          ['Name should not start or end with symbols, and it should not have < > / \\ @ characters.']
+        )
+      end
+
+      it 'does not allow chacters like /\@<> in the entire string' do
+        inbox.name = 'inbox@name'
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages).to eq(
+          ['Name should not start or end with symbols, and it should not have < > / \\ @ characters.']
+        )
+      end
+
+      it 'does not empty string' do
+        inbox.name = ''
+        expect(inbox).not_to be_valid
+        expect(inbox.errors.full_messages[0]).to eq(
+          "Name can't be blank"
+        )
+      end
+
+      it 'does allow special characters except /\@<> in between' do
+        inbox.name = 'inbox-name'
+        expect(inbox).to be_valid
+
+        inbox.name = 'inbox_name.and_1'
+        expect(inbox).to be_valid
+      end
+
+      context 'when special characters allowed for some channel' do
+        let!(:tw_channel_val) { FactoryBot.create(:channel_twitter_profile) }
+        let(:inbox) { create(:inbox, channel: tw_channel_val) }
+
+        it 'does allow special chacters like /\@<> for Facebook Channel' do
+          inbox.name = 'inbox@name'
+          expect(inbox).to be_valid
+        end
       end
     end
   end

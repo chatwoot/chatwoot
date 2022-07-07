@@ -1,19 +1,11 @@
 <template>
   <div class="view-box fill-height">
     <banner
-      v-if="!currentChat.can_reply && !isAWhatsappChannel"
+      v-if="!currentChat.can_reply"
       color-scheme="alert"
-      :banner-message="$t('CONVERSATION.CANNOT_REPLY')"
-      :href-link="facebookReplyPolicy"
-      :href-link-text="$t('CONVERSATION.24_HOURS_WINDOW')"
-    />
-
-    <banner
-      v-if="!currentChat.can_reply && isAWhatsappChannel"
-      color-scheme="alert"
-      :banner-message="$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY')"
-      :href-link="twilioWhatsAppReplyPolicy"
-      :href-link-text="$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW')"
+      :banner-message="replyWindowBannerMessage"
+      :href-link="replyWindowLink"
+      :href-link-text="replyWindowLinkText"
     />
 
     <banner
@@ -32,8 +24,7 @@
         class="sidebar-toggle--button"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
-      >
-      </woot-button>
+      />
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
@@ -160,7 +151,6 @@ export default {
     hasSelectedTweetId() {
       return !!this.selectedTweetId;
     },
-
     tweetBannerText() {
       return !this.selectedTweetId
         ? this.$t('CONVERSATION.SELECT_A_TWEET_TO_REPLY')
@@ -238,12 +228,6 @@ export default {
       }
       return '';
     },
-    facebookReplyPolicy() {
-      return REPLY_POLICY.FACEBOOK;
-    },
-    twilioWhatsAppReplyPolicy() {
-      return REPLY_POLICY.TWILIO_WHATSAPP;
-    },
     isRightOrLeftIcon() {
       if (this.isContactPanelOpen) {
         return 'arrow-chevron-right';
@@ -254,6 +238,41 @@ export default {
       if (this.conversationLastSeen) return this.conversationLastSeen;
       const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
       return contactLastSeenAt;
+    },
+
+    replyWindowBannerMessage() {
+      if (this.isAWhatsappChannel) {
+        return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
+      }
+      if (this.isAPIInbox) {
+        const { additional_attributes: additionalAttributes = {} } = this.inbox;
+        if (additionalAttributes) {
+          const {
+            agent_reply_time_window_message: agentReplyTimeWindowMessage,
+          } = additionalAttributes;
+          return agentReplyTimeWindowMessage;
+        }
+        return '';
+      }
+      return this.$t('CONVERSATION.CANNOT_REPLY');
+    },
+    replyWindowLink() {
+      if (this.isAWhatsappChannel) {
+        return REPLY_POLICY.FACEBOOK;
+      }
+      if (!this.isAPIInbox) {
+        return REPLY_POLICY.TWILIO_WHATSAPP;
+      }
+      return '';
+    },
+    replyWindowLinkText() {
+      if (this.isAWhatsappChannel) {
+        return this.$t('CONVERSATION.24_HOURS_WINDOW');
+      }
+      if (!this.isAPIInbox) {
+        return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
+      }
+      return '';
     },
   },
 

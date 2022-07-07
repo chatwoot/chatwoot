@@ -45,8 +45,7 @@
               :button-text="$t('LOGIN.SUBMIT')"
               :loading="loginApi.showLoading"
               button-class="large expanded"
-            >
-            </woot-submit-button>
+            />
           </div>
         </form>
         <div class="column text-center sigin__footer">

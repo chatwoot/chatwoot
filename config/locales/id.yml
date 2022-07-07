@@ -22,6 +22,8 @@ id:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
   errors:
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       invalid_email: Anda telah memasukkan email yang tidak valid
@@ -30,11 +32,31 @@ id:
     contacts:
       import:
         failed: File kosong
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Periode pelaporan %{since} hingga %{until}
     agent_csv:
       agent_name: Nama agen
       conversations_count: Jumlah percakapan
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
+      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     team_csv:
@@ -43,6 +65,16 @@ id:
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Nama Agen
+        rating: Peringkat
+        feedback: Feedback Comment
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"

@@ -2,54 +2,54 @@
   "FILTER": {
     "TITLE": "Filtruj rozmowy",
     "SUBTITLE": "Dodaj poniższe filtry i kliknij 'Zastosuj filtry', aby przefiltrować rozmowy.",
-    "ADD_NEW_FILTER": "Add Filter",
+    "ADD_NEW_FILTER": "Dodaj filtr",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "SUBMIT_BUTTON_LABEL": "Zastosuj filtry",
     "CANCEL_BUTTON_LABEL": "Anuluj",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
+    "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
+    "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
     "TOOLTIP_LABEL": "Filtruj konwersacje",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "i",
       "OR": "albo"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Równa się",
+      "not_equal_to": "Nie równa się",
+      "contains": "Zawiera",
+      "does_not_contain": "Nie zawiera",
+      "is_present": "Istnieje",
+      "is_not_present": "Nie istnieje",
+      "is_greater_than": "Jest większe niż",
+      "is_less_than": "Jest mniejsze niż",
+      "days_before": "Jest x dni przed"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Prawda",
+      "FALSE": "Fałsz"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Nazwa osoby przypisanej",
       "INBOX_NAME": "Nazwa skrzynki odbiorczej",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Nazwa zespołu",
+      "CONVERSATION_IDENTIFIER": "Identyfikator rozmowy",
+      "CAMPAIGN_NAME": "Nazwa kampanii",
       "LABELS": "Etykiety",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "BROWSER_LANGUAGE": "Język przeglądarki",
+      "COUNTRY_NAME": "Nazwa kraju",
+      "REFERER_LINK": "Strona odsyłająca",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
+      "CUSTOM_ATTRIBUTE_LINK": "Łącze",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Utworzono",
       "LAST_ACTIVITY": "Ostatnia aktywność"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Filtry standardowe",
+      "ADDITIONAL_FILTERS": "Dodatkowe filtry",
       "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
     },
     "CUSTOM_VIEWS": {
@@ -65,8 +65,8 @@
           "ERROR_MESSAGE": "Błąd podczas tworzenia folderu"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment utworzony pomyślnie",
+          "ERROR_MESSAGE": "Błąd podczas tworzenia segmentu"
         }
       },
       "DELETE": {
@@ -80,12 +80,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Folder usunięty pomyślnie",
+          "ERROR_MESSAGE": "Błąd podczas usuwania folderu"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Zespół został usunięty pomyślnie",
+          "ERROR_MESSAGE": "Błąd podczas usuwania segmentu"
         }
       }
     }

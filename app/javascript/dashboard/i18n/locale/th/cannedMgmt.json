@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "เพิ่มคำตอบสำเร็จรูป",
     "LOADING": "กำลังดึงการตอบสำเร็จรูป",
     "SEARCH_404": "ไม่มีรายการที่ตรงกับเนื้อหานี้",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p> <b> ข้อความลัด </b> </p> <p> ข้อความลัด คือ รูปแบบการตอบกลับข้อความที่บันทึกไว้ ซึ่งสามารถใช้ตอบกลับการสนทนาได้อย่างรวดเร็ว </p> <p> สำหรับการสร้างข้อความลัดเพียงคลิกที่ <b> เพิ่มข้อความลัด </b> คุณยังสามารถแก้ไขหรือลบข้อความลัดโดยคลิกที่ปุ่มแก้ไขหรือลบ </p> <p> นอกจากนี้คุณสามารถตั้ง <b> คำย่อ </b> สำหรับแต่ละข้อความลัดได้ด้วย พนักงานสามารถเรียกใช้ข้อความลัดขณะสนทนาได้โดยการพิมพ์ <b> '/' </b> แล้วตามด้วยคำย่อ</p>",
     "LIST": {
       "404": "ไม่มีการตอบสำเร็จรูปในบัญชีนี้",
       "TITLE": "จัดกาาคำตอบสำเร็จรูป",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "เพิ่มคำตอบสำเร็จรูป",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "ข้อความลัด คือ รูปแบบการตอบกลับข้อความที่บันทึกไว้ สามารถใช้เพื่อตอบกลับการสนทนาได้อย่างรวดเร็ว",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "หรัสสั้นๆ",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "กรุณากรอกคำย่อ",
           "ERROR": "จำเป็นต้องระบุหรัสสั่น"
         },
         "CONTENT": {
@@ -42,8 +42,8 @@
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "หรัสสั้นๆ",
-          "PLACEHOLDER": "กรุณากรอกหรัสสั่นๆ",
+          "LABEL": "รหัสสั้นๆ",
+          "PLACEHOLDER": "กรุณากรอกรหัสสั้น",
           "ERROR": "จำเป็นต้องระบุหรัสสั่น"
         },
         "CONTENT": {

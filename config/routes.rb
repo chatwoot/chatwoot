@@ -43,7 +43,7 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
-
+          resources :assignable_agents, only: [:index]
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -58,7 +58,7 @@ Rails.application.routes.draw do
             post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
-
+          resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -106,6 +106,7 @@ Rails.application.routes.draw do
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
@@ -154,13 +155,13 @@ Rails.application.routes.draw do
           end
           resources :working_hours, only: [:update]
 
-          namespace :kbase do
-            resources :portals do
-              resources :categories do
-                resources :folders
-              end
-              resources :articles
+          resources :portals do
+            member do
+              patch :archive
+              put :add_members
             end
+            resources :categories
+            resources :articles
           end
         end
       end
@@ -197,6 +198,7 @@ Rails.application.routes.draw do
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
+            patch :set_user
           end
         end
         resources :inbox_members, only: [:index]
@@ -256,6 +258,13 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :portals, only: [:show], param: :slug do
+          scope module: :portals do
+            resources :categories, only: [:index, :show], param: :slug do
+              resources :articles, only: [:index, :show], param: :slug
+            end
+          end
+        end
         resources :csat_survey, only: [:show, :update]
       end
     end
@@ -276,8 +285,9 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
-  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
+  get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
+  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 

@@ -70,6 +70,14 @@
     "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Xác nhận xoá",
+      "MESSAGE": "Bạn có chắc chắn muốn xoá ghi chú này?",
+      "YES": "Có, xoá",
+      "NO": "Không, Giữ"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Xoá liên lạc",
     "TITLE": "Xoá liên lạc",
@@ -103,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
         "LABEL": "Email",
-        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác."
+        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
+        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Nhập số điện thoại của liên hệ",

@@ -1,6 +1,6 @@
 <template>
   <div v-if="hasSecondaryMenu" class="main-nav secondary-menu">
-    <account-context />
+    <account-context @toggle-accounts="toggleAccountModal" />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -95,6 +95,7 @@ export default {
             ),
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
+            reauthorizationRequired: inbox.reauthorization_required,
           }))
           .sort((a, b) =>
             a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
@@ -223,6 +224,9 @@ export default {
   methods: {
     showAddLabelPopup() {
       this.$emit('add-label');
+    },
+    toggleAccountModal() {
+      this.$emit('toggle-accounts');
     },
   },
 };

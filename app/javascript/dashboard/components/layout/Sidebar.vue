@@ -19,6 +19,7 @@
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
       @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
     />
   </aside>
 </template>
@@ -190,6 +191,7 @@ export default {
   display: flex;
   min-height: 0;
   height: 100%;
+  width: fit-content;
 }
 </style>
 

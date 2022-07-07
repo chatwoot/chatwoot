@@ -7,7 +7,7 @@
     :aria-checked="value.toString()"
     @click="onClick"
   >
-    <span aria-hidden="true" :class="{ active: value }"></span>
+    <span aria-hidden="true" :class="{ active: value }" />
   </button>
 </template>
 
@@ -17,12 +17,8 @@ export default {
     value: { type: Boolean, default: false },
   },
   methods: {
-    onClick(event) {
-      if (event.pointerId === -1) {
-        event.preventDefault();
-      } else {
-        this.$emit('input', !this.value);
-      }
+    onClick() {
+      this.$emit('input', !this.value);
     },
   },
 };

@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Entegrasyonlar",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "İptal Et",
+        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Web kancası URL'si",
+          "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
+          "ERROR": "Lütfen geçerli bir adres girin"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Web kancası oluştur"
+      },
       "TITLE": "Web kancası",
       "CONFIGURE": "Yapılandır",
       "HEADER": "Web kancası ayarları",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Düzenle",
         "TITLE": "Edit webhook",
-        "CANCEL": "İptal Et",
-        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Web kancası URL'si",
-            "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
-            "ERROR": "Lütfen geçerli bir adres girin"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "ADD": {
         "CANCEL": "İptal Et",
         "TITLE": "Yeni web kancası ekle",
-        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Web kancası URL'si",
-            "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
-            "ERROR": "Lütfen geçerli bir adres girin"
-          },
-          "SUBMIT": "Web kancası oluştur"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Web kancası başarıyla eklendi",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Silmeyi onayla",
-          "MESSAGE": "Silmek istediğinize emin misiniz ?",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Evet, Sil ",
           "NO": "Hayır, kalsın"
         }
