@@ -300,6 +300,7 @@ ActiveRecord::Schema.define(version: 2022_06_28_124837) do
     t.string "messaging_service_sid"
     t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
+    t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|
