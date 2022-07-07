@@ -32,6 +32,15 @@ es:
     contacts:
       import:
         failed: Archivo está en blanco
+    inboxes:
+      imap:
+        socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
+        no_response_error: Verifique las credenciales de IMAP y vuelva a intentarlo.
+        host_unreachable_error: Host inaccesible. Verifique la dirección IMAP, el puerto IMAP e intente nuevamente.
+        connection_timed_out_error: Se agotó el tiempo de conexión para %{address}:%{port}
+        connection_closed_error: Conexión cerrada.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     agent_csv:

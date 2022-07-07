@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "输入联系人的电子邮件地址",
         "LABEL": "电子邮件地址",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "This email address is in use for another contact.",
+        "ERROR": "请输入一个有效的电子邮件."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "输入联系人的电话号码",

@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "عنوان صندوق ورودی",
-        "PLACEHOLDER": "نام صندوق ورودی خود را وارد کنید (به عنوان مثال: Acme Inc)"
+        "PLACEHOLDER": "نام صندوق ورودی خود را وارد کنید (به عنوان مثال: Acme Inc)",
+        "ERROR": "لطفاً یک نام صندوق ورودی معتبر وارد کنید"
       },
       "WEBSITE_NAME": {
         "LABEL": "عنوان سایت",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "فعال کردن پیام پاسخگویی",
-          "HELP_TEXT": "هنگامی که کاربران گفتگو را شروع می‌کند، یک پیام تبریک ارسال کنید.",
+          "HELP_TEXT": "هنگامی که گفتگو جدیدی ایجاد می‌شود، به صورت خودکار پیام خوش‌آمد ارسال شود.",
           "ENABLED": "فعال شد",
           "DISABLED": "غیرفعال شد"
         },
@@ -97,7 +98,10 @@
           "LABEL": "رنگ ویجت",
           "PLACEHOLDER": "رنگی که در ویجت استفاده می‌شود را تعیین کنید"
         },
-        "SUBMIT_BUTTON": "ساختن صندوق ورودی"
+        "SUBMIT_BUTTON": "ساختن صندوق ورودی",
+        "API": {
+          "ERROR_MESSAGE": "ما نتوانستیم کانال وب‌سایت را ایجاد کنیم، لطفا دوباره امتحان کنید"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/کانال WhatsApp",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "ارائه دهنده API",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "واتس‌اپ ابری",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
           "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "شناسه شماره تلفن",
+          "PLACEHOLDER": "لطفا شناسه شماره تلفن دریافت شده از پيشخوان توسعه‌دهنده فیس‌بوک را وارد کنید.",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "شناسه حساب تجاری",
+          "PLACEHOLDER": "لطفا شناسه حساب تجاری دریافت شده از پيشخوان توسعه‌دهنده فیس‌بوک را وارد کنید.",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
         "API_KEY": {
           "LABEL": "API key",
           "SUBTITLE": "WhatsApp API key را پیکربندی کنید.",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "API key ندارید؟ برای دسترسی از اینجا درخواست دهید",
           "ERROR": "لطفا یک مقدار معتبر وارد کنید."
+        },
+        "API_CALLBACK": {
+          "TITLE": "آدرس URL مربوط به API",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "کانالی را انتخاب کنید",
-        "DESC": "Chatwoot از ویجت چت زنده ، صفحه فیس بوک ، نمایه توییتر ، WhatsApp ، ایمیل و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید ، می توانید آن را با استفاده از کانال API ایجاد کنید. برای ادامه ، یک کانال را از بین گزینه های زیر انتخاب کنید."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "ایجنت ها",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "تنظمیات صندوق ورودی اعمال شد",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "واگذاری خودکار گفتگو به ایجنت ها تنظیم شد",
-        "ERROR_MESSAGE": "در حال حاضر امکان تغییر رنگ ویجت امکان‌پذیر نیست. لطفا بعدا امتحان کنید."
+        "ERROR_MESSAGE": "ما نمی‌توانیم تنظیمات صندوق ورودی را به‌روزرسانی کنیم. لطفا بعدا دوباره امتحان کنید."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "فعال",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
       "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
-      "HMAC_DESCRIPTION": "برای اعتبار سنجی کاربران با استفاده از این کلید `identifier_hash` یک هش HMAC sha256 تولید کنید.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "مجبور کردن تأیید اعتبار هویت کاربر",
-      "HMAC_MANDATORY_DESCRIPTION": "درصورت فعال بودن ، روش Chatwoot SDKs setUser کار نمی کند مگر اینکه `identifier_hash` برای هر کاربر ارائه شود.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
       "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
       "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API key"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "لطفا مقداری بزرگ‌تر از عدد 0 وارد کنید",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "حداکثر تعداد مکالماتی را که می توان به طور خودکار به یک نماینده اختصاص داد، از این صندوق ورودی محدود کنید"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "احراز هویت مجدد",
