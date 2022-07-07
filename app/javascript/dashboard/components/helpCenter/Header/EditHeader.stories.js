@@ -17,6 +17,18 @@ export default {
         type: 'text',
       },
     },
+    isSaving: {
+      defaultValue: false,
+      control: {
+        type: 'boolean',
+      },
+    },
+    newChanges: {
+      defaultValue: false,
+      control: {
+        type: 'boolean',
+      },
+    },
   },
 };
 
@@ -31,6 +43,8 @@ export const EditArticleHeaderView = Template.bind({});
 EditArticleHeaderView.args = {
   backButtonLabel: 'Articles',
   actionButtonLabel: 'Publish',
+  isSaving: false,
+  newChanges: false,
   onClickGoBack: action('goBack'),
   showPreview: action('previewOpened'),
   onClickAdd: action('added'),

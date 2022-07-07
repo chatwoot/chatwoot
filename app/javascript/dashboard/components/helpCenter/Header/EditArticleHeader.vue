@@ -12,7 +12,9 @@
       </woot-button>
     </div>
     <div class="header-right--wrap">
-      <span class="draft-status">{{ draftStatusText }} </span>
+      <span v-if="newChanges" class="draft-status">
+        {{ draftStatusText }}
+      </span>
       <woot-button
         class-names="article--buttons"
         icon="globe"
@@ -71,6 +73,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    newChanges: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -113,7 +119,7 @@ export default {
   justify-content: space-between;
   padding: var(--space-small) var(--space-normal);
   width: 100%;
-  height: 48px;
+  height: var(--space-larger);
 }
 .header-left--wrap {
   display: flex;

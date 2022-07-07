@@ -138,7 +138,7 @@ export default {
   justify-content: space-between;
   padding: var(--space-small) var(--space-normal);
   width: 100%;
-  height: 48px;
+  height: var(--space-larger);
 }
 .header-left--wrap {
   display: flex;
