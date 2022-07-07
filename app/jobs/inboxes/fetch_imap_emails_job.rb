@@ -33,7 +33,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     end
 
     Mail.find(what: :last, count: 10, order: :asc).each do |inbound_mail|
-      next if Message.find_by(source_id: inbound_mail.message_id).present?
+      next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
     end
