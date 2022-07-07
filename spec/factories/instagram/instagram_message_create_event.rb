@@ -104,7 +104,7 @@ FactoryBot.define do
                   {
                     'type': 'share',
                     'payload': {
-                      'url': 'https://imagekit.io/blog/content/images/2020/05/media_library.jpeg'
+                      'url': 'https://www.example.com/test.jpeg'
                     }
                   }
                 ]
@@ -138,7 +138,7 @@ FactoryBot.define do
                   {
                     'type': 'story_mention',
                     'payload': {
-                      'url': 'https://imagekit.io/blog/content/images/2020/05/media_library.jpeg'
+                      'url': 'https://www.example.com/test.jpeg'
                     }
                   }
                 ]
