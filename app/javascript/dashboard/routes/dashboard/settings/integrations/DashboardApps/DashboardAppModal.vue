@@ -38,7 +38,11 @@
         />
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-button :is-disabled="$v.$invalid" data-testid="label-submit">
+            <woot-button
+              :is-loading="isLoading"
+              :is-disabled="$v.$invalid"
+              data-testid="label-submit"
+            >
               {{ submitButtonLabel }}
             </woot-button>
             <woot-button class="button clear" @click.prevent="closeModal">
@@ -82,6 +86,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       app: {
         title: '',
         content: {
@@ -119,13 +124,21 @@ export default {
     async submit() {
       try {
         this.$v.$touch();
-        if (this.$v.$invalid) return;
-        const action = this.mode === 'UPDATE' ? 'update' : 'create';
+        if (this.$v.$invalid) {
+          return;
+        }
+
+        const action = this.mode.toLowerCase();
         const payload = {
           title: this.app.title,
           content: [this.app.content],
         };
-        if (action === 'update') payload.id = this.selectedAppData.id;
+
+        if (action === 'update') {
+          payload.id = this.selectedAppData.id;
+        }
+
+        this.isLoading = true;
         await this.$store.dispatch(`dashboardApps/${action}`, payload);
         this.showAlert(
           this.$t(
@@ -137,6 +150,8 @@ export default {
         this.showAlert(
           this.$t(`INTEGRATION_SETTINGS.DASHBOARD_APPS.${this.mode}.API_ERROR`)
         );
+      } finally {
+        this.isLoading = false;
       }
     },
   },

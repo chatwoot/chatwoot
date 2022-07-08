@@ -57,6 +57,7 @@ export default {
   height: 100%;
   width: 100%;
 }
+
 .dashboard-app--list iframe {
   border: 0;
 }

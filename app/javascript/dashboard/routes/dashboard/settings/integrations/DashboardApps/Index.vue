@@ -4,7 +4,7 @@
       color-scheme="success"
       class-names="button--fixed-right-top"
       icon="add-circle"
-      @click="toggleDashboardAppPopup"
+      @click="openCreatePopup"
     >
       {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT') }}
     </woot-button>
@@ -47,7 +47,10 @@
       <div class="small-4 columns">
         <span
           v-dompurify-html="
-            $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.SIDEBAR_TXT')
+            useInstallationName(
+              $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.SIDEBAR_TXT'),
+              globalConfig.installationName
+            )
           "
         />
       </div>
@@ -83,12 +86,14 @@ import { mapGetters } from 'vuex';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
 export default {
   components: {
     DashboardAppModal,
     DashboardAppsRow,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -100,6 +105,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
       records: 'dashboardApps/getRecords',
       uiFlags: 'dashboardApps/getUIFlags',
     }),
@@ -110,19 +116,25 @@ export default {
   methods: {
     toggleDashboardAppPopup() {
       this.showDashboardAppPopup = !this.showDashboardAppPopup;
+      this.selectedApp = {};
     },
     openDeletePopup(response) {
       this.showDeleteConfirmationPopup = true;
       this.selectedApp = response;
     },
+    openCreatePopup() {
+      this.mode = 'CREATE';
+      this.selectedApp = {};
+      this.showDashboardAppPopup = true;
+    },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
     editApp(app) {
-      this.mode = 'UPDATE';
       this.loading[app.id] = true;
-      this.showDashboardAppPopup = true;
+      this.mode = 'UPDATE';
       this.selectedApp = app;
+      this.showDashboardAppPopup = true;
     },
     confirmDeletion() {
       this.loading[this.selectedApp.id] = true;
