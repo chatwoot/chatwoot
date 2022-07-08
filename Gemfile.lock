@@ -582,8 +582,8 @@ GEM
       activesupport
       i18n
     trailblazer-option (0.1.2)
-    twilio-ruby (5.32.0)
-      faraday (~> 1.0.0)
+    twilio-ruby (5.66.0)
+      faraday (>= 0.9, < 2.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
     twitty (0.1.4)
@@ -730,7 +730,7 @@ DEPENDENCIES
   squasher
   telephone_number
   time_diff
-  twilio-ruby (~> 5.32.0)
+  twilio-ruby (~> 5.66)
   twitty
   tzinfo-data
   uglifier

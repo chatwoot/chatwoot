@@ -45,6 +45,7 @@ if resource.facebook?
 end
 
 ## Twilio Attributes
+json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
 
