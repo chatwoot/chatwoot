@@ -73,8 +73,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Bạn có chắc chắn muốn xoá ghi chú này?",
+      "YES": "Có, xoá",
       "NO": "Không, Giữ"
     }
   },
@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
         "LABEL": "Email",
-        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác."
+        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
+        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Nhập số điện thoại của liên hệ",

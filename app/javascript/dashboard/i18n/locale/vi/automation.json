@@ -90,27 +90,27 @@
     },
     "ACTION": {
       "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Viết tin nhắn ở đây",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "Kích hoạt Quy tắc Tự động hoá",
+      "DEACTIVATION_TITLE": "Vô hiệu hoá Quy tắc Tự động hoá",
+      "ACTIVATION_DESCRIPTION": "Thao tác này sẽ kích hoạt quy tắc tự động hoá tên '{automationName}'. Bạn có chắc là muốn tiếp tục?",
+      "DEACTIVATION_DESCRIPTION": "Thao tác này sẽ vô hiệu hoá quy tắc tự động hoá tên '{automationName}'. Bạn có chắc là muốn tiếp tục?",
+      "ACTIVATION_SUCCESFUL": "Quy tắc tự động hoá đã được kích hoạt thành công",
+      "DEACTIVATION_SUCCESFUL": "Quy tắc tự động hoá đã vô hiệu hoá thành công",
+      "ACTIVATION_ERROR": "Không thể kích hoạt quy tắc tự động hoá, Vui lòng thử lại sau",
+      "DEACTIVATION_ERROR": "Không thể vô hiệu hoá quy tắc tự động hoá, Vui lòng thử lại sau",
       "CONFIRMATION_LABEL": "Có",
       "CANCEL_LABEL": "Không"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Không thể tải tập tin đính kèm, Vui lòng thử lại sau",
+      "LABEL_IDLE": "Tải tập tin đính kèm",
       "LABEL_UPLOADING": "Đang tải lên...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Đã tải lên thành công",
+      "LABEL_UPLOAD_FAILED": "Không tải lên được"
     }
   }
 }
