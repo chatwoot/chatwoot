@@ -84,6 +84,7 @@ it:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} ti ha menzionato nella storia: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Questo messaggio è stato eliminato
     activity:
       status:
