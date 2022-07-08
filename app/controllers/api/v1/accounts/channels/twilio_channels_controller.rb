@@ -38,6 +38,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
     @twilio_channel = Current.account.twilio_sms.create!(
       account_sid: permitted_params[:account_sid],
       auth_token: permitted_params[:auth_token],
+      messaging_service_sid: permitted_params[:messaging_service_sid],
       phone_number: phone_number,
       medium: medium
     )
@@ -49,7 +50,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
 
   def permitted_params
     params.require(:twilio_channel).permit(
-      :account_id, :phone_number, :account_sid, :auth_token, :name, :medium
+      :account_id, :messaging_service_sid, :phone_number, :account_sid, :auth_token, :name, :medium
     )
   end
 end

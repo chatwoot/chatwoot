@@ -18,6 +18,7 @@ const settings = accountId => ({
     'settings_integrations_webhook',
     'settings_integrations_integration',
     'settings_applications',
+    'settings_integrations_dashboard_apps',
     'settings_applications_webhook',
     'settings_applications_integration',
     'general_settings',

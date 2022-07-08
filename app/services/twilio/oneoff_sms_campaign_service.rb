@@ -22,15 +22,7 @@ class Twilio::OneoffSmsCampaignService
     campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
       next if contact.phone_number.blank?
 
-      send_message(to: contact.phone_number, from: channel.phone_number, content: campaign.message)
+      channel.send_message(to: contact.phone_number, body: campaign.message)
     end
-  end
-
-  def send_message(to:, from:, content:)
-    client.messages.create(body: content, from: from, to: to)
-  end
-
-  def client
-    ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
   end
 end
