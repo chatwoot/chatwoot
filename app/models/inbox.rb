@@ -33,7 +33,10 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
 
+  # Not allowing characters:
   validates :name, presence: true
+  validates :name, if: :check_channel_type?, format: { with: %r{^^\b[^/\\<>@]*\b$}, multiline: true,
+                                                       message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validate :ensure_valid_max_assignment_limit
@@ -117,6 +120,8 @@ class Inbox < ApplicationRecord
       "#{ENV['FRONTEND_URL']}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
     when 'Channel::Line'
       "#{ENV['FRONTEND_URL']}/webhooks/line/#{channel.line_channel_id}"
+    when 'Channel::Whatsapp'
+      "#{ENV['FRONTEND_URL']}/webhooks/whatsapp/#{channel.phone_number}"
     end
   end
 
@@ -132,6 +137,10 @@ class Inbox < ApplicationRecord
 
   def delete_round_robin_agents
     ::RoundRobin::ManageService.new(inbox: self).clear_queue
+  end
+
+  def check_channel_type?
+    ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
   end
 end
 

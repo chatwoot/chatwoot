@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "کانٹیکٹ کا ای میل درج کریں۔",
         "LABEL": "ای میل اڈریس",
-        "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
+        "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "کانٹیکٹ کا فون نمبر درج کریں۔",
