@@ -1,17 +1,29 @@
 {
-    "BULK_ACTION": {
-        "CONVERSATIONS_SELECTED": "%{conversationCount} المحادثات المحددة",
-        "AGENT_SELECT_LABEL": "اختر وكيل",
-        "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين %{conversationCount} %{conversationLabel} إلى",
-        "GO_BACK_LABEL": "العودة للخلف",
-        "ASSIGN_LABEL": "تكليف",
-        "ASSIGN_AGENT_TOOLTIP": "إسناد وكيل",
-        "RESOLVE_TOOLTIP": "إغلاق المحادثة",
-        "ASSIGN_SUCCESFUL": "تم تعيين المحادثات بنجاح",
-        "ASSIGN_FAILED": "فشل في تعيين المحادثات، الرجاء المحاولة مرة أخرى",
-        "RESOLVE_SUCCESFUL": "تم تسوية المحادثات بنجاح",
-        "RESOLVE_FAILED": "فشل في حل المحادثات، يرجى المحاولة مرة أخرى",
-        "ALL_CONVERSATIONS_SELECTED_ALERT": "المحادثات المرئية في هذه الصفحة هي المحددة فقط.",
-        "AGENT_LIST_LOADING": "تحميل الوكلاء"
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} المحادثات المحددة",
+    "AGENT_SELECT_LABEL": "اختر وكيل",
+    "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين %{conversationCount} %{conversationLabel} إلى",
+    "GO_BACK_LABEL": "العودة للخلف",
+    "ASSIGN_LABEL": "تكليف",
+    "ASSIGN_AGENT_TOOLTIP": "إسناد وكيل",
+    "ASSIGN_SUCCESFUL": "تم تعيين المحادثات بنجاح",
+    "ASSIGN_FAILED": "فشل في تعيين المحادثات، الرجاء المحاولة مرة أخرى",
+    "RESOLVE_SUCCESFUL": "تم تسوية المحادثات بنجاح",
+    "RESOLVE_FAILED": "فشل في حل المحادثات، يرجى المحاولة مرة أخرى",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "المحادثات المرئية في هذه الصفحة هي المحددة فقط.",
+    "AGENT_LIST_LOADING": "تحميل الوكلاء",
+    "UPDATE": {
+      "CHANGE_STATUS": "تغيير الحالة",
+      "SNOOZE_UNTIL_NEXT_REPLY": "غفوة حتى الرد القادم",
+      "UPDATE_SUCCESFUL": "تم تحديث حالة المحادثة بنجاح.",
+      "UPDATE_FAILED": "فشل تحديث المحادثات، الرجاء المحاولة مرة أخرى"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "تعيين التسميات",
+      "NO_LABELS_FOUND": "لم يتم العثور على تسميات لـ",
+      "ASSIGN_SELECTED_LABELS": "تعيين التسميات المحددة",
+      "ASSIGN_SUCCESFUL": "تم تعيين التسميات بنجاح",
+      "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى"
     }
+  }
 }

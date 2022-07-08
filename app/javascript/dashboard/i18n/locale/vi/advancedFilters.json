@@ -22,7 +22,7 @@
       "is_not_present": "Không có",
       "is_greater_than": "Lớn hơn",
       "is_less_than": "Nhỏ hơn",
-      "days_before": "Is x days before"
+      "days_before": "Khoảng x ngày trước"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Đúng",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Số",
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng"
     },
     "GROUPS": {

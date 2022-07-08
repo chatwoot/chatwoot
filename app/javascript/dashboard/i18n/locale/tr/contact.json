@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Kişinin e-posta adresini girin",
         "LABEL": "E-posta adresi",
-        "DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor."
+        "DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
+        "ERROR": "Lütfen geçerli bir tam e-posta adresi."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Kişinin telefon numarasını girin",

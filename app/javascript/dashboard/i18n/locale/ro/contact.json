@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Introduceți adresa de e-mail a persoanei de contact",
         "LABEL": "Adresa Email",
-        "DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact."
+        "DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact.",
+        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introduceți numărul de telefon al persoanei de contact",

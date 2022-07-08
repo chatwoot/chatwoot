@@ -32,6 +32,15 @@ de:
     contacts:
       import:
         failed: Datei ist leer
+    inboxes:
+      imap:
+        socket_error: Bitte überprüfen Sie die Netzwerkverbindung, die IMAP-Adresse und versuchen Sie es erneut.
+        no_response_error: Bitte überprüfen Sie die IMAP-Anmeldeinformationen und versuchen Sie es erneut.
+        host_unreachable_error: Host nicht erreichbar. Bitte überprüfen Sie die IMAP-Adresse und den IMAP-Port und versuchen Sie es erneut.
+        connection_timed_out_error: Zeitüberschreitung der Verbindung für %{address}:%{port}
+        connection_closed_error: Verbindung geschlossen.
+      validations:
+        name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
