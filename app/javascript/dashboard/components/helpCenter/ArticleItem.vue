@@ -1,52 +1,88 @@
 <template>
-  <tbody>
-    <tr>
-      <td>
-        <div class="row--user-block">
-          <div class="user-block">
-            <h6 class="sub-block-title text-truncate">
-              <router-link
-                class="user-name"
-                :to="{
-                  name: 'settings_inbox_show',
-                  params: { inboxId: this.$route.params.inbox_id },
-                }"
-              >
-                Setup your account
-              </router-link>
-            </h6>
-            <div class="author">
-              <span class="by">by</span> <span class="name">Eden Hazard</span>
+  <div>
+    <tbody>
+      <tr>
+        <td>
+          <div class="row--article-block">
+            <div class="article-block">
+              <h6 class="sub-block-title text-truncate">
+                <router-link class="article-name"> {{ title }} </router-link>
+              </h6>
+              <div class="author">
+                <span class="by">by</span>
+                <span class="name">{{ articleAuthorName }}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </td>
-      <td>Getting Started</td>
-      <td>1.5K</td>
-      <td>
-        <Label title="Published" color-scheme="success" />
-      </td>
-      <td>30 minutes ago</td>
-    </tr>
-  </tbody>
+        </td>
+        <td>{{ category }}</td>
+        <td>{{ readCount }}</td>
+        <td>
+          <Label :title="status" color-scheme="success" />
+        </td>
+        <td>{{ lastUpdatedAt }}</td>
+      </tr>
+    </tbody>
+  </div>
 </template>
 <script>
 import Label from 'dashboard/components/ui/Label';
-
+import timeMixin from 'dashboard/mixins/time';
 export default {
   components: {
     Label,
+  },
+  mixins: [timeMixin],
+  props: {
+    title: {
+      type: String,
+      default: '',
+      required: true,
+    },
+    author: {
+      type: Object,
+      default: () => {},
+    },
+    category: {
+      type: String,
+      default: '',
+    },
+    readCount: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      type: String,
+      default: 'draft',
+      values: ['  ', 'draft', 'archived'],
+    },
+    updatedAt: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    lastUpdatedAt() {
+      return this.dynamicTime(this.updatedAt);
+    },
+    articleAuthorName() {
+      return this.author.name;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.row--user-block {
+tbody {
+  width: 100%;
+  display: table;
+}
+.row--article-block {
   align-items: center;
   display: flex;
   text-align: left;
 
-  .user-block {
+  .article-block {
     min-width: 0;
   }
 
@@ -54,36 +90,24 @@ export default {
     margin-bottom: 0;
   }
 
-  .user-thumbnail-box {
-    margin-right: var(--space-small);
-  }
-
-  .user-name {
+  .article-name {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-default);
     margin: 0;
     text-transform: capitalize;
     color: var(--s-900);
   }
-
-  .view-details--button {
-    color: var(--color-body);
-  }
-
-  .user-email {
-    margin: 0;
-  }
-}
-.author {
-  .by {
-    font-weight: var(--font-weight-normal);
-    color: var(--s-500);
-    font-size: var(--font-size-small);
-  }
-  .name {
-    font-weight: var(--font-weight-medium);
-    color: var(--s-600);
-    font-size: var(--font-size-small);
+  .author {
+    .by {
+      font-weight: var(--font-weight-normal);
+      color: var(--s-500);
+      font-size: var(--font-size-small);
+    }
+    .name {
+      font-weight: var(--font-weight-medium);
+      color: var(--s-600);
+      font-size: var(--font-size-small);
+    }
   }
 }
 </style>
