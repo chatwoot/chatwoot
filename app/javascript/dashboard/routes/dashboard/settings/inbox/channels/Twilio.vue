@@ -17,14 +17,6 @@
     </div>
 
     <div class="medium-8 columns">
-      <input
-        id="useMessagingService"
-        v-model="useMessagingService"
-        type="checkbox"
-      />
-      <label for="useMessagingService">
-        Use a Twilio Messaging Service (recommended)
-      </label>
       <label
         v-if="useMessagingService"
         :class="{ error: $v.messagingServiceSID.$error }"
@@ -56,6 +48,20 @@
         <span v-if="$v.phoneNumber.$error" class="message">{{
           $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.ERROR')
         }}</span>
+      </label>
+    </div>
+
+    <div class="medium-8 columns messagingServiceHelptext">
+      <label for="useMessagingService">
+      <input
+        id="useMessagingService"
+        v-model="useMessagingService"
+        type="checkbox"
+        class="checkbox"
+       />
+        {{
+          $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.USE_MESSAGING_SERVICE')
+        }}
       </label>
     </div>
 
@@ -120,7 +126,7 @@ export default {
       medium: this.type,
       channelName: '',
       messagingServiceSID: '',
-      useMessagingService: true,
+      useMessagingService: false,
       phoneNumber: '',
     };
   },
@@ -187,3 +193,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.messagingServiceHelptext{
+  margin-top: -10px;
+  margin-bottom: 15px;
+
+  .checkbox {
+    margin: 0px 4px;
+  }
+}
+</style>
