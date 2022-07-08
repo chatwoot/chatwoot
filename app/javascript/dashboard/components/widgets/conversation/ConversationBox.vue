@@ -12,6 +12,7 @@
       class="dashboard-app--tabs"
       @change="onDashboardAppTabChange"
     >
+      min-height: var(--space-large) + var(--space-smaller)
       <woot-tabs-item
         v-for="tab in dashboardAppTabs"
         :key="tab.key"
@@ -141,6 +142,7 @@ export default {
 .dashboard-app--tabs {
   background: var(--white);
   margin-top: -1px;
+  min-height: var(--dashboard-app-tabs-height);
 }
 
 .messages-and-sidebar {

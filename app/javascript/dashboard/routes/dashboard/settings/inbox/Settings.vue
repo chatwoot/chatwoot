@@ -4,7 +4,11 @@
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
-      <woot-tabs :index="selectedTabIndex" @change="onTabChange">
+      <woot-tabs
+        :index="selectedTabIndex"
+        :border="false"
+        @change="onTabChange"
+      >
         <woot-tabs-item
           v-for="tab in tabs"
           :key="tab.key"
