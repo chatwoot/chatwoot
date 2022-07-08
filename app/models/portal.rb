@@ -64,6 +64,6 @@ class Portal < ApplicationRecord
 
   def config_json_format
     denied_keys = config.keys - CONFIG_JSON_KEYS
-    errors.add(:conditions, "Portal configuration on #{denied_keys.join(',')} not supported.") if denied_keys.any?
+    errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
   end
 end
