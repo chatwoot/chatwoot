@@ -32,6 +32,15 @@ ru:
     contacts:
       import:
         failed: Пустой файл
+    inboxes:
+      imap:
+        socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
+        no_response_error: Проверьте учетные данные IMAP и повторите попытку.
+        host_unreachable_error: Хост недоступен. Проверьте адрес IMAP, порт IMAP и повторите попытку.
+        connection_timed_out_error: Время ожидания соединения для %{address}:%{port} истекло
+        connection_closed_error: Соединение закрыто.
+      validations:
+        name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
   reports:
     period: Отчётный период с %{since} по %{until}
     agent_csv:

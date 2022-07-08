@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Escriba la dirección email del contacto",
         "LABEL": "Dirección de correo",
-        "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto."
+        "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto.",
+        "ERROR": "Por favor, introduzca una dirección de correo válida."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Escriba el número de teléfono del contacto",

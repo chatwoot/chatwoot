@@ -1,17 +1,29 @@
 {
-    "BULK_ACTION": {
-        "CONVERSATIONS_SELECTED": "%{conversationCount} conversaciones seleccionadas",
-        "AGENT_SELECT_LABEL": "Seleccionar agente",
-        "ASSIGN_CONFIRMATION_LABEL": "¿Está seguro que desea asignar %{conversationCount} %{conversationLabel} a",
-        "GO_BACK_LABEL": "Volver",
-        "ASSIGN_LABEL": "Asignar",
-        "ASSIGN_AGENT_TOOLTIP": "Asignar agente",
-        "RESOLVE_TOOLTIP": "Resolver",
-        "ASSIGN_SUCCESFUL": "Conversaciones asignadas con éxito",
-        "ASSIGN_FAILED": "Error al asignar conversaciones, inténtelo de nuevo",
-        "RESOLVE_SUCCESFUL": "Conversaciones resueltas con éxito",
-        "RESOLVE_FAILED": "Error al resolver las conversaciones, inténtelo de nuevo",
-        "ALL_CONVERSATIONS_SELECTED_ALERT": "Las conversaciones visibles en esta página sólo están seleccionadas.",
-        "AGENT_LIST_LOADING": "Cargando agentes"
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} conversaciones seleccionadas",
+    "AGENT_SELECT_LABEL": "Seleccionar agente",
+    "ASSIGN_CONFIRMATION_LABEL": "¿Está seguro que desea asignar %{conversationCount} %{conversationLabel} a",
+    "GO_BACK_LABEL": "Volver",
+    "ASSIGN_LABEL": "Asignar",
+    "ASSIGN_AGENT_TOOLTIP": "Asignar agente",
+    "ASSIGN_SUCCESFUL": "Conversaciones asignadas con éxito",
+    "ASSIGN_FAILED": "Error al asignar conversaciones, inténtelo de nuevo",
+    "RESOLVE_SUCCESFUL": "Conversaciones resueltas con éxito",
+    "RESOLVE_FAILED": "Error al resolver las conversaciones, inténtelo de nuevo",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Las conversaciones visibles en esta página sólo están seleccionadas.",
+    "AGENT_LIST_LOADING": "Cargando agentes",
+    "UPDATE": {
+      "CHANGE_STATUS": "Cambiar estado",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Posponer hasta la próxima respuesta",
+      "UPDATE_SUCCESFUL": "El estado de la conversación se actualizó con éxito.",
+      "UPDATE_FAILED": "No se han podido actualizar las conversaciones. Inténtalo de nuevo."
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Asignar etiquetas",
+      "NO_LABELS_FOUND": "No se encontraron etiquetas para",
+      "ASSIGN_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
+      "ASSIGN_SUCCESFUL": "Etiquetas asignadas correctamente",
+      "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo"
     }
+  }
 }

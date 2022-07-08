@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
-        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)"
+        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)",
+        "ERROR": "Bitte geben Sie einen gültigen Posteingangsnamen ein"
       },
       "WEBSITE_NAME": {
         "LABEL": "Webseiten-Name",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal Begrüßung aktivieren",
-          "HELP_TEXT": "Senden Sie eine Begrüßungsnachricht an die Benutzer, wenn sie das Gespräch beginnen.",
+          "HELP_TEXT": "Automatisch eine Begrüßungsnachricht senden, wenn eine neue Konversation erstellt wird.",
           "ENABLED": "Aktiviert",
           "DISABLED": "Deaktiviert"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Widget Farbe",
           "PLACEHOLDER": "Aktualisieren Sie die im Widget verwendete Widget-Farbe"
         },
-        "SUBMIT_BUTTON": "Posteingang erstellen"
+        "SUBMIT_BUTTON": "Posteingang erstellen",
+        "API": {
+          "ERROR_MESSAGE": "Wir konnten keinen Website-Kanal erstellen, bitte versuchen Sie es erneut"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp-Kanal",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "API-Provider",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
           "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Telefonnummer-ID",
+          "PLACEHOLDER": "Bitte geben Sie die Telefonnummern-ID ein, die Sie vom Facebook-Entwickler-Dashboard erhalten haben.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Geschäftskonto-ID",
+          "PLACEHOLDER": "Bitte geben Sie die von Facebook Developer Dashboard erhaltene Geschäftskonto -ID ein.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook-Verifizierungstoken",
+          "PLACEHOLDER": "Geben Sie ein Überprüfungstoken ein, das Sie für Facebook-Webhooks konfigurieren möchten.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
         "API_KEY": {
           "LABEL": "API-Schlüssel",
           "SUBTITLE": "Konfigurieren Sie den WhatsApp API-Schlüssel.",
           "PLACEHOLDER": "API-Schlüssel",
-          "APPLY_FOR_ACCESS": "Sie haben keinen API-Schlüssel? Für den Zugriff hier beantragen",
           "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "Sie müssen die Webhook-URL im Facebook-Entwicklerportal mit der hier genannten URL konfigurieren."
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "Wählen Sie einen Kanal",
-        "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
+        "DESC": "Chatwoot unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Posteingangseinstellungen erfolgreich aktualisiert",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Widget-Farbe konnte nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal."
+        "ERROR_MESSAGE": "Die Posteingangseinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es später erneut."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
-      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kann via SDK einen `identity_hash` für jeden Benutzer übergeben werden. Ein Hash kann mithilfe des SH256-Verfahrens mithilfe des nachfolgenden Schlüssels generiert werden.",
+      "HMAC_DESCRIPTION": "Um die Identität des Benutzers zu validieren, können Sie für jeden Benutzer einen `identifier_hash` übergeben. Sie können einen HMAC sha256-Hash generieren, indem Sie den 'Bezeichner' mit dem hier gezeigten Schlüssel verwenden.",
       "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
-      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, funktioniert die setUser Methode der Chatwoot SDK nur, wenn ein `identifier_hash` für jeden Benutzer mitgeliefert wird.",
+      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, werden Anfragen, denen der `identifier_hash` fehlt, abgelehnt.",
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
       "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
+      "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
+      "WHATSAPP_SECTION_TITLE": "API-Schlüssel"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Bitte geben Sie einen Wert größer als 0 ein",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Beschränken Sie die maximale Anzahl von Konversationen aus diesem Posteingang, die einem Agenten automatisch zugewiesen werden können"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
