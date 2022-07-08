@@ -6,7 +6,7 @@
 # We don't want to update the name of the identified original contact.
 
 class ContactIdentifyAction
-  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false }]
+  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
@@ -97,12 +97,13 @@ class ContactIdentifyAction
   end
 
   def update_contact
-    params_to_update = params.slice(*@attributes_to_update).reject do |_k, v|
+    @contact.attributes = params.slice(*@attributes_to_update).reject do |_k, v|
       v.blank?
     end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
-    @contact.update!(params_to_update)
+    @contact.discard_invalid_attrs if discard_invalid_attrs
+    @contact.save!
     ContactAvatarJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
