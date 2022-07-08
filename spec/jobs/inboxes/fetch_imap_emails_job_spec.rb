@@ -6,7 +6,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
     create(:channel_email, imap_enabled: true, imap_address: 'imap.gmail.com', imap_port: 993, imap_login: 'imap@gmail.com',
                            imap_password: 'password', imap_inbox_synced_at: Time.now.utc, account: account)
   end
-  let(:email_inbox) { create(:inbox, channel: imap_email_channel, account: account) }
+  let!(:conversation) { create(:conversation, inbox: imap_email_channel.inbox, account: account) }
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
@@ -41,7 +41,8 @@ RSpec.describe Inboxes::FetchImapEmailsJob, type: :job do
         message_id '<messageId@example.com>'
       end
 
-      create(:message, message_type: 'incoming', source_id: email.message_id, account: account, inbox: email_inbox)
+      create(:message, message_type: 'incoming', source_id: email.message_id, account: account, inbox: imap_email_channel.inbox,
+                       conversation: conversation)
 
       allow(Mail).to receive(:find).and_return([email])
       imap_mailbox = double
