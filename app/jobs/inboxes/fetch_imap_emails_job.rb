@@ -34,16 +34,11 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
                               enable_ssl: channel.imap_enable_ssl
     end
 
-    new_mails = false
-
-    Mail.find(what: :last, count: 10, order: :desc).each do |inbound_mail|
-      next unless inbound_mail.date.utc >= channel.imap_inbox_synced_at
+    Mail.find(what: :last, count: 10, order: :asc).each do |inbound_mail|
+      next if channel.inbox.messages.find_by(source_id: inbound_mail.message_id).present?
 
       process_mail(inbound_mail, channel)
-      new_mails = true
     end
-
-    channel.update(imap_inbox_synced_at: Time.now.utc) if new_mails
   end
 
   def process_mail(inbound_mail, channel)
