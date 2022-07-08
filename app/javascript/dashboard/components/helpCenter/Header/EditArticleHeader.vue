@@ -141,7 +141,7 @@ export default {
   margin-left: var(--space-smaller);
 }
 .draft-status {
-  margin-left: var(--space-half);
+  margin-left: var(--space-smaller);
   margin-left: var(--space-normal);
   color: var(--s-400);
   align-items: center;
