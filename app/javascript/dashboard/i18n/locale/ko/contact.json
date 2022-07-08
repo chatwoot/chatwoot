@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "연락처의 이메일 주소 입력",
         "LABEL": "이메일 주소",
-        "DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다."
+        "DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "연락처의 전화 번호 입력",

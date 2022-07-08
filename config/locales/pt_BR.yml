@@ -32,6 +32,15 @@ pt_BR:
     contacts:
       import:
         failed: Arquivo vazio
+    inboxes:
+      imap:
+        socket_error: Por favor, verifique a conexão de rede, endereço de IMAP e tente novamente.
+        no_response_error: Por favor, verifique as credenciais de IMAP e tente novamente.
+        host_unreachable_error: Servidor inacessível, por favor, verifique o endereço e a porta de IMAP e tente novamente.
+        connection_timed_out_error: Tempo esgotado de conexão para %{address}:%{port}
+        connection_closed_error: Conexão fechada.
+      validations:
+        name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
   reports:
     period: Reportando o período %{since} a %{until}
     agent_csv:

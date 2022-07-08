@@ -2,22 +2,22 @@
 #
 # Table name: categories
 #
-#  id                 :bigint           not null, primary key
-#  description        :text
-#  locale             :string           default("en")
-#  name               :string
-#  position           :integer
-#  slug               :string           not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  account_id         :integer          not null
-#  linked_category_id :bigint
-#  parent_category_id :bigint
-#  portal_id          :integer          not null
+#  id                     :bigint           not null, primary key
+#  description            :text
+#  locale                 :string           default("en")
+#  name                   :string
+#  position               :integer
+#  slug                   :string           not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  associated_category_id :bigint
+#  parent_category_id     :bigint
+#  portal_id              :integer          not null
 #
 # Indexes
 #
-#  index_categories_on_linked_category_id             (linked_category_id)
+#  index_categories_on_associated_category_id         (associated_category_id)
 #  index_categories_on_locale                         (locale)
 #  index_categories_on_locale_and_account_id          (locale,account_id)
 #  index_categories_on_parent_category_id             (parent_category_id)
@@ -25,7 +25,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (linked_category_id => categories.id)
+#  fk_rails_...  (associated_category_id => categories.id)
 #  fk_rails_...  (parent_category_id => categories.id)
 #
 class Category < ApplicationRecord
@@ -45,13 +45,17 @@ class Category < ApplicationRecord
            foreign_key: :parent_category_id,
            dependent: :nullify,
            inverse_of: 'parent_category'
-  has_many :linked_categories,
+  has_many :associated_categories,
            class_name: :Category,
-           foreign_key: :linked_category_id,
+           foreign_key: :associated_category_id,
            dependent: :nullify,
-           inverse_of: 'linked_category'
+           inverse_of: 'root_category'
   belongs_to :parent_category, class_name: :Category, optional: true
-  belongs_to :linked_category, class_name: :Category, optional: true
+  belongs_to :root_category,
+             class_name: :Category,
+             foreign_key: :associated_category_id,
+             inverse_of: :associated_categories,
+             optional: true
 
   before_validation :ensure_account_id
   validates :account_id, presence: true

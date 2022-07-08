@@ -27,7 +27,7 @@ RSpec.describe Article, type: :model do
     before do
       create(:article, category_id: category_1.id, content: 'This is the content', description: 'this is the description', title: 'this is title',
                        portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_1.id, title: 'title 1', portal_id: portal_1.id, author_id: user.id)
+      create(:article, category_id: category_1.id, title: 'title 1', content: 'This is the content', portal_id: portal_1.id, author_id: user.id)
       create(:article, category_id: category_2.id, title: 'title 2', portal_id: portal_2.id, author_id: user.id)
       create(:article, category_id: category_2.id, title: 'title 3', portal_id: portal_1.id, author_id: user.id)
       create(:article, category_id: category_3.id, title: 'title 6', portal_id: portal_2.id, author_id: user.id)
@@ -76,6 +76,7 @@ RSpec.describe Article, type: :model do
       it 'returns data with text_search query' do
         params = { query: 'title' }
         records = portal_2.articles.search(params)
+
         expect(records.count).to eq(2)
 
         params = { query: 'title' }
@@ -84,12 +85,13 @@ RSpec.describe Article, type: :model do
         expect(records.count).to eq(4)
 
         params = { query: 'the content' }
-        records = portal_2.articles.search(params)
+        records = portal_1.articles.search(params)
+
         expect(records.count).to eq(2)
       end
 
       it 'returns data with text_search query and locale' do
-        params = { query: 'the title', locale: 'es' }
+        params = { query: 'title', locale: 'es' }
         records = portal_2.articles.search(params)
         expect(records.count).to eq(2)
       end
@@ -101,7 +103,7 @@ RSpec.describe Article, type: :model do
       end
 
       it 'return records with category_slug and text_search query' do
-        params = { category_slug: 'category_2', query: 'the title' }
+        params = { category_slug: 'category_2', query: 'title' }
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
       end

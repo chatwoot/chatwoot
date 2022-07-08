@@ -32,6 +32,15 @@ ar:
     contacts:
       import:
         failed: الملف فارغ
+    inboxes:
+      imap:
+        socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
+        no_response_error: الرجاء التحقق من بيانات اعتماد IMAP وحاول مرة أخرى.
+        host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP، منفذ IMAP وحاول مرة أخرى.
+        connection_timed_out_error: انتهت مهلة الاتصال لـ %{address}:%{port}
+        connection_closed_error: تم إغلاق الاتصال.
+      validations:
+        name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     agent_csv:

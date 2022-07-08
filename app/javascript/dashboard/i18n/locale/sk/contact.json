@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Zadajte e-mailovú adresu kontaktu",
         "LABEL": "E-mailová adresa",
-        "DUPLICATE": "Táto e-mailová adresa sa používa pre iný kontakt."
+        "DUPLICATE": "Táto e-mailová adresa sa používa pre iný kontakt.",
+        "ERROR": "Prosím zadajte platnú e-mailovú adresu."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadajte telefónne číslo kontaktu",

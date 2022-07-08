@@ -4,7 +4,11 @@
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
-      <woot-tabs :index="selectedTabIndex" @change="onTabChange">
+      <woot-tabs
+        :index="selectedTabIndex"
+        :border="false"
+        @change="onTabChange"
+      >
         <woot-tabs-item
           v-for="tab in tabs"
           :key="tab.key"
@@ -434,7 +438,11 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isAWhatsappChannel) {
+      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
+        return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
+          this.inbox.phone_number})`;
+      }
+      if (this.isAWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       if (this.isAnEmailChannel) {
