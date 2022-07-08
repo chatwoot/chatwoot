@@ -84,6 +84,7 @@ fa:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: این پیام حذف شد
     activity:
       status:
