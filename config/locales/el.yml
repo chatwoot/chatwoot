@@ -32,6 +32,15 @@ el:
     contacts:
       import:
         failed: Το αρχείο είναι κενό
+    inboxes:
+      imap:
+        socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
+        no_response_error: Παρακαλούμε ελέγξτε τα διαπιστευτήρια IMAP και προσπαθήστε ξανά.
+        host_unreachable_error: Μη προσβάσιμος διακομιστής, ελέγξτε τη διεύθυνση IMAP, τη θύρα IMAP και προσπαθήστε ξανά.
+        connection_timed_out_error: Λήξη χρονικού ορίου σύνδεσης για %{address}:%{port}
+        connection_closed_error: Η σύνδεση έκλεισε.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     agent_csv:
