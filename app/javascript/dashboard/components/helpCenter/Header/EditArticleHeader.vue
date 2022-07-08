@@ -138,7 +138,7 @@ export default {
   align-items: center;
 }
 .article--buttons {
-  margin-left: var(--space-half);
+  margin-left: var(--space-smaller);
 }
 .draft-status {
   margin-left: var(--space-half);
