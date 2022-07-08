@@ -142,10 +142,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
-  def contact_params
-    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
-  end
-
   def contact_custom_attributes
     return @contact.custom_attributes.merge(permitted_params[:custom_attributes]) if permitted_params[:custom_attributes]
 
