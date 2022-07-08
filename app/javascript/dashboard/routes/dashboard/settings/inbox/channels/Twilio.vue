@@ -53,14 +53,16 @@
 
     <div class="medium-8 columns messagingServiceHelptext">
       <label for="useMessagingService">
-      <input
-        id="useMessagingService"
-        v-model="useMessagingService"
-        type="checkbox"
-        class="checkbox"
-       />
+        <input
+          id="useMessagingService"
+          v-model="useMessagingService"
+          type="checkbox"
+          class="checkbox"
+        />
         {{
-          $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.USE_MESSAGING_SERVICE')
+          $t(
+            'INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.USE_MESSAGING_SERVICE'
+          )
         }}
       </label>
     </div>
@@ -194,7 +196,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.messagingServiceHelptext{
+.messagingServiceHelptext {
   margin-top: -10px;
   margin-bottom: 15px;
 
