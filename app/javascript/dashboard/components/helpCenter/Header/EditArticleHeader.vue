@@ -12,7 +12,7 @@
       </woot-button>
     </div>
     <div class="header-right--wrap">
-      <span v-if="newChanges" class="draft-status">
+      <span v-if="showDraftStatus" class="draft-status">
         {{ draftStatusText }}
       </span>
       <woot-button
@@ -60,7 +60,7 @@
         size="small"
         color-scheme="primary"
       >
-        {{ actionButtonLabel }}
+        {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
       </woot-button>
     </div>
   </div>
@@ -73,17 +73,9 @@ export default {
       type: String,
       default: '',
     },
-    actionButtonLabel: {
+    draftState: {
       type: String,
       default: '',
-    },
-    isSaving: {
-      type: Boolean,
-      default: false,
-    },
-    newChanges: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -92,15 +84,25 @@ export default {
     };
   },
   computed: {
+    isDraftStatusSavingOrSaved() {
+      return this.draftState === 'saving' || 'saved';
+    },
     draftStatusText() {
-      return this.isSaving
-        ? this.$t('HELP_CENTER.EDIT_HEADER.SAVING')
-        : this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
+      if (this.draftState === 'saving') {
+        return this.$t('HELP_CENTER.EDIT_HEADER.SAVING');
+      }
+      if (this.draftState === 'saved') {
+        return this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
+      }
+      return '';
+    },
+    showDraftStatus() {
+      return this.isDraftStatusSavingOrSaved;
     },
   },
   methods: {
     onClickGoBack() {
-      this.$emit('goBack');
+      this.$emit('back');
     },
     showPreview() {
       this.$emit('show');
@@ -141,7 +143,7 @@ export default {
   margin-left: var(--space-smaller);
 }
 .draft-status {
-  margin-left: var(--space-smaller);
+  margin-right: var(--space-smaller);
   margin-left: var(--space-normal);
   color: var(--s-400);
   align-items: center;

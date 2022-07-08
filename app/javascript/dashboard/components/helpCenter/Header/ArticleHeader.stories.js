@@ -17,12 +17,6 @@ export default {
         type: 'number',
       },
     },
-    buttonLabel: {
-      defaultValue: 'New Article',
-      control: {
-        type: 'text',
-      },
-    },
     selectedValue: {
       defaultValue: 'Status',
       control: {
@@ -43,7 +37,6 @@ export const ArticleHeaderView = Template.bind({});
 ArticleHeaderView.args = {
   headerTitle: 'All articles',
   count: 112,
-  buttonLabel: 'New Article',
   selectedValue: 'Status',
   openFilterModal: action('openedFilterModal'),
   openDropdown: action('opened'),

@@ -11,22 +11,10 @@ export default {
         type: 'text',
       },
     },
-    actionButtonLabel: {
-      defaultValue: 'Publish',
+    draftState: {
+      defaultValue: 'saving',
       control: {
         type: 'text',
-      },
-    },
-    isSaving: {
-      defaultValue: false,
-      control: {
-        type: 'boolean',
-      },
-    },
-    newChanges: {
-      defaultValue: false,
-      control: {
-        type: 'boolean',
       },
     },
   },
@@ -36,15 +24,13 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { EditArticleHeader },
   template:
-    '<edit-article-header v-bind="$props" @goBack="onClickGoBack" @show="showPreview" @add="onClickAdd" @open="openSidebar" @close="closeSidebar" ></edit-article-header>',
+    '<edit-article-header v-bind="$props" @back="onClickGoBack" @show="showPreview" @add="onClickAdd" @open="openSidebar" @close="closeSidebar" ></edit-article-header>',
 });
 
 export const EditArticleHeaderView = Template.bind({});
 EditArticleHeaderView.args = {
   backButtonLabel: 'Articles',
-  actionButtonLabel: 'Publish',
-  isSaving: false,
-  newChanges: false,
+  draftState: 'saving',
   onClickGoBack: action('goBack'),
   showPreview: action('previewOpened'),
   onClickAdd: action('added'),

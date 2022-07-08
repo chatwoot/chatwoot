@@ -4,7 +4,7 @@
       <h3 class="page-title">{{ headerTitle }}</h3>
       <span class="text-block-title count-view">{{ `(${count})` }}</span>
     </div>
-    <div>
+    <div class="header-right--wrap">
       <woot-button
         class-names="article--buttons"
         icon="filter"
@@ -80,7 +80,7 @@
         size="small"
         color-scheme="primary"
       >
-        {{ buttonLabel }}
+        {{ $t('HELP_CENTER.HEADER.NEW_BUTTON') }}
       </woot-button>
     </div>
   </div>
@@ -107,10 +107,6 @@ export default {
     count: {
       type: Number,
       default: 0,
-    },
-    buttonLabel: {
-      type: String,
-      default: '',
     },
     selectedValue: {
       type: String,
@@ -148,6 +144,10 @@ export default {
   height: var(--space-larger);
 }
 .header-left--wrap {
+  display: flex;
+  align-items: center;
+}
+.header-right--wrap {
   display: flex;
   align-items: center;
 }
