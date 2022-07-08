@@ -28,10 +28,12 @@ class Contact < ApplicationRecord
   include Labelable
 
   validates :account_id, presence: true
-  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }
+  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
+                    format: { with: Devise.email_regexp, message: 'Invalid email' }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
-            allow_blank: true, uniqueness: { scope: [:account_id] }
+            allow_blank: true, uniqueness: { scope: [:account_id] },
+            format: { with: /\+[1-9]\d{1,14}\z/, message: 'Should be in e164 format' }
   validates :name, length: { maximum: 255 }
 
   belongs_to :account
@@ -42,7 +44,6 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes
-  before_save :phone_number_format, :email_format
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -132,6 +133,11 @@ class Contact < ApplicationRecord
     where.not(email: [nil, '']).or(
       Current.account.contacts.where.not(phone_number: [nil, ''])
     ).or(Current.account.contacts.where.not(identifier: [nil, '']))
+  end
+
+  def discard_invalid_attrs
+    phone_number_format
+    email_format
   end
 
   private
