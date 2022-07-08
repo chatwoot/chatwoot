@@ -12,7 +12,6 @@
       class="dashboard-app--tabs"
       @change="onDashboardAppTabChange"
     >
-      min-height: var(--space-large) + var(--space-smaller)
       <woot-tabs-item
         v-for="tab in dashboardAppTabs"
         :key="tab.key"
