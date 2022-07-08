@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
+  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug') }
   let!(:category_to_link) { create(:category, name: 'linked category', portal: portal, account_id: account.id, slug: 'linked_category_slug') }
   let!(:related_category_1) { create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1') }

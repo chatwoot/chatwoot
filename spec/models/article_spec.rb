@@ -18,8 +18,8 @@ RSpec.describe Article, type: :model do
   describe 'search' do
     let!(:account) { create(:account) }
     let(:user) { create(:user, account_ids: [account.id], role: :agent) }
-    let!(:portal_1) { create(:portal, account_id: account.id) }
-    let!(:portal_2) { create(:portal, account_id: account.id) }
+    let!(:portal_1) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
+    let!(:portal_2) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
     let!(:category_1) { create(:category, slug: 'category_1', locale: 'en', portal_id: portal_1.id) }
     let!(:category_2) { create(:category, slug: 'category_2', locale: 'es', portal_id: portal_1.id) }
     let!(:category_3) { create(:category, slug: 'category_3', locale: 'es', portal_id: portal_2.id) }
