@@ -290,14 +290,16 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
   end
 
   create_table "channel_twilio_sms", force: :cascade do |t|
-    t.string "phone_number", null: false
+    t.string "phone_number"
     t.string "auth_token", null: false
     t.string "account_sid", null: false
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
-    t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
+    t.string "messaging_service_sid"
+    t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
+    t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
 
