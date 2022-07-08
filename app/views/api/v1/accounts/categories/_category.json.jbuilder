@@ -20,8 +20,8 @@ if category.parent_category.present?
   end
 end
 
-if category.linked_category.present?
-  json.linked_category do
-    json.partial! 'api/v1/accounts/categories/associated_category.json.jbuilder', category: category.linked_category
+if category.root_category.present?
+  json.root_category do
+    json.partial! 'api/v1/accounts/categories/associated_category.json.jbuilder', category: category.root_category
   end
 end
