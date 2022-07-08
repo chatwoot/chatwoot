@@ -18,8 +18,8 @@ if category.parent_category.present?
   end
 end
 
-if category.linked_category.present?
-  json.linked_category do
-    json.partial! partial: 'associated_category', category: category.linked_category
+if category.root_category.present?
+  json.root_category do
+    json.partial! partial: 'associated_category', category: category.root_category
   end
 end

@@ -5,7 +5,9 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug') }
-  let!(:category_to_link) { create(:category, name: 'linked category', portal: portal, account_id: account.id, slug: 'linked_category_slug') }
+  let!(:category_to_associate) do
+    create(:category, name: 'associated category', portal: portal, account_id: account.id, slug: 'associated_category_slug')
+  end
   let!(:related_category_1) { create(:category, name: 'related category 1', portal: portal, account_id: account.id, slug: 'category_slug_1') }
   let!(:related_category_2) { create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2') }
 
@@ -29,7 +31,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             locale: 'es',
             slug: 'test_category_1',
             parent_category_id: category.id,
-            linked_category_id: category_to_link.id,
+            associated_category_id: category_to_associate.id,
             related_category_ids: [related_category_1.id, related_category_2.id]
           }
         }
@@ -44,7 +46,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
             locale: 'es',
             slug: 'test_category_2',
             parent_category_id: category.id,
-            linked_category_id: category_to_link.id,
+            associated_category_id: category_to_associate.id,
             related_category_ids: [related_category_1.id, related_category_2.id]
           }
         }
@@ -61,9 +63,9 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
         expect(json_response['payload']['related_categories'][1]['id']).to eql(related_category_2.id)
         expect(json_response['payload']['parent_category']['id']).to eql(category.id)
-        expect(json_response['payload']['linked_category']['id']).to eql(category_to_link.id)
+        expect(json_response['payload']['root_category']['id']).to eql(category_to_associate.id)
         expect(category.reload.sub_category_ids).to eql([Category.last.id])
-        expect(category_to_link.reload.linked_category_ids).to eql([Category.last.id])
+        expect(category_to_associate.reload.associated_category_ids).to eql([Category.last.id])
       end
 
       it 'creates multiple sub_categories under one parent_category' do
@@ -79,7 +81,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(category.reload.sub_category_ids).to eql(Category.last(2).pluck(:id))
       end
 
-      it 'creates multiple linked_categories with one category' do
+      it 'creates multiple associated_categories with one category' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
              headers: agent.create_new_auth_token
@@ -89,7 +91,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(category_to_link.reload.linked_category_ids).to eql(Category.last(2).pluck(:id))
+        expect(category_to_associate.reload.associated_category_ids).to eql(Category.last(2).pluck(:id))
       end
 
       it 'will throw an error on locale, category_id uniqueness' do
