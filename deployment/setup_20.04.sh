@@ -23,7 +23,7 @@ CWCTL_VERSION="2.0.7"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
-if [ -z "$1" ]; then
+if [ "$#" -eq 0 ]; then
   echo "No options specified. Use --help to learn more."
   exit 1
 fi
@@ -651,7 +651,8 @@ EOF
 function get_logs() {
   if [ "$SERVICE" == "worker" ]; then
     journalctl -u chatwoot-worker.1.service -f
-  else
+  fi
+  if [ "$SERVICE" == "web" ]; then
     journalctl -u chatwoot-web.1.service -f
   fi
 }
