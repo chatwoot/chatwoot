@@ -164,6 +164,6 @@ export default {
   margin-left: var(--space-smaller);
 }
 .article--buttons {
-  margin-left: var(--space-micro);
+  margin-left: var(--space-smaller);
 }
 </style>
