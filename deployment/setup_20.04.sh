@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.7
+# Script Version: 2.0.8
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhi:l:rsuwv
-CWCTL_VERSION="2.0.7"
+CWCTL_VERSION="2.0.8"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -436,7 +436,7 @@ function ssl_success_message() {
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at https://$domain_name
 
-Join the community at https://chatwoot.com/community
+Join the community at https://chatwoot.com/community?utm_source=cwctl
 ***************************************************************************
 
 EOF
@@ -546,9 +546,9 @@ Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
 To configure a domain and SSL certificate, follow the guide at
-https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
+https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm?utm_source=cwctl
 
-Join the community at https://chatwoot.com/community
+Join the community at https://chatwoot.com/community?utm_source=cwctl
 ***************************************************************************
 
 EOF
@@ -634,7 +634,7 @@ Exit status:
 Returns 0 if successful; non-zero otherwise.
 
 Report bugs at https://github.com/chatwoot/chatwoot/issues
-Get help, https://chatwoot.com/community
+Get help, https://chatwoot.com/community?utm_source=cwctl
 
 EOF
 }
