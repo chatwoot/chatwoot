@@ -95,12 +95,12 @@ gem 'brakeman'
 
 ##-- apm and error monitoring ---#
 gem 'ddtrace'
+gem 'elastic-apm'
 gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails', '~> 5.3'
 gem 'sentry-ruby', '~> 5.3'
 gem 'sentry-sidekiq', '~> 5.3'
-gem 'elastic-apm'
 
 ##-- background job processing --##
 gem 'sidekiq', '~> 6.4.0'
