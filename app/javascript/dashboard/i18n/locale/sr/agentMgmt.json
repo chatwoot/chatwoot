@@ -9,11 +9,11 @@
       "AGENT": "Agent"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
+      "404": "Nema agenata povezanih sa ovim nalogom",
       "TITLE": "Upravljajte agentima u Vašem timu",
       "DESC": "Možete dodati ili ukloniti agente iz Vašeg tima.",
       "NAME": "Ime",
-      "EMAIL": "EMAIL",
+      "EMAIL": "E-POŠTA",
       "STATUS": "Status",
       "ACTIONS": "Akcije",
       "VERIFIED": "Provereno",
