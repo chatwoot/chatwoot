@@ -111,6 +111,12 @@
           "PLACEHOLDER": "الرجاء إدخال معرف حساب Twilio الخاص بك (يعرف أيضاً بـ Account SID)",
           "ERROR": "هذا الحقل مطلوب"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "هذا الحقل مطلوب",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "نوع القناة",
           "ERROR": "الرجاء تحديد نوع القناة"
