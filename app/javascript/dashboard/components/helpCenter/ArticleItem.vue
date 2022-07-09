@@ -54,7 +54,7 @@ export default {
     status: {
       type: String,
       default: 'draft',
-      values: ['  ', 'draft', 'archived'],
+      values: ['archived', 'draft', 'archived'],
     },
     updatedAt: {
       type: Number,

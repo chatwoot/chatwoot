@@ -15,5 +15,10 @@
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
     }
+  },
+  "TABLE": {
+    "ITEM": {
+      "BY": "by"
+    }
   }
 }
