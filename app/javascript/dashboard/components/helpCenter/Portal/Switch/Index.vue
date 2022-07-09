@@ -1,0 +1,194 @@
+<template>
+  <div class="portal" :class="{ active }">
+    <div class="avatar-container">
+      <thumbnail :username="portal.name" variant="square" />
+    </div>
+    <div class="actions-container">
+      <header>
+        <div>
+          <p class="portal-title">{{ portal.name }}</p>
+          <p class="portal-count">
+            {{ portal.article_count }}
+            {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
+          </p>
+        </div>
+        <span v-if="active" class="badge">{{
+          $t('HELP_CENTER.PORTAL.ACTIVE_BADGE')
+        }}</span>
+      </header>
+      <div class="portal-locales">
+        <p class="locale-title">
+          {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
+        </p>
+        <ul>
+          <li v-for="locale in portal.locales" :key="locale.code">
+            <label :for="`locale-${locale.code}`" class="locale-item">
+              <input
+                type="radio"
+                :id="`locale-${locale.code}`"
+                name="locale"
+                v-model="selectedLocale"
+                :value="locale.code"
+              />
+              <div>
+                <p>{{ locale.name }}</p>
+                <span>
+                  {{ locale.article_count }}
+                  {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
+                  {{ locale.code }}
+                </span>
+              </div>
+            </label>
+          </li>
+          <li>
+            <a>+ {{ $t('HELP_CENTER.PORTAL.ADD_NEW_LOCALE') }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import thumbnail from 'dashboard/components/widgets/Thumbnail';
+export default {
+  components: {
+    thumbnail,
+  },
+  props: {
+    portal: {
+      type: Object,
+      default: () => ({
+        // To be removed - for demonstration purposes only
+        name: 'Chatwoot Help Center',
+        article_count: 124,
+        locales: [
+          {
+            name: 'English',
+            code: 'en',
+            article_count: 12,
+          },
+          {
+            name: 'Español',
+            code: 'es',
+            article_count: 42,
+          },
+          {
+            name: 'French',
+            code: 'fr',
+            article_count: 29,
+          },
+          {
+            name: 'Italian',
+            code: 'it',
+            article_count: 4,
+          },
+          {
+            name: 'German',
+            code: 'de',
+            article_count: 66,
+          },
+        ],
+      }),
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      selectedLocale: '',
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.portal {
+  background-color: var(--white);
+  padding: var(--space-one);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--border-radius-medium);
+  position: relative;
+  display: flex;
+  margin-bottom: var(--space-one);
+
+  &.active {
+    border: 1px solid var(--w-400);
+  }
+
+  .actions-container {
+    margin-left: var(--space-one);
+    flex-grow: 1;
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: var(--space-one);
+
+      .badge {
+        font-size: var(--font-size-mini);
+        background-color: var(--w-100);
+        color: var(--w-600);
+        padding: var(--space-smaller) var(--space-small);
+      }
+
+      .portal-title {
+        color: var(--s-700);
+        font-size: var(--font-size-default);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: 0;
+      }
+
+      .portal-count {
+        font-size: var(--font-size-mini);
+        margin-bottom: 0;
+        color: var(--s-500);
+      }
+    }
+
+    .portal-locales {
+      .locale-title {
+        color: var(--s-600);
+        font-size: var(--font-size-default);
+        font-weight: var(--font-weight-medium);
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .locale-item {
+          display: flex;
+          align-items: flex-start;
+          margin-bottom: var(--space-smaller);
+          cursor: pointer;
+          padding: var(--space-smaller);
+          border-radius: var(--border-radius-normal);
+
+          &:hover {
+            background-color: var(--w-25);
+          }
+
+          p {
+            margin-bottom: 0;
+          }
+
+          span {
+            color: var(--s-500);
+            font-size: var(--font-size-small);
+          }
+        }
+      }
+    }
+  }
+}
+label > [type='radio'] {
+  margin-bottom: 0;
+  margin-top: var(--space-smaller);
+  margin-right: var(--space-one);
+}
+</style>
