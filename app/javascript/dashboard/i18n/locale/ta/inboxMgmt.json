@@ -111,6 +111,12 @@
           "PLACEHOLDER": "உங்கள் ட்விலியோ கணக்கின் SID ஐ உள்ளிடவும்",
           "ERROR": "இந்த புலம் தேவை"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "இந்த புலம் தேவை",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "சேனல் வகை",
           "ERROR": "உங்கள் சேனல் வகையைத் தேர்ந்தெடுக்கவும்"
