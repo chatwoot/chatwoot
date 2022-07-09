@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Παρακαλώ εισάγετε το SID του Λογαριασμού Twilio",
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Το πεδίο είναι απαραίτητο",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Τύπος Καναλιού",
           "ERROR": "Παρακαλώ επιλέξετε τον τύπο Καναλιού"
