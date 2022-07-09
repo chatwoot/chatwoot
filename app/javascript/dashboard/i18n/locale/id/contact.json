@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Masukkan alamat email kontak",
         "LABEL": "Alamat email",
-        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain."
+        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain.",
+        "ERROR": "Harap masukkan alamat email yang valid."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",

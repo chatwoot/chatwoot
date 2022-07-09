@@ -2,18 +2,18 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Tích hợp",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Những sự kiện được theo dõi",
       "FORM": {
         "CANCEL": "Huỷ",
         "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Các sự kiện",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
+            "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
+            "CONVERSATION_STATUS_CHANGED": "Trạng thái cuộc trò chuyện đã thay đổi",
+            "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
+            "MESSAGE_CREATED": "Tin nhắn đã được tạo",
+            "MESSAGE_UPDATED": "Tin nhắn đã được cập nhật",
             "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
           }
         },

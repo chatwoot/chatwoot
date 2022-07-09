@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "امضای پیام شخصی",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از صندوق ورودی ایمیل ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
         "BTN_TEXT": "ذخیره امضای پیام",
         "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
         "API_SUCCESS": "امضا با موفقیت ذخیره شد"
