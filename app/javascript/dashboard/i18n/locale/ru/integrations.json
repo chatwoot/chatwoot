@@ -86,30 +86,30 @@
       "BUTTON_TEXT": "Подключить"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Панель приложений",
+      "HEADER_BTN_TXT": "Добавить новое приложение",
+      "SIDEBAR_TXT": "<p><b>Панель приложений</b></p><p>Панель приложений, позволяют организациям встраивать приложение в панель управления Chatwoot, чтобы предоставлять контекст для агентов службы поддержки клиентов. Эта функция позволяет вам создать приложение независимо и встроить его в панель инструментов для предоставления информации о пользователях, их заказах или их предыдущей истории платежей.</p><p>Когда вы встраиваете свое приложение с помощью панели инструментов в Chatwoot, ваше приложение будет получить контекст разговора и связей событий. Реализуйте связи для события сообщения на своей странице, чтобы получать контекст.</p><p>Чтобы добавить новое приложение панели приложений, нажмите кнопку \"Добавить приложение\".</p>",
+      "DESCRIPTION": "Панель приложений, позволяют организациям встраивать приложение внутри панели управления для обеспечения контекста агентов по поддержке клиентов. Эта функция позволяет создать приложение независимо и встраивать информацию о пользователе, его заказах или их истории платежей.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "В этой панели приложений не настроено ни одной интеграции",
+        "LOADING": "Загрузка приложений...",
         "TABLE_HEADER": [
           "Имя",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Редактировать приложение",
+        "DELETE_TOOLTIP": "Удалить приложение"
       },
       "FORM": {
         "TITLE_LABEL": "Имя",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Введите имя для вашего приложения",
+        "TITLE_ERROR": "Требуется название для панели приложений",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
         "URL_ERROR": "A valid URL is required"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Добавить новое приложение",
         "FORM_SUBMIT": "Отправить",
         "FORM_CANCEL": "Отменить",
         "API_SUCCESS": "Dashboard app configured successfully",
