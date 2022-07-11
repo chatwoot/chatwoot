@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
           "ERROR": "Este campo é obrigatório"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "SID do Serviço de Mensagens",
+          "PLACEHOLDER": "Por favor, informe seu SID do Serviço de Mensagens do Twilio",
+          "ERROR": "Este campo é obrigatório",
+          "USE_MESSAGING_SERVICE": "Usar um Serviço de Mensagens do Twilio"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Tipo de canal",
           "ERROR": "Por favor, selecione seu tipo de canal"

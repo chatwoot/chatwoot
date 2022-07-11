@@ -84,6 +84,7 @@ de:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
+      instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
       deleted: Diese Nachricht wurde gelöscht
     activity:
       status:

@@ -111,6 +111,12 @@
           "PLACEHOLDER": "请输入您的 Twilio 账户 SID",
           "ERROR": "此字段是必填项"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "此字段是必填项",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "频道类型",
           "ERROR": "请选择您的频道类型"

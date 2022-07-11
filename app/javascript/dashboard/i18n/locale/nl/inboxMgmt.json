@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Voer uw Twilio Account-ID in",
           "ERROR": "Dit veld is verplicht"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Dit veld is verplicht",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Kanaaltype",
           "ERROR": "Selecteer uw kanaaltype"

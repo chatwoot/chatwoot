@@ -14,9 +14,9 @@
 #
 # Indexes
 #
-#  index_channel_twilio_sms_on_account_id_and_phone_number  (account_id,phone_number) UNIQUE
-#  index_channel_twilio_sms_on_messaging_service_sid        (messaging_service_sid) UNIQUE
-#  index_channel_twilio_sms_on_phone_number                 (phone_number) UNIQUE
+#  index_channel_twilio_sms_on_account_sid_and_phone_number  (account_sid,phone_number) UNIQUE
+#  index_channel_twilio_sms_on_messaging_service_sid         (messaging_service_sid) UNIQUE
+#  index_channel_twilio_sms_on_phone_number                  (phone_number) UNIQUE
 #
 
 class Channel::TwilioSms < ApplicationRecord

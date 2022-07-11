@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Kérjük add meg a Twilio fiók SID-t",
           "ERROR": "Ez a mező kötelező"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Ez a mező kötelező",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Csatorna típusa",
           "ERROR": "Kérjük válaszd ki a csatorna típusát"
