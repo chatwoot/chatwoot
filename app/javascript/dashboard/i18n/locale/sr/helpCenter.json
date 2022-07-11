@@ -14,6 +14,11 @@
       "CLOSE_SIDEBAR": "Zatvorite bočnu traku",
       "SAVING": "Nacrt se čuva...",
       "SAVED": "Nacrt je sačuvan"
+    },
+    "TABLE": {
+      "COLUMNS": {
+        "BY": "by"
+      }
     }
   }
 }
