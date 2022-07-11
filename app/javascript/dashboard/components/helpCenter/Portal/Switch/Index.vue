@@ -56,38 +56,7 @@ export default {
   props: {
     portal: {
       type: Object,
-      default: () => ({
-        // To be removed - for demonstration purposes only
-        name: 'Chatwoot Help Center',
-        article_count: 124,
-        locales: [
-          {
-            name: 'English',
-            code: 'en',
-            article_count: 12,
-          },
-          {
-            name: 'Español',
-            code: 'es',
-            article_count: 42,
-          },
-          {
-            name: 'French',
-            code: 'fr',
-            article_count: 29,
-          },
-          {
-            name: 'Italian',
-            code: 'it',
-            article_count: 4,
-          },
-          {
-            name: 'German',
-            code: 'de',
-            article_count: 66,
-          },
-        ],
-      }),
+      default: () => ({}),
     },
     active: {
       type: Boolean,
@@ -98,6 +67,9 @@ export default {
     return {
       selectedLocale: '',
     };
+  },
+  mounted() {
+    this.selectedLocale = this.portal.locales[0].code;
   },
 };
 </script>
