@@ -61,6 +61,7 @@ class Category < ApplicationRecord
   validates :account_id, presence: true
   validates :slug, presence: true
   validates :name, presence: true
+  validate :allowed_locales
   validates :locale, uniqueness: { scope: %i[slug portal_id],
                                    message: 'should be unique in the category and portal' }
   accepts_nested_attributes_for :related_categories
@@ -79,5 +80,15 @@ class Category < ApplicationRecord
 
   def ensure_account_id
     self.account_id = portal&.account_id
+  end
+
+  def allowed_locales
+    return if portal.blank?
+
+    allowed_locales = portal.config['allowed_locales']
+
+    return true if allowed_locales.include?(locale)
+
+    errors.add(:locale, "#{locale} of category is not part of portal's #{allowed_locales}.")
   end
 end
