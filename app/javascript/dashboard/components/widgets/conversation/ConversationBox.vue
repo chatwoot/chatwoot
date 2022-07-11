@@ -141,6 +141,7 @@ export default {
 .dashboard-app--tabs {
   background: var(--white);
   margin-top: -1px;
+  min-height: var(--dashboard-app-tabs-height);
 }
 
 .messages-and-sidebar {

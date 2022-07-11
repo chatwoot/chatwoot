@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Назва Джерела",
-        "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)"
+        "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Назва сайту",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Увімкнути вітання каналу",
-          "HELP_TEXT": "Відправляйте вітальне повідомлення користувачам, коли вони розпочинають розмову.",
+          "HELP_TEXT": "Автоматично надсилати привітальне повідомлення після створення нової розмови.",
           "ENABLED": "Увімкнено",
           "DISABLED": "Вимкнено"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Колір віджета",
           "PLACEHOLDER": "Оновити колір віджета"
         },
-        "SUBMIT_BUTTON": "Створити скриньку \"Вхідні\""
+        "SUBMIT_BUTTON": "Створити скриньку \"Вхідні\"",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp канал",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
           "ERROR": "Номер телефону повинен починатися з символу `+'."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Будь ласка введіть правильне значення."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Будь ласка введіть правильне значення."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Будь ласка введіть правильне значення."
+        },
         "API_KEY": {
           "LABEL": "API ключ",
           "SUBTITLE": "Налаштуйте ключ WhatsApp API.",
           "PLACEHOLDER": "API ключ",
-          "APPLY_FOR_ACCESS": "У вас немає жодного ключа API? Він потрібен для доступу",
           "ERROR": "Будь ласка введіть правильне значення."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Створити канал WhatsApp",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "Оберіть канал",
-        "DESC": "Chatwoot підтримує віджет live-Chat, сторінку Facebook, профіль Twitter, WhatsApp, Email і т. п., як канали. Якщо ви хочете створити користувацький канал, ви можете створити його за допомогою каналу API. Виберіть один канал з параметрів нижче, щоб продовжити."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Агенти",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Налаштування вхідних повідомлень успішно оновлені",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автопризначення успішно оновлено",
-        "ERROR_MESSAGE": "Не вдалося оновити колір віджету. Будь ласка, спробуйте ще раз."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Увімкнено",
@@ -398,8 +421,8 @@
       "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Призначення до розмови",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Оновити налаштування призначення для бесіди",
       "UPDATE": "Оновити",
       "ENABLE_EMAIL_COLLECT_BOX": "Включити збір електронної пошти",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
       "HMAC_VERIFICATION": "Перевірка ідентифікації користувача",
-      "HMAC_DESCRIPTION": "Щоб підтвердити ідентифікацію користувача, SDK дозволяє вам передати `identifier_hash` для кожного користувача. Тут можна згенерувати HMAC за допомогою 'sha256'.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Застосувати примусову перевірку особистості користувача",
-      "HMAC_MANDATORY_DESCRIPTION": "Якщо увімкнено, метод Chatwoot SDKs setUser не буде працювати, якщо тільки для кожного користувача не надається `identifier_hash'.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Ідентифікатор каналу",
       "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
       "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
       "FORWARD_EMAIL_SUB_TEXT": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API ключ"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Ліміт автопризначення",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Будь ласка, введіть значення, більше за 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Обмеження максимальної кількості розмов із цього джерела, яку можна автоматично призначити агенту"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Повторна авторизація",

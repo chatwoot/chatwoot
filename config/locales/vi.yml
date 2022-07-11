@@ -32,6 +32,15 @@ vi:
     contacts:
       import:
         failed: Chưa chọn file
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     agent_csv:
@@ -46,7 +55,7 @@ vi:
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     label_csv:
-      label_title: Label
+      label_title: Nhãn
       conversations_count: No. of conversations
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)

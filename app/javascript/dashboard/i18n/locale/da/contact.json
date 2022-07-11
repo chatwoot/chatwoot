@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Indtast e-mailadressen på kontaktpersonen",
         "LABEL": "E-Mail Adresse",
-        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt."
+        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt.",
+        "ERROR": "Indtast venligst en gyldig e-mailadresse."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",

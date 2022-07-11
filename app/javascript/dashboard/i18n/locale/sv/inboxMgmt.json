@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Inkorgsnamn",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Website Name",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Aktivera kanalhälsning",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Aktiverad",
           "DISABLED": "Inaktiverad"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Widgetfärg",
           "PLACEHOLDER": "Uppdatera den widgetfärg som används i widget"
         },
-        "SUBMIT_BUTTON": "Skapa inkorg"
+        "SUBMIT_BUTTON": "Skapa inkorg",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -193,6 +197,7 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +210,30 @@
           "PLACEHOLDER": "Ange telefonnummer från vilket meddelande som ska skickas.",
           "ERROR": "Ange ett giltigt värde. Telefonnummer bör börja med `+`-tecken."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Ange ett giltigt värde."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Ange ett giltigt värde."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Ange ett giltigt värde."
+        },
         "API_KEY": {
           "LABEL": "API key",
           "SUBTITLE": "Configure the WhatsApp API key.",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
           "ERROR": "Ange ett giltigt värde."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback-URL",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Skapa WhatsApp-kanal",
         "API": {
@@ -298,7 +321,7 @@
       },
       "AUTH": {
         "TITLE": "Välj en kanal",
-        "DESC": "Chatwoot stöder live-chat widget, Facebook-sida, Twitter-profil, WhatsApp, E-post etc., som kanaler. Om du vill bygga en anpassad kanal kan du skapa den med hjälp av API-kanalen. Välj en kanal från alternativen nedan för att fortsätta."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -339,7 +362,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Inkorgen har uppdaterats",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tilldelning har uppdaterats",
-        "ERROR_MESSAGE": "Kunde inte uppdatera widgetens färg. Försök igen senare."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiverad",
@@ -412,15 +435,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
       "HMAC_VERIFICATION": "Validering av användaridentitet",
-      "HMAC_DESCRIPTION": "För att validera användarens identitet låter SDKn dig att skicka en `identity_hash` för varje användare. Du kan generera HMAC med 'sha256' med nyckeln som visas här.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Validering av användaridentitet",
-      "HMAC_MANDATORY_DESCRIPTION": "Om aktiverad, kommer Chatwoot SDKs setUser metod inte att fungera om inte `identifier_hash` tillhandahålls för varje användare.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Identifierare för inkorgen",
       "INBOX_IDENTIFIER_SUB_TEXT": "Använd `inbox_identifier`-token som visas här för att autentisera dina API-klienter.",
       "FORWARD_EMAIL_TITLE": "Vidarebefordra till e-post",
       "FORWARD_EMAIL_SUB_TEXT": "Börja vidarebefordra dina e-postmeddelanden till följande e-postadress.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Återauktorisera",
