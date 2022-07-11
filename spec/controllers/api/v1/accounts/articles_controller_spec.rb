@@ -174,6 +174,23 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 2
       end
+
+      it 'get all articles with searched text query' do
+        article2 = create(:article,
+                          account_id: account.id,
+                          portal: portal,
+                          category: category,
+                          author_id: agent.id,
+                          content: 'this is some test and funny content')
+        expect(article2.id).not_to be nil
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+            headers: agent.create_new_auth_token,
+            params: { payload: { query: 'funny' } }
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload'].count).to be 1
+      end
     end
 
     describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/{article.id}' do
