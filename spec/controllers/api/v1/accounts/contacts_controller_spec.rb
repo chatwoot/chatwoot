@@ -568,13 +568,13 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/{account.id}/contacts/:id/destroy_avatar' do
+  describe 'DELETE /api/v1/accounts/{account.id}/contacts/:id/avatar' do
     let(:contact) { create(:contact, account: account) }
     let(:agent) { create(:user, account: account, role: :agent) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_avatar"
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/avatar"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -587,7 +587,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'delete contact avatar' do
-        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/destroy_avatar",
+        delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/avatar",
              headers: agent.create_new_auth_token,
              as: :json
 

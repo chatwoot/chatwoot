@@ -39,7 +39,7 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
-  def destroy_avatar?
+  def avatar?
     true
   end
 

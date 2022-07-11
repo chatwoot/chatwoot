@@ -104,8 +104,8 @@ describe('#ContactsAPI', () => {
 
     it('#destroyAvatar', () => {
       contactAPI.destroyAvatar(1);
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
-        '/api/v1/contacts/1/destroy_avatar'
+      expect(context.axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/avatar'
       );
     });
   });

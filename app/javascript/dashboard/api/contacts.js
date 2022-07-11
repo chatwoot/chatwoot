@@ -73,7 +73,7 @@ class ContactAPI extends ApiClient {
   }
 
   destroyAvatar(contactId) {
-    return axios.post(`${this.url}/${contactId}/destroy_avatar`);
+    return axios.delete(`${this.url}/${contactId}/avatar`);
   }
 }
 
