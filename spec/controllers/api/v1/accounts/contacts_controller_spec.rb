@@ -588,8 +588,8 @@ RSpec.describe 'Contacts API', type: :request do
 
       it 'delete contact avatar' do
         delete "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/avatar",
-             headers: agent.create_new_auth_token,
-             as: :json
+               headers: agent.create_new_auth_token,
+               as: :json
 
         expect { contact.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
