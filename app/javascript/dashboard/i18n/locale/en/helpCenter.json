@@ -1,0 +1,19 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filter by",
+      "SORT": "Sort by",
+      "SETTINGS_BUTTON": "Settings",
+      "NEW_BUTTON": "New Article"
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Publish",
+      "PREVIEW": "Preview",
+      "ADD_TRANSLATION": "Add translation",
+      "OPEN_SIDEBAR": "Open sidebar",
+      "CLOSE_SIDEBAR": "Close sidebar",
+      "SAVING": "Draft saving...",
+      "SAVED": "Draft saved"
+    }
+  }
+}
