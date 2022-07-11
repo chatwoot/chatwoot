@@ -84,6 +84,7 @@ sr-Latn:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
     activity:
       status:

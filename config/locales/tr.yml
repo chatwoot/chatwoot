@@ -84,6 +84,7 @@ tr:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
     activity:
       status:

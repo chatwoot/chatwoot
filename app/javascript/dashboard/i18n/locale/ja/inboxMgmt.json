@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Twilio アカウント SIDを入力してください",
           "ERROR": "このフィールドは必須項目です"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "このフィールドは必須項目です",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "チャンネルタイプ",
           "ERROR": "チャンネルタイプを選択してください"

@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Silakan masukkan SID Akun Twilio Anda",
           "ERROR": "Bagian ini diperlukan"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Bagian ini diperlukan",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Tipe Channel",
           "ERROR": "Harap pilih Tipe Channel Anda"
