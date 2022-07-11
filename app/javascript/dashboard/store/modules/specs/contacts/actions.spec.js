@@ -77,7 +77,6 @@ describe('#actions', () => {
         { commit },
         {
           id: contactList[0].id,
-          formData: false,
           contactParams: contactList[0],
         }
       );
@@ -113,7 +112,6 @@ describe('#actions', () => {
           { commit },
           {
             id: contactList[0].id,
-            formData: false,
             contactParams: contactList[0],
           }
         )
@@ -133,7 +131,6 @@ describe('#actions', () => {
       await actions.create(
         { commit },
         {
-          formData: false,
           contactParams: contactList[0],
         }
       );
@@ -166,7 +163,6 @@ describe('#actions', () => {
         actions.create(
           { commit },
           {
-            formData: false,
             contactParams: contactList[0],
           }
         )

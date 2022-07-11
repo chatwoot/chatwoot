@@ -214,12 +214,11 @@ export default {
       };
     },
     getContactObject() {
-      return {
+      const contactObject = {
         id: this.contact.id,
         name: this.name,
         email: this.email,
         phone_number: this.phoneNumber,
-        avatar: this.avatarFile,
         additional_attributes: {
           ...this.contact.additional_attributes,
           description: this.description,
@@ -227,6 +226,11 @@ export default {
           social_profiles: this.socialProfileUserNames,
         },
       };
+      if (this.avatarFile) {
+        contactObject.avatar = this.avatarFile;
+        contactObject.isFormData = true;
+      }
+      return contactObject;
     },
     async handleSubmit() {
       this.$v.$touch();

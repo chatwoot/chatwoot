@@ -6,7 +6,7 @@ import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
 import AccountActionsAPI from '../../../api/accountActions';
 
-const buildContactData = contactParams => {
+const buildContactFormData = contactParams => {
   const formData = new FormData();
   const { additional_attributes = {}, ...contactProperties } = contactParams;
   Object.keys(contactProperties).forEach(key => {
@@ -79,12 +79,12 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, { id, formData = true, ...contactParams }) => {
+  update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(
         id,
-        formData ? buildContactData(contactParams) : contactParams
+        isFormData ? buildContactFormData(contactParams) : contactParams
       );
       commit(types.EDIT_CONTACT, response.data.payload);
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
@@ -98,11 +98,11 @@ export const actions = {
     }
   },
 
-  create: async ({ commit }, { formData = true, ...contactParams }) => {
+  create: async ({ commit }, { isFormData = false, ...contactParams }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isCreating: true });
     try {
       const response = await ContactAPI.create(
-        formData ? buildContactData(contactParams) : contactParams
+        isFormData ? buildContactFormData(contactParams) : contactParams
       );
       commit(types.SET_CONTACT_ITEM, response.data.payload.contact);
       commit(types.SET_CONTACT_UI_FLAG, { isCreating: false });
