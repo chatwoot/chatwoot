@@ -67,11 +67,14 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
 
     context 'when it is an authenticated user' do
       it 'creates portal' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
         portal_params = {
           portal: {
             name: 'test_portal',
             slug: 'test_kbase'
-          }
+          },
+          logo: file
         }
         post "/api/v1/accounts/#{account.id}/portals",
              params: portal_params,
@@ -80,6 +83,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql('test_portal')
+        expect(json_response['logo']['filename']).to eql('avatar.png')
       end
     end
   end
@@ -97,7 +101,8 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       it 'updates portal' do
         portal_params = {
           portal: {
-            name: 'updated_test_portal'
+            name: 'updated_test_portal',
+            config: { 'allowed_locales' => %w[en es] }
           }
         }
 
@@ -110,6 +115,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql(portal_params[:portal][:name])
+        expect(json_response['config']).to eql({ 'allowed_locales' => %w[en es] })
       end
 
       it 'archive portal' do

@@ -1,4 +1,6 @@
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
+  include ::FileTypeHelper
+
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
 
@@ -14,11 +16,21 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def show; end
 
   def create
-    @portal = Current.account.portals.create!(portal_params)
+    @portal = Current.account.portals.build(portal_params)
+    render json: { error: @portal.errors.messages }, status: :unprocessable_entity and return unless @portal.valid?
+
+    @portal.save!
+    process_attached_logo
   end
 
   def update
-    @portal.update!(portal_params)
+    ActiveRecord::Base.transaction do
+      @portal.update!(portal_params) if params[:portal].present?
+      process_attached_logo
+    rescue StandardError => e
+      Rails.logger.error e
+      render json: { error: @portal.errors.messages }.to_json, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -29,6 +41,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def archive
     @portal.update(archive: true)
     head :ok
+  end
+
+  def process_attached_logo
+    @portal.logo.attach(params[:logo])
   end
 
   private
@@ -43,7 +59,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived
+      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived, config: { allowed_locales: [] }
     )
   end
 

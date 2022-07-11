@@ -77,7 +77,7 @@ class Article < ApplicationRecord
     records = joins(
       :category
     ).search_by_category_slug(params[:category_slug]).search_by_category_locale(params[:locale])
-    records.text_search(params[:query]) if params[:query].present?
+    records = records.text_search(params[:query]) if params[:query].present?
     records.page(current_page(params))
   end
 
