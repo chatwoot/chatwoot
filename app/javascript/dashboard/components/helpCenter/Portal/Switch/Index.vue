@@ -1,8 +1,6 @@
 <template>
   <div class="portal" :class="{ active }">
-    <div class="avatar-container">
-      <thumbnail :username="portal.name" variant="square" />
-    </div>
+    <thumbnail :username="portal.name" variant="square" />
     <div class="actions-container">
       <header>
         <div>
@@ -24,10 +22,10 @@
           <li v-for="locale in portal.locales" :key="locale.code">
             <label :for="`locale-${locale.code}`" class="locale-item">
               <input
-                type="radio"
                 :id="`locale-${locale.code}`"
-                name="locale"
                 v-model="selectedLocale"
+                type="radio"
+                name="locale"
                 :value="locale.code"
               />
               <div>
