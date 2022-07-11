@@ -111,6 +111,12 @@
           "PLACEHOLDER": "لطفا شناسه SID حساب Twilio خود را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "پر کردن این فیلد ضروری است",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "نوع کانال",
           "ERROR": "لطفا نوع کانال را انتخاب کنید"

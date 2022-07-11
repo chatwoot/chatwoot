@@ -84,6 +84,7 @@ ro:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} menționat în poveste: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Acest mesaj a fost șters
     activity:
       status:

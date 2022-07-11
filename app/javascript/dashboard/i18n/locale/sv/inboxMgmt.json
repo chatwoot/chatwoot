@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Ange SID för ditt Twilio-konto",
           "ERROR": "Detta fält är obligatoriskt"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Detta fält är obligatoriskt",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Kanaltyp",
           "ERROR": "Var god välj din kanaltyp"

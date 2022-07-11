@@ -84,6 +84,7 @@ ar:
   conversations:
     messages:
       instagram_story_content: "أشار %{story_sender} إليك في القصة: "
+      instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
     activity:
       status:

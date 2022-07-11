@@ -111,6 +111,12 @@
           "PLACEHOLDER": "กรุณากรอก Twilio Account SID",
           "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "ประเภทช่อง",
           "ERROR": "กรุณาเลือกประเภทช่อง"
