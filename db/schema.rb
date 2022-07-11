@@ -298,7 +298,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
     t.string "messaging_service_sid"
-    t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
+    t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
