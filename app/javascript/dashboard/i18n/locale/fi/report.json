@@ -397,8 +397,8 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "RATING": "Arvio",
+        "FEEDBACK_TEXT": "Palautteen kommentti"
       }
     },
     "METRIC": {
