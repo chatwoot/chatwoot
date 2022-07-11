@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Будь ласка, введіть SID облікового запису Twilio",
           "ERROR": "Це поле є обов'язковим"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Це поле є обов'язковим",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Тип каналу",
           "ERROR": "Будь ласка, оберіть тип вашого каналу"
