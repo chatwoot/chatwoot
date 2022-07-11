@@ -15,11 +15,24 @@ RSpec.describe Category, type: :model do
     it { is_expected.to have_many(:related_categories) }
   end
 
+  describe 'validations' do
+    let!(:account) { create(:account) }
+    let(:user) { create(:user, account_ids: [account.id], role: :agent) }
+    let!(:portal) { create(:portal, account_id: account.id, config: { allowed_locales: ['en'] }) }
+
+    it 'returns erros when locale is not allowed in the portal' do
+      category = create(:category, slug: 'category_1', locale: 'en', portal_id: portal.id)
+      expect(category).to be_valid
+      category.update(locale: 'es')
+      expect(category.errors.full_messages[0]).to eq("Locale es of category is not part of portal's [\"en\"].")
+    end
+  end
+
   describe 'search' do
     let!(:account) { create(:account) }
     let(:user) { create(:user, account_ids: [account.id], role: :agent) }
-    let!(:portal_1) { create(:portal, account_id: account.id) }
-    let!(:portal_2) { create(:portal, account_id: account.id) }
+    let!(:portal_1) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
+    let!(:portal_2) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
 
     before do
       create(:category, slug: 'category_1', locale: 'en', portal_id: portal_1.id)
