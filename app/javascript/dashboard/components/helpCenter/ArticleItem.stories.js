@@ -1,4 +1,4 @@
-import ArticleItem from './ArticleItem.vue';
+import ArticleItemComponent from './ArticleItem.vue';
 const STATUS_LIST = {
   published: 'published',
   draft: 'draft',
@@ -7,7 +7,7 @@ const STATUS_LIST = {
 
 export default {
   title: 'Components/Help Center',
-  component: ArticleItem,
+  component: ArticleItemComponent,
   argTypes: {
     title: {
       defaultValue: 'Setup your account',
@@ -45,12 +45,13 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { ArticleItem },
-  template: '<article-item v-bind="$props" ></article-item>',
+  components: { ArticleItemComponent },
+  template:
+    '<article-item-component v-bind="$props" ></article-item-component>',
 });
 
-export const ArticleItemView = Template.bind({});
-ArticleItemView.args = {
+export const ArticleItem = Template.bind({});
+ArticleItem.args = {
   title: 'Setup your account',
   author: {
     name: 'John Doe',
@@ -58,5 +59,5 @@ ArticleItemView.args = {
   category: 'Getting started',
   readCount: 12,
   status: 'published',
-  updatedAt: '1657255863',
+  updatedAt: 1657255863,
 };

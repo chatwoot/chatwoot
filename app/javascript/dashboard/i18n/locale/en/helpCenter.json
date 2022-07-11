@@ -14,11 +14,11 @@
       "CLOSE_SIDEBAR": "Close sidebar",
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
-    }
-  },
-  "TABLE": {
-    "ITEM": {
-      "BY": "by"
+    },
+    "TABLE": {
+      "COLUMNS": {
+        "BY": "by"
+      }
     }
   }
 }

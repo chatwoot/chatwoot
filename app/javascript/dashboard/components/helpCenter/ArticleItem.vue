@@ -1,29 +1,27 @@
 <template>
-  <div>
-    <tbody>
-      <tr>
-        <td>
-          <div class="row--article-block">
-            <div class="article-block">
-              <h6 class="sub-block-title text-truncate">
-                <router-link class="article-name"> {{ title }} </router-link>
-              </h6>
-              <div class="author">
-                <span class="by">by</span>
-                <span class="name">{{ articleAuthorName }}</span>
-              </div>
+  <tbody>
+    <tr>
+      <td>
+        <div class="row--article-block">
+          <div class="article-block">
+            <h6 class="sub-block-title text-truncate">
+              <router-link class="article-name"> {{ title }} </router-link>
+            </h6>
+            <div class="author">
+              <span class="by">{{ $t('HELP_CENTER.TABLE.COLUMNS.BY') }}</span>
+              <span class="name">{{ articleAuthorName }}</span>
             </div>
           </div>
-        </td>
-        <td>{{ category }}</td>
-        <td>{{ readCount }}</td>
-        <td>
-          <Label :title="status" color-scheme="success" />
-        </td>
-        <td>{{ lastUpdatedAt }}</td>
-      </tr>
-    </tbody>
-  </div>
+        </div>
+      </td>
+      <td>{{ category }}</td>
+      <td>{{ readCount }}</td>
+      <td>
+        <Label :title="status" color-scheme="success" />
+      </td>
+      <td>{{ lastUpdatedAt }}</td>
+    </tr>
+  </tbody>
 </template>
 <script>
 import Label from 'dashboard/components/ui/Label';
@@ -77,6 +75,11 @@ tbody {
   width: 100%;
   display: table;
 }
+td {
+  font-weight: var(--font-weight-normal);
+  color: var(--s-700);
+  font-size: var(--font-size-mini);
+}
 .row--article-block {
   align-items: center;
   display: flex;
@@ -106,7 +109,7 @@ tbody {
     .name {
       font-weight: var(--font-weight-medium);
       color: var(--s-600);
-      font-size: var(--font-size-small);
+      font-size: var(--font-size-mini);
     }
   }
 }
