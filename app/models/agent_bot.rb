@@ -4,7 +4,7 @@
 #
 #  id           :bigint           not null, primary key
 #  bot_config   :jsonb
-#  bot_type     :integer          default(0)
+#  bot_type     :integer          default("webhook")
 #  description  :string
 #  name         :string
 #  outgoing_url :string
