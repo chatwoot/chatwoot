@@ -8,6 +8,7 @@ json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
 json.config portal.config
+json.logo portal.file_base_data if portal.logo.present?
 
 json.portal_members do
   if portal.members.any?
