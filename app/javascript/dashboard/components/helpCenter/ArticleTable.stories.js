@@ -1,5 +1,5 @@
 import ArticleTableComponent from './ArticleTable.vue';
-
+import { action } from '@storybook/addon-actions';
 export default {
   title: 'Components/Help Center',
   component: ArticleTableComponent,
@@ -10,6 +10,18 @@ export default {
         type: 'array',
       },
     },
+    articleCount: {
+      defaultValue: 10,
+      control: {
+        type: 'number',
+      },
+    },
+    currentPage: {
+      defaultValue: 1,
+      control: {
+        type: 'number',
+      },
+    },
   },
 };
 
@@ -17,7 +29,7 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ArticleTableComponent },
   template:
-    '<article-table-component v-bind="$props" ></article-table-component>',
+    '<article-table-component @onPageChange="onPageChange" v-bind="$props" ></article-table-component>',
 });
 
 export const ArticleTable = Template.bind({});
@@ -54,4 +66,7 @@ ArticleTable.args = {
       updatedAt: 1652255263,
     },
   ],
+  articleCount: 10,
+  currentPage: 1,
+  onPageChange: action('onPageChange'),
 };

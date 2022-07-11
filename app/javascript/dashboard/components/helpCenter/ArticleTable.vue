@@ -1,53 +1,78 @@
 <template>
-  <table>
-    <thead>
+  <div class="article-container">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}</th>
+          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}</th>
+          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}</th>
+          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}</th>
+          <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}</th>
+        </tr>
+      </thead>
       <tr>
-        <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}</th>
-        <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}</th>
-        <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}</th>
-        <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}</th>
-        <th scope="col">{{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}</th>
+        <td colspan="100%" class="border-class" />
       </tr>
-    </thead>
-    <tr>
-      <td colspan="100%" class="border-class" />
-    </tr>
-    <tbody>
-      <ArticleItem
-        v-for="article in articles"
-        :key="article.id"
-        :title="article.title"
-        :author="article.author"
-        :category="article.category"
-        :read-count="article.readCount"
-        :status="article.status"
-      />
-    </tbody>
-  </table>
+      <tbody>
+        <ArticleItem
+          v-for="article in articles"
+          :key="article.id"
+          :title="article.title"
+          :author="article.author"
+          :category="article.category"
+          :read-count="article.readCount"
+          :status="article.status"
+        />
+      </tbody>
+    </table>
+    <table-footer
+      :on-page-change="onPageChange"
+      :current-page="Number(currentPage)"
+      :total-count="articleCount"
+    />
+  </div>
 </template>
 
 <script>
 import ArticleItem from './ArticleItem.vue';
+import TableFooter from 'dashboard/components/widgets/TableFooter';
 export default {
   components: {
     ArticleItem,
+    TableFooter,
   },
   props: {
     articles: {
       type: Array,
       default: () => {},
     },
+    articleCount: {
+      type: Number,
+      default: 0,
+    },
+    currentPage: {
+      type: Number,
+      default: 1,
+    },
+  },
+  methods: {
+    onPageChange() {
+      this.$emit('onPageChange');
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-table thead th {
-  font-weight: var(--font-weight-bold);
-  text-transform: capitalize;
-  color: var(--s-600);
-  font-size: var(--font-size-small);
-}
-.border-class {
-  border-bottom: 1px solid var(--s-300);
+.article-container {
+  width: 100%;
+  table thead th {
+    font-weight: var(--font-weight-bold);
+    text-transform: capitalize;
+    color: var(--s-600);
+    font-size: var(--font-size-small);
+  }
+  .border-class {
+    border-bottom: 1px solid var(--s-300);
+  }
 }
 </style>
