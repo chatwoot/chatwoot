@@ -73,8 +73,6 @@ class FilterService
     "#{operator} '#{value}'::#{attribute_data_type}"
   end
 
-  def custom_compare_filter_values; end
-
   def days_before_filter_values(query_hash)
     date = Time.zone.today - query_hash['values'][0].to_i.days
     query_hash['values'] = [date.strftime]

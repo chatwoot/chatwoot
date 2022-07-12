@@ -163,8 +163,35 @@ describe ::Conversations::FilterService do
             attribute_key: 'labels',
             filter_operator: 'equal_to',
             values: ['support'],
-            query_operator: nil,
-            custom_attribute_type: ''
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to be 1
+        expect(result[:conversations][0][:id]).to be user_2_assigned_conversation.id
+      end
+
+      it 'filter by custom_attributes and labels with custom_attribute_type nil' do
+        user_2_assigned_conversation.update_labels('support')
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'conversation_created',
+            filter_operator: 'is_less_than',
+            values: ['2022-01-20'],
+            query_operator: 'OR',
+            custom_attribute_type: nil
+          }.with_indifferent_access,
+          {
+            attribute_key: 'labels',
+            filter_operator: 'equal_to',
+            values: ['support'],
+            query_operator: nil
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -187,6 +214,27 @@ describe ::Conversations::FilterService do
             values: ['2022-01-20'],
             query_operator: nil,
             custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to be 1
+      end
+
+      it 'filter by custom_attributes with custom_attribute_type nil' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'equal_to',
+            values: ['platinum'],
+            query_operator: 'AND',
+            custom_attribute_type: nil
+          }.with_indifferent_access,
+          {
+            attribute_key: 'conversation_created',
+            filter_operator: 'is_less_than',
+            values: ['2022-01-20'],
+            query_operator: nil,
+            custom_attribute_type: nil
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
