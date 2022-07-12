@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/access_tokenable_shared.rb'
+require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 
 RSpec.describe User do
   let!(:user) { create(:user) }
@@ -25,6 +26,7 @@ RSpec.describe User do
 
   describe 'concerns' do
     it_behaves_like 'access_tokenable'
+    it_behaves_like 'avatarable'
   end
 
   describe 'pubsub_token' do

@@ -30,6 +30,6 @@ class Twitter::WebhooksBaseService
       user['id'], user['name'], additional_contact_attributes(user)
     )
     @contact = @contact_inbox.contact
-    ContactAvatarJob.perform_later(@contact, user['profile_image_url']) if user['profile_image_url']
+    Avatar::AvatarFromUrlJob.perform_later(@contact, user['profile_image_url']) if user['profile_image_url']
   end
 end
