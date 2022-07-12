@@ -60,7 +60,7 @@ export default {
 
       this.$emit('change', {
         file,
-        url: URL.createObjectURL(file),
+        url: file ? URL.createObjectURL(file) : null,
       });
     },
     onAvatarDelete() {
