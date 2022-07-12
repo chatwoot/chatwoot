@@ -26,6 +26,9 @@
           :class="{ 'text-truncate': shouldTruncate }"
         >
           {{ label }}
+          <span v-if="isHelpCenterSidebar && childItemCount" class="count-view">
+            {{ childItemCount }}
+          </span>
         </span>
         <span v-if="count" class="badge" :class="{ secondary: !isActive }">
           {{ count }}
@@ -72,6 +75,14 @@ export default {
     count: {
       type: String,
       default: '',
+    },
+    isHelpCenterSidebar: {
+      type: Boolean,
+      default: false,
+    },
+    childItemCount: {
+      type: Number,
+      default: 0,
     },
   },
   computed: {
@@ -154,5 +165,20 @@ $label-badge-size: var(--space-slab);
   background: var(--s-75);
   color: var(--s-600);
   font-weight: var(--font-weight-bold);
+}
+
+.count-view {
+  background: var(--s-50);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-600);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-zero) var(--space-smaller);
+
+  &.is-active {
+    background: var(--w-50);
+    color: var(--w-500);
+  }
 }
 </style>
