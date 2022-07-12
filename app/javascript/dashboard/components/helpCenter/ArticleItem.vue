@@ -25,7 +25,6 @@
 </template>
 <script>
 import { frontendURL } from 'dashboard/helper/URLHelper';
-
 import Label from 'dashboard/components/ui/Label';
 import timeMixin from 'dashboard/mixins/time';
 export default {
@@ -92,6 +91,7 @@ td {
   font-weight: var(--font-weight-normal);
   color: var(--s-700);
   font-size: var(--font-size-mini);
+  padding-left: 0;
 }
 .row--article-block {
   align-items: center;

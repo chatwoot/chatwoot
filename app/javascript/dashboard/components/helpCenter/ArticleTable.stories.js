@@ -53,7 +53,7 @@ ArticleTable.args = {
       readCount: 13,
       category: 'Engineering',
       status: 'draft',
-      updatedAt: 1617255863,
+      updatedAt: 1656658046,
     },
     {
       title: 'Campaigns',
@@ -63,7 +63,7 @@ ArticleTable.args = {
       readCount: 28,
       category: 'Engineering',
       status: 'archived',
-      updatedAt: 1652255263,
+      updatedAt: 1657590446,
     },
   ],
   articleCount: 10,

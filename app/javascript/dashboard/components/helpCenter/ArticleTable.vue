@@ -22,6 +22,7 @@
           :category="article.category"
           :read-count="article.readCount"
           :status="article.status"
+          :updated-at="article.updatedAt"
         />
       </tbody>
     </table>
@@ -65,14 +66,19 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   width: 100%;
+
   table thead th {
     font-weight: var(--font-weight-bold);
     text-transform: capitalize;
     color: var(--s-600);
     font-size: var(--font-size-small);
+    padding-left: 0;
   }
   .border-class {
-    border-bottom: 1px solid var(--s-300);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .footer {
+    padding: 0px;
   }
 }
 </style>
