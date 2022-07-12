@@ -14,7 +14,7 @@ shared_examples_for 'avatarable' do
       avatarable = build(described_class.to_s.underscore, account: create(:account))
       if avatarable.respond_to?(:email)
         avatarable.email = 'test@test.com'
-        avatarable.skip_reconfirmation!  if avatarable.is_a? User
+        avatarable.skip_reconfirmation! if avatarable.is_a? User
         expect(Avatar::AvatarFromGravatarJob).to receive(:set).with(wait: 30.seconds).and_call_original
       end
       avatarable.save!
@@ -24,7 +24,7 @@ shared_examples_for 'avatarable' do
     it 'enques job when email is changes on avatarable update' do
       if avatarable.respond_to?(:email)
         avatarable.email = 'xyc@test.com'
-        avatarable.skip_reconfirmation!  if avatarable.is_a? User
+        avatarable.skip_reconfirmation! if avatarable.is_a? User
         expect(Avatar::AvatarFromGravatarJob).to receive(:set).with(wait: 30.seconds).and_call_original
       end
       avatarable.save!
@@ -33,9 +33,9 @@ shared_examples_for 'avatarable' do
 
     it 'will not enqueu when email is not changed on avatarable update' do
       avatarable.updated_at = Time.now.utc
-      expect {
+      expect do
         avatarable.save!
-      }.not_to have_enqueued_job(Avatar::AvatarFromGravatarJob)
+      end.not_to have_enqueued_job(Avatar::AvatarFromGravatarJob)
     end
   end
 end
