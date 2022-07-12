@@ -57,6 +57,7 @@ Rails.application.routes.draw do
             post :clone
             post :attach_file, on: :collection
           end
+          resources :macros
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
