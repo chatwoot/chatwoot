@@ -7,16 +7,21 @@
       v-model="searchValue"
       class="search-input"
       :placeholder="$t('HELP_CENTER.SIDEBAR.SEARCH.PLACEHOLDER')"
+      @input="onSearch"
     />
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    searchValue: {
-      type: String,
-      default: '',
+  data() {
+    return {
+      searchValue: '',
+    };
+  },
+  methods: {
+    onSearch(e) {
+      this.$emit('input', e.target.value);
     },
   },
 };

@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import Sidebar from './Sidebar';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 
@@ -23,12 +24,6 @@ export default {
         type: 'text',
       },
     },
-    searchValue: {
-      defaultValue: '',
-      control: {
-        type: 'text',
-      },
-    },
     accessibleMenuItems: [],
     additionalSecondaryMenuItems: [],
   },
@@ -37,15 +32,15 @@ export default {
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { Sidebar },
-  template: '<sidebar v-bind="$props"></sidebar>',
+  template: '<sidebar v-bind="$props" @input="onSearch"></sidebar>',
 });
 
 export const HelpCenterSidebarView = Template.bind({});
 HelpCenterSidebarView.args = {
+  onSearch: action('search'),
   thumbnailSrc: '',
   headerTitle: 'Help Center',
   subTitle: 'English',
-  searchValue: '',
   accessibleMenuItems: [
     {
       icon: 'book',

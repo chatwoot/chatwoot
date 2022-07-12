@@ -5,7 +5,7 @@
       :header-title="headerTitle"
       :sub-title="subTitle"
     />
-    <sidebar-search :search-value="searchValue" />
+    <sidebar-search @input="onSearch" />
     <!-- <transition-group name="menu-list" tag="ul" class="menu vertical"> -->
     <div name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
@@ -51,10 +51,6 @@ export default {
       type: String,
       default: '',
     },
-    searchValue: {
-      type: String,
-      default: '',
-    },
     accessibleMenuItems: {
       type: Array,
       default: () => [],
@@ -67,7 +63,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    onSearch(value) {
+      this.$emit('input', value);
+    },
+  },
 };
 </script>
 
