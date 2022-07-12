@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.0.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -78,7 +78,7 @@ gem 'wisper', '2.0.0'
 # TODO: bump up gem to 2.0
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby', '~> 5.32.0'
+gem 'twilio-ruby', '~> 5.66'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 gem 'twitty'
@@ -128,6 +128,9 @@ gem 'html2text'
 # to calculate working hours
 gem 'working_hours'
 
+# full text search for articles
+gem 'pg_search'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -156,11 +159,6 @@ group :test do
 end
 
 group :development, :test do
-  # TODO: is this needed ?
-  # errors thrown by devise password gem
-  gem 'flay'
-  gem 'rspec'
-  # for error thrown by devise password gem
   gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri

@@ -32,11 +32,31 @@ de:
     contacts:
       import:
         failed: Datei ist leer
+    inboxes:
+      imap:
+        socket_error: Bitte überprüfen Sie die Netzwerkverbindung, die IMAP-Adresse und versuchen Sie es erneut.
+        no_response_error: Bitte überprüfen Sie die IMAP-Anmeldeinformationen und versuchen Sie es erneut.
+        host_unreachable_error: Host nicht erreichbar. Bitte überprüfen Sie die IMAP-Adresse und den IMAP-Port und versuchen Sie es erneut.
+        connection_timed_out_error: Zeitüberschreitung der Verbindung für %{address}:%{port}
+        connection_closed_error: Verbindung geschlossen.
+      validations:
+        name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
       agent_name: Agentenname
       conversations_count: Anzahl Gespräche
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    inbox_csv:
+      inbox_name: Posteingangsname
+      inbox_type: Posteingangstyp
+      conversations_count: Anzahl der Konversationen
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    label_csv:
+      label_title: Label
+      conversations_count: Anzahl der Konversationen
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     team_csv:
@@ -64,6 +84,7 @@ de:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
+      instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
       deleted: Diese Nachricht wurde gelöscht
     activity:
       status:

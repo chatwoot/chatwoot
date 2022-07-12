@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
         "LABEL": "Email Address",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "This email address is in use for another contact.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",

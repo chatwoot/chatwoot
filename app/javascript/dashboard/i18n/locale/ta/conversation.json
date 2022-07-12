@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "இடது பலகத்தில் இருந்து உரையாடலைத் தேர்ந்தெடுக்கவும்",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "அடடா! உங்கள் இன்பாக்ஸில் வாடிக்கையாளர்களிடமிருந்து செய்திகள் எதுவும் இல்லை.",
     "NO_MESSAGE_2": " உங்கள் பக்கத்திற்கு ஒரு செய்தியை அனுப்ப!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "பதிவிறக்கம்",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",

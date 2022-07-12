@@ -32,10 +32,30 @@ el:
     contacts:
       import:
         failed: Το αρχείο είναι κενό
+    inboxes:
+      imap:
+        socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
+        no_response_error: Παρακαλούμε ελέγξτε τα διαπιστευτήρια IMAP και προσπαθήστε ξανά.
+        host_unreachable_error: Μη προσβάσιμος διακομιστής, ελέγξτε τη διεύθυνση IMAP, τη θύρα IMAP και προσπαθήστε ξανά.
+        connection_timed_out_error: Λήξη χρονικού ορίου σύνδεσης για %{address}:%{port}
+        connection_closed_error: Η σύνδεση έκλεισε.
+      validations:
+        name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     agent_csv:
       agent_name: Όνομα Πράκτορα
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    inbox_csv:
+      inbox_name: Όνομα Κιβωτίου
+      inbox_type: Τύπος κιβωτίου εισερχόμενων
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+    label_csv:
+      label_title: Ετικέτα
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
       avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
@@ -64,6 +84,7 @@ el:
   conversations:
     messages:
       instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
+      instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
       deleted: Το μήνυμα διαγράφηκε
     activity:
       status:

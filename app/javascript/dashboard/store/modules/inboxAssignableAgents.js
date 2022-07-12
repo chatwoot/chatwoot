@@ -26,13 +26,16 @@ export const getters = {
 };
 
 export const actions = {
-  async fetch({ commit }, { inboxId }) {
+  async fetch({ commit }, inboxIds) {
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload },
-      } = await AssignableAgentsAPI.get([inboxId]);
-      commit(types.SET_INBOX_ASSIGNABLE_AGENTS, { inboxId, members: payload });
+      } = await AssignableAgentsAPI.get(inboxIds);
+      commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
+        inboxId: inboxIds.join(','),
+        members: payload,
+      });
     } catch (error) {
       throw new Error(error);
     } finally {

@@ -32,11 +32,31 @@ ru:
     contacts:
       import:
         failed: Пустой файл
+    inboxes:
+      imap:
+        socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
+        no_response_error: Проверьте учетные данные IMAP и повторите попытку.
+        host_unreachable_error: Хост недоступен. Проверьте адрес IMAP, порт IMAP и повторите попытку.
+        connection_timed_out_error: Время ожидания соединения для %{address}:%{port} истекло
+        connection_closed_error: Соединение закрыто.
+      validations:
+        name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
   reports:
     period: Отчётный период с %{since} по %{until}
     agent_csv:
       agent_name: Имя оператора
       conversations_count: Количество бесед
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
+    label_csv:
+      label_title: Метка
+      conversations_count: No. of conversations
       avg_first_response_time: Среднее время первого ответа (в минутах)
       avg_resolution_time: Среднее время решения (в минутах)
     team_csv:
@@ -64,6 +84,7 @@ ru:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} упомянул Вас в истории: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Это сообщение было удалено
     activity:
       status:

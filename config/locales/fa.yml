@@ -32,11 +32,31 @@ fa:
     contacts:
       import:
         failed: پرونده خالی است
+    inboxes:
+      imap:
+        socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
+        no_response_error: لطفا اعتبارنامه IMAP را بررسی کنید و دوباره امتحان کنید.
+        host_unreachable_error: میزبان غیرقابل دسترسی است، لطفا آدرس IMAP و پورت IMAP را بررسی کنید و دوباره امتحان کنید.
+        connection_timed_out_error: زمان اتصال برای %{address}:%{port} تمام شد
+        connection_closed_error: اتصال بسته شد.
+      validations:
+        name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
       agent_name: اسم ایجنت
       conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: نام صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: برچسب
+      conversations_count: تعداد گفتگوها
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
@@ -64,6 +84,7 @@ fa:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: این پیام حذف شد
     activity:
       status:

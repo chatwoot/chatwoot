@@ -32,11 +32,31 @@ zh_TW:
     contacts:
       import:
         failed: File is blank
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: 客服名稱
       conversations_count: 對話數量
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: 平均第一次回覆時間（分鐘）
+      avg_resolution_time: 平均解決時間（分鐘）
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
       avg_first_response_time: 平均第一次回覆時間（分鐘）
       avg_resolution_time: 平均解決時間（分鐘）
     team_csv:
@@ -64,6 +84,7 @@ zh_TW:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: 訊息已被刪除
     activity:
       status:

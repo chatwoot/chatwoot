@@ -32,10 +32,30 @@ it:
     contacts:
       import:
         failed: Il file è vuoto
+    inboxes:
+      imap:
+        socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
+        no_response_error: Controlla le credenziali IMAP e riprova.
+        host_unreachable_error: Host irraggiungibile, Controlla l'indirizzo IMAP, la porta IMAP e riprova.
+        connection_timed_out_error: Connessione scaduta per %{address}:%{port}
+        connection_closed_error: Connessione chiusa.
+      validations:
+        name: non dovrebbe iniziare o terminare con i simboli, e non dovrebbe avere < > / \ @ caratteri.
   reports:
     period: Periodo di segnalazione da %{since} a %{until}
     agent_csv:
       agent_name: Nome agente
+      conversations_count: Numero di conversazioni
+      avg_first_response_time: Tempo medio di prima risposta (minuti)
+      avg_resolution_time: Tempo medio di risoluzione (minuti)
+    inbox_csv:
+      inbox_name: Nome casella
+      inbox_type: Tipo casella
+      conversations_count: Numero di conversazioni
+      avg_first_response_time: Tempo medio di prima risposta (minuti)
+      avg_resolution_time: Tempo medio di risoluzione (minuti)
+    label_csv:
+      label_title: Etichetta
       conversations_count: Numero di conversazioni
       avg_first_response_time: Tempo medio di prima risposta (minuti)
       avg_resolution_time: Tempo medio di risoluzione (minuti)
@@ -64,6 +84,7 @@ it:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} ti ha menzionato nella storia: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Questo messaggio è stato eliminato
     activity:
       status:

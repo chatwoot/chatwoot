@@ -4,7 +4,7 @@
     class="dropdown menu vertical"
     :class="[placement && `dropdown--${placement}`]"
   >
-    <slot></slot>
+    <slot />
   </ul>
 </template>
 <script>

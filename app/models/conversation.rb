@@ -50,6 +50,7 @@ class Conversation < ApplicationRecord
   include RoundRobinHandler
   include ActivityMessageHandler
   include UrlHelper
+  include SortHandler
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -60,7 +61,6 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
-  scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
@@ -68,6 +68,13 @@ class Conversation < ApplicationRecord
     return [] if auto_resolve_duration.to_i.zero?
 
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+  }
+
+  scope :last_user_message_at, lambda {
+    joins(
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
+      ON grouped_conversations.conversation_id = conversations.id"
+    ).sort_on_last_user_message_at
   }
 
   belongs_to :account
@@ -93,23 +100,24 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
+    channel = inbox&.channel
+
     return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
-    return true unless inbox&.channel&.has_24_hour_messaging_window?
+    return true unless channel&.messaging_window_enabled?
 
-    return false if last_incoming_message.nil?
-
-    last_message_less_than_24_hrs?
+    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
+    last_message_in_messaging_window?(messaging_window)
   end
 
   def last_incoming_message
     messages&.incoming&.last
   end
 
-  def last_message_less_than_24_hrs?
+  def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
 
-    Time.current < last_incoming_message.created_at + 24.hours
+    Time.current < last_incoming_message.created_at + time.hours
   end
 
   def can_reply_on_instagram?
@@ -120,7 +128,7 @@ class Conversation < ApplicationRecord
     if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
       Time.current < last_incoming_message.created_at + 7.days
     else
-      last_message_less_than_24_hrs?
+      last_message_in_messaging_window?(24)
     end
   end
 

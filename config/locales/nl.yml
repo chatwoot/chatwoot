@@ -32,11 +32,31 @@ nl:
     contacts:
       import:
         failed: File is blank
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
@@ -64,6 +84,7 @@ nl:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
     activity:
       status:
