@@ -12,6 +12,7 @@
       :username="username"
       :class="thumbnailClass"
       :size="avatarSize"
+      :variant="variant"
     />
     <img
       v-if="badge === 'instagram_direct_message'"
@@ -119,6 +120,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    variant: {
+      type: String,
+      default: 'circle',
+    },
   },
   data() {
     return {
@@ -145,7 +150,9 @@ export default {
     },
     thumbnailClass() {
       const classname = this.hasBorder ? 'border' : '';
-      return `user-thumbnail ${classname}`;
+      const variant =
+        this.variant === 'circle' ? 'thumbnail-rounded' : 'thumbnail-square';
+      return `user-thumbnail ${classname} ${variant}`;
     },
   },
   watch: {
@@ -173,6 +180,9 @@ export default {
 
   .user-thumbnail {
     border-radius: 50%;
+    &.thumbnail-square {
+      border-radius: var(--border-radius-large);
+    }
     height: 100%;
     width: 100%;
     box-sizing: border-box;

@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Zadejte SID vašeho Twilio účtu",
           "ERROR": "Toto pole je povinné"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Toto pole je povinné",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Channel Type",
           "ERROR": "Please select your Channel Type"

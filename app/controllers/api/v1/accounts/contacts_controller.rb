@@ -12,7 +12,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def index
@@ -72,15 +72,17 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(contact_params)
+      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
       @contact.save!
       @contact_inbox = build_contact_inbox
+      process_avatar
     end
   end
 
   def update
     @contact.assign_attributes(contact_update_params)
     @contact.save!
+    process_avatar if permitted_params[:avatar].present? || permitted_params[:avatar_url].present?
   end
 
   def destroy
@@ -93,6 +95,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     @contact.destroy!
     head :ok
+  end
+
+  def avatar
+    @contact.avatar.purge if @contact.avatar.attached?
+    @contact
   end
 
   private
@@ -131,19 +138,19 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     ContactInbox.create(contact: @contact, inbox: inbox, source_id: source_id)
   end
 
-  def contact_params
-    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
+  def permitted_params
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
-    return @contact.custom_attributes.merge(contact_params[:custom_attributes]) if contact_params[:custom_attributes]
+    return @contact.custom_attributes.merge(permitted_params[:custom_attributes]) if permitted_params[:custom_attributes]
 
     @contact.custom_attributes
   end
 
   def contact_update_params
     # we want the merged custom attributes not the original one
-    contact_params.except(:custom_attributes).merge({ custom_attributes: contact_custom_attributes })
+    permitted_params.except(:custom_attributes, :avatar_url).merge({ custom_attributes: contact_custom_attributes })
   end
 
   def set_include_contact_inboxes
@@ -156,6 +163,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+  end
+
+  def process_avatar
+    if permitted_params[:avatar].blank? && permitted_params[:avatar_url].present?
+      ::ContactAvatarJob.perform_later(@contact, params[:avatar_url])
+    elsif permitted_params[:avatar].blank? && permitted_params[:email].present?
+      hash = Digest::MD5.hexdigest(params[:email])
+      gravatar_url = "https://www.gravatar.com/avatar/#{hash}?d=404"
+      ::ContactAvatarJob.perform_later(@contact, gravatar_url)
+    end
   end
 
   def render_error(error, error_status)

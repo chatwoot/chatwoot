@@ -40,7 +40,7 @@ el:
         connection_timed_out_error: Λήξη χρονικού ορίου σύνδεσης για %{address}:%{port}
         connection_closed_error: Η σύνδεση έκλεισε.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     agent_csv:
@@ -84,6 +84,7 @@ el:
   conversations:
     messages:
       instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
+      instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
       deleted: Το μήνυμα διαγράφηκε
     activity:
       status:

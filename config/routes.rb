@@ -95,6 +95,7 @@ Rails.application.routes.draw do
             member do
               get :contactable_inboxes
               post :destroy_custom_attributes
+              delete :avatar
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -260,9 +261,8 @@ Rails.application.routes.draw do
         end
         resources :portals, only: [:show], param: :slug do
           scope module: :portals do
-            resources :categories, only: [:index, :show], param: :slug do
-              resources :articles, only: [:index, :show], param: :slug
-            end
+            resources :categories, only: [:index, :show], param: :slug
+            resources :articles, only: [:index, :show]
           end
         end
         resources :csat_survey, only: [:show, :update]

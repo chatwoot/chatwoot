@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Vui lòng nhập SID tài khoản Twilio của bạn",
           "ERROR": "Trường này là bắt buộc"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Trường này là bắt buộc",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Loại kênh",
           "ERROR": "Vui lòng chọn loại kênh của bạn"
