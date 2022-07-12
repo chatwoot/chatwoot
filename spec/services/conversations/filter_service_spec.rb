@@ -58,13 +58,15 @@ describe ::Conversations::FilterService do
             attribute_key: 'browser_language',
             filter_operator: 'contains',
             values: 'en',
-            query_operator: 'AND'
+            query_operator: 'AND',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'status',
             filter_operator: 'not_equal_to',
             values: %w[resolved],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
       end
@@ -94,13 +96,15 @@ describe ::Conversations::FilterService do
               user_1.id,
               user_2.id
             ],
-            query_operator: 'AND'
+            query_operator: 'AND',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
             values: ['support'],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -116,13 +120,15 @@ describe ::Conversations::FilterService do
               user_1.id,
               user_2.id
             ],
-            query_operator: 'AND'
+            query_operator: 'AND',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'campaign_id',
             filter_operator: 'is_present',
             values: [],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -150,13 +156,15 @@ describe ::Conversations::FilterService do
             attribute_key: 'conversation_created',
             filter_operator: 'is_less_than',
             values: ['2022-01-20'],
-            query_operator: 'OR'
+            query_operator: 'OR',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'labels',
             filter_operator: 'equal_to',
             values: ['support'],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -170,13 +178,15 @@ describe ::Conversations::FilterService do
             attribute_key: 'conversation_type',
             filter_operator: 'equal_to',
             values: ['platinum'],
-            query_operator: 'AND'
+            query_operator: 'AND',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'conversation_created',
             filter_operator: 'is_less_than',
             values: ['2022-01-20'],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -189,13 +199,15 @@ describe ::Conversations::FilterService do
             attribute_key: 'conversation_type',
             filter_operator: 'equal_to',
             values: ['platinum'],
-            query_operator: 'AND'
+            query_operator: 'AND',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'browser_language',
             filter_operator: 'is_equal_to',
             values: 'en',
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -214,7 +226,8 @@ describe ::Conversations::FilterService do
             attribute_key: 'created_at',
             filter_operator: 'is_greater_than',
             values: ['2022-01-20'],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -228,13 +241,15 @@ describe ::Conversations::FilterService do
             attribute_key: 'conversation_type',
             filter_operator: 'equal_to',
             values: ['platinum'],
-            query_operator: 'AND'
+            query_operator: 'AND',
+            custom_attribute_type: ''
           }.with_indifferent_access,
           {
             attribute_key: 'created_at',
             filter_operator: 'is_greater_than',
             values: ['2022-01-20'],
-            query_operator: nil
+            query_operator: nil,
+            custom_attribute_type: ''
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1).perform
@@ -257,13 +272,15 @@ describe ::Conversations::FilterService do
               attribute_key: 'last_activity_at',
               filter_operator: 'days_before',
               values: [3],
-              query_operator: 'AND'
+              query_operator: 'AND',
+              custom_attribute_type: ''
             }.with_indifferent_access,
             {
               attribute_key: 'conversation_type',
               filter_operator: 'equal_to',
               values: ['platinum'],
-              query_operator: nil
+              query_operator: nil,
+              custom_attribute_type: ''
             }.with_indifferent_access
           ]
 
@@ -280,7 +297,8 @@ describe ::Conversations::FilterService do
               attribute_key: 'last_activity_at',
               filter_operator: 'days_before',
               values: [3],
-              query_operator: nil
+              query_operator: nil,
+              custom_attribute_type: ''
             }.with_indifferent_access
           ]
 
