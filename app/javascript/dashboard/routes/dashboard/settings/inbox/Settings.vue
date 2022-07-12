@@ -304,9 +304,9 @@
     <div v-if="selectedTabKey === 'collaborators'" class="settings--content">
       <collaborators-page :inbox="inbox" />
     </div>
-    <!-- <div v-if="selectedTabKey === 'configuration'">
+    <div v-if="selectedTabKey === 'configuration'">
       <configuration-page :inbox="inbox" />
-    </div> -->
+    </div>
     <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
     </div>
@@ -328,7 +328,7 @@ import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
 // import GreetingsEditor from 'shared/components/GreetingsEditor';
-// import ConfigurationPage from './settingsPage/ConfigurationPage';
+import ConfigurationPage from './settingsPage/ConfigurationPage';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage';
 
 export default {
@@ -339,7 +339,7 @@ export default {
     PreChatFormSettings,
     WeeklyAvailability,
     // GreetingsEditor,
-    // ConfigurationPage,
+    ConfigurationPage,
     CollaboratorsPage,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
@@ -394,10 +394,10 @@ export default {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
-          // {
-          // 	key: 'configuration',
-          // 	name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          // },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
         ];
       }
 
@@ -409,10 +409,10 @@ export default {
       ) {
         return [
           ...visibleToAllChannelTabs,
-          // {
-          // 	key: 'configuration',
-          // 	name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          // },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
         ];
       }
 
