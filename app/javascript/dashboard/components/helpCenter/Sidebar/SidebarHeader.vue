@@ -15,7 +15,8 @@
     <div class="header-right--side">
       <fluent-icon
         icon="arrow-up-right"
-        size="18px"
+        size="28px"
+        class="pop-out--icon"
         @click="popOutHelpCenter"
       />
       <fluent-icon
@@ -62,10 +63,10 @@ export default {
 <style lang="scss" scoped>
 .sidebar-header--wrap {
   display: flex;
-  height: 66px;
+  height: var(--space-jumbo);
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-normal) var(--space-zero);
+  padding: var(--space-normal) 0;
   border-bottom: 1px solid var(--color-border-light);
 }
 
@@ -93,6 +94,10 @@ export default {
 .header-right--side {
   display: flex;
   align-items: center;
+}
+
+.pop-out--icon {
+  padding: var(--space-smaller);
 }
 
 .portal-switch--icon {

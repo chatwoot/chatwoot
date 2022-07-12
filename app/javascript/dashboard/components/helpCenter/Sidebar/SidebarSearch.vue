@@ -1,12 +1,12 @@
 <template>
   <div class="search-input--wrap">
     <div class="search-icon--wrap">
-      <fluent-icon icon="search" class="search-icon" />
+      <fluent-icon icon="search" size="18" class="search-icon" />
     </div>
     <input
       v-model="searchValue"
       class="search-input"
-      placeholder="Search for articles"
+      :placeholder="$t('HELP_CENTER.SIDEBAR.SEARCH.PLACEHOLDER')"
     />
   </div>
 </template>
@@ -31,13 +31,13 @@ export default {
 
 .search-input {
   width: 100%;
-  height: 3.6rem;
+  height: var(--space-large);
   border-radius: var(--border-radius-normal);
-  background: var(--s-50);
+  background: var(--s-25);
   font-size: var(--font-size-small);
   padding: var(--space-small) var(--space-small) var(--space-small)
     var(--space-large);
-  border: 1px solid var(--s-100);
+  border: 1px solid var(--s-50);
 
   &:focus {
     border-color: var(--w-500);
@@ -50,7 +50,7 @@ export default {
 
 .search-icon {
   position: absolute;
-  color: var(--s-200);
+  color: var(--s-500);
   top: var(--space-small);
   left: var(--space-small);
 }
