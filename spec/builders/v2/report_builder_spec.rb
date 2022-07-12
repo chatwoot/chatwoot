@@ -11,7 +11,7 @@ describe ::V2::ReportBuilder do
   # Running jobs inline to calculate the exact metrics
   around do |test|
     current_adapter = ActiveJob::Base.queue_adapter
-    ActiveJob::Base.queue_adapter = :inline
+    ActiveJob::Base.queue_adapter = :async
 
     test.run
   ensure
