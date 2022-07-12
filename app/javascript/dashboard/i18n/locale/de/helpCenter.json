@@ -1,0 +1,24 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filtern nach",
+      "SORT": "Sortieren nach",
+      "SETTINGS_BUTTON": "Einstellungen",
+      "NEW_BUTTON": "Neuer Artikel"
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Veröffentlichen",
+      "PREVIEW": "Vorschau",
+      "ADD_TRANSLATION": "Übersetzung hinzufügen",
+      "OPEN_SIDEBAR": "Seitenleiste öffnen",
+      "CLOSE_SIDEBAR": "Seitenleiste schließen",
+      "SAVING": "Entwurf speichern...",
+      "SAVED": "Entwurf gespeichert"
+    },
+    "TABLE": {
+      "COLUMNS": {
+        "BY": "by"
+      }
+    }
+  }
+}

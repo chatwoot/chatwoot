@@ -72,8 +72,8 @@ fi:
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
         agent_name: Edustajan nimi
-        rating: Rating
-        feedback: Feedback Comment
+        rating: Arvio
+        feedback: Palautteen kommentti
         recorded_at: Recorded date
   notifications:
     notification_title:
@@ -84,6 +84,7 @@ fi:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
     activity:
       status:
@@ -110,7 +111,7 @@ fi:
       greeting_message_body: "%{account_name} vastaa tyypillisesti muutamassa tunnissa."
       ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
       email_input_box_message_body: "Saa ilmoitus sähköpostitse"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Voisitko antaa palautetta saamastasi palvelusta?"
     reply:
       email:
         header:
@@ -119,7 +120,7 @@ fi:
       email_subject: "Uusia viestejä"
       transcript_subject: "Keskustelukopio"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Voisitko antaa palautetta saamastasi palvelusta? %{link}"
   contacts:
     online:
       delete: "%{contact_name} is Online, please try again later"

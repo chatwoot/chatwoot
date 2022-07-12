@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Te rugăm să introduci ID-ul contului Twilio",
           "ERROR": "Acest câmp este obligatoriu"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Acest câmp este obligatoriu",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Tipul canalului",
           "ERROR": "Vă rugăm să selectaţi tipul canalului"

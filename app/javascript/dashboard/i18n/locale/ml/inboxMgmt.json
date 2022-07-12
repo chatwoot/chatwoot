@@ -111,6 +111,12 @@
           "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ട്വിലിയോ അക്കൗണ്ട് എസ്ഐഡി നൽകുക",
           "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "ചാനൽ തരം",
           "ERROR": "നിങ്ങളുടെ ചാനൽ തരം തിരഞ്ഞെടുക്കുക"

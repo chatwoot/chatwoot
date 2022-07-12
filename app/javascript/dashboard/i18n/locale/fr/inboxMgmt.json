@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
           "ERROR": "Ce champ est requis"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Ce champ est requis",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Type de canal",
           "ERROR": "Veuillez sélectionner votre type de canal"
