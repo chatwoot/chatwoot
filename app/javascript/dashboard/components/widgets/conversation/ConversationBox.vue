@@ -4,6 +4,7 @@
       v-if="currentChat.id"
       :chat="currentChat"
       :is-contact-panel-open="isContactPanelOpen"
+      :show-back-button="isListViewDisplay"
       @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
@@ -68,6 +69,10 @@ export default {
       required: false,
     },
     isContactPanelOpen: {
+      type: Boolean,
+      default: true,
+    },
+    isListViewDisplay: {
       type: Boolean,
       default: true,
     },

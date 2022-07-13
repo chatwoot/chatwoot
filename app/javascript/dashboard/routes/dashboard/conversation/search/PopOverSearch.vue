@@ -11,6 +11,9 @@
         :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
         @focus="onSearch"
       />
+      <button class="icon cursor-pointer" @click="$emit('toggle-view')">
+        <fluent-icon icon="table-switch" size="24" />
+      </button>
     </div>
     <div v-if="showSearchBox" class="results-wrap">
       <div class="show-results">

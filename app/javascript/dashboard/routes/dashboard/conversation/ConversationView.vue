@@ -1,18 +1,22 @@
 <template>
   <section class="conversation-page">
     <chat-list
+      :show="shouldShowChatList"
       :conversation-inbox="inboxId"
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
       :folders-id="foldersId"
+      :is-list-view-display="isListViewDisplay"
       @conversation-load="onConversationLoad"
     >
-      <pop-over-search />
+      <pop-over-search @toggle-view="toggleView" />
     </chat-list>
     <conversation-box
+      v-if="shouldShowMessageView"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
+      :is-list-view-display="isListViewDisplay"
       @contact-panel-toggle="onToggleContactPanel"
     />
   </section>
@@ -69,6 +73,21 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
+    shouldShowChatList() {
+      return this.isListViewDisplay ? !this.currentChat.id : true;
+    },
+    shouldShowMessageView() {
+      if (this.currentChat.id) {
+        return true;
+      }
+      return !this.isListViewDisplay;
+    },
+    isListViewDisplay() {
+      const {
+        conversation_display_type: conversationDisplayType = 'list',
+      } = this.uiSettings;
+      return conversationDisplayType === 'list';
+    },
     isContactPanelOpen() {
       if (this.currentChat.id) {
         const {
@@ -100,6 +119,13 @@ export default {
     initialize() {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
+    },
+    toggleView() {
+      const {
+        conversation_display_type: conversationDisplayType = 'list',
+      } = this.uiSettings;
+      const newViewType = conversationDisplayType === 'list' ? 'card' : 'list';
+      this.updateUISettings({ conversation_display_type: newViewType });
     },
     fetchConversationIfUnavailable() {
       if (!this.conversationId) {

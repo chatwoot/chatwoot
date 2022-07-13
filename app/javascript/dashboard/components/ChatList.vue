@@ -1,5 +1,11 @@
 <template>
-  <div class="conversations-list-wrap">
+  <div
+    class="conversations-list-wrap"
+    :class="{
+      'hide-list': !show,
+      'conversation--list-view': isListViewDisplay,
+    }"
+  >
     <slot />
     <div
       class="chat-list__top"
@@ -201,6 +207,14 @@ export default {
     foldersId: {
       type: [String, Number],
       default: 0,
+    },
+    show: {
+      default: true,
+      type: Boolean,
+    },
+    isListViewDisplay: {
+      default: false,
+      type: Boolean,
     },
   },
   data() {
@@ -662,6 +676,18 @@ export default {
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
+  }
+
+  &.hide-list {
+    display: none;
+  }
+
+  &.conversation--list-view {
+    width: 100%;
+
+    .conversation--mesage {
+      width: auto;
+    }
   }
 }
 .filter--actions {
