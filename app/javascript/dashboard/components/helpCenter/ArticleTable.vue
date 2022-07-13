@@ -70,7 +70,7 @@ export default {
   table thead th {
     font-weight: var(--font-weight-bold);
     text-transform: capitalize;
-    color: var(--s-600);
+    color: var(--s-700);
     font-size: var(--font-size-small);
     padding-left: 0;
   }
