@@ -101,9 +101,9 @@ jobs:
           name: Rubocop
           command: bundle exec rubocop
       
-      - run:
-          name: Brakeman
-          command: bundle exec brakeman
+      # - run:
+      #     name: Brakeman
+      #     command: bundle exec brakeman
 
       - run:
           name: eslint
