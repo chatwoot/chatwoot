@@ -4,7 +4,7 @@ FactoryBot.define do
     name { 'wrong_message_actions' }
     actions do
       [
-        { 'action_name' => 'add_label', 'action_params' => %w[wrong_chat] },
+        { 'action_name' => 'add_label', 'action_params' => %w[wrong_chat] }
       ]
     end
   end

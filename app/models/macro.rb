@@ -24,29 +24,27 @@
 #  fk_rails_...  (updated_by_id => users.id)
 #
 class Macro < ApplicationRecord
-	belongs_to :account
-	belongs_to :created_by,
-             class_name: :User,
-             foreign_key: :created_by_id
+  belongs_to :account
+  belongs_to :created_by,
+             class_name: :User
   belongs_to :updated_by,
-             class_name: :User,
-             foreign_key: :updated_by_id
+             class_name: :User
   enum visibility: { user: 0, account: 1 }
 
-  def set_visibility(user, params)
-  	if user.agent?
-  		visibility = :user
-  	else
-  		visibility = params[:visibility]
-  	end
+  def set_visibility(_user, params)
+    if Current.user.agent?
+      :user
+    else
+      params[:visibility]
+    end
   end
 
   def self.with_visibility(params)
-  	user = Current.user
-  	records = Current.account.macros
-  	records = records.or(self.where(created_by_id: user.id)) if user.agent?
-  	records.page(current_page(params))
-  	records
+    user = Current.user
+    records = Current.account.macros
+    records = records.or(where(created_by_id: user.id)) if user.agent?
+    records.page(current_page(params))
+    records
   end
 
   def self.current_page(params)

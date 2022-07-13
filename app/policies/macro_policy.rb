@@ -4,26 +4,18 @@ class MacroPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
-  end
-
-  def attach_file?
-    @account_user.administrator?
+    @account_user.administrator? || @account.users.include?(@user)
   end
 
   def show?
-    @account_user.administrator?
+    @account_user.administrator? || @account.users.include?(@user)
   end
 
   def update?
-    @account_user.administrator?
-  end
-
-  def clone?
-    @account_user.administrator?
+    @account_user.administrator? || @account.users.include?(@user)
   end
 
   def destroy?
-    @account_user.administrator?
+    @account_user.administrator? || @account.users.include?(@user)
   end
 end
