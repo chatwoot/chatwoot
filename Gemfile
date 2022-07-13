@@ -89,10 +89,6 @@ gem 'slack-ruby-client'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow'
 
-##--- gems for debugging and error reporting ---##
-# static analysis
-gem 'brakeman'
-
 ##-- apm and error monitoring ---#
 gem 'ddtrace'
 gem 'newrelic_rpm'
@@ -160,6 +156,8 @@ end
 
 group :development, :test do
   gem 'active_record_query_trace'
+  ##--- gems for debugging and error reporting ---##
+  # static analysis
   gem 'brakeman'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
