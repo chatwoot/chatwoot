@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tr>
-        <td colspan="100%" class="border-class" />
+        <td colspan="100%" class="horizontal-line" />
       </tr>
       <tbody>
         <ArticleItem
@@ -74,7 +74,7 @@ export default {
     font-size: var(--font-size-small);
     padding-left: 0;
   }
-  .border-class {
+  .horizontal-line {
     border-bottom: 1px solid var(--color-border);
   }
   .footer {
