@@ -85,6 +85,10 @@ export default {
         font-size: var(--font-size-default);
         line-height: 1.8;
       }
+
+      li::marker {
+        font-size: var(--font-size-default);
+      }
     }
   }
 }
