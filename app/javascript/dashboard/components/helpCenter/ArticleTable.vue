@@ -78,7 +78,7 @@ export default {
     border-bottom: 1px solid var(--color-border);
   }
   .footer {
-    padding: 0px;
+    padding: 0;
   }
 }
 </style>
