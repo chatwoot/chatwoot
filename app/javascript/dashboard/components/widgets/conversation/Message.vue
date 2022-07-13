@@ -165,11 +165,20 @@ export default {
   },
   data() {
     return {
+      displayEmailContent: false,
       showContextMenu: false,
       hasImageError: false,
     };
   },
   computed: {
+    showContent: {
+      get() {
+        if (!this.isEmailContentType) {
+          return true;
+        }
+        return this.displayEmailContent;
+      },
+    },
     contentToBeParsed() {
       const {
         html_content: { full: fullHTMLContent } = {},
@@ -189,6 +198,10 @@ export default {
       return false;
     },
     message() {
+      if (this.contentToBeParsed && this.isIncoming) {
+        return this.contentToBeParsed;
+      }
+
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
@@ -200,21 +213,6 @@ export default {
           },
         }
       );
-
-      const {
-        email: { content_type: contentType = '' } = {},
-      } = this.contentAttributes;
-      if (this.contentToBeParsed && this.isIncoming) {
-        const parsedContent = this.stripStyleCharacters(this.contentToBeParsed);
-        if (parsedContent) {
-          // This is a temporary fix for line-breaks in text/plain emails
-          // Now, It is not rendered properly in the email preview.
-          // FIXME: Remove this once we have a better solution for rendering text/plain emails
-          return contentType.includes('text/plain')
-            ? parsedContent.replace(/\n/g, '<br />')
-            : parsedContent;
-        }
-      }
       return (
         this.formatMessage(
           this.data.content,
@@ -331,6 +329,7 @@ export default {
         'activity-wrap': !this.isBubble,
         'is-pending': this.isPending,
         'is-failed': this.isFailed,
+        'is-email': this.isEmailContentType,
       };
     },
     bubbleClass() {
@@ -342,6 +341,7 @@ export default {
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
         'is-failed': this.isFailed,
+        'is-email': this.isEmailContentType,
       };
     },
     isPending() {
@@ -429,6 +429,11 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
+    &.is-email {
+      width: 100%;
+      max-width: 100%;
+    }
+
     &.is-image,
     &.is-video {
       padding: 0;
@@ -516,6 +521,11 @@ export default {
       padding: 0;
     }
   }
+}
+
+.wrap.is-email {
+  width: 100%;
+  max-width: 100% !important;
 }
 
 .sender--info {
