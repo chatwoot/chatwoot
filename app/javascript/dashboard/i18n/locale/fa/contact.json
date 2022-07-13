@@ -150,8 +150,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "آواتار مخاطب با موفقیت حذف شد",
+        "ERROR_MESSAGE": "آواتار مخاطب حذف نشد. لطفا بعدا دوباره امتحان کنید."
       }
     },
     "SUCCESS_MESSAGE": "مخاطب با موفقیت ذخیره شد",
