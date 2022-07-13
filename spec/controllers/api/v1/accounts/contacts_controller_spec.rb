@@ -49,7 +49,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = JSON.parse(response.body)
         expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['contact_inboxes'].blank?).to eq(true)
+        expect(response_body['payload'].first['contact_inboxes'].blank?).to be(true)
       end
 
       it 'returns all contacts with company name desc order' do
@@ -149,7 +149,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.data_imports.count).to eq(1)
-        expect(account.data_imports.first.import_file.attached?).to eq(true)
+        expect(account.data_imports.first.import_file.attached?).to be(true)
       end
     end
 
@@ -364,7 +364,7 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/contacts", params: valid_params }.to change(Contact, :count).by(0)
+        expect { post "/api/v1/accounts/#{account.id}/contacts", params: valid_params }.not_to change(Contact, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -477,7 +477,7 @@ RSpec.describe 'Contacts API', type: :request do
 
       it 'updates avatar' do
         # no avatar before upload
-        expect(contact.avatar.attached?).to eq(false)
+        expect(contact.avatar.attached?).to be(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               params: valid_params.merge(avatar: file),
@@ -485,7 +485,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         contact.reload
-        expect(contact.avatar.attached?).to eq(true)
+        expect(contact.avatar.attached?).to be(true)
       end
     end
   end
