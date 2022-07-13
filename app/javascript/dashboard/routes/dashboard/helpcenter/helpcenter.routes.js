@@ -1,5 +1,5 @@
-import { frontendURL } from '../../../helper/URLHelper';
 import HelpCenterLayout from './components/HelpCenterLayout';
+import { getPortalRoute } from './helpers/routeHelper';
 
 const ListAllPortals = () => import('./pages/portals/ListAllPortals');
 const NewPortal = () => import('./pages/portals/NewPortal');
@@ -20,11 +20,6 @@ const ListDraftArticles = () => import('./pages/articles/ListDraftArticles');
 const ListMyArticles = () => import('./pages/articles/ListMyArticles');
 const NewArticle = () => import('./pages/articles/NewArticle');
 const EditArticle = () => import('./pages/articles/EditArticle');
-
-const getPortalRoute = (path = '') => {
-  const slugToBeAdded = path ? `/${path}` : '';
-  return frontendURL(`accounts/:accountId/portals${slugToBeAdded}`);
-};
 
 const portalRoutes = [
   {
