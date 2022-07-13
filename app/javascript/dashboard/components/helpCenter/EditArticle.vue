@@ -1,8 +1,9 @@
 <template>
   <div class="edit-article--container">
-    <resizable-text-area
+    <input
       v-model="articleTitle"
-      class="article-header"
+      type="text"
+      class="article-heading"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
       @focus="onFocus"
       @blur="onBlur"
@@ -21,11 +22,9 @@
 
 <script>
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
 export default {
   components: {
     WootMessageEditor,
-    ResizableTextArea,
   },
   props: {
     article: {
@@ -59,7 +58,7 @@ export default {
   margin: var(--space-medium) var(--space-giga);
 }
 
-.article-header {
+.article-heading {
   font-size: var(--font-size-giga);
   font-weight: var(--font-weight-bold);
   min-height: var(--space-jumbo);
