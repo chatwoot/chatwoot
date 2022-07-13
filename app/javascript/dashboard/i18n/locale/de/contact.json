@@ -150,8 +150,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Kontakt-Avatar erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Kontakt-Avatar konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",
