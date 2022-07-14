@@ -179,7 +179,7 @@ export default {
         return this.displayEmailContent;
       },
     },
-    contentToBeParsed() {
+    emailMessageContent() {
       const {
         html_content: { full: fullHTMLContent } = {},
         text_content: { full: fullTextContent } = {},
@@ -198,8 +198,10 @@ export default {
       return false;
     },
     message() {
-      if (this.contentToBeParsed && this.isIncoming) {
-        return this.contentToBeParsed;
+      // If the message is an email, emailMessageContent would be present
+      // In that case, we would use letter package to render the email
+      if (this.emailMessageContent && this.isIncoming) {
+        return this.emailMessageContent;
       }
 
       const botMessageContent = generateBotMessageContent(
