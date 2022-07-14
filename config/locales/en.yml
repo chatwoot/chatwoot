@@ -54,10 +54,10 @@ en:
       email: 
         invalid: Invalid email
       phone_number:
-        invalid: Should be in e164 format
+        invalid: should be in e164 format
     categories:
       locale:
-        unique: Should be unique in the category and portal
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
