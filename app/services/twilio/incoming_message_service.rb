@@ -20,9 +20,8 @@ class Twilio::IncomingMessageService
   private
 
   def twilio_inbox
-    @twilio_inbox ||=
-      ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) ||
-      ::Channel::TwilioSms.find_by!(account_sid: params[:AccountSid], phone_number: params[:To])
+    @twilio_inbox ||= ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
+    @twilio_inbox ||= ::Channel::TwilioSms.find_by!(account_sid: params[:AccountSid], phone_number: params[:To]) if params[:AccountSid].present? && params[:To].present?
   end
 
   def inbox
