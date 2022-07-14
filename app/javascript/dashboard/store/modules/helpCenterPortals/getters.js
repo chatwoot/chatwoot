@@ -1,14 +1,11 @@
-import { defaultHelpCenterFlags } from './index';
-
 export const getters = {
   uiFlagsIn: _state => helpCenterId => {
     const uiFlags = _state.helpCenters.uiFlags.byId[helpCenterId];
-
     if (uiFlags) return uiFlags;
-    return { ...defaultHelpCenterFlags };
+    return { isFetching: false, isUpdating: false, isDeleting: false };
   },
 
-  isFetchingHelpCenters: _state => _state.helpCenters.uiFlags.isFetching,
+  isFetchingHelpCenters: _state => _state.uiFlags.isFetching,
   helpCenterById: (...getterArguments) => helpCenterId => {
     const [_state, , , _rootGetters] = getterArguments;
     const helpCenter = _state.helpCenters.byId[helpCenterId];
@@ -26,6 +23,7 @@ export const getters = {
   },
   allHelpCenters: (...getterArguments) => {
     const [_state, _getters] = getterArguments;
+
     const helpCenters = _state.helpCenters.allIds.map(id => {
       return _getters.helpCenterById(id);
     });
