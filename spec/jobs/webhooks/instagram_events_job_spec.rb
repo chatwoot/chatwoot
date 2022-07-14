@@ -7,13 +7,6 @@ describe Webhooks::InstagramEventsJob do
   before do
     stub_request(:post, /graph.facebook.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
-      .with(
-        headers: {
-          'Accept' => '*/*',
-          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => 'Down/5.3.0'
-        }
-      )
       .to_return(status: 200, body: '', headers: {})
   end
 

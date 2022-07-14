@@ -23,7 +23,7 @@ RSpec.describe 'Installation::Onboarding API', type: :request do
   end
 
   describe 'POST /installation/onboarding' do
-    let(:account_builder) { instance_double(account_builder) }
+    let(:account_builder) { double }
 
     before do
       allow(AccountBuilder).to receive(:new).and_return(account_builder)

@@ -93,10 +93,9 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      # disable till fixed
-      # - run:
-      #     name: Bundle audit
-      #     command: bundle exec bundle audit update && bundle exec bundle audit check -v
+      - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
 
       - run:
           name: Rubocop
