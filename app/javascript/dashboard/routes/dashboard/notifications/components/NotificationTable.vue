@@ -15,7 +15,7 @@
           :key="notificationItem.id"
           @click="() => onClickNotification(notificationItem)"
         >
-          <td class="notification-wrap">
+          <td class="text-truncate">
             <div class="flex-view notification-contant--wrap">
               <h5 class="notification--title">
                 {{
@@ -135,10 +135,6 @@ export default {
   flex: 1 1;
   height: 100%;
   padding: var(--space-large) var(--space-larger);
-}
-
-.notification-wrap {
-  overflow: hidden;
 }
 
 .notifications-table {
