@@ -32,7 +32,7 @@ module Chatwoot
     # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
     # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
     # FIX ME : fixes breakage of installation config. we need to migrate.
-    config.active_record.yaml_column_permitted_classes = [ HashWithIndifferentAccess ]
+    config.active_record.yaml_column_permitted_classes = [HashWithIndifferentAccess]
   end
 
   def self.config
