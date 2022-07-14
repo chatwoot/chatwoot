@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.9
+# Script Version: 2.1.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -17,9 +17,9 @@ fi
 
 # Global variables
 # option --output/-o requires 1 argument
-LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
-OPTIONS=cdhi:l:rsuwv
-CWCTL_VERSION="2.0.9"
+LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
+OPTIONS=cdhiI:l:rsuwv
+CWCTL_VERSION="2.1.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -41,7 +41,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-c=n d=n h=n i=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
+c=n d=n h=n i=n I=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
 # Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -59,6 +59,11 @@ while true; do
             ;;
         -i|--install)
             i=y
+            BRANCH="master"
+            break
+            ;;
+       -I|--Install)
+            I=y
             BRANCH="$2"
             break
             ;;
@@ -100,7 +105,7 @@ done
 
 # log if debug flag set
 if [ "$d" == "y" ]; then
-  echo "console: $c, debug: $d, help: $h, install: $i, BRANCH: $BRANCH, \
+  echo "console: $c, debug: $d, help: $h, install: $i, Install: $I, BRANCH: $BRANCH, \
   logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
 fi
 
@@ -615,8 +620,9 @@ Example: cwctl --upgrade
 Example: cwctl -c
 
 Installation/Upgrade:
-  -i, --install             install Chatwoot with the git branch specified
-  -u, --upgrade             upgrade Chatwoot to latest version
+  -i, --install             install the latest stable version of Chatwoot
+  -I, --Install             install Chatwoot with the specified git branch
+  -u, --upgrade             upgrade Chatwoot to latest stable version
   -s, --ssl                 fetch and install ssl certificates using LetsEncrypt
   -w, --webserver           install and configure Nginx webserver with SSL
 
