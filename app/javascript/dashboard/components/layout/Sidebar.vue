@@ -11,6 +11,7 @@
       @open-notification-panel="openNotificationPanel"
     />
     <secondary-sidebar
+      v-if="showSecondarySidebar"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"
@@ -50,6 +51,12 @@ export default {
     SecondarySidebar,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
+  props: {
+    showSecondarySidebar: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       showOptionsMenu: false,
