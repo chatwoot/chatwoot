@@ -165,20 +165,11 @@ export default {
   },
   data() {
     return {
-      displayEmailContent: false,
       showContextMenu: false,
       hasImageError: false,
     };
   },
   computed: {
-    showContent: {
-      get() {
-        if (!this.isEmailContentType) {
-          return true;
-        }
-        return this.displayEmailContent;
-      },
-    },
     emailMessageContent() {
       const {
         html_content: { full: fullHTMLContent } = {},

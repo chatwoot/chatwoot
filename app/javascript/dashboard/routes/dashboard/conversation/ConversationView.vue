@@ -1,7 +1,7 @@
 <template>
   <section class="conversation-page">
     <chat-list
-      :show="shouldShowChatList"
+      :show="showChatList"
       :conversation-inbox="inboxId"
       :label="label"
       :team-id="teamId"
@@ -10,10 +10,10 @@
       :is-list-view-display="isListViewDisplay"
       @conversation-load="onConversationLoad"
     >
-      <pop-over-search @toggle-view="toggleView" />
+      <pop-over-search @toggle-conversation-layout="toggleConversationLayout" />
     </chat-list>
     <conversation-box
-      v-if="shouldShowMessageView"
+      v-if="showMessageView"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       :is-list-view-display="isListViewDisplay"
@@ -73,14 +73,11 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
-    shouldShowChatList() {
+    showChatList() {
       return this.isListViewDisplay ? !this.conversationId : true;
     },
-    shouldShowMessageView() {
-      if (this.conversationId) {
-        return true;
-      }
-      return !this.isListViewDisplay;
+    showMessageView() {
+      return this.conversationId ? true : !this.isListViewDisplay;
     },
     isListViewDisplay() {
       const {
@@ -120,7 +117,7 @@ export default {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
     },
-    toggleView() {
+    toggleConversationLayout() {
       const {
         conversation_display_type: conversationDisplayType = 'list',
       } = this.uiSettings;

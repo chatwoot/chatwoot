@@ -78,7 +78,6 @@ export default {
     }
 
     tr {
-      // all: revert;
       border-bottom: 0 !important;
     }
   }

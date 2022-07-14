@@ -14,7 +14,7 @@
       <button
         v-tooltip="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
         class="icon cursor-pointer"
-        @click="$emit('toggle-view')"
+        @click="$emit('toggle-conversation-layout')"
       >
         <fluent-icon
           icon="table-switch"
