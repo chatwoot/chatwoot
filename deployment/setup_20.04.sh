@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.8
+# Script Version: 2.0.9
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhi:l:rsuwv
-CWCTL_VERSION="2.0.8"
+CWCTL_VERSION="2.0.9"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -669,7 +669,9 @@ function get_logs() {
 #   None
 ##############################################################################
 function ssl() {
-   echo "Setting up ssl"
+   if [ "$d" == "y" ]; then
+     echo "Setting up ssl"
+   fi
    get_domain_info
    if ! systemctl -q is-active nginx; then
     install_webserver
@@ -690,7 +692,7 @@ function ssl() {
 function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
-
+  sleep 3
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
@@ -757,7 +759,9 @@ function restart() {
 #   None
 ##############################################################################
 function webserver() {
-  echo "Installing nginx"
+  if [ "$d" == "y" ]; then
+     echo "Installing nginx"
+  fi
   ssl
   #TODO(@vn): allow installing nginx only without SSL
 }
