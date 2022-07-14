@@ -74,10 +74,10 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     shouldShowChatList() {
-      return this.isListViewDisplay ? !this.currentChat.id : true;
+      return this.isListViewDisplay ? !this.conversationId : true;
     },
     shouldShowMessageView() {
-      if (this.currentChat.id) {
+      if (this.conversationId) {
         return true;
       }
       return !this.isListViewDisplay;

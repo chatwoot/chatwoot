@@ -1,5 +1,8 @@
 <template>
-  <div class="conversation-details-wrap">
+  <div
+    class="conversation-details-wrap"
+    :class="{ 'with-border-left': !isListViewDisplay }"
+  >
     <conversation-header
       v-if="currentChat.id"
       :chat="currentChat"
@@ -27,7 +30,7 @@
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
-      <empty-state v-else />
+      <empty-state v-else :is-list-view-display="isListViewDisplay" />
       <div v-show="showContactPanel" class="conversation-sidebar-wrap">
         <contact-panel
           v-if="showContactPanel"
@@ -139,8 +142,11 @@ export default {
   flex-direction: column;
   min-width: 0;
   width: 100%;
-  border-left: 1px solid var(--color-border);
   background: var(--color-background-light);
+
+  &.with-border-left {
+    border-left: 1px solid var(--color-border);
+  }
 }
 
 .dashboard-app--tabs {

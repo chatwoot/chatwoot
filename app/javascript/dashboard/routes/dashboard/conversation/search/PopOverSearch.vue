@@ -11,8 +11,16 @@
         :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
         @focus="onSearch"
       />
-      <button class="icon cursor-pointer" @click="$emit('toggle-view')">
-        <fluent-icon icon="table-switch" size="24" />
+      <button
+        v-tooltip="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
+        class="icon cursor-pointer"
+        @click="$emit('toggle-view')"
+      >
+        <fluent-icon
+          icon="table-switch"
+          class="switch-layout--icon"
+          size="20"
+        />
       </button>
     </div>
     <div v-if="showSearchBox" class="results-wrap">
@@ -171,6 +179,13 @@ export default {
   font-weight: var(--font-weight-normal);
   text-align: left;
   line-height: var(--font-size-large);
+}
+
+.switch-layout--icon {
+  color: var(--s-600);
+  &:hover {
+    color: var(--w-500);
+  }
 }
 
 .search--icon {

@@ -1,7 +1,7 @@
 <template>
   <div class="conv-header">
     <div class="user">
-      <back-button v-if="showBackButton" back-url="/app/accounts/3/dashboard" />
+      <back-button v-if="showBackButton" :back-url="backButtonUrl" />
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"

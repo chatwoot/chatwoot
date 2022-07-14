@@ -46,25 +46,22 @@ export const conversationUrl = ({
 
 export const conversationListPageURL = ({
   accountId,
+  conversationType = '',
   inboxId,
   label,
   teamId,
-  conversationType = '',
-  foldersId,
 }) => {
   let url = `accounts/${accountId}/dashboard`;
   if (label) {
     url = `accounts/${accountId}/label/${label}`;
   } else if (teamId) {
     url = `accounts/${accountId}/team/${teamId}`;
-  } else if (foldersId && foldersId !== 0) {
-    url = `accounts/${accountId}/custom_view/${foldersId}`;
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations`;
   } else if (inboxId) {
     url = `accounts/${accountId}/inbox/${inboxId}`;
   }
-  return url;
+  return frontendURL(url);
 };
 
 export const isValidURL = value => {

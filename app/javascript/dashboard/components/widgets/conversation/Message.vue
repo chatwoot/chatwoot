@@ -191,7 +191,7 @@ export default {
         return false;
       }
 
-      if (this.contentToBeParsed.includes('<blockquote')) {
+      if (this.emailMessageContent.includes('<blockquote')) {
         return true;
       }
 
