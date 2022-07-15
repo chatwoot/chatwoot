@@ -51,7 +51,7 @@ RSpec.describe BulkActionsJob, type: :job do
         ids: Conversation.first(3).pluck(:display_id)
       }
 
-      expect(Conversation.first.assignee_id).to eq(nil)
+      expect(Conversation.first.assignee_id).to be_nil
 
       described_class.perform_now(account: account, params: params, user: agent)
 

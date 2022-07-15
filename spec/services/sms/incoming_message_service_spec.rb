@@ -54,7 +54,7 @@ describe Sms::IncomingMessageService do
         expect(sms_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('+1 423-423-4234')
         expect(sms_channel.inbox.messages.first.content).to eq('test message')
-        expect(sms_channel.inbox.messages.first.attachments.present?).to eq true
+        expect(sms_channel.inbox.messages.first.attachments.present?).to be true
       end
     end
   end

@@ -50,7 +50,7 @@ RSpec.describe AutomationRule, type: :model do
 
     it 'returns valid record' do
       rule = FactoryBot.build(:automation_rule, params)
-      expect(rule.valid?).to eq true
+      expect(rule.valid?).to be true
     end
   end
 end
