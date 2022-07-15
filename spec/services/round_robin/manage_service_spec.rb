@@ -9,7 +9,7 @@ describe RoundRobin::ManageService do
 
   describe '#available_agent' do
     it 'returns nil if allowed_member_ids is empty' do
-      expect(described_class.new(inbox: inbox, allowed_member_ids: []).available_agent).to eq nil
+      expect(described_class.new(inbox: inbox, allowed_member_ids: []).available_agent).to be_nil
     end
 
     it 'gets the first available agent in allowed_member_ids and move agent to end of the list' do
