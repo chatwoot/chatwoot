@@ -103,8 +103,8 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
         body = JSON.parse(response.body)
         expect(body['id']).not_to eq(contact.id)
-        expect(body['widget_auth_token']).not_to eq(nil)
-        expect(Contact.find(body['id']).contact_inboxes.first.hmac_verified?).to eq(true)
+        expect(body['widget_auth_token']).not_to be_nil
+        expect(Contact.find(body['id']).contact_inboxes.first.hmac_verified?).to be(true)
       end
     end
 

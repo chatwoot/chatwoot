@@ -21,7 +21,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
     context 'when it is an authenticated user' do
       it 'get all portals' do
         portal2 = create(:portal, name: 'test_portal_2', account_id: account.id, slug: 'portal-2')
-        expect(portal2.id).not_to be nil
+        expect(portal2.id).not_to be_nil
         get "/api/v1/accounts/#{account.id}/portals",
             headers: agent.create_new_auth_token
 
@@ -155,7 +155,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
                headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         deleted_portal = Portal.find_by(id: portal.slug)
-        expect(deleted_portal).to be nil
+        expect(deleted_portal).to be_nil
       end
     end
   end

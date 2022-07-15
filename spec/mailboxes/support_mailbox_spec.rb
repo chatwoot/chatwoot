@@ -12,7 +12,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
     it 'shouldnt create a conversation in the channel' do
       described_subject
-      expect(conversation.present?).to eq(false)
+      expect(conversation.present?).to be(false)
     end
   end
 
@@ -202,7 +202,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
         expect(conversation.messages.last.content_attributes['email']['html_content']['reply']).to include(
-          <<-BODY.strip_heredoc.chomp
+          <<~BODY.chomp
             Hi,
             We are providing you platform from here you can sell paid posts on your website.
 
@@ -231,8 +231,8 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
         expect(conversation.messages.last.content).to eq(
-          <<-BODY.strip_heredoc.chomp
-          This is html only mail
+          <<~BODY.chomp
+            This is html only mail
           BODY
         )
         expect(conversation.messages.last.content_attributes['email']['subject']).to eq('test html only mail')
@@ -243,7 +243,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
-        expect(conversation.messages.last.content).to eq(nil)
+        expect(conversation.messages.last.content).to be_nil
         expect(conversation.messages.last.attachments.count).to eq(1)
         expect(conversation.messages.last.content_attributes['email']['subject']).to eq('only attachments')
       end
