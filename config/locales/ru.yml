@@ -22,6 +22,8 @@ ru:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
   errors:
+    validations:
+      presence: не должен быть пустым
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,19 @@ ru:
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
       failed: Ошибка регистрации
+    data_import:
+      data_type:
+        invalid: Недопустимый тип данных
     contacts:
       import:
         failed: Пустой файл
+      email:
+        invalid: Не верный email
+      phone_number:
+        invalid: должен иметь формат e164
+    categories:
+      locale:
+        unique: Должны быть уникальными в категории и портале
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.

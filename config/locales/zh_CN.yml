@@ -22,6 +22,8 @@ zh_CN:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,19 @@ zh_CN:
       invalid_email: 您输入了一个无效的电子邮件
       email_already_exists: "您已经注册了 %{email} 的帐户"
       failed: 注册失败
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
