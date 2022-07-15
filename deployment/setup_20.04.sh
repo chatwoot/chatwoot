@@ -51,7 +51,7 @@ while true; do
             ;;
         -d|--debug)
             d=y
-            break
+            shift
             ;;
         -h|--help)
             h=y
@@ -620,21 +620,21 @@ Example: cwctl --upgrade
 Example: cwctl -c
 
 Installation/Upgrade:
-  -i, --install             install the latest stable version of Chatwoot
-  -I, --Install             install Chatwoot with the specified git branch
-  -u, --upgrade             upgrade Chatwoot to latest stable version
-  -s, --ssl                 fetch and install ssl certificates using LetsEncrypt
-  -w, --webserver           install and configure Nginx webserver with SSL
+  -i, --install             Install the latest stable version of Chatwoot
+  -I                        Install Chatwoot from a git branch
+  -u, --upgrade             Upgrade Chatwoot to the latest stable version
+  -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
+  -w, --webserver           Install and configure Nginx webserver with SSL
 
 Management:
-  -c, --console             open ruby console
-  -l, --logs                view logs from Chatwoot. Supported values include web/worker.
-  -r, --restart             restart Chatwoot server
+  -c, --console             Open ruby console
+  -l, --logs                View logs from Chatwoot. Supported values include web/worker.
+  -r, --restart             Restart Chatwoot server
   
 Miscellaneous:
-  -d, --debug               show debug messages
-  -v, --version             display version information and exit
-  -h, --help                display this help text and exit
+  -d, --debug               Show debug messages
+  -v, --version             Display version information
+  -h, --help                Display this help text
 
 Exit status:
 Returns 0 if successful; non-zero otherwise.
@@ -805,7 +805,7 @@ function main() {
     help
   fi
 
-  if [ "$i" == "y" ]; then
+  if [ "$i" == "y" ] || [ "$I" == "y" ]; then
     install
   fi
 
