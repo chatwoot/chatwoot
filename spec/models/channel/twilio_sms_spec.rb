@@ -8,7 +8,7 @@ RSpec.describe Channel::TwilioSms do
       let!(:whatsapp_channel) { create(:channel_twilio_sms, medium: :whatsapp) }
 
       it 'returns true' do
-        expect(whatsapp_channel.messaging_window_enabled?).to eq true
+        expect(whatsapp_channel.messaging_window_enabled?).to be true
         expect(whatsapp_channel.name).to eq 'Whatsapp'
         expect(whatsapp_channel.medium).to eq 'whatsapp'
       end
@@ -18,7 +18,7 @@ RSpec.describe Channel::TwilioSms do
       let!(:sms_channel) { create(:channel_twilio_sms, medium: :sms) }
 
       it 'returns false' do
-        expect(sms_channel.messaging_window_enabled?).to eq false
+        expect(sms_channel.messaging_window_enabled?).to be false
         expect(sms_channel.name).to eq 'Twilio SMS'
         expect(sms_channel.medium).to eq 'sms'
       end

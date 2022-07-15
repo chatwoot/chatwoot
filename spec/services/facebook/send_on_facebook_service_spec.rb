@@ -10,7 +10,7 @@ describe Facebook::SendOnFacebookService do
   end
 
   let!(:account) { create(:account) }
-  let(:bot) { class_double('Facebook::Messenger::Bot').as_stubbed_const }
+  let(:bot) { class_double(Facebook::Messenger::Bot).as_stubbed_const }
   let!(:widget_inbox) { create(:inbox, account: account) }
   let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
   let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
