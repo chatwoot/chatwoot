@@ -566,7 +566,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_123938) do
   create_table "macros", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "name", null: false
-    t.integer "visibility"
+    t.integer "visibility", default: 0
     t.bigint "created_by_id", null: false
     t.bigint "updated_by_id", null: false
     t.jsonb "actions", default: "{}", null: false

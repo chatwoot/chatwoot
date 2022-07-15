@@ -5,7 +5,7 @@
 #  id            :bigint           not null, primary key
 #  actions       :jsonb            not null
 #  name          :string           not null
-#  visibility    :integer
+#  visibility    :integer          default("user")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
@@ -31,18 +31,14 @@ class Macro < ApplicationRecord
              class_name: :User
   enum visibility: { user: 0, account: 1 }
 
-  def set_visibility(_user, params)
-    if Current.user.agent?
-      :user
-    else
-      params[:visibility]
-    end
+  def set_visibility(user, params)
+    self.visibility = params[:visibility]
+    self.visibility = :user if user.agent?
   end
 
-  def self.with_visibility(params)
-    user = Current.user
-    records = Current.account.macros
-    records = records.or(where(created_by_id: user.id)) if user.agent?
+  def self.with_visibility(user, params)
+    records = user.administrator? ? Current.account.macros : Current.account.macros.account
+    records = records.or(where(created_by_id: user.id, visibility: :user)) if user.agent?
     records.page(current_page(params))
     records
   end

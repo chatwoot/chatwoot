@@ -3,7 +3,7 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   before_action :fetch_macro, only: [:show, :update, :destroy]
 
   def index
-    @macros = Macro.with_visibility(params)
+    @macros = Macro.with_visibility(current_user, params)
   end
 
   def create
