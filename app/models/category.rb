@@ -63,7 +63,7 @@ class Category < ApplicationRecord
   validates :name, presence: true
   validate :allowed_locales
   validates :locale, uniqueness: { scope: %i[slug portal_id],
-                                   message: 'should be unique in the category and portal' }
+                                   message: I18n.t('errors.categories.locale.unique') }
   accepts_nested_attributes_for :related_categories
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
