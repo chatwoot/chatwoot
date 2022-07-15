@@ -22,6 +22,8 @@ ar:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: أحداث غير صالحة
     signup:
@@ -29,9 +31,19 @@ ar:
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       failed: فشلت عملية التسجيل
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: الملف فارغ
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
