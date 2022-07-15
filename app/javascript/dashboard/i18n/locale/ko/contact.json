@@ -148,6 +148,12 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
     "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
