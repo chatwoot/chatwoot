@@ -43,7 +43,7 @@ describe ::ContactMergeAction do
       it 'does not delete contact' do
         mergee_contact = base_contact
         contact_merge
-        expect(mergee_contact.reload).not_to eq nil
+        expect(mergee_contact.reload).not_to be_nil
       end
     end
 
