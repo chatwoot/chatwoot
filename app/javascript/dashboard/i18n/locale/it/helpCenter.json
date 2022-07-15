@@ -1,23 +1,23 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Filtra per",
+      "SORT": "Ordina per",
       "SETTINGS_BUTTON": "Impostazioni",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "Nuovo articolo"
     },
     "EDIT_HEADER": {
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "PUBLISH_BUTTON": "Pubblica",
+      "PREVIEW": "Anteprima",
+      "ADD_TRANSLATION": "Aggiungi traduzione",
+      "OPEN_SIDEBAR": "Apri barra laterale",
+      "CLOSE_SIDEBAR": "Chiudi barra laterale",
+      "SAVING": "Salvataggio bozza...",
+      "SAVED": "Bozza salvata"
     },
     "TABLE": {
       "COLUMNS": {
-        "BY": "by"
+        "BY": "di"
       }
     }
   }
