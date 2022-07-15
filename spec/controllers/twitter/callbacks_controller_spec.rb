@@ -3,9 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Twitter::CallbacksController', type: :request do
   let(:twitter_client) { instance_double(::Twitty::Facade) }
   let(:twitter_response) { instance_double(::Twitty::Response, status: '200', body: { message: 'Valid' }) }
-  let(:raw_response) do
-    object_double('raw_response', body: 'oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
-  end
+  let(:raw_response) { double }
   let(:account) { create(:account) }
   let(:webhook_service) { double }
 
@@ -15,6 +13,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
     allow(::Redis::Alfred).to receive(:delete).and_return('OK')
     allow(twitter_client).to receive(:access_token).and_return(twitter_response)
     allow(twitter_response).to receive(:raw_response).and_return(raw_response)
+    allow(raw_response).to receive(:body).and_return('oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
     allow(::Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
   end
 

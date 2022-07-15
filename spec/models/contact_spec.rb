@@ -52,7 +52,7 @@ RSpec.describe Contact do
 
     it 'updates phone number when adding valid phone number' do
       contact = create(:contact)
-      expect(contact.update!(phone_number: '+12312312321')).to eq true
+      expect(contact.update!(phone_number: '+12312312321')).to be true
       expect(contact.phone_number).to eq '+12312312321'
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe Contact do
 
     it 'updates email when adding valid email' do
       contact = create(:contact)
-      expect(contact.update!(email: 'test@test.com')).to eq true
+      expect(contact.update!(email: 'test@test.com')).to be true
       expect(contact.email).to eq 'test@test.com'
     end
   end

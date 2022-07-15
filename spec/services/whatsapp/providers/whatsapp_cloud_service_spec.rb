@@ -93,7 +93,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       it 'updated the message templates' do
         stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
           .to_return(status: 200, headers: response_headers, body: { data: [{ id: '123456789', name: 'test_template' }] }.to_json)
-        expect(subject.sync_templates).to eq(true)
+        expect(subject.sync_templates).to be(true)
         expect(whatsapp_channel.reload.message_templates).to eq([{ id: '123456789', name: 'test_template' }.stringify_keys])
       end
     end
@@ -103,13 +103,13 @@ describe Whatsapp::Providers::WhatsappCloudService do
     context 'when called' do
       it 'returns true if valid' do
         stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
-        expect(subject.validate_provider_config?).to eq(true)
-        expect(whatsapp_channel.errors.present?).to eq(false)
+        expect(subject.validate_provider_config?).to be(true)
+        expect(whatsapp_channel.errors.present?).to be(false)
       end
 
       it 'returns false if invalid' do
         stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key').to_return(status: 401)
-        expect(subject.validate_provider_config?).to eq(false)
+        expect(subject.validate_provider_config?).to be(false)
       end
     end
   end

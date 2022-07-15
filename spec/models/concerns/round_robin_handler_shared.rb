@@ -31,7 +31,7 @@ shared_examples_for 'round_robin_handler' do
       inbox.update(enable_auto_assignment: false)
 
       # run_round_robin
-      expect(conversation.reload.assignee).to eq(nil)
+      expect(conversation.reload.assignee).to be_nil
     end
 
     it 'will not auto assign agent if its a bot conversation' do
@@ -45,7 +45,7 @@ shared_examples_for 'round_robin_handler' do
       )
 
       # run_round_robin
-      expect(conversation.reload.assignee).to eq(nil)
+      expect(conversation.reload.assignee).to be_nil
     end
 
     it 'gets triggered on update only when status changes to open' do
