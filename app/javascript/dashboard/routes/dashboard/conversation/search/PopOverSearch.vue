@@ -11,17 +11,7 @@
         :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
         @focus="onSearch"
       />
-      <button
-        v-tooltip="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
-        class="icon cursor-pointer"
-        @click="$emit('toggle-conversation-layout')"
-      >
-        <fluent-icon
-          icon="table-switch"
-          class="switch-layout--icon"
-          size="20"
-        />
-      </button>
+      <switch-layout @toggle="$emit('toggle-conversation-layout')" />
     </div>
     <div v-if="showSearchBox" class="results-wrap">
       <div class="show-results">
@@ -66,10 +56,11 @@ import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
 import ResultItem from './ResultItem';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
+import SwitchLayout from './SwitchLayout.vue';
 export default {
   components: {
     ResultItem,
+    SwitchLayout,
   },
 
   directives: {
