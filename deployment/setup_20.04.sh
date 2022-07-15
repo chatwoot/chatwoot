@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.9
+# Script Version: 2.1.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -17,9 +17,9 @@ fi
 
 # Global variables
 # option --output/-o requires 1 argument
-LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
-OPTIONS=cdhi:l:rsuwv
-CWCTL_VERSION="2.0.9"
+LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
+OPTIONS=cdhiI:l:rsuwv
+CWCTL_VERSION="2.1.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -41,7 +41,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-c=n d=n h=n i=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
+c=n d=n h=n i=n I=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
 # Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -51,7 +51,7 @@ while true; do
             ;;
         -d|--debug)
             d=y
-            break
+            shift
             ;;
         -h|--help)
             h=y
@@ -59,6 +59,11 @@ while true; do
             ;;
         -i|--install)
             i=y
+            BRANCH="master"
+            break
+            ;;
+       -I|--Install)
+            I=y
             BRANCH="$2"
             break
             ;;
@@ -100,7 +105,7 @@ done
 
 # log if debug flag set
 if [ "$d" == "y" ]; then
-  echo "console: $c, debug: $d, help: $h, install: $i, BRANCH: $BRANCH, \
+  echo "console: $c, debug: $d, help: $h, install: $i, Install: $I, BRANCH: $BRANCH, \
   logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
 fi
 
@@ -615,20 +620,21 @@ Example: cwctl --upgrade
 Example: cwctl -c
 
 Installation/Upgrade:
-  -i, --install             install Chatwoot with the git branch specified
-  -u, --upgrade             upgrade Chatwoot to latest version
-  -s, --ssl                 fetch and install ssl certificates using LetsEncrypt
-  -w, --webserver           install and configure Nginx webserver with SSL
+  -i, --install             Install the latest stable version of Chatwoot
+  -I                        Install Chatwoot from a git branch
+  -u, --upgrade             Upgrade Chatwoot to the latest stable version
+  -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
+  -w, --webserver           Install and configure Nginx webserver with SSL
 
 Management:
-  -c, --console             open ruby console
-  -l, --logs                view logs from Chatwoot. Supported values include web/worker.
-  -r, --restart             restart Chatwoot server
+  -c, --console             Open ruby console
+  -l, --logs                View logs from Chatwoot. Supported values include web/worker.
+  -r, --restart             Restart Chatwoot server
   
 Miscellaneous:
-  -d, --debug               show debug messages
-  -v, --version             display version information and exit
-  -h, --help                display this help text and exit
+  -d, --debug               Show debug messages
+  -v, --version             Display version information
+  -h, --help                Display this help text
 
 Exit status:
 Returns 0 if successful; non-zero otherwise.
@@ -799,7 +805,7 @@ function main() {
     help
   fi
 
-  if [ "$i" == "y" ]; then
+  if [ "$i" == "y" ] || [ "$I" == "y" ]; then
     install
   fi
 

@@ -22,6 +22,8 @@ ta:
     reset_password_success: வூட்! பாஸ்வேர்டை மீட்டமைப்பிற்கான கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டுள்ளது. வழிமுறைகளுக்கு உங்கள் ஈ-மெயிலைப் பார்க்கவும்.
     reset_password_failure: மன்னிக்கவும்! குறிப்பிட்ட ஈ-மெயிலுடன் எந்த பயனரையும் எங்களால் கண்டுபிடிக்க முடியவில்லை.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,19 @@ ta:
       invalid_email: நீங்கள் தவறான ஈ-மெயிலை உள்ளிட்டுள்ளீர்கள்
       email_already_exists: "நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்"
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.

@@ -148,6 +148,12 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar del contatto eliminato correttamente",
+        "ERROR_MESSAGE": "Impossibile eliminare l'avatar del contatto. Riprova più tardi."
+      }
+    },
     "SUCCESS_MESSAGE": "Contatto salvato con successo",
     "ERROR_MESSAGE": "Si è verificato un errore, riprova"
   },

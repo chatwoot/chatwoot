@@ -22,6 +22,8 @@ fa:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
   errors:
+    validations:
+      presence: نباید خالی باشد
     webhook:
       invalid: رویدادهای نامعتبر
     signup:
@@ -29,9 +31,19 @@ fa:
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
       failed: ثبت نام ناموفق بود
+    data_import:
+      data_type:
+        invalid: نوع داده نامعتبر است
     contacts:
       import:
         failed: پرونده خالی است
+      email:
+        invalid: ایمیل نامعتبر است
+      phone_number:
+        invalid: باید در قالب e164 باشد
+    categories:
+      locale:
+        unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
