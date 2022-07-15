@@ -139,8 +139,8 @@
           "LABEL": "推特"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "请输入您的领英用户名",
+          "LABEL": "领英"
         },
         "GITHUB": {
           "PLACEHOLDER": "输入Github用户名",
@@ -148,12 +148,18 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "联系人头像已成功删除",
+        "ERROR_MESSAGE": "暂时无法删除那个联系人的头像，请您稍后再试"
+      }
+    },
+    "SUCCESS_MESSAGE": "联系人保存成功",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
+    "BUTTON_LABEL": "开始会话",
+    "TITLE": "新的会话",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
