@@ -40,8 +40,8 @@ describe Twilio::WebhookSetupService do
     context 'with a phone number' do
       let(:channel_twilio_sms) { create(:channel_twilio_sms, :with_phone_number) }
 
-      let(:phone_double) { instance_double('phone_double') }
-      let(:phone_record_double) { instance_double('phone_record_double') }
+      let(:phone_double) { double }
+      let(:phone_record_double) { double }
 
       before do
         allow(phone_double).to receive(:update)

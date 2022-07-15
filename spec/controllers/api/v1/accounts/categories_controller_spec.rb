@@ -228,7 +228,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
                headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         deleted_category = Category.find_by(id: category.id)
-        expect(deleted_category).to be nil
+        expect(deleted_category).to be_nil
       end
     end
   end
@@ -247,7 +247,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         category2 = create(:category, name: 'test_category_2', portal: portal, locale: 'es', slug: 'category_slug_2')
 
-        expect(category2.id).not_to be nil
+        expect(category2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
             headers: agent.create_new_auth_token

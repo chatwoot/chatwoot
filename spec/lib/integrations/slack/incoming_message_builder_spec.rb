@@ -36,7 +36,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
 
       it 'creates message' do
-        expect(hook).not_to eq nil
+        expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_params)
         allow(builder).to receive(:sender).and_return(nil)
@@ -71,7 +71,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
 
       it 'saves attachment if params files present' do
-        expect(hook).not_to eq nil
+        expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_with_attachments)
         allow(builder).to receive(:sender).and_return(nil)
@@ -82,7 +82,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
 
       it 'ignore message if it is postback of CW attachment message' do
-        expect(hook).not_to eq nil
+        expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         message_with_attachments[:event][:text] = 'Attached File!'
         builder = described_class.new(message_with_attachments)
