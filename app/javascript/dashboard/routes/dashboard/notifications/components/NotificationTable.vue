@@ -15,8 +15,8 @@
           :key="notificationItem.id"
           @click="() => onClickNotification(notificationItem)"
         >
-          <td class="text-truncate">
-            <div class="flex-view notification-contant--wrap">
+          <td>
+            <div class="flex-view notification-contant--wrap text-truncate">
               <h5 class="notification--title">
                 {{
                   `#${
