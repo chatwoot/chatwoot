@@ -12,8 +12,8 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(response).to have_http_status(:success)
       data = response.parsed_body
       expect(data.keys).to include('email', 'id', 'name', 'phone_number', 'pubsub_token', 'source_id')
-      expect(data['source_id']).not_to eq nil
-      expect(data['pubsub_token']).not_to eq nil
+      expect(data['source_id']).not_to be_nil
+      expect(data['pubsub_token']).not_to be_nil
     end
   end
 

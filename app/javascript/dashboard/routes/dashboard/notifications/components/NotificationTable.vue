@@ -16,7 +16,7 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="flex-view notification-contant--wrap">
+            <div class="flex-view notification-contant--wrap text-truncate">
               <h5 class="notification--title">
                 {{
                   `#${

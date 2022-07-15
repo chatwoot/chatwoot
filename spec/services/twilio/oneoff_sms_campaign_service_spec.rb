@@ -55,7 +55,7 @@ describe Twilio::OneoffSmsCampaignService do
       ).once
 
       sms_campaign_service.perform
-      expect(campaign.reload.completed?).to eq true
+      expect(campaign.reload.completed?).to be true
     end
   end
 end

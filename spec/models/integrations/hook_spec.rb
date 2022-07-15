@@ -16,14 +16,14 @@ RSpec.describe Integrations::Hook, type: :model do
     context 'when app allows multiple hooks' do
       it 'allows to create succesfully' do
         create(:integrations_hook, account: account, app_id: 'webhook')
-        expect(build(:integrations_hook, account: account, app_id: 'webhook').valid?).to eq true
+        expect(build(:integrations_hook, account: account, app_id: 'webhook').valid?).to be true
       end
     end
 
     context 'when app doesnot allow multiple hooks' do
       it 'throws invalid error' do
         create(:integrations_hook, account: account, app_id: 'slack')
-        expect(build(:integrations_hook, account: account, app_id: 'slack').valid?).to eq false
+        expect(build(:integrations_hook, account: account, app_id: 'slack').valid?).to be false
       end
     end
   end
