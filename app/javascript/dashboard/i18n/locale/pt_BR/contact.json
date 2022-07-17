@@ -148,6 +148,12 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar de contato excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir o avatar do contato. Por favor, tente novamente mais tarde."
+      }
+    },
     "SUCCESS_MESSAGE": "Contato salvo com sucesso",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },

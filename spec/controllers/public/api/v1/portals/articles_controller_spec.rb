@@ -32,7 +32,7 @@ RSpec.describe 'Public Articles API', type: :request do
                         category: category,
                         author_id: agent.id,
                         content: 'this is some test and funny content')
-      expect(article2.id).not_to be nil
+      expect(article2.id).not_to be_nil
 
       get "/public/api/v1/portals/#{portal.slug}/articles",
           headers: agent.create_new_auth_token,

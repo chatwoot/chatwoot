@@ -79,7 +79,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(agent.reload.valid_password?('Test1234!')).to eq true
+        expect(agent.reload.valid_password?('Test1234!')).to be true
       end
 
       it 'throws error when current password provided is invalid' do
@@ -105,7 +105,7 @@ RSpec.describe 'Profile API', type: :request do
 
       it 'updates avatar' do
         # no avatar before upload
-        expect(agent.avatar.attached?).to eq(false)
+        expect(agent.avatar.attached?).to be(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         put '/api/v1/profile',
             params: { profile: { avatar: file } },
@@ -113,7 +113,7 @@ RSpec.describe 'Profile API', type: :request do
 
         expect(response).to have_http_status(:success)
         agent.reload
-        expect(agent.avatar.attached?).to eq(true)
+        expect(agent.avatar.attached?).to be(true)
       end
 
       it 'updates the ui settings' do
@@ -124,7 +124,7 @@ RSpec.describe 'Profile API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['ui_settings']['is_contact_sidebar_open']).to eq(false)
+        expect(json_response['ui_settings']['is_contact_sidebar_open']).to be(false)
       end
     end
 

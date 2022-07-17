@@ -111,6 +111,12 @@
           "PLACEHOLDER": "אנא הזן את SID חשבון Twilio שלך",
           "ERROR": "שדה חובה"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "שדה חובה",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "סוג ערוץ",
           "ERROR": "אנא בחר את סוג הערוץ שלך"

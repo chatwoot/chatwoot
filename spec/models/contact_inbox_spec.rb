@@ -8,7 +8,7 @@ RSpec.describe ContactInbox do
 
     it 'gets created on object create' do
       obj = contact_inbox
-      expect(obj.pubsub_token).not_to eq(nil)
+      expect(obj.pubsub_token).not_to be_nil
     end
 
     it 'does not get updated on object update' do
@@ -29,7 +29,7 @@ RSpec.describe ContactInbox do
 
       # ensure the column is nil in database
       results = ActiveRecord::Base.connection.execute('Select * from contact_inboxes;')
-      expect(results.first['pubsub_token']).to eq(nil)
+      expect(results.first['pubsub_token']).to be_nil
 
       new_token = obj.pubsub_token
       obj.update(source_id: '234234323')
