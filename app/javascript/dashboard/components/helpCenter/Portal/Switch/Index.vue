@@ -4,7 +4,7 @@
     <div class="actions-container">
       <header>
         <div>
-          <p class="portal-title">{{ portal.name }}</p>
+          <h2 class="portal-title">{{ portal.name }}</h2>
           <p class="portal-count">
             {{ portal.article_count }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
@@ -15,9 +15,9 @@
         }}</span>
       </header>
       <div class="portal-locales">
-        <p class="locale-title">
+        <h2 class="locale-title">
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
-        </p>
+        </h2>
         <ul>
           <li v-for="locale in portal.locales" :key="locale.code">
             <label :for="`locale-${locale.code}`" class="locale-item">
@@ -77,12 +77,12 @@ export default {
 <style lang="scss" scoped>
 .portal {
   background-color: var(--white);
-  padding: var(--space-one);
+  padding: var(--space-normal);
   border: 1px solid var(--color-border-dark);
   border-radius: var(--border-radius-medium);
   position: relative;
   display: flex;
-  margin-bottom: var(--space-one);
+  margin-bottom: var(--space-normal);
 
   &.active {
     border: 1px solid var(--w-400);
@@ -106,8 +106,8 @@ export default {
       }
 
       .portal-title {
-        color: var(--s-700);
-        font-size: var(--font-size-default);
+        color: var(--s-900);
+        font-size: var(--font-size-medium);
         font-weight: var(--font-weight-bold);
         margin-bottom: 0;
       }
