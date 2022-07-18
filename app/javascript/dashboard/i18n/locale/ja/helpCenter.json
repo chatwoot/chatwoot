@@ -16,8 +16,20 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Title",
+        "CATEGORY": "Category",
+        "READ_COUNT": "Read count",
+        "STATUS": "状況",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "by"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
