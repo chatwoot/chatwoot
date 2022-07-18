@@ -11,7 +11,10 @@
   </div>
 </template>
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
+
 export default {
+  mixins: [clickaway],
   props: {
     display: Boolean,
   },
@@ -48,14 +51,11 @@ export default {
 <style>
 .sub-menu {
   position: fixed;
-  backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  z-index: 999;
+  z-index: var(--z-index-very-high);
   outline: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  background-color: var(--white);
+  box-shadow: var(--shadow-context-menu);
   cursor: pointer;
   border-radius: var(--border-radius-normal);
-  padding: var(--space-small);
 }
 </style>

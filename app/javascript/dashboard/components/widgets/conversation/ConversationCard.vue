@@ -93,54 +93,14 @@
       </div>
     </div>
     <woot-context-menu ref="menu" :display="showContextMenu">
-      <woot-dropdown-menu>
-        <woot-dropdown-item>
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            size="small"
-            icon="book-clock"
-          >
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
-          </woot-button>
-        </woot-dropdown-item>
-
-        <woot-dropdown-divider />
-        <woot-dropdown-sub-menu
-          :title="this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TITLE')"
-        >
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="send-clock"
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_REPLY') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="dual-screen-clock"
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.TOMORROW') }}
-            </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              icon="calendar-clock"
-            >
-              {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE.NEXT_WEEK') }}
-            </woot-button>
-          </woot-dropdown-item>
-        </woot-dropdown-sub-menu>
-      </woot-dropdown-menu>
+      <conversation-context-menu
+        :show-pending="chat.status !== 'pending'"
+        :show-resolved="chat.status !== 'resolved'"
+        :show-reopen="chat.status !== 'open'"
+        @update-conversation="onUpdateConversation"
+        @assign-agent="onAssignAgent"
+        @assign-label="onAssignLabel"
+      />
     </woot-context-menu>
   </div>
 </template>
@@ -155,6 +115,8 @@ import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import ConversationContextMenu from './contextMenu/Index.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -165,21 +127,20 @@ const ATTACHMENT_ICONS = {
   fallback: 'link',
 };
 
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownSubMenu from 'shared/components/ui/dropdown/DropdownSubMenu.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 export default {
   components: {
     InboxName,
     Thumbnail,
-    WootDropdownItem,
-    WootDropdownSubMenu,
-    WootDropdownMenu,
-    WootDropdownDivider,
+    ConversationContextMenu,
   },
 
-  mixins: [inboxMixin, timeMixin, conversationMixin, messageFormatterMixin],
+  mixins: [
+    inboxMixin,
+    timeMixin,
+    conversationMixin,
+    messageFormatterMixin,
+    alertMixin,
+  ],
   props: {
     activeLabel: {
       type: String,
@@ -356,6 +317,51 @@ export default {
       e.preventDefault();
       this.$refs.menu.open(e);
     },
+    async onUpdateConversation(status) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: [this.chat.id],
+          fields: {
+            status,
+          },
+        });
+        this.$refs.menu.close();
+        this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+      } catch (err) {
+        this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS_FAILED'));
+      }
+    },
+    async onAssignAgent(agent) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: [this.chat.id],
+          fields: {
+            assignee_id: agent.id,
+          },
+        });
+        this.$refs.menu.close();
+        this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+      } catch (err) {
+        this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT_FAILED'));
+      }
+    },
+    async onAssignLabel(label) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: [this.chat.id],
+          labels: {
+            add: [label.title],
+          },
+        });
+        this.$refs.menu.close();
+        this.showAlert(this.$t('CONVERSATION.ASSIGN_LABEL_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('CONVERSATION.ASSIGN_LABEL_FAILED'));
+      }
+    },
   },
 };
 </script>
@@ -436,17 +442,6 @@ export default {
   input[type='checkbox'] {
     margin: var(--space-zero);
     cursor: pointer;
-  }
-}
-.right-click-menu {
-  list-style: none;
-  margin: 0;
-  font-size: var(--font-size-mini);
-}
-.right-click-menu__item {
-  display: flex;
-  svg {
-    margin-right: 0.6rem;
   }
 }
 </style>
