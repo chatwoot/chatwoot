@@ -16,8 +16,20 @@
       "SAVED": "Bozza salvata"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Titolo",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Read count",
+        "STATUS": "Stato",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "di"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
