@@ -190,7 +190,14 @@
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오."
+    "FACEBOOK_REAUTHORIZE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오.",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
