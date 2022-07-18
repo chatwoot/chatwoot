@@ -16,8 +16,20 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Назва",
+        "CATEGORY": "Категорія",
+        "READ_COUNT": "Read count",
+        "STATUS": "Статус",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "by"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
