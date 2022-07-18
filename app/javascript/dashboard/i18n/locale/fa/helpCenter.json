@@ -16,8 +16,20 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "عنوان",
+        "CATEGORY": "دسته‌بندی",
+        "READ_COUNT": "Read count",
+        "STATUS": "وضعیت",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "توسط"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
