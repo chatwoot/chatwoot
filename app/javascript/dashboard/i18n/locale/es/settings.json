@@ -190,7 +190,14 @@
     "SET_AVAILABILITY_TITLE": "Ponte como",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Resumen",
-    "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio"
+    "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Categoría"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",
