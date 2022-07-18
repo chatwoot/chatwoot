@@ -16,8 +16,20 @@
       "SAVED": "Rascunho salvo"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Título",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Read count",
+        "STATUS": "SItuação",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "por"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
