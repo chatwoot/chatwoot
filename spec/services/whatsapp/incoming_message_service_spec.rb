@@ -6,7 +6,7 @@ describe Whatsapp::IncomingMessageService do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
     end
 
-    let!(:whatsapp_channel) { create(:channel_whatsapp) }
+    let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
 
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
@@ -19,6 +19,23 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+      end
+
+      it 'appends to last conversation when if conversation already exisits' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox) }
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(3)
+        # message appended to the last conversation
+        expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
       end
     end
 
@@ -81,7 +98,7 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
-        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to eq true
+        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
       end
     end
   end

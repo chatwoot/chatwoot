@@ -40,13 +40,18 @@ export default {
       type: Boolean,
       default: true,
     },
+    variant: {
+      type: String,
+      default: 'circle',
+    },
   },
   computed: {
     style() {
       let style = {
         width: `${this.size}px`,
         height: `${this.size}px`,
-        borderRadius: this.rounded ? '50%' : 0,
+        borderRadius:
+          this.variant === 'square' ? 'var(--border-radius-large)' : '50%',
         lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
         fontSize: `${Math.floor(this.size / 2.5)}px`,
       };

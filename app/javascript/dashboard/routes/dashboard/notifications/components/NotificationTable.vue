@@ -6,8 +6,7 @@
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
       @click="onMarkAllDoneClick"
-    >
-    </woot-submit-button>
+    />
 
     <table class="woot-table notifications-table">
       <tbody v-show="!isLoading">
@@ -17,7 +16,7 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="flex-view notification-contant--wrap">
+            <div class="flex-view notification-contant--wrap text-truncate">
               <h5 class="notification--title">
                 {{
                   `#${

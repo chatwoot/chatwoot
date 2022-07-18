@@ -77,7 +77,7 @@
       rows="4"
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
-    ></textarea>
+    />
     <p
       v-if="v.action_params.$dirty && v.action_params.$error"
       class="filter-error"

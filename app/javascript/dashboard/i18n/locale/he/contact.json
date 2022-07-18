@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "הזן את כתובת האימייל של איש הקשר",
         "LABEL": "כתובת מייל",
-        "DUPLICATE": "כתובת דוא\"ל זו נמצאת בשימוש עבור איש קשר אחר."
+        "DUPLICATE": "כתובת דוא\"ל זו נמצאת בשימוש עבור איש קשר אחר.",
+        "ERROR": "בבקשה הכנס כתוכת אימייל תקינה."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "הזן את מספר הטלפון של איש הקשר",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "הזן את שם המשתמש של Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "איש הקשר נשמר בהצלחה",

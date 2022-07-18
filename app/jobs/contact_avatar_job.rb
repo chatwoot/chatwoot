@@ -7,6 +7,8 @@ class ContactAvatarJob < ApplicationJob
       max_size: 15 * 1024 * 1024
     )
     contact.avatar.attach(io: avatar_file, filename: avatar_file.original_filename, content_type: avatar_file.content_type)
+  rescue Down::NotFound
+    contact.avatar.attachment.destroy! if contact.avatar.attached?
   rescue Down::Error => e
     Rails.logger.error "Exception: invalid avatar url #{avatar_url} : #{e.message}"
   end
