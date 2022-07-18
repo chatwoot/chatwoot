@@ -1,29 +1,30 @@
 <template>
-  <tbody>
-    <tr>
-      <td>
-        <div class="row--article-block">
-          <div class="article-block">
-            <h6 class="sub-block-title text-truncate">
-              <router-link class="article-name"> {{ title }} </router-link>
-            </h6>
-            <div class="author">
-              <span class="by">{{ $t('HELP_CENTER.TABLE.COLUMNS.BY') }}</span>
-              <span class="name">{{ articleAuthorName }}</span>
-            </div>
+  <tr>
+    <td>
+      <div class="row--article-block">
+        <div class="article-block">
+          <h6 class="sub-block-title text-truncate">
+            <router-link class="article-name" :to="articlePath">
+              {{ title }}
+            </router-link>
+          </h6>
+          <div class="author">
+            <span class="by">{{ $t('HELP_CENTER.TABLE.COLUMNS.BY') }}</span>
+            <span class="name">{{ articleAuthorName }}</span>
           </div>
         </div>
-      </td>
-      <td>{{ category }}</td>
-      <td>{{ readCount }}</td>
-      <td>
-        <Label :title="status" color-scheme="success" />
-      </td>
-      <td>{{ lastUpdatedAt }}</td>
-    </tr>
-  </tbody>
+      </div>
+    </td>
+    <td>{{ category }}</td>
+    <td>{{ readCount }}</td>
+    <td>
+      <Label :title="status" :color-scheme="labelColor" />
+    </td>
+    <td>{{ lastUpdatedAt }}</td>
+  </tr>
 </template>
 <script>
+import { frontendURL } from 'dashboard/helper/URLHelper';
 import Label from 'dashboard/components/ui/Label';
 import timeMixin from 'dashboard/mixins/time';
 export default {
@@ -31,6 +32,7 @@ export default {
     Label,
   },
   mixins: [timeMixin],
+
   props: {
     title: {
       type: String,
@@ -52,13 +54,14 @@ export default {
     status: {
       type: String,
       default: 'draft',
-      values: ['archived', 'draft', 'archived'],
+      values: ['archived', 'draft', 'published'],
     },
     updatedAt: {
       type: Number,
       default: 0,
     },
   },
+
   computed: {
     lastUpdatedAt() {
       return this.dynamicTime(this.updatedAt);
@@ -66,19 +69,29 @@ export default {
     articleAuthorName() {
       return this.author.name;
     },
+    labelColor() {
+      switch (this.status) {
+        case 'archived':
+          return 'secondary';
+        case 'draft':
+          return 'warning';
+        default:
+          return 'success';
+      }
+    },
+    articlePath() {
+      return frontendURL(`accounts/${this.accountId}/hc/articles/${this.id}`);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-tbody {
-  width: 100%;
-  display: table;
-}
 td {
   font-weight: var(--font-weight-normal);
   color: var(--s-700);
   font-size: var(--font-size-mini);
+  padding-left: 0;
 }
 .row--article-block {
   align-items: center;

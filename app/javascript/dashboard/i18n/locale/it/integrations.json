@@ -86,49 +86,49 @@
       "BUTTON_TEXT": "Connetti"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "App dashboard",
+      "HEADER_BTN_TXT": "Aggiungi una nuova app dashboard",
+      "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno del cruscotto Chatwoot per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni all'utente, i loro ordini, o la loro cronologia di pagamento precedente.</p><p>Quando hai incorporato la tua applicazione usando il cruscotto in Chatwoot, la tua applicazione avrà il contesto della conversazione e del contatto come evento finestra. Implementa un ascoltatore per l'evento del messaggio sulla tua pagina per ricevere il contesto.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
+      "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporare che per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Non ci sono ancora app dashboard configurate su questo account",
+        "LOADING": "Recupero delle app dashboard...",
         "TABLE_HEADER": [
           "Nome",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Modifica app",
+        "DELETE_TOOLTIP": "Elimina app"
       },
       "FORM": {
         "TITLE_LABEL": "Nome",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Inserisci un nome per la tua app dashboard",
+        "TITLE_ERROR": "È richiesto un nome per l'app dashboard",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Inserisci l'URL dell'endpoint dove la tua app è ospitata",
+        "URL_ERROR": "È richiesto un URL valido"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Aggiungi una nuova app dashboard",
         "FORM_SUBMIT": "Invia",
         "FORM_CANCEL": "annulla",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "App dashboard configurata con successo",
+        "API_ERROR": "Non siamo riusciti a creare un'app. Riprova più tardi"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Modifica app dashboard",
         "FORM_SUBMIT": "Aggiorna",
         "FORM_CANCEL": "annulla",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "App dashboard aggiornata con successo",
+        "API_ERROR": "Non è stato possibile aggiornare l'app. Riprova più tardi"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Sì, eliminalo",
+        "CONFIRM_NO": "No, mantienilo",
         "TITLE": "Conferma eliminazione",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "Sei sicuro di voler eliminare l'app - %{appName}?",
+        "API_SUCCESS": "App dashboard cancellata con successo",
+        "API_ERROR": "Non è stato possibile eliminare l'app. Riprova più tardi"
       }
     }
   }

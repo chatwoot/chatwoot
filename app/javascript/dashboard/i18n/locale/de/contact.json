@@ -148,6 +148,12 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Kontakt-Avatar erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Kontakt-Avatar konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
+      }
+    },
     "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
   },
