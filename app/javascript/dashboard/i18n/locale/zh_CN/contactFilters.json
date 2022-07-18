@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "链接",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
             "CREATED_AT": "创建于",
-            "LAST_ACTIVITY": "Last Activity"
+            "LAST_ACTIVITY": "Last Activity",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "标准过滤器",

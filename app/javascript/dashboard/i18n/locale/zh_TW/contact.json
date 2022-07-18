@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "請輸入聯絡人電子信箱",
         "LABEL": "電子信箱地址",
-        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
+        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。",
+        "ERROR": "請輸入一個有效的電子信箱."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "請輸入聯絡人電話",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "請輸入 Github 使用者名稱",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "聯絡人儲存成功",

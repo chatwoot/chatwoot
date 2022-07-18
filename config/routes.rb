@@ -95,6 +95,7 @@ Rails.application.routes.draw do
             member do
               get :contactable_inboxes
               post :destroy_custom_attributes
+              delete :avatar
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -157,11 +158,10 @@ Rails.application.routes.draw do
 
           resources :portals do
             member do
-              post :archive
+              patch :archive
+              put :add_members
             end
-            resources :categories do
-              resources :folders
-            end
+            resources :categories
             resources :articles
           end
         end
@@ -199,6 +199,7 @@ Rails.application.routes.draw do
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
+            patch :set_user
           end
         end
         resources :inbox_members, only: [:index]
@@ -258,6 +259,12 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :portals, only: [:show], param: :slug do
+          scope module: :portals do
+            resources :categories, only: [:index, :show], param: :slug
+            resources :articles, only: [:index, :show]
+          end
+        end
         resources :csat_survey, only: [:show, :update]
       end
     end
@@ -278,8 +285,9 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
-  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
+  get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
+  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 

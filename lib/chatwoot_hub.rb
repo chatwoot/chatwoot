@@ -1,5 +1,5 @@
 class ChatwootHub
-  BASE_URL = ENV['CHATWOOT_HUB_URL'] || 'https://hub.2.chatwoot.com'
+  BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://hub.2.chatwoot.com')
   PING_URL = "#{BASE_URL}/ping".freeze
   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
   PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze

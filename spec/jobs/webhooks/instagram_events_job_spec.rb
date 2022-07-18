@@ -6,14 +6,7 @@ describe Webhooks::InstagramEventsJob do
 
   before do
     stub_request(:post, /graph.facebook.com/)
-    stub_request(:get, 'https://imagekit.io/blog/content/images/2020/05/media_library.jpeg')
-      .with(
-        headers: {
-          'Accept' => '*/*',
-          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => 'Down/5.3.0'
-        }
-      )
+    stub_request(:get, 'https://www.example.com/test.jpeg')
       .to_return(status: 200, body: '', headers: {})
   end
 
@@ -78,7 +71,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(unsend_event[:entry])
 
         expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
-        expect(instagram_inbox.messages.last.reload.deleted).to eq true
+        expect(instagram_inbox.messages.last.reload.deleted).to be true
       end
 
       it 'creates incoming message with attachments in the instagram inbox' do
@@ -102,8 +95,7 @@ describe Webhooks::InstagramEventsJob do
           { story:
             {
               mention: {
-                link:
-                 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=17920786367196703&signature=Aby8EXbvNu4on9efDQecXDasiJX2s0FgWhFGz3mNFB__CsHR22O_1bJiYHkbp3mC1NQeW4jHxls9WyqVgRPcyonUbSJmD44UwLfFhbCK2obesWnFi7VOnisqLu48Xd6KYuNex7uSCQKWM-nw55zQ23bBgfCYw6h5hiJjFHwJDZYm65zXpQ',
+                link: 'https://www.example.com/test.jpeg',
                 id: '17920786367196703'
               }
             },

@@ -5,6 +5,7 @@ import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
+import { parseAPIErrorResponse } from '../utils/api';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -36,11 +37,15 @@ export const state = {
     isFetchingItem: false,
     isCreating: false,
     isUpdating: false,
-    isUpdatingAutoAssignment: false,
     isDeleting: false,
     isUpdatingIMAP: false,
     isUpdatingSMTP: false,
   },
+};
+
+const throwErrorMessage = error => {
+  const errorMessage = parseAPIErrorResponse(error);
+  throw new Error(errorMessage);
 };
 
 export const getters = {
@@ -149,7 +154,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(error);
+      return throwErrorMessage(error);
     }
   },
   createTwilioChannel: async ({ commit }, params) => {
@@ -177,73 +182,39 @@ export const actions = {
     }
   },
   updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
-    commit(types.default.SET_INBOXES_UI_FLAG, {
-      isUpdatingAutoAssignment: true,
-    });
+    commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
     try {
       const response = await InboxesAPI.update(
         id,
         formData ? buildInboxData(inboxParams) : inboxParams
       );
       commit(types.default.EDIT_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, {
-        isUpdatingAutoAssignment: false,
-      });
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
     } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, {
-        isUpdatingAutoAssignment: false,
-      });
-      throw new Error(error);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
+      throwErrorMessage(error);
     }
   },
-  updateInboxIMAP: async (
-    { commit },
-    { id, formData = true, ...inboxParams }
-  ) => {
-    commit(types.default.SET_INBOXES_UI_FLAG, {
-      isUpdatingIMAP: true,
-    });
+  updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
+    commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });
     try {
-      const response = await InboxesAPI.update(
-        id,
-        formData ? buildInboxData(inboxParams) : inboxParams
-      );
+      const response = await InboxesAPI.update(id, inboxParams);
       commit(types.default.EDIT_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, {
-        isUpdatingIMAP: false,
-      });
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: false });
     } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, {
-        isUpdatingIMAP: false,
-      });
-      if (error.response?.data?.message) {
-        throw new Error(error.response?.data?.message);
-      } else {
-        throw new Error(error);
-      }
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: false });
+      throwErrorMessage(error);
     }
   },
-  updateInboxSMTP: async (
-    { commit },
-    { id, formData = true, ...inboxParams }
-  ) => {
-    commit(types.default.SET_INBOXES_UI_FLAG, {
-      isUpdatingSMTP: true,
-    });
+  updateInboxSMTP: async ({ commit }, { id, ...inboxParams }) => {
+    commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: true });
     try {
-      const response = await InboxesAPI.update(
-        id,
-        formData ? buildInboxData(inboxParams) : inboxParams
-      );
+      const response = await InboxesAPI.update(id, inboxParams);
       commit(types.default.EDIT_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, {
-        isUpdatingSMTP: false,
-      });
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: false });
     } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, {
-        isUpdatingSMTP: false,
-      });
-      throw new Error(error);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingSMTP: false });
+      throwErrorMessage(error);
     }
   },
   delete: async ({ commit }, inboxId) => {
