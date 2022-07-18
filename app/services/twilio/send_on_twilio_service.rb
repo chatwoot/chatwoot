@@ -7,7 +7,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
 
   def perform_reply
     begin
-      twilio_message = client.messages.create(**message_params)
+      twilio_message = channel.send_message(**message_params)
     rescue Twilio::REST::TwilioError => e
       ChatwootExceptionTracker.new(e, user: message.sender, account: message.account).capture_exception
     end
@@ -15,13 +15,11 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def message_params
-    params = {
+    {
       body: message.content,
-      from: channel.phone_number,
-      to: contact_inbox.source_id
+      to: contact_inbox.source_id,
+      media_url: attachments
     }
-    params[:media_url] = attachments if message.attachments.present?
-    params
   end
 
   def attachments
@@ -38,9 +36,5 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
 
   def outgoing_message?
     message.outgoing? || message.template?
-  end
-
-  def client
-    ::Twilio::REST::Client.new(channel.account_sid, channel.auth_token)
   end
 end

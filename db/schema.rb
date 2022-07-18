@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_10_091206) do
+ActiveRecord::Schema.define(version: 2022_07_06_085458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "account_id"
+    t.integer "bot_type", default: 0
+    t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
@@ -124,6 +126,8 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
+    t.bigint "associated_article_id"
+    t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
   end
 
@@ -195,8 +199,12 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "locale", default: "en"
     t.string "slug", null: false
+    t.bigint "parent_category_id"
+    t.bigint "associated_category_id"
+    t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
+    t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
     t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true
   end
 
@@ -282,14 +290,16 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
   end
 
   create_table "channel_twilio_sms", force: :cascade do |t|
-    t.string "phone_number", null: false
+    t.string "phone_number"
     t.string "auth_token", null: false
     t.string "account_sid", null: false
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "medium", default: 0
+    t.string "messaging_service_sid"
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
+    t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
 
@@ -657,6 +667,15 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "portal_members", force: :cascade do |t|
+    t.bigint "portal_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
+    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
+  end
+
   create_table "portals", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "name", null: false
@@ -679,6 +698,15 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
     t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
     t.index ["portal_id"], name: "index_portals_members_on_portal_id"
     t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "related_categories", force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "related_category_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id", "related_category_id"], name: "index_related_categories_on_category_id_and_related_category_id", unique: true
+    t.index ["related_category_id", "category_id"], name: "index_related_categories_on_related_category_id_and_category_id", unique: true
   end
 
   create_table "reporting_events", force: :cascade do |t|
@@ -821,9 +849,12 @@ ActiveRecord::Schema.define(version: 2022_06_10_091206) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "agent_bots", "accounts", on_delete: :cascade
+  add_foreign_key "articles", "articles", column: "associated_article_id"
   add_foreign_key "articles", "users", column: "author_id"
   add_foreign_key "campaigns", "accounts", on_delete: :cascade
   add_foreign_key "campaigns", "inboxes", on_delete: :cascade
+  add_foreign_key "categories", "categories", column: "associated_category_id"
+  add_foreign_key "categories", "categories", column: "parent_category_id"
   add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
   add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversations", "campaigns", on_delete: :cascade

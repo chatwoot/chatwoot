@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Anna yhteyshenkilön sähköpostiosoite",
         "LABEL": "Sähköpostiosoite",
-        "DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle."
+        "DUPLICATE": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
+        "ERROR": "Ole hyvä ja syötä validi sähköposti."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Anna yhteystiedon puhelinnumero",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "Syötä Github-käyttäjänimi",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakti tallennettu onnistuneesti",

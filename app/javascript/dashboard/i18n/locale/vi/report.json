@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Chọn phạm vi ngày"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nhóm theo",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

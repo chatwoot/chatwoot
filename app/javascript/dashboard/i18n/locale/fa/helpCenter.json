@@ -1,0 +1,24 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "فیلتر براساس",
+      "SORT": "مرتب‌سازی براساس",
+      "SETTINGS_BUTTON": "تنظیمات",
+      "NEW_BUTTON": "New Article"
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Publish",
+      "PREVIEW": "پیش‌نمایش",
+      "ADD_TRANSLATION": "افزودن ترجمه",
+      "OPEN_SIDEBAR": "Open sidebar",
+      "CLOSE_SIDEBAR": "Close sidebar",
+      "SAVING": "Draft saving...",
+      "SAVED": "Draft saved"
+    },
+    "TABLE": {
+      "COLUMNS": {
+        "BY": "توسط"
+      }
+    }
+  }
+}

@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "أدخل عنوان البريد الإلكتروني الخاص بجهة الاتصال",
         "LABEL": "عنوان البريد الإلكتروني",
-        "DUPLICATE": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى."
+        "DUPLICATE": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
+        "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "أدخل اسم المسستخدم في Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
