@@ -56,6 +56,7 @@ export default {
 <style lang="scss" scoped>
 .edit-article--container {
   margin: var(--space-medium) var(--space-giga);
+  min-width: 640px;
 }
 
 .article-heading {
