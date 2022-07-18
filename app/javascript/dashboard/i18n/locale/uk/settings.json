@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Створити особистий підпис повідомлення, який буде додано до всіх повідомлень, надісланих з поштової скриньки. Використовуйте редактор багатокористувацького контенту для створення персоналізованого підпису.",
         "BTN_TEXT": "Зберегти підпис повідомлення",
         "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
         "API_SUCCESS": "Підпис успішно збережено"
@@ -151,7 +151,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
-    "SWITCH": "Switch",
+    "SWITCH": "Перемкнути",
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
@@ -188,7 +188,7 @@
     "REPORTS_INBOX": "Канал",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
-    "BETA": "Бета-версія",
+    "BETA": "Beta",
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб"
   },

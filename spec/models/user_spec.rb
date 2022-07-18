@@ -30,7 +30,7 @@ RSpec.describe User do
   describe 'pubsub_token' do
     before { user.update(name: Faker::Name.name) }
 
-    it { expect(user.pubsub_token).not_to eq(nil) }
+    it { expect(user.pubsub_token).not_to be_nil }
     it { expect(user.saved_changes.keys).not_to eq('pubsub_token') }
   end
 
@@ -58,18 +58,18 @@ RSpec.describe User do
       sso_auth_token2 = user.generate_sso_auth_token
       expect(sso_auth_token1).present?
       expect(sso_auth_token2).present?
-      expect(user.valid_sso_auth_token?(sso_auth_token1)).to eq true
-      expect(user.valid_sso_auth_token?(sso_auth_token2)).to eq true
+      expect(user.valid_sso_auth_token?(sso_auth_token1)).to be true
+      expect(user.valid_sso_auth_token?(sso_auth_token2)).to be true
     end
 
     it 'wont validate an invalid token' do
-      expect(user.valid_sso_auth_token?(SecureRandom.hex(32))).to eq false
+      expect(user.valid_sso_auth_token?(SecureRandom.hex(32))).to be false
     end
 
     it 'wont validate an invalidated token' do
       sso_auth_token = user.generate_sso_auth_token
       user.invalidate_sso_auth_token(sso_auth_token)
-      expect(user.valid_sso_auth_token?(sso_auth_token)).to eq false
+      expect(user.valid_sso_auth_token?(sso_auth_token)).to be false
     end
   end
 

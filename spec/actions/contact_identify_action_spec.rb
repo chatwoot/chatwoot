@@ -62,7 +62,7 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).not_to eq existing_email_contact.id
         expect(result.identifier).to eq params[:identifier]
-        expect(result.email).to eq nil
+        expect(result.email).to be_nil
       end
     end
 
@@ -82,7 +82,7 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).not_to eq existing_phone_number_contact.id
         expect(result.identifier).to eq params[:identifier]
-        expect(result.email).to eq nil
+        expect(result.email).to be_nil
       end
 
       it 'will not overide the phone contacts email when params contains different email' do
@@ -91,7 +91,7 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).not_to eq existing_phone_number_contact.id
         expect(result.email).to eq params[:email]
-        expect(result.phone_number).to eq nil
+        expect(result.phone_number).to be_nil
       end
     end
 
@@ -113,6 +113,24 @@ describe ::ContactIdentifyAction do
         expect(result.id).to eq existing_email_contact.id
         expect(result.name).to eq 'old name'
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when discard_invalid_attrs is set to false' do
+      it 'will not update the name of the existing contact' do
+        params = { email: 'blah blah blah', name: 'new name' }
+        expect do
+          described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
+        end.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
+    context 'when discard_invalid_attrs is set to true' do
+      it 'will not update the name of the existing contact' do
+        params = { phone_number: 'blahblah blah', name: 'new name' }
+        described_class.new(contact: contact, params: params, discard_invalid_attrs: true).perform
+        expect(contact.reload.name).to eq 'new name'
+        expect(contact.phone_number).to be_nil
       end
     end
   end

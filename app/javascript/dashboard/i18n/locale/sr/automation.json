@@ -12,16 +12,16 @@
         "NAME": {
           "LABEL": "Rule Name",
           "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "ERROR": "Ime je neophodno"
         },
         "DESC": {
           "LABEL": "Description",
           "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "ERROR": "Opis je neophodan"
         },
         "EVENT": {
           "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
+          "PLACEHOLDER": "Molim izaberite jedno",
           "ERROR": "Event is required"
         },
         "CONDITIONS": {

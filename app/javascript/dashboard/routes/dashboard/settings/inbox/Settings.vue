@@ -4,7 +4,11 @@
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
-      <woot-tabs :index="selectedTabIndex" @change="onTabChange">
+      <woot-tabs
+        :index="selectedTabIndex"
+        :border="false"
+        @change="onTabChange"
+      >
         <woot-tabs-item
           v-for="tab in tabs"
           :key="tab.key"
@@ -294,7 +298,7 @@
           type="submit"
           :disabled="$v.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
         <woot-submit-button
@@ -302,7 +306,7 @@
           type="submit"
           :disabled="$v.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
       </settings-section>
@@ -413,7 +417,8 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAnEmailChannel
+        this.isAnEmailChannel ||
+        this.isAWhatsappChannel
       ) {
         return [
           ...visibleToAllChannelTabs,
@@ -433,7 +438,11 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isAWhatsappChannel) {
+      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
+        return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
+          this.inbox.phone_number})`;
+      }
+      if (this.isAWhatsappChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       if (this.isAnEmailChannel) {
@@ -542,7 +551,9 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       }
     },
     handleImageUpload({ file, url }) {

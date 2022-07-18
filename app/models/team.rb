@@ -26,7 +26,7 @@ class Team < ApplicationRecord
   has_many :conversations, dependent: :nullify
 
   validates :name,
-            presence: { message: 'must not be blank' },
+            presence: { message: I18n.t('errors.validations.presence') },
             uniqueness: { scope: :account_id }
 
   before_validation do

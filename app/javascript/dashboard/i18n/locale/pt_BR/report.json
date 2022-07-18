@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Selecionar intervalo de datas"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Agrupar por",
+    "DURATION_FILTER_LABEL": "Duração",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

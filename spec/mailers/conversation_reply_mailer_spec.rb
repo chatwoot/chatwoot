@@ -71,7 +71,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'will not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
-        expect(mail).to eq nil
+        expect(mail).to be_nil
       end
 
       it 'will send email to cc and bcc email addresses' do
@@ -132,7 +132,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'will not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
-        expect(mail).to eq nil
+        expect(mail).to be_nil
       end
     end
 

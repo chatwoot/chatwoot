@@ -22,6 +22,8 @@ uk:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Недійсні події
     signup:
@@ -29,9 +31,28 @@ uk:
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
       failed: Помилка реєстрації
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: Файл порожній
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
+    inboxes:
+      imap:
+        socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
+        no_response_error: Будь ласка, перевірте облікові дані IMAP і повторіть спробу.
+        host_unreachable_error: Хост недоступний. Будь-ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
+        connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
+        connection_closed_error: З'єднання закрито.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Період звіту %{since} до %{until}
     agent_csv:
@@ -40,14 +61,14 @@ uk:
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
+      inbox_name: Назва Джерела
+      inbox_type: Тип Джерела
+      conversations_count: '№ розмов'
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
     label_csv:
       label_title: Мітка
-      conversations_count: No. of conversations
+      conversations_count: '№ розмов'
       avg_first_response_time: Середній час першої відповіді (Хвилин)
       avg_resolution_time: Середній час вирішення (Хвилин)
     team_csv:
@@ -65,7 +86,7 @@ uk:
         agent_name: Ім'я агента
         rating: Оцінка
         feedback: Відгук
-        recorded_at: Recorded date
+        recorded_at: Дата запису
   notifications:
     notification_title:
       conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
@@ -75,6 +96,7 @@ uk:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} згадав вас у сторіс: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Це повідомлення було видалено
     activity:
       status:
