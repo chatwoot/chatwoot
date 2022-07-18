@@ -9,9 +9,6 @@ const state = {
     uiFlags: {
       byId: {},
     },
-    meta: {
-      byId: {},
-    },
   },
   uiFlags: {
     allFetched: false,

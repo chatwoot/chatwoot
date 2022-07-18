@@ -1,16 +1,16 @@
 import helpCenterArticlesAPI from 'widget/api/conversationPublic';
-
+import types from '../../mutation-types';
 export const actions = {
   fetchAllArticles: async ({ commit }) => {
     try {
-      commit('setUIFlag', { isFetching: true });
+      commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await helpCenterArticlesAPI.get();
       data.forEach(helpCenter => {
         const { id: helpCenterId } = helpCenter;
 
-        commit('addHelpCenterArticleEntry', helpCenter);
-        commit('addHelpCenterArticleId', helpCenterId);
-        commit('setHelpCenterArticleUIFlag', {
+        commit(types.ADD_HELP_CENTER_ARTICLE, helpCenter);
+        commit(types.ADD_HELP_CENTER_ARTICLE_ID, helpCenterId);
+        commit(types.ADD_HELP_CENTER_ARTICLE_FLAG, {
           uiFlags: {},
           helpCenterId,
         });
@@ -18,7 +18,7 @@ export const actions = {
     } catch (error) {
       throw new Error(error);
     } finally {
-      commit('setUIFlag', { isFetching: false });
+      commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
 };
