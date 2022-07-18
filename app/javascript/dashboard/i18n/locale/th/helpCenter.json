@@ -16,8 +16,20 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "หัวข้อ",
+        "CATEGORY": "Category",
+        "READ_COUNT": "Read count",
+        "STATUS": "สถานะ",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "by"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
