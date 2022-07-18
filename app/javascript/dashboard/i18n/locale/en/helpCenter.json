@@ -26,6 +26,11 @@
       "COLUMNS": {
         "BY": "by"
       }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
+      }
     }
   }
 }
