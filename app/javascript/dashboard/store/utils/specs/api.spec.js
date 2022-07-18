@@ -2,6 +2,7 @@ import {
   getLoadingStatus,
   parseAPIErrorResponse,
   setLoadingStatus,
+  throwErrorMessage,
 } from '../api';
 
 describe('#getLoadingStatus', () => {
@@ -35,5 +36,16 @@ describe('#parseAPIErrorResponse', () => {
     expect(parseAPIErrorResponse('Error: 422 Failed')).toBe(
       'Error: 422 Failed'
     );
+  });
+});
+
+describe('#throwErrorMessage', () => {
+  it('throws correct error', () => {
+    const errorFn = function throwErrorMessageFn() {
+      throwErrorMessage({
+        response: { data: { message: 'Error Message [message]' } },
+      });
+    };
+    expect(errorFn).toThrow('Error Message [message]');
   });
 });
