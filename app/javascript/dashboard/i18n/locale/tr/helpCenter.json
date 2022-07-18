@@ -16,8 +16,20 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Başlık",
+        "CATEGORY": "Category",
+        "READ_COUNT": "Read count",
+        "STATUS": "Durum",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "by"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
