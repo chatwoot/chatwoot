@@ -16,8 +16,20 @@
       "SAVED": "تم حفظ المسودة"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "العنوان",
+        "CATEGORY": "الفئة",
+        "READ_COUNT": "Read count",
+        "STATUS": "الحالة",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
         "BY": "بواسطة"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
