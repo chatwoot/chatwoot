@@ -16,8 +16,20 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Название",
+        "CATEGORY": "Категория",
+        "READ_COUNT": "Счетчик просмотров",
+        "STATUS": "Статус",
+        "LAST_EDITED": "Последнее изменение"
+      },
       "COLUMNS": {
         "BY": "От"
+      }
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }
