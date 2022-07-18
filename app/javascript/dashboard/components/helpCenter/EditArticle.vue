@@ -82,7 +82,7 @@ export default {
 
       p {
         font-size: var(--font-size-default);
-        line-height: 1.8;
+        line-height: 1.5;
       }
 
       li::marker {
