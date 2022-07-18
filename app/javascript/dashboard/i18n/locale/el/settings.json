@@ -190,7 +190,14 @@
     "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Επισκόπηση",
-    "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε"
+    "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Κατηγορία"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
