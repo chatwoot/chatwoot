@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Masukkan alamat email kontak",
         "LABEL": "Alamat email",
-        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain."
+        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain.",
+        "ERROR": "Harap masukkan alamat email yang valid."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "Edit nama pengguna GitHub",
           "LABEL": "GitHub"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontak berhasil disimpan",

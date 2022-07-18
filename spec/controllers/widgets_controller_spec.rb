@@ -23,7 +23,7 @@ describe '/widget', type: :request do
 
     it 'returns 404 when called with out website_token' do
       get widget_url
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

@@ -14,7 +14,7 @@ describe ::CsatSurveys::ResponseBuilder do
         message: message
       ).perform
 
-      expect(csat_survey_response.valid?).to eq(true)
+      expect(csat_survey_response.valid?).to be(true)
     end
 
     it 'updates the value of csat survey response if response already exists' do

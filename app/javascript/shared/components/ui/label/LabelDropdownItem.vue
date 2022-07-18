@@ -94,6 +94,7 @@ export default {
     margin-top: var(--space-micro);
     min-width: var(--space-slab);
     width: var(--space-slab);
+    border: 1px solid var(--color-border-light);
   }
 }
 </style>

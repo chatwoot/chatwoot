@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "A kontakt e-mailjének megadása",
         "LABEL": "Email cím",
-        "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik."
+        "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik.",
+        "ERROR": "Kérjük helyes e-mailcímet adj meg."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "A kontakt telefonszámának megadása",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "Github felhasználó megadása",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt mentés sikeres",

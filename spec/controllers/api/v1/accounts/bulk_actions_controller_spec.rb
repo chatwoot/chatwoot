@@ -40,7 +40,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
       it 'Bulk update conversation status' do
         expect(Conversation.first.status).to eq('open')
         expect(Conversation.last.status).to eq('open')
-        expect(Conversation.first.assignee_id).to eq(nil)
+        expect(Conversation.first.assignee_id).to be_nil
 
         perform_enqueued_jobs do
           post "/api/v1/accounts/#{account.id}/bulk_actions",
@@ -52,15 +52,15 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
 
         expect(Conversation.first.status).to eq('snoozed')
         expect(Conversation.last.status).to eq('open')
-        expect(Conversation.first.assignee_id).to eq(nil)
+        expect(Conversation.first.assignee_id).to be_nil
       end
 
       it 'Bulk update conversation assignee id' do
         params = { type: 'Conversation', fields: { assignee_id: agent_1.id }, ids: Conversation.first(3).pluck(:display_id) }
 
         expect(Conversation.first.status).to eq('open')
-        expect(Conversation.first.assignee_id).to eq(nil)
-        expect(Conversation.second.assignee_id).to eq(nil)
+        expect(Conversation.first.assignee_id).to be_nil
+        expect(Conversation.second.assignee_id).to be_nil
 
         perform_enqueued_jobs do
           post "/api/v1/accounts/#{account.id}/bulk_actions",
@@ -79,7 +79,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         params = { type: 'Conversation', fields: { assignee_id: agent_1.id, status: 'snoozed' }, ids: Conversation.first(3).pluck(:display_id) }
 
         expect(Conversation.first.status).to eq('open')
-        expect(Conversation.second.assignee_id).to eq(nil)
+        expect(Conversation.second.assignee_id).to be_nil
 
         perform_enqueued_jobs do
           post "/api/v1/accounts/#{account.id}/bulk_actions",
