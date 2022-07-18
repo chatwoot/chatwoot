@@ -190,7 +190,14 @@
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים"
+    "FACEBOOK_REAUTHORIZE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
