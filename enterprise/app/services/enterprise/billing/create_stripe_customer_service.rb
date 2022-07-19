@@ -4,6 +4,8 @@ class Enterprise::Billing::CreateStripeCustomerService
   DEFAULT_QUANTITY = 2
 
   def perform
+    return if account.custom_attributes['stripe_customer_id'].present?
+
     customer = Stripe::Customer.create({ name: account.name, email: billing_email })
     subscription = Stripe::Subscription.create(
       {
