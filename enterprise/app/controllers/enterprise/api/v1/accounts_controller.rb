@@ -3,7 +3,10 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :check_authorization
 
   def subscription
-    Enterprise::CreateStripeCustomerJob.perform_later(@account) if stripe_customer_id.blank?
+    if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
+      @account.update(custom_attributes: { is_creating_customer: true })
+      Enterprise::CreateStripeCustomerJob.perform_later(@account)
+    end
     head :no_content
   end
 
