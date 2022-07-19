@@ -192,10 +192,10 @@
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ALL_ARTICLES": "Todos os artigos",
+      "MY_ARTICLES": "Meus Artigos",
+      "DRAFT": "Rascunho",
+      "ARCHIVED": "Arquivado",
       "CATEGORY": "Categoria"
     }
   },
