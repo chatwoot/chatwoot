@@ -19,17 +19,21 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategorie",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Gelesen Zählung",
         "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Zuletzt bearbeitet"
       },
       "COLUMNS": {
         "BY": "von"
       }
     },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Hier Artikeltitel",
+      "CONTENT_PLACEHOLDER": "Schreiben Sie Ihren Artikel hierhin"
+    },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Suche nach Artikeln"
       }
     }
   }
