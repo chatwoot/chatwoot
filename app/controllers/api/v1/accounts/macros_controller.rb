@@ -7,8 +7,8 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   end
 
   def create
-    @macro = Current.account.macros.new(macros_with_user)
-    @macro.set_visibility(current_user, macros_permit)
+    @macro = Current.account.macros.new(macros_with_user.merge(created_by_id: current_user.id))
+    @macro.set_visibility(current_user, permitted_params)
     @macro.actions = params[:actions]
 
     render json: { error: @macro.errors.messages }, status: :unprocessable_entity and return unless @macro.valid?
@@ -25,8 +25,8 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      @macro.update!(macros_permit)
-      @macro.set_visibility(current_user, macros_permit)
+      @macro.update!(macros_with_user)
+      @macro.set_visibility(current_user, permitted_params)
       @macro.save!
     rescue StandardError => e
       Rails.logger.error e
@@ -34,15 +34,15 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     end
   end
 
-  def macros_permit
+  def permitted_params
     params.permit(
-      :name, :account_id, :visibility, :created_by_id,
+      :name, :account_id, :visibility,
       actions: [:action_name, { action_params: [] }]
     )
   end
 
   def macros_with_user
-    macros_permit.merge(updated_by_id: current_user.id)
+    permitted_params.merge(updated_by_id: current_user.id)
   end
 
   def fetch_macro

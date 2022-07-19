@@ -29,16 +29,16 @@ class Macro < ApplicationRecord
              class_name: :User
   belongs_to :updated_by,
              class_name: :User
-  enum visibility: { user: 0, account: 1 }
+  enum visibility: { personal: 0, global: 1 }
 
   def set_visibility(user, params)
     self.visibility = params[:visibility]
-    self.visibility = :user if user.agent?
+    self.visibility = :personal if user.agent?
   end
 
   def self.with_visibility(user, params)
-    records = user.administrator? ? Current.account.macros : Current.account.macros.account
-    records = records.or(where(created_by_id: user.id, visibility: :user)) if user.agent?
+    records = user.administrator? ? Current.account.macros : Current.account.macros.global
+    records = records.or(personal.where(created_by_id: user.id)) if user.agent?
     records.page(current_page(params))
     records
   end

@@ -16,15 +16,15 @@ RSpec.describe Macro, type: :model do
 
     context 'when user is administrator' do
       it 'set visibility with params' do
-        expect(macro.visibility).to eq('user')
+        expect(macro.visibility).to eq('personal')
 
-        macro.set_visibility(admin, { visibility: :account })
+        macro.set_visibility(admin, { visibility: :global })
 
-        expect(macro.visibility).to eq('account')
+        expect(macro.visibility).to eq('global')
 
-        macro.set_visibility(admin, { visibility: :user })
+        macro.set_visibility(admin, { visibility: :personal })
 
-        expect(macro.visibility).to eq('user')
+        expect(macro.visibility).to eq('personal')
       end
     end
 
@@ -33,11 +33,11 @@ RSpec.describe Macro, type: :model do
         Current.user = agent
         Current.account = account
 
-        expect(macro.visibility).to eq('user')
+        expect(macro.visibility).to eq('personal')
 
-        macro.set_visibility(agent, { visibility: :account })
+        macro.set_visibility(agent, { visibility: :global })
 
-        expect(macro.visibility).to eq('user')
+        expect(macro.visibility).to eq('personal')
       end
     end
   end
@@ -47,15 +47,15 @@ RSpec.describe Macro, type: :model do
     let(:agent_2) { create(:user, account: account, role: :agent) }
 
     before do
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :account)
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :account)
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :user)
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :user)
-      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :user)
-      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :user)
-      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :user)
-      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :user)
-      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :user)
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :global)
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :global)
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :personal)
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :personal)
+      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :personal)
+      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :personal)
+      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal)
+      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal)
+      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal)
     end
 
     context 'when user is administrator' do
@@ -72,12 +72,12 @@ RSpec.describe Macro, type: :model do
         Current.user = agent_2
         Current.account = account
 
-        macros_for_agent_2 = account.macros.account.count + agent_2.macros.user.count
+        macros_for_agent_2 = account.macros.global.count + agent_2.macros.personal.count
         expect(described_class.with_visibility(agent_2, {}).count).to eq(macros_for_agent_2)
 
         Current.user = agent_1
 
-        macros_for_agent_1 = account.macros.account.count + agent_1.macros.user.count
+        macros_for_agent_1 = account.macros.global.count + agent_1.macros.personal.count
         expect(described_class.with_visibility(agent_1, {}).count).to eq(macros_for_agent_1)
       end
     end
