@@ -192,10 +192,10 @@
     "REPORTS_OVERVIEW": "Übersicht",
     "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ALL_ARTICLES": "Alle Artikel",
+      "MY_ARTICLES": "Meine Artikel",
+      "DRAFT": "Entwürfe",
+      "ARCHIVED": "Archiviert",
       "CATEGORY": "Kategorie"
     }
   },
