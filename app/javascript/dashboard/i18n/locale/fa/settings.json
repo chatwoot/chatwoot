@@ -192,10 +192,10 @@
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ALL_ARTICLES": "همه مقالات",
+      "MY_ARTICLES": "مقالات من",
+      "DRAFT": "پیش‌نویس",
+      "ARCHIVED": "بایگانی شد",
       "CATEGORY": "دسته‌بندی"
     }
   },
@@ -222,9 +222,9 @@
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
       "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
       "RESOLVE_CONVERSATION": "حل مکالمه",
-      "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
+      "GO_TO_CONVERSATION_DASHBOARD": "به پیشخوان گفتگو بروید",
       "ADD_ATTACHMENT": "افزودن پیوست",
-      "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "GO_TO_CONTACTS_DASHBOARD": "به پیشخوان مخاطبین بروید",
       "TOGGLE_SIDEBAR": "نوار کناری",
       "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
       "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
