@@ -13,8 +13,7 @@ class DashboardController < ActionController::Base
 
   def set_global_config
     @global_config = GlobalConfig.get(
-      'LOGO',
-      'LOGO_THUMBNAIL',
+      'LOGO', 'LOGO_THUMBNAIL',
       'INSTALLATION_NAME',
       'WIDGET_BRAND_URL',
       'TERMS_URL',
@@ -29,7 +28,8 @@ class DashboardController < ActionController::Base
       'DIRECT_UPLOADS_ENABLED',
       'HCAPTCHA_SITE_KEY',
       'LOGOUT_REDIRECT_LINK',
-      'DISABLE_USER_PROFILE_UPDATE'
+      'DISABLE_USER_PROFILE_UPDATE',
+      'DEPLOYMENT_ENV'
     ).merge(app_config)
   end
 
