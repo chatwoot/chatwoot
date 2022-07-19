@@ -14,7 +14,6 @@ export const mutations = {
 
     Vue.set($state.helpCenters.byId, helpCenter.id, {
       ...helpCenter,
-      localeIds: [],
     });
   },
 
@@ -51,29 +50,5 @@ export const mutations = {
       ...flags,
       ...uiFlags,
     });
-  },
-
-  appendLocaleIdsToHelpCenter($state, { helpCenterId, locales }) {
-    if (!helpCenterId) return;
-    const helpCenter = $state.helpCenters.byId[helpCenterId];
-
-    const localeIds = locales.map(locale => locale.id);
-    const updatedLocaleIds = [...helpCenter.locales, ...localeIds];
-    const uniqIds = Array.from(new Set(updatedLocaleIds));
-
-    Vue.set(helpCenter, 'localeIds', uniqIds);
-  },
-
-  removeLocaleIdFromConversation($state, { helpCenterId, localeId }) {
-    if (!localeId || !helpCenterId) return;
-
-    const helpCenter = $state.helpCenter.byId[helpCenterId];
-    if (!helpCenter) return;
-
-    Vue.set(
-      helpCenter,
-      'localeIds',
-      helpCenter.localeIds.filter(id => id !== localeId)
-    );
   },
 };

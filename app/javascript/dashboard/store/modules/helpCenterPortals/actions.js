@@ -1,4 +1,4 @@
-import HelpCenterPortalsAPI from 'widget/api/conversationPublic';
+import HelpCenterPortalsAPI from 'widget/api/helpCenter/portals';
 
 export const actions = {
   fetchAllHelpCenters: async ({ commit }) => {
