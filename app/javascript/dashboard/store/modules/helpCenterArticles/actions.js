@@ -1,11 +1,12 @@
-import helpCenterArticlesAPI from 'widget/api/conversationPublic';
+import helpCenterArticlesAPI from 'dashboard/api/helpcenter/article.js';
 import types from '../../mutation-types';
 export const actions = {
   fetchAllArticles: async ({ commit }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await helpCenterArticlesAPI.get();
-      data.forEach(helpCenter => {
+
+      data.payload.forEach(helpCenter => {
         const { id: helpCenterId } = helpCenter;
 
         commit(types.ADD_HELP_CENTER_ARTICLE, helpCenter);
