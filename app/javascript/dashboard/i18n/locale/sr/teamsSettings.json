@@ -69,7 +69,7 @@
     },
     "AGENTS": {
       "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
+      "EMAIL": "E-POŠTA",
       "BUTTON_TEXT": "Add agents",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",

@@ -4,6 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_resolve_duration :integer
+#  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :integer          default(0), not null
 #  limits                :jsonb
@@ -112,7 +113,7 @@ class Account < ApplicationRecord
   end
 
   def support_email
-    super || ENV['MAILER_SENDER_EMAIL'] || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL']
+    super || ENV.fetch('MAILER_SENDER_EMAIL') { GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] }
   end
 
   def usage_limits

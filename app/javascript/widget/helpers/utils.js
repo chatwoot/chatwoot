@@ -10,14 +10,16 @@ export const arrayToHashById = array =>
     return newMap;
   }, {});
 
+export const sendMessage = msg => {
+  window.parent.postMessage(
+    `chatwoot-widget:${JSON.stringify({ ...msg })}`,
+    '*'
+  );
+};
+
 export const IFrameHelper = {
   isIFrame: () => window.self !== window.top,
-  sendMessage: msg => {
-    window.parent.postMessage(
-      `chatwoot-widget:${JSON.stringify({ ...msg })}`,
-      '*'
-    );
-  },
+  sendMessage,
   isAValidEvent: e => {
     const isDataAString = typeof e.data === 'string';
     const isAValidWootEvent =

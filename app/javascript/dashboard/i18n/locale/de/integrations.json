@@ -84,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "Verbinden"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard-Apps",
+      "HEADER_BTN_TXT": "Eine neue Dashboard-App hinzufügen",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Chatwoot-Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese in das Dashboard einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.</p><p>Wenn Sie Ihre Anwendung über das Dashboard in Chatwoot einbetten, erhält Ihre Anwendung den Kontext der Unterhaltung und des Kontakts als Fensterereignis. Implementieren Sie einen Listener für das Nachrichtenereignis auf Ihrer Seite, um den Kontext zu erhalten. </p><p>Um eine neue Dashboard-App hinzuzufügen, klicken Sie auf die Schaltfläche „Neue Dashboard-App hinzufügen“.</p>",
+      "DESCRIPTION": "Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.",
+      "LIST": {
+        "404": "Für dieses Konto sind noch keine Dashboard-Apps konfiguriert",
+        "LOADING": "Dashboard-Apps werden abgerufen...",
+        "TABLE_HEADER": [
+          "Name",
+          "Endpunkt"
+        ],
+        "EDIT_TOOLTIP": "App bearbeiten",
+        "DELETE_TOOLTIP": "Anwendung löschen"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Name",
+        "TITLE_PLACEHOLDER": "Geben Sie einen Namen für Ihre Dashboard-App ein",
+        "TITLE_ERROR": "Ein Name für die Dashboard-App ist erforderlich",
+        "URL_LABEL": "Endpunkt",
+        "URL_PLACEHOLDER": "Geben Sie die Endpunkt-URL ein, auf der Ihre App gehostet wird",
+        "URL_ERROR": "Eine gültige URL ist erforderlich"
+      },
+      "CREATE": {
+        "HEADER": "Eine neue Dashboard-App hinzufügen",
+        "FORM_SUBMIT": "Einreichen",
+        "FORM_CANCEL": "Stornieren",
+        "API_SUCCESS": "Dashboard-App erfolgreich konfiguriert",
+        "API_ERROR": "Wir konnten keine App erstellen. Bitte versuchen Sie es später erneut"
+      },
+      "UPDATE": {
+        "HEADER": "Dashboard-App bearbeiten",
+        "FORM_SUBMIT": "Aktualisieren",
+        "FORM_CANCEL": "Stornieren",
+        "API_SUCCESS": "Dashboard-App erfolgreich aktualisiert",
+        "API_ERROR": "Wir konnten die App nicht aktualisieren. Bitte versuchen Sie es später erneut"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Ja, löschen",
+        "CONFIRM_NO": "Nein, behalte es",
+        "TITLE": "Löschen bestätigen",
+        "MESSAGE": "Möchten Sie die App %{appName} wirklich löschen?",
+        "API_SUCCESS": "Dashboard-App erfolgreich gelöscht",
+        "API_ERROR": "Wir konnten die App nicht löschen. Bitte versuchen Sie es später erneut"
+      }
     }
   }
 }

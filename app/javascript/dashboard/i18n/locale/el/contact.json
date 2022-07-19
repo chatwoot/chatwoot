@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Εισάγετε την διεύθυνση email της επαφής",
         "LABEL": "Διεύθυνση Email",
-        "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή."
+        "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή.",
+        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Η επαφή αποθηκεύτηκε με επιτυχία",

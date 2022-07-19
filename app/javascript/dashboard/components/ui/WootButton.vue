@@ -1,6 +1,7 @@
 <template>
   <button
     class="button"
+    :type="type"
     :class="buttonClasses"
     :disabled="isDisabled || isLoading"
     @click="handleClick"
@@ -24,6 +25,10 @@ export default {
   name: 'WootButton',
   components: { EmojiOrIcon, Spinner },
   props: {
+    type: {
+      type: String,
+      default: 'submit',
+    },
     variant: {
       type: String,
       default: '',

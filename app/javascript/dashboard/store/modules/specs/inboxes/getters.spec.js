@@ -53,7 +53,6 @@ describe('#getters', () => {
         isFetchingItem: false,
         isCreating: false,
         isUpdating: false,
-        isUpdatingAutoAssignment: false,
         isDeleting: false,
       },
     };
@@ -62,7 +61,6 @@ describe('#getters', () => {
       isFetchingItem: false,
       isCreating: false,
       isUpdating: false,
-      isUpdatingAutoAssignment: false,
       isDeleting: false,
     });
   });
