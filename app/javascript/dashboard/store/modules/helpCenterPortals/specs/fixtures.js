@@ -14,10 +14,9 @@ export default {
         config: {
           allowed_locales: ['en'],
         },
-        localeIds: [],
       },
       2: {
-        id: 1,
+        id: 2,
         color: 'green',
         custom_domain: 'campaign_for_help',
         header_text: 'Campaign Header',
@@ -29,7 +28,6 @@ export default {
         config: {
           allowed_locales: ['en'],
         },
-        localeIds: [],
       },
     },
     allIds: [1, 2],
@@ -37,9 +35,6 @@ export default {
       byId: {
         1: { isFetching: false, isUpdating: true, isDeleting: false },
       },
-    },
-    meta: {
-      byId: {},
     },
   },
   uiFlags: {

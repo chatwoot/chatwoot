@@ -34,7 +34,8 @@ export const mutations = {
   removeHelpCenterEntry($state, helpCenterId) {
     if (!helpCenterId) return;
 
-    Vue.set($state.helpCenters.byId, helpCenterId, undefined);
+    const { [helpCenterId]: toBeRemoved, ...newById } = $state.helpCenters.byId;
+    Vue.set($state.helpCenters, 'byId', newById);
   },
 
   removeHelpCenterId($state, helpCenterId) {

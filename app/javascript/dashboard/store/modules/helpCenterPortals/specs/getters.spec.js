@@ -1,5 +1,6 @@
 import { getters } from '../getters';
 import portal from './fixtures';
+
 describe('#getters', () => {
   it('getUIFlagsIn', () => {
     const state = portal;
@@ -30,16 +31,11 @@ describe('#getters', () => {
       config: {
         allowed_locales: ['en'],
       },
-      locales: [],
-      localeIds: [],
     });
   });
+
   it('totalHelpCentersCount', () => {
     const state = portal;
     expect(getters.totalHelpCentersCount(state)).toEqual(2);
-  });
-  it('allLocalesCountIn', () => {
-    const state = portal;
-    expect(getters.allLocalesCountIn(state)(1)).toEqual(0);
   });
 });

@@ -1,4 +1,4 @@
-import HelpCenterPortalsAPI from 'widget/api/helpCenter/portals';
+import HelpCenterPortalsAPI from 'dashboard/api/helpCenter/portals.js';
 
 export const actions = {
   fetchAllHelpCenters: async ({ commit }) => {

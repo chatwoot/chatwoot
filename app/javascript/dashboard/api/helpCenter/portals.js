@@ -1,4 +1,4 @@
-import ApiClient from './ApiClient';
+import ApiClient from '../ApiClient';
 
 class HelpCenterPortalsAPI extends ApiClient {
   constructor() {
