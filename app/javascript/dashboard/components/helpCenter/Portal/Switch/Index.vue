@@ -4,7 +4,7 @@
     <div class="actions-container">
       <header>
         <div>
-          <h2 class="portal-title">{{ portal.name }}</h2>
+          <h2 class="portal-title block-title">{{ portal.name }}</h2>
           <p class="portal-count">
             {{ portal.article_count }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
@@ -15,7 +15,7 @@
         }}</span>
       </header>
       <div class="portal-locales">
-        <h2 class="locale-title">
+        <h2 class="locale-title sub-block-title">
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
         </h2>
         <ul>
@@ -107,7 +107,6 @@ export default {
 
       .portal-title {
         color: var(--s-900);
-        font-size: var(--font-size-medium);
         font-weight: var(--font-weight-bold);
         margin-bottom: 0;
       }
@@ -122,7 +121,6 @@ export default {
     .portal-locales {
       .locale-title {
         color: var(--s-600);
-        font-size: var(--font-size-default);
         font-weight: var(--font-weight-medium);
       }
 
