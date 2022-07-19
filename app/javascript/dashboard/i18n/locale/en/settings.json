@@ -204,7 +204,7 @@
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoice, edit your billing details, or cancel your subscription.",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
 

@@ -4,18 +4,16 @@ class Enterprise::Billing::CreateStripeCustomerService
   DEFAULT_QUANTITY = 2
 
   def perform
-    return if account.custom_attributes['stripe_customer_id'].present?
-
-    customer = Stripe::Customer.create({ name: account.name, email: billing_email })
+    customer_id = prepare_customer_id
     subscription = Stripe::Subscription.create(
       {
-        customer: customer.id,
+        customer: customer_id,
         items: [{ price: price_id, quantity: default_quantity }]
       }
     )
     account.update!(
       custom_attributes: {
-        stripe_customer_id: customer.id,
+        stripe_customer_id: customer_id,
         stripe_price_id: subscription['plan']['id'],
         stripe_product_id: subscription['plan']['product'],
         plan_name: default_plan['name'],
@@ -25,6 +23,15 @@ class Enterprise::Billing::CreateStripeCustomerService
   end
 
   private
+
+  def prepare_customer_id
+    customer_id = account.custom_attributes['stripe_customer_id']
+    if customer_id.blank?
+      customer = Stripe::Customer.create({ name: account.name, email: billing_email })
+      customer_id = customer.id
+    end
+    customer_id
+  end
 
   def default_quantity
     default_plan['default_quantity'] || DEFAULT_QUANTITY
