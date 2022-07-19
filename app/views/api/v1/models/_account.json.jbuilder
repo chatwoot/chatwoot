@@ -1,0 +1,10 @@
+json.auto_resolve_duration resource.auto_resolve_duration
+json.created_at resource.created_at
+json.custom_attributes resource.custom_attributes
+json.custom_email_domain_enabled @account.custom_email_domain_enabled
+json.domain @account.domain
+json.features @account.enabled_features
+json.id @account.id
+json.locale @account.locale
+json.name @account.name
+json.support_email @account.support_email

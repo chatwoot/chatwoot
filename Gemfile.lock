@@ -616,6 +616,7 @@ GEM
       sprockets (>= 3.0.0)
     squasher (0.6.2)
     statsd-ruby (1.5.0)
+    stripe (6.5.0)
     telephone_number (1.4.16)
     thor (1.2.1)
     tilt (2.0.10)
@@ -769,6 +770,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   squasher
+  stripe
   telephone_number
   time_diff
   twilio-ruby (~> 5.66)
@@ -787,4 +789,4 @@ RUBY VERSION
    ruby 3.0.4p208
 
 BUNDLED WITH
-   2.3.16
+   2.3.14
