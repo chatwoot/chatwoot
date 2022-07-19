@@ -192,10 +192,10 @@
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ALL_ARTICLES": "Tutti gli articoli",
+      "MY_ARTICLES": "I miei articoli",
+      "DRAFT": "Bozza",
+      "ARCHIVED": "Archiviato",
       "CATEGORY": "Categoria"
     }
   },
