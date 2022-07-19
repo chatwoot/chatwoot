@@ -58,13 +58,13 @@ export default {
       return this.currentAccount.custom_attributes || {};
     },
     hasABillingPlan() {
-      return this.customAttributes.stripe_customer_id || '';
+      return !!this.planName;
     },
     planName() {
-      return this.customAttributes.plan_name;
+      return this.customAttributes.plan_name || '';
     },
     subscribedQuantity() {
-      return this.customAttributes.subscribed_quantity;
+      return this.customAttributes.subscribed_quantity || 0;
     },
   },
   mounted() {
