@@ -100,6 +100,7 @@ class User < ApplicationRecord
            class_name: :Portal,
            dependent: :nullify,
            source: :portal
+  has_many :macros, foreign_key: 'created_by_id', dependent: :destroy_async
 
   before_validation :set_password_and_uid, on: :create
 
