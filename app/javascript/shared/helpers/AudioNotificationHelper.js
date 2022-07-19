@@ -16,19 +16,18 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
     };
   };
 
-  try {
-    const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
-    const audioRequest = new Request(resourceUrl);
+  const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
+  const audioRequest = new Request(resourceUrl);
 
-    fetch(audioRequest)
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        audioCtx.decodeAudioData(buffer).then(playsound);
-        return new Promise(res => res());
-      });
-  } catch (error) {
-    // error
-  }
+  fetch(audioRequest)
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+      audioCtx.decodeAudioData(buffer).then(playsound);
+      return new Promise(res => res());
+    })
+    .catch(() => {
+      // error
+    });
 };
 
 export const notificationEnabled = (enableAudioAlerts, id, userId) => {
