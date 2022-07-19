@@ -22,6 +22,8 @@ bg:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,19 @@ bg:
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
