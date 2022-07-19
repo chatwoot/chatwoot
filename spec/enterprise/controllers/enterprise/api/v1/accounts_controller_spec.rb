@@ -32,6 +32,17 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                  headers: admin.create_new_auth_token,
                  as: :json
           end.to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
+          expect(account.reload.custom_attributes).to eq({ 'is_creating_customer': true }.with_indifferent_access)
+        end
+
+        it 'does not enqueue a job if a job is already enqueued' do
+          account.update!(custom_attributes: { is_creating_customer: true })
+
+          expect do
+            post "/enterprise/api/v1/accounts/#{account.id}/subscription",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
         end
 
         it 'does not enqueues a job if customer id is present' do
