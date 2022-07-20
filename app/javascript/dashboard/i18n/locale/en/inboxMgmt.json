@@ -413,7 +413,8 @@
       "CONFIGURATION": "Configuration",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -574,6 +575,14 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+        "IN_A_FEW_HOURS": "Typically replies in a few hours",
+        "IN_A_DAY": "Typically replies in a day"
+      },
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

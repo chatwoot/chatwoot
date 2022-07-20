@@ -1,12 +1,29 @@
 <template>
   <div class="footer-wrap">
-    <div class="input-area" />
+    <custom-button
+      v-if="config.isDefaultScreen"
+      class="start-conversation"
+      :style="{ background: config.color }"
+    >
+      Start Conversation
+    </custom-button>
+    <!-- <input v-else /> -->
   </div>
 </template>
 
 <script>
+import CustomButton from '../../../../dashboard/components/buttons/Button';
 export default {
   name: 'WidgetFooter',
+  components: {
+    CustomButton,
+  },
+  props: {
+    config: {
+      type: Object,
+      default: () => {},
+    },
+  },
 };
 </script>
 
@@ -17,22 +34,15 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    top: var(--space-one);
-    left: 0;
-    width: 100%;
-    height: var(--space-one);
-    opacity: 0.1;
-    background: var(--color-background);
-  }
+  padding-left: var(--space-two);
+  padding-right: var(--space-two);
 
-  .input-area {
-    background-color: var(--white);
+  .start-conversation {
+    justify-content: center;
+    font-size: var(--font-size-small);
     border-radius: var(--border-radius-normal);
-    height: var(--space-larger);
-    margin: var(--space-two);
+    padding-left: var(--space-two);
+    padding-right: var(--space-two);
   }
 }
 </style>

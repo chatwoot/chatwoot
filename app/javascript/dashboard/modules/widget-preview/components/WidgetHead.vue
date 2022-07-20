@@ -6,25 +6,21 @@
           v-if="config.logo"
           :src="config.logo"
           class="logo"
-          :class="{ small: !config.isExpanded }"
+          :class="{ small: !config.isDefaultScreen }"
         />
-        <div v-if="!config.isExpanded">
+        <div v-if="!config.isDefaultScreen">
           <div class="title-block text-base font-medium">
             <span class="mr-1">{{ config.websiteName }}</span>
             <div v-if="config.isOnline" class="online-dot" />
           </div>
           <div class="text-xs mt-1 text-black-700">
-            {{ responseTime }}
+            {{ config.replyTime }}
           </div>
         </div>
       </div>
-      <div v-if="config.isExpanded" class="header-expanded">
-        <h2 class="text-slate-900 mt-6 text-4xl mb-3 font-normal">
-          {{ config.welcomeHeading }}
-        </h2>
-        <p class="text-lg text-black-700 leading-normal">
-          {{ config.welcomeTagLine }}
-        </p>
+      <div v-if="config.isDefaultScreen" class="header-expanded">
+        <h2>{{ config.welcomeHeading }}</h2>
+        <p>{{ config.welcomeTagline }}</p>
       </div>
     </div>
   </div>
@@ -35,9 +31,7 @@ export default {
   props: {
     config: {
       type: Object,
-      default() {
-        return {};
-      },
+      default: () => {},
     },
   },
   computed: {
@@ -45,18 +39,14 @@ export default {
       switch (this.config.replyTime) {
         case 'in_a_few_minutes':
           return this.$t(
-            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_MINUTES'
+            'INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_MINUTES'
           );
         case 'in_a_few_hours':
-          return this.$t(
-            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_HOURS'
-          );
+          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
         case 'in_a_day':
-          return this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_DAY');
+          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_DAY');
         default:
-          return this.$t(
-            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_HOURS'
-          );
+          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
       }
     },
   },
@@ -70,9 +60,10 @@ $sucess-green: #10b981;
   transition: max-height 300ms;
   background-color: var(--white);
   padding: var(--space-two);
+  border-top-left-radius: var(--border-radius-large);
+  border-top-right-radius: var(--border-radius-large);
 
   .header-branding {
-    max-height: 16rem;
     .header {
       display: flex;
       flex-direction: row;
@@ -90,6 +81,20 @@ $sucess-green: #10b981;
         }
       }
     }
+
+    .header-expanded {
+      h2 {
+        font-size: var(--font-size-big);
+        margin-bottom: var(--space-small);
+        margin-top: var(--space-medium);
+        overflow-wrap: break-word;
+      }
+
+      p {
+        font-size: var(--font-size-small);
+        overflow-wrap: break-word;
+      }
+    }
   }
   .text-base {
     font-size: var(--font-size-default);
@@ -105,7 +110,7 @@ $sucess-green: #10b981;
       height: var(--space-small);
       width: var(--space-small);
       border-radius: 100%;
-      margin: var(--space-zero) var(--space-one);
+      margin: var(--space-zero) var(--space-smaller);
     }
   }
 }
