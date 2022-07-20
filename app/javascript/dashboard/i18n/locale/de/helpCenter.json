@@ -28,8 +28,8 @@
       }
     },
     "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Hier Artikeltitel",
-      "CONTENT_PLACEHOLDER": "Schreiben Sie Ihren Artikel hierhin"
+      "TITLE_PLACEHOLDER": "Artikeltitel kommt hier rein",
+      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel"
     },
     "SIDEBAR": {
       "SEARCH": {
