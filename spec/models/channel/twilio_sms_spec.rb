@@ -25,6 +25,34 @@ RSpec.describe Channel::TwilioSms do
     end
   end
 
+  describe '#validations' do
+    context 'with phone number blank' do
+      let!(:sms_channel) { create(:channel_twilio_sms, medium: :sms, phone_number: nil) }
+
+      it 'allows channel to create with blank phone number' do
+        sms_channel_1 = create(:channel_twilio_sms, medium: :sms, phone_number: '')
+
+        expect(sms_channel_1).to be_valid
+        expect(sms_channel_1.messaging_service_sid).to be_present
+        expect(sms_channel_1.phone_number).to be_blank
+        expect(sms_channel.phone_number).to be_nil
+
+        sms_channel_1 = create(:channel_twilio_sms, medium: :sms, phone_number: nil)
+        expect(sms_channel_1.phone_number).to be_blank
+        expect(sms_channel_1.messaging_service_sid).to be_present
+      end
+
+      it 'throws error for whatsapp channel' do
+        whatsapp_channel_1 = create(:channel_twilio_sms, medium: :sms, phone_number: '', messaging_service_sid: 'MGec8130512b5dd462cfe03095ec1111ed')
+        expect do
+          create(:channel_twilio_sms, medium: :whatsapp, phone_number: 'whatsapp', messaging_service_sid: 'MGec8130512b5dd462cfe03095ec1111ed')
+        end.to raise_error(ActiveRecord::RecordInvalid) { |error| expect(error.message).to eq 'Validation failed: Phone number must be blank' }
+
+        expect(whatsapp_channel_1).to be_valid
+      end
+    end
+  end
+
   describe '#send_message' do
     let(:channel) { create(:channel_twilio_sms) }
 
