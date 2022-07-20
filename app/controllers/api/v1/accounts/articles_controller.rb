@@ -46,7 +46,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def list_params
     params.require(:payload).permit(
-      :category_slug, :locale, :query
+      :category_slug, :locale, :query, :page
     )
   end
 end
