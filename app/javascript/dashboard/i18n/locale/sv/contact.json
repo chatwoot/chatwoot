@@ -148,6 +148,12 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
     "SUCCESS_MESSAGE": "Kontakt har sparats",
     "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },

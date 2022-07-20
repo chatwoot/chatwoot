@@ -57,6 +57,7 @@ Rails.application.routes.draw do
             post :clone
             post :attach_file, on: :collection
           end
+          resources :macros, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -218,6 +219,23 @@ Rails.application.routes.draw do
             get :teams
             get :conversations
           end
+        end
+      end
+    end
+  end
+
+  if ChatwootApp.enterprise?
+    namespace :enterprise, defaults: { format: 'json' } do
+      namespace :api do
+        namespace :v1 do
+          resources :accounts do
+            member do
+              post :checkout
+              post :subscription
+            end
+          end
+
+          post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
         end
       end
     end

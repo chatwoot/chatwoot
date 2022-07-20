@@ -21,8 +21,8 @@ shared_examples_for 'assignment_handler' do
       end
 
       it 'creates team assigned and unassigned message activity' do
-        expect(conversation.update(team: team)).to eq true
-        expect(conversation.update(team: nil)).to eq true
+        expect(conversation.update(team: team)).to be true
+        expect(conversation.update(team: nil)).to be true
         expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
           .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
                                 content: "Assigned to #{team.name} by #{agent.name}"  }))
@@ -32,11 +32,11 @@ shared_examples_for 'assignment_handler' do
       end
 
       it 'changes assignee to nil if they doesnt belong to the team and allow_auto_assign is false' do
-        expect(team.allow_auto_assign).to eq false
+        expect(team.allow_auto_assign).to be false
 
         conversation.update(team: team)
 
-        expect(conversation.reload.assignee).to eq nil
+        expect(conversation.reload.assignee).to be_nil
       end
 
       it 'changes assignee to a team member if allow_auto_assign is enabled' do
@@ -74,7 +74,7 @@ shared_examples_for 'assignment_handler' do
     let(:assignment_mailer) { instance_double(AgentNotifications::ConversationNotificationsMailer, deliver: true) }
 
     it 'assigns the agent to conversation' do
-      expect(update_assignee).to eq(true)
+      expect(update_assignee).to be(true)
       expect(conversation.reload.assignee).to eq(agent)
     end
 
@@ -82,7 +82,7 @@ shared_examples_for 'assignment_handler' do
       # TODO: FIX me
       # expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once).with('assignee.changed', anything, anything, anything, anything))
       expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once))
-      expect(update_assignee).to eq(true)
+      expect(update_assignee).to be(true)
     end
 
     context 'when agent is current user' do
@@ -91,7 +91,7 @@ shared_examples_for 'assignment_handler' do
       end
 
       it 'creates self-assigned message activity' do
-        expect(update_assignee).to eq(true)
+        expect(update_assignee).to be(true)
         expect(Conversations::ActivityMessageJob).to(have_been_enqueued.at_least(:once)
           .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                 message_type: :activity, content: "#{agent.name} self-assigned this conversation" }))

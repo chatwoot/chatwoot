@@ -22,6 +22,8 @@ el:
     reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Μη έγκυρα συμβάντα
     signup:
@@ -29,9 +31,19 @@ el:
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: Το αρχείο είναι κενό
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.

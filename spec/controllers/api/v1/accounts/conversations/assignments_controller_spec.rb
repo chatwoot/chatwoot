@@ -68,7 +68,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.assignee).to eq(nil)
+        expect(conversation.reload.assignee).to be_nil
         expect(Conversations::ActivityMessageJob)
           .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -93,7 +93,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.team).to eq(nil)
+        expect(conversation.reload.team).to be_nil
       end
     end
   end

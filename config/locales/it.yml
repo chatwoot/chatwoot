@@ -22,6 +22,8 @@ it:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
     reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Eventi non validi
     signup:
@@ -29,9 +31,19 @@ it:
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
       failed: Registrazione non riuscita
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: Il file è vuoto
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -84,7 +96,7 @@ it:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} ti ha menzionato nella storia: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Questa storia non è più disponibile.
       deleted: Questo messaggio è stato eliminato
     activity:
       status:
