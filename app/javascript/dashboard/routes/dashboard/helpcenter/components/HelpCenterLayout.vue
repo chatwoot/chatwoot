@@ -61,6 +61,7 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    // dummy datas for testing
     accessibleMenuItems() {
       return [
         {
