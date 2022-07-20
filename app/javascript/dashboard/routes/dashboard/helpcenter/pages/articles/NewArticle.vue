@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     onClickGoBack() {
-      this.$router.push({ name: 'list_all_portals' });
+      this.$router.push({ name: 'list_all_locale_articles' });
     },
     titleInput(value) {
       this.articleTitle = value;

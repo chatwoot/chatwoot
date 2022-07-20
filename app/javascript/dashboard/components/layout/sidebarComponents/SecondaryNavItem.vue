@@ -134,6 +134,12 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
+    isAllArticles() {
+      return (
+        this.$store.state.route.name === 'list_all_locale_articles' &&
+        this.menuItem.toStateName === 'all_locale_articles'
+      );
+    },
 
     computedClass() {
       // If active Inbox is present
@@ -147,6 +153,12 @@ export default {
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
+          return 'is-active';
+        }
+        return ' ';
+      }
+      if (this.isHelpCenterSidebar) {
+        if (this.isAllArticles) {
           return 'is-active';
         }
         return ' ';

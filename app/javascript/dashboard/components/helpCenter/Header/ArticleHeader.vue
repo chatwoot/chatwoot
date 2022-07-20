@@ -42,7 +42,7 @@
               size="small"
               icon="send-clock"
             >
-              {{ 'Status' }}
+              {{ 'published' }}
             </woot-button>
           </woot-dropdown-item>
           <woot-dropdown-item>
@@ -52,7 +52,7 @@
               size="small"
               icon="dual-screen-clock"
             >
-              {{ 'Created' }}
+              {{ 'draft' }}
             </woot-button>
           </woot-dropdown-item>
           <woot-dropdown-item>
@@ -62,7 +62,7 @@
               size="small"
               icon="calendar-clock"
             >
-              {{ 'Last edited' }}
+              {{ 'archived' }}
             </woot-button>
           </woot-dropdown-item>
         </woot-dropdown-menu>
@@ -79,6 +79,7 @@
         class-names="article--buttons"
         size="small"
         color-scheme="primary"
+        @click="onClickNewArticlePage"
       >
         {{ $t('HELP_CENTER.HEADER.NEW_BUTTON') }}
       </woot-button>
@@ -130,6 +131,9 @@ export default {
       this.$emit('close');
       this.showSortByDropdown = false;
     },
+    onClickNewArticlePage() {
+      this.$emit('newArticlePage');
+    },
   },
 };
 </script>
@@ -139,7 +143,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-small) var(--space-normal);
   width: 100%;
   height: var(--space-larger);
 }
@@ -153,6 +156,10 @@ export default {
 }
 .count-view {
   margin-left: var(--space-smaller);
+}
+.dropdown-pane--open {
+  top: var(--space-larger);
+  right: 14.8rem;
 }
 .selected-value {
   display: inline-flex;

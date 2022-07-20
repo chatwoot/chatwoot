@@ -34,6 +34,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
+import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar';
 import HelpCenterSidebar from 'dashboard/components/helpCenter/Sidebar/Sidebar';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
@@ -52,47 +55,62 @@ export default {
     return {
       showShortcutModal: false,
       showNotificationPanel: false,
-
-      // For testing purposes
-      accessibleMenuItems: [
+    };
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
+    accessibleMenuItems() {
+      return [
         {
           icon: 'book',
           label: 'HELP_CENTER.ALL_ARTICLES',
           key: 'helpcenter_all',
           count: 199,
-          toState: '/app/accounts/3/portals',
+          toState: frontendURL(
+            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles`
+          ),
           toolTip: 'All Articles',
-          toStateName: 'helpcenter_all',
+          toStateName: 'all_locale_articles',
         },
         {
           icon: 'pen',
           label: 'HELP_CENTER.MY_ARTICLES',
           key: 'helpcenter_mine',
           count: 112,
-          toState: 'accounts/1/articles/mine',
+          toState: frontendURL(
+            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/mine`
+          ),
           toolTip: 'My articles',
-          toStateName: 'helpcenter_mine',
+          toStateName: 'mine_articles',
         },
         {
           icon: 'draft',
           label: 'HELP_CENTER.DRAFT',
           key: 'helpcenter_draft',
           count: 32,
-          toState: 'accounts/1/articles/draft',
+          toState: frontendURL(
+            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/draft`
+          ),
           toolTip: 'Draft',
-          toStateName: 'helpcenter_draft',
+          toStateName: 'draft_articles',
         },
         {
           icon: 'archive',
           label: 'HELP_CENTER.ARCHIVED',
           key: 'helpcenter_archive',
           count: 10,
-          toState: 'accounts/1/articles/archived',
+          toState: frontendURL(
+            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/archived`
+          ),
           toolTip: 'Archived',
-          toStateName: 'helpcenter_archive',
+          toStateName: 'archived_articles',
         },
-      ],
-      additionalSecondaryMenuItems: [
+      ];
+    },
+    additionalSecondaryMenuItems() {
+      return [
         {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
@@ -104,49 +122,59 @@ export default {
               label: 'Getting started',
               count: 12,
               truncateLabel: true,
-              toState: 'accounts/1/articles/categories/new',
+              toState: frontendURL(
+                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/getting-started`
+              ),
             },
             {
               id: 2,
               label: 'Channel',
               count: 19,
               truncateLabel: true,
-              toState: 'accounts/1/articles/categories/channel',
+              toState: frontendURL(
+                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/channel`
+              ),
             },
             {
               id: 3,
               label: 'Feature',
               count: 24,
               truncateLabel: true,
-              toState: 'accounts/1/articles/categories/feature',
+              toState: frontendURL(
+                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/feature`
+              ),
             },
             {
               id: 4,
               label: 'Advanced',
               count: 8,
               truncateLabel: true,
-              toState: 'accounts/1/articles/categories/advanced',
+              toState: frontendURL(
+                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/advanced`
+              ),
             },
             {
               id: 5,
               label: 'Mobile app',
               count: 3,
               truncateLabel: true,
-              toState: 'accounts/1/articles/categories/mobile-app',
+              toState: frontendURL(
+                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/mobile-app`
+              ),
             },
             {
               id: 6,
               label: 'Others',
               count: 39,
               truncateLabel: true,
-              toState: 'accounts/1/articles/categories/others',
+              toState: frontendURL(
+                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/others`
+              ),
             },
           ],
         },
-      ],
-    };
-  },
-  computed: {
+      ];
+    },
     currentRoute() {
       return ' ';
     },

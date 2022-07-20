@@ -5,7 +5,7 @@
       draft-state="saved"
       @back="onClickGoBack"
     />
-    <edit-article-field />
+    <edit-article-field :article="article" />
   </div>
 </template>
 
@@ -17,9 +17,15 @@ export default {
     EditArticleHeader,
     EditArticleField,
   },
+  props: {
+    article: {
+      type: Object,
+      default: () => {},
+    },
+  },
   methods: {
     onClickGoBack() {
-      this.$router.push({ name: 'list_all_portals' });
+      this.$router.push({ name: 'list_all_locale_articles' });
     },
   },
 };

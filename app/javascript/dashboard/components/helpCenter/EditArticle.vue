@@ -14,7 +14,6 @@
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
       :is-format-mode="true"
-      :min-height="64"
       @focus="onFocus"
       @blur="onBlur"
       @input="onContentInput"
