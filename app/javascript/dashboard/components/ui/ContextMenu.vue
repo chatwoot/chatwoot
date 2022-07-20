@@ -12,9 +12,6 @@
 </template>
 <script>
 export default {
-  props: {
-    display: Boolean,
-  },
   data() {
     return {
       left: 0,
