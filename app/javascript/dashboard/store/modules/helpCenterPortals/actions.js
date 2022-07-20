@@ -6,22 +6,13 @@ export const actions = {
       commit('setUIFlag', { isFetching: true });
       const { data } = await HelpCenterPortalsAPI.get();
       data.forEach(helpCenter => {
-        const { id: helpCenterId, locales } = helpCenter;
+        const { id: helpCenterId } = helpCenter;
 
         commit('addHelpCenterEntry', helpCenter);
         commit('addHelpCenterId', helpCenterId);
         commit('setHelpCenterUIFlag', {
           uiFlags: {},
           helpCenterId,
-        });
-        // commit(
-        //   'locales/addLocalesEntry',
-        //   { helpCenterId, locales: locales },
-        //   { root: true }
-        // );
-        commit('appendLocaleIdsToHelpCenter', {
-          helpCenterId,
-          locales,
         });
       });
     } catch (error) {
@@ -35,19 +26,11 @@ export const actions = {
     commit('setUIFlag', { isCreating: true });
     try {
       const { data } = await HelpCenterPortalsAPI.create(params);
-      const { id: helpCenterId, locales } = data;
+      const { id: helpCenterId } = data;
 
       commit('addHelpCenterEntry', data);
       commit('addHelpCenterId', helpCenterId);
-      // commit(
-      //   'locales/addLocalesEntry',
-      //   { helpCenterId, locales: locales },
-      //   { root: true }
-      // );
-      commit('appendLocaleIdsToHelpCenter', {
-        helpCenterId,
-        locales,
-      });
+
       return helpCenterId;
     } catch (error) {
       throw new Error(error);
@@ -56,8 +39,8 @@ export const actions = {
     }
   },
 
-  updateHelpCenter: async ({ commit }, params) => {
-    const helpCenterId = params.id;
+  updateHelpCenter: async ({ commit }, { helpCenter }) => {
+    const helpCenterId = helpCenter.id;
     commit('setHelpCenterUIFlag', {
       uiFlags: {
         isUpdating: true,
@@ -65,19 +48,9 @@ export const actions = {
       helpCenterId,
     });
     try {
-      const { data } = await HelpCenterPortalsAPI.update(params);
-      const { locales } = data;
+      const { data } = await HelpCenterPortalsAPI.update(helpCenter);
 
       commit('updateHelpCenterEntry', data);
-      // commit(
-      //   'locales/addLocalesEntry',
-      //   { helpCenterId, locales: locales },
-      //   { root: true }
-      // );
-      commit('appendLocaleIdsToHelpCenter', {
-        helpCenterId,
-        locales,
-      });
       return helpCenterId;
     } catch (error) {
       throw new Error(error);
@@ -91,7 +64,7 @@ export const actions = {
     }
   },
 
-  deleteHelpCenter: async ({ commit }, helpCenterId) => {
+  deleteHelpCenter: async ({ commit }, { helpCenterId }) => {
     commit('setHelpCenterUIFlag', {
       uiFlags: {
         isDeleting: true,

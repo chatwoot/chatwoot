@@ -42,3 +42,34 @@ export default {
     isFetching: true,
   },
 };
+
+export const apiResponse = [
+  {
+    id: 1,
+    color: 'red',
+    custom_domain: 'domain_for_help',
+    header_text: 'Domain Header',
+    homepage_link: 'help-center',
+    name: 'help name',
+    page_title: 'page title',
+    slug: 'domain',
+    archived: false,
+    config: {
+      allowed_locales: ['en'],
+    },
+  },
+  {
+    id: 2,
+    color: 'green',
+    custom_domain: 'campaign_for_help',
+    header_text: 'Campaign Header',
+    homepage_link: 'help-center',
+    name: 'help name',
+    page_title: 'campaign title',
+    slug: 'campaign',
+    archived: false,
+    config: {
+      allowed_locales: ['en'],
+    },
+  },
+];
