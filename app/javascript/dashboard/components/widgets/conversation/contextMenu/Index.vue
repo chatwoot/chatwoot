@@ -163,10 +163,6 @@ export default {
       };
     },
   },
-  mounted() {
-    this.$store.dispatch('agents/get');
-    this.$store.dispatch('labels/get');
-  },
   methods: {
     toggleStatus(status, snoozedUntil) {
       this.$emit('update-conversation', status, snoozedUntil);
