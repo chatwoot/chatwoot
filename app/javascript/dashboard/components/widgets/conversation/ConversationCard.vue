@@ -92,12 +92,18 @@
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
     </div>
-    <woot-context-menu ref="menu" :display="showContextMenu">
+    <woot-context-menu
+      v-if="showContextMenu"
+      ref="menu"
+      :x="contextMenu.x"
+      :y="contextMenu.y"
+      @close="closeContextMenu"
+    >
       <conversation-context-menu
         :show-pending="chat.status !== 'pending'"
         :show-resolved="chat.status !== 'resolved'"
         :show-reopen="chat.status !== 'open'"
-        :agents="assignableAgents"
+        :inbox-id="inbox.id"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
@@ -184,6 +190,10 @@ export default {
     return {
       hovered: false,
       showContextMenu: false,
+      contextMenu: {
+        x: null,
+        y: null,
+      },
     };
   },
   computed: {
@@ -286,11 +296,6 @@ export default {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
     },
-    assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inbox.id
-      );
-    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inbox.id]);
@@ -324,10 +329,17 @@ export default {
     },
     openContextMenu(e) {
       e.preventDefault();
-      this.$refs.menu.open(e);
+      this.contextMenu.x = e.pageX || e.clientX;
+      this.contextMenu.y = e.pageY || e.clientY;
+      this.showContextMenu = true;
+    },
+    closeContextMenu() {
+      this.showContextMenu = false;
+      this.contextMenu.x = null;
+      this.contextMenu.y = null;
     },
     onUpdateConversation(status, snoozedUntil) {
-      this.$refs.menu.close();
+      this.closeContextMenu();
       this.$store
         .dispatch('toggleStatus', {
           conversationId: this.chat.id,
@@ -341,6 +353,7 @@ export default {
     },
     async onAssignAgent(agent) {
       try {
+        this.closeContextMenu();
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
           ids: [this.chat.id],
@@ -348,7 +361,6 @@ export default {
             assignee_id: agent.id,
           },
         });
-        this.$refs.menu.close();
         this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
       } catch (err) {
         this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT_FAILED'));
@@ -356,6 +368,7 @@ export default {
     },
     async onAssignLabel(label) {
       try {
+        this.closeContextMenu();
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
           ids: [this.chat.id],
@@ -363,7 +376,6 @@ export default {
             add: [label.title],
           },
         });
-        this.$refs.menu.close();
         this.showAlert(this.$t('CONVERSATION.ASSIGN_LABEL_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('CONVERSATION.ASSIGN_LABEL_FAILED'));

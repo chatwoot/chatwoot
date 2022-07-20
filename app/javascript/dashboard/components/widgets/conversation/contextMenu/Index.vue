@@ -52,21 +52,30 @@
       <fluent-icon icon="chevron-right" size="12" />
       <div class="conversation-submenu">
         <div
-          v-for="agent in agents"
-          :key="agent.id"
-          class="menu-item"
-          @click="$emit('assign-agent', agent)"
+          v-if="assignableAgentsUiFlags.isFetching"
+          class="agent__list-loading"
         >
-          <div class="flex-align-center">
-            <thumbnail
-              :username="agent.name"
-              :src="agent.thumbnail"
-              size="20px"
-              class="agent-thumbnail"
-            />
-            <p>{{ agent.name }}</p>
-          </div>
+          <spinner />
+          <p>{{ this.$t('CONVERSATION.CARD_CONTEXT_MENU.AGENTS_LOADING') }}</p>
         </div>
+        <template>
+          <div
+            v-for="agent in assignableAgents"
+            :key="agent.id"
+            class="menu-item"
+            @click="$emit('assign-agent', agent)"
+          >
+            <div class="flex-align-center">
+              <thumbnail
+                :username="agent.name"
+                :src="agent.thumbnail"
+                size="20px"
+                class="agent-thumbnail"
+              />
+              <p>{{ agent.name }}</p>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
     <!-- // Agent Menu  -->
@@ -95,6 +104,7 @@
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Spinner from 'shared/components/Spinner';
 import wootConstants from 'dashboard/constants.js';
 import { mapGetters } from 'vuex';
 import {
@@ -107,6 +117,7 @@ import {
 export default {
   components: {
     Thumbnail,
+    Spinner,
   },
   props: {
     showPending: {
@@ -121,9 +132,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    agents: {
-      type: Array,
-      default: () => [],
+    inboxId: {
+      type: Number,
+      default: null,
     },
   },
   data() {
@@ -151,7 +162,13 @@ export default {
   computed: {
     ...mapGetters({
       labels: 'labels/getLabels',
+      assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inboxId
+      );
+    },
     snoozeTimes() {
       return {
         // tomorrow  = 9AM next day
@@ -162,6 +179,9 @@ export default {
         ),
       };
     },
+  },
+  mounted() {
+    this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
   },
   methods: {
     toggleStatus(status, snoozedUntil) {
@@ -260,5 +280,13 @@ export default {
   border: 1px solid var(--s-50);
   flex-shrink: 0;
   margin-right: var(--space-small);
+}
+
+.agent__list-loading {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  height: var(--space-jumbo);
 }
 </style>

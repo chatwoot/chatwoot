@@ -69,7 +69,8 @@
         "NEXT_WEEK": "Until next week"
       },
       "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label"
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",

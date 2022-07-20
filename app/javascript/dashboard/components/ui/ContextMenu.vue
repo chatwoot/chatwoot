@@ -5,17 +5,27 @@
     class="sub-menu"
     :style="style"
     tabindex="0"
-    @blur="close"
+    @blur="$emit('close')"
   >
     <slot />
   </div>
 </template>
 <script>
 export default {
+  props: {
+    x: {
+      type: Number,
+      default: 0,
+    },
+    y: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
-      left: 0,
-      top: 0,
+      left: this.x,
+      top: this.y,
       show: false,
     };
   },
@@ -27,18 +37,9 @@ export default {
       };
     },
   },
-  methods: {
-    close() {
-      this.show = false;
-      this.left = 0;
-      this.top = 0;
-    },
-    open(evt) {
-      this.left = evt.pageX || evt.clientX;
-      this.top = evt.pageY || evt.clientY;
-      this.$nextTick(() => this.$el.focus());
-      this.show = true;
-    },
+  mounted() {
+    this.$nextTick(() => this.$el.focus());
+    this.show = true;
   },
 };
 </script>
