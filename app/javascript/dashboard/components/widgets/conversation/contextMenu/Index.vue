@@ -189,7 +189,7 @@ export default {
   min-width: calc(var(--space-mega) * 2);
   position: relative;
   border-radius: var(--border-radius-medium);
-  padding: var(--space-half);
+  padding: var(--space-smaller);
   p {
     margin: 0;
     font-size: var(--font-size-mini);
@@ -197,7 +197,7 @@ export default {
 }
 
 .menu-item {
-  padding: var(--space-half);
+  padding: var(--space-smaller);
   border-radius: var(--border-radius-small);
 
   .icon {
@@ -216,7 +216,7 @@ export default {
     position: relative;
 
     &:hover {
-      background-color: var(--w-50);
+      background-color: var(--w-75);
       .conversation-submenu {
         display: block;
       }
@@ -234,10 +234,10 @@ export default {
     }
 
     .conversation-submenu {
-      border: 1px solid var(--s-25);
+      border: 1px solid var(--s-50);
       min-width: calc(var(--space-mega) * 2);
       border-radius: var(--border-radius-medium);
-      padding: var(--space-half);
+      padding: var(--space-smaller);
       background-color: var(--white);
       position: absolute;
       left: 100%;
@@ -250,7 +250,7 @@ export default {
 
 .agent-thumbnail {
   margin-top: 0 !important;
-  margin-right: var(--space-one);
+  margin-right: var(--space-small);
 }
 
 .label-pill {
@@ -259,6 +259,6 @@ export default {
   border-radius: var(--border-radius-rounded);
   border: 1px solid var(--s-50);
   flex-shrink: 0;
-  margin-right: var(--space-one);
+  margin-right: var(--space-small);
 }
 </style>
