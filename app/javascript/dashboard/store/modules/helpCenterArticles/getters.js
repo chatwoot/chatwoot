@@ -6,17 +6,17 @@ export const getters = {
   },
   isFetchingHelpCenterArticles: _state => _state.uiFlags.isFetching,
   helpCenterArticleById: (...getterArguments) => articleId => {
-    const [_state, , , _rootGetters] = getterArguments;
+    const [_state] = getterArguments;
     const article = _state.articles.byId[articleId];
 
-    const { author_id } = article;
-    const author = _rootGetters['authors/authorById'](author_id);
+    // const { author_id } = article;
+    // const author = _rootGetters['authors/authorById'](author_id);
 
     if (!article) return undefined;
 
     return {
       ...article,
-      author,
+      // author,
     };
   },
   allHelpCenterArticles: (...getterArguments) => {
