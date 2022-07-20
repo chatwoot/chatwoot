@@ -6,7 +6,7 @@
         v-if="show(item.key)"
         :key="item.key"
         class="menu-item flex-align-center"
-        @click="$emit('update-conversation', item.key)"
+        @click="toggleStatus(item.key, null)"
       >
         <fluent-icon :icon="item.icon" size="14" class="icon" />
         <p>{{ item.label }}</p>
@@ -21,20 +21,20 @@
       </div>
       <fluent-icon icon="chevron-right" size="12" />
       <div class="conversation-submenu">
-        <div class="menu-item" @click="$emit('update-conversation', 'snooze')">
+        <div class="menu-item" @click="toggleStatus(STATUS_TYPE.SNOOZED, null)">
           <p>
             {{ this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.NEXT_REPLY') }}
           </p>
         </div>
         <div
           class="menu-item"
-          @click="$emit('update-conversation', 'snooze-until-tomorrow')"
+          @click="toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.tomorrow)"
         >
           <p>{{ this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.TOMORROW') }}</p>
         </div>
         <div
           class="menu-item"
-          @click="$emit('update-conversation', 'snooze_until_next_week')"
+          @click="toggleStatus(STATUS_TYPE.SNOOZED, snoozeTimes.nextWeek)"
         >
           <p>
             {{ this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.NEXT_WEEK') }}
@@ -95,8 +95,15 @@
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import wootConstants from 'dashboard/constants.js';
 import { mapGetters } from 'vuex';
-
+import {
+  getUnixTime,
+  addHours,
+  addWeeks,
+  startOfTomorrow,
+  startOfWeek,
+} from 'date-fns';
 export default {
   components: {
     Thumbnail,
@@ -114,22 +121,27 @@ export default {
       type: Boolean,
       default: false,
     },
+    agents: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
+      STATUS_TYPE: wootConstants.STATUS_TYPE,
       menuItems: [
         {
-          key: 'resolved',
+          key: wootConstants.STATUS_TYPE.RESOLVED,
           label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.RESOLVED'),
           icon: 'checkmark',
         },
         {
-          key: 'pending',
+          key: wootConstants.STATUS_TYPE.PENDING,
           label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PENDING'),
           icon: 'book-clock',
         },
         {
-          key: 'open',
+          key: wootConstants.STATUS_TYPE.OPEN,
           label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.REOPEN'),
           icon: 'arrow-redo',
         },
@@ -138,20 +150,32 @@ export default {
   },
   computed: {
     ...mapGetters({
-      agents: 'agents/getAgents',
       labels: 'labels/getLabels',
     }),
+    snoozeTimes() {
+      return {
+        // tomorrow  = 9AM next day
+        tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
+        // next week = 9AM Monday, next week
+        nextWeek: getUnixTime(
+          addHours(startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 }), 9)
+        ),
+      };
+    },
   },
   mounted() {
     this.$store.dispatch('agents/get');
     this.$store.dispatch('labels/get');
   },
   methods: {
+    toggleStatus(status, snoozedUntil) {
+      this.$emit('update-conversation', status, snoozedUntil);
+    },
     show(key) {
       const options = {
-        resolved: this.showResolved,
-        open: this.showReopen,
-        pending: this.showPending,
+        [wootConstants.STATUS_TYPE.RESOLVED]: this.showResolved,
+        [wootConstants.STATUS_TYPE.OPEN]: this.showReopen,
+        [wootConstants.STATUS_TYPE.PENDING]: this.showPending,
       };
       return options[key] || false;
     },

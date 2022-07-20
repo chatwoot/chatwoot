@@ -97,6 +97,7 @@
         :show-pending="chat.status !== 'pending'"
         :show-resolved="chat.status !== 'resolved'"
         :show-reopen="chat.status !== 'open'"
+        :agents="assignableAgents"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
@@ -285,6 +286,14 @@ export default {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
     },
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.inbox.id
+      );
+    },
+  },
+  mounted() {
+    this.$store.dispatch('inboxAssignableAgents/fetch', [this.inbox.id]);
   },
   methods: {
     cardClick(chat) {
@@ -317,20 +326,18 @@ export default {
       e.preventDefault();
       this.$refs.menu.open(e);
     },
-    async onUpdateConversation(status) {
-      try {
-        await this.$store.dispatch('bulkActions/process', {
-          type: 'Conversation',
-          ids: [this.chat.id],
-          fields: {
-            status,
-          },
+    onUpdateConversation(status, snoozedUntil) {
+      this.$refs.menu.close();
+      this.$store
+        .dispatch('toggleStatus', {
+          conversationId: this.chat.id,
+          status,
+          snoozedUntil,
+        })
+        .then(() => {
+          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          this.isLoading = false;
         });
-        this.$refs.menu.close();
-        this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
-      } catch (err) {
-        this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS_FAILED'));
-      }
     },
     async onAssignAgent(agent) {
       try {
