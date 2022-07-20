@@ -127,6 +127,9 @@ gem 'working_hours'
 # full text search for articles
 gem 'pg_search'
 
+# Subscriptions, Billing
+gem 'stripe'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
