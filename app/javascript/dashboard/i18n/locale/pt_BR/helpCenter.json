@@ -28,8 +28,8 @@
       }
     },
     "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "TITLE_PLACEHOLDER": "O título do artigo vai aqui",
+      "CONTENT_PLACEHOLDER": "Escreva o seu artigo aqui"
     },
     "SIDEBAR": {
       "SEARCH": {
