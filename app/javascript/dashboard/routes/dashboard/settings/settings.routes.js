@@ -13,6 +13,7 @@ import teams from './teams/teams.routes';
 import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
 import store from '../../../store';
+import billing from './billing/billing.routes';
 
 export default {
   routes: [
@@ -29,6 +30,9 @@ export default {
     },
     ...account.routes,
     ...agent.routes,
+    ...attributes.routes,
+    ...automation.routes,
+    ...billing.routes,
     ...canned.routes,
     ...inbox.routes,
     // ...integrations.routes,
@@ -38,7 +42,5 @@ export default {
     ...teams.routes,
     ...campaigns.routes,
     // ...integrationapps.routes,
-    ...attributes.routes,
-    ...automation.routes,
   ],
 };

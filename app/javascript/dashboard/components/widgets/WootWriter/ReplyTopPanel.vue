@@ -9,7 +9,6 @@
       >
         {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
       </woot-button>
-
       <woot-button
         class="button--note"
         variant="clear"
@@ -18,6 +17,15 @@
         @click="handleNoteClick"
       >
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+      </woot-button>
+      <woot-button
+        v-if="hasWhatsappTemplates"
+        class="button--reply whatsapp--templates"
+        variant="clear"
+        icon="whatsapp"
+        @click="$emit('selectWhatsappTemplate')"
+      >
+        {{ 'Whatsapp Templates' }}
       </woot-button>
     </div>
     <div class="action-wrap">
@@ -74,6 +82,10 @@ export default {
       default: () => 0,
     },
     popoutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
+    hasWhatsappTemplates: {
       type: Boolean,
       default: false,
     },
@@ -184,5 +196,8 @@ export default {
   .message-length {
     color: var(--s-600);
   }
+}
+.whatsapp--templates {
+  color: #25d366 !important;
 }
 </style>

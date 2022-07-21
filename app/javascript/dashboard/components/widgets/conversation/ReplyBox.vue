@@ -14,7 +14,9 @@
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
+      :has-whatsapp-templates="hasWhatsappTemplates"
       @click="$emit('click')"
+      @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
     <div class="reply-box__top">
       <canned-response
@@ -112,9 +114,7 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      :has-whatsapp-templates="hasWhatsappTemplates"
       @toggleEnterToSend="toggleEnterToSend"
-      @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"

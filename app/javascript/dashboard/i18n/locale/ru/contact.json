@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Введите email контакта",
         "LABEL": "Email",
-        "DUPLICATE": "Этот адрес электронной почты используется для другого контакта."
+        "DUPLICATE": "Этот адрес электронной почты используется для другого контакта.",
+        "ERROR": "Пожалуйста, введите действительный адрес электронной почты."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Введите номер телефона контакта",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "Введите имя пользователя Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Контакт успешно сохранен",

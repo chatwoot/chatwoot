@@ -490,20 +490,20 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.agent_last_seen_at).not_to eq nil
+        expect(conversation.reload.agent_last_seen_at).not_to be_nil
       end
 
       it 'updates assignee last seen' do
         conversation.update!(assignee_id: agent.id)
 
-        expect(conversation.reload.assignee_last_seen_at).to eq nil
+        expect(conversation.reload.assignee_last_seen_at).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.assignee_last_seen_at).not_to eq nil
+        expect(conversation.reload.assignee_last_seen_at).not_to be_nil
       end
     end
   end
@@ -532,8 +532,8 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.resolved?).to eq(true)
-        expect(conversation.reload.muted?).to eq(true)
+        expect(conversation.reload.resolved?).to be(true)
+        expect(conversation.reload.muted?).to be(true)
       end
     end
   end
@@ -562,7 +562,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.muted?).to eq(false)
+        expect(conversation.reload.muted?).to be(false)
       end
     end
   end
@@ -636,7 +636,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.custom_attributes).not_to eq nil
+        expect(conversation.reload.custom_attributes).not_to be_nil
         expect(conversation.reload.custom_attributes.count).to eq 3
       end
     end

@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Endereço",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção",
             "CREATED_AT": "Criado Em",
-            "LAST_ACTIVITY": "Última atividade"
+            "LAST_ACTIVITY": "Última atividade",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Filtros Padrão",

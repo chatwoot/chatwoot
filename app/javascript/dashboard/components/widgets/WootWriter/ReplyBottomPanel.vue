@@ -79,7 +79,7 @@
         :title="signatureToggleTooltip"
         @click="toggleMessageSignature"
       />
-      <woot-button
+      <!--<woot-button
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="'Whatsapp Templates'"
         icon="whatsapp"
@@ -88,7 +88,7 @@
         size="small"
         :title="'Whatsapp Templates'"
         @click="$emit('selectWhatsappTemplate')"
-      />
+      />-->
       <transition name="modal-fade">
         <div
           v-show="$refs.upload && $refs.upload.dropActive"
@@ -227,10 +227,6 @@ export default {
     enableMultipleFileUpload: {
       type: Boolean,
       default: true,
-    },
-    hasWhatsappTemplates: {
-      type: Boolean,
-      default: false,
     },
   },
   computed: {

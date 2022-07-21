@@ -65,6 +65,7 @@
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "دسته بندی بر اساس",
+    "DURATION_FILTER_LABEL": "مدت زمان",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
