@@ -21,37 +21,37 @@
           </div>
         </div>
         <woot-input
-          v-model.trim="categoryName"
-          :class="{ error: $v.categoryName.$error }"
+          v-model.trim="name"
+          :class="{ error: $v.name.$error }"
           class="medium-12 columns"
-          :error="categoryNameError"
+          :error="nameError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
-          @input="onCategoryNameChange"
+          @input="onNameChange"
         />
         <woot-input
-          v-model.trim="categorySlug"
-          :class="{ error: $v.categorySlug.$error }"
+          v-model.trim="slug"
+          :class="{ error: $v.slug.$error }"
           class="medium-12 columns"
-          :error="categorySlugError"
+          :error="slugError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
-          @input="$v.categorySlug.$touch"
+          @input="$v.slug.$touch"
         />
-        <label :class="{ error: $v.categoryDescription.$error }">
+        <label :class="{ error: $v.description.$error }">
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
           <textarea
-            v-model="categoryDescription"
+            v-model="description"
             rows="3"
             type="text"
             :placeholder="
               $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.PLACEHOLDER')
             "
-            @blur="$v.categoryDescription.$touch"
+            @blur="$v.description.$touch"
           />
-          <span v-if="$v.categoryDescription.$error" class="message">
+          <span v-if="$v.description.$error" class="message">
             {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.ERROR') }}
           </span>
         </label>
@@ -74,7 +74,7 @@
 import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
-import { convertToSlug } from 'dashboard/helper/commons.js';
+import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 
 export default {
   components: {
@@ -85,10 +85,6 @@ export default {
     show: {
       type: Boolean,
       default: true,
-    },
-    isCreating: {
-      type: Boolean,
-      default: false,
     },
     portalName: {
       type: String,
@@ -101,40 +97,40 @@ export default {
   },
   data() {
     return {
-      categorySlug: '',
-      categoryName: '',
-      categoryDescription: '',
+      name: '',
+      slug: '',
+      description: '',
     };
   },
   validations: {
-    categoryName: {
+    name: {
       required,
       minLength: minLength(2),
     },
-    categorySlug: {
+    slug: {
       required,
     },
-    categoryDescription: {
+    description: {
       required,
     },
   },
   computed: {
-    categoryNameError() {
-      if (this.$v.categoryName.$error) {
+    nameError() {
+      if (this.$v.name.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
       }
       return '';
     },
-    categorySlugError() {
-      if (this.$v.categorySlug.$error) {
+    slugError() {
+      if (this.$v.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
       }
       return '';
     },
   },
   methods: {
-    onCategoryNameChange() {
-      this.categorySlug = convertToSlug(this.categoryName);
+    onNameChange() {
+      this.slug = convertToCategorySlug(this.name);
     },
     onCreate() {
       this.$emit('create');
@@ -146,8 +142,9 @@ export default {
       this.$emit('cancel');
     },
     reset() {
-      this.categoryName = '';
-      this.categorySlug = '';
+      this.name = '';
+      this.slug = '';
+      this.description = '';
     },
   },
 };
