@@ -19,6 +19,7 @@
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
       @toggle-accounts="toggleAccountModal"
     />
@@ -67,6 +68,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
