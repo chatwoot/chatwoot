@@ -100,9 +100,7 @@
       @close="closeContextMenu"
     >
       <conversation-context-menu
-        :show-pending="chat.status !== 'pending'"
-        :show-resolved="chat.status !== 'resolved'"
-        :show-reopen="chat.status !== 'open'"
+        :status="chat.status"
         :inbox-id="inbox.id"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"

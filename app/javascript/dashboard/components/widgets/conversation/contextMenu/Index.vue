@@ -14,7 +14,7 @@
     </template>
     <!-- // Status Menu  -->
     <!-- // Snooze Menu  -->
-    <div class="menu-item has-submenu">
+    <div v-if="show(STATUS_TYPE.SNOOZED)" class="menu-item has-submenu">
       <div class="flex-align-center">
         <fluent-icon icon="snooze" size="14" class="icon" />
         <p>{{ $t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.TITLE') }}</p>
@@ -106,31 +106,19 @@
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner';
 import wootConstants from 'dashboard/constants.js';
+import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
+
 import { mapGetters } from 'vuex';
-import {
-  getUnixTime,
-  addHours,
-  addWeeks,
-  startOfTomorrow,
-  startOfWeek,
-} from 'date-fns';
 export default {
   components: {
     Thumbnail,
     Spinner,
   },
+  mixins: [snoozeTimesMixin],
   props: {
-    showPending: {
-      type: Boolean,
-      default: false,
-    },
-    showResolved: {
-      type: Boolean,
-      default: false,
-    },
-    showReopen: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: '',
     },
     inboxId: {
       type: Number,
@@ -169,16 +157,6 @@ export default {
         this.inboxId
       );
     },
-    snoozeTimes() {
-      return {
-        // tomorrow  = 9AM next day
-        tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
-        // next week = 9AM Monday, next week
-        nextWeek: getUnixTime(
-          addHours(startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 }), 9)
-        ),
-      };
-    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
@@ -188,12 +166,9 @@ export default {
       this.$emit('update-conversation', status, snoozedUntil);
     },
     show(key) {
-      const options = {
-        [wootConstants.STATUS_TYPE.RESOLVED]: this.showResolved,
-        [wootConstants.STATUS_TYPE.OPEN]: this.showReopen,
-        [wootConstants.STATUS_TYPE.PENDING]: this.showPending,
-      };
-      return options[key] || false;
+      // If the conversation status is same as the action, then don't display the option
+      // i.e.: Don't show an option to resolve if the conversation is already resolved.
+      return this.status !== key;
     },
   },
 };
