@@ -3,7 +3,7 @@
     <article-header
       header-title="All Articles"
       :count="199"
-      selected-value="published"
+      selected-value="Published"
       @newArticlePage="newArticlePage"
     />
   </div>

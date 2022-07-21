@@ -42,7 +42,7 @@
               size="small"
               icon="send-clock"
             >
-              {{ 'published' }}
+              {{ $t('HELP_CENTER.HEADER.DROPDOWN_OPTIONS.PUBLISHED') }}
             </woot-button>
           </woot-dropdown-item>
           <woot-dropdown-item>
@@ -52,7 +52,7 @@
               size="small"
               icon="dual-screen-clock"
             >
-              {{ 'draft' }}
+              {{ $t('HELP_CENTER.HEADER.DROPDOWN_OPTIONS.DRAFT') }}
             </woot-button>
           </woot-dropdown-item>
           <woot-dropdown-item>
@@ -62,7 +62,7 @@
               size="small"
               icon="calendar-clock"
             >
-              {{ 'archived' }}
+              {{ $t('HELP_CENTER.HEADER.DROPDOWN_OPTIONS.ARCHIVED') }}
             </woot-button>
           </woot-dropdown-item>
         </woot-dropdown-menu>
