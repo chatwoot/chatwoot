@@ -2,89 +2,157 @@
   <div class="settings--content">
     <div class="widget-builder-conatiner">
       <div class="settings-container">
-        <div style="padding: 25px 0px; overflow-y: scroll; min-height: 100%;">
-          <woot-input
-            v-model.trim="websiteName"
-            class="medium-9 columns settings-item"
-            label="Website Name"
-            placeholder="Website Name"
-          />
-          <woot-input
-            v-model.trim="welcomeTitle"
-            class="medium-9 columns settings-item"
-            label="Welcome Title"
-            placeholder="Welcome Title"
-          />
-          <woot-input
-            v-model.trim="welcomeTagline"
-            class="medium-9 columns settings-item"
-            label="Welcome Tagline"
-            placeholder="Welcome Tagline"
-          />
-          <label class="medium-9 columns settings-item">
-            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
-            <select v-model="replyTime">
-              <option key="in_a_few_minutes" value="in_a_few_minutes">
-                {{
-                  $t(
-                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_MINUTES'
-                  )
-                }}
-              </option>
-              <option key="in_a_few_hours" value="in_a_few_hours">
-                {{
-                  $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_HOURS')
-                }}
-              </option>
-              <option key="in_a_day" value="in_a_day">
-                {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_DAY') }}
-              </option>
-            </select>
-          </label>
-          <label class="medium-9 columns settings-item">
-            Widget Color
-            <woot-color-picker v-model="color" />
-          </label>
-          <input-radio-group
-            name="widget-bubble-position"
-            label="Widget Bubble Position"
-            :items="widgetBubblePositions"
-            :action="handleWidgetBubblePositionChange"
-          />
-          <input-radio-group
-            name="widget-bubble-type"
-            label="Widget Bubble Types"
-            :items="widgetBubbleTypes"
-            :action="handleWidgetBubbleTypeChange"
-          />
-          <woot-input
-            v-model.trim="widgetBubbleLauncherText"
-            class="medium-9 columns settings-item"
-            label="Widget Bubble Launcher Text"
-            placeholder="Bubble Launcher Text"
-          />
-          <woot-submit-button button-text="Update" @click="updateInbox" />
+        <div class="settings-content">
+          <form @submit.prevent="updateInbox">
+            <woot-avatar-uploader
+              :label="
+                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
+              "
+              :src="avatarUrl"
+              delete-avatar
+              @change="handleImageUpload"
+              @onAvatarDelete="handleAvatarDelete"
+            />
+            <woot-input
+              v-model.trim="websiteName"
+              class="medium-9"
+              :class="{ error: $v.websiteName.$error }"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.PLACE_HOLDER'
+                )
+              "
+              :error="
+                $v.websiteName.$error
+                  ? $t(
+                      'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR'
+                    )
+                  : ''
+              "
+              @blur="$v.websiteName.$touch"
+            />
+            <woot-input
+              v-model.trim="welcomeHeading"
+              class="medium-9"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.PLACE_HOLDER'
+                )
+              "
+            />
+            <woot-input
+              v-model.trim="welcomeTagline"
+              class="medium-9"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
+                )
+              "
+            />
+            <label class="medium-9">
+              {{
+                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.LABEL')
+              }}
+              <select v-model="replyTime">
+                <option
+                  v-for="option in getReplyTimeOptions"
+                  :key="option.key"
+                  :value="option.value"
+                >
+                  {{ option.text }}
+                </option>
+              </select>
+            </label>
+            <label class="medium-9">
+              {{
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_COLOR_LABEL'
+                )
+              }}
+              <woot-color-picker v-model="color" />
+            </label>
+            <input-radio-group
+              name="widget-bubble-position"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
+                )
+              "
+              :items="widgetBubblePositions"
+              :action="handleWidgetBubblePositionChange"
+            />
+            <input-radio-group
+              name="widget-bubble-type"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
+                )
+              "
+              :items="widgetBubbleTypes"
+              :action="handleWidgetBubbleTypeChange"
+            />
+            <woot-input
+              v-model.trim="widgetBubbleLauncherTitle"
+              class="medium-9"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.PLACE_HOLDER'
+                )
+              "
+            />
+            <woot-submit-button
+              class="submit-button"
+              :button-text="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
+                )
+              "
+              :loading="uiFlags.isUpdating"
+              :disabled="$v.$invalid || uiFlags.isUpdating"
+            />
+          </form>
         </div>
       </div>
       <div class="widget-container">
         <input-radio-group
           name="widget-view-options"
-          :items="widgetViewOptions"
+          :items="getWidgetViewOptions"
           :action="handleWidgetViewChange"
           :style="{ 'text-align': 'center' }"
         />
         <div v-if="isWidgetPreview" class="widget-preview">
           <Widget
-            :welcome-heading="welcomeTitle"
+            :welcome-heading="welcomeHeading"
             :welcome-tagline="welcomeTagline"
             :website-name="websiteName"
             website-domain=""
-            :logo="inbox.avatar_url"
+            :logo="avatarUrl"
             is-online
             :reply-time="replyTime"
             :color="color"
             :widget-bubble-position="widgetBubblePosition"
-            :widget-bubble-launcher-text="widgetBubbleLauncherText"
+            :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
+            :widget-bubble-type="widgetBubbleType"
           />
         </div>
         <div v-else class="widget-script">
@@ -96,9 +164,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Widget from '../../../../modules/widget-preview/components/Widget';
 import InputRadioGroup from './components/InputRadioGroup';
 import alertMixin from 'shared/mixins/alertMixin';
+import { required } from 'vuelidate/lib/validators';
+import LocalStorage from '../../../../helper/localStorage';
+
 export default {
   components: {
     Widget,
@@ -113,10 +185,17 @@ export default {
   },
   data() {
     return {
-      widgetViewOptions: [
-        { id: 'preview', title: 'Preview', checked: true },
-        { id: 'script', title: 'Script', checked: false },
-      ],
+      isWidgetPreview: true,
+      color: '#1f93ff',
+      websiteName: '',
+      welcomeHeading: '',
+      welcomeTagline: '',
+      replyTime: '',
+      avatarFile: null,
+      avatarUrl: '',
+      widgetBubblePosition: 'right',
+      widgetBubbleLauncherTitle: 'Chat with us',
+      widgetBubbleType: 'standard',
       widgetBubblePositions: [
         { id: 'left', title: 'Left', checked: false },
         { id: 'right', title: 'Right', checked: true },
@@ -125,31 +204,23 @@ export default {
         { id: 'standard', title: 'Standard', checked: true },
         { id: 'expanded_bubble', title: 'Expanded Bubble', checked: false },
       ],
-      isWidgetPreview: true,
-      color: '#1f93ff',
-      websiteName: '',
-      welcomeTitle: '',
-      welcomeTagline: '',
-      replyTime: '',
-      widgetBubblePosition: 'right',
-      widgetBubbleLauncherText: 'Chat with us',
-      widgetBubbleType: 'standard',
     };
   },
   mounted: function() {
-    this.websiteName = this.inbox.name;
-    this.welcomeTitle = this.inbox.welcome_title;
-    this.welcomeTagline = this.inbox.welcome_tagline;
-    this.color = this.inbox.widget_color;
-    this.replyTime = this.inbox.reply_time;
+    this.setDefaults();
+  },
+  validations: {
+    websiteName: { required },
   },
   computed: {
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+    }),
     widgetScript() {
       let options = {
         position: this.widgetBubblePosition,
         type: this.widgetBubbleType,
-        launcherTitle: this.widgetBubbleLauncherText,
-        darkMode: 'auto',
+        launcherTitle: this.widgetBubbleLauncherTitle,
       };
       let script = this.inbox.web_widget_script;
       return (
@@ -160,8 +231,81 @@ export default {
         script.substring(13, script.length)
       );
     },
+    getWidgetViewOptions() {
+      return [
+        { id: 'preview', title: 'Preview', checked: true },
+        { id: 'script', title: 'Script', checked: false },
+      ];
+    },
+    getWidgetBubbleTypes() {
+      return [
+        { id: 'standard', title: 'Standard', checked: true },
+        { id: 'expanded_bubble', title: 'Expanded Bubble', checked: false },
+      ];
+    },
+    getReplyTimeOptions() {
+      return [
+        {
+          key: 'in_a_few_minutes',
+          value: 'in_a_few_minutes',
+          text: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.IN_A_FEW_MINUTES'
+          ),
+        },
+        {
+          key: 'in_a_few_hours',
+          value: 'in_a_few_hours',
+          text: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.IN_A_FEW_HOURS'
+          ),
+        },
+        {
+          key: 'in_a_day',
+          value: 'in_a_day',
+          text: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.IN_A_DAY'
+          ),
+        },
+      ];
+    },
   },
   methods: {
+    setDefaults() {
+      // Widget Settings
+      const {
+        name,
+        welcome_title,
+        welcome_tagline,
+        widget_color,
+        reply_time,
+        avatar_url,
+      } = this.inbox;
+      this.websiteName = name;
+      this.welcomeHeading = welcome_title;
+      this.welcomeTagline = welcome_tagline;
+      this.color = widget_color;
+      this.replyTime = reply_time;
+      this.avatarUrl = avatar_url;
+
+      // Widget Bubble Settings
+      const { key, storage } = this.getLocalStorageWithKey(this.inbox.id);
+      this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
+        if (item.id === storage.get(key).position) {
+          item.checked = true;
+          this.widgetBubblePosition = item.id;
+        }
+        return item;
+      });
+      this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
+        if (item.id === storage.get(key).type) {
+          item.checked = true;
+          this.widgetBubbleType = item.id;
+        }
+        return item;
+      });
+      this.widgetBubbleLauncherTitle =
+        storage.get(key).launcherTitle || 'Chat with us';
+    },
     handleWidgetBubblePositionChange: function(item) {
       this.widgetBubblePosition = item.id;
     },
@@ -171,25 +315,74 @@ export default {
     handleWidgetViewChange(item) {
       this.isWidgetPreview = item.id === 'preview';
     },
+    handleImageUpload({ file, url }) {
+      this.avatarFile = file;
+      this.avatarUrl = url;
+    },
+    async handleAvatarDelete() {
+      try {
+        await this.$store.dispatch('inboxes/deleteInboxAvatar', this.inbox.id);
+        this.avatarFile = null;
+        this.avatarUrl = '';
+        this.showAlert(
+          this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.SUCCESS_MESSAGE'
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.ERROR_MESSAGE'
+              )
+        );
+      }
+    },
     async updateInbox() {
+      const bubbleSettings = {
+        position: this.widgetBubblePosition,
+        launcherTitle: this.widgetBubbleLauncherTitle,
+        type: this.widgetBubbleType,
+      };
+
+      this.getLocalStorageWithKey(this.inbox.id).storage.store(bubbleSettings);
+
       try {
         const payload = {
           id: this.inbox.id,
           name: this.websiteName,
           channel: {
             widget_color: this.color,
-            welcome_title: this.welcomeTitle || '',
+            welcome_title: this.welcomeHeading || '',
             welcome_tagline: this.welcomeTagline || '',
             reply_time: this.replyTime || 'in_a_few_minutes',
           },
         };
+        if (this.avatarFile) {
+          payload.avatar = this.avatarFile;
+        }
         await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(
+          this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.SUCCESS_MESSAGE'
+          )
+        );
       } catch (error) {
         this.showAlert(
-          error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+          error.message ||
+            this.$t(
+              'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'
+            )
         );
       }
+    },
+    getLocalStorageWithKey(id) {
+      const storageKey = `widgetBubble_${id}`;
+      return {
+        key: storageKey,
+        storage: new LocalStorage(storageKey),
+      };
     },
   },
 };
@@ -211,6 +404,16 @@ export default {
   @include breakpoint(900px down) {
     width: 100%;
   }
+
+  .settings-content {
+    padding: 25px 0px;
+    overflow-y: scroll;
+    min-height: 100%;
+
+    .submit-button {
+      margin-top: 15px;
+    }
+  }
 }
 .widget-container {
   width: 50%;
@@ -223,7 +426,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    min-height: 63rem;
+    min-height: 65rem;
     margin: 0 2rem 2rem 2rem;
     padding: 0 1rem 1rem 1rem;
     background: var(--s-50);

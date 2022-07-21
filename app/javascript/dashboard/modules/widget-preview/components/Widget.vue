@@ -25,13 +25,24 @@
         class="bubble"
         :class="{
           'bubble-close': isWidgetVisible,
-          'bubble-expanded': !isWidgetVisible,
+          'bubble-expanded':
+            !isWidgetVisible && widgetBubbleType === 'expanded_bubble',
         }"
         :style="{ background: color }"
         @click="toggleWidget"
       >
-        <img />
-        <div>{{ isWidgetVisible ? ' ' : widgetBubbleLauncherText }}</div>
+        <img
+          v-if="!isWidgetVisible"
+          src="~dashboard/assets/images/bubble-logo.svg"
+          alt=""
+        />
+        <div>
+          {{
+            isWidgetVisible || widgetBubbleType === 'standard'
+              ? ' '
+              : widgetBubbleLauncherTitle
+          }}
+        </div>
       </button>
     </div>
   </div>
@@ -99,9 +110,13 @@ export default {
       type: String,
       default: 'left',
     },
-    widgetBubbleLauncherText: {
+    widgetBubbleLauncherTitle: {
       type: String,
       default: 'Chat with us',
+    },
+    widgetBubbleType: {
+      type: String,
+      default: 'standard',
     },
   },
   computed: {
@@ -209,6 +224,16 @@ export default {
     position: relative;
     top: 0px;
     overflow-wrap: anywhere;
+
+    img {
+      height: 25px;
+      margin: 10px 8px 5px 17px;
+      width: 25px;
+    }
+
+    div {
+      padding-right: 20px;
+    }
   }
 
   .bubble-close::before,
@@ -232,7 +257,6 @@ export default {
   }
 
   .bubble-expanded {
-    padding: 20px;
     font-size: 16px;
     font-weight: 500;
     color: white;
