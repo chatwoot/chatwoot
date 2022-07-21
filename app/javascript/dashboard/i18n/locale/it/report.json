@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Seleziona intervallo di date"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Raggruppa per",
+    "DURATION_FILTER_LABEL": "Durata",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -386,6 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapporti CSAT",
     "NO_RECORDS": "Non ci sono risposte al sondaggio CSAT disponibili.",
+    "DOWNLOAD": "Scarica report CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Scegli agenti"
@@ -420,7 +422,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversazioni aperte",
       "LOADING_MESSAGE": "Caricamento metriche conversazioni...",
-      "OPEN": "Aperte",
+      "OPEN": "Apri",
       "UNATTENDED": "Non partecipate",
       "UNASSIGNED": "Non assegnato"
     },

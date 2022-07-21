@@ -111,7 +111,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Inserisci l'indirizzo email del contatto",
         "LABEL": "Indirizzo email",
-        "DUPLICATE": "Questo indirizzo email è in uso per un altro contatto."
+        "DUPLICATE": "Questo indirizzo email è in uso per un altro contatto.",
+        "ERROR": "Inserisci un indirizzo email valido."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Inserisci il numero di telefono del contatto",
@@ -145,6 +146,12 @@
           "PLACEHOLDER": "Inserisci il nome utente GitHub",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar del contatto eliminato correttamente",
+        "ERROR_MESSAGE": "Impossibile eliminare l'avatar del contatto. Riprova più tardi."
       }
     },
     "SUCCESS_MESSAGE": "Contatto salvato con successo",

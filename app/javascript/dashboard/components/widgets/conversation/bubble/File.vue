@@ -29,8 +29,11 @@ export default {
   },
   computed: {
     fileName() {
-      const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
-      return filename;
+      if (this.url) {
+        const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
+        return filename || this.$t('CONVERSATION.UNKNOWN_FILE_TYPE');
+      }
+      return this.$t('CONVERSATION.UNKNOWN_FILE_TYPE');
     },
   },
   methods: {

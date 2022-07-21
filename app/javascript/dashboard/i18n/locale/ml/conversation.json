@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "ഇടത് പാളിയിൽ നിന്ന് ഒരു സംഭാഷണം തിരഞ്ഞെടുക്കുക",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ഉപഭോക്താക്കളിൽ നിന്ന് സന്ദേശങ്ങളൊന്നും ഇല്ലെന്ന് തോന്നുന്നു.",
     "NO_MESSAGE_2": " നിങ്ങളുടെ പേജിലേക്ക് ഒരു സന്ദേശം അയയ്‌ക്കാൻ!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "നിങ്ങൾ ഇതിന് മറുപടി നൽകുന്നു:",
     "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
     "DOWNLOAD": "ഡൗൺലോഡ്",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",

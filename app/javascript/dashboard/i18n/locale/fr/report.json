@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Sélectionnez la plage de dates"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Par groupe",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -386,6 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapports CSAT",
     "NO_RECORDS": "Il n'y a aucune réponse à l'enquête CSAT disponible.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choisissez des agents"

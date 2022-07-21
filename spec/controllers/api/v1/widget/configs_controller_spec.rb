@@ -40,7 +40,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
                params: params,
                headers: { 'X-Auth-Token' => token },
                as: :json
-        end.to change(Contact, :count).by(0)
+        end.not_to change(Contact, :count)
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body)

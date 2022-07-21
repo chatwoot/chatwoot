@@ -1,8 +1,14 @@
 <template>
   <li class="sidebar-item">
-    <span v-if="hasSubMenu" class="secondary-menu--title fs-small">
-      {{ $t(`SIDEBAR.${menuItem.label}`) }}
-    </span>
+    <div v-if="hasSubMenu" class="secondary-menu--wrap">
+      <span class="secondary-menu--title fs-small">
+        {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      </span>
+      <div v-if="isHelpCenterSidebar" class="submenu-icons">
+        <fluent-icon icon="search" class="submenu-icon" size="16" />
+        <fluent-icon icon="add" class="submenu-icon" size="16" />
+      </div>
+    </div>
     <router-link
       v-else
       class="secondary-menu--title secondary-menu--link fs-small"
@@ -15,6 +21,13 @@
         size="14"
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      <span
+        v-if="isHelpCenterSidebar"
+        class="count-view"
+        :class="computedClass"
+      >
+        {{ `${menuItem.count}` }}
+      </span>
       <span
         v-if="menuItem.label === 'AUTOMATION'"
         data-view-component="true"
@@ -34,6 +47,9 @@
         :label-color="child.color"
         :should-truncate="child.truncateLabel"
         :icon="computedInboxClass(child)"
+        :warning-icon="computedInboxErrorClass(child)"
+        :is-help-center-sidebar="isHelpCenterSidebar"
+        :child-item-count="child.count"
       />
       <router-link
         v-if="showItem(menuItem)"
@@ -63,7 +79,10 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../../mixins/isAdmin';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
+import {
+  getInboxClassByType,
+  getInboxWarningIconClass,
+} from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
 
@@ -74,6 +93,10 @@ export default {
     menuItem: {
       type: Object,
       default: () => ({}),
+    },
+    isHelpCenterSidebar: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -116,17 +139,19 @@ export default {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
-
-      if (
-        this.isInboxConversation ||
-        this.isTeamsSettings ||
-        this.isInboxsSettings ||
-        this.isIntegrationsSettings ||
-        this.isApplicationsSettings
-      ) {
-        return 'is-active';
+      if (this.hasSubMenu) {
+        if (
+          this.isInboxConversation ||
+          this.isTeamsSettings ||
+          this.isInboxsSettings ||
+          this.isIntegrationsSettings ||
+          this.isApplicationsSettings
+        ) {
+          return 'is-active';
+        }
+        return ' ';
       }
-      return ' ';
+      return '';
     },
   },
   methods: {
@@ -135,6 +160,15 @@ export default {
       if (!type) return '';
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
+    },
+    computedInboxErrorClass(child) {
+      const { type, reauthorizationRequired } = child;
+      if (!type) return '';
+      const warningClass = getInboxWarningIconClass(
+        type,
+        reauthorizationRequired
+      );
+      return warningClass;
     },
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {
@@ -155,6 +189,11 @@ export default {
 <style lang="scss" scoped>
 .sidebar-item {
   margin: var(--space-smaller) 0 0;
+}
+
+.secondary-menu--wrap {
+  display: flex;
+  justify-content: space-between;
 }
 
 .secondary-menu--title {
@@ -229,6 +268,7 @@ export default {
     color: var(--w-500);
   }
 }
+
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
@@ -241,5 +281,35 @@ export default {
   border-radius: 2em;
   color: var(--g-800);
   border-color: var(--g-700);
+}
+
+.count-view {
+  background: var(--s-50);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-600);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-zero) var(--space-smaller);
+
+  &.is-active {
+    background: var(--w-50);
+    color: var(--w-500);
+  }
+}
+
+.submenu-icons {
+  display: flex;
+  align-items: center;
+
+  .submenu-icon {
+    margin-left: var(--space-small);
+    color: var(--s-600);
+
+    &:hover {
+      cursor: pointer;
+      color: var(--w-500);
+    }
+  }
 }
 </style>

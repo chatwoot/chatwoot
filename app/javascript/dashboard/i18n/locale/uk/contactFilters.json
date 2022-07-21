@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Лінк",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Прапорець",
             "CREATED_AT": "Створений в",
-            "LAST_ACTIVITY": "Остання активність"
+            "LAST_ACTIVITY": "Остання активність",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Стандартні фільтри",

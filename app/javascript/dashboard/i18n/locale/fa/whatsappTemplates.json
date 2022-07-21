@@ -1,0 +1,25 @@
+{
+    "WHATSAPP_TEMPLATES": {
+        "MODAL": {
+            "TITLE": "Whatsapp Templates",
+            "SUBTITLE": "Select the whatsapp template you want to send",
+            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+        },
+        "PICKER": {
+            "SEARCH_PLACEHOLDER": "Search Templates",
+            "NO_TEMPLATES_FOUND": "No templates found for",
+            "LABELS": {
+                "LANGUAGE": "زبان",
+                "TEMPLATE_BODY": "Template Body",
+                "CATEGORY": "دسته‌بندی"
+            }
+        },
+        "PARSER": {
+            "VARIABLES_LABEL": "متغیرها",
+            "VARIABLE_PLACEHOLDER": "مقدار %{variable} را وارد کنید",
+            "GO_BACK_LABEL": "بازگشت",
+            "SEND_MESSAGE_LABEL": "ارسال پیام",
+            "FORM_ERROR_MESSAGE": "لطفا قبل از ارسال همه متغیرها را پر کنید"
+        }
+    }
+}

@@ -12,7 +12,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'brand-twitter';
 
     case INBOX_TYPES.TWILIO:
-      return phoneNumber.startsWith('whatsapp')
+      return phoneNumber?.startsWith('whatsapp')
         ? 'brand-whatsapp'
         : 'brand-sms';
 
@@ -34,4 +34,11 @@ export const getInboxClassByType = (type, phoneNumber) => {
     default:
       return 'chat';
   }
+};
+
+export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
+  if (type === INBOX_TYPES.FB && reauthorizationRequired) {
+    return 'warning';
+  }
+  return '';
 };

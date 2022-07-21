@@ -21,6 +21,8 @@ module MailboxHelper
   end
 
   def add_attachments_to_message
+    return if @message.blank?
+
     processed_mail.attachments.each do |mail_attachment|
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
@@ -33,7 +35,7 @@ module MailboxHelper
 
   def create_contact
     @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
+      source_id: processed_mail.original_sender,
       inbox: @inbox,
       contact_attributes: {
         name: identify_contact_name,

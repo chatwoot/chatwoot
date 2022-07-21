@@ -11,6 +11,7 @@
       @open-notification-panel="openNotificationPanel"
     />
     <secondary-sidebar
+      v-if="showSecondarySidebar"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"
@@ -18,6 +19,7 @@
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
       @toggle-accounts="toggleAccountModal"
     />
@@ -50,6 +52,12 @@ export default {
     SecondarySidebar,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
+  props: {
+    showSecondarySidebar: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       showOptionsMenu: false,
@@ -60,6 +68,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
@@ -191,6 +200,7 @@ export default {
   display: flex;
   min-height: 0;
   height: 100%;
+  width: fit-content;
 }
 </style>
 
