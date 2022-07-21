@@ -1,9 +1,9 @@
 class Macros::ExecutionService
-  def initialize(macro, account, conversation)
+  def initialize(macro, conversation, user)
     @macro = macro
-    @account = account
+    @account = macro.account
     @conversation = conversation
-    Current.executed_by = macro
+    Current.user = user
   end
 
   def perform

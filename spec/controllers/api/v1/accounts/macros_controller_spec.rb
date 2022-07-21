@@ -220,7 +220,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         perform_enqueued_jobs do
           post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
-               params: { conversation_id: conversation.display_id },
+               params: { conversation_ids: [conversation.display_id] },
                headers: administrator.create_new_auth_token
 
           expect(response).to have_http_status(:success)

@@ -35,7 +35,7 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   end
 
   def execute
-    ::MacrosExecutionJob.perform_later(@macro, conversation_id: params[:conversation_id])
+    ::MacrosExecutionJob.perform_later(@macro, conversation_ids: params[:conversation_ids], user: current_user)
 
     head :ok
   end

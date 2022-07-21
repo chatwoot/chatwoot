@@ -1,10 +1,14 @@
 class MacrosExecutionJob < ApplicationJob
   queue_as :medium
 
-  def perform(macro, conversation_id:)
+  def perform(macro, conversation_ids:, user:)
     account = macro.account
-    conversation = account.conversations.find_by(display_id: conversation_id)
+    conversations = account.conversations.where(display_id: conversation_ids.to_a)
 
-    ::Macros::ExecutionService.new(macro, account, conversation).perform if conversation.present?
+    return if conversations.blank?
+
+    conversations.each do |conversation|
+      ::Macros::ExecutionService.new(macro, conversation, user).perform
+    end
   end
 end
