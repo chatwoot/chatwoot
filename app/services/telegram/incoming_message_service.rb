@@ -45,7 +45,7 @@ class Telegram::IncomingMessageService
     return if @contact.avatar.attached?
 
     avatar_url = inbox.channel.get_telegram_profile_image(params[:message][:from][:id])
-    ::ContactAvatarJob.perform_later(@contact, avatar_url) if avatar_url
+    ::Avatar::AvatarFromUrlJob.perform_later(@contact, avatar_url) if avatar_url
   end
 
   def conversation_params
