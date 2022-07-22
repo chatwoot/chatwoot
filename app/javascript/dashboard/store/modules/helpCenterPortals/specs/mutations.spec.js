@@ -1,4 +1,4 @@
-import { mutations } from '../mutations';
+import { mutations, types } from '../mutations';
 import portal from './fixtures';
 
 describe('#mutations', () => {
@@ -7,16 +7,17 @@ describe('#mutations', () => {
     state = { ...portal };
   });
 
-  describe('#setUIFlag', () => {
+  describe('#SET_UI_FLAG', () => {
     it('It returns default flags if empty object passed', () => {
-      mutations.setUIFlag(state, {});
+      mutations[types.SET_UI_FLAG](state, {});
       expect(state.uiFlags).toEqual({
         allFetched: false,
         isFetching: true,
       });
     });
+
     it('It updates keys when passed as parameters', () => {
-      mutations.setUIFlag(state, { isFetching: false });
+      mutations[types.SET_UI_FLAG](state, { isFetching: false });
       expect(state.uiFlags).toEqual({
         allFetched: false,
         isFetching: false,
@@ -24,65 +25,68 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#addHelpCenterEntry', () => {
+  describe('[types.ADD_PORTAL_ENTRY]', () => {
     it('does not add empty objects to state', () => {
-      mutations.addHelpCenterEntry(state, {});
+      mutations[types.ADD_PORTAL_ENTRY](state, {});
       expect(state).toEqual(portal);
     });
     it('does adds helpcenter object to state', () => {
-      mutations.addHelpCenterEntry(state, { id: 3 });
-      expect(state.helpCenters.byId[3]).toEqual({ id: 3 });
+      mutations[types.ADD_PORTAL_ENTRY](state, { id: 3 });
+      expect(state.portals.byId[3]).toEqual({ id: 3 });
     });
   });
 
-  describe('#addHelpCenterId', () => {
+  describe('[types.ADD_PORTAL_ID]', () => {
     it('adds helpcenter id to state', () => {
-      mutations.addHelpCenterId(state, 12);
-      expect(state.helpCenters.allIds).toEqual([1, 2, 12]);
+      mutations[types.ADD_PORTAL_ID](state, 12);
+      expect(state.portals.allIds).toEqual([1, 2, 12]);
     });
   });
 
-  describe('#updateHelpCenterEntry', () => {
+  describe('[types.UPDATE_PORTAL_ENTRY]', () => {
     it('does not updates if empty object is passed', () => {
-      mutations.updateHelpCenterEntry(state, {});
+      mutations[types.UPDATE_PORTAL_ENTRY](state, {});
       expect(state).toEqual(portal);
     });
     it('does not updates if object id is not present ', () => {
-      mutations.updateHelpCenterEntry(state, { id: 5 });
+      mutations[types.UPDATE_PORTAL_ENTRY](state, { id: 5 });
       expect(state).toEqual(portal);
     });
     it(' updates if object with id already present in the state', () => {
-      mutations.updateHelpCenterEntry(state, { id: 2, name: 'Updated name' });
-      expect(state.helpCenters.byId[2].name).toEqual('Updated name');
+      mutations[types.UPDATE_PORTAL_ENTRY](state, {
+        id: 2,
+        name: 'Updated name',
+      });
+      expect(state.portals.byId[2].name).toEqual('Updated name');
     });
   });
 
-  describe('#removeHelpCenterEntry', () => {
+  describe('[types.REMOVE_PORTAL_ENTRY]', () => {
     it('does not remove object entry if no id is passed', () => {
-      mutations.removeHelpCenterEntry(state, undefined);
+      mutations[types.REMOVE_PORTAL_ENTRY](state, undefined);
       expect(state).toEqual({ ...portal });
     });
     it('removes object entry with to conversation if outgoing', () => {
-      mutations.removeHelpCenterEntry(state, 2);
-      expect(state.helpCenters.byId[2]).toEqual(undefined);
+      mutations[types.REMOVE_PORTAL_ENTRY](state, 2);
+      expect(state.portals.byId[2]).toEqual(undefined);
     });
   });
 
-  describe('#removeHelpCenterId', () => {
+  describe('[types.REMOVE_PORTAL_ID]', () => {
     it('removes id from state', () => {
-      mutations.removeHelpCenterId(state, 2);
-      expect(state.helpCenters.allIds).toEqual([1, 12]);
+      mutations[types.REMOVE_PORTAL_ID](state, 2);
+      expect(state.portals.allIds).toEqual([1, 12]);
     });
   });
 
-  describe('#setHelpCenterUIFlag', () => {
+  describe('[types.SET_HELP_PORTAL_UI_FLAG]', () => {
     it('sets correct flag in state', () => {
-      mutations.setHelpCenterUIFlag(state, {
+      mutations[types.SET_HELP_PORTAL_UI_FLAG](state, {
         helpCenterId: 1,
         uiFlags: { isFetching: true },
       });
-      expect(state.helpCenters.uiFlags.byId[1]).toEqual({
-        isFetching: true,
+      expect(state.portals.uiFlags.byId[1]).toEqual({
+        isFetching: false,
         isUpdating: true,
         isDeleting: false,
       });

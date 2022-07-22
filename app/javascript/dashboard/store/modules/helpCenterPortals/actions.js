@@ -1,47 +1,41 @@
 import HelpCenterPortalsAPI from 'dashboard/api/helpCenter/portals.js';
+import { throwErrorMessage } from 'dashboard/store/utils/api';
+import { types } from './mutations';
 
 export const actions = {
-  fetchAllHelpCenters: async ({ commit }) => {
+  fetchAllPortals: async ({ commit }) => {
     try {
-      commit('setUIFlag', { isFetching: true });
+      commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await HelpCenterPortalsAPI.get();
-      data.forEach(helpCenter => {
-        const { id: helpCenterId } = helpCenter;
+      const portalIds = data.map(portal => portal.id);
 
-        commit('addHelpCenterEntry', helpCenter);
-        commit('addHelpCenterId', helpCenterId);
-        commit('setHelpCenterUIFlag', {
-          uiFlags: {},
-          helpCenterId,
-        });
-      });
+      commit(types.ADD_MANY_PORTALS_ENTRY, data);
+      commit(types.ADD_MANY_PORTALS_IDS, portalIds);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
-      commit('setUIFlag', { isFetching: false });
+      commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
 
-  createHelpCenter: async ({ commit }, params) => {
-    commit('setUIFlag', { isCreating: true });
+  createPortal: async ({ commit }, params) => {
+    commit(types.SET_UI_FLAG, { isCreating: true });
     try {
       const { data } = await HelpCenterPortalsAPI.create(params);
       const { id: helpCenterId } = data;
 
-      commit('addHelpCenterEntry', data);
-      commit('addHelpCenterId', helpCenterId);
-
-      return helpCenterId;
+      commit(types.ADD_PORTAL_ENTRY, data);
+      commit(types.ADD_PORTAL_ID, helpCenterId);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
-      commit('setUIFlag', { isCreating: false });
+      commit(types.SET_UI_FLAG, { isCreating: false });
     }
   },
 
-  updateHelpCenter: async ({ commit }, { helpCenter }) => {
+  updatePortal: async ({ commit }, { helpCenter }) => {
     const helpCenterId = helpCenter.id;
-    commit('setHelpCenterUIFlag', {
+    commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: {
         isUpdating: true,
       },
@@ -49,13 +43,11 @@ export const actions = {
     });
     try {
       const { data } = await HelpCenterPortalsAPI.update(helpCenter);
-
-      commit('updateHelpCenterEntry', data);
-      return helpCenterId;
+      commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
-      commit('setHelpCenterUIFlag', {
+      commit(types.SET_HELP_PORTAL_UI_FLAG, {
         uiFlags: {
           isUpdating: false,
         },
@@ -64,8 +56,8 @@ export const actions = {
     }
   },
 
-  deleteHelpCenter: async ({ commit }, { helpCenterId }) => {
-    commit('setHelpCenterUIFlag', {
+  deletePortal: async ({ commit }, { helpCenterId }) => {
+    commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: {
         isDeleting: true,
       },
@@ -74,12 +66,12 @@ export const actions = {
     try {
       await HelpCenterPortalsAPI.delete(helpCenterId);
 
-      commit('removeHelpCenterEntry', helpCenterId);
-      commit('removeHelpCenterId', helpCenterId);
+      commit(types.REMOVE_PORTAL_ENTRY, helpCenterId);
+      commit(types.REMOVE_PORTAL_ID, helpCenterId);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
-      commit('setHelpCenterUIFlag', {
+      commit(types.SET_HELP_PORTAL_UI_FLAG, {
         uiFlags: {
           isDeleting: false,
         },

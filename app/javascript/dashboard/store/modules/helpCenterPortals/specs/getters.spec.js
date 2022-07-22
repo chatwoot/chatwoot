@@ -11,14 +11,14 @@ describe('#getters', () => {
     });
   });
 
-  it('isFetchingHelpCenters', () => {
+  it('isFetchingPortals', () => {
     const state = portal;
-    expect(getters.isFetchingHelpCenters(state)).toEqual(true);
+    expect(getters.isFetchingPortals(state)).toEqual(true);
   });
 
-  it('helpCenterById', () => {
+  it('portalById', () => {
     const state = portal;
-    expect(getters.helpCenterById(state)(1)).toEqual({
+    expect(getters.portalById(state)(1)).toEqual({
       id: 1,
       color: 'red',
       custom_domain: 'domain_for_help',
@@ -34,12 +34,12 @@ describe('#getters', () => {
     });
   });
 
-  it('allHelpCenters', () => {
+  it('allPortals', () => {
     const state = portal;
-    expect(getters.allHelpCenters(state, getters).length).toEqual(2);
+    expect(getters.allPortals(state, getters).length).toEqual(2);
   });
-  it('totalHelpCentersCount', () => {
+  it('count', () => {
     const state = portal;
-    expect(getters.totalHelpCentersCount(state)).toEqual(2);
+    expect(getters.count(state)).toEqual(2);
   });
 });

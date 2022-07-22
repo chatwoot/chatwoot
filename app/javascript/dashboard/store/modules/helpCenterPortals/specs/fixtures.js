@@ -1,5 +1,5 @@
 export default {
-  helpCenters: {
+  portals: {
     byId: {
       1: {
         id: 1,

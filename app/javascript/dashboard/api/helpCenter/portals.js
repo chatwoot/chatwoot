@@ -1,9 +1,9 @@
 import ApiClient from '../ApiClient';
 
-class HelpCenterPortalsAPI extends ApiClient {
+class PortalsAPI extends ApiClient {
   constructor() {
     super('portals', { accountScoped: true });
   }
 }
 
-export default new HelpCenterPortalsAPI();
+export default new PortalsAPI();

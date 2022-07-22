@@ -1,27 +1,26 @@
 export const getters = {
-  uiFlagsIn: _state => helpCenterId => {
-    const uiFlags = _state.helpCenters.uiFlags.byId[helpCenterId];
+  uiFlagsIn: state => portalId => {
+    const uiFlags = state.portals.uiFlags.byId[portalId];
     if (uiFlags) return uiFlags;
     return { isFetching: false, isUpdating: false, isDeleting: false };
   },
 
-  isFetchingHelpCenters: _state => _state.uiFlags.isFetching,
-  helpCenterById: (...getterArguments) => helpCenterId => {
-    const [_state] = getterArguments;
-    const helpCenter = _state.helpCenters.byId[helpCenterId];
-    if (!helpCenter) return undefined;
+  isFetchingPortals: state => state.uiFlags.isFetching,
+  portalById: (...getterArguments) => portalId => {
+    const [state] = getterArguments;
+    const portal = state.portals.byId[portalId];
 
     return {
-      ...helpCenter,
+      ...portal,
     };
   },
-  allHelpCenters: (...getterArguments) => {
-    const [_state, _getters] = getterArguments;
+  allPortals: (...getterArguments) => {
+    const [state, _getters] = getterArguments;
 
-    const helpCenters = _state.helpCenters.allIds.map(id => {
-      return _getters.helpCenterById(id);
+    const portals = state.portals.allIds.map(id => {
+      return _getters.portalById(id);
     });
-    return helpCenters;
+    return portals;
   },
-  totalHelpCentersCount: _state => _state.helpCenters.allIds.length || 0,
+  count: state => state.portals.allIds.length || 0,
 };
