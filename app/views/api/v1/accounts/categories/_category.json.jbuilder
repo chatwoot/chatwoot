@@ -25,3 +25,5 @@ if category.root_category.present?
     json.partial! 'api/v1/accounts/categories/associated_category.json.jbuilder', category: category.root_category
   end
 end
+
+json.articles_count category.articles.published.try(:count)
