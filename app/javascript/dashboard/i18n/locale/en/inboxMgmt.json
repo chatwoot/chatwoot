@@ -607,8 +607,8 @@
           "IN_A_DAY": "In a day"
         },
         "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Positions",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Types",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE":{
           "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Chat with us"
@@ -626,6 +626,19 @@
         "IN_A_FEW_HOURS": "Typically replies in a few hours",
         "IN_A_DAY": "Typically replies in a day"
       },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
+        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY":{
+          "ONLINE": "We are Online",
+          "OFFLINE": "We are away at the moment"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Powered by Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }

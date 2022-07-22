@@ -3,23 +3,18 @@
     <div v-if="config.isDefaultScreen" class="availabilty-container">
       <div class="availabilty-info">
         <div class="team-status">
-          <!-- {{
-              isOnline
-                ? $t('TEAM_AVAILABILITY.ONLINE')
-                : $t('TEAM_AVAILABILITY.OFFLINE')
-            }} -->
-          We are Online
+          {{
+            config.isOnline
+              ? $t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.ONLINE')
+              : $t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.OFFLINE')
+          }}
         </div>
         <div class="reply-wait-message">
           {{ config.replyTime }}
         </div>
       </div>
-      <div class="user-thumbnail-box" style="height: 40px; width: 40px;">
-        <div
-          aria-hidden="true"
-          class="avatar-container user-thumbnail border thumbnail-rounded"
-          style="width: 40px;height: 40px;border-radius: 50%;line-height: 42px;font-size: 16px;background-color: rgb(194, 225, 255);color: rgb(25, 118, 204);text-align:center;"
-        >
+      <div class="user-thumbnail-box">
+        <div class="user-thumbnail">
           <span>J</span>
         </div>
       </div>
@@ -34,7 +29,7 @@
                   class="chat-bubble user"
                   :style="{ background: config.color }"
                 >
-                  <p>Hi</p>
+                  <p>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.USER_MESSAGE') }}</p>
                 </div>
               </div>
             </div>
@@ -46,7 +41,9 @@
             <div class="message-wrap">
               <div class="chat-bubble agent">
                 <div class="message-content">
-                  <p>Hello</p>
+                  <p>
+                    {{ $t('INBOX_MGMT.WIDGET_BUILDER.BODY.AGENT_MESSAGE') }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -74,19 +71,32 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  min-height: 220px;
+  min-height: 20rem;
   padding-left: var(--space-two);
   padding-right: var(--space-two);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-normal);
 
   .availabilty-info {
     width: 100%;
     .team-status {
-      font-size: 1.5rem;
-      font-weight: 500;
+      font-size: var(--font-size-default);
+      font-weight: var(--font-weight-medium);
     }
     .reply-wait-message {
-      font-size: 1.2rem;
+      font-size: var(--font-size-mini);
+    }
+  }
+
+  .user-thumbnail-box {
+    .user-thumbnail {
+      width: 4rem;
+      height: 4rem;
+      border-radius: var(--border-radius-rounded);
+      line-height: 4rem;
+      font-size: var(--font-size-default);
+      background-color: var(--w-100);
+      color: var(--w-600);
+      text-align: center;
     }
   }
 }
@@ -94,13 +104,13 @@ export default {
   width: 100%;
   padding: var(--space-two);
   .conversation-wrap {
-    min-height: 320px;
+    min-height: 28rem;
     .user-message {
       align-items: flex-end;
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
-      margin-top: 0;
+      margin-top: var(--space-zero);
       margin-bottom: var(--space-smaller);
       margin-left: auto;
       max-width: 85%;
@@ -110,30 +120,17 @@ export default {
       margin-right: var(--space-smaller);
       max-width: 100%;
       .chat-bubble {
-        // box-shadow: var(--shadow-medium);
-        // background: var(--color-woot);
-        // border-radius: var(--border-radius-large);
-        // color: var(--white);
-        // display: inline-block;
-        // font-size: var(--font-size-nano);
-        // line-height: 1.5;
-        // padding: var(--space-small) var(--space-one);
-        // text-align: left;
-        // word-break: break-word;
-        // max-width: 100%;
-
-        box-shadow: 0 0.25rem 6px rgb(50 50 93 / 8%), 0 1px 3px rgb(0 0 0 / 5%);
+        box-shadow: var(--shadow-medium);
         border-radius: 2rem;
-        color: #fff;
+        color: var(--white);
         display: inline-block;
-        font-size: 0.875rem;
+        font-size: var(--font-size-nano);
         line-height: 1.5;
-        padding: 1.5rem 1.75rem;
+        padding: 1.3rem 1.75rem;
         text-align: left;
-        word-break: break-word;
 
         p {
-          margin: 0;
+          margin: var(--space-zero);
         }
 
         &.user {

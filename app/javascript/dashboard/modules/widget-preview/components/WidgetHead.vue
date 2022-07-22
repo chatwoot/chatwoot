@@ -9,13 +9,11 @@
           :class="{ small: !config.isDefaultScreen }"
         />
         <div v-if="!config.isDefaultScreen">
-          <div class="title-block text-base font-medium">
-            <span class="mr-1">{{ config.websiteName }}</span>
+          <div class="title-block">
+            <span>{{ config.websiteName }}</span>
             <div v-if="config.isOnline" class="online-dot" />
           </div>
-          <div class="text-xs mt-1 text-black-700">
-            {{ config.replyTime }}
-          </div>
+          <div>{{ config.replyTime }}</div>
         </div>
       </div>
       <div v-if="config.isDefaultScreen" class="header-expanded">
@@ -34,27 +32,10 @@ export default {
       default: () => {},
     },
   },
-  computed: {
-    responseTime() {
-      switch (this.config.replyTime) {
-        case 'in_a_few_minutes':
-          return this.$t(
-            'INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_MINUTES'
-          );
-        case 'in_a_few_hours':
-          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
-        case 'in_a_day':
-          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_DAY');
-        default:
-          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
-      }
-    },
-  },
 };
 </script>
 
 <style lang="scss" scoped>
-$sucess-green: #10b981;
 .header-wrapper {
   flex-shrink: 0;
   transition: max-height 300ms;
@@ -96,17 +77,13 @@ $sucess-green: #10b981;
       }
     }
   }
-  .text-base {
-    font-size: var(--font-size-default);
-  }
-  .mt-6 {
-    margin-top: var(--space-medium);
-  }
+
   .title-block {
     display: flex;
     align-items: center;
+    font-size: var(--font-size-default);
     .online-dot {
-      background-color: $sucess-green;
+      background-color: var(--g-500);
       height: var(--space-small);
       width: var(--space-small);
       border-radius: 100%;

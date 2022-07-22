@@ -12,7 +12,7 @@
       <WidgetBody :config="getWidgetBodyConfig" />
       <WidgetFooter :config="getWidgetFooterConfig" />
       <div class="branding">
-        Powered by Chatwoot
+        {{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}
       </div>
     </div>
     <div
@@ -75,7 +75,7 @@ export default {
   props: {
     welcomeHeading: {
       type: String,
-      default: 'Hi There,',
+      default: 'Hi There!',
     },
     welcomeTagline: {
       type: String,
@@ -85,10 +85,6 @@ export default {
       type: String,
       default: '',
       required: true,
-    },
-    websiteDomain: {
-      type: String,
-      default: '',
     },
     logo: {
       type: String,
@@ -135,6 +131,7 @@ export default {
     getWidgetBodyConfig() {
       return {
         isDefaultScreen: this.isDefaultScreen,
+        isOnline: this.isOnline,
         replyTime: this.replyTimeText,
         color: this.color,
       };
@@ -162,11 +159,7 @@ export default {
   },
   methods: {
     handleScreenChange(item) {
-      if (item.id === 'chat') {
-        this.isDefaultScreen = false;
-      } else {
-        this.isDefaultScreen = true;
-      }
+      this.isDefaultScreen = item.id === 'default';
     },
     toggleWidget() {
       this.isWidgetVisible = !this.isWidgetVisible;
@@ -187,7 +180,6 @@ export default {
 }
 .widget-wrapper {
   box-shadow: 0 0px 20px 5px rgb(0 0 0 / 10%);
-  // box-shadow: var(--shadow-large);
   border-radius: var(--border-radius-large);
   background-color: rgba(244, 246, 251, 1);
   z-index: 99;

@@ -3,7 +3,7 @@
     <div class="widget-builder-conatiner">
       <div class="settings-container">
         <div class="settings-content">
-          <form @submit.prevent="updateInbox">
+          <form @submit.prevent="updateWidget">
             <woot-avatar-uploader
               :label="
                 $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
@@ -145,7 +145,6 @@
             :welcome-heading="welcomeHeading"
             :welcome-tagline="welcomeTagline"
             :website-name="websiteName"
-            website-domain=""
             :logo="avatarUrl"
             is-online
             :reply-time="replyTime"
@@ -190,11 +189,11 @@ export default {
       websiteName: '',
       welcomeHeading: '',
       welcomeTagline: '',
-      replyTime: '',
+      replyTime: 'in_a_few_minutes',
       avatarFile: null,
       avatarUrl: '',
       widgetBubblePosition: 'right',
-      widgetBubbleLauncherTitle: 'Chat with us',
+      widgetBubbleLauncherTitle: '',
       widgetBubbleType: 'standard',
       widgetBubblePositions: [
         { id: 'left', title: 'Left', checked: false },
@@ -339,7 +338,7 @@ export default {
         );
       }
     },
-    async updateInbox() {
+    async updateWidget() {
       const bubbleSettings = {
         position: this.widgetBubblePosition,
         launcherTitle: this.widgetBubbleLauncherTitle,
@@ -354,9 +353,9 @@ export default {
           name: this.websiteName,
           channel: {
             widget_color: this.color,
-            welcome_title: this.welcomeHeading || '',
-            welcome_tagline: this.welcomeTagline || '',
-            reply_time: this.replyTime || 'in_a_few_minutes',
+            welcome_title: this.welcomeHeading,
+            welcome_tagline: this.welcomeTagline,
+            reply_time: this.replyTime,
           },
         };
         if (this.avatarFile) {
@@ -406,12 +405,12 @@ export default {
   }
 
   .settings-content {
-    padding: 25px 0px;
+    padding: var(--space-normal) var(--space-zero);
     overflow-y: scroll;
     min-height: 100%;
 
     .submit-button {
-      margin-top: 15px;
+      margin-top: var(--space-normal);
     }
   }
 }
@@ -427,8 +426,9 @@ export default {
     align-items: center;
     justify-content: flex-end;
     min-height: 65rem;
-    margin: 0 2rem 2rem 2rem;
-    padding: 0 1rem 1rem 1rem;
+    margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
+    padding: var(--space-zero) var(--space-one) var(--space-one)
+      var(--space-one);
     background: var(--s-50);
 
     @include breakpoint(500px down) {
@@ -436,8 +436,8 @@ export default {
     }
   }
   .widget-script {
-    margin: 2rem 2rem;
-    padding: 1rem;
+    margin: var(--space-two) var(--space-two);
+    padding: var(--space-one);
     background: var(--s-50);
   }
 }
