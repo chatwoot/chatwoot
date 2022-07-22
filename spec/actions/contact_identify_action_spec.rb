@@ -13,7 +13,7 @@ describe ::ContactIdentifyAction do
 
   describe '#perform' do
     it 'updates the contact' do
-      expect(ContactAvatarJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
+      expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
       contact_identify
       expect(contact.reload.name).to eq 'test'
       # custom attributes are merged properly without overwriting existing ones
@@ -32,7 +32,7 @@ describe ::ContactIdentifyAction do
 
     it 'enques avatar job when avatar url parameter is passed' do
       params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
-      expect(ContactAvatarJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
+      expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
       described_class.new(contact: contact, params: params).perform
     end
 
