@@ -5,6 +5,7 @@
 #  id                    :bigint           not null, primary key
 #  content               :text
 #  description           :text
+#  meta                  :jsonb
 #  status                :integer
 #  title                 :string
 #  views                 :integer
