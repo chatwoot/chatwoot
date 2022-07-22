@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import languages from '../../../components/widgets/conversation/advancedFilterItems/languages';
+import { getLanguageName } from '../../../components/widgets/conversation/advancedFilterItems/languages';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
@@ -111,16 +111,7 @@ export default {
       return `${browserName} ${browserVersion}`;
     },
     browserLanguage() {
-      const {
-        browser_language: browserLanguage = '',
-      } = this.conversationAttributes;
-      if (browserLanguage) {
-        return (
-          (languages.find(language => language.id === browserLanguage) || {})
-            .name || ''
-        );
-      }
-      return '';
+      return getLanguageName(this.conversationAttributes.browser_language);
     },
     platformName() {
       if (!this.conversationAttributes.browser) {
