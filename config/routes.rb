@@ -234,10 +234,10 @@ Rails.application.routes.draw do
               post :subscription
             end
           end
-
-          post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
         end
       end
+
+      post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
     end
   end
 

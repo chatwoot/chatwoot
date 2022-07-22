@@ -1,4 +1,4 @@
-class Enterprise::Api::V1::Webhooks::StripeController < ActionController::API
+class Enterprise::Webhooks::StripeController < ActionController::API
   def process_payload
     # Get the event payload and signature
     payload = request.body.read
