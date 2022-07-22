@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
     "AUTOMATION": "Automazione",
     "TEAMS": "Teams",
+    "BILLING": "Fatturazione",
     "CUSTOM_VIEWS_FOLDER": "Cartelle",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
     "ALL_CONTACTS": "Tutti i contatti",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Panoramica",
-    "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi"
+    "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "Tutti gli articoli",
+      "MY_ARTICLES": "I miei articoli",
+      "DRAFT": "Bozza",
+      "ARCHIVED": "Archiviato",
+      "CATEGORY": "Categoria"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Fatturazione",
+    "CURRENT_PLAN": {
+      "TITLE": "Piano attuale",
+      "PLAN_NOTE": "Sei attualmente abbonato al piano **%{plan}** con **%{quantity}** licenze"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gestisci il tuo abbonamento",
+      "DESCRIPTION": "Visualizza le tue fatture precedenti, modifica i tuoi dati di fatturazione o annulla il tuo abbonamento.",
+      "BUTTON_TXT": "Vai al portale di fatturazione"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Hai bisogno di aiuto?",
+      "DESCRIPTION": "Hai qualche problema di fatturazione? Siamo qui per aiutarti.",
+      "BUTTON_TXT": "Chatta con noi"
+    },
+    "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
