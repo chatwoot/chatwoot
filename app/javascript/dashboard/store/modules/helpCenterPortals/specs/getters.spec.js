@@ -34,6 +34,10 @@ describe('#getters', () => {
     });
   });
 
+  it('allHelpCenters', () => {
+    const state = portal;
+    expect(getters.allHelpCenters(state, getters).length).toEqual(2);
+  });
   it('totalHelpCentersCount', () => {
     const state = portal;
     expect(getters.totalHelpCentersCount(state)).toEqual(2);
