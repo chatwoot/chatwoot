@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Vaše pripojenie k Facebooku vypršalo, pre pokračovanie v službách prosím znovu pripojte svoju stránku na Facebooku"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any SipRtc accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "New Account",
     "SELECTOR_SUBTITLE": "Create a new account",
     "API": {

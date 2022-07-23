@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
+    "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản SipRtc nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
     "NEW_ACCOUNT": "Tạo mới tài khoản",
     "SELECTOR_SUBTITLE": "Tạo mới một tài khoản",
     "API": {

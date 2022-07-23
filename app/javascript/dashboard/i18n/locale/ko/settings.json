@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any SipRtc accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "새 계정",
     "SELECTOR_SUBTITLE": "새 계정 만들기",
     "API": {

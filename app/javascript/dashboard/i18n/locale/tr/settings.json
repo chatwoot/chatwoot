@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any SipRtc accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Yeni hesap",
     "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {

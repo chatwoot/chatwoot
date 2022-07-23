@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",
+    "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do SipRtc. Por favor, crie uma nova conta para continuar.",
     "NEW_ACCOUNT": "Nova conta",
     "SELECTOR_SUBTITLE": "Criar uma nova conta",
     "API": {

@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Події з підпискою",
       "FORM": {
         "CANCEL": "Скасувати",
-        "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
+        "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі SipRtc. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
         "SUBSCRIPTIONS": {
           "LABEL": "Події",
           "EVENTS": {
@@ -31,7 +31,7 @@
       "HEADER_BTN_TXT": "Додати новий вебхук",
       "LOADING": "Отримання прикріплених вебхуків",
       "SEARCH_404": "Немає елементів, що відповідають запиту",
-      "SIDEBAR_TXT": "<p><b>Вебхуки</b> </p> <p>Вебхуки - це виклики по HTTP, які можна налаштувати для кожного облікового запису. Вебхук виклики будуть відбуватися при подіях у Chatwoot, наприклад при нових зверненнях. Ви можете створити один чи кілька вебхуків. <br /><br /> Для створення <b>вебхука</b>, натисніть кнопку <b>Додати новий вебхук</b>. Ви тако можете видаляти вебхуки, натиснувши кнопку Видалити.</p>",
+      "SIDEBAR_TXT": "<p><b>Вебхуки</b> </p> <p>Вебхуки - це виклики по HTTP, які можна налаштувати для кожного облікового запису. Вебхук виклики будуть відбуватися при подіях у SipRtc, наприклад при нових зверненнях. Ви можете створити один чи кілька вебхуків. <br /><br /> Для створення <b>вебхука</b>, натисніть кнопку <b>Додати новий вебхук</b>. Ви тако можете видаляти вебхуки, натиснувши кнопку Видалити.</p>",
       "LIST": {
         "404": "Немає налаштованих вебхуків для цього облікового запису.",
         "TITLE": "Керування вебхуками",
@@ -73,7 +73,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Використання Slack інтеграцію",
-        "BODY": "<br/><p>Chatwoot тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>"
+        "BODY": "<br/><p>SipRtc тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>"
       }
     },
     "DELETE": {
@@ -88,7 +88,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the SipRtc dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in SipRtc, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",

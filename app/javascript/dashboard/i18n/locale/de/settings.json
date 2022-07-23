@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
+    "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine SipRtc-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
     "NEW_ACCOUNT": "Neuer Account",
     "SELECTOR_SUBTITLE": "Neuen Account erstellen",
     "API": {

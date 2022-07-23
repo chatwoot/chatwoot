@@ -1,7 +1,7 @@
 # if you dont specify locked attribute, the default value will be true
 # which means the particular config will be locked
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'SipRTC'
 - name: LOGO_THUMBNAIL
   value: 'https://app.siprtc.io/static/img/logo.png'
 - name: LOGO

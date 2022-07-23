@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Din Facebook-anslutning har löpt ut, vänligen återanslut din Facebook-sida för att fortsätta med tjänsterna"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any SipRtc accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Nytt konto",
     "SELECTOR_SUBTITLE": "Skapa ett nytt konto",
     "API": {

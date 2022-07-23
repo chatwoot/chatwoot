@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account SipRtc. Si prega di creare un nuovo account per continuare.",
     "NEW_ACCOUNT": "Nuovo account",
     "SELECTOR_SUBTITLE": "Crea un nuovo account",
     "API": {

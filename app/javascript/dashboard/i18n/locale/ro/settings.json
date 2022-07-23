@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont SipRtc. Vă rugăm să creați un cont nou pentru a continua.",
     "NEW_ACCOUNT": "Cont Nou",
     "SELECTOR_SUBTITLE": "Creează un cont nou",
     "API": {

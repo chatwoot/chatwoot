@@ -47,7 +47,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
     },
-    "UPDATE_CHATWOOT": "%{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
+    "UPDATE_CHATWOOT": "%{latestSipRtcVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
     "LEARN_MORE": "Daha fazla"
   },
   "FORMS": {
@@ -86,7 +86,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Disconnected from SipRtc"
     },
     "BUTTON": {
       "REFRESH": "Refresh"

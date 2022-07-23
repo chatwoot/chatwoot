@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Facebook-yhteytesi on vanhentunut, ole hyvä ja yhdistä uudelleen Facebook-sivusi jatkaaksesi palveluita"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any SipRtc accounts. Please create a new account to continue.",
     "NEW_ACCOUNT": "Uusi tili",
     "SELECTOR_SUBTITLE": "Luo uusi tili",
     "API": {

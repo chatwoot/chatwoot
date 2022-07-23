@@ -193,7 +193,7 @@
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",
+    "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte SipRtc. Veuillez créer un nouveau compte pour continuer.",
     "NEW_ACCOUNT": "Nouveau compte",
     "SELECTOR_SUBTITLE": "Créer un nouveau compte",
     "API": {

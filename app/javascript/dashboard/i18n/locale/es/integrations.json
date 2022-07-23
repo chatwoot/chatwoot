@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
       "FORM": {
         "CANCEL": "Cancelar",
-        "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de Chatwoot. Por favor, introduce una URL válida para configurar un callback.",
+        "DESC": "Los eventos Webhook te proporcionan la información en tiempo real sobre lo que está sucediendo en tu cuenta de SipRtc. Por favor, introduce una URL válida para configurar un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Eventos",
           "EVENTS": {
@@ -31,7 +31,7 @@
       "HEADER_BTN_TXT": "Añadir nuevo webhook",
       "LOADING": "Obteniendo webhooks adjuntos",
       "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks son callbacks HTTP que se pueden definir para cada cuenta. Son activados por eventos como la creación de mensajes en Chatwoot. Puede crear más de un webhook para esta cuenta. <br /><br /> Para crear un webhook <b></b>, haga clic en el <b>Añadir un nuevo webhook</b> botón. También puede eliminar cualquier webhook existente haciendo clic en el botón Borrar.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks son callbacks HTTP que se pueden definir para cada cuenta. Son activados por eventos como la creación de mensajes en SipRtc. Puede crear más de un webhook para esta cuenta. <br /><br /> Para crear un webhook <b></b>, haga clic en el <b>Añadir un nuevo webhook</b> botón. También puede eliminar cualquier webhook existente haciendo clic en el botón Borrar.</p>",
       "LIST": {
         "404": "No hay webhooks configurados para esta cuenta.",
         "TITLE": "Administrar webhooks",
@@ -73,7 +73,7 @@
     "SLACK": {
       "HELP_TEXT": {
         "TITLE": "Utilizando integración de Slack",
-        "BODY": "<br/><p>Chatwoot ahora sincronizará todas las conversaciones entrantes en el canal <b><i>de conversaciones del cliente</i></b> dentro de tu lugar de trabajo slack.</p><p>Respondiendo a un tema de conversación en <b><i>conversaciones de clientes</i></b> canal de slack creará una respuesta al cliente a través de chatwoot.</p><p>Inicie las respuestas con <b><i>nota:</i></b> para crear notas privadas en lugar de respuestas.</p><p>Si el respondente de slack tiene un perfil de agente en el chatwoot bajo el mismo correo electrónico, las respuestas se asociarán en consecuencia.</p><p>Cuando el replicador no tiene un perfil de agente asociado, las respuestas se harán con el perfil del bot.</p>"
+        "BODY": "<br/><p>SipRtc ahora sincronizará todas las conversaciones entrantes en el canal <b><i>de conversaciones del cliente</i></b> dentro de tu lugar de trabajo slack.</p><p>Respondiendo a un tema de conversación en <b><i>conversaciones de clientes</i></b> canal de slack creará una respuesta al cliente a través de chatwoot.</p><p>Inicie las respuestas con <b><i>nota:</i></b> para crear notas privadas en lugar de respuestas.</p><p>Si el respondente de slack tiene un perfil de agente en el chatwoot bajo el mismo correo electrónico, las respuestas se asociarán en consecuencia.</p><p>Cuando el replicador no tiene un perfil de agente asociado, las respuestas se harán con el perfil del bot.</p>"
       }
     },
     "DELETE": {
@@ -88,7 +88,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the SipRtc dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in SipRtc, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
