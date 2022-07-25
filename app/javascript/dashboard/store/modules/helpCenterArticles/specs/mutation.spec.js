@@ -25,9 +25,9 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#ADD_HELP_CENTER_ARTICLE', () => {
+  describe('#ADD_ARTICLE', () => {
     it('add valid article to state', () => {
-      mutations[types.ADD_HELP_CENTER_ARTICLE](state, {
+      mutations[types.ADD_ARTICLE](state, {
         id: 3,
         category_id: 1,
         title:
@@ -41,33 +41,33 @@ describe('#mutations', () => {
       });
     });
     it('does not add article with empty data passed', () => {
-      mutations[types.ADD_HELP_CENTER_ARTICLE](state, {});
+      mutations[types.ADD_ARTICLE](state, {});
       expect(state).toEqual(article);
     });
   });
 
-  describe('#ADD_HELP_CENTER_ARTICLE_ID', () => {
+  describe('#ADD_ARTICLE_ID', () => {
     it('add valid article id to state', () => {
-      mutations[types.ADD_HELP_CENTER_ARTICLE_ID](state, 3);
+      mutations[types.ADD_ARTICLE_ID](state, 3);
       expect(state.articles.allIds).toEqual([1, 2, 3]);
     });
     it('Does not invalid article with empty data passed', () => {
-      mutations[types.ADD_HELP_CENTER_ARTICLE_ID](state, {});
+      mutations[types.ADD_ARTICLE_ID](state, {});
       expect(state).toEqual(article);
     });
   });
 
-  describe('#UPDATE_HELP_CENTER_ARTICLE', () => {
+  describe('#UPDATE_ARTICLE', () => {
     it('does not updates if empty object is passed', () => {
-      mutations[types.UPDATE_HELP_CENTER_ARTICLE](state, {});
+      mutations[types.UPDATE_ARTICLE](state, {});
       expect(state).toEqual(article);
     });
     it('does not updates if object id is not present ', () => {
-      mutations[types.UPDATE_HELP_CENTER_ARTICLE](state, { id: 5 });
+      mutations[types.UPDATE_ARTICLE](state, { id: 5 });
       expect(state).toEqual(article);
     });
     it(' updates if object with id already present in the state', () => {
-      mutations[types.UPDATE_HELP_CENTER_ARTICLE](state, {
+      mutations[types.UPDATE_ARTICLE](state, {
         id: 2,
         title: 'How do I change my registered email address',
       });
@@ -77,13 +77,13 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#REMOVE_HELP_CENTER_ARTICLE', () => {
+  describe('#REMOVE_ARTICLE', () => {
     it('does not remove object entry if no id is passed', () => {
-      mutations[types.REMOVE_HELP_CENTER_ARTICLE](state, undefined);
+      mutations[types.REMOVE_ARTICLE](state, undefined);
       expect(state).toEqual({ ...article });
     });
     it('removes article if valid article id passed', () => {
-      mutations[types.REMOVE_HELP_CENTER_ARTICLE](state, 2);
+      mutations[types.REMOVE_ARTICLE](state, 2);
       expect(state.articles.byId[2]).toEqual(undefined);
     });
   });

@@ -15,23 +15,21 @@ jest.mock('axios');
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: articleList } });
+      axios.get.mockResolvedValue({ data: articleList });
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
         [
-          types.default.ADD_HELP_CENTER_ARTICLE,
-          {
-            id: 1,
-            category_id: 1,
-            title: 'Documents are required to complete KYC',
-          },
+          types.default.ADD_MANY_ARTICLES,
+          [
+            {
+              id: 1,
+              category_id: 1,
+              title: 'Documents are required to complete KYC',
+            },
+          ],
         ],
-        [types.default.ADD_HELP_CENTER_ARTICLE_ID, 1],
-        [
-          types.default.ADD_HELP_CENTER_ARTICLE_FLAG,
-          { uiFlags: {}, articleId: 1 },
-        ],
+        [types.default.ADD_MANY_ARTICLES_ID, [1]],
         [types.default.SET_UI_FLAG, { isFetching: false }],
       ]);
     });
@@ -51,8 +49,8 @@ describe('#actions', () => {
       await actions.create({ commit }, articleList[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
-        [types.default.ADD_HELP_CENTER_ARTICLE, articleList[0]],
-        [types.default.ADD_HELP_CENTER_ARTICLE_ID, 1],
+        [types.default.ADD_ARTICLE, articleList[0]],
+        [types.default.ADD_ARTICLE_ID, 1],
         [types.default.SET_UI_FLAG, { isCreating: false }],
       ]);
     });
@@ -74,12 +72,12 @@ describe('#actions', () => {
       await actions.update({ commit }, articleList[0]);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
-        [types.default.UPDATE_HELP_CENTER_ARTICLE, articleList[0]],
+        [types.default.UPDATE_ARTICLE, articleList[0]],
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
         ],
       ]);
@@ -91,11 +89,11 @@ describe('#actions', () => {
       );
       expect(commit.mock.calls).toEqual([
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
         ],
       ]);
@@ -108,13 +106,13 @@ describe('#actions', () => {
       await actions.delete({ commit }, articleList[0].id);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isDeleting: true }, articleId: 1 },
         ],
-        [types.default.REMOVE_HELP_CENTER_ARTICLE, articleList[0].id],
-        [types.default.REMOVE_HELP_CENTER_ARTICLE_ID, articleList[0].id],
+        [types.default.REMOVE_ARTICLE, articleList[0].id],
+        [types.default.REMOVE_ARTICLE_ID, articleList[0].id],
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
@@ -126,11 +124,11 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isDeleting: true }, articleId: 1 },
         ],
         [
-          types.default.SET_UI_FLAG,
+          types.default.ADD_ARTICLE_FLAG,
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
