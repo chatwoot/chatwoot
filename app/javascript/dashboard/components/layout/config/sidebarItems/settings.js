@@ -30,6 +30,7 @@ const settings = accountId => ({
     'settings_teams_edit',
     'settings_teams_edit_members',
     'settings_teams_edit_finish',
+    'billing_settings_index',
     'automation_list',
   ],
   menuItems: [
@@ -99,6 +100,14 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
+    },
+    {
+      icon: 'credit-card-person',
+      label: 'BILLING',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/billing`),
+      toStateName: 'billing_settings_index',
+      showOnlyOnCloud: true,
     },
     {
       icon: 'settings',

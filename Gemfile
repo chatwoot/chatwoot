@@ -4,7 +4,7 @@ ruby '3.0.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails'
+gem 'rails', '~>6.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -89,12 +89,9 @@ gem 'slack-ruby-client'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow'
 
-##--- gems for debugging and error reporting ---##
-# static analysis
-gem 'brakeman'
-
 ##-- apm and error monitoring ---#
 gem 'ddtrace'
+gem 'elastic-apm'
 gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails', '~> 5.3'
@@ -131,6 +128,9 @@ gem 'working_hours'
 # full text search for articles
 gem 'pg_search'
 
+# Subscriptions, Billing
+gem 'stripe'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -160,6 +160,9 @@ end
 
 group :development, :test do
   gem 'active_record_query_trace'
+  ##--- gems for debugging and error reporting ---##
+  # static analysis
+  gem 'brakeman'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'

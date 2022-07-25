@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/out_of_offisable_shared.rb'
+require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 
 RSpec.describe Inbox do
   describe 'validations' do
@@ -37,6 +38,7 @@ RSpec.describe Inbox do
 
   describe 'concerns' do
     it_behaves_like 'out_of_offisable'
+    it_behaves_like 'avatarable'
   end
 
   describe '#add_member' do
@@ -74,7 +76,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::FacebookPage.new }
 
       it do
-        expect(inbox.facebook?).to eq(true)
+        expect(inbox.facebook?).to be(true)
         expect(inbox.inbox_type).to eq('Facebook')
       end
     end
@@ -83,7 +85,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::WebWidget.new }
 
       it do
-        expect(inbox.facebook?).to eq(false)
+        expect(inbox.facebook?).to be(false)
         expect(inbox.inbox_type).to eq('Website')
       end
     end
@@ -98,7 +100,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::WebWidget.new }
 
       it do
-        expect(inbox.web_widget?).to eq(true)
+        expect(inbox.web_widget?).to be(true)
         expect(inbox.inbox_type).to eq('Website')
       end
     end
@@ -107,7 +109,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::Api.new }
 
       it do
-        expect(inbox.web_widget?).to eq(false)
+        expect(inbox.web_widget?).to be(false)
         expect(inbox.inbox_type).to eq('API')
       end
     end
@@ -122,7 +124,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::Api.new }
 
       it do
-        expect(inbox.api?).to eq(true)
+        expect(inbox.api?).to be(true)
         expect(inbox.inbox_type).to eq('API')
       end
     end
@@ -131,7 +133,7 @@ RSpec.describe Inbox do
       let(:channel_val) { Channel::FacebookPage.new }
 
       it do
-        expect(inbox.api?).to eq(false)
+        expect(inbox.api?).to be(false)
         expect(inbox.inbox_type).to eq('Facebook')
       end
     end

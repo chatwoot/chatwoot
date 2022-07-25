@@ -23,7 +23,7 @@ class ContactBuilder
   end
 
   def update_contact_avatar(contact)
-    ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
+    ::Avatar::AvatarFromUrlJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
   end
 
   def create_contact
