@@ -39,6 +39,51 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    context 'when valid status params' do
+      it 'update status message to read' do
+        source_id = 'SDFADSf23sfasdafasdfa'
+        from = '2423423243'
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => from }],
+          'messages' => [{ 'from' => from, 'id' => source_id, 'text' => { 'body' => 'Test' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => source_id, 'status' => 'read' }]
+        }.with_indifferent_access
+        expect(Message.find_by!(source_id: source_id).status).to eq('sent')
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+        expect(Message.find_by!(source_id: source_id).status).to eq('read')
+      end
+
+      it 'update status message to failed' do
+        source_id = 'SDFADSf23sfasdafasdfa'
+        from = '2423423243'
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => from }],
+          'messages' => [{ 'from' => from, 'id' => source_id, 'text' => { 'body' => 'Test' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => source_id, 'status' => 'failed',
+                           'errors' => [{ 'code': 123, 'title': 'abc' }] }]
+        }.with_indifferent_access
+        expect(Message.find_by!(source_id: source_id).status).to eq('sent')
+        expect(last_conversation.messages.count).to eq(1)
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+        expect(last_conversation.messages.count).to eq(2)
+        expect(Message.find_by!(source_id: source_id).status).to eq('failed')
+      end
+    end
+
     context 'when valid interactive message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {
