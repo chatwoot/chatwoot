@@ -113,6 +113,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin.js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
@@ -126,7 +127,6 @@ import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 
 import wootConstants from '../../constants';
-import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,

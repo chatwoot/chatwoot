@@ -77,6 +77,11 @@
   .conversations-list {
     @include flex-weight(1);
     @include scroll-on-hover;
+
+    // Prevent the list from scrolling if the submenu is opened
+    &.submenu-opened {
+      overflow: hidden !important;
+    }
   }
 
   .chat-list__top {

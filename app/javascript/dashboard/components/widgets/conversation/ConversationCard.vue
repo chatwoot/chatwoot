@@ -295,9 +295,6 @@ export default {
       return stateInbox.name || '';
     },
   },
-  mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', [this.inbox.id]);
-  },
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
@@ -327,57 +324,37 @@ export default {
     },
     openContextMenu(e) {
       e.preventDefault();
+      document
+        .querySelector('.conversations-list')
+        .classList.add('submenu-opened');
       this.contextMenu.x = e.pageX || e.clientX;
       this.contextMenu.y = e.pageY || e.clientY;
       this.showContextMenu = true;
     },
     closeContextMenu() {
+      document
+        .querySelector('.conversations-list')
+        .classList.remove('submenu-opened');
       this.showContextMenu = false;
       this.contextMenu.x = null;
       this.contextMenu.y = null;
     },
     onUpdateConversation(status, snoozedUntil) {
       this.closeContextMenu();
-      this.$store
-        .dispatch('toggleStatus', {
-          conversationId: this.chat.id,
-          status,
-          snoozedUntil,
-        })
-        .then(() => {
-          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
-          this.isLoading = false;
-        });
+      this.$emit(
+        'update-conversation-status',
+        this.chat.id,
+        status,
+        snoozedUntil
+      );
     },
     async onAssignAgent(agent) {
-      try {
-        this.closeContextMenu();
-        await this.$store.dispatch('bulkActions/process', {
-          type: 'Conversation',
-          ids: [this.chat.id],
-          fields: {
-            assignee_id: agent.id,
-          },
-        });
-        this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
-      } catch (err) {
-        this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT_FAILED'));
-      }
+      this.$emit('assign-agent', agent, [this.chat.id]);
+      this.closeContextMenu();
     },
     async onAssignLabel(label) {
-      try {
-        this.closeContextMenu();
-        await this.$store.dispatch('bulkActions/process', {
-          type: 'Conversation',
-          ids: [this.chat.id],
-          labels: {
-            add: [label.title],
-          },
-        });
-        this.showAlert(this.$t('CONVERSATION.ASSIGN_LABEL_SUCCESFUL'));
-      } catch (err) {
-        this.showAlert(this.$t('CONVERSATION.ASSIGN_LABEL_FAILED'));
-      }
+      this.$emit('assign-label', [label.title], [this.chat.id]);
+      this.closeContextMenu();
     },
   },
 };

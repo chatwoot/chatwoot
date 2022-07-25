@@ -110,6 +110,9 @@
         :selected="isConversationSelected(chat.id)"
         @select-conversation="selectConversation"
         @de-select-conversation="deSelectConversation"
+        @assign-agent="onAssignAgent"
+        @assign-label="onAssignLabels"
+        @update-conversation-status="toggleConversationStatus"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -584,11 +587,12 @@ export default {
         this.resetBulkActions();
       }
     },
-    async onAssignAgent(agent) {
+    // Same method used in context menu, conversationId being passed from there.
+    async onAssignAgent(agent, conversationId = null) {
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
-          ids: this.selectedConversations,
+          ids: conversationId || this.selectedConversations,
           fields: {
             assignee_id: agent.id,
           },
@@ -599,11 +603,12 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
-    async onAssignLabels(labels) {
+    // Same method used in context menu, conversationId being passed from there.
+    async onAssignLabels(labels, conversationId = null) {
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
-          ids: this.selectedConversations,
+          ids: conversationId || this.selectedConversations,
           labels: {
             add: labels,
           },
@@ -628,6 +633,18 @@ export default {
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
       }
+    },
+    toggleConversationStatus(conversationId, status, snoozedUntil) {
+      this.$store
+        .dispatch('toggleStatus', {
+          conversationId,
+          status,
+          snoozedUntil,
+        })
+        .then(() => {
+          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          this.isLoading = false;
+        });
     },
     allSelectedConversationsStatus(status) {
       if (!this.selectedConversations.length) return false;

@@ -2,7 +2,7 @@
   <div
     v-show="show"
     ref="context"
-    class="sub-menu"
+    class="context-menu-container"
     :style="style"
     tabindex="0"
     @blur="$emit('close')"
@@ -44,13 +44,10 @@ export default {
 };
 </script>
 <style>
-.sub-menu {
+.context-menu-container {
   position: fixed;
   z-index: var(--z-index-very-high);
   outline: none;
-  background-color: var(--white);
-  box-shadow: var(--shadow-context-menu);
   cursor: pointer;
-  border-radius: var(--border-radius-normal);
 }
 </style>
