@@ -166,13 +166,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def process_avatar
-    if permitted_params[:avatar].blank? && permitted_params[:avatar_url].present?
-      ::ContactAvatarJob.perform_later(@contact, params[:avatar_url])
-    elsif permitted_params[:avatar].blank? && permitted_params[:email].present?
-      hash = Digest::MD5.hexdigest(params[:email])
-      gravatar_url = "https://www.gravatar.com/avatar/#{hash}?d=404"
-      ::ContactAvatarJob.perform_later(@contact, gravatar_url)
-    end
+    ::Avatar::AvatarFromUrlJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
   def render_error(error, error_status)
