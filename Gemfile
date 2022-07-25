@@ -91,6 +91,7 @@ gem 'google-cloud-dialogflow'
 
 ##-- apm and error monitoring ---#
 gem 'ddtrace'
+gem 'elastic-apm'
 gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails', '~> 5.3'
