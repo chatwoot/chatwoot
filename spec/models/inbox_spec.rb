@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/out_of_offisable_shared.rb'
+require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 
 RSpec.describe Inbox do
   describe 'validations' do
@@ -37,6 +38,7 @@ RSpec.describe Inbox do
 
   describe 'concerns' do
     it_behaves_like 'out_of_offisable'
+    it_behaves_like 'avatarable'
   end
 
   describe '#add_member' do
