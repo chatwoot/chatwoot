@@ -619,7 +619,23 @@
             "SUCCESS_MESSAGE": "Widget settings updated successfully",
             "ERROR_MESSAGE": "Unable to update widget settings"
           }
+        },
+        "WIDGET_VIEW_OPTION":{
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION":{
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE":{
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
         }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Typically replies in a few minutes",

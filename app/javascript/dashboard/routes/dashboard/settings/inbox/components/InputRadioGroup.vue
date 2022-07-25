@@ -2,7 +2,7 @@
   <div>
     <label class="radio-group-label">{{ label }}</label>
     <div class="radio-group">
-      <div class="radio-group-item" v-for="item in items" :key="item.id">
+      <div v-for="item in items" :key="item.id" class="radio-group-item">
         <input
           :name="`${name} -radio-input`"
           type="radio"

@@ -196,20 +196,38 @@ export default {
       widgetBubbleLauncherTitle: '',
       widgetBubbleType: 'standard',
       widgetBubblePositions: [
-        { id: 'left', title: 'Left', checked: false },
-        { id: 'right', title: 'Right', checked: true },
+        {
+          id: 'left',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.LEFT'
+          ),
+          checked: false,
+        },
+        {
+          id: 'right',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.RIGHT'
+          ),
+          checked: true,
+        },
       ],
       widgetBubbleTypes: [
-        { id: 'standard', title: 'Standard', checked: true },
-        { id: 'expanded_bubble', title: 'Expanded Bubble', checked: false },
+        {
+          id: 'standard',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE.STANDARD'
+          ),
+          checked: true,
+        },
+        {
+          id: 'expanded_bubble',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE.EXPANDED_BUBBLE'
+          ),
+          checked: false,
+        },
       ],
     };
-  },
-  mounted: function() {
-    this.setDefaults();
-  },
-  validations: {
-    websiteName: { required },
   },
   computed: {
     ...mapGetters({
@@ -232,14 +250,20 @@ export default {
     },
     getWidgetViewOptions() {
       return [
-        { id: 'preview', title: 'Preview', checked: true },
-        { id: 'script', title: 'Script', checked: false },
-      ];
-    },
-    getWidgetBubbleTypes() {
-      return [
-        { id: 'standard', title: 'Standard', checked: true },
-        { id: 'expanded_bubble', title: 'Expanded Bubble', checked: false },
+        {
+          id: 'preview',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_VIEW_OPTION.PREVIEW'
+          ),
+          checked: true,
+        },
+        {
+          id: 'script',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_VIEW_OPTION.SCRIPT'
+          ),
+          checked: false,
+        },
       ];
     },
     getReplyTimeOptions() {
@@ -267,6 +291,12 @@ export default {
         },
       ];
     },
+  },
+  mounted() {
+    this.setDefaults();
+  },
+  validations: {
+    websiteName: { required },
   },
   methods: {
     setDefaults() {
@@ -305,7 +335,7 @@ export default {
       this.widgetBubbleLauncherTitle =
         storage.get(key).launcherTitle || 'Chat with us';
     },
-    handleWidgetBubblePositionChange: function(item) {
+    handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
     },
     handleWidgetBubbleTypeChange(item) {

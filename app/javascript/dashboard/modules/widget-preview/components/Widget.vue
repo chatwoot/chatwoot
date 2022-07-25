@@ -62,16 +62,6 @@ export default {
     WidgetFooter,
     InputRadioGroup,
   },
-  data: function() {
-    return {
-      widgetScreens: [
-        { id: 'default', title: 'Default', checked: true },
-        { id: 'chat', title: 'Chat', checked: false },
-      ],
-      isDefaultScreen: true,
-      isWidgetVisible: true,
-    };
-  },
   props: {
     welcomeHeading: {
       type: String,
@@ -114,6 +104,24 @@ export default {
       type: String,
       default: 'standard',
     },
+  },
+  data() {
+    return {
+      widgetScreens: [
+        {
+          id: 'default',
+          title: this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_SCREEN.DEFAULT'),
+          checked: true,
+        },
+        {
+          id: 'chat',
+          title: this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_SCREEN.CHAT'),
+          checked: false,
+        },
+      ],
+      isDefaultScreen: true,
+      isWidgetVisible: true,
+    };
   },
   computed: {
     getWidgetHeadConfig() {
@@ -170,74 +178,64 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-lg {
-  font-size: var(--font-size-default);
-}
 .screen-selector {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .widget-wrapper {
-  box-shadow: 0 0px 20px 5px rgb(0 0 0 / 10%);
-  border-radius: var(--border-radius-large);
-  background-color: rgba(244, 246, 251, 1);
-  z-index: 99;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 320px;
-  max-width: 320px;
-  transition: opacity 0.2s linear, transform 0.25s linear;
+  box-shadow: 0 0px 20px 5px rgb(0 0 0 / 10%);
+  border-radius: var(--border-radius-large);
+  background-color: #f4f6fb;
+  min-width: 32rem;
+  max-width: 32rem;
 
   .branding {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: var(--space-one);
+    padding-bottom: var(--space-one);
     text-align: center;
   }
 }
 .widget-bubble {
   display: flex;
   flex-direction: row;
-  margin-top: 15px;
+  margin-top: var(--space-normal);
   min-width: 32rem;
   max-width: 32rem;
 
   .bubble {
     display: flex;
     align-items: center;
-    border-radius: 100px;
-    border-width: 0px;
-    bottom: 20px;
-    box-shadow: 0 8px 24px rgb(0 0 0 / 16%) !important;
-    cursor: pointer;
-    height: 60px;
-    width: 60px;
+    border-radius: 3rem;
+    height: 6rem;
+    width: 6rem;
     position: relative;
-    top: 0px;
     overflow-wrap: anywhere;
+    cursor: pointer;
 
     img {
-      height: 25px;
-      margin: 10px 8px 5px 17px;
-      width: 25px;
+      height: var(--space-medium);
+      width: var(--space-medium);
+      margin: 1rem 1rem 0.6rem 1.7rem;
     }
 
     div {
-      padding-right: 20px;
+      padding-right: var(--space-normal);
     }
   }
 
   .bubble-close::before,
   .bubble-close::after {
-    background-color: #fff;
+    background-color: var(--white);
     content: ' ';
     display: inline;
-    height: 24px;
-    left: 29px;
+    height: var(--space-medium);
+    width: var(--space-micro);
+    left: var(--space-three);
     position: absolute;
-    top: 18px;
-    width: 2px;
   }
 
   .bubble-close::before {
@@ -249,11 +247,11 @@ export default {
   }
 
   .bubble-expanded {
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
+    font-size: var(--font-size-default);
+    font-weight: var(--font-weight-medium);
+    color: var(--white);
     width: auto !important;
-    height: 48px !important;
+    height: var(--space-larger) !important;
   }
 }
 </style>
