@@ -6,7 +6,7 @@ export const actions = {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await articlesAPI.get();
-      const articleIds = data.map(portal => portal.id);
+      const articleIds = data.map(article => article.id);
       commit(types.ADD_MANY_ARTICLES, data);
       commit(types.ADD_MANY_ARTICLES_ID, articleIds);
       return articleIds;
