@@ -1,4 +1,4 @@
-import HelpCenterPortalsAPI from 'dashboard/api/helpCenter/portals.js';
+import PortalsAPI from 'dashboard/api/helpCenter/portals.js';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 
