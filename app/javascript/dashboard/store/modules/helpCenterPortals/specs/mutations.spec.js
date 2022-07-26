@@ -82,11 +82,11 @@ describe('#mutations', () => {
   describe('[types.SET_HELP_PORTAL_UI_FLAG]', () => {
     it('sets correct flag in state', () => {
       mutations[types.SET_HELP_PORTAL_UI_FLAG](state, {
-        helpCenterId: 1,
+        portalId: 1,
         uiFlags: { isFetching: true },
       });
       expect(state.portals.uiFlags.byId[1]).toEqual({
-        isFetching: false,
+        isFetching: true,
         isUpdating: true,
         isDeleting: false,
       });
