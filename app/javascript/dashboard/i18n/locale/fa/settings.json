@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
     "AUTOMATION": "خودکارسازی",
     "TEAMS": "تیم‌ها",
+    "BILLING": "صورتحساب",
     "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
     "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
     "ALL_CONTACTS": "تمام مخاطبین",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "خود را به عنوان",
     "BETA": "آزمایشی",
     "REPORTS_OVERVIEW": "بررسی اجمالی",
-    "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید"
+    "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "همه مقالات",
+      "MY_ARTICLES": "مقالات من",
+      "DRAFT": "پیش‌نویس",
+      "ARCHIVED": "بایگانی شد",
+      "CATEGORY": "دسته‌بندی"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "صورتحساب",
+    "CURRENT_PLAN": {
+      "TITLE": "طرح فعلی",
+      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **%{plan}** با مجوز **%{quantity}** هستید"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "اشتراک خود را مدیریت کنید",
+      "DESCRIPTION": "فاکتورهای قبلی خود را مشاهده کنید، جزئیات صورتحساب خود را ویرایش کنید یا اشتراک خود را لغو کنید.",
+      "BUTTON_TXT": "برو به پورتال صورتحساب"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "به کمک احتياج داری؟",
+      "DESCRIPTION": "آیا در صورتحساب با مشکلی مواجه هستید؟ ما اینجاییم تا کمک کنیم.",
+      "BUTTON_TXT": "با ما گفتگو کنید"
+    },
+    "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
@@ -215,9 +241,9 @@
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
       "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
       "RESOLVE_CONVERSATION": "حل مکالمه",
-      "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
+      "GO_TO_CONVERSATION_DASHBOARD": "به پیشخوان گفتگو بروید",
       "ADD_ATTACHMENT": "افزودن پیوست",
-      "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "GO_TO_CONTACTS_DASHBOARD": "به پیشخوان مخاطبین بروید",
       "TOGGLE_SIDEBAR": "نوار کناری",
       "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
       "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
