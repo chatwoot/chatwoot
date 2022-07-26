@@ -64,7 +64,7 @@ export const actions = {
       helpCenterId,
     });
     try {
-      await HelpCenterPortalsAPI.delete(helpCenterId);
+      await PortalsAPI.delete(helpCenterId);
 
       commit(types.REMOVE_PORTAL_ENTRY, helpCenterId);
       commit(types.REMOVE_PORTAL_ID, helpCenterId);
