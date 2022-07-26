@@ -4,7 +4,12 @@
       "FILTER": "Filtra per",
       "SORT": "Ordina per",
       "SETTINGS_BUTTON": "Impostazioni",
-      "NEW_BUTTON": "Nuovo articolo"
+      "NEW_BUTTON": "Nuovo articolo",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Pubblicato",
+        "DRAFT": "Bozza",
+        "ARCHIVED": "Archiviato"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "Pubblica",
@@ -34,6 +39,35 @@
     "SIDEBAR": {
       "SEARCH": {
         "PLACEHOLDER": "Cerca articoli"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Crea una categoria",
+        "SUB_TITLE": "La categoria sarà utilizzata nel portale pubblico per classificare gli articoli.",
+        "PORTAL": "Portale",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome categoria",
+          "HELP_TEXT": "Il nome della categoria verrà utilizzato nel portale pubblico per categorizzare gli articoli.",
+          "ERROR": "Il nome è obbligatorio"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug categoria per url",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug è obbligatorio"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Fornisci una breve descrizione della categoria.",
+          "ERROR": "La descrizione è obbligatoria"
+        },
+        "BUTTONS": {
+          "CREATE": "Crea categoria",
+          "CANCEL": "annulla"
+        }
       }
     }
   }
