@@ -58,6 +58,20 @@
         "NEXT_WEEK": "Příští týden"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Označit jako nevyřízené",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reopen conversation",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Podpis zprávy",
       "ENABLE_SIGN_TOOLTIP": "Povolit podpis",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Tým konverzace se změnil",
     "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
