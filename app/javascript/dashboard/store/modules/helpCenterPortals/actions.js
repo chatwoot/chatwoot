@@ -42,7 +42,7 @@ export const actions = {
       helpCenterId,
     });
     try {
-      const { data } = await HelpCenterPortalsAPI.update(helpCenter);
+      const { data } = await PortalsAPI.update(helpCenter);
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
       throwErrorMessage(error);
