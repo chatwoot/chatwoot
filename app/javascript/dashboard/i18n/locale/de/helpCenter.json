@@ -16,8 +16,24 @@
       "SAVED": "Entwurf gespeichert"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Titel",
+        "CATEGORY": "Kategorie",
+        "READ_COUNT": "Gelesen Zählung",
+        "STATUS": "Status",
+        "LAST_EDITED": "Zuletzt bearbeitet"
+      },
       "COLUMNS": {
         "BY": "von"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Artikeltitel kommt hier rein",
+      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Suche nach Artikeln"
       }
     }
   }

@@ -66,7 +66,7 @@ export default {
   height: var(--space-jumbo);
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-normal) 0;
+  padding: var(--space-small) 0 var(--space-normal) 0;
   border-bottom: 1px solid var(--color-border-light);
 }
 

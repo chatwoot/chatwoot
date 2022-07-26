@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
     "COMPANY": "Firma",
     "LOCATION": "Ort",
+    "BROWSER_LANGUAGE": "Browsersprache",
     "CONVERSATION_TITLE": "Unterhaltungsdetails",
     "VIEW_PROFILE": "Profil anzeigen",
     "BROWSER": "Browser",

@@ -112,10 +112,10 @@
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "SID سرویس پیام رسانی",
+          "PLACEHOLDER": "لطفاً SID سرویس پیام رسانی Twilio خود را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "از سرویس پیام رسانی Twilio استفاده کنید"
         },
         "CHANNEL_TYPE": {
           "LABEL": "نوع کانال",
@@ -227,8 +227,8 @@
           "ERROR": "لطفا یک مقدار معتبر وارد کنید."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "LABEL": "رمز تأیید وب هوک",
+          "PLACEHOLDER": "یک رمز تأیید را وارد کنید که می خواهید برای وب هوک های فیس بوک پیکربندی کنید.",
           "ERROR": "لطفا یک مقدار معتبر وارد کنید."
         },
         "API_KEY": {
@@ -239,7 +239,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "آدرس URL مربوط به API",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "شما باید URL webhook را در پورتال توسعه دهنده فیس بوک با URL ذکر شده در اینجا پیکربندی کنید."
         },
         "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
         "API": {
@@ -327,7 +327,7 @@
       },
       "AUTH": {
         "TITLE": "کانالی را انتخاب کنید",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot از ویجت های چت زنده، فیس بوک مسنجر، پروفایل های توییتر، واتساپ، ایمیل ها و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید، می توانید آن را با استفاده از کانال API ایجاد کنید. برای شروع، یکی از کانال های زیر را انتخاب کنید."
       },
       "AGENTS": {
         "TITLE": "ایجنت ها",
@@ -441,16 +441,16 @@
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به ایجنت های عضو این صندوق ورودی.",
       "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "به منظور اعتبارسنجی هویت کاربر، می‌توانید یک «شناسه_هش» برای هر کاربر ارسال کنید. می‌توانید با استفاده از «شناسه» با کلید نشان داده شده در اینجا یک هش HMAC sha256 ایجاد کنید.",
       "HMAC_MANDATORY_VERIFICATION": "مجبور کردن تأیید اعتبار هویت کاربر",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "اگر فعال باشد، درخواست‌هایی که «identifier_hash» را ندارند رد می‌شوند.",
       "INBOX_IDENTIFIER": "شناسه صندوق ورودی",
       "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
       "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
       "WHATSAPP_SECTION_TITLE": "API key"
     },
     "AUTO_ASSIGNMENT": {

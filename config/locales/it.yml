@@ -23,7 +23,7 @@ it:
     reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
   errors:
     validations:
-      presence: must not be blank
+      presence: non deve essere vuoto
     webhook:
       invalid: Eventi non validi
     signup:
@@ -33,17 +33,17 @@ it:
       failed: Registrazione non riuscita
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Tipo di dato non valido
     contacts:
       import:
         failed: Il file è vuoto
       email:
-        invalid: Invalid email
+        invalid: Email non valida
       phone_number:
-        invalid: should be in e164 format
+        invalid: dovrebbe essere nel formato e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: dovrebbe essere unico nella categoria e nel portale
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.

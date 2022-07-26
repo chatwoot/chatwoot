@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
     "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
     "BETA": "تجريبي",
     "REPORTS_OVERVIEW": "نظرة عامة",
-    "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات"
+    "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "الفئة"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "تحدث الينا"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
