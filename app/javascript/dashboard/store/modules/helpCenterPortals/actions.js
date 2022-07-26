@@ -3,7 +3,7 @@ import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 
 export const actions = {
-  fetchAllPortals: async ({ commit }) => {
+  index: async ({ commit }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await HelpCenterPortalsAPI.get();
