@@ -18,7 +18,7 @@
       size="20px"
       class="agent-thumbnail"
     />
-    <p class="menu-label">{{ option.label }}</p>
+    <p class="menu-label text-truncate">{{ option.label }}</p>
   </div>
 </template>
 
@@ -45,11 +45,10 @@ export default {
 .menu {
   display: flex;
   align-items: center;
-  width: 100%;
   padding: var(--space-smaller);
   border-radius: var(--border-radius-small);
-  min-width: calc(var(--space-mega) * 2);
-
+  width: calc(var(--space-mega) * 2);
+  flex-wrap: nowrap;
   .menu-label {
     margin: 0;
     font-size: var(--font-size-mini);

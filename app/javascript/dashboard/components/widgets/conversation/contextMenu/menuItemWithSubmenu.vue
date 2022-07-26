@@ -55,6 +55,11 @@ export default {
     left: 100%;
     top: 0;
     display: none;
+    min-height: min-content;
+    max-height: var(--space-giga);
+    overflow-y: auto;
+    // Need this because Firefox adds a horizontal scrollbar, if a text is truncated inside.
+    overflow-x: hidden;
   }
 
   &:hover {
