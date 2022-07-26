@@ -100,7 +100,7 @@
     <div
       ref="activeConversation"
       class="conversations-list"
-      :class="{ 'is-context-open': isContextMenuOpen }"
+      :class="{ 'is-context-menu-open': isContextMenuOpen }"
     >
       <conversation-card
         v-for="chat in conversationList"
