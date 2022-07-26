@@ -182,6 +182,9 @@ GEM
       addressable (~> 2.8)
     ecma-re-validator (0.4.0)
       regexp_parser (~> 2.2)
+    elastic-apm (4.5.1)
+      concurrent-ruby (~> 1.0)
+      http (>= 3.0)
     email_reply_trimmer (0.1.13)
     erubi (1.10.0)
     et-orbi (1.2.7)
@@ -226,6 +229,9 @@ GEM
       faraday (>= 1.0.0, < 3.0)
       googleauth (~> 1)
     ffi (1.15.5)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
     fugit (1.5.3)
@@ -318,9 +324,15 @@ GEM
     hkdf (0.3.0)
     html2text (0.2.1)
       nokogiri (~> 1.6)
+    http (5.1.0)
+      addressable (~> 2.8)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.2)
+      llhttp-ffi (~> 0.4.0)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
+    http-form_data (2.3.0)
     httparty (0.20.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
@@ -383,6 +395,9 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    llhttp-ffi (0.4.0)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
     loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -709,6 +724,7 @@ DEPENDENCIES
   devise_token_auth
   dotenv-rails
   down (~> 5.0)
+  elastic-apm
   email_reply_trimmer
   facebook-messenger
   factory_bot_rails
@@ -789,4 +805,4 @@ RUBY VERSION
    ruby 3.0.4p208
 
 BUNDLED WITH
-   2.3.14
+   2.3.17
