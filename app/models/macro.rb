@@ -5,7 +5,7 @@
 #  id            :bigint           not null, primary key
 #  actions       :jsonb            not null
 #  name          :string           not null
-#  visibility    :integer          default("user")
+#  visibility    :integer          default("personal")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
@@ -31,6 +31,11 @@ class Macro < ApplicationRecord
              class_name: :User
   enum visibility: { personal: 0, global: 1 }
 
+  validate :json_actions_format
+
+  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agent send_webhook_event mute_conversation change_status
+                     resolve_conversation snooze_conversation].freeze
+
   def set_visibility(user, params)
     self.visibility = params[:visibility]
     self.visibility = :personal if user.agent?
@@ -45,5 +50,16 @@ class Macro < ApplicationRecord
 
   def self.current_page(params)
     params[:page] || 1
+  end
+
+  private
+
+  def json_actions_format
+    return if actions.blank?
+
+    attributes = actions.map { |obj, _| obj['action_name'] }
+    actions = attributes - ACTIONS_ATTRS
+
+    errors.add(:actions, "Macro execution actions #{actions.join(',')} not supported.") if actions.any?
   end
 end
