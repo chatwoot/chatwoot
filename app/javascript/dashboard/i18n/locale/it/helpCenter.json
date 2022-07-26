@@ -16,8 +16,24 @@
       "SAVED": "Bozza salvata"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Titolo",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Contatore delle letture",
+        "STATUS": "Stato",
+        "LAST_EDITED": "Ultima modifica"
+      },
       "COLUMNS": {
         "BY": "di"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Il titolo dell'articolo va qui",
+      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Cerca articoli"
       }
     }
   }
