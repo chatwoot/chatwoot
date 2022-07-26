@@ -56,7 +56,7 @@ export const actions = {
     }
   },
 
-  deletePortal: async ({ commit }, { helpCenterId }) => {
+  delete: async ({ commit }, { helpCenterId }) => {
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: {
         isDeleting: true,
