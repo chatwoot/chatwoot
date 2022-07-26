@@ -33,7 +33,7 @@ uk:
       failed: Помилка реєстрації
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Некоректний тип даних
     contacts:
       import:
         failed: Файл порожній
@@ -48,7 +48,7 @@ uk:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
         no_response_error: Будь ласка, перевірте облікові дані IMAP і повторіть спробу.
-        host_unreachable_error: Хост недоступний. Будь-ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
+        host_unreachable_error: Хост недоступний. Будь ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
         connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
         connection_closed_error: З'єднання закрито.
       validations:
