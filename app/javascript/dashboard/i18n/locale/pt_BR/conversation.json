@@ -58,6 +58,20 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Marcar como pendente",
+      "RESOLVED": "Marcar como resolvido",
+      "REOPEN": "Reabrir conversa",
+      "SNOOZE": {
+        "TITLE": "Adiar",
+        "NEXT_REPLY": "Até a próxima resposta",
+        "TOMORROW": "Até amanhã",
+        "NEXT_WEEK": "Até a próxima semana"
+      },
+      "ASSIGN_AGENT": "Atribuir Agente",
+      "ASSIGN_LABEL": "Atribuir etiqueta",
+      "AGENTS_LOADING": "Carregando agentes..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
       "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
+    "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
     "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
+    "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
+    "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
     "CHANGE_TEAM": "Estado da conversa mudou",
     "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
