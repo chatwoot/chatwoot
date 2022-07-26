@@ -6,8 +6,6 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-
-    <!-- TO BE REPLACED WITH HELPCENTER SIDEBAR -->
     <div class="margin-right-small">
       <help-center-sidebar
         header-title="Help Center"
@@ -16,8 +14,6 @@
         :additional-secondary-menu-items="additionalSecondaryMenuItems"
       />
     </div>
-    <!-- END: TO BE REPLACED WITH HELPCENTER SIDEBAR -->
-
     <section class="app-content columns">
       <router-view />
       <command-bar />
@@ -61,24 +57,23 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
-    // For testing
     accessibleMenuItems() {
       return [
         {
           icon: 'book',
           label: 'HELP_CENTER.ALL_ARTICLES',
-          key: 'helpcenter_all',
+          key: 'list_all_locale_articles',
           count: 199,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/:portalSlug/:locale/articles`
           ),
           toolTip: 'All Articles',
-          toStateName: 'all_locale_articles',
+          toStateName: 'list_all_locale_articles',
         },
         {
           icon: 'pen',
           label: 'HELP_CENTER.MY_ARTICLES',
-          key: 'helpcenter_mine',
+          key: 'mine_articles',
           count: 112,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/mine`
@@ -89,24 +84,24 @@ export default {
         {
           icon: 'draft',
           label: 'HELP_CENTER.DRAFT',
-          key: 'helpcenter_draft',
+          key: 'list_draft_articles',
           count: 32,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/draft`
           ),
           toolTip: 'Draft',
-          toStateName: 'draft_articles',
+          toStateName: 'list_draft_articles',
         },
         {
           icon: 'archive',
           label: 'HELP_CENTER.ARCHIVED',
-          key: 'helpcenter_archive',
+          key: 'list_archived_articles',
           count: 10,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/archived`
           ),
           toolTip: 'Archived',
-          toStateName: 'archived_articles',
+          toStateName: 'list_archived_articles',
         },
       ];
     },

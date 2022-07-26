@@ -79,6 +79,7 @@ export default {
   }
   .footer {
     padding: 0;
+    border: 0;
   }
 }
 </style>
