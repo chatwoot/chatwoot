@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
     "TEAMS": "Equipos",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Carpetas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos los contactos",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "Ponte como",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Resumen",
-    "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio"
+    "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Categoría"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Chatea con nosotros"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",

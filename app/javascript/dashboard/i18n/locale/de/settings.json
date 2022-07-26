@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
     "AUTOMATION": "Automatisierung",
     "TEAMS": "Teams",
+    "BILLING": "Rechnungen",
     "CUSTOM_VIEWS_FOLDER": "Ordner",
     "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Alle Kontakte",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Übersicht",
-    "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen"
+    "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "Alle Artikel",
+      "MY_ARTICLES": "Meine Artikel",
+      "DRAFT": "Entwürfe",
+      "ARCHIVED": "Archiviert",
+      "CATEGORY": "Kategorie"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Rechnungen",
+    "CURRENT_PLAN": {
+      "TITLE": "Derzeitiger Plan",
+      "PLAN_NOTE": "Sie haben derzeit den Tarif **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Abonnement verwalten",
+      "DESCRIPTION": "Zeigen Sie Ihre vorherigen Rechnungen an, bearbeiten Sie Ihre Rechnungsdaten oder kündigen Sie Ihr Abonnement.",
+      "BUTTON_TXT": "Gehen Sie zum Abrechnungsportal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Brauchen Sie Hilfe?",
+      "DESCRIPTION": "Haben Sie Probleme bei der Abrechnung? Wir sind hier um zu helfen.",
+      "BUTTON_TXT": "Chatten Sie mit uns"
+    },
+    "NO_BILLING_USER": "Ihr Rechnungskonto wird konfiguriert. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
