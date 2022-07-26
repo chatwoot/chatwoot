@@ -324,17 +324,13 @@ export default {
     },
     openContextMenu(e) {
       e.preventDefault();
-      document
-        .querySelector('.conversations-list')
-        .classList.add('submenu-opened');
+      this.$emit('context-menu-toggle', true);
       this.contextMenu.x = e.pageX || e.clientX;
       this.contextMenu.y = e.pageY || e.clientY;
       this.showContextMenu = true;
     },
     closeContextMenu() {
-      document
-        .querySelector('.conversations-list')
-        .classList.remove('submenu-opened');
+      this.$emit('context-menu-toggle', false);
       this.showContextMenu = false;
       this.contextMenu.x = null;
       this.contextMenu.y = null;

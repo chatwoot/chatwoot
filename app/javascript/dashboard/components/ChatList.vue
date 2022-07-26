@@ -97,7 +97,11 @@
       @update-conversations="onUpdateConversations"
       @assign-labels="onAssignLabels"
     />
-    <div ref="activeConversation" class="conversations-list">
+    <div
+      ref="activeConversation"
+      class="conversations-list"
+      :class="{ 'is-context-open': isContextMenuOpen }"
+    >
       <conversation-card
         v-for="chat in conversationList"
         :key="chat.id"
@@ -113,6 +117,7 @@
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabels"
         @update-conversation-status="toggleConversationStatus"
+        @context-menu-toggle="onContextMenuToggle"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -220,6 +225,7 @@ export default {
       showDeleteFoldersModal: false,
       selectedConversations: [],
       selectedInboxes: [],
+      isContextMenuOpen: false,
     };
   },
   computed: {
@@ -651,6 +657,9 @@ export default {
       return this.selectedConversations.every(item => {
         return this.$store.getters.getConversationById(item).status === status;
       });
+    },
+    onContextMenuToggle(state) {
+      this.isContextMenuOpen = state;
     },
   },
 };
