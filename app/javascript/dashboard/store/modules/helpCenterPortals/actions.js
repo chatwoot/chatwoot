@@ -18,7 +18,7 @@ export const actions = {
     }
   },
 
-  createPortal: async ({ commit }, params) => {
+  create: async ({ commit }, params) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
       const { data } = await HelpCenterPortalsAPI.create(params);
