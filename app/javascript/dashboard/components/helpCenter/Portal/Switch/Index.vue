@@ -6,7 +6,7 @@
         <div>
           <h2 class="portal-title block-title">{{ portal.name }}</h2>
           <p class="portal-count">
-            {{ portal.article_count }}
+            {{ portal.articles_count }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
         </div>
@@ -19,7 +19,10 @@
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
         </h2>
         <ul>
-          <li v-for="locale in portal.locales" :key="locale.code">
+          <li
+            v-for="locale in portal.config.allowed_locales"
+            :key="locale.code"
+          >
             <label :for="`locale-${locale.code}`" class="locale-item">
               <input
                 :id="`locale-${locale.code}`"
@@ -31,7 +34,7 @@
               <div>
                 <p>{{ locale.name }}</p>
                 <span>
-                  {{ locale.article_count }}
+                  {{ locale.articles_count }}
                   {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
                   {{ locale.code }}
                 </span>
@@ -69,7 +72,7 @@ export default {
     };
   },
   mounted() {
-    this.selectedLocale = this.portal.locales[0].code;
+    this.selectedLocale = this.portal.config.allowed_locales[0].code;
   },
 };
 </script>
