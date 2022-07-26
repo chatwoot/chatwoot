@@ -172,13 +172,6 @@ export default {
   line-height: var(--font-size-large);
 }
 
-.switch-layout--icon {
-  color: var(--s-600);
-  &:hover {
-    color: var(--w-500);
-  }
-}
-
 .search--icon {
   color: var(--s-600);
   font-size: var(--font-size-large);
