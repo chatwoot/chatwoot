@@ -18,4 +18,8 @@ class MacroPolicy < ApplicationPolicy
   def destroy?
     true
   end
+
+  def execute?
+    true
+  end
 end
