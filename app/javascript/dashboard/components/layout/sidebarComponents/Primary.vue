@@ -16,6 +16,12 @@
       />
     </nav>
     <div class="menu vertical user-menu">
+      <primary-nav-item
+        icon="book-open-globe"
+        name="DOCS"
+        :open-in-new-page="true"
+        to="//www.chatwoot.com/docs/product"
+      />
       <notification-bell @open-notification-panel="openNotificationPanel" />
       <agent-details @toggle-menu="toggleOptions" />
       <options-menu
