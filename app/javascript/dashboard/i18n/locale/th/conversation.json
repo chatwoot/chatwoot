@@ -58,6 +58,20 @@
         "NEXT_WEEK": "สัปดาห์หน้า"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "เปิดการสนทนาอีกครั้ง",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
+        "TOMORROW": "จนกว่าพรุ่งนี้",
+        "NEXT_WEEK": "จนกว่าสัปดาห์หน้า"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "ข้อความลายเซ็น",
       "ENABLE_SIGN_TOOLTIP": "เปิดการใช้ลายเซ็นต์",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
     "CHANGE_STATUS": "สถานะการสนทนามีการเปลี่ยนเเปลง",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
     "FILE_SIZE_LIMIT": "ไม่สามารถแนบไฟล์ขนาดใหญ่เกิน {MAXIMUM_FILE_UPLOAD_SIZE} ได้",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
