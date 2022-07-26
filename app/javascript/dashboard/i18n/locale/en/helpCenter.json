@@ -4,7 +4,12 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "New Article",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Published",
+        "DRAFT": "Draft",
+        "ARCHIVED": "Archived"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "Publish",
