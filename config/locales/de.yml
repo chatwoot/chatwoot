@@ -23,7 +23,7 @@ de:
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
   errors:
     validations:
-      presence: must not be blank
+      presence: darf nicht leer sein
     webhook:
       invalid: Ungültige Events
     signup:
@@ -33,17 +33,17 @@ de:
       failed: Anmeldung gescheitert
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Ungültiger Datentyp
     contacts:
       import:
         failed: Datei ist leer
       email:
-        invalid: Invalid email
+        invalid: Ungültige E-Mail
       phone_number:
-        invalid: should be in e164 format
+        invalid: sollte im e164-Format vorliegen
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: sollte in der Kategorie und im Portal eindeutig sein
     inboxes:
       imap:
         socket_error: Bitte überprüfen Sie die Netzwerkverbindung, die IMAP-Adresse und versuchen Sie es erneut.

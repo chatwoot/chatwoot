@@ -16,8 +16,24 @@
       "SAVED": "Rascunho salvo"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "Título",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Contagem de leituras",
+        "STATUS": "SItuação",
+        "LAST_EDITED": "Última edição"
+      },
       "COLUMNS": {
         "BY": "por"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "O título do artigo vai aqui",
+      "CONTENT_PLACEHOLDER": "Escreva o seu artigo aqui"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Buscar artigos"
       }
     }
   }
