@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
@@ -80,7 +82,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
               'action_params': ['Welcome to the chatwoot platform.']
             },
             {
-              'action_name': :resolved
+              'action_name': :resolve_conversation
             }
           ],
           visibility: 'global',
@@ -170,6 +172,61 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(json_response['payload']['name']).to eql(macro.name)
         expect(json_response['payload']['created_by']['id']).to eql(administrator.id)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/macros/{macro.id}/execute' do
+    let!(:macro) { create(:macro, account: account, created_by: administrator, updated_by: administrator) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account, identifier: '123') }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :open) }
+    let(:team) { create(:team, account: account) }
+    let(:user_1) { create(:user, role: 0) }
+
+    before do
+      create(:team_member, user: user_1, team: team)
+      create(:account_user, user: user_1, account: account)
+      macro.update!(actions:
+                              [
+                                {
+                                  'action_name' => 'send_email_to_team', 'action_params' => [{
+                                    'message' => 'Please pay attention to this conversation, its from high priority customer',
+                                    'team_ids' => [team.id]
+                                  }]
+                                },
+                                { 'action_name' => 'assign_team', 'action_params' => [team.id] },
+                                { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
+                                { 'action_name' => 'snooze_conversation' },
+                                { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
+                                { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] }
+                              ])
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'execute the macro' do
+        expect(conversation.messages).to be_empty
+        expect(conversation.assignee).to be_nil
+        expect(conversation.labels).to be_empty
+
+        perform_enqueued_jobs do
+          post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+               params: { conversation_ids: [conversation.display_id] },
+               headers: administrator.create_new_auth_token
+        end
+
+        expect(conversation.reload.status).to eql('snoozed')
+        expect(conversation.messages.chat.last.content).to eq('Send this message.')
+        expect(conversation.label_list).to match_array(%w[support priority_customer])
+        expect(conversation.messages.activity.last.content).to eq("Assigned to #{user_1.name} by #{administrator.name}")
       end
     end
   end

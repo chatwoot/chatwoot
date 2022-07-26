@@ -7,15 +7,16 @@
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.TITLE_PLACEHOLDER')"
       @focus="onFocus"
       @blur="onBlur"
+      @input="onTitleInput"
     />
     <woot-message-editor
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"
       :is-format-mode="true"
-      :min-height="24"
       @focus="onFocus"
       @blur="onBlur"
+      @input="onContentInput"
     />
   </div>
 </template>
@@ -48,6 +49,12 @@ export default {
     },
     onBlur() {
       this.$emit('blur');
+    },
+    onTitleInput() {
+      this.$emit('titleInput', this.articleTitle);
+    },
+    onContentInput() {
+      this.$emit('contentInput', this.articleContent);
     },
   },
 };

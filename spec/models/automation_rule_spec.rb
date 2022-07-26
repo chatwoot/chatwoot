@@ -37,12 +37,8 @@ RSpec.describe AutomationRule, type: :model do
             action_params: %w[support priority_customer]
           },
           {
-            action_name: :assign_best_administrator,
+            action_name: :assign_best_agent,
             action_params: [1]
-          },
-          {
-            action_name: :update_additional_attributes,
-            action_params: [{ intiated_at: '2021-12-03 17:25:26.844536 +0530' }]
           }
         ]
       }.with_indifferent_access
