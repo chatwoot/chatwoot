@@ -673,6 +673,13 @@ export default {
   margin-bottom: var(--space-normal);
 }
 
+.conversations-list {
+  // Prevent the list from scrolling if the submenu is opened
+  &.is-context-menu-open {
+    overflow: hidden !important;
+  }
+}
+
 .conversations-list-wrap {
   flex-shrink: 0;
   width: 34rem;
