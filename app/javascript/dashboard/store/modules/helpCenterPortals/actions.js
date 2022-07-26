@@ -6,7 +6,7 @@ export const actions = {
   index: async ({ commit }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await HelpCenterPortalsAPI.get();
+      const { data } = await PortalsAPI.get();
       const portalIds = data.map(portal => portal.id);
 
       commit(types.ADD_MANY_PORTALS_ENTRY, data);
@@ -21,11 +21,11 @@ export const actions = {
   create: async ({ commit }, params) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
-      const { data } = await HelpCenterPortalsAPI.create(params);
-      const { id: helpCenterId } = data;
+      const { data } = await PortalsAPI.create(params);
+      const { id: portalId } = data;
 
       commit(types.ADD_PORTAL_ENTRY, data);
-      commit(types.ADD_PORTAL_ID, helpCenterId);
+      commit(types.ADD_PORTAL_ID, portalId);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -34,12 +34,12 @@ export const actions = {
   },
 
   update: async ({ commit }, { helpCenter }) => {
-    const helpCenterId = helpCenter.id;
+    const portalId = helpCenter.id;
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: {
         isUpdating: true,
       },
-      helpCenterId,
+      portalId,
     });
     try {
       const { data } = await PortalsAPI.update(helpCenter);
@@ -51,23 +51,23 @@ export const actions = {
         uiFlags: {
           isUpdating: false,
         },
-        helpCenterId,
+        portalId,
       });
     }
   },
 
-  delete: async ({ commit }, { helpCenterId }) => {
+  delete: async ({ commit }, { portalId }) => {
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: {
         isDeleting: true,
       },
-      helpCenterId,
+      portalId,
     });
     try {
-      await PortalsAPI.delete(helpCenterId);
+      await PortalsAPI.delete(portalId);
 
-      commit(types.REMOVE_PORTAL_ENTRY, helpCenterId);
-      commit(types.REMOVE_PORTAL_ID, helpCenterId);
+      commit(types.REMOVE_PORTAL_ENTRY, portalId);
+      commit(types.REMOVE_PORTAL_ID, portalId);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -75,7 +75,7 @@ export const actions = {
         uiFlags: {
           isDeleting: false,
         },
-        helpCenterId,
+        portalId,
       });
     }
   },
