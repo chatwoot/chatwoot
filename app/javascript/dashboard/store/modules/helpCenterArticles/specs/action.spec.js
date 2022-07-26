@@ -13,10 +13,10 @@ global.axios = axios;
 jest.mock('axios');
 
 describe('#actions', () => {
-  describe('#get', () => {
+  describe('#index', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: articleList });
-      await actions.get({ commit });
+      await actions.index({ commit });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
         [
@@ -35,7 +35,7 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.get({ commit })).rejects.toThrow(Error);
+      await expect(actions.index({ commit })).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
         [types.default.SET_UI_FLAG, { isFetching: false }],

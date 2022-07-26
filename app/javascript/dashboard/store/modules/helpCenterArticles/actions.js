@@ -2,7 +2,7 @@ import articlesAPI from 'dashboard/api/helpCenter/articles.js';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import types from '../../mutation-types';
 export const actions = {
-  get: async ({ commit }) => {
+  index: async ({ commit }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await articlesAPI.get();
