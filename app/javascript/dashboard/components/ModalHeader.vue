@@ -33,7 +33,4 @@ export default {
 .wrap-content {
   word-wrap: break-word;
 }
-.page-sub-title {
-  color: var(--s-600);
-}
 </style>

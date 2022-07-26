@@ -74,6 +74,7 @@ export default {
   }
 
   .help-text {
+    margin-top: var(--space-micro);
     font-size: var(--font-size-mini);
     color: var(--s-600);
     font-style: normal;
