@@ -112,10 +112,10 @@
           "ERROR": "هذا الحقل مطلوب"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "SID خدمة المراسلة",
+          "PLACEHOLDER": "الرجاء إدخال SID لخدمة مراسلة Twilio",
           "ERROR": "هذا الحقل مطلوب",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "استخدام خدمة مراسلة توليو"
         },
         "CHANNEL_TYPE": {
           "LABEL": "نوع القناة",
