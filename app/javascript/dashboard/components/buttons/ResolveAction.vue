@@ -113,6 +113,7 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin.js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
@@ -127,13 +128,6 @@ import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
 
 import wootConstants from '../../constants';
 import {
-  getUnixTime,
-  addHours,
-  addWeeks,
-  startOfTomorrow,
-  startOfWeek,
-} from 'date-fns';
-import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
   CMD_SNOOZE_CONVERSATION,
@@ -146,7 +140,7 @@ export default {
     WootDropdownSubMenu,
     WootDropdownDivider,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins],
+  mixins: [clickaway, alertMixin, eventListenerMixins, snoozeTimesMixin],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -177,16 +171,6 @@ export default {
     },
     showAdditionalActions() {
       return !this.isPending && !this.isSnoozed;
-    },
-    snoozeTimes() {
-      return {
-        // tomorrow  = 9AM next day
-        tomorrow: getUnixTime(addHours(startOfTomorrow(), 9)),
-        // next week = 9AM Monday, next week
-        nextWeek: getUnixTime(
-          addHours(startOfWeek(addWeeks(new Date(), 1), { weekStartsOn: 1 }), 9)
-        ),
-      };
     },
   },
   mounted() {
