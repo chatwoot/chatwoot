@@ -36,7 +36,7 @@
           class="medium-12 columns"
           :error="slugError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
-          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER)"
+          :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           @input="$v.slug.$touch"
         />
