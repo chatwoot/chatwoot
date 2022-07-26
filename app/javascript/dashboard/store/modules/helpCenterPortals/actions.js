@@ -33,7 +33,7 @@ export const actions = {
     }
   },
 
-  updatePortal: async ({ commit }, { helpCenter }) => {
+  update: async ({ commit }, { helpCenter }) => {
     const helpCenterId = helpCenter.id;
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: {
