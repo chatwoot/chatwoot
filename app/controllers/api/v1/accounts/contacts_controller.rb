@@ -90,7 +90,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       return render_error({ message: I18n.t('contacts.online.delete', contact_name: @contact.name.capitalize) },
                           :unprocessable_entity)
     end
-
+    conversation = Conversation.where(contact_id: @contact.id).first!
+    if conversation
+    	Message.where(conversation_id: conversation.id).destroy_all
+    end
     @contact.destroy!
     head :ok
   end
