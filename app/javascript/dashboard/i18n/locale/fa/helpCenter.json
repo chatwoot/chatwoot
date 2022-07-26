@@ -4,7 +4,12 @@
       "FILTER": "فیلتر براساس",
       "SORT": "مرتب‌سازی براساس",
       "SETTINGS_BUTTON": "تنظیمات",
-      "NEW_BUTTON": "مقاله جدید"
+      "NEW_BUTTON": "مقاله جدید",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "منتشر شد",
+        "DRAFT": "پیش‌نویس",
+        "ARCHIVED": "بایگانی شد"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "انتشار",
@@ -34,6 +39,35 @@
     "SIDEBAR": {
       "SEARCH": {
         "PLACEHOLDER": "جستجو برای مقالات"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "ایجاد دسته‌بندی",
+        "SUB_TITLE": "این دسته در پرتال عمومی برای دسته بندی مقالات استفاده خواهد شد.",
+        "PORTAL": "پورتال",
+        "LOCALE": "محلی",
+        "NAME": {
+          "LABEL": "نام",
+          "PLACEHOLDER": "نام دسته‌بندی",
+          "HELP_TEXT": "از نام دسته در پرتال عمومی برای دسته بندی مقالات استفاده می شود.",
+          "ERROR": "نام الزامی است"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug دسته برای آدرس ها",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug مورد نیاز است"
+        },
+        "DESCRIPTION": {
+          "LABEL": "توضیحات",
+          "PLACEHOLDER": "یک توضیح کوتاه در مورد دسته ارائه دهید.",
+          "ERROR": "توضیحات الزامی است"
+        },
+        "BUTTONS": {
+          "CREATE": "ایجاد دسته‌بندی",
+          "CANCEL": "انصراف"
+        }
       }
     }
   }
