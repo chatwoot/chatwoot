@@ -17,6 +17,7 @@
     </nav>
     <div class="menu vertical user-menu">
       <primary-nav-item
+        v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
         name="DOCS"
         :open-in-new-page="true"
@@ -52,6 +53,10 @@ export default {
     NotificationBell,
   },
   props: {
+    isACustomBrandedInstance: {
+      type: Boolean,
+      default: false,
+    },
     logoSource: {
       type: String,
       default: '',
