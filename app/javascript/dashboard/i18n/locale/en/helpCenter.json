@@ -9,6 +9,12 @@
         "PUBLISHED": "Published",
         "DRAFT": "Draft",
         "ARCHIVED": "Archived"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "All Articles",
+        "MINE": "My Articles",
+        "DRAFT": "Draft Articles",
+        "ARCHIVED": "Archived Articles"
       }
     },
     "EDIT_HEADER": {
@@ -21,6 +27,9 @@
       "SAVED": "Draft saved"
     },
     "TABLE": {
+      "LOADING_MESSAGE": "Loading articles...",
+      "404": "No articles matches your search 🔍",
+      "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Title",
         "CATEGORY": "Category",
