@@ -21,7 +21,7 @@
         icon="book-open-globe"
         name="DOCS"
         :open-in-new-page="true"
-        to="//www.chatwoot.com/docs/product"
+        :to="helpDocsURL"
       />
       <notification-bell @open-notification-panel="openNotificationPanel" />
       <agent-details @toggle-menu="toggleOptions" />
@@ -41,7 +41,7 @@ import PrimaryNavItem from './PrimaryNavItem';
 import OptionsMenu from './OptionsMenu';
 import AgentDetails from './AgentDetails';
 import NotificationBell from './NotificationBell';
-
+import wootConstants from 'dashboard/constants';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
     };
   },
