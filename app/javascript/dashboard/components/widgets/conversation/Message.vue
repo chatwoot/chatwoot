@@ -422,11 +422,6 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
-    &.is-email {
-      width: 100%;
-      max-width: 100%;
-    }
-
     &.is-image,
     &.is-video {
       padding: 0;
@@ -517,8 +512,7 @@ export default {
 }
 
 .wrap.is-email {
-  width: 100%;
-  max-width: 100% !important;
+  --bubble-max-width: 84% !important;
 }
 
 .sender--info {

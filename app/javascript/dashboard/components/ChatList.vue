@@ -717,10 +717,6 @@ export default {
 
   &.list--full-width {
     width: 100%;
-
-    .conversation--mesage {
-      width: auto;
-    }
   }
 }
 .filter--actions {
