@@ -58,6 +58,20 @@
         "NEXT_WEEK": "هفته بعد"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "علامت گذاری به عنوان در انتظار",
+      "RESOLVED": "علامت زدن به عنوان حل شده",
+      "REOPEN": "مکالمه را دوباره باز کنید",
+      "SNOOZE": {
+        "TITLE": "به تعویق انداختن",
+        "NEXT_REPLY": "تا پاسخ بعدی",
+        "TOMORROW": "تا فردا",
+        "NEXT_WEEK": "تا هفته بعد"
+      },
+      "ASSIGN_AGENT": "ایجنت را تعیین کنید",
+      "ASSIGN_LABEL": "برچسب اختصاص دهید",
+      "AGENTS_LOADING": "بارگذاری ایجنت ها..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "امضای پیام",
       "ENABLE_SIGN_TOOLTIP": "امضا را فعال کنید",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
+    "CHANGE_STATUS_FAILED": "تغییر وضعیت مکالمه انجام نشد",
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
+    "CHANGE_AGENT_FAILED": "تغییر انجام نشد",
+    "ASSIGN_LABEL_SUCCESFUL": "برچسب با موفقیت تخصیص یافت",
+    "ASSIGN_LABEL_FAILED": "تخصیص برچسب ناموفق بود",
     "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
     "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
     "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
