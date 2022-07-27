@@ -3,6 +3,7 @@
     <primary-sidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       :active-menu-item="activePrimaryMenu.key"
@@ -68,6 +69,7 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
