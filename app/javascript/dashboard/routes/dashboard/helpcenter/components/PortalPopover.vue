@@ -51,6 +51,10 @@ export default {
 
 <style lang="scss" scoped>
 .portal-popover__container {
+  position: absolute;
+  overflow: scroll;
+  max-height: 96vh;
+  top: var(--space-two);
   padding: var(--space-normal);
   background-color: var(--white);
   border-radius: var(--border-radius-normal);
