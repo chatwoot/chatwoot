@@ -12,5 +12,6 @@ export default {
     SNOOZED: 'snoozed',
     ALL: 'all',
   },
+  DOCS_URL: '//www.chatwoot.com/docs/product/',
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
