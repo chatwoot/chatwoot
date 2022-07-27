@@ -84,7 +84,7 @@ zh_CN:
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
         agent_name: 客服名称
-        rating: Rating
+        rating: 评分
         feedback: Feedback Comment
         recorded_at: Recorded date
   notifications:
