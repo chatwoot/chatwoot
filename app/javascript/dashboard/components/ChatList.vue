@@ -52,7 +52,7 @@
 
         <woot-button
           v-else
-          v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
+          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
           icon="filter"
@@ -717,6 +717,19 @@ export default {
 
   &.list--full-width {
     width: 100%;
+    overflow: hidden;
+    @include breakpoint(large up) {
+      width: 100%;
+    }
+    @include breakpoint(xlarge up) {
+      width: 100%;
+    }
+    @include breakpoint(xxlarge up) {
+      width: 100%;
+    }
+    @include breakpoint(xxxlarge up) {
+      flex-basis: 100%;
+    }
   }
 }
 .filter--actions {
