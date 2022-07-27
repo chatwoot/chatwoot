@@ -33,7 +33,7 @@ const portalRoutes = [
   },
   {
     path: getPortalRoute(':portalSlug'),
-    name: 'edit_portal',
+    name: 'portal_slug',
     roles: ['administrator', 'agent'],
     component: ShowPortal,
   },
@@ -109,7 +109,7 @@ const categoryRoutes = [
     path: getPortalRoute(
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
-    name: 'show_category',
+    name: 'show_category_articles',
     roles: ['administrator', 'agent'],
     component: ListCategoryArticles,
   },
