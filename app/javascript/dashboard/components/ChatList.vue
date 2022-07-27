@@ -2,8 +2,8 @@
   <div
     class="conversations-list-wrap"
     :class="{
-      'hide-list': !show,
-      'conversation--list-view': isListViewDisplay,
+      hide: !showConversationList,
+      'list--full-width': isOnExpandedLayout,
     }"
   >
     <slot />
@@ -216,11 +216,11 @@ export default {
       type: [String, Number],
       default: 0,
     },
-    show: {
+    showConversationList: {
       default: true,
       type: Boolean,
     },
-    isListViewDisplay: {
+    isOnExpandedLayout: {
       default: false,
       type: Boolean,
     },
@@ -711,11 +711,11 @@ export default {
     flex-basis: 46rem;
   }
 
-  &.hide-list {
+  &.hide {
     display: none;
   }
 
-  &.conversation--list-view {
+  &.list--full-width {
     width: 100%;
 
     .conversation--mesage {

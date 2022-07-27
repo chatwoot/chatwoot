@@ -1,13 +1,13 @@
 <template>
   <div
     class="conversation-details-wrap"
-    :class="{ 'with-border-left': !isListViewDisplay }"
+    :class="{ 'with-border-left': !isOnExpandedLayout }"
   >
     <conversation-header
       v-if="currentChat.id"
       :chat="currentChat"
       :is-contact-panel-open="isContactPanelOpen"
-      :show-back-button="isListViewDisplay"
+      :show-back-button="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
@@ -30,7 +30,7 @@
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
-      <empty-state v-else :is-list-view-display="isListViewDisplay" />
+      <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
       <div v-show="showContactPanel" class="conversation-sidebar-wrap">
         <contact-panel
           v-if="showContactPanel"
@@ -75,7 +75,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    isListViewDisplay: {
+    isOnExpandedLayout: {
       type: Boolean,
       default: true,
     },

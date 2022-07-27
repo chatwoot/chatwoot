@@ -1,22 +1,25 @@
 <template>
   <section class="conversation-page">
     <chat-list
-      :show="showChatList"
+      :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
       :folders-id="foldersId"
-      :is-list-view-display="isListViewDisplay"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @conversation-load="onConversationLoad"
     >
-      <pop-over-search @toggle-conversation-layout="toggleConversationLayout" />
+      <pop-over-search
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
+      />
     </chat-list>
     <conversation-box
       v-if="showMessageView"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
-      :is-list-view-display="isListViewDisplay"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
     />
   </section>
@@ -29,6 +32,7 @@ import ConversationBox from '../../../components/widgets/conversation/Conversati
 import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -73,17 +77,20 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
-    showChatList() {
-      return this.isListViewDisplay ? !this.conversationId : true;
+    showConversationList() {
+      return this.isOnExpandedLayout ? !this.conversationId : true;
     },
     showMessageView() {
-      return this.conversationId ? true : !this.isListViewDisplay;
+      return this.conversationId ? true : !this.isOnExpandedLayout;
     },
-    isListViewDisplay() {
+    isOnExpandedLayout() {
       const {
-        conversation_display_type: conversationDisplayType = 'list',
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = CONDENSED,
       } = this.uiSettings;
-      return conversationDisplayType === 'list';
+      return conversationDisplayType !== CONDENSED;
     },
     isContactPanelOpen() {
       if (this.currentChat.id) {
@@ -118,10 +125,14 @@ export default {
       this.setActiveChat();
     },
     toggleConversationLayout() {
+      const { LAYOUT_TYPES } = wootConstants;
       const {
-        conversation_display_type: conversationDisplayType = 'list',
+        conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
       } = this.uiSettings;
-      const newViewType = conversationDisplayType === 'list' ? 'card' : 'list';
+      const newViewType =
+        conversationDisplayType === LAYOUT_TYPES.CONDENSED
+          ? LAYOUT_TYPES.EXPANDED
+          : LAYOUT_TYPES.CONDENSED;
       this.updateUISettings({ conversation_display_type: newViewType });
     },
     fetchConversationIfUnavailable() {

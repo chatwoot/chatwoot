@@ -4,10 +4,16 @@
     class="layout-switch__container"
     @click="toggle"
   >
-    <div class="layout-switch__btn left" :class="{ active: wideScreen }">
+    <div
+      class="layout-switch__btn left"
+      :class="{ active: !isOnExpandedLayout }"
+    >
       <fluent-icon icon="panel-sidebar" :size="16" />
     </div>
-    <div class="layout-switch__btn right" :class="{ active: !wideScreen }">
+    <div
+      class="layout-switch__btn right"
+      :class="{ active: isOnExpandedLayout }"
+    >
       <fluent-icon icon="panel-contract" :size="16" />
     </div>
   </button>
@@ -15,14 +21,14 @@
 
 <script>
 export default {
-  data() {
-    return {
-      wideScreen: false,
-    };
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     toggle() {
-      this.wideScreen = !this.wideScreen;
       this.$emit('toggle');
     },
   },
