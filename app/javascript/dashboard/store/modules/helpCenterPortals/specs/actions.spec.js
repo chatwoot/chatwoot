@@ -7,11 +7,6 @@ const commit = jest.fn();
 global.axios = axios;
 jest.mock('axios');
 
-// index;
-// create;
-// update;
-// delete;
-
 describe('#actions', () => {
   describe('#index', () => {
     it('sends correct actions if API is success', async () => {
@@ -65,52 +60,32 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
       axios.patch.mockResolvedValue({ data: apiResponse[1] });
-      await actions.update({ commit }, { helpCenter: apiResponse[1] });
+      await actions.update({ commit }, apiResponse[1]);
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isUpdating: true,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isUpdating: true }, portalId: 2 },
         ],
         [types.UPDATE_PORTAL_ENTRY, apiResponse[1]],
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isUpdating: false,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isUpdating: false }, portalId: 2 },
         ],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(
-        actions.update({ commit }, { helpCenter: apiResponse[1] })
-      ).rejects.toThrow(Error);
+      await expect(actions.update({ commit }, apiResponse[1])).rejects.toThrow(
+        Error
+      );
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isUpdating: true,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isUpdating: true }, portalId: 2 },
         ],
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isUpdating: false,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isUpdating: false }, portalId: 2 },
         ],
       ]);
     });
@@ -119,53 +94,31 @@ describe('#actions', () => {
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({});
-      await actions.delete({ commit }, { portalId: 2 });
+      await actions.delete({ commit }, 2);
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isDeleting: true,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isDeleting: true }, portalId: 2 },
         ],
         [types.REMOVE_PORTAL_ENTRY, 2],
         [types.REMOVE_PORTAL_ID, 2],
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isDeleting: false,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isDeleting: false }, portalId: 2 },
         ],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.delete.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.delete({ commit }, { portalId: 2 })).rejects.toThrow(
-        Error
-      );
+      await expect(actions.delete({ commit }, 2)).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isDeleting: true,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isDeleting: true }, portalId: 2 },
         ],
         [
           types.SET_HELP_PORTAL_UI_FLAG,
-          {
-            uiFlags: {
-              isDeleting: false,
-            },
-            portalId: 2,
-          },
+          { uiFlags: { isDeleting: false }, portalId: 2 },
         ],
       ]);
     });

@@ -8,7 +8,6 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const { data } = await PortalsAPI.get();
       const portalIds = data.map(portal => portal.id);
-
       commit(types.ADD_MANY_PORTALS_ENTRY, data);
       commit(types.ADD_MANY_PORTALS_IDS, portalIds);
     } catch (error) {
@@ -23,7 +22,6 @@ export const actions = {
     try {
       const { data } = await PortalsAPI.create(params);
       const { id: portalId } = data;
-
       commit(types.ADD_PORTAL_ENTRY, data);
       commit(types.ADD_PORTAL_ID, portalId);
     } catch (error) {
@@ -33,48 +31,39 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, { helpCenter }) => {
-    const portalId = helpCenter.id;
+  update: async ({ commit }, params) => {
+    const portalId = params.id;
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
-      uiFlags: {
-        isUpdating: true,
-      },
+      uiFlags: { isUpdating: true },
       portalId,
     });
     try {
-      const { data } = await PortalsAPI.update(helpCenter);
+      const { data } = await PortalsAPI.update(params);
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_HELP_PORTAL_UI_FLAG, {
-        uiFlags: {
-          isUpdating: false,
-        },
+        uiFlags: { isUpdating: false },
         portalId,
       });
     }
   },
 
-  delete: async ({ commit }, { portalId }) => {
+  delete: async ({ commit }, portalId) => {
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
-      uiFlags: {
-        isDeleting: true,
-      },
+      uiFlags: { isDeleting: true },
       portalId,
     });
     try {
       await PortalsAPI.delete(portalId);
-
       commit(types.REMOVE_PORTAL_ENTRY, portalId);
       commit(types.REMOVE_PORTAL_ID, portalId);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_HELP_PORTAL_UI_FLAG, {
-        uiFlags: {
-          isDeleting: false,
-        },
+        uiFlags: { isDeleting: false },
         portalId,
       });
     }
