@@ -198,7 +198,8 @@
       "DRAFT": "Bozza",
       "ARCHIVED": "Archiviato",
       "CATEGORY": "Categoria"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
