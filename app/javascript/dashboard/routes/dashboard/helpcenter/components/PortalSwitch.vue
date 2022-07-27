@@ -4,7 +4,7 @@
     <div class="actions-container">
       <header>
         <div>
-          <h2 class="portal-title block-title">{{ portal.name }}</h2>
+          <h2 class="portal-title">{{ portal.name }}</h2>
           <p class="portal-count">
             {{ portal.articles_count }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
@@ -15,14 +15,11 @@
         }}</span>
       </header>
       <div class="portal-locales">
-        <h2 class="locale-title sub-block-title">
+        <h2 class="locale-title">
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
         </h2>
         <ul>
-          <li
-            v-for="locale in portal.config.allowed_locales"
-            :key="locale.code"
-          >
+          <li v-for="locale in portal.locales" :key="locale.code">
             <label :for="`locale-${locale.code}`" class="locale-item">
               <input
                 :id="`locale-${locale.code}`"
@@ -72,7 +69,7 @@ export default {
     };
   },
   mounted() {
-    this.selectedLocale = this.portal.config.allowed_locales[0].code;
+    this.selectedLocale = this.portal.locales[0].code;
   },
 };
 </script>
@@ -92,7 +89,7 @@ export default {
   }
 
   .actions-container {
-    margin-left: var(--space-small);
+    margin-left: var(--space-one);
     flex-grow: 1;
 
     header {
@@ -109,6 +106,8 @@ export default {
       }
 
       .portal-title {
+        color: var(--s-900);
+        font-size: var(--font-size-medium);
         font-weight: var(--font-weight-bold);
         margin-bottom: 0;
       }
@@ -123,6 +122,7 @@ export default {
     .portal-locales {
       .locale-title {
         color: var(--s-600);
+        font-size: var(--font-size-default);
         font-weight: var(--font-weight-medium);
       }
 
