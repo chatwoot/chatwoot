@@ -21,9 +21,7 @@ export const mutations = {
     articles.forEach(article => {
       allArticles[article.id] = article;
     });
-    Vue.set($state.articles, 'byId', {
-      allArticles,
-    });
+    Vue.set($state.articles, 'byId', allArticles);
   },
   [types.ADD_MANY_ARTICLES_ID]($state, articleIds) {
     $state.articles.allIds.push(...articleIds);

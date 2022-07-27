@@ -7,7 +7,7 @@ export const getters = {
   isFetchingArticles: state => state.uiFlags.isFetching,
   articleById: (...getterArguments) => articleId => {
     const [state] = getterArguments;
-    const article = state.articles.byId.allArticles[articleId];
+    const article = state.articles.byId[articleId];
     if (!article) return undefined;
     return article;
   },
