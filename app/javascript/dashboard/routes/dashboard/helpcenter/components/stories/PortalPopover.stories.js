@@ -1,4 +1,4 @@
-import PortalPopover from './Index.vue';
+import PortalPopover from '../PortalPopover.vue';
 
 export default {
   title: 'Components/Help Center/Portal Popover',
@@ -26,53 +26,53 @@ Primary.args = {
   portals: [
     {
       name: 'Chatwoot Help Center',
-      article_count: 124,
+      articles_count: 124,
       locales: [
         {
           name: 'English',
           code: 'en',
-          article_count: 12,
+          articles_count: 12,
         },
         {
           name: 'Español',
           code: 'es',
-          article_count: 42,
+          articles_count: 42,
         },
         {
           name: 'French',
           code: 'fr',
-          article_count: 29,
+          articles_count: 29,
         },
         {
           name: 'Italian',
           code: 'it',
-          article_count: 4,
+          articles_count: 4,
         },
         {
           name: 'German',
           code: 'de',
-          article_count: 66,
+          articles_count: 66,
         },
       ],
     },
     {
       name: 'Chatwoot Docs',
-      article_count: 16,
+      articles_count: 16,
       locales: [
         {
           name: 'English',
           code: 'en',
-          article_count: 12,
+          articles_count: 12,
         },
         {
           name: 'Japanese',
           code: 'jp',
-          article_count: 4,
+          articles_count: 4,
         },
         {
           name: 'Mandarin',
           code: 'CH',
-          article_count: 6,
+          articles_count: 6,
         },
       ],
     },

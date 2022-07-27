@@ -2,7 +2,9 @@
   <div class="portal-popover__container">
     <header>
       <div class="actions">
-        <h2>{{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}</h2>
+        <h2 class="block-title">
+          {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
+        </h2>
         <router-link to="#" class="new-popover-link">
           <fluent-icon icon="add" size="16" />
           <span>
@@ -33,7 +35,7 @@
 </template>
 
 <script>
-import PortalSwitch from '../Switch/Index.vue';
+import PortalSwitch from './PortalSwitch.vue';
 export default {
   components: {
     PortalSwitch,
@@ -61,11 +63,6 @@ export default {
       align-items: center;
       justify-content: space-between;
       margin-bottom: var(--space-smaller);
-
-      h2 {
-        font-size: var(--font-size-medium);
-        color: var(--s-900);
-      }
 
       .new-popover-link {
         display: flex;

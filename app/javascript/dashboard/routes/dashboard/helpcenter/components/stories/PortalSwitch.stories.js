@@ -1,4 +1,4 @@
-import PortalSwitch from './Index.vue';
+import PortalSwitch from '../PortalSwitch.vue';
 
 export default {
   title: 'Components/Help Center/Portal Switch',
@@ -26,32 +26,32 @@ Primary.args = {
   active: false,
   portal: {
     name: 'Chatwoot Help Center',
-    article_count: 124,
+    articles_count: 124,
     locales: [
       {
         name: 'English',
         code: 'en',
-        article_count: 12,
+        articles_count: 12,
       },
       {
         name: 'Español',
         code: 'es',
-        article_count: 42,
+        articles_count: 42,
       },
       {
         name: 'French',
         code: 'fr',
-        article_count: 29,
+        articles_count: 29,
       },
       {
         name: 'Italian',
         code: 'it',
-        article_count: 4,
+        articles_count: 4,
       },
       {
         name: 'German',
         code: 'de',
-        article_count: 66,
+        articles_count: 66,
       },
     ],
   },

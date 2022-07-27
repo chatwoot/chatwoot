@@ -6,7 +6,7 @@
         <div>
           <h2 class="portal-title">{{ portal.name }}</h2>
           <p class="portal-count">
-            {{ portal.article_count }}
+            {{ portal.articles_count }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
         </div>
@@ -31,7 +31,7 @@
               <div>
                 <p>{{ locale.name }}</p>
                 <span>
-                  {{ locale.article_count }}
+                  {{ locale.articles_count }}
                   {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
                   {{ locale.code }}
                 </span>
