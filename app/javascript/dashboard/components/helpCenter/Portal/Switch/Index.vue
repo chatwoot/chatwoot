@@ -92,7 +92,7 @@ export default {
   }
 
   .actions-container {
-    margin-left: var(--space-one);
+    margin-left: var(--space-small);
     flex-grow: 1;
 
     header {
@@ -109,7 +109,6 @@ export default {
       }
 
       .portal-title {
-        color: var(--s-900);
         font-weight: var(--font-weight-bold);
         margin-bottom: 0;
       }
