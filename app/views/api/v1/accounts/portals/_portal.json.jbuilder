@@ -19,7 +19,7 @@ json.portal_members do
 end
 
 json.meta do
-  json.articles_count portal.articles.published.size
-  json.categories_count portal.categories.published.size
+  json.articles_count portal.articles.size
+  json.categories_count portal.categories.size
   json.default_locale portal.default_locale
 end
