@@ -7,21 +7,19 @@
       @newArticlePage="newArticlePage"
     />
     <article-table :articles="articles" :article-count="articles.length" />
-    <empty-state
-      v-if="showSearchEmptyState"
-      :title="$t('HELP_CENTER.TABLE.404')"
-    />
-    <empty-state
-      v-else-if="!isLoading && !articles.length"
-      :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
-    />
-    <div v-if="isLoading" class="articles--loader">
+    <div v-if="isFetchingArticles" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
+    <empty-state
+      v-else-if="!isFetchingArticles && !articles.length"
+      :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
+    />
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 import Spinner from 'shared/components/Spinner.vue';
 import ArticleHeader from 'dashboard/components/helpCenter/Header/ArticleHeader';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -35,45 +33,17 @@ export default {
   },
   data() {
     return {
-      // Dummy data will remove once the state is implemented.
-      articles: [
-        {
-          title: 'Setup your account',
-          author: {
-            name: 'John Doe',
-          },
-          readCount: 13,
-          category: 'Getting started',
-          status: 'published',
-          updatedAt: 1657255863,
-        },
-        {
-          title: 'Docker Configuration',
-          author: {
-            name: 'Sam Manuel',
-          },
-          readCount: 13,
-          category: 'Engineering',
-          status: 'draft',
-          updatedAt: 1656658046,
-        },
-        {
-          title: 'Campaigns',
-          author: {
-            name: 'Sam Manuel',
-          },
-          readCount: 28,
-          category: 'Engineering',
-          status: 'archived',
-          updatedAt: 1657590446,
-        },
-      ],
+      pageNumber: 1,
       articleCount: 12,
-      isLoading: false,
     };
   },
   computed: {
-    showSearchEmptyState() {
+    ...mapGetters({
+      articles: 'articles/allArticles',
+      uiFlags: 'articles/uiFlags',
+      isFetchingArticles: 'articles/isFetchingArticles',
+    }),
+    showEmptyState() {
       return this.articles.length === 0;
     },
     articleType() {
@@ -92,9 +62,19 @@ export default {
       }
     },
   },
+  mounted() {
+    this.fetchArticles({ pageNumber: this.pageNumber });
+  },
   methods: {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
+    },
+    fetchArticles({ pageNumber }) {
+      this.$store.dispatch('articles/index', {
+        pageNumber,
+        portalSlug: this.$route.params.portalSlug,
+        locale: this.$route.params.locale,
+      });
     },
   },
 };
