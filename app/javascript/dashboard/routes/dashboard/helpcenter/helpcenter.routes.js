@@ -36,7 +36,7 @@ const portalRoutes = [
   },
   {
     path: getPortalRoute(':portalSlug'),
-    name: 'edit_portal',
+    name: 'portal_slug',
     roles: ['administrator', 'agent'],
     component: ShowPortal,
   },
@@ -70,7 +70,7 @@ const articleRoutes = [
   },
   {
     path: getPortalRoute(':portalSlug/:locale/articles/mine'),
-    name: 'list_all_locale_articles',
+    name: 'list_mine_articles',
     roles: ['administrator', 'agent'],
     component: ListMyArticles,
   },
@@ -111,7 +111,7 @@ const categoryRoutes = [
     path: getPortalRoute(
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
-    name: 'show_category',
+    name: 'show_category_articles',
     roles: ['administrator', 'agent'],
     component: ListCategoryArticles,
   },
