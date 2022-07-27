@@ -77,7 +77,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def private_note?
-    params[:event][:text].strip.starts_with?('note:', 'private:')
+    params[:event][:text].strip.starts_with?('note:', 'private:', 'Note:', 'Private:')
   end
 
   def create_message
