@@ -1,4 +1,4 @@
-import ArticleItemComponent from './ArticleItem.vue';
+import ArticleItemComponent from '../ArticleItem.vue';
 const STATUS_LIST = {
   published: 'published',
   draft: 'draft',
