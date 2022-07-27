@@ -142,6 +142,7 @@ export default {
         isOnline: this.isOnline,
         replyTime: this.replyTimeText,
         color: this.color,
+        logo: this.logo,
       };
     },
     getWidgetFooterConfig() {

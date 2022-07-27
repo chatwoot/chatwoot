@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-if="config.isDefaultScreen" class="availabilty-container">
+    <div
+      v-if="config.isDefaultScreen"
+      class="availabilty-container"
+      :class="{ 'with-logo': config.logo, 'without-logo': !config.logo }"
+    >
       <div class="availabilty-info">
         <div class="team-status">
           {{
@@ -19,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="conversation--container">
+    <div v-else class="conversation-container">
       <div class="conversation-wrap">
         <div class="message-wrap">
           <div class="user-message-wrap">
@@ -71,10 +75,17 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  min-height: 20rem;
   padding-left: var(--space-two);
   padding-right: var(--space-two);
   margin-bottom: var(--space-normal);
+
+  &.with-logo {
+    min-height: 20rem;
+  }
+
+  &.without-logo {
+    min-height: 25rem;
+  }
 
   .availabilty-info {
     width: 100%;
@@ -100,7 +111,7 @@ export default {
     }
   }
 }
-.conversation--container {
+.conversation-container {
   width: 100%;
   padding: var(--space-two);
   .conversation-wrap {
