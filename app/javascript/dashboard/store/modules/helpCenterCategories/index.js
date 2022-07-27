@@ -10,6 +10,7 @@ export const defaultHelpCenterFlags = {
 const state = {
   categoriess: {
     byId: {},
+    byLocale: {},
     allIds: [],
     uiFlags: {
       byId: {},

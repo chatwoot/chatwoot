@@ -13,6 +13,14 @@ export const getters = {
 
     return category;
   },
+  categoryByLocale: (...getterArguments) => locale => {
+    const [state] = getterArguments;
+    const category = state.categories.byId[locale];
+
+    if (!category) return undefined;
+
+    return category;
+  },
   allCategories: (...getterArguments) => {
     const [state, _getters] = getterArguments;
     const categories = state.categories.allIds.map(id => {
