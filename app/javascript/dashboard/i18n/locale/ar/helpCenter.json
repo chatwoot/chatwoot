@@ -1,23 +1,39 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "تصفية حسب",
+      "SORT": "ترتيب حسب",
       "SETTINGS_BUTTON": "الإعدادات",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "مقالة جديدة"
     },
     "EDIT_HEADER": {
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "PUBLISH_BUTTON": "نشر",
+      "PREVIEW": "معاينة",
+      "ADD_TRANSLATION": "إضافة ترجمة",
+      "OPEN_SIDEBAR": "فتح الشريط الجانبي",
+      "CLOSE_SIDEBAR": "إغلاق الشريط الجانبي",
+      "SAVING": "حفظ المسودة...",
+      "SAVED": "تم حفظ المسودة"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "العنوان",
+        "CATEGORY": "الفئة",
+        "READ_COUNT": "Read count",
+        "STATUS": "الحالة",
+        "LAST_EDITED": "Last edited"
+      },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "بواسطة"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Article title goes here",
+      "CONTENT_PLACEHOLDER": "Write your article here"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
       }
     }
   }

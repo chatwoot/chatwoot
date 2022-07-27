@@ -58,7 +58,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     return if contact_params[:remote_avatar_url].blank?
     return if @contact.avatar.attached?
 
-    ContactAvatarJob.perform_later(@contact, contact_params[:remote_avatar_url])
+    Avatar::AvatarFromUrlJob.perform_later(@contact, contact_params[:remote_avatar_url])
   end
 
   def conversation

@@ -23,3 +23,5 @@ if category.root_category.present?
     json.partial! partial: 'associated_category', category: category.root_category
   end
 end
+
+json.articles_count category.articles.published.try(:count)

@@ -10,6 +10,7 @@
     @mouseenter="onCardHover"
     @mouseleave="onCardLeave"
     @click="cardClick(chat)"
+    @contextmenu="openContextMenu($event)"
   >
     <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
       <input
@@ -91,6 +92,21 @@
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
     </div>
+    <woot-context-menu
+      v-if="showContextMenu"
+      ref="menu"
+      :x="contextMenu.x"
+      :y="contextMenu.y"
+      @close="closeContextMenu"
+    >
+      <conversation-context-menu
+        :status="chat.status"
+        :inbox-id="inbox.id"
+        @update-conversation="onUpdateConversation"
+        @assign-agent="onAssignAgent"
+        @assign-label="onAssignLabel"
+      />
+    </woot-context-menu>
   </div>
 </template>
 <script>
@@ -104,6 +120,8 @@ import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import ConversationContextMenu from './contextMenu/Index.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -118,9 +136,16 @@ export default {
   components: {
     InboxName,
     Thumbnail,
+    ConversationContextMenu,
   },
 
-  mixins: [inboxMixin, timeMixin, conversationMixin, messageFormatterMixin],
+  mixins: [
+    inboxMixin,
+    timeMixin,
+    conversationMixin,
+    messageFormatterMixin,
+    alertMixin,
+  ],
   props: {
     activeLabel: {
       type: String,
@@ -162,6 +187,11 @@ export default {
   data() {
     return {
       hovered: false,
+      showContextMenu: false,
+      contextMenu: {
+        x: null,
+        y: null,
+      },
     };
   },
   computed: {
@@ -291,6 +321,36 @@ export default {
     onSelectConversation(checked) {
       const action = checked ? 'select-conversation' : 'de-select-conversation';
       this.$emit(action, this.chat.id, this.inbox.id);
+    },
+    openContextMenu(e) {
+      e.preventDefault();
+      this.$emit('context-menu-toggle', true);
+      this.contextMenu.x = e.pageX || e.clientX;
+      this.contextMenu.y = e.pageY || e.clientY;
+      this.showContextMenu = true;
+    },
+    closeContextMenu() {
+      this.$emit('context-menu-toggle', false);
+      this.showContextMenu = false;
+      this.contextMenu.x = null;
+      this.contextMenu.y = null;
+    },
+    onUpdateConversation(status, snoozedUntil) {
+      this.closeContextMenu();
+      this.$emit(
+        'update-conversation-status',
+        this.chat.id,
+        status,
+        snoozedUntil
+      );
+    },
+    async onAssignAgent(agent) {
+      this.$emit('assign-agent', agent, [this.chat.id]);
+      this.closeContextMenu();
+    },
+    async onAssignLabel(label) {
+      this.$emit('assign-label', [label.title], [this.chat.id]);
+      this.closeContextMenu();
     },
   },
 };

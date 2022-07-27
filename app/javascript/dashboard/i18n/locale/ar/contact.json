@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
     "COMPANY": "الشركة",
     "LOCATION": "الموقع الجغرافي",
+    "BROWSER_LANGUAGE": "لغة المتصفح",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
     "VIEW_PROFILE": "عرض الملف الشخصي",
     "BROWSER": "المتصفح",
@@ -150,8 +151,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "تم حذف صورة جهة الاتصال بنجاح",
+        "ERROR_MESSAGE": "تعذر حذف الصورة الرمزية لجهة الإتصال. الرجاء المحاولة مرة أخرى لاحقاً."
       }
     },
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
