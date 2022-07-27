@@ -27,7 +27,11 @@
         v-if="showNotificationPanel"
         @close="closeNotificationPanel"
       />
-      <portal-popover v-if="showPortalPopover" :portals="portals" />
+      <portal-popover
+        v-if="showPortalPopover"
+        :portals="portals"
+        @close-popover="closePortalPopover"
+      />
     </section>
   </div>
 </template>
@@ -327,6 +331,9 @@ export default {
     },
     openPortalPopover() {
       this.showPortalPopover = !this.showPortalPopover;
+    },
+    closePortalPopover() {
+      this.showPortalPopover = false;
     },
   },
 };
