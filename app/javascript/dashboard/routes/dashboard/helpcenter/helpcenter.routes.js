@@ -14,10 +14,7 @@ const ListCategoryArticles = () =>
   import('./pages/articles/ListCategoryArticles');
 
 const ListAllArticles = () => import('./pages/articles/ListAllArticles');
-const ListArchivedArticles = () =>
-  import('./pages/articles/ListArchivedArticles');
-const ListDraftArticles = () => import('./pages/articles/ListDraftArticles');
-const ListMyArticles = () => import('./pages/articles/ListMyArticles');
+
 const NewArticle = () => import('./pages/articles/NewArticle');
 const EditArticle = () => import('./pages/articles/EditArticle');
 
@@ -36,7 +33,7 @@ const portalRoutes = [
   },
   {
     path: getPortalRoute(':portalSlug'),
-    name: 'edit_portal',
+    name: 'portal_slug',
     roles: ['administrator', 'agent'],
     component: ShowPortal,
   },
@@ -56,30 +53,31 @@ const articleRoutes = [
     component: ListAllArticles,
   },
   {
+    path: getPortalRoute(':portalSlug/:locale/articles/new'),
+    name: 'new_article',
+    roles: ['administrator', 'agent'],
+    component: NewArticle,
+  },
+  {
+    path: getPortalRoute(':portalSlug/:locale/articles/mine'),
+    name: 'list_mine_articles',
+    roles: ['administrator', 'agent'],
+    component: ListAllArticles,
+  },
+  {
     path: getPortalRoute(':portalSlug/:locale/articles/archived'),
     name: 'list_archived_articles',
     roles: ['administrator', 'agent'],
-    component: ListArchivedArticles,
+    component: ListAllArticles,
   },
 
   {
     path: getPortalRoute(':portalSlug/:locale/articles/draft'),
     name: 'list_draft_articles',
     roles: ['administrator', 'agent'],
-    component: ListDraftArticles,
+    component: ListAllArticles,
   },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/mine'),
-    name: 'list_all_locale_articles',
-    roles: ['administrator', 'agent'],
-    component: ListMyArticles,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/new'),
-    name: 'new_article',
-    roles: ['administrator', 'agent'],
-    component: NewArticle,
-  },
+
   {
     path: getPortalRoute(':portalSlug/:locale/articles/:articleSlug'),
     name: 'edit_article',
@@ -111,7 +109,7 @@ const categoryRoutes = [
     path: getPortalRoute(
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
-    name: 'show_category',
+    name: 'show_category_articles',
     roles: ['administrator', 'agent'],
     component: ListCategoryArticles,
   },

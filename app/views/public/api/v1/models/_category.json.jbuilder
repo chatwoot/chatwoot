@@ -24,6 +24,6 @@ if category.root_category.present?
   end
 end
 
-jsin.meta do
+json.meta do
   json.articles_count category.articles.published.size
 end
