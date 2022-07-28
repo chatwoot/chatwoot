@@ -24,4 +24,6 @@ if category.root_category.present?
   end
 end
 
-json.articles_count category.articles.published.try(:count)
+json.meta do
+  json.articles_count category.articles.published.size
+end
