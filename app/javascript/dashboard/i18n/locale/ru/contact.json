@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
     "COMPANY": "Компания",
     "LOCATION": "Местоположение",
+    "BROWSER_LANGUAGE": "Язык браузера",
     "CONVERSATION_TITLE": "Детали диалога",
     "VIEW_PROFILE": "Просмотр профиля",
     "BROWSER": "Браузер",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Введите имя пользователя Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Контакт успешно сохранен",

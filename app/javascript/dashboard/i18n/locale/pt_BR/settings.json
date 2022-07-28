@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "TEAMS": "Times",
+    "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "Defina como",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
-    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços"
+    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "Todos os artigos",
+      "MY_ARTICLES": "Meus Artigos",
+      "DRAFT": "Rascunho",
+      "ARCHIVED": "Arquivado",
+      "CATEGORY": "Categoria"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Cobrança",
+    "CURRENT_PLAN": {
+      "TITLE": "Plano Atual",
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **%{plan}** com **%{quantity}** licenças"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gerencie sua assinatura",
+      "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
+      "BUTTON_TXT": "Ir para o portal de cobrança"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Precisa de ajuda?",
+      "DESCRIPTION": "Você está com algum problema de cobrança? Nós estamos aqui para ajudar.",
+      "BUTTON_TXT": "Fale conosco no chat"
+    },
+    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

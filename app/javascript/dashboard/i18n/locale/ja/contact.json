@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "企業",
     "LOCATION": "場所",
+    "BROWSER_LANGUAGE": "ブラウザの言語",
     "CONVERSATION_TITLE": "会話の詳細",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "ブラウザ",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "GitHubのユーザー名を入力してください",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",

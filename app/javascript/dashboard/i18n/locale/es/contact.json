@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "COMPANY": "Empresa",
     "LOCATION": "Ubicación",
+    "BROWSER_LANGUAGE": "Idioma del navegador",
     "CONVERSATION_TITLE": "Detalles de la conversación",
     "VIEW_PROFILE": "Ver Perfil",
     "BROWSER": "Navegador",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Escriba el usuario de Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contacto guardado correctamente",

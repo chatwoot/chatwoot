@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "เงื่อนไขอัตโนมัติ",
     "TEAMS": "ทีม",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",
     "CUSTOM_VIEWS_SEGMENTS": "กลุ่มตามตัวกรอง",
     "ALL_CONTACTS": "รายชื่อผู้ติดต่อทั้งหมด",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "ภาพรวม",
-    "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง"
+    "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "คุยกับเรา"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",

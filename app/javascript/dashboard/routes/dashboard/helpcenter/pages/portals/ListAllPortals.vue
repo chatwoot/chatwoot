@@ -1,3 +1,3 @@
 <template>
-  <div>Component to list all portals</div>
+  <div>List of portals</div>
 </template>

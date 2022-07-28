@@ -171,6 +171,7 @@
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
     "TEAMS": "Echipe",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Foldere",
     "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Toate persoanele de contact",
@@ -190,7 +191,32 @@
     "SET_AVAILABILITY_TITLE": "Setați-vă ca",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Prezentare generală",
-    "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile"
+    "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category"
+    }
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Discută cu noi"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",

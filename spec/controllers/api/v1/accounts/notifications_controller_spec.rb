@@ -70,7 +70,7 @@ RSpec.describe 'Notifications API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(notification1.reload.read_at).not_to eq('')
-        expect(notification2.reload.read_at).to eq nil
+        expect(notification2.reload.read_at).to be_nil
       end
     end
   end

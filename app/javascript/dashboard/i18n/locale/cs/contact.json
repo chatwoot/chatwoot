@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Úspěšně zkopírováno do schránky",
     "COMPANY": "Společnost",
     "LOCATION": "Poloha",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Podrobnosti konverzace",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Prohlížeč",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Zadejte uživatelské jméno na GitHubu",
           "LABEL": "GitHub"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",

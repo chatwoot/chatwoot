@@ -13,7 +13,7 @@ describe ::ContactIdentifyAction do
 
   describe '#perform' do
     it 'updates the contact' do
-      expect(ContactAvatarJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
+      expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
       contact_identify
       expect(contact.reload.name).to eq 'test'
       # custom attributes are merged properly without overwriting existing ones
@@ -32,7 +32,7 @@ describe ::ContactIdentifyAction do
 
     it 'enques avatar job when avatar url parameter is passed' do
       params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
-      expect(ContactAvatarJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
+      expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
       described_class.new(contact: contact, params: params).perform
     end
 
@@ -62,7 +62,7 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).not_to eq existing_email_contact.id
         expect(result.identifier).to eq params[:identifier]
-        expect(result.email).to eq nil
+        expect(result.email).to be_nil
       end
     end
 
@@ -82,7 +82,7 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).not_to eq existing_phone_number_contact.id
         expect(result.identifier).to eq params[:identifier]
-        expect(result.email).to eq nil
+        expect(result.email).to be_nil
       end
 
       it 'will not overide the phone contacts email when params contains different email' do
@@ -91,7 +91,7 @@ describe ::ContactIdentifyAction do
         result = described_class.new(contact: contact, params: params).perform
         expect(result.id).not_to eq existing_phone_number_contact.id
         expect(result.email).to eq params[:email]
-        expect(result.phone_number).to eq nil
+        expect(result.phone_number).to be_nil
       end
     end
 
@@ -130,7 +130,7 @@ describe ::ContactIdentifyAction do
         params = { phone_number: 'blahblah blah', name: 'new name' }
         described_class.new(contact: contact, params: params, discard_invalid_attrs: true).perform
         expect(contact.reload.name).to eq 'new name'
-        expect(contact.phone_number).to eq nil
+        expect(contact.phone_number).to be_nil
       end
     end
   end

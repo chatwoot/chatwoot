@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
+
 RSpec.describe Contact do
   context 'validations' do
     it { is_expected.to validate_presence_of(:account_id) }
@@ -10,6 +12,10 @@ RSpec.describe Contact do
   context 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'avatarable'
   end
 
   context 'prepare contact attributes before validation' do
@@ -52,7 +58,7 @@ RSpec.describe Contact do
 
     it 'updates phone number when adding valid phone number' do
       contact = create(:contact)
-      expect(contact.update!(phone_number: '+12312312321')).to eq true
+      expect(contact.update!(phone_number: '+12312312321')).to be true
       expect(contact.phone_number).to eq '+12312312321'
     end
   end
@@ -65,7 +71,7 @@ RSpec.describe Contact do
 
     it 'updates email when adding valid email' do
       contact = create(:contact)
-      expect(contact.update!(email: 'test@test.com')).to eq true
+      expect(contact.update!(email: 'test@test.com')).to be true
       expect(contact.email).to eq 'test@test.com'
     end
   end
