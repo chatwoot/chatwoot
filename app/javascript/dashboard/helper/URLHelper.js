@@ -1,8 +1,7 @@
-import queryString from 'query-string';
 import { DEFAULT_REDIRECT_URL } from '../constants';
 
 export const frontendURL = (path, params) => {
-  const stringifiedParams = params ? `?${queryString.stringify(params)}` : '';
+  const stringifiedParams = params ? `?${new URLSearchParams(params)}` : '';
   return `/app/${path}${stringifiedParams}`;
 };
 

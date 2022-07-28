@@ -109,8 +109,6 @@
   </li>
 </template>
 <script>
-import copy from 'copy-text-to-clipboard';
-
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 
@@ -413,9 +411,10 @@ export default {
       }
     },
     handleCopy() {
-      copy(this.data.content);
-      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-      this.showContextMenu = false;
+      navigator.clipboard.writeText(this.data.content).then(() => {
+        this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+        this.showContextMenu = false;
+      });
     },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);

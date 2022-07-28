@@ -28,7 +28,6 @@
   </div>
 </template>
 <script>
-import copy from 'copy-text-to-clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 
@@ -62,8 +61,9 @@ export default {
   methods: {
     onCopy(e) {
       e.preventDefault();
-      copy(this.value);
-      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      navigator.clipboard.writeText(this.value).then(() => {
+        this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      });
     },
   },
 };
