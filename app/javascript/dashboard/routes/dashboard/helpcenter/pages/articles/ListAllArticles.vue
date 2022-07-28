@@ -23,8 +23,8 @@
 </template>
 <script>
 import Spinner from 'shared/components/Spinner.vue';
-import ArticleHeader from 'dashboard/components/helpCenter/Header/ArticleHeader';
-import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import ArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/ArticleHeader';
+import EmptyState from 'dashboard/components/widgets/EmptyState';
 import ArticleTable from '../../components/ArticleTable';
 export default {
   components: {
