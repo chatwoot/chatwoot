@@ -58,6 +58,20 @@
         "NEXT_WEEK": "Nästa vecka"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Markera som väntande",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Återöppna konversationen",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Konversationstilldelning ändrad",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Konversationsteamet har ändrats",
     "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
