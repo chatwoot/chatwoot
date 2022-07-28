@@ -13,18 +13,29 @@
       </div>
     </div>
     <div class="header-right--side">
-      <fluent-icon
-        icon="arrow-up-right"
-        size="28px"
-        class="pop-out--icon"
+      <woot-button
+        variant="link"
+        color-scheme="secondary"
         @click="popOutHelpCenter"
-      />
-      <fluent-icon
-        icon="arrow-swap"
-        size="28px"
-        class="portal-switch--icon"
-        @click="openSwitchPortalModal"
-      />
+      >
+        <fluent-icon
+          icon="arrow-up-right"
+          size="28px"
+          class="pop-out--icon"
+          @click="popOutHelpCenter"
+        />
+      </woot-button>
+      <woot-button
+        variant="link"
+        color-scheme="secondary"
+        @click="openPortalPopover"
+      >
+        <fluent-icon
+          icon="arrow-swap"
+          size="28px"
+          class="portal-switch--icon"
+        />
+      </woot-button>
     </div>
   </div>
 </template>
@@ -53,8 +64,8 @@ export default {
     popOutHelpCenter() {
       this.$emit('pop-out');
     },
-    openSwitchPortalModal() {
-      this.$emit('open');
+    openPortalPopover() {
+      this.$emit('open-popover');
     },
   },
 };
