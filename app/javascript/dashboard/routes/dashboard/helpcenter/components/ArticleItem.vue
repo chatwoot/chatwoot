@@ -36,7 +36,7 @@ export default {
   props: {
     id: {
       type: Number,
-      default: 0,
+      required: true,
     },
     title: {
       type: String,
