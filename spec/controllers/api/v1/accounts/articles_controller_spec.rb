@@ -157,7 +157,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
             headers: agent.create_new_auth_token,
-            params: { payload: {} }
+            params: {}
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 2
@@ -169,7 +169,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
             headers: agent.create_new_auth_token,
-            params: { payload: { category_slug: category.slug } }
+            params: { category_slug: category.slug }
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 2
@@ -186,10 +186,11 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
             headers: agent.create_new_auth_token,
-            params: { payload: { query: 'funny' } }
+            params: { query: 'funny' }
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 1
+        expect(json_response['meta']['articles_count']).to be json_response['payload'].size
       end
     end
 

@@ -6,7 +6,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def index
     @articles = @portal.articles
-    @articles = @articles.search(list_params) if params[:payload].present?
+    @articles = @articles.search(list_params) if list_params.present?
   end
 
   def create
@@ -46,9 +46,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def list_params
-    params.require(:payload).permit(
-      :category_slug, :locale, :query, :page
-    )
+    params.permit(:locale, :query, :page, :category_slug)
   end
 
   def set_current_page
