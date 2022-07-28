@@ -9,7 +9,6 @@
 
 <script>
 import 'highlight.js/styles/default.css';
-import { copyTextToClipboard } from '../../shared/helpers/clipboard';
 
 export default {
   props: {
@@ -25,7 +24,7 @@ export default {
   methods: {
     onCopy(e) {
       e.preventDefault();
-      copyTextToClipboard(this.script, () => {
+      navigator.clipboard.writeText(this.script).then(() => {
         bus.$emit(
           'newToastMessage',
           this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL')

@@ -23,8 +23,6 @@
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
-import { copyTextToClipboard } from '../../../../../shared/helpers/clipboard';
-
 export default {
   components: {
     CustomAttribute,
@@ -88,7 +86,7 @@ export default {
       }
     },
     onCopy(attributeValue) {
-      copyTextToClipboard(attributeValue, () => {
+      navigator.clipboard.writeText(attributeValue).then(() => {
         this.showAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
       });
     },
