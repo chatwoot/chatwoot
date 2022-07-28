@@ -16,6 +16,7 @@
       <tbody>
         <ArticleItem
           v-for="article in articles"
+          :id="article.id"
           :key="article.id"
           :title="article.title"
           :author="article.author"
@@ -58,7 +59,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 2,
+      default: 15,
     },
   },
   methods: {
