@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import EditArticleHeader from 'dashboard/components/helpCenter/Header/EditArticleHeader';
+import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader';
 import EditArticleField from 'dashboard/components/helpCenter/EditArticle';
 export default {
   components: {

@@ -12,6 +12,7 @@
         sub-title="English"
         :accessible-menu-items="accessibleMenuItems"
         :additional-secondary-menu-items="additionalSecondaryMenuItems"
+        @open-popover="openPortalPopover"
       />
     </div>
     <section class="app-content columns">
@@ -26,6 +27,11 @@
         v-if="showNotificationPanel"
         @close="closeNotificationPanel"
       />
+      <portal-popover
+        v-if="showPortalPopover"
+        :portals="portals"
+        @close-popover="closePortalPopover"
+      />
     </section>
   </div>
 </template>
@@ -34,7 +40,8 @@ import { mapGetters } from 'vuex';
 
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar';
-import HelpCenterSidebar from 'dashboard/components/helpCenter/Sidebar/Sidebar';
+import PortalPopover from 'dashboard/routes/dashboard/helpcenter/components/PortalPopover';
+import HelpCenterSidebar from 'dashboard/routes/dashboard/helpcenter/components/Sidebar/Sidebar';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
@@ -46,11 +53,13 @@ export default {
     CommandBar,
     WootKeyShortcutModal,
     NotificationPanel,
+    PortalPopover,
   },
   data() {
     return {
       showShortcutModal: false,
       showNotificationPanel: false,
+      showPortalPopover: false,
     };
   },
   computed: {
@@ -171,6 +180,136 @@ export default {
         },
       ];
     },
+    portals() {
+      return [
+        {
+          name: 'Chatwoot Help Center',
+          id: 1,
+          color: null,
+          custom_domain: 'doc',
+          articles_count: 123,
+          header_text: null,
+          homepage_link: null,
+          page_title: null,
+          slug: 'first_portal',
+          archived: false,
+          config: {
+            allowed_locales: [
+              {
+                code: 'en',
+                name: 'English',
+                articles_count: 123,
+              },
+              {
+                code: 'fr',
+                name: 'Français',
+                articles_count: 123,
+              },
+              {
+                code: 'de',
+                name: 'Deutsch',
+                articles_count: 32,
+              },
+              {
+                code: 'es',
+                name: 'Español',
+                articles_count: 12,
+              },
+              {
+                code: 'it',
+                name: 'Italiano',
+                articles_count: 8,
+              },
+            ],
+          },
+          locales: [
+            {
+              name: 'English',
+              code: 'en',
+              articles_count: 12,
+            },
+            {
+              name: 'Español',
+              code: 'es',
+              articles_count: 42,
+            },
+            {
+              name: 'French',
+              code: 'fr',
+              articles_count: 29,
+            },
+            {
+              name: 'Italian',
+              code: 'it',
+              articles_count: 4,
+            },
+            {
+              name: 'German',
+              code: 'de',
+              articles_count: 66,
+            },
+          ],
+        },
+        {
+          name: 'Chatwoot Docs',
+          id: 2,
+          color: null,
+          custom_domain: 'doc',
+          articles_count: 124,
+          header_text: null,
+          homepage_link: null,
+          page_title: null,
+          slug: 'second_portal',
+          archived: false,
+          config: {
+            allowed_locales: [
+              {
+                code: 'en',
+                name: 'English',
+                articles_count: 123,
+              },
+              {
+                code: 'fr',
+                name: 'Français',
+                articles_count: 123,
+              },
+              {
+                code: 'de',
+                name: 'Deutsch',
+                articles_count: 32,
+              },
+              {
+                code: 'es',
+                name: 'Español',
+                articles_count: 12,
+              },
+              {
+                code: 'it',
+                name: 'Italiano',
+                articles_count: 8,
+              },
+            ],
+          },
+          locales: [
+            {
+              name: 'English',
+              code: 'en',
+              articles_count: 12,
+            },
+            {
+              name: 'Japanese',
+              code: 'jp',
+              articles_count: 4,
+            },
+            {
+              name: 'Mandarin',
+              code: 'CH',
+              articles_count: 6,
+            },
+          ],
+        },
+      ];
+    },
     currentRoute() {
       return ' ';
     },
@@ -187,6 +326,12 @@ export default {
     },
     closeNotificationPanel() {
       this.showNotificationPanel = false;
+    },
+    openPortalPopover() {
+      this.showPortalPopover = !this.showPortalPopover;
+    },
+    closePortalPopover() {
+      this.showPortalPopover = false;
     },
   },
 };
