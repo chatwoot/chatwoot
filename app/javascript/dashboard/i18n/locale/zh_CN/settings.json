@@ -157,7 +157,7 @@
     "MENTIONED_CONVERSATIONS": "提及",
     "REPORTS": "报告",
     "SETTINGS": "设置",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "联系人",
     "HOME": "首页",
     "AGENTS": "客服代理们",
     "INBOXES": "收件箱",
@@ -186,7 +186,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "标签",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "收件箱",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
@@ -198,7 +198,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
