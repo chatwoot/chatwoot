@@ -15,26 +15,23 @@
       "SAVING": "Entwurf speichern...",
       "SAVED": "Entwurf gespeichert"
     },
-    "TABLE": {
-      "HEADERS": {
-        "TITLE": "Titel",
-        "CATEGORY": "Kategorie",
-        "READ_COUNT": "Gelesen Zählung",
-        "STATUS": "Status",
-        "LAST_EDITED": "Zuletzt bearbeitet"
-      },
-      "COLUMNS": {
-        "BY": "von"
+    "PORTAL": {
+      "ACTIVE_BADGE": "aktiv",
+      "CHOOSE_LOCALE_LABEL": "Wählen Sie ein Gebietsschema",
+      "ARTICLES_LABEL": "Artikel",
+      "ADD_NEW_LOCALE": "Neues Gebietsschema hinzufügen",
+      "POPOVER": {
+        "TITLE": "Portale",
+        "NEW_PORTAL_LINK": "Neues Portal",
+        "SUBTITLE": "Sie haben mehrere Portale und können für jedes Portal unterschiedliche Gebietsschemata haben.",
+        "CANCEL_BUTTON_LABEL": "Stornieren",
+        "CHOOSE_LOCALE_BUTTON": "Gebietsschema wählen"
       }
-    },
-    "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Artikeltitel kommt hier rein",
-      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel"
-    },
-    "SIDEBAR": {
-      "SEARCH": {
-        "PLACEHOLDER": "Suche nach Artikeln"
-      }
+    }
+  },
+  "TABLE": {
+    "COLUMNS": {
+      "BY": "von"
     }
   }
 }

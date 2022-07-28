@@ -58,6 +58,20 @@
         "NEXT_WEEK": "Επόμενη εβδομάδα"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Σήμανση ως εκκρεμής",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Άνοιγμα συνομιλίας",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
+        "TOMORROW": "Μέχρι αύριο",
+        "NEXT_WEEK": "Έως την επόμενη εβδομάδα"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Υπογραφή μηνύματος",
       "ENABLE_SIGN_TOOLTIP": "Ενεργοποίηση υπογραφής",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",

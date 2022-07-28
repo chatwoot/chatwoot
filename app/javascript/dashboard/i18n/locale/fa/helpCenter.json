@@ -15,26 +15,23 @@
       "SAVING": "در حال ذخیره پیش‌نویس...",
       "SAVED": "پیش‌نویس ذخیر شد"
     },
-    "TABLE": {
-      "HEADERS": {
-        "TITLE": "عنوان",
-        "CATEGORY": "دسته‌بندی",
-        "READ_COUNT": "تعداد خوانده شده",
-        "STATUS": "وضعیت",
-        "LAST_EDITED": "آخرین ویرایش"
-      },
-      "COLUMNS": {
-        "BY": "توسط"
+    "PORTAL": {
+      "ACTIVE_BADGE": "فعال",
+      "CHOOSE_LOCALE_LABEL": "محلی را انتخاب کنید",
+      "ARTICLES_LABEL": "مقالات",
+      "ADD_NEW_LOCALE": "یک محل جدید اضافه کنید",
+      "POPOVER": {
+        "TITLE": "Portals",
+        "NEW_PORTAL_LINK": "New Portal",
+        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "CANCEL_BUTTON_LABEL": "انصراف",
+        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
       }
-    },
-    "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "عنوان مقاله اینجاست",
-      "CONTENT_PLACEHOLDER": "مقاله خود را اینجا بنویسید"
-    },
-    "SIDEBAR": {
-      "SEARCH": {
-        "PLACEHOLDER": "جستجو برای مقالات"
-      }
+    }
+  },
+  "TABLE": {
+    "COLUMNS": {
+      "BY": "توسط"
     }
   }
 }

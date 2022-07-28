@@ -15,26 +15,23 @@
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
     },
-    "TABLE": {
-      "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
-        "STATUS": "状态",
-        "LAST_EDITED": "Last edited"
-      },
-      "COLUMNS": {
-        "BY": "by"
+    "PORTAL": {
+      "ACTIVE_BADGE": "活跃",
+      "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
+      "ARTICLES_LABEL": "文章",
+      "ADD_NEW_LOCALE": "添加一个新的语言环境",
+      "POPOVER": {
+        "TITLE": "门户网站",
+        "NEW_PORTAL_LINK": "新门户网站",
+        "SUBTITLE": "您有多个门户网站，每个门户网站可以有不同的语言环境。",
+        "CANCEL_BUTTON_LABEL": "取消",
+        "CHOOSE_LOCALE_BUTTON": "选择语言"
       }
-    },
-    "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
-    },
-    "SIDEBAR": {
-      "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
-      }
+    }
+  },
+  "TABLE": {
+    "COLUMNS": {
+      "BY": "by"
     }
   }
 }

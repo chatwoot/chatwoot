@@ -15,26 +15,23 @@
       "SAVING": "Salvando rascunho...",
       "SAVED": "Rascunho salvo"
     },
-    "TABLE": {
-      "HEADERS": {
-        "TITLE": "Título",
-        "CATEGORY": "Categoria",
-        "READ_COUNT": "Contagem de leituras",
-        "STATUS": "SItuação",
-        "LAST_EDITED": "Última edição"
-      },
-      "COLUMNS": {
-        "BY": "por"
+    "PORTAL": {
+      "ACTIVE_BADGE": "ativo",
+      "CHOOSE_LOCALE_LABEL": "Escolha uma localidade",
+      "ARTICLES_LABEL": "artigos",
+      "ADD_NEW_LOCALE": "Adicionar uma nova localidade",
+      "POPOVER": {
+        "TITLE": "Portais",
+        "NEW_PORTAL_LINK": "Novo portal",
+        "SUBTITLE": "Você tem vários portais e pode ter diferentes localidades para cada portal.",
+        "CANCEL_BUTTON_LABEL": "Cancelar",
+        "CHOOSE_LOCALE_BUTTON": "Escolher localidade"
       }
-    },
-    "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "O título do artigo vai aqui",
-      "CONTENT_PLACEHOLDER": "Escreva o seu artigo aqui"
-    },
-    "SIDEBAR": {
-      "SEARCH": {
-        "PLACEHOLDER": "Buscar artigos"
-      }
+    }
+  },
+  "TABLE": {
+    "COLUMNS": {
+      "BY": "por"
     }
   }
 }

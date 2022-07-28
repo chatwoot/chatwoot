@@ -1,20 +1,20 @@
 {
   "CONVERSATION": {
     "404": "请从左侧窗格选择一个对话",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "DASHBOARD_APP_TAB_MESSAGES": "消息",
+    "UNVERIFIED_SESSION": "未验证此用户的身份",
     "NO_MESSAGE_1": "您的收件箱中似乎没有客户的消息。",
     "NO_MESSAGE_2": " 向您的页面发送一条消息！",
     "NO_INBOX_1": "看来你还没有添加任何收件箱。",
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "搜索对话中的消息",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
+      "TITLE": "搜索消息",
+      "RESULT_TITLE": "搜索结果",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "PLACEHOLDER": "输入任何文本来搜索消息",
+      "NO_MATCHING_RESULTS": "未找到结果。"
     },
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
@@ -23,20 +23,20 @@
     "LOADING_CONVERSATIONS": "加载更多对话",
     "CANNOT_REPLY": "您不能回复，原因是：",
     "24_HOURS_WINDOW": "24 小时消息窗口限制",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
+    "NOT_ASSIGNED_TO_YOU": "此对话未分配给您。您想要将此对话分配给自己吗？",
+    "ASSIGN_TO_ME": "分配给我",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小时消息窗口限制",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "SELECT_A_TWEET_TO_REPLY": "请选择要回复的推文。",
+    "REPLYING_TO": "您正在回复到：",
+    "REMOVE_SELECTION": "移除选择",
     "DOWNLOAD": "下载",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "UNKNOWN_FILE_TYPE": "未知文件",
+    "UPLOADING_ATTACHMENTS": "正在上传附件...",
+    "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
+    "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
     "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
+    "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -50,22 +50,36 @@
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "标记为待处理",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TOMORROW": "明天",
+        "NEXT_WEEK": "下周"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "标记为待处理",
+      "RESOLVED": "标记为已解决",
+      "REOPEN": "重新打开会话",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "分配客服代表",
+      "ASSIGN_LABEL": "分配标签",
+      "AGENTS_LOADING": "正在加载客服代表..."
+    },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "消息签名",
+      "ENABLE_SIGN_TOOLTIP": "启用签名",
+      "DISABLE_SIGN_TOOLTIP": "禁用签名",
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
+      "CLICK_HERE": "点击此处更新"
     },
     "REPLYBOX": {
       "REPLY": "回复",
@@ -73,45 +87,49 @@
       "SEND": "发送",
       "CREATE": "添加便笺",
       "TWEET": "推特",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "ENTER_TO_SEND": "Enter to send",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_FORMAT_ICON": "显示富文本编辑器",
+      "TIP_EMOJI_ICON": "显示表情选择器",
+      "TIP_ATTACH_ICON": "附加文件",
+      "TIP_AUDIORECORDER_ICON": "录制音频",
+      "TIP_AUDIORECORDER_PERMISSION": "允许访问音频",
+      "TIP_AUDIORECORDER_ERROR": "无法打开音频",
+      "ENTER_TO_SEND": "Enter 键发送",
+      "DRAG_DROP": "拖放到此处添加附件",
+      "START_AUDIO_RECORDING": "开始录音",
+      "STOP_AUDIO_RECORDING": "停止录音",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "抄送",
+          "PLACEHOLDER": "多个电子邮件地址之间用逗号隔开",
+          "ERROR": "请输入有效的电子邮件地址"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "多个电子邮件地址之间用逗号隔开",
+          "ERROR": "请输入有效的电子邮件地址"
         }
       }
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
     "CHANGE_STATUS": "对话状态已更改",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "对话分配人已更改",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
     "BOT": "机器人",
     "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "TRY_AGAIN": "重试",
     "ASSIGNMENT": {
       "SELECT_AGENT": "选择代理",
       "REMOVE": "删除",
-      "ASSIGN": "Assign"
+      "ASSIGN": "分配"
     },
     "CONTEXT_MENU": {
       "COPY": "复制",
@@ -119,7 +137,7 @@
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
+    "TITLE": "发送对话记录",
     "DESC": "Send a copy of the conversation transcript to the specified email address",
     "SUBMIT": "提交",
     "CANCEL": "取消操作",
@@ -178,27 +196,27 @@
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
-      "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "SUCCESS": "已成功更新属性",
+      "ERROR": "无法更新属性，请稍后再试。"
     },
     "ADD": {
-      "TITLE": "Add",
-      "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "TITLE": "添加",
+      "SUCCESS": "已成功添加属性",
+      "ERROR": "无法添加属性，请稍后再试。"
     },
     "DELETE": {
-      "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "SUCCESS": "已成功删除属性",
+      "ERROR": "无法删除属性，请稍后再试。"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
-      "PLACEHOLDER": "Search attributes",
-      "NO_RESULT": "No attributes found"
+      "TITLE": "添加属性",
+      "PLACEHOLDER": "搜索属性",
+      "NO_RESULT": "未找到属性"
     }
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "发送至",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
