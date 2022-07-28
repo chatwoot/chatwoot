@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import EditArticleHeader from './EditArticleHeader';
+import EditArticleHeader from '../Header/EditArticleHeader';
 
 export default {
   title: 'Components/Help Center/Header',
