@@ -2,20 +2,23 @@
   <div class="container">
     <article-header
       :header-title="headerTitle"
-      :count="articleCount"
+      :count="meta.count"
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
     <article-table
-      :articles="articlesList"
-      :article-count="articlesList.length"
+      :articles="articles"
+      :article-count="articles.length"
+      :current-page="Number(meta.currentPage)"
+      :total-count="meta.count"
+      @on-page-change="onPageChange"
     />
     <div v-if="isFetchingArticles" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="!isFetchingArticles && !articlesList.length"
+      v-else-if="!isFetchingArticles && !articles.length"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -42,29 +45,13 @@ export default {
   computed: {
     ...mapGetters({
       articles: 'articles/allArticles',
-      mineArticles: 'articles/getMineArticles',
-      draftArticles: 'articles/getDraftArticles',
-      archivedArticles: 'articles/getArchivedArticles',
       uiFlags: 'articles/uiFlags',
+      meta: 'articles/getMeta',
       isFetchingArticles: 'articles/isFetchingArticles',
     }),
-    articlesList() {
-      if (this.articleType === 'mine') {
-        return this.mineArticles;
-      }
-      if (this.articleType === 'draft') {
-        return this.draftArticles;
-      }
-      if (this.articleType === 'archived') {
-        return this.archivedArticles;
-      }
-      return this.articles;
-    },
+
     showEmptyState() {
-      return this.articlesList.length === 0;
-    },
-    articleCount() {
-      return this.articlesList.length;
+      return this.articles.length === 0;
     },
     articleType() {
       return this.$route.path.split('/').pop();
@@ -95,6 +82,9 @@ export default {
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
       });
+    },
+    onPageChange(page) {
+      this.fetchArticles({ pageNumber: page });
     },
   },
 };

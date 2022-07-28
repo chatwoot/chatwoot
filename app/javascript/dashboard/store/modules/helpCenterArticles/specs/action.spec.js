@@ -15,13 +15,22 @@ jest.mock('axios');
 describe('#actions', () => {
   describe('#index', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: articleList } });
+      axios.get.mockResolvedValue({
+        data: {
+          payload: articleList,
+          meta: {
+            current_page: '1',
+            articles_count: 5,
+          },
+        },
+      });
       await actions.index(
         { commit },
         { pageNumber: 1, portalSlug: 'test', locale: 'en' }
       );
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
+        [types.default.CLEAR_ARTICLES],
         [
           types.default.ADD_MANY_ARTICLES,
           [
@@ -31,6 +40,10 @@ describe('#actions', () => {
               title: 'Documents are required to complete KYC',
             },
           ],
+        ],
+        [
+          types.default.SET_ARTICLES_META,
+          { current_page: '1', articles_count: 5 },
         ],
         [types.default.ADD_MANY_ARTICLES_ID, [1]],
         [types.default.SET_UI_FLAG, { isFetching: false }],

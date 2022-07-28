@@ -7,14 +7,16 @@ export const actions = {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
-        data: { payload },
+        data: { payload, meta },
       } = await portalAPI.getArticles({
         pageNumber,
         portalSlug,
         locale,
       });
       const articleIds = payload.map(article => article.id);
+      commit(types.CLEAR_ARTICLES);
       commit(types.ADD_MANY_ARTICLES, payload);
+      commit(types.SET_ARTICLES_META, meta);
       commit(types.ADD_MANY_ARTICLES_ID, articleIds);
       return articleIds;
     } catch (error) {

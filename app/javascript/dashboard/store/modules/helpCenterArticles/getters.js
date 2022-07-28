@@ -18,25 +18,7 @@ export const getters = {
     });
     return articles;
   },
-  getMineArticles: (...getterArguments) => {
-    const [state, _getters] = getterArguments;
-    const articles = state.articles.allIds.map(id => {
-      return _getters.articleById(id);
-    });
-    return articles;
-  },
-  getDraftArticles: (...getterArguments) => {
-    const [state, _getters] = getterArguments;
-    const articles = state.articles.allIds.map(id => {
-      return _getters.articleById(id);
-    });
-    return articles;
-  },
-  getArchivedArticles: (...getterArguments) => {
-    const [state, _getters] = getterArguments;
-    const articles = state.articles.allIds.map(id => {
-      return _getters.articleById(id);
-    });
-    return articles;
+  getMeta: state => {
+    return state.meta;
   },
 };
