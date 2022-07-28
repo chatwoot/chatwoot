@@ -27,13 +27,7 @@
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.PLACE_HOLDER'
                 )
               "
-              :error="
-                $v.websiteName.$error
-                  ? $t(
-                      'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR'
-                    )
-                  : ''
-              "
+              :error="websiteNameValidationErrorMsg"
               @blur="$v.websiteName.$touch"
             />
             <woot-input
@@ -164,11 +158,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Widget from '../../../../modules/widget-preview/components/Widget';
+import Widget from 'dashboard/modules/widget-preview/components/Widget';
 import InputRadioGroup from './components/InputRadioGroup';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import LocalStorage from '../../../../helper/localStorage';
+import LocalStorage from 'dashboard/helper/localStorage';
 
 export default {
   components: {
@@ -290,6 +284,11 @@ export default {
           ),
         },
       ];
+    },
+    websiteNameValidationErrorMsg() {
+      return this.$v.websiteName.$error
+        ? this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR')
+        : '';
     },
   },
   mounted() {

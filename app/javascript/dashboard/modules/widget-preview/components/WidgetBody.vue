@@ -1,29 +1,17 @@
 <template>
-  <div>
-    <div
-      v-if="config.isDefaultScreen"
-      class="availabilty-container"
-      :class="{ 'with-logo': config.logo, 'without-logo': !config.logo }"
-    >
-      <div class="availabilty-info">
+  <div class="widget-body-container" :class="getWidgetBodyClass">
+    <div v-if="config.isDefaultScreen" class="availability-content">
+      <div class="availability-info">
         <div class="team-status">
-          {{
-            config.isOnline
-              ? $t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.ONLINE')
-              : $t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.OFFLINE')
-          }}
+          {{ getStatusText }}
         </div>
         <div class="reply-wait-message">
           {{ config.replyTime }}
         </div>
       </div>
-      <div class="user-thumbnail-box">
-        <div class="user-thumbnail">
-          <span>J</span>
-        </div>
-      </div>
+      <thumbnail username="J" size="40" />
     </div>
-    <div v-else class="conversation-container">
+    <div v-else class="conversation-content">
       <div class="conversation-wrap">
         <div class="message-wrap">
           <div class="user-message-wrap">
@@ -59,99 +47,122 @@
 </template>
 
 <script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 export default {
   name: 'WidgetBody',
+  components: {
+    Thumbnail,
+  },
   props: {
     config: {
       type: Object,
       default: () => {},
     },
   },
+  computed: {
+    getStatusText() {
+      return this.config.isOnline
+        ? this.$t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.ONLINE')
+        : this.$t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.OFFLINE');
+    },
+    getWidgetBodyClass() {
+      return {
+        'with-chat-view': !this.config.isDefaultScreen,
+        'with-heading-or-title':
+          this.config.isDefaultScreen &&
+          (this.config.welcomeHeading || this.config.welcomeTagline),
+        'with-heading-or-title-without-logo':
+          this.config.isDefaultScreen &&
+          (this.config.welcomeHeading || this.config.welcomeTagline) &&
+          !this.config.logo,
+        'without-heading-and-title':
+          this.config.isDefaultScreen &&
+          !this.config.welcomeHeading &&
+          !this.config.welcomeTagline,
+      };
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
-.availabilty-container {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  padding-left: var(--space-two);
-  padding-right: var(--space-two);
-  margin-bottom: var(--space-normal);
-
-  &.with-logo {
-    min-height: 20rem;
+.widget-body-container {
+  &.with-heading-or-title {
+    min-height: 24rem;
   }
 
-  &.without-logo {
-    min-height: 25rem;
+  &.without-heading-and-title {
+    min-height: 34rem;
   }
 
-  .availabilty-info {
+  &.with-chat-view {
+    min-height: 34rem;
+  }
+
+  &.with-heading-or-title-without-logo {
+    min-height: 30rem;
+  }
+
+  .availability-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: var(--space-one) var(--space-two) var(--space-one) var(--space-two);
+    min-height: inherit;
+
+    .availability-info {
+      width: 100%;
+      .team-status {
+        font-size: var(--font-size-default);
+        font-weight: var(--font-weight-medium);
+      }
+      .reply-wait-message {
+        font-size: var(--font-size-mini);
+      }
+    }
+  }
+  .conversation-content {
     width: 100%;
-    .team-status {
-      font-size: var(--font-size-default);
-      font-weight: var(--font-weight-medium);
-    }
-    .reply-wait-message {
-      font-size: var(--font-size-mini);
-    }
-  }
+    min-height: inherit;
+    padding: var(--space-two);
+    .conversation-wrap {
+      .user-message {
+        align-items: flex-end;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-top: var(--space-zero);
+        margin-bottom: var(--space-smaller);
+        margin-left: auto;
+        max-width: 85%;
+        text-align: right;
+      }
+      .message-wrap {
+        margin-right: var(--space-smaller);
+        max-width: 100%;
+        .chat-bubble {
+          box-shadow: var(--shadow-medium);
+          border-radius: 2rem;
+          color: var(--white);
+          display: inline-block;
+          font-size: var(--font-size-nano);
+          line-height: 1.5;
+          padding: 1.3rem 1.75rem;
+          text-align: left;
 
-  .user-thumbnail-box {
-    .user-thumbnail {
-      width: 4rem;
-      height: 4rem;
-      border-radius: var(--border-radius-rounded);
-      line-height: 4rem;
-      font-size: var(--font-size-default);
-      background-color: var(--w-100);
-      color: var(--w-600);
-      text-align: center;
-    }
-  }
-}
-.conversation-container {
-  width: 100%;
-  padding: var(--space-two);
-  .conversation-wrap {
-    min-height: 28rem;
-    .user-message {
-      align-items: flex-end;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      margin-top: var(--space-zero);
-      margin-bottom: var(--space-smaller);
-      margin-left: auto;
-      max-width: 85%;
-      text-align: right;
-    }
-    .message-wrap {
-      margin-right: var(--space-smaller);
-      max-width: 100%;
-      .chat-bubble {
-        box-shadow: var(--shadow-medium);
-        border-radius: 2rem;
-        color: var(--white);
-        display: inline-block;
-        font-size: var(--font-size-nano);
-        line-height: 1.5;
-        padding: 1.3rem 1.75rem;
-        text-align: left;
+          p {
+            margin: var(--space-zero);
+          }
 
-        p {
-          margin: var(--space-zero);
-        }
-
-        &.user {
-          border-bottom-right-radius: var(--border-radius-small);
-          background: var(--color-woot);
-        }
-        &.agent {
-          background: var(--white);
-          border-bottom-left-radius: var(--border-radius-small);
-          color: black;
+          &.user {
+            border-bottom-right-radius: var(--border-radius-small);
+            background: var(--color-woot);
+          }
+          &.agent {
+            background: var(--white);
+            border-bottom-left-radius: var(--border-radius-small);
+            color: var(--b-900);
+          }
         }
       }
     }

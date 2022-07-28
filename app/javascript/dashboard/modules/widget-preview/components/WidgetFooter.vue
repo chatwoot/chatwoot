@@ -9,7 +9,7 @@
         $t('INBOX_MGMT.WIDGET_BUILDER.FOOTER.START_CONVERSATION_BUTTON_TEXT')
       }}
     </custom-button>
-    <div v-else class="chat-message--input is-focused">
+    <div v-else class="chat-message-input is-focused">
       <resizable-text-area
         id="chat-input"
         :placeholder="
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import CustomButton from '../../../../dashboard/components/buttons/Button';
-import ResizableTextArea from '../../../../shared/components/ResizableTextArea';
+import CustomButton from 'dashboard/components/buttons/Button';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 export default {
   name: 'WidgetFooter',
   components: {
@@ -61,15 +61,16 @@ export default {
     padding-right: var(--space-two);
   }
 
-  .chat-message--input {
+  .chat-message-input {
     align-items: center;
     display: flex;
-    padding: 0 var(--space-small) 0 var(--space-slab);
+    padding: var(--space-zero) var(--space-small) var(--space-zero)
+      var(--space-slab);
     border-radius: var(--border-radius-normal);
     background: white;
 
     &.is-focused {
-      box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
+      box-shadow: 0 0 0 0.1rem var(--color-woot), 0 0 0.2rem 0.2rem var(--w-100);
     }
   }
 
@@ -83,11 +84,11 @@ export default {
     border: 0;
     height: var(--space-medium);
     min-height: var(--space-medium);
-    max-height: 2.4 * $space-mega;
+    max-height: var(--space-giga);
     line-height: 1;
     font-size: var(--font-size-small);
     resize: none;
-    padding: 0;
+    padding: var(--space-zero);
     padding-top: var(--space-smaller);
     padding-bottom: var(--space-smaller);
     margin-top: var(--space-small);

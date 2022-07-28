@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="widget-preview-container">
     <div v-if="isWidgetVisible" class="screen-selector">
       <input-radio-group
         name="widget-screen"
@@ -15,19 +15,10 @@
         {{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}
       </div>
     </div>
-    <div
-      class="widget-bubble"
-      :style="{
-        justifyContent: widgetBubblePosition === 'left' ? 'start' : 'end',
-      }"
-    >
+    <div class="widget-bubble" :style="getBubblePositionStyle">
       <button
         class="bubble"
-        :class="{
-          'bubble-close': isWidgetVisible,
-          'bubble-expanded':
-            !isWidgetVisible && widgetBubbleType === 'expanded_bubble',
-        }"
+        :class="getBubbleTypeClass"
         :style="{ background: color }"
         @click="toggleWidget"
       >
@@ -37,11 +28,7 @@
           alt=""
         />
         <div>
-          {{
-            isWidgetVisible || widgetBubbleType === 'standard'
-              ? ' '
-              : widgetBubbleLauncherTitle
-          }}
+          {{ getWidgetBubbleLauncherTitle }}
         </div>
       </button>
     </div>
@@ -52,7 +39,7 @@
 import WidgetHead from './WidgetHead';
 import WidgetBody from './WidgetBody';
 import WidgetFooter from './WidgetFooter';
-import InputRadioGroup from '../../../routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
+import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup';
 
 export default {
   name: 'Widget',
@@ -65,7 +52,7 @@ export default {
   props: {
     welcomeHeading: {
       type: String,
-      default: 'Hi There!',
+      default: '',
     },
     welcomeTagline: {
       type: String,
@@ -86,23 +73,23 @@ export default {
     },
     replyTime: {
       type: String,
-      default: 'in_a_few_minutes',
+      default: '',
     },
     color: {
       type: String,
-      default: '#1f93ff',
+      default: '',
     },
     widgetBubblePosition: {
       type: String,
-      default: 'left',
+      default: '',
     },
     widgetBubbleLauncherTitle: {
       type: String,
-      default: 'Chat with us',
+      default: '',
     },
     widgetBubbleType: {
       type: String,
-      default: 'standard',
+      default: '',
     },
   },
   data() {
@@ -138,6 +125,8 @@ export default {
     },
     getWidgetBodyConfig() {
       return {
+        welcomeHeading: this.welcomeHeading,
+        welcomeTagline: this.welcomeTagline,
         isDefaultScreen: this.isDefaultScreen,
         isOnline: this.isOnline,
         replyTime: this.replyTimeText,
@@ -157,13 +146,28 @@ export default {
           return this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_MINUTES'
           );
-        case 'in_a_few_hours':
-          return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
         case 'in_a_day':
           return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_DAY');
         default:
           return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
       }
+    },
+    getBubblePositionStyle() {
+      return {
+        justifyContent: this.widgetBubblePosition === 'left' ? 'start' : 'end',
+      };
+    },
+    getBubbleTypeClass() {
+      return {
+        'bubble-close': this.isWidgetVisible,
+        'bubble-expanded':
+          !this.isWidgetVisible && this.widgetBubbleType === 'expanded_bubble',
+      };
+    },
+    getWidgetBubbleLauncherTitle() {
+      return this.isWidgetVisible || this.widgetBubbleType === 'standard'
+        ? ' '
+        : this.widgetBubbleLauncherTitle;
     },
   },
   methods: {
@@ -191,8 +195,9 @@ export default {
   box-shadow: 0 0px 20px 5px rgb(0 0 0 / 10%);
   border-radius: var(--border-radius-large);
   background-color: #f4f6fb;
-  min-width: 32rem;
-  max-width: 32rem;
+  min-width: calc(var(--space-large) * 10);
+  max-width: calc(var(--space-large) * 10);
+  min-height: calc(var(--space-giga) * 2);
 
   .branding {
     padding-top: var(--space-one);
@@ -204,15 +209,15 @@ export default {
   display: flex;
   flex-direction: row;
   margin-top: var(--space-normal);
-  min-width: 32rem;
-  max-width: 32rem;
+  min-width: calc(var(--space-large) * 10);
+  max-width: calc(var(--space-large) * 10);
 
   .bubble {
     display: flex;
     align-items: center;
-    border-radius: 3rem;
-    height: 6rem;
-    width: 6rem;
+    border-radius: calc(var(--border-radius-small) * 10);
+    height: calc(var(--space-three) * 2);
+    width: calc(var(--space-three) * 2);
     position: relative;
     overflow-wrap: anywhere;
     cursor: pointer;
@@ -220,7 +225,8 @@ export default {
     img {
       height: var(--space-medium);
       width: var(--space-medium);
-      margin: 1rem 1rem 0.6rem 1.7rem;
+      margin: var(--space-one) var(--space-one) calc(var(--space-micro) * 3)
+        var(--space-normal);
     }
 
     div {

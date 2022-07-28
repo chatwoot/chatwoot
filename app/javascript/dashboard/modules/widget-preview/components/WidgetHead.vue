@@ -6,9 +6,9 @@
           v-if="config.logo"
           :src="config.logo"
           class="logo"
-          :class="{ small: !config.isDefaultScreen }"
+          :class="{ small: !isDefaultScreen }"
         />
-        <div v-if="!config.isDefaultScreen">
+        <div v-if="!isDefaultScreen">
           <div class="title-block">
             <span>{{ config.websiteName }}</span>
             <div v-if="config.isOnline" class="online-dot" />
@@ -16,7 +16,7 @@
           <div>{{ config.replyTime }}</div>
         </div>
       </div>
-      <div v-if="config.isDefaultScreen" class="header-expanded">
+      <div v-if="isDefaultScreen" class="header-expanded">
         <h2>{{ config.welcomeHeading }}</h2>
         <p>{{ config.welcomeTagline }}</p>
       </div>
@@ -30,6 +30,15 @@ export default {
     config: {
       type: Object,
       default: () => {},
+    },
+  },
+  computed: {
+    isDefaultScreen() {
+      return (
+        this.config.isDefaultScreen &&
+        (this.config.welcomeHeading.length !== 0 ||
+          this.config.welcomeTagline.length !== 0)
+      );
     },
   },
 };
@@ -64,10 +73,11 @@ export default {
     }
 
     .header-expanded {
+      min-height: calc(var(--space-large) + var(--space-half));
       h2 {
         font-size: var(--font-size-big);
         margin-bottom: var(--space-small);
-        margin-top: var(--space-medium);
+        margin-top: var(--space-two);
         overflow-wrap: break-word;
       }
 
