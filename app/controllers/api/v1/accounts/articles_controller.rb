@@ -2,6 +2,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
   before_action :fetch_article, except: [:index, :create]
+  before_action :set_current_page, only: [:index]
 
   def index
     @articles = @portal.articles
@@ -48,5 +49,9 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     params.require(:payload).permit(
       :category_slug, :locale, :query, :page
     )
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
   end
 end

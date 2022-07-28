@@ -3,5 +3,6 @@ json.payload do
 end
 
 json.meta do
+  json.current_page @current_page
   json.articles_count @articles.size
 end
