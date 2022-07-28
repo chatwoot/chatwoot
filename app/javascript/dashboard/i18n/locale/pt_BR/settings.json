@@ -198,7 +198,8 @@
       "DRAFT": "Rascunho",
       "ARCHIVED": "Arquivado",
       "CATEGORY": "Categoria"
-    }
+    },
+    "DOCS": "Ler documentos"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
