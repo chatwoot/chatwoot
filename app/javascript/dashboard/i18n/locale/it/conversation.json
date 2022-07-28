@@ -58,6 +58,20 @@
         "NEXT_WEEK": "Prossima settimana"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Segna come in sospeso",
+      "RESOLVED": "Contrassegna come risolto",
+      "REOPEN": "Riapri la conversazione",
+      "SNOOZE": {
+        "TITLE": "Posticipa",
+        "NEXT_REPLY": "Fino alla prossima risposta",
+        "TOMORROW": "Fino a domani",
+        "NEXT_WEEK": "Fino alla prossima settimana"
+      },
+      "ASSIGN_AGENT": "Assegna agente",
+      "ASSIGN_LABEL": "Assegna etichetta",
+      "AGENTS_LOADING": "Caricamento agenti..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Firma del messaggio",
       "ENABLE_SIGN_TOOLTIP": "Abilita firma",
@@ -100,7 +114,11 @@
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
     "CHANGE_STATUS": "Stato conversazione cambiato",
+    "CHANGE_STATUS_FAILED": "Cambio di stato conversazione non riuscito",
     "CHANGE_AGENT": "Modifica assegnatario conversazione",
+    "CHANGE_AGENT_FAILED": "Cambio assegnatario non riuscito",
+    "ASSIGN_LABEL_SUCCESFUL": "Etichetta assegnata correttamente",
+    "ASSIGN_LABEL_FAILED": "Assegnazione etichetta non riuscita",
     "CHANGE_TEAM": "Team conversazione cambiato",
     "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
