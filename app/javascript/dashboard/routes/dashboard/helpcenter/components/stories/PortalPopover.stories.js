@@ -26,7 +26,44 @@ Primary.args = {
   portals: [
     {
       name: 'Chatwoot Help Center',
-      articles_count: 124,
+      id: 1,
+      color: null,
+      custom_domain: 'doc',
+      articles_count: 123,
+      header_text: null,
+      homepage_link: null,
+      page_title: null,
+      slug: 'first_portal',
+      archived: false,
+      config: {
+        allowed_locales: [
+          {
+            code: 'en',
+            name: 'English',
+            articles_count: 123,
+          },
+          {
+            code: 'fr',
+            name: 'Français',
+            articles_count: 123,
+          },
+          {
+            code: 'de',
+            name: 'Deutsch',
+            articles_count: 32,
+          },
+          {
+            code: 'es',
+            name: 'Español',
+            articles_count: 12,
+          },
+          {
+            code: 'it',
+            name: 'Italiano',
+            articles_count: 8,
+          },
+        ],
+      },
       locales: [
         {
           name: 'English',
@@ -57,7 +94,44 @@ Primary.args = {
     },
     {
       name: 'Chatwoot Docs',
-      articles_count: 16,
+      id: 2,
+      color: null,
+      custom_domain: 'doc',
+      articles_count: 124,
+      header_text: null,
+      homepage_link: null,
+      page_title: null,
+      slug: 'second_portal',
+      archived: false,
+      config: {
+        allowed_locales: [
+          {
+            code: 'en',
+            name: 'English',
+            articles_count: 123,
+          },
+          {
+            code: 'fr',
+            name: 'Français',
+            articles_count: 123,
+          },
+          {
+            code: 'de',
+            name: 'Deutsch',
+            articles_count: 32,
+          },
+          {
+            code: 'es',
+            name: 'Español',
+            articles_count: 12,
+          },
+          {
+            code: 'it',
+            name: 'Italiano',
+            articles_count: 8,
+          },
+        ],
+      },
       locales: [
         {
           name: 'English',

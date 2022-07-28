@@ -1,5 +1,5 @@
 <template>
-  <div class="portal-popover__container">
+  <div v-on-clickaway="closePortalPopover" class="portal-popover__container">
     <header>
       <div class="actions">
         <h2 class="block-title">
@@ -24,7 +24,7 @@
       />
     </div>
     <footer>
-      <woot-button variant="link">
+      <woot-button variant="link" @click="closePortalPopover">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.CANCEL_BUTTON_LABEL') }}
       </woot-button>
       <woot-button>
@@ -35,15 +35,22 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 import PortalSwitch from './PortalSwitch.vue';
 export default {
   components: {
     PortalSwitch,
   },
+  mixins: [clickaway],
   props: {
     portals: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    closePortalPopover() {
+      this.$emit('close-popover');
     },
   },
 };
@@ -51,6 +58,9 @@ export default {
 
 <style lang="scss" scoped>
 .portal-popover__container {
+  position: absolute;
+  overflow: scroll;
+  max-height: 96vh;
   padding: var(--space-normal);
   background-color: var(--white);
   border-radius: var(--border-radius-normal);
