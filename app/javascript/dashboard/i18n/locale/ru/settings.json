@@ -198,7 +198,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Категория"
-    }
+    },
+    "DOCS": "Чтение документов"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
