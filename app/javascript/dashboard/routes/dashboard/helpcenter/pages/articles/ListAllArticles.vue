@@ -6,13 +6,16 @@
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
-    <article-table :articles="articles" :article-count="articles.length" />
+    <article-table
+      :articles="articlesList"
+      :article-count="articlesList.length"
+    />
     <div v-if="isFetchingArticles" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="!isFetchingArticles && !articles.length"
+      v-else-if="!isFetchingArticles && !articlesList.length"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -34,17 +37,34 @@ export default {
   data() {
     return {
       pageNumber: 1,
-      articleCount: 12,
     };
   },
   computed: {
     ...mapGetters({
       articles: 'articles/allArticles',
+      mineArticles: 'articles/getMineArticles',
+      draftArticles: 'articles/getDraftArticles',
+      archivedArticles: 'articles/getArchivedArticles',
       uiFlags: 'articles/uiFlags',
       isFetchingArticles: 'articles/isFetchingArticles',
     }),
+    articlesList() {
+      if (this.articleType === 'mine') {
+        return this.mineArticles;
+      }
+      if (this.articleType === 'draft') {
+        return this.draftArticles;
+      }
+      if (this.articleType === 'archived') {
+        return this.archivedArticles;
+      }
+      return this.articles;
+    },
     showEmptyState() {
-      return this.articles.length === 0;
+      return this.articlesList.length === 0;
+    },
+    articleCount() {
+      return this.articlesList.length;
     },
     articleType() {
       return this.$route.path.split('/').pop();
