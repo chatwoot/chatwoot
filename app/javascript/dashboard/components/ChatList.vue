@@ -717,16 +717,6 @@ export default {
 
   &.list--full-width {
     width: 100%;
-    overflow: hidden;
-    @include breakpoint(large up) {
-      width: 100%;
-    }
-    @include breakpoint(xlarge up) {
-      width: 100%;
-    }
-    @include breakpoint(xxlarge up) {
-      width: 100%;
-    }
     @include breakpoint(xxxlarge up) {
       flex-basis: 100%;
     }
