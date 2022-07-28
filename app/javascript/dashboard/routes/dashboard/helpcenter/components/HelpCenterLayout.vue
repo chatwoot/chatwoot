@@ -41,7 +41,7 @@ import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar';
 import PortalPopover from 'dashboard/routes/dashboard/helpcenter/components/PortalPopover';
-import HelpCenterSidebar from 'dashboard/components/helpCenter/Sidebar/Sidebar';
+import HelpCenterSidebar from 'dashboard/routes/dashboard/helpcenter/components/Sidebar/Sidebar';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
