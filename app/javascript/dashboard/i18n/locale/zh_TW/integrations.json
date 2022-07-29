@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "整合方式",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "取消",
+        "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Webhook 網址",
+          "PLACEHOLDER": "例如：https://example/api/webhook",
+          "ERROR": "請輸入一個有效的 URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "建立 webhook"
+      },
       "TITLE": "回呼接口位址",
       "CONFIGURE": "配置",
       "HEADER": "Webhook 設定",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "編輯",
         "TITLE": "編輯 Webhook",
-        "CANCEL": "取消",
-        "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook 網址",
-            "PLACEHOLDER": "例如：https://example/api/webhook",
-            "ERROR": "請輸入一個有效的 URL"
-          },
-          "SUBMIT": "編輯 Webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         }
       },
       "ADD": {
         "CANCEL": "取消操作",
         "TITLE": "建立新的 webhook",
-        "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "Webhook 網址",
-            "PLACEHOLDER": "例如：https://example/api/webhook",
-            "ERROR": "請輸入一個有效的 URL"
-          },
-          "SUBMIT": "建立 webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook 新增成功",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "確認刪除",
-          "MESSAGE": "您確定要刪除吗？ ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "是，刪除 ",
           "NO": "否，保留它"
         }
@@ -80,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "連接"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard Apps",
+      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "LIST": {
+        "404": "There are no dashboard apps configured on this account yet",
+        "LOADING": "Fetching dashboard apps...",
+        "TABLE_HEADER": [
+          "姓名",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Edit app",
+        "DELETE_TOOLTIP": "Delete app"
+      },
+      "FORM": {
+        "TITLE_LABEL": "姓名",
+        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "URL_ERROR": "A valid URL is required"
+      },
+      "CREATE": {
+        "HEADER": "Add a new dashboard app",
+        "FORM_SUBMIT": "送出",
+        "FORM_CANCEL": "取消",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "We couldn't create an app. Please try again later"
+      },
+      "UPDATE": {
+        "HEADER": "Edit dashboard app",
+        "FORM_SUBMIT": "更新",
+        "FORM_CANCEL": "取消",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "We couldn't update the app. Please try again later"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "刪除確認",
+        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "We couldn't delete the app. Please try again later"
+      }
     }
   }
 }

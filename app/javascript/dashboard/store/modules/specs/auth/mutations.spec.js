@@ -18,4 +18,28 @@ describe('#mutations', () => {
       });
     });
   });
+  describe('#SET_CURRENT_USER_UI_FLAGS', () => {
+    it('set auth ui flags', () => {
+      const state = {
+        uiFlags: { isFetching: false },
+      };
+      mutations[types.SET_CURRENT_USER_UI_FLAGS](state, { isFetching: true });
+      expect(state.uiFlags.isFetching).toEqual(true);
+    });
+  });
+  describe('#CLEAR_USER', () => {
+    it('set auth ui flags', () => {
+      const state = {
+        currentUser: { id: 1 },
+      };
+      mutations[types.CLEAR_USER](state);
+      expect(state.currentUser).toEqual({
+        id: null,
+        account_id: null,
+        accounts: [],
+        email: null,
+        name: null,
+      });
+    });
+  });
 });

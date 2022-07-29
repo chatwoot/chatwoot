@@ -22,19 +22,53 @@ de:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
   errors:
+    validations:
+      presence: darf nicht leer sein
+    webhook:
+      invalid: Ungültige Events
     signup:
       disposable_email: Wir erlauben keine Einweg-E-Mails
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
+    data_import:
+      data_type:
+        invalid: Ungültiger Datentyp
     contacts:
       import:
         failed: Datei ist leer
+      email:
+        invalid: Ungültige E-Mail
+      phone_number:
+        invalid: sollte im e164-Format vorliegen
+    categories:
+      locale:
+        unique: sollte in der Kategorie und im Portal eindeutig sein
+    inboxes:
+      imap:
+        socket_error: Bitte überprüfen Sie die Netzwerkverbindung, die IMAP-Adresse und versuchen Sie es erneut.
+        no_response_error: Bitte überprüfen Sie die IMAP-Anmeldeinformationen und versuchen Sie es erneut.
+        host_unreachable_error: Host nicht erreichbar. Bitte überprüfen Sie die IMAP-Adresse und den IMAP-Port und versuchen Sie es erneut.
+        connection_timed_out_error: Zeitüberschreitung der Verbindung für %{address}:%{port}
+        connection_closed_error: Verbindung geschlossen.
+      validations:
+        name: Sollte nicht mit Symbolen beginnen oder enden, und es sollte keine < > / \ @ Zeichen enthalten.
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     agent_csv:
       agent_name: Agentenname
       conversations_count: Anzahl Gespräche
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    inbox_csv:
+      inbox_name: Posteingangsname
+      inbox_type: Posteingangstyp
+      conversations_count: Anzahl der Konversationen
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+    label_csv:
+      label_title: Label
+      conversations_count: Anzahl der Konversationen
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     team_csv:
@@ -43,6 +77,16 @@ de:
       avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
       avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
     default_group_by: Tag
+    csat:
+      headers:
+        contact_name: Kontaktname
+        contact_email_address: Kontakt-E-Mail-Adresse
+        contact_phone_number: Kontakt Telefonnummer
+        link_to_the_conversation: Link zur Konversation
+        agent_name: Agentenname
+        rating: Bewertung
+        feedback: Feedback-Kommentar
+        recorded_at: Aufnahmedatum
   notifications:
     notification_title:
       conversation_creation: "[Neues Gespräch] - #%{display_id} wurde in %{inbox_name} erstellt"
@@ -52,6 +96,7 @@ de:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
+      instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
       deleted: Diese Nachricht wurde gelöscht
     activity:
       status:

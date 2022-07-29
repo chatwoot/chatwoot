@@ -22,7 +22,7 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
 
       expect(response).to have_http_status(:success)
       data = JSON.parse(response.body)
-      expect(data['id']).not_to eq nil
+      expect(data['id']).not_to be_nil
     end
   end
 end

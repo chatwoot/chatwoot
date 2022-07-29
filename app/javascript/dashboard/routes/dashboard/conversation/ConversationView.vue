@@ -14,8 +14,7 @@
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       @contact-panel-toggle="onToggleContactPanel"
-    >
-    </conversation-box>
+    />
   </section>
 </template>
 
@@ -118,11 +117,16 @@ export default {
     },
     setActiveChat() {
       if (this.conversationId) {
-        const chat = this.findConversation();
-        if (!chat) {
+        const selectedConversation = this.findConversation();
+        // If conversation doesn't exist or selected conversation is same as the active
+        // conversation, don't set active conversation.
+        if (
+          !selectedConversation ||
+          selectedConversation.id === this.currentChat.id
+        ) {
           return;
         }
-        this.$store.dispatch('setActiveChat', chat).then(() => {
+        this.$store.dispatch('setActiveChat', selectedConversation).then(() => {
           bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
       } else {

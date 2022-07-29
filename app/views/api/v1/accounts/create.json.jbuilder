@@ -18,6 +18,7 @@ json.data do
       json.name account_user.account.name
       json.active_at account_user.active_at
       json.role account_user.role
+      json.locale account_user.account.locale
     end
   end
 end

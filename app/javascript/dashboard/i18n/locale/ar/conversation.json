@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "DASHBOARD_APP_TAB_MESSAGES": "الرسائل",
     "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
@@ -30,6 +31,7 @@
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
+    "UNKNOWN_FILE_TYPE": "ملف غير معروف",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",

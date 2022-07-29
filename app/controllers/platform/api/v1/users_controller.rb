@@ -14,13 +14,17 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def login
     encoded_email = ERB::Util.url_encode(@resource.email)
-    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
+    render json: { url: "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
   def show; end
 
   def update
     @resource.assign_attributes(user_update_params)
+
+    # We are using devise's reconfirmable flow for changing emails
+    # But in case of platform APIs we don't want user to go through this extra step
+    @resource.skip_reconfirmation! if user_update_params[:email].present?
     @resource.save!
   end
 

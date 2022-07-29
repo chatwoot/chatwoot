@@ -1,6 +1,6 @@
 get:
   tags:
-    - Contact
+    - Contacts
   operationId: contactSearch
   description: Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number
   summary: Search Contacts

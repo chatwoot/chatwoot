@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Firma",
     "LOCATION": "Lokacija",
+    "BROWSER_LANGUAGE": "Jezik pregledača",
     "CONVERSATION_TITLE": "Detalji razgovora",
     "VIEW_PROFILE": "Pogledaj profil",
     "BROWSER": "Pretraživač",
@@ -42,7 +43,7 @@
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Uredi",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+      "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
       "CONTACT_LABELS": "Contact Labels",
       "PREVIOUS_CONVERSATIONS": "Prethodni razgovor"
     }
@@ -69,6 +70,14 @@
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
+  },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Potvrdite brisanje",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "No, Keep it"
+    }
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
@@ -103,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
         "LABEL": "E-mail adresa",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "This email address is in use for another contact.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
@@ -137,6 +147,12 @@
           "PLACEHOLDER": "Enter the Github username",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt je uspešno sačuvan",

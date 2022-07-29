@@ -7,23 +7,23 @@
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Prześlij",
         "CANCEL_BUTTON_LABEL": "Anuluj",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
+        "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "i",
             "OR": "albo"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
+            "equal_to": "Równa się",
+            "not_equal_to": "Nie równa się",
+            "contains": "Zawiera",
+            "does_not_contain": "Nie zawiera",
+            "is_present": "Istnieje",
+            "is_not_present": "Nie istnieje",
+            "is_greater_than": "Jest większe niż",
             "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "days_before": "Jest x dni przed"
         },
         "ATTRIBUTES": {
             "NAME": "Nazwa",
@@ -32,16 +32,17 @@
             "IDENTIFIER": "Identifier",
             "CITY": "Miasto",
             "COUNTRY": "Kraj",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
+            "CUSTOM_ATTRIBUTE_LIST": "Lista",
+            "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
+            "CUSTOM_ATTRIBUTE_LINK": "Łącze",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Ostatnia aktywność"
+            "CREATED_AT": "Utworzono",
+            "LAST_ACTIVITY": "Ostatnia aktywność",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
+            "STANDARD_FILTERS": "Filtry standardowe",
             "ADDITIONAL_FILTERS": "Dodatkowe filtry",
             "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty"
         }

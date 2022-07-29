@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Nume etichetă",
         "PLACEHOLDER": "Nume etichetă",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Este necesar numele etichetei",
+        "MINIMUM_LENGTH_ERROR": "Lungimea minimă 2 este necesară",
+        "VALID_ERROR": "Numai alfabetele, numerele, cratima și sublinierea sunt permise"
       },
       "DESCRIPTION": {
         "LABEL": "Descriere",

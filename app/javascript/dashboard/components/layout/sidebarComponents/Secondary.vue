@@ -1,6 +1,6 @@
 <template>
   <div v-if="hasSecondaryMenu" class="main-nav secondary-menu">
-    <account-context />
+    <account-context @toggle-accounts="toggleAccountModal" />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -55,6 +55,10 @@ export default {
       type: String,
       default: '',
     },
+    isOnChatwootCloud: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     hasSecondaryMenu() {
@@ -67,12 +71,18 @@ export default {
       if (!this.currentRole) {
         return [];
       }
-      return this.menuConfig.menuItems.filter(
+      const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[this.currentRole].indexOf(
             menuItem.toStateName
           ) > -1
       );
+      return menuItemsFilteredByRole.filter(item => {
+        if (item.showOnlyOnCloud) {
+          return this.isOnChatwootCloud;
+        }
+        return true;
+      });
     },
     inboxSection() {
       return {
@@ -85,14 +95,21 @@ export default {
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
         toStateName: 'settings_inbox_new',
         newLinkRouteName: 'settings_inbox_new',
-        children: this.inboxes.map(inbox => ({
-          id: inbox.id,
-          label: inbox.name,
-          truncateLabel: true,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
-          type: inbox.channel_type,
-          phoneNumber: inbox.phone_number,
-        })),
+        children: this.inboxes
+          .map(inbox => ({
+            id: inbox.id,
+            label: inbox.name,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/inbox/${inbox.id}`
+            ),
+            type: inbox.channel_type,
+            phoneNumber: inbox.phone_number,
+            reauthorizationRequired: inbox.reauthorization_required,
+          }))
+          .sort((a, b) =>
+            a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
+          ),
       };
     },
     labelSection() {
@@ -217,6 +234,9 @@ export default {
   methods: {
     showAddLabelPopup() {
       this.$emit('add-label');
+    },
+    toggleAccountModal() {
+      this.$emit('toggle-accounts');
     },
   },
 };

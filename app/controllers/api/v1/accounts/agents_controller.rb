@@ -72,6 +72,6 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def validate_limit
-    render_payment_required('Account limit exceeded. Upgrade to a higher plan') if agents.count >= Current.account.usage_limits[:agents]
+    render_payment_required('Account limit exceeded. Please purchase more licenses') if agents.count >= Current.account.usage_limits[:agents]
   end
 end

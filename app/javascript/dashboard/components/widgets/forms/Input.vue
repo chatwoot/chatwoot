@@ -1,15 +1,16 @@
 <template>
-  <label>
+  <label class="container">
     <span v-if="label">{{ label }}</span>
     <input
       :value="value"
       :type="type"
       :placeholder="placeholder"
       :readonly="readonly"
+      :style="styles"
       @input="onChange"
       @blur="onBlur"
     />
-    <p v-if="helpText" class="help-text"></p>
+    <p v-if="helpText" class="help-text">{{ helpText }}</p>
     <span v-if="error" class="message">
       {{ error }}
     </span>
@@ -45,7 +46,11 @@ export default {
     },
     readonly: {
       type: Boolean,
-      deafaut: false,
+      default: false,
+    },
+    styles: {
+      type: Object,
+      default: () => {},
     },
   },
   methods: {
@@ -58,3 +63,21 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.container {
+  margin: 0 0 var(--space-normal);
+  input {
+    margin: 0;
+  }
+  .page-sub-title {
+    color: var(--s-600);
+  }
+
+  .help-text {
+    margin-top: var(--space-micro);
+    font-size: var(--font-size-mini);
+    color: var(--s-600);
+    font-style: normal;
+  }
+}
+</style>

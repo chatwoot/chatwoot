@@ -1,12 +1,17 @@
 module Enterprise::Account
   def usage_limits
     {
-      agents: get_limits(:agents).to_i,
+      agents: agent_limits,
       inboxes: get_limits(:inboxes).to_i
     }
   end
 
   private
+
+  def agent_limits
+    subscribed_quantity = custom_attributes['subscribed_quantity']
+    subscribed_quantity || get_limits(:agents)
+  end
 
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"

@@ -83,6 +83,7 @@ class User < ApplicationRecord
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
   has_many :custom_filters, dependent: :destroy_async
+  has_many :dashboard_apps, dependent: :nullify
   has_many :mentions, dependent: :destroy_async
   has_many :notes, dependent: :nullify
   has_many :notification_settings, dependent: :destroy_async
@@ -90,6 +91,16 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy_async
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
+  has_many :articles, foreign_key: 'author_id', dependent: :nullify
+  has_many :portal_members,
+           class_name: :PortalMember,
+           dependent: :destroy_async
+  has_many :portals,
+           through: :portals_members,
+           class_name: :Portal,
+           dependent: :nullify,
+           source: :portal
+  has_many :macros, foreign_key: 'created_by_id', dependent: :destroy_async
 
   before_validation :set_password_and_uid, on: :create
 
@@ -186,5 +197,12 @@ class User < ApplicationRecord
   # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
   def will_save_change_to_email?
     mutations_from_database.changed?('email')
+  end
+
+  def notifications_meta(account_id)
+    {
+      unread_count: notifications.where(account_id: account_id, read_at: nil).count,
+      count: notifications.where(account_id: account_id).count
+    }
   end
 end

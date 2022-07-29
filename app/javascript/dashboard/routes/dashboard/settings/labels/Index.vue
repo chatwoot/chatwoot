@@ -9,7 +9,7 @@
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="row">
-      <div class="small-8 columns with-right-space ">
+      <div class="small-8 columns with-right-space">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="no-items-error-message"
@@ -31,7 +31,9 @@
           </thead>
           <tbody>
             <tr v-for="(label, index) in records" :key="label.title">
-              <td>{{ label.title }}</td>
+              <td class="label-title">
+                <span class="text-truncate">{{ label.title }}</span>
+              </td>
               <td>{{ label.description }}</td>
               <td>
                 <div class="label-color--container">
@@ -52,8 +54,7 @@
                   :is-loading="loading[label.id]"
                   icon="edit"
                   @click="openEditPopup(label)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
                   variant="smooth"
@@ -63,8 +64,7 @@
                   class-names="grey-btn"
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
-                >
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -72,7 +72,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('LABEL_MGMT.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('LABEL_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
@@ -203,5 +203,12 @@ export default {
   height: $space-normal;
   margin-right: $space-smaller;
   width: $space-normal;
+  border: 1px solid var(--color-border-light);
+}
+.label-title {
+  span {
+    width: var(--space-giga);
+    display: inline-block;
+  }
 }
 </style>

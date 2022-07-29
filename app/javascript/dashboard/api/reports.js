@@ -8,7 +8,15 @@ class ReportsAPI extends ApiClient {
     super('reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getReports(metric, since, until, type = 'account', id, group_by) {
+  getReports(
+    metric,
+    since,
+    until,
+    type = 'account',
+    id,
+    group_by,
+    business_hours
+  ) {
     return axios.get(`${this.url}`, {
       params: {
         metric,
@@ -17,12 +25,13 @@ class ReportsAPI extends ApiClient {
         type,
         id,
         group_by,
+        business_hours,
         timezone_offset: getTimeOffset(),
       },
     });
   }
 
-  getSummary(since, until, type = 'account', id, group_by) {
+  getSummary(since, until, type = 'account', id, group_by, business_hours) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
@@ -30,31 +39,41 @@ class ReportsAPI extends ApiClient {
         type,
         id,
         group_by,
+        business_hours,
       },
     });
   }
 
-  getAgentReports(since, until) {
+  getConversationMetric(type = 'account', page = 1) {
+    return axios.get(`${this.url}/conversations`, {
+      params: {
+        type,
+        page,
+      },
+    });
+  }
+
+  getAgentReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/agents`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 
-  getLabelReports(since, until) {
+  getLabelReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/labels`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 
-  getInboxReports(since, until) {
+  getInboxReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/inboxes`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 
-  getTeamReports(since, until) {
+  getTeamReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/teams`, {
-      params: { since, until },
+      params: { since, until, business_hours: businessHours },
     });
   }
 }

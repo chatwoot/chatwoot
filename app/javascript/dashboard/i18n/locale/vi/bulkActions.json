@@ -1,0 +1,29 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
+    "AGENT_SELECT_LABEL": "Chọn đại lý",
+    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc là muốn giao %{conversationCount} %{conversationLabel} cho",
+    "GO_BACK_LABEL": "Trở về",
+    "ASSIGN_LABEL": "Phân công",
+    "ASSIGN_AGENT_TOOLTIP": "Giao cho hỗ trợ viên",
+    "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công",
+    "ASSIGN_FAILED": "Không thể phân công các cuộc hội thoại, xin vui lòng thử lại",
+    "RESOLVE_SUCCESFUL": "Cuộc hội thoại đã được giải quyết thành công",
+    "RESOLVE_FAILED": "Không thể giải quyết các cuộc hội thoại, xin vui lòng thử lại",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Chỉ những cuộc hội thoại hiển thị trên trang này mới có thể được chọn.",
+    "AGENT_LIST_LOADING": "Đang tải hỗ trợ viên",
+    "UPDATE": {
+      "CHANGE_STATUS": "Change status",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
+      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
+      "UPDATE_FAILED": "Failed to update conversations, please try again"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign Labels",
+      "NO_LABELS_FOUND": "No labels found for",
+      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
+      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
+      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+    }
+  }
+}

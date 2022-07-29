@@ -1,0 +1,29 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} گفتگو انتخاب شده است",
+    "AGENT_SELECT_LABEL": "انتخاب ایجنت",
+    "ASSIGN_CONFIRMATION_LABEL": "آیا مطمئن هستید که می‌خواهید %{conversationCount} %{conversationLabel} را به آن اختصاص دهید؟",
+    "GO_BACK_LABEL": "بازگشت",
+    "ASSIGN_LABEL": "اختصاص دادن",
+    "ASSIGN_AGENT_TOOLTIP": "تعیین ایجنت",
+    "ASSIGN_SUCCESFUL": "گفتگو با موفقیت اختصاص داده شده",
+    "ASSIGN_FAILED": "گفتگو اختصاص داده نشد، لطفا دوباره امتحان کنید",
+    "RESOLVE_SUCCESFUL": "گفتگو با موفقیت حل شد",
+    "RESOLVE_FAILED": "گفتگو حل نشد، لطفا دوباره امتحان کنید",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "گفتگوهای قابل مشاهده در این صفحه فقط انتخاب می‌شوند.",
+    "AGENT_LIST_LOADING": "بارگذاری ایجنت",
+    "UPDATE": {
+      "CHANGE_STATUS": "تغییر وضعیت",
+      "SNOOZE_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق بی‌افتد",
+      "UPDATE_SUCCESFUL": "وضعیت گفتگو با موفقیت به روز شد.",
+      "UPDATE_FAILED": "گفتگوها به روز نشد، لطفا دوباره امتحان کنید"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "اختصاص برچسب‌ها",
+      "NO_LABELS_FOUND": "هیچ برچسبی یافت نشد برای",
+      "ASSIGN_SELECTED_LABELS": "اختصاص برچسب‌های انتخاب شده",
+      "ASSIGN_SUCCESFUL": "برچسب‌ها با موفقیت اختصاص یافتند",
+      "ASSIGN_FAILED": "اختصاص برچسب‌ها به صورت موفق انجام نشد، لطفا دوباره امتحان کنید"
+    }
+  }
+}
