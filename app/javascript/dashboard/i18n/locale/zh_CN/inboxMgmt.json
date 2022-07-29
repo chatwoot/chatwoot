@@ -158,7 +158,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "帐号 ID",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "此字段是必填项"
           },
