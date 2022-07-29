@@ -73,7 +73,6 @@ export default {
     }
 
     .header-expanded {
-      min-height: calc(var(--space-large) + var(--space-half));
       h2 {
         font-size: var(--font-size-big);
         margin-bottom: var(--space-small);

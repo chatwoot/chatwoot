@@ -195,8 +195,7 @@ export default {
   box-shadow: 0 0px 20px 5px rgb(0 0 0 / 10%);
   border-radius: var(--border-radius-large);
   background-color: #f4f6fb;
-  min-width: calc(var(--space-large) * 10);
-  max-width: calc(var(--space-large) * 10);
+  width: calc(var(--space-large) * 10);
   min-height: calc(var(--space-giga) * 2);
 
   .branding {
@@ -209,8 +208,7 @@ export default {
   display: flex;
   flex-direction: row;
   margin-top: var(--space-normal);
-  min-width: calc(var(--space-large) * 10);
-  max-width: calc(var(--space-large) * 10);
+  width: calc(var(--space-large) * 10);
 
   .bubble {
     display: flex;
@@ -226,11 +224,11 @@ export default {
       height: var(--space-medium);
       width: var(--space-medium);
       margin: var(--space-one) var(--space-one) calc(var(--space-micro) * 3)
-        var(--space-normal);
+        calc(var(--space-normal) + var(--space-micro));
     }
 
     div {
-      padding-right: var(--space-normal);
+      padding-right: var(--space-two);
     }
   }
 

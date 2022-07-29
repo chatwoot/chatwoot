@@ -88,19 +88,19 @@ export default {
 <style scoped lang="scss">
 .widget-body-container {
   &.with-heading-or-title {
-    min-height: 24rem;
+    min-height: var(--space-giga);
   }
 
   &.without-heading-and-title {
-    min-height: 34rem;
+    min-height: calc(var(--space-mega) + var(--space-giga));
   }
 
   &.with-chat-view {
-    min-height: 34rem;
+    min-height: calc(var(--space-mega) + var(--space-giga));
   }
 
   &.with-heading-or-title-without-logo {
-    min-height: 30rem;
+    min-height: calc(var(--space-mega) * 3);
   }
 
   .availability-content {

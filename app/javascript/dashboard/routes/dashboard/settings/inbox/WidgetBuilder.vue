@@ -187,7 +187,9 @@ export default {
       avatarFile: null,
       avatarUrl: '',
       widgetBubblePosition: 'right',
-      widgetBubbleLauncherTitle: '',
+      widgetBubbleLauncherTitle: this.$t(
+        'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.DEFAULT'
+      ),
       widgetBubbleType: 'standard',
       widgetBubblePositions: [
         {

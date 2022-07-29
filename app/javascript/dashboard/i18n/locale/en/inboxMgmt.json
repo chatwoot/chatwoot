@@ -610,6 +610,7 @@
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE":{
+          "DEFAULT": "Chat with us",
           "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Chat with us"
         },
