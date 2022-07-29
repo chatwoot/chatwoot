@@ -37,6 +37,39 @@
         "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
         "CANCEL_BUTTON_LABEL": "Cancel",
         "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "articles",
+            "ADD": "Add locale",
+            "VISIT": "Visit site",
+            "SETTINGS": "Settings"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portal Configurations",
+            "ITEMS": {
+              "NAME": "Name",
+              "DOMAIN": "Custom domain",
+              "SLUG": "Slug",
+              "TITLE": "Portal title",
+              "THEME": "Theme color",
+              "SUB_TEXT": "Portal sub text"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Available locales",
+            "TABLE": {
+              "NAME": "Locale name",
+              "CODE": "Locale code",
+              "ARTICLE_COUNT": "No. of articles",
+              "CATEGORES": "No. of categores",
+              "SWAP": "Swap",
+              "DELETE": "Delete",
+              "DEFAULT_LOCALE": "Default"
+            }
+          }
+        }
       }
     },
     "TABLE": {
