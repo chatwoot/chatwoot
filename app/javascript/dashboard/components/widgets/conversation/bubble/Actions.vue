@@ -3,20 +3,30 @@
     <span class="time" :class="{ delivered: messageRead }">{{
       readableTime
     }}</span>
+    <span v-if="showReadIndicator" class="time">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
+        icon="checkmark-double"
+        class="action--icon read-tick read-indicator"
+        size="16"
+      />
+    </span>
+    <span v-if="showDeliveredIndicator" class="time">
+      <fluent-icon
+        v-tooltip.top-start="$t('CHAT_LIST.DELIVERED')"
+        icon="checkmark-double"
+        class="action--icon read-tick"
+        size="16"
+      />
+    </span>
     <span v-if="showSentIndicator" class="time">
       <fluent-icon
         v-tooltip.top-start="$t('CHAT_LIST.SENT')"
         icon="checkmark"
-        size="14"
+        class="action--icon read-tick"
+        size="16"
       />
     </span>
-    <fluent-icon
-      v-if="messageRead"
-      v-tooltip.top-start="$t('CHAT_LIST.MESSAGE_READ')"
-      icon="checkmark-double"
-      class="action--icon read-tick"
-      size="12"
-    />
     <fluent-icon
       v-if="isEmail"
       v-tooltip.top-start="$t('CHAT_LIST.RECEIVED_VIA_EMAIL')"
@@ -74,7 +84,7 @@
 </template>
 
 <script>
-import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import inboxMixin from 'shared/mixins/inboxMixin';
 
@@ -117,6 +127,10 @@ export default {
       type: Number,
       default: 1,
     },
+    messageStatus: {
+      type: String,
+      default: '',
+    },
     sourceId: {
       type: String,
       default: '',
@@ -144,6 +158,15 @@ export default {
     isOutgoing() {
       return MESSAGE_TYPE.OUTGOING === this.messageType;
     },
+    isDelivered() {
+      return MESSAGE_STATUS.DELIVERED === this.messageStatus;
+    },
+    isRead() {
+      return MESSAGE_STATUS.READ === this.messageStatus;
+    },
+    isSent() {
+      return MESSAGE_STATUS.SENT === this.messageStatus;
+    },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
         this.sender || {};
@@ -168,8 +191,14 @@ export default {
       return (
         this.isOutgoing &&
         this.sourceId &&
-        (this.isAnEmailChannel || this.isAWhatsappChannel)
+        (this.isAnEmailChannel || (this.isAWhatsappChannel && this.isSent))
       );
+    },
+    showDeliveredIndicator() {
+      return this.isAWhatsappChannel && this.isDelivered;
+    },
+    showReadIndicator() {
+      return this.isAWhatsappChannel && this.isRead;
     },
   },
   methods: {
@@ -182,6 +211,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/woot';
+
+.read-indicator {
+  color: #44ce4b !important;
+}
 
 .right {
   .message-text--metadata {
