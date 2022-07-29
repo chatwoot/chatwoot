@@ -315,33 +315,27 @@ export default {
       align-items: flex-start;
       justify-content: space-between;
       margin-bottom: var(--space-normal);
-
       .title-status--wrap {
         display: flex;
         align-items: center;
-
         .status {
           margin: 0 0 0 var(--space-one);
         }
       }
-
       .portal-title {
         color: var(--s-900);
         font-size: var(--font-size-medium);
         margin-bottom: 0;
       }
-
       .portal-count {
         font-size: var(--font-size-small);
         margin-bottom: 0;
         color: var(--s-700);
       }
-
       .header-action-buttons {
         margin-left: var(--space-smaller);
       }
     }
-
     .portal-locales {
       margin-bottom: var(--space-small);
       .locale-title {
@@ -352,7 +346,6 @@ export default {
       }
     }
   }
-
   .portal-settings--icon {
     padding: var(--space-smaller);
     margin-left: var(--space-small);
@@ -363,39 +356,32 @@ export default {
       border-radius: var(--border-radius-normal);
     }
   }
-
   .configuration-items--wrap {
     display: flex;
     justify-content: space-between;
     margin-right: var(--space-mega);
     max-width: 80vw;
-
     .configuration-items {
       display: flex;
       flex-direction: column;
     }
-
     .configuration-item {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
       margin-bottom: var(--space-slab);
-
       .heading {
         font-size: var(--font-size-small);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-smaller);
       }
-
       .content {
         font-size: var(--font-size-small);
       }
-
       .content-theme-wrap {
         display: flex;
         align-items: center;
       }
-
       .theme-color {
         width: var(--space-two);
         height: var(--space-two);
@@ -405,29 +391,20 @@ export default {
       }
     }
   }
-
   table {
-    thead {
-      tr {
-        th {
-          font-size: var(--font-size-small);
-          font-weight: var(--font-weight-medium);
-          color: var(--s-600);
-          padding-left: 0;
-          padding-top: 0;
-        }
-      }
+    thead tr th {
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
+      color: var(--s-600);
+      padding-left: 0;
+      padding-top: 0;
     }
-    tbody {
-      tr {
-        td {
-          font-size: var(--font-size-small);
-          padding-left: 0;
 
-          .default-status {
-            margin: 0 0 0 var(--space-smaller);
-          }
-        }
+    tbody tr td {
+      font-size: var(--font-size-small);
+      padding-left: 0;
+      .default-status {
+        margin: 0 0 0 var(--space-smaller);
       }
     }
   }
