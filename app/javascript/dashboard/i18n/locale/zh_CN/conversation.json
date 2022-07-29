@@ -53,7 +53,7 @@
       "MARK_PENDING": "标记为待处理",
       "SNOOZE": {
         "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
+        "NEXT_REPLY": "下一个回复",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下周"
       }
@@ -114,17 +114,17 @@
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
     "CHANGE_STATUS": "对话状态已更改",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "更改对话状态失败",
     "CHANGE_AGENT": "对话分配人已更改",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_AGENT_FAILED": "更改分配失败",
+    "ASSIGN_LABEL_SUCCESFUL": "已成功分配标签",
+    "ASSIGN_LABEL_FAILED": "分配标签失败",
+    "CHANGE_TEAM": "对话团队已更改",
     "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
-    "SENT_BY": "Sent by:",
+    "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
+    "SENT_BY": "发送人：",
     "BOT": "机器人",
-    "SEND_FAILED": "Couldn't send message! Try again",
+    "SEND_FAILED": "无法发送消息，请重试！",
     "TRY_AGAIN": "重试",
     "ASSIGNMENT": {
       "SELECT_AGENT": "选择代理",
@@ -148,53 +148,53 @@
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "输入一个电子邮件地址",
         "ERROR": "请输入一个有效的电子邮件"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "您好 👋, 欢迎来到 %{installationName}!",
+    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 %{installationName}。 这里有几件您可以在 %{installationName} 做的事情，让体验变得愉快。",
+    "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "您的所有对话都在一个地方",
+      "DESCRIPTION": "在单个面板中查看您客户的所有对话。您可以通过通道、标签和状态筛选对话。"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "邀请您的团队成员",
+      "DESCRIPTION": "当您准备好与您的客户交谈时，带上您的队友来协助您。 您可以通过添加他们的电子邮件地址到客服代表列表来邀请您的队友。",
+      "NEW_LINK": "点击此处邀请一位请团队成员"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "连接收件箱",
+      "DESCRIPTION": "连接您的客户可以与您交谈的各种通道。可以是一个网站的在线聊天，也可以是您的 Facebook 或者 Twitter 主页，或者甚至可以是您的 WhatsApp 号码。",
+      "NEW_LINK": "点击此处创建收件箱"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "使用标签组织对话",
+      "DESCRIPTION": "标签提供了一种简单的方法来让您归类对话。创建一些类似 #价格、#问题反馈 这样的标签，之后您可以在对话中使用它们。",
+      "NEW_LINK": "点击此处创建标签"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
+    "ASSIGNEE_LABEL": "已分配的客服代表",
+    "SELF_ASSIGN": "分配给我",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "啥都没有"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
+      "CONTACT_DETAILS": "联系人详细信息",
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "对话标记",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "对话信息",
+      "CONTACT_ATTRIBUTES": "联系人属性",
       "PREVIOUS_CONVERSATION": "上一次对话"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "创建属性",
     "UPDATE": {
       "SUCCESS": "已成功更新属性",
       "ERROR": "无法更新属性，请稍后再试。"
@@ -215,7 +215,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "来自",
     "TO": "发送至",
     "BCC": "Bcc",
     "CC": "Cc",
