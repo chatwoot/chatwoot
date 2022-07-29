@@ -35,6 +35,6 @@ describe('#getters', () => {
   });
 
   it('isFetchingArticles', () => {
-    expect(getters.isFetchingArticles(state)).toEqual(true);
+    expect(getters.isFetching(state)).toEqual(true);
   });
 });

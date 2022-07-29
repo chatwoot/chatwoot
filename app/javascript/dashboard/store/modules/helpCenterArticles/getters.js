@@ -4,7 +4,7 @@ export const getters = {
     if (uiFlags) return uiFlags;
     return { isFetching: false, isUpdating: false, isDeleting: false };
   },
-  isFetchingArticles: state => state.uiFlags.isFetching,
+  isFetching: state => state.uiFlags.isFetching,
   articleById: (...getterArguments) => articleId => {
     const [state] = getterArguments;
     const article = state.articles.byId[articleId];

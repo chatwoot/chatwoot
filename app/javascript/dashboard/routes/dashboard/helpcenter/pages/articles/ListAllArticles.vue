@@ -13,12 +13,12 @@
       :total-count="meta.count"
       @on-page-change="onPageChange"
     />
-    <div v-if="isFetchingArticles" class="articles--loader">
+    <div v-if="isFetching" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="!isFetchingArticles && !articles.length"
+      v-else-if="!isFetching && !articles.length"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -47,7 +47,7 @@ export default {
       articles: 'articles/allArticles',
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
-      isFetchingArticles: 'articles/isFetchingArticles',
+      isFetching: 'articles/isFetching',
     }),
 
     showEmptyState() {

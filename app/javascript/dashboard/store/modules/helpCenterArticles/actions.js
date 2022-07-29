@@ -40,6 +40,22 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isCreating: false });
     }
   },
+
+  show: async ({ commit }, { id, portalSlug }) => {
+    commit(types.SET_UI_FLAG, { isFetching: true });
+    try {
+      const response = await portalAPI.getArticle({ id, portalSlug });
+      const {
+        data: { payload },
+      } = response;
+      const { id: articleId } = payload;
+      commit(types.ADD_ARTICLE, payload);
+      commit(types.ADD_ARTICLE_ID, articleId);
+      commit(types.SET_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_UI_FLAG, { isFetching: false });
+    }
+  },
   update: async ({ commit }, params) => {
     const articleId = params.id;
     commit(types.ADD_ARTICLE_FLAG, {
