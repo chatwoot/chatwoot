@@ -417,7 +417,7 @@ export default {
           },
           {
             key: 'widgetBuilder',
-            name: 'Widget Builder',
+            name: this.$t('INBOX_MGMT.TABS.WIDGET_BUILDER'),
           },
         ];
       }
