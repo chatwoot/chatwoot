@@ -40,6 +40,14 @@
         />
       </template>
     </menu-item-with-submenu>
+    <menu-item-with-submenu :option="teamMenuConfig">
+      <menu-item
+        v-for="team in teams"
+        :key="team.id"
+        :option="generateMenuLabelConfig(team, 'team')"
+        @click.native="$emit('assign-team', team)"
+      />
+    </menu-item-with-submenu>
   </div>
 </template>
 
@@ -119,11 +127,17 @@ export default {
         icon: 'person-add',
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_AGENT'),
       },
+      teamMenuConfig: {
+        key: 'team',
+        icon: 'people-team-add',
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_TEAM'),
+      },
     };
   },
   computed: {
     ...mapGetters({
       labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     assignableAgents() {
@@ -160,6 +174,7 @@ export default {
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),
+        ...(type === 'team' && { label: option.name }),
       };
     },
   },

@@ -70,7 +70,8 @@
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents..."
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team"
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",

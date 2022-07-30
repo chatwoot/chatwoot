@@ -115,6 +115,7 @@
         @select-conversation="selectConversation"
         @de-select-conversation="deSelectConversation"
         @assign-agent="onAssignAgent"
+        @assign-team="onAssignTeam"
         @assign-label="onAssignLabels"
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
@@ -608,6 +609,15 @@ export default {
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
+    },
+    async onAssignTeam(team, conversationId = null) {
+      const teamId = team ? team.id : 0;
+      await this.$store.dispatch('setCurrentChatTeam', team);
+      await this.$store.dispatch('assignTeam', {
+        conversationId,
+        teamId,
+      });
+      this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
     },
     // Same method used in context menu, conversationId being passed from there.
     async onAssignLabels(labels, conversationId = null) {
