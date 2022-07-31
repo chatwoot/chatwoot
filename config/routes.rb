@@ -18,7 +18,6 @@ Rails.application.routes.draw do
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
-
     resource :widget, only: [:show]
     namespace :survey do
       resources :responses, only: [:show]
@@ -148,6 +147,7 @@ Rails.application.routes.draw do
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
+            resources :shopify
             resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
@@ -278,6 +278,7 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  get 'webhooks/shopify', to: 'webhooks/shopify#callback'
 
   namespace :twitter do
     resource :callback, only: [:show]

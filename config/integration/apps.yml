@@ -23,6 +23,13 @@ webhooks:
   action: /webhook
   hook_type: account
   allow_multiple_hooks: true
+shopify:
+  id: shopify
+  logo: shopify.svg
+  i18n_key: shopify
+  action: /shopify
+  hook_type: account
+  allow_multiple_hooks: true
 dialogflow:
   id: dialogflow
   logo: dialogflow.svg

@@ -63,10 +63,84 @@
         }
       }
     },
+    "SHOPIFY": {
+      "TITLE": "Shopify",
+      "CONFIGURE": "Configure",
+      "HEADER": "Shopify settings",
+      "HEADER_BTN_TXT": "Add new integration",
+      "LOADING": "Fetching attached Shopify account",
+      "SEARCH_404": "There are no items matching this query",
+      "SIDEBAR_TXT": "<p><b>Shopify</b> </p> <p>When you integrated with Shopify you will able to see all your customers and also their orders. All your customer comments or complaints also will appear here on Chat Woot <br /><br /> For connect your <b>Shopify</b> tenant, click on the <b>Add new Shopify Integration</b> button. You can also remove any existing integrations by clicking on the Delete button.</p>",
+      "LIST": {
+        "404": "There are no Shopify tenant or admin account configured for this account.",
+        "TITLE": "Manage Shopify Accounts",
+        "TABLE_HEADER": ["Shopify Account Name", "Actions"]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Edit",
+        "TITLE": "Edit Shopify Integration",
+        "CANCEL": "Cancel",
+        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "FORM": {
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Shopify updated successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        }
+      },
+      "ADD": {
+        "AUTHORIZE": "Authorize",
+        "CANCEL": "Cancel",
+        "TITLE": "Integrate new Shopify Account",
+        "DESC": "This integration will provide you the realtime information about what's happening in your Shopify tenant. Please enter a valid API Key and API Secret to configure a this integration.",
+        "LATEST_TOKEN":"Latest token",
+        "FORM": {
+          "ACCOUNT_NAME": {
+            "LABEL": "Account Name",
+            "PLACEHOLDER": "Example: thatShopify",
+            "ERROR": "Please enter account name"
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Example: uuid",
+            "ERROR": "Please enter a valid API Key"
+          },
+          "API_SECRET": {
+            "LABEL": "API Secret",
+            "PLACEHOLDER": "Example: uuid",
+            "ERROR": "Please enter a valid API Secret"
+          },
+          "REDIRECT_URL":{
+            "LABEL": "Redirect URL",
+            "PLACEHOLDER" : "Example: https://localhost",
+            "ERROR": "Please enter valid url"
+          },
+          "SUBMIT": "Save Integration"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Shopify account added successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Remove",
+        "API": {
+          "SUCCESS_MESSAGE": "Shopify removed successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        },
+        "CONFIRM": {
+          "TITLE": "Confirm Remove",
+          "MESSAGE": "Are you sure to remove? ",
+          "YES": "Yes, Remove ",
+          "NO": "No, Keep it"
+        }
+      }
+    },
     "SLACK": {
-      "HELP_TEXT" : { 
+      "HELP_TEXT" : {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>" 
+        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
       }
     },
     "DELETE": {

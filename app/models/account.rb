@@ -50,6 +50,7 @@ class Account < ApplicationRecord
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  has_many :shopify_integrations, dependent: :destroy_async, class_name: 'Integrations::Shopify'
   has_many :inboxes, dependent: :destroy_async
   has_many :kbase_articles, dependent: :destroy_async, class_name: '::Kbase::Article'
   has_many :kbase_categories, dependent: :destroy_async, class_name: '::Kbase::Category'
@@ -72,6 +73,7 @@ class Account < ApplicationRecord
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :working_hours, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy
+  has_many :shopify_customer, dependent: :destroy_async
 
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
