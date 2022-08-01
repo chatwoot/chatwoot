@@ -619,19 +619,45 @@ export default {
           },
         });
         this.selectedConversations = [];
-        this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
+        if (conversationId) {
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.AGENT_ASSIGNMENT.SUCCESFUL',
+              {
+                agentName: agent.name,
+                conversationId,
+              }
+            )
+          );
+        } else {
+          this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
+        }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
       }
     },
     async onAssignTeam(team, conversationId = null) {
-      const teamId = team ? team.id : 0;
-      await this.$store.dispatch('setCurrentChatTeam', team);
-      await this.$store.dispatch('assignTeam', {
-        conversationId,
-        teamId,
-      });
-      this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
+      try {
+        const teamId = team ? team.id : 0;
+        await this.$store.dispatch('setCurrentChatTeam', team);
+        await this.$store.dispatch('assignTeam', {
+          conversationId,
+          teamId,
+        });
+        this.showAlert(
+          this.$t(
+            'CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.SUCCESFUL',
+            {
+              team: team.name,
+              conversationId,
+            }
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED')
+        );
+      }
     },
     // Same method used in context menu, conversationId being passed from there.
     async onAssignLabels(labels, conversationId = null) {
@@ -644,7 +670,19 @@ export default {
           },
         });
         this.selectedConversations = [];
-        this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
+        if (conversationId) {
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_ASSIGNMENT.SUCCESFUL',
+              {
+                labelName: labels[0],
+                conversationId,
+              }
+            )
+          );
+        } else {
+          this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
+        }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
       }
