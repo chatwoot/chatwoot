@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
+    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
