@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "SELECT_A_CONVERSATION": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Identitatea acestui utilizator nu este verificată",
     "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
