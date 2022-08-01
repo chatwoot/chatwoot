@@ -354,7 +354,7 @@ export default {
       this.closeContextMenu();
     },
     async onAssignTeam(team) {
-      this.$emit('assign-team', team, [this.chat.id]);
+      this.$emit('assign-team', team, this.chat.id);
       this.closeContextMenu();
     },
   },
