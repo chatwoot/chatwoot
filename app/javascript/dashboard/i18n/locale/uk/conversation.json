@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Будь ласка, виберіть бесіду з лівої панелі",
+    "SELECT_A_CONVERSATION": "Будь ласка, виберіть бесіду з лівої панелі",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Текст повідомлень",
     "UNVERIFIED_SESSION": "Користувач не верифікований",
     "NO_MESSAGE_1": "Ой! Схоже, у вашій поштовій скринці немає ніяких повідомлень.",
