@@ -6,7 +6,7 @@
         :key="option.key"
         :option="option"
         variant="icon"
-        @click.native="toggleStatus(option.key, null)"
+        @click="toggleStatus(option.key, null)"
       />
     </template>
     <menu-item-with-submenu :option="snoozeMenuConfig">
@@ -14,7 +14,7 @@
         v-for="(option, i) in snoozeMenuConfig.options"
         :key="i"
         :option="option"
-        @click.native="snoozeConversation(option.snoozedUntil)"
+        @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
     <menu-item-with-submenu :option="labelMenuConfig">
@@ -24,7 +24,7 @@
           :key="label.id"
           :option="generateMenuLabelConfig(label, 'label')"
           variant="label"
-          @click.native="$emit('assign-label', label)"
+          @click="$emit('assign-label', label)"
         />
       </template>
     </menu-item-with-submenu>
@@ -36,7 +36,7 @@
           :key="agent.id"
           :option="generateMenuLabelConfig(agent, 'agent')"
           variant="agent"
-          @click.native="$emit('assign-agent', agent)"
+          @click="$emit('assign-agent', agent)"
         />
       </template>
     </menu-item-with-submenu>
@@ -45,7 +45,7 @@
         v-for="team in teams"
         :key="team.id"
         :option="generateMenuLabelConfig(team, 'team')"
-        @click.native="$emit('assign-team', team)"
+        @click="$emit('assign-team', team)"
       />
     </menu-item-with-submenu>
   </div>
