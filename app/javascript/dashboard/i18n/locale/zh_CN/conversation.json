@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "请从左侧窗格选择一个对话",
+    "SELECT_A_CONVERSATION": "请从左侧窗格选择一个对话",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "消息",
     "UNVERIFIED_SESSION": "未验证此用户的身份",
     "NO_MESSAGE_1": "您的收件箱中似乎没有客户的消息。",
