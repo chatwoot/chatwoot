@@ -48,10 +48,21 @@ module OnlineStatusTracker
   end
 
   def self.get_available_users(account_id)
-    user_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'User'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
+    user_ids = get_available_user_ids(account_id)
+
     return {} if user_ids.blank?
 
     user_availabilities = ::Redis::Alfred.hmget(status_key(account_id), user_ids)
     user_ids.map.with_index { |id, index| [id, (user_availabilities[index] || 'online')] }.to_h
+  end
+
+  def self.get_available_user_ids(account_id)
+    account = Account.find(account_id)
+    # TODO: to migrate this to zrange as its is being deprecated
+    # https://redis.io/commands/zrangebyscore/
+    user_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'User'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
+    # since we are dealing with redis items as string, casting to string
+    user_ids += account.account_users.where(auto_offline: false)&.map(&:user_id)&.map(&:to_s)
+    user_ids.uniq
   end
 end
