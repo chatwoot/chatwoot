@@ -1,5 +1,11 @@
 <template>
-  <div class="conversations-list-wrap">
+  <div
+    class="conversations-list-wrap"
+    :class="{
+      hide: !showConversationList,
+      'list--full-width': isOnExpandedLayout,
+    }"
+  >
     <slot />
     <div
       class="chat-list__top"
@@ -46,7 +52,7 @@
 
         <woot-button
           v-else
-          v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
+          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
           icon="filter"
@@ -209,6 +215,14 @@ export default {
     foldersId: {
       type: [String, Number],
       default: 0,
+    },
+    showConversationList: {
+      default: true,
+      type: Boolean,
+    },
+    isOnExpandedLayout: {
+      default: false,
+      type: Boolean,
     },
   },
   data() {
@@ -695,6 +709,17 @@ export default {
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
+  }
+
+  &.hide {
+    display: none;
+  }
+
+  &.list--full-width {
+    width: 100%;
+    @include breakpoint(xxxlarge up) {
+      flex-basis: 100%;
+    }
   }
 }
 .filter--actions {
