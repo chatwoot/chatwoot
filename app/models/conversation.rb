@@ -47,7 +47,7 @@
 class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
-  include RoundRobinHandler
+  include AutoAssignmentHandler
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
