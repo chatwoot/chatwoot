@@ -63,7 +63,7 @@
               "NAME": "Locale name",
               "CODE": "Locale code",
               "ARTICLE_COUNT": "No. of articles",
-              "CATEGORES": "No. of categores",
+              "CATEGORIES": "No. of categories",
               "SWAP": "Swap",
               "DELETE": "Delete",
               "DEFAULT_LOCALE": "Default"
