@@ -44,6 +44,26 @@ export const conversationUrl = ({
   return url;
 };
 
+export const conversationListPageURL = ({
+  accountId,
+  conversationType = '',
+  inboxId,
+  label,
+  teamId,
+}) => {
+  let url = `accounts/${accountId}/dashboard`;
+  if (label) {
+    url = `accounts/${accountId}/label/${label}`;
+  } else if (teamId) {
+    url = `accounts/${accountId}/team/${teamId}`;
+  } else if (conversationType === 'mention') {
+    url = `accounts/${accountId}/mentions/conversations`;
+  } else if (inboxId) {
+    url = `accounts/${accountId}/inbox/${inboxId}`;
+  }
+  return frontendURL(url);
+};
+
 export const isValidURL = value => {
   /* eslint-disable no-useless-escape */
   const URL_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
