@@ -12,7 +12,10 @@
       <WidgetBody :config="getWidgetBodyConfig" />
       <WidgetFooter :config="getWidgetFooterConfig" />
       <div class="branding">
-        {{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}
+        <a class="branding-link">
+          <img class="branding-image" :src="globalConfig.logoThumbnail" />
+          <span>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}</span>
+        </a>
       </div>
     </div>
     <div class="widget-bubble" :style="getBubblePositionStyle">
@@ -40,6 +43,8 @@ import WidgetHead from './WidgetHead';
 import WidgetBody from './WidgetBody';
 import WidgetFooter from './WidgetFooter';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup';
+
+const { LOGO_THUMBNAIL: logoThumbnail } = window.globalConfig || {};
 
 export default {
   name: 'Widget',
@@ -108,6 +113,9 @@ export default {
       ],
       isDefaultScreen: true,
       isWidgetVisible: true,
+      globalConfig: {
+        logoThumbnail,
+      },
     };
   },
   computed: {
@@ -192,7 +200,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 0px 20px 5px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-widget-builder);
   border-radius: var(--border-radius-large);
   background-color: #f4f6fb;
   width: calc(var(--space-large) * 10);
@@ -201,7 +209,28 @@ export default {
   .branding {
     padding-top: var(--space-one);
     padding-bottom: var(--space-one);
-    text-align: center;
+    display: flex;
+    justify-content: center;
+
+    .branding-link {
+      color: var(--b-500);
+      cursor: pointer;
+      filter: grayscale(1);
+      font-size: var(--font-size-micro);
+      opacity: 0.9;
+      text-decoration: none;
+
+      &:hover {
+        filter: grayscale(0);
+        opacity: 1;
+        color: var(--b-600);
+      }
+
+      .branding-image {
+        max-width: var(--space-one);
+        max-height: var(--space-one);
+      }
+    }
   }
 }
 .widget-bubble {
@@ -221,10 +250,10 @@ export default {
     cursor: pointer;
 
     img {
-      height: var(--space-medium);
-      width: var(--space-medium);
-      margin: var(--space-one) var(--space-one) calc(var(--space-micro) * 3)
-        calc(var(--space-normal) + var(--space-micro));
+      height: var(--space-two);
+      width: var(--space-two);
+      margin: var(--space-one) var(--space-one) var(--space-one)
+        var(--space-two);
     }
 
     div {
