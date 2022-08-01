@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "براہ کرم بائیں پین سے گفتگو کا انتخاب کریں۔",
+    "SELECT_A_CONVERSATION": "براہ کرم بائیں پین سے گفتگو کا انتخاب کریں۔",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "اس صارف کی شناخت کی تصدیق نہیں ہوئی ہے۔",
     "NO_MESSAGE_1": "اوہ! ایسا لگتا ہے کہ آپ کے ان باکس میں صارفین کی جانب سے کوئی پیغامات نہیں ہیں۔.",
