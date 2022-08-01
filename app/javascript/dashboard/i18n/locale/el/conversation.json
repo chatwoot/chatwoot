@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Παρακαλώ επιλέξτε συζήτηση από το αριστερό τμήμα",
+    "SELECT_A_CONVERSATION": "Παρακαλώ επιλέξτε συζήτηση από το αριστερό τμήμα",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Μηνύματα",
     "UNVERIFIED_SESSION": "Η ταυτότητα αυτού του χρήστη δεν επαληθεύεται",
     "NO_MESSAGE_1": "Ωχ ωχ! Φαίνεται ότι δεν υπάρχουν μηνύματα από τους πελάτες στα εισερχόμενά σας.",
