@@ -167,7 +167,7 @@
                 <th scope="col">
                   {{
                     $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.CATEGORES'
+                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.CATEGORIES'
                     )
                   }}
                 </th>
