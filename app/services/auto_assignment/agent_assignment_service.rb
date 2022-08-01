@@ -1,6 +1,6 @@
 class AutoAssignment::AgentAssignmentService
   # Allowed agent ids: array
-  # This is the list of agents from whom an agent to be assigned to this conversation
+  # This is the list of agents from which an agent can be assigned to this conversation
   # examples: Agents with assignment capacity, Agents who are members of a team etc
   pattr_initialize [:conversation!, :allowed_agent_ids!]
 
