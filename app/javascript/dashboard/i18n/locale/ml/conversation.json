@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "ഇടത് പാളിയിൽ നിന്ന് ഒരു സംഭാഷണം തിരഞ്ഞെടുക്കുക",
+    "SELECT_A_CONVERSATION": "ഇടത് പാളിയിൽ നിന്ന് ഒരു സംഭാഷണം തിരഞ്ഞെടുക്കുക",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ഉപഭോക്താക്കളിൽ നിന്ന് സന്ദേശങ്ങളൊന്നും ഇല്ലെന്ന് തോന്നുന്നു.",
