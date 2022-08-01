@@ -25,7 +25,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     contacts = resolved_contacts.where(
       'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
-      search: "%#{params[:q]}%"
+      search: "%#{params[:q].strip}%"
     )
     @contacts_count = contacts.count
     @contacts = fetch_contacts_with_conversation_count(contacts)
