@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "SELECT_A_CONVERSATION": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Tin nhắn",
     "UNVERIFIED_SESSION": "Danh tính của người dùng này không được xác thực",
     "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
