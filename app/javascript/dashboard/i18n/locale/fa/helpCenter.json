@@ -4,20 +4,36 @@
       "FILTER": "فیلتر براساس",
       "SORT": "مرتب‌سازی براساس",
       "SETTINGS_BUTTON": "تنظیمات",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "مقاله جدید"
     },
     "EDIT_HEADER": {
-      "PUBLISH_BUTTON": "Publish",
+      "PUBLISH_BUTTON": "انتشار",
       "PREVIEW": "پیش‌نمایش",
       "ADD_TRANSLATION": "افزودن ترجمه",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "OPEN_SIDEBAR": "نوار کناری را باز کنید",
+      "CLOSE_SIDEBAR": "نوار کناری را ببندید",
+      "SAVING": "در حال ذخیره پیش‌نویس...",
+      "SAVED": "پیش‌نویس ذخیر شد"
     },
     "TABLE": {
+      "HEADERS": {
+        "TITLE": "عنوان",
+        "CATEGORY": "دسته‌بندی",
+        "READ_COUNT": "تعداد خوانده شده",
+        "STATUS": "وضعیت",
+        "LAST_EDITED": "آخرین ویرایش"
+      },
       "COLUMNS": {
         "BY": "توسط"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "عنوان مقاله اینجاست",
+      "CONTENT_PLACEHOLDER": "مقاله خود را اینجا بنویسید"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "جستجو برای مقالات"
       }
     }
   }

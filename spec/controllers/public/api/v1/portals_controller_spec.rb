@@ -16,6 +16,7 @@ RSpec.describe 'Public Portals API', type: :request do
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
       expect(json_response['slug']).to eql 'test-portal'
+      expect(json_response['meta']['articles_count']).to be 0
     end
   end
 end

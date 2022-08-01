@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_18_123938) do
+ActiveRecord::Schema.define(version: 2022_07_20_123615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_123938) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
     t.bigint "associated_article_id"
+    t.jsonb "meta", default: {}
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
   end
@@ -563,6 +564,20 @@ ActiveRecord::Schema.define(version: 2022_07_18_123938) do
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
+  create_table "macros", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.integer "visibility", default: 0
+    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
+    t.jsonb "actions", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_macros_on_account_id"
+    t.index ["created_by_id"], name: "index_macros_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_macros_on_updated_by_id"
+  end
+
   create_table "mentions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "conversation_id", null: false
@@ -869,6 +884,8 @@ ActiveRecord::Schema.define(version: 2022_07_18_123938) do
   add_foreign_key "dashboard_apps", "accounts"
   add_foreign_key "dashboard_apps", "users"
   add_foreign_key "data_imports", "accounts", on_delete: :cascade
+  add_foreign_key "macros", "users", column: "created_by_id"
+  add_foreign_key "macros", "users", column: "updated_by_id"
   add_foreign_key "mentions", "conversations", on_delete: :cascade
   add_foreign_key "mentions", "users", on_delete: :cascade
   add_foreign_key "notes", "accounts", on_delete: :cascade

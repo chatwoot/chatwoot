@@ -15,7 +15,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/bulk_action' do
     context 'when it is an unauthenticated user' do
-      let(:agent) { create(:user) }
+      let!(:agent) { create(:user) }
 
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/bulk_actions",
@@ -27,7 +27,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let!(:agent) { create(:user, account: account, role: :agent) }
 
       it 'Ignores bulk_actions for wrong type' do
         post "/api/v1/accounts/#{account.id}/bulk_actions",
@@ -117,7 +117,7 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/bulk_actions' do
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let!(:agent) { create(:user, account: account, role: :agent) }
 
       it 'Bulk delete conversation labels' do
         Conversation.first.add_labels(%w[support priority_customer])
