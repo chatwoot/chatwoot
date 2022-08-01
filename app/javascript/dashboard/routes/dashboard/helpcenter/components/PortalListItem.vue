@@ -304,7 +304,7 @@ export default {
   border-radius: var(--border-radius-medium);
   position: relative;
   display: flex;
-  margin-bottom: var(--space-normal);
+  margin-bottom: var(--space-slab);
 
   .container {
     margin-left: var(--space-one);
@@ -395,6 +395,7 @@ export default {
     thead tr th {
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-medium);
+      text-transform: none;
       color: var(--s-600);
       padding-left: 0;
       padding-top: 0;
