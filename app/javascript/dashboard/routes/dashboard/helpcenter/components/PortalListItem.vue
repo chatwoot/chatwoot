@@ -220,7 +220,7 @@ export default {
   border-radius: var(--border-radius-medium);
   position: relative;
   display: flex;
-  margin-bottom: var(--space-normal);
+  margin-bottom: var(--space-slab);
 
   .container {
     margin-left: var(--space-small);
