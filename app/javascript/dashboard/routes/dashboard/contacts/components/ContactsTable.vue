@@ -28,7 +28,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
-import { getCountryFlag } from '../../../../helper/flag';
+import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';

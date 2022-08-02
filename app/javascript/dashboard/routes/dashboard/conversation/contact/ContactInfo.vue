@@ -150,7 +150,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
-import { getCountryFlag } from '../../../../helper/flag';
+import { getCountryFlag } from 'dashboard/helper/flag';
 
 export default {
   components: {

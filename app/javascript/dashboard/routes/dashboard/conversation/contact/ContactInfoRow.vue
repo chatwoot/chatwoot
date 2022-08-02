@@ -30,7 +30,7 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
-import { copyTextToClipboard } from '../../../../../shared/helpers/clipboard';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
@@ -60,11 +60,10 @@ export default {
     },
   },
   methods: {
-    onCopy(e) {
+    async onCopy(e) {
       e.preventDefault();
-      copyTextToClipboard(this.value, () => {
-        this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-      });
+      await copyTextToClipboard(this.value);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
   },
 };

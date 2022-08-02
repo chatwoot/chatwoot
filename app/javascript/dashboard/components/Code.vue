@@ -9,7 +9,7 @@
 
 <script>
 import 'highlight.js/styles/default.css';
-import { copyTextToClipboard } from '../../shared/helpers/clipboard';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   props: {
@@ -23,14 +23,10 @@ export default {
     },
   },
   methods: {
-    onCopy(e) {
+    async onCopy(e) {
       e.preventDefault();
-      copyTextToClipboard(this.script, () => {
-        bus.$emit(
-          'newToastMessage',
-          this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL')
-        );
-      });
+      await copyTextToClipboard(this.script);
+      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
   },
 };

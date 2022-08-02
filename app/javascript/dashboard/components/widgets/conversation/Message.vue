@@ -126,7 +126,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
-import { copyTextToClipboard } from '../../../../shared/helpers/clipboard';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
@@ -404,11 +404,10 @@ export default {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
       }
     },
-    handleCopy() {
-      copyTextToClipboard(this.data.content, () => {
-        this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-        this.showContextMenu = false;
-      });
+    async handleCopy() {
+      await copyTextToClipboard(this.data.content);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      this.showContextMenu = false;
     },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
