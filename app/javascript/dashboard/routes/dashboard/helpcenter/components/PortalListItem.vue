@@ -72,47 +72,47 @@
           <div class="configuration-items--wrap">
             <div class="configuration-items">
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
                   )
-                }}</span>
+                }}</label>
                 <span class="content">{{ portal.header_text }}</span>
               </div>
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.DOMAIN'
                   )
-                }}</span>
+                }}</label>
                 <span class="content">{{ portal.custom_domain }}</span>
               </div>
             </div>
             <div class="configuration-items">
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SLUG'
                   )
-                }}</span>
+                }}</label>
                 <span class="content">{{ portal.slug }}</span>
               </div>
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.TITLE'
                   )
-                }}</span>
+                }}</label>
                 <span class="content">{{ portal.page_title }}</span>
               </div>
             </div>
             <div class="configuration-items">
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.THEME'
                   )
-                }}</span>
+                }}</label>
                 <div class="content-theme-wrap">
                   <div
                     class="theme-color"
@@ -122,11 +122,11 @@
                 </div>
               </div>
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
                   )
-                }}</span>
+                }}</label>
                 <span class="content">{{ portal.page_title }}</span>
               </div>
             </div>
@@ -368,11 +368,6 @@ export default {
       align-items: flex-start;
       flex-direction: column;
       margin-bottom: var(--space-slab);
-      .heading {
-        font-size: var(--font-size-small);
-        font-weight: var(--font-weight-medium);
-        margin-bottom: var(--space-smaller);
-      }
       .content {
         font-size: var(--font-size-small);
       }
