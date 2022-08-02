@@ -77,7 +77,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
                   )
                 }}</label>
-                <span class="content">{{ portal.header_text }}</span>
+                <span class="text-block-title">{{ portal.header_text }}</span>
               </div>
               <div class="configuration-item">
                 <label>{{
@@ -85,7 +85,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.DOMAIN'
                   )
                 }}</label>
-                <span class="content">{{ portal.custom_domain }}</span>
+                <span class="text-block-title">{{ portal.custom_domain }}</span>
               </div>
             </div>
             <div class="configuration-items">
@@ -95,7 +95,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SLUG'
                   )
                 }}</label>
-                <span class="content">{{ portal.slug }}</span>
+                <span class="text-block-title">{{ portal.slug }}</span>
               </div>
               <div class="configuration-item">
                 <label>{{
@@ -103,7 +103,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.TITLE'
                   )
                 }}</label>
-                <span class="content">{{ portal.page_title }}</span>
+                <span class="text-block-title">{{ portal.page_title }}</span>
               </div>
             </div>
             <div class="configuration-items">
@@ -118,7 +118,7 @@
                     class="theme-color"
                     :style="{ background: portal.color }"
                   />
-                  <span class="content">{{ portal.page_title }}</span>
+                  <span class="text-block-title">{{ portal.page_title }}</span>
                 </div>
               </div>
               <div class="configuration-item">
@@ -127,7 +127,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
                   )
                 }}</label>
-                <span class="content">{{ portal.page_title }}</span>
+                <span class="text-block-title">{{ portal.page_title }}</span>
               </div>
             </div>
           </div>
@@ -368,9 +368,6 @@ export default {
       align-items: flex-start;
       flex-direction: column;
       margin-bottom: var(--space-slab);
-      .content {
-        font-size: var(--font-size-small);
-      }
       .content-theme-wrap {
         display: flex;
         align-items: center;
