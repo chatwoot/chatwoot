@@ -11,6 +11,21 @@ export const routeIsAccessibleFor = (route, role, roleWiseRoutes) => {
   return roleWiseRoutes[role].includes(route);
 };
 
+const validateActiveAccountRoutes = (to, user, roleWiseRoutes) => {
+  // If the current account is active, then check for the route permissions
+  const accountDashboardURL = `accounts/${to.params.accountId}/dashboard`;
+
+  // If the user is trying to access suspended route, redirect them to dashboard
+  if (to.name === 'account_suspended') {
+    return accountDashboardURL;
+  }
+
+  const userRole = getUserRole(user, Number(to.params.accountId));
+  const isAccessible = routeIsAccessibleFor(to.name, userRole, roleWiseRoutes);
+  // If the route is not accessible for the user, return to dashboard screen
+  return isAccessible ? null : accountDashboardURL;
+};
+
 export const validateLoggedInRoutes = (to, user, roleWiseRoutes) => {
   const currentAccount = getCurrentAccount(user, Number(to.params.accountId));
 
@@ -20,25 +35,10 @@ export const validateLoggedInRoutes = (to, user, roleWiseRoutes) => {
     return `app/login`;
   }
 
-  const accountDashboardURL = `accounts/${to.params.accountId}/dashboard`;
-
   const isCurrentAccountActive = currentAccount.status === 'active';
 
-  // If the current account is active, then check for the route permissions
   if (isCurrentAccountActive) {
-    // If the user is trying to access suspended route, redirect them to dashboard
-    if (to.name === 'account_suspended') {
-      return accountDashboardURL;
-    }
-
-    const userRole = getUserRole(user, Number(to.params.accountId));
-    const isAccessible = routeIsAccessibleFor(
-      to.name,
-      userRole,
-      roleWiseRoutes
-    );
-    // If the route is not accessible for the user, return to dashboard screen
-    return isAccessible ? null : accountDashboardURL;
+    return validateActiveAccountRoutes(to, user, roleWiseRoutes);
   }
 
   // If the current account is not active, then redirect the user to the suspended screen
