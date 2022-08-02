@@ -35,6 +35,7 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import articles from './modules/helpCenterArticles';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -73,5 +74,6 @@ export default new Vuex.Store({
     teams,
     userNotificationSettings,
     webhooks,
+    articles,
   },
 });
