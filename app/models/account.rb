@@ -11,9 +11,14 @@
 #  locale                :integer          default("en")
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
+#  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#
+# Indexes
+#
+#  index_accounts_on_status  (status)
 #
 
 class Account < ApplicationRecord
@@ -79,6 +84,7 @@ class Account < ApplicationRecord
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
+  enum status: { active: 0, suspended: 1 }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
