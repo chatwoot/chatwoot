@@ -4,7 +4,7 @@
       <div class="row--article-block">
         <div class="article-block">
           <h6 class="sub-block-title text-truncate">
-            <router-link class="article-name" :to="articlePath">
+            <router-link class="article-name" :to="articleUrl(id)">
               {{ title }}
             </router-link>
           </h6>
@@ -24,16 +24,20 @@
   </tr>
 </template>
 <script>
-import { frontendURL } from 'dashboard/helper/URLHelper';
 import Label from 'dashboard/components/ui/Label';
 import timeMixin from 'dashboard/mixins/time';
+import portalMixin from '../mixins/portalMixin';
 export default {
   components: {
     Label,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, portalMixin],
 
   props: {
+    id: {
+      type: Number,
+      required: true,
+    },
     title: {
       type: String,
       default: '',
@@ -78,9 +82,6 @@ export default {
         default:
           return 'success';
       }
-    },
-    articlePath() {
-      return frontendURL(`accounts/${this.accountId}/hc/articles/${this.id}`);
     },
   },
 };

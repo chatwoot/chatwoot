@@ -190,7 +190,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 1
-        expect(json_response['meta']['articles_count']).to be json_response['payload'].size
+        expect(json_response['meta']['articles_count']).to be 2
       end
     end
 

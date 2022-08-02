@@ -66,6 +66,12 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    portalSlug() {
+      return this.$route.params.portalSlug;
+    },
+    locale() {
+      return this.$route.params.locale;
+    },
     accessibleMenuItems() {
       return [
         {
@@ -74,7 +80,7 @@ export default {
           key: 'list_all_locale_articles',
           count: 199,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles`
+            `accounts/${this.accountId}/portals/${this.portalSlug}/${this.locale}/articles`
           ),
           toolTip: 'All Articles',
           toStateName: 'list_all_locale_articles',
@@ -85,7 +91,7 @@ export default {
           key: 'mine_articles',
           count: 112,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/mine`
+            `accounts/${this.accountId}/portals/${this.portalSlug}/${this.locale}/articles/mine`
           ),
           toolTip: 'My articles',
           toStateName: 'mine_articles',
@@ -96,7 +102,7 @@ export default {
           key: 'list_draft_articles',
           count: 32,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/draft`
+            `accounts/${this.accountId}/portals/${this.portalSlug}/${this.locale}/articles/draft`
           ),
           toolTip: 'Draft',
           toStateName: 'list_draft_articles',
@@ -107,7 +113,7 @@ export default {
           key: 'list_archived_articles',
           count: 10,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/archived`
+            `accounts/${this.accountId}/portals/${this.portalSlug}/${this.locale}/articles/archived`
           ),
           toolTip: 'Archived',
           toStateName: 'list_archived_articles',

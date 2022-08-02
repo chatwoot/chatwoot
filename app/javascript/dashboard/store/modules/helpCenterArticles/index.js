@@ -8,6 +8,10 @@ export const defaultHelpCenterFlags = {
   isDeleting: false,
 };
 const state = {
+  meta: {
+    count: 0,
+    currentPage: 1,
+  },
   articles: {
     byId: {},
     allIds: [],
