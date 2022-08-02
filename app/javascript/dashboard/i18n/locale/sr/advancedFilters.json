@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
+    "TITLE": "Filtrirajte razgovore",
     "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "ADD_NEW_FILTER": "Dodajte filter",
+    "FILTER_DELETE_ERROR": "Trebali bi da imate barem jedan filter da bi ste ga sačuvali",
+    "SUBMIT_BUTTON_LABEL": "Primenite filtere",
     "CANCEL_BUTTON_LABEL": "Otkaži",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Poništite filtere",
+    "EMPTY_VALUE_ERROR": "Vrednost je neophodna",
+    "TOOLTIP_LABEL": "Filtrirajte razgovore",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "I",
+      "OR": "ILI"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Jednako sa",
+      "not_equal_to": "Nije jednako sa",
+      "contains": "Sadrži",
+      "does_not_contain": "Ne sadrži",
+      "is_present": "Postoji",
+      "is_not_present": "Ne postoji",
+      "is_greater_than": "Veće je od",
+      "is_less_than": "Manje je od",
+      "days_before": "Je x dana pre"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Istinito",
+      "FALSE": "Neistinito"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Inbox Name",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "INBOX_NAME": "Naziv prijemnog sandučeta",
+      "TEAM_NAME": "Naziv tima",
+      "CONVERSATION_IDENTIFIER": "Identifikator razgovora",
+      "CAMPAIGN_NAME": "Naziv kampanje",
+      "LABELS": "Oznake",
+      "BROWSER_LANGUAGE": "Jezik pregledača",
+      "COUNTRY_NAME": "Naziv zemlje",
+      "REFERER_LINK": "Veza reference",
+      "CUSTOM_ATTRIBUTE_LIST": "Lista",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+      "CUSTOM_ATTRIBUTE_LINK": "Veza",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Poslednja aktivnost"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
-      "CUSTOM_ATTRIBUTES": "Custom Attributes"
+      "STANDARD_FILTERS": "Standardni filteri",
+      "ADDITIONAL_FILTERS": "Dodatni filteri",
+      "CUSTOM_ATTRIBUTES": "Prilagođeni atributi"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "Da li želite da sačuvate ovaj filter?",
+        "LABEL": "Nazovite ovaj filter",
+        "PLACEHOLDER": "Unesite naziv za ovaj filter",
+        "ERROR_MESSAGE": "Naziv je neophodan",
+        "SAVE_BUTTON": "Sačuvaj filter",
         "CANCEL_BUTTON": "Otkaži",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Folder je uspešno kreirana",
+          "ERROR_MESSAGE": "Greška pri kreiranju foldera"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment je uspešno kreiran",
+          "ERROR_MESSAGE": "Greška pri kreiranju segmenta"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Ukloni filter",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Potvrdite brisanje",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, Delete",
-            "NO": "No, Keep it"
+            "MESSAGE": "Da li ste sigurni da želite da uklonite filter ",
+            "YES": "Da, ukloni",
+            "NO": "Ne, zadrži ga"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Folder je uspešno obrisan",
+          "ERROR_MESSAGE": "Greška pri brisanju foldera"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segment je uspešno obrisan",
+          "ERROR_MESSAGE": "Greška pri brisanju segmenta"
         }
       }
     }

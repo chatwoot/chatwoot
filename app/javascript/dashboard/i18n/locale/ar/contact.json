@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
     "COMPANY": "الشركة",
     "LOCATION": "الموقع الجغرافي",
+    "BROWSER_LANGUAGE": "لغة المتصفح",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
     "VIEW_PROFILE": "عرض الملف الشخصي",
     "BROWSER": "المتصفح",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "أدخل اسم المسستخدم في Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف صورة جهة الاتصال بنجاح",
+        "ERROR_MESSAGE": "تعذر حذف الصورة الرمزية لجهة الإتصال. الرجاء المحاولة مرة أخرى لاحقاً."
       }
     },
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",

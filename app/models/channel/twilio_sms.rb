@@ -14,9 +14,9 @@
 #
 # Indexes
 #
-#  index_channel_twilio_sms_on_account_id_and_phone_number  (account_id,phone_number) UNIQUE
-#  index_channel_twilio_sms_on_messaging_service_sid        (messaging_service_sid) UNIQUE
-#  index_channel_twilio_sms_on_phone_number                 (phone_number) UNIQUE
+#  index_channel_twilio_sms_on_account_sid_and_phone_number  (account_sid,phone_number) UNIQUE
+#  index_channel_twilio_sms_on_messaging_service_sid         (messaging_service_sid) UNIQUE
+#  index_channel_twilio_sms_on_phone_number                  (phone_number) UNIQUE
 #
 
 class Channel::TwilioSms < ApplicationRecord
@@ -28,8 +28,8 @@ class Channel::TwilioSms < ApplicationRecord
   validates :auth_token, presence: true
 
   # Must have _one_ of messaging_service_sid _or_ phone_number, and messaging_service_sid is preferred
-  validates :messaging_service_sid, uniqueness: true, presence: true, unless: :phone_number?
-  validates :phone_number, absence: true, if: :messaging_service_sid?
+  validates :messaging_service_sid, uniqueness: true, presence: true, unless: :phone_number.presence
+  validates :phone_number, absence: true, if: :messaging_service_sid.presence
   validates :phone_number, uniqueness: true, allow_nil: true
 
   enum medium: { sms: 0, whatsapp: 1 }

@@ -61,3 +61,8 @@ export const parseAPIErrorResponse = error => {
   }
   return error;
 };
+
+export const throwErrorMessage = error => {
+  const errorMessage = parseAPIErrorResponse(error);
+  throw new Error(errorMessage);
+};

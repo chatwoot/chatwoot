@@ -111,6 +111,12 @@
           "PLACEHOLDER": "Please enter your Twilio Account SID",
           "ERROR": "This field is required"
         },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "This field is required",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+        },
         "CHANNEL_TYPE": {
           "LABEL": "Channel Type",
           "ERROR": "Please select your Channel Type"
@@ -465,8 +471,8 @@
         "FIELDS": "Fields",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
+        "KEY": "Ključ",
+        "TYPE": "Tip",
         "REQUIRED": "Required"
       },
       "ENABLE": {

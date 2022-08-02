@@ -39,7 +39,7 @@ describe AutomationRuleListener do
                                         { 'action_name' => 'mute_conversation', 'action_params' => nil },
                                         { 'action_name' => 'change_status', 'action_params' => ['snoozed'] },
                                         { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
-                                        { 'action_name' => 'send_attachments' }
+                                        { 'action_name' => 'send_attachment' }
                                       ])
     file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
     automation_rule.files.attach(file)

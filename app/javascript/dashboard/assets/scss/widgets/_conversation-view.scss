@@ -296,7 +296,7 @@
     @include margin($zero $space-normal);
 
     --bubble-max-width: 49.6rem;
-    max-width: Min(var(--bubble-max-width), 85%);
+    max-width: Min(var(--bubble-max-width), 84%);
 
     .sender--name {
       font-size: $font-size-mini;

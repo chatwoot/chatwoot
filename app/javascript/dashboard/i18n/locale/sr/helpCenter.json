@@ -1,0 +1,40 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filtrirajte prema",
+      "SORT": "Sortirajte prema",
+      "SETTINGS_BUTTON": "Podešavanja",
+      "NEW_BUTTON": "Novi članak"
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Objavite",
+      "PREVIEW": "Pregledajte",
+      "ADD_TRANSLATION": "Dodajte prevod",
+      "OPEN_SIDEBAR": "Otvorite bočnu traku",
+      "CLOSE_SIDEBAR": "Zatvorite bočnu traku",
+      "SAVING": "Nacrt se čuva...",
+      "SAVED": "Nacrt je sačuvan"
+    },
+    "TABLE": {
+      "HEADERS": {
+        "TITLE": "Title",
+        "CATEGORY": "Category",
+        "READ_COUNT": "Read count",
+        "STATUS": "Status",
+        "LAST_EDITED": "Last edited"
+      },
+      "COLUMNS": {
+        "BY": "by"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Article title goes here",
+      "CONTENT_PLACEHOLDER": "Write your article here"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Search for articles"
+      }
+    }
+  }
+}

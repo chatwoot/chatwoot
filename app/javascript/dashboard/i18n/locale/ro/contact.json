@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes",
     "COMPANY": "Companie",
     "LOCATION": "Locaţie",
+    "BROWSER_LANGUAGE": "Limba browserului",
     "CONVERSATION_TITLE": "Detalii conversație",
     "VIEW_PROFILE": "Vezi profil",
     "BROWSER": "Navigator",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Introdu numele de utilizator Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact salvat cu succes",

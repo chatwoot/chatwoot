@@ -1,0 +1,40 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filtra per",
+      "SORT": "Ordina per",
+      "SETTINGS_BUTTON": "Impostazioni",
+      "NEW_BUTTON": "Nuovo articolo"
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Pubblica",
+      "PREVIEW": "Anteprima",
+      "ADD_TRANSLATION": "Aggiungi traduzione",
+      "OPEN_SIDEBAR": "Apri barra laterale",
+      "CLOSE_SIDEBAR": "Chiudi barra laterale",
+      "SAVING": "Salvataggio bozza...",
+      "SAVED": "Bozza salvata"
+    },
+    "TABLE": {
+      "HEADERS": {
+        "TITLE": "Titolo",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Contatore delle letture",
+        "STATUS": "Stato",
+        "LAST_EDITED": "Ultima modifica"
+      },
+      "COLUMNS": {
+        "BY": "di"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Il titolo dell'articolo va qui",
+      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Cerca articoli"
+      }
+    }
+  }
+}

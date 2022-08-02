@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
     "COMPANY": "Perusahaan",
     "LOCATION": "Lokasi",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Detail Percakapan",
     "VIEW_PROFILE": "Lihat Profil",
     "BROWSER": "Browser",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Edit nama pengguna GitHub",
           "LABEL": "GitHub"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
