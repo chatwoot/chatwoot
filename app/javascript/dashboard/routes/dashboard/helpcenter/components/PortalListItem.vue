@@ -6,7 +6,7 @@
         <header>
           <div>
             <div class="title-status--wrap">
-              <h2 class="portal-title">{{ portal.name }}</h2>
+              <h2 class="portal-title block-title">{{ portal.name }}</h2>
               <Label
                 :title="status"
                 :color-scheme="labelColor"
@@ -62,7 +62,7 @@
           </div>
         </header>
         <div class="portal-locales">
-          <h2 class="locale-title">
+          <h2 class="locale-title sub-block-title">
             {{
               $t(
                 'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.TITLE'
@@ -72,166 +72,80 @@
           <div class="configuration-items--wrap">
             <div class="configuration-items">
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
                   )
-                }}</span>
-                <span class="content">{{ portal.header_text }}</span>
+                }}</label>
+                <span class="text-block-title">{{ portal.header_text }}</span>
               </div>
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.DOMAIN'
                   )
-                }}</span>
-                <span class="content">{{ portal.custom_domain }}</span>
+                }}</label>
+                <span class="text-block-title">{{ portal.custom_domain }}</span>
               </div>
             </div>
             <div class="configuration-items">
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SLUG'
                   )
-                }}</span>
-                <span class="content">{{ portal.slug }}</span>
+                }}</label>
+                <span class="text-block-title">{{ portal.slug }}</span>
               </div>
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.TITLE'
                   )
-                }}</span>
-                <span class="content">{{ portal.page_title }}</span>
+                }}</label>
+                <span class="text-block-title">{{ portal.page_title }}</span>
               </div>
             </div>
             <div class="configuration-items">
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.THEME'
                   )
-                }}</span>
+                }}</label>
                 <div class="content-theme-wrap">
                   <div
                     class="theme-color"
                     :style="{ background: portal.color }"
                   />
-                  <span class="content">{{ portal.page_title }}</span>
+                  <span class="text-block-title">{{ portal.page_title }}</span>
                 </div>
               </div>
               <div class="configuration-item">
-                <span class="heading">{{
+                <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
                   )
-                }}</span>
-                <span class="content">{{ portal.page_title }}</span>
+                }}</label>
+                <span class="text-block-title">{{ portal.page_title }}</span>
               </div>
             </div>
           </div>
         </div>
         <div class="portal-locales">
-          <h2 class="locale-title">
+          <h2 class="locale-title sub-block-title">
             {{
               $t(
                 'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TITLE'
               )
             }}
           </h2>
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.NAME'
-                    )
-                  }}
-                </th>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.CODE'
-                    )
-                  }}
-                </th>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.ARTICLE_COUNT'
-                    )
-                  }}
-                </th>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.CATEGORIES'
-                    )
-                  }}
-                </th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tr>
-              <td colspan="100%" class="horizontal-line" />
-            </tr>
-            <tbody>
-              <tr v-for="locale in portal.locales" :key="locale.code">
-                <td>
-                  <span>{{ locale.name }}</span>
-                  <Label
-                    v-if="locale.code === selectedLocaleCode"
-                    :title="
-                      $t(
-                        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.DEFAULT_LOCALE'
-                      )
-                    "
-                    color-scheme="primary"
-                    :small="true"
-                    class="default-status"
-                  />
-                </td>
-                <td>
-                  <span>{{ locale.code }}</span>
-                </td>
-                <td>
-                  <span>{{ locale.articles_count }}</span>
-                </td>
-                <td>
-                  <span>{{ locale.categories_count }}</span>
-                </td>
-                <td>
-                  <woot-button
-                    v-tooltip.top-end="
-                      $t(
-                        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.SWAP'
-                      )
-                    "
-                    size="tiny"
-                    variant="smooth"
-                    icon="arrow-swap"
-                    color-scheme="primary"
-                    :disabled="locale.code === selectedLocaleCode"
-                    @click="swapLocale"
-                  />
-                  <woot-button
-                    v-tooltip.top-end="
-                      $t(
-                        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.DELETE'
-                      )
-                    "
-                    size="tiny"
-                    variant="smooth"
-                    icon="delete"
-                    color-scheme="secondary"
-                    @click="deleteLocale"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <locale-item-table
+            :portals="portal"
+            :selected-locale-code="selectedLocaleCode"
+            @swap="swapLocale"
+            @delete="deleteLocale"
+          />
         </div>
       </div>
     </div>
@@ -241,10 +155,12 @@
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import Label from 'dashboard/components/ui/Label';
+import LocaleItemTable from './PortalListItemTable';
 export default {
   components: {
     thumbnail,
     Label,
+    LocaleItemTable,
   },
   props: {
     portals: {
@@ -307,7 +223,7 @@ export default {
   margin-bottom: var(--space-slab);
 
   .container {
-    margin-left: var(--space-one);
+    margin-left: var(--space-small);
     flex-grow: 1;
 
     header {
@@ -319,12 +235,11 @@ export default {
         display: flex;
         align-items: center;
         .status {
-          margin: 0 0 0 var(--space-one);
+          margin: 0 0 0 var(--space-small);
         }
       }
       .portal-title {
         color: var(--s-900);
-        font-size: var(--font-size-medium);
         margin-bottom: 0;
       }
       .portal-count {
@@ -340,7 +255,6 @@ export default {
       margin-bottom: var(--space-small);
       .locale-title {
         color: var(--s-800);
-        font-size: var(--font-size-default);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-small);
       }
@@ -370,47 +284,18 @@ export default {
       align-items: flex-start;
       flex-direction: column;
       margin-bottom: var(--space-slab);
-      .heading {
-        font-size: var(--font-size-small);
-        font-weight: var(--font-weight-medium);
-        margin-bottom: var(--space-smaller);
-      }
-      .content {
-        font-size: var(--font-size-small);
-      }
       .content-theme-wrap {
         display: flex;
         align-items: center;
       }
       .theme-color {
-        width: var(--space-two);
-        height: var(--space-two);
+        width: var(--space-normal);
+        height: var(--space-normal);
         border-radius: var(--border-radius-normal);
         margin-right: var(--space-smaller);
         border: 1px solid var(--color-border-light);
       }
     }
-  }
-  table {
-    thead tr th {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      text-transform: none;
-      color: var(--s-600);
-      padding-left: 0;
-      padding-top: 0;
-    }
-
-    tbody tr td {
-      font-size: var(--font-size-small);
-      padding-left: 0;
-      .default-status {
-        margin: 0 0 0 var(--space-smaller);
-      }
-    }
-  }
-  .horizontal-line {
-    border-bottom: 1px solid var(--color-border);
   }
 }
 </style>
