@@ -198,7 +198,8 @@
       "DRAFT": "Entwürfe",
       "ARCHIVED": "Archiviert",
       "CATEGORY": "Kategorie"
-    }
+    },
+    "DOCS": "Dokumente lesen"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Rechnungen",
