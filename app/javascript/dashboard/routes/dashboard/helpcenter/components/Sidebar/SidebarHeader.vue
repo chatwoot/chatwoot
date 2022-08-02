@@ -16,13 +16,13 @@
       <woot-button
         variant="link"
         color-scheme="secondary"
-        @click="popOutHelpCenter"
+        @click="popoutHelpCenter"
       >
         <fluent-icon
           icon="arrow-up-right"
           size="28px"
           class="pop-out--icon"
-          @click="popOutHelpCenter"
+          @click="popoutHelpCenter"
         />
       </woot-button>
       <woot-button
@@ -61,7 +61,7 @@ export default {
     },
   },
   methods: {
-    popOutHelpCenter() {
+    popoutHelpCenter() {
       this.$emit('pop-out');
     },
     openPortalPopover() {
