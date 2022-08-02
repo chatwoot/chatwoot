@@ -6,7 +6,7 @@
         <header>
           <div>
             <div class="title-status--wrap">
-              <h2 class="portal-title">{{ portal.name }}</h2>
+              <h2 class="portal-title block-title">{{ portal.name }}</h2>
               <Label
                 :title="status"
                 :color-scheme="labelColor"
@@ -62,7 +62,7 @@
           </div>
         </header>
         <div class="portal-locales">
-          <h2 class="locale-title">
+          <h2 class="locale-title sub-block-title">
             {{
               $t(
                 'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.TITLE'
@@ -133,7 +133,7 @@
           </div>
         </div>
         <div class="portal-locales">
-          <h2 class="locale-title">
+          <h2 class="locale-title sub-block-title">
             {{
               $t(
                 'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TITLE'
@@ -307,7 +307,7 @@ export default {
   margin-bottom: var(--space-normal);
 
   .container {
-    margin-left: var(--space-one);
+    margin-left: var(--space-small);
     flex-grow: 1;
 
     header {
@@ -319,12 +319,11 @@ export default {
         display: flex;
         align-items: center;
         .status {
-          margin: 0 0 0 var(--space-one);
+          margin: 0 0 0 var(--space-small);
         }
       }
       .portal-title {
         color: var(--s-900);
-        font-size: var(--font-size-medium);
         margin-bottom: 0;
       }
       .portal-count {
@@ -340,7 +339,6 @@ export default {
       margin-bottom: var(--space-small);
       .locale-title {
         color: var(--s-800);
-        font-size: var(--font-size-default);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-small);
       }
@@ -383,8 +381,8 @@ export default {
         align-items: center;
       }
       .theme-color {
-        width: var(--space-two);
-        height: var(--space-two);
+        width: var(--space-normal);
+        height: var(--space-normal);
         border-radius: var(--border-radius-normal);
         margin-right: var(--space-smaller);
         border: 1px solid var(--color-border-light);
