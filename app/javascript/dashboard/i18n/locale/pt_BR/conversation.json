@@ -1,8 +1,8 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "SELECT_A_CONVERSATION": "Por favor, selecione uma conversa no painel da esquerda",
+    "404": "Desculpe, não conseguimos encontrar a conversa. Por favor, tente novamente",
+    "SWITCH_VIEW_LAYOUT": "Alternar o layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Mensagens",
     "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
