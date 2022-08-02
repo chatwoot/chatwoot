@@ -1,5 +1,5 @@
 <template>
-  <div class="widget-body-container" :class="getWidgetBodyClass">
+  <div class="widget-body-container">
     <div v-if="config.isDefaultScreen" class="availability-content">
       <div class="availability-info">
         <div class="team-status">
@@ -87,22 +87,6 @@ export default {
 
 <style scoped lang="scss">
 .widget-body-container {
-  &.with-heading-or-title {
-    min-height: var(--space-giga);
-  }
-
-  &.without-heading-and-title {
-    min-height: calc(var(--space-mega) + var(--space-giga));
-  }
-
-  &.with-chat-view {
-    min-height: calc(var(--space-mega) + var(--space-giga));
-  }
-
-  &.with-heading-or-title-without-logo {
-    min-height: calc(var(--space-mega) * 3);
-  }
-
   .availability-content {
     display: flex;
     flex-direction: row;
@@ -122,9 +106,8 @@ export default {
     }
   }
   .conversation-content {
-    width: 100%;
-    min-height: inherit;
-    padding: var(--space-two);
+    height: calc(var(--space-large) * 10);
+    padding: 0 var(--space-two);
     .conversation-wrap {
       .user-message {
         align-items: flex-end;

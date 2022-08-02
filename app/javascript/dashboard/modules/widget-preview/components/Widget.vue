@@ -9,13 +9,15 @@
     </div>
     <div v-if="isWidgetVisible" class="widget-wrapper">
       <WidgetHead :config="getWidgetHeadConfig" />
-      <WidgetBody :config="getWidgetBodyConfig" />
-      <WidgetFooter :config="getWidgetFooterConfig" />
-      <div class="branding">
-        <a class="branding-link">
-          <img class="branding-image" :src="globalConfig.logoThumbnail" />
-          <span>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}</span>
-        </a>
+      <div>
+        <WidgetBody :config="getWidgetBodyConfig" />
+        <WidgetFooter :config="getWidgetFooterConfig" />
+        <div class="branding">
+          <a class="branding-link">
+            <img class="branding-image" :src="globalConfig.logoThumbnail" />
+            <span>{{ $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT') }}</span>
+          </a>
+        </div>
       </div>
     </div>
     <div class="widget-bubble" :style="getBubblePositionStyle">
@@ -204,7 +206,7 @@ export default {
   border-radius: var(--border-radius-large);
   background-color: #f4f6fb;
   width: calc(var(--space-large) * 10);
-  min-height: calc(var(--space-giga) * 2);
+  height: calc(var(--space-mega) * 5);
 
   .branding {
     padding-top: var(--space-one);
@@ -213,6 +215,9 @@ export default {
     justify-content: center;
 
     .branding-link {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       color: var(--b-500);
       cursor: pointer;
       filter: grayscale(1);
@@ -229,6 +234,7 @@ export default {
       .branding-image {
         max-width: var(--space-one);
         max-height: var(--space-one);
+        margin-right: var(--space-micro);
       }
     }
   }

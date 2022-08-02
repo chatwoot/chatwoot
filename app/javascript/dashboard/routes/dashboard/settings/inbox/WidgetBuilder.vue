@@ -15,7 +15,6 @@
             />
             <woot-input
               v-model.trim="websiteName"
-              class="medium-9"
               :class="{ error: $v.websiteName.$error }"
               :label="
                 $t(
@@ -32,7 +31,6 @@
             />
             <woot-input
               v-model.trim="welcomeHeading"
-              class="medium-9"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
@@ -46,7 +44,6 @@
             />
             <woot-input
               v-model.trim="welcomeTagline"
-              class="medium-9"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
@@ -58,7 +55,7 @@
                 )
               "
             />
-            <label class="medium-9">
+            <label>
               {{
                 $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.LABEL')
               }}
@@ -72,7 +69,7 @@
                 </option>
               </select>
             </label>
-            <label class="medium-9">
+            <label>
               {{
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_COLOR_LABEL'
@@ -102,7 +99,6 @@
             />
             <woot-input
               v-model.trim="widgetBubbleLauncherTitle"
-              class="medium-9"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
@@ -424,13 +420,14 @@ export default {
 .widget-builder-conatiner {
   display: flex;
   flex-direction: row;
+  padding: var(--space-one);
   @include breakpoint(900px down) {
     flex-direction: column;
   }
 }
 
 .settings-container {
-  width: 50%;
+  width: 40%;
   @include breakpoint(900px down) {
     width: 100%;
   }
@@ -446,7 +443,7 @@ export default {
   }
 }
 .widget-container {
-  width: 50%;
+  width: 60%;
   @include breakpoint(900px down) {
     width: 100%;
   }
@@ -456,10 +453,9 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    min-height: 65rem;
+    min-height: 64rem;
     margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
-    padding: var(--space-zero) var(--space-one) var(--space-one)
-      var(--space-one);
+    padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
     background: var(--s-50);
 
     @include breakpoint(500px down) {
@@ -467,7 +463,7 @@ export default {
     }
   }
   .widget-script {
-    margin: var(--space-two) var(--space-two);
+    margin: 0 var(--space-two);
     padding: var(--space-one);
     background: var(--s-50);
   }
