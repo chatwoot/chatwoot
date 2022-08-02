@@ -31,6 +31,7 @@
         v-if="showPortalPopover"
         :portals="portals"
         @close-popover="closePortalPopover"
+        @open-portal-page="openPortalPage"
       />
     </section>
   </div>
@@ -337,6 +338,12 @@ export default {
       this.showPortalPopover = !this.showPortalPopover;
     },
     closePortalPopover() {
+      this.showPortalPopover = false;
+    },
+    openPortalPage() {
+      this.$router.push({
+        name: 'list_all_portals',
+      });
       this.showPortalPopover = false;
     },
   },
