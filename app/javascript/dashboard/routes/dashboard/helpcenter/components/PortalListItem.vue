@@ -140,98 +140,12 @@
               )
             }}
           </h2>
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.NAME'
-                    )
-                  }}
-                </th>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.CODE'
-                    )
-                  }}
-                </th>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.ARTICLE_COUNT'
-                    )
-                  }}
-                </th>
-                <th scope="col">
-                  {{
-                    $t(
-                      'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.CATEGORIES'
-                    )
-                  }}
-                </th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tr>
-              <td colspan="100%" class="horizontal-line" />
-            </tr>
-            <tbody>
-              <tr v-for="locale in portal.locales" :key="locale.code">
-                <td>
-                  <span>{{ locale.name }}</span>
-                  <Label
-                    v-if="locale.code === selectedLocaleCode"
-                    :title="
-                      $t(
-                        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.DEFAULT_LOCALE'
-                      )
-                    "
-                    color-scheme="primary"
-                    :small="true"
-                    class="default-status"
-                  />
-                </td>
-                <td>
-                  <span>{{ locale.code }}</span>
-                </td>
-                <td>
-                  <span>{{ locale.articles_count }}</span>
-                </td>
-                <td>
-                  <span>{{ locale.categories_count }}</span>
-                </td>
-                <td>
-                  <woot-button
-                    v-tooltip.top-end="
-                      $t(
-                        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.SWAP'
-                      )
-                    "
-                    size="tiny"
-                    variant="smooth"
-                    icon="arrow-swap"
-                    color-scheme="primary"
-                    :disabled="locale.code === selectedLocaleCode"
-                    @click="swapLocale"
-                  />
-                  <woot-button
-                    v-tooltip.top-end="
-                      $t(
-                        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.DELETE'
-                      )
-                    "
-                    size="tiny"
-                    variant="smooth"
-                    icon="delete"
-                    color-scheme="secondary"
-                    @click="deleteLocale"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <locale-item-table
+            :portals="portal"
+            :selected-locale-code="selectedLocaleCode"
+            @swap="swapLocale"
+            @delete="deleteLocale"
+          />
         </div>
       </div>
     </div>
@@ -241,10 +155,12 @@
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import Label from 'dashboard/components/ui/Label';
+import LocaleItemTable from './PortalListItemTable';
 export default {
   components: {
     thumbnail,
     Label,
+    LocaleItemTable,
   },
   props: {
     portals: {
@@ -380,26 +296,6 @@ export default {
         border: 1px solid var(--color-border-light);
       }
     }
-  }
-  table {
-    thead tr th {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      color: var(--s-600);
-      padding-left: 0;
-      padding-top: 0;
-    }
-
-    tbody tr td {
-      font-size: var(--font-size-small);
-      padding-left: 0;
-      .default-status {
-        margin: 0 0 0 var(--space-smaller);
-      }
-    }
-  }
-  .horizontal-line {
-    border-bottom: 1px solid var(--color-border);
   }
 }
 </style>
