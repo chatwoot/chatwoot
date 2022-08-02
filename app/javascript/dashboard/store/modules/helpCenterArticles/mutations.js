@@ -16,17 +16,26 @@ export const mutations = {
       ...article,
     });
   },
+  [types.CLEAR_ARTICLES]: $state => {
+    Vue.set($state.articles, 'byId', {});
+    Vue.set($state.articles, 'allIds', []);
+    Vue.set($state.articles, 'uiFlags', {});
+  },
   [types.ADD_MANY_ARTICLES]($state, articles) {
     const allArticles = { ...$state.articles.byId };
     articles.forEach(article => {
       allArticles[article.id] = article;
     });
-    Vue.set($state.articles, 'byId', {
-      allArticles,
-    });
+    Vue.set($state.articles, 'byId', allArticles);
   },
   [types.ADD_MANY_ARTICLES_ID]($state, articleIds) {
     $state.articles.allIds.push(...articleIds);
+  },
+
+  [types.SET_ARTICLES_META]: ($state, data) => {
+    const { articles_count: count, current_page: currentPage } = data;
+    Vue.set($state.meta, 'count', count);
+    Vue.set($state.meta, 'currentPage', currentPage);
   },
 
   [types.ADD_ARTICLE_ID]: ($state, articleId) => {

@@ -1,13 +1,22 @@
-import articlesAPI from 'dashboard/api/helpCenter/articles.js';
+import portalAPI from 'dashboard/api/helpCenter/portals';
+import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import types from '../../mutation-types';
 export const actions = {
-  index: async ({ commit }) => {
+  index: async ({ commit }, { pageNumber, portalSlug, locale }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await articlesAPI.get();
-      const articleIds = data.map(article => article.id);
-      commit(types.ADD_MANY_ARTICLES, data);
+      const {
+        data: { payload, meta },
+      } = await portalAPI.getArticles({
+        pageNumber,
+        portalSlug,
+        locale,
+      });
+      const articleIds = payload.map(article => article.id);
+      commit(types.CLEAR_ARTICLES);
+      commit(types.ADD_MANY_ARTICLES, payload);
+      commit(types.SET_ARTICLES_META, meta);
       commit(types.ADD_MANY_ARTICLES_ID, articleIds);
       return articleIds;
     } catch (error) {
@@ -29,6 +38,22 @@ export const actions = {
       return throwErrorMessage(error);
     } finally {
       commit(types.SET_UI_FLAG, { isCreating: false });
+    }
+  },
+
+  show: async ({ commit }, { id, portalSlug }) => {
+    commit(types.SET_UI_FLAG, { isFetching: true });
+    try {
+      const response = await portalAPI.getArticle({ id, portalSlug });
+      const {
+        data: { payload },
+      } = response;
+      const { id: articleId } = payload;
+      commit(types.ADD_ARTICLE, payload);
+      commit(types.ADD_ARTICLE_ID, articleId);
+      commit(types.SET_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
   update: async ({ commit }, params) => {
