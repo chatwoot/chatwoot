@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import AllPortals from '../AllPortals';
 
 export default {
-  title: 'Components/Help Center/All Portals',
+  title: 'Components/Help Center/Portal List',
   component: AllPortals,
   argTypes: {
     portals: { control: 'array' },
