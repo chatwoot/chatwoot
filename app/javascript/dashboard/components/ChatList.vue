@@ -638,21 +638,22 @@ export default {
     },
     async onAssignTeam(team, conversationId = null) {
       try {
-        const teamId = team ? team.id : 0;
-        await this.$store.dispatch('setCurrentChatTeam', team);
-        await this.$store.dispatch('assignTeam', {
-          conversationId,
-          teamId,
-        });
-        this.showAlert(
-          this.$t(
-            'CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.SUCCESFUL',
-            {
-              team: team.name,
-              conversationId,
-            }
-          )
-        );
+        if (team.id) {
+          await this.$store.dispatch('setCurrentChatTeam', team.id);
+          await this.$store.dispatch('assignTeam', {
+            conversationId,
+            teamId: team.id,
+          });
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.SUCCESFUL',
+              {
+                team: team.name,
+                conversationId,
+              }
+            )
+          );
+        } else throw new Error('Team not found');
       } catch (error) {
         this.showAlert(
           this.$t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED')
