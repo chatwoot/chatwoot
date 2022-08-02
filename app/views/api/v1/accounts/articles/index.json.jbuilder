@@ -4,5 +4,5 @@ end
 
 json.meta do
   json.current_page @current_page
-  json.articles_count @articles.size
+  json.articles_count @articles_count
 end

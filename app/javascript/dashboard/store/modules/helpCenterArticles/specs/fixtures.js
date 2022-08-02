@@ -1,4 +1,8 @@
 export default {
+  meta: {
+    count: 123,
+    currentPage: 2,
+  },
   articles: {
     byId: {
       1: {
