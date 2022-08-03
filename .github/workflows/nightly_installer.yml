@@ -40,8 +40,8 @@ jobs:
         sudo ./install.sh --install < input
 
     - name: logs
-      run: |
-        cat /var/log/chatwoot-setup.log
+      if: always()
+      run: cat /var/log/chatwoot-setup.log
 
     - name: Verify
       run: |
