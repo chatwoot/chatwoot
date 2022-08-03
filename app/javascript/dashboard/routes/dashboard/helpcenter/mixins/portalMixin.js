@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import allLocales from 'shared/constants/locales.js';
 export default {
   computed: {
     ...mapGetters({ accountId: 'getCurrentAccountId' }),
@@ -15,6 +16,10 @@ export default {
       return frontendURL(
         `accounts/${this.accountId}/portals/${this.portalSlug}/${this.locale}/articles/${id}`
       );
+    },
+    localeName(code) {
+      const selectedLocale = allLocales.find(locale => locale.code === code);
+      return selectedLocale.name;
     },
   },
 };

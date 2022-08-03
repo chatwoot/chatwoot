@@ -9,6 +9,7 @@ export const types = {
   ADD_PORTAL_ID: 'addPortalId',
   CLEAR_PORTALS: 'clearPortals',
   ADD_MANY_PORTALS_IDS: 'addManyPortalsIds',
+  SET_SELECTED_PORTAL_ID: 'setSelectedPortalId',
   UPDATE_PORTAL_ENTRY: 'updatePortalEntry',
   REMOVE_PORTAL_ENTRY: 'removePortalEntry',
   REMOVE_PORTAL_ID: 'removePortalId',
@@ -44,9 +45,13 @@ export const mutations = {
   },
 
   [types.SET_PORTALS_META]: ($state, data) => {
-    const { articles_count: count, current_page: currentPage } = data;
+    const { portals_count: count, current_page: currentPage } = data;
     Vue.set($state.meta, 'count', count);
     Vue.set($state.meta, 'currentPage', currentPage);
+  },
+
+  [types.SET_SELECTED_PORTAL_ID]: ($state, portalId) => {
+    Vue.set($state.portals, 'selectedPortalId', portalId);
   },
 
   [types.ADD_PORTAL_ID]($state, portalId) {
