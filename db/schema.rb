@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 2022_08_02_193353) do
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
     t.jsonb "custom_attributes", default: {}
+    t.integer "status", default: 0
+    t.index ["status"], name: "index_accounts_on_status"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
