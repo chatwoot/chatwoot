@@ -22,10 +22,24 @@ jobs:
       run: |
         ls
         pwd
+
     - name: get installer
       run: |
         wget https://get.chatwoot.app/linux/install.sh
         chmod +x install.sh
         whoami
         ls -ltra
+
+    - name: create input file
+      run: |
+        echo "no" > input
+        echo "yes" >> input
+
+    - name: Run the installer
+      run: |
+        ./install.sh --install < input
+
+    - name: Verify
+      run: |
+        curl http://localhost:3000/api
 
