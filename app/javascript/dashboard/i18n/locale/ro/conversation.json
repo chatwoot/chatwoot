@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "SELECT_A_CONVERSATION": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Identitatea acestui utilizator nu este verificată",
     "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Săptămâna viitoare"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Marchează ca în așteptare",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Redeschiderea conversației",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Până la următorul răspuns",
+        "TOMORROW": "Până mâine",
+        "NEXT_WEEK": "Până săptămâna viitoare"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Semnătura mesajului",
       "ENABLE_SIGN_TOOLTIP": "Activarea semnăturii",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Notă privată: vizibilă doar pentru tine și echipa ta",
     "CHANGE_STATUS": "Stare conversație schimbată",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Persoana căreia i-a fost ateribuită conversația a fost schimbată",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Echipa de conversație schimbată",
     "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
