@@ -44,12 +44,14 @@ jobs:
       run: tail -100 /var/log/chatwoot-setup.log
  
     - name: test
+      if: always()
       run: |
         sudo netstat -ntlp | grep -i '5432\|6379'
         sudo service postgresql start
         sudo netstat -ntlp | grep -i '5432\|6379'
 
     - name: Run 2
+      if: always()
       run: |
         sudo ./install.sh --install < input
 
