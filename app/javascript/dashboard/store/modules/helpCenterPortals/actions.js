@@ -6,10 +6,14 @@ export const actions = {
   index: async ({ commit }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await PortalsAPI.get();
-      const portalIds = data.map(portal => portal.id);
-      commit(types.ADD_MANY_PORTALS_ENTRY, data);
+      const {
+        data: { payload, meta },
+      } = await PortalsAPI.get();
+      commit(types.CLEAR_PORTALS);
+      const portalIds = payload.map(portal => portal.id);
+      commit(types.ADD_MANY_PORTALS_ENTRY, payload);
       commit(types.ADD_MANY_PORTALS_IDS, portalIds);
+      commit(types.SET_PORTALS_META, meta);
     } catch (error) {
       throwErrorMessage(error);
     } finally {

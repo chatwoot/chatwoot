@@ -12,15 +12,28 @@
         status="published"
         selected-locale-code="en-US"
       />
+      <div v-if="isFetching" class="articles--loader">
+        <spinner />
+        <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
+      </div>
+      <empty-state
+        v-else-if="!isFetching && !portals.length"
+        :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import PortalListItem from 'dashboard/routes/dashboard/helpcenter/components/PortalListItem';
+import { mapGetters } from 'vuex';
+import PortalListItem from '../../components/PortalListItem';
+import Spinner from 'shared/components/Spinner.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState';
 export default {
   components: {
     PortalListItem,
+    EmptyState,
+    Spinner,
   },
   data() {
     return {
@@ -137,7 +150,19 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters({
+      allPortals: 'portals/allPortals',
+      isFetching: 'portals/isFetchingPortals',
+    }),
+  },
+  mounted() {
+    this.fetchPortals();
+  },
   methods: {
+    fetchPortals() {
+      this.$store.dispatch('portals/index');
+    },
     createPortal() {
       this.$emit('create-portal');
     },
