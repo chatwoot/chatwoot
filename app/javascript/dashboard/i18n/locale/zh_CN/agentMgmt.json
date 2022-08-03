@@ -95,16 +95,16 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "没有",
       "TITLE": {
-        "AGENT": "选择代理",
+        "AGENT": "选择客服代表",
         "TEAM": "选择团队"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "未找到代理",
+          "AGENT": "未找到客服代表",
           "TEAM": "没有找到团队"
         },
         "PLACEHOLDER": {
-          "AGENT": "搜索代理",
+          "AGENT": "搜索客服代表",
           "TEAM": "查找团队"
         }
       }
