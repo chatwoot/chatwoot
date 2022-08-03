@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
     "TRAIL_BUTTON": "Придбати зараз",
-    "DELETED_USER": "Видалений користувач"
+    "DELETED_USER": "Видалений користувач",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -198,7 +202,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Категорія"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",

@@ -43,7 +43,7 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
+        "NONE": "啥都没有",
         "ASSIGNED": "Assigned Conversations",
         "ALL_CONVERSATIONS": "All Conversations"
       },
@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "剩余试用期天数",
     "TRAIL_BUTTON": "立即购买",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Deleted User",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -157,7 +161,7 @@
     "MENTIONED_CONVERSATIONS": "提及",
     "REPORTS": "报告",
     "SETTINGS": "设置",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "联系人",
     "HOME": "首页",
     "AGENTS": "客服代理们",
     "INBOXES": "收件箱",
@@ -186,7 +190,7 @@
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "标签",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "收件箱",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
@@ -198,7 +202,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",

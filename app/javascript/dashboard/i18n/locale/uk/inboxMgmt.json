@@ -413,7 +413,8 @@
       "CONFIGURATION": "Конфігурація",
       "CAMPAIGN": "Розсилка",
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
-      "BUSINESS_HOURS": "Робочий час"
+      "BUSINESS_HOURS": "Робочий час",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Режим підтвердження Open SSL",
       "AUTH_MECHANISM": "Автентифікація"
     },
-    "NOTE": "Замітка: "
+    "NOTE": "Замітка: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Назва сайту",
+          "PLACE_HOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Заголовок",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Талін привітання",
+          "PLACE_HOLDER": "Ми робимо це простим — запитуємо що-небудь чи поділіться своїми відгуками."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "За кілька хвилин",
+          "IN_A_FEW_HOURS": "За кілька годин",
+          "IN_A_DAY": "Протягом дня"
+        },
+        "WIDGET_COLOR_LABEL": "Колір віджета",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Почніть розмову з нами",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Почніть розмову з нами"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
+        "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
+        "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Розпочати розмову",
+        "CHAT_INPUT_PLACEHOLDER": "Введіть Ваше повідомлення"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Нас наразі немає"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Працює на Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

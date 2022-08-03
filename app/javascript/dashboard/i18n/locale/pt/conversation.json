@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Por favor, selecione uma conversa no painel da esquerda",
+    "SELECT_A_CONVERSATION": "Por favor, selecione uma conversa no painel da esquerda",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Marcar como pendente",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reabrir conversa",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Até à próxima resposta",
+        "TOMORROW": "Até amanhã",
+        "NEXT_WEEK": "Até à próxima semana"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Assinatura da mensagem",
       "ENABLE_SIGN_TOOLTIP": "Habilitar assinatura",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa alterado",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Equipa de conversação alterada",
     "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",

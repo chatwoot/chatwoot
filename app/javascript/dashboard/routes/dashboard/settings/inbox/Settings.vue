@@ -325,6 +325,9 @@
     <div v-if="selectedTabKey === 'businesshours'">
       <weekly-availability :inbox="inbox" />
     </div>
+    <div v-if="selectedTabKey === 'widgetBuilder'">
+      <widget-builder :inbox="inbox" />
+    </div>
   </div>
 </template>
 
@@ -342,6 +345,7 @@ import WeeklyAvailability from './components/WeeklyAvailability';
 import GreetingsEditor from 'shared/components/GreetingsEditor';
 import ConfigurationPage from './settingsPage/ConfigurationPage';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage';
+import WidgetBuilder from './WidgetBuilder';
 
 export default {
   components: {
@@ -353,6 +357,7 @@ export default {
     GreetingsEditor,
     ConfigurationPage,
     CollaboratorsPage,
+    WidgetBuilder,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -409,6 +414,10 @@ export default {
           {
             key: 'configuration',
             name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+          {
+            key: 'widgetBuilder',
+            name: this.$t('INBOX_MGMT.TABS.WIDGET_BUILDER'),
           },
         ];
       }

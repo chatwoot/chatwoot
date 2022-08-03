@@ -151,7 +151,7 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "SUCCESS_MESSAGE": "Kişi profil resmi başarıyla silindi",
         "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },

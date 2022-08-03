@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Preuzimanje integracija",
+    "NO_HOOK_CONFIGURED": "Nema %{integrationId} integracija podešenih na ovom nalogu.",
+    "HEADER": "Aplikacije",
     "STATUS": {
-      "ENABLED": "Enabled",
-      "DISABLED": "Disabled"
+      "ENABLED": "Omogućeno",
+      "DISABLED": "Onemogućeno"
     },
-    "CONFIGURE": "Configure",
-    "ADD_BUTTON": "Add a new hook",
+    "CONFIGURE": "Podesi",
+    "ADD_BUTTON": "Dodaj novu zakačku",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Potvrdi brisanje",
+        "ACCOUNT": "Prekini vezu"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "Da li zaista želite da obrišete?",
+        "ACCOUNT": "Da li zaista želite da prekinete vezu?"
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Yes, Delete",
-        "ACCOUNT": "Yes, Disconnect"
+        "INBOX": "Da, obriši",
+        "ACCOUNT": "Da, prekini vezu"
       },
       "CANCEL_BUTTON_TEXT": "Otkaži",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "SUCCESS_MESSAGE": "Zakačka je uspešno obrisana",
         "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "Preuzimanje zakački integracija",
+      "INBOX": "Prijemno sanduče",
       "DELETE": {
         "BUTTON_TEXT": "Izbriši"
       }
@@ -38,25 +38,25 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Izaberi prijemno sanduče",
+          "PLACEHOLDER": "Izaberi prijemno sanduče"
         },
-        "SUBMIT": "Create",
+        "SUBMIT": "Napravi",
         "CANCEL": "Otkaži"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "SUCCESS_MESSAGE": "Zakačka integracije je uspešno dodata",
         "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Poveži"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Prekini vezu"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow je platforma za razumevanje prirodnog jezika koja olakšava dizajniranje i integraciju interfejsa korisnika razgovora u vašu aplikaciju za mobilne telefone, wev aplikaciju, uređaj, bot, sistem interaktivnog glasovnog odgovora itd. <br /> <br /> Dialogflow integracija sa %{installationName} vam omogućava da podesite Dialogflow bot sa vašim prijemnim sandučićima što omogućava botu da rešava početne upite i prosleđuje ih agentu kada je to potrebno. Dialogflow se može koristiti za kvalifikaciju tragova, smanjenje opterećenja agenata prosleđivanjem često postavljanih pitanja itd. <br /> <br /> Da bi ste dodali Dialogflow, morate da kreirate servisni nalog u konzoli vašeg Google projekta i podeliti kredencijale. Konsultujte Dialogflow dokumentaciju za dodatne informacije."
     }
   }
 }
