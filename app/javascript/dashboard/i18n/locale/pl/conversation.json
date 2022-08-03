@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Wybierz rozmowę z lewej strony",
+    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Tożsamość tego użytkownika nie jest zweryfikowana",
     "NO_MESSAGE_1": "Ups! Wygląda na to, że nie ma wiadomości od klientów w Twojej skrzynce odbiorczej.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Następny tydzień"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Oznacz jako oczekujące",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Otwórz ponownie rozmowę",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Do następnej odpowiedzi",
+        "TOMORROW": "Do jutra",
+        "NEXT_WEEK": "Do następnego tygodnia"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Zespół konwersacji został zmieniony",
     "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",

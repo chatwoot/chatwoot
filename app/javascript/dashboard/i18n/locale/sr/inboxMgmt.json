@@ -1,47 +1,47 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
+    "HEADER": "Prijemni sandučići",
     "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Izaberite kanal",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
       },
       {
-        "title": "Create Inbox",
+        "title": "Napravi prijemno sanduče",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Potvrdite vaš nalog i napravite prijemno sanduće."
       },
       {
-        "title": "Add Agents",
+        "title": "Dodaj agente",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Dodajte agente napravljenom prijamnom sandučetu."
       },
       {
-        "title": "Voila!",
+        "title": "Izvolite!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Sve je spremno za početak!"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "LABEL": "Naziv prijemnog sandučeta",
+        "PLACEHOLDER": "Unesite naziv prijamnog sandučeta (npr.: Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
+        "LABEL": "Naziv veb sajta",
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PAGE": "Izaberite stranicu",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
+        "INBOX_NAME": "Naziv prijemnog sandučeta",
         "ADD_NAME": "Add a name for your inbox",
         "PICK_NAME": "Pick A Name Your Inbox",
         "PICK_A_VALUE": "Pick a value"
@@ -63,7 +63,7 @@
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Molim vas unesite ispravnu adresu"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
@@ -127,7 +127,7 @@
           "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Naziv prijemnog sandučeta",
           "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "This field is required"
         },
@@ -158,7 +158,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID naloga",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "This field is required"
           },
@@ -178,7 +178,7 @@
             "ERROR": "This field is required"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
+            "LABEL": "Naziv prijemnog sandučeta",
             "PLACEHOLDER": "Please enter a inbox name",
             "ERROR": "This field is required"
           },
@@ -207,7 +207,7 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Naziv prijemnog sandučeta",
           "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "This field is required"
         },
@@ -273,9 +273,9 @@
           "ERROR": "This field is required"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "E-pošta",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "E-pošta"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
@@ -411,9 +411,10 @@
       "SETTINGS": "Settings",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Kampanje",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -462,7 +463,7 @@
       "TITLE": "Reauthorize",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
@@ -529,12 +530,12 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Lozinka",
+        "PLACE_HOLDER": "Lozinka"
       },
       "ENABLE_SSL": "Enable SSL"
     },
@@ -557,12 +558,12 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Lozinka",
+        "PLACE_HOLDER": "Lozinka"
       },
       "DOMAIN": {
         "LABEL": "Domain",
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Naziv veb sajta",
+          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Welcome Heading",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day"
+        },
+        "WIDGET_COLOR_LABEL": "Widget Color",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Razgovarajte sa nama",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Razgovarajte sa nama"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Pregledajte",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
+        "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
+        "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Započnite razgovor",
+        "CHAT_INPUT_PLACEHOLDER": "Napišite vašu poruku"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Trenutno nismo dostupni"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Pokreće Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }
