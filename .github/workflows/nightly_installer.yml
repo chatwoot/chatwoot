@@ -39,27 +39,25 @@ jobs:
       run: |
         sudo ./install.sh --install < input
 
-    - name: logs
-      if: always()
-      run: tail -100 /var/log/chatwoot-setup.log
- 
-    - name: test
+    # temp fix for postgresql not starting 
+    # automatically
+    - name: start postgresql service
       if: always()
       run: |
-        sudo netstat -ntlp | grep -i '5432\|6379'
         sudo service postgresql start
-        sudo netstat -ntlp | grep -i '5432\|6379'
 
-    - name: Run 2
+    #re-running the installer again
+    - name: Run the installer 2
       if: always()
       run: |
         sudo ./install.sh --install < input
 
-    - name: logs
-      if: always()
-      run: tail -100 /var/log/chatwoot-setup.log
+        #   - name: logs
+        #      if: always()
+        #      run: tail -100 /var/log/chatwoot-setup.log
 
     - name: Verify
+      if: always()
       run: |
         curl http://localhost:3000/api
 
