@@ -37,6 +37,7 @@ jobs:
 
     - name: Run the installer
       run: |
+        sudo su
         ./install.sh --install < input
 
     - name: Verify
