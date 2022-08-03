@@ -5,12 +5,15 @@
         <h2 class="block-title">
           {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
         </h2>
-        <router-link to="#" class="new-popover-link">
-          <fluent-icon icon="add" size="16" />
-          <span>
-            {{ $t('HELP_CENTER.PORTAL.POPOVER.NEW_PORTAL_LINK') }}
-          </span>
-        </router-link>
+        <woot-button
+          variant="smooth"
+          color-scheme="secondary"
+          icon="settings"
+          size="small"
+          @click="openPortalPage"
+        >
+          {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
+        </woot-button>
       </div>
       <p class="subtitle">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
@@ -51,6 +54,9 @@ export default {
   methods: {
     closePortalPopover() {
       this.$emit('close-popover');
+    },
+    openPortalPage() {
+      this.$emit('open-portal-page');
     },
   },
 };

@@ -413,7 +413,8 @@
       "CONFIGURATION": "Διαμόρφωση",
       "CAMPAIGN": "Καμπάνιες",
       "PRE_CHAT_FORM": "Φόρμα Προ-Συνομιλίας",
-      "BUSINESS_HOURS": "Ώρες Εργασίας"
+      "BUSINESS_HOURS": "Ώρες Εργασίας",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Ρυθμίσεις",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Λειτουργία Επιβεβαίωσης SSL",
       "AUTH_MECHANISM": "Πιστοποίηση"
     },
-    "NOTE": "Σημείωση: "
+    "NOTE": "Σημείωση: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Όνομα Ιστοσελίδας",
+          "PLACE_HOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Καλώς ήλθατε (Heading)",
+          "PLACE_HOLDER": "Γεια χαρά!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Καλώς ήλθατε (Tagline)",
+          "PLACE_HOLDER": "Είναι απλό να συνδεθείτε μαζί μας. Ζητήστε μας οτιδήποτε, ή μοιραστείτε την εμπειρία σας."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "Σε μερικά λεπτά",
+          "IN_A_FEW_HOURS": "Σε μερικές ώρες",
+          "IN_A_DAY": "Σε μία ημέρα"
+        },
+        "WIDGET_COLOR_LABEL": "Χρώμα Widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Συνομιλήστε μαζί μας",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Συνομιλήστε μαζί μας"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Τυπικά έχετε απάντηση σε μερικά λεπτά",
+        "IN_A_FEW_HOURS": "Τυπικά έχετε απάντηση σε μερικές σε μερικές ώρες",
+        "IN_A_DAY": "Τυπικά έχετε απάντηση σε μία ημέρα"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Έναρξη Συνομιλίας",
+        "CHAT_INPUT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Προς το παρόν, είμαστε εκτός"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "με την δύναμη του Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }
