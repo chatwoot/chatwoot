@@ -47,6 +47,17 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response_data.keys).to include(*response_keys)
         expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
       end
+
+      it 'returns 401 if account is suspended' do
+        account.update!(status: :suspended)
+
+        post '/api/v1/widget/config',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
 
     context 'with correct website token and invalid X-Auth-Token' do
