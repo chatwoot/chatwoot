@@ -7,7 +7,15 @@ json.name portal.name
 json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
-json.config portal.config
+
+json.config do
+  json.allowed_locales do
+    json.array! portal.config['allowed_locales'].each do |locale|
+      json.partial! 'api/v1/models/portal_config.json.jbuilder', locale: locale, portal: portal
+    end
+  end
+end
+
 json.logo portal.file_base_data if portal.logo.present?
 
 json.portal_members do
