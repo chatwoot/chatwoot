@@ -127,9 +127,14 @@ export default {
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-bold);
   }
-  .input-group-field::v-deep input {
-    margin-bottom: 0;
-    border-color: transparent;
+  .input-group-field::v-deep {
+    label {
+      margin-bottom: 0;
+    }
+    input {
+      margin-bottom: 0;
+      border-color: transparent;
+    }
   }
 }
 
