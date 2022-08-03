@@ -3,7 +3,7 @@ import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 
 export const actions = {
-  index: async ({ commit, dispatch, state }) => {
+  index: async ({ commit, state, dispatch }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
