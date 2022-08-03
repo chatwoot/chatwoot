@@ -36,7 +36,7 @@
             "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
             "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
             "CUSTOM_ATTRIBUTE_LINK": "Veza",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
             "CREATED_AT": "Kreirano",
             "LAST_ACTIVITY": "Poslednja aktivnost",
             "REFERER_LINK": "Referrer link"
