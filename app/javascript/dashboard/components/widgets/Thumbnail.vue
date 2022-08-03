@@ -9,7 +9,7 @@
     />
     <Avatar
       v-else
-      :username="username"
+      :username="userNameWithoutEmoji"
       :class="thumbnailClass"
       :size="avatarSize"
       :variant="variant"
@@ -86,6 +86,7 @@
  * Username - User name for avatar
  */
 import Avatar from './Avatar';
+import { removeEmoji } from 'shared/helpers/emoji';
 
 export default {
   components: {
@@ -131,6 +132,9 @@ export default {
     };
   },
   computed: {
+    userNameWithoutEmoji() {
+      return removeEmoji(this.username);
+    },
     showStatusIndicator() {
       if (this.shouldShowStatusAlways) return true;
       return this.status === 'online' || this.status === 'busy';
