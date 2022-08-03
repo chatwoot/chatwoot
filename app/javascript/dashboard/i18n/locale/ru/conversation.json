@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Пожалуйста, выберите диалог из левой панели",
+    "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
+    "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
+    "SWITCH_VIEW_LAYOUT": "Изменить раскладку",
     "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
     "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "На следующей неделе"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Отметить как ожидающие",
+      "RESOLVED": "Пометить как разрешено",
+      "REOPEN": "Переоткрыть разговор",
+      "SNOOZE": {
+        "TITLE": "Отложено",
+        "NEXT_REPLY": "До следующего ответа",
+        "TOMORROW": "До завтра",
+        "NEXT_WEEK": "До следующей недели"
+      },
+      "ASSIGN_AGENT": "Назначить агента",
+      "ASSIGN_LABEL": "Назначить метки",
+      "AGENTS_LOADING": "Загрузка агентов..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
       "ENABLE_SIGN_TOOLTIP": "Включить подпись",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
+    "CHANGE_STATUS_FAILED": "Не удалось изменить статус диалога",
     "CHANGE_AGENT": "Назначенный оператор изменен",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
     "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
