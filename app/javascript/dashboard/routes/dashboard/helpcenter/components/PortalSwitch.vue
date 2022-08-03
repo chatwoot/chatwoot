@@ -80,7 +80,7 @@ export default {
     },
   },
   mounted() {
-    this.selectedLocale = this.locale;
+    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
   },
   methods: {
     onClick(code, portal) {

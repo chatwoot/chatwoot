@@ -3,7 +3,7 @@ import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 
 export const actions = {
-  index: async ({ commit }) => {
+  index: async ({ commit, dispatch, state }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
@@ -13,6 +13,10 @@ export const actions = {
       const portalIds = payload.map(portal => portal.id);
       commit(types.ADD_MANY_PORTALS_ENTRY, payload);
       commit(types.ADD_MANY_PORTALS_IDS, portalIds);
+      const { selectedPortalId } = state;
+      if (!portalIds.includes(selectedPortalId)) {
+        dispatch('setPortalId', portalIds[0]);
+      }
       commit(types.SET_PORTALS_META, meta);
     } catch (error) {
       throwErrorMessage(error);
@@ -71,5 +75,9 @@ export const actions = {
         portalId,
       });
     }
+  },
+
+  setPortalId: async ({ commit }, portalId) => {
+    commit(types.SET_SELECTED_PORTAL_ID, portalId);
   },
 };

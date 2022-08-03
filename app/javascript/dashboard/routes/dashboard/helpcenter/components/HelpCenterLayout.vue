@@ -9,7 +9,7 @@
     <div v-if="portals.length" class="margin-right-small">
       <help-center-sidebar
         :header-title="headerTitle"
-        :sub-title="localeName(locale)"
+        :sub-title="localeName(selectedPortalLocale)"
         :accessible-menu-items="accessibleMenuItems"
         :additional-secondary-menu-items="additionalSecondaryMenuItems"
         @open-popover="openPortalPopover"

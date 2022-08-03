@@ -13,12 +13,12 @@
       :total-count="meta.count"
       @on-page-change="onPageChange"
     />
-    <div v-if="isFetching" class="articles--loader">
+    <div v-if="showLoader" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="!isFetching && !articles.length"
+      v-else-if="showEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -48,10 +48,13 @@ export default {
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
+      currentUserId: 'getCurrentUserID',
     }),
-
     showEmptyState() {
-      return this.articles.length === 0;
+      return !this.isFetching && !this.articles.length;
+    },
+    showLoader() {
+      return this.isFetching && !this.articles.length;
     },
     articleType() {
       return this.$route.path.split('/').pop();
@@ -68,10 +71,34 @@ export default {
           return this.$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES');
       }
     },
+    status() {
+      switch (this.articleType) {
+        case 'draft':
+          return 0;
+        case 'published':
+          return 1;
+        case 'archived':
+          return 2;
+        default:
+          return undefined;
+      }
+    },
+    author() {
+      if (this.articleType === 'mine') {
+        return this.currentUserId;
+      }
+      return null;
+    },
+  },
+  watch: {
+    $route() {
+      this.fetchArticles({ pageNumber: this.pageNumber });
+    },
   },
   mounted() {
     this.fetchArticles({ pageNumber: this.pageNumber });
   },
+
   methods: {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
@@ -81,6 +108,8 @@ export default {
         pageNumber,
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
+        status: this.status,
+        author_id: this.author,
       });
     },
     onPageChange(page) {

@@ -8,17 +8,18 @@
     </div>
     <div class="portal-container">
       <portal-list-item
-        :portals="portals"
-        status="published"
-        selected-locale-code="en-US"
+        v-for="portal in portals"
+        :key="portal.id"
+        :portal="portal"
+        :status="portalStatus"
       />
-      <div v-if="isFetching" class="articles--loader">
+      <div v-if="isFetching" class="portals--loader">
         <spinner />
-        <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
+        <span>{{ $t('HELP_CENTER.PORTAL.LOADING_MESSAGE') }}</span>
       </div>
       <empty-state
         v-else-if="!isFetching && !portals.length"
-        :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
+        :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
   </div>
@@ -35,133 +36,22 @@ export default {
     EmptyState,
     Spinner,
   },
-  data() {
-    return {
-      // Dummy data for testing will remove once the state is implemented.
-      portals: [
-        {
-          name: 'Chatwoot Help Center',
-          id: 1,
-          color: 'red',
-          custom_domain: 'help-center.chatwoot.com',
-          articles_count: 123,
-          header_text: 'Help center',
-          homepage_link: null,
-          page_title: 'English',
-          slug: 'help-center',
-          archived: false,
-          config: {
-            allowed_locales: [
-              {
-                code: 'en-US',
-                name: 'English',
-                articles_count: 123,
-                categories_count: 42,
-              },
-              {
-                code: 'fr-FR',
-                name: 'Français',
-                articles_count: 23,
-                categories_count: 11,
-              },
-              {
-                code: 'de-DE',
-                name: 'Deutsch',
-                articles_count: 32,
-                categories_count: 12,
-              },
-              {
-                code: 'es-ES',
-                name: 'Español',
-                articles_count: 12,
-                categories_count: 4,
-              },
-            ],
-          },
-          locales: [
-            {
-              code: 'en-US',
-              name: 'English',
-              articles_count: 123,
-              categories_count: 42,
-            },
-            {
-              code: 'fr-FR',
-              name: 'Français',
-              articles_count: 23,
-              categories_count: 11,
-            },
-            {
-              code: 'de-DE',
-              name: 'Deutsch',
-              articles_count: 32,
-              categories_count: 12,
-            },
-            {
-              code: 'es-ES',
-              name: 'Español',
-              articles_count: 12,
-              categories_count: 4,
-            },
-          ],
-        },
-        {
-          name: 'Chatwoot Docs',
-          id: 2,
-          color: 'green',
-          custom_domain: 'doc-chatwoot.com',
-          articles_count: 67,
-          header_text: 'Docs',
-          homepage_link: null,
-          page_title: 'Portal',
-          slug: 'second_portal',
-          archived: false,
-          config: {
-            allowed_locales: [
-              {
-                name: 'English',
-                code: 'en-EN',
-                articles_count: 12,
-                categories_count: 66,
-              },
-              {
-                name: 'Mandarin',
-                code: 'ch-CH',
-                articles_count: 6,
-                categories_count: 23,
-              },
-            ],
-          },
-          locales: [
-            {
-              name: 'English',
-              code: 'en-EN',
-              articles_count: 12,
-              categories_count: 66,
-            },
-            {
-              name: 'Mandarin',
-              code: 'ch-CH',
-              articles_count: 6,
-              categories_count: 23,
-            },
-          ],
-        },
-      ],
-    };
-  },
   computed: {
     ...mapGetters({
-      allPortals: 'portals/allPortals',
+      portals: 'portals/allPortals',
+      meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    portalStatus() {
+      return this.archived ? 'Archived' : 'Live';
+    },
   },
   mounted() {
-    this.fetchPortals();
+    // this.fetchPortals();
   },
   methods: {
     fetchPortals() {
-      this.$store.dispatch('portals/index');
+      // this.$store.dispatch('portals/index');
     },
     createPortal() {
       this.$emit('create-portal');
@@ -174,7 +64,13 @@ export default {
 .container {
   padding: var(--space-small) var(--space-normal);
   width: 100%;
-
+  .portals--loader {
+    align-items: center;
+    display: flex;
+    font-size: var(--font-size-default);
+    justify-content: center;
+    padding: var(--space-big);
+  }
   .header-wrap {
     display: flex;
     justify-content: space-between;
