@@ -130,14 +130,9 @@ export default {
     font-weight: var(--font-weight-bold);
     padding-left: 0;
   }
-  .input-group-field::v-deep {
-    label {
-      margin-bottom: 0;
-    }
-    input {
-      margin-bottom: 0;
-      border-color: transparent;
-    }
+  .input-group-field::v-deep input {
+    margin-bottom: 0;
+    border-color: transparent;
   }
 }
 
