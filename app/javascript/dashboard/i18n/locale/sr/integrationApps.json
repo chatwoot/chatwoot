@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "Prijemno sanduče",
       "DELETE": {
         "BUTTON_TEXT": "Izbriši"
       }
