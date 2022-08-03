@@ -2,10 +2,10 @@
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header :header-title="title" :header-content="message" />
     <div class="modal-footer delete-item">
-      <button class="alert button nice" @click="onConfirm">
+      <button class="alert button nice text-truncate" @click="onConfirm">
         {{ confirmText }}
       </button>
-      <button class="button clear" @click="onClose">
+      <button class="button clear text-truncate" @click="onClose">
         {{ rejectText }}
       </button>
     </div>

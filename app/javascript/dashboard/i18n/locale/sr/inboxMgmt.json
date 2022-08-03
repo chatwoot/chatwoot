@@ -1,46 +1,47 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
+    "HEADER": "Prijemni sandučići",
     "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Izaberite kanal",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
       },
       {
-        "title": "Create Inbox",
+        "title": "Napravi prijemno sanduče",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Potvrdite vaš nalog i napravite prijemno sanduće."
       },
       {
-        "title": "Add Agents",
+        "title": "Dodaj agente",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Dodajte agente napravljenom prijamnom sandučetu."
       },
       {
-        "title": "Voila!",
+        "title": "Izvolite!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Sve je spremno za početak!"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "LABEL": "Naziv prijemnog sandučeta",
+        "PLACEHOLDER": "Unesite naziv prijamnog sandučeta (npr.: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
+        "LABEL": "Naziv veb sajta",
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PAGE": "Izaberite stranicu",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
+        "INBOX_NAME": "Naziv prijemnog sandučeta",
         "ADD_NAME": "Add a name for your inbox",
         "PICK_NAME": "Pick A Name Your Inbox",
         "PICK_A_VALUE": "Pick a value"
@@ -62,7 +63,7 @@
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Molim vas unesite ispravnu adresu"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the users when they starts the conversation.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "Create inbox",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Channel",
@@ -106,6 +110,12 @@
           "LABEL": "Account SID",
           "PLACEHOLDER": "Please enter your Twilio Account SID",
           "ERROR": "This field is required"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "This field is required",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Channel Type",
@@ -117,7 +127,7 @@
           "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Naziv prijemnog sandučeta",
           "PLACEHOLDER": "Please enter a inbox name",
           "ERROR": "This field is required"
         },
@@ -148,7 +158,7 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID naloga",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "This field is required"
           },
@@ -168,7 +178,7 @@
             "ERROR": "This field is required"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
+            "LABEL": "Naziv prijemnog sandučeta",
             "PLACEHOLDER": "Please enter a inbox name",
             "ERROR": "This field is required"
           },
@@ -193,10 +203,11 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
+          "LABEL": "Naziv prijemnog sandučeta",
           "PLACEHOLDER": "Please enter an inbox name",
           "ERROR": "This field is required"
         },
@@ -205,12 +216,30 @@
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
           "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Please enter a valid value."
+        },
         "API_KEY": {
           "LABEL": "API key",
           "SUBTITLE": "Configure the WhatsApp API key.",
           "PLACEHOLDER": "API key",
-          "APPLY_FOR_ACCESS": "Don't have any API key? Apply for access here",
           "ERROR": "Please enter a valid value."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -244,9 +273,9 @@
           "ERROR": "This field is required"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "E-pošta",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "E-pošta"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
@@ -298,7 +327,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widget, Facebook page, Twitter profile, WhatsApp, Email etc., as channels. If you want to build a custom channel, you can create it using the API channel. Select one channel from the options below to proceed."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenti",
@@ -339,7 +368,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Inbox settings updated successfully",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Enabled",
@@ -382,9 +411,10 @@
       "SETTINGS": "Settings",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
+      "CAMPAIGN": "Kampanje",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -412,21 +442,28 @@
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder to validate the user's identity, the SDK allows you to pass an `identifier_hash` for each user. You can generate HMAC using 'sha256' with the key shown here.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, Chatwoot SDKs setUser method will not work unless the `identifier_hash` is provided for each user.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
       "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
@@ -435,8 +472,8 @@
         "FIELDS": "Fields",
         "LABEL": "Label",
         "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
+        "KEY": "Ključ",
+        "TYPE": "Tip",
         "REQUIRED": "Required"
       },
       "ENABLE": {
@@ -493,12 +530,12 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Lozinka",
+        "PLACE_HOLDER": "Lozinka"
       },
       "ENABLE_SSL": "Enable SSL"
     },
@@ -521,12 +558,12 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Lozinka",
+        "PLACE_HOLDER": "Lozinka"
       },
       "DOMAIN": {
         "LABEL": "Domain",
@@ -538,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Naziv veb sajta",
+          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Welcome Heading",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day"
+        },
+        "WIDGET_COLOR_LABEL": "Widget Color",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Razgovarajte sa nama",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Razgovarajte sa nama"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Pregledajte",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
+        "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
+        "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Započnite razgovor",
+        "CHAT_INPUT_PLACEHOLDER": "Napišite vašu poruku"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Trenutno nismo dostupni"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Pokreće Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "الرسائل",
     "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "الأسبوع المقبل"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "تحديد كمعلق",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "إعادة فتح المحادثة",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "حتى الرد القادم",
+        "TOMORROW": "حتى الغد",
+        "NEXT_WEEK": "حتى الأسبوع القادم"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
       "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",

@@ -4,15 +4,21 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_resolve_duration :integer
+#  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :integer          default(0), not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
+#  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#
+# Indexes
+#
+#  index_accounts_on_status  (status)
 #
 
 class Account < ApplicationRecord
@@ -39,7 +45,8 @@ class Account < ApplicationRecord
   has_many :agent_bots, dependent: :destroy_async
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
   has_many :articles, dependent: :destroy_async, class_name: '::Article'
-  has_many :automation_rules, dependent: :destroy
+  has_many :automation_rules, dependent: :destroy_async
+  has_many :macros, dependent: :destroy_async
   has_many :campaigns, dependent: :destroy_async
   has_many :canned_responses, dependent: :destroy_async
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
@@ -77,6 +84,7 @@ class Account < ApplicationRecord
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
+  enum status: { active: 0, suspended: 1 }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
@@ -112,7 +120,7 @@ class Account < ApplicationRecord
   end
 
   def support_email
-    super || ENV['MAILER_SENDER_EMAIL'] || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL']
+    super || ENV.fetch('MAILER_SENDER_EMAIL') { GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] }
   end
 
   def usage_limits
