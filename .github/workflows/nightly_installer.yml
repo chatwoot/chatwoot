@@ -41,7 +41,21 @@ jobs:
 
     - name: logs
       if: always()
-      run: cat /var/log/chatwoot-setup.log
+      run: tail -100 /var/log/chatwoot-setup.log
+ 
+    - name: test
+      run: |
+        sudo netstat -ntlp | grep -i '5432\|6379'
+        sudo service postgresql start
+        sudo netstat -ntlp | grep -i '5432\|6379'
+
+    - name: Run 2
+      run: |
+        sudo ./install.sh --install < input
+
+    - name: logs
+      if: always()
+      run: tail -100 /var/log/chatwoot-setup.log
 
     - name: Verify
       run: |
