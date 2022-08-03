@@ -198,7 +198,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Κατηγορία"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
