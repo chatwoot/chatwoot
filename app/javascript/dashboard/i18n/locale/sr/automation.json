@@ -1,54 +1,54 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "Automatizacije",
+    "HEADER_BTN_TXT": "Dodaj pravilo automatizacije",
+    "LOADING": "Prikupljanje pravila automatizacije",
+    "SIDEBAR_TXT": "<p><b>Pravila automatizacije</b> <p>Automatizacija može da zameni i automatizuje postojeće procese koji zahtevaju ručnu aktivnost. Možete odraditi puno stvari sa automatizacijom, uključujući dodavanje oznaka i dodeljivanje razgovora najboljem agentu. Tako tim može da se usresredi na ono što rade najbolje i provedu što je manje vremena na ručne zadatke.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
-      "SUBMIT": "Create",
+      "TITLE": "Dodaj pravilo automatizacije",
+      "SUBMIT": "Napravi",
       "CANCEL_BUTTON_TEXT": "Otkaži",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Naziv pravila",
+          "PLACEHOLDER": "Unesite naziv pravila",
           "ERROR": "Ime je neophodno"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter rule description",
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Unesite opis pravila",
           "ERROR": "Opis je neophodan"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Događaj",
           "PLACEHOLDER": "Molim izaberite jedno",
-          "ERROR": "Event is required"
+          "ERROR": "Događaj je obavezan"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Uslovi"
         },
         "ACTIONS": {
           "LABEL": "Akcije"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Dodaj uslov",
+      "ACTION_BUTTON_LABEL": "Dodaj akciju",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno dodato",
+        "ERROR_MESSAGE": "Nije bilo moguće napraviti pravilo automatizacije. Molim vas pokušajte ponovo"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "Ime",
-        "Description",
-        "Active",
-        "Created on"
+        "Opis",
+        "Aktivno",
+        "Napravljeno"
       ],
-      "404": "No automation rules found"
+      "404": "Nisu pronađena pravila automatizacije"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Obriši pravilo automatizacije",
       "SUBMIT": "Izbriši",
       "CANCEL_BUTTON_TEXT": "Otkaži",
       "CONFIRM": {
@@ -58,58 +58,58 @@
         "NO": "Ne, zadrži "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno obrisano",
+        "ERROR_MESSAGE": "Nije bilo moguće obrisati pravilo automatizacije. Molim vas pokušajte ponovo"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Update",
+      "TITLE": "Uredi pravilo automatizacije",
+      "SUBMIT": "Primeni",
       "CANCEL_BUTTON_TEXT": "Otkaži",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno izmenjeno",
+        "ERROR_MESSAGE": "Nije bilo moguće izmeniti pravilo automatizacije. Molim vas pokušajte ponovo"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Kloniraj",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizacija je uspešno klonirana",
+        "ERROR_MESSAGE": "Nije bilo moguće klonirati pravilo automatizacije. Molim vas pokušajte ponovo"
       }
     },
     "FORM": {
       "EDIT": "Uredi",
-      "CREATE": "Create",
+      "CREATE": "Napravi",
       "DELETE": "Izbriši",
       "CANCEL": "Otkaži",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Promena tipa događaja će resetovati uslove i događaje koje ste dodali ispod"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Morate imati barem jedan uslov da bi ste mogli da sačuvate"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "Morate imati barem jednu akciju da bi ste mogli da sačuvate",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Unesite ovde vašu poruku",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Izaberite timove"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "ACTIVATION_TITLE": "Aktiviraj pravilo automatizacije",
+      "DEACTIVATION_TITLE": "Deaktiviraj pravilo automatizacije",
+      "ACTIVATION_DESCRIPTION": "Ova akcija će aktivirati pravilo automatizacije '{automationName}'. Da li zaista želite da nastavite?",
+      "DEACTIVATION_DESCRIPTION": "Ova akcija će deaktivirati pravilo automatizacije '{automationName}'. Da li zaista želite da nastavite?",
+      "ACTIVATION_SUCCESFUL": "Pravilo automatizacije je uspešno aktivirano",
+      "DEACTIVATION_SUCCESFUL": "Pravilo automatizacije je uspešno deaktivirano",
+      "ACTIVATION_ERROR": "Nije bilo moguće aktivirati automatizaciju. Molim vas pokušajte ponovo",
+      "DEACTIVATION_ERROR": "Nije bilo moguće deaktivirati automatizaciju. Molim vas pokušajte ponovo",
+      "CONFIRMATION_LABEL": "Da",
+      "CANCEL_LABEL": "Ne"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Nije bilo moguće dodati prilog. Molim vas pokušajte ponovo",
+      "LABEL_IDLE": "Dodaj prilog",
       "LABEL_UPLOADING": "Dodavanje...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOADED": "Uspešno je dodato",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
