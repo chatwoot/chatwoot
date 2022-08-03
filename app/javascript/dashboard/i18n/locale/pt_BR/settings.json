@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
-    "DELETED_USER": "Deletar Usuário"
+    "DELETED_USER": "Deletar Usuário",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Conta Suspensa",
+      "MESSAGE": "Sua conta está suspensa. Por favor, entre em contato com a equipe de suporte para mais informações."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -198,7 +202,8 @@
       "DRAFT": "Rascunho",
       "ARCHIVED": "Arquivado",
       "CATEGORY": "Categoria"
-    }
+    },
+    "DOCS": "Ler documentos"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",

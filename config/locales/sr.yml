@@ -72,7 +72,7 @@ sr-Latn:
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
-      team_name: Team name
+      team_name: Naziv tima
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
@@ -84,7 +84,7 @@ sr-Latn:
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
         agent_name: Ime agenta
-        rating: Rating
+        rating: Ocena
         feedback: Feedback Comment
         recorded_at: Recorded date
   notifications:
