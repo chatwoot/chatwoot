@@ -5,8 +5,8 @@ describe('#getters', () => {
   beforeEach(() => {
     state = articles;
   });
-  it('uiFlagsIn', () => {
-    expect(getters.uiFlagsIn(state)(1)).toEqual({
+  it('uiFlags', () => {
+    expect(getters.uiFlags(state)(1)).toEqual({
       isFetching: false,
       isUpdating: true,
       isDeleting: false,
@@ -34,7 +34,7 @@ describe('#getters', () => {
     });
   });
 
-  it('isFetchingHelpCenters', () => {
-    expect(getters.isFetchingHelpCenterArticles(state)).toEqual(true);
+  it('isFetchingArticles', () => {
+    expect(getters.isFetching(state)).toEqual(true);
   });
 });
