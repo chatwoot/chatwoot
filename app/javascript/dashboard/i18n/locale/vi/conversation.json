@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "SELECT_A_CONVERSATION": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Tin nhắn",
     "UNVERIFIED_SESSION": "Danh tính của người dùng này không được xác thực",
     "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Tuần sau"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Đánh dấu chưa giải quyết",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Mở lại cuộc trò chuyện",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Cho đến phản hồi kế tiếp",
+        "TOMORROW": "Cho đến ngày mai",
+        "NEXT_WEEK": "Cho đến tuần sau"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Chữ ký tin nhắn",
       "ENABLE_SIGN_TOOLTIP": "Bật chữ ký",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
     "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Nhóm của cuộc trò chuyện đã được thay đổi",
     "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Không thể gửi tin nhắn này, vui lòng thử lại sau",
