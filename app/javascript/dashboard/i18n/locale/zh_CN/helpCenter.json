@@ -4,7 +4,18 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "SETTINGS_BUTTON": "设置",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "New Article",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "已发布",
+        "DRAFT": "草稿",
+        "ARCHIVED": "已存档"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "所有文章",
+        "MINE": "我的文章",
+        "DRAFT": "Draft Articles",
+        "ARCHIVED": "已存档的文章"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "Publish",
@@ -15,11 +26,62 @@
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
     },
+    "PORTAL": {
+      "HEADER": "门户网站",
+      "NEW_BUTTON": "新门户网站",
+      "ACTIVE_BADGE": "活跃",
+      "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
+      "ARTICLES_LABEL": "文章",
+      "ADD_NEW_LOCALE": "添加一个新的语言环境",
+      "POPOVER": {
+        "TITLE": "门户网站",
+        "PORTAL_SETTINGS": "Portal settings",
+        "SUBTITLE": "您有多个门户网站，每个门户网站可以有不同的语言环境。",
+        "CANCEL_BUTTON_LABEL": "取消",
+        "CHOOSE_LOCALE_BUTTON": "选择语言"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "文章",
+            "ADD": "Add locale",
+            "VISIT": "Visit site",
+            "SETTINGS": "设置"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portal Configurations",
+            "ITEMS": {
+              "NAME": "姓名：",
+              "DOMAIN": "Custom domain",
+              "SLUG": "Slug",
+              "TITLE": "Portal title",
+              "THEME": "Theme color",
+              "SUB_TEXT": "Portal sub text"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Available locales",
+            "TABLE": {
+              "NAME": "Locale name",
+              "CODE": "Locale code",
+              "ARTICLE_COUNT": "No. of articles",
+              "CATEGORIES": "No. of categories",
+              "SWAP": "Swap",
+              "DELETE": "删除",
+              "DEFAULT_LOCALE": "Default"
+            }
+          }
+        }
+      }
+    },
     "TABLE": {
+      "LOADING_MESSAGE": "正在加载文章...",
+      "404": "没有找到您要搜索的文章 🔍",
+      "NO_ARTICLES": "没有可用的文章",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "TITLE": "标题",
+        "CATEGORY": "类别",
+        "READ_COUNT": "阅读数",
         "STATUS": "状态",
         "LAST_EDITED": "Last edited"
       },
@@ -28,12 +90,41 @@
       }
     },
     "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "TITLE_PLACEHOLDER": "文章标题在此处显示",
+      "CONTENT_PLACEHOLDER": "在此处写下您的文章"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "搜索文章"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "创建一个类别",
+        "SUB_TITLE": "类别将用于公共门户来对文章进行归类。",
+        "PORTAL": "门户网站",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "类别名称",
+          "HELP_TEXT": "类别名称将用于公共门户来对文章进行归类。",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/zh-CN/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "给出有关该类别的简短描述。",
+          "ERROR": "描述是必需的"
+        },
+        "BUTTONS": {
+          "CREATE": "创建类别",
+          "CANCEL": "取消"
+        }
       }
     }
   }
