@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
     "TRAIL_BUTTON": "Jetzt kaufen",
-    "DELETED_USER": "Gelöschter Benutzer"
+    "DELETED_USER": "Gelöschter Benutzer",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Konto gesperrt",
+      "MESSAGE": "Ihr Account wurde gesperrt. Wenden Sie sich für weitere Informationen bitte an das Support-Team."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -198,7 +202,8 @@
       "DRAFT": "Entwürfe",
       "ARCHIVED": "Archiviert",
       "CATEGORY": "Kategorie"
-    }
+    },
+    "DOCS": "Dokumente lesen"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Rechnungen",

@@ -11,7 +11,7 @@
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
       "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "ERROR": "Molim vas ispravite greške formulara",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -32,7 +32,7 @@
         "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
+        "TITLE": "Lozinka",
         "NOTE": "Updating your password would reset your logins in multiple devices.",
         "BTN_TEXT": "Change password"
       },
@@ -43,7 +43,7 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
+        "NONE": "Niko",
         "ASSIGNED": "Assigned Conversations",
         "ALL_CONVERSATIONS": "All Conversations"
       },
@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "days trial remaining.",
     "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Deleted User",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -136,7 +140,7 @@
       "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Preuzmi",
       "UPLOADING": "Dodavanje..."
     },
     "FORM_BUBBLE": {
@@ -160,14 +164,14 @@
     "CONTACTS": "Kontakti",
     "HOME": "Home",
     "AGENTS": "Agenti",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
+    "INBOXES": "Prijemni sandučići",
+    "NOTIFICATIONS": "Obaveštenja",
     "CANNED_RESPONSES": "Gotovi odgovori",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
+    "APPLICATIONS": "Aplikacije",
+    "LABELS": "Oznake",
     "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
     "AUTOMATION": "Automation",
     "TEAMS": "Teams",
@@ -181,12 +185,12 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "Razgovori",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
+    "CAMPAIGNS": "Kampanje",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_AGENT": "Agenti",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_LABEL": "Oznake",
+    "REPORTS_INBOX": "Prijemno sanduče",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
@@ -197,8 +201,9 @@
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
-      "CATEGORY": "Category"
-    }
+      "CATEGORY": "Kategorija"
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
