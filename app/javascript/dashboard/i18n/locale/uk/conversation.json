@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Будь ласка, виберіть бесіду з лівої панелі",
+    "SELECT_A_CONVERSATION": "Будь ласка, виберіть бесіду з лівої панелі",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Текст повідомлень",
     "UNVERIFIED_SESSION": "Користувач не верифікований",
     "NO_MESSAGE_1": "Ой! Схоже, у вашій поштовій скринці немає ніяких повідомлень.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Наступного тижня"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Позначити як \"В очікуванні\"",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Повторно відкрити розмову",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "До наступної відповіді",
+        "TOMORROW": "До завтра",
+        "NEXT_WEEK": "До наступного тижня"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Підпис повідомлення",
       "ENABLE_SIGN_TOOLTIP": "Увімкнути підпис",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
     "CHANGE_STATUS": "Статус бесіди змінено",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Оператора бесіди змінено",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Команда змінена",
     "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
