@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Vyberte si konverzáciu z ľavého panela",
+    "SELECT_A_CONVERSATION": "Vyberte si konverzáciu z ľavého panela",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "Totožnosť tohto používateľa nie je overená",
     "NO_MESSAGE_1": "Zdá sa, že v doručenej pošte nemáte žiadne správy od zákazníkov.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Ďalší ťýždeň"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Označiť ako čakajúce na vybavenie",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reopen conversation",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Conversation Assignee changed",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
