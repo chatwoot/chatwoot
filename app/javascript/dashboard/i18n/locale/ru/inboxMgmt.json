@@ -413,7 +413,8 @@
       "CONFIGURATION": "Настройки",
       "CAMPAIGN": "Кампании",
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
-      "BUSINESS_HOURS": "Время работы"
+      "BUSINESS_HOURS": "Время работы",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
       "AUTH_MECHANISM": "Авторизация"
     },
-    "NOTE": "Примечание: "
+    "NOTE": "Примечание: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Имя сайта",
+          "PLACE_HOLDER": "Введите имя вашего сайта (например: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Заголовок приветствия",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Текст приветствия",
+          "PLACE_HOLDER": "Связаться с нами просто! Напишите нам, или задайте вопрос."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "Через несколько минут",
+          "IN_A_FEW_HOURS": "Через несколько часов",
+          "IN_A_DAY": "Через день"
+        },
+        "WIDGET_COLOR_LABEL": "Цвет виджета",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Пообщайтесь с нами",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Пообщайтесь с нами"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
+        "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
+        "IN_A_DAY": "Обычно отвечаем в течение дня"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Начать диалог",
+        "CHAT_INPUT_PLACEHOLDER": "Введите сообщение"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "В данный момент мы отсутствуем"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Работает на Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

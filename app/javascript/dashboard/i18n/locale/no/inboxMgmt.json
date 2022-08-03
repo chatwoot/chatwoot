@@ -413,7 +413,8 @@
       "CONFIGURATION": "Konfigurasjon",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Innstillinger",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nettstedsnavn",
+          "PLACE_HOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Velkomsttittel",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Velkomsthilsen undertittel",
+          "PLACE_HOLDER": "Det skal være lett å kontakte oss. Spør oss om hva som helst, eller del din tilbakemelding."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "Om noen få minutter",
+          "IN_A_FEW_HOURS": "Om noen få timer",
+          "IN_A_DAY": "Om en dag"
+        },
+        "WIDGET_COLOR_LABEL": "Widget farge",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chat med oss",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Chat med oss"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
+        "IN_A_FEW_HOURS": "Svarer vanligvis innen et par timer",
+        "IN_A_DAY": "Svarer vanligvis innen en dag"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Start samtale",
+        "CHAT_INPUT_PLACEHOLDER": "Skriv inn meldingen"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Vi er for øyeblikket borte"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Drevet av Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }
