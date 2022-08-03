@@ -39,6 +39,10 @@ jobs:
       run: |
         sudo ./install.sh --install < input
 
+    - name: logs
+      run: |
+        cat /var/log/chatwoot-setup.log
+
     - name: Verify
       run: |
         curl http://localhost:3000/api
