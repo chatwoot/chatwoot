@@ -1,0 +1,31 @@
+# #
+# # This action will strip the enterprise folder
+# # and run the spec.
+# # This is set to run against every PR.
+# #
+
+name: Run Nightly installer
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+
+    - name: ls
+      run: |
+        ls
+        pwd
+    - name: get installer
+      run: |
+        wget https://get.chatwoot.app/linux/install.sh
+        chmod +x install.sh
+        whoami
+        ls -ltra
+
