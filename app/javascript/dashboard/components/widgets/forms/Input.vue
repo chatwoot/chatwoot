@@ -1,5 +1,5 @@
 <template>
-  <label class="container">
+  <label class="input-container">
     <span v-if="label">{{ label }}</span>
     <input
       :value="value"
@@ -64,20 +64,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container {
-  margin: 0 0 var(--space-normal);
-  input {
-    margin: 0;
-  }
-  .page-sub-title {
-    color: var(--s-600);
-  }
-
-  .help-text {
-    margin-top: var(--space-micro);
-    font-size: var(--font-size-mini);
-    color: var(--s-600);
-    font-style: normal;
-  }
+.help-text {
+  margin-top: var(--space-micro);
+  font-size: var(--font-size-mini);
+  color: var(--s-600);
+  font-style: normal;
 }
 </style>
