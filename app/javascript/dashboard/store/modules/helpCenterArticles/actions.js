@@ -9,7 +9,7 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
         data: { payload, meta },
-      } = await portalApIs.getArticles({
+      } = await portalAPIs.getArticles({
         pageNumber,
         portalSlug,
         locale,

@@ -6,7 +6,7 @@ export const actions = {
   index: async ({ commit }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await portalApIs.get();
+      const { data } = await portalAPIs.get();
       const portalIds = data.map(portal => portal.id);
       commit(types.ADD_MANY_PORTALS_ENTRY, data);
       commit(types.ADD_MANY_PORTALS_IDS, portalIds);
@@ -20,7 +20,7 @@ export const actions = {
   create: async ({ commit }, params) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
-      const { data } = await portalApIs.create(params);
+      const { data } = await portalAPIs.create(params);
       const { id: portalId } = data;
       commit(types.ADD_PORTAL_ENTRY, data);
       commit(types.ADD_PORTAL_ID, portalId);
@@ -38,7 +38,7 @@ export const actions = {
       portalId,
     });
     try {
-      const { data } = await portalApIs.update(params);
+      const { data } = await portalAPIs.update(params);
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
       throwErrorMessage(error);
@@ -56,7 +56,7 @@ export const actions = {
       portalId,
     });
     try {
-      await portalApIs.delete(portalId);
+      await portalAPIs.delete(portalId);
       commit(types.REMOVE_PORTAL_ENTRY, portalId);
       commit(types.REMOVE_PORTAL_ID, portalId);
     } catch (error) {
