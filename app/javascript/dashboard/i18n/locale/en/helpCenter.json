@@ -26,6 +26,41 @@
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Article Settings",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Category",
+          "TITLE": "Select category",
+          "PLACEHOLDER": "Select category",
+          "NO_RESULT": "No category found",
+          "SEARCH_PLACEHOLDER": "Search category"
+        },
+        "AUTHOR": {
+          "LABEL": "Author",
+          "TITLE": "Select author",
+          "PLACEHOLDER": "Select author",
+          "NO_RESULT": "No authors found",
+          "SEARCH_PLACEHOLDER": "Search author"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Add a meta title"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Add your meta description for better SEO results..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Add meta tags separated by comma..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archive article",
+        "DELETE": "Delete article"
+      }
+    },
     "PORTAL": {
       "HEADER": "Portals",
       "NEW_BUTTON": "New Portal",
