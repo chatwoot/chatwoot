@@ -17,7 +17,7 @@ class Enterprise::Billing::HandleStripeEventService
     plan = find_plan(subscription['plan']['product'])
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
-  
+
     account.update(
       custom_attributes: {
         stripe_customer_id: subscription.customer,
