@@ -31,20 +31,20 @@
       "CHANNEL_NAME": {
         "LABEL": "Naziv prijemnog sandučeta",
         "PLACEHOLDER": "Unesite naziv prijamnog sandučeta (npr.: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Molim vas unesite ispravan naziv prijamnog sandučeta"
       },
       "WEBSITE_NAME": {
         "LABEL": "Naziv veb sajta",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "PLACEHOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. Chatwoot vašim privatnim porukama nikada ne može pristupiti.",
         "CHOOSE_PAGE": "Izaberite stranicu",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
         "INBOX_NAME": "Naziv prijemnog sandučeta",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "ADD_NAME": "Dodajte naziv vašem prijemnom sandučetu",
+        "PICK_NAME": "Izaberite naziv vašeg prijemnog sandučeta",
+        "PICK_A_VALUE": "Izaberite vrednost"
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
@@ -54,44 +54,44 @@
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
+        "TITLE": "Veb sajt kanal",
         "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
         "LOADING_MESSAGE": "Creating Website Support Channel",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar kanala"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "LABEL": "Adresa veb zakačke",
+          "PLACEHOLDER": "Unesite adresu veb zakačke",
           "ERROR": "Molim vas unesite ispravnu adresu"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Domen veb sajta",
+          "PLACEHOLDER": "Unesite domen vašeg veb sajta (npr.: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Naslov dobrodošlice",
+          "PLACEHOLDER": "Zdravo !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Podnaslov dobrodošlice",
+          "PLACEHOLDER": "Činimo jednostavnim da se povežete sa nama. Pitajte nas bilo šta ili podelite sa nama vaše utiske."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Pozdravna poruka kanala",
+          "PLACEHOLDER": "Acme Inc obično odgovara u roku od nekoliko sati."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Omogući pozdrav kanala",
+          "HELP_TEXT": "Automatski pošalji pozdravnu poruku kada se kreira novi razgovor.",
+          "ENABLED": "Omogućeno",
+          "DISABLED": "Onemogućeno"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
+          "TITLE": "Podesi vreme odgovora",
+          "IN_A_FEW_MINUTES": "Za nekoliko minuta",
+          "IN_A_FEW_HOURS": "Za nekoliko sati",
+          "IN_A_DAY": "Za dan",
           "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
@@ -371,20 +371,20 @@
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
       },
       "ENABLE_HMAC": {
         "LABEL": "Enable"
@@ -589,22 +589,22 @@
         },
         "WEBSITE_NAME": {
           "LABEL": "Naziv veb sajta",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
+          "PLACE_HOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)",
           "ERROR": "Please enter a valid website name"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
+          "LABEL": "Naslov dobrodošlice",
           "PLACE_HOLDER": "Hi there!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Podnaslov dobrodošlice",
+          "PLACE_HOLDER": "Činimo jednostavnim da se povežete sa nama. Pitajte nas bilo šta ili podelite sa nama vaše utiske."
         },
         "REPLY_TIME": {
           "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "IN_A_FEW_MINUTES": "Za nekoliko minuta",
+          "IN_A_FEW_HOURS": "Za nekoliko sati",
+          "IN_A_DAY": "Za dan"
         },
         "WIDGET_COLOR_LABEL": "Widget Color",
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
