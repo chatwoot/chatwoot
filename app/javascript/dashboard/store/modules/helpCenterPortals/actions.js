@@ -1,14 +1,14 @@
 import PortalAPI from 'dashboard/api/helpCenter/portals.js';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
-const portalApIs = new PortalAPI();
+const portalAPIs = new PortalAPI();
 export const actions = {
   index: async ({ commit, state, dispatch }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
         data: { payload, meta },
-      } = await portalApIs.get();
+      } = await portalAPIs.get();
       commit(types.CLEAR_PORTALS);
       const portalIds = payload.map(portal => portal.id);
       commit(types.ADD_MANY_PORTALS_ENTRY, payload);
@@ -29,7 +29,7 @@ export const actions = {
   create: async ({ commit }, params) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
-      const { data } = await portalApIs.create(params);
+      const { data } = await portalAPIs.create(params);
       const { id: portalId } = data;
       commit(types.ADD_PORTAL_ENTRY, data);
       commit(types.ADD_PORTAL_ID, portalId);
@@ -47,7 +47,7 @@ export const actions = {
       portalId,
     });
     try {
-      const { data } = await portalApIs.update(params);
+      const { data } = await portalAPIs.update(params);
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
       throwErrorMessage(error);
@@ -65,7 +65,7 @@ export const actions = {
       portalId,
     });
     try {
-      await portalApIs.delete(portalId);
+      await portalAPIs.delete(portalId);
       commit(types.REMOVE_PORTAL_ENTRY, portalId);
       commit(types.REMOVE_PORTAL_ID, portalId);
     } catch (error) {

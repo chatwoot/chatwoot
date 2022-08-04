@@ -1,6 +1,7 @@
-import portalAPI from 'dashboard/api/helpCenter/portals';
+import PortalAPI from 'dashboard/api/helpCenter/portals';
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
+const portalAPIs = new PortalAPI();
 import types from '../../mutation-types';
 export const actions = {
   index: async (
@@ -11,7 +12,7 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
         data: { payload, meta },
-      } = await articlesAPI.getArticles({
+      } = await portalAPIs.getArticles({
         pageNumber,
         portalSlug,
         locale,
@@ -49,7 +50,7 @@ export const actions = {
   show: async ({ commit }, { id, portalSlug }) => {
     commit(types.SET_UI_FLAG, { isFetching: true });
     try {
-      const response = await portalAPI.getArticle({ id, portalSlug });
+      const response = await articlesAPI.getArticle({ id, portalSlug });
       const {
         data: { payload },
       } = response;
