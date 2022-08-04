@@ -37,6 +37,7 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import articles from './modules/helpCenterArticles';
 import portals from './modules/helpCenterPortals';
+import categories from './modules/helpCenterCategories';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -77,5 +78,6 @@ export default new Vuex.Store({
     webhooks,
     articles,
     portals,
+    categories,
   },
 });
