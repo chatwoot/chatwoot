@@ -4,7 +4,18 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "New Article",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Published",
+        "DRAFT": "Draft",
+        "ARCHIVED": "Archived"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "All Articles",
+        "MINE": "My Articles",
+        "DRAFT": "Draft Articles",
+        "ARCHIVED": "Archived Articles"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "Publish",
@@ -15,7 +26,58 @@
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
     },
+    "PORTAL": {
+      "HEADER": "Portals",
+      "NEW_BUTTON": "New Portal",
+      "ACTIVE_BADGE": "active",
+      "CHOOSE_LOCALE_LABEL": "Choose a locale",
+      "ARTICLES_LABEL": "articles",
+      "ADD_NEW_LOCALE": "Add a new locale",
+      "POPOVER": {
+        "TITLE": "Portals",
+        "PORTAL_SETTINGS": "Portal settings",
+        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "CANCEL_BUTTON_LABEL": "منسوخ کریں۔",
+        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "articles",
+            "ADD": "Add locale",
+            "VISIT": "Visit site",
+            "SETTINGS": "Settings"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portal Configurations",
+            "ITEMS": {
+              "NAME": "نام",
+              "DOMAIN": "Custom domain",
+              "SLUG": "Slug",
+              "TITLE": "Portal title",
+              "THEME": "Theme color",
+              "SUB_TEXT": "Portal sub text"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Available locales",
+            "TABLE": {
+              "NAME": "Locale name",
+              "CODE": "Locale code",
+              "ARTICLE_COUNT": "No. of articles",
+              "CATEGORIES": "No. of categories",
+              "SWAP": "Swap",
+              "DELETE": "حذف کریں۔",
+              "DEFAULT_LOCALE": "Default"
+            }
+          }
+        }
+      }
+    },
     "TABLE": {
+      "LOADING_MESSAGE": "Loading articles...",
+      "404": "No articles matches your search 🔍",
+      "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Title",
         "CATEGORY": "Category",
@@ -34,6 +96,35 @@
     "SIDEBAR": {
       "SEARCH": {
         "PLACEHOLDER": "Search for articles"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Create a category",
+        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "PORTAL": "Portal",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "نام",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "ERROR": "Name is required"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Give a short description about the category.",
+          "ERROR": "Description is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create category",
+          "CANCEL": "منسوخ کریں۔"
+        }
       }
     }
   }

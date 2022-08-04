@@ -16,20 +16,22 @@
       <tbody>
         <ArticleItem
           v-for="article in articles"
+          :id="article.id"
           :key="article.id"
           :title="article.title"
           :author="article.author"
           :category="article.category"
           :read-count="article.readCount"
           :status="article.status"
-          :updated-at="article.updatedAt"
+          :updated-at="article.updated_at"
         />
       </tbody>
     </table>
     <table-footer
       :on-page-change="onPageChange"
       :current-page="Number(currentPage)"
-      :total-count="articleCount"
+      :total-count="totalCount"
+      :page-size="pageSize"
     />
   </div>
 </template>
@@ -47,7 +49,7 @@ export default {
       type: Array,
       default: () => {},
     },
-    articleCount: {
+    totalCount: {
       type: Number,
       default: 0,
     },
@@ -55,10 +57,14 @@ export default {
       type: Number,
       default: 1,
     },
+    pageSize: {
+      type: Number,
+      default: 15,
+    },
   },
   methods: {
-    onPageChange() {
-      this.$emit('onPageChange');
+    onPageChange(page) {
+      this.$emit('on-page-change', page);
     },
   },
 };

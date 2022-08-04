@@ -157,4 +157,12 @@ export default {
     color: var(--s-600);
   }
 }
+
+.input-container::v-deep {
+  margin: 0 0 var(--space-normal);
+
+  input {
+    margin-bottom: 0;
+  }
+}
 </style>

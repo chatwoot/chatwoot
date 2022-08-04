@@ -1,6 +1,8 @@
 {
   "CONVERSATION": {
-    "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
+    "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
+    "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
+    "SWITCH_VIEW_LAYOUT": "Layout wechseln",
     "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
     "UNVERIFIED_SESSION": "Die Identität dieses Benutzers ist nicht verifiziert",
     "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
@@ -58,6 +60,20 @@
         "NEXT_WEEK": "Nächste Woche"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Als ausstehend markieren",
+      "RESOLVED": "Als gelöst markieren",
+      "REOPEN": "Konversation wieder öffnen",
+      "SNOOZE": {
+        "TITLE": "Erinnern",
+        "NEXT_REPLY": "Bis zur nächsten Antwort",
+        "TOMORROW": "Bis morgen",
+        "NEXT_WEEK": "Bis nächste Woche"
+      },
+      "ASSIGN_AGENT": "Agent zuweisen",
+      "ASSIGN_LABEL": "Label zuweisen",
+      "AGENTS_LOADING": "Agenten werden geladen..."
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Nachrichten-Signatur",
       "ENABLE_SIGN_TOOLTIP": "Signatur aktivieren",
@@ -100,7 +116,11 @@
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
     "CHANGE_STATUS": "Gesprächsstatus geändert",
+    "CHANGE_STATUS_FAILED": "Änderung des Konversationsstatus fehlgeschlagen",
     "CHANGE_AGENT": "Konversationsempfänger geändert",
+    "CHANGE_AGENT_FAILED": "Zuweisungswechsel fehlgeschlagen",
+    "ASSIGN_LABEL_SUCCESFUL": "Label erfolgreich zugewiesen",
+    "ASSIGN_LABEL_FAILED": "Labelzuweisung fehlgeschlagen",
     "CHANGE_TEAM": "Das Konversationsteam hat sich geändert",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",

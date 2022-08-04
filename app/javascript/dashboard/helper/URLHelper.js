@@ -1,8 +1,7 @@
-import queryString from 'query-string';
 import { DEFAULT_REDIRECT_URL } from '../constants';
 
 export const frontendURL = (path, params) => {
-  const stringifiedParams = params ? `?${queryString.stringify(params)}` : '';
+  const stringifiedParams = params ? `?${new URLSearchParams(params)}` : '';
   return `/app/${path}${stringifiedParams}`;
 };
 
@@ -42,6 +41,26 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/mentions/conversations/${id}`;
   }
   return url;
+};
+
+export const conversationListPageURL = ({
+  accountId,
+  conversationType = '',
+  inboxId,
+  label,
+  teamId,
+}) => {
+  let url = `accounts/${accountId}/dashboard`;
+  if (label) {
+    url = `accounts/${accountId}/label/${label}`;
+  } else if (teamId) {
+    url = `accounts/${accountId}/team/${teamId}`;
+  } else if (conversationType === 'mention') {
+    url = `accounts/${accountId}/mentions/conversations`;
+  } else if (inboxId) {
+    url = `accounts/${accountId}/inbox/${inboxId}`;
+  }
+  return frontendURL(url);
 };
 
 export const isValidURL = value => {

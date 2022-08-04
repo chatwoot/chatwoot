@@ -109,8 +109,6 @@
   </li>
 </template>
 <script>
-import copy from 'copy-text-to-clipboard';
-
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 
@@ -128,6 +126,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
@@ -170,7 +169,7 @@ export default {
     };
   },
   computed: {
-    contentToBeParsed() {
+    emailMessageContent() {
       const {
         html_content: { full: fullHTMLContent } = {},
         text_content: { full: fullTextContent } = {},
@@ -182,13 +181,19 @@ export default {
         return false;
       }
 
-      if (this.contentToBeParsed.includes('<blockquote')) {
+      if (this.emailMessageContent.includes('<blockquote')) {
         return true;
       }
 
       return false;
     },
     message() {
+      // If the message is an email, emailMessageContent would be present
+      // In that case, we would use letter package to render the email
+      if (this.emailMessageContent && this.isIncoming) {
+        return this.emailMessageContent;
+      }
+
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
@@ -200,21 +205,6 @@ export default {
           },
         }
       );
-
-      const {
-        email: { content_type: contentType = '' } = {},
-      } = this.contentAttributes;
-      if (this.contentToBeParsed && this.isIncoming) {
-        const parsedContent = this.stripStyleCharacters(this.contentToBeParsed);
-        if (parsedContent) {
-          // This is a temporary fix for line-breaks in text/plain emails
-          // Now, It is not rendered properly in the email preview.
-          // FIXME: Remove this once we have a better solution for rendering text/plain emails
-          return contentType.includes('text/plain')
-            ? parsedContent.replace(/\n/g, '<br />')
-            : parsedContent;
-        }
-      }
       return (
         this.formatMessage(
           this.data.content,
@@ -331,6 +321,7 @@ export default {
         'activity-wrap': !this.isBubble,
         'is-pending': this.isPending,
         'is-failed': this.isFailed,
+        'is-email': this.isEmailContentType,
       };
     },
     bubbleClass() {
@@ -342,6 +333,7 @@ export default {
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
         'is-failed': this.isFailed,
+        'is-email': this.isEmailContentType,
       };
     },
     isPending() {
@@ -412,8 +404,8 @@ export default {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
       }
     },
-    handleCopy() {
-      copy(this.data.content);
+    async handleCopy() {
+      await copyTextToClipboard(this.data.content);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
       this.showContextMenu = false;
     },
@@ -516,6 +508,10 @@ export default {
       padding: 0;
     }
   }
+}
+
+.wrap.is-email {
+  --bubble-max-width: 84% !important;
 }
 
 .sender--info {

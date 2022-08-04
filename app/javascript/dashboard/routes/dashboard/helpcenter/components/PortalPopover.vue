@@ -1,16 +1,19 @@
 <template>
-  <div class="portal-popover__container">
+  <div v-on-clickaway="closePortalPopover" class="portal-popover__container">
     <header>
       <div class="actions">
         <h2 class="block-title">
           {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
         </h2>
-        <router-link to="#" class="new-popover-link">
-          <fluent-icon icon="add" size="16" />
-          <span>
-            {{ $t('HELP_CENTER.PORTAL.POPOVER.NEW_PORTAL_LINK') }}
-          </span>
-        </router-link>
+        <woot-button
+          variant="smooth"
+          color-scheme="secondary"
+          icon="settings"
+          size="small"
+          @click="openPortalPage"
+        >
+          {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
+        </woot-button>
       </div>
       <p class="subtitle">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
@@ -24,7 +27,7 @@
       />
     </div>
     <footer>
-      <woot-button variant="link">
+      <woot-button variant="link" @click="closePortalPopover">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.CANCEL_BUTTON_LABEL') }}
       </woot-button>
       <woot-button>
@@ -35,15 +38,25 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 import PortalSwitch from './PortalSwitch.vue';
 export default {
   components: {
     PortalSwitch,
   },
+  mixins: [clickaway],
   props: {
     portals: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    closePortalPopover() {
+      this.$emit('close-popover');
+    },
+    openPortalPage() {
+      this.$emit('open-portal-page');
     },
   },
 };
@@ -51,6 +64,9 @@ export default {
 
 <style lang="scss" scoped>
 .portal-popover__container {
+  position: absolute;
+  overflow: scroll;
+  max-height: 96vh;
   padding: var(--space-normal);
   background-color: var(--white);
   border-radius: var(--border-radius-normal);

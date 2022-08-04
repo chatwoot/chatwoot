@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar/Sidebar';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 
 export default {

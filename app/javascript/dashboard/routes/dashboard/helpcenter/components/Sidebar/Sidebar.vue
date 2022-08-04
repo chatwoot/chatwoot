@@ -4,26 +4,23 @@
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
       :sub-title="subTitle"
+      @open-popover="openPortalPopover"
     />
     <sidebar-search @input="onSearch" />
-    <!-- <transition-group name="menu-list" tag="ul" class="menu vertical"> -->
-    <div name="menu-list" tag="ul" class="menu vertical">
+    <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
         :is-help-center-sidebar="true"
       />
-    </div>
-    <div name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in additionalSecondaryMenuItems"
         :key="menuItem.key"
         :menu-item="menuItem"
         :is-help-center-sidebar="true"
       />
-    </div>
-    <!-- </transition-group> -->
+    </transition-group>
   </div>
 </template>
 
@@ -66,6 +63,9 @@ export default {
   methods: {
     onSearch(value) {
       this.$emit('input', value);
+    },
+    openPortalPopover() {
+      this.$emit('open-popover');
     },
   },
 };

@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
     "TRAIL_BUTTON": "Αγόρασε τώρα",
-    "DELETED_USER": "Διαγραμμένος Χρήστης"
+    "DELETED_USER": "Διαγραμμένος Χρήστης",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -198,7 +202,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Κατηγορία"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",

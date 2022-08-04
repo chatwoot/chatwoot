@@ -3,6 +3,15 @@ require 'rails_helper'
 describe Integrations::Slack::IncomingMessageBuilder do
   let(:account) { create(:account) }
   let(:message_params) { slack_message_stub }
+  let(:private_message_params) do
+    {
+      team_id: 'TLST3048H',
+      api_app_id: 'A012S5UETV4',
+      event: message_event.merge({ text: 'pRivate: A private note message' }),
+      type: 'event_callback',
+      event_time: 1_588_623_033
+    }
+  end
   let(:message_with_attachments) { slack_attachment_stub }
   let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
   let(:verification_params) { slack_url_verification_stub }
@@ -43,6 +52,17 @@ describe Integrations::Slack::IncomingMessageBuilder do
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+      end
+
+      it 'creates a private note' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(private_message_params)
+        allow(builder).to receive(:sender).and_return(nil)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('pRivate: A private note message')
+        expect(conversation.messages.last.private).to be(true)
       end
 
       it 'does not create message for invalid event type' do
