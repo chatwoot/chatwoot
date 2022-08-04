@@ -19,10 +19,10 @@ export const actions = {
     }
   },
 
-  create: async ({ commit }, categoryObj) => {
+  create: async ({ commit }, portalSlug, categoryObj) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
-      const { data } = await categoriesAPI.create(categoryObj);
+      const { data } = await categoriesAPI.create({ portalSlug, categoryObj });
       const { id: categoryId } = data;
       commit(types.ADD_CATEGORY, data);
       commit(types.ADD_CATEGORY_ID, categoryId);
@@ -33,14 +33,17 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isCreating: false });
     }
   },
-  update: async ({ commit }, categoryObj) => {
+
+  update: async ({ commit }, portalSlug, categoryObj) => {
     const categoryId = categoryObj.id;
     commit(types.ADD_CATEGORY_FLAG, {
-      uiFlags: { isUpdating: true },
+      uiFlags: {
+        isUpdating: true,
+      },
       categoryId,
     });
     try {
-      const { data } = await categoriesAPI.update(categoryObj);
+      const { data } = await categoriesAPI.update({ portalSlug, categoryObj });
       commit(types.UPDATE_CATEGORY, data);
       return categoryId;
     } catch (error) {
@@ -54,7 +57,8 @@ export const actions = {
       });
     }
   },
-  delete: async ({ commit }, categoryId) => {
+
+  delete: async ({ commit }, portalSlug, categoryId) => {
     commit(types.ADD_CATEGORY_FLAG, {
       uiFlags: {
         isDeleting: true,
@@ -62,7 +66,7 @@ export const actions = {
       categoryId,
     });
     try {
-      await categoriesAPI.delete(categoryId);
+      await categoriesAPI.delete({ portalSlug, categoryId });
       commit(types.REMOVE_CATEGORY, categoryId);
       commit(types.REMOVE_CATEGORY_ID, categoryId);
       return categoryId;

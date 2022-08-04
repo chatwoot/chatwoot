@@ -30,95 +30,101 @@ describe('#actions', () => {
     });
   });
 
-  //   describe('#create', () => {
-  //     it('sends correct actions if API is success', async () => {
-  //       axios.post.mockResolvedValue({ data: categoriesList[0] });
-  //       await actions.create({ commit }, categoriesList[0]);
-  //       expect(commit.mock.calls).toEqual([
-  //         [types.default.SET_UI_FLAG, { isCreating: true }],
-  //         [types.default.ADD_ARTICLE, categoriesList[0]],
-  //         [types.default.ADD_ARTICLE_ID, 1],
-  //         [types.default.SET_UI_FLAG, { isCreating: false }],
-  //       ]);
-  //     });
-  //     it('sends correct actions if API is error', async () => {
-  //       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-  //       await expect(
-  //         actions.create({ commit }, categoriesList[0])
-  //       ).rejects.toThrow(Error);
-  //       expect(commit.mock.calls).toEqual([
-  //         [types.default.SET_UI_FLAG, { isCreating: true }],
-  //         [types.default.SET_UI_FLAG, { isCreating: false }],
-  //       ]);
-  //     });
-  //   });
+  describe('#create', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({ data: categoriesList.payload[0] });
+      await actions.create({ commit }, categoriesList.payload[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_UI_FLAG, { isCreating: true }],
+        [types.default.ADD_CATEGORY, categoriesList.payload[0]],
+        [types.default.ADD_CATEGORY_ID, 1],
+        [types.default.SET_UI_FLAG, { isCreating: false }],
+      ]);
+    });
 
-  //   describe('#update', () => {
-  //     it('sends correct actions if API is success', async () => {
-  //       axios.patch.mockResolvedValue({ data: categoriesList[0] });
-  //       await actions.update({ commit }, categoriesList[0]);
-  //       expect(commit.mock.calls).toEqual([
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isUpdating: true }, articleId: 1 },
-  //         ],
-  //         [types.default.UPDATE_ARTICLE, categoriesList[0]],
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isUpdating: false }, articleId: 1 },
-  //         ],
-  //       ]);
-  //     });
-  //     it('sends correct actions if API is error', async () => {
-  //       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
-  //       await expect(
-  //         actions.update({ commit }, categoriesList[0])
-  //       ).rejects.toThrow(Error);
-  //       expect(commit.mock.calls).toEqual([
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isUpdating: true }, articleId: 1 },
-  //         ],
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isUpdating: false }, articleId: 1 },
-  //         ],
-  //       ]);
-  //     });
-  //   });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.create({ commit }, 'web-docs', categoriesList.payload[0])
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_UI_FLAG, { isCreating: true }],
+        [types.default.SET_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+  });
 
-  //   describe('#delete', () => {
-  //     it('sends correct actions if API is success', async () => {
-  //       axios.delete.mockResolvedValue({ data: categoriesList[0] });
-  //       await actions.delete({ commit }, categoriesList[0].id);
-  //       expect(commit.mock.calls).toEqual([
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isDeleting: true }, articleId: 1 },
-  //         ],
-  //         [types.default.REMOVE_ARTICLE, categoriesList[0].id],
-  //         [types.default.REMOVE_ARTICLE_ID, categoriesList[0].id],
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isDeleting: false }, articleId: 1 },
-  //         ],
-  //       ]);
-  //     });
-  //     it('sends correct actions if API is error', async () => {
-  //       axios.delete.mockRejectedValue({ message: 'Incorrect header' });
-  //       await expect(
-  //         actions.delete({ commit }, categoriesList[0].id)
-  //       ).rejects.toThrow(Error);
-  //       expect(commit.mock.calls).toEqual([
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isDeleting: true }, articleId: 1 },
-  //         ],
-  //         [
-  //           types.default.ADD_ARTICLE_FLAG,
-  //           { uiFlags: { isDeleting: false }, articleId: 1 },
-  //         ],
-  //       ]);
-  //     });
-  //   });
+  describe('#update', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.patch.mockResolvedValue({ data: categoriesList.payload[0] });
+      await actions.update({ commit }, 'web-docs', categoriesList.payload[0]);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isUpdating: true }, categoryId: 1 },
+        ],
+        [types.default.UPDATE_CATEGORY, categoriesList.payload[0]],
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isUpdating: false }, categoryId: 1 },
+        ],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.update({ commit }, 'web-docs', categoriesList.payload[0])
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isUpdating: true }, categoryId: 1 },
+        ],
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isUpdating: false }, categoryId: 1 },
+        ],
+      ]);
+    });
+  });
+
+  describe('#delete', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({ data: categoriesList.payload[0] });
+      await actions.delete(
+        { commit },
+        'portal-slug',
+        categoriesList.payload[0].id
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isDeleting: true }, categoryId: 1 },
+        ],
+        [types.default.REMOVE_CATEGORY, categoriesList.payload[0].id],
+        [types.default.REMOVE_CATEGORY_ID, categoriesList.payload[0].id],
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isDeleting: false }, categoryId: 1 },
+        ],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.delete({ commit }, 'portal-slug', categoriesList.payload[0].id)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isDeleting: true }, categoryId: 1 },
+        ],
+        [
+          types.default.ADD_CATEGORY_FLAG,
+          { uiFlags: { isDeleting: false }, categoryId: 1 },
+        ],
+      ]);
+    });
+  });
 });
