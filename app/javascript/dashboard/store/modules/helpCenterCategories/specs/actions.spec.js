@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { actions } from '../actions';
 import * as types from '../../../mutation-types';
-import categoriesList from './fixtures';
+import { categoriesPayload } from './fixtures';
 const commit = jest.fn();
 global.axios = axios;
 jest.mock('axios');
@@ -9,11 +9,11 @@ jest.mock('axios');
 describe('#actions', () => {
   describe('#index', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: categoriesList });
+      axios.get.mockResolvedValue({ data: categoriesPayload });
       await actions.index({ commit }, { portalSlug: 'room-rental' });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
-        [types.default.ADD_MANY_CATEGORIES, categoriesList.payload],
+        [types.default.ADD_MANY_CATEGORIES, categoriesPayload.payload],
         [types.default.ADD_MANY_CATEGORIES_ID, [1, 2]],
         [types.default.SET_UI_FLAG, { isFetching: false }],
       ]);
@@ -32,11 +32,11 @@ describe('#actions', () => {
 
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({ data: categoriesList.payload[0] });
-      await actions.create({ commit }, categoriesList.payload[0]);
+      axios.post.mockResolvedValue({ data: categoriesPayload.payload[0] });
+      await actions.create({ commit }, categoriesPayload.payload[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
-        [types.default.ADD_CATEGORY, categoriesList.payload[0]],
+        [types.default.ADD_CATEGORY, categoriesPayload.payload[0]],
         [types.default.ADD_CATEGORY_ID, 1],
         [types.default.SET_UI_FLAG, { isCreating: false }],
       ]);
@@ -45,7 +45,7 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.create({ commit }, 'web-docs', categoriesList.payload[0])
+        actions.create({ commit }, 'web-docs', categoriesPayload.payload[0])
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
@@ -56,14 +56,18 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: categoriesList.payload[0] });
-      await actions.update({ commit }, 'web-docs', categoriesList.payload[0]);
+      axios.patch.mockResolvedValue({ data: categoriesPayload.payload[0] });
+      await actions.update(
+        { commit },
+        'web-docs',
+        categoriesPayload.payload[0]
+      );
       expect(commit.mock.calls).toEqual([
         [
           types.default.ADD_CATEGORY_FLAG,
           { uiFlags: { isUpdating: true }, categoryId: 1 },
         ],
-        [types.default.UPDATE_CATEGORY, categoriesList.payload[0]],
+        [types.default.UPDATE_CATEGORY, categoriesPayload.payload[0]],
         [
           types.default.ADD_CATEGORY_FLAG,
           { uiFlags: { isUpdating: false }, categoryId: 1 },
@@ -74,7 +78,7 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.update({ commit }, 'web-docs', categoriesList.payload[0])
+        actions.update({ commit }, 'web-docs', categoriesPayload.payload[0])
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
@@ -91,19 +95,19 @@ describe('#actions', () => {
 
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
-      axios.delete.mockResolvedValue({ data: categoriesList.payload[0] });
+      axios.delete.mockResolvedValue({ data: categoriesPayload.payload[0] });
       await actions.delete(
         { commit },
         'portal-slug',
-        categoriesList.payload[0].id
+        categoriesPayload.payload[0].id
       );
       expect(commit.mock.calls).toEqual([
         [
           types.default.ADD_CATEGORY_FLAG,
           { uiFlags: { isDeleting: true }, categoryId: 1 },
         ],
-        [types.default.REMOVE_CATEGORY, categoriesList.payload[0].id],
-        [types.default.REMOVE_CATEGORY_ID, categoriesList.payload[0].id],
+        [types.default.REMOVE_CATEGORY, categoriesPayload.payload[0].id],
+        [types.default.REMOVE_CATEGORY_ID, categoriesPayload.payload[0].id],
         [
           types.default.ADD_CATEGORY_FLAG,
           { uiFlags: { isDeleting: false }, categoryId: 1 },
@@ -113,7 +117,11 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.delete.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.delete({ commit }, 'portal-slug', categoriesList.payload[0].id)
+        actions.delete(
+          { commit },
+          'portal-slug',
+          categoriesPayload.payload[0].id
+        )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [

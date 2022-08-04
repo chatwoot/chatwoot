@@ -16,17 +16,26 @@ export const mutations = {
       ...category,
     });
   },
+  [types.CLEAR_CATEGORIES]: $state => {
+    Vue.set($state.categories, 'byId', {});
+    Vue.set($state.categories, 'allIds', []);
+    Vue.set($state.categories, 'uiFlags', {});
+  },
   [types.ADD_MANY_CATEGORIES]($state, categories) {
     const allCategories = { ...$state.categories.byId };
     categories.forEach(category => {
       allCategories[category.id] = category;
     });
-    Vue.set($state.categories, 'byId', {
-      allCategories,
-    });
+    Vue.set($state.categories, 'byId', allCategories);
   },
   [types.ADD_MANY_CATEGORIES_ID]($state, categoryIds) {
     $state.categories.allIds.push(...categoryIds);
+  },
+
+  [types.SET_CATEGORIES_META]: ($state, data) => {
+    const { categories_count: count, current_page: currentPage } = data;
+    Vue.set($state.meta, 'count', count);
+    Vue.set($state.meta, 'currentPage', currentPage);
   },
 
   [types.ADD_CATEGORY_ID]: ($state, categoryId) => {
