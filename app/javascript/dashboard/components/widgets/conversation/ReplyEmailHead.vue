@@ -117,8 +117,6 @@ export default {
   color: var(--r-500);
 }
 .input-group {
-  display: flex;
-  align-items: baseline;
   border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-smaller);
   margin-top: var(--space-smaller);
