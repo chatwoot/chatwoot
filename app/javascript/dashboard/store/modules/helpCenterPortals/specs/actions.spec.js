@@ -16,15 +16,16 @@ describe('#actions', () => {
         commit,
         dispatch,
         state: {
-          selectedPortalId: 1,
+          selectedPortalId: 4,
         },
       });
+      expect(dispatch.mock.calls).toMatchObject([['setPortalId', 1]]);
       expect(commit.mock.calls).toEqual([
         [types.SET_UI_FLAG, { isFetching: true }],
         [types.CLEAR_PORTALS],
         [types.ADD_MANY_PORTALS_ENTRY, apiResponse.payload],
         [types.ADD_MANY_PORTALS_IDS, [1, 2]],
-        [types.SET_PORTALS_META, { selectedPortalId: 1 }],
+        [types.SET_PORTALS_META, { current_page: 1, portals_count: 1 }],
         [types.SET_UI_FLAG, { isFetching: false }],
       ]);
     });
@@ -130,6 +131,13 @@ describe('#actions', () => {
           { uiFlags: { isDeleting: false }, portalId: 2 },
         ],
       ]);
+    });
+  });
+  describe('#setPortalId', () => {
+    it('sends correct actions', async () => {
+      axios.delete.mockResolvedValue({});
+      await actions.setPortalId({ commit }, 1);
+      expect(commit.mock.calls).toEqual([[types.SET_SELECTED_PORTAL_ID, 1]]);
     });
   });
 });

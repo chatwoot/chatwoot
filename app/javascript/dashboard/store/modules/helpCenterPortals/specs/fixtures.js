@@ -1,4 +1,8 @@
 export default {
+  meta: {
+    count: 0,
+    currentPage: 1,
+  },
   portals: {
     byId: {
       1: {
@@ -36,6 +40,7 @@ export default {
         1: { isFetching: false, isUpdating: true, isDeleting: false },
       },
     },
+    selectedPortalId: 1,
   },
   uiFlags: {
     allFetched: false,
@@ -75,6 +80,7 @@ export const apiResponse = {
     },
   ],
   meta: {
-    selectedPortalId: 1,
+    current_page: 1,
+    portals_count: 1,
   },
 };
