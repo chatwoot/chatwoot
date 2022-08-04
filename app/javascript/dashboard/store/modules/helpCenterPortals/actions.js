@@ -14,6 +14,7 @@ export const actions = {
       commit(types.ADD_MANY_PORTALS_ENTRY, payload);
       commit(types.ADD_MANY_PORTALS_IDS, portalIds);
       const { selectedPortalId } = state;
+      // Check if selected portal is still in the portals list
       if (!portalIds.includes(selectedPortalId)) {
         dispatch('setPortalId', portalIds[0]);
       }
