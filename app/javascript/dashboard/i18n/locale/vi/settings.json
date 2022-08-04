@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
     "TRAIL_BUTTON": "Mua Ngay",
-    "DELETED_USER": "Người dùng bị xoá"
+    "DELETED_USER": "Người dùng bị xoá",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -198,7 +202,8 @@
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
       "CATEGORY": "Category"
-    }
+    },
+    "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",

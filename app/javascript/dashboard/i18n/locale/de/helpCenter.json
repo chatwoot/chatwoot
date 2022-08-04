@@ -4,7 +4,18 @@
       "FILTER": "Filtern nach",
       "SORT": "Sortieren nach",
       "SETTINGS_BUTTON": "Einstellungen",
-      "NEW_BUTTON": "Neuer Artikel"
+      "NEW_BUTTON": "Neuer Artikel",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Veröffentlicht",
+        "DRAFT": "Entwürfe",
+        "ARCHIVED": "Archiviert"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Alle Artikel",
+        "MINE": "Meine Artikel",
+        "DRAFT": "Artikelentwürfe",
+        "ARCHIVED": "Archivierte Artikel"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "Veröffentlichen",
@@ -15,11 +26,62 @@
       "SAVING": "Entwurf speichern...",
       "SAVED": "Entwurf gespeichert"
     },
+    "PORTAL": {
+      "HEADER": "Portale",
+      "NEW_BUTTON": "Neues Portal",
+      "ACTIVE_BADGE": "aktiv",
+      "CHOOSE_LOCALE_LABEL": "Wählen Sie ein Gebietsschema",
+      "ARTICLES_LABEL": "Artikel",
+      "ADD_NEW_LOCALE": "Neues Gebietsschema hinzufügen",
+      "POPOVER": {
+        "TITLE": "Portale",
+        "PORTAL_SETTINGS": "Portaleinstellungen",
+        "SUBTITLE": "Sie haben mehrere Portale und können für jedes Portal unterschiedliche Gebietsschemata haben.",
+        "CANCEL_BUTTON_LABEL": "Stornieren",
+        "CHOOSE_LOCALE_BUTTON": "Gebietsschema wählen"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "Artikel",
+            "ADD": "Sprache hinzufügen",
+            "VISIT": "Seite besuchen",
+            "SETTINGS": "Einstellungen"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portalkonfigurationen",
+            "ITEMS": {
+              "NAME": "Name",
+              "DOMAIN": "Benutzerdefinierte Domain",
+              "SLUG": "Slug",
+              "TITLE": "Titel des Portals",
+              "THEME": "Themenfarbe",
+              "SUB_TEXT": "Portal-Untertext"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Verfügbare Sprachen",
+            "TABLE": {
+              "NAME": "Name der Sprache",
+              "CODE": "Sprachcode",
+              "ARTICLE_COUNT": "Anzahl Artikel",
+              "CATEGORIES": "Anzahl der Kategorien",
+              "SWAP": "Tauschen",
+              "DELETE": "Löschen",
+              "DEFAULT_LOCALE": "Standard"
+            }
+          }
+        }
+      }
+    },
     "TABLE": {
+      "LOADING_MESSAGE": "Artikel werden geladen...",
+      "404": "Kein Artikel entspricht Ihrer Suche 🔍",
+      "NO_ARTICLES": "Es sind keine Artikel verfügbar",
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategorie",
-        "READ_COUNT": "Gelesen Zählung",
+        "READ_COUNT": "Gelesen",
         "STATUS": "Status",
         "LAST_EDITED": "Zuletzt bearbeitet"
       },
@@ -34,6 +96,35 @@
     "SIDEBAR": {
       "SEARCH": {
         "PLACEHOLDER": "Suche nach Artikeln"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Kategorie erstellen",
+        "SUB_TITLE": "Die Kategorie wird im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
+        "PORTAL": "Portal",
+        "LOCALE": "Sprache",
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Kategoriename",
+          "HELP_TEXT": "Der Kategoriename wird im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
+          "ERROR": "Name wird benötigt"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Kategorie-Slug für URLs",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug ist erforderlich"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Beschreibung",
+          "PLACEHOLDER": "Geben Sie eine kurze Beschreibung der Kategorie ein.",
+          "ERROR": "Beschreibung wird benötigt"
+        },
+        "BUTTONS": {
+          "CREATE": "Kategorie erstellen",
+          "CANCEL": "Stornieren"
+        }
       }
     }
   }

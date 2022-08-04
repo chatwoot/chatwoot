@@ -6,6 +6,8 @@ import { routes as notificationRoutes } from './notifications/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
+const Suspended = () => import('./suspended/Index');
+
 export default {
   routes: [
     ...helpcenterRoutes.routes,
@@ -18,6 +20,12 @@ export default {
         ...contactRoutes,
         ...notificationRoutes,
       ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/suspended'),
+      name: 'account_suspended',
+      roles: ['administrator', 'agent'],
+      component: Suspended,
     },
   ],
 };

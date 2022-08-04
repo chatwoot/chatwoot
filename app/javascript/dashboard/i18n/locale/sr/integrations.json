@@ -20,7 +20,7 @@
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Example: https://example/api/webhook",
-          "ERROR": "Please enter a valid URL"
+          "ERROR": "Molim vas unesite ispravnu adresu"
         },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
@@ -125,7 +125,7 @@
       "DELETE": {
         "CONFIRM_YES": "Yes, delete it",
         "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
+        "TITLE": "Potvrdi brisanje",
         "MESSAGE": "Are you sure to delete the app - %{appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
