@@ -3,7 +3,7 @@
     "HEADER": "Prilagođeni atributi",
     "HEADER_BTN_TXT": "Dodaj prilagođeni atribut",
     "LOADING": "Prikupljanje prilagođenih atributa",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "SIDEBAR_TXT": "<p><b>Prilagođeni atributi</b> <p>Prilagođeni atribut vodi računa o činjenicama o vašim kontaktima/razgovorima - kao što je pretplatni plan, ili kada su prvi put naručili neki proizvod itd. <br /><br />Da bi ste kreirali prilagođeni atribut, samo kliknite na <b>Dodaj prilagođeni atribut.</b> Takođe možete urediti ili obrisati postojeći Prilagođeni atribut klikom na dugme Uredi ili Obriši.</p>",
     "ADD": {
       "TITLE": "Dodaj prilagođeni atribut",
       "SUBMIT": "Kreiraj",
