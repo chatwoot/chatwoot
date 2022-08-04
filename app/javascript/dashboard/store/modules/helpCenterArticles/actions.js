@@ -11,7 +11,7 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
         data: { payload, meta },
-      } = await portalAPI.getArticles({
+      } = await articlesAPI.getArticles({
         pageNumber,
         portalSlug,
         locale,
