@@ -9,6 +9,7 @@
         v-if="configItem.type === 'frame' && configItem.url"
         :id="`dashboard-app--frame-${index}`"
         :src="configItem.url"
+        :allow="`clipboard-read *; clipboard-write *`"
         @load="() => onIframeLoad(index)"
       />
     </div>
