@@ -1,4 +1,4 @@
-import PortalAPI from 'dashboard/api/helpCenter/portals.js';
+import PortalAPI from 'dashboard/api/helpCenter/portals';
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 const portalApIs = new PortalAPI();
