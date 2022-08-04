@@ -3,10 +3,12 @@
 import PortalsAPI from './portals';
 
 class CategoriesAPI extends PortalsAPI {
-  get({ pageNumber, portalSlug, locale }) {
-    return axios.get(
-      `${this.url}/${portalSlug}/categories?page=${pageNumber}&locale=${locale}`
-    );
+  constructor() {
+    super('categories', { accountScoped: true });
+  }
+
+  get({ portalSlug }) {
+    return axios.get(`${this.url}/${portalSlug}/categories`);
   }
 
   create({ portalSlug, categoryObj }) {

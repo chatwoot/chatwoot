@@ -10,17 +10,19 @@ describe('#actions', () => {
   describe('#index', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: categoriesList });
-      await actions.index({ commit });
+      await actions.index({ commit }, { portalSlug: 'room-rental' });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
         [types.default.ADD_MANY_CATEGORIES, categoriesList.payload],
-        [types.default.ADD_MANY_CATEGORIES_ID, [1]],
+        [types.default.ADD_MANY_CATEGORIES_ID, [1, 2]],
         [types.default.SET_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.index({ commit })).rejects.toThrow(Error);
+      await expect(
+        actions.index({ commit }, { portalSlug: 'room-rental' })
+      ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
         [types.default.SET_UI_FLAG, { isFetching: false }],

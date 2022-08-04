@@ -2,12 +2,14 @@ import categoriesAPI from 'dashboard/api/helpCenter/categories.js';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import types from '../../mutation-types';
 export const actions = {
-  index: async ({ commit }, portalSlug, pageNumber, locale) => {
+  index: async ({ commit }, { portalSlug }) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await categoriesAPI.get(pageNumber, portalSlug, locale);
-      const categoryIds = data.map(category => category.id);
-      commit(types.ADD_MANY_CATEGORIES, data);
+      const {
+        data: { payload },
+      } = await categoriesAPI.get({ portalSlug });
+      const categoryIds = payload.map(category => category.id);
+      commit(types.ADD_MANY_CATEGORIES, payload);
       commit(types.ADD_MANY_CATEGORIES_ID, categoryIds);
       return categoryIds;
     } catch (error) {
