@@ -110,8 +110,8 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect do
           described_subject
         end
-          .to not_change { Contact.count }
-          .and not_change { ContactInbox.count }
+          .to(not_change { Contact.count }
+            .and(not_change { ContactInbox.count }))
 
         expect(conversation.messages.last.sender.id).to eq(contact.id)
         expect(conversation.contact_inbox).to eq(contact_inbox)
@@ -126,8 +126,8 @@ RSpec.describe SupportMailbox, type: :mailbox do
           expect do
             described_subject
           end
-            .to not_change { Contact.count }
-            .and not_change { ContactInbox.count }
+            .to(not_change { Contact.count }
+              .and(not_change { ContactInbox.count }))
 
           expect(conversation.messages.last.sender.id).to eq(contact.id)
           expect(conversation.contact_inbox).to eq(contact_inbox)
