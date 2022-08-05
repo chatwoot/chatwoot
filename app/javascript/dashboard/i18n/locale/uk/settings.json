@@ -126,8 +126,8 @@
     "TRAIL_BUTTON": "Придбати зараз",
     "DELETED_USER": "Видалений користувач",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Обліковий запис призупинено",
+      "MESSAGE": "Ваш обліковий запис призупинено. Будь ласка, зверніться до служби підтримки для отримання додаткової інформації."
     }
   },
   "COMPONENTS": {
