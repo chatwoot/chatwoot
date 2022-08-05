@@ -13,12 +13,12 @@
       :total-count="meta.count"
       @on-page-change="onPageChange"
     />
-    <div v-if="showLoader" class="articles--loader">
+    <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="showEmptyState"
+      v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -50,10 +50,10 @@ export default {
       isFetching: 'articles/isFetching',
       currentUserId: 'getCurrentUserID',
     }),
-    showEmptyState() {
+    shouldShowEmptyState() {
       return !this.isFetching && !this.articles.length;
     },
-    showLoader() {
+    shouldShowLoader() {
       return this.isFetching && !this.articles.length;
     },
     articleType() {
@@ -92,20 +92,21 @@ export default {
   },
   watch: {
     $route() {
-      this.fetchArticles({ pageNumber: this.pageNumber });
+      this.pageNumber = 1;
+      this.fetchArticles();
     },
   },
   mounted() {
-    this.fetchArticles({ pageNumber: this.pageNumber });
+    this.fetchArticles();
   },
 
   methods: {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
     },
-    fetchArticles({ pageNumber }) {
+    fetchArticles() {
       this.$store.dispatch('articles/index', {
-        pageNumber,
+        pageNumber: this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
         status: this.status,

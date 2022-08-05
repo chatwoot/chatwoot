@@ -18,7 +18,7 @@
         <span>{{ $t('HELP_CENTER.PORTAL.LOADING_MESSAGE') }}</span>
       </div>
       <empty-state
-        v-else-if="!isFetching && !portals.length"
+        v-else-if="shouldShowEmptyState"
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
@@ -45,14 +45,11 @@ export default {
     portalStatus() {
       return this.archived ? 'Archived' : 'Live';
     },
-  },
-  mounted() {
-    // this.fetchPortals();
+    shouldShowEmptyState() {
+      return !this.isFetching && !this.portals.length;
+    },
   },
   methods: {
-    fetchPortals() {
-      // this.$store.dispatch('portals/index');
-    },
     createPortal() {
       this.$emit('create-portal');
     },

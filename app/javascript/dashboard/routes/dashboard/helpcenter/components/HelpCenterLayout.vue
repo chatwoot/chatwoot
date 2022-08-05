@@ -80,12 +80,20 @@ export default {
       return this.locale || this.selectedPortal?.meta?.default_locale;
     },
     accessibleMenuItems() {
+      const {
+        meta: {
+          all_articles_count: allArticlesCount,
+          mine_articles_count: mineArticlesCount,
+          draft_articles_count: draftArticlesCount,
+          archived_articles_count: archivedArticlesCount,
+        } = {},
+      } = this.selectedPortal;
       return [
         {
           icon: 'book',
           label: 'HELP_CENTER.ALL_ARTICLES',
           key: 'list_all_locale_articles',
-          count: this.selectedPortal.meta.all_articles_count,
+          count: allArticlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
           ),
@@ -96,7 +104,7 @@ export default {
           icon: 'pen',
           label: 'HELP_CENTER.MY_ARTICLES',
           key: 'mine_articles',
-          count: this.selectedPortal.meta.mine_articles_count,
+          count: mineArticlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
           ),
@@ -107,7 +115,7 @@ export default {
           icon: 'draft',
           label: 'HELP_CENTER.DRAFT',
           key: 'list_draft_articles',
-          count: this.selectedPortal.meta.draft_articles_count,
+          count: draftArticlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/draft`
           ),
@@ -118,7 +126,7 @@ export default {
           icon: 'archive',
           label: 'HELP_CENTER.ARCHIVED',
           key: 'list_archived_articles',
-          count: this.selectedPortal.meta.archived_articles_count,
+          count: archivedArticlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/archived`
           ),
