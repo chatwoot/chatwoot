@@ -18,8 +18,7 @@ export default {
       );
     },
     localeName(code) {
-      const selectedLocale = allLocales.find(locale => locale.code === code);
-      return selectedLocale.name;
+      return allLocales[code];
     },
   },
 };
