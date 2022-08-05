@@ -8,7 +8,7 @@
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.LABEL') }}
           <multiselect-dropdown
-            :options="category"
+            :options="categoryList"
             :selected-item="selectedCategory"
             :has-thumbnail="false"
             :multiselector-title="
@@ -122,7 +122,7 @@ export default {
   data() {
     return {
       // Dummy value
-      category: [
+      categoryList: [
         {
           id: 1,
           name: 'Getting started',
