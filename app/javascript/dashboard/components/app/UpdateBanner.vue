@@ -16,18 +16,22 @@ import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../helper/localStorage';
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import { hasAnUpdateAvailable } from './versionCheckHelper';
+
 export default {
   components: { Banner },
   mixins: [adminMixin],
   props: {
     latestChatwootVersion: { type: String, default: '' },
   },
+  data() {
+    return { userDismissedBanner: false };
+  },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     updateAvailable() {
       return hasAnUpdateAvailable(
         this.latestChatwootVersion,
-        this.globalConfig.version
+        this.globalConfig.appVersion
       );
     },
     bannerMessage() {
@@ -37,6 +41,7 @@ export default {
     },
     shouldShowBanner() {
       return (
+        !this.userDismissedBanner &&
         this.globalConfig.displayManifest &&
         this.updateAvailable &&
         !this.isVersionNotificationDismissed(this.latestChatwootVersion) &&
@@ -62,7 +67,7 @@ export default {
         LOCAL_STORAGE_KEYS.DISMISSED_UPDATES,
         updatedDismissedItems
       );
-      this.latestChatwootVersion = this.globalConfig.appVersion;
+      this.userDismissedBanner = true;
     },
   },
 };
