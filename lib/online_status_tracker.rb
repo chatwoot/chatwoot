@@ -39,7 +39,11 @@ module OnlineStatusTracker
   end
 
   def self.get_available_contact_ids(account_id)
-    ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'Contact'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
+    range_start = (Time.zone.now - PRESENCE_DURATION).to_i
+    # exclusive minimum score is specified by prefixing (
+    # we are clearing old records because this could clogg up the sorted set
+    ::Redis::Alfred.zremrangebyscore(presence_key(account_id, 'Contact'), '-inf', "(#{range_start}")
+    ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'Contact'), range_start, '+inf')
   end
 
   def self.get_available_contacts(account_id)
@@ -58,9 +62,8 @@ module OnlineStatusTracker
 
   def self.get_available_user_ids(account_id)
     account = Account.find(account_id)
-    # TODO: to migrate this to zrange as its is being deprecated
-    # https://redis.io/commands/zrangebyscore/
-    user_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'User'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
+    range_start = (Time.zone.now - PRESENCE_DURATION).to_i
+    user_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'User'), range_start, '+inf')
     # since we are dealing with redis items as string, casting to string
     user_ids += account.account_users.where(auto_offline: false)&.map(&:user_id)&.map(&:to_s)
     user_ids.uniq
