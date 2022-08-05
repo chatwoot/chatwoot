@@ -183,7 +183,7 @@ export default {
 <style lang="scss" scoped>
 .article-settings--container {
   flex: 0.3;
-  min-width: 28rem;
+  min-width: var(--space-giga);
   overflow: scroll;
   border-left: 1px solid var(--color-border-light);
   margin-left: var(--space-normal);
