@@ -70,6 +70,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
     attachment_url = attachment.download_url
+    type_content = {
+      'link': attachment_url
+    }
+    type_content['caption'] = message.content if type != 'audio'
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
@@ -77,10 +81,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         messaging_product: 'whatsapp',
         'to' => phone_number,
         'type' => type,
-        type.to_s => {
-          'link': attachment_url,
-          'caption': message.content
-        }
+        type.to_s => type_content
       }.to_json
     )
 
