@@ -229,7 +229,7 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
     }),
     storageKey() {
-      return `${LOCAL_STORAGE_KEYS}${this.inbox.id}`;
+      return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
     widgetScript() {
       let options = {
@@ -320,22 +320,24 @@ export default {
       this.avatarUrl = avatar_url;
 
       const savedInformation = this.getSavedInboxInformation();
-      this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
-        if (item.id === savedInformation.position) {
-          item.checked = true;
-          this.widgetBubblePosition = item.id;
-        }
-        return item;
-      });
-      this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
-        if (item.id === savedInformation.type) {
-          item.checked = true;
-          this.widgetBubbleType = item.id;
-        }
-        return item;
-      });
-      this.widgetBubbleLauncherTitle =
-        savedInformation.launcherTitle || 'Chat with us';
+      if (savedInformation) {
+        this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
+          if (item.id === savedInformation.position) {
+            item.checked = true;
+            this.widgetBubblePosition = item.id;
+          }
+          return item;
+        });
+        this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
+          if (item.id === savedInformation.type) {
+            item.checked = true;
+            this.widgetBubbleType = item.id;
+          }
+          return item;
+        });
+        this.widgetBubbleLauncherTitle =
+          savedInformation.launcherTitle || 'Chat with us';
+      }
     },
     handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
