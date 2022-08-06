@@ -14,7 +14,7 @@ module RoundRobinHandler
     return unless conversation_status_changed_to_open?
     return unless should_round_robin?
 
-    ::RoundRobin::AssignmentService.new(conversation: self).perform
+    ::RoundRobin::AssignmentService.new(conversation: self, allowed_member_ids: inbox.member_ids_with_assignment_capacity).perform
   end
 
   def should_round_robin?

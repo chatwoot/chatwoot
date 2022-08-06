@@ -57,8 +57,7 @@
                   class-names="grey-btn"
                   icon="edit"
                   @click="openEditPopup(attribute)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
                   variant="smooth"
@@ -67,8 +66,7 @@
                   icon="dismiss-circle"
                   class-names="grey-btn"
                   @click="openDelete(attribute)"
-                >
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -76,7 +74,7 @@
       </div>
     </div>
     <div class="small-4 columns">
-      <span v-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')"></span>
+      <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-attribute

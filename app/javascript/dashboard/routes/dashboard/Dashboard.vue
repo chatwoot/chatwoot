@@ -3,13 +3,14 @@
     <sidebar
       :route="currentRoute"
       :class="sidebarClassName"
+      @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
-    ></sidebar>
+    />
     <section class="app-content columns" :class="contentClassName">
-      <router-view></router-view>
+      <router-view />
       <command-bar />
       <account-selector
         :show-account-modal="showAccountModal"
@@ -24,6 +25,10 @@
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
+      />
+      <notification-panel
+        v-if="isNotificationPanel"
+        @close="closeNotificationPanel"
       />
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <add-label-modal @close="hideAddLabelPopup" />
@@ -40,6 +45,7 @@ import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShor
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 
 export default {
   components: {
@@ -49,6 +55,7 @@ export default {
     AddAccountModal,
     AccountSelector,
     AddLabelModal,
+    NotificationPanel,
   },
   data() {
     return {
@@ -58,6 +65,7 @@ export default {
       showCreateAccountModal: false,
       showAddLabelModal: false,
       showShortcutModal: false,
+      isNotificationPanel: false,
     };
   },
   computed: {
@@ -84,7 +92,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
@@ -125,6 +132,12 @@ export default {
     },
     hideAddLabelPopup() {
       this.showAddLabelModal = false;
+    },
+    openNotificationPanel() {
+      this.isNotificationPanel = true;
+    },
+    closeNotificationPanel() {
+      this.isNotificationPanel = false;
     },
   },
 };

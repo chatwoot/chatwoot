@@ -3,8 +3,9 @@
 /* eslint no-shadow: 0 */
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
+import Vue from 'vue';
 
-import { downloadCsvFile } from '../../helper/downloadCsvFile';
+import { downloadCsvFile } from '../../helper/downloadHelper';
 
 const state = {
   fetchingStatus: false,
@@ -22,6 +23,14 @@ const state = {
     resolutions_count: 0,
     previous: {},
   },
+  overview: {
+    uiFlags: {
+      isFetchingAccountConversationMetric: false,
+      isFetchingAgentConversationMetric: false,
+    },
+    accountConversationMetric: {},
+    agentConversationMetric: [],
+  },
 };
 
 const getters = {
@@ -30,6 +39,15 @@ const getters = {
   },
   getAccountSummary(_state) {
     return _state.accountSummary;
+  },
+  getAccountConversationMetric(_state) {
+    return _state.overview.accountConversationMetric;
+  },
+  getAgentConversationMetric(_state) {
+    return _state.overview.agentConversationMetric;
+  },
+  getOverviewUIFlags($state) {
+    return $state.overview.uiFlags;
   },
 };
 
@@ -42,23 +60,14 @@ export const actions = {
       reportObj.to,
       reportObj.type,
       reportObj.id,
-      reportObj.groupBy
+      reportObj.groupBy,
+      reportObj.businessHours
     ).then(accountReport => {
       let { data } = accountReport;
       data = data.filter(
         el =>
           reportObj.to - el.timestamp > 0 && el.timestamp - reportObj.from >= 0
       );
-      if (
-        reportObj.metric === 'avg_first_response_time' ||
-        reportObj.metric === 'avg_resolution_time'
-      ) {
-        data = data.map(element => {
-          /* eslint-disable operator-assignment */
-          element.value = (element.value / 3600).toFixed(2);
-          return element;
-        });
-      }
       commit(types.default.SET_ACCOUNT_REPORTS, data);
       commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
     });
@@ -69,7 +78,8 @@ export const actions = {
       reportObj.to,
       reportObj.type,
       reportObj.id,
-      reportObj.groupBy
+      reportObj.groupBy,
+      reportObj.businessHours
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
@@ -78,8 +88,39 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
       });
   },
+  fetchAccountConversationMetric({ commit }, reportObj) {
+    commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, true);
+    Report.getConversationMetric(reportObj.type)
+      .then(accountConversationMetric => {
+        commit(
+          types.default.SET_ACCOUNT_CONVERSATION_METRIC,
+          accountConversationMetric.data
+        );
+        commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchAgentConversationMetric({ commit }, reportObj) {
+    commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
+    Report.getConversationMetric(reportObj.type, reportObj.page)
+      .then(agentConversationMetric => {
+        commit(
+          types.default.SET_AGENT_CONVERSATION_METRIC,
+          agentConversationMetric.data
+        );
+        commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  updateReportAgentStatus({ commit }, data) {
+    commit(types.default.UPDATE_REPORT_AGENTS_STATUS, data);
+  },
   downloadAgentReports(_, reportObj) {
-    return Report.getAgentReports(reportObj.from, reportObj.to)
+    return Report.getAgentReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -88,7 +129,7 @@ export const actions = {
       });
   },
   downloadLabelReports(_, reportObj) {
-    return Report.getLabelReports(reportObj.from, reportObj.to)
+    return Report.getLabelReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -97,7 +138,7 @@ export const actions = {
       });
   },
   downloadInboxReports(_, reportObj) {
-    return Report.getInboxReports(reportObj.from, reportObj.to)
+    return Report.getInboxReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -106,7 +147,7 @@ export const actions = {
       });
   },
   downloadTeamReports(_, reportObj) {
-    return Report.getTeamReports(reportObj.from, reportObj.to)
+    return Report.getTeamReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -125,6 +166,28 @@ const mutations = {
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
+  },
+  [types.default.SET_ACCOUNT_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.accountConversationMetric = metricData;
+  },
+  [types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAccountConversationMetric = flag;
+  },
+  [types.default.SET_AGENT_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.agentConversationMetric = metricData;
+  },
+  [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.UPDATE_REPORT_AGENTS_STATUS](_state, data) {
+    _state.overview.agentConversationMetric.forEach((element, index) => {
+      const availabilityStatus = data[element.id];
+      Vue.set(
+        _state.overview.agentConversationMetric[index],
+        'availability',
+        availabilityStatus || 'offline'
+      );
+    });
   },
 };
 

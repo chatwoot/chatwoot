@@ -9,9 +9,10 @@
     />
     <Avatar
       v-else
-      :username="username"
+      :username="userNameWithoutEmoji"
       :class="thumbnailClass"
       :size="avatarSize"
+      :variant="variant"
     />
     <img
       v-if="badge === 'instagram_direct_message'"
@@ -85,6 +86,7 @@
  * Username - User name for avatar
  */
 import Avatar from './Avatar';
+import { removeEmoji } from 'shared/helpers/emoji';
 
 export default {
   components: {
@@ -119,6 +121,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    variant: {
+      type: String,
+      default: 'circle',
+    },
   },
   data() {
     return {
@@ -126,6 +132,9 @@ export default {
     };
   },
   computed: {
+    userNameWithoutEmoji() {
+      return removeEmoji(this.username);
+    },
     showStatusIndicator() {
       if (this.shouldShowStatusAlways) return true;
       return this.status === 'online' || this.status === 'busy';
@@ -145,7 +154,9 @@ export default {
     },
     thumbnailClass() {
       const classname = this.hasBorder ? 'border' : '';
-      return `user-thumbnail ${classname}`;
+      const variant =
+        this.variant === 'circle' ? 'thumbnail-rounded' : 'thumbnail-square';
+      return `user-thumbnail ${classname} ${variant}`;
     },
   },
   watch: {
@@ -173,6 +184,9 @@ export default {
 
   .user-thumbnail {
     border-radius: 50%;
+    &.thumbnail-square {
+      border-radius: var(--border-radius-large);
+    }
     height: 100%;
     width: 100%;
     box-sizing: border-box;
@@ -209,7 +223,7 @@ export default {
   }
 
   .user-online-status--busy {
-    background: var(--y-700);
+    background: var(--y-500);
   }
 
   .user-online-status--offline {

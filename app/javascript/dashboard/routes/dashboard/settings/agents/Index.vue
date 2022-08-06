@@ -35,7 +35,9 @@
                 </td>
                 <!-- Agent Name + Email -->
                 <td>
-                  <span class="agent-name">{{ agent.name }}</span>
+                  <span class="agent-name">
+                    {{ agent.name }}
+                  </span>
                   <span>{{ agent.email }}</span>
                 </td>
                 <!-- Agent Role + Verification Status -->
@@ -64,8 +66,7 @@
                       icon="edit"
                       class-names="grey-btn"
                       @click="openEditPopup(agent)"
-                    >
-                    </woot-button>
+                    />
                     <woot-button
                       v-if="showDeleteAction(agent)"
                       v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
@@ -76,8 +77,7 @@
                       class-names="grey-btn"
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
-                    >
-                    </woot-button>
+                    />
                   </div>
                 </td>
               </tr>
@@ -87,7 +87,7 @@
       </div>
       <div class="small-4 columns">
         <span
-          v-html="
+          v-dompurify-html="
             useInstallationName(
               $t('AGENT_MGMT.SIDEBAR_TXT'),
               globalConfig.installationName

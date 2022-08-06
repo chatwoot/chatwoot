@@ -36,9 +36,9 @@
       <woot-audio-recorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
-        @state-recorder-timer-changed="onStateRecorderTimerChanged"
+        @state-recorder-progress-changed="onStateProgressRecorderChanged"
         @state-recorder-changed="onStateRecorderChanged"
-        @recorder-blob="onRecorderBlob"
+        @finish-record="onFinishRecorder"
       />
       <resizable-text-area
         v-else-if="!showRichContentEditor"
@@ -80,8 +80,8 @@
     >
       <p
         v-if="isSignatureAvailable"
+        v-dompurify-html="formatMessage(messageSignature)"
         class="message-signature"
-        v-html="formatMessage(messageSignature)"
       />
       <p v-else class="message-signature">
         {{ $t('CONVERSATION.FOOTER.MESSAGE_SIGNATURE_NOT_CONFIGURED') }}
@@ -101,9 +101,9 @@
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :show-emoji-picker="showEmojiPicker"
-      :on-send="sendMessage"
+      :on-send="onSendReply"
       :is-send-disabled="isReplyButtonDisabled"
-      :recording-audio-duration-text="recordingAudioDuration"
+      :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
       :set-format-mode="setFormatMode"
@@ -112,7 +112,16 @@
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
+      :has-whatsapp-templates="hasWhatsappTemplates"
       @toggleEnterToSend="toggleEnterToSend"
+      @selectWhatsappTemplate="openWhatsappTemplateModal"
+    />
+    <whatsapp-templates
+      :inbox-id="inbox.id"
+      :show="showWhatsAppTemplatesModal"
+      @close="hideWhatsappTemplatesModal"
+      @on-send="onSendWhatsAppReply"
+      @cancel="hideWhatsappTemplatesModal"
     />
   </div>
 </template>
@@ -137,7 +146,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import {
   isEscape,
   isEnter,
@@ -162,6 +171,7 @@ export default {
     WootMessageEditor,
     WootAudioRecorder,
     Banner,
+    WhatsappTemplates,
   },
   mixins: [
     clickaway,
@@ -193,7 +203,7 @@ export default {
       attachedFiles: [],
       isRecordingAudio: false,
       recordingAudioState: '',
-      recordingAudioDuration: '',
+      recordingAudioDurationText: '',
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
@@ -201,6 +211,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      showWhatsAppTemplatesModal: false,
     };
   },
   computed: {
@@ -212,7 +223,6 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
     }),
-
     showRichContentEditor() {
       if (this.isOnPrivateNote) {
         return true;
@@ -256,7 +266,10 @@ export default {
 
       return false;
     },
-
+    hasWhatsappTemplates() {
+      return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+        .length;
+    },
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
@@ -452,12 +465,16 @@ export default {
   methods: {
     onPaste(e) {
       const data = e.clipboardData.files;
+      if (!this.showRichContentEditor && data.length !== 0) {
+        this.$refs.messageInput.$el.blur();
+      }
       if (!data.length || !data[0]) {
         return;
       }
-      const file = data[0];
-      const { name, type, size } = file;
-      this.onFileUpload({ name, type, size, file });
+      data.forEach(file => {
+        const { name, type, size } = file;
+        this.onFileUpload({ name, type, size, file: file });
+      });
     },
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
@@ -480,7 +497,7 @@ export default {
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
         if (shouldSendMessage) {
           e.preventDefault();
-          this.sendMessage();
+          this.onSendReply();
         }
       } else if (hasPressedCommandPlusKKey(e)) {
         this.openCommandBar();
@@ -492,6 +509,12 @@ export default {
     },
     toggleEnterToSend(enterToSendEnabled) {
       this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
+    },
+    openWhatsappTemplateModal() {
+      this.showWhatsAppTemplatesModal = true;
+    },
+    hideWhatsappTemplatesModal() {
+      this.showWhatsAppTemplatesModal = false;
     },
     onClickSelfAssign() {
       const {
@@ -516,7 +539,7 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
-    async sendMessage() {
+    async onSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
       }
@@ -527,21 +550,30 @@ export default {
         }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
-        try {
-          await this.$store.dispatch(
-            'createPendingMessageAndSend',
-            messagePayload
-          );
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-        } catch (error) {
-          const errorMessage =
-            error?.response?.data?.error ||
-            this.$t('CONVERSATION.MESSAGE_ERROR');
-          this.showAlert(errorMessage);
-        }
+        this.sendMessage(messagePayload);
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
+    },
+    async sendMessage(messagePayload) {
+      try {
+        await this.$store.dispatch(
+          'createPendingMessageAndSend',
+          messagePayload
+        );
+        bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
+        this.showAlert(errorMessage);
+      }
+    },
+    async onSendWhatsAppReply(messagePayload) {
+      this.sendMessage({
+        conversationId: this.currentChat.id,
+        ...messagePayload,
+      });
+      this.hideWhatsappTemplatesModal();
     },
     replaceText(message) {
       setTimeout(() => {
@@ -581,11 +613,13 @@ export default {
       }
     },
     toggleAudioRecorderPlayPause() {
-      if (this.isRecordingAudio && !this.isRecorderAudioStopped) {
-        this.isRecorderAudioStopped = true;
-        this.$refs.audioRecorderInput.stopAudioRecording();
-      } else if (this.isRecordingAudio && this.isRecorderAudioStopped) {
-        this.$refs.audioRecorderInput.playPause();
+      if (this.isRecordingAudio) {
+        if (!this.isRecorderAudioStopped) {
+          this.isRecorderAudioStopped = true;
+          this.$refs.audioRecorderInput.stopAudioRecording();
+        } else if (this.isRecorderAudioStopped) {
+          this.$refs.audioRecorderInput.playPause();
+        }
       }
     },
     hideEmojiPicker() {
@@ -608,19 +642,17 @@ export default {
     onFocus() {
       this.isFocused = true;
     },
-    onStateRecorderTimerChanged(time) {
-      this.recordingAudioDuration = time;
+    onStateProgressRecorderChanged(duration) {
+      this.recordingAudioDurationText = duration;
     },
     onStateRecorderChanged(state) {
       this.recordingAudioState = state;
-      if (state.includes('notallowederror')) {
+      if (state && 'notallowederror'.includes(state)) {
         this.toggleAudioRecorder();
       }
     },
-    onRecorderBlob(file) {
-      if (file) {
-        this.onFileUpload(file);
-      }
+    onFinishRecorder(file) {
+      return file && this.onFileUpload(file);
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;

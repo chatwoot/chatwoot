@@ -36,8 +36,8 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         sign_in(super_admin, scope: :super_admin)
         post '/super_admin/app_config', params: { app_config: { TESTKEY: 'TESTVALUE' } }
 
-        expect(response.status).to eq(302)
-        expect(response).should redirect_to(super_admin_app_config_path)
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path)
 
         config = GlobalConfig.get('TESTKEY')
         expect(config['TESTKEY']).to eq('TESTVALUE')

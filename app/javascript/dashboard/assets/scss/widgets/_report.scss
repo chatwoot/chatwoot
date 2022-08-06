@@ -18,6 +18,13 @@
     font-size: $font-size-small;
     font-weight: $font-weight-bold;
     color: $color-heading;
+    display: flex;
+    align-items: center;
+  }
+
+  .info-icon {
+    color: var(--b-400);
+    margin-left: var(--space-micro);
   }
 
   .metric-wrap {
@@ -70,6 +77,11 @@
       @include margin($space-jumbo);
       font-size: $font-size-default;
       color: $color-gray;
+    }
+
+    .business-hours {
+      margin: $space-normal;
+      text-align: center;
     }
   }
 }

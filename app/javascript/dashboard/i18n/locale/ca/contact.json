@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
     "COMPANY": "Companyia",
     "LOCATION": "Ubicació",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Detalls de les converses",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Navegador",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirma l'esborrat",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "No, manten-la"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -103,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Introdueix l'adreça de correu electrònic del contacte",
         "LABEL": "Adreça de correu electrònic",
-        "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte."
+        "DUPLICATE": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
+        "ERROR": "Introduïu una adreça de correu electrònic vàlida."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
@@ -137,6 +147,12 @@
           "PLACEHOLDER": "Introdueix el nom d'usuari de Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contacte guardat correctament",

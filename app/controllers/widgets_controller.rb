@@ -1,7 +1,10 @@
 # TODO : Delete this and associated spec once 'api/widget/config' end point is merged
 class WidgetsController < ActionController::Base
+  include WidgetHelper
+
   before_action :set_global_config
   before_action :set_web_widget
+  before_action :ensure_account_is_active
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
@@ -40,11 +43,12 @@ class WidgetsController < ActionController::Base
   def build_contact
     return if @contact.present?
 
-    @contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
+    @contact_inbox, @token = build_contact_inbox_with_token(@web_widget, additional_attributes)
     @contact = @contact_inbox.contact
+  end
 
-    payload = { source_id: @contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
-    @token = ::Widget::TokenService.new(payload: payload).generate_token
+  def ensure_account_is_active
+    render json: { error: 'Account is suspended' }, status: :unauthorized unless @web_widget.inbox.account.active?
   end
 
   def additional_attributes
