@@ -74,4 +74,7 @@ export const mutations = {
   [types.CLEAR_CONTACT_FILTERS](_state) {
     _state.appliedFilters = [];
   },
+  [types.SET_SHOPIFY_ORDER](_state, data) {
+    _state.shopifyOrder = data;
+  }
 };

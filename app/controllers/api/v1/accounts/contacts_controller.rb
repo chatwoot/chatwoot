@@ -20,6 +20,19 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = fetch_contacts_with_conversation_count(resolved_contacts)
   end
 
+  def get_orders
+    shopify_customer = Integrations::ShopifyCustomer.find_by(contact_id: params[:id])
+    if !shopify_customer.nil?
+      shopify_account = Integrations::Shopify.find_by(id: shopify_customer.shopify_account_id)
+      response = RestClient.get('https://'+shopify_account.account_name+'/admin/api/2022-04/orders.json?customer_id='+shopify_customer.customer_id, {
+        "X-Shopify-Access-Token": shopify_account.access_token
+      })
+      render json: response
+    else
+      render json: []
+    end
+  end
+
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
@@ -119,8 +132,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
                                                          .page(@current_page).per(RESULTS_PER_PAGE)
 
     return contacts_with_conversation_count.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
-
-    contacts_with_conversation_count
+    contacts_with_conversation_count.includes([:shopify_attributes])
   end
 
   def build_contact_inbox
@@ -132,7 +144,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
+    params.require(:contact).permit(:id, :name, :identifier, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes

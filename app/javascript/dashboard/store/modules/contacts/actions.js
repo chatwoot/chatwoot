@@ -202,4 +202,12 @@ export const actions = {
   clearContactFilters({ commit }) {
     commit(types.CLEAR_CONTACT_FILTERS);
   },
+  shopify: async ({ commit }, contactId) => {
+    try{
+      var response = await ContactAPI.getOrders(contactId);
+      commit(types.SET_SHOPIFY_ORDER, response.data);
+    }catch(error){
+      console.error(error)
+    }
+  },
 };

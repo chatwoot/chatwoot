@@ -15,4 +15,7 @@ export const getters = {
   getAppliedContactFilters: _state => {
     return _state.appliedFilters;
   },
+  getShopifyOrder: _state => {
+    return _state.shopifyOrder;
+  }
 };

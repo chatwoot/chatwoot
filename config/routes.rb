@@ -87,6 +87,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              get :get_orders
               post :filter
               post :import
             end
@@ -147,7 +148,11 @@ Rails.application.routes.draw do
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :shopify
+            resources :shopify do 
+              collection do
+                post :make_refund
+              end
+            end
             resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end

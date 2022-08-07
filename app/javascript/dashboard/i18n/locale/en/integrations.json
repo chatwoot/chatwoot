@@ -76,6 +76,47 @@
         "TITLE": "Manage Shopify Accounts",
         "TABLE_HEADER": ["Shopify Account Name", "Actions"]
       },
+      "LIST_ITEM": {
+        "LABEL": {
+          "ORDER_NUMBER": "Order Number",
+          "ITEMS": "Items",
+          "ITEM_NAME": "Item Name",
+          "ITEM_PRICE": "Item Price",
+          "ITEM_QUANTITY": "Item Quantity"
+        },
+        "BUTTON": {
+          "MENTION_BUTTON": "Make Refund"
+        }
+      },
+      "REFUND_MODAL":{
+        "TITLE": "Refund",
+        "LABEL": {
+          "ORDER_NUMBER": "Order Number",
+          "ORDER_ITEM_NAME": "Item Name",
+          "SHIPPING_REFUND_STATUS": "Shipping Refund Type",
+          "SHIPPING_REFUND_AMOUNT": "Shipping Refund Amount",
+          "REASON": "Optional Notes",
+          "DISCREPANCY_REASON": "Discrepancy Reason",
+          "REFUND_QUANTITY":"Number of Item ",
+          "RESTOCK_TYPE": "Restock Type"
+        },
+        "NOTIFICATION": {
+          "SUCCESS": "Success to issue refund",
+          "FAILED": "Couldn't make refund"
+        },
+        "BUTTON": {
+          "SUBMIT": "Submit",
+          "CANCEL": "Cancel"
+        },
+        "PLACEHOLDER":{
+          "SHIPPING_REFUND_STATUS": "Shipping refund status",
+          "SHIPPING_REFUND_AMOUNT": "Shipping refund amount",
+          "REASON": "Reason eg. The refund includes shpping and our policy refund price",
+          "DISCREPANCY_REASON": "Discrepancy Reason eg. shipping price increase",
+          "REFUND_QUANTITY":"Number of Item eg. 1",
+          "RESTOCK_TYPE": "Restock type eg. "
+        }
+      },
       "EDIT": {
         "BUTTON_TEXT": "Edit",
         "TITLE": "Edit Shopify Integration",

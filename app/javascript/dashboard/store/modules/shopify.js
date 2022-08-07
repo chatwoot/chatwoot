@@ -10,6 +10,7 @@ const state = {
         removingItem: false,
         updateItem: false,
     },
+    errorMessage: ""
 };
 
 export const getters = {
@@ -65,6 +66,18 @@ export const actions = {
             throw error;
         }
     },
+    async refund({commit}, data){
+        try{
+            var response = await shopifyAPI.refund(data);
+            console.log("Response");
+            console.log(response);
+        }catch(error){
+            throw error;
+        }
+    },
+    async setShopifyErrorMessage({commit}, data){
+      commit(types.default.SET_SHOPIFY_ERROR_MESSAGE, data);  
+    }
 };
 
 export const mutations = {
@@ -78,6 +91,9 @@ export const mutations = {
     [types.default.ADD_SHOPIFY]: MutationHelpers.create,
     [types.default.REMOVE_SHOPIFY]: MutationHelpers.destroy,
     [types.default.UPDATE_SHOPIFY]: MutationHelpers.update,
+    [types.default.SET_SHOPIFY_ERROR_MESSAGE](_state, data) {
+        _state.errorMessage = data;
+    }
 };
 
 export default {

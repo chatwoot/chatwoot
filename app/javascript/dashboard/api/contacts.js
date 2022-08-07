@@ -71,6 +71,10 @@ class ContactAPI extends ApiClient {
       custom_attributes: customAttributes,
     });
   }
+
+  getOrders(contactId){
+    return axios.get(`${this.url}/get_orders?id=${contactId}`);
+  }
 }
 
 export default new ContactAPI();
