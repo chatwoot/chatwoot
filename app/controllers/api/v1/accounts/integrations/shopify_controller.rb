@@ -40,11 +40,11 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
         refund["refund"]["refund_line_items"] = Array.new(1){
           item
         }
-        response = RestClient.post 'https://'+shopify_account.account_name+'/admin/api/2022-04/orders/'+params[:order_id].to_s+'/refunds/calculate.json', 
+        response = RestClient.post 'https://'+shopify_account.account_name+'/admin/api/2022-04/orders/'+params[:order_id].to_s+'/refunds/calculate.json',
         refund.to_json,
         {
-          content_type: :json, 
-          accept: :json, 
+          content_type: :json,
+          accept: :json,
           "X-Shopify-Access-Token": shopify_account.access_token
         }
       rescue RestClient::ExceptionWithResponse => err
@@ -52,7 +52,6 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
         error = true
       end
       if error
-        puts "Heduuuuuuuuuuuuu"
         return render json: response, :status => :bad_request
       end
       # Calculate refund
@@ -64,11 +63,11 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
       refund["refund"]["transactions"] = JSON.parse(response, object_class: Hash)["refund"]["transactions"]
 
       begin
-        response = RestClient.post 'https://'+shopify_account.account_name+'/admin/api/2022-04/orders/'+params[:order_id].to_s+'/refunds.json', 
+        response = RestClient.post 'https://'+shopify_account.account_name+'/admin/api/2022-04/orders/'+params[:order_id].to_s+'/refunds.json',
         refund.to_json,
         {
-          content_type: :json, 
-          accept: :json, 
+          content_type: :json,
+          accept: :json,
           "X-Shopify-Access-Token": shopify_account.access_token
         }
       rescue RestClient::ExceptionWithResponse => err
