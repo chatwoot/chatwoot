@@ -53,8 +53,8 @@
   }
 
   .content-box {
-    padding: 0;
     height: auto;
+    padding: 0;
   }
 
   h2 {
@@ -64,9 +64,9 @@
   }
 
   p {
+    font-size: $font-size-small;
     margin: 0;
     padding: 0;
-    font-size: $font-size-small;
   }
 
   .content {
@@ -75,8 +75,8 @@
 
   form,
   .modal-content {
-    padding: $space-large;
     align-self: center;
+    padding: $space-large;
 
     a {
       padding: $space-normal;

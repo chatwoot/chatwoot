@@ -12,11 +12,11 @@
 .conversation {
   @include flex;
   @include flex-shrink;
-  padding: 0 0 0 $space-normal;
   border-bottom: 1px solid transparent;
   border-left: $space-micro solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
+  padding: 0 0 0 $space-normal;
   position: relative;
 
   &.active {
@@ -48,11 +48,11 @@
   }
 
   .conversation--details {
-    margin: 0 0 0 $space-one;
     @include border-light-bottom;
     @include border-light-top;
-    padding: $space-slab 0;
     border-bottom-color: transparent;
+    margin: 0 0 0 $space-one;
+    padding: $space-slab 0;
   }
 
   .conversation--user {

@@ -1,13 +1,14 @@
 .search {
   @include flex;
   @include flex-align($x: left, $y: middle);
-  padding: $space-one $space-normal;
   @include flex-shrink;
+
+  padding: $space-one $space-normal;
   transition: all 0.3s var(--ease-in-out-quad);
 
   > .icon {
-    font-size: $font-size-medium;
     color: $medium-gray;
+    font-size: $font-size-medium;
   }
 
   > input {

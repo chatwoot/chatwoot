@@ -43,22 +43,20 @@ is-closed .app-root {
   @include full-height;
   @include space-between-column;
 
-  margin: 0;
   height: 100vh;
+  margin: 0;
 }
 
 .view-panel {
-  margin: 0;
-  padding: $space-normal;
-
   flex-direction: column;
+  margin: 0;
   overflow-y: auto;
+  padding: $space-normal;
 }
 
 .content-box {
-  padding: $space-normal;
-
   overflow: auto;
+  padding: $space-normal;
 }
 
 .back-button {
@@ -91,8 +89,7 @@ is-closed .app-root {
   justify-content: center;
 
   img {
-    padding: $space-one;
-
     max-width: $space-mega;
+    padding: $space-one;
   }
 }

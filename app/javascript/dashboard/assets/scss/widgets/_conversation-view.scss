@@ -1,3 +1,5 @@
+// scss-lint:disable MergeableSelector
+
 @mixin bubble-with-types {
   padding: $space-small $space-normal;
   margin: 0;
@@ -79,16 +81,15 @@
   }
 
   .conversations-list {
-    flex: 1 1;
     @include scroll-on-hover;
+    flex: 1 1;
   }
 
   .chat-list__top {
     @include flex;
-    padding: $zero $zero $space-micro $zero;
-
     align-items: center;
     justify-content: space-between;
+    padding: $zero $zero $space-micro;
 
     .page-title {
       margin-bottom: $zero;
@@ -96,13 +97,13 @@
     }
 
     .status--filter {
-      padding: $zero null $zero $space-normal;
-      margin: 0;
       background-color: $color-background-light;
       border: 1px solid $color-border;
       float: right;
       font-size: $font-size-mini;
       height: $space-medium;
+      margin: 0;
+      padding: $zero null $zero $space-normal;
       width: auto;
     }
   }
@@ -115,9 +116,9 @@
 .conversation-panel {
   @include flex;
   flex: 1 1 1px;
-  margin: 0;
   flex-direction: column;
   height: 100%;
+  margin: 0;
   overflow-y: auto;
   padding-bottom: var(--space-normal);
   position: relative;
@@ -293,9 +294,8 @@
   }
 
   .wrap {
-    margin: $zero $space-normal;
-
     --bubble-max-width: 49.6rem;
+    margin: $zero $space-normal;
     max-width: Min(var(--bubble-max-width), 84%);
 
     .sender--name {

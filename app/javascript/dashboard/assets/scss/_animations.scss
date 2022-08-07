@@ -1,5 +1,3 @@
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
 .slide-fade-enter-active {
   transition: all 0.3s var(--ease-in-cubic);
 }
@@ -60,8 +58,8 @@
 
 .slide-up-enter,
 .slide-up-leave-to {
-  transform: translateY(-$space-medium);
   opacity: 0;
+  transform: translateY(-$space-medium);
 }
 
 .menu-slide-enter-active,
@@ -114,6 +112,6 @@
 
 .network-notification-fade-enter,
 .network-notification-fade-leave-to {
-  transform: translateY(-$space-small);
   opacity: 0;
+  transform: translateY(-$space-small);
 }

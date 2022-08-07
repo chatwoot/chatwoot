@@ -96,9 +96,9 @@
   }
 
   .multiselect__tags {
-    margin: 0;
     border: 1px solid $color-border;
     border-color: $color-border;
+    margin: 0;
     min-height: 4.4rem;
     padding-top: $zero;
   }
@@ -130,10 +130,10 @@
 
   .multiselect__input {
     @include ghost-input;
-    padding: 0;
     font-size: $font-size-small;
     height: 4.4rem;
     margin-bottom: $zero;
+    padding: 0;
   }
 
   .multiselect__single {
