@@ -1,14 +1,12 @@
 .reply-box {
-  transition: box-shadow .35s $swift-ease-out-function,
+  transition: box-shadow 0.35s $swift-ease-out-function,
     height 2s $swift-ease-out-function;
-
 
   &.is-focused {
     box-shadow: var(--shadow);
   }
 
   .reply-box__top {
-
     .icon {
       color: $medium-gray;
       cursor: pointer;
@@ -19,7 +17,6 @@
         color: $color-woot;
       }
     }
-
 
     .attachment {
       cursor: pointer;
@@ -37,9 +34,9 @@
       resize: none;
     }
 
-    >textarea {
+    > textarea {
       @include ghost-input();
-      @include margin(0);
+      margin: 0;
       background: transparent;
       // Override min-height : 50px in foundation
       //
@@ -56,10 +53,9 @@
     .reply-box__top {
       background: var(--y-50);
 
-      >input {
+      > input {
         background: var(--y-50);
       }
     }
   }
-
 }

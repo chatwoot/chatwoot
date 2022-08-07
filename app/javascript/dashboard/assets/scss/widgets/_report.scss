@@ -1,6 +1,6 @@
 .report-card {
-  @include padding($space-normal $space-small $space-normal $space-two);
-  @include margin($zero);
+  padding: $space-normal $space-small $space-normal $space-two;
+  margin: 0;
   cursor: pointer;
   @include custom-border-top(3px, transparent);
 
@@ -14,7 +14,7 @@
   }
 
   .heading {
-    @include margin($zero);
+    margin: 0;
     font-size: $font-size-small;
     font-weight: $font-weight-bold;
     color: $color-heading;
@@ -52,17 +52,17 @@
   }
 
   .desc {
-    @include margin($zero);
+    margin: 0;
     font-size: $font-size-small;
     text-transform: capitalize;
   }
 }
 
 .report-bar {
-  @include margin(-1px $zero);
+  margin: -1px $zero;
   @include background-white;
   @include border-light;
-  @include padding($space-small $space-medium);
+  padding: $space-small $space-medium;
 
   .chart-container {
     @include flex;
@@ -74,7 +74,7 @@
     }
 
     .empty-state {
-      @include margin($space-jumbo);
+      margin: $space-jumbo;
       font-size: $font-size-default;
       color: $color-gray;
     }

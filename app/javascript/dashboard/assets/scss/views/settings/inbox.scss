@@ -4,7 +4,7 @@
 
 // Conversation header - Light BG
 .settings-header {
-  @include padding($space-small $space-normal);
+  padding: $space-small $space-normal;
   @include background-white;
   @include flex;
   @include flex-align($x: justify, $y: middle);
@@ -14,20 +14,20 @@
 
   // Resolve Button
   .button {
-    @include margin(0);
+    margin: 0;
   }
 
   // User thumbnail and text
   .page-title {
     @include flex;
     @include flex-align($x: center, $y: middle);
-    @include margin($zero);
+    margin: 0;
   }
 }
 
 .wizard-box {
   .item {
-    @include padding($space-normal $space-normal $space-normal $space-medium);
+    padding: $space-normal $space-normal $space-normal $space-medium;
     @include background-light;
 
     cursor: pointer;
@@ -128,7 +128,7 @@
 
 .wizard-body {
   @include background-white;
-  @include padding($space-medium);
+  padding: $space-medium;
   @include border-light;
   @include full-height();
 
@@ -139,10 +139,10 @@
 
 .inoboxes-list {
   .inbox-item {
-    @include margin($space-normal);
+    margin: $space-normal;
     @include flex;
     @include flex-shrink;
-    @include padding($space-normal $space-normal);
+    padding: $space-normal $space-normal;
     @include border-light-bottom();
 
     background: $color-white;
@@ -174,7 +174,7 @@
     }
 
     .item--details {
-      @include padding($space-normal $zero);
+      padding: $space-normal $zero;
 
       .item--name {
         font-size: $font-size-large;
@@ -199,14 +199,14 @@
 }
 
 .settings--content {
-  @include margin($space-small $space-large);
+  margin: $space-small $space-large;
 
   .title {
     font-weight: $font-weight-medium;
   }
 
   .code {
-    @include padding($space-one);
+    padding: $space-one;
 
     background: $color-background;
     max-height: $space-mega;
@@ -225,7 +225,7 @@
   text-align: center;
 
   p {
-    @include padding($space-medium);
+    padding: $space-medium;
   }
 
   > a > img {

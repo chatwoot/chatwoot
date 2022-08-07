@@ -30,7 +30,7 @@
 }
 
 .page-top-bar {
-  @include padding($space-large $space-large $zero);
+  padding: $space-large $space-large $zero;
 
   img {
     max-height: 6rem;
@@ -53,7 +53,7 @@
   }
 
   .content-box {
-    @include padding($zero);
+    padding: 0;
     height: auto;
   }
 
@@ -64,29 +64,29 @@
   }
 
   p {
-    @include margin($zero);
-    @include padding($zero);
+    margin: 0;
+    padding: 0;
     font-size: $font-size-small;
   }
 
   .content {
-    @include padding($space-large);
+    padding: $space-large;
   }
 
   form,
   .modal-content {
-    @include padding($space-large);
+    padding: $space-large;
     align-self: center;
 
     a {
-      @include padding($space-normal);
+      padding: $space-normal;
     }
   }
 
   .modal-footer {
     @include flex;
     @include flex-align($x: flex-start, $y: middle);
-    @include padding($space-small $zero);
+    padding: $space-small $zero;
 
     button {
       font-size: $font-size-small;
@@ -98,10 +98,10 @@
   }
 
   .delete-item {
-    @include padding($space-large);
+    padding: $space-large;
 
     button {
-      @include margin($zero);
+      margin: 0;
     }
   }
 }

@@ -41,22 +41,22 @@ is-closed .app-root {
 
 .view-box {
   @include full-height;
-  @include margin(0);
   @include space-between-column;
 
+  margin: 0;
   height: 100vh;
 }
 
 .view-panel {
-  @include margin($zero);
-  @include padding($space-normal);
+  margin: 0;
+  padding: $space-normal;
 
   flex-direction: column;
   overflow-y: auto;
 }
 
 .content-box {
-  @include padding($space-normal);
+  padding: $space-normal;
 
   overflow: auto;
 }
@@ -91,7 +91,7 @@ is-closed .app-root {
   justify-content: center;
 
   img {
-    @include padding($space-one);
+    padding: $space-one;
 
     max-width: $space-mega;
   }

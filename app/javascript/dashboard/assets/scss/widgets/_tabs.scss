@@ -7,7 +7,7 @@
 }
 
 .tabs {
-  @include padding($zero $space-normal);
+  padding: $zero $space-normal;
   border-left-width: 0;
   border-right-width: 0;
   border-top-width: 0;
@@ -46,7 +46,7 @@
 }
 
 .tabs-title {
-  @include margin($zero $space-slab);
+  margin: $zero $space-slab;
   flex-shrink: 0;
 
   .badge {
@@ -75,14 +75,15 @@
   }
 
   a {
-    @include position(relative, 1px null null null);
+    position: relative;
+    top: 1px;
     align-items: center;
     border-bottom: 2px solid transparent;
     color: $medium-gray;
     display: flex;
     flex-direction: row;
     font-size: $font-size-small;
-    transition: border-color .15s $swift-ease-out-function;
+    transition: border-color 0.15s $swift-ease-out-function;
   }
 
   &.is-active {

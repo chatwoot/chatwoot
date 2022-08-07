@@ -7,14 +7,14 @@
 
   .channel {
     @include flex;
-    @include padding($space-normal $zero);
+    padding: $space-normal $zero;
     @include background-white;
     @include border-light;
 
     cursor: pointer;
     flex-direction: column;
     margin: -1px;
-    transition: all 0.200s ease-in;
+    transition: all 0.2s ease-in;
 
     &:last-child {
       @include border-light;
@@ -27,11 +27,11 @@
     }
 
     &.disabled {
-      opacity: .6;
+      opacity: 0.6;
     }
 
     img {
-      @include margin($space-normal auto);
+      margin: $space-normal auto;
       width: 50%;
     }
 
