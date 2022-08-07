@@ -1406,10 +1406,10 @@
     prosemirror-state "^1.3.3"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.6.tgz#76d7b17d692b5b656c565b9b714b98e0f2bc1324"
-  integrity sha512-fCvULfJSFSylDAiGh1cPAX5nQkVsmG5ASGm/E6YBYg8cox/2JU179JFstdtTxrIJg/YeHukcaq85Gc+/16ShPQ==
+"@chatwoot/utils@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.7.tgz#e8f6edd6a1facee8fabdea58ee5c73c6aa5d24b0"
+  integrity sha512-LMS3vae/samobw8C6N0+hfUrfgau6wY/02kmEwgWWCMWxEUjJx0nkFAyMas5wGY0lNUH4TiR9EO1pUCMd04THg==
   dependencies:
     date-fns "^2.22.1"
 

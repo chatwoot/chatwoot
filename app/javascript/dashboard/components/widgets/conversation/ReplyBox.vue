@@ -161,7 +161,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
-import { trimMessage } from '../../../store/modules/conversations/helpers';
+import { trimContent } from '@chatwoot/utils';
 
 export default {
   components: {
@@ -497,7 +497,7 @@ export default {
       if (this.message || this.message === '') {
         const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
-        const draftToSave = trimMessage(this.message || '');
+        const draftToSave = trimContent(this.message || '');
         const {
           [key]: currentDraft,
           ...restOfDraftMessages
