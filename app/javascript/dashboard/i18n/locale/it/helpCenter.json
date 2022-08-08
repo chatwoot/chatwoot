@@ -31,7 +31,9 @@
       "NEW_BUTTON": "Nuovo portale",
       "ACTIVE_BADGE": "attivo",
       "CHOOSE_LOCALE_LABEL": "Scegli una lingua",
+      "LOADING_MESSAGE": "Loading portals...",
       "ARTICLES_LABEL": "articoli",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Aggiungi una nuova lingua",
       "POPOVER": {
         "TITLE": "Portali",
