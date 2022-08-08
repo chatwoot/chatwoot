@@ -1,7 +1,7 @@
 # We often have the case where users would comment over stale closed Github Issues
-# This creates unecessary noise to the original reporter as well as makes it harder for triaging.
-# This actions locks the closed threds once it is inactive for over a month
-# 
+# This creates unnecessary noise for the original reporter as well as makes it harder for triaging.
+# This actions lock the closed threads once it is inactive for over a month
+
 name: 'Lock Threads'
 
 on:
