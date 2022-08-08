@@ -92,4 +92,33 @@ describe('#mutations', () => {
       });
     });
   });
+
+  describe('#CLEAR_PORTALS', () => {
+    it('clears portals', () => {
+      mutations[types.CLEAR_PORTALS](state);
+      expect(state.portals.allIds).toEqual([]);
+      expect(state.portals.byId).toEqual({});
+      expect(state.portals.uiFlags).toEqual({});
+    });
+  });
+
+  describe('#SET_PORTALS_META', () => {
+    it('add meta to state', () => {
+      mutations[types.SET_PORTALS_META](state, {
+        portals_count: 10,
+        current_page: 1,
+      });
+      expect(state.meta).toEqual({
+        count: 10,
+        currentPage: 1,
+      });
+    });
+  });
+
+  describe('#SET_SELECTED_PORTAL_ID', () => {
+    it('set selected portal id', () => {
+      mutations[types.SET_SELECTED_PORTAL_ID](state, 4);
+      expect(state.portals.selectedPortalId).toEqual(4);
+    });
+  });
 });

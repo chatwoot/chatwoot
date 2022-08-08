@@ -1,18 +1,22 @@
-import PortalAPI from 'dashboard/api/helpCenter/portals';
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-const portalAPIs = new PortalAPI();
+
 import types from '../../mutation-types';
 export const actions = {
-  index: async ({ commit }, { pageNumber, portalSlug, locale }) => {
+  index: async (
+    { commit },
+    { pageNumber, portalSlug, locale, status, author_id }
+  ) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
         data: { payload, meta },
-      } = await portalAPIs.getArticles({
+      } = await articlesAPI.getArticles({
         pageNumber,
         portalSlug,
         locale,
+        status,
+        author_id,
       });
       const articleIds = payload.map(article => article.id);
       commit(types.CLEAR_ARTICLES);
