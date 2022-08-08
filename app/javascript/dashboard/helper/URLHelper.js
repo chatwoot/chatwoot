@@ -5,11 +5,7 @@ export const frontendURL = (path, params) => {
   return `/app/${path}${stringifiedParams}`;
 };
 
-export const getLoginRedirectURL = ({
-  ssoAccountId,
-  ssoConversationId,
-  user,
-}) => {
+const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [] } = user || {};
   const ssoAccount = accounts.find(
     account => account.id === Number(ssoAccountId)
@@ -20,13 +16,21 @@ export const getLoginRedirectURL = ({
   } else if (accounts.length) {
     accountPath = `accounts/${accounts[0].id}`;
   }
+  return accountPath;
+};
+
+export const getLoginRedirectURL = ({
+  ssoAccountId,
+  ssoConversationId,
+  user,
+}) => {
+  const accountPath = getSSOAccountPath({ ssoAccountId, user });
   if (accountPath) {
     if (ssoConversationId) {
       return frontendURL(`${accountPath}/conversations/${ssoConversationId}`);
     }
     return frontendURL(`${accountPath}/dashboard`);
   }
-
   return DEFAULT_REDIRECT_URL;
 };
 
