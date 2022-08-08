@@ -31,7 +31,9 @@
       "NEW_BUTTON": "Novi portal",
       "ACTIVE_BADGE": "aktivan",
       "CHOOSE_LOCALE_LABEL": "Izaberi lokal",
+      "LOADING_MESSAGE": "Učitavanje portala...",
       "ARTICLES_LABEL": "članci",
+      "NO_PORTALS_MESSAGE": "Nema dostupnih portala",
       "ADD_NEW_LOCALE": "Dodaj novi lokal",
       "POPOVER": {
         "TITLE": "Portali",
@@ -112,9 +114,9 @@
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug kategorije za adrese",
           "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug je obavezan"
         },
         "DESCRIPTION": {
           "LABEL": "Opis",
