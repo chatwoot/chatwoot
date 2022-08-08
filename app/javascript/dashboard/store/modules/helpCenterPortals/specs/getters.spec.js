@@ -42,4 +42,9 @@ describe('#getters', () => {
     const state = portal;
     expect(getters.count(state)).toEqual(2);
   });
+
+  it('getMeta', () => {
+    const state = portal;
+    expect(getters.getMeta(state)).toEqual({ count: 0, currentPage: 1 });
+  });
 });

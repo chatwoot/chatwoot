@@ -37,9 +37,9 @@
       <td colspan="100%" class="horizontal-line" />
     </tr>
     <tbody>
-      <tr v-for="locale in portals.locales" :key="locale.code">
+      <tr v-for="locale in locales" :key="locale.code">
         <td>
-          <span>{{ locale.name }}</span>
+          <span>{{ localeName(locale.code) }}</span>
           <Label
             v-if="locale.code === selectedLocaleCode"
             :title="
@@ -95,20 +95,23 @@
 
 <script>
 import Label from 'dashboard/components/ui/Label';
+import portalMixin from '../mixins/portalMixin';
 export default {
   components: {
     Label,
   },
+  mixins: [portalMixin],
   props: {
-    portals: {
-      type: Object,
-      default: () => {},
+    locales: {
+      type: Array,
+      default: () => [],
     },
     selectedLocaleCode: {
       type: String,
       default: '',
     },
   },
+
   methods: {
     swapLocale() {
       this.$emit('swap');
