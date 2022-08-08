@@ -111,6 +111,7 @@ export default {
       homePageLink: '',
       pageTitle: '',
       headerText: '',
+      alertMessage: '',
     };
   },
   computed: {
@@ -153,13 +154,15 @@ export default {
             },
           },
         });
-        this.showAlert(this.$t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE'));
+        this.alertMessage = this.$t(
+          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE'
+        );
         this.$emit('cancel');
       } catch (error) {
-        const errorMessage =
-          error.toString() ||
-          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        this.alertMessage =
+          error?.message || this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
     onClose() {
