@@ -5,12 +5,14 @@
         <h2 class="block-title">
           {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
         </h2>
-        <router-link to="#" class="new-popover-link">
-          <fluent-icon icon="add" size="16" />
-          <span>
-            {{ $t('HELP_CENTER.PORTAL.POPOVER.NEW_PORTAL_LINK') }}
-          </span>
-        </router-link>
+        <woot-button
+          variant="smooth"
+          color-scheme="secondary"
+          icon="settings"
+          size="small"
+        >
+          {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
+        </woot-button>
       </div>
       <p class="subtitle">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
@@ -21,6 +23,8 @@
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
+        :active="portal.id === activePortal.id"
+        @open-portal-page="openPortalPage"
       />
     </div>
     <footer>
@@ -47,10 +51,26 @@ export default {
       type: Array,
       default: () => [],
     },
+    activePortal: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     closePortalPopover() {
       this.$emit('close-popover');
+    },
+    openPortalPage({ slug, locale }) {
+      this.$emit('close-popover');
+      const portal = this.portals.find(p => p.slug === slug);
+      this.$store.dispatch('portals/setPortalId', portal.id);
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: slug,
+          locale: locale,
+        },
+      });
     },
   },
 };

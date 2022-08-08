@@ -46,6 +46,19 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#ARTICLES_META', () => {
+    it('add meta to state', () => {
+      mutations[types.SET_ARTICLES_META](state, {
+        articles_count: 3,
+        current_page: 1,
+      });
+      expect(state.meta).toEqual({
+        count: 3,
+        currentPage: 1,
+      });
+    });
+  });
+
   describe('#ADD_ARTICLE_ID', () => {
     it('add valid article id to state', () => {
       mutations[types.ADD_ARTICLE_ID](state, 3);
@@ -85,6 +98,15 @@ describe('#mutations', () => {
     it('removes article if valid article id passed', () => {
       mutations[types.REMOVE_ARTICLE](state, 2);
       expect(state.articles.byId[2]).toEqual(undefined);
+    });
+  });
+
+  describe('#CLEAR_ARTICLES', () => {
+    it('clears articles', () => {
+      mutations[types.CLEAR_ARTICLES](state);
+      expect(state.articles.allIds).toEqual([]);
+      expect(state.articles.byId).toEqual({});
+      expect(state.articles.uiFlags).toEqual({});
     });
   });
 });

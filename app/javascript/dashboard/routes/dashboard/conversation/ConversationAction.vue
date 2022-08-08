@@ -111,13 +111,11 @@ export default {
         return this.currentChat.meta.team;
       },
       set(team) {
+        const conversationId = this.currentChat.id;
         const teamId = team ? team.id : 0;
-        this.$store.dispatch('setCurrentChatTeam', team);
+        this.$store.dispatch('setCurrentChatTeam', { team, conversationId });
         this.$store
-          .dispatch('assignTeam', {
-            conversationId: this.currentChat.id,
-            teamId,
-          })
+          .dispatch('assignTeam', { conversationId, teamId })
           .then(() => {
             this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
           });
