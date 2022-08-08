@@ -13,6 +13,7 @@
         :accessible-menu-items="accessibleMenuItems"
         :additional-secondary-menu-items="additionalSecondaryMenuItems"
         @open-popover="openPortalPopover"
+        @open-modal="onClickOpenAddCatogoryModal"
       />
     </div>
     <section class="app-content columns">
@@ -33,6 +34,12 @@
         :active-portal="selectedPortal"
         @close-popover="closePortalPopover"
       />
+      <add-category
+        v-if="showAddCategoryModal"
+        :portal-name="selectedPortalName"
+        :locale="selectedPortalLocale"
+        @cancel="onClickCloseAddCategoryModal"
+      />
     </section>
   </div>
 </template>
@@ -45,8 +52,9 @@ import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
+import AddCategory from 'dashboard/components/helpCenter/AddCategory';
 export default {
   components: {
     Sidebar,
@@ -55,6 +63,7 @@ export default {
     WootKeyShortcutModal,
     NotificationPanel,
     PortalPopover,
+    AddCategory,
   },
   mixins: [portalMixin],
   data() {
@@ -62,22 +71,29 @@ export default {
       showShortcutModal: false,
       showNotificationPanel: false,
       showPortalPopover: false,
+      showAddCategoryModal: false,
     };
   },
-
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       selectedPortal: 'portals/getSelectedPortal',
       portals: 'portals/allPortals',
+      categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    selectedPortalName() {
+      return this.selectedPortal ? this.selectedPortal.name : '';
+    },
     selectedPortalSlug() {
       return this.portalSlug || this.selectedPortal?.slug;
     },
     selectedPortalLocale() {
       return this.locale || this.selectedPortal?.meta?.default_locale;
+    },
+    availableCatogories() {
+      return this.$store.getters['categories/allCategories'];
     },
     accessibleMenuItems() {
       const {
@@ -142,26 +158,15 @@ export default {
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: [
-            {
-              id: 1,
-              label: 'Getting started',
-              count: 12,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/getting-started`
-              ),
-            },
-            {
-              id: 2,
-              label: 'Channel',
-              count: 19,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/channel`
-              ),
-            },
-          ],
+          children: this.categories.map(view => ({
+            id: view.id,
+            label: view.name,
+            count: view.meta.articles_count,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${view.locale}/categories/${view.slug}`
+            ),
+          })),
         },
       ];
     },
@@ -174,10 +179,16 @@ export default {
   },
   mounted() {
     this.fetchPortals();
+    this.fetchCategories(this.selectedPortalSlug);
   },
   methods: {
     fetchPortals() {
       this.$store.dispatch('portals/index');
+    },
+    fetchCategories(slug) {
+      this.$store.dispatch('categories/index', {
+        portalSlug: slug,
+      });
     },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
@@ -196,6 +207,18 @@ export default {
     },
     closePortalPopover() {
       this.showPortalPopover = false;
+    },
+    openPortalPage() {
+      this.$router.push({
+        name: 'list_all_portals',
+      });
+      this.showPortalPopover = false;
+    },
+    onClickOpenAddCatogoryModal() {
+      this.showAddCategoryModal = true;
+    },
+    onClickCloseAddCategoryModal() {
+      this.showAddCategoryModal = false;
     },
   },
 };

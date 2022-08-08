@@ -5,8 +5,12 @@
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="isHelpCenterSidebar" class="submenu-icons">
-        <fluent-icon icon="search" class="submenu-icon" size="16" />
-        <fluent-icon icon="add" class="submenu-icon" size="16" />
+        <div class="submenu-icon">
+          <fluent-icon icon="search" size="16" />
+        </div>
+        <div class="submenu-icon" @click="onClickOpen">
+          <fluent-icon icon="add" size="16" />
+        </div>
       </div>
     </div>
     <router-link
@@ -137,7 +141,25 @@ export default {
     isAllArticles() {
       return (
         this.$store.state.route.name === 'list_all_locale_articles' &&
-        this.menuItem.toStateName === 'all_locale_articles'
+        this.menuItem.toStateName === 'list_all_selectedPortalLocale_articles'
+      );
+    },
+    isMyArticles() {
+      return (
+        this.$store.state.route.name === 'list_mine_articles' &&
+        this.menuItem.toStateName === 'mine_articles'
+      );
+    },
+    isDraftArticles() {
+      return (
+        this.$store.state.route.name === 'list_draft_articles' &&
+        this.menuItem.toStateName === 'list_draft_articles'
+      );
+    },
+    isArchivedArticles() {
+      return (
+        this.$store.state.route.name === 'list_archived_articles' &&
+        this.menuItem.toStateName === 'list_archived_articles'
       );
     },
 
@@ -158,7 +180,12 @@ export default {
         return ' ';
       }
       if (this.isHelpCenterSidebar) {
-        if (this.isAllArticles) {
+        if (
+          this.isAllArticles ||
+          this.isMyArticles ||
+          this.isDraftArticles ||
+          this.isArchivedArticles
+        ) {
           return 'is-active';
         }
         return ' ';
@@ -194,6 +221,9 @@ export default {
     },
     showItem(item) {
       return this.isAdmin && item.newLink !== undefined;
+    },
+    onClickOpen() {
+      this.$emit('open');
     },
   },
 };

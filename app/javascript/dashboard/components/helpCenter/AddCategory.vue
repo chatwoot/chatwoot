@@ -60,7 +60,7 @@
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CANCEL') }}
             </woot-button>
-            <woot-button>
+            <woot-button @click="addCategory">
               {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CREATE') }}
             </woot-button>
           </div>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
@@ -115,6 +116,12 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      selectedPortal: 'portals/getSelectedPortal',
+    }),
+    selectedPortalSlug() {
+      return this.portalSlug || this.selectedPortal?.slug;
+    },
     nameError() {
       if (this.$v.name.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
@@ -145,6 +152,34 @@ export default {
       this.name = '';
       this.slug = '';
       this.description = '';
+    },
+    async addCategory() {
+      const { name, slug, description } = this;
+      const data = {
+        name,
+        slug,
+        description,
+      };
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      try {
+        await this.$store.dispatch('categories/create', {
+          portalSlug: this.selectedPortalSlug,
+          categoryObj: data,
+        });
+        this.alertMessage = this.$t(
+          'HELP_CENTER.CATEGORY.ADD.API.SUCCESS_MESSAGE'
+        );
+        this.onClose();
+      } catch (error) {
+        const errorMessage = error?.message;
+        this.alertMessage =
+          errorMessage || this.$t('HELP_CENTER.CATEGORY.ADD.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
     },
   },
 };
