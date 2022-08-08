@@ -148,17 +148,6 @@ export default {
         },
       ];
     },
-    availableCatogories() {
-      return this.categories.map(view => ({
-        id: view.id,
-        label: view.name,
-        count: view.meta.articles_count,
-        truncateLabel: true,
-        toState: frontendURL(
-          `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${view.locale}/categories/${view.slug}`
-        ),
-      }));
-    },
     additionalSecondaryMenuItems() {
       return [
         {
@@ -166,7 +155,15 @@ export default {
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: this.availableCatogories,
+          children: this.categories.map(view => ({
+            id: view.id,
+            label: view.name,
+            count: view.meta.articles_count,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${view.locale}/categories/${view.slug}`
+            ),
+          })),
         },
       ];
     },
@@ -178,16 +175,14 @@ export default {
     },
   },
   mounted() {
-    this.fetchPortals();
-    this.fetchCategories(this.selectedPortalSlug);
+    this.fetchPortalsAndItsCategories();
   },
   methods: {
-    fetchPortals() {
-      this.$store.dispatch('portals/index');
-    },
-    fetchCategories(slug) {
-      this.$store.dispatch('categories/index', {
-        portalSlug: slug,
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.selectedPortalSlug,
+        });
       });
     },
     toggleKeyShortcutModal() {

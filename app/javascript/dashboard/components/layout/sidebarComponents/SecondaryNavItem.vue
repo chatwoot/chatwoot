@@ -75,9 +75,9 @@
           </a>
         </li>
       </router-link>
-      <span v-if="isHelpCenterSidebar && isCategoryEmpty">{{
-        'No categories found'
-      }}</span>
+      <p v-if="isHelpCenterSidebar && isCategoryEmpty" class="empty-text">
+        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
+      </p>
     </ul>
   </li>
 </template>
@@ -360,5 +360,11 @@ export default {
       color: var(--w-500);
     }
   }
+}
+
+.empty-text {
+  color: var(--s-600);
+  font-size: var(--font-size-small);
+  margin: var(--space-smaller) 0;
 }
 </style>
