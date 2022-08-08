@@ -142,7 +142,6 @@ export default {
     onCreate() {
       this.$emit('create');
       this.reset();
-      this.$emit('cancel');
     },
     onClose() {
       this.reset();
