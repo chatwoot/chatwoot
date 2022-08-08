@@ -16,10 +16,10 @@
       />
       <secondary-nav-item
         v-for="menuItem in additionalSecondaryMenuItems"
-        v-show="hasCategory"
         :key="menuItem.key"
         :menu-item="menuItem"
         :is-help-center-sidebar="true"
+        :is-category-empty="!hasCategory"
         @open="onClickOpenAddCatogoryModal"
       />
     </transition-group>

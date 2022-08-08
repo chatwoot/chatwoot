@@ -75,6 +75,9 @@
           </a>
         </li>
       </router-link>
+      <span v-if="isHelpCenterSidebar && isCategoryEmpty">{{
+        'No categories found'
+      }}</span>
     </ul>
   </li>
 </template>
@@ -99,6 +102,10 @@ export default {
       default: () => ({}),
     },
     isHelpCenterSidebar: {
+      type: Boolean,
+      default: false,
+    },
+    isCategoryEmpty: {
       type: Boolean,
       default: false,
     },

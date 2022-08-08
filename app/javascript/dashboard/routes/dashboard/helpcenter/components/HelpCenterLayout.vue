@@ -92,9 +92,6 @@ export default {
     selectedPortalLocale() {
       return this.locale || this.selectedPortal?.meta?.default_locale;
     },
-    availableCatogories() {
-      return this.$store.getters['categories/allCategories'];
-    },
     accessibleMenuItems() {
       const {
         meta: {
@@ -151,6 +148,17 @@ export default {
         },
       ];
     },
+    availableCatogories() {
+      return this.categories.map(view => ({
+        id: view.id,
+        label: view.name,
+        count: view.meta.articles_count,
+        truncateLabel: true,
+        toState: frontendURL(
+          `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${view.locale}/categories/${view.slug}`
+        ),
+      }));
+    },
     additionalSecondaryMenuItems() {
       return [
         {
@@ -158,15 +166,7 @@ export default {
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: this.categories.map(view => ({
-            id: view.id,
-            label: view.name,
-            count: view.meta.articles_count,
-            truncateLabel: true,
-            toState: frontendURL(
-              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${view.locale}/categories/${view.slug}`
-            ),
-          })),
+          children: this.availableCatogories,
         },
       ];
     },
