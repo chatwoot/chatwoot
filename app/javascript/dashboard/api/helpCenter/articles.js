@@ -13,6 +13,10 @@ class ArticlesAPI extends PortalsAPI {
     if (author_id) baseUrl += `&author_id=${author_id}`;
     return axios.get(baseUrl);
   }
+
+  getArticle({ id, portalSlug }) {
+    return axios.get(`${this.url}/${portalSlug}/articles/${id}`);
+  }
 }
 
 export default new ArticlesAPI();

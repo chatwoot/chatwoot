@@ -5,27 +5,52 @@
       draft-state="saved"
       @back="onClickGoBack"
     />
-    <edit-article-field :article="article" />
+    <div v-if="isFetching" class="text-center p-normal fs-default h-full">
+      <spinner size="" />
+      <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
+    </div>
+    <article-editor v-else :article="article" />
   </div>
 </template>
-
 <script>
-import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader';
-import EditArticleField from 'dashboard/components/helpCenter/EditArticle';
+import { mapGetters } from 'vuex';
+import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
+import ArticleEditor from '../../components/ArticleEditor.vue';
+import Spinner from 'shared/components/Spinner';
+import portalMixin from '../../mixins/portalMixin';
 export default {
   components: {
     EditArticleHeader,
-    EditArticleField,
+    ArticleEditor,
+    Spinner,
   },
-  props: {
-    article: {
-      type: Object,
-      default: () => {},
+  mixins: [portalMixin],
+  computed: {
+    ...mapGetters({
+      isFetching: 'articles/isFetching',
+    }),
+    article() {
+      return this.$store.getters['articles/articleById'](this.articleId);
     },
+    articleId() {
+      return this.$route.params.articleSlug;
+    },
+    selectedPortalSlug() {
+      return this.portalSlug || this.selectedPortal?.slug;
+    },
+  },
+  mounted() {
+    this.fetchArticleDetails();
   },
   methods: {
     onClickGoBack() {
       this.$router.push({ name: 'list_all_locale_articles' });
+    },
+    fetchArticleDetails() {
+      this.$store.dispatch('articles/show', {
+        id: this.articleId,
+        portalSlug: this.selectedPortalSlug,
+      });
     },
   },
 };

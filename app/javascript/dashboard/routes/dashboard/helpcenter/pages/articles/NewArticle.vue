@@ -5,17 +5,17 @@
       draft-state="saved"
       @back="onClickGoBack"
     />
-    <edit-article-field @titleInput="titleInput" @contentInput="contentInput" />
+    <article-editor @titleInput="titleInput" @contentInput="contentInput" />
   </div>
 </template>
 
 <script>
 import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader';
-import EditArticleField from 'dashboard/components/helpCenter/EditArticle';
+import ArticleEditor from '../../components/ArticleEditor.vue';
 export default {
   components: {
     EditArticleHeader,
-    EditArticleField,
+    ArticleEditor,
   },
   data() {
     return {
