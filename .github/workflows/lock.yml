@@ -1,0 +1,36 @@
+# We often have cases where users would comment over stale closed Github Issues.
+# This creates unnecessary noise for the original reporter and makes it harder for triaging.
+# This action locks the closed threads once it is inactive for over a month.
+
+name: 'Lock Threads'
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: lock
+
+jobs:
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dessant/lock-threads@v3
+        with: 
+          issue-inactive-days: '30'
+          issue-lock-reason: 'resolved'
+          issue-comment: >
+            This issue has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new issue for related bugs.
+          pr-inactive-days: '30'
+          pr-lock-reason: 'resolved'
+          pr-comment: >
+            This pull request has been automatically locked since there
+            has not been any recent activity after it was closed.
+            Please open a new issue for related bugs.
