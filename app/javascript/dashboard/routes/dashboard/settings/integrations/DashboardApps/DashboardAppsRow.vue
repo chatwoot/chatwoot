@@ -1,7 +1,13 @@
 <template>
   <tr>
-    <td>{{ app.title }}</td>
-    <td>{{ app.content[0].url }}</td>
+    <td>
+      <p class="dashboard_app-title text-truncate">
+        {{ app.title }}
+      </p>
+    </td>
+    <td>
+      <p class="dashboard_app-url text-truncate">{{ app.content[0].url }}</p>
+    </td>
     <td class="button-wrapper">
       <woot-button
         v-tooltip.top="
@@ -43,3 +49,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.dashboard_app-url {
+  max-width: calc(var(--space-giga) + var(--space-mega));
+}
+.dashboard_app-title {
+  max-width: calc(var(--space-giga) / 2);
+}
+p {
+  margin: 0;
+}
+</style>
