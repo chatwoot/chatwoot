@@ -1,8 +1,8 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Si prega di selezionare una conversazione dal pannello sinistro",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "404": "Siamo spiacenti, non siamo riusciti a trovare la conversazione. Riprova",
+    "SWITCH_VIEW_LAYOUT": "Cambia il layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messaggi",
     "UNVERIFIED_SESSION": "L'identità di questo utente non è verificata",
     "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua casella.",
@@ -72,7 +72,22 @@
       },
       "ASSIGN_AGENT": "Assegna agente",
       "ASSIGN_LABEL": "Assegna etichetta",
-      "AGENTS_LOADING": "Caricamento agenti..."
+      "AGENTS_LOADING": "Caricamento agenti...",
+      "ASSIGN_TEAM": "Assegna team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID conversazione %{conversationId} assegnato a \"%{agentName}\"",
+          "FAILED": "Impossibile assegnare l'agente. Per favore riprova."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Etichetta #%{labelName} assegnata all'ID conversazione %{conversationId}",
+          "FAILED": "Impossibile assegnare l'etichetta. Per favore riprova."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assegnato il team \"%{team}\" all'id conversazione %{conversationId}",
+          "FAILED": "Impossibile assegnare il team. Riprova."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Firma del messaggio",
