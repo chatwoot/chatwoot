@@ -31,7 +31,9 @@
       "NEW_BUTTON": "Novo portal",
       "ACTIVE_BADGE": "ativo",
       "CHOOSE_LOCALE_LABEL": "Escolha uma localidade",
+      "LOADING_MESSAGE": "Carregando portais...",
       "ARTICLES_LABEL": "artigos",
+      "NO_PORTALS_MESSAGE": "Não há portais disponíveis",
       "ADD_NEW_LOCALE": "Adicionar uma nova localidade",
       "POPOVER": {
         "TITLE": "Portais",
