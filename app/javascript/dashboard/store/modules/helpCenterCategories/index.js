@@ -8,7 +8,7 @@ export const defaultHelpCenterFlags = {
   isDeleting: false,
 };
 const state = {
-  categoriess: {
+  categories: {
     byId: {},
     byLocale: {},
     allIds: [],

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="portal in portals" :key="portal.id" class="portal">
+    <div class="portal">
       <thumbnail :username="portal.name" variant="square" />
       <div class="container">
         <header>
@@ -118,7 +118,6 @@
                     class="theme-color"
                     :style="{ background: portal.color }"
                   />
-                  <span class="text-block-title">{{ portal.page_title }}</span>
                 </div>
               </div>
               <div class="configuration-item">
@@ -127,7 +126,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.page_title }}</span>
+                <span class="text-block-title">{{ portal.header_text }}</span>
               </div>
             </div>
           </div>
@@ -141,8 +140,8 @@
             }}
           </h2>
           <locale-item-table
-            :portals="portal"
-            :selected-locale-code="selectedLocaleCode"
+            :locales="locales"
+            :selected-locale-code="portal.meta.default_locale"
             @swap="swapLocale"
             @delete="deleteLocale"
           />
@@ -163,33 +162,28 @@ export default {
     LocaleItemTable,
   },
   props: {
-    portals: {
-      type: Array,
-      default: () => [],
+    portal: {
+      type: Object,
+      default: () => {},
     },
     status: {
       type: String,
       default: '',
       values: ['archived', 'draft', 'published'],
     },
-    selectedLocaleCode: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     labelColor() {
       switch (this.status) {
-        case 'archived':
-          return 'secondary';
-        case 'draft':
+        case 'Archived':
           return 'warning';
         default:
           return 'success';
       }
     },
-    defaultLocale(code) {
-      return code === this.selectedLocaleCode;
+
+    locales() {
+      return this.portal ? this.portal.config.allowed_locales : [];
     },
   },
   methods: {

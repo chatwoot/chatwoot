@@ -13,12 +13,12 @@
       :total-count="meta.count"
       @on-page-change="onPageChange"
     />
-    <div v-if="isFetching" class="articles--loader">
+    <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="!isFetching && !articles.length"
+      v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -48,10 +48,13 @@ export default {
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
+      currentUserId: 'getCurrentUserID',
     }),
-
-    showEmptyState() {
-      return this.articles.length === 0;
+    shouldShowEmptyState() {
+      return !this.isFetching && !this.articles.length;
+    },
+    shouldShowLoader() {
+      return this.isFetching && !this.articles.length;
     },
     articleType() {
       return this.$route.path.split('/').pop();
@@ -68,19 +71,46 @@ export default {
           return this.$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES');
       }
     },
+    status() {
+      switch (this.articleType) {
+        case 'draft':
+          return 0;
+        case 'published':
+          return 1;
+        case 'archived':
+          return 2;
+        default:
+          return undefined;
+      }
+    },
+    author() {
+      if (this.articleType === 'mine') {
+        return this.currentUserId;
+      }
+      return null;
+    },
+  },
+  watch: {
+    $route() {
+      this.pageNumber = 1;
+      this.fetchArticles();
+    },
   },
   mounted() {
-    this.fetchArticles({ pageNumber: this.pageNumber });
+    this.fetchArticles();
   },
+
   methods: {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
     },
-    fetchArticles({ pageNumber }) {
+    fetchArticles() {
       this.$store.dispatch('articles/index', {
-        pageNumber,
+        pageNumber: this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
+        status: this.status,
+        author_id: this.author,
       });
     },
     onPageChange(page) {

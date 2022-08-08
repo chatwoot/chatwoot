@@ -15,7 +15,7 @@
         </div>
       </div>
     </td>
-    <td>{{ category }}</td>
+    <td>{{ category.name }}</td>
     <td>{{ readCount }}</td>
     <td>
       <Label :title="status" :color-scheme="labelColor" />
@@ -48,8 +48,8 @@ export default {
       default: () => {},
     },
     category: {
-      type: String,
-      default: '',
+      type: Object,
+      default: () => {},
     },
     readCount: {
       type: Number,
