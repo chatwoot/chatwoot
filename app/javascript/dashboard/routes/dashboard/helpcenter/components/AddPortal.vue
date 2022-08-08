@@ -179,7 +179,7 @@ export default {
     margin-bottom: 0;
   }
   .message {
-    margin-top: 0rem;
+    margin-top: 0;
   }
 }
 </style>

@@ -23,11 +23,7 @@
       />
     </div>
     <woot-modal :show.sync="shouldShowAddModal" :on-close="closeModal">
-      <add-portal
-        :show="shouldShowAddModal"
-        @cancel="closeModal"
-        @create="createPortal"
-      />
+      <add-portal :show="shouldShowAddModal" @cancel="closeModal" />
     </woot-modal>
   </div>
 </template>
@@ -69,9 +65,6 @@ export default {
     },
     closeModal() {
       this.shouldShowAddModal = false;
-    },
-    createPortal() {
-      // this.shouldShowAddModal = false;
     },
   },
 };
