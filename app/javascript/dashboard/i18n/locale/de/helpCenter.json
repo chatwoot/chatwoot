@@ -31,7 +31,9 @@
       "NEW_BUTTON": "Neues Portal",
       "ACTIVE_BADGE": "aktiv",
       "CHOOSE_LOCALE_LABEL": "Wählen Sie ein Gebietsschema",
+      "LOADING_MESSAGE": "Loading portals...",
       "ARTICLES_LABEL": "Artikel",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Neues Gebietsschema hinzufügen",
       "POPOVER": {
         "TITLE": "Portale",
