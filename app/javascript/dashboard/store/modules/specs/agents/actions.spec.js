@@ -96,11 +96,21 @@ describe('#actions', () => {
   });
 
   describe('#updatePresence', () => {
-    it('sends correct actions if API is success', async () => {
+    it('sends correct actions', async () => {
       const data = { users: { 1: 'online' }, contacts: { 2: 'online' } };
       actions.updatePresence({ commit, dispatch }, data);
       expect(commit.mock.calls).toEqual([
         [types.default.UPDATE_AGENTS_PRESENCE, data],
+      ]);
+    });
+  });
+
+  describe('#updateSingleAgentPresence', () => {
+    it('sends correct actions', async () => {
+      const data = { id: 1, availabilityStatus: 'online' };
+      actions.updateSingleAgentPresence({ commit, dispatch }, data);
+      expect(commit.mock.calls).toEqual([
+        [types.default.UPDATE_SINGLE_AGENT_PRESENCE, data],
       ]);
     });
   });
