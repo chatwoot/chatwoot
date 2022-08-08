@@ -72,7 +72,22 @@
       },
       "ASSIGN_AGENT": "Atribuir Agente",
       "ASSIGN_LABEL": "Atribuir etiqueta",
-      "AGENTS_LOADING": "Carregando agentes..."
+      "AGENTS_LOADING": "Carregando agentes...",
+      "ASSIGN_TEAM": "Atribuir equipe",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID da conversa %{conversationId} atribuído para \"%{agentName}\"",
+          "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Etiqueta #%{labelName} atribuída para o id de conversa %{conversationId}",
+          "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Equipe %{team} atribuído para o id de conversa %{conversationId}",
+          "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
