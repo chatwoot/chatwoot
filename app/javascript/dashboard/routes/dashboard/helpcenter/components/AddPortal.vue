@@ -154,13 +154,12 @@ export default {
           },
         });
         this.showAlert(this.$t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE'));
+        this.$emit('cancel');
       } catch (error) {
         const errorMessage =
-          error?.response?.message ||
+          error.toString() ||
           this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
-      } finally {
-        this.$emit('cancel');
       }
     },
     onClose() {
