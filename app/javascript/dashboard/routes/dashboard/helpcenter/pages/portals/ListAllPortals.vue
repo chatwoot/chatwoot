@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header-wrap">
       <h1 class="page-title">{{ $t('HELP_CENTER.PORTAL.HEADER') }}</h1>
-      <woot-button color-scheme="primary" size="small" @click="createPortal">
+      <woot-button color-scheme="primary" size="small" @click="addPortal">
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
     </div>
@@ -22,6 +22,13 @@
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
+    <woot-modal :show.sync="shouldShowAddModal" :on-close="closeModal">
+      <add-portal
+        :show="shouldShowAddModal"
+        @cancel="closeModal"
+        @create="createPortal"
+      />
+    </woot-modal>
   </div>
 </template>
 
@@ -30,11 +37,18 @@ import { mapGetters } from 'vuex';
 import PortalListItem from '../../components/PortalListItem';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
+import AddPortal from '../../components/AddPortal';
 export default {
   components: {
     PortalListItem,
     EmptyState,
     Spinner,
+    AddPortal,
+  },
+  data() {
+    return {
+      shouldShowAddModal: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -50,8 +64,14 @@ export default {
     },
   },
   methods: {
+    addPortal() {
+      this.shouldShowAddModal = !this.shouldShowAddModal;
+    },
+    closeModal() {
+      this.shouldShowAddModal = false;
+    },
     createPortal() {
-      this.$emit('create-portal');
+      // this.shouldShowAddModal = false;
     },
   },
 };
