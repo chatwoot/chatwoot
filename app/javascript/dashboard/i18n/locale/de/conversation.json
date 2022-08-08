@@ -72,7 +72,22 @@
       },
       "ASSIGN_AGENT": "Agent zuweisen",
       "ASSIGN_LABEL": "Label zuweisen",
-      "AGENTS_LOADING": "Agenten werden geladen..."
+      "AGENTS_LOADING": "Agenten werden geladen...",
+      "ASSIGN_TEAM": "Team zuweisen",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Konversations-ID %{conversationId} zugewiesen zu \"%{agentName}\"",
+          "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Das Label #%{labelName} wurde der Konversations-ID %{conversationId} zugewiesen",
+          "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Das Team\"%{team}\" wurde der Konversations-ID %{conversationId} zugewiesen",
+          "FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Nachrichten-Signatur",
