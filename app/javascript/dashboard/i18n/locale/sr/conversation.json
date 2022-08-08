@@ -73,19 +73,19 @@
       "ASSIGN_AGENT": "Dodeli agenta",
       "ASSIGN_LABEL": "Dodeli oznaku",
       "AGENTS_LOADING": "Učitavanje agenata...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_TEAM": "Dodeli tim",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Razgovor sa ID %{conversationId} je dodeljen \"%{agentName}\"",
+          "FAILED": "Nije bilo moguće dodeliti agenta. Molim vas pokušajte ponovo."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "Dodeljena je oznaka # %{labelName} razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "Dodeljen je tim \"%{team}\" razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti tim. Molim vas pokušajte ponovo."
         }
       }
     },
