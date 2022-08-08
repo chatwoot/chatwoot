@@ -69,12 +69,12 @@ export default {
 
 <style lang="scss" scoped>
 .edit-article--container {
-  margin: var(--space-medium) var(--space-mega);
-  min-width: 640px;
+  margin: var(--space-large) auto;
+  width: 640px;
 }
 
 .is-settings-sidebar-open {
-  margin: var(--space-medium) var(--space-small);
+  margin: var(--space-large) var(--space-small);
 }
 
 .article-heading {
