@@ -31,7 +31,9 @@
       "NEW_BUTTON": "Новый портал",
       "ACTIVE_BADGE": "активно",
       "CHOOSE_LOCALE_LABEL": "Выберите локаль",
+      "LOADING_MESSAGE": "Загрузка порталов...",
       "ARTICLES_LABEL": "статьи",
+      "NO_PORTALS_MESSAGE": "Нет доступных порталов",
       "ADD_NEW_LOCALE": "Добавить новую локаль",
       "POPOVER": {
         "TITLE": "Портал",
