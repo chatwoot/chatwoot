@@ -69,7 +69,7 @@
     "vue-upload-component": "2.8.22",
     "vue2-datepicker": "^3.9.1",
     "vuedraggable": "^2.24.3",
-    "vuelidate": "0.7.6",
+    "vuelidate": "0.7.7",
     "vuex": "~2.1.1",
     "vuex-router-sync": "~4.1.2",
     "wavesurfer.js": "^6.0.4"

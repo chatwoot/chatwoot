@@ -55,6 +55,8 @@ import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShor
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from 'dashboard/components/helpCenter/AddCategory';
+import portalMixin from '../mixins/portalMixin';
+
 export default {
   components: {
     Sidebar,
@@ -74,6 +76,7 @@ export default {
       showAddCategoryModal: false,
     };
   },
+
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -178,7 +181,7 @@ export default {
     this.fetchPortalsAndItsCategories();
   },
   methods: {
-    fetchPortalsAndItsCategories() {
+     fetchPortalsAndItsCategories() {
       this.$store.dispatch('portals/index').then(() => {
         this.$store.dispatch('categories/index', {
           portalSlug: this.selectedPortalSlug,
