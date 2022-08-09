@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "Назва Джерела",
         "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Будь ласка, введіть припустиме ім'я вхідної скриньки"
       },
       "WEBSITE_NAME": {
         "LABEL": "Назва сайту",
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "Створити скриньку \"Вхідні\"",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Ми не змогли створити канал сайту, будь ласка, спробуйте ще раз"
         }
       },
       "TWILIO": {
@@ -112,10 +112,10 @@
           "ERROR": "Це поле є обов'язковим"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "Служба обміну повідомленнями SID",
+          "PLACEHOLDER": "Будь ласка, введіть свій Twilio Messaging Service SID",
           "ERROR": "Це поле є обов'язковим",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Використовувати Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Тип каналу",
@@ -217,18 +217,18 @@
           "ERROR": "Номер телефону повинен починатися з символу `+'."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "LABEL": "ID номера телефону",
+          "PLACEHOLDER": "Введіть ID телефону, отриманого з панелі розробника Facebook.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "LABEL": "Ідентифікатор бізнес-акаунту",
+          "PLACEHOLDER": "Будь ласка, введіть ідентифікатор бізнес-профілю, отриманий з панелі розробників Facebook.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "LABEL": "Токен перевірки вебхуків",
+          "PLACEHOLDER": "Введіть ключ підтвердження, який ви хочете налаштувати на Facebook webhook'и.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "API_KEY": {
@@ -239,7 +239,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "Необхідно налаштувати URL вебхука у панелі розробників facebook з URL-адресою, яку ви згадували."
         },
         "SUBMIT_BUTTON": "Створити канал WhatsApp",
         "API": {
@@ -414,7 +414,7 @@
       "CAMPAIGN": "Розсилка",
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Конструктор віджетів"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -594,14 +594,14 @@
         },
         "WELCOME_HEADING": {
           "LABEL": "Заголовок",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "Привіт!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Талін привітання",
           "PLACE_HOLDER": "Ми робимо це простим — запитуємо що-небудь чи поділіться своїми відгуками."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "Час відповіді",
           "IN_A_FEW_MINUTES": "За кілька хвилин",
           "IN_A_FEW_HOURS": "За кілька годин",
           "IN_A_DAY": "Протягом дня"
@@ -622,21 +622,21 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Попередній перегляд",
+          "SCRIPT": "Скрипт"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Ліворуч",
+          "RIGHT": "Праворуч"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
+          "STANDARD": "Стандартний",
           "EXPANDED_BUBBLE": "Expanded Bubble"
         }
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "CHAT": "Чат"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
@@ -649,11 +649,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Ми Онлайн",
           "OFFLINE": "Нас наразі немає"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Привіт",
+        "AGENT_MESSAGE": "Доброго дня"
       },
       "BRANDING_TEXT": "Працює на Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
