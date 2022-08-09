@@ -115,7 +115,7 @@ export const mutations = {
     $state,
     { id, availabilityStatus }
   ) =>
-    MutationHelpers.updateSingleAgentPresence($state.records, {
+    MutationHelpers.updateSingleRecordPresence($state.records, {
       id,
       availabilityStatus,
     }),

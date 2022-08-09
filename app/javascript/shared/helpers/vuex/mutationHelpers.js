@@ -45,7 +45,7 @@ export const updatePresence = (state, data) => {
   });
 };
 
-export const updateSingleAgentPresence = (
+export const updateSingleRecordPresence = (
   records,
   { id, availabilityStatus }
 ) => {
