@@ -55,7 +55,7 @@ export default {
   max-width: calc(var(--space-giga) + var(--space-mega));
 }
 .dashboard_app-title {
-  max-width: calc(var(--space-giga) / 2);
+  max-width: calc(var(--space-giga) / var(--space-two));
 }
 p {
   margin: 0;
