@@ -31,7 +31,9 @@
       "NEW_BUTTON": "新门户网站",
       "ACTIVE_BADGE": "活跃",
       "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
+      "LOADING_MESSAGE": "Loading portals...",
       "ARTICLES_LABEL": "文章",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "添加一个新的语言环境",
       "POPOVER": {
         "TITLE": "门户网站",
