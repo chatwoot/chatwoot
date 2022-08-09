@@ -120,7 +120,7 @@ export default {
       selectedPortal: 'portals/getSelectedPortal',
     }),
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.selectedPortal?.slug;
     },
     nameError() {
       if (this.$v.name.$error) {
@@ -168,10 +168,10 @@ export default {
           portalSlug: this.selectedPortalSlug,
           categoryObj: data,
         });
-        this.onClose();
         this.alertMessage = this.$t(
           'HELP_CENTER.CATEGORY.ADD.API.SUCCESS_MESSAGE'
         );
+        this.onClose();
       } catch (error) {
         const errorMessage = error?.message;
         this.alertMessage =
