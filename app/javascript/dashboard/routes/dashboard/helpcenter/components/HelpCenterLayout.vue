@@ -157,13 +157,13 @@ export default {
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: this.categories.map(view => ({
-            id: view.id,
-            label: view.name,
-            count: view.meta.articles_count,
+          children: this.categories.map(category => ({
+            id: category.id,
+            label: category.name,
+            count: category.meta.articles_count,
             truncateLabel: true,
             toState: frontendURL(
-              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${view.locale}/categories/${view.slug}`
+              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${category.locale}/categories/${category.slug}`
             ),
           })),
         },
