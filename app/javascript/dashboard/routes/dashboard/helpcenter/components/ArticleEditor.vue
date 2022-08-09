@@ -22,7 +22,9 @@
 </template>
 
 <script>
+import { debounce } from '@chatwoot/utils';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+
 export default {
   components: {
     WootMessageEditor,
@@ -42,6 +44,16 @@ export default {
   mounted() {
     this.articleTitle = this.article.title;
     this.articleContent = this.article.content;
+    this.saveArticle = debounce(
+      () => {
+        this.$emit('save-article', {
+          title: this.articleTitle,
+          content: this.articleContent,
+        });
+      },
+      1000,
+      false
+    );
   },
   methods: {
     onFocus() {
@@ -51,10 +63,10 @@ export default {
       this.$emit('blur');
     },
     onTitleInput() {
-      this.$emit('titleInput', this.articleTitle);
+      this.saveArticle();
     },
     onContentInput() {
-      this.$emit('contentInput', this.articleContent);
+      this.saveArticle();
     },
   },
 };

@@ -94,7 +94,10 @@
     "EDIT_ARTICLE": {
       "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "CONTENT_PLACEHOLDER": "Write your article here",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {

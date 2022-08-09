@@ -21,4 +21,9 @@ export const getters = {
   getMeta: state => {
     return state.meta;
   },
+  articleFlagById: (...getterArguments) => articleId => {
+    const [state] = getterArguments;
+    const flags = state.articles.uiFlags.byId[articleId];
+    return flags;
+  },
 };

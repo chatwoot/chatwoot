@@ -61,8 +61,7 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
-  update: async ({ commit }, params) => {
-    const articleId = params.id;
+  update: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
     commit(types.ADD_ARTICLE_FLAG, {
       uiFlags: {
         isUpdating: true,
@@ -70,7 +69,11 @@ export const actions = {
       articleId,
     });
     try {
-      const { data } = await articlesAPI.update(params);
+      const { data } = await articlesAPI.updateArticle({
+        portalSlug,
+        articleId,
+        articleObj,
+      });
 
       commit(types.UPDATE_ARTICLE, data);
 
@@ -78,12 +81,14 @@ export const actions = {
     } catch (error) {
       return throwErrorMessage(error);
     } finally {
-      commit(types.ADD_ARTICLE_FLAG, {
-        uiFlags: {
-          isUpdating: false,
-        },
-        articleId,
-      });
+      setTimeout(() => {
+        commit(types.ADD_ARTICLE_FLAG, {
+          uiFlags: {
+            isUpdating: false,
+          },
+          articleId,
+        });
+      }, 1000);
     }
   },
   delete: async ({ commit }, articleId) => {

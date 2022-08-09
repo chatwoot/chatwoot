@@ -12,9 +12,10 @@
       </woot-button>
     </div>
     <div class="header-right--wrap">
-      <span v-if="showDraftStatus" class="draft-status">
-        {{ draftStatusText }}
+      <span class="draft-status">
+        {{ statusText }}
       </span>
+
       <woot-button
         class-names="article--buttons"
         icon="globe"
@@ -73,7 +74,7 @@ export default {
       type: String,
       default: '',
     },
-    draftState: {
+    statusText: {
       type: String,
       default: '',
     },
@@ -82,23 +83,6 @@ export default {
     return {
       isSidebarOpen: true,
     };
-  },
-  computed: {
-    isDraftStatusSavingOrSaved() {
-      return this.draftState === 'saving' || 'saved';
-    },
-    draftStatusText() {
-      if (this.draftState === 'saving') {
-        return this.$t('HELP_CENTER.EDIT_HEADER.SAVING');
-      }
-      if (this.draftState === 'saved') {
-        return this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
-      }
-      return '';
-    },
-    showDraftStatus() {
-      return this.isDraftStatusSavingOrSaved;
-    },
   },
   methods: {
     onClickGoBack() {
