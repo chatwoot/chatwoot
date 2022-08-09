@@ -4,9 +4,12 @@ import { defaultPortalFlags } from './index';
 export const types = {
   SET_UI_FLAG: 'setUIFlag',
   ADD_PORTAL_ENTRY: 'addPortalEntry',
+  SET_PORTALS_META: 'setPortalsMeta',
   ADD_MANY_PORTALS_ENTRY: 'addManyPortalsEntry',
   ADD_PORTAL_ID: 'addPortalId',
+  CLEAR_PORTALS: 'clearPortals',
   ADD_MANY_PORTALS_IDS: 'addManyPortalsIds',
+  SET_SELECTED_PORTAL_ID: 'setSelectedPortalId',
   UPDATE_PORTAL_ENTRY: 'updatePortalEntry',
   REMOVE_PORTAL_ENTRY: 'removePortalEntry',
   REMOVE_PORTAL_ID: 'removePortalId',
@@ -32,9 +35,23 @@ export const mutations = {
     portals.forEach(portal => {
       allPortals[portal.id] = portal;
     });
-    Vue.set($state.portals, 'byId', {
-      allPortals,
-    });
+    Vue.set($state.portals, 'byId', allPortals);
+  },
+
+  [types.CLEAR_PORTALS]: $state => {
+    Vue.set($state.portals, 'byId', {});
+    Vue.set($state.portals, 'allIds', []);
+    Vue.set($state.portals, 'uiFlags', {});
+  },
+
+  [types.SET_PORTALS_META]: ($state, data) => {
+    const { portals_count: count, current_page: currentPage } = data;
+    Vue.set($state.meta, 'count', count);
+    Vue.set($state.meta, 'currentPage', currentPage);
+  },
+
+  [types.SET_SELECTED_PORTAL_ID]: ($state, portalId) => {
+    Vue.set($state.portals, 'selectedPortalId', portalId);
   },
 
   [types.ADD_PORTAL_ID]($state, portalId) {

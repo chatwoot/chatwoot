@@ -112,10 +112,10 @@
           "ERROR": "Это поле обязательно"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "SID службы обмена сообщениями",
+          "PLACEHOLDER": "Пожалуйста, введите SID службы сообщений Twilio",
           "ERROR": "Это поле обязательно",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Использовать сервис Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Тип источника",
@@ -414,7 +414,7 @@
       "CAMPAIGN": "Кампании",
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
       "BUSINESS_HOURS": "Время работы",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Конструктор виджетов"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -579,10 +579,10 @@
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Аватар сайта",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "Аватар успешно удален",
               "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
             }
           }
@@ -590,53 +590,53 @@
         "WEBSITE_NAME": {
           "LABEL": "Имя сайта",
           "PLACE_HOLDER": "Введите имя вашего сайта (например: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "Пожалуйста, правильно введите имя веб-сайта"
         },
         "WELCOME_HEADING": {
           "LABEL": "Заголовок приветствия",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "Привет!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Текст приветствия",
           "PLACE_HOLDER": "Связаться с нами просто! Напишите нам, или задайте вопрос."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "Время ответа",
           "IN_A_FEW_MINUTES": "Через несколько минут",
           "IN_A_FEW_HOURS": "Через несколько часов",
           "IN_A_DAY": "Через день"
         },
         "WIDGET_COLOR_LABEL": "Цвет виджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Пообщайтесь с нами",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "Название виджета",
           "PLACE_HOLDER": "Пообщайтесь с нами"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Обновить настройки виджета",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Настройки виджета успешно обновлены",
+            "ERROR_MESSAGE": "Не удается обновить настройки виджета"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Предпросмотр",
+          "SCRIPT": "Скрипт"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Слева",
+          "RIGHT": "Справа"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Стандартный",
+          "EXPANDED_BUBBLE": "Расширенная рамка сообщений"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "По умолчанию",
+        "CHAT": "Чат"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
@@ -649,11 +649,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Мы в сети",
           "OFFLINE": "В данный момент мы отсутствуем"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Хай",
+        "AGENT_MESSAGE": "Привет"
       },
       "BRANDING_TEXT": "Работает на Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
