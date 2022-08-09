@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <edit-article-header
-      back-button-label="All Articles"
-      :status-text="saveStatusText"
+      :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
+      :is-updating="isUpdating"
       @back="onClickGoBack"
     />
     <div v-if="isFetching" class="text-center p-normal fs-default h-full">
@@ -26,6 +26,11 @@ export default {
     Spinner,
   },
   mixins: [portalMixin, alertMixin],
+  data() {
+    return {
+      isUpdating: false,
+    };
+  },
   computed: {
     ...mapGetters({
       isFetching: 'articles/isFetching',
@@ -34,20 +39,11 @@ export default {
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);
     },
-    articleFlags() {
-      return this.$store.getters['articles/articleFlagById'](this.articleId);
-    },
     articleId() {
       return this.$route.params.articleSlug;
     },
     selectedPortalSlug() {
       return this.portalSlug || this.selectedPortal?.slug;
-    },
-    saveStatusText() {
-      if (this.articleFlags && this.articleFlags.isUpdating) {
-        return this.$t('HELP_CENTER.EDIT_HEADER.SAVING');
-      }
-      return '';
     },
   },
   mounted() {
@@ -64,6 +60,7 @@ export default {
       });
     },
     async saveArticle({ title, content }) {
+      this.isUpdating = true;
       try {
         await this.$store.dispatch('articles/update', {
           portalSlug: this.selectedPortalSlug,
@@ -75,6 +72,10 @@ export default {
         this.alertMessage =
           error?.message ||
           this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR_MESSAGE');
+      } finally {
+        setTimeout(() => {
+          this.isUpdating = false;
+        }, 1500);
       }
     },
   },

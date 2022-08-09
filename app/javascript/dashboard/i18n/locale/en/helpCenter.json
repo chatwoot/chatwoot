@@ -18,6 +18,7 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Publish",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",

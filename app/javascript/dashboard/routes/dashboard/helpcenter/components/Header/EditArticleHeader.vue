@@ -12,8 +12,8 @@
       </woot-button>
     </div>
     <div class="header-right--wrap">
-      <span class="draft-status">
-        {{ statusText }}
+      <span v-if="isUpdating" class="draft-status">
+        {{ $t('HELP_CENTER.EDIT_HEADER.SAVING') }}
       </span>
 
       <woot-button
@@ -78,6 +78,10 @@ export default {
       type: String,
       default: '',
     },
+    isUpdating: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -134,5 +138,13 @@ export default {
   color: var(--s-400);
   align-items: center;
   font-size: var(--font-size-mini);
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
 </style>
