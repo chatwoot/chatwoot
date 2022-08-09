@@ -113,18 +113,18 @@ export default {
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
           ),
           toolTip: 'All Articles',
-          toStateName: 'list_all_selectedPortalLocale_articles',
+          toStateName: 'list_all_locale_articles',
         },
         {
           icon: 'pen',
           label: 'HELP_CENTER.MY_ARTICLES',
-          key: 'mine_articles',
+          key: 'list_mine_articles',
           count: mineArticlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
           ),
           toolTip: 'My articles',
-          toStateName: 'mine_articles',
+          toStateName: 'list_mine_articles',
         },
         {
           icon: 'draft',

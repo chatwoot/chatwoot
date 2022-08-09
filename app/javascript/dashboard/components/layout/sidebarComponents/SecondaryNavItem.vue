@@ -145,29 +145,8 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
-    isAllArticles() {
-      return (
-        this.$store.state.route.name === 'list_all_locale_articles' &&
-        this.menuItem.toStateName === 'list_all_selectedPortalLocale_articles'
-      );
-    },
-    isMyArticles() {
-      return (
-        this.$store.state.route.name === 'list_mine_articles' &&
-        this.menuItem.toStateName === 'mine_articles'
-      );
-    },
-    isDraftArticles() {
-      return (
-        this.$store.state.route.name === 'list_draft_articles' &&
-        this.menuItem.toStateName === 'list_draft_articles'
-      );
-    },
-    isArchivedArticles() {
-      return (
-        this.$store.state.route.name === 'list_archived_articles' &&
-        this.menuItem.toStateName === 'list_archived_articles'
-      );
+    isArticlesView() {
+      return this.$store.state.route.name === this.menuItem.toStateName;
     },
 
     computedClass() {
@@ -187,12 +166,7 @@ export default {
         return ' ';
       }
       if (this.isHelpCenterSidebar) {
-        if (
-          this.isAllArticles ||
-          this.isMyArticles ||
-          this.isDraftArticles ||
-          this.isArchivedArticles
-        ) {
+        if (this.isArticlesView) {
           return 'is-active';
         }
         return ' ';
