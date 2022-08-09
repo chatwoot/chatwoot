@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="category-container">
     <article-header
       :header-title="headerTitle"
       :count="articleCountBasedOnCategory"
@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.category-container {
   padding: var(--space-small) var(--space-normal);
   width: 100%;
   .articles--loader {
