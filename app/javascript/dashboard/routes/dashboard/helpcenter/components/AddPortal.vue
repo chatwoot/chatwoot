@@ -82,7 +82,7 @@ import { mapGetters } from 'vuex';
 import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import { convertToCategorySlug } from 'dashboard/helper/commons.js';
+import { convertToPortalSlug } from 'dashboard/helper/commons.js';
 
 export default {
   components: {
@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     onNameChange() {
-      this.slug = convertToCategorySlug(this.name);
+      this.slug = convertToPortalSlug(this.name);
     },
     async onCreate() {
       this.$v.$touch();

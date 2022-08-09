@@ -22,8 +22,8 @@
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
-    <woot-modal :show.sync="shouldShowAddModal" :on-close="closeModal">
-      <add-portal :show="shouldShowAddModal" @cancel="closeModal" />
+    <woot-modal :show.sync="isAddModalOpen" :on-close="closeModal">
+      <add-portal :show="isAddModalOpen" @cancel="closeModal" />
     </woot-modal>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      shouldShowAddModal: false,
+      isAddModalOpen: false,
     };
   },
   computed: {
@@ -61,10 +61,10 @@ export default {
   },
   methods: {
     addPortal() {
-      this.shouldShowAddModal = !this.shouldShowAddModal;
+      this.isAddModalOpen = !this.isAddModalOpen;
     },
     closeModal() {
-      this.shouldShowAddModal = false;
+      this.isAddModalOpen = false;
     },
   },
 };
