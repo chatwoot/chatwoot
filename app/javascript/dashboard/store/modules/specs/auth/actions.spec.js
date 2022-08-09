@@ -80,7 +80,10 @@ describe('#actions', () => {
         ],
       ]);
       expect(dispatch.mock.calls).toEqual([
-        ['agents/updatePresence', { 1: 'offline' }],
+        [
+          'agents/updateSingleAgentPresence',
+          { availabilityStatus: 'offline', id: 1 },
+        ],
       ]);
     });
   });
