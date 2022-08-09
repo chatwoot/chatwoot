@@ -84,12 +84,16 @@ export const getters = {
 
 // actions
 export const actions = {
-  login(_, { ssoAccountId, ...credentials }) {
+  login(_, { ssoAccountId, ssoConversationId, ...credentials }) {
     return new Promise((resolve, reject) => {
       authAPI
         .login(credentials)
         .then(response => {
-          window.location = getLoginRedirectURL(ssoAccountId, response.data);
+          window.location = getLoginRedirectURL({
+            ssoAccountId,
+            ssoConversationId,
+            user: response.data,
+          });
           resolve();
         })
         .catch(error => {

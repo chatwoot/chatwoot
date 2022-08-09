@@ -72,7 +72,22 @@
       },
       "ASSIGN_AGENT": "Dodeli agenta",
       "ASSIGN_LABEL": "Dodeli oznaku",
-      "AGENTS_LOADING": "Učitavanje agenata..."
+      "AGENTS_LOADING": "Učitavanje agenata...",
+      "ASSIGN_TEAM": "Dodeli tim",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Razgovor sa ID %{conversationId} je dodeljen \"%{agentName}\"",
+          "FAILED": "Nije bilo moguće dodeliti agenta. Molim vas pokušajte ponovo."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Dodeljena je oznaka # %{labelName} razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Dodeljen je tim \"%{team}\" razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti tim. Molim vas pokušajte ponovo."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Potpis poruke",
