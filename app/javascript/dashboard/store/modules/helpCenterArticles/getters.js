@@ -23,7 +23,10 @@ export const getters = {
   },
   articleFlagById: (...getterArguments) => articleId => {
     const [state] = getterArguments;
-    const flags = state.articles.uiFlags.byId[articleId];
-    return flags;
+    if (state.articles.uiFlags.byId) {
+      const flag = state.articles.uiFlags.byId[articleId];
+      if (flag) return flag;
+    }
+    return { isFetching: false, isUpdating: false, isDeleting: false };
   },
 };
