@@ -15,10 +15,6 @@
 #  index_teams_on_account_id           (account_id)
 #  index_teams_on_name_and_account_id  (name,account_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
-#
 class Team < ApplicationRecord
   belongs_to :account
   has_many :team_members, dependent: :destroy_async

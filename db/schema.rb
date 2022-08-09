@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_02_133722) do
+ActiveRecord::Schema.define(version: 2022_08_09_104508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -862,40 +862,8 @@ ActiveRecord::Schema.define(version: 2022_08_02_133722) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
-  add_foreign_key "account_users", "accounts", on_delete: :cascade
-  add_foreign_key "account_users", "users", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_bots", "accounts", on_delete: :cascade
-  add_foreign_key "articles", "articles", column: "associated_article_id"
-  add_foreign_key "articles", "users", column: "author_id"
-  add_foreign_key "campaigns", "accounts", on_delete: :cascade
-  add_foreign_key "campaigns", "inboxes", on_delete: :cascade
-  add_foreign_key "categories", "categories", column: "associated_category_id"
-  add_foreign_key "categories", "categories", column: "parent_category_id"
-  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
-  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "campaigns", on_delete: :cascade
-  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "teams", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "accounts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "contacts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
-  add_foreign_key "dashboard_apps", "accounts"
-  add_foreign_key "dashboard_apps", "users"
-  add_foreign_key "data_imports", "accounts", on_delete: :cascade
-  add_foreign_key "macros", "users", column: "created_by_id"
-  add_foreign_key "macros", "users", column: "updated_by_id"
-  add_foreign_key "mentions", "conversations", on_delete: :cascade
-  add_foreign_key "mentions", "users", on_delete: :cascade
-  add_foreign_key "notes", "accounts", on_delete: :cascade
-  add_foreign_key "notes", "contacts", on_delete: :cascade
-  add_foreign_key "notes", "users", on_delete: :cascade
-  add_foreign_key "team_members", "teams", on_delete: :cascade
-  add_foreign_key "team_members", "users", on_delete: :cascade
-  add_foreign_key "teams", "accounts", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
