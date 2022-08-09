@@ -40,5 +40,7 @@ class RevertCascadingIndexes < ActiveRecord::Migration[6.1]
 
     remove_foreign_key 'macros', 'users', column: 'created_by_id' if foreign_key_exists? 'macros', 'users', column: 'created_by_id'
     remove_foreign_key 'macros', 'users', column: 'updated_by_id' if foreign_key_exists? 'macros', 'users', column: 'updated_by_id'
+
+    Migration::RemoveStaleNotificationsJob.perform_later
   end
 end
