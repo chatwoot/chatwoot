@@ -68,6 +68,7 @@ export const actions = {
       },
       articleId,
     });
+
     try {
       const { data } = await articlesAPI.updateArticle({
         portalSlug,
@@ -81,14 +82,12 @@ export const actions = {
     } catch (error) {
       return throwErrorMessage(error);
     } finally {
-      setTimeout(() => {
-        commit(types.ADD_ARTICLE_FLAG, {
-          uiFlags: {
-            isUpdating: false,
-          },
-          articleId,
-        });
-      }, 1000);
+      commit(types.ADD_ARTICLE_FLAG, {
+        uiFlags: {
+          isUpdating: false,
+        },
+        articleId,
+      });
     }
   },
   delete: async ({ commit }, articleId) => {
