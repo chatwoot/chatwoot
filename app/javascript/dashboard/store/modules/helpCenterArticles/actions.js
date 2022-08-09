@@ -5,7 +5,7 @@ import types from '../../mutation-types';
 export const actions = {
   index: async (
     { commit },
-    { pageNumber, portalSlug, locale, status, author_id }
+    { pageNumber, portalSlug, locale, status, author_id, category_slug }
   ) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
@@ -17,6 +17,7 @@ export const actions = {
         locale,
         status,
         author_id,
+        category_slug,
       });
       const articleIds = payload.map(article => article.id);
       commit(types.CLEAR_ARTICLES);
