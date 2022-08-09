@@ -31,7 +31,9 @@
       "NEW_BUTTON": "پورتال جدید",
       "ACTIVE_BADGE": "فعال",
       "CHOOSE_LOCALE_LABEL": "محلی را انتخاب کنید",
+      "LOADING_MESSAGE": "Loading portals...",
       "ARTICLES_LABEL": "مقالات",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "یک محل جدید اضافه کنید",
       "POPOVER": {
         "TITLE": "پورتال ها",
