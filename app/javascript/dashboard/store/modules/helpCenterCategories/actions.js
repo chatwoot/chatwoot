@@ -25,9 +25,11 @@ export const actions = {
   create: async ({ commit }, { portalSlug, categoryObj }) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
-      const { data } = await categoriesAPI.create({ portalSlug, categoryObj });
-      const { id: categoryId } = data;
-      commit(types.ADD_CATEGORY, data);
+      const {
+        data: { payload },
+      } = await categoriesAPI.create({ portalSlug, categoryObj });
+      const { id: categoryId } = payload;
+      commit(types.ADD_CATEGORY, payload);
       commit(types.ADD_CATEGORY_ID, categoryId);
       return categoryId;
     } catch (error) {
