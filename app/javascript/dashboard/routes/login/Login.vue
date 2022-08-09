@@ -80,7 +80,7 @@ export default {
   props: {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
-    redirectUrl: { type: String, default: '' },
+    ssoConversationId: { type: String, default: '' },
     config: { type: String, default: '' },
     email: { type: String, default: '' },
   },
@@ -139,6 +139,7 @@ export default {
         password: this.credentials.password,
         sso_auth_token: this.ssoAuthToken,
         ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
       };
       this.$store
         .dispatch('login', credentials)
