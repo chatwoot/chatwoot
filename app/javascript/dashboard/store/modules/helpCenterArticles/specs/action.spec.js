@@ -89,7 +89,7 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.put.mockResolvedValue({ data: articleList[0] });
+      axios.patch.mockResolvedValue({ data: articleList[0] });
       await actions.update(
         { commit },
         {
@@ -111,7 +111,7 @@ describe('#actions', () => {
       ]);
     });
     it('sends correct actions if API is error', async () => {
-      axios.put.mockRejectedValue({ message: 'Incorrect header' });
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
         actions.update(
           { commit },
