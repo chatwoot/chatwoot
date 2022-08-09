@@ -19,7 +19,7 @@ class ArticlesAPI extends PortalsAPI {
   }
 
   updateArticle({ portalSlug, articleId, articleObj }) {
-    return axios.put(
+    return axios.patch(
       `${this.url}/${portalSlug}/articles/${articleId}`,
       articleObj
     );

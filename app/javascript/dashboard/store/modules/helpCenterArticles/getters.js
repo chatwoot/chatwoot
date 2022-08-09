@@ -21,12 +21,4 @@ export const getters = {
   getMeta: state => {
     return state.meta;
   },
-  articleFlagById: (...getterArguments) => articleId => {
-    const [state] = getterArguments;
-    if (state.articles.uiFlags.byId) {
-      const flag = state.articles.uiFlags.byId[articleId];
-      if (flag) return flag;
-    }
-    return { isFetching: false, isUpdating: false, isDeleting: false };
-  },
 };
