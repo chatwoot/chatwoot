@@ -40,7 +40,7 @@
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           @input="$v.slug.$touch"
         />
-        <label :class="{ error: $v.description.$error }">
+        <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
           <textarea
             v-model="description"
@@ -49,11 +49,7 @@
             :placeholder="
               $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.PLACEHOLDER')
             "
-            @blur="$v.description.$touch"
           />
-          <span v-if="$v.description.$error" class="message">
-            {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.ERROR') }}
-          </span>
         </label>
         <div class="medium-12 columns">
           <div class="modal-footer justify-content-end w-full">
@@ -107,9 +103,6 @@ export default {
     slug: {
       required,
     },
-    description: {
-      required,
-    },
   },
   computed: {
     ...mapGetters({
@@ -137,17 +130,11 @@ export default {
     },
     onCreate() {
       this.$emit('create');
-      this.reset();
     },
     onClose() {
-      this.reset();
       this.$emit('cancel');
     },
-    reset() {
-      this.name = '';
-      this.slug = '';
-      this.description = '';
-    },
+
     async addCategory() {
       const { name, slug, description } = this;
       const data = {

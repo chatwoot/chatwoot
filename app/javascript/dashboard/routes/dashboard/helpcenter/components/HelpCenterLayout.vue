@@ -54,7 +54,7 @@ import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
-import AddCategory from 'dashboard/components/helpCenter/AddCategory';
+import AddCategory from '../components/AddCategory.vue';
 
 export default {
   components: {
