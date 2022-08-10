@@ -4,6 +4,7 @@ class DashboardController < ActionController::Base
   before_action :set_global_config
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
+  before_action :ensure_portal_domain_request, only: [:index]
 
   layout 'vueapp'
 
@@ -35,6 +36,16 @@ class DashboardController < ActionController::Base
 
   def ensure_installation_onboarding
     redirect_to '/installation/onboarding' if ::Redis::Alfred.get(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)
+  end
+
+  def ensure_portal_domain_request
+    return unless request.host.match?(/([a-z0-9\-]+[.])chatwoot[.]help/)
+
+    subdomain = request.host.split('.chatwoot.help')
+
+    return if subdomain.blank?
+
+    redirect_to public_api_v1_portal_path(slug: subdomain[0])
   end
 
   def app_config
