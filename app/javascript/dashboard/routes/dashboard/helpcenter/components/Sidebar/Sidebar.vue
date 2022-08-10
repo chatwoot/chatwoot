@@ -19,6 +19,8 @@
         :key="menuItem.key"
         :menu-item="menuItem"
         :is-help-center-sidebar="true"
+        :is-category-empty="!hasCategory"
+        @open="onClickOpenAddCatogoryModal"
       />
     </transition-group>
   </div>
@@ -60,12 +62,23 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    hasCategory() {
+      return (
+        this.additionalSecondaryMenuItems[0] &&
+        this.additionalSecondaryMenuItems[0].children.length > 0
+      );
+    },
+  },
   methods: {
     onSearch(value) {
       this.$emit('input', value);
     },
     openPortalPopover() {
       this.$emit('open-popover');
+    },
+    onClickOpenAddCatogoryModal() {
+      this.$emit('open-modal');
     },
   },
 };

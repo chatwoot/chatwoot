@@ -2,7 +2,7 @@
   <div class="container">
     <article-header
       :header-title="headerTitle"
-      :count="meta.count"
+      :count="articleCount"
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
@@ -10,7 +10,7 @@
       :articles="articles"
       :article-count="articles.length"
       :current-page="Number(meta.currentPage)"
-      :total-count="meta.count"
+      :total-count="articleCount"
       @on-page-change="onPageChange"
     />
     <div v-if="shouldShowLoader" class="articles--loader">
@@ -45,16 +45,30 @@ export default {
   computed: {
     ...mapGetters({
       articles: 'articles/allArticles',
+      categories: 'categories/allCategories',
+      selectedPortal: 'portals/getSelectedPortal',
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
       currentUserId: 'getCurrentUserID',
     }),
+    selectedCategory() {
+      return this.categories.find(
+        category => category.slug === this.selectedCategorySlug
+      );
+    },
     shouldShowEmptyState() {
       return !this.isFetching && !this.articles.length;
     },
     shouldShowLoader() {
       return this.isFetching && !this.articles.length;
+    },
+    selectedPortalSlug() {
+      return this.selectedPortal?.slug;
+    },
+    selectedCategorySlug() {
+      const { categorySlug } = this.$route.params;
+      return categorySlug;
     },
     articleType() {
       return this.$route.path.split('/').pop();
@@ -68,6 +82,9 @@ export default {
         case 'archived':
           return this.$t('HELP_CENTER.HEADER.TITLES.ARCHIVED');
         default:
+          if (this.$route.name === 'show_category') {
+            return this.headerTitleInCategoryView;
+          }
           return this.$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES');
       }
     },
@@ -88,6 +105,14 @@ export default {
         return this.currentUserId;
       }
       return null;
+    },
+    articleCount() {
+      return this.articles ? this.articles.length : 0;
+    },
+    headerTitleInCategoryView() {
+      return this.categories && this.categories.length
+        ? this.selectedCategory.name
+        : '';
     },
   },
   watch: {
@@ -111,6 +136,7 @@ export default {
         locale: this.$route.params.locale,
         status: this.status,
         author_id: this.author,
+        category_slug: this.selectedCategorySlug,
       });
     },
     onPageChange(page) {
