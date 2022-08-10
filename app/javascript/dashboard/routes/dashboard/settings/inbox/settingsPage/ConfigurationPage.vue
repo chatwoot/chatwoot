@@ -88,8 +88,8 @@
         <woot-code :script="inbox.forward_to_email" />
       </settings-section>
     </div>
-    <imap-settings :inbox="inbox" />
-    <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <imap-settings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <smtp-settings v-if="inbox.smtp_enabled" :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsappChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="settings--content">
