@@ -1,0 +1,241 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "براہ کرم بائیں پین سے گفتگو کا انتخاب کریں۔",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "UNVERIFIED_SESSION": "اس صارف کی شناخت کی تصدیق نہیں ہوئی ہے۔",
+    "NO_MESSAGE_1": "اوہ! ایسا لگتا ہے کہ آپ کے ان باکس میں صارفین کی جانب سے کوئی پیغامات نہیں ہیں۔.",
+    "NO_MESSAGE_2": " اپنے صفحہ پر پیغام بھیجنے کے لیے!",
+    "NO_INBOX_1": "ہیلو! ایسا لگتا ہے کہ آپ نے ابھی تک کوئی ان باکس شامل نہیں کیا ہے۔.",
+    "NO_INBOX_2": " شروع کرنے کے لیے",
+    "NO_INBOX_AGENT": "اوہ! ایسا لگتا ہے کہ آپ کسی ان باکس کا حصہ نہیں ہیں۔ براہ کرم اپنے منتظم سے رابطہ کریں۔",
+    "SEARCH_MESSAGES": "مکالمات میں پیغامات تلاش کریں۔",
+    "SEARCH": {
+      "TITLE": "پیغامات تلاش کریں۔",
+      "RESULT_TITLE": "تلاش کے نتائج",
+      "LOADING_MESSAGE": "کرنچنگ ڈیٹا...",
+      "PLACEHOLDER": "پیغامات تلاش کرنے کے لیے کوئی بھی متن ٹائپ کریں۔",
+      "NO_MATCHING_RESULTS": "کوئی نتیجہ نہیں."
+    },
+    "UNREAD_MESSAGES": "بغیر پڑھے ہوئے پیغامات",
+    "UNREAD_MESSAGE": "بغیر پڑھا ہوا پیغام",
+    "CLICK_HERE": "یہاں کلک کریں",
+    "LOADING_INBOXES": "یہ ان باکس لوڈ ہورہے ہیں",
+    "LOADING_CONVERSATIONS": "مکالمات لوڈ ہو رہے ہیں",
+    "CANNOT_REPLY": "کی وجہ سے آپ جواب نہیں دے سکتے",
+    "24_HOURS_WINDOW": "24 گھنٹے میسج ونڈو کی پابندی",
+    "NOT_ASSIGNED_TO_YOU": "یہ گفتگو آپ کو تفویض نہیں کی گئی ہے۔ کیا آپ یہ گفتگو اپنے آپ کو تفویض کرنا چاہیں گے?",
+    "ASSIGN_TO_ME": "مجھے تفویض کریں۔",
+    "TWILIO_WHATSAPP_CAN_REPLY": "آپ اس بات چیت کا جواب صرف ایک ٹیمپلیٹ پیغام کا استعمال کرتے ہوئے دے سکتے ہیں, کيونکہ‎",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 گھنٹے میسج ونڈو کی پابندی",
+    "SELECT_A_TWEET_TO_REPLY": "براہ کرم جواب دینے کے لیے ایک ٹویٹ منتخب کریں۔.",
+    "REPLYING_TO": "آپ جواب دے رہے ہیں:",
+    "REMOVE_SELECTION": "انتخاب کو ہٹا دیں۔",
+    "DOWNLOAD": "ڈاؤن لوڈ کریں",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UPLOADING_ATTACHMENTS": "منسلکات اپ لوڈ ہو رہی ہیں...",
+    "SUCCESS_DELETE_MESSAGE": "پیغام کامیابی سے حذف ہو گیا۔",
+    "FAIL_DELETE_MESSSAGE": "پیغام کو حذف نہیں کیا جا سکا! دوبارہ کوشش کریں",
+    "NO_RESPONSE": "کوئی ردعمل نہیں",
+    "RATING_TITLE": "درجہ بندی",
+    "FEEDBACK_TITLE": "فیڈ بیک",
+    "HEADER": {
+      "RESOLVE_ACTION": "حل کریں۔",
+      "REOPEN_ACTION": "دوبارہ کھولیں۔",
+      "OPEN_ACTION": "کھولیں۔",
+      "OPEN": "مزید",
+      "CLOSE": "Close",
+      "DETAILS": "details",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reopen conversation",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
+      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
+    },
+    "REPLYBOX": {
+      "REPLY": "Reply",
+      "PRIVATE_NOTE": "Private Note",
+      "SEND": "Send",
+      "CREATE": "Add Note",
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "ENTER_TO_SEND": "Enter to send",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
+    "CHANGE_STATUS": "Conversation status changed",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_AGENT": "Conversation Assignee changed",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "SENT_BY": "Sent by:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Remove",
+      "ASSIGN": "Assign"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copy",
+      "DELETE": "حذف کریں۔"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send conversation transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "SUBMIT": "جمع کرائیں",
+    "CANCEL": "منسوخ کریں۔",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "EMAIL": {
+        "PLACEHOLDER": "Enter an email address",
+        "ERROR": "Please enter a valid email address"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "گفتگو کے لیبلز",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "پچھلی بات چیت"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Unable to update attribute. Please try again later"
+    },
+    "ADD": {
+      "TITLE": "شامل کریں۔",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Unable to add attribute. Please try again later"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Unable to delete attribute. Please try again later"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "صفات شامل کریں۔",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "From",
+    "TO": "کو",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
+  }
+}

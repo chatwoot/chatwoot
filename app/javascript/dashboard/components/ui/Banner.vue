@@ -1,6 +1,6 @@
 <template>
   <div class="banner" :class="bannerClasses">
-    <span>
+    <span class="banner-message">
       {{ bannerMessage }}
       <a
         v-if="hrefLink"
@@ -26,12 +26,11 @@
       v-if="hasCloseButton"
       size="small"
       variant="link"
-      color-scheme="warning"
+      color-scheme="secondary"
       icon="dismiss-circle"
       class-names="banner-action__button"
       @click="onClickClose"
-    >
-    </woot-button>
+    />
   </div>
 </template>
 
@@ -92,8 +91,19 @@ export default {
   justify-content: center;
   position: sticky;
 
+  &.primary {
+    background: var(--w-500);
+    .banner-action__button {
+      color: var(--white);
+    }
+  }
+
   &.secondary {
-    background: var(--s-300);
+    background: var(--s-200);
+    color: var(--s-800);
+    a {
+      color: var(--s-800);
+    }
   }
 
   &.alert {
@@ -101,18 +111,22 @@ export default {
   }
 
   &.warning {
-    background: var(--y-800);
-    color: var(--s-600);
+    background: var(--y-600);
+    color: var(--y-500);
     a {
-      color: var(--s-600);
+      color: var(--y-500);
     }
   }
 
   &.gray {
     background: var(--b-500);
+    .banner-action__button {
+      color: var(--white);
+    }
   }
 
   a {
+    margin-left: var(--space-smaller);
     text-decoration: underline;
     color: var(--white);
     font-size: var(--font-size-mini);
@@ -124,6 +138,11 @@ export default {
     ::v-deep .button__content {
       white-space: nowrap;
     }
+  }
+
+  .banner-message {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

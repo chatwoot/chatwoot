@@ -12,33 +12,11 @@
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
     "FILTER_ALL": "Allemaal",
-    "STATUS_TABS": [
-      {
-        "NAME": "Open",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Opgelost",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mijn",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Niet toegewezen",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Allemaal",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mijn",
+      "unassigned": "Niet toegewezen",
+      "all": "Allemaal"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Ontvangen via e-mail",
     "VIEW_TWEET_IN_TWITTER": "Bekijk tweet op Twitter",
     "REPLY_TO_TWEET": "Antwoord op deze tweet",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Succesvol verzonden",
     "NO_MESSAGES": "Geen berichten",
     "NO_CONTENT": "Geen inhoud beschikbaar",
     "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
-    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst"
+    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
+    "MESSAGE_READ": "Read"
   }
 }

@@ -5,11 +5,21 @@
     @click="onClick(index)"
   >
     <h3 class="heading">
-      {{ heading }}
+      <span>{{ heading }}</span>
+      <fluent-icon
+        v-if="infoText"
+        v-tooltip="infoText"
+        size="14"
+        icon="info"
+        class="info-icon"
+      />
     </h3>
-    <h4 class="metric">
-      {{ point }}
-    </h4>
+    <div class="metric-wrap">
+      <h4 class="metric">
+        {{ point }}
+      </h4>
+      <span v-if="trend !== 0" :class="trendClass">{{ trendValue }}</span>
+    </div>
     <p class="desc">
       {{ desc }}
     </p>
@@ -19,11 +29,29 @@
 export default {
   props: {
     heading: { type: String, default: '' },
+    infoText: { type: String, default: '' },
     point: { type: [Number, String], default: '' },
+    trend: { type: Number, default: null },
     index: { type: Number, default: null },
     desc: { type: String, default: '' },
     selected: Boolean,
     onClick: { type: Function, default: () => {} },
+  },
+  computed: {
+    trendClass() {
+      if (this.trend > 0) {
+        return 'metric-trend metric-up';
+      }
+
+      return 'metric-trend metric-down';
+    },
+    trendValue() {
+      if (this.trend > 0) {
+        return `+${this.trend}%`;
+      }
+
+      return `${this.trend}%`;
+    },
   },
 };
 </script>

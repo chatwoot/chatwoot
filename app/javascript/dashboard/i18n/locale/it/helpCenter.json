@@ -1,0 +1,133 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filtra per",
+      "SORT": "Ordina per",
+      "SETTINGS_BUTTON": "Impostazioni",
+      "NEW_BUTTON": "Nuovo articolo",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Pubblicato",
+        "DRAFT": "Bozza",
+        "ARCHIVED": "Archiviato"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Tutti gli articoli",
+        "MINE": "I miei articoli",
+        "DRAFT": "Articoli in bozza",
+        "ARCHIVED": "Articoli archiviati"
+      }
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Pubblica",
+      "PREVIEW": "Anteprima",
+      "ADD_TRANSLATION": "Aggiungi traduzione",
+      "OPEN_SIDEBAR": "Apri barra laterale",
+      "CLOSE_SIDEBAR": "Chiudi barra laterale",
+      "SAVING": "Salvataggio bozza...",
+      "SAVED": "Bozza salvata"
+    },
+    "PORTAL": {
+      "HEADER": "Portali",
+      "NEW_BUTTON": "Nuovo portale",
+      "ACTIVE_BADGE": "attivo",
+      "CHOOSE_LOCALE_LABEL": "Scegli una lingua",
+      "LOADING_MESSAGE": "Loading portals...",
+      "ARTICLES_LABEL": "articoli",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
+      "ADD_NEW_LOCALE": "Aggiungi una nuova lingua",
+      "POPOVER": {
+        "TITLE": "Portali",
+        "PORTAL_SETTINGS": "Impostazioni del portale",
+        "SUBTITLE": "Hai più portali e puoi avere diverse lingue per ogni portale.",
+        "CANCEL_BUTTON_LABEL": "annulla",
+        "CHOOSE_LOCALE_BUTTON": "Scegli lingua"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "articoli",
+            "ADD": "Aggiungi lingua",
+            "VISIT": "Visita sito",
+            "SETTINGS": "Impostazioni"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Configurazioni portale",
+            "ITEMS": {
+              "NAME": "Nome",
+              "DOMAIN": "Dominio personalizzato",
+              "SLUG": "Slug",
+              "TITLE": "Titolo del portale",
+              "THEME": "Colore del tema",
+              "SUB_TEXT": "Sotto-testo del portale"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Lingue disponibili",
+            "TABLE": {
+              "NAME": "Nome lingua",
+              "CODE": "Codice lingua",
+              "ARTICLE_COUNT": "N° di articoli",
+              "CATEGORIES": "N. di categorie",
+              "SWAP": "Scambia",
+              "DELETE": "Elimina",
+              "DEFAULT_LOCALE": "Predefinito"
+            }
+          }
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Caricamento articoli...",
+      "404": "Nessun articolo corrisponde alla tua ricerca 🔍",
+      "NO_ARTICLES": "Non ci sono articoli disponibili",
+      "HEADERS": {
+        "TITLE": "Titolo",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Contatore delle letture",
+        "STATUS": "Stato",
+        "LAST_EDITED": "Ultima modifica"
+      },
+      "COLUMNS": {
+        "BY": "di"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Il titolo dell'articolo va qui",
+      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Cerca articoli"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Crea una categoria",
+        "SUB_TITLE": "La categoria sarà utilizzata nel portale pubblico per classificare gli articoli.",
+        "PORTAL": "Portale",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome categoria",
+          "HELP_TEXT": "Il nome della categoria verrà utilizzato nel portale pubblico per categorizzare gli articoli.",
+          "ERROR": "Il nome è obbligatorio"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug categoria per url",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug è obbligatorio"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Fornisci una breve descrizione della categoria.",
+          "ERROR": "La descrizione è obbligatoria"
+        },
+        "BUTTONS": {
+          "CREATE": "Crea categoria",
+          "CANCEL": "annulla"
+        }
+      }
+    }
+  }
+}

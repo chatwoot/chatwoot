@@ -1,0 +1,29 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: Identifier
+  attribute_display_name:
+    type: string
+    description: Attribute display name
+  attribute_display_type:
+    type: string
+    description: Attribute display type (text, number, currency, percent, link, date, list, checkbox)
+  attribute_description:
+    type: string
+    description: Attribute description
+  attribute_key:
+    type: string
+    description: Attribute unique key value
+  attribute_values:
+    type: string
+    description: Attribute values
+  default_value:
+    type: string
+    description: Attribute default value
+  attribute_model:
+    type: string
+    description: Attribute type(conversation_attribute/contact_attribute)
+  account_id:
+    type: integer
+    description: Account Id

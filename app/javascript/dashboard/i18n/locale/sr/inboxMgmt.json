@@ -1,0 +1,662 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Prijemni sandučići",
+    "SIDEBAR_TXT": "<p><b>Prijemno sanduče</b></p> <p> Kada povežete veb sajt ili fejsbuk stranicu sa Chatwoot, to se zove <b>prijemno sanduče</b>. Možete imati neograničen broj prijemnih sandučića na vašem Chatwoot nalogu. </p><p> Kliknite na <b>Dodaj prijemno sanduče</b> da bi ste povezali veb sajt ili Fejsbuk stranicu. </p><p> U glavnoj tabli, na jednom mestu možete videti sve razgovore iz svih vaših prijemnih sandučića i odgovarati na njih pod karticom 'Razgovori'. </p><p> Takođe možete videti razgovore u određenom prijemnom sandučetu klikom na ime prijemnog sandučeta u levom panelu glavne table. </p>",
+    "LIST": {
+      "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Izaberite kanal",
+        "route": "settings_inbox_new",
+        "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
+      },
+      {
+        "title": "Napravi prijemno sanduče",
+        "route": "settings_inboxes_page_channel",
+        "body": "Potvrdite vaš nalog i napravite prijemno sanduće."
+      },
+      {
+        "title": "Dodaj agente",
+        "route": "settings_inboxes_add_agents",
+        "body": "Dodajte agente napravljenom prijamnom sandučetu."
+      },
+      {
+        "title": "Izvolite!",
+        "route": "settings_inbox_finish",
+        "body": "Sve je spremno za početak!"
+      }
+    ],
+    "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Naziv prijemnog sandučeta",
+        "PLACEHOLDER": "Unesite naziv prijamnog sandučeta (npr.: Acme Inc)",
+        "ERROR": "Molim vas unesite ispravan naziv prijamnog sandučeta"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Naziv veb sajta",
+        "PLACEHOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)"
+      },
+      "FB": {
+        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. Chatwoot vašim privatnim porukama nikada ne može pristupiti.",
+        "CHOOSE_PAGE": "Izaberite stranicu",
+        "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
+        "INBOX_NAME": "Naziv prijemnog sandučeta",
+        "ADD_NAME": "Dodajte naziv vašem prijemnom sandučetu",
+        "PICK_NAME": "Izaberite naziv vašeg prijemnog sandučeta",
+        "PICK_A_VALUE": "Izaberite vrednost"
+      },
+      "TWITTER": {
+        "HELP": "Da bi ste dodali Tviter profil kao kanal, morate da autentifikujete vaš Tviter profil klikom na 'Prijavi se sa Tviterom' ",
+        "ERROR_MESSAGE": "Pojavila se greška pri povezivanju sa Tviterom, molim pokušajte ponovo",
+        "TWEETS": {
+          "ENABLE": "Napravite razgovore iz tvitova gde ste pomenuti"
+        }
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Veb sajt kanal",
+        "DESC": "Napravite kanal za vaš veb sajt i započnite podršku vašim potrošačima sa našim vidžetom za veb sajt.",
+        "LOADING_MESSAGE": "Napravite kanal za podršku putem veb sajta",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Avatar kanala"
+        },
+        "CHANNEL_WEBHOOK_URL": {
+          "LABEL": "Adresa veb zakačke",
+          "PLACEHOLDER": "Unesite adresu veb zakačke",
+          "ERROR": "Molim vas unesite ispravnu adresu"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Domen veb sajta",
+          "PLACEHOLDER": "Unesite domen vašeg veb sajta (npr.: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Naslov dobrodošlice",
+          "PLACEHOLDER": "Zdravo !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Podnaslov dobrodošlice",
+          "PLACEHOLDER": "Činimo jednostavnim da se povežete sa nama. Pitajte nas bilo šta ili podelite sa nama vaše utiske."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Pozdravna poruka kanala",
+          "PLACEHOLDER": "Acme Inc obično odgovara u roku od nekoliko sati."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Omogući pozdrav kanala",
+          "HELP_TEXT": "Automatski pošalji pozdravnu poruku kada se kreira novi razgovor.",
+          "ENABLED": "Omogućeno",
+          "DISABLED": "Onemogućeno"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Podesi vreme odgovora",
+          "IN_A_FEW_MINUTES": "Za nekoliko minuta",
+          "IN_A_FEW_HOURS": "Za nekoliko sati",
+          "IN_A_DAY": "Za dan",
+          "HELP_TEXT": "Vreme odgovora će biti prikazano u vidžetu ćaskanja"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Boja vidžeta",
+          "PLACEHOLDER": "Promenite boju vidžeta"
+        },
+        "SUBMIT_BUTTON": "Napravi prijemno sanduče",
+        "API": {
+          "ERROR_MESSAGE": "Nismo uspeli da napravimo kanal veb sajta, molim vas pokušajte ponovo"
+        }
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/WhatsApp kanal",
+        "DESC": "Integrišite Twilio i započnite podršku vašim potrošačima putem SMS-a ili WhatsApp-om.",
+        "ACCOUNT_SID": {
+          "LABEL": "SID naloga",
+          "PLACEHOLDER": "Molim vas unesite SID vašeg Twilio naloga",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "SID servisa za poruke",
+          "PLACEHOLDER": "Molim vas unesite SID vašeg Twilio servisa za poruke",
+          "ERROR": "Ovo polje je obavezno",
+          "USE_MESSAGING_SERVICE": "Koristi Twilio servis za poruke"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Vrsta kanala",
+          "ERROR": "Molim vas izaberite vrstu kanala"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Token autorizacije",
+          "PLACEHOLDER": "Molim vas unesite Twilio token autorizacije",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Naziv prijemnog sandučeta",
+          "PLACEHOLDER": "Molim vas unesite naziv prijemnog sandučeta",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Broj telefona",
+          "PLACEHOLDER": "Molim vas unesite broj telefona sa kojeg će se slati poruke.",
+          "ERROR": "Molim vas unesite ispravnu vrednost. Broj telefona bi trebao početi sa `+` znakom."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Adresa povratnog poziva",
+          "SUBTITLE": "Morate da podesite adresu povratnog poziva poruke u Twilio sa adresom pomenutom ovde."
+        },
+        "SUBMIT_BUTTON": "Napravite Twilio kanal",
+        "API": {
+          "ERROR_MESSAGE": "Nismo uspeli da autentifikujemo Twilio kredencijale, molim vas pokušajte ponovo"
+        }
+      },
+      "SMS": {
+        "TITLE": "SMS kanal",
+        "DESC": "Započnite podršku vašim potrošačima putem SMS-a.",
+        "PROVIDERS": {
+          "LABEL": "API provajder",
+          "TWILIO": "Twilio",
+          "BANDWIDTH": "Propusni opseg"
+        },
+        "API": {
+          "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo SMS kanal"
+        },
+        "BANDWIDTH": {
+          "ACCOUNT_ID": {
+            "LABEL": "ID naloga",
+            "PLACEHOLDER": "Molim vas unesite ID Bandwidth naloga",
+            "ERROR": "Ovo polje je obavezno"
+          },
+          "API_KEY": {
+            "LABEL": "API ključ",
+            "PLACEHOLDER": "Molim vas unesite Bandwidth API ključ",
+            "ERROR": "Ovo polje je obavezno"
+          },
+          "API_SECRET": {
+            "LABEL": "API tajna",
+            "PLACEHOLDER": "Molim vas unesite Bandwidth API tajnu",
+            "ERROR": "Ovo polje je obavezno"
+          },
+          "APPLICATION_ID": {
+            "LABEL": "ID aplikacije",
+            "PLACEHOLDER": "Molim vas unesite ID Bandwidth aplikacije",
+            "ERROR": "Ovo polje je obavezno"
+          },
+          "INBOX_NAME": {
+            "LABEL": "Naziv prijemnog sandučeta",
+            "PLACEHOLDER": "Molim vas unesite naziv prijemnog sandučeta",
+            "ERROR": "Ovo polje je obavezno"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Broj telefona",
+            "PLACEHOLDER": "Molim vas unesite broj telefona sa kojeg će se slati poruke.",
+            "ERROR": "Molim vas unesite ispravnu vrednost. Broj telefona bi trebao početi sa `+` znakom."
+          },
+          "SUBMIT_BUTTON": "Napravite Bandwidth kanal",
+          "API": {
+            "ERROR_MESSAGE": "Nisamo uspeli da autentifikujemo Bandwidth kredencijale, molim vas pokušajte ponovo"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Adresa povratnog poziva",
+            "SUBTITLE": "Morate da podesite adresu povratnog poziva poruke u Bandwidth sa adresom pomenutom ovde."
+          }
+        }
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp kanal",
+        "DESC": "Započnite podršku vašim potrošačima putem WhatsApp-a.",
+        "PROVIDERS": {
+          "LABEL": "API provajder",
+          "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp oblak",
+          "360_DIALOG": "360Dialog"
+        },
+        "INBOX_NAME": {
+          "LABEL": "Naziv prijemnog sandučeta",
+          "PLACEHOLDER": "Molim vas unesite naziv prijemnog sandučeta",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Broj telefona",
+          "PLACEHOLDER": "Molim vas unesite broj telefona sa kojeg će se slati poruke.",
+          "ERROR": "Molim vas unesite ispravnu vrednost. Broj telefona bi trebao početi sa `+` znakom."
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "ID broja telefona",
+          "PLACEHOLDER": "Molim vas unesite ID broja telefona dobijen iz radne table programera Fejsbuka.",
+          "ERROR": "Molim vas unesite ispravnu vrednost."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "ID poslovnog naloga",
+          "PLACEHOLDER": "Molim vas unesite ID poslovnog naloga dobijen iz radne table programera Fejsbuka.",
+          "ERROR": "Molim vas unesite ispravnu vrednost."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Token potvrde veb zakačke",
+          "PLACEHOLDER": "Unesite token potvrde koji želite da podesite za fejsbuk veb zakačke.",
+          "ERROR": "Molim vas unesite ispravnu vrednost."
+        },
+        "API_KEY": {
+          "LABEL": "API ključ",
+          "SUBTITLE": "Podesite WhatsApp API ključ.",
+          "PLACEHOLDER": "API ključ",
+          "ERROR": "Molim vas unesite ispravnu vrednost."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Adresa povratnog poziva",
+          "SUBTITLE": "Morate da podesite adresu veb zakačke u fejsbuk portalu programera sa adresom pomenutom ovde."
+        },
+        "SUBMIT_BUTTON": "Napravite WhatsApp kanal",
+        "API": {
+          "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo WhatsApp kanal"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API kanal",
+        "DESC": "Integrišite sa API kanalom i započnite podršku vašim potrošačima.",
+        "CHANNEL_NAME": {
+          "LABEL": "Naziv kanala",
+          "PLACEHOLDER": "Molim vas unesite naziv kanala",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Adresa veb zakačke",
+          "SUBTITLE": "Podesite adresu gde želite da primate povratne pozive za događaje.",
+          "PLACEHOLDER": "Adresa veb zakačke"
+        },
+        "SUBMIT_BUTTON": "Napravite API kanal",
+        "API": {
+          "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo api kanal"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Kanal e-pošte",
+        "DESC": "Integrišite prijemno sanduče vaše e-pošte.",
+        "CHANNEL_NAME": {
+          "LABEL": "Naziv kanala",
+          "PLACEHOLDER": "Molim vas unesite naziv kanala",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "EMAIL": {
+          "LABEL": "E-pošta",
+          "SUBTITLE": "E-pošta gde će vaši potrošači slati tikete podrške",
+          "PLACEHOLDER": "E-pošta"
+        },
+        "SUBMIT_BUTTON": "Napravite kanal e-pošte",
+        "API": {
+          "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo kanal e-pošte"
+        },
+        "FINISH_MESSAGE": "Započnite preusmerenje vaših e-poruka na sledeću adresu e-pošte."
+      },
+      "LINE_CHANNEL": {
+        "TITLE": "LINE kanal",
+        "DESC": "Integrišite sa LINE kanalom i započnite podršku vašim potrošačima.",
+        "CHANNEL_NAME": {
+          "LABEL": "Naziv kanala",
+          "PLACEHOLDER": "Molim vas unesite naziv kanala",
+          "ERROR": "Ovo polje je obavezno"
+        },
+        "LINE_CHANNEL_ID": {
+          "LABEL": "ID LINE kanala",
+          "PLACEHOLDER": "ID LINE kanala"
+        },
+        "LINE_CHANNEL_SECRET": {
+          "LABEL": "Tajna LINE kanala",
+          "PLACEHOLDER": "Tajna LINE kanala"
+        },
+        "LINE_CHANNEL_TOKEN": {
+          "LABEL": "Token LINE kanala",
+          "PLACEHOLDER": "Token LINE kanala"
+        },
+        "SUBMIT_BUTTON": "Napravite LINE kanal",
+        "API": {
+          "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo LINE kanal"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Adresa povratnog poziva",
+          "SUBTITLE": "Morate da podesite adresu veb zakačke u LINE aplikaciji sa adresom pomenutom ovde."
+        }
+      },
+      "TELEGRAM_CHANNEL": {
+        "TITLE": "Telegram kanal",
+        "DESC": "Integrišite sa Telegram kanalom i započnite podršku vašim potrošačima.",
+        "BOT_TOKEN": {
+          "LABEL": "Token bota",
+          "SUBTITLE": "Podesite bot token koji ste dobili od Telegram BotFather-a.",
+          "PLACEHOLDER": "Token bota"
+        },
+        "SUBMIT_BUTTON": "Napravi Telegram kanal",
+        "API": {
+          "ERROR_MESSAGE": "Nisamo uspeli da sačuvamo telegram kanal"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Izaberite kanal",
+        "DESC": "Chatwoot podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod."
+      },
+      "AGENTS": {
+        "TITLE": "Agenti",
+        "DESC": "Ovde možete da dodate agente da upravljaju vašim novokreiranim poštaniskim sandučetom. Samo ovi agenti će imati pristup vašem poštanskom sandučetu. Agenti koji nisu deo ovog poštanskog sandučeta neće moći da vide ili odgovaraju na poruke u ovom poštanskom sandučetu kada se prijave. <br> <b>PS:</b> Kao administrator, ako vam je potreban pristup svim poštanskim sandučićima, trebalo bi da dodate sebe kao agenta u sve poštanske sandučiće koje napravite.",
+        "VALIDATION_ERROR": "Dodajte najmanje jednog agenta novom poštanskom sandučetu",
+        "PICK_AGENTS": "Izaberite agente za prijemno sanduče"
+      },
+      "DETAILS": {
+        "TITLE": "Detalji prijemnog sandučeta",
+        "DESC": "Iz padajućeg menija ispod, izaberite Fejsbuk stranicu koju želite da povežete sa Chatwoot-om. Takođe možete navesti proizvoljan naziv prijemnog sandučeta za bolju identifikaciju."
+      },
+      "FINISH": {
+        "TITLE": "Uspeli ste!",
+        "DESC": "Uspešno ste završili integraciju vaše Fejsbuk stranice sa Chatwoo-om. Kada potrošač sledeći put pošalje poruku na tvojoj stranici, razgovor će se automatski pojaviti u prijemnom sandučetu.<br>Takođe vam pružamo skriptu za vidžet koju možete jednostavno dodati na veb sajt. Onda kada je postavljen na veb sajt, potrošači mogu da vam pošalju poruku direktno sa veb sajta bez pomoći eksternih alata i razgovor će se pojaviti ovde, na Chatwoot-u.<br>Kul, zar ne? Pa, svakako se trudimo da bude :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Autentifikacija sa Fejsbukom...",
+      "ERROR_FB_AUTH": "Nešto je pošlo po zlu, Molim vas osvežite stranicu...",
+      "CREATING_CHANNEL": "Pravljenje vašeg prijemnog sandučeta...",
+      "TITLE": "Podesite detalje prijemnog sandučeta",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Dodaj agente",
+      "ADD_AGENTS": "Dodaju se agenti vašem prijenom sandučetu..."
+    },
+    "FINISH": {
+      "TITLE": "Vaše prijemno sanduče je spremno!",
+      "MESSAGE": "Možete se povezati sa vašim potrošačima kroz vaš novi kanal. Srećna podrška ",
+      "BUTTON_TEXT": "Odvedi me tamo",
+      "MORE_SETTINGS": "Više podešavanja",
+      "WEBSITE_SUCCESS": "Uspešno ste završili pravljenje kanala veb sajta. Iskopirajte kod prikazan ispod i nalepite ga u vaš vab sajt. Sledeći put kada potrošač koristi ćaskanje uživo, razgovor će se automatski pojaviti u prijemnom sandučetu."
+    },
+    "REAUTH": "Ponovna autorizacija",
+    "VIEW": "Pregled",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Podešavanja prijemnog sandučeta su uspešno izmenjena",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatsko dodeljivanje je uspešno izmenjeno",
+        "ERROR_MESSAGE": "Nisamo mogli da izmenimo podešavanja prijemnog sandučeta. Molim vas pokušajte ponovo."
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
+      },
+      "ENABLE_CSAT": {
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
+      },
+      "ALLOW_MESSAGES_AFTER_RESOLVED": {
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
+      },
+      "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno"
+      },
+      "ENABLE_HMAC": {
+        "LABEL": "Omogućeno"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "AVATAR_DELETE_BUTTON_TEXT": "Obriši avatar",
+      "CONFIRM": {
+        "TITLE": "Potvrdite brisanje",
+        "MESSAGE": "Sigurni ste da želite izbrisati ",
+        "PLACE_HOLDER": "Molim vas upišite {inboxName} za potvrdu",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, zadrži "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Prijemno sanduče je uspešno obrisano",
+        "ERROR_MESSAGE": "Nije bilo moguće obrisati prijemno sanduče. Molim vas pokušajte ponovo.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar prijemnog sandučeta je uspešno obrisan",
+        "AVATAR_ERROR_MESSAGE": "Nije bilo moguće obrisati avatar prijemnog sandučeta. Molim vas pokušajte ponovo."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "Podešavanja",
+      "COLLABORATORS": "Saradnici",
+      "CONFIGURATION": "Konfiguracije",
+      "CAMPAIGN": "Kampanje",
+      "PRE_CHAT_FORM": "Formular pre ćaskanja",
+      "BUSINESS_HOURS": "Radno vreme",
+      "WIDGET_BUILDER": "Izgrađivač vidžeta"
+    },
+    "SETTINGS": "Podešavanja",
+    "FEATURES": {
+      "LABEL": "Mogućnosti",
+      "DISPLAY_FILE_PICKER": "Prikaži izbornik datoteke na vidžetu",
+      "DISPLAY_EMOJI_PICKER": "Prikaži izbornik emotikona u vidžetu",
+      "ALLOW_END_CONVERSATION": "Dozvoli korisnicima da završe razgovor iz vidžeta"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Mesindžer skripta",
+      "MESSENGER_SUB_HEAD": "Postavite ovo dugme unutar body oznake",
+      "INBOX_AGENTS": "Agenti",
+      "INBOX_AGENTS_SUB_TEXT": "Dodajte ili uklonite agente iz ovog prijemnog sandučeta",
+      "AGENT_ASSIGNMENT": "Dodeljivanje razgovoru",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Izmena podešavanja dodele razgovora",
+      "UPDATE": "Primeni",
+      "ENABLE_EMAIL_COLLECT_BOX": "Omogući polje za prikupljanje e-pošte",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Omogući ili onemogući polje za prikupljanje e-pošte za novi razgovor",
+      "AUTO_ASSIGNMENT": "Omogući automatsko dodeljivanje",
+      "ENABLE_CSAT": "Omogući ocenu zadovoljstva korisnika",
+      "ENABLE_CSAT_SUB_TEXT": "Omogući/onemogući upitnik o zadovoljstva korisnika nakon rešavanja razgovora",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Omogući nastavljanje razgovora putem e-pošte",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Razgovori će se nastaviti putem e-pošte ako je dostupna adresa e-pošte kontakta.",
+      "INBOX_UPDATE_TITLE": "Podešavanja prijemnog sandučeta",
+      "INBOX_UPDATE_SUB_TEXT": "Izmenite podešavanja vašeg prijemnog sandučeta",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Omogući ili onemogući automatsku dodelu novih razgovora agentima dodatih ovom prijemnom sandučetu.",
+      "HMAC_VERIFICATION": "Potvrda identiteta korisnika",
+      "HMAC_DESCRIPTION": "Da bi se potvrdio identitet korisnika, morate proslediti `identifier_hash` za svakog korisnika. Možete generisti HMAC sha256 heš koristeći `identifier` sa ključem prikazanim ovde.",
+      "HMAC_MANDATORY_VERIFICATION": "Primoraj potvrdu identiteta korisnika",
+      "HMAC_MANDATORY_DESCRIPTION": "Ukoliko je omogućeno, zahtevi kojima nedostaje `identifier_hash` će biti odbijeni.",
+      "INBOX_IDENTIFIER": "Identifikator prijemnog sandučeta",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Koristite `inbox_identifier` token prikazan ovde za autentifikaciju vaših API klijenata.",
+      "FORWARD_EMAIL_TITLE": "Prosledi na e-poštu",
+      "FORWARD_EMAIL_SUB_TEXT": "Započnite preusmerenje vaših e-poruka na sledeću adresu e-pošte.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Dozvoli poruke nakon rešavanja razgovora",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Dozvolite krajnjim korisnicima da šalju poruke čak i kada je razgovor rešen.",
+      "WHATSAPP_SECTION_SUBHEADER": "Ovaj API ključ se koristi za integraciju sa WhatsApp API-jima.",
+      "WHATSAPP_SECTION_TITLE": "API ključ"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Ograničenje automatskog dodeljivanja",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Molim vas unesite vrednost veću od 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ograničite maksimalni broj razgovora u ovom prijemnom sandučetu koja mogu biti automatski dodeljena agentu"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Ponovna autorizacija",
+      "SUBTITLE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",
+      "MESSAGE_SUCCESS": "Uspešno ponovno povezivanje",
+      "MESSAGE_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Formular pre ćaskanja omogućava vam da dobijete informacije o korisniku pre započinjanja razgovora sa vama.",
+      "SET_FIELDS": "Polja formulara pre ćaskanja",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Polja",
+        "LABEL": "Oznaka",
+        "PLACE_HOLDER": "Pomoćni tekst",
+        "KEY": "Ključ",
+        "TYPE": "Tip",
+        "REQUIRED": "Obavezno"
+      },
+      "ENABLE": {
+        "LABEL": "Omogući formular pre ćaskanja",
+        "OPTIONS": {
+          "ENABLED": "Da",
+          "DISABLED": "Ne"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Poruka pre ćaskanja",
+        "PLACEHOLDER": "Ova poruka će biti vidljiva korisnicima uz formular"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Posetioci bi trebali da dostave njihovo ime i adresu e-pošte pre započinjanja ćaskanja"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Podesite vašu dostupnost",
+      "SUBTITLE": "Podesite vašu dostupnost na vidžetu za uživo razgovor",
+      "WEEKLY_TITLE": "Podesite vaše nedeljne sate",
+      "TIMEZONE_LABEL": "Izaberite vremenski zonu",
+      "UPDATE": "Izmena podešavanja radnog vremena",
+      "TOGGLE_AVAILABILITY": "Omogući vreme dostupnosti za ovo prijemno sanduče",
+      "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Trenutno nismo dostupni. Ostavite poruku i odgovorićemo vam čim je pročitamo.",
+      "TOGGLE_HELP": "Omogućavanje vremena dostupnosti će prikazati dostupno vreme na vidžetu ćaskanja čak i kada su svi agenti nedostupni. Van radnih sati posetioci će biti upozoreni porukom i formularom pre ćaskanja.",
+      "DAY": {
+        "ENABLE": "Omogućite dostupnost za ovaj dan",
+        "UNAVAILABLE": "Nedostupan",
+        "HOURS": "sati",
+        "VALIDATION_ERROR": "Vreme početka bi trebalo biti pre vremena završetka.",
+        "CHOOSE": "Izaberite"
+      },
+      "ALL_DAY": "Ceo dan"
+    },
+    "IMAP": {
+      "TITLE": "IMAP",
+      "SUBTITLE": "Podesite vaše IMAP detalje",
+      "NOTE_TEXT": "Da bi ste omogućili SMTP, molim vas podesite IMAP.",
+      "UPDATE": "Izmenite IMAP podešavanja",
+      "TOGGLE_AVAILABILITY": "Omogući IMAP podešavanja za ovo prijemno sanduče",
+      "TOGGLE_HELP": "Omogućavanje IMAP-a će pomoći korisniku da prima e-poruke",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "IMAP podešavanja su uspešno izmenjena",
+        "ERROR_MESSAGE": "Nije bilo moguče izmeniti IMAP podešavanja"
+      },
+      "ADDRESS": {
+        "LABEL": "Adresa",
+        "PLACE_HOLDER": "Adresa (npr.: imap.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "LOGIN": {
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
+      },
+      "PASSWORD": {
+        "LABEL": "Lozinka",
+        "PLACE_HOLDER": "Lozinka"
+      },
+      "ENABLE_SSL": "Omogući SSL"
+    },
+    "SMTP": {
+      "TITLE": "SMTP",
+      "SUBTITLE": "Podesite vaše SMTP detalje",
+      "UPDATE": "Izmenite SMTP podešavanja",
+      "TOGGLE_AVAILABILITY": "Omogući SMTP podešavanja za ovo prijemno sanduče",
+      "TOGGLE_HELP": "Omogućavanje SMTP-a će pomoći korisniku da šalje e-poruke",
+      "EDIT": {
+        "SUCCESS_MESSAGE": "SMTP podešavanja su uspešno izmenjena",
+        "ERROR_MESSAGE": "Nije bilo moguče izmeniti SMTP podešavanja"
+      },
+      "ADDRESS": {
+        "LABEL": "Adresa",
+        "PLACE_HOLDER": "Adresa (npr.: smtp.gmail.com)"
+      },
+      "PORT": {
+        "LABEL": "Port",
+        "PLACE_HOLDER": "Port"
+      },
+      "LOGIN": {
+        "LABEL": "Prijava",
+        "PLACE_HOLDER": "Prijava"
+      },
+      "PASSWORD": {
+        "LABEL": "Lozinka",
+        "PLACE_HOLDER": "Lozinka"
+      },
+      "DOMAIN": {
+        "LABEL": "Domen",
+        "PLACE_HOLDER": "Domen"
+      },
+      "ENCRYPTION": "Enkripcija",
+      "SSL_TLS": "SSL/TLS",
+      "START_TLS": "STARTTLS",
+      "OPEN_SSL_VERIFY_MODE": "Mod provere otvorenog SSL-a",
+      "AUTH_MECHANISM": "Autentifikacija"
+    },
+    "NOTE": "Beleška: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Avatar veb sajta",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar je uspešno obrisan",
+              "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Naziv veb sajta",
+          "PLACE_HOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)",
+          "ERROR": "Molim vas unesite ispravan naziv veb sajta"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Naslov dobrodošlice",
+          "PLACE_HOLDER": "Zdravo!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Podnaslov dobrodošlice",
+          "PLACE_HOLDER": "Činimo jednostavnim da se povežete sa nama. Pitajte nas bilo šta ili podelite sa nama vaše utiske."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Vreme odgovora",
+          "IN_A_FEW_MINUTES": "Za nekoliko minuta",
+          "IN_A_FEW_HOURS": "Za nekoliko sati",
+          "IN_A_DAY": "Za dan"
+        },
+        "WIDGET_COLOR_LABEL": "Boja vidžeta",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Pozicija vidžet balončića",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Vrsta vidžet balončića",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Razgovarajte sa nama",
+          "LABEL": "Naslov pokretača vidžet balončića",
+          "PLACE_HOLDER": "Razgovarajte sa nama"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Izmeni vidžet podešavanja",
+          "API": {
+            "SUCCESS_MESSAGE": "Vidžet podešavanja su uspešno izmenjena",
+            "ERROR_MESSAGE": "Nije bilo moguče izmeniti vidžet podešavanja"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Pregledajte",
+          "SCRIPT": "Skripta"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Levo",
+          "RIGHT": "Desno"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standardno",
+          "EXPANDED_BUBBLE": "Prošireni balončić"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Predefinisano",
+        "CHAT": "Ćaskanje"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
+        "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
+        "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Započnite razgovor",
+        "CHAT_INPUT_PLACEHOLDER": "Napišite vašu poruku"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Dostupni smo",
+          "OFFLINE": "Trenutno nismo dostupni"
+        },
+        "USER_MESSAGE": "Ćao",
+        "AGENT_MESSAGE": "Zdravo"
+      },
+      "BRANDING_TEXT": "Pokreće Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings ={options};"
+    }
+  }
+}

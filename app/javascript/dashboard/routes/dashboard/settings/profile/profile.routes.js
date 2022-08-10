@@ -10,7 +10,7 @@ export default {
       roles: ['administrator', 'agent'],
       component: SettingsContent,
       props: {
-        headerTitle: 'GENERAL_SETTINGS.TITLE',
+        headerTitle: 'PROFILE_SETTINGS.TITLE',
         icon: 'edit',
         showNewButton: false,
       },

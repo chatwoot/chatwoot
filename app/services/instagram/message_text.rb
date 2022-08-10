@@ -20,7 +20,9 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     # person can connect the channel and then delete the inbox
     return if @inbox.blank?
 
-    ensure_contact(contact_id)
+    return unsend_message if message_is_deleted?
+
+    ensure_contact(contact_id) if contacts_first_message?(contact_id)
 
     create_message
   end
@@ -34,9 +36,9 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     rescue Koala::Facebook::AuthenticationError
       @inbox.channel.authorization_error!
       raise
-    rescue StandardError => e
+    rescue StandardError, Koala::Facebook::ClientError => e
       result = {}
-      Sentry.capture_exception(e)
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 
     find_or_create_contact(result)
@@ -44,6 +46,23 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
   def agent_message_via_echo?
     @messaging[:message][:is_echo].present?
+  end
+
+  def message_is_deleted?
+    @messaging[:message][:is_deleted].present?
+  end
+
+  def contacts_first_message?(ig_scope_id)
+    @inbox.contact_inboxes.where(source_id: ig_scope_id).empty? && @inbox.channel.instagram_id.present?
+  end
+
+  def unsend_message
+    message_to_delete = @inbox.messages.find_by(
+      source_id: @messaging[:message][:mid]
+    )
+    return if message_to_delete.blank?
+
+    message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
   end
 
   def create_message

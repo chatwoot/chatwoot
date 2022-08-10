@@ -10,10 +10,24 @@ body {
 
 .app-wrapper {
   @include full-height;
+  flex-grow: 0;
+  min-height: 0;
   width: 100%;
 }
 
-.app-root {
+.banner + .app-wrapper {
+  .button--fixed-right-top {
+    top: 5.6 * $space-one;
+  }
+
+  .off-canvas-content {
+    .button--fixed-right-top {
+      top: $space-small;
+    }
+  }
+}
+
+is-closed .app-root {
   @include flex;
   flex-direction: column;
 }
@@ -21,29 +35,28 @@ body {
 .app-content {
   @include flex;
   @include full-height;
+  min-height: 0;
   overflow: hidden;
 }
 
 .view-box {
   @include full-height;
-  @include margin(0);
   @include space-between-column;
 
   height: 100vh;
+  margin: 0;
 }
 
 .view-panel {
-  @include margin($zero);
-  @include padding($space-normal);
-
   flex-direction: column;
+  margin: 0;
   overflow-y: auto;
+  padding: $space-normal;
 }
 
 .content-box {
-  @include padding($space-normal);
-
   overflow: auto;
+  padding: $space-normal;
 }
 
 .back-button {
@@ -76,8 +89,7 @@ body {
   justify-content: center;
 
   img {
-    @include padding($space-one);
-
     max-width: $space-mega;
+    padding: $space-one;
   }
 }

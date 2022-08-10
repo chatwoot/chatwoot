@@ -77,8 +77,7 @@
                       icon="settings"
                       color-scheme="secondary"
                       class-names="grey-btn"
-                    >
-                    </woot-button>
+                    />
                   </router-link>
 
                   <woot-button
@@ -91,8 +90,7 @@
                     :is-loading="loading[item.id]"
                     icon="dismiss-circle"
                     @click="openDelete(item)"
-                  >
-                  </woot-button>
+                  />
                 </div>
               </td>
             </tr>
@@ -102,7 +100,7 @@
 
       <div class="small-4 columns">
         <span
-          v-html="
+          v-dompurify-html="
             useInstallationName(
               $t('INBOX_MGMT.SIDEBAR_TXT'),
               globalConfig.installationName

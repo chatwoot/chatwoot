@@ -21,7 +21,7 @@
     },
     "ADD": {
       "TITLE": "Aggiungi agente al tuo team",
-      "DESC": "Puoi aggiungere persone che saranno in grado di gestire il supporto per la tua posta in arrivo.",
+      "DESC": "Puoi aggiungere persone che saranno in grado di gestire il supporto per la tua casella.",
       "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "NAME": {

@@ -64,6 +64,13 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
       },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
     ],
     actions: [
       {
@@ -76,11 +83,47 @@ export const AUTOMATIONS = {
         name: 'Add a label',
         attributeI18nKey: 'ADD_LABEL',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'snooze_conversation',
+        name: 'Snooze conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+
+      {
+        key: 'resolve_conversation',
+        name: 'Resolve conversation',
+        attributeI18nKey: 'RESOLVE_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'Send Webhook Event',
+        attributeI18nKey: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
+      },
     ],
   },
   conversation_created: {
@@ -107,11 +150,18 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'referrer',
+        key: 'referer',
         name: 'Referrer Link',
         attributeI18nKey: 'REFERER_LINK',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
       },
     ],
     actions: [
@@ -120,15 +170,50 @@ export const AUTOMATIONS = {
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'snooze_conversation',
+        name: 'Snooze conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'resolve_conversation',
+        name: 'Resolve conversation',
+        attributeI18nKey: 'RESOLVE_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'Send Webhook Event',
+        attributeI18nKey: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
       },
     ],
   },
@@ -176,6 +261,13 @@ export const AUTOMATIONS = {
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_3,
       },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
     ],
     actions: [
       {
@@ -183,16 +275,50 @@ export const AUTOMATIONS = {
         name: 'Assign a team',
         attributeI18nKey: 'ASSIGN_TEAM',
       },
-      // {
-      //   key: 'send_email_to_team',
-      //   name: 'Send an email to team',
-      //   attributeI18nKey: 'SEND_MESSAGE',
-      // },
       {
         key: 'assign_agent',
         name: 'Assign an agent',
         attributeI18nKey: 'ASSIGN_AGENT',
-        attributeKey: 'assignee_id',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'snooze_conversation',
+        name: 'Snooze conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'resolve_conversation',
+        name: 'Resolve conversation',
+        attributeI18nKey: 'RESOLVE_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'Send Webhook Event',
+        attributeI18nKey: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
       },
     ],
   },
@@ -217,13 +343,51 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'assign_team',
     label: 'Assign a team',
+    inputType: 'multi_select',
   },
   {
     key: 'add_label',
     label: 'Add a label',
+    inputType: 'multi_select',
   },
-  // {
-  //   key: 'send_email_to_team',
-  //   label: 'Send an email to team',
-  // },
+  {
+    key: 'send_email_to_team',
+    label: 'Send an email to team',
+    inputType: 'team_message',
+  },
+  {
+    key: 'send_email_transcript',
+    label: 'Send an email transcript',
+    inputType: 'email',
+  },
+  {
+    key: 'mute_conversation',
+    label: 'Mute conversation',
+    inputType: null,
+  },
+  {
+    key: 'snooze_conversation',
+    label: 'Snooze conversation',
+    inputType: null,
+  },
+  {
+    key: 'resolve_conversation',
+    label: 'Resolve conversation',
+    inputType: null,
+  },
+  {
+    key: 'send_webhook_event',
+    label: 'Send Webhook Event',
+    inputType: 'url',
+  },
+  {
+    key: 'send_attachment',
+    label: 'Send Attachment',
+    inputType: 'attachment',
+  },
+  {
+    key: 'send_message',
+    label: 'Send a message',
+    inputType: 'textarea',
+  },
 ];

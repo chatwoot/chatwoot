@@ -3,13 +3,16 @@
     <primary-sidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       :active-menu-item="activePrimaryMenu.key"
       @toggle-accounts="toggleAccountModal"
       @key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
     />
     <secondary-sidebar
+      v-if="showSecondarySidebar"
       :account-id="accountId"
       :inboxes="inboxes"
       :labels="labels"
@@ -17,25 +20,10 @@
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
     />
-    <woot-key-shortcut-modal
-      v-if="showShortcutModal"
-      @close="closeKeyShortcutModal"
-      @clickaway="closeKeyShortcutModal"
-    />
-    <account-selector
-      :show-account-modal="showAccountModal"
-      @close-account-modal="toggleAccountModal"
-      @show-create-account-modal="openCreateAccountModal"
-    />
-    <add-account-modal
-      :show="showCreateAccountModal"
-      @close-account-create-modal="closeCreateAccountModal"
-    />
-    <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
-      <add-label-modal @close="hideAddLabelPopup" />
-    </woot-modal>
   </aside>
 </template>
 
@@ -46,12 +34,8 @@ import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import AccountSelector from './sidebarComponents/AccountSelector.vue';
-import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
-import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 import PrimarySidebar from './sidebarComponents/Primary';
 import SecondarySidebar from './sidebarComponents/Secondary';
-import WootKeyShortcutModal from 'components/widgets/modal/WootKeyShortcutModal';
 import {
   hasPressedAltAndCKey,
   hasPressedAltAndRKey,
@@ -65,21 +49,19 @@ import router from '../../routes';
 
 export default {
   components: {
-    AccountSelector,
-    AddAccountModal,
-    AddLabelModal,
     PrimarySidebar,
     SecondarySidebar,
-    WootKeyShortcutModal,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
+  props: {
+    showSecondarySidebar: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       showOptionsMenu: false,
-      showAccountModal: false,
-      showCreateAccountModal: false,
-      showAddLabelModal: false,
-      showShortcutModal: false,
     };
   },
 
@@ -87,6 +69,8 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
@@ -162,10 +146,10 @@ export default {
       }
     },
     toggleKeyShortcutModal() {
-      this.showShortcutModal = true;
+      this.$emit('open-key-shortcut-modal');
     },
     closeKeyShortcutModal() {
-      this.showShortcutModal = false;
+      this.$emit('close-key-shortcut-modal');
     },
     handleKeyEvents(e) {
       if (hasPressedCommandAndForwardSlash(e)) {
@@ -200,20 +184,13 @@ export default {
       window.$chatwoot.toggle();
     },
     toggleAccountModal() {
-      this.showAccountModal = !this.showAccountModal;
-    },
-    openCreateAccountModal() {
-      this.showAccountModal = false;
-      this.showCreateAccountModal = true;
-    },
-    closeCreateAccountModal() {
-      this.showCreateAccountModal = false;
+      this.$emit('toggle-account-modal');
     },
     showAddLabelPopup() {
-      this.showAddLabelModal = true;
+      this.$emit('show-add-label-popup');
     },
-    hideAddLabelPopup() {
-      this.showAddLabelModal = false;
+    openNotificationPanel() {
+      this.$emit('open-notification-panel');
     },
   },
 };
@@ -223,6 +200,9 @@ export default {
 .woot-sidebar {
   background: var(--white);
   display: flex;
+  min-height: 0;
+  height: 100%;
+  width: fit-content;
 }
 </style>
 

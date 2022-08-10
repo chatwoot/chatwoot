@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Teraz môžete prijímať e-maily vo vlastnej doméne."
       }
     },
-    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu."
+    "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu.",
+    "LEARN_MORE": "Learn more"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Upozornenia",
     "MARK_ALL_DONE": "Označiť všetky ako hotové",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Načítavajú sa notifikácie...",
       "404": "Žiadne notifikácie",
@@ -100,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Prejsť na ovládací panel konverzácie",
       "GO_TO_CONTACTS_DASHBOARD": "Prejsť na ovládací panel kontaktov",
       "GO_TO_REPORTS_OVERVIEW": "Prejsť na prehľad reportov",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Prejsť na reporty o agentoch",
       "GO_TO_LABEL_REPORTS": "Prejsť na reporty o štítkoch",
       "GO_TO_INBOX_REPORTS": "Prejsť na reporty o schránkach",

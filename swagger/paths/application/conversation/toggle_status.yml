@@ -1,5 +1,5 @@
 tags:
-  - Conversation
+  - Conversations
 operationId: toggle-status-of-a-conversation
 summary: Toggle Status
 description: Toggles the status of the conversation between open and resolved

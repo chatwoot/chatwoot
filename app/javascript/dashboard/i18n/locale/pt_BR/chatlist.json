@@ -12,33 +12,11 @@
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
     "FILTER_ALL": "Todos",
-    "STATUS_TABS": [
-      {
-        "NAME": "Abertas",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resolvida",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Minha",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Não atribuída",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Todos",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Minha",
+      "unassigned": "Não atribuída",
+      "all": "Todos"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Abertas"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
     "VIEW_TWEET_IN_TWITTER": "Ver tweet no Twitter",
     "REPLY_TO_TWEET": "Responder a este tweet",
+    "LINK_TO_STORY": "Vá para o Story do Instagram",
     "SENT": "Enviado com sucesso",
     "NO_MESSAGES": "Nova Mensagem",
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
-    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado"
+    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
+    "MESSAGE_READ": "Lida"
   }
 }

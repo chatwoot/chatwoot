@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
-    "SIDEBAR_TXT": "<p><b>Posteingang</b></p> <p> Wenn du eine Webseite oder eine Facebook-Seite mit Chatwood verbindest, wird dieser Kanal als <b>Posteingang</b> bezeichnet. Dabei können unbegrenzte viele Posteingänge angelegt werden. </p><p> Klicke auf <b>Posteingang hinzufügen</b>, um eine Webseite oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard du kannst alle Unterhaltungen aus allen deinen Posteingängen an einem Ort sehen und unter der Registerkarte \"Unterhaltungen\" beantworten. </p><p> Du kannst dir auch nur Konversationen anzeigen lassen, die in einen bestimmten Posteingang enthalten sind, indem du auf den Posteingangsnamen auf der linken Seite des Dashboards klicken. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird diese als bInbox</b> bezeichnet. Sie können unbegrenzte Posteingänge in Ihrem Chatwoot-Konto haben. </p><p Klicken Sie auf <b>Posteingang hinzufügen</b>, um eine Website oder eine Facebook-Seite zu verbinden. </p><p> Im Dashboard können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort sehen und unter der Registerkarte 'Konversationen' darauf antworten. </p><p> Sie können auch zu einem Posteingang spezifische Konversationen anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
-        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)"
+        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)",
+        "ERROR": "Bitte geben Sie einen gültigen Posteingangsnamen ein"
       },
       "WEBSITE_NAME": {
         "LABEL": "Webseiten-Name",
@@ -42,8 +43,8 @@
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
-        "PICK_NAME": "Wähle einen Namen für deinen Posteingang",
-        "PICK_A_VALUE": "Wähle einen Wert"
+        "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang",
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus"
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
@@ -74,7 +75,7 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Willkommens-Schlagzeile",
-          "PLACEHOLDER": "Wir machen es einfach, mit uns in Verbindung zu treten. Fragen Sie uns etwas oder teilen Sie Ihr Feedback."
+          "PLACEHOLDER": "Wir machen es einfach, sich mit uns zu verbinden. Fragen Sie uns etwas oder teilen Sie uns Ihr Feedback mit."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Grußnachricht des Kanals",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal Begrüßung aktivieren",
-          "HELP_TEXT": "Senden Sie eine Begrüßungsnachricht an die Benutzer, wenn sie das Gespräch beginnen.",
+          "HELP_TEXT": "Automatisch eine Begrüßungsnachricht senden, wenn eine neue Konversation erstellt wird.",
           "ENABLED": "Aktiviert",
           "DISABLED": "Deaktiviert"
         },
@@ -91,13 +92,16 @@
           "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
           "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
           "IN_A_DAY": "Innerhalb eines Tages",
-          "HELP_TEXT": "Die Reaktionszeit wird im Live-Chat-Widget angezeigt"
+          "HELP_TEXT": "Diese Antwortzeit wird im Live-Chat-Widget angezeigt"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
           "PLACEHOLDER": "Aktualisieren Sie die im Widget verwendete Widget-Farbe"
         },
-        "SUBMIT_BUTTON": "Posteingang erstellen"
+        "SUBMIT_BUTTON": "Posteingang erstellen",
+        "API": {
+          "ERROR_MESSAGE": "Wir konnten keinen Website-Kanal erstellen, bitte versuchen Sie es erneut"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp-Kanal",
@@ -106,6 +110,12 @@
           "LABEL": "Account SID",
           "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Account SID ein",
           "ERROR": "Dieses Feld wird benötigt"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging-Dienst-SID",
+          "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Messaging Service SID ein",
+          "ERROR": "Dieses Feld wird benötigt",
+          "USE_MESSAGING_SERVICE": "Verwenden Sie einen Twilio-Nachrichtendienst"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Kanal-Typ",
@@ -193,6 +203,7 @@
         "PROVIDERS": {
           "LABEL": "API-Provider",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +216,30 @@
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
           "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Telefonnummer-ID",
+          "PLACEHOLDER": "Bitte geben Sie die Telefonnummern-ID ein, die Sie vom Facebook-Entwickler-Dashboard erhalten haben.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Geschäftskonto-ID",
+          "PLACEHOLDER": "Bitte geben Sie die von Facebook Developer Dashboard erhaltene Geschäftskonto -ID ein.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook-Verifizierungstoken",
+          "PLACEHOLDER": "Geben Sie ein Überprüfungstoken ein, das Sie für Facebook-Webhooks konfigurieren möchten.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
         "API_KEY": {
           "LABEL": "API-Schlüssel",
           "SUBTITLE": "Konfigurieren Sie den WhatsApp API-Schlüssel.",
           "PLACEHOLDER": "API-Schlüssel",
-          "APPLY_FOR_ACCESS": "Sie haben keinen API-Schlüssel? Für den Zugriff hier beantragen",
           "ERROR": "Bitte geben Sie einen gültigen Wert ein."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "Sie müssen die Webhook-URL im Facebook-Entwicklerportal mit der hier genannten URL konfigurieren."
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
         "API": {
@@ -268,7 +297,7 @@
         },
         "LINE_CHANNEL_SECRET": {
           "LABEL": "LINE-Kanal-Geheimnis",
-          "PLACEHOLDER": "LINE-Kanal-Geheimnis"
+          "PLACEHOLDER": "LINE-Kanal-Secret"
         },
         "LINE_CHANNEL_TOKEN": {
           "LABEL": "LINE-Kanal-Token",
@@ -297,8 +326,8 @@
         }
       },
       "AUTH": {
-        "TITLE": "Wähle einen Kanal",
-        "DESC": "Chatwoot unterstützt Live-Chat-Widget, Facebook-Seite, Twitter-Profil, WhatsApp, E-Mail etc. als Kanäle. Wenn Sie einen eigenen Kanal erstellen möchten, können Sie einen API-Kanal verwenden. Wählen Sie einen Kanal aus den folgenden Optionen aus, um fortzufahren."
+        "TITLE": "Wählen Sie einen Kanal",
+        "DESC": "Chatwoot unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -339,11 +368,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Posteingangseinstellungen erfolgreich aktualisiert",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Widget-Farbe konnte nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal."
-      },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Aktiviert",
-        "DISABLED": "Deaktiviert"
+        "ERROR_MESSAGE": "Die Posteingangseinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es später erneut."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
@@ -388,22 +413,26 @@
       "CONFIGURATION": "Konfiguration",
       "CAMPAIGN": "Kampagnen",
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
-      "BUSINESS_HOURS": "Öffnungszeiten"
+      "BUSINESS_HOURS": "Öffnungszeiten",
+      "WIDGET_BUILDER": "Widget-Generator"
     },
-    "SETTINGS": "die Einstellungen",
+    "SETTINGS": "Einstellungen",
     "FEATURES": {
       "LABEL": "Funktionen",
       "DISPLAY_FILE_PICKER": "Dateiauswahl im Widget anzeigen",
-      "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen"
+      "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen",
+      "ALLOW_END_CONVERSATION": "Benutzern erlauben, die Konversation vom Widget zu beenden"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-Skript",
       "MESSENGER_SUB_HEAD": "Platzieren Sie diese Schaltfläche in Ihrem Body-Tag",
       "INBOX_AGENTS": "Agenten",
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
+      "AGENT_ASSIGNMENT": "Konversationssauftrag",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Konversationszuweisungseinstellungen aktualisieren",
       "UPDATE": "Aktualisieren",
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiviere oder deaktiviere die E-Mail-Sammelbox bei einer neuen Unterhaltung",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "ENABLE_CSAT": "CSAT aktivieren",
       "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
@@ -413,15 +442,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
       "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
-      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kann via SDK einen `identity_hash` für jeden Benutzer übergeben werden. Ein Hash kann mithilfe des SH256-Verfahrens mithilfe des nachfolgenden Schlüssels generiert werden.",
+      "HMAC_DESCRIPTION": "Um die Identität des Benutzers zu validieren, können Sie für jeden Benutzer einen `identifier_hash` übergeben. Sie können einen HMAC sha256-Hash generieren, indem Sie den 'Bezeichner' mit dem hier gezeigten Schlüssel verwenden.",
       "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
-      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, funktioniert die setUser Methode der Chatwoot SDK nur, wenn ein `identifier_hash` für jeden Benutzer mitgeliefert wird.",
+      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, werden Anfragen, denen der `identifier_hash` fehlt, abgelehnt.",
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
       "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Erlaube Nachrichten nach aufgelösten Konversationen",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist."
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
+      "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
+      "WHATSAPP_SECTION_TITLE": "API-Schlüssel"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Bitte geben Sie einen Wert größer als 0 ein",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Beschränken Sie die maximale Anzahl von Konversationen aus diesem Posteingang, die einem Agenten automatisch zugewiesen werden können"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
@@ -430,7 +466,16 @@
       "MESSAGE_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Chatformulare ermöglichen es dir, Benutzerinformationen zu erfassen, bevor ein Gespräch begonnen wird.",
+      "DESCRIPTION": "Pre-Chat-Formulare ermöglichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins Gespräch kommen.",
+      "SET_FIELDS": "Formularfelder vor dem Chat",
+      "SET_FIELDS_HEADER": {
+        "FIELDS": "Felder",
+        "LABEL": "Label",
+        "PLACE_HOLDER": "Platzhalter",
+        "KEY": "Schlüssel",
+        "TYPE": "Typ",
+        "REQUIRED": "Benötigt"
+      },
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
         "OPTIONS": {
@@ -439,7 +484,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Vorab Chat-Nachricht",
+        "LABEL": "Pre-Chat-Nachricht",
         "PLACEHOLDER": "Diese Nachricht ist für alle Benutzer dieses Formulars sichtbar"
       },
       "REQUIRE_EMAIL": {
@@ -462,11 +507,13 @@
         "HOURS": "Stunden",
         "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
         "CHOOSE": "Auswählen"
-      }
+      },
+      "ALL_DAY": "Den ganzen Tag"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Setzen Sie Ihre IMAP-Daten",
+      "NOTE_TEXT": "Um SMTP zu aktivieren, konfigurieren Sie bitte IMAP.",
       "UPDATE": "IMAP-Einstellungen aktualisieren",
       "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
       "TOGGLE_HELP": "Die Aktivierung von IMAP hilft dem Benutzer, E-Mails zu empfangen",
@@ -476,15 +523,15 @@
       },
       "ADDRESS": {
         "LABEL": "Adresse",
-        "PLACE_HOLDER": "Adresse (Eg: imap.gmail.com)"
+        "PLACE_HOLDER": "Adresse (zB: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Mail",
-        "PLACE_HOLDER": "E-Mail"
+      "LOGIN": {
+        "LABEL": "Einloggen",
+        "PLACE_HOLDER": "Einloggen"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
@@ -504,15 +551,15 @@
       },
       "ADDRESS": {
         "LABEL": "Adresse",
-        "PLACE_HOLDER": "Adresse (Eg: smtp.gmail.com)"
+        "PLACE_HOLDER": "Adresse (zB: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
-      "EMAIL": {
-        "LABEL": "E-Mail",
-        "PLACE_HOLDER": "E-Mail"
+      "LOGIN": {
+        "LABEL": "Einloggen",
+        "PLACE_HOLDER": "Einloggen"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
@@ -525,7 +572,91 @@
       "ENCRYPTION": "Verschlüsselung",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen"
+      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen",
+      "AUTH_MECHANISM": "Authentifizierung"
+    },
+    "NOTE": "Hinweis: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website-Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar erfolgreich gelöscht",
+              "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Webseiten-Name",
+          "PLACE_HOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)",
+          "ERROR": "Bitte geben Sie einen gültigen Website-Namen ein"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Willkommens-Überschrift",
+          "PLACE_HOLDER": "Hi!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Willkommens-Schlagzeile",
+          "PLACE_HOLDER": "Wir machen es einfach, sich mit uns zu verbinden. Fragen Sie uns etwas oder teilen Sie uns Ihr Feedback mit."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Antwortzeit",
+          "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
+          "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
+          "IN_A_DAY": "Innerhalb eines Tages"
+        },
+        "WIDGET_COLOR_LABEL": "Widget Farbe",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position der Widget-Blase",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget-Blasentyp",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chatten Sie mit uns",
+          "LABEL": "Widget Bubble Launcher-Titel",
+          "PLACE_HOLDER": "Chatten Sie mit uns"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Widget-Einstellungen aktualisieren",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget-Einstellungen erfolgreich aktualisiert",
+            "ERROR_MESSAGE": "Widget-Einstellungen können nicht aktualisiert werden"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Vorschau",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Links",
+          "RIGHT": "Rechts"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Erweiterte Blase"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Standard",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
+        "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
+        "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Unterhaltung beginnen",
+        "CHAT_INPUT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Wir sind online",
+          "OFFLINE": "Wir sind momentan abwesend"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hallo"
+      },
+      "BRANDING_TEXT": "Unterstützt von Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     }
   }
 }

@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "Välj en konversation från vänster panel",
+    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Oj då! Det ser ut som att det inte finns några meddelanden från kunder i din inkorg.",
     "NO_MESSAGE_2": " för att skicka ett meddelande till din sida!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "Du svarar:",
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
@@ -56,12 +60,43 @@
         "NEXT_WEEK": "Nästa vecka"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Markera som väntande",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Återöppna konversationen",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
-      "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter"
+      "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Svara",
@@ -72,8 +107,14 @@
       "TIP_FORMAT_ICON": "Visa textformaterare",
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter för att skicka",
       "DRAG_DROP": "Dra och släpp hit för att bifoga",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Lägg till bcc",
         "CC": {
@@ -90,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Konversationstilldelning ändrad",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Konversationsteamet har ändrats",
     "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",

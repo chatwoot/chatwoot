@@ -2,6 +2,29 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracje",
     "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "FORM": {
+        "CANCEL": "Anuluj",
+        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Events",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Conversation Created",
+            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
+            "CONVERSATION_UPDATED": "Conversation Updated",
+            "MESSAGE_CREATED": "Message created",
+            "MESSAGE_UPDATED": "Message updated",
+            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "URL webhooka",
+          "PLACEHOLDER": "Przykład: https://example/api/webhook",
+          "ERROR": "Wprowadź poprawny adres URL"
+        },
+        "EDIT_SUBMIT": "Update webhook",
+        "ADD_SUBMIT": "Create webhook"
+      },
       "TITLE": "Webhook",
       "CONFIGURE": "Skonfiguruj",
       "HEADER": "Ustawienia webhooka",
@@ -20,35 +43,16 @@
       "EDIT": {
         "BUTTON_TEXT": "Edytuj",
         "TITLE": "Edit webhook",
-        "CANCEL": "Anuluj",
-        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL webhooka",
-            "PLACEHOLDER": "Przykład: https://example/api/webhook",
-            "ERROR": "Wprowadź poprawny adres URL"
-          },
-          "SUBMIT": "Edit webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
         }
       },
       "ADD": {
         "CANCEL": "Anuluj",
         "TITLE": "Dodaj nowy webhook",
-        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
-        "FORM": {
-          "END_POINT": {
-            "LABEL": "URL webhooka",
-            "PLACEHOLDER": "Przykład: https://example/api/webhook",
-            "ERROR": "Wprowadź poprawny adres URL"
-          },
-          "SUBMIT": "Utwórz webhook"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook został dodany",
+          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
           "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
         }
       },
@@ -60,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Potwierdź usunięcie",
-          "MESSAGE": "Czy na pewno chcesz usunąć ",
+          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Tak, usuń ",
           "NO": "No, Keep it"
         }
@@ -80,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "Połącz"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Dashboard Apps",
+      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "LIST": {
+        "404": "There are no dashboard apps configured on this account yet",
+        "LOADING": "Fetching dashboard apps...",
+        "TABLE_HEADER": [
+          "Nazwa",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Edit app",
+        "DELETE_TOOLTIP": "Delete app"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nazwa",
+        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "URL_ERROR": "A valid URL is required"
+      },
+      "CREATE": {
+        "HEADER": "Add a new dashboard app",
+        "FORM_SUBMIT": "Prześlij",
+        "FORM_CANCEL": "Anuluj",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "We couldn't create an app. Please try again later"
+      },
+      "UPDATE": {
+        "HEADER": "Edit dashboard app",
+        "FORM_SUBMIT": "Aktualizuj",
+        "FORM_CANCEL": "Anuluj",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "We couldn't update the app. Please try again later"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "Confirm deletion",
+        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "We couldn't delete the app. Please try again later"
+      }
     }
   }
 }

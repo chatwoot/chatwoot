@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "Пожалуйста, выберите диалог из левой панели",
+    "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
+    "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
+    "SWITCH_VIEW_LAYOUT": "Изменить раскладку",
+    "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
     "UNVERIFIED_SESSION": "Подлинность этого пользователя не подтверждена",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
     "NO_MESSAGE_2": " чтобы отправить сообщение на вашу страницу!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
+    "UNKNOWN_FILE_TYPE": "Неизвестный файл",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
@@ -56,12 +60,43 @@
         "NEXT_WEEK": "На следующей неделе"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Отметить как ожидающие",
+      "RESOLVED": "Пометить как разрешено",
+      "REOPEN": "Переоткрыть разговор",
+      "SNOOZE": {
+        "TITLE": "Отложено",
+        "NEXT_REPLY": "До следующего ответа",
+        "TOMORROW": "До завтра",
+        "NEXT_WEEK": "До следующей недели"
+      },
+      "ASSIGN_AGENT": "Назначить агента",
+      "ASSIGN_LABEL": "Назначить метки",
+      "AGENTS_LOADING": "Загрузка агентов...",
+      "ASSIGN_TEAM": "Назначить команду",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID разговора %{conversationId} присвоен \"%{agentName}\"",
+          "FAILED": "Не удалось назначить агента. Пожалуйста, попробуйте еще раз."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{labelName} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить метку. Пожалуйста, попробуйте еще раз."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{team} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить команду. Пожалуйста, попробуйте еще раз."
+        }
+      }
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
       "ENABLE_SIGN_TOOLTIP": "Включить подпись",
       "DISABLE_SIGN_TOOLTIP": "Отключить подпись",
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
-      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам"
+      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Подпись сообщения не настроена, пожалуйста настройте её в настройках профиля.",
+      "CLICK_HERE": "Нажмите здесь, чтобы обновить"
     },
     "REPLYBOX": {
       "REPLY": "Ответить",
@@ -72,8 +107,14 @@
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
+      "TIP_AUDIORECORDER_ICON": "Записать аудио",
+      "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
+      "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
       "ENTER_TO_SEND": "Введите чтобы отправить",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
+      "START_AUDIO_RECORDING": "Начать запись аудио",
+      "STOP_AUDIO_RECORDING": "Остановить запись аудио",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Добавить bcc",
         "CC": {
@@ -90,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
+    "CHANGE_STATUS_FAILED": "Не удалось изменить статус диалога",
     "CHANGE_AGENT": "Назначенный оператор изменен",
+    "CHANGE_AGENT_FAILED": "Не удалось изменить назначение",
+    "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
+    "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
     "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",

@@ -8,7 +8,7 @@
         <div class="input-group-field">
           <woot-input
             v-model.trim="$v.ccEmailsVal.$model"
-            type="email"
+            type="text"
             :class="{ error: $v.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
             @blur="onBlur"
@@ -35,7 +35,7 @@
         <div class="input-group-field">
           <woot-input
             v-model.trim="$v.bccEmailsVal.$model"
-            type="email"
+            type="text"
             :class="{ error: $v.bccEmailsVal.$error }"
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
@@ -126,6 +126,7 @@ export default {
     background: transparent;
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-bold);
+    padding-left: 0;
   }
   .input-group-field::v-deep input {
     margin-bottom: 0;

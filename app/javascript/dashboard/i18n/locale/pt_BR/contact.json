@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
     "COMPANY": "Empresa",
     "LOCATION": "Localização",
+    "BROWSER_LANGUAGE": "Idioma do navegador",
     "CONVERSATION_TITLE": "Detalhes da conversa",
     "VIEW_PROFILE": "Visualizar Perfil",
     "BROWSER": "Navegador",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Contatos salvos com sucesso",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmar exclusão",
+      "MESSAGE": "Tem certeza que deseja excluir esta nota?",
+      "YES": "Sim, exclua",
+      "NO": "Não, mantenha"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Excluir contato",
     "TITLE": "Excluir contato",
@@ -77,9 +86,8 @@
     "CONFIRM": {
       "TITLE": "Confirmar exclusão",
       "MESSAGE": "Você tem certeza que deseja excluir ",
-      "PLACE_HOLDER": "Digite {contactName} para confirmar",
-      "YES": "Sim, excluir ",
-      "NO": "Não, Mantenha "
+      "YES": "Sim, excluir",
+      "NO": "Não, Mantenha"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contato excluído com sucesso",
@@ -104,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Insira o endereço de e-mail do contato",
         "LABEL": "Endereço de e-mail",
-        "DUPLICATE": "Esse endereço de e-mail já está sendo usado para outro contato."
+        "DUPLICATE": "Esse endereço de e-mail já está sendo usado para outro contato.",
+        "ERROR": "Por favor, insira um endereço de e-mail válido."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Adicione o número de telefone do contato",
@@ -138,6 +147,12 @@
           "PLACEHOLDER": "Digite o nome de usuário do Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar de contato excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir o avatar do contato. Por favor, tente novamente mais tarde."
       }
     },
     "SUCCESS_MESSAGE": "Contato salvo com sucesso",

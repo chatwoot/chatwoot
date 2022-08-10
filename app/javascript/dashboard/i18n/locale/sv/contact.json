@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
     "COMPANY": "Företag",
     "LOCATION": "Plats",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Konversationsdetaljer",
     "VIEW_PROFILE": "Visa profil",
     "BROWSER": "Webbläsare",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Kontakter har sparats",
     "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Bekräfta borttagning",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nej, behåll"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Ta bort kontakt",
     "TITLE": "Ta bort kontakt",
@@ -77,9 +86,8 @@
     "CONFIRM": {
       "TITLE": "Bekräfta borttagning",
       "MESSAGE": "Är du säker på att ta bort ",
-      "PLACE_HOLDER": "Vänligen skriv {contactName} för att bekräfta",
-      "YES": "Ja, ta bort ",
-      "NO": "Nej, behåll "
+      "YES": "Ja, ta bort",
+      "NO": "Nej, behåll"
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakten har tagits bort",
@@ -104,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Ange e-postadressen till kontakten",
         "LABEL": "E-postadress",
-        "DUPLICATE": "Den här e-postadressen används för en annan kontakt."
+        "DUPLICATE": "Den här e-postadressen används för en annan kontakt.",
+        "ERROR": "Ange en giltig e-postadress."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ange telefonnummer till kontakten",
@@ -138,6 +147,12 @@
           "PLACEHOLDER": "Ange Github-användarnamn",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt har sparats",

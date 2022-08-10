@@ -1,0 +1,133 @@
+{
+  "HELP_CENTER": {
+    "HEADER": {
+      "FILTER": "Filtrirajte prema",
+      "SORT": "Sortirajte prema",
+      "SETTINGS_BUTTON": "Podešavanja",
+      "NEW_BUTTON": "Novi članak",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Objavljeno",
+        "DRAFT": "Nacrt",
+        "ARCHIVED": "Arhivirano"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Svi članci",
+        "MINE": "Moji članci",
+        "DRAFT": "Nacrt članaka",
+        "ARCHIVED": "Arhivirani članci"
+      }
+    },
+    "EDIT_HEADER": {
+      "PUBLISH_BUTTON": "Objavite",
+      "PREVIEW": "Pregledajte",
+      "ADD_TRANSLATION": "Dodajte prevod",
+      "OPEN_SIDEBAR": "Otvorite bočnu traku",
+      "CLOSE_SIDEBAR": "Zatvorite bočnu traku",
+      "SAVING": "Nacrt se čuva...",
+      "SAVED": "Nacrt je sačuvan"
+    },
+    "PORTAL": {
+      "HEADER": "Portali",
+      "NEW_BUTTON": "Novi portal",
+      "ACTIVE_BADGE": "aktivan",
+      "CHOOSE_LOCALE_LABEL": "Izaberi lokal",
+      "LOADING_MESSAGE": "Učitavanje portala...",
+      "ARTICLES_LABEL": "članci",
+      "NO_PORTALS_MESSAGE": "Nema dostupnih portala",
+      "ADD_NEW_LOCALE": "Dodaj novi lokal",
+      "POPOVER": {
+        "TITLE": "Portali",
+        "PORTAL_SETTINGS": "Podešavanja portala",
+        "SUBTITLE": "Možete imati više portala koji mogu imati različite lokale za svaki portal.",
+        "CANCEL_BUTTON_LABEL": "Otkaži",
+        "CHOOSE_LOCALE_BUTTON": "Izaberi lokal"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "članci",
+            "ADD": "Dodaj lokal",
+            "VISIT": "Poseti sajt",
+            "SETTINGS": "Podešavanja"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Podešavanja portala",
+            "ITEMS": {
+              "NAME": "Ime",
+              "DOMAIN": "Prilagođeni domen",
+              "SLUG": "Slug",
+              "TITLE": "Naslov portala",
+              "THEME": "Boja teme",
+              "SUB_TEXT": "Podtekst portala"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Dostupni lokali",
+            "TABLE": {
+              "NAME": "Naziv lokala",
+              "CODE": "Kod lokala",
+              "ARTICLE_COUNT": "Broj članaka",
+              "CATEGORIES": "Broj kategorija",
+              "SWAP": "Zameni",
+              "DELETE": "Izbriši",
+              "DEFAULT_LOCALE": "Predefinisano"
+            }
+          }
+        }
+      }
+    },
+    "TABLE": {
+      "LOADING_MESSAGE": "Učitavanje čalanaka...",
+      "404": "Nema čalanaka koji se poklapaju sa vašom pretragom 🔍",
+      "NO_ARTICLES": "Nema dostupnih članaka",
+      "HEADERS": {
+        "TITLE": "Naslov",
+        "CATEGORY": "Kategorija",
+        "READ_COUNT": "Broj pročitano",
+        "STATUS": "Status",
+        "LAST_EDITED": "Poslednje izmenjeno"
+      },
+      "COLUMNS": {
+        "BY": "od strane"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "Ovde ide naslov članka",
+      "CONTENT_PLACEHOLDER": "Ovde pišite vaš članak"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Pretražite članke"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Napravi kategoriju",
+        "SUB_TITLE": "Kategorija će se koristiti u javno dostupnim portalima da bi se članci kategorizovali.",
+        "PORTAL": "Portal",
+        "LOCALE": "Lokal",
+        "NAME": {
+          "LABEL": "Ime",
+          "PLACEHOLDER": "Naziv kategorije",
+          "HELP_TEXT": "Naziv kategorije će se koristiti u javno dostupnim portalima da bi se članci kategorizovali.",
+          "ERROR": "Ime je neophodno"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug kategorije za adrese",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug je obavezan"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Opis",
+          "PLACEHOLDER": "Dostavite kratak opis kategorije.",
+          "ERROR": "Opis je neophodan"
+        },
+        "BUTTONS": {
+          "CREATE": "Napravi kategoriju",
+          "CANCEL": "Otkaži"
+        }
+      }
+    }
+  }
+}

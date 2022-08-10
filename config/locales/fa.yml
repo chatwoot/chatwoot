@@ -22,14 +22,37 @@ fa:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
   errors:
+    validations:
+      presence: نباید خالی باشد
+    webhook:
+      invalid: رویدادهای نامعتبر
     signup:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
       failed: ثبت نام ناموفق بود
+    data_import:
+      data_type:
+        invalid: نوع داده نامعتبر است
     contacts:
       import:
         failed: پرونده خالی است
+      email:
+        invalid: ایمیل نامعتبر است
+      phone_number:
+        invalid: باید در قالب e164 باشد
+    categories:
+      locale:
+        unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
+    inboxes:
+      imap:
+        socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
+        no_response_error: لطفا اعتبارنامه IMAP را بررسی کنید و دوباره امتحان کنید.
+        host_unreachable_error: میزبان غیرقابل دسترسی است، لطفا آدرس IMAP و پورت IMAP را بررسی کنید و دوباره امتحان کنید.
+        connection_timed_out_error: زمان اتصال برای %{address}:%{port} تمام شد
+        connection_closed_error: اتصال بسته شد.
+      validations:
+        name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
@@ -37,11 +60,33 @@ fa:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: نام صندوق ورودی
+      inbox_type: نوع صندوق ورودی
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: برچسب
+      conversations_count: تعداد گفتگوها
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
       team_name: نام تیم
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: روز
+    csat:
+      headers:
+        contact_name: نام تماس
+        contact_email_address: آدرس ایمیل تماس
+        contact_phone_number: شماره تلفن تماس
+        link_to_the_conversation: پیوند به گفتگو
+        agent_name: اسم ایجنت
+        rating: رتبه
+        feedback: بازخورد نظر
+        recorded_at: تاریخ ثبت شده
   notifications:
     notification_title:
       conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"
@@ -50,10 +95,13 @@ fa:
       conversation_mention: "نام شما در مکالمه [ID -%{display_id}] توسط %{name} ذکر شده است"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
+      instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
     activity:
       status:
         resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
+        contact_resolved: "گفتگو توسط %{contact_name} حل شد"
         open: "گفتگو توسط ایجنت %{user_name} مجددا باز شده بود"
         pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
         snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"

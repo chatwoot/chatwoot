@@ -58,7 +58,7 @@ RSpec.describe 'Custom Filters API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/custom_filters", params: payload }.to change(CustomFilter, :count).by(0)
+        expect { post "/api/v1/accounts/#{account.id}/custom_filters", params: payload }.not_to change(CustomFilter, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end

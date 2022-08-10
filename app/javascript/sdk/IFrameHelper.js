@@ -31,6 +31,13 @@ import {
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
+import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+
+const updateAuthCookie = cookieContent =>
+  Cookies.set('cw_conversation', cookieContent, {
+    expires: 365,
+    sameSite: 'Lax',
+  });
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -119,7 +126,8 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    getAlertAudio().then(() =>
+    const { baseUrl = '' } = window.$chatwoot;
+    getAlertAudio(baseUrl, 'widget').then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
@@ -132,10 +140,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      Cookies.set('cw_conversation', message.config.authToken, {
-        expires: 365,
-        sameSite: 'Lax',
-      });
+      updateAuthCookie(message.config.authToken);
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
@@ -143,6 +148,7 @@ export const IFrameHelper = {
         hideMessageBubble: window.$chatwoot.hideMessageBubble,
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
+        darkMode: window.$chatwoot.darkMode,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -152,8 +158,6 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
-
-      dispatchWindowEvent({ eventName: CHATWOOT_READY });
 
       window.playAudioAlert = () => {};
 
@@ -174,10 +178,11 @@ export const IFrameHelper = {
     },
 
     setBubbleLabel(message) {
-      if (window.$chatwoot.hideMessageBubble) {
-        return;
-      }
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
+    },
+
+    setAuthCookie({ data: { widgetAuthToken } }) {
+      updateAuthCookie(widgetAuthToken);
     },
 
     toggleBubble: state => {
@@ -189,6 +194,12 @@ export const IFrameHelper = {
       }
 
       onBubbleClick(bubbleState);
+    },
+
+    popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
+      const cwCookie = Cookies.get('cw_conversation');
+      window.$chatwoot.toggle('close');
+      popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
     closeWindow: () => {
@@ -256,33 +267,32 @@ export const IFrameHelper = {
     if (IFrameHelper.getBubbleHolder().length) {
       return;
     }
-    createBubbleHolder();
+    createBubbleHolder(window.$chatwoot.hideMessageBubble);
     onLocationChangeListener();
-    if (!window.$chatwoot.hideMessageBubble) {
-      let className = 'woot-widget-bubble';
-      let closeBtnClassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
 
-      if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {
-        className += ' woot-widget-bubble--flat';
-        closeBtnClassName += ' woot-widget-bubble--flat';
-      }
+    let className = 'woot-widget-bubble';
+    let closeBtnClassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
 
-      const chatIcon = createBubbleIcon({
-        className,
-        src: bubbleImg,
-        target: chatBubble,
-      });
-
-      addClass(closeBubble, closeBtnClassName);
-
-      chatIcon.style.background = widgetColor;
-      closeBubble.style.background = widgetColor;
-
-      bubbleHolder.appendChild(chatIcon);
-      bubbleHolder.appendChild(closeBubble);
-      bubbleHolder.appendChild(createNotificationBubble());
-      onClickChatBubble();
+    if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {
+      className += ' woot-widget-bubble--flat';
+      closeBtnClassName += ' woot-widget-bubble--flat';
     }
+
+    const chatIcon = createBubbleIcon({
+      className,
+      src: bubbleImg,
+      target: chatBubble,
+    });
+
+    addClass(closeBubble, closeBtnClassName);
+
+    chatIcon.style.background = widgetColor;
+    closeBubble.style.background = widgetColor;
+
+    bubbleHolder.appendChild(chatIcon);
+    bubbleHolder.appendChild(closeBubble);
+    bubbleHolder.appendChild(createNotificationBubble());
+    onClickChatBubble();
   },
   toggleCloseButton: () => {
     let isMobile = false;

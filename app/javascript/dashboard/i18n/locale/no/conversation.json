@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "Velg en samtale fra venstre panel",
+    "SELECT_A_CONVERSATION": "Velg en samtale fra venstre panel",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Å nei! Ser ut til at det ikke er noen meldinger fra kunder i innboksen din.",
     "NO_MESSAGE_2": " for å sende en melding til siden din!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "Du svarer til:",
     "REMOVE_SELECTION": "Fjern utvalget",
     "DOWNLOAD": "Last ned",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Laster opp vedlegg...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -56,12 +60,43 @@
         "NEXT_WEEK": "Next week"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reopen conversation",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
-      "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter"
+      "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "Svar",
@@ -72,8 +107,14 @@
       "TIP_FORMAT_ICON": "Vis rik tekstredigering",
       "TIP_EMOJI_ICON": "Vis emoji-velger",
       "TIP_ATTACH_ICON": "Legg ved filer",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Trykk enter for å sende",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -90,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",
     "CHANGE_STATUS": "Samtalestatus er endret",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Tildelt agent er endret",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",

@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "左のリストから会話を選択してください",
+    "SELECT_A_CONVERSATION": "左のリストから会話を選択してください",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "おっと！受信トレイに顧客からのメッセージがないようです。",
     "NO_MESSAGE_2": " to send a message to your page!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -56,12 +60,43 @@
         "NEXT_WEEK": "Next week"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reopen conversation",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
-      "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。"
+      "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
       "REPLY": "返信",
@@ -72,8 +107,14 @@
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "ENTER_TO_SEND": "Enter to send",
       "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Start audio recording",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Add bcc",
         "CC": {
@@ -90,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "非公開設定の注意：あなたとあなたのチームのみに表示されます",
     "CHANGE_STATUS": "会話の状態が変更されました",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "会話の担当者が変更されました",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",

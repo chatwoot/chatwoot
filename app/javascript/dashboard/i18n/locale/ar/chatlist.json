@@ -12,33 +12,11 @@
       "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
     },
     "FILTER_ALL": "الكل",
-    "STATUS_TABS": [
-      {
-        "NAME": "فتح",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "مغلقة",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "محادثاتي",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "غير مسند",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "الكل",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "محادثاتي",
+      "unassigned": "غير مسند",
+      "all": "الكل"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "فتح"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
     "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
     "REPLY_TO_TWEET": "الرد على هذه التغريدة",
+    "LINK_TO_STORY": "الذهاب إلى قصة الإنستقرام",
     "SENT": "Sent successfully",
     "NO_MESSAGES": "لا توجد رسائل",
     "NO_CONTENT": "لم يتم العثور على محتوى",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "قرائة"
   }
 }

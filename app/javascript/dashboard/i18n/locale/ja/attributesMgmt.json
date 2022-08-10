@@ -1,18 +1,18 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "カスタム属性",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
+    "HEADER_BTN_TXT": "カスタム属性を追加",
+    "LOADING": "カスタム属性が取得中",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "カスタム属性を追加",
       "SUBMIT": "作成",
       "CANCEL_BUTTON_TEXT": "キャンセル",
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
           "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "ERROR": "名前が必須です"
         },
         "DESC": {
           "LABEL": "説明",

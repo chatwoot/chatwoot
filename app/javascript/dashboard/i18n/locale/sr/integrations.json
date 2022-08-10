@@ -1,0 +1,135 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integracije",
+    "WEBHOOK": {
+      "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
+      "FORM": {
+        "CANCEL": "Otkaži",
+        "DESC": "Događaji veb zakački vam omogućavaju informacije u realnom vremenu o onome šta se događa na vašem Chatwoot nalogu. Molim vas unesite ispravnu adresu da bi ste podesili povratni poziv.",
+        "SUBSCRIPTIONS": {
+          "LABEL": "Događaji",
+          "EVENTS": {
+            "CONVERSATION_CREATED": "Razgovor je napravljen",
+            "CONVERSATION_STATUS_CHANGED": "Status razgovora je promenjen",
+            "CONVERSATION_UPDATED": "Razgovor je izmenjen",
+            "MESSAGE_CREATED": "Poruka je napravljena",
+            "MESSAGE_UPDATED": "Poruka je izmenjena",
+            "WEBWIDGET_TRIGGERED": "Vidžet za ćaskanje je otvoren od strane korisnika"
+          }
+        },
+        "END_POINT": {
+          "LABEL": "Adresa veb zakačke",
+          "PLACEHOLDER": "Primer: https://example/api/webhook",
+          "ERROR": "Molim vas unesite ispravnu adresu"
+        },
+        "EDIT_SUBMIT": "Izmeni veb zakačku",
+        "ADD_SUBMIT": "Napravi veb zakačku"
+      },
+      "TITLE": "Veb zakačka",
+      "CONFIGURE": "Podesi",
+      "HEADER": "Podešavanja veb zakačke",
+      "HEADER_BTN_TXT": "Dodaj novu veb zakačku",
+      "LOADING": "Prikupljanje dodatih veb zakački",
+      "SEARCH_404": "Nema razultata",
+      "SIDEBAR_TXT": "<p><b>Veb zakačke</b> </p> <p>Veb zakačke su HTTP povratni pozivi koji mogu biti definisani za svaki nalog. Pozivaju ih događaji kao što je pravljenje poruke u Chatwoot-u. Možete kreirati više od jedne veb zakačke za ovaj nalog. <br /><br /> Za kreiranje <b>veb zakačke</b>, kliknite na dugem <b>Dodaj novu veb zakačku</b>. Takođe možete ukloniti postojeće veb zakačke klikom na dugme Obriši.</p>",
+      "LIST": {
+        "404": "Nema veb zakački podešenih za ovaj nalog.",
+        "TITLE": "Upravljanje veb zakačkama",
+        "TABLE_HEADER": [
+          "Krajnje tačke veb zakački",
+          "Akcije"
+        ]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Uredi",
+        "TITLE": "Uredi veb zakačku",
+        "API": {
+          "SUCCESS_MESSAGE": "Veb zakačka je uspešno izmenjena",
+          "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        }
+      },
+      "ADD": {
+        "CANCEL": "Otkaži",
+        "TITLE": "Dodaj novu veb zakačku",
+        "API": {
+          "SUCCESS_MESSAGE": "Podešavanje veb zakačke je uspešno dodato",
+          "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Izbriši",
+        "API": {
+          "SUCCESS_MESSAGE": "Veb zakačka je uspešno obrisana",
+          "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        },
+        "CONFIRM": {
+          "TITLE": "Potvrdite brisanje",
+          "MESSAGE": "Da li zaista želite da obrišete veb zakačku? (%{webhookURL})",
+          "YES": "Da, izbriši ",
+          "NO": "Ne, zadrži je"
+        }
+      }
+    },
+    "SLACK": {
+      "HELP_TEXT": {
+        "TITLE": "Koristi Slack integraciju",
+        "BODY": "<br/><p>Chatwoot će sada sinhronizovati sve dolazne razgovore u kanal <b><i>customer-conversations</i></b> unutar vašeg slack radnog mesta.</p><p>Odgovaranjem na razgovor u <b><i>customer-conversations</i></b> slack kanal će napraviti odgovor potrošaču kroz chatwoot.</p><p>Započnite odgovore sa <b><i>note:</i></b> da bi ste napravili privatne beleške umesto odgovora.</p><p>Ako odgovarač na slack-u ima agentski profil u chatwoot-u pod istom adresom e-pošte, odgovori će biti odgovarajuće povezani.</p><p>Kada odgovarač nema povezani agentski profil, odgovori će biti napravljeni od strane bot profila.</p>"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "API": {
+        "SUCCESS_MESSAGE": "Integracija je uspešno obrisana"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Poveži se"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Aplikacije radne table",
+      "HEADER_BTN_TXT": "Dodaj novu aplikaciju radne table",
+      "SIDEBAR_TXT": "<p><b>Aplikacije radne table</b></p><p>Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar Chatwoot radne table da dostave kontekst agentima podrške. Ova mogućnosti vam omogućava da napravite aplikaciju nezavisno i integrišete je unutar radne table da bi ste dostavili informacije o korisniku, njihovim narudžbama ili istoriji prethodnih plaćanja.</p><p>Kada integrišete vašu aplikaciju koristeći radnu tablu u Chatwoot-u, vaša aplikacija će dobiti kontakst razgovora i kontakta kao window događaj. Implementirajte osluškivač događaj poruke na vašoj stranici da bi ste primili kontakst.</p><p>Da bi ste dodali novu aplikaciju radne table, kliknite na dugme 'Dodaj novu aplikaciju radne table'.</p>",
+      "DESCRIPTION": "Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar radne table da bi omogućili kontekst agentima podrške. Ova mogućnost omogućava da nezavisno napravite aplikaciju i integrišete je da bi ste dostavili informacije o korisniku, njihovim narudžbama ili njihovoj istoriji plaćanja.",
+      "LIST": {
+        "404": "Još uvek nema aplikacija radne table podešenih za ovaj nalog",
+        "LOADING": "Prikupljanje aplikacija radne table...",
+        "TABLE_HEADER": [
+          "Ime",
+          "Krajnja tačka"
+        ],
+        "EDIT_TOOLTIP": "Uredi aplikaciju",
+        "DELETE_TOOLTIP": "Obriši aplikaciju"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Ime",
+        "TITLE_PLACEHOLDER": "Unesite naziv vaše aplikacije radne table",
+        "TITLE_ERROR": "Naziv aplikacije radne table je obavezno",
+        "URL_LABEL": "Krajnja tačka",
+        "URL_PLACEHOLDER": "Unesite adresu krajnje tačke gde je hostovana vaša aplikacija",
+        "URL_ERROR": "Ispravna adresa je obavezna"
+      },
+      "CREATE": {
+        "HEADER": "Dodaj novu aplikaciju radne table",
+        "FORM_SUBMIT": "Pošalji",
+        "FORM_CANCEL": "Otkaži",
+        "API_SUCCESS": "Aplikacija radne table je uspešno podešena",
+        "API_ERROR": "Nismo mogli da napravimo aplikaciju. Molim vas pokušajte ponovo"
+      },
+      "UPDATE": {
+        "HEADER": "Uredi aplikaciju radne table",
+        "FORM_SUBMIT": "Primeni",
+        "FORM_CANCEL": "Otkaži",
+        "API_SUCCESS": "Aplikacija radne table je uspešno izmenjena",
+        "API_ERROR": "Nismo mogli da izmenimo aplikaciju. Molim vas pokušajte ponovo"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Da, obriši je",
+        "CONFIRM_NO": "Ne, zadrži je",
+        "TITLE": "Potvrdi brisanje",
+        "MESSAGE": "Da li zaista želite da obrišete aplikaciju - %{appName}?",
+        "API_SUCCESS": "Aplikacija radne table je uspešno obrisana",
+        "API_ERROR": "Nismo mogli da obrišemo aplikaciju. Molim vas pokušajte ponovo"
+      }
+    }
+  }
+}

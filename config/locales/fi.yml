@@ -22,14 +22,37 @@ fi:
     reset_password_success: Woot! Salasanan nollauspyyntö onnistui. Tarkista sähköpostisi saadaksesi ohjeita.
     reset_password_failure: Hö! Emme löytäneet yhtään käyttäjää määritellyllä sähköpostilla.
   errors:
+    validations:
+      presence: must not be blank
+    webhook:
+      invalid: Invalid events
     signup:
       disposable_email: Emme salli kertakäyttöisiä sähköposteja
       invalid_email: Olet syöttänyt virheellisen sähköpostin
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       failed: Rekisteröityminen epäonnistui
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raportointijakso %{since} – %{until}
     agent_csv:
@@ -37,11 +60,33 @@ fi:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    default_group_by: day
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Link to the conversation
+        agent_name: Edustajan nimi
+        rating: Arvio
+        feedback: Palautteen kommentti
+        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -50,10 +95,13 @@ fi:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
+      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
     activity:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
+        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "%{user_name} uudelleenavasi keskustelun"
         pending: "Conversation was marked as pending by %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
@@ -75,7 +123,7 @@ fi:
       greeting_message_body: "%{account_name} vastaa tyypillisesti muutamassa tunnissa."
       ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
       email_input_box_message_body: "Saa ilmoitus sähköpostitse"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "Voisitko antaa palautetta saamastasi palvelusta?"
     reply:
       email:
         header:
@@ -84,7 +132,7 @@ fi:
       email_subject: "Uusia viestejä"
       transcript_subject: "Keskustelukopio"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Voisitko antaa palautetta saamastasi palvelusta? %{link}"
   contacts:
     online:
       delete: "%{contact_name} is Online, please try again later"

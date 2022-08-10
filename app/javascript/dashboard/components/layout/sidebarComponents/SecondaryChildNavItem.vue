@@ -26,9 +26,20 @@
           :class="{ 'text-truncate': shouldTruncate }"
         >
           {{ label }}
+          <span v-if="isHelpCenterSidebar && childItemCount" class="count-view">
+            {{ childItemCount }}
+          </span>
         </span>
         <span v-if="count" class="badge" :class="{ secondary: !isActive }">
           {{ count }}
+        </span>
+        <span v-if="warningIcon" class="badge--icon">
+          <fluent-icon
+            v-tooltip.top-end="$t('SIDEBAR.FACEBOOK_REAUTHORIZE')"
+            class="inbox-icon"
+            :icon="warningIcon"
+            size="12"
+          />
         </span>
       </a>
     </li>
@@ -57,9 +68,21 @@ export default {
       type: String,
       default: '',
     },
+    warningIcon: {
+      type: String,
+      default: '',
+    },
     count: {
       type: String,
       default: '',
+    },
+    isHelpCenterSidebar: {
+      type: Boolean,
+      default: false,
+    },
+    childItemCount: {
+      type: Number,
+      default: 0,
     },
   },
   computed: {
@@ -134,6 +157,7 @@ $label-badge-size: var(--space-slab);
   height: $label-badge-size;
   min-width: $label-badge-size;
   margin-left: var(--space-smaller);
+  border: 1px solid var(--color-border-light);
 }
 
 .badge.secondary {
@@ -141,5 +165,20 @@ $label-badge-size: var(--space-slab);
   background: var(--s-75);
   color: var(--s-600);
   font-weight: var(--font-weight-bold);
+}
+
+.count-view {
+  background: var(--s-50);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-600);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-zero) var(--space-smaller);
+
+  &.is-active {
+    background: var(--w-50);
+    color: var(--w-500);
+  }
 }
 </style>

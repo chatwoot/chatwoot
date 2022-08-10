@@ -65,7 +65,6 @@
       </div>
       <div class="contact-actions">
         <woot-button
-          v-if="showNewMessage"
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           class="new-message"
@@ -126,17 +125,15 @@
         @close="toggleMergeModal"
       />
     </div>
-    <woot-confirm-delete-modal
+    <woot-delete-modal
       v-if="showDeleteModal"
       :show.sync="showDeleteModal"
+      :on-close="closeDelete"
+      :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-      :confirm-value="contact.name"
-      :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
+      :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
+      :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
   </div>
 </template>
@@ -153,7 +150,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
-import flag from 'country-code-emoji';
+import { getCountryFlag } from 'dashboard/helper/flag';
 
 export default {
   components: {
@@ -173,10 +170,6 @@ export default {
     channelType: {
       type: String,
       default: '',
-    },
-    showNewMessage: {
-      type: Boolean,
-      default: false,
     },
     showAvatar: {
       type: Boolean,
@@ -221,21 +214,10 @@ export default {
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
     // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.YES')} ${this.contact.name}`;
-    },
-    deleteRejectText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.NO')} ${this.contact.name}`;
-    },
     confirmDeleteMessage() {
       return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
         this.contact.name
       } ?`;
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.PLACE_HOLDER', {
-        contactName: this.contact.name,
-      })}`;
     },
   },
   methods: {
@@ -262,7 +244,7 @@ export default {
     },
     findCountryFlag(countryCode, cityAndCountry) {
       try {
-        const countryFlag = countryCode ? flag(countryCode) : '🌎';
+        const countryFlag = countryCode ? getCountryFlag(countryCode) : '🌎';
         return `${cityAndCountry} ${countryFlag}`;
       } catch (error) {
         return '';
