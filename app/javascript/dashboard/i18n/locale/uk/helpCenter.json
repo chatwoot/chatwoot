@@ -1,20 +1,20 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Фільтрувати за",
+      "SORT": "Сортувати за",
       "SETTINGS_BUTTON": "Налаштування",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Нова стаття",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
+        "PUBLISHED": "Опубліковано",
         "DRAFT": "Чернетка",
         "ARCHIVED": "Архівовано"
       },
       "TITLES": {
         "ALL_ARTICLES": "Всі статті",
         "MINE": "Мої статті",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "DRAFT": "Чернетки статтей",
+        "ARCHIVED": "Архівовані статті"
       }
     },
     "EDIT_HEADER": {
@@ -25,6 +25,41 @@
       "CLOSE_SIDEBAR": "Закрити бічну панель",
       "SAVING": "Збереження чернетки...",
       "SAVED": "Чернетку збережено"
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Налаштування статей",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Категорія",
+          "TITLE": "Виберіть категорію",
+          "PLACEHOLDER": "Виберіть категорію",
+          "NO_RESULT": "Категорію не знайдено",
+          "SEARCH_PLACEHOLDER": "Пошук категорії"
+        },
+        "AUTHOR": {
+          "LABEL": "Author",
+          "TITLE": "Select author",
+          "PLACEHOLDER": "Select author",
+          "NO_RESULT": "No authors found",
+          "SEARCH_PLACEHOLDER": "Search author"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Add a meta title"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Add your meta description for better SEO results..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Add meta tags separated by comma..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archive article",
+        "DELETE": "Delete article"
+      }
     },
     "PORTAL": {
       "HEADER": "Портали",
@@ -73,6 +108,54 @@
               "DEFAULT_LOCALE": "За замовчуванням"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Create a portal",
+        "SUB_TITLE": "A Help Center in Chatwoot is known as a portal. You can have multiple portals and can have different locales for each portal.",
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Portal name",
+          "HELP_TEXT": "The name will be used in the public facing portal internally",
+          "ERROR": "Назва обов'язкова"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page Title",
+          "PLACEHOLDER": "Portal page title",
+          "HELP_TEXT": "The name will be used in the public facing portal",
+          "ERROR": "Page title is required"
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Portal slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Необхідно вказати мітку"
+        },
+        "DOMAIN": {
+          "LABEL": "Custom Domain",
+          "PLACEHOLDER": "Portal custom domain",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals",
+          "ERROR": "Custom Domain is required"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home Page Link",
+          "PLACEHOLDER": "Portal home page link",
+          "HELP_TEXT": "The link used to return from the portal to the home page.",
+          "ERROR": "Home Page Link is required"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header Text",
+          "PLACEHOLDER": "Portal header text",
+          "HELP_TEXT": "Portal header text",
+          "ERROR": "Portal header text is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create portal",
+          "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Portal created successfully.",
+          "ERROR_MESSAGE": "Couldn't create the portal. Try again."
         }
       }
     },
@@ -126,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "Створити категорію",
           "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category created successfully",
+          "ERROR_MESSAGE": "Не вдалося створити категорію"
         }
       }
     }
