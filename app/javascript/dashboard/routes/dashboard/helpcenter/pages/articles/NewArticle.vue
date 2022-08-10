@@ -21,6 +21,7 @@ export default {
     return {
       articleTitle: '',
       articleContent: '',
+      showArticleSettings: false,
     };
   },
   methods: {
@@ -33,14 +34,32 @@ export default {
     contentInput(value) {
       this.articleContent = value;
     },
+    openArticleSettings() {
+      this.showArticleSettings = true;
+    },
+    closeArticleSettings() {
+      this.showArticleSettings = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.container {
+.article-container {
+  display: flex;
   padding: var(--space-small) var(--space-normal);
   width: 100%;
+  flex: 1;
   overflow: scroll;
+
+  .edit-article--container {
+    flex: 1;
+    flex-shrink: 0;
+    overflow: scroll;
+  }
+
+  .is-sidebar-open {
+    flex: 0.7;
+  }
 }
 </style>
