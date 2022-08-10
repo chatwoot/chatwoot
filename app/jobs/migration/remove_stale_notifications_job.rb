@@ -10,11 +10,10 @@ class Migration::RemoveStaleNotificationsJob < ApplicationJob
 
   def remove_invalid_messages
     deleted_ids = []
-    Message.pluck(:inbox_id).uniq.each_slice(1000) do |id_list|
+    Message.distinct.pluck(:inbox_id).each_slice(1000) do |id_list|
       deleted_ids << (id_list - Inbox.where(id: id_list).pluck(:id))
     end
-    
+
     Message.where(inbox_id: deleted_ids.flatten).destroy_all
   end
 end
-
