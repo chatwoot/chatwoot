@@ -18,8 +18,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def create
     @portal = Current.account.portals.build(portal_params)
-    render json: { error: @portal.errors.messages }, status: :unprocessable_entity and return unless @portal.valid?
-
     @portal.save!
     process_attached_logo
   end
