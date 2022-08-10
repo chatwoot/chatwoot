@@ -70,4 +70,7 @@ export default {
   color: var(--s-600);
   font-style: normal;
 }
+.message {
+  margin-top: 0 !important;
+}
 </style>
