@@ -9,7 +9,7 @@ const ShowPortal = () => import('./pages/portals/ShowPortal');
 const ListAllCategories = () => import('./pages/categories/ListAllCategories');
 const NewCategory = () => import('./pages/categories/NewCategory');
 const EditCategory = () => import('./pages/categories/EditCategory');
-const ShowCategory = () => import('./pages/categories/ShowCategory');
+// const ShowCategory = () => import('./pages/categories/ShowCategory');
 const ListCategoryArticles = () =>
   import('./pages/articles/ListCategoryArticles');
 
@@ -103,7 +103,7 @@ const categoryRoutes = [
     path: getPortalRoute(':portalSlug/:locale/categories/:categorySlug'),
     name: 'show_category',
     roles: ['administrator', 'agent'],
-    component: ShowCategory,
+    component: ListAllArticles,
   },
   {
     path: getPortalRoute(

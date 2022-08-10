@@ -32,12 +32,13 @@ describe('#actions', () => {
 
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({ data: categoriesPayload.payload[0] });
-      await actions.create({ commit }, categoriesPayload.payload[0]);
+      axios.post.mockResolvedValue({ data: categoriesPayload });
+      await actions.create({ commit }, categoriesPayload);
+      const { id: categoryId } = categoriesPayload;
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
-        [types.default.ADD_CATEGORY, categoriesPayload.payload[0]],
-        [types.default.ADD_CATEGORY_ID, 1],
+        [types.default.ADD_CATEGORY, categoriesPayload.payload],
+        [types.default.ADD_CATEGORY_ID, categoryId],
         [types.default.SET_UI_FLAG, { isCreating: false }],
       ]);
     });
