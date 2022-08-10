@@ -18,11 +18,6 @@
 #  index_macros_on_created_by_id  (created_by_id)
 #  index_macros_on_updated_by_id  (updated_by_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (created_by_id => users.id)
-#  fk_rails_...  (updated_by_id => users.id)
-#
 class Macro < ApplicationRecord
   belongs_to :account
   belongs_to :created_by,
