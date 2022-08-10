@@ -43,7 +43,7 @@ describe('#actions', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: apiResponse.payload[1] });
       await actions.create(
-        { commit },
+        { commit, dispatch, state: { portals: { selectedPortalId: null } } },
         {
           color: 'red',
           custom_domain: 'domain_for_help',
@@ -59,7 +59,12 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.create({ commit }, {})).rejects.toThrow(Error);
+      await expect(
+        actions.create(
+          { commit, dispatch, state: { portals: { selectedPortalId: null } } },
+          {}
+        )
+      ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.SET_UI_FLAG, { isCreating: true }],
         [types.SET_UI_FLAG, { isCreating: false }],
