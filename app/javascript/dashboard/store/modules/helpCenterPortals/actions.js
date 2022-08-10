@@ -26,13 +26,20 @@ export const actions = {
     }
   },
 
-  create: async ({ commit }, params) => {
+  create: async ({ commit, state, dispatch }, params) => {
     commit(types.SET_UI_FLAG, { isCreating: true });
     try {
       const { data } = await portalAPIs.create(params);
       const { id: portalId } = data;
       commit(types.ADD_PORTAL_ENTRY, data);
       commit(types.ADD_PORTAL_ID, portalId);
+      const {
+        portals: { selectedPortalId },
+      } = state;
+      // Check if there are any selected portal
+      if (!selectedPortalId) {
+        dispatch('setPortalId', portalId);
+      }
     } catch (error) {
       throwErrorMessage(error);
     } finally {
