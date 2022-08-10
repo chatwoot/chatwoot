@@ -327,7 +327,7 @@
       },
       "AUTH": {
         "TITLE": "Оберіть канал",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot підтримує live-chat віджети, Facebook Messenger, профілі Twitter, WhatsApp, електронну пошту і т.д. Якщо ви хочете створити користувальницький канал, ви можете створити його за допомогою каналу API. Щоб почати, виберіть один з каналів нижче."
       },
       "AGENTS": {
         "TITLE": "Агенти",
@@ -368,7 +368,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Налаштування вхідних повідомлень успішно оновлені",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автопризначення успішно оновлено",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "Ми не змогли оновити параметри \"Вхідні\". Будь ласка, повторіть спробу пізніше."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Увімкнено",
