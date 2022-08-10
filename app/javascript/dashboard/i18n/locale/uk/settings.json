@@ -201,7 +201,8 @@
       "MY_ARTICLES": "Мої статті",
       "DRAFT": "Чернетка",
       "ARCHIVED": "Архівовано",
-      "CATEGORY": "Категорія"
+      "CATEGORY": "Категорія",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "DOCS": "Читати документи"
   },
