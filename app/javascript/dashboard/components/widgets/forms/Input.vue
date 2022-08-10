@@ -10,7 +10,7 @@
       @input="onChange"
       @blur="onBlur"
     />
-    <p v-if="helpText" class="help-text">{{ helpText }}</p>
+    <p v-if="helpText && !error" class="help-text">{{ helpText }}</p>
     <span v-if="error" class="message">
       {{ error }}
     </span>
@@ -69,5 +69,8 @@ export default {
   font-size: var(--font-size-mini);
   color: var(--s-600);
   font-style: normal;
+}
+.message {
+  margin-top: 0 !important;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
@@ -67,20 +67,16 @@
         </div>
       </div>
     </form>
-  </modal>
+  </woot-modal>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 
 export default {
-  components: {
-    Modal,
-  },
   mixins: [alertMixin],
   props: {
     show: {
