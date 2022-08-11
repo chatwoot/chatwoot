@@ -1,12 +1,12 @@
 <template>
   <tr>
     <td>
-      <p class="dashboard_app-title text-truncate">
-        {{ app.title }}
-      </p>
+      {{ app.title }}
     </td>
-    <td>
-      <p class="dashboard_app-url text-truncate">{{ app.content[0].url }}</p>
+    <td class="dashboard-app-label-url">
+      <span>
+        {{ app.content[0].url }}
+      </span>
     </td>
     <td class="button-wrapper">
       <woot-button
@@ -51,13 +51,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dashboard_app-url {
-  max-width: calc(var(--space-giga) + var(--space-mega));
-}
-.dashboard_app-title {
-  max-width: calc(var(--space-giga) / var(--space-two));
-}
-p {
-  margin: 0;
+.dashboard-app-label-url {
+  position: relative;
+  width: 50%;
+  &:before {
+    content: '&nbsp;';
+    visibility: hidden;
+  }
+  span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 </style>
