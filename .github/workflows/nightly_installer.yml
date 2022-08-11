@@ -10,13 +10,8 @@
 
 name: Run Linux nightly installer
 on:
- push:
-    branches:
-      - develop
-      - master
-  pull_request:
-    #  schedule:
-    #        - cron: "0 0 * * *"
+  schedule:
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
