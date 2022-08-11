@@ -61,3 +61,7 @@ jobs:
       run: |
         curl http://localhost:3000/api
 
+    - uses: actions/checkout@v2
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
