@@ -87,12 +87,12 @@
     },
     "DASHBOARD_APPS": {
       "TITLE": "Додатки для головного екрану",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "HEADER_BTN_TXT": "Додати нову інформаційну панель",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "LOADING": "Отримання додатків панелі керування...",
         "TABLE_HEADER": [
           "Ім'я",
           "Endpoint"
@@ -102,14 +102,14 @@
       },
       "FORM": {
         "TITLE_LABEL": "Ім'я",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Введіть ім'я для вашої інформаційної панелі",
+        "TITLE_ERROR": "Потрібно ім'я для головної панелі",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_ERROR": "Потрібно вказати допустиму URL-адресу"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Додати нову інформаційну панель",
         "FORM_SUBMIT": "Додати",
         "FORM_CANCEL": "Скасувати",
         "API_SUCCESS": "Dashboard app configured successfully",
