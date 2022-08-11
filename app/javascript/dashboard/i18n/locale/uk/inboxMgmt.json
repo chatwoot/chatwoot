@@ -579,10 +579,10 @@
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Аватар веб-сайту",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "Аватар успішно видалено",
               "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
             }
           }
@@ -590,7 +590,7 @@
         "WEBSITE_NAME": {
           "LABEL": "Назва сайту",
           "PLACE_HOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "Будь ласка введіть правильну назву сайту"
         },
         "WELCOME_HEADING": {
           "LABEL": "Заголовок",
@@ -615,10 +615,10 @@
           "PLACE_HOLDER": "Почніть розмову з нами"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Оновити налаштування віджета",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Налаштування віджета успішно оновлені",
+            "ERROR_MESSAGE": "Не вдалося оновити налаштування віджета"
           }
         },
         "WIDGET_VIEW_OPTION": {
@@ -635,7 +635,7 @@
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
+        "DEFAULT": "За замовчуванням",
         "CHAT": "Чат"
       },
       "REPLY_TIME": {
