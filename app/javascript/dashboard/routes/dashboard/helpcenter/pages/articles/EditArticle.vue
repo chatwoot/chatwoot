@@ -1,21 +1,35 @@
 <template>
-  <div class="container">
-    <edit-article-header
-      :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
-      :is-updating="isUpdating"
-      @back="onClickGoBack"
-    />
-    <div v-if="isFetching" class="text-center p-normal fs-default h-full">
-      <spinner size="" />
-      <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
+  <div class="article-container">
+    <div
+      class="edit-article--container"
+      :class="{ 'is-sidebar-open': showArticleSettings }"
+    >
+      <edit-article-header
+        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
+        :is-updating="isUpdating"
+        @back="onClickGoBack"
+        @open="openArticleSettings"
+        @close="closeArticleSettings"
+      />
+      <div v-if="isFetching" class="text-center p-normal fs-default h-full">
+        <spinner size="" />
+        <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
+      </div>
+      <article-editor
+        v-else
+        :is-settings-sidebar-open="showArticleSettings"
+        :article="article"
+        @save-article="saveArticle"
+      />
     </div>
-    <article-editor v-else :article="article" @save-article="saveArticle" />
+    <article-settings v-if="showArticleSettings" />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
+import ArticleSettings from './ArticleSettings.vue';
 import Spinner from 'shared/components/Spinner';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -24,11 +38,13 @@ export default {
     EditArticleHeader,
     ArticleEditor,
     Spinner,
+    ArticleSettings,
   },
   mixins: [portalMixin, alertMixin],
   data() {
     return {
       isUpdating: false,
+      showArticleSettings: false,
     };
   },
   computed: {
@@ -78,13 +94,32 @@ export default {
         }, 1500);
       }
     },
+    openArticleSettings() {
+      this.showArticleSettings = true;
+    },
+    closeArticleSettings() {
+      this.showArticleSettings = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.container {
+.article-container {
+  display: flex;
   padding: var(--space-small) var(--space-normal);
   width: 100%;
+  flex: 1;
+  overflow: scroll;
+
+  .edit-article--container {
+    flex: 1;
+    flex-shrink: 0;
+    overflow: scroll;
+  }
+
+  .is-sidebar-open {
+    flex: 0.7;
+  }
 }
 </style>
