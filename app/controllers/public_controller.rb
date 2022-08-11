@@ -15,7 +15,7 @@ class PublicController < ActionController::Base
 
     render json: {
       error: "Domain: #{custom_domain} is not registered with us. \
-             Please send us an email at support@chatwoot.com with the custom domain name and account API key"
+      Please send us an email at support@chatwoot.com with the custom domain name and account API key"
     }, status: :unauthorized and return
   end
 end
