@@ -111,7 +111,7 @@ export default {
     border: 0;
     font-weight: $font-weight-bold;
     font-size: $font-size-medium;
-    transition: all 0.3s $ease-in-cubic;
+    transition: all 0.3s var(--ease-in-cubic);
     margin-left: $space-smaller;
     padding-right: $space-one;
 
@@ -127,7 +127,7 @@ export default {
     border: 0;
     font-weight: $font-weight-medium;
     font-size: $font-size-mini;
-    transition: all 0.3s $ease-in-cubic;
+    transition: all 0.3s var(--ease-in-cubic);
     margin-bottom: $space-slab;
     border-radius: $space-normal;
 

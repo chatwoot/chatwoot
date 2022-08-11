@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="menu" @click.stop="$emit('click')">
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"
@@ -18,7 +18,7 @@
       size="20px"
       class="agent-thumbnail"
     />
-    <p class="menu-label">{{ option.label }}</p>
+    <p class="menu-label truncate-text">{{ option.label }}</p>
   </div>
 </template>
 
@@ -45,14 +45,16 @@ export default {
 .menu {
   display: flex;
   align-items: center;
-  width: 100%;
+  flex-wrap: nowrap;
+  width: calc(var(--space-mega) * 2);
   padding: var(--space-smaller);
   border-radius: var(--border-radius-small);
-  min-width: calc(var(--space-mega) * 2);
+  overflow: hidden;
 
   .menu-label {
     margin: 0;
     font-size: var(--font-size-mini);
+    flex-shrink: 0;
   }
 
   .menu-icon {
