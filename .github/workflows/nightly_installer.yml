@@ -59,7 +59,16 @@ jobs:
     - name: Verify
       if: always()
       run: |
+        sudo netstat -ntlp | grep 3000         
+        sudo systemctl restart chatwoot.target
+        sudo netstat -ntlp | grep 3000
         curl http://localhost:3000/api
+
+    - name: Verify2
+      if: always()
+      run: |
+        sudo netstat -ntlp | grep 3000
+        curl http://127.0.0.1:3000/api
 
     - name: Setup tmate session
       if: always()
