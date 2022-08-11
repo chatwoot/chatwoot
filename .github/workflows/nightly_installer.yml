@@ -18,6 +18,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
 
+    - uses: actions/checkout@v2
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
     - name: ls
       run: |
         ls
@@ -60,8 +64,4 @@ jobs:
       if: always()
       run: |
         curl http://localhost:3000/api
-
-    - uses: actions/checkout@v2
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
 
