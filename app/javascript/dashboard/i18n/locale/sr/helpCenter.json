@@ -27,38 +27,38 @@
       "SAVED": "Nacrt je sačuvan"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Podešavanja ćlanka",
       "FORM": {
         "CATEGORY": {
           "LABEL": "Kategorija",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "TITLE": "Izaberi kategoriju",
+          "PLACEHOLDER": "Izaberi kategoriju",
+          "NO_RESULT": "Nije pronađena kategorija",
+          "SEARCH_PLACEHOLDER": "Pretraži kategoriju"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autor",
+          "TITLE": "Izaberi autora",
+          "PLACEHOLDER": "Izaberi autora",
+          "NO_RESULT": "Nije pronađen autor",
+          "SEARCH_PLACEHOLDER": "Pretraži autora"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta naslov",
+          "PLACEHOLDER": "Dodaj meta naslov"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta opis",
+          "PLACEHOLDER": "Dodajte meta opis za bolje SEO rezultate..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta oznake",
+          "PLACEHOLDER": "Dodajte meta oznake odvojene zarezom..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arhiviraj članak",
+        "DELETE": "Obriši članak"
       }
     },
     "PORTAL": {
