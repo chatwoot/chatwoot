@@ -52,11 +52,8 @@ export default {
     this.articleTitle = this.article.title;
     this.articleContent = this.article.content;
     this.saveArticle = debounce(
-      () => {
-        this.$emit('save-article', {
-          title: this.articleTitle,
-          content: this.articleContent,
-        });
+      values => {
+        this.$emit('save-article', values);
       },
       1000,
       false
@@ -70,10 +67,10 @@ export default {
       this.$emit('blur');
     },
     onTitleInput() {
-      this.saveArticle();
+      this.saveArticle({ title: this.articleTitle });
     },
     onContentInput() {
-      this.saveArticle();
+      this.saveArticle({ content: this.articleContent });
     },
   },
 };

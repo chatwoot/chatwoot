@@ -55,7 +55,6 @@ export const mutations = {
   },
   [types.UPDATE_ARTICLE]($state, article) {
     const articleId = article.id;
-
     if (!$state.articles.allIds.includes(articleId)) return;
 
     Vue.set($state.articles.byId, articleId, {

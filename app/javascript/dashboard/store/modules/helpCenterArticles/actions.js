@@ -71,13 +71,15 @@ export const actions = {
     });
 
     try {
-      const { data } = await articlesAPI.updateArticle({
+      const {
+        data: { payload },
+      } = await articlesAPI.updateArticle({
         portalSlug,
         articleId,
         articleObj,
       });
 
-      commit(types.UPDATE_ARTICLE, data);
+      commit(types.UPDATE_ARTICLE, payload);
 
       return articleId;
     } catch (error) {

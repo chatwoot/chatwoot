@@ -89,7 +89,7 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: articleList[0] });
+      axios.patch.mockResolvedValue({ data: { payload: articleList[0] } });
       await actions.update(
         { commit },
         {

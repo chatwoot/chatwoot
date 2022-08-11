@@ -22,7 +22,11 @@
         @save-article="saveArticle"
       />
     </div>
-    <article-settings v-if="showArticleSettings" />
+    <article-settings
+      v-if="showArticleSettings"
+      :article="article"
+      @save-article="saveArticle"
+    />
   </div>
 </template>
 <script>
@@ -75,14 +79,13 @@ export default {
         portalSlug: this.selectedPortalSlug,
       });
     },
-    async saveArticle({ title, content }) {
+    async saveArticle({ ...values }) {
       this.isUpdating = true;
       try {
         await this.$store.dispatch('articles/update', {
           portalSlug: this.selectedPortalSlug,
           articleId: this.articleId,
-          title,
-          content,
+          ...values,
         });
       } catch (error) {
         this.alertMessage =
