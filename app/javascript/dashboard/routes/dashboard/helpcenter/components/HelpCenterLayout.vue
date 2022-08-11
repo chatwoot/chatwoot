@@ -13,6 +13,7 @@
         :accessible-menu-items="accessibleMenuItems"
         :additional-secondary-menu-items="additionalSecondaryMenuItems"
         @open-popover="openPortalPopover"
+        @open-modal="onClickOpenAddCatogoryModal"
       />
     </div>
     <section class="app-content columns">
@@ -33,6 +34,12 @@
         :active-portal="selectedPortal"
         @close-popover="closePortalPopover"
       />
+      <add-category
+        v-if="showAddCategoryModal"
+        :portal-name="selectedPortalName"
+        :locale="selectedPortalLocale"
+        @cancel="onClickCloseAddCategoryModal"
+      />
     </section>
   </div>
 </template>
@@ -45,8 +52,10 @@ import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
+import AddCategory from '../components/AddCategory.vue';
+
 export default {
   components: {
     Sidebar,
@@ -55,6 +64,7 @@ export default {
     WootKeyShortcutModal,
     NotificationPanel,
     PortalPopover,
+    AddCategory,
   },
   mixins: [portalMixin],
   data() {
@@ -62,6 +72,7 @@ export default {
       showShortcutModal: false,
       showNotificationPanel: false,
       showPortalPopover: false,
+      showAddCategoryModal: false,
     };
   },
 
@@ -70,9 +81,13 @@ export default {
       accountId: 'getCurrentAccountId',
       selectedPortal: 'portals/getSelectedPortal',
       portals: 'portals/allPortals',
+      categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    selectedPortalName() {
+      return this.selectedPortal ? this.selectedPortal.name : '';
+    },
     selectedPortalSlug() {
       return this.portalSlug || this.selectedPortal?.slug;
     },
@@ -98,18 +113,18 @@ export default {
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
           ),
           toolTip: 'All Articles',
-          toStateName: 'list_all_selectedPortalLocale_articles',
+          toStateName: 'list_all_locale_articles',
         },
         {
           icon: 'pen',
           label: 'HELP_CENTER.MY_ARTICLES',
-          key: 'mine_articles',
+          key: 'list_mine_articles',
           count: mineArticlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
           ),
           toolTip: 'My articles',
-          toStateName: 'mine_articles',
+          toStateName: 'list_mine_articles',
         },
         {
           icon: 'draft',
@@ -142,26 +157,15 @@ export default {
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: [
-            {
-              id: 1,
-              label: 'Getting started',
-              count: 12,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/getting-started`
-              ),
-            },
-            {
-              id: 2,
-              label: 'Channel',
-              count: 19,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/channel`
-              ),
-            },
-          ],
+          children: this.categories.map(category => ({
+            id: category.id,
+            label: category.name,
+            count: category.meta.articles_count,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${category.locale}/categories/${category.slug}`
+            ),
+          })),
         },
       ];
     },
@@ -173,11 +177,15 @@ export default {
     },
   },
   mounted() {
-    this.fetchPortals();
+    this.fetchPortalsAndItsCategories();
   },
   methods: {
-    fetchPortals() {
-      this.$store.dispatch('portals/index');
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.selectedPortalSlug,
+        });
+      });
     },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
@@ -196,6 +204,18 @@ export default {
     },
     closePortalPopover() {
       this.showPortalPopover = false;
+    },
+    openPortalPage() {
+      this.$router.push({
+        name: 'list_all_portals',
+      });
+      this.showPortalPopover = false;
+    },
+    onClickOpenAddCatogoryModal() {
+      this.showAddCategoryModal = true;
+    },
+    onClickCloseAddCategoryModal() {
+      this.showAddCategoryModal = false;
     },
   },
 };
