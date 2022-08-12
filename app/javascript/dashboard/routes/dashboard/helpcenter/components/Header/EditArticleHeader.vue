@@ -12,8 +12,8 @@
       </woot-button>
     </div>
     <div class="header-right--wrap">
-      <span v-if="isUpdating" class="draft-status">
-        {{ $t('HELP_CENTER.EDIT_HEADER.SAVING') }}
+      <span v-if="isUpdating || isSaved" class="draft-status">
+        {{ statusText }}
       </span>
 
       <woot-button
@@ -74,11 +74,11 @@ export default {
       type: String,
       default: '',
     },
-    statusText: {
-      type: String,
-      default: '',
-    },
     isUpdating: {
+      type: Boolean,
+      default: false,
+    },
+    isSaved: {
       type: Boolean,
       default: false,
     },
@@ -87,6 +87,13 @@ export default {
     return {
       isSidebarOpen: false,
     };
+  },
+  computed: {
+    statusText() {
+      return this.isUpdating
+        ? this.$t('HELP_CENTER.EDIT_HEADER.SAVING')
+        : this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
+    },
   },
   methods: {
     onClickGoBack() {

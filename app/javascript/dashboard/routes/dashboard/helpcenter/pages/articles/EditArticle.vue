@@ -7,6 +7,7 @@
       <edit-article-header
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
         :is-updating="isUpdating"
+        :is-saved="isSaved"
         @back="onClickGoBack"
         @open="openArticleSettings"
         @close="closeArticleSettings"
@@ -48,6 +49,7 @@ export default {
   data() {
     return {
       isUpdating: false,
+      isSaved: false,
       showArticleSettings: false,
     };
   },
@@ -94,6 +96,7 @@ export default {
       } finally {
         setTimeout(() => {
           this.isUpdating = false;
+          this.isSaved = true;
         }, 1500);
       }
     },
