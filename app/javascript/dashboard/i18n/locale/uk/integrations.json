@@ -116,19 +116,19 @@
         "API_ERROR": "We couldn't create an app. Please try again later"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Редагувати інформаційну панель",
         "FORM_SUBMIT": "Оновити",
         "FORM_CANCEL": "Скасувати",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Панель інструментів успішно оновлено",
+        "API_ERROR": "Не вдалося оновити додаток. Будь ласка, спробуйте ще раз пізніше"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Так, видалити це",
+        "CONFIRM_NO": "Ні, зберегти це",
         "TITLE": "Підтвердіть видалення",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "Ви дійсно бажаєте видалити програму - %{appName}?",
+        "API_SUCCESS": "Панель інструментів успішно видалено",
+        "API_ERROR": "Не вдалося видалити додаток. Будь ласка, спробуйте ще раз пізніше"
       }
     }
   }
