@@ -84,8 +84,10 @@ export const actions = {
       });
     }
   },
-
   setPortalId: async ({ commit }, portalId) => {
     commit(types.SET_SELECTED_PORTAL_ID, portalId);
+  },
+  updatePortal: async ({ commit }, portal) => {
+    commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
 };

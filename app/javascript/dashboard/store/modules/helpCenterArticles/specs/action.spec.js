@@ -9,6 +9,7 @@ const articleList = [
   },
 ];
 const commit = jest.fn();
+const dispatch = jest.fn();
 global.axios = axios;
 jest.mock('axios');
 
@@ -66,8 +67,8 @@ describe('#actions', () => {
 
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({ data: articleList[0] });
-      await actions.create({ commit }, articleList[0]);
+      axios.post.mockResolvedValue({ data: { payload: articleList[0] } });
+      await actions.create({ commit, dispatch }, articleList[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
         [types.default.ADD_ARTICLE, articleList[0]],
