@@ -111,6 +111,23 @@
         }
       },
       "ADD": {
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal"
+          },
+          {
+            "title": "Voila!",
+            "route": "portal_finish",
+            "body": "You're all set!"
+          }
+        ],
         "TITLE": "Create a portal",
         "SUB_TITLE": "A Help Center in Chatwoot is known as a portal. You can have multiple portals and can have different locales for each portal.",
         "NAME": {
