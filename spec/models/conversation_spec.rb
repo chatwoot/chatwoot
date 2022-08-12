@@ -428,6 +428,7 @@ RSpec.describe Conversation, type: :model do
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee,
+          team: conversation.team,
           hmac_verified: conversation.contact_inbox.hmac_verified
         },
         id: conversation.display_id,
