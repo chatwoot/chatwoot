@@ -9,7 +9,6 @@ export default {
       return format(unixTime, dateFormat);
     },
     dynamicTime(time) {
-      // console.log('helloo');
       const unixTime = fromUnixTime(time);
       return formatDistanceToNow(unixTime, { addSuffix: true });
     },

@@ -6,6 +6,13 @@
 
 <script>
 import timeMixin from 'dashboard/mixins/time';
+import {
+  differenceInMinutes,
+  differenceInHours,
+  differenceInDays,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
+} from 'date-fns';
 export default {
   name: 'TimeAgo',
   mixins: [timeMixin],
@@ -29,41 +36,35 @@ export default {
     hasMinutesDiff() {
       const today = new Date();
       const date = new Date(this.datetime * 1000);
-      const diff = Math.abs(today - date);
-      const minutes = Math.floor(diff / 1000 / 60);
+      const minutes = differenceInMinutes(today, date);
       return minutes <= 60;
     },
     hasHourDiff() {
       const today = new Date();
       const date = new Date(this.datetime * 1000);
 
-      const msInHour = 1000 * 60 * 60;
-
-      const hours = Math.abs(date.getTime() - today.getTime()) / msInHour;
-      return hours >= 1.5 && hours <= 24.0;
+      const hours = differenceInHours(today, date);
+      return hours >= 1 && hours <= 24;
     },
     hasDayDiff() {
       const today = new Date();
       const date = new Date(this.datetime * 1000);
 
-      const msInDay = 1000 * 60 * 60 * 24;
-
-      const days = Math.abs(date.getTime() - today.getTime()) / msInDay;
-      const daysRounded = Math.round(days);
-      return daysRounded >= 1 && daysRounded <= 30;
+      const days = differenceInDays(today, date);
+      return days >= 1.5 && days <= 15;
     },
-    // hasMonthDiff() {
-    //   const today = new Date();
-    //   const date = new Date(this.datetime * 1000);
-    //   const months = today.getMonth() + 1 - (date.getMonth() + 1);
-    //   return months >= 1 && months <= 12;
-    // },
-    // hasYearDiff() {
-    //   const today = new Date();
-    //   const date = new Date(this.datetime * 1000);
-    //   const years = today.getFullYear() - date.getFullYear();
-    //   return years >= 1;
-    // },
+    hasMonthDiff() {
+      const today = new Date();
+      const date = new Date(this.datetime * 1000);
+      const months = differenceInCalendarMonths(today, date);
+      return months >= 1 && months <= 6;
+    },
+    hasYearDiff() {
+      const today = new Date();
+      const date = new Date(this.datetime * 1000);
+      const years = differenceInCalendarYears(today, date);
+      return years >= 1;
+    },
     refreshTime() {
       if (this.refresh) {
         if (this.hasMinutesDiff && !this.hasHourDiff) {
@@ -73,13 +74,13 @@ export default {
           return 3600000;
         }
         // if (this.hasDayDiff && !this.hasMonthDiff) {
-        //   return 60000000000000;
+        //   return 86400000;
         // }
         // if (this.hasMonthDiff && !this.hasYearDiff) {
-        //   return 60000000000000;
+        //   return 2592000000;
         // }
         // if (this.hasYearDiff) {
-        //   return 60000000000000;
+        //   return 31536000000;
         // }
       }
       return false;
