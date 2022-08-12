@@ -4,7 +4,7 @@
       {{ app.title }}
     </td>
     <td class="dashboard-app-label-url">
-      <span>
+      <span class="text-truncate">
         {{ app.content[0].url }}
       </span>
     </td>
@@ -62,9 +62,6 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 </style>
