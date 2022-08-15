@@ -6,7 +6,7 @@ export default {
   argTypes: {
     refresh: {
       control: {
-        type: 'boolean, number',
+        type: 'boolean',
       },
     },
     datetime: {

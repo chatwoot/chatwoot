@@ -87,8 +87,7 @@
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          <!-- {{ dynamicTime(chat.timestamp) }} -->
-          <time-ago :datetime="chat.timestamp" :refresh="true" />
+          <time-ago :timestamp="chat.timestamp" :refresh="true" />
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>

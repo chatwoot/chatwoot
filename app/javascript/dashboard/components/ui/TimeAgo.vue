@@ -18,10 +18,10 @@ export default {
   mixins: [timeMixin],
   props: {
     refresh: {
-      type: [Number, Boolean],
+      type: Boolean,
       default: false,
     },
-    datetime: {
+    timestamp: {
       type: [String, Date, Number],
       default: '',
     },
@@ -33,57 +33,65 @@ export default {
     };
   },
   computed: {
+    currentDate() {
+      return new Date();
+    },
+    previousDate() {
+      return new Date(this.timestamp * 1000);
+    },
+
     hasMinutesDiff() {
-      const today = new Date();
-      const date = new Date(this.datetime * 1000);
-      const minutes = differenceInMinutes(today, date);
-      return minutes <= 60;
+      const minutes = differenceInMinutes(this.currentDate, this.previousDate);
+      return minutes < 60;
     },
     hasHourDiff() {
-      const today = new Date();
-      const date = new Date(this.datetime * 1000);
-
-      const hours = differenceInHours(today, date);
+      const hours = differenceInHours(this.currentDate, this.previousDate);
       return hours >= 1 && hours <= 24;
     },
     hasDayDiff() {
-      const today = new Date();
-      const date = new Date(this.datetime * 1000);
-
-      const days = differenceInDays(today, date);
-      return days >= 1.5 && days <= 15;
+      const days = differenceInDays(this.currentDate, this.previousDate);
+      return days >= 1 && days <= 31;
     },
     hasMonthDiff() {
-      const today = new Date();
-      const date = new Date(this.datetime * 1000);
-      const months = differenceInCalendarMonths(today, date);
+      const months = differenceInCalendarMonths(
+        this.currentDate,
+        this.previousDate
+      );
       return months >= 1 && months <= 6;
     },
     hasYearDiff() {
-      const today = new Date();
-      const date = new Date(this.datetime * 1000);
-      const years = differenceInCalendarYears(today, date);
+      const years = differenceInCalendarYears(
+        this.currentDate,
+        this.previousDate
+      );
       return years >= 1;
     },
     refreshTime() {
-      if (this.refresh) {
+      const ZERO = 0;
+      const MINUTE_IN_MSEC = 60000;
+      const HOUR_IN_MSEC = MINUTE_IN_MSEC * 60;
+      const DAY_IN_MSEC = HOUR_IN_MSEC * 24;
+      const MONTH_IN_MSEC = DAY_IN_MSEC * 30;
+      const YEAR_IN_MSEC = MONTH_IN_MSEC * 12;
+
+      if (this.refresh === true) {
         if (this.hasMinutesDiff && !this.hasHourDiff) {
-          return 60000;
+          return MINUTE_IN_MSEC;
         }
         if (this.hasHourDiff && !this.hasDayDiff) {
-          return 3600000;
+          return HOUR_IN_MSEC;
         }
-        // if (this.hasDayDiff && !this.hasMonthDiff) {
-        //   return 86400000;
-        // }
-        // if (this.hasMonthDiff && !this.hasYearDiff) {
-        //   return 2592000000;
-        // }
-        // if (this.hasYearDiff) {
-        //   return 31536000000;
-        // }
+        if (this.hasDayDiff && !this.hasMonthDiff) {
+          return DAY_IN_MSEC;
+        }
+        if (this.hasMonthDiff && !this.hasYearDiff) {
+          return MONTH_IN_MSEC;
+        }
+        if (this.hasYearDiff) {
+          return YEAR_IN_MSEC;
+        }
       }
-      return false;
+      return ZERO;
     },
   },
   mounted() {
@@ -94,21 +102,26 @@ export default {
   },
   methods: {
     createTimer() {
-      this.timeago = this.dynamicTime(this.datetime);
+      this.timeago = this.dynamicTime(this.timestamp);
       this.$nextTick(() => {
-        if (this.refresh) {
-          const refreshTime =
-            this.refresh === true ? this.refreshTime : this.refresh;
-          this.timer = setInterval(() => {
-            this.timeago = this.dynamicTime(this.datetime);
+        if (this.refresh === true) {
+          const refreshTime = this.refreshTime;
+          let timerValue = setTimeout(() => {
+            this.timer = timerValue;
+            this.timeago = this.dynamicTime(this.timestamp);
+            timerValue = setTimeout(() => {
+              this.createTimer();
+            }, refreshTime);
           }, refreshTime);
         } else {
-          this.timeago = this.dynamicTime(this.datetime);
+          this.timeago = this.dynamicTime(this.timestamp);
         }
       });
     },
     clearTimer() {
-      if (this.timer) clearInterval(this.timer);
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
     },
   },
 };
