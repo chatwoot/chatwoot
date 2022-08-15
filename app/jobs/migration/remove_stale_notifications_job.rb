@@ -12,9 +12,8 @@ class Migration::RemoveStaleNotificationsJob < ApplicationJob
     deleted_ids = []
 
     Message.unscoped.distinct.pluck(:inbox_id).each_slice(1000) do |id_list|
-      deleted_ids << (id_list - Inbox.where(id: id_list).pluck(:id))
+      deleted_ids = (id_list - Inbox.where(id: id_list).pluck(:id))
+      Message.where(inbox_id: deleted_ids.flatten).destroy_all
     end
-
-    Message.where(inbox_id: deleted_ids.flatten).destroy_all
   end
 end
