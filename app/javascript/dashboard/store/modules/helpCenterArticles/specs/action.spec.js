@@ -73,9 +73,11 @@ describe('#actions', () => {
         [types.default.SET_UI_FLAG, { isCreating: true }],
         [types.default.ADD_ARTICLE, articleList[0]],
         [types.default.ADD_ARTICLE_ID, 1],
+        [types.default.ADD_ARTICLE_FLAG, 1],
         [types.default.SET_UI_FLAG, { isCreating: false }],
       ]);
     });
+
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.create({ commit }, articleList[0])).rejects.toThrow(
@@ -101,12 +103,12 @@ describe('#actions', () => {
       );
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
         [types.default.UPDATE_ARTICLE, articleList[0]],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
         ],
       ]);
@@ -126,11 +128,11 @@ describe('#actions', () => {
 
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
         ],
       ]);
@@ -143,13 +145,13 @@ describe('#actions', () => {
       await actions.delete({ commit }, articleList[0].id);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: true }, articleId: 1 },
         ],
         [types.default.REMOVE_ARTICLE, articleList[0].id],
         [types.default.REMOVE_ARTICLE_ID, articleList[0].id],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
@@ -161,11 +163,11 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: true }, articleId: 1 },
         ],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
