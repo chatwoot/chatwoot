@@ -55,7 +55,7 @@ export default {
       values => {
         this.$emit('save-article', values);
       },
-      1000,
+      300,
       false
     );
   },
