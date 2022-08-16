@@ -61,5 +61,17 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
         expect(confirmable_user.unconfirmed_email.blank?).to be false
       end
     end
+
+    context 'when user deleted before' do
+      before do
+        confirmable_user.account_users.last.destroy!
+      end
+
+      it 're-send confirmation after re-adding agent' do
+        confirmation_mail = Devise::Mailer.confirmation_instructions(confirmable_user.reload, nil, {})
+
+        expect(confirmation_mail.body).to include('app/auth/confirmation?confirmation_token')
+      end
+    end
   end
 end
