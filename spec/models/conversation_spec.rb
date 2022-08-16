@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/assignment_handler_shared.rb'
-require Rails.root.join 'spec/models/concerns/round_robin_handler_shared.rb'
+require Rails.root.join 'spec/models/concerns/auto_assignment_handler_shared.rb'
 
 RSpec.describe Conversation, type: :model do
   describe 'associations' do
@@ -12,7 +12,7 @@ RSpec.describe Conversation, type: :model do
 
   describe 'concerns' do
     it_behaves_like 'assignment_handler'
-    it_behaves_like 'round_robin_handler'
+    it_behaves_like 'auto_assignment_handler'
   end
 
   describe '.before_create' do

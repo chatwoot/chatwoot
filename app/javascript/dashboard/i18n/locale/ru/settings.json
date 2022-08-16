@@ -201,7 +201,8 @@
       "MY_ARTICLES": "Мои статьи",
       "DRAFT": "Черновик",
       "ARCHIVED": "Архив",
-      "CATEGORY": "Категория"
+      "CATEGORY": "Категория",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "DOCS": "Чтение документов"
   },
