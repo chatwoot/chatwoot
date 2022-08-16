@@ -26,14 +26,49 @@
       "SAVING": "Salvataggio bozza...",
       "SAVED": "Bozza salvata"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Impostazioni articolo",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Categoria",
+          "TITLE": "Seleziona categoria",
+          "PLACEHOLDER": "Seleziona categoria",
+          "NO_RESULT": "Nessuna categoria trovata",
+          "SEARCH_PLACEHOLDER": "Cerca categoria"
+        },
+        "AUTHOR": {
+          "LABEL": "Autore",
+          "TITLE": "Seleziona autore",
+          "PLACEHOLDER": "Seleziona autore",
+          "NO_RESULT": "Nessun autore trovato",
+          "SEARCH_PLACEHOLDER": "Cerca autore"
+        },
+        "META_TITLE": {
+          "LABEL": "Titolo meta",
+          "PLACEHOLDER": "Aggiungi un titolo meta"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Descrizione meta",
+          "PLACEHOLDER": "Aggiungi la tua descrizione meta per migliori risultati SEO..."
+        },
+        "META_TAGS": {
+          "LABEL": "Tag meta",
+          "PLACEHOLDER": "Aggiungi tag meta separati da virgola..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archivia articolo",
+        "DELETE": "Elimina articolo"
+      }
+    },
     "PORTAL": {
       "HEADER": "Portali",
       "NEW_BUTTON": "Nuovo portale",
       "ACTIVE_BADGE": "attivo",
       "CHOOSE_LOCALE_LABEL": "Scegli una lingua",
-      "LOADING_MESSAGE": "Loading portals...",
+      "LOADING_MESSAGE": "Caricamento dei portali...",
       "ARTICLES_LABEL": "articoli",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
+      "NO_PORTALS_MESSAGE": "Non ci sono portali disponibili",
       "ADD_NEW_LOCALE": "Aggiungi una nuova lingua",
       "POPOVER": {
         "TITLE": "Portali",
@@ -73,6 +108,54 @@
               "DEFAULT_LOCALE": "Predefinito"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Crea un portale",
+        "SUB_TITLE": "Un Centro Assistenza in Chatwoot è noto come portale. Puoi avere più portali e avere diverse lingue per ogni portale.",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome del portale",
+          "HELP_TEXT": "Il nome sarà utilizzato nel portale pubblico rivolto internamente",
+          "ERROR": "Il nome è obbligatorio"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Titolo pagina",
+          "PLACEHOLDER": "Titolo pagina del portale",
+          "HELP_TEXT": "Il nome verrà utilizzato nel portale pubblico",
+          "ERROR": "Il titolo della pagina è obbligatorio"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug portale per URLs",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Slug è obbligatorio"
+        },
+        "DOMAIN": {
+          "LABEL": "Dominio personalizzato",
+          "PLACEHOLDER": "Dominio personalizzato del portale",
+          "HELP_TEXT": "Aggiungi solo se vuoi usare un dominio personalizzato per i tuoi portali",
+          "ERROR": "Dominio personalizzato richiesto"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Link pagina iniziale",
+          "PLACEHOLDER": "Link della pagina iniziale del portale",
+          "HELP_TEXT": "Il link utilizzato per tornare dal portale alla home page.",
+          "ERROR": "Il link della pagina iniziale è obbligatorio"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Testo intestazione",
+          "PLACEHOLDER": "Testo intestazione del portale",
+          "HELP_TEXT": "Testo intestazione del portale",
+          "ERROR": "Il testo dell'intestazione del portale è obbligatorio"
+        },
+        "BUTTONS": {
+          "CREATE": "Crea portale",
+          "CANCEL": "annulla"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Portale creato con successo.",
+          "ERROR_MESSAGE": "Impossibile creare il portale. Riprova."
         }
       }
     },
@@ -126,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "Crea categoria",
           "CANCEL": "annulla"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria creata con successo",
+          "ERROR_MESSAGE": "Impossibile creare la categoria"
         }
       }
     }
