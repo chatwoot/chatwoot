@@ -26,6 +26,7 @@ export const mutations = {
     articles.forEach(article => {
       allArticles[article.id] = article;
     });
+
     Vue.set($state.articles, 'byId', allArticles);
   },
   [types.ADD_MANY_ARTICLES_ID]($state, articleIds) {
@@ -39,10 +40,13 @@ export const mutations = {
   },
 
   [types.ADD_ARTICLE_ID]: ($state, articleId) => {
+    if ($state.articles.allIds.includes(articleId)) return;
     $state.articles.allIds.push(articleId);
   },
   [types.ADD_ARTICLE_FLAG]: ($state, { articleId, uiFlags }) => {
-    const flags = $state.articles.uiFlags.byId[articleId];
+    const flags =
+      Object.keys($state.articles.uiFlags.byId).includes(articleId) || {};
+
     Vue.set($state.articles.uiFlags.byId, articleId, {
       ...{
         isFetching: false,
