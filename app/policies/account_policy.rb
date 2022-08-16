@@ -10,4 +10,12 @@ class AccountPolicy < ApplicationPolicy
   def update_active_at?
     true
   end
+
+  def subscription?
+    @account_user.administrator?
+  end
+
+  def checkout?
+    @account_user.administrator?
+  end
 end

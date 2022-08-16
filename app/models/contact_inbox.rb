@@ -19,11 +19,6 @@
 #  index_contact_inboxes_on_pubsub_token            (pubsub_token) UNIQUE
 #  index_contact_inboxes_on_source_id               (source_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (contact_id => contacts.id) ON DELETE => cascade
-#  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
-#
 
 class ContactInbox < ApplicationRecord
   include Pubsubable

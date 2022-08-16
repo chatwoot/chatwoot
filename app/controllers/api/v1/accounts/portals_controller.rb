@@ -3,6 +3,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
+  before_action :set_current_page, only: [:index]
 
   def index
     @portals = Current.account.portals
@@ -17,8 +18,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def create
     @portal = Current.account.portals.build(portal_params)
-    render json: { error: @portal.errors.messages }, status: :unprocessable_entity and return unless @portal.valid?
-
     @portal.save!
     process_attached_logo
   end
@@ -65,5 +64,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_member_params
     params.require(:portal).permit(:account_id, member_ids: [])
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
   end
 end

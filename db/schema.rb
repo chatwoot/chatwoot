@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_06_085458) do
+ActiveRecord::Schema.define(version: 2022_08_09_104508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -53,6 +53,9 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
+    t.jsonb "custom_attributes", default: {}
+    t.integer "status", default: 0
+    t.index ["status"], name: "index_accounts_on_status"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -127,6 +130,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
     t.bigint "associated_article_id"
+    t.jsonb "meta", default: {}
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
   end
@@ -562,6 +566,20 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
+  create_table "macros", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.integer "visibility", default: 0
+    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
+    t.jsonb "actions", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_macros_on_account_id"
+    t.index ["created_by_id"], name: "index_macros_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_macros_on_updated_by_id"
+  end
+
   create_table "mentions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "conversation_id", null: false
@@ -844,38 +862,8 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
-  add_foreign_key "account_users", "accounts", on_delete: :cascade
-  add_foreign_key "account_users", "users", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_bots", "accounts", on_delete: :cascade
-  add_foreign_key "articles", "articles", column: "associated_article_id"
-  add_foreign_key "articles", "users", column: "author_id"
-  add_foreign_key "campaigns", "accounts", on_delete: :cascade
-  add_foreign_key "campaigns", "inboxes", on_delete: :cascade
-  add_foreign_key "categories", "categories", column: "associated_category_id"
-  add_foreign_key "categories", "categories", column: "parent_category_id"
-  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
-  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "campaigns", on_delete: :cascade
-  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "teams", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "accounts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "contacts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
-  add_foreign_key "dashboard_apps", "accounts"
-  add_foreign_key "dashboard_apps", "users"
-  add_foreign_key "data_imports", "accounts", on_delete: :cascade
-  add_foreign_key "mentions", "conversations", on_delete: :cascade
-  add_foreign_key "mentions", "users", on_delete: :cascade
-  add_foreign_key "notes", "accounts", on_delete: :cascade
-  add_foreign_key "notes", "contacts", on_delete: :cascade
-  add_foreign_key "notes", "users", on_delete: :cascade
-  add_foreign_key "team_members", "teams", on_delete: :cascade
-  add_foreign_key "team_members", "users", on_delete: :cascade
-  add_foreign_key "teams", "accounts", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

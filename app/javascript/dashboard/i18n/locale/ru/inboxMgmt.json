@@ -112,10 +112,10 @@
           "ERROR": "Это поле обязательно"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "SID службы обмена сообщениями",
+          "PLACEHOLDER": "Пожалуйста, введите SID службы сообщений Twilio",
           "ERROR": "Это поле обязательно",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Использовать сервис Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Тип источника",
@@ -413,7 +413,8 @@
       "CONFIGURATION": "Настройки",
       "CAMPAIGN": "Кампании",
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
-      "BUSINESS_HOURS": "Время работы"
+      "BUSINESS_HOURS": "Время работы",
+      "WIDGET_BUILDER": "Конструктор виджетов"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
       "AUTH_MECHANISM": "Авторизация"
     },
-    "NOTE": "Примечание: "
+    "NOTE": "Примечание: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Аватар сайта",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Аватар успешно удален",
+              "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Имя сайта",
+          "PLACE_HOLDER": "Введите имя вашего сайта (например: Acme Inc)",
+          "ERROR": "Пожалуйста, правильно введите имя веб-сайта"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Заголовок приветствия",
+          "PLACE_HOLDER": "Привет!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Текст приветствия",
+          "PLACE_HOLDER": "Связаться с нами просто! Напишите нам, или задайте вопрос."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Время ответа",
+          "IN_A_FEW_MINUTES": "Через несколько минут",
+          "IN_A_FEW_HOURS": "Через несколько часов",
+          "IN_A_DAY": "Через день"
+        },
+        "WIDGET_COLOR_LABEL": "Цвет виджета",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Пообщайтесь с нами",
+          "LABEL": "Название виджета",
+          "PLACE_HOLDER": "Пообщайтесь с нами"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Обновить настройки виджета",
+          "API": {
+            "SUCCESS_MESSAGE": "Настройки виджета успешно обновлены",
+            "ERROR_MESSAGE": "Не удается обновить настройки виджета"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Предпросмотр",
+          "SCRIPT": "Скрипт"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Слева",
+          "RIGHT": "Справа"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Стандартный",
+          "EXPANDED_BUBBLE": "Расширенная рамка сообщений"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "По умолчанию",
+        "CHAT": "Чат"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
+        "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
+        "IN_A_DAY": "Обычно отвечаем в течение дня"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Начать диалог",
+        "CHAT_INPUT_PLACEHOLDER": "Введите сообщение"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Мы в сети",
+          "OFFLINE": "В данный момент мы отсутствуем"
+        },
+        "USER_MESSAGE": "Хай",
+        "AGENT_MESSAGE": "Привет"
+      },
+      "BRANDING_TEXT": "Работает на Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

@@ -487,6 +487,14 @@ RSpec.describe 'Contacts API', type: :request do
         contact.reload
         expect(contact.avatar.attached?).to be(true)
       end
+
+      it 'updated avatar with avatar_url' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: valid_params.merge(avatar_url: 'http://example.com/avatar.png'),
+              headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact, 'http://example.com/avatar.png')
+      end
     end
   end
 
