@@ -6,7 +6,7 @@ shared_examples_for 'assignment_handler' do
   describe '#update_team' do
     let(:conversation) { create(:conversation, assignee: create(:user)) }
     let(:agent) do
-      create(:user, email: 'agent@example.com', account: conversation.account, role: :agent)
+      create(:user, email: 'agent@example.com', account: conversation.account, role: :agent, auto_offline: false)
     end
     let(:team) do
       create(:team, account: conversation.account, allow_auto_assign: false)
