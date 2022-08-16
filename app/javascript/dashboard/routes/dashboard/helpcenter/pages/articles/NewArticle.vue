@@ -33,12 +33,16 @@ export default {
     ...mapGetters({
       selectedPortal: 'portals/getSelectedPortal',
       currentUserID: 'getCurrentUserID',
+      categories: 'categories/allCategories',
     }),
     article() {
       return { title: this.articleTitle, content: this.articleContent };
     },
     selectedPortalSlug() {
       return this.portalSlug || this.selectedPortal?.slug;
+    },
+    categoryId() {
+      return this.categories.length ? this.categories[0].id : null;
     },
   },
   methods: {
@@ -57,7 +61,7 @@ export default {
             title: this.articleTitle,
             author_id: this.currentUserID,
             // TODO: Change to un categorized later when API supports
-            category_id: 19,
+            category_id: this.categoryId,
           });
           this.$router.push({
             name: 'edit_article',
