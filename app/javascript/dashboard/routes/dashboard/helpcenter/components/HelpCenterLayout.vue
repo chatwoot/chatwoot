@@ -6,13 +6,14 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <div class="margin-right-small">
+    <div v-if="portals.length" class="margin-right-small">
       <help-center-sidebar
-        header-title="Help Center"
-        sub-title="English"
+        :header-title="headerTitle"
+        :sub-title="localeName(selectedPortalLocale)"
         :accessible-menu-items="accessibleMenuItems"
         :additional-secondary-menu-items="additionalSecondaryMenuItems"
         @open-popover="openPortalPopover"
+        @open-modal="onClickOpenAddCatogoryModal"
       />
     </div>
     <section class="app-content columns">
@@ -30,7 +31,14 @@
       <portal-popover
         v-if="showPortalPopover"
         :portals="portals"
+        :active-portal="selectedPortal"
         @close-popover="closePortalPopover"
+      />
+      <add-category
+        v-if="showAddCategoryModal"
+        :portal-name="selectedPortalName"
+        :locale="selectedPortalLocale"
+        @cancel="onClickCloseAddCategoryModal"
       />
     </section>
   </div>
@@ -40,11 +48,13 @@ import { mapGetters } from 'vuex';
 
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar';
-import PortalPopover from 'dashboard/routes/dashboard/helpcenter/components/PortalPopover';
-import HelpCenterSidebar from 'dashboard/routes/dashboard/helpcenter/components/Sidebar/Sidebar';
+import PortalPopover from '../components/PortalPopover.vue';
+import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import portalMixin from '../mixins/portalMixin';
+import AddCategory from '../components/AddCategory.vue';
 
 export default {
   components: {
@@ -54,27 +64,53 @@ export default {
     WootKeyShortcutModal,
     NotificationPanel,
     PortalPopover,
+    AddCategory,
   },
+  mixins: [portalMixin],
   data() {
     return {
       showShortcutModal: false,
       showNotificationPanel: false,
       showPortalPopover: false,
+      showAddCategoryModal: false,
     };
   },
+
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
+      selectedPortal: 'portals/getSelectedPortal',
+      portals: 'portals/allPortals',
+      categories: 'categories/allCategories',
+      meta: 'portals/getMeta',
+      isFetching: 'portals/isFetchingPortals',
     }),
+    selectedPortalName() {
+      return this.selectedPortal ? this.selectedPortal.name : '';
+    },
+    selectedPortalSlug() {
+      return this.portalSlug || this.selectedPortal?.slug;
+    },
+    selectedPortalLocale() {
+      return this.locale || this.selectedPortal?.meta?.default_locale;
+    },
     accessibleMenuItems() {
+      const {
+        meta: {
+          all_articles_count: allArticlesCount,
+          mine_articles_count: mineArticlesCount,
+          draft_articles_count: draftArticlesCount,
+          archived_articles_count: archivedArticlesCount,
+        } = {},
+      } = this.selectedPortal;
       return [
         {
           icon: 'book',
           label: 'HELP_CENTER.ALL_ARTICLES',
           key: 'list_all_locale_articles',
-          count: 199,
+          count: allArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
           ),
           toolTip: 'All Articles',
           toStateName: 'list_all_locale_articles',
@@ -82,21 +118,21 @@ export default {
         {
           icon: 'pen',
           label: 'HELP_CENTER.MY_ARTICLES',
-          key: 'mine_articles',
-          count: 112,
+          key: 'list_mine_articles',
+          count: mineArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/mine`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
           ),
           toolTip: 'My articles',
-          toStateName: 'mine_articles',
+          toStateName: 'list_mine_articles',
         },
         {
           icon: 'draft',
           label: 'HELP_CENTER.DRAFT',
           key: 'list_draft_articles',
-          count: 32,
+          count: draftArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/draft`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/draft`
           ),
           toolTip: 'Draft',
           toStateName: 'list_draft_articles',
@@ -105,9 +141,9 @@ export default {
           icon: 'archive',
           label: 'HELP_CENTER.ARCHIVED',
           key: 'list_archived_articles',
-          count: 10,
+          count: archivedArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/:portalSlug/:locale/articles/archived`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/archived`
           ),
           toolTip: 'Archived',
           toStateName: 'list_archived_articles',
@@ -121,200 +157,36 @@ export default {
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: [
-            {
-              id: 1,
-              label: 'Getting started',
-              count: 12,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/getting-started`
-              ),
-            },
-            {
-              id: 2,
-              label: 'Channel',
-              count: 19,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/channel`
-              ),
-            },
-            {
-              id: 3,
-              label: 'Feature',
-              count: 24,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/feature`
-              ),
-            },
-            {
-              id: 4,
-              label: 'Advanced',
-              count: 8,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/advanced`
-              ),
-            },
-            {
-              id: 5,
-              label: 'Mobile app',
-              count: 3,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/mobile-app`
-              ),
-            },
-            {
-              id: 6,
-              label: 'Others',
-              count: 39,
-              truncateLabel: true,
-              toState: frontendURL(
-                `accounts/${this.accountId}/portals/:portalSlug/:locale/categories/others`
-              ),
-            },
-          ],
-        },
-      ];
-    },
-    portals() {
-      return [
-        {
-          name: 'Chatwoot Help Center',
-          id: 1,
-          color: null,
-          custom_domain: 'doc',
-          articles_count: 123,
-          header_text: null,
-          homepage_link: null,
-          page_title: null,
-          slug: 'first_portal',
-          archived: false,
-          config: {
-            allowed_locales: [
-              {
-                code: 'en',
-                name: 'English',
-                articles_count: 123,
-              },
-              {
-                code: 'fr',
-                name: 'Français',
-                articles_count: 123,
-              },
-              {
-                code: 'de',
-                name: 'Deutsch',
-                articles_count: 32,
-              },
-              {
-                code: 'es',
-                name: 'Español',
-                articles_count: 12,
-              },
-              {
-                code: 'it',
-                name: 'Italiano',
-                articles_count: 8,
-              },
-            ],
-          },
-          locales: [
-            {
-              name: 'English',
-              code: 'en',
-              articles_count: 12,
-            },
-            {
-              name: 'Español',
-              code: 'es',
-              articles_count: 42,
-            },
-            {
-              name: 'French',
-              code: 'fr',
-              articles_count: 29,
-            },
-            {
-              name: 'Italian',
-              code: 'it',
-              articles_count: 4,
-            },
-            {
-              name: 'German',
-              code: 'de',
-              articles_count: 66,
-            },
-          ],
-        },
-        {
-          name: 'Chatwoot Docs',
-          id: 2,
-          color: null,
-          custom_domain: 'doc',
-          articles_count: 124,
-          header_text: null,
-          homepage_link: null,
-          page_title: null,
-          slug: 'second_portal',
-          archived: false,
-          config: {
-            allowed_locales: [
-              {
-                code: 'en',
-                name: 'English',
-                articles_count: 123,
-              },
-              {
-                code: 'fr',
-                name: 'Français',
-                articles_count: 123,
-              },
-              {
-                code: 'de',
-                name: 'Deutsch',
-                articles_count: 32,
-              },
-              {
-                code: 'es',
-                name: 'Español',
-                articles_count: 12,
-              },
-              {
-                code: 'it',
-                name: 'Italiano',
-                articles_count: 8,
-              },
-            ],
-          },
-          locales: [
-            {
-              name: 'English',
-              code: 'en',
-              articles_count: 12,
-            },
-            {
-              name: 'Japanese',
-              code: 'jp',
-              articles_count: 4,
-            },
-            {
-              name: 'Mandarin',
-              code: 'CH',
-              articles_count: 6,
-            },
-          ],
+          children: this.categories.map(category => ({
+            id: category.id,
+            label: category.name,
+            count: category.meta.articles_count,
+            truncateLabel: true,
+            toState: frontendURL(
+              `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${category.locale}/categories/${category.slug}`
+            ),
+          })),
         },
       ];
     },
     currentRoute() {
       return ' ';
     },
+    headerTitle() {
+      return this.selectedPortal.name;
+    },
+  },
+  mounted() {
+    this.fetchPortalsAndItsCategories();
   },
   methods: {
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.selectedPortalSlug,
+        });
+      });
+    },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;
     },
@@ -332,6 +204,18 @@ export default {
     },
     closePortalPopover() {
       this.showPortalPopover = false;
+    },
+    openPortalPage() {
+      this.$router.push({
+        name: 'list_all_portals',
+      });
+      this.showPortalPopover = false;
+    },
+    onClickOpenAddCatogoryModal() {
+      this.showAddCategoryModal = true;
+    },
+    onClickCloseAddCategoryModal() {
+      this.showAddCategoryModal = false;
     },
   },
 };

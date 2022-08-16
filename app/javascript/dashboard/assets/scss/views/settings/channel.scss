@@ -1,3 +1,5 @@
+$channel-hover-color: rgba(0, 0, 0, 0.1);
+
 .channels {
   margin-top: $space-medium;
 
@@ -7,14 +9,14 @@
 
   .channel {
     @include flex;
-    @include padding($space-normal $zero);
     @include background-white;
     @include border-light;
 
     cursor: pointer;
     flex-direction: column;
     margin: -1px;
-    transition: all 0.200s ease-in;
+    padding: $space-normal $zero;
+    transition: all 0.2s ease-in;
 
     &:last-child {
       @include border-light;
@@ -22,16 +24,16 @@
 
     &:hover {
       border: 1px solid $primary-color;
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px $channel-hover-color;
       z-index: 999;
     }
 
     &.disabled {
-      opacity: .6;
+      opacity: 0.6;
     }
 
     img {
-      @include margin($space-normal auto);
+      margin: $space-normal auto;
       width: 50%;
     }
 
@@ -43,8 +45,8 @@
     }
 
     p {
-      width: 100%;
       color: $medium-gray;
+      width: 100%;
     }
   }
 }

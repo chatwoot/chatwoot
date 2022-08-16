@@ -6,4 +6,4 @@ class PortalsAPI extends ApiClient {
   }
 }
 
-export default new PortalsAPI();
+export default PortalsAPI;

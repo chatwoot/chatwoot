@@ -1,5 +1,8 @@
 <template>
-  <div class="edit-article--container">
+  <div
+    class="edit-article--container"
+    :class="{ 'is-settings-sidebar-open': isSettingsSidebarOpen }"
+  >
     <input
       v-model="articleTitle"
       type="text"
@@ -32,6 +35,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isSettingsSidebarOpen: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -62,8 +69,12 @@ export default {
 
 <style lang="scss" scoped>
 .edit-article--container {
-  margin: var(--space-medium) var(--space-giga);
-  min-width: 640px;
+  margin: var(--space-large) auto;
+  width: 640px;
+}
+
+.is-settings-sidebar-open {
+  margin: var(--space-large) var(--space-small);
 }
 
 .article-heading {

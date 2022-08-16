@@ -428,6 +428,7 @@ RSpec.describe Conversation, type: :model do
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee,
+          team: conversation.team,
           hmac_verified: conversation.contact_inbox.hmac_verified
         },
         id: conversation.display_id,
@@ -581,12 +582,17 @@ RSpec.describe Conversation, type: :model do
   end
 
   describe '#delete conversation' do
+    include ActiveJob::TestHelper
+
     let!(:conversation) { create(:conversation) }
 
     let!(:notification) { create(:notification, notification_type: 'conversation_creation', primary_actor: conversation) }
 
     it 'delete associated notifications if conversation is deleted' do
-      conversation.destroy!
+      perform_enqueued_jobs do
+        conversation.destroy!
+      end
+
       expect { notification.reload }.to raise_error ActiveRecord::RecordNotFound
     end
   end
