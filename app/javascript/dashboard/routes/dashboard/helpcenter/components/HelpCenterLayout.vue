@@ -186,6 +186,7 @@ export default {
           portalSlug: this.selectedPortalSlug,
         });
       });
+      this.$store.dispatch('agents/get');
     },
     toggleKeyShortcutModal() {
       this.showShortcutModal = true;

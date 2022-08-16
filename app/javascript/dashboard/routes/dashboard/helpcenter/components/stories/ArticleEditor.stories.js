@@ -1,9 +1,9 @@
 import { action } from '@storybook/addon-actions';
-import EditArticle from './EditArticle.vue';
+import ArticleEditor from './ArticleEditor.vue';
 
 export default {
   title: 'Components/Help Center',
-  component: EditArticle,
+  component: ArticleEditor,
   argTypes: {
     article: {
       defaultValue: {},
@@ -16,9 +16,9 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { EditArticle },
+  components: { ArticleEditor },
   template:
-    '<edit-article v-bind="$props" @focus="onFocus" @blur="onBlur"></edit-article>',
+    '<article-editor v-bind="$props" @focus="onFocus" @blur="onBlur"></-article>',
 });
 
 export const EditArticleView = Template.bind({});
