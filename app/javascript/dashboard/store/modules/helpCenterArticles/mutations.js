@@ -19,7 +19,7 @@ export const mutations = {
   [types.CLEAR_ARTICLES]: $state => {
     Vue.set($state.articles, 'byId', {});
     Vue.set($state.articles, 'allIds', []);
-    Vue.set($state.articles, 'uiFlags', {});
+    Vue.set($state.articles, 'uiFlags.byId', {});
   },
   [types.ADD_MANY_ARTICLES]($state, articles) {
     const allArticles = { ...$state.articles.byId };
@@ -55,7 +55,6 @@ export const mutations = {
   },
   [types.UPDATE_ARTICLE]($state, article) {
     const articleId = article.id;
-
     if (!$state.articles.allIds.includes(articleId)) return;
 
     Vue.set($state.articles.byId, articleId, {
