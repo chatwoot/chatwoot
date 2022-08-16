@@ -435,7 +435,7 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Omogući ili onemogući polje za prikupljanje e-pošte za novi razgovor",
       "AUTO_ASSIGNMENT": "Omogući automatsko dodeljivanje",
       "ENABLE_CSAT": "Omogući ocenu zadovoljstva korisnika",
-      "ENABLE_CSAT_SUB_TEXT": "Omogući/onemogući upitnik o zadovoljstva korisnika nakon rešavanja razgovora",
+      "ENABLE_CSAT_SUB_TEXT": "Omogući/onemogući upitnik o zadovoljstvu korisnika nakon rešavanja razgovora",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Omogući nastavljanje razgovora putem e-pošte",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Razgovori će se nastaviti putem e-pošte ako je dostupna adresa e-pošte kontakta.",
       "INBOX_UPDATE_TITLE": "Podešavanja prijemnog sandučeta",

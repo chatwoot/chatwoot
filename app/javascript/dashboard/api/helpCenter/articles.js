@@ -32,7 +32,7 @@ class ArticlesAPI extends PortalsAPI {
       articleObj
     );
   }
-
+  
   createArticle({ portalSlug, articleObj }) {
     const { content, title, author_id, category_id } = articleObj;
     return axios.post(`${this.url}/${portalSlug}/articles`, {

@@ -58,7 +58,7 @@ export default {
     ...mapGetters({
       isFetching: 'articles/isFetching',
       articles: 'articles/articles',
-      selectedPortal: 'portals/getSelectedPortal',
+      selectedPortal: 'portals/getSelectedPortal'
     }),
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);
