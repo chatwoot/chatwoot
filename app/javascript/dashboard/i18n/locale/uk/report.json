@@ -65,7 +65,7 @@
       "PLACEHOLDER": "Виберіть діапазон дат"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Групувати за",
-    "DURATION_FILTER_LABEL": "Duration",
+    "DURATION_FILTER_LABEL": "Тривалість",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
