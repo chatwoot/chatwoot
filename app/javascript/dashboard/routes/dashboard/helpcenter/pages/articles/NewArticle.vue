@@ -15,12 +15,13 @@ import { mapGetters } from 'vuex';
 import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import portalMixin from '../../mixins/portalMixin';
+import alertMixin from 'shared/mixins/alertMixin.js';
 export default {
   components: {
     EditArticleHeader,
     ArticleEditor,
   },
-  mixins: [portalMixin],
+  mixins: [portalMixin, alertMixin],
   data() {
     return {
       articleTitle: '',
@@ -34,10 +35,7 @@ export default {
       currentUserID: 'getCurrentUserID',
     }),
     article() {
-      return {
-        title: this.articleTitle,
-        content: this.articleContent,
-      };
+      return { title: this.articleTitle, content: this.articleContent };
     },
     selectedPortalSlug() {
       return this.portalSlug || this.selectedPortal?.slug;
@@ -51,7 +49,6 @@ export default {
       const { title, content } = values;
       if (title) this.articleTitle = title;
       if (content) this.articleContent = content;
-
       if (this.articleTitle && this.articleContent) {
         try {
           const articleId = await this.$store.dispatch('articles/create', {
