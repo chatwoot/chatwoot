@@ -4,7 +4,18 @@
       "FILTER": "Filtrar por",
       "SORT": "Ordenar por",
       "SETTINGS_BUTTON": "Confirgurações",
-      "NEW_BUTTON": "Novo artigo"
+      "NEW_BUTTON": "Novo artigo",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "Publicado",
+        "DRAFT": "Rascunho",
+        "ARCHIVED": "Arquivado"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "Todos os artigos",
+        "MINE": "Meus Artigos",
+        "DRAFT": "Artigos em rascunho",
+        "ARCHIVED": "Artigos arquivados"
+      }
     },
     "EDIT_HEADER": {
       "PUBLISH_BUTTON": "Publicar",
@@ -15,9 +26,194 @@
       "SAVING": "Salvando rascunho...",
       "SAVED": "Rascunho salvo"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Configurações de Artigo",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Categoria",
+          "TITLE": "Selecionar categoria",
+          "PLACEHOLDER": "Selecionar categoria",
+          "NO_RESULT": "Nenhuma categoria encontrada",
+          "SEARCH_PLACEHOLDER": "Pesquisar categoria"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Selecionar autor",
+          "PLACEHOLDER": "Selecionar autor",
+          "NO_RESULT": "Nenhum autor encontrado",
+          "SEARCH_PLACEHOLDER": "Pesquisar autor"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Adicionar um meta title"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Adicione suas meta descriptions para melhorar os resultados de SEO..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Adicione meta tags separadas por virgula..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Arquivar artigo",
+        "DELETE": "Excluir artigo"
+      }
+    },
+    "PORTAL": {
+      "HEADER": "Portais",
+      "NEW_BUTTON": "Novo portal",
+      "ACTIVE_BADGE": "ativo",
+      "CHOOSE_LOCALE_LABEL": "Escolha uma localidade",
+      "LOADING_MESSAGE": "Carregando portais...",
+      "ARTICLES_LABEL": "artigos",
+      "NO_PORTALS_MESSAGE": "Não há portais disponíveis",
+      "ADD_NEW_LOCALE": "Adicionar uma nova localidade",
+      "POPOVER": {
+        "TITLE": "Portais",
+        "PORTAL_SETTINGS": "Configurações do Portal",
+        "SUBTITLE": "Você tem vários portais e pode ter diferentes localidades para cada portal.",
+        "CANCEL_BUTTON_LABEL": "Cancelar",
+        "CHOOSE_LOCALE_BUTTON": "Escolher localidade"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "artigos",
+            "ADD": "Adicionar localidade",
+            "VISIT": "Visitar site",
+            "SETTINGS": "Confirgurações"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Configurações do Portal",
+            "ITEMS": {
+              "NAME": "Nome",
+              "DOMAIN": "Domínio personalizado",
+              "SLUG": "Slug",
+              "TITLE": "Título do portal",
+              "THEME": "Cor do tema",
+              "SUB_TEXT": "Sub texto do Portal"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Localidades disponíveis",
+            "TABLE": {
+              "NAME": "Nome da localidade",
+              "CODE": "Código local",
+              "ARTICLE_COUNT": "No. de artigos",
+              "CATEGORIES": "No. de categorias",
+              "SWAP": "Trocar",
+              "DELETE": "Excluir",
+              "DEFAULT_LOCALE": "Padrão"
+            }
+          }
+        }
+      },
+      "ADD": {
+        "TITLE": "Criar um portal",
+        "SUB_TITLE": "Um Centro de Ajuda no Chatwoot é conhecido como um portal. Você pode ter vários portais e pode ter diferentes localidades para cada portal.",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome do portal",
+          "HELP_TEXT": "O nome será usado no portal voltado ao público internamente",
+          "ERROR": "O nome é obrigatório"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Título da Página",
+          "PLACEHOLDER": "Título da página do portal",
+          "HELP_TEXT": "O nome será usado no portal voltado ao público",
+          "ERROR": "Título da página é obrigatório"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug do Portal para URLs",
+          "HELP_TEXT": "app.chatwoot.com/portal/meu-portal",
+          "ERROR": "Slug é obrigatório"
+        },
+        "DOMAIN": {
+          "LABEL": "Domínio personalizado",
+          "PLACEHOLDER": "Domínio personalizado do portal",
+          "HELP_TEXT": "Adicionar somente se você quiser usar um domínio personalizado para seus portais",
+          "ERROR": "Domínio Personalizado é obrigatório"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Link da Página Inicial",
+          "PLACEHOLDER": "Link da página inicial do portal",
+          "HELP_TEXT": "O link usado para retornar do portal para a página inicial.",
+          "ERROR": "O Link da Página Inicial é obrigatório"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Texto do Cabeçalho",
+          "PLACEHOLDER": "Texto do cabeçalho do portal",
+          "HELP_TEXT": "Texto do cabeçalho do portal",
+          "ERROR": "O texto do cabeçalho do Portal é obrigatório"
+        },
+        "BUTTONS": {
+          "CREATE": "Criar portal",
+          "CANCEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Portal criado com sucesso.",
+          "ERROR_MESSAGE": "Não foi possível criar o portal. Tente novamente."
+        }
+      }
+    },
     "TABLE": {
+      "LOADING_MESSAGE": "Carregando artigos...",
+      "404": "Nenhum artigo corresponde à sua pesquisa 🔍",
+      "NO_ARTICLES": "Não há artigos disponíveis",
+      "HEADERS": {
+        "TITLE": "Título",
+        "CATEGORY": "Categoria",
+        "READ_COUNT": "Contagem de leituras",
+        "STATUS": "SItuação",
+        "LAST_EDITED": "Última edição"
+      },
       "COLUMNS": {
         "BY": "por"
+      }
+    },
+    "EDIT_ARTICLE": {
+      "TITLE_PLACEHOLDER": "O título do artigo vai aqui",
+      "CONTENT_PLACEHOLDER": "Escreva o seu artigo aqui"
+    },
+    "SIDEBAR": {
+      "SEARCH": {
+        "PLACEHOLDER": "Buscar artigos"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "Criar uma categoria",
+        "SUB_TITLE": "A categoria será utilizada no portal voltado ao público para categorizar os artigos.",
+        "PORTAL": "Portal",
+        "LOCALE": "Localidade",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome da categoria",
+          "HELP_TEXT": "O nome da categoria será utilizada no portal voltado ao público para categorizar artigos.",
+          "ERROR": "O nome é obrigatório"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Categoria de slug para URLs",
+          "HELP_TEXT": "app.chatwoot.com/portal/meu-portal/en-US/categories/meu-slug",
+          "ERROR": "Slug é obrigatório"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Forneça uma breve descrição sobre a categoria.",
+          "ERROR": "Descrição obrigatória"
+        },
+        "BUTTONS": {
+          "CREATE": "Criar categoria",
+          "CANCEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria criada com sucesso",
+          "ERROR_MESSAGE": "Não é possível criar categoria"
+        }
       }
     }
   }

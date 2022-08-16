@@ -36,6 +36,7 @@ RSpec.describe Account do
       account = create(:account)
       query = "select * from information_schema.sequences where sequence_name in  ('camp_dpid_seq_#{account.id}', 'conv_dpid_seq_#{account.id}');"
       expect(ActiveRecord::Base.connection.execute(query).count).to eq(2)
+      expect(account.locale).to eq('en')
       account.destroy
       expect(ActiveRecord::Base.connection.execute(query).count).to eq(0)
     end

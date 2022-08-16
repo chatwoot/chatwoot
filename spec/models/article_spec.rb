@@ -30,8 +30,8 @@ RSpec.describe Article, type: :model do
       create(:article, category_id: category_1.id, title: 'title 1', content: 'This is the content', portal_id: portal_1.id, author_id: user.id)
       create(:article, category_id: category_2.id, title: 'title 2', portal_id: portal_2.id, author_id: user.id)
       create(:article, category_id: category_2.id, title: 'title 3', portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_3.id, title: 'title 6', portal_id: portal_2.id, author_id: user.id)
-      create(:article, category_id: category_2.id, title: 'title 7', portal_id: portal_1.id, author_id: user.id)
+      create(:article, category_id: category_3.id, title: 'title 6', portal_id: portal_2.id, author_id: user.id, status: :published)
+      create(:article, category_id: category_2.id, title: 'title 7', portal_id: portal_1.id, author_id: user.id, status: :published)
     end
 
     context 'when no parameters passed' do
@@ -53,6 +53,10 @@ RSpec.describe Article, type: :model do
         params = { query: 'this', locale: 'en', category_slug: 'category_1' }
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
+
+        params = { status: 'published' }
+        records = portal_1.articles.search(params)
+        expect(records.count).to eq(portal_1.articles.published.size)
       end
     end
 
@@ -104,6 +108,12 @@ RSpec.describe Article, type: :model do
 
       it 'return records with category_slug and text_search query' do
         params = { category_slug: 'category_2', query: 'title' }
+        records = portal_1.articles.search(params)
+        expect(records.count).to eq(2)
+      end
+
+      it 'returns records with author and category_slug' do
+        params = { category_slug: 'category_2', author_id: user.id }
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
       end

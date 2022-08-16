@@ -86,49 +86,49 @@
       "BUTTON_TEXT": "اتصال"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "برنامه‌های پیشخوان",
+      "HEADER_BTN_TXT": "اضافه کردن یک برنامه پیشخوان جدید",
+      "SIDEBAR_TXT": "<p><b>برنامه‌های داشبورد</b></p><p>برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد Chatwoot جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه ایجاد کنید و آن را در داشبورد جاسازی کنید تا اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها را ارائه کنید.</p><p>وقتی برنامه خود را با استفاده از داشبورد در Chatwoot جاسازی می کنید، برنامه شما این کار را انجام می دهد. زمینه گفتگو و تماس را به عنوان یک رویداد پنجره دریافت کنید. یک شنونده برای رویداد پیام در صفحه خود اجرا کنید تا زمینه را دریافت کنید.</p><p>برای افزودن یک برنامه داشبورد جدید، روی دکمه \"افزودن یک برنامه داشبورد جدید\" کلیک کنید.</p>",
+      "DESCRIPTION": "برنامه‌های داشبورد به سازمان‌ها اجازه می‌دهند تا برنامه‌ای را در داشبورد جاسازی کنند تا زمینه را برای عوامل پشتیبانی مشتری فراهم کنند. این ویژگی به شما این امکان را می دهد که به طور مستقل یک برنامه کاربردی ایجاد کنید و آن را برای ارائه اطلاعات کاربر، سفارشات یا سابقه پرداخت قبلی آنها درج کنید.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "هنوز هیچ برنامه داشبوردی روی این حساب پیکربندی نشده است",
+        "LOADING": "در حال واکشی برنامه های داشبورد...",
         "TABLE_HEADER": [
           "نام",
-          "Endpoint"
+          "نقطه پایانی"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "ویرایش برنامه",
+        "DELETE_TOOLTIP": "حذف برنامه"
       },
       "FORM": {
         "TITLE_LABEL": "نام",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "یک نام برای برنامه پیشخوان خود وارد کنید",
+        "TITLE_ERROR": "یک نام برای برنامه داشبورد لازم است",
+        "URL_LABEL": "نقطه پایانی",
+        "URL_PLACEHOLDER": "URL نقطه پایانی را که برنامه شما در آن میزبانی شده است وارد کنید",
+        "URL_ERROR": "یک URL معتبر مورد نیاز است"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "اضافه کردن یک برنامه پیشخوان جدید",
         "FORM_SUBMIT": "ثبت",
         "FORM_CANCEL": "انصراف",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "برنامه داشبورد با موفقیت پیکربندی شد",
+        "API_ERROR": "ما نتوانستیم یک برنامه ایجاد کنیم. لطفاً بعداً دوباره امتحان کنید"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "ویرایش برنامه پیشخوان",
         "FORM_SUBMIT": "اعمال شود",
         "FORM_CANCEL": "انصراف",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "برنامه پیشخوان با موفقیت به‌روز شد",
+        "API_ERROR": "ما نمی‌توانستیم برنامه را به‌روز کنیم. لطفا بعدا دوباره امتحان کنید"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "بله، حذف شود",
+        "CONFIRM_NO": "خیر، بماند",
         "TITLE": "تاییدیه حذف",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "آیا مطمئن هستید که برنامه %{appName} حذف شود؟",
+        "API_SUCCESS": "برنامه پیشخوان با موفقیت حذف شد",
+        "API_ERROR": "ما نتوانستیم برنامه را حذف کنیم. لطفا بعدا دوباره امتحان کنید"
       }
     }
   }
