@@ -201,7 +201,8 @@
       "MY_ARTICLES": "Moji članci",
       "DRAFT": "Nacrt",
       "ARCHIVED": "Arhivirano",
-      "CATEGORY": "Kategorija"
+      "CATEGORY": "Kategorija",
+      "CATEGORY_EMPTY_MESSAGE": "Nije pronađena nijedna kategorija"
     },
     "DOCS": "Pročitaj dokumentaciju"
   },
