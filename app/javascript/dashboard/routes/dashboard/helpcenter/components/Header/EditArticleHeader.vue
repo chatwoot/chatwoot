@@ -36,7 +36,7 @@
         {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
       </woot-button>
       <woot-button
-        v-if="isSidebarOpen"
+        v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
         icon="pane-open"
         class-names="article--buttons"
@@ -46,7 +46,7 @@
         @click="openSidebar"
       />
       <woot-button
-        v-else
+        v-if="isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.CLOSE_SIDEBAR')"
         icon="pane-close"
         class-names="article--buttons"
@@ -80,7 +80,7 @@ export default {
   },
   data() {
     return {
-      isSidebarOpen: true,
+      isSidebarOpen: false,
     };
   },
   computed: {
@@ -111,12 +111,12 @@ export default {
       this.$emit('add');
     },
     openSidebar() {
-      this.$emit('open');
       this.isSidebarOpen = true;
+      this.$emit('open');
     },
     closeSidebar() {
-      this.$emit('close');
       this.isSidebarOpen = false;
+      this.$emit('close');
     },
   },
 };

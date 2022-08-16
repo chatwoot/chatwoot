@@ -1,5 +1,5 @@
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <woot-modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.CATEGORY.ADD.TITLE')"
       :header-content="$t('HELP_CENTER.CATEGORY.ADD.SUB_TITLE')"
@@ -40,7 +40,7 @@
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
           @input="$v.slug.$touch"
         />
-        <label :class="{ error: $v.description.$error }">
+        <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
           <textarea
             v-model="description"
@@ -49,37 +49,30 @@
             :placeholder="
               $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.PLACEHOLDER')
             "
-            @blur="$v.description.$touch"
           />
-          <span v-if="$v.description.$error" class="message">
-            {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.ERROR') }}
-          </span>
         </label>
         <div class="medium-12 columns">
           <div class="modal-footer justify-content-end w-full">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CANCEL') }}
             </woot-button>
-            <woot-button>
+            <woot-button @click="addCategory">
               {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CREATE') }}
             </woot-button>
           </div>
         </div>
       </div>
     </form>
-  </modal>
+  </woot-modal>
 </template>
 
 <script>
-import Modal from 'dashboard/components/Modal';
+import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 
 export default {
-  components: {
-    Modal,
-  },
   mixins: [alertMixin],
   props: {
     show: {
@@ -110,11 +103,14 @@ export default {
     slug: {
       required,
     },
-    description: {
-      required,
-    },
   },
   computed: {
+    ...mapGetters({
+      selectedPortal: 'portals/getSelectedPortal',
+    }),
+    selectedPortalSlug() {
+      return this.selectedPortal?.slug;
+    },
     nameError() {
       if (this.$v.name.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR');
@@ -134,17 +130,38 @@ export default {
     },
     onCreate() {
       this.$emit('create');
-      this.reset();
-      this.$emit('cancel');
     },
     onClose() {
-      this.reset();
       this.$emit('cancel');
     },
-    reset() {
-      this.name = '';
-      this.slug = '';
-      this.description = '';
+
+    async addCategory() {
+      const { name, slug, description } = this;
+      const data = {
+        name,
+        slug,
+        description,
+      };
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      try {
+        await this.$store.dispatch('categories/create', {
+          portalSlug: this.selectedPortalSlug,
+          categoryObj: data,
+        });
+        this.alertMessage = this.$t(
+          'HELP_CENTER.CATEGORY.ADD.API.SUCCESS_MESSAGE'
+        );
+        this.onClose();
+      } catch (error) {
+        const errorMessage = error?.message;
+        this.alertMessage =
+          errorMessage || this.$t('HELP_CENTER.CATEGORY.ADD.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
     },
   },
 };
