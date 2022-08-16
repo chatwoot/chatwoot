@@ -42,6 +42,7 @@
             show-copy
           />
           <contact-info-row
+            v-if="isAdmin"
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
             icon="call"
