@@ -75,7 +75,7 @@ export default {
       return years >= 1;
     },
     refreshTime() {
-      if (this.refresh === true) {
+      if (this.refresh) {
         if (this.hasMinutesDiff && !this.hasHourDiff) {
           return MINUTE_IN_MSEC;
         }
