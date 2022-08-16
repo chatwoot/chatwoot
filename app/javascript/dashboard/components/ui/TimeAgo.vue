@@ -5,6 +5,13 @@
 </template>
 
 <script>
+const ZERO = 0;
+const MINUTE_IN_MSEC = 60000;
+const HOUR_IN_MSEC = MINUTE_IN_MSEC * 60;
+const DAY_IN_MSEC = HOUR_IN_MSEC * 24;
+const MONTH_IN_MSEC = DAY_IN_MSEC * 30;
+const YEAR_IN_MSEC = MONTH_IN_MSEC * 12;
+
 import timeMixin from 'dashboard/mixins/time';
 import {
   differenceInMinutes,
@@ -13,6 +20,7 @@ import {
   differenceInCalendarMonths,
   differenceInCalendarYears,
 } from 'date-fns';
+
 export default {
   name: 'TimeAgo',
   mixins: [timeMixin],
@@ -67,13 +75,6 @@ export default {
       return years >= 1;
     },
     refreshTime() {
-      const ZERO = 0;
-      const MINUTE_IN_MSEC = 60000;
-      const HOUR_IN_MSEC = MINUTE_IN_MSEC * 60;
-      const DAY_IN_MSEC = HOUR_IN_MSEC * 24;
-      const MONTH_IN_MSEC = DAY_IN_MSEC * 30;
-      const YEAR_IN_MSEC = MONTH_IN_MSEC * 12;
-
       if (this.refresh === true) {
         if (this.hasMinutesDiff && !this.hasHourDiff) {
           return MINUTE_IN_MSEC;
