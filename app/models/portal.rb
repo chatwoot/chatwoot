@@ -46,7 +46,7 @@ class Portal < ApplicationRecord
 
   scope :active, -> { where(archived: false) }
 
-  CONFIG_JSON_KEYS = %w[allowed_locales].freeze
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale].freeze
 
   def file_base_data
     {
@@ -60,9 +60,14 @@ class Portal < ApplicationRecord
     }
   end
 
+  def default_locale
+    config['default_locale'] || 'en'
+  end
+
   private
 
   def config_json_format
+    config['default_locale'] = 'en'
     denied_keys = config.keys - CONFIG_JSON_KEYS
     errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
   end

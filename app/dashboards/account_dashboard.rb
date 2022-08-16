@@ -17,6 +17,7 @@ class AccountDashboard < Administrate::BaseDashboard
     users: CountField,
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
+    status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
     account_users: Field::HasMany
   }.merge(enterprise_attribute_types).freeze
 
@@ -31,6 +32,7 @@ class AccountDashboard < Administrate::BaseDashboard
     locale
     users
     conversations
+    status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -42,6 +44,7 @@ class AccountDashboard < Administrate::BaseDashboard
     created_at
     updated_at
     locale
+    status
     conversations
     account_users
   ] + enterprise_show_page_attributes).freeze
@@ -53,6 +56,7 @@ class AccountDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = (%i[
     name
     locale
+    status
   ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS

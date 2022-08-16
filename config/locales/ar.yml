@@ -23,7 +23,7 @@ ar:
     reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
   errors:
     validations:
-      presence: must not be blank
+      presence: يجب ألا يكون فارغاً
     webhook:
       invalid: أحداث غير صالحة
     signup:
@@ -33,17 +33,17 @@ ar:
       failed: فشلت عملية التسجيل
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: نوع البيانات غير صالح
     contacts:
       import:
         failed: الملف فارغ
       email:
-        invalid: Invalid email
+        invalid: إيميل غير صالح
       phone_number:
-        invalid: should be in e164 format
+        invalid: يجب أن يكون بصيغة e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.

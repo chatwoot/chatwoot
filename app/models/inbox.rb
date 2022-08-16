@@ -136,7 +136,7 @@ class Inbox < ApplicationRecord
   end
 
   def delete_round_robin_agents
-    ::RoundRobin::ManageService.new(inbox: self).clear_queue
+    ::AutoAssignment::InboxRoundRobinService.new(inbox: self).clear_queue
   end
 
   def check_channel_type?

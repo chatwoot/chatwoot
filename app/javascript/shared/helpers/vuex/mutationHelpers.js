@@ -45,6 +45,16 @@ export const updatePresence = (state, data) => {
   });
 };
 
+export const updateSingleRecordPresence = (
+  records,
+  { id, availabilityStatus }
+) => {
+  const [selectedRecord] = records.filter(record => record.id === Number(id));
+  if (selectedRecord) {
+    Vue.set(selectedRecord, 'availability_status', availabilityStatus);
+  }
+};
+
 export const destroy = (state, id) => {
   state.records = state.records.filter(record => record.id !== id);
 };
