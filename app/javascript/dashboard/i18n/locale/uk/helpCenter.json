@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Всі статті",
       "PUBLISH_BUTTON": "Опублікувати",
       "PREVIEW": "Попередній перегляд",
       "ADD_TRANSLATION": "Додати переклад",
       "OPEN_SIDEBAR": "Відкрити бічну панель",
       "CLOSE_SIDEBAR": "Закрити бічну панель",
-      "SAVING": "Збереження чернетки...",
-      "SAVED": "Чернетку збережено"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Налаштування статей",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Заголовок статті іде тут",
-      "CONTENT_PLACEHOLDER": "Напишіть свою статтю тут"
+      "CONTENT_PLACEHOLDER": "Напишіть свою статтю тут",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
