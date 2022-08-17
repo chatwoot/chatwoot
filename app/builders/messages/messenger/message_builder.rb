@@ -61,6 +61,7 @@ class Messages::Messenger::MessageBuilder
     story_sender = result['from']['username']
     message.content_attributes[:story_sender] = story_sender
     message.content_attributes[:story_id] = story_id
+    message.content_attributes[:image_type] = 'story_mention'
     message.content = I18n.t('conversations.messages.instagram_story_content', story_sender: story_sender)
     message.save!
   end
