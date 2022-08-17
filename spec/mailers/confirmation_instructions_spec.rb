@@ -11,6 +11,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
 
     before do
       # to verify the token in email
+      confirmable_user.update!(confirmed_at: nil)
       confirmable_user.send(:generate_confirmation_token)
     end
 
