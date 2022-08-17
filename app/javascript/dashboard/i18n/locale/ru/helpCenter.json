@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Все статьи",
       "PUBLISH_BUTTON": "Опубликовано",
       "PREVIEW": "Предпросмотр",
       "ADD_TRANSLATION": "Добавить перевод",
       "OPEN_SIDEBAR": "Открыть боковую панель",
       "CLOSE_SIDEBAR": "Закрыть боковую панель",
-      "SAVING": "Сохранение черновиков...",
-      "SAVED": "Черновик сохранён"
+      "SAVING": "Сохранение...",
+      "SAVED": "Сохранено"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Загрузка статей...",
       "TITLE_PLACEHOLDER": "Название статьи",
-      "CONTENT_PLACEHOLDER": "Напишите свою статью здесь"
+      "CONTENT_PLACEHOLDER": "Напишите свою статью здесь",
+      "API": {
+        "ERROR": "Ошибка при сохранении статьи"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
