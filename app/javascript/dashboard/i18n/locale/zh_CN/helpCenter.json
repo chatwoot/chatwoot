@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "所有文章",
       "PUBLISH_BUTTON": "Publish",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "文章标题在此处显示",
-      "CONTENT_PLACEHOLDER": "在此处写下您的文章"
+      "CONTENT_PLACEHOLDER": "在此处写下您的文章",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
