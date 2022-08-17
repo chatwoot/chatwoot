@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "نشر",
       "PREVIEW": "معاينة",
       "ADD_TRANSLATION": "إضافة ترجمة",
       "OPEN_SIDEBAR": "فتح الشريط الجانبي",
       "CLOSE_SIDEBAR": "إغلاق الشريط الجانبي",
-      "SAVING": "حفظ المسودة...",
-      "SAVED": "تم حفظ المسودة"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "CONTENT_PLACEHOLDER": "Write your article here",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
