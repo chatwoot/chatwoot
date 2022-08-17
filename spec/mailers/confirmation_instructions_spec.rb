@@ -63,13 +63,13 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
       end
     end
 
-    context 'when user deleted before' do
+    context 'when user already confirmed' do
       before do
         confirmable_user.confirm
         confirmable_user.account_users.last.destroy!
       end
 
-      it 'send login after re-adding confirmed agent' do
+      it 'send instructions with the link to login' do
         confirmation_mail = Devise::Mailer.confirmation_instructions(confirmable_user.reload, nil, {})
         expect(confirmation_mail.body).to include('/auth/sign_in')
       end
