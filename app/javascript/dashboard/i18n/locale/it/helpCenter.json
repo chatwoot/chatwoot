@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Tutti gli articoli",
       "PUBLISH_BUTTON": "Pubblica",
       "PREVIEW": "Anteprima",
       "ADD_TRANSLATION": "Aggiungi traduzione",
       "OPEN_SIDEBAR": "Apri barra laterale",
       "CLOSE_SIDEBAR": "Chiudi barra laterale",
-      "SAVING": "Salvataggio bozza...",
-      "SAVED": "Bozza salvata"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Impostazioni articolo",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Il titolo dell'articolo va qui",
-      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo"
+      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
