@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "همه مقالات",
       "PUBLISH_BUTTON": "انتشار",
       "PREVIEW": "پیش‌نمایش",
       "ADD_TRANSLATION": "افزودن ترجمه",
       "OPEN_SIDEBAR": "نوار کناری را باز کنید",
       "CLOSE_SIDEBAR": "نوار کناری را ببندید",
-      "SAVING": "در حال ذخیره پیش‌نویس...",
-      "SAVED": "پیش‌نویس ذخیر شد"
+      "SAVING": "در حال ذخیره...",
+      "SAVED": "ذخیره شد"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "تنظیمات مقاله",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "در حال بارگیری مقاله...",
       "TITLE_PLACEHOLDER": "عنوان مقاله اینجاست",
-      "CONTENT_PLACEHOLDER": "مقاله خود را اینجا بنویسید"
+      "CONTENT_PLACEHOLDER": "مقاله خود را اینجا بنویسید",
+      "API": {
+        "ERROR": "خطا در هنگام ذخیره مقاله"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
