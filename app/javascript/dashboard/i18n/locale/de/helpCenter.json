@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Alle Artikel",
       "PUBLISH_BUTTON": "Veröffentlichen",
       "PREVIEW": "Vorschau",
       "ADD_TRANSLATION": "Übersetzung hinzufügen",
       "OPEN_SIDEBAR": "Seitenleiste öffnen",
       "CLOSE_SIDEBAR": "Seitenleiste schließen",
-      "SAVING": "Entwurf speichern...",
-      "SAVED": "Entwurf gespeichert"
+      "SAVING": "Speichern...",
+      "SAVED": "Gespeichert"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Artikeleinstellungen",
@@ -175,8 +176,12 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Artikel wird geladen...",
       "TITLE_PLACEHOLDER": "Artikeltitel kommt hier rein",
-      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel"
+      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel",
+      "API": {
+        "ERROR": "Fehler beim Speichern des Artikels"
+      }
     },
     "SIDEBAR": {
       "SEARCH": {
