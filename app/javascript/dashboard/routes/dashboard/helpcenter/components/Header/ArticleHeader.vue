@@ -6,6 +6,7 @@
     </div>
     <div class="header-right--wrap">
       <woot-button
+        v-if="shouldShowSettings"
         class-names="article--buttons"
         icon="filter"
         color-scheme="secondary"
@@ -16,6 +17,7 @@
         {{ $t('HELP_CENTER.HEADER.FILTER') }}
       </woot-button>
       <woot-button
+        v-if="shouldShowSettings"
         class-names="article--buttons"
         icon="arrow-sort"
         color-scheme="secondary"
@@ -68,6 +70,7 @@
         </woot-dropdown-menu>
       </div>
       <woot-button
+        v-if="shouldShowSettings"
         v-tooltip.top-end="$t('HELP_CENTER.HEADER.SETTINGS_BUTTON')"
         icon="settings"
         class-names="article--buttons"
@@ -112,6 +115,10 @@ export default {
     selectedValue: {
       type: String,
       default: '',
+    },
+    shouldShowSettings: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

@@ -62,18 +62,24 @@ export const actions = {
       commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
-  update: async ({ commit }, params) => {
-    const articleId = params.id;
+  update: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
     commit(types.ADD_ARTICLE_FLAG, {
       uiFlags: {
         isUpdating: true,
       },
       articleId,
     });
-    try {
-      const { data } = await articlesAPI.update(params);
 
-      commit(types.UPDATE_ARTICLE, data);
+    try {
+      const {
+        data: { payload },
+      } = await articlesAPI.updateArticle({
+        portalSlug,
+        articleId,
+        articleObj,
+      });
+
+      commit(types.UPDATE_ARTICLE, payload);
 
       return articleId;
     } catch (error) {
