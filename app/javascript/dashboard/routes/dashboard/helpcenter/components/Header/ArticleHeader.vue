@@ -1,6 +1,7 @@
 <template>
   <div class="header--wrap">
     <div class="header-left--wrap">
+      <woot-sidemenu-icon />
       <h3 class="page-title">{{ headerTitle }}</h3>
       <span class="text-block-title count-view">{{ `(${count})` }}</span>
     </div>
@@ -156,6 +157,10 @@ export default {
 .header-left--wrap {
   display: flex;
   align-items: center;
+
+  .page-title {
+    margin-bottom: 0;
+  }
 }
 .header-right--wrap {
   display: flex;

@@ -8,6 +8,7 @@
     />
     <div v-if="portals.length" class="margin-right-small">
       <help-center-sidebar
+        :class="sidebarClassName"
         :header-title="headerTitle"
         :sub-title="localeName(selectedPortalLocale)"
         :accessible-menu-items="accessibleMenuItems"
@@ -16,7 +17,7 @@
         @open-modal="onClickOpenAddCatogoryModal"
       />
     </div>
-    <section class="app-content columns">
+    <section class="app-content columns" :class="contentClassName">
       <router-view />
       <command-bar />
       <woot-key-shortcut-modal
@@ -48,6 +49,7 @@ import { mapGetters } from 'vuex';
 
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
@@ -69,6 +71,8 @@ export default {
   mixins: [portalMixin],
   data() {
     return {
+      isSidebarOpen: false,
+      isOnDesktop: true,
       showShortcutModal: false,
       showNotificationPanel: false,
       showPortalPopover: false,
@@ -85,6 +89,24 @@ export default {
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    sidebarClassName() {
+      if (this.isOnDesktop) {
+        return '';
+      }
+      if (this.isSidebarOpen) {
+        return 'off-canvas is-open';
+      }
+      return 'off-canvas is-transition-push is-closed';
+    },
+    contentClassName() {
+      if (this.isOnDesktop) {
+        return '';
+      }
+      if (this.isSidebarOpen) {
+        return 'off-canvas-content is-open-left has-transition-push';
+      }
+      return 'off-canvas-content has-transition-push';
+    },
     selectedPortalName() {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
@@ -177,9 +199,26 @@ export default {
     },
   },
   mounted() {
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
+    bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     this.fetchPortalsAndItsCategories();
   },
+  beforeDestroy() {
+    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    window.removeEventListener('resize', this.handleResize);
+  },
   methods: {
+    handleResize() {
+      if (window.innerWidth > 1200) {
+        this.isOnDesktop = true;
+      } else {
+        this.isOnDesktop = false;
+      }
+    },
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
     fetchPortalsAndItsCategories() {
       this.$store.dispatch('portals/index').then(() => {
         this.$store.dispatch('categories/index', {
