@@ -39,7 +39,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   # TODO: move this to a builder and combine the save account user method into a builder
   # ensure the account user association is also created in a single transaction
   def create_user
-    return if @user
+    return @user.send_confirmation_instructions if @user
 
     @user = User.create!(new_agent_params.slice(:email, :name, :password, :password_confirmation))
   end
