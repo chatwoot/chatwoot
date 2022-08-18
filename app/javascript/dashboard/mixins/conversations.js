@@ -48,5 +48,17 @@ export default {
           return a.created_at - b.created_at;
         });
     },
+    lastMessageAt(m) {
+      const incomingMessages = m.messages.filter(a => {
+        return a.message_type === 0;
+      });
+      const latestIncomingMessage = incomingMessages.sort((a, b) =>
+        a.created_at > b.created_at ? 1 : -1
+      )[incomingMessages.length - 1];
+      console.log('latest incoming message', latestIncomingMessage.content);
+      return (
+        latestIncomingMessage.created_at + 86400 - Math.floor(Date.now() / 1000)
+      );
+    },
   },
 };
