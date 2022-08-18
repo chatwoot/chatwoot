@@ -136,7 +136,10 @@ import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
 
-import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import {
+  ALLOWED_FILE_TYPES,
+  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
+} from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
@@ -258,7 +261,7 @@ export default {
     },
     allowedFileTypes() {
       if (this.isATwilioWhatsappChannel) {
-        return ALLOWED_FILE_TYPES.replace('text/csv, text/plain, ', '');
+        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
       }
       return ALLOWED_FILE_TYPES;
     },
