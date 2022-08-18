@@ -183,6 +183,9 @@
         "ERROR": "Error while saving article"
       }
     },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
+    },
     "SIDEBAR": {
       "SEARCH": {
         "PLACEHOLDER": "Search for articles"
