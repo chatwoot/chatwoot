@@ -2,12 +2,14 @@
   <div class="wrapper">
     <settings-header
       button-route="new"
-      header-title="Portals"
+      :header-title="portalHeaderText"
       show-back-button
-      back-button-label="Back"
+      :back-button-label="
+        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
+      "
       :show-new-button="false"
     />
-    <div class="row full-height container">
+    <div class="row content-box full-height">
       <woot-wizard
         class="hide-for-small-only medium-3 columns"
         :global-config="globalConfig"
@@ -44,10 +46,23 @@ export default {
 
       return allItems;
     },
+    portalHeaderText() {
+      if (this.$route.name === 'new_portal_information') {
+        return this.$t(
+          'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.HEADER'
+        );
+      }
+      if (this.$route.name === 'portal_customization') {
+        return this.$t(
+          'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.HEADER'
+        );
+      }
+      return '';
+    },
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .wrapper {
   flex: 1;
 }
@@ -56,6 +71,9 @@ export default {
   flex: 1;
 }
 .wizard-box {
-  background: var(--s-25);
+  border-right: 1px solid var(--s-25);
+  ::v-deep .item {
+    background: var(--white);
+  }
 }
 </style>
