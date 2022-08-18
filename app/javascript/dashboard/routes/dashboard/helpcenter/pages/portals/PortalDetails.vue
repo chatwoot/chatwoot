@@ -25,7 +25,6 @@ export default {
         name: 'portal_customization',
         params: { portal_slug: 'room-rental' },
       });
-      // this.$router.push({ name: 'new_portal_information' });
     },
   },
 };
