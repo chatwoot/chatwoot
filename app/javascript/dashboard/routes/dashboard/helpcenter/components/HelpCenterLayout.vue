@@ -6,7 +6,7 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <div v-if="portals.length" class="margin-right-small">
+    <div v-if="portals.length">
       <help-center-sidebar
         :class="sidebarClassName"
         :header-title="headerTitle"
