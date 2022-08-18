@@ -152,7 +152,7 @@
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload avatar",
+          "UPLOAD_BUTTON": "Upload logo",
           "HELP_TEXT": "This logo will be displayed on the portal header."
         },
         "NAME": {

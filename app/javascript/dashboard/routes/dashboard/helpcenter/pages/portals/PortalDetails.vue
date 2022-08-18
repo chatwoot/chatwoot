@@ -18,13 +18,14 @@
           <div class="logo-container">
             <thumbnail :username="name" size="56" variant="square" />
             <woot-button
-              v-tooltip.right="$t('HELP_CENTER.PORTAL.ADD.LOGO.UPLOAD_BUTTON')"
               class="upload-button"
               variant="smooth"
               color-scheme="secondary"
               icon="upload"
               size="small"
-            />
+            >
+              {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.UPLOAD_BUTTON') }}
+            </woot-button>
           </div>
           <p class="logo-help--text">
             {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.HELP_TEXT') }}
