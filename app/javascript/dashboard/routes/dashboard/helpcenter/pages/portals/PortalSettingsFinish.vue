@@ -1,22 +1,30 @@
 <template>
-  <div class="wizard-body columns content-box small-9">
-    <div class="medium-12 columns">
-      <page-header header-title="You are all set" />
-    </div>
-    <div class="medium-7 columns">
-      <div class="medium-12 columns" />
-      <div class="medium-12 columns">
-        <woot-button @click="changeRoute">Submit</woot-button>
+  <div class="wizard-body height-auto small-9 columns">
+    <empty-state
+      :title="$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.TITLE')"
+      :message="
+        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.MESSAGE')
+      "
+    >
+      <div class="medium-12 columns text-center">
+        <router-link
+          class="button success nice"
+          :to="{
+            name: 'list_all_portals',
+          }"
+        >
+          {{ $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.FINISH') }}
+        </router-link>
       </div>
-    </div>
+    </empty-state>
   </div>
 </template>
 
 <script>
-import PageHeader from 'dashboard/routes/dashboard/settings/SettingsSubPageHeader.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState';
 export default {
   components: {
-    PageHeader,
+    EmptyState,
   },
   methods: {
     changeRoute() {
@@ -27,3 +35,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.wizard-body {
+  padding-top: var(--space-slab);
+  border: 1px solid transparent;
+}
+</style>

@@ -91,10 +91,11 @@
       font-size: $font-size-default;
       line-height: 1;
       padding-left: $space-medium;
+    }
 
-      .completed {
-        color: $success-color;
-      }
+    .completed {
+      color: $success-color;
+      margin-left: $space-smaller;
     }
 
     p {
