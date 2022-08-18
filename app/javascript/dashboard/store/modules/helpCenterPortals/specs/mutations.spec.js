@@ -98,7 +98,11 @@ describe('#mutations', () => {
       mutations[types.CLEAR_PORTALS](state);
       expect(state.portals.allIds).toEqual([]);
       expect(state.portals.byId).toEqual({});
-      expect(state.portals.uiFlags).toEqual({});
+      expect(state.portals.uiFlags).toEqual({
+        byId: {
+          '1': { isFetching: true, isUpdating: true, isDeleting: false },
+        },
+      });
     });
   });
 

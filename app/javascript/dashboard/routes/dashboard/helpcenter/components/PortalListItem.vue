@@ -77,7 +77,7 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.header_text }}</span>
+                <span class="text-block-title">{{ portal.name }}</span>
               </div>
               <div class="configuration-item">
                 <label>{{
