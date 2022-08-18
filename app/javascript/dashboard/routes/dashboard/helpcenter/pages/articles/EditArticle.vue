@@ -51,12 +51,14 @@ export default {
       isUpdating: false,
       isSaved: false,
       showArticleSettings: false,
+      alertMessage: '',
     };
   },
   computed: {
     ...mapGetters({
       isFetching: 'articles/isFetching',
       articles: 'articles/articles',
+      selectedPortal: 'portals/getSelectedPortal',
     }),
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);
@@ -93,6 +95,7 @@ export default {
         this.alertMessage =
           error?.message ||
           this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR_MESSAGE');
+        this.showAlert(this.alertMessage);
       } finally {
         setTimeout(() => {
           this.isUpdating = false;
