@@ -1,7 +1,5 @@
 <template>
-  <div id="app" class="woot-survey-wrap">
-    <response />
-  </div>
+  <response />
 </template>
 
 <script>
