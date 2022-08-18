@@ -23,6 +23,14 @@ environment.loaders.append('audio', {
   },
 });
 
+environment.config.merge({
+  resolve: {
+    alias: {
+      vue: '@vue/compat',
+    },
+  },
+});
+
 environment.config.merge({ resolve });
 environment.config.set('output.filename', chunkData => {
   return chunkData.chunk.name === 'sdk'

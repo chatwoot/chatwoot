@@ -27,7 +27,7 @@
           :show-popout-button="appConfig.showPopoutButton"
         />
         <chat-header
-          v-if="isHeaderCollapsed"
+          v-else-if="isHeaderCollapsed"
           :title="channelConfig.websiteName"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
