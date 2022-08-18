@@ -50,7 +50,7 @@ export default {
   props: {
     portals: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     activePortal: {
       type: Object,
