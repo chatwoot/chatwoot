@@ -26,12 +26,49 @@
       "SAVING": "Nacrt se čuva...",
       "SAVED": "Nacrt je sačuvan"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Podešavanja ćlanka",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategorija",
+          "TITLE": "Izaberi kategoriju",
+          "PLACEHOLDER": "Izaberi kategoriju",
+          "NO_RESULT": "Nije pronađena kategorija",
+          "SEARCH_PLACEHOLDER": "Pretraži kategoriju"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Izaberi autora",
+          "PLACEHOLDER": "Izaberi autora",
+          "NO_RESULT": "Nije pronađen autor",
+          "SEARCH_PLACEHOLDER": "Pretraži autora"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta naslov",
+          "PLACEHOLDER": "Dodaj meta naslov"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta opis",
+          "PLACEHOLDER": "Dodajte meta opis za bolje SEO rezultate..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta oznake",
+          "PLACEHOLDER": "Dodajte meta oznake odvojene zarezom..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Arhiviraj članak",
+        "DELETE": "Obriši članak"
+      }
+    },
     "PORTAL": {
       "HEADER": "Portali",
       "NEW_BUTTON": "Novi portal",
       "ACTIVE_BADGE": "aktivan",
       "CHOOSE_LOCALE_LABEL": "Izaberi lokal",
+      "LOADING_MESSAGE": "Učitavanje portala...",
       "ARTICLES_LABEL": "članci",
+      "NO_PORTALS_MESSAGE": "Nema dostupnih portala",
       "ADD_NEW_LOCALE": "Dodaj novi lokal",
       "POPOVER": {
         "TITLE": "Portali",
@@ -71,6 +108,54 @@
               "DEFAULT_LOCALE": "Predefinisano"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Napravi portal",
+        "SUB_TITLE": "Centar za pomoć je poznat kao portal. Možete imati više portala i različite lokale za svaki portal.",
+        "NAME": {
+          "LABEL": "Ime",
+          "PLACEHOLDER": "Naziv portala",
+          "HELP_TEXT": "Naziv će se koristiti interno u javno dostupnim portalima",
+          "ERROR": "Ime je neophodno"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Naslov stranice",
+          "PLACEHOLDER": "Naslov stranice portala",
+          "HELP_TEXT": "Naziv će se koristiti u javno dostupnim portalima",
+          "ERROR": "Naslov stranice je obavezan"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug portala za adrese",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Slug je obavezan"
+        },
+        "DOMAIN": {
+          "LABEL": "Prilagođeni domen",
+          "PLACEHOLDER": "Prilagođeni domen portala",
+          "HELP_TEXT": "Dodajte samo ako želite da koristite prilagođen domen za vaše portale",
+          "ERROR": "Prilagođeni domen je obavezan"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Veza početne stranice",
+          "PLACEHOLDER": "Veza do početne stranice portala",
+          "HELP_TEXT": "Veza koja se koristi kao povratna sa portala na početnu stranicu.",
+          "ERROR": "Veza početne stranice je obavezna"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Tekst zaglavlja",
+          "PLACEHOLDER": "Tekst zaglavlja portala",
+          "HELP_TEXT": "Tekst zaglavlja portala",
+          "ERROR": "Tekst zaglavlja portala je obavezan"
+        },
+        "BUTTONS": {
+          "CREATE": "Napravi portal",
+          "CANCEL": "Otkaži"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Portal je uspešno napravljen.",
+          "ERROR_MESSAGE": "Nije bilo moguće napraviti portal. Pokušajte ponovo."
         }
       }
     },
@@ -112,9 +197,9 @@
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug kategorije za adrese",
           "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug je obavezan"
         },
         "DESCRIPTION": {
           "LABEL": "Opis",
@@ -124,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "Napravi kategoriju",
           "CANCEL": "Otkaži"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija je uspešno napravljena",
+          "ERROR_MESSAGE": "Nije bilo moguće napraviti kategoriju"
         }
       }
     }

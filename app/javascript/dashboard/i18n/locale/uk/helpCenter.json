@@ -1,129 +1,218 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Фільтрувати за",
+      "SORT": "Сортувати за",
       "SETTINGS_BUTTON": "Налаштування",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Нова стаття",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Опубліковано",
+        "DRAFT": "Чернетка",
+        "ARCHIVED": "Архівовано"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Всі статті",
+        "MINE": "Мої статті",
+        "DRAFT": "Чернетки статтей",
+        "ARCHIVED": "Архівовані статті"
       }
     },
     "EDIT_HEADER": {
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "PUBLISH_BUTTON": "Опублікувати",
+      "PREVIEW": "Попередній перегляд",
+      "ADD_TRANSLATION": "Додати переклад",
+      "OPEN_SIDEBAR": "Відкрити бічну панель",
+      "CLOSE_SIDEBAR": "Закрити бічну панель",
+      "SAVING": "Збереження чернетки...",
+      "SAVED": "Чернетку збережено"
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Налаштування статей",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Категорія",
+          "TITLE": "Виберіть категорію",
+          "PLACEHOLDER": "Виберіть категорію",
+          "NO_RESULT": "Категорію не знайдено",
+          "SEARCH_PLACEHOLDER": "Пошук категорії"
+        },
+        "AUTHOR": {
+          "LABEL": "Автор",
+          "TITLE": "Виберіть автора",
+          "PLACEHOLDER": "Виберіть автора",
+          "NO_RESULT": "Авторів не знайдено",
+          "SEARCH_PLACEHOLDER": "Пошук автора"
+        },
+        "META_TITLE": {
+          "LABEL": "Мета-заголовок",
+          "PLACEHOLDER": "Додати мета-заголовок"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Мета-опис",
+          "PLACEHOLDER": "Додати мета-опис для кращих SEO результатів..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Додавайте мета-теги, розділені комами..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Архівна стаття",
+        "DELETE": "Видалити статтю"
+      }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "NEW_BUTTON": "New Portal",
+      "HEADER": "Портали",
+      "NEW_BUTTON": "Новий портал",
       "ACTIVE_BADGE": "активний",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "ARTICLES_LABEL": "articles",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "CHOOSE_LOCALE_LABEL": "Виберіть мову",
+      "LOADING_MESSAGE": "Завантаження порталів...",
+      "ARTICLES_LABEL": "статті",
+      "NO_PORTALS_MESSAGE": "Немає доступних порталів",
+      "ADD_NEW_LOCALE": "Додати нову локаль",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "Портали",
+        "PORTAL_SETTINGS": "Налаштування порталу",
+        "SUBTITLE": "У вас є кілька порталів і можна мати різні локалі для кожного порталу.",
         "CANCEL_BUTTON_LABEL": "Скасувати",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Виберіть локаль"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "статті",
+            "ADD": "Додати локаль",
+            "VISIT": "Відвідати сайт",
             "SETTINGS": "Налаштування"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Конфігурації порталу",
             "ITEMS": {
               "NAME": "Ім'я",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "DOMAIN": "Користувацький домен",
+              "SLUG": "Мітка",
+              "TITLE": "Заголовок порталу",
+              "THEME": "Колір теми",
+              "SUB_TEXT": "Додатковий текст порталу"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Доступні локалі",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Назва локалі",
+              "CODE": "Код локалі",
+              "ARTICLE_COUNT": "Кількість статей",
+              "CATEGORIES": "Кількість категорій",
+              "SWAP": "Поміняти",
               "DELETE": "Видалити",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "За замовчуванням"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Створити портал",
+        "SUB_TITLE": "Довідковий центр з Chatwoot відомий як портал. Ви можете мати кілька порталів і ви можете мати різні локалі для кожного порталу.",
+        "NAME": {
+          "LABEL": "Ім'я",
+          "PLACEHOLDER": "Назва порталу",
+          "HELP_TEXT": "Ім'я буде використовуватися в публічному інтерфейсі порталу всередині",
+          "ERROR": "Назва обов'язкова"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Заголовок сторінки",
+          "PLACEHOLDER": "Заголовок сторінки порталу",
+          "HELP_TEXT": "Ім'я буде використане в публічному інтерфейсі порталу",
+          "ERROR": "Необхідно вказати заголовок сторінки"
+        },
+        "SLUG": {
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Портал slug для URL-адрес",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Необхідно вказати мітку"
+        },
+        "DOMAIN": {
+          "LABEL": "Домен для користувача",
+          "PLACEHOLDER": "Власний домен порталу",
+          "HELP_TEXT": "Додавати лише у випадку, якщо ви хочете використовувати власний домен для своїх порталів",
+          "ERROR": "Потрібен власний домен"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Посилання на головну сторінку",
+          "PLACEHOLDER": "Посилання на головну сторінку порталу",
+          "HELP_TEXT": "Посилання для повернення з порталу на головну сторінку.",
+          "ERROR": "Потрібне посилання на головну сторінку"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Текст заголовку",
+          "PLACEHOLDER": "Текст заголовку порталу",
+          "HELP_TEXT": "Текст заголовку порталу",
+          "ERROR": "Потрібен текст заголовка портала"
+        },
+        "BUTTONS": {
+          "CREATE": "Створити портал",
+          "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Портал успішно створено.",
+          "ERROR_MESSAGE": "Не вдалося створити портал. Повторіть спробу."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Завантаження статей...",
+      "404": "Немає статей, які відповідають вашому пошуку 🔍",
+      "NO_ARTICLES": "Немає доступних статей",
       "HEADERS": {
         "TITLE": "Назва",
         "CATEGORY": "Категорія",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Лічильник прочитань",
         "STATUS": "Статус",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Останній раз відредагований"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "від"
       }
     },
     "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "TITLE_PLACEHOLDER": "Заголовок статті іде тут",
+      "CONTENT_PLACEHOLDER": "Напишіть свою статтю тут"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Пошук статей"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Створити категорію",
+        "SUB_TITLE": "Категорія буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
+        "PORTAL": "Портал",
+        "LOCALE": "Локаль",
         "NAME": {
           "LABEL": "Ім'я",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Назва категорії",
+          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "LABEL": "Мітка",
+          "PLACEHOLDER": "Мітка категорії для URL-адрес",
           "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Необхідно вказати мітку"
         },
         "DESCRIPTION": {
           "LABEL": "Опис",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Залиште короткий опис категорії.",
           "ERROR": "Необхідний опис"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Створити категорію",
           "CANCEL": "Скасувати"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Категорію успішно створено",
+          "ERROR_MESSAGE": "Не вдалося створити категорію"
         }
       }
     }

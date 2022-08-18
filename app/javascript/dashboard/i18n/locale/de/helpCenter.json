@@ -26,12 +26,49 @@
       "SAVING": "Entwurf speichern...",
       "SAVED": "Entwurf gespeichert"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Artikeleinstellungen",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategorie",
+          "TITLE": "Kategorie wählen",
+          "PLACEHOLDER": "Kategorie wählen",
+          "NO_RESULT": "Keine Kategorie gefunden",
+          "SEARCH_PLACEHOLDER": "Kategorie suchen"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Autor auswählen",
+          "PLACEHOLDER": "Autor auswählen",
+          "NO_RESULT": "Keine Autoren gefunden",
+          "SEARCH_PLACEHOLDER": "Autor suchen"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta-Titel",
+          "PLACEHOLDER": "Metatitel hinzufügen"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta-Beschreibung",
+          "PLACEHOLDER": "Fügen Sie Ihre Meta-Beschreibung hinzu, um bessere SEO-Ergebnisse zu erzielen..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta-Tags",
+          "PLACEHOLDER": "Meta-Tags durch Komma getrennt hinzufügen..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Artikel archivieren",
+        "DELETE": "Artikel löschen"
+      }
+    },
     "PORTAL": {
       "HEADER": "Portale",
       "NEW_BUTTON": "Neues Portal",
       "ACTIVE_BADGE": "aktiv",
       "CHOOSE_LOCALE_LABEL": "Wählen Sie ein Gebietsschema",
+      "LOADING_MESSAGE": "Portale werden geladen...",
       "ARTICLES_LABEL": "Artikel",
+      "NO_PORTALS_MESSAGE": "Es sind keine Portale verfügbar",
       "ADD_NEW_LOCALE": "Neues Gebietsschema hinzufügen",
       "POPOVER": {
         "TITLE": "Portale",
@@ -71,6 +108,54 @@
               "DEFAULT_LOCALE": "Standard"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Portal erstellen",
+        "SUB_TITLE": "Ein Hilfezentrum in Chatwoot wird als Portal bezeichnet. Sie können mehrere Portale und unterschiedliche Gebietsschemas für jedes Portal haben.",
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Portalname",
+          "HELP_TEXT": "Der Name wird intern im öffentlich zugänglichen Portal verwendet",
+          "ERROR": "Name wird benötigt"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Seitentitel",
+          "PLACEHOLDER": "Titel der Portalseite",
+          "HELP_TEXT": "Der Name wird im öffentlich zugänglichen Portal verwendet",
+          "ERROR": "Seitentitel ist erforderlich"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal-Slug für URLs",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Slug ist erforderlich"
+        },
+        "DOMAIN": {
+          "LABEL": "Benutzerdefinierte Domain",
+          "PLACEHOLDER": "Benutzerdefinierte Domain des Portals",
+          "HELP_TEXT": "Nur hinzufügen, wenn Sie eine benutzerdefinierte Domain für Ihre Portale verwenden möchten",
+          "ERROR": "Benutzerdefinierte Domäne ist erforderlich"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Homepage-Link",
+          "PLACEHOLDER": "Link zur Startseite des Portals",
+          "HELP_TEXT": "Der Link, der verwendet wird, um vom Portal zur Startseite zurückzukehren.",
+          "ERROR": "Homepage-Link ist erforderlich"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Überschrift",
+          "PLACEHOLDER": "Portal-Header-Text",
+          "HELP_TEXT": "Portal-Header-Text",
+          "ERROR": "Portal-Kopfzeilentext ist erforderlich"
+        },
+        "BUTTONS": {
+          "CREATE": "Portal erstellen",
+          "CANCEL": "Stornieren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Portal erfolgreich erstellt.",
+          "ERROR_MESSAGE": "Das Portal konnte nicht erstellt werden. Versuchen Sie es nochmal."
         }
       }
     },
@@ -124,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "Kategorie erstellen",
           "CANCEL": "Stornieren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorie erfolgreich erstellt",
+          "ERROR_MESSAGE": "Kategorie kann nicht erstellt werden"
         }
       }
     }

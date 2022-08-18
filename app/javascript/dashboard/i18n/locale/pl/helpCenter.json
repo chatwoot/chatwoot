@@ -26,12 +26,49 @@
       "SAVING": "Draft saving...",
       "SAVED": "Draft saved"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Article Settings",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Category",
+          "TITLE": "Select category",
+          "PLACEHOLDER": "Select category",
+          "NO_RESULT": "No category found",
+          "SEARCH_PLACEHOLDER": "Search category"
+        },
+        "AUTHOR": {
+          "LABEL": "Author",
+          "TITLE": "Select author",
+          "PLACEHOLDER": "Select author",
+          "NO_RESULT": "No authors found",
+          "SEARCH_PLACEHOLDER": "Search author"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Add a meta title"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Add your meta description for better SEO results..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Add meta tags separated by comma..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archive article",
+        "DELETE": "Delete article"
+      }
+    },
     "PORTAL": {
       "HEADER": "Portals",
       "NEW_BUTTON": "New Portal",
       "ACTIVE_BADGE": "aktywna",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
+      "LOADING_MESSAGE": "Loading portals...",
       "ARTICLES_LABEL": "articles",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
         "TITLE": "Portals",
@@ -71,6 +108,54 @@
               "DEFAULT_LOCALE": "Default"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Create a portal",
+        "SUB_TITLE": "A Help Center in Chatwoot is known as a portal. You can have multiple portals and can have different locales for each portal.",
+        "NAME": {
+          "LABEL": "Nazwa",
+          "PLACEHOLDER": "Portal name",
+          "HELP_TEXT": "The name will be used in the public facing portal internally",
+          "ERROR": "Nazwa jest wymagana"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page Title",
+          "PLACEHOLDER": "Portal page title",
+          "HELP_TEXT": "The name will be used in the public facing portal",
+          "ERROR": "Page title is required"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Slug is required"
+        },
+        "DOMAIN": {
+          "LABEL": "Custom Domain",
+          "PLACEHOLDER": "Portal custom domain",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals",
+          "ERROR": "Custom Domain is required"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home Page Link",
+          "PLACEHOLDER": "Portal home page link",
+          "HELP_TEXT": "The link used to return from the portal to the home page.",
+          "ERROR": "Home Page Link is required"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header Text",
+          "PLACEHOLDER": "Portal header text",
+          "HELP_TEXT": "Portal header text",
+          "ERROR": "Portal header text is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create portal",
+          "CANCEL": "Anuluj"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Portal created successfully.",
+          "ERROR_MESSAGE": "Couldn't create the portal. Try again."
         }
       }
     },
@@ -124,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "Create category",
           "CANCEL": "Anuluj"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category created successfully",
+          "ERROR_MESSAGE": "Unable to create category"
         }
       }
     }

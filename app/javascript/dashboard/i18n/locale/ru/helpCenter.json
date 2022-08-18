@@ -1,10 +1,10 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Фильтровать по",
+      "SORT": "Сортировать по",
       "SETTINGS_BUTTON": "Настройки",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Новая статья",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Опубликовано",
         "DRAFT": "Черновик",
@@ -18,59 +18,144 @@
       }
     },
     "EDIT_HEADER": {
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "PUBLISH_BUTTON": "Опубликовано",
+      "PREVIEW": "Предпросмотр",
+      "ADD_TRANSLATION": "Добавить перевод",
+      "OPEN_SIDEBAR": "Открыть боковую панель",
+      "CLOSE_SIDEBAR": "Закрыть боковую панель",
+      "SAVING": "Сохранение черновиков...",
+      "SAVED": "Черновик сохранён"
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Article Settings",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Категория",
+          "TITLE": "Select category",
+          "PLACEHOLDER": "Select category",
+          "NO_RESULT": "No category found",
+          "SEARCH_PLACEHOLDER": "Search category"
+        },
+        "AUTHOR": {
+          "LABEL": "Автор",
+          "TITLE": "Выбрать автора",
+          "PLACEHOLDER": "Выбрать автора",
+          "NO_RESULT": "No authors found",
+          "SEARCH_PLACEHOLDER": "Search author"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Add a meta title"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Add your meta description for better SEO results..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Add meta tags separated by comma..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archive article",
+        "DELETE": "Delete article"
+      }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "NEW_BUTTON": "New Portal",
+      "HEADER": "Портал",
+      "NEW_BUTTON": "Новый портал",
       "ACTIVE_BADGE": "активно",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "ARTICLES_LABEL": "articles",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "CHOOSE_LOCALE_LABEL": "Выберите локаль",
+      "LOADING_MESSAGE": "Загрузка порталов...",
+      "ARTICLES_LABEL": "статьи",
+      "NO_PORTALS_MESSAGE": "Нет доступных порталов",
+      "ADD_NEW_LOCALE": "Добавить новую локаль",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "Портал",
+        "PORTAL_SETTINGS": "Настройки портала",
+        "SUBTITLE": "У вас есть несколько порталов и могут иметь разные локали для каждого портала.",
         "CANCEL_BUTTON_LABEL": "Отменить",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Выберите локаль"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "статьи",
+            "ADD": "Добавить локали",
+            "VISIT": "Посетить сайт",
             "SETTINGS": "Настройки"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Конфигурации портала",
             "ITEMS": {
               "NAME": "Имя",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Свой домен",
               "SLUG": "Метка",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Название портала",
+              "THEME": "Цвет темы",
+              "SUB_TEXT": "Подтекст портала"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Доступные локали",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Локальное имя",
+              "CODE": "Код локали",
+              "ARTICLE_COUNT": "№ статей",
+              "CATEGORIES": "№ категорий",
+              "SWAP": "Поменять",
               "DELETE": "Удалить",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "По умолчанию"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "Создать портал",
+        "SUB_TITLE": "Справочный центр в  Chatwoot известен как портал. У вас может быть несколько порталов и может иметь разные доколе для каждого портала.",
+        "NAME": {
+          "LABEL": "Имя",
+          "PLACEHOLDER": "Имя портала",
+          "HELP_TEXT": "Название будет использоваться на публичном портале",
+          "ERROR": "Необходимо указать имя"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Название страницы",
+          "PLACEHOLDER": "Заголовок страницы портала",
+          "HELP_TEXT": "Название будет использоваться на публичном портале",
+          "ERROR": "Необходимо указать название"
+        },
+        "SLUG": {
+          "LABEL": "Метка",
+          "PLACEHOLDER": "Слаг портала для url",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Необходимо указать метку"
+        },
+        "DOMAIN": {
+          "LABEL": "Пользовательский домен",
+          "PLACEHOLDER": "Пользовательский домен портала",
+          "HELP_TEXT": "Добавьте только если вы хотите использовать пользовательский домен для ваших порталов",
+          "ERROR": "Требуется пользовательский домен"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Домашняя ссылка",
+          "PLACEHOLDER": "Ссылка на главную страницу портала",
+          "HELP_TEXT": "Ссылка, используемая для возврата с портала на главную страницу.",
+          "ERROR": "Счалка главной страницы обязательна"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header Text",
+          "PLACEHOLDER": "Portal header text",
+          "HELP_TEXT": "Portal header text",
+          "ERROR": "Portal header text is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Создать портал",
+          "CANCEL": "Отменить"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Портал создан успешно.",
+          "ERROR_MESSAGE": "Не удалось создать портал. Попробуйте еще раз."
         }
       }
     },
@@ -124,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "Создать категорию",
           "CANCEL": "Отменить"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Категория успешно создана",
+          "ERROR_MESSAGE": "Не удалось создать категорию"
         }
       }
     }

@@ -6,7 +6,7 @@
         <div>
           <h2 class="portal-title">{{ portal.name }}</h2>
           <p class="portal-count">
-            {{ portal.articles_count }}
+            {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
         </div>
@@ -19,7 +19,7 @@
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
         </h2>
         <ul>
-          <li v-for="locale in portal.locales" :key="locale.code">
+          <li v-for="locale in locales" :key="locale.code">
             <label :for="`locale-${locale.code}`" class="locale-item">
               <input
                 :id="`locale-${locale.code}`"
@@ -27,9 +27,10 @@
                 type="radio"
                 name="locale"
                 :value="locale.code"
+                @click="onClick(locale.code, portal)"
               />
               <div>
-                <p>{{ locale.name }}</p>
+                <p>{{ localeName(locale.code) }}</p>
                 <span>
                   {{ locale.articles_count }}
                   {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
@@ -49,10 +50,12 @@
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
+import portalMixin from '../mixins/portalMixin';
 export default {
   components: {
     thumbnail,
   },
+  mixins: [portalMixin],
   props: {
     portal: {
       type: Object,
@@ -65,11 +68,24 @@ export default {
   },
   data() {
     return {
-      selectedLocale: '',
+      selectedLocale: null,
     };
   },
+  computed: {
+    locales() {
+      return this.portal?.config?.allowed_locales;
+    },
+    articlesCount() {
+      return this.portal?.meta?.all_articles_count;
+    },
+  },
   mounted() {
-    this.selectedLocale = this.portal.locales[0].code;
+    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
+  },
+  methods: {
+    onClick(code, portal) {
+      this.$emit('open-portal-page', { slug: portal.slug, locale: code });
+    },
   },
 };
 </script>

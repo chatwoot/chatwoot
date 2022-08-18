@@ -26,12 +26,49 @@
       "SAVING": "در حال ذخیره پیش‌نویس...",
       "SAVED": "پیش‌نویس ذخیر شد"
     },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "تنظیمات مقاله",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "دسته‌بندی",
+          "TITLE": "انتخاب دسته‌بندی",
+          "PLACEHOLDER": "انتخاب دسته‌بندی",
+          "NO_RESULT": "هیچ دسته‌بندی‌ای یافت نشد",
+          "SEARCH_PLACEHOLDER": "جستجوی دسته‌بندی"
+        },
+        "AUTHOR": {
+          "LABEL": "نویسنده",
+          "TITLE": "انتخاب نویسنده",
+          "PLACEHOLDER": "انتخاب نویسنده",
+          "NO_RESULT": "هیچ نویسنده‌ای پیدا نشد",
+          "SEARCH_PLACEHOLDER": "جستجوی نویسنده"
+        },
+        "META_TITLE": {
+          "LABEL": "عنوان متا",
+          "PLACEHOLDER": "افزودن عنوان متا"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "توضیحات متا",
+          "PLACEHOLDER": "توضیحات متا خود را برای نتایج بهتر سئو اضافه کنید..."
+        },
+        "META_TAGS": {
+          "LABEL": "برچسب‌های متا",
+          "PLACEHOLDER": "اضافه کردن برچسب‌های متا، با کاما جدا شود..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "بایگانی مقاله",
+        "DELETE": "حذف مقاله"
+      }
+    },
     "PORTAL": {
       "HEADER": "پورتال ها",
       "NEW_BUTTON": "پورتال جدید",
       "ACTIVE_BADGE": "فعال",
       "CHOOSE_LOCALE_LABEL": "محلی را انتخاب کنید",
+      "LOADING_MESSAGE": "در حال بارگیری پورتال...",
       "ARTICLES_LABEL": "مقالات",
+      "NO_PORTALS_MESSAGE": "هیچ پورتالی در دسترس وجود ندارد",
       "ADD_NEW_LOCALE": "یک محل جدید اضافه کنید",
       "POPOVER": {
         "TITLE": "پورتال ها",
@@ -71,6 +108,54 @@
               "DEFAULT_LOCALE": "پیش‌فرض"
             }
           }
+        }
+      },
+      "ADD": {
+        "TITLE": "ایجاد پورتال",
+        "SUB_TITLE": "یک مرکز راهنمایی در Chatwoot به عنوان یک پورتال شناخته می‌شود. شما می‌توانید چندین پورتال، در هر قسمت متفاوتی داشته باشید.",
+        "NAME": {
+          "LABEL": "نام",
+          "PLACEHOLDER": "نام پورتال",
+          "HELP_TEXT": "این نام به صورت داخلی در پورتال عمومی استفاده خواهد شد",
+          "ERROR": "نام الزامی است"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "عنوان صفحه",
+          "PLACEHOLDER": "عنوان صفحه پورتال",
+          "HELP_TEXT": "The name will be used in the public facing portal",
+          "ERROR": "عنوان صفحه الزامی است"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+          "ERROR": "Slug مورد نیاز است"
+        },
+        "DOMAIN": {
+          "LABEL": "دامنه سفارشی",
+          "PLACEHOLDER": "دامنه سفارشی پورتال",
+          "HELP_TEXT": "فقط اگر می‌خواهید از یک دامنه سفارشی برای پورتال‌های خود استفاده کنید، اضافه کنید",
+          "ERROR": "دامنه سفارشی الزامی است"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "پیوند صفحه اصلی",
+          "PLACEHOLDER": "پیوند صفحه اصلی پورتال",
+          "HELP_TEXT": "پیوند مورد استفاده برای بازگشت از پورتال به صفحه اصلی.",
+          "ERROR": "پیوند صفحه اصلی الزامی است"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "متن سرصفحه",
+          "PLACEHOLDER": "متن سرصفحه پورتال",
+          "HELP_TEXT": "متن سرصفحه پورتال",
+          "ERROR": "متن سرصفحه پورتال الزامی است"
+        },
+        "BUTTONS": {
+          "CREATE": "ایجاد پورتال",
+          "CANCEL": "انصراف"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "پورتال با موفقیت ایجاد شد.",
+          "ERROR_MESSAGE": "پورتال ایجاد نشد. دوباره امتحان کنید."
         }
       }
     },
@@ -124,6 +209,10 @@
         "BUTTONS": {
           "CREATE": "ایجاد دسته‌بندی",
           "CANCEL": "انصراف"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "دسته‌بندی با موفقیت ایجاد شد",
+          "ERROR_MESSAGE": "امکان ایجاد دسته‌بندی وجود ندارد"
         }
       }
     }
