@@ -257,6 +257,9 @@ export default {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
     allowedFileTypes() {
+      if (this.isATwilioWhatsappChannel) {
+        return ALLOWED_FILE_TYPES.replace('text/csv, text/plain, ', '');
+      }
       return ALLOWED_FILE_TYPES;
     },
     audioRecorderPlayStopIcon() {
