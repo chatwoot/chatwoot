@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     addPortal() {
-      this.isAddModalOpen = !this.isAddModalOpen;
+      this.$router.push({ name: 'new_portal_information' });
     },
     closeModal() {
       this.isAddModalOpen = false;
