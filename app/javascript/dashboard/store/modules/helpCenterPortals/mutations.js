@@ -41,7 +41,7 @@ export const mutations = {
   [types.CLEAR_PORTALS]: $state => {
     Vue.set($state.portals, 'byId', {});
     Vue.set($state.portals, 'allIds', []);
-    Vue.set($state.portals, 'uiFlags', {});
+    Vue.set($state.portals, 'uiFlags.byId', {});
   },
 
   [types.SET_PORTALS_META]: ($state, data) => {
