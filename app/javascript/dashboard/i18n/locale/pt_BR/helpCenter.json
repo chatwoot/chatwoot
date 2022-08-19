@@ -225,7 +225,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Algo deu errado. Por favor, tente novamente."
     },
     "SIDEBAR": {
       "SEARCH": {
