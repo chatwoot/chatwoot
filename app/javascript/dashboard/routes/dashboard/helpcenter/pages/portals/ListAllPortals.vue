@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="header-wrap">
-      <h1 class="page-title">{{ $t('HELP_CENTER.PORTAL.HEADER') }}</h1>
+      <div class="header-left-wrap">
+        <woot-sidemenu-icon />
+        <h1 class="page-title">{{ $t('HELP_CENTER.PORTAL.HEADER') }}</h1>
+      </div>
       <woot-button color-scheme="primary" size="small" @click="addPortal">
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
@@ -61,7 +64,7 @@ export default {
   },
   methods: {
     addPortal() {
-      this.isAddModalOpen = !this.isAddModalOpen;
+      this.$router.push({ name: 'new_portal_information' });
     },
     closeModal() {
       this.isAddModalOpen = false;
@@ -87,6 +90,14 @@ export default {
     align-items: center;
     margin: 0 0 var(--space-small) 0;
     height: var(--space-larger);
+
+    .header-left-wrap {
+      display: flex;
+      align-items: center;
+      .page-title {
+        margin-bottom: 0;
+      }
+    }
   }
   .portal-container {
     height: 90vh;

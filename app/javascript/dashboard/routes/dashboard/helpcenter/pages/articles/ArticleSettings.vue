@@ -8,7 +8,7 @@
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.LABEL') }}
           <multiselect-dropdown
-            :options="categoryList"
+            :options="categories"
             :selected-item="selectedCategory"
             :has-thumbnail="false"
             :multiselector-title="
@@ -31,7 +31,7 @@
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.AUTHOR.LABEL') }}
           <multiselect-dropdown
-            :options="authorList"
+            :options="agents"
             :selected-item="assignedAuthor"
             :multiselector-title="
               $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.AUTHOR.TITLE')
@@ -51,18 +51,19 @@
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TITLE.LABEL') }}
           <textarea
-            v-model="title"
+            v-model="metaTitle"
             rows="3"
             type="text"
             :placeholder="
               $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TITLE.PLACEHOLDER')
             "
+            @input="onChangeMetaInput"
           />
         </label>
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_DESCRIPTION.LABEL') }}
           <textarea
-            v-model="description"
+            v-model="metaDescription"
             rows="3"
             type="text"
             :placeholder="
@@ -70,19 +71,20 @@
                 'HELP_CENTER.ARTICLE_SETTINGS.FORM.META_DESCRIPTION.PLACEHOLDER'
               )
             "
+            @input="onChangeMetaInput"
           />
         </label>
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TAGS.LABEL') }}
           <multiselect
             ref="tagInput"
-            v-model="values"
+            v-model="metaTags"
             :placeholder="
               $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TAGS.PLACEHOLDER')
             "
             label="name"
+            :options="metaOptions"
             track-by="name"
-            :options="options"
             :multiple="true"
             :taggable="true"
             @tag="addTagValue"
@@ -115,60 +117,88 @@
 
 <script>
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown';
+import { mapGetters } from 'vuex';
+import { debounce } from '@chatwoot/utils';
+import { isEmptyObject } from 'dashboard/helper/commons.js';
 export default {
   components: {
     MultiselectDropdown,
   },
+  props: {
+    article: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      // Dummy value
-      categoryList: [
-        {
-          id: 1,
-          name: 'Getting started',
-        },
-        {
-          id: 2,
-          name: 'Features',
-        },
-      ],
-      selectedCategory: {
-        id: 1,
-        name: 'Features',
-      },
-      authorList: [
-        {
-          id: 1,
-          name: 'John Doe',
-        },
-        {
-          id: 2,
-          name: 'Jane Doe',
-        },
-      ],
-      assignedAuthor: {
-        id: 1,
-        name: 'John Doe',
-      },
-      title: '',
-      description: '',
-      values: [],
-      options: [],
+      metaTitle: '',
+      metaDescription: '',
+      metaTags: [],
+      metaOptions: [],
     };
   },
+  computed: {
+    ...mapGetters({
+      categories: 'categories/allCategories',
+      agents: 'agents/getAgents',
+    }),
+    assignedAuthor() {
+      return this.article?.author;
+    },
+    selectedCategory() {
+      return this.article?.category;
+    },
+    allTags() {
+      return this.metaTags.map(item => item.name);
+    },
+  },
+  mounted() {
+    if (!isEmptyObject(this.article.meta)) {
+      const {
+        meta: { title = '', description = '', tags = [] },
+      } = this.article;
+      this.metaTitle = title;
+      this.metaDescription = description;
+      this.metaTags = this.formattedTags({ tags });
+    }
+
+    this.saveArticle = debounce(
+      () => {
+        this.$emit('save-article', {
+          meta: {
+            title: this.metaTitle,
+            description: this.metaDescription,
+            tags: this.allTags,
+          },
+        });
+      },
+      1000,
+      false
+    );
+  },
   methods: {
+    formattedTags({ tags }) {
+      return tags.map(tag => ({
+        name: tag,
+      }));
+    },
     addTagValue(tagValue) {
       const tag = {
         name: tagValue,
       };
-      this.values.push(tag);
+      this.metaTags.push(tag);
       this.$refs.tagInput.$el.focus();
+      this.saveArticle();
     },
-    onClickSelectCategory() {
-      this.$emit('select-category');
+    onClickSelectCategory({ id }) {
+      this.$emit('save-article', { category_id: id });
     },
-    onClickAssignAuthor() {
-      this.$emit('assign-author');
+    onClickAssignAuthor({ id }) {
+      this.$emit('save-article', { author_id: id });
+    },
+    onChangeMetaInput() {
+      this.saveArticle();
     },
     onClickArchiveArticle() {
       this.$emit('archive-article');

@@ -9,6 +9,7 @@ const articleList = [
   },
 ];
 const commit = jest.fn();
+const dispatch = jest.fn();
 global.axios = axios;
 jest.mock('axios');
 
@@ -66,15 +67,17 @@ describe('#actions', () => {
 
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
-      axios.post.mockResolvedValue({ data: articleList[0] });
-      await actions.create({ commit }, articleList[0]);
+      axios.post.mockResolvedValue({ data: { payload: articleList[0] } });
+      await actions.create({ commit, dispatch }, articleList[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isCreating: true }],
         [types.default.ADD_ARTICLE, articleList[0]],
         [types.default.ADD_ARTICLE_ID, 1],
+        [types.default.ADD_ARTICLE_FLAG, 1],
         [types.default.SET_UI_FLAG, { isCreating: false }],
       ]);
     });
+
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.create({ commit }, articleList[0])).rejects.toThrow(
@@ -89,32 +92,47 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: articleList[0] });
-      await actions.update({ commit }, articleList[0]);
+      axios.patch.mockResolvedValue({ data: { payload: articleList[0] } });
+      await actions.update(
+        { commit },
+        {
+          portalSlug: 'room-rental',
+          articleId: 1,
+          title: 'Documents are required to complete KYC',
+        }
+      );
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
         [types.default.UPDATE_ARTICLE, articleList[0]],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
         ],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.update({ commit }, articleList[0])).rejects.toThrow(
-        Error
-      );
+      await expect(
+        actions.update(
+          { commit },
+          {
+            portalSlug: 'room-rental',
+            articleId: 1,
+            title: 'Documents are required to complete KYC',
+          }
+        )
+      ).rejects.toThrow(Error);
+
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: true }, articleId: 1 },
         ],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isUpdating: false }, articleId: 1 },
         ],
       ]);
@@ -127,13 +145,13 @@ describe('#actions', () => {
       await actions.delete({ commit }, articleList[0].id);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: true }, articleId: 1 },
         ],
         [types.default.REMOVE_ARTICLE, articleList[0].id],
         [types.default.REMOVE_ARTICLE_ID, articleList[0].id],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
@@ -145,11 +163,11 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: true }, articleId: 1 },
         ],
         [
-          types.default.ADD_ARTICLE_FLAG,
+          types.default.UPDATE_ARTICLE_FLAG,
           { uiFlags: { isDeleting: false }, articleId: 1 },
         ],
       ]);
