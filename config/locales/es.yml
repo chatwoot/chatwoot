@@ -23,7 +23,7 @@ es:
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
   errors:
     validations:
-      presence: must not be blank
+      presence: no debe estar en blanco
     webhook:
       invalid: Eventos inválidos
     signup:
@@ -33,17 +33,17 @@ es:
       failed: Registro fallido
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Tipo de datos no válido
     contacts:
       import:
         failed: Archivo está en blanco
       email:
-        invalid: Invalid email
+        invalid: Email inválido
       phone_number:
-        invalid: should be in e164 format
+        invalid: debe estar en formato e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: debe ser único en la categoría y el portal
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -52,7 +52,7 @@ es:
         connection_timed_out_error: Se agotó el tiempo de conexión para %{address}:%{port}
         connection_closed_error: Conexión cerrada.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: no debe comenzar ni terminar con símbolos, y no debe tener caracteres < > / \ @.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     agent_csv:
@@ -96,7 +96,7 @@ es:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} te mencionó en la historia: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Esta historia ya no está disponible.
       deleted: Este mensaje se ha eliminado
     activity:
       status:
