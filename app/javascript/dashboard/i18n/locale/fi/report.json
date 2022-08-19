@@ -396,7 +396,7 @@
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
+        "AGENT_NAME": "Osoitettu edustajalle",
         "RATING": "Arvio",
         "FEEDBACK_TEXT": "Palautteen kommentti"
       }
