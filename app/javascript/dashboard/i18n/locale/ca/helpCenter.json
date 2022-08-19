@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Publish",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -111,19 +112,54 @@
         }
       },
       "ADD": {
-        "TITLE": "Create a portal",
-        "SUB_TITLE": "A Help Center in Chatwoot is known as a portal. You can have multiple portals and can have different locales for each portal.",
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Finish"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Enrere",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
+        },
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally",
+          "HELP_TEXT": "The name will be used in the public facing portal internally.",
           "ERROR": "Name is required"
-        },
-        "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The name will be used in the public facing portal",
-          "ERROR": "Page title is required"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -134,7 +170,7 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
           "ERROR": "Custom Domain is required"
         },
         "HOME_PAGE_LINK": {
@@ -143,19 +179,25 @@
           "HELP_TEXT": "The link used to return from the portal to the home page.",
           "ERROR": "Home Page Link is required"
         },
+        "THEME_COLOR": {
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page Title",
+          "PLACEHOLDER": "Portal page title",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Page title is required"
+        },
         "HEADER_TEXT": {
           "LABEL": "Header Text",
           "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "Portal header text",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
           "ERROR": "Portal header text is required"
         },
-        "BUTTONS": {
-          "CREATE": "Create portal",
-          "CANCEL": "Cancel·la"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Portal created successfully.",
-          "ERROR_MESSAGE": "Couldn't create the portal. Try again."
+          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       }
     },
@@ -175,8 +217,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "CONTENT_PLACEHOLDER": "Write your article here",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {
