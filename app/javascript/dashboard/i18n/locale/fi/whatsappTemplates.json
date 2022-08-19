@@ -1,12 +1,12 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
+            "TITLE": "WhatsApp-pohjat",
+            "SUBTITLE": "Valitse WhatsApp-pohja, jonka haluat lähettää",
             "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
+            "SEARCH_PLACEHOLDER": "Etsi Pohjia",
             "NO_TEMPLATES_FOUND": "No templates found for",
             "LABELS": {
                 "LANGUAGE": "Language",
