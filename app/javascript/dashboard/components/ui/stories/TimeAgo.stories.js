@@ -4,12 +4,12 @@ export default {
   title: 'Components/TimeAgo',
   component: TimeAgo,
   argTypes: {
-    refresh: {
+    isAutoRefreshEnabled: {
       control: {
         type: 'boolean',
       },
     },
-    datetime: {
+    timestamp: {
       control: {
         type: 'text, date, number',
       },
@@ -25,6 +25,6 @@ const Template = (args, { argTypes }) => ({
 
 export const TimeAgoView = Template.bind({});
 TimeAgoView.args = {
-  datetime: 1549843200,
-  refresh: false,
+  timestamp: 1549843200,
+  isAutoRefreshEnabled: false,
 };

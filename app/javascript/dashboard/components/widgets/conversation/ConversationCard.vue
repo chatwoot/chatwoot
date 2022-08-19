@@ -87,7 +87,7 @@
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          <time-ago :timestamp="chat.timestamp" refresh />
+          <time-ago :timestamp="chat.timestamp" />
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>

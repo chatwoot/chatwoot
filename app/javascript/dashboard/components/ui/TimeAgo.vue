@@ -1,33 +1,27 @@
 <template>
-  <span class="timeago">
-    <span> {{ timeago }}</span>
+  <span class="time-ago">
+    <span> {{ timeAgo }}</span>
   </span>
 </template>
 
 <script>
 const ZERO = 0;
-const MINUTE_IN_MSEC = 60000;
-const HOUR_IN_MSEC = MINUTE_IN_MSEC * 60;
-const DAY_IN_MSEC = HOUR_IN_MSEC * 24;
-const MONTH_IN_MSEC = DAY_IN_MSEC * 30;
-const YEAR_IN_MSEC = MONTH_IN_MSEC * 12;
+const MINUTE_IN_MILLI_SECOND = 60000;
+const HOUR_IN_MILLI_SECOND = MINUTE_IN_MILLI_SECOND * 60;
+const DAY_IN_MILLI_SECOND = HOUR_IN_MILLI_SECOND * 24;
+const MONTH_IN_MILLI_SECOND = DAY_IN_MILLI_SECOND * 30;
+const YEAR_IN_MILLI_SECOND = MONTH_IN_MILLI_SECOND * 12;
 
 import timeMixin from 'dashboard/mixins/time';
-import {
-  differenceInMinutes,
-  differenceInHours,
-  differenceInDays,
-  differenceInCalendarMonths,
-  differenceInCalendarYears,
-} from 'date-fns';
+import { differenceInMilliseconds } from 'date-fns';
 
 export default {
   name: 'TimeAgo',
   mixins: [timeMixin],
   props: {
-    refresh: {
+    isAutoRefreshEnabled: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     timestamp: {
       type: [String, Date, Number],
@@ -36,86 +30,55 @@ export default {
   },
   data() {
     return {
-      timeago: '',
+      timeAgo: '',
       timer: null,
     };
   },
   computed: {
-    currentDate() {
-      return new Date();
-    },
-    previousDate() {
-      return new Date(this.timestamp * 1000);
-    },
-
-    hasMinutesDiff() {
-      const minutes = differenceInMinutes(this.currentDate, this.previousDate);
-      return minutes < 60;
-    },
-    hasHourDiff() {
-      const hours = differenceInHours(this.currentDate, this.previousDate);
-      return hours >= 1 && hours <= 24;
-    },
-    hasDayDiff() {
-      const days = differenceInDays(this.currentDate, this.previousDate);
-      return days >= 1 && days <= 31;
-    },
-    hasMonthDiff() {
-      const months = differenceInCalendarMonths(
-        this.currentDate,
-        this.previousDate
-      );
-      return months >= 1 && months <= 6;
-    },
-    hasYearDiff() {
-      const years = differenceInCalendarYears(
-        this.currentDate,
-        this.previousDate
-      );
-      return years >= 1;
-    },
     refreshTime() {
-      if (this.refresh) {
-        if (this.hasMinutesDiff && !this.hasHourDiff) {
-          return MINUTE_IN_MSEC;
-        }
-        if (this.hasHourDiff && !this.hasDayDiff) {
-          return HOUR_IN_MSEC;
-        }
-        if (this.hasDayDiff && !this.hasMonthDiff) {
-          return DAY_IN_MSEC;
-        }
-        if (this.hasMonthDiff && !this.hasYearDiff) {
-          return MONTH_IN_MSEC;
-        }
-        if (this.hasYearDiff) {
-          return YEAR_IN_MSEC;
-        }
+      const timeDiff = differenceInMilliseconds(
+        new Date(),
+        new Date(this.timestamp * 1000)
+      );
+      if (
+        timeDiff > MINUTE_IN_MILLI_SECOND &&
+        timeDiff < HOUR_IN_MILLI_SECOND
+      ) {
+        return MINUTE_IN_MILLI_SECOND;
+      }
+      if (timeDiff > HOUR_IN_MILLI_SECOND && timeDiff < DAY_IN_MILLI_SECOND) {
+        return HOUR_IN_MILLI_SECOND;
+      }
+      if (timeDiff > DAY_IN_MILLI_SECOND && timeDiff < MONTH_IN_MILLI_SECOND) {
+        return DAY_IN_MILLI_SECOND;
+      }
+      if (timeDiff > MONTH_IN_MILLI_SECOND && timeDiff < YEAR_IN_MILLI_SECOND) {
+        return MONTH_IN_MILLI_SECOND;
+      }
+      if (timeDiff > YEAR_IN_MILLI_SECOND) {
+        return YEAR_IN_MILLI_SECOND;
       }
       return ZERO;
     },
   },
   mounted() {
-    this.createTimer();
+    this.timeAgo = this.dynamicTime(this.timestamp);
+    if (this.isRefreshEnabled) {
+      this.createTimer();
+    }
   },
   beforeDestroy() {
     this.clearTimer();
   },
   methods: {
     createTimer() {
-      this.timeago = this.dynamicTime(this.timestamp);
       this.$nextTick(() => {
-        if (this.refresh === true) {
-          const refreshTime = this.refreshTime;
-          let timerValue = setTimeout(() => {
-            this.timer = timerValue;
-            this.timeago = this.dynamicTime(this.timestamp);
-            timerValue = setTimeout(() => {
-              this.createTimer();
-            }, refreshTime);
+        const refreshTime = this.refreshTime;
+        if (refreshTime > ZERO) {
+          this.timer = setTimeout(() => {
+            this.timeAgo = this.dynamicTime(this.timestamp);
+            this.createTimer();
           }, refreshTime);
-        } else {
-          this.timeago = this.dynamicTime(this.timestamp);
         }
       });
     },
@@ -128,7 +91,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.timeago {
+.time-ago {
   color: var(--b-600);
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-normal);
