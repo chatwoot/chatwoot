@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Tutti gli articoli",
       "PUBLISH_BUTTON": "Pubblica",
       "PREVIEW": "Anteprima",
       "ADD_TRANSLATION": "Aggiungi traduzione",
       "OPEN_SIDEBAR": "Apri barra laterale",
       "CLOSE_SIDEBAR": "Chiudi barra laterale",
-      "SAVING": "Salvataggio bozza...",
-      "SAVED": "Bozza salvata"
+      "SAVING": "Salvataggio...",
+      "SAVED": "Salvato"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Impostazioni articolo",
@@ -111,19 +112,54 @@
         }
       },
       "ADD": {
-        "TITLE": "Crea un portale",
-        "SUB_TITLE": "Un Centro Assistenza in Chatwoot è noto come portale. Puoi avere più portali e avere diverse lingue per ogni portale.",
+        "CREATE_FLOW": [
+          {
+            "title": "Informazioni del centro assistenza",
+            "route": "new_portal_information",
+            "body": "Informazioni di base sul portale",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea impostazioni di base del portale"
+          },
+          {
+            "title": "Personalizzazione del centro assistenza",
+            "route": "portal_customization",
+            "body": "Personalizza portale",
+            "UPDATE_PORTAL_BUTTON": "Aggiorna impostazioni del portale"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "È tutto pronto!",
+            "FINISH": "Termina"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Indietro",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Crea portale",
+            "TITLE": "Informazioni del centro assistenza",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea impostazioni di base del portale"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Personalizzazione del portale",
+            "TITLE": "Personalizzazione del centro assistenza",
+            "UPDATE_PORTAL_BUTTON": "Aggiorna impostazioni del portale"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 È tutto configurato!",
+            "MESSAGE": "Ora puoi vedere questo portale creato sulla pagina di tutti i portali.",
+            "FINISH": "Vai a tutti i portali"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Carica logo",
+          "HELP_TEXT": "Questo logo verrà visualizzato nell'intestazione del portale."
+        },
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Nome del portale",
-          "HELP_TEXT": "Il nome sarà utilizzato nel portale pubblico rivolto internamente",
+          "HELP_TEXT": "Il nome sarà utilizzato nel portale pubblico rivolto internamente.",
           "ERROR": "Il nome è obbligatorio"
-        },
-        "PAGE_TITLE": {
-          "LABEL": "Titolo pagina",
-          "PLACEHOLDER": "Titolo pagina del portale",
-          "HELP_TEXT": "Il nome verrà utilizzato nel portale pubblico",
-          "ERROR": "Il titolo della pagina è obbligatorio"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -134,7 +170,7 @@
         "DOMAIN": {
           "LABEL": "Dominio personalizzato",
           "PLACEHOLDER": "Dominio personalizzato del portale",
-          "HELP_TEXT": "Aggiungi solo se vuoi usare un dominio personalizzato per i tuoi portali",
+          "HELP_TEXT": "Aggiungi solo se vuoi usare un dominio personalizzato per i tuoi portali.",
           "ERROR": "Dominio personalizzato richiesto"
         },
         "HOME_PAGE_LINK": {
@@ -143,19 +179,25 @@
           "HELP_TEXT": "Il link utilizzato per tornare dal portale alla home page.",
           "ERROR": "Il link della pagina iniziale è obbligatorio"
         },
+        "THEME_COLOR": {
+          "LABEL": "Colore tema del portale",
+          "HELP_TEXT": "Questo colore verrà mostrato come colore del tema per il portale."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Titolo pagina",
+          "PLACEHOLDER": "Titolo pagina del portale",
+          "HELP_TEXT": "Il titolo della pagina verrà utilizzato nel portale pubblico.",
+          "ERROR": "Il titolo della pagina è obbligatorio"
+        },
         "HEADER_TEXT": {
           "LABEL": "Testo intestazione",
           "PLACEHOLDER": "Testo intestazione del portale",
-          "HELP_TEXT": "Testo intestazione del portale",
+          "HELP_TEXT": "Il testo dell'intestazione del portale sarà utilizzato nel portale pubblico.",
           "ERROR": "Il testo dell'intestazione del portale è obbligatorio"
         },
-        "BUTTONS": {
-          "CREATE": "Crea portale",
-          "CANCEL": "annulla"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Portale creato con successo.",
-          "ERROR_MESSAGE": "Impossibile creare il portale. Riprova."
+          "ERROR_MESSAGE_FOR_BASIC": "Impossibile creare il portale. Riprova.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Impossibile aggiornare il portale. Riprova."
         }
       }
     },
@@ -175,8 +217,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Caricamento articolo...",
       "TITLE_PLACEHOLDER": "Il titolo dell'articolo va qui",
-      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo"
+      "CONTENT_PLACEHOLDER": "Scrivi qui il tuo articolo",
+      "API": {
+        "ERROR": "Errore durante il salvataggio dell'articolo"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Qualcosa è andato storto. Per favore, riprova."
     },
     "SIDEBAR": {
       "SEARCH": {
