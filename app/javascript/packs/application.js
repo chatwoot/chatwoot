@@ -91,15 +91,23 @@ window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
 initializeAnalyticsEvents();
-initalizeRouter();
+// initalizeRouter();
 
+// window.onload = () => {
+//   window.WOOT = new Vue({
+//     router,
+//     store,
+//     i18n: i18nConfig,
+//     components: { App },
+//     template: '<App/>',
+//   }).$mount('#app');
+// };
 window.onload = () => {
   window.WOOT = new Vue({
     router,
-    store,
     i18n: i18nConfig,
-    components: { App },
-    template: '<App/>',
+    store,
+    render: h => h(App),
   }).$mount('#app');
 };
 

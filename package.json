@@ -70,7 +70,7 @@
     "vue2-datepicker": "^3.9.1",
     "vuedraggable": "^2.24.3",
     "vuelidate": "0.7.7",
-    "vuex": "^4.0.2",
+    "vuex": "^3.0.0",
     "vuex-router-sync": "~4.1.2",
     "wavesurfer.js": "^6.0.4"
   },
