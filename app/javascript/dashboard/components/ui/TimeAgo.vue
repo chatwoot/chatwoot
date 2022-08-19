@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     this.timeAgo = this.dynamicTime(this.timestamp);
-    if (this.isRefreshEnabled) {
+    if (this.isAutoRefreshEnabled) {
       this.createTimer();
     }
   },
@@ -72,15 +72,13 @@ export default {
   },
   methods: {
     createTimer() {
-      this.$nextTick(() => {
-        const refreshTime = this.refreshTime;
-        if (refreshTime > ZERO) {
-          this.timer = setTimeout(() => {
-            this.timeAgo = this.dynamicTime(this.timestamp);
-            this.createTimer();
-          }, refreshTime);
-        }
-      });
+      const refreshTime = this.refreshTime;
+      if (refreshTime > ZERO) {
+        this.timer = setTimeout(() => {
+          this.timeAgo = this.dynamicTime(this.timestamp);
+          this.createTimer();
+        }, refreshTime);
+      }
     },
     clearTimer() {
       if (this.timer) {
