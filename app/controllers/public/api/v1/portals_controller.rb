@@ -1,7 +1,10 @@
 class Public::Api::V1::PortalsController < PublicController
   before_action :set_portal
+  layout "portal"
 
-  def show; end
+  def show
+    
+  end
 
   private
 
