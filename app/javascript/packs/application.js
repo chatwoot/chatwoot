@@ -91,7 +91,7 @@ window.axios = createAxios(axios);
 window.bus = new Vue();
 initializeChatwootEvents();
 initializeAnalyticsEvents();
-// initalizeRouter();
+initalizeRouter();
 
 // window.onload = () => {
 //   window.WOOT = new Vue({
