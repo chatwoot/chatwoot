@@ -61,6 +61,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import validationMixin from './validationMixin';
 import { mapGetters } from 'vuex';
 import validations from './validations';
+import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
   mixins: [alertMixin, validationMixin],
@@ -79,19 +80,11 @@ export default {
     }),
   },
   mounted() {
-    this.color = this.getRandomColor();
+    this.color = getRandomColor();
   },
   methods: {
     onClose() {
       this.$emit('close');
-    },
-    getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i += 1) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
     },
     async addLabel() {
       try {

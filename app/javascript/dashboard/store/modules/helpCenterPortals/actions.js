@@ -49,12 +49,13 @@ export const actions = {
 
   update: async ({ commit }, params) => {
     const portalId = params.id;
+    const portalSlug = params.slug;
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: { isUpdating: true },
       portalId,
     });
     try {
-      const { data } = await portalAPIs.update(params);
+      const { data } = await portalAPIs.updatePortal({ portalSlug, params });
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
       throwErrorMessage(error);
@@ -84,8 +85,10 @@ export const actions = {
       });
     }
   },
-
   setPortalId: async ({ commit }, portalId) => {
     commit(types.SET_SELECTED_PORTAL_ID, portalId);
+  },
+  updatePortal: async ({ commit }, portal) => {
+    commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
 };
