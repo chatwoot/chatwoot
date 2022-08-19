@@ -109,7 +109,7 @@ describe('#actions', () => {
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({});
-      await actions.delete({ commit }, 2);
+      await actions.delete({ commit }, apiResponse.payload[1]);
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,
@@ -125,7 +125,9 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.delete.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.delete({ commit }, 2)).rejects.toThrow(Error);
+      await expect(
+        actions.delete({ commit }, apiResponse.payload[1])
+      ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,

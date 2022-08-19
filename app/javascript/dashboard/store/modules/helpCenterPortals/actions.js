@@ -55,7 +55,10 @@ export const actions = {
       portalId,
     });
     try {
-      const { data } = await portalAPIs.updatePortal({ portalSlug, params });
+      const { data } = await portalAPIs.updatePortal({
+        portalSlug,
+        params,
+      });
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
       throwErrorMessage(error);
@@ -67,13 +70,18 @@ export const actions = {
     }
   },
 
-  delete: async ({ commit }, portalId) => {
+  delete: async ({ commit }, params) => {
+    const portalId = params.id;
+    const portalSlug = params.slug;
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: { isDeleting: true },
       portalId,
     });
     try {
-      await portalAPIs.delete(portalId);
+      await portalAPIs.deletePortal({
+        portalSlug,
+        portalId,
+      });
       commit(types.REMOVE_PORTAL_ENTRY, portalId);
       commit(types.REMOVE_PORTAL_ID, portalId);
     } catch (error) {

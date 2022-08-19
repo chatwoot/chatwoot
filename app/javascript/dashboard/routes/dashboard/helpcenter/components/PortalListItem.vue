@@ -59,6 +59,17 @@
               color-scheme="secondary"
               @click="openSettings"
             />
+            <woot-button
+              v-tooltip.top-end="
+                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.DELETE')
+              "
+              variant="hollow"
+              color-scheme="alert"
+              size="small"
+              icon="delete"
+              class="header-action-buttons"
+              @click="onClickDelete(portal)"
+            />
           </div>
         </header>
         <div class="portal-locales">
@@ -195,6 +206,9 @@ export default {
     },
     openSettings() {
       this.$emit('open');
+    },
+    onClickDelete(portal) {
+      this.$emit('delete', portal);
     },
     swapLocale() {
       this.$emit('swap');

@@ -2,12 +2,16 @@
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header :header-title="title" :header-content="message" />
     <div class="modal-footer delete-item">
-      <button class="alert button nice text-truncate" @click="onConfirm">
+      <woot-button
+        color-scheme="alert"
+        class="action-button"
+        @click="onConfirm"
+      >
         {{ confirmText }}
-      </button>
-      <button class="button clear text-truncate" @click="onClose">
+      </woot-button>
+      <woot-button variant="clear" class="action-button" @click="onClose">
         {{ rejectText }}
-      </button>
+      </woot-button>
     </div>
   </modal>
 </template>
@@ -30,3 +34,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.action-button {
+  max-width: var(--space-giga);
+}
+</style>

@@ -120,9 +120,6 @@ export default {
             allowed_locales: ['en'],
           },
         });
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
-        );
       } catch (error) {
         this.alertMessage =
           error?.message ||

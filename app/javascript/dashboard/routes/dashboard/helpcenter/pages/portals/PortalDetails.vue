@@ -145,9 +145,6 @@ export default {
             custom_domain: this.domain,
           },
         });
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_BASIC'
-        );
       } catch (error) {
         this.alertMessage =
           error?.message ||

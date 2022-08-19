@@ -15,6 +15,7 @@
         :key="portal.id"
         :portal="portal"
         :status="portalStatus"
+        @delete="onClickOpenDeleteModal"
       />
       <div v-if="isFetching" class="portals--loader">
         <spinner />
@@ -25,6 +26,15 @@
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="onClickDeletePortal"
+      :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
+      :message="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
     <woot-modal :show.sync="isAddModalOpen" :on-close="closeModal">
       <add-portal :show="isAddModalOpen" @cancel="closeModal" />
     </woot-modal>
@@ -33,6 +43,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import PortalListItem from '../../components/PortalListItem';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
@@ -44,9 +55,13 @@ export default {
     Spinner,
     AddPortal,
   },
+  mixins: [alertMixin],
   data() {
     return {
       isAddModalOpen: false,
+      showDeleteConfirmationPopup: false,
+      alertMessage: '',
+      selectedPortalForDelete: {},
     };
   },
   computed: {
@@ -61,6 +76,22 @@ export default {
     shouldShowEmptyState() {
       return !this.isFetching && !this.portals.length;
     },
+    // Delete portal modal
+    deleteConfirmText() {
+      return `${this.$t(
+        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES'
+      )} ${this.selectedPortalForDelete.name}`;
+    },
+    deleteRejectText() {
+      return `${this.$t(
+        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO'
+      )} ${this.selectedPortalForDelete.name}`;
+    },
+    deleteMessage() {
+      return `${this.$t(
+        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE'
+      )} ${this.selectedPortalForDelete.name} ?`;
+    },
   },
   methods: {
     addPortal() {
@@ -68,6 +99,35 @@ export default {
     },
     closeModal() {
       this.isAddModalOpen = false;
+    },
+    onClickOpenDeleteModal(portal) {
+      this.selectedPortalForDelete = portal;
+      this.showDeleteConfirmationPopup = true;
+    },
+    async onClickDeletePortal() {
+      const { id, slug } = this.selectedPortalForDelete;
+      try {
+        await this.$store.dispatch('portals/delete', {
+          id: id,
+          slug: slug,
+        });
+        this.selectedPortalForDelete = {};
+        this.closeDeletePopup();
+        this.alertMessage = this.$t(
+          'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_SUCCESS'
+        );
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t(
+            'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR'
+          );
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
     },
   },
 };
