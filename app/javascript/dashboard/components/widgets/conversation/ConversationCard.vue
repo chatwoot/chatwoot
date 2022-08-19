@@ -84,6 +84,18 @@
           {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
+      <p
+        v-if="canReply && inboxType === 'Channel::Api'"
+        class="conversation--timer"
+      >
+        {{ `${hours}h:${minutes}m:${seconds}s left to reply` }}
+      </p>
+      <p
+        v-if="!canReply && inboxType === 'Channel::Api'"
+        class="conversation--timer--alert"
+      >
+        {{ `Conversation Expired` }}
+      </p>
       <div class="conversation--meta">
         <span class="timestamp">
           {{ dynamicTime(chat.timestamp) }}
@@ -130,6 +142,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    inboxType: {
+      type: String,
+      default: '',
+    },
     hideInboxName: {
       type: Boolean,
       default: false,
@@ -162,6 +178,10 @@ export default {
   data() {
     return {
       hovered: false,
+      timerCount: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
     };
   },
   computed: {
@@ -215,6 +235,10 @@ export default {
       return this.unreadCount > 0;
     },
 
+    canReply() {
+      return this.chat.can_reply;
+    },
+
     isInboxNameVisible() {
       return !this.activeInbox;
     },
@@ -265,6 +289,29 @@ export default {
       return stateInbox.name || '';
     },
   },
+  watch: {
+    timerCount: {
+      handler(value) {
+        if (value > 0) {
+          setTimeout(() => {
+            this.timerCount = this.lastMessageAt(this.chat);
+            this.hours = Math.floor(this.timerCount / 3600);
+            this.minutes = Math.floor(
+              (this.timerCount - this.hours * 3600) / 60
+            );
+            this.seconds =
+              this.timerCount - this.hours * 3600 - this.minutes * 60;
+          }, 1000);
+        }
+      },
+      immediate: true,
+    },
+  },
+
+  mounted() {
+    this.timerCount = this.lastMessageAt(this.chat);
+  },
+
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
@@ -373,5 +420,24 @@ export default {
     margin: var(--space-zero);
     cursor: pointer;
   }
+}
+.conversation--timer {
+  font-size: 12px;
+  background: var(--color-background);
+}
+.conversation--timer {
+  font-size: 11px;
+  background: var(--s-200);
+  border-radius: 0.25rem;
+  padding: 0.2rem;
+  width: max-content;
+}
+.conversation--timer--alert {
+  font-size: 11px;
+  background: var(--r-400);
+  color: var(--w-50);
+  border-radius: 0.25rem;
+  padding: 0.2rem;
+  width: max-content;
 }
 </style>

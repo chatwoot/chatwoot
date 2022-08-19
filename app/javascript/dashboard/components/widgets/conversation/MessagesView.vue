@@ -7,13 +7,6 @@
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
     />
-    <banner
-      v-if="currentChat.can_reply"
-      color-scheme="secondary"
-      :banner-message="
-        `You have ${hours}h:${minutes}m:${seconds}s to reply to this conversation`
-      "
-    />
 
     <banner
       v-if="isATweet"
@@ -136,10 +129,6 @@ export default {
       conversationPanel: null,
       selectedTweetId: null,
       isPopoutReplyBox: false,
-      timerCount: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
     };
   },
 
@@ -293,23 +282,6 @@ export default {
       }
       this.selectedTweetId = null;
     },
-    timerCount: {
-      handler(value) {
-        if (value > 0) {
-          setTimeout(() => {
-            const chat = this.getMessages;
-            this.timerCount = this.lastMessageAt(chat);
-            this.hours = Math.floor(this.timerCount / 3600);
-            this.minutes = Math.floor(
-              (this.timerCount - this.hours * 3600) / 60
-            );
-            this.seconds =
-              this.timerCount - this.hours * 3600 - this.minutes * 60;
-          }, 1000);
-        }
-      },
-      immediate: true,
-    },
   },
 
   created() {
@@ -319,8 +291,6 @@ export default {
 
   mounted() {
     this.addScrollListener();
-    const chat = this.getMessages;
-    this.timerCount = this.lastMessageAt(chat);
   },
 
   beforeDestroy() {
