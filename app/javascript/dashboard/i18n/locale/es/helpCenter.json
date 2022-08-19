@@ -1,39 +1,39 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Filtrar por",
+      "SORT": "Ordenar por",
       "SETTINGS_BUTTON": "Ajustes",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Nuevo artículo",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publicado",
+        "DRAFT": "Borrador",
+        "ARCHIVED": "Archivado"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Todos los artículos",
+        "MINE": "Todos los artículos",
+        "DRAFT": "Borrador de artículos",
+        "ARCHIVED": "Artículos archivados"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
+      "ALL_ARTICLES": "Todos los artículos",
+      "PUBLISH_BUTTON": "Publicar",
       "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ADD_TRANSLATION": "Añadir traducción",
+      "OPEN_SIDEBAR": "Abrir barra lateral",
+      "CLOSE_SIDEBAR": "Cerrar barra lateral",
+      "SAVING": "Guardando...",
+      "SAVED": "Guardado"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Ajustes del artículo",
       "FORM": {
         "CATEGORY": {
           "LABEL": "Categoría",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
+          "TITLE": "Seleccionar categoría",
+          "PLACEHOLDER": "Seleccionar categoría",
           "NO_RESULT": "No category found",
           "SEARCH_PLACEHOLDER": "Search category"
         },
