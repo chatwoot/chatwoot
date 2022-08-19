@@ -114,46 +114,46 @@
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Informationen zum Hilfezentrum",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Grundlegende Informationen zum Portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Portalgrundeinstellungen erstellen"
           },
           {
-            "title": "Help center customization",
+            "title": "Anpassung des Help Centers",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Portal anpassen",
+            "UPDATE_PORTAL_BUTTON": "Portaleinstellungen aktualisieren"
           },
           {
             "title": "Voila! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
+            "body": "Sie sind bereit!",
             "FINISH": "Abschließen"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Zurück",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Portal erstellen",
+            "TITLE": "Informationen zum Hilfezentrum",
+            "CREATE_BASIC_SETTING_BUTTON": "Portalgrundeinstellungen erstellen"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Portalanpassung",
+            "TITLE": "Anpassung des Help Centers",
+            "UPDATE_PORTAL_BUTTON": "Portaleinstellungen aktualisieren"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Voila!🎉 Sie sind fertig!",
+            "MESSAGE": "Sie können dieses erstellte Portal jetzt auf Ihrer Seite \"Alle Portale\" sehen.",
+            "FINISH": "Zur Seite Alle Portale"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "UPLOAD_BUTTON": "Logo hochladen",
+          "HELP_TEXT": "Dieses Logo wird in der Kopfzeile des Portals angezeigt."
         },
         "NAME": {
           "LABEL": "Name",
@@ -180,24 +180,24 @@
           "ERROR": "Homepage-Link ist erforderlich"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Farbe des Portaldesigns",
+          "HELP_TEXT": "Diese Farbe wird als Designfarbe für das Portal angezeigt."
         },
         "PAGE_TITLE": {
           "LABEL": "Seitentitel",
           "PLACEHOLDER": "Titel der Portalseite",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "HELP_TEXT": "Der Seitentitel wird im öffentlich zugänglichen Portal verwendet.",
           "ERROR": "Seitentitel ist erforderlich"
         },
         "HEADER_TEXT": {
           "LABEL": "Überschrift",
           "PLACEHOLDER": "Portal-Header-Text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
+          "HELP_TEXT": "Der Kopfzeilentext des Portals wird im öffentlich zugänglichen Portal verwendet.",
           "ERROR": "Portal-Kopfzeilentext ist erforderlich"
         },
         "API": {
           "ERROR_MESSAGE_FOR_BASIC": "Das Portal konnte nicht erstellt werden. Versuchen Sie es nochmal.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "ERROR_MESSAGE_FOR_UPDATE": "Das Portal konnte nicht aktualisiert werden. Versuchen Sie es nochmal."
         }
       }
     },
@@ -225,7 +225,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
     },
     "SIDEBAR": {
       "SEARCH": {
