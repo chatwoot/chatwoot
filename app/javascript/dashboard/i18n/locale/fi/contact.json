@@ -34,7 +34,7 @@
         "NO_RESULT": "No labels found"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
+    "MERGE_CONTACT": "Yhdistä yhteystieto",
     "CONTACT_ACTIONS": "Contact actions",
     "MUTE_CONTACT": "Mykistä Keskustelu",
     "UNMUTE_CONTACT": "Poista keskustelun mykistys",
@@ -80,9 +80,9 @@
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Poista Yhteystieto",
+    "TITLE": "Poista yhteystieto",
+    "DESC": "Poista kontaktin tiedot",
     "CONFIRM": {
       "TITLE": "Vahvista poistaminen",
       "MESSAGE": "Oletko varma että haluat poistaa ",
@@ -90,7 +90,7 @@
       "NO": "Ei, säilytä"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
+      "SUCCESS_MESSAGE": "Yhteystiedon poistaminen onnistui",
       "ERROR_MESSAGE": "Could not delete contact. Please try again later."
     }
   },
@@ -257,7 +257,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "Lisää määritteitä",
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "COPY_SUCCESSFUL": "Kopioitu leikepöydälle onnistuneesti",
@@ -271,7 +271,7 @@
       "DESC": "Add custom information to this contact."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Lisää määrite",
       "CANCEL": "Peruuta",
       "NAME": {
         "LABEL": "Custom attribute name",
@@ -283,7 +283,7 @@
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "Luo uusi määrite ",
         "SUCCESS": "Attribute added successfully",
         "ERROR": "Unable to add attribute. Please try again later"
       },
@@ -296,15 +296,15 @@
         "ERROR": "Unable to delete attribute. Please try again later"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Lisää määritteitä",
+        "PLACEHOLDER": "Etsi määritteitä",
+        "NO_RESULT": "Määritteitä ei löytynyt"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
           "PLACEHOLDER": "Select value",
           "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "NO_RESULT": "Tuloksia ei löytynyt"
         }
       }
     },
@@ -315,15 +315,15 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Yhdistämällä yhteystiedot voit muuntaa kaksi profiilia yhdeksi, mukaan lukien kaikki määritteet ja keskustelut. Ristiriitatilanteessa ensisijaisen yhteyshenkilön määritteet ovat ensisijaisia.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "Ensisijainen kontakti",
+      "HELP_LABEL": "Säilytetään"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Yhdistettävä yhteystieto",
+      "PLACEHOLDER": "Etsi yhteystietoa",
+      "HELP_LABEL": "Poistetaan"
     },
     "SUMMARY": {
       "TITLE": "Summary",
@@ -334,7 +334,7 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Yhdistä yhteystiedot",
       "CANCEL": "Peruuta",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
