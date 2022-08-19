@@ -281,12 +281,11 @@ Rails.application.routes.draw do
             end
           end
         end
-        
+
         resources :csat_survey, only: [:show, :update]
       end
     end
   end
-  
 
   #---------------------------------------
   #-------------------- Public routes for help center portals
@@ -302,7 +301,6 @@ Rails.application.routes.draw do
       end
     end
   end
-
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
