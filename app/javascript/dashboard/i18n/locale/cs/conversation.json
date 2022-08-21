@@ -1,9 +1,9 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "SELECT_A_CONVERSATION": "Vyberte prosím konverzaci z levého panelu",
     "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "SWITCH_VIEW_LAYOUT": "Přepnout rozložení",
+    "DASHBOARD_APP_TAB_MESSAGES": "Zprávy",
     "UNVERIFIED_SESSION": "Identita tohoto uživatele není ověřena",
     "NO_MESSAGE_1": "Ale ne! Vypadá to, že ve vaší schránce nejsou žádné zprávy od zákazníků.",
     "NO_MESSAGE_2": " pro odeslání zprávy na vaši stránku!",
@@ -33,7 +33,7 @@
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "Neznámý soubor",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
@@ -65,7 +65,7 @@
       "RESOLVED": "Mark as resolved",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "Odložit",
         "NEXT_REPLY": "Until next reply",
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
