@@ -1,7 +1,7 @@
 {
   "FILTER": {
-    "TITLE": "Lọc cuộc trò chuyện",
-    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc cuộc trò chuyện.",
+    "TITLE": "Lọc hội thoại",
+    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc hội thoại.",
     "ADD_NEW_FILTER": "Thêm Bộ lọc",
     "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
     "SUBMIT_BUTTON_LABEL": "Áp dụng bộ lọc",
