@@ -100,7 +100,7 @@ export const actions = {
       });
     }
   },
-  delete: async ({ commit }, articleId) => {
+  delete: async ({ commit }, { portalSlug, articleId }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
       uiFlags: {
         isDeleting: true,
@@ -108,8 +108,7 @@ export const actions = {
       articleId,
     });
     try {
-      await articlesAPI.delete(articleId);
-
+      await articlesAPI.deleteArticle({ portalSlug, articleId });
       commit(types.REMOVE_ARTICLE, articleId);
       commit(types.REMOVE_ARTICLE_ID, articleId);
       return articleId;

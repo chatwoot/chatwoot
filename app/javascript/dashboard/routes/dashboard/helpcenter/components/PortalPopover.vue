@@ -61,10 +61,16 @@ export default {
     closePortalPopover() {
       this.$emit('close-popover');
     },
-    openPortalPage() {
+    openPortalPage({ slug, locale }) {
       this.$emit('close-popover');
+      const portal = this.portals.find(p => p.slug === slug);
+      this.$store.dispatch('portals/setPortalId', portal.id);
       this.$router.push({
-        name: 'list_all_portals',
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: slug,
+          locale: locale,
+        },
       });
     },
   },
