@@ -21,7 +21,7 @@
       "is_present": "Is present",
       "is_not_present": "Is not present",
       "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
+      "is_less_than": "Je menší než",
       "days_before": "Is x days before"
     },
     "ATTRIBUTE_LABELS": {
