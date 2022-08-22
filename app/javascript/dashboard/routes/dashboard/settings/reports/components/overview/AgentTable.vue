@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { VeTable, VePagination } from 'vue-easytable';
+// import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -39,8 +39,8 @@ export default {
   components: {
     EmptyState,
     Spinner,
-    VeTable,
-    VePagination,
+    // VeTable,
+    // VePagination,
   },
   props: {
     agents: {

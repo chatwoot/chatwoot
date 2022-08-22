@@ -27,7 +27,7 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import { VeTable } from 'vue-easytable';
+// import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
@@ -40,7 +40,7 @@ export default {
   components: {
     EmptyState,
     Spinner,
-    VeTable,
+    // VeTable,
   },
   mixins: [clickaway, timeMixin],
   props: {

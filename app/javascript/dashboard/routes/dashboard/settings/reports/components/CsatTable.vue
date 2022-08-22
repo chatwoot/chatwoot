@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import { VeTable, VePagination } from 'vue-easytable';
+// import { VeTable, VePagination } from 'vue-easytable';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
@@ -29,8 +29,8 @@ import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
-    VeTable,
-    VePagination,
+    // VeTable,
+    // VePagination,
   },
   mixins: [timeMixin],
   props: {

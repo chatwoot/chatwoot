@@ -30,7 +30,7 @@ import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
 import constants from '../dashboard/constants';
 import * as Sentry from '@sentry/vue';
-import 'vue-easytable/libs/theme-default/index.css';
+// import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
 import posthog from 'posthog-js';
 import {

@@ -17,7 +17,7 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import { VeTable } from 'vue-easytable';
+// import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import Label from 'dashboard/components/ui/Label';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -32,7 +32,7 @@ export default {
   components: {
     EmptyState,
     Spinner,
-    VeTable,
+    // VeTable,
   },
 
   mixins: [clickaway, timeMixin, campaignMixin, messageFormatterMixin],
