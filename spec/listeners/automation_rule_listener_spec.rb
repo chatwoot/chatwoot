@@ -362,22 +362,43 @@ describe AutomationRuleListener do
         event_name: 'message_created',
         name: 'Call actions message created based on case in-sensitive filter',
         description: 'Add labels, assign team after message created',
-        conditions: [{ 'values': ['KYC'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }]
+        conditions: [
+          { 'values': ['KYC'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'contains' }
+        ]
       )
     end
 
-    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'kyc message') }
+    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'KyC message') }
+    let!(:message_2) { create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'SALE') }
+
     let!(:event) do
       Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
     end
 
-    it 'triggers automation rule based on case in-sensitive filter' do
+    it 'triggers automation rule on contains filter' do
       expect(conversation.labels).to eq([])
       expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
       listener.message_created(event)
       conversation.reload
 
       expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
+    end
+
+    it 'triggers automation on equal_to filter' do
+      automation_rule.update!(
+        conditions: [
+          { 'values': ['sale'], 'attribute_key': 'content', 'query_operator': nil, 'filter_operator': 'equal_to' }
+        ],
+        actions: [
+          { 'action_name' => 'add_label', 'action_params' => %w[sale_enquiry] }
+        ]
+      )
+
+      event = Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message_2 })
+      listener.message_created(event)
+
+      conversation.reload
+      expect(conversation.labels.pluck(:name)).to contain_exactly('sale_enquiry')
     end
   end
 
