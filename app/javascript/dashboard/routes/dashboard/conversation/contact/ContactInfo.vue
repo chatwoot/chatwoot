@@ -49,6 +49,12 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
+            :value="contact.identifier"
+            icon="contact-card-identity"
+            emoji="🪪"
+            :title="$t('CONTACT_PANEL.IDENTIFIER')"
+          />
+          <contact-info-row
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
