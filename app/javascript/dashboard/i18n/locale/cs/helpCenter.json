@@ -1,74 +1,74 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Filtrovat podle",
+      "SORT": "Seřadit podle",
       "SETTINGS_BUTTON": "Nastavení",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Nový článek",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publikované",
+        "DRAFT": "Koncept",
+        "ARCHIVED": "Archivované"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Všechny články",
+        "MINE": "Moje články",
+        "DRAFT": "Koncepty článků",
+        "ARCHIVED": "Archivované články"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Všechny články",
+      "PUBLISH_BUTTON": "Publikovat",
+      "PREVIEW": "Náhled",
+      "ADD_TRANSLATION": "Přidat překlad",
+      "OPEN_SIDEBAR": "Otevřít postranní panel",
+      "CLOSE_SIDEBAR": "Zavřít postranní panel",
+      "SAVING": "Ukládání...",
+      "SAVED": "Uloženo"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Nastavení článků",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kategorie",
+          "TITLE": "Vyberte kategorii",
+          "PLACEHOLDER": "Vyberte kategorii",
+          "NO_RESULT": "Nebyla nalezena žádná kategorie",
+          "SEARCH_PLACEHOLDER": "Hledat kategorii"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autor",
+          "TITLE": "Vyberte autora",
+          "PLACEHOLDER": "Vyberte autora",
+          "NO_RESULT": "Nebyli nalezeni žádní autoři",
+          "SEARCH_PLACEHOLDER": "Hledat autora"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta titulek",
+          "PLACEHOLDER": "Přidat meta titulek"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta popis",
+          "PLACEHOLDER": "Přidejte svůj meta popis pro lepší výsledky SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta tagy",
+          "PLACEHOLDER": "Přidat meta tagy oddělené čárkou..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Archivovat článek",
+        "DELETE": "Odstranit článek"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
+      "HEADER": "Portály",
+      "NEW_BUTTON": "Nový portál",
+      "ACTIVE_BADGE": "aktivní",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
+      "LOADING_MESSAGE": "Načítání portálů...",
+      "ARTICLES_LABEL": "články",
       "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
@@ -81,7 +81,7 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
+            "COUNT_LABEL": "články",
             "ADD": "Add locale",
             "VISIT": "Visit site",
             "SETTINGS": "Nastavení"
