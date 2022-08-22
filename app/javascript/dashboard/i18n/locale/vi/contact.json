@@ -151,8 +151,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Hình đại diện liên hệ đã được xóa thành công",
+        "ERROR_MESSAGE": "Không thể xóa hình đại diện liên hệ. Vui lòng thử lại sau."
       }
     },
     "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
