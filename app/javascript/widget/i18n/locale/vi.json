@@ -22,7 +22,7 @@
     "IN_A_DAY": "Thường trả lời trong một ngày"
   },
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
-  "END_CONVERSATION": "End Conversation",
+  "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục cuộc trò chuyện",
   "START_NEW_CONVERSATION": "Bắt đầu cuộc trò chuyện mới",
   "UNREAD_VIEW": {
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Email",
         "PLACEHOLDER": "Vui lòng nhập email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "Địa chỉ email được yêu cầu",
         "VALID_ERROR": "Vui lòng nhập một địa chỉ email hợp lệ"
       },
       "PHONE_NUMBER": {
         "LABEL": "Số điện thoại",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "\u001dVui lòng nhập số điện thoại của bạn",
+        "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
+        "VALID_ERROR": "Số điện thoại nên theo định dạng E.164, ví dụ: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu cuộc trò chuyện",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "được yêu cầu"
   },
   "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
