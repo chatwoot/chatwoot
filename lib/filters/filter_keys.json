@@ -175,7 +175,7 @@
     "message_type": {
       "attribute_name": "Message Type",
       "input_type": "search_box with name tags/plain text",
-      "data_type": "text",
+      "data_type": "numeric",
       "filter_operators": [ "equal_to", "not_equal_to" ],
       "attribute_type": "standard"
     },
