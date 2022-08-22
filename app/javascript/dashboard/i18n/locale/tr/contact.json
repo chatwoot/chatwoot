@@ -152,7 +152,7 @@
     "DELETE_AVATAR": {
       "API": {
         "SUCCESS_MESSAGE": "Kişi profil resmi başarıyla silindi",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "ERROR_MESSAGE": "Kişi avatarı silinemedi. Lütfen daha sonra tekrar deneyiniz."
       }
     },
     "SUCCESS_MESSAGE": "Kişi bilgileri başarıyla kaydedildi",
@@ -327,7 +327,7 @@
     },
     "SUMMARY": {
       "TITLE": "Özet",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "<strong>%{childContactName}</strong> kişisi silinecek.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -337,10 +337,10 @@
       "SUBMIT": " Kişileri birleştir",
       "CANCEL": "İptal Et",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Birleştirilecek bir alt kişi seçin"
       },
       "SUCCESS_MESSAGE": "Kişi başarıyla birleştirildi",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Kişiler birleştirilemedi, tekrar deneyin!"
     }
   }
 }
