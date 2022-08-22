@@ -30,23 +30,20 @@ FactoryBot.define do
     entry do
       [
         {
-          'id': 'instagram-message-id-123',
-          'time': '2021-09-08T06:34:04+0000',
-          'changes': [
+          'time' => 1_661_141_837_537,
+          'id' => '0',
+          'messaging' => [
             {
-              'field': 'messages',
-              'value': {
-                'event_type': 'TEXT',
-                'event_timestamp': '1527459824',
-                'event_data': {
-                  'message_id': 'vcvacopiufqwehfawdnb',
-                  'sender': {
-                    'username': 'sender_username'
-                  },
-                  'recipient': {
-                    'thread_id': 'faeoqiehrkbfadsfawd'
-                  }
-                }
+              'sender' => {
+                'id' => '12334'
+              },
+              'recipient' => {
+                'id' => '23245'
+              },
+              'timestamp' => '1527459824',
+              'message' => {
+                'mid' => 'random_mid',
+                'text' => 'random_text'
               }
             }
           ]
