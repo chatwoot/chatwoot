@@ -128,7 +128,7 @@ trap exit_handler EXIT
 #   None
 ##############################################################################
 function exit_handler() {
-  if [ "$?" -ne 0 ]; then
+  if [ "$?" -ne 0 ] && [ "$u" == "n" ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
    exit 1
   fi
