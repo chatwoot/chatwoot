@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "برچسب با موفقیت تخصیص یافت",
     "ASSIGN_LABEL_FAILED": "تخصیص برچسب ناموفق بود",
     "CHANGE_TEAM": "تیم مکالمه تغییر کرد",
-    "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+    "FILE_SIZE_LIMIT": "پرونده از حد مجاز پیوست {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} مگابایت بیشتر است",
     "MESSAGE_ERROR": "ارسال این پیام امکان پذیر نیست ، لطفاً بعداً دوباره امتحان کنید",
     "SENT_BY": "ارسال شده توسط:",
     "BOT": "ربات",
