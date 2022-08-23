@@ -29,9 +29,9 @@
           "ERROR": "Khán giả bắt buộc có"
         },
         "INBOX": {
-          "LABEL": "Chọn Hộp thư đến",
-          "PLACEHOLDER": "Chọn Hộp thư đến",
-          "ERROR": "Hộp thư đến bắt buộc có"
+          "LABEL": "Chọn kênh",
+          "PLACEHOLDER": "Chọn kênh",
+          "ERROR": "Cần phải có kênh"
         },
         "MESSAGE": {
           "LABEL": "Tin nhắn",
@@ -89,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Tiêu đề",
         "MESSAGE": "Tin nhắn",
-        "INBOX": "Hộp thư đến",
+        "INBOX": "Kênh",
         "STATUS": "Trạng thái",
         "SENDER": "Người gửi",
         "URL": "URL",
