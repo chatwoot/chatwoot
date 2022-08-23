@@ -1,5 +1,8 @@
 <template>
-  <div class="edit-article--container">
+  <div
+    class="edit-article--container"
+    :class="{ 'is-settings-sidebar-open': isSettingsSidebarOpen }"
+  >
     <input
       v-model="articleTitle"
       type="text"
@@ -22,7 +25,9 @@
 </template>
 
 <script>
+import { debounce } from '@chatwoot/utils';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+
 export default {
   components: {
     WootMessageEditor,
@@ -31,6 +36,10 @@ export default {
     article: {
       type: Object,
       default: () => ({}),
+    },
+    isSettingsSidebarOpen: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -42,6 +51,13 @@ export default {
   mounted() {
     this.articleTitle = this.article.title;
     this.articleContent = this.article.content;
+    this.saveArticle = debounce(
+      values => {
+        this.$emit('save-article', values);
+      },
+      300,
+      false
+    );
   },
   methods: {
     onFocus() {
@@ -51,10 +67,10 @@ export default {
       this.$emit('blur');
     },
     onTitleInput() {
-      this.$emit('titleInput', this.articleTitle);
+      this.saveArticle({ title: this.articleTitle });
     },
     onContentInput() {
-      this.$emit('contentInput', this.articleContent);
+      this.saveArticle({ content: this.articleContent });
     },
   },
 };
@@ -62,8 +78,12 @@ export default {
 
 <style lang="scss" scoped>
 .edit-article--container {
-  margin: var(--space-medium) var(--space-giga);
-  min-width: 640px;
+  margin: var(--space-large) auto;
+  width: 640px;
+}
+
+.is-settings-sidebar-open {
+  margin: var(--space-large) var(--space-small);
 }
 
 .article-heading {

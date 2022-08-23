@@ -126,8 +126,8 @@
     "TRAIL_BUTTON": "Придбати зараз",
     "DELETED_USER": "Видалений користувач",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Обліковий запис призупинено",
+      "MESSAGE": "Ваш обліковий запис призупинено. Будь ласка, зверніться до служби підтримки для отримання додаткової інформації."
     }
   },
   "COMPONENTS": {
@@ -175,7 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Автоматизація",
     "TEAMS": "Команди",
-    "BILLING": "Billing",
+    "BILLING": "Біллінг",
     "CUSTOM_VIEWS_FOLDER": "Папки",
     "CUSTOM_VIEWS_SEGMENTS": "Сегменти",
     "ALL_CONTACTS": "Усі контакти",
@@ -197,31 +197,32 @@
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Категорія"
+      "ALL_ARTICLES": "Всі статті",
+      "MY_ARTICLES": "Мої статті",
+      "DRAFT": "Чернетка",
+      "ARCHIVED": "Архівовано",
+      "CATEGORY": "Категорія",
+      "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Читати документи"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Біллінг",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Поточний План",
+      "PLAN_NOTE": "Зараз ви підписані на **%{plan}** план з **%{quantity}** ліцензій"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Керування підпискою",
+      "DESCRIPTION": "Перегляньте попередні рахунки, відредагуйте платіжні реквізити, або скасуйте вашу підписку.",
+      "BUTTON_TXT": "Перейти на портал для платежів"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Потрібна допомога?",
+      "DESCRIPTION": "Чи стикаються ви з питаннями у рахунках? Ми тут, щоб допомогти.",
       "BUTTON_TXT": "Почніть розмову з нами"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Ваш платіжний обліковий запис налаштовується. Будь ласка, оновіть сторінку та повторіть спробу."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",

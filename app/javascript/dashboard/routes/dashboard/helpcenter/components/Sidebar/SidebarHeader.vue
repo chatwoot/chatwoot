@@ -8,7 +8,9 @@
         variant="square"
       />
       <div class="header-title--wrap">
-        <h4 class="sub-block-title title-view">{{ headerTitle }}</h4>
+        <h4 class="sub-block-title title-view text-truncate">
+          {{ headerTitle }}
+        </h4>
         <span class="sub-title--view">{{ subTitle }}</span>
       </div>
     </div>
@@ -89,6 +91,7 @@ export default {
 }
 
 .title-view {
+  width: var(--space-mega);
   margin-bottom: var(--space-zero);
 }
 

@@ -1406,10 +1406,10 @@
     prosemirror-state "^1.3.3"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.6.tgz#76d7b17d692b5b656c565b9b714b98e0f2bc1324"
-  integrity sha512-fCvULfJSFSylDAiGh1cPAX5nQkVsmG5ASGm/E6YBYg8cox/2JU179JFstdtTxrIJg/YeHukcaq85Gc+/16ShPQ==
+"@chatwoot/utils@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npmjs.org/@chatwoot/utils/-/utils-0.0.10.tgz#59f68cc28d8718b261ebed8b9c94d2c493b6c67f"
+  integrity sha512-Zd+wQTblWKUV1mhcXoabcfoLygx/Ock5pP0JQdfqW64lubhjYaRR4gCutEgqUcQB4nuOUH7MZ7BTzdZm4RoM/g==
   dependencies:
     date-fns "^2.22.1"
 
@@ -4545,11 +4545,6 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
-
-bourbon@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/bourbon/-/bourbon-6.0.0.tgz#41ad318371128888261a390bebe0e9e89daaa01e"
-  integrity sha512-Skds0R1+GY3c1oBddh9BggYVq39Uo4ySvW33zttPk+4+nfGYpbZqwaDwENkbtV7PYhCk0ctTFkzfTNFv5365ag==
 
 boxen@^5.1.2:
   version "5.1.2"
@@ -15799,10 +15794,10 @@ vuedraggable@^2.24.3:
   dependencies:
     sortablejs "1.10.2"
 
-vuelidate@0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.6.tgz#84100c13b943470660d0416642845cd2a1edf4b2"
-  integrity sha512-suzIuet1jGcyZ4oUSW8J27R2tNrJ9cIfklAh63EbAkFjE380iv97BAiIeolRYoB9bF9usBXCu4BxftWN1Dkn3g==
+vuelidate@0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.7.tgz#5df3930a63ddecf56fde7bdacea9dbaf0c9bf899"
+  integrity sha512-pT/U2lDI67wkIqI4tum7cMSIfGcAMfB+Phtqh2ttdXURwvHRBJEAQ0tVbUsW9Upg83Q5QH59bnCoXI7A9JDGnA==
 
 vuex-router-sync@~4.1.2:
   version "4.1.3"

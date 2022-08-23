@@ -12,9 +12,10 @@
       </woot-button>
     </div>
     <div class="header-right--wrap">
-      <span v-if="showDraftStatus" class="draft-status">
-        {{ draftStatusText }}
+      <span v-if="isUpdating || isSaved" class="draft-status">
+        {{ statusText }}
       </span>
+
       <woot-button
         class-names="article--buttons"
         icon="globe"
@@ -36,7 +37,7 @@
         {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
       </woot-button>
       <woot-button
-        v-if="isSidebarOpen"
+        v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
         icon="pane-open"
         class-names="article--buttons"
@@ -46,7 +47,7 @@
         @click="openSidebar"
       />
       <woot-button
-        v-else
+        v-if="isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.CLOSE_SIDEBAR')"
         icon="pane-close"
         class-names="article--buttons"
@@ -73,31 +74,25 @@ export default {
       type: String,
       default: '',
     },
-    draftState: {
-      type: String,
-      default: '',
+    isUpdating: {
+      type: Boolean,
+      default: false,
+    },
+    isSaved: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
-      isSidebarOpen: true,
+      isSidebarOpen: false,
     };
   },
   computed: {
-    isDraftStatusSavingOrSaved() {
-      return this.draftState === 'saving' || 'saved';
-    },
-    draftStatusText() {
-      if (this.draftState === 'saving') {
-        return this.$t('HELP_CENTER.EDIT_HEADER.SAVING');
-      }
-      if (this.draftState === 'saved') {
-        return this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
-      }
-      return '';
-    },
-    showDraftStatus() {
-      return this.isDraftStatusSavingOrSaved;
+    statusText() {
+      return this.isUpdating
+        ? this.$t('HELP_CENTER.EDIT_HEADER.SAVING')
+        : this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
     },
   },
   methods: {
@@ -111,12 +106,12 @@ export default {
       this.$emit('add');
     },
     openSidebar() {
-      this.$emit('open');
       this.isSidebarOpen = true;
+      this.$emit('open');
     },
     closeSidebar() {
-      this.$emit('close');
       this.isSidebarOpen = false;
+      this.$emit('close');
     },
   },
 };
@@ -150,5 +145,14 @@ export default {
   color: var(--s-400);
   align-items: center;
   font-size: var(--font-size-mini);
+  animation: fadeIn 1s;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
 </style>
