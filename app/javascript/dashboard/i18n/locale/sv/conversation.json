@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Konversationsteamet har ändrats",
-    "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
     "BOT": "Bot",
