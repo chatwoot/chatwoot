@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Мітка успішно призначена",
     "ASSIGN_LABEL_FAILED": "Призначення мітки не вдалося",
     "CHANGE_TEAM": "Команда змінена",
-    "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
