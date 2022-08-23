@@ -34,7 +34,7 @@
         "NO_RESULT": "Không tìm thấy nhãn"
       }
     },
-    "MERGE_CONTACT": "Gộp liên lạc",
+    "MERGE_CONTACT": "Gộp liên hệ",
     "CONTACT_ACTIONS": "Hành động của người liên hệ",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
@@ -168,7 +168,7 @@
         "LABEL": "Đến"
       },
       "INBOX": {
-        "LABEL": "Hộp thư đến",
+        "LABEL": "Kênh",
         "ERROR": "Chọn Hộp thư đến"
       },
       "SUBJECT": {
