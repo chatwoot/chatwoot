@@ -86,7 +86,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Đã ngắt kết nối khỏi Chatwoot"
+      "TEXT": "Đã ngắt kết nối khỏi máy chủ"
     },
     "BUTTON": {
       "REFRESH": "Làm mới"
@@ -105,17 +105,17 @@
       "SETTINGS": "Cài đặt"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
+      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc hội thoại",
       "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
       "GO_TO_REPORTS_OVERVIEW": "Đi đến Tổng quan Báo cáo",
       "GO_TO_CONVERSATION_REPORTS": "Đi tới Trang Báo cáo cuộc trò chuyện",
-      "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Đại lý",
+      "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Tổng đài viên",
       "GO_TO_LABEL_REPORTS": "Đi đến Báo cáo Nhãn",
       "GO_TO_INBOX_REPORTS": "Đi đến Báo cáo Hộp thư đến",
       "GO_TO_TEAM_REPORTS": "Đi đến Báo cáo Nhóm",
-      "GO_TO_SETTINGS_AGENTS": "Đi đến Cài đặt Đại lý",
+      "GO_TO_SETTINGS_AGENTS": "Đi đến Cài đặt Tổng đài viên",
       "GO_TO_SETTINGS_TEAMS": "Đi đến Cài đặt Nhóm",
-      "GO_TO_SETTINGS_INBOXES": "Đi đến Cài đặt Hộp thư đến",
+      "GO_TO_SETTINGS_INBOXES": "Đi đến Cài đặt Hộp thư",
       "GO_TO_SETTINGS_LABELS": "Đi đến Cài đặt Nhãn",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Đi đến Cài đặt Tin trả lời lưu sẵn",
       "GO_TO_SETTINGS_APPLICATIONS": "Đi đến Cài đặt Ứng dụng",
