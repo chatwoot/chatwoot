@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "已成功分配标签",
     "ASSIGN_LABEL_FAILED": "分配标签失败",
     "CHANGE_TEAM": "对话团队已更改",
-    "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
     "SENT_BY": "发送人：",
     "BOT": "机器人",
