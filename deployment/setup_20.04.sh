@@ -687,6 +687,28 @@ function ssl() {
 }
 
 ##############################################################################
+# Abort upgrade if custom code changes detected(-u/--upgrade)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function upgrade_prereq() {
+  sudo -i -u chatwoot << "EOF"
+  cd chatwoot
+  git update-index --refresh
+  git diff-index --quiet HEAD --
+  if [ "$?" -eq 1 ]; then
+    echo "Custom code changes detected. Aborting update."
+    echo "Please proceed to update manually."
+    exit 1
+  fi
+EOF
+}
+
+##############################################################################
 # Upgrade an existing installation to latest stable version(-u/--upgrade)
 # Globals:
 #   None
@@ -699,6 +721,7 @@ function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
+  upgrade_prereq
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
