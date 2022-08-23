@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
-    "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",
