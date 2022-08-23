@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta asignada correctamente",
     "ASSIGN_LABEL_FAILED": "No se ha podido asignar la etiqueta",
     "CHANGE_TEAM": "Equipo de conversación cambiado",
-    "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
     "SENT_BY": "Enviado por:",
     "BOT": "Bot",
