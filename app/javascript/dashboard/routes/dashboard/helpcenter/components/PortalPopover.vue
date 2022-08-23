@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="closePortalPopover" class="portal-popover__container">
+  <div v-click-away="closePortalPopover" class="portal-popover__container">
     <header>
       <div class="actions">
         <h2 class="block-title">
@@ -40,13 +40,12 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import PortalSwitch from './PortalSwitch.vue';
 export default {
   components: {
     PortalSwitch,
   },
-  mixins: [clickaway],
+
   props: {
     portals: {
       type: Array,

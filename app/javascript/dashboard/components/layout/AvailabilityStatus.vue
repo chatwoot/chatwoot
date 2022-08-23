@@ -23,7 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
+
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
@@ -40,9 +40,6 @@ export default {
     WootDropdownItem,
     AvailabilityStatusBadge,
   },
-
-  mixins: [clickaway],
-
   data() {
     return {
       isStatusMenuOpened: false,

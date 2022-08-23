@@ -37,7 +37,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
+
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
@@ -52,7 +52,7 @@ export default {
     EmailTranscriptModal,
     ResolveAction,
   },
-  mixins: [alertMixin, clickaway],
+  mixins: [alertMixin],
   data() {
     return {
       showEmailActionsModal: false,

@@ -40,6 +40,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import VueClickAway from 'vue3-click-away';
 
 Vue.config.env = process.env;
 
@@ -71,6 +72,7 @@ Vue.use(VTooltip, {
   defaultHtml: false,
 });
 Vue.use(hljs.vuePlugin);
+Vue.use(VueClickAway);
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);

@@ -1,6 +1,6 @@
 <template>
   <div
-    v-on-clickaway="onCloseDropdown"
+    v-click-away="onCloseDropdown"
     class="selector-wrap"
     @keyup.esc="onCloseDropdown"
   >
@@ -60,13 +60,13 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
-import { mixin as clickaway } from 'vue-clickaway';
+
 export default {
   components: {
     Thumbnail,
     MultiselectDropdownItems,
   },
-  mixins: [clickaway],
+
   props: {
     options: {
       type: Array,

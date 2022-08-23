@@ -2,7 +2,7 @@
   <transition name="menu-slide">
     <div
       v-if="show"
-      v-on-clickaway="onClickAway"
+      v-click-away="onClickAway"
       class="dropdown-pane"
       :class="{ 'dropdown-pane--open': show }"
     >
@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
@@ -91,7 +90,6 @@ export default {
     WootDropdownItem,
     AvailabilityStatus,
   },
-  mixins: [clickaway],
   props: {
     show: {
       type: Boolean,

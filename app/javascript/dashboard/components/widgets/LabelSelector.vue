@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
+  <div v-click-away="closeDropdownLabel" class="label-wrap">
     <add-label @add="toggleLabels" />
     <woot-label
       v-for="label in savedLabels"
@@ -31,15 +31,12 @@
 <script>
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
-import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     AddLabel,
     LabelDropdown,
   },
-
-  mixins: [clickaway],
 
   props: {
     allLabels: {

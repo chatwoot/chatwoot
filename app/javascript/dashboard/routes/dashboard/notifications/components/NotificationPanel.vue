@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
     <div
-      v-on-clickaway="closeNotificationPanel"
+      v-click-away="closeNotificationPanel"
       class="notification-wrap flex-space-between"
     >
       <div class="header-wrap w-full flex-space-between">
@@ -100,7 +100,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 
 import NotificationPanelList from './NotificationPanelList';
 
@@ -108,7 +107,7 @@ export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway],
+
   data() {
     return {
       pageSize: 15,

@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="closeSearch" class="search-wrap">
+  <div v-click-away="closeSearch" class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchBox }">
       <woot-sidemenu-icon />
       <div class="icon">
@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
 import ResultItem from './ResultItem';
@@ -74,7 +73,7 @@ export default {
     },
   },
 
-  mixins: [timeMixin, messageFormatterMixin, clickaway],
+  mixins: [timeMixin, messageFormatterMixin],
 
   props: {
     isOnExpandedLayout: {

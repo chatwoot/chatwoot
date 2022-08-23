@@ -19,13 +19,13 @@
     <div class="reply-box__top">
       <canned-response
         v-if="showMentions && hasSlashCommand"
-        v-on-clickaway="hideMentions"
+        v-click-away="hideMentions"
         :search-key="mentionSearchKey"
         @click="replaceText"
       />
       <emoji-input
         v-if="showEmojiPicker"
-        v-on-clickaway="hideEmojiPicker"
+        v-click-away="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -128,7 +128,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
+
 import alertMixin from 'shared/mixins/alertMixin';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
@@ -173,13 +173,7 @@ export default {
     Banner,
     WhatsappTemplates,
   },
-  mixins: [
-    clickaway,
-    inboxMixin,
-    uiSettingsMixin,
-    alertMixin,
-    messageFormatterMixin,
-  ],
+  mixins: [inboxMixin, uiSettingsMixin, alertMixin, messageFormatterMixin],
   props: {
     selectedTweet: {
       type: [Object, String],

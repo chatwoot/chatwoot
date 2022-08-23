@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="onClose" class="actions-container">
+  <div v-click-away="onClose" class="actions-container">
     <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 export default {
@@ -50,7 +49,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
   },
-  mixins: [clickaway],
+
   props: {
     selectedInboxes: {
       type: Array,

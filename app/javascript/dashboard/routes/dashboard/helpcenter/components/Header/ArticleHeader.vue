@@ -34,7 +34,7 @@
       </woot-button>
       <div
         v-if="showSortByDropdown"
-        v-on-clickaway="closeDropdown"
+        v-click-away="closeDropdown"
         class="dropdown-pane dropdown-pane--open"
       >
         <woot-dropdown-menu>
@@ -92,8 +92,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
-
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
@@ -103,7 +101,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
   },
-  mixins: [clickaway],
+
   props: {
     headerTitle: {
       type: String,

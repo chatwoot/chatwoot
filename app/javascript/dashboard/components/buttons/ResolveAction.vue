@@ -45,7 +45,7 @@
     </div>
     <div
       v-if="showActionsDropdown"
-      v-on-clickaway="closeDropdown"
+      v-click-away="closeDropdown"
       class="dropdown-pane dropdown-pane--open"
     >
       <woot-dropdown-menu>
@@ -111,7 +111,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import snoozeTimesMixin from 'dashboard/mixins/conversation/snoozeTimesMixin.js';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
@@ -140,7 +139,7 @@ export default {
     WootDropdownSubMenu,
     WootDropdownDivider,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins, snoozeTimesMixin],
+  mixins: [alertMixin, eventListenerMixins, snoozeTimesMixin],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="onClose" class="labels-container">
+  <div v-click-away="onClose" class="labels-container">
     <div class="triangle">
       <svg height="12" viewBox="0 0 24 12" width="24">
         <path
@@ -73,11 +73,9 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 
 export default {
-  mixins: [clickaway],
   data() {
     return {
       query: '',

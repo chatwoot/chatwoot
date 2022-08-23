@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 // import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import Label from 'dashboard/components/ui/Label';
@@ -35,7 +34,7 @@ export default {
     // VeTable,
   },
 
-  mixins: [clickaway, timeMixin, campaignMixin, messageFormatterMixin],
+  mixins: [timeMixin, campaignMixin, messageFormatterMixin],
 
   props: {
     campaigns: {

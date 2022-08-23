@@ -33,7 +33,7 @@
       </button>
       <emoji-input
         v-if="showEmojiPicker"
-        v-on-clickaway="hideEmojiPicker"
+        v-click-away="hideEmojiPicker"
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"
       />
@@ -48,7 +48,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
@@ -67,7 +66,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin, darkModeMixin],
+  mixins: [configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,

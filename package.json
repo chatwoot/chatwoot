@@ -56,7 +56,6 @@
     "videojs-record": "^4.5.0",
     "vue": "^3.1.0",
     "vue-chartjs": "3.5.1",
-    "vue-clickaway": "~2.1.0",
     "vue-color": "2.8.1",
     "vue-dompurify-html": "^2.5.2",
     "vue-i18n": "8.24.3",
@@ -66,6 +65,7 @@
     "vue-router": "~3.5.2",
     "vue-upload-component": "2.8.22",
     "vue2-datepicker": "^3.9.1",
+    "vue3-click-away": "^1.2.4",
     "vuedraggable": "^2.24.3",
     "vuelidate": "0.7.7",
     "vuex": "^3.0.0",
@@ -73,7 +73,6 @@
     "wavesurfer.js": "^6.0.4"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.1.0",
     "@babel/core": "7.13.16",
     "@babel/plugin-proposal-class-properties": "7.13.0",
     "@babel/polyfill": "^7.12.1",
@@ -84,6 +83,7 @@
     "@storybook/addon-links": "6.5.9",
     "@storybook/addons": "6.5.9",
     "@storybook/vue": "6.5.9",
+    "@vue/compiler-sfc": "^3.1.0",
     "@vue/test-utils": "1.1.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",

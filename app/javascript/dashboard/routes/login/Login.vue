@@ -16,32 +16,25 @@
       <div v-if="!email" class="small-12 medium-4 column">
         <form class="login-box column align-self-top" @submit.prevent="login()">
           <div class="column log-in-form">
-            <label :class="{ error: $v.credentials.email.$error }">
+            <label>
               {{ $t('LOGIN.EMAIL.LABEL') }}
               <input
                 v-model.trim="credentials.email"
                 type="text"
                 data-testid="email_input"
                 :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
-                @input="$v.credentials.email.$touch"
               />
             </label>
-            <label :class="{ error: $v.credentials.password.$error }">
+            <label>
               {{ $t('LOGIN.PASSWORD.LABEL') }}
               <input
                 v-model.trim="credentials.password"
                 type="password"
                 data-testid="password_input"
                 :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
-                @input="$v.credentials.password.$touch"
               />
             </label>
             <woot-submit-button
-              :disabled="
-                $v.credentials.email.$invalid ||
-                  $v.credentials.password.$invalid ||
-                  loginApi.showLoading
-              "
               :button-text="$t('LOGIN.SUBMIT')"
               :loading="loginApi.showLoading"
               button-class="large expanded"
@@ -67,7 +60,7 @@
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators';
+// import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import WootSubmitButton from '../../components/buttons/FormSubmitButton';
 import { mapGetters } from 'vuex';
@@ -99,17 +92,17 @@ export default {
       error: '',
     };
   },
-  validations: {
-    credentials: {
-      password: {
-        required,
-      },
-      email: {
-        required,
-        email,
-      },
-    },
-  },
+  // validations: {
+  //   credentials: {
+  //     password: {
+  //       required,
+  //     },
+  //     email: {
+  //       required,
+  //       email,
+  //     },
+  //   },
+  // },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',

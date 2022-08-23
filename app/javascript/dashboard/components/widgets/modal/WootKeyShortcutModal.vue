@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-up">
     <div class="modal-mask">
-      <div v-on-clickaway="() => $emit('clickaway')" class="modal-container">
+      <div v-click-away="() => $emit('clickaway')" class="modal-container">
         <div class="header-wrap">
           <div class="title-shortcut-key__wrap">
             <h2 class="page-title">
@@ -87,11 +87,9 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { SHORTCUT_KEYS } from './constants';
 
 export default {
-  mixins: [clickaway],
   data() {
     return {
       shortcutKeys: SHORTCUT_KEYS,

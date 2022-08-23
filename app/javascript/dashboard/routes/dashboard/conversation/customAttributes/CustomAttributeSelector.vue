@@ -1,7 +1,7 @@
 <template>
   <div class="custom-attribute--selector">
     <div
-      v-on-clickaway="closeDropdown"
+      v-click-away="closeDropdown"
       class="label-wrap"
       @keyup.esc="closeDropdown"
     >
@@ -35,14 +35,14 @@
 import CustomAttributeDropDown from './CustomAttributeDropDown.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
-import { mixin as clickaway } from 'vue-clickaway';
+
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
     CustomAttributeDropDown,
   },
-  mixins: [clickaway, alertMixin, attributeMixin],
+  mixins: [alertMixin, attributeMixin],
   props: {
     attributeType: {
       type: String,
