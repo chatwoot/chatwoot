@@ -105,6 +105,7 @@
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
+        @assign-team="onAssignTeam"
       />
     </woot-context-menu>
   </div>
@@ -350,6 +351,10 @@ export default {
     },
     async onAssignLabel(label) {
       this.$emit('assign-label', [label.title], [this.chat.id]);
+      this.closeContextMenu();
+    },
+    async onAssignTeam(team) {
+      this.$emit('assign-team', team, this.chat.id);
       this.closeContextMenu();
     },
   },

@@ -2,7 +2,7 @@
   <div class="container">
     <article-header
       :header-title="headerTitle"
-      :count="meta.count"
+      :count="articleCount"
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
@@ -10,15 +10,15 @@
       :articles="articles"
       :article-count="articles.length"
       :current-page="Number(meta.currentPage)"
-      :total-count="meta.count"
+      :total-count="articleCount"
       @on-page-change="onPageChange"
     />
-    <div v-if="isFetching" class="articles--loader">
+    <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
       <span>{{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
-      v-else-if="!isFetching && !articles.length"
+      v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
   </div>
@@ -45,13 +45,30 @@ export default {
   computed: {
     ...mapGetters({
       articles: 'articles/allArticles',
+      categories: 'categories/allCategories',
+      selectedPortal: 'portals/getSelectedPortal',
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
+      currentUserId: 'getCurrentUserID',
     }),
-
-    showEmptyState() {
-      return this.articles.length === 0;
+    selectedCategory() {
+      return this.categories.find(
+        category => category.slug === this.selectedCategorySlug
+      );
+    },
+    shouldShowEmptyState() {
+      return !this.isFetching && !this.articles.length;
+    },
+    shouldShowLoader() {
+      return this.isFetching && !this.articles.length;
+    },
+    selectedPortalSlug() {
+      return this.selectedPortal?.slug;
+    },
+    selectedCategorySlug() {
+      const { categorySlug } = this.$route.params;
+      return categorySlug;
     },
     articleType() {
       return this.$route.path.split('/').pop();
@@ -65,22 +82,61 @@ export default {
         case 'archived':
           return this.$t('HELP_CENTER.HEADER.TITLES.ARCHIVED');
         default:
+          if (this.$route.name === 'show_category') {
+            return this.headerTitleInCategoryView;
+          }
           return this.$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES');
       }
     },
+    status() {
+      switch (this.articleType) {
+        case 'draft':
+          return 0;
+        case 'published':
+          return 1;
+        case 'archived':
+          return 2;
+        default:
+          return undefined;
+      }
+    },
+    author() {
+      if (this.articleType === 'mine') {
+        return this.currentUserId;
+      }
+      return null;
+    },
+    articleCount() {
+      return this.articles ? this.articles.length : 0;
+    },
+    headerTitleInCategoryView() {
+      return this.categories && this.categories.length
+        ? this.selectedCategory.name
+        : '';
+    },
+  },
+  watch: {
+    $route() {
+      this.pageNumber = 1;
+      this.fetchArticles();
+    },
   },
   mounted() {
-    this.fetchArticles({ pageNumber: this.pageNumber });
+    this.fetchArticles();
   },
+
   methods: {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
     },
-    fetchArticles({ pageNumber }) {
+    fetchArticles() {
       this.$store.dispatch('articles/index', {
-        pageNumber,
+        pageNumber: this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
+        status: this.status,
+        author_id: this.author,
+        category_slug: this.selectedCategorySlug,
       });
     },
     onPageChange(page) {

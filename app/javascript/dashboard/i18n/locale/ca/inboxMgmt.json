@@ -413,7 +413,8 @@
       "CONFIGURATION": "Configuració",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Configuracions",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nom del lloc web",
+          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Encapçalament de benvinguda",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Lema de benvinguda",
+          "PLACE_HOLDER": "Facilitem la connexió amb nosaltres. Pregunteu-nos qualsevol cosa o compartiu els vostres comentaris."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "En pocs minuts",
+          "IN_A_FEW_HOURS": "En poques hores",
+          "IN_A_DAY": "En un dia"
+        },
+        "WIDGET_COLOR_LABEL": "Color del Widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Xateja amb nosaltres",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Xateja amb nosaltres"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
+        "IN_A_FEW_HOURS": "Normalment responem en poques hores",
+        "IN_A_DAY": "Normalment respon en un dia"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Inicia la conversa",
+        "CHAT_INPUT_PLACEHOLDER": "Escriu el missatge"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "We are away at the moment"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Desenvolupat per Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

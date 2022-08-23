@@ -38,17 +38,11 @@
 #  index_conversations_on_team_id                     (team_id)
 #  index_conversations_on_uuid                        (uuid) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (campaign_id => campaigns.id) ON DELETE => cascade
-#  fk_rails_...  (contact_inbox_id => contact_inboxes.id) ON DELETE => cascade
-#  fk_rails_...  (team_id => teams.id) ON DELETE => cascade
-#
 
 class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
-  include RoundRobinHandler
+  include AutoAssignmentHandler
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
@@ -90,7 +84,7 @@ class Conversation < ApplicationRecord
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
-  has_many :notifications, as: :primary_actor, dependent: :destroy
+  has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot

@@ -24,6 +24,8 @@
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
+        :active="portal.id === activePortal.id"
+        @open-portal-page="openPortalPage"
       />
     </div>
     <footer>
@@ -50,13 +52,20 @@ export default {
       type: Array,
       default: () => [],
     },
+    activePortal: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     closePortalPopover() {
       this.$emit('close-popover');
     },
     openPortalPage() {
-      this.$emit('open-portal-page');
+      this.$emit('close-popover');
+      this.$router.push({
+        name: 'list_all_portals',
+      });
     },
   },
 };
@@ -72,6 +81,7 @@ export default {
   border-radius: var(--border-radius-normal);
   box-shadow: var(--shadow-large);
   max-width: 48rem;
+  z-index: var(--z-index-high);
 
   header {
     .actions {
