@@ -87,26 +87,26 @@
             "SETTINGS": "Cài đặt"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Cấu hình Cổng thông tin",
             "ITEMS": {
               "NAME": "Tên",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Tên miền tuỳ chỉnh",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Tiêu đề cổng",
+              "THEME": "Màu chủ đề",
+              "SUB_TEXT": "Tiêu đề phụ của cổng thông tin"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Các ngôn ngữ sẵn có",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Tên ngôn ngữ",
+              "CODE": "Mã ngôn ngữ",
+              "ARTICLE_COUNT": "Số lượng bài",
+              "CATEGORIES": "Số danh mục",
+              "SWAP": "Chuyển",
               "DELETE": "Xoá",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Mặc định"
             }
           }
         }
@@ -114,70 +114,70 @@
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
-            "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "title": "Thông tin trung tâm trợ giúp",
+            "route": "Thông tin cổng mới",
+            "body": "Thông tin cơ bản về cổng",
+            "CREATE_BASIC_SETTING_BUTTON": "Tạo cài đặt cơ bản cho cổng thông tin"
           },
           {
-            "title": "Help center customization",
-            "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "title": "Tùy chỉnh trung tâm trợ giúp",
+            "route": "Tuỳ chỉnh cổng",
+            "body": "Tuỳ chỉnh cổng",
+            "UPDATE_PORTAL_BUTTON": "Cập nhật thông tin cấu hình cổng"
           },
           {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "You're all set!",
+            "title": "Tới rồi! 🎉",
+            "route": "kết_thúc_cổng",
+            "body": "Bạn đã sẵn sàng!",
             "FINISH": "Hoàn tất"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Trờ về",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Tạo cổng",
+            "TITLE": "Thông tin trung tâm trợ giúp",
+            "CREATE_BASIC_SETTING_BUTTON": "Tạo cài đặt cơ bản cho cổng thông tin"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Tuỳ biến cổng",
+            "TITLE": "Tùy chỉnh trung tâm trợ giúp",
+            "UPDATE_PORTAL_BUTTON": "Cập nhật thông tin cấu hình cổng"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Tới rồi!🎉 Bạn đã sẵn sàng!",
+            "MESSAGE": "Bây giờ bạn có thể thấy cổng được tạo này trên trang tất cả các cổng của bạn.",
+            "FINISH": "Đi đến tất cả các trang cổng thông tin"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "UPLOAD_BUTTON": "Tải lên logo",
+          "HELP_TEXT": "Logo này sẽ được hiển thị trên tiêu đề cổng thông tin."
         },
         "NAME": {
           "LABEL": "Tên",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "Tên cổng",
+          "HELP_TEXT": "Tên sẽ được sử dụng trong nội bộ cổng thông tin công khai.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
+          "PLACEHOLDER": "Slug cổng cho các url",
           "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
           "ERROR": "Phải có Slug"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "LABEL": "Tên miền tuỳ biến",
+          "PLACEHOLDER": "Tên miền tuỳ biến cổng",
+          "HELP_TEXT": "Chỉ thêm nếu bạn muốn sử dụng miền tùy chỉnh cho cổng thông tin của mình.",
+          "ERROR": "Cần có tên miền tuỳ chỉnh"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "LABEL": "Liên kết trang chủ",
+          "PLACEHOLDER": "Liên kế trang chủ cổng thông tin",
+          "HELP_TEXT": "Liên kết được sử dụng để quay lại từ cổng thông tin đến trang chủ.",
+          "ERROR": "Phải có liên kết trang chủ"
         },
         "THEME_COLOR": {
           "LABEL": "Màu chủ đề cổng thông tin",
