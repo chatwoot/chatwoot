@@ -22,7 +22,7 @@
         "body": "Thêm đại lý vào hộp thư đến đã tạo."
       },
       {
-        "title": "Voila!",
+        "title": "Tới rồi!",
         "route": "settings_inbox_finish",
         "body": "Bạn đã sẵn sàng để đi!"
       }
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Bật lời chào kênh",
-          "HELP_TEXT": "Tự động gửi tin nhắn chào mừng khi cuộc trò chuyện mới được tạo.",
+          "HELP_TEXT": "Tự động gửi tin nhắn chào mừng khi có hội thoại mới.",
           "ENABLED": "Bật",
           "DISABLED": "Không bật"
         },
@@ -650,12 +650,12 @@
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "Chúng tôi đang trực tuyến",
-          "OFFLINE": "Hiện tại chúng tôi đang ngoại tuyến"
+          "OFFLINE": "Hiện tại chúng tôi đang bận chút"
         },
         "USER_MESSAGE": "Xin chào",
         "AGENT_MESSAGE": "Xin chào"
       },
-      "BRANDING_TEXT": "Cung cấp bởi Chatwoot",
+      "BRANDING_TEXT": "CC bởi Chatwoot",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     }
   }
