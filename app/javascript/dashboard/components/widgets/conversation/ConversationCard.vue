@@ -88,13 +88,13 @@
         v-if="canReply && inboxType === 'Channel::Api'"
         class="conversation--timer"
       >
-        {{ `${hours}h:${minutes}m:${seconds}s left to reply` }}
+        &nbsp;&nbsp;{{ `${timerString} left to reply` }}&nbsp;&nbsp;
       </p>
       <p
         v-if="!canReply && inboxType === 'Channel::Api'"
         class="conversation--timer--alert"
       >
-        {{ `Conversation Expired` }}
+        &nbsp;&nbsp;{{ `Conversation Expired` }}&nbsp;&nbsp;
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
@@ -182,6 +182,7 @@ export default {
       hours: 0,
       minutes: 0,
       seconds: 0,
+      timerString: '',
     };
   },
   computed: {
@@ -301,6 +302,10 @@ export default {
             );
             this.seconds =
               this.timerCount - this.hours * 3600 - this.minutes * 60;
+            if (this.hours > 0) this.timerString = `${this.hours} hours`;
+            else if (this.minutes > 0)
+              this.timerString = `${this.minutes} minutes`;
+            else this.timerString = `${this.seconds} seconds`;
           }, 1000);
         }
       },
@@ -421,10 +426,7 @@ export default {
     cursor: pointer;
   }
 }
-.conversation--timer {
-  font-size: 12px;
-  background: var(--color-background);
-}
+
 .conversation--timer {
   font-size: 11px;
   background: var(--s-200);
