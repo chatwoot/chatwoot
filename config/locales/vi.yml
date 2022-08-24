@@ -56,24 +56,24 @@ vi:
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     agent_csv:
-      agent_name: Tên nhà cung cấp
-      conversations_count: Số cuộc trò chuyện
+      agent_name: Tên tổng đài viên
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     inbox_csv:
-      inbox_name: Tên hộp thư đến
-      inbox_type: Kiểu hộp thư đến
-      conversations_count: Số lượng hội thoại
+      inbox_name: Tên kênh
+      inbox_type: Kiểu kênh
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     label_csv:
       label_title: Nhãn
-      conversations_count: Số lượng hội thoại
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     team_csv:
       team_name: Tên nhóm
-      conversations_count: Số cuộc trò chuyện
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     default_group_by: ngày
@@ -89,25 +89,25 @@ vi:
         recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
+      conversation_creation: "[Hội thoại mới] - #%{display_id} đã được tạo trong %{inbox_name}"
       conversation_assignment: "[Phân công cho bạn] - #%{display_id} đã được phân công cho bạn"
       assigned_conversation_new_message: "[Tin nhắn mới] - #%{display_id} %{content}"
-      conversation_mention: "Bạn đã được nhắn đến trong cuộc trò chuyện [ID - %{display_id}] bởi %{name}"
+      conversation_mention: "Bạn đã được nhắn đến trong hội thoại [ID - %{display_id}] bởi %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} đã đề cập đến bạn trong câu chuyện: "
-      instagram_deleted_story_content: Câu chuyện này không còn nữa.
+      instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
+      instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
-        contact_resolved: "Cuộc trò chuyện đã được giải quyết bởi %{contact_name}"
+        contact_resolved: "Hội thoại đã được giải quyết bởi %{contact_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
-        pending: "Cuộc trò chuyện được đánh dấu là chưa giải quyết bởi %{user_name}"
-        snoozed: "Cuộc trò chuyện đã được tạm dừng lại bởi %{user_name}"
-        auto_resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
+        pending: "Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}"
+        snoozed: "Hội thoại đã được tạm dừng lại bởi %{user_name}"
+        auto_resolved: "Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
       assignee:
-        self_assigned: "%{user_name} phân công chính mình vào cuộc trò chuyện này"
+        self_assigned: "%{user_name} phân công chính mình vào hội thoại này"
         assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
         removed: "Cuộc hội thoại chưa được chỉ định bởi %{user_name}"
       team:
@@ -117,13 +117,13 @@ vi:
       labels:
         added: "%{user_name} thêm %{labels}"
         removed: "%{user_name} xoá %{labels}"
-      muted: "%{user_name} đã tắt tiếng cuộc trò chuyện"
+      muted: "%{user_name} đã tắt tiếng hội thoại"
       unmuted: "%{user_name} đã bật tiếng cuộc trò chuyện"
     templates:
       greeting_message_body: "%{account_name} thường trả lời trong vài giờ."
       ways_to_reach_you_message_body: "Cung cấp cho nhóm một cách để tiếp cận bạn."
       email_input_box_message_body: "Nhận thông báo qua email"
-      csat_input_message_body: "Bạn hãy vui lòng đánh giá cuộc trò chuyện"
+      csat_input_message_body: "Bạn hãy vui lòng đánh giá hội thoại"
     reply:
       email:
         header:
@@ -132,7 +132,7 @@ vi:
       email_subject: "Tin nhắn mới về cuộc trò chuyện này"
       transcript_subject: "Bản ghi cuộc hội thoại"
     survey:
-      response: "Bạn hãy vui lòng đánh giá cuộc trò chuyện, %{link}"
+      response: "Bạn hãy vui lòng đánh giá hội thoại, %{link}"
   contacts:
     online:
       delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
