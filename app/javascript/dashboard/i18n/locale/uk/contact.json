@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
     "COMPANY": "Організація",
     "LOCATION": "Місцезнаходження",
+    "BROWSER_LANGUAGE": "Мова браузера",
     "CONVERSATION_TITLE": "Деталі бесіди",
     "VIEW_PROFILE": "Дивитись профіль",
     "BROWSER": "Браузер",
@@ -150,8 +151,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Аватар контакту успішно видалено",
+        "ERROR_MESSAGE": "Не вдалося видалити аватар. Будь ласка, повторіть спробу пізніше."
       }
     },
     "SUCCESS_MESSAGE": "Контакт успішно збережено",

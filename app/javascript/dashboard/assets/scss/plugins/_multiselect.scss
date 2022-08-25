@@ -16,11 +16,11 @@
   margin-bottom: var(--space-normal);
 
   &.multiselect--disabled {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   .multiselect--active {
-    >.multiselect__tags {
+    > .multiselect__tags {
       border-color: $color-woot;
     }
   }
@@ -96,9 +96,9 @@
   }
 
   .multiselect__tags {
-    @include margin(0);
     border: 1px solid $color-border;
     border-color: $color-border;
+    margin: 0;
     min-height: 4.4rem;
     padding-top: $zero;
   }
@@ -130,10 +130,10 @@
 
   .multiselect__input {
     @include ghost-input;
-    @include padding($zero);
     font-size: $font-size-small;
     height: 4.4rem;
     margin-bottom: $zero;
+    padding: 0;
   }
 
   .multiselect__single {
@@ -145,7 +145,6 @@
 }
 
 .sidebar-labels-wrap {
-
   &.has-edited,
   &:hover {
     .multiselect {
@@ -154,15 +153,15 @@
   }
 
   .multiselect {
-    >.multiselect__select {
+    > .multiselect__select {
       visibility: hidden;
     }
 
-    >.multiselect__tags {
+    > .multiselect__tags {
       border-color: transparent;
     }
 
-    &.multiselect--active>.multiselect__tags {
+    &.multiselect--active > .multiselect__tags {
       border-color: $color-woot;
     }
   }

@@ -57,7 +57,11 @@ Rails.application.routes.draw do
             post :clone
             post :attach_file, on: :collection
           end
-          resources :macros, only: [:index, :create, :show, :update, :destroy]
+          resources :macros, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :execute
+            end
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -234,10 +238,10 @@ Rails.application.routes.draw do
               post :subscription
             end
           end
-
-          post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
         end
       end
+
+      post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
     end
   end
 

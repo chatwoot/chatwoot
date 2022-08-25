@@ -1,17 +1,18 @@
 .search {
   @include flex;
   @include flex-align($x: left, $y: middle);
-  @include padding($space-one $space-normal);
   @include flex-shrink;
-  transition: all .3s $ease-in-out-quad;
+
+  padding: $space-one $space-normal;
+  transition: all 0.3s var(--ease-in-out-quad);
 
   > .icon {
-    font-size: $font-size-medium;
     color: $medium-gray;
+    font-size: $font-size-medium;
   }
 
   > input {
     @include ghost-input();
-    @include margin(0);
+    margin: 0;
   }
 }

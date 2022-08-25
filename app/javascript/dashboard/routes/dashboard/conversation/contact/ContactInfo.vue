@@ -153,7 +153,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
-import flag from 'country-code-emoji';
+import { getCountryFlag } from 'dashboard/helper/flag';
 
 export default {
   components: {
@@ -247,7 +247,7 @@ export default {
     },
     findCountryFlag(countryCode, cityAndCountry) {
       try {
-        const countryFlag = countryCode ? flag(countryCode) : '🌎';
+        const countryFlag = countryCode ? getCountryFlag(countryCode) : '🌎';
         return `${cityAndCountry} ${countryFlag}`;
       } catch (error) {
         return '';

@@ -12,6 +12,7 @@ export const MESSAGE_TYPE = {
 };
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
+export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
 
 export const ALLOWED_FILE_TYPES = '.png,.jpeg,.mp4,.pdf';
 // 'image/*,' +
@@ -23,6 +24,12 @@ export const ALLOWED_FILE_TYPES = '.png,.jpeg,.mp4,.pdf';
 // 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
 // 'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
 // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
+
+export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
+  'image/png, image/jpeg,' +
+  'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
+  'video/mp4,' +
+  'application/pdf,';
 
 export const CSAT_RATINGS = [
   {

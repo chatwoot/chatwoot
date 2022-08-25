@@ -5,8 +5,12 @@
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="isHelpCenterSidebar" class="submenu-icons">
-        <fluent-icon icon="search" class="submenu-icon" size="16" />
-        <fluent-icon icon="add" class="submenu-icon" size="16" />
+        <div class="submenu-icon">
+          <fluent-icon icon="search" size="16" />
+        </div>
+        <div class="submenu-icon" @click="onClickOpen">
+          <fluent-icon icon="add" size="16" />
+        </div>
       </div>
     </div>
     <router-link
@@ -71,6 +75,9 @@
           </a>
         </li>
       </router-link>
+      <p v-if="isHelpCenterSidebar && isCategoryEmpty" class="empty-text">
+        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
+      </p>
     </ul>
   </li>
 </template>
@@ -95,6 +102,10 @@ export default {
       default: () => ({}),
     },
     isHelpCenterSidebar: {
+      type: Boolean,
+      default: false,
+    },
+    isCategoryEmpty: {
       type: Boolean,
       default: false,
     },
@@ -134,6 +145,9 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
+    isArticlesView() {
+      return this.$store.state.route.name === this.menuItem.toStateName;
+    },
 
     computedClass() {
       // If active Inbox is present
@@ -147,6 +161,12 @@ export default {
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {
+          return 'is-active';
+        }
+        return ' ';
+      }
+      if (this.isHelpCenterSidebar) {
+        if (this.isArticlesView) {
           return 'is-active';
         }
         return ' ';
@@ -182,6 +202,9 @@ export default {
     },
     showItem(item) {
       return this.isAdmin && item.newLink !== undefined;
+    },
+    onClickOpen() {
+      this.$emit('open');
     },
   },
 };
@@ -311,5 +334,11 @@ export default {
       color: var(--w-500);
     }
   }
+}
+
+.empty-text {
+  color: var(--s-600);
+  font-size: var(--font-size-small);
+  margin: var(--space-smaller) 0;
 }
 </style>
