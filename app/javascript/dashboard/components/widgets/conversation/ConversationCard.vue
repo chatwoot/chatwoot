@@ -86,7 +86,7 @@
         </span>
       </p>
       <p
-        v-if="canReply && inboxType === 'Channel::Api'"
+        v-if="canReply && timerString && inboxType === 'Channel::Api'"
         class="conversation--timer"
       >
         &nbsp;&nbsp;{{ `${timerString} left to reply` }}&nbsp;&nbsp;
@@ -494,17 +494,21 @@ export default {
 
 .conversation--timer {
   font-size: 11px;
-  background: var(--s-200);
-  border-radius: 0.25rem;
-  padding: 0.2rem;
+  margin-top: var(--space-micro);
+  background: var(--w-500);
+  color: var(--white);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.2rem;
   width: max-content;
 }
+
 .conversation--timer--alert {
   font-size: 11px;
+  margin-top: var(--space-micro);
   background: var(--r-400);
   color: var(--w-50);
-  border-radius: 0.25rem;
-  padding: 0.2rem;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.2rem;
   width: max-content;
 }
 </style>
