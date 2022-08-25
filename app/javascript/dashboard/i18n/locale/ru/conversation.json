@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
     "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
