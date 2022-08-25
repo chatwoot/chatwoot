@@ -25,7 +25,7 @@
     "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
     "CANNOT_REPLY": "Et voi vastata, sillä",
     "24_HOURS_WINDOW": "24h vastausikkuna",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
+    "NOT_ASSIGNED_TO_YOU": "Tätä keskustelua ei ole määritetty sinulle. Haluatko siirtää tämän keskustelun itsellesi?",
     "ASSIGN_TO_ME": "Siirrä minulle",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24h vastausikkuna",
@@ -141,7 +141,7 @@
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Lähettäjä:",
     "BOT": "Botti",
-    "SEND_FAILED": "Couldn't send message! Try again",
+    "SEND_FAILED": "Viestiä ei voitu lähettää! Yritä uudelleen",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Valitse edustaja",
@@ -196,7 +196,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Osoitettu Edustajalle",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Siirrä minulle",
     "TEAM_LABEL": "Osoitettu Tiimille",
     "SELECT": {
       "PLACEHOLDER": "None"
