@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Link",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
             "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "지난 활동"
+            "LAST_ACTIVITY": "지난 활동",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Standard Filters",

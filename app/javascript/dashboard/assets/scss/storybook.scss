@@ -1,4 +1,5 @@
 @import 'shared/assets/fonts/inter';
+@import 'shared/assets/stylesheets/animations';
 @import 'shared/assets/stylesheets/colors';
 @import 'shared/assets/stylesheets/spacing';
 @import 'shared/assets/stylesheets/font-size';
@@ -17,8 +18,6 @@
 @import 'foundation-sites/scss/foundation';
 
 @include foundation-prototype-spacing;
-@import '~bourbon/core/bourbon';
-
 @include foundation-everything($flex: true);
 
 @import 'typography';

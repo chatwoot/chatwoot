@@ -47,8 +47,6 @@ services:
     restart: always
     expose:
       - 5432
-    volumes:
-      - /data/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
@@ -66,11 +64,6 @@ services:
       - 6379
 
   nginx-chatwoot:
-    build:
-      context: .
-      dockerfile: Dockerfile_nginx
-    ports:
-      - '0.0.0.0:443:443'
     container_name: nginx-chatwoot
     depends_on:
       - rails

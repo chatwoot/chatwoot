@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
     "COMPANY": "Virksomhed",
     "LOCATION": "Lokation",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Samtaledetaljer",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
@@ -111,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Indtast e-mailadressen på kontaktpersonen",
         "LABEL": "E-Mail Adresse",
-        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt."
+        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt.",
+        "ERROR": "Indtast venligst en gyldig e-mailadresse."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",
@@ -145,6 +147,12 @@
           "PLACEHOLDER": "Indtast Github brugernavn",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",

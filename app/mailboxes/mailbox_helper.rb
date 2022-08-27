@@ -35,7 +35,7 @@ module MailboxHelper
 
   def create_contact
     @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
+      source_id: processed_mail.original_sender,
       inbox: @inbox,
       contact_attributes: {
         name: identify_contact_name,

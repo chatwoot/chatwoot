@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  postgres:
+    volumes:
+      - /data/postgres:/var/lib/postgresql/data
+
+  nginx-chatwoot:
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
+    ports:
+      - '0.0.0.0:443:443'

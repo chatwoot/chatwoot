@@ -1,0 +1,10 @@
+# Image for serving NGINX with all its static
+# All right reserved PT. SUMBER MAKMUR SURYA PERKASA
+
+FROM nginx:1.12
+
+COPY ./nginx /etc/nginx/snippets
+COPY ./nginx/openssl /etc/letsencrypt/live
+COPY ./nginx/conf /etc/conf
+
+COPY ./nginx/nginx-app-staging.conf /etc/nginx/conf.d/default.conf
