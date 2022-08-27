@@ -1,8 +1,9 @@
 .report-card {
-  @include padding($space-normal $space-small $space-normal $space-two);
-  @include margin($zero);
-  cursor: pointer;
   @include custom-border-top(3px, transparent);
+
+  cursor: pointer;
+  margin: 0;
+  padding: $space-normal $space-small $space-normal $space-two;
 
   &.active {
     @include custom-border-top(3px, $color-woot);
@@ -14,12 +15,12 @@
   }
 
   .heading {
-    @include margin($zero);
-    font-size: $font-size-small;
-    font-weight: $font-weight-bold;
+    align-items: center;
     color: $color-heading;
     display: flex;
-    align-items: center;
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
+    margin: 0;
   }
 
   .info-icon {
@@ -52,31 +53,31 @@
   }
 
   .desc {
-    @include margin($zero);
     font-size: $font-size-small;
+    margin: 0;
     text-transform: capitalize;
   }
 }
 
 .report-bar {
-  @include margin(-1px $zero);
   @include background-white;
   @include border-light;
-  @include padding($space-small $space-medium);
+  margin: -1px $zero;
+  padding: $space-small $space-medium;
 
   .chart-container {
     @include flex;
-    flex-direction: column;
     @include flex-align(center, middle);
+    flex-direction: column;
 
     div {
       width: 100%;
     }
 
     .empty-state {
-      @include margin($space-jumbo);
-      font-size: $font-size-default;
       color: $color-gray;
+      font-size: $font-size-default;
+      margin: $space-jumbo;
     }
 
     .business-hours {

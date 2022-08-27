@@ -136,7 +136,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
         described_subject
         current_message = conversation.messages.last
         expect(current_message.content).to eq(
-          <<-BODY.strip_heredoc.chomp
+          <<~BODY.chomp
             Yes, I am providing you step how to reproduce this issue
 
             On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:
@@ -157,7 +157,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
         described_subject
         current_message = conversation.messages.last
         expect(current_message.reload.content_attributes[:email][:text_content][:reply]).to eq(
-          <<-BODY.strip_heredoc.chomp
+          <<~BODY.chomp
             Yes, I am providing you step how to reproduce this issue
 
             On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:
