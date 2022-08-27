@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  postgres:
+    volumes:
+      - postgres_chatwoot:/var/lib/postgresql/data
+
+  nginx-chatwoot:
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx_staging
+    ports:
+      - '0.0.0.0:3000:80'
+
+volumes:
+  postgres_chatwoot:
