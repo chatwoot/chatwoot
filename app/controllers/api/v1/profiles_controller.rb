@@ -19,7 +19,12 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def availability
-    @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
+    @user.active_account_user.account_id
+  end
+
+  def set_active_account
+    @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
+    head :ok
   end
 
   private
@@ -39,6 +44,7 @@ class Api::V1::ProfilesController < Api::BaseController
       :display_name,
       :avatar,
       :message_signature,
+      :account_id,
       ui_settings: {}
     )
   end
