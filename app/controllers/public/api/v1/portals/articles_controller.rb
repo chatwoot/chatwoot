@@ -2,7 +2,7 @@ class Public::Api::V1::Portals::ArticlesController < ApplicationController
   before_action :set_portal
   before_action :set_article, only: [:show]
   layout 'portal'
-  
+
   def index
     @articles = @portal.articles
     @articles = @articles.search(list_params) if list_params.present?
