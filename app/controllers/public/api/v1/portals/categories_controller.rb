@@ -1,6 +1,7 @@
 class Public::Api::V1::Portals::CategoriesController < PublicController
   before_action :set_portal
   before_action :set_category, only: [:show]
+  layout 'portal'
 
   def index
     @categories = @portal.categories

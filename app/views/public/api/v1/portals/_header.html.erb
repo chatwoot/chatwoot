@@ -1,0 +1,24 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<header class="bg-white lg:container mx-auto px-4 max-w-2xl">
+  <nav class="px-0 flex" aria-label="Top">
+    <div class="w-full py-4 flex items-center justify-between">
+      <div class="flex items-center">
+        <a href="#">
+          <span class="sr-only"><%= portal.name %>%></span>
+          <img class="h-10 w-auto"
+            src="https://d33wubrfki0l68.cloudfront.net/973467c532160fd8b940300a43fa85fa2d060307/dc9a0/static/brand-73f58cdefae282ae74cebfa74c1d7003.svg"
+            alt="">
+        </a>
+        <div class="ml-4 border-l-1 border-slate-50">
+          <a href="#" class="text-base font-medium text-slate-700 hover:text-indigo-50"> Goto main site </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-grow justify-end flex-shrink-0 items-center">
+      <button class="flex-shrink-0 bg-transparent text-slate-700 font-semibold py-2 px-4"> Chat with us </button>
+      <select class="block w-full flex-shrink bg-slate-50 border border-slate-200 text-slate-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-slate-500">
+       <option>en-US</option>
+      </select>
+    </div>
+  </nav>
+</header>

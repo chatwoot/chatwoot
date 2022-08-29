@@ -1,0 +1,19 @@
+<%= render "public/api/v1/portals/header", portal: @portal %>
+
+<div class="max-w-2xl px-6 py-16 mx-auto space-y-12">
+	<article class="space-y-8 ">
+		<div class="space-y-6">
+			<h1 class="text-4xl font-bold md:tracking-tight md:text-5xl text-slate-900"><%= @article.title %></h1>
+			<div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center ">
+				<div class="flex items-center md:space-x-2">
+					<img src="<%= @article.author.avatar_url %>" alt="" class="w-4 h-4 border rounded-full">
+					<p class="text-sm"><%= @article.author.name %> • <%= @article.author.updated_at %></p>
+				</div>
+			</div>
+		</div>
+		<div class="text-slate-800">
+			<p><%= @article.content %></p>
+		</div>
+	</article>
+</div>
+
