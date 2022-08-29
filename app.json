@@ -57,6 +57,7 @@
       "plan": "heroku-postgresql:standard-0"
     }
   ],
+  "stack": "heroku-20",
   "buildpacks": [
     {
       "url": "heroku/ruby"
