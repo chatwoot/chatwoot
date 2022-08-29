@@ -260,7 +260,7 @@ export default {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
     allowedFileTypes() {
-      if (this.isATwilioWhatsappChannel) {
+      if (this.isATwilioWhatsAppChannel) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
       }
       return ALLOWED_FILE_TYPES;
