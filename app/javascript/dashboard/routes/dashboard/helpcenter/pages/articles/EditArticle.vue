@@ -119,12 +119,12 @@ export default {
   padding: var(--space-small) var(--space-normal);
   width: 100%;
   flex: 1;
-  overflow: scroll;
+  overflow: auto;
 
   .edit-article--container {
     flex: 1;
     flex-shrink: 0;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .is-sidebar-open {
