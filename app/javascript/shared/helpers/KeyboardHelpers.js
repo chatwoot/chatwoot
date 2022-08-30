@@ -42,10 +42,6 @@ export const hasPressedAltAndNKey = e => {
   return e.altKey && e.keyCode === 78;
 };
 
-export const hasPressedAltAndWKey = e => {
-  return e.altKey && e.keyCode === 87;
-};
-
 export const hasPressedAltAndAKey = e => {
   return e.altKey && e.keyCode === 65;
 };

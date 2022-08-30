@@ -66,12 +66,6 @@ export const SHORTCUT_KEYS = [
     secondKey: 'P',
   },
   {
-    id: 12,
-    label: 'TOGGLE_RICH_CONTENT_EDITOR',
-    firstkey: 'Alt / ⌥',
-    secondKey: 'W',
-  },
-  {
     id: 13,
     label: 'SWITCH_TO_REPLY',
     firstkey: 'Alt / ⌥',
