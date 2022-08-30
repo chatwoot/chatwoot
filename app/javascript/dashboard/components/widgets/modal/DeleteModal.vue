@@ -12,6 +12,7 @@
       <woot-button
         color-scheme="alert"
         class="action-button"
+        variant="smooth"
         @click="onConfirm"
       >
         {{ confirmText }}
