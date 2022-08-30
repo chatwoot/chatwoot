@@ -1,12 +1,25 @@
 <template>
   <div class="article-container">
-    <edit-article-header
-      :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
-      draft-state="saved"
-      @back="onClickGoBack"
-      @save-article="createNewArticle"
+    <div
+      class="new-article--container"
+      :class="{ 'is-sidebar-open': showArticleSettings }"
+    >
+      <edit-article-header
+        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
+        draft-state="saved"
+        :enable-open-sidebar-button="!openSidebarButton"
+        @back="onClickGoBack"
+        @open="openArticleSettings"
+        @close="closeArticleSettings"
+        @save-article="createNewArticle"
+      />
+      <article-editor :article="newArticle" @save-article="createNewArticle" />
+    </div>
+    <article-settings
+      v-if="showArticleSettings"
+      :article="article"
+      @save-article="saveArticle"
     />
-    <article-editor :article="article" @save-article="createNewArticle" />
   </div>
 </template>
 
@@ -16,16 +29,19 @@ import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin.js';
+import ArticleSettings from './ArticleSettings.vue';
 export default {
   components: {
     EditArticleHeader,
     ArticleEditor,
+    ArticleSettings,
   },
   mixins: [portalMixin, alertMixin],
   data() {
     return {
       articleTitle: '',
       articleContent: '',
+      openSidebarButton: false,
       showArticleSettings: false,
     };
   },
@@ -33,9 +49,16 @@ export default {
     ...mapGetters({
       selectedPortal: 'portals/getSelectedPortal',
       currentUserID: 'getCurrentUserID',
+      articles: 'articles/articles',
       categories: 'categories/allCategories',
     }),
     article() {
+      return this.$store.getters['articles/articleById'](this.articleId);
+    },
+    articleId() {
+      return this.$route.params.articleSlug;
+    },
+    newArticle() {
       return { title: this.articleTitle, content: this.articleContent };
     },
     selectedPortalSlug() {
@@ -48,6 +71,32 @@ export default {
   methods: {
     onClickGoBack() {
       this.$router.push({ name: 'list_all_locale_articles' });
+    },
+    openArticleSettings() {
+      this.showArticleSettings = true;
+    },
+    closeArticleSettings() {
+      this.showArticleSettings = false;
+    },
+    async saveArticle({ ...values }) {
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('articles/update', {
+          portalSlug: this.selectedPortalSlug,
+          articleId: this.articleId,
+          ...values,
+        });
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR_MESSAGE');
+        this.showAlert(this.alertMessage);
+      } finally {
+        setTimeout(() => {
+          this.isUpdating = false;
+          this.isSaved = true;
+        }, 1500);
+      }
     },
     async createNewArticle({ ...values }) {
       const { title, content } = values;
@@ -71,6 +120,7 @@ export default {
               locale: this.locale,
             },
           });
+          this.openSidebarButton = true;
         } catch (error) {
           this.alertMessage =
             error?.message ||
@@ -85,15 +135,16 @@ export default {
 
 <style lang="scss" scoped>
 .article-container {
+  display: flex;
   padding: var(--space-small) var(--space-normal);
   width: 100%;
   flex: 1;
-  overflow: scroll;
+  overflow: auto;
 
-  .edit-article--container {
+  .new-article--container {
     flex: 1;
     flex-shrink: 0;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .is-sidebar-open {
