@@ -49,8 +49,9 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
+            v-if="contact.identifier"
             :value="contact.identifier"
-            icon="contact-card-identity"
+            icon="conatct-identify"
             emoji="🪪"
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
