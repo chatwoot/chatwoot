@@ -114,8 +114,8 @@
         "DELETE_PORTAL": {
           "TITLE": "Delete portal",
           "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep ",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
           "API": {
             "DELETE_SUCCESS": "Portal deleted successfully",
             "DELETE_ERROR": "Error while deleting portal"

@@ -176,9 +176,10 @@
       :on-close="closeDeletePopup"
       :on-confirm="onClickDeletePortal"
       :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
-      :message="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
+      :message="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE')"
+      :message-value="deleteMessageValue"
+      :confirm-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES')"
+      :reject-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO')"
     />
   </div>
 </template>
@@ -223,20 +224,8 @@ export default {
       }
     },
     // Delete portal modal
-    deleteConfirmText() {
-      return `${this.$t(
-        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES'
-      )} ${this.selectedPortalForDelete.name}`;
-    },
-    deleteRejectText() {
-      return `${this.$t(
-        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO'
-      )} ${this.selectedPortalForDelete.name}`;
-    },
-    deleteMessage() {
-      return `${this.$t(
-        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE'
-      )} ${this.selectedPortalForDelete.name} ?`;
+    deleteMessageValue() {
+      return ` ${this.selectedPortalForDelete.name}?`;
     },
 
     locales() {
