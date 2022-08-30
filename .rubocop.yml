@@ -171,7 +171,6 @@ AllCops:
     - 'vendor/**/*'
     - 'node_modules/**/*'
     - 'lib/tasks/auto_annotate_models.rake'
-    - 'lib/seeders/account_seeder.rb'
     - 'config/environments/**/*'
     - 'tmp/**/*'
     - 'storage/**/*'

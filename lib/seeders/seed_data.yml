@@ -1,4 +1,6 @@
-company_name: 'PaperLayer'
+company: 
+  name: 'PaperLayer'
+  domain: 'paperlayer.test'
 users:
   - name: 'Michael Scott'
     gender: male
