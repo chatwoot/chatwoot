@@ -7,7 +7,7 @@
       <edit-article-header
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
         draft-state="saved"
-        :enable-open-sidebar-button="!openSidebarButton"
+        :enable-open-sidebar-button="!showOpenSidebarButton"
         @back="onClickGoBack"
         @open="openArticleSettings"
         @close="closeArticleSettings"
@@ -41,7 +41,7 @@ export default {
     return {
       articleTitle: '',
       articleContent: '',
-      openSidebarButton: false,
+      showOpenSidebarButton: false,
       showArticleSettings: false,
     };
   },
@@ -120,7 +120,7 @@ export default {
               locale: this.locale,
             },
           });
-          this.openSidebarButton = true;
+          this.showOpenSidebarButton = true;
         } catch (error) {
           this.alertMessage =
             error?.message ||
