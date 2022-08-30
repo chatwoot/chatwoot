@@ -23,6 +23,10 @@
 		3000,
 		3035
 	],
+
+	"workspaceMount": "source=${localWorkspaceFolder}/sub-folder,target=/workspace,type=bind,consistency=cached",
+	"workspaceFolder": "/workspace",
+
 	"postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
 	"portsAttributes": {
 		"3000": {

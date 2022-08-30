@@ -9,14 +9,14 @@ const primaryMenuItems = accountId => [
     toStateName: 'home',
     roles: ['administrator', 'agent'],
   },
-  // {
-  //   icon: 'book-contacts',
-  //   key: 'contacts',
-  //   label: 'CONTACTS',
-  //   toState: frontendURL(`accounts/${accountId}/contacts`),
-  //   toStateName: 'contacts_dashboard',
-  //   roles: ['administrator', 'agent'],
-  // },
+  {
+    icon: 'book-contacts',
+    key: 'contacts',
+    label: 'CONTACTS',
+    toState: frontendURL(`accounts/${accountId}/contacts`),
+    toStateName: 'contacts_dashboard',
+    roles: ['administrator', 'agent'],
+  },
   {
     icon: 'arrow-trending-lines',
     key: 'reports',

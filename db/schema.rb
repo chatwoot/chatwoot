@@ -207,7 +207,6 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.bigint "associated_category_id"
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
-    t.index ["locale"], name: "index_categories_on_locale"
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
     t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true
   end
