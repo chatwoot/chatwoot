@@ -44,6 +44,7 @@
         variant="hollow"
         size="small"
         color-scheme="secondary"
+        :is-disabled="enableOpenSidebarButton"
         @click="openSidebar"
       />
       <woot-button
@@ -79,6 +80,10 @@ export default {
       default: false,
     },
     isSaved: {
+      type: Boolean,
+      default: false,
+    },
+    enableOpenSidebarButton: {
       type: Boolean,
       default: false,
     },
