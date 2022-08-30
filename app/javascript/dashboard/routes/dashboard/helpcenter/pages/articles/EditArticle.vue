@@ -96,7 +96,7 @@ export default {
       });
     },
     openDeletePopup() {
-      this.enableDeleteConfirmationPopup = true;
+      this. showDeleteConfirmationPopup = true;
     },
     closeDeletePopup() {
       this.enableDeleteConfirmationPopup = false;
