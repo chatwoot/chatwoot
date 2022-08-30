@@ -63,7 +63,7 @@ export default {
       isSaved: false,
       showArticleSettings: false,
       alertMessage: '',
-      enableDeleteConfirmationPopup: false,
+      showDeleteConfirmationPopup: false,
     };
   },
   computed: {
