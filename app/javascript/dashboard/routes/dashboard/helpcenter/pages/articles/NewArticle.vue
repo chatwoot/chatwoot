@@ -120,7 +120,6 @@ export default {
               locale: this.locale,
             },
           });
-          this.showOpenSidebarButton = true;
         } catch (error) {
           this.alertMessage =
             error?.message ||
