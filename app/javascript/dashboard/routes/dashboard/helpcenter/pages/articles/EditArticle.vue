@@ -31,7 +31,7 @@
       @archive-article="archiveArticle"
     />
     <woot-delete-modal
-      :show.sync="enableDeleteConfirmationPopup"
+      :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"
@@ -96,10 +96,10 @@ export default {
       });
     },
     openDeletePopup() {
-      this. showDeleteConfirmationPopup = true;
+      this.showDeleteConfirmationPopup = true;
     },
     closeDeletePopup() {
-      this.enableDeleteConfirmationPopup = false;
+      this.showDeleteConfirmationPopup = false;
     },
     confirmDeletion() {
       this.closeDeletePopup();
