@@ -147,12 +147,12 @@
           "FINISH_PAGE": {
             "TITLE": "هوراا !🎉 شما آماده‌اید!",
             "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "FINISH": "برو به صفحه همه پورتال‌ها"
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
+          "LABEL": "آرم",
+          "UPLOAD_BUTTON": "بارگذاری آرم",
           "HELP_TEXT": "This logo will be displayed on the portal header."
         },
         "NAME": {
@@ -180,8 +180,8 @@
           "ERROR": "پیوند صفحه اصلی الزامی است"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "رنگ پوسته پورتال",
+          "HELP_TEXT": "این رنگ به عنوان رنگ پوسته برای پورتال نشان داده می‌شود."
         },
         "PAGE_TITLE": {
           "LABEL": "عنوان صفحه",
@@ -225,7 +225,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "مشکلی پیش آمد. لطفا دوباره تلاش کنید."
+      "ERROR_MESSAGE": "لطفا عنوان و محتوای مقاله را اضافه کنید و فقط شما می‌توانید تنظیمات را به‌روز کنید"
     },
     "SIDEBAR": {
       "SEARCH": {
