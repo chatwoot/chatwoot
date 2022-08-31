@@ -154,7 +154,7 @@ export default {
     },
   },
   mounted() {
-    if (!isEmptyObject(this.article.meta)) {
+    if (!isEmptyObject(this.article.meta || {})) {
       const {
         meta: { title = '', description = '', tags = [] },
       } = this.article;
