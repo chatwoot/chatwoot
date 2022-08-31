@@ -32,7 +32,7 @@
       <portal-popover
         v-if="showPortalPopover"
         :portals="portals"
-        :active-portal="selectedPortal"
+        :active-portal-slug="selectedPortalSlug"
         @close-popover="closePortalPopover"
       />
       <add-category
@@ -77,6 +77,7 @@ export default {
       showNotificationPanel: false,
       showPortalPopover: false,
       showAddCategoryModal: false,
+      lastActivePortalSlug: '',
     };
   },
 
@@ -89,8 +90,10 @@ export default {
       isFetching: 'portals/isFetchingPortals',
     }),
     selectedPortal() {
-      const slug = this.$route.params.portalSlug;
-      return this.$store.getters['portals/portalBySlug'](slug);
+      const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
+      if (slug) return this.$store.getters['portals/portalBySlug'](slug);
+
+      return this.$store.getters['portals/allPortals'][0];
     },
     sidebarClassName() {
       if (this.isOnDesktop) {
@@ -114,12 +117,16 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      debugger;
+      return this.selectedPortal ? this.selectedPortal?.slug : '';
     },
     selectedPortalLocale() {
-      return this.locale || this.selectedPortal?.meta?.default_locale;
+      return this.selectedPortal
+        ? this.selectedPortal?.meta?.default_locale
+        : '';
     },
     accessibleMenuItems() {
+      if (!this.selectedPortal) return [];
       const {
         meta: {
           all_articles_count: allArticlesCount,
@@ -195,21 +202,29 @@ export default {
       ];
     },
     currentRoute() {
-      return ' ';
+      return '  ';
     },
     headerTitle() {
-      return this.selectedPortal.name;
+      return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+
+    const slug = this.$route.params.portalSlug;
+    if (slug) this.lastActivePortalSlug = slug;
+
     this.fetchPortalsAndItsCategories();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
+  },
+  updated() {
+    const slug = this.$route.params.portalSlug;
+    if (slug) this.lastActivePortalSlug = slug;
   },
   methods: {
     handleResize() {
