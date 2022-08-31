@@ -24,15 +24,15 @@
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
-        :active="portal.id === activePortal.id"
-        @open-portal-page="openPortalArticles"
+        :active="portal.slug === activePortalSlug"
+        @open-portal-page="openPortalPage"
       />
     </div>
     <footer>
       <woot-button variant="link" @click="closePortalPopover">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.CANCEL_BUTTON_LABEL') }}
       </woot-button>
-      <woot-button>
+      <woot-button @click="() => {}">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.CHOOSE_LOCALE_BUTTON') }}
       </woot-button>
     </footer>
@@ -52,11 +52,12 @@ export default {
       type: Array,
       default: () => [],
     },
-    activePortal: {
-      type: Object,
-      default: () => ({}),
+    activePortalSlug: {
+      type: String,
+      default: '',
     },
   },
+
   methods: {
     closePortalPopover() {
       this.$emit('close-popover');

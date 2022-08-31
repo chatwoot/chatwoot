@@ -70,7 +70,6 @@ export default {
     ...mapGetters({
       isFetching: 'articles/isFetching',
       articles: 'articles/articles',
-      selectedPortal: 'portals/getSelectedPortal',
     }),
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);
@@ -79,7 +78,7 @@ export default {
       return this.$route.params.articleSlug;
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
   },
   mounted() {
