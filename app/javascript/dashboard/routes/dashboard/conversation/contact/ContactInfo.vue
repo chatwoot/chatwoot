@@ -51,7 +51,7 @@
           <contact-info-row
             v-if="contact.identifier"
             :value="contact.identifier"
-            icon="conatct-identify"
+            icon="contact-identify"
             emoji="🪪"
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
