@@ -117,7 +117,6 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
     selectedPortalSlug() {
-      debugger;
       return this.selectedPortal ? this.selectedPortal?.slug : '';
     },
     selectedPortalLocale() {
