@@ -225,7 +225,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Algo deu errado. Por favor, tente novamente."
+      "ERROR_MESSAGE": "Por favor, adicione o cabeçalho e o conteúdo do artigo, só então você pode atualizar as configurações"
     },
     "SIDEBAR": {
       "SEARCH": {
