@@ -83,12 +83,15 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      selectedPortal: 'portals/getSelectedPortal',
       portals: 'portals/allPortals',
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    selectedPortal() {
+      const slug = this.$route.params.portalSlug;
+      return this.$store.getters['portals/portalBySlug'](slug);
+    },
     sidebarClassName() {
       if (this.isOnDesktop) {
         return '';
