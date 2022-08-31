@@ -7,7 +7,7 @@ class ChatwootHub
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
-    identifier ||= InstallationConfig.create(name: 'INSTALLATION_IDENTIFIER', value: SecureRandom.uuid).value
+    identifier ||= InstallationConfig.create!(name: 'INSTALLATION_IDENTIFIER', value: SecureRandom.uuid).value
     identifier
   end
 

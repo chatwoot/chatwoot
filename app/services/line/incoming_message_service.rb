@@ -30,7 +30,7 @@ class Line::IncomingMessageService
   def message_created?(event)
     return unless event_type_message?(event)
 
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: event['message']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,

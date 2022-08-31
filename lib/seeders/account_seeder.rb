@@ -22,7 +22,7 @@ class Seeders::AccountSeeder
 
   def seed_canned_responses(count: 50)
     count.times do
-      account.canned_responses.create(content: Faker::Quote.fortune_cookie, short_code: Faker::Alphanumeric.alpha(number: 10))
+      account.canned_responses.create!(content: Faker::Quote.fortune_cookie, short_code: Faker::Alphanumeric.alpha(number: 10))
     end
   end
 

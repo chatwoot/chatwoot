@@ -7,7 +7,7 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
     set_inbox
     ensure_contacts
     set_conversation
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: message_create_data['message_data']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
