@@ -225,7 +225,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
     "SIDEBAR": {
       "SEARCH": {
