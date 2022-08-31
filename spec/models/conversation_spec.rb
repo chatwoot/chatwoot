@@ -19,7 +19,7 @@ RSpec.describe Conversation, type: :model do
     let(:conversation) { build(:conversation, display_id: nil) }
 
     before do
-      conversation.save
+      conversation.save!
       conversation.reload
     end
 

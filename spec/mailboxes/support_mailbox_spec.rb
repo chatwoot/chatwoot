@@ -32,7 +32,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
     before do
       # this email is hardcoded in the support.eml, that's why we are updating this
       channel_email.email = 'care@example.com'
-      channel_email.save
+      channel_email.save!
     end
 
     describe 'covers email address format' do
@@ -121,7 +121,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
       before do
         # this email is hardcoded eml fixture file that's why we are updating this
         channel_email.email = 'support@chatwoot.com'
-        channel_email.save
+        channel_email.save!
       end
 
       it 'create new contact with original sender' do
