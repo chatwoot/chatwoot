@@ -194,13 +194,19 @@ export default {
       this.$emit('open-site');
     },
     openSettings() {
-      this.$emit('open');
+      this.navigateToPortalEdit();
     },
     swapLocale() {
       this.$emit('swap');
     },
     deleteLocale() {
       this.$emit('delete');
+    },
+    navigateToPortalEdit() {
+      this.$router.push({
+        name: 'edit_portal_information',
+        params: { portalSlug: this.portal.slug },
+      });
     },
   },
 };
