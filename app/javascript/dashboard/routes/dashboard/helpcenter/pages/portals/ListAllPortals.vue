@@ -30,7 +30,11 @@
       :show.sync="isAddLocaleModalOpen"
       :on-close="closeAddLocaleModal"
     >
-      <add-locale :show="isAddLocaleModalOpen" @cancel="closeAddLocaleModal" />
+      <add-locale
+        :show="isAddLocaleModalOpen"
+        :portal="selectedPortal"
+        @cancel="closeAddLocaleModal"
+      />
     </woot-modal>
   </div>
 </template>
@@ -51,6 +55,7 @@ export default {
   data() {
     return {
       isAddLocaleModalOpen: false,
+      selectedPortal: {},
     };
   },
   computed: {
@@ -73,8 +78,9 @@ export default {
     closeAddLocaleModal() {
       this.isAddLocaleModalOpen = false;
     },
-    addLocale() {
+    addLocale(portalId) {
       this.isAddLocaleModalOpen = true;
+      this.selectedPortal = this.portals.find(portal => portal.id === portalId);
       // this.$router.push({ name: 'new_portal_locale', params: { portalId } });
     },
   },

@@ -14,7 +14,7 @@
               :key="item.name"
               :value="item.id"
             >
-              {{ item.name }}
+              {{ item.name }}-{{ item.code }}
             </option>
           </select>
           <span v-if="$v.selectedLocale.$error" class="message">
@@ -53,9 +53,9 @@ export default {
       type: Boolean,
       default: true,
     },
-    portalId: {
-      type: String,
-      default: '',
+    portal: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -65,12 +65,20 @@ export default {
   },
   computed: {
     allLocales() {
-      return Object.keys(allLocales).map(key => {
-        return {
-          id: key,
-          name: allLocales[key],
-        };
-      });
+      const addedLocales = this.portal.config.allowed_locales.map(
+        locale => locale.code
+      );
+      return Object.keys(allLocales)
+        .map(key => {
+          return {
+            id: key,
+            name: allLocales[key],
+            code: key,
+          };
+        })
+        .filter(locale => {
+          return !addedLocales.includes(locale.code);
+        });
     },
   },
   validations: {
@@ -84,38 +92,32 @@ export default {
     },
     async onCreate() {
       this.$v.$touch();
-      // if (this.$v.$invalid) {
-      //   return;
-      // }
-      // console.log('onCreate', this.selectedLocale);
+      if (this.$v.$invalid) {
+        return;
+      }
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      const addedLocales = Object.keys(allowedLocales).map(key => {
+        return allowedLocales[key].code;
+      });
+      addedLocales.push(this.selectedLocale);
 
-      // try {
-      //   await this.$store.dispatch('portals/create', {
-      //     portal: {
-      //       name: this.name,
-      //       slug: this.slug,
-      //       custom_domain: this.domain,
-      //       // TODO: add support for choosing color
-      //       color: '#1f93ff',
-      //       homepage_link: this.homePageLink,
-      //       page_title: this.pageTitle,
-      //       header_text: this.headerText,
-      //       config: {
-      //         // TODO: add support for choosing locale
-      //         allowed_locales: ['en'],
-      //       },
-      //     },
-      //   });
-      //   this.alertMessage = this.$t(
-      //     'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE'
-      //   );
-      //   this.$emit('cancel');
-      // } catch (error) {
-      //   this.alertMessage =
-      //     error?.message || this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE');
-      // } finally {
-      //   this.showAlert(this.alertMessage);
-      // }
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('portals/update', {
+          portalId: this.selectedPortalSlug,
+          config: { allowed_locales: addedLocales },
+        });
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR_MESSAGE');
+        this.showAlert(this.alertMessage);
+      } finally {
+        setTimeout(() => {
+          this.isUpdating = false;
+          this.isSaved = true;
+        }, 1500);
+      }
     },
     onClose() {
       this.$emit('cancel');
