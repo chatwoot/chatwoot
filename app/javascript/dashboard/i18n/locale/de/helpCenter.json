@@ -225,7 +225,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Etwas ist schiefgelaufen. Bitte erneut versuchen."
+      "ERROR_MESSAGE": "Bitte fügen Sie die Überschrift und den Inhalt des Artikels hinzu, dann können nur Sie die Einstellungen aktualisieren"
     },
     "SIDEBAR": {
       "SEARCH": {
