@@ -10,11 +10,11 @@
           {{ $t('HELP_CENTER.PORTAL.ADD_LOCALE.LOCALE.LABEL') }}
           <select v-model="selectedLocale">
             <option
-              v-for="item in allLocales"
-              :key="item.name"
-              :value="item.id"
+              v-for="locale in locales"
+              :key="locale.name"
+              :value="locale.id"
             >
-              {{ item.name }}-{{ item.code }}
+              {{ locale.name }}-{{ locale.code }}
             </option>
           </select>
           <span v-if="$v.selectedLocale.$error" class="message">
@@ -64,7 +64,11 @@ export default {
     };
   },
   computed: {
-    allLocales() {
+    addedLocales() {
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.map(locale => locale.code);
+    },
+    locales() {
       const addedLocales = this.portal.config.allowed_locales.map(
         locale => locale.code
       );
@@ -92,16 +96,13 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      const { allowed_locales: allowedLocales } = this.portal.config;
-      const addedLocales = Object.keys(allowedLocales).map(key => {
-        return allowedLocales[key].code;
-      });
-      addedLocales.push(this.selectedLocale);
+      const updatedLocales = this.addedLocales;
+      updatedLocales.push(this.selectedLocale);
       this.isUpdating = true;
       try {
         await this.$store.dispatch('portals/update', {
           portalSlug: this.portal.slug,
-          config: { allowed_locales: addedLocales },
+          config: { allowed_locales: updatedLocales },
         });
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD_LOCALE.API.SUCCESS_MESSAGE'
