@@ -46,7 +46,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedPortal: 'portals/getSelectedPortal',
       currentUserID: 'getCurrentUserID',
       articles: 'articles/articles',
       categories: 'categories/allCategories',
@@ -58,7 +57,7 @@ export default {
       return { title: this.articleTitle, content: this.articleContent };
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
     categoryId() {
       return this.categories.length ? this.categories[0].id : null;

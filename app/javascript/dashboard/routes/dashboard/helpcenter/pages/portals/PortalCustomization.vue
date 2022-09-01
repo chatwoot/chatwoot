@@ -86,7 +86,7 @@ export default {
     }),
     createdPortalSlug() {
       const {
-        params: { portal_slug: slug },
+        params: { portalSlug: slug },
       } = this.$route;
       return slug;
     },

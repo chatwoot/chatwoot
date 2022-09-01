@@ -240,7 +240,7 @@ export default {
       this.$emit('open-site');
     },
     openSettings() {
-      this.$emit('open');
+      this.navigateToPortalEdit();
     },
     onClickOpenDeleteModal(portal) {
       this.selectedPortalForDelete = portal;
@@ -276,6 +276,12 @@ export default {
     },
     deleteLocale() {
       this.$emit('delete');
+    },
+    navigateToPortalEdit() {
+      this.$router.push({
+        name: 'edit_portal_information',
+        params: { portalSlug: this.portal.slug },
+      });
     },
   },
 };

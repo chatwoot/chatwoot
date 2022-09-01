@@ -42,6 +42,10 @@ class ArticlesAPI extends PortalsAPI {
       category_id,
     });
   }
+
+  deleteArticle({ articleId, portalSlug }) {
+    return axios.delete(`${this.url}/${portalSlug}/articles/${articleId}`);
+  }
 }
 
 export default new ArticlesAPI();
