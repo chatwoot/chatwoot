@@ -25,7 +25,7 @@
         :key="portal.slug"
         :portal="portal"
         :active="portal.slug === activePortalSlug"
-        @open-portal-page="onPortaleSelect"
+        @open-portal-page="onPortalSelect"
       />
     </div>
     <footer>
