@@ -224,6 +224,26 @@
         "ERROR": "Error while saving article"
       }
     },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Error while archiving article",
+        "SUCCESS": "Article archived successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Confirm Deletion",
+          "MESSAGE": "Are you sure to delete the article?",
+          "YES": "Yes, Delete",
+          "NO": "No, Keep it"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
+      }
+    },
     "CREATE_ARTICLE": {
       "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
