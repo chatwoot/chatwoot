@@ -15,6 +15,7 @@
         :key="portal.id"
         :portal="portal"
         :status="portalStatus"
+        @add-locale="addLocale"
       />
       <div v-if="isFetching" class="portals--loader">
         <spinner />
@@ -25,28 +26,38 @@
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
     </div>
-    <woot-modal :show.sync="isAddModalOpen" :on-close="closeModal">
-      <add-portal :show="isAddModalOpen" @cancel="closeModal" />
+    <woot-modal
+      :show.sync="isAddLocaleModalOpen"
+      :on-close="closeAddLocaleModal"
+    >
+      <add-locale
+        :show="isAddLocaleModalOpen"
+        :portal="selectedPortal"
+        @cancel="closeAddLocaleModal"
+      />
     </woot-modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import PortalListItem from '../../components/PortalListItem';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
-import AddPortal from '../../components/AddPortal';
+import AddLocale from '../../components/AddLocale';
 export default {
   components: {
     PortalListItem,
     EmptyState,
     Spinner,
-    AddPortal,
+    AddLocale,
   },
+  mixins: [alertMixin],
   data() {
     return {
-      isAddModalOpen: false,
+      isAddLocaleModalOpen: false,
+      selectedPortal: {},
     };
   },
   computed: {
@@ -66,8 +77,13 @@ export default {
     addPortal() {
       this.$router.push({ name: 'new_portal_information' });
     },
-    closeModal() {
-      this.isAddModalOpen = false;
+    closeAddLocaleModal() {
+      this.isAddLocaleModalOpen = false;
+      this.selectedPortal = {};
+    },
+    addLocale(portalId) {
+      this.isAddLocaleModalOpen = true;
+      this.selectedPortal = this.portals.find(portal => portal.id === portalId);
     },
   },
 };

@@ -26,7 +26,9 @@
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
       </woot-button>
+      <!-- Hidden since this is in V2
       <woot-button
+        v-if="shouldShowAddLocaleButton"
         class-names="article--buttons"
         icon="add"
         color-scheme="secondary"
@@ -35,7 +37,7 @@
         @click="onClickAdd"
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
-      </woot-button>
+      </woot-button> -->
       <woot-button
         v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"
@@ -84,6 +86,10 @@ export default {
       default: false,
     },
     enableOpenSidebarButton: {
+      type: Boolean,
+      default: false,
+    },
+    shouldShowAddLocaleButton: {
       type: Boolean,
       default: false,
     },
