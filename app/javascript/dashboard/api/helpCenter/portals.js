@@ -9,6 +9,10 @@ class PortalsAPI extends ApiClient {
   updatePortal({ portalSlug, portalObj }) {
     return axios.patch(`${this.url}/${portalSlug}`, portalObj);
   }
+
+  deletePortal(portalSlug) {
+    return axios.delete(`${this.url}/${portalSlug}`);
+  }
 }
 
 export default PortalsAPI;
