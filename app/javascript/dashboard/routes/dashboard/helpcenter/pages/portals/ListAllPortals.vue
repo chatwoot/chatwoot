@@ -77,11 +77,11 @@ export default {
     },
     closeAddLocaleModal() {
       this.isAddLocaleModalOpen = false;
+      this.selectedPortal = {};
     },
     addLocale(portalId) {
       this.isAddLocaleModalOpen = true;
       this.selectedPortal = this.portals.find(portal => portal.id === portalId);
-      // this.$router.push({ name: 'new_portal_locale', params: { portalId } });
     },
   },
 };
