@@ -166,7 +166,7 @@
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
             @change-default-locale="changeDefaultLocale"
-            @delete="deleteLocale"
+            @delete="deletePortalLocale"
           />
         </div>
       </div>
@@ -223,13 +223,16 @@ export default {
           return 'success';
       }
     },
-    // Delete portal modal
     deleteMessageValue() {
       return ` ${this.selectedPortalForDelete.name}?`;
     },
-
     locales() {
       return this.portal ? this.portal.config.allowed_locales : [];
+    },
+    allowedLocales() {
+      return Object.keys(this.locales).map(key => {
+        return this.locales[key].code;
+      });
     },
   },
   methods: {
@@ -271,12 +274,8 @@ export default {
       }
     },
     changeDefaultLocale({ localeCode }) {
-      const { allowed_locales: allowedLocales } = this.portal.config;
-      const locales = Object.keys(allowedLocales).map(key => {
-        return allowedLocales[key].code;
-      });
       this.updatePortalLocales({
-        allowedLocales: locales,
+        allowedLocales: this.allowedLocales,
         defaultLocale: localeCode,
         successMessage: this.$t(
           'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
@@ -286,15 +285,13 @@ export default {
         ),
       });
     },
-    deleteLocale({ localeCode }) {
-      const { allowed_locales: allowedLocales } = this.portal.config;
-      const addedLocales = Object.keys(allowedLocales).map(key => {
-        return allowedLocales[key].code;
-      });
-      const newLocales = addedLocales.filter(code => code !== localeCode);
+    deletePortalLocale({ localeCode }) {
+      const updatedLocales = this.allowedLocales.filter(
+        code => code !== localeCode
+      );
       const defaultLocale = this.portal.meta.default_locale;
       this.updatePortalLocales({
-        allowedLocales: newLocales,
+        allowedLocales: updatedLocales,
         defaultLocale,
         successMessage: this.$t(
           'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'

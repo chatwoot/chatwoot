@@ -85,6 +85,7 @@
             variant="smooth"
             icon="delete"
             color-scheme="secondary"
+            :disabled="locale.code === selectedLocaleCode"
             @click="deleteLocale(locale.code)"
           />
         </td>
