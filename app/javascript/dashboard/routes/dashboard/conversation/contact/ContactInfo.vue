@@ -131,7 +131,8 @@
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
-      :message="confirmDeleteMessage"
+      :message="$t('DELETE_CONTACT.CONFIRM.MESSAGE')"
+      :message-value="confirmDeleteMessage"
       :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
       :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
@@ -215,9 +216,7 @@ export default {
     },
     // Delete Modal
     confirmDeleteMessage() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
-        this.contact.name
-      } ?`;
+      return ` ${this.contact.name}?`;
     },
   },
   methods: {

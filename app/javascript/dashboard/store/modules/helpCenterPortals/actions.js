@@ -76,6 +76,7 @@ export const actions = {
       });
     }
   },
+
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
