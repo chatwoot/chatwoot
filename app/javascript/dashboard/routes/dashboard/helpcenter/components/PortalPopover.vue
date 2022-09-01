@@ -62,7 +62,7 @@ export default {
     closePortalPopover() {
       this.$emit('close-popover');
     },
-    onPortaleSelect() {
+    onPortalSelect() {
       this.$emit('close-popover');
     },
     openPortalPage() {
