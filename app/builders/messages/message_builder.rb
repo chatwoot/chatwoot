@@ -36,7 +36,13 @@ class Messages::MessageBuilder
       )
 
       attachment.file_type = file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
+      attachment.file_type = file_type_by_signed(uploaded_attachment, attachment.file_type) if uploaded_attachment.is_a?(String)
     end
+  end
+
+  def file_type_by_signed(signed_id, type_default)
+    blob = ActiveStorage::Blob.find_signed(signed_id)
+    blob ? file_type(blob&.content_type) : type_default
   end
 
   def process_emails
