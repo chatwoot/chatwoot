@@ -20,6 +20,8 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Publish",
+      "UNPUBLISH_BUTTON": "Unpublish article",
+      "DRAFT_BUTTON": "Draft article",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
@@ -233,6 +235,18 @@
       "CONTENT_PLACEHOLDER": "Write your article here",
       "API": {
         "ERROR": "Error while saving article"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
       }
     },
     "ARCHIVE_ARTICLE": {

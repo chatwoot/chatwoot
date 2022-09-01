@@ -58,19 +58,64 @@
         color-scheme="secondary"
         @click="closeSidebar"
       />
-      <woot-button
-        class-names="article--buttons"
-        size="small"
-        color-scheme="primary"
-      >
-        {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
-      </woot-button>
+      <div class="article--buttons">
+        <div class="button-group">
+          <woot-button
+            class-names="publish-button"
+            size="small"
+            color-scheme="primary"
+            @click="updateArticleStatus(ARTICLE_STATUS_TYPE.PUBLISH)"
+          >
+            {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
+          </woot-button>
+          <woot-button
+            ref="arrowDownButton"
+            size="small"
+            icon="chevron-down"
+            @click="openActionsDropdown"
+          />
+        </div>
+        <div
+          v-if="showActionsDropdown"
+          v-on-clickaway="closeActionsDropdown"
+          class="dropdown-pane dropdown-pane--open"
+        >
+          <woot-dropdown-menu>
+            <woot-dropdown-item>
+              <woot-button
+                variant="clear"
+                color-scheme="secondary"
+                size="small"
+                icon="book-clock"
+                @click="updateArticleStatus(ARTICLE_STATUS_TYPE.ARCHIVE)"
+              >
+                {{ $t('HELP_CENTER.EDIT_HEADER.UNPUBLISH_BUTTON') }}
+              </woot-button>
+            </woot-dropdown-item>
+            <woot-dropdown-item>
+              <woot-button
+                variant="clear"
+                color-scheme="secondary"
+                size="small"
+                icon="pen"
+                @click="updateArticleStatus(ARTICLE_STATUS_TYPE.DRAFT)"
+              >
+                {{ $t('HELP_CENTER.EDIT_HEADER.DRAFT_BUTTON') }}
+              </woot-button>
+            </woot-dropdown-item>
+          </woot-dropdown-menu>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import alertMixin from 'shared/mixins/alertMixin';
+import { mixin as clickaway } from 'vue-clickaway';
+import helpcenterConstants from 'dashboard/routes/dashboard/helpcenter/constants';
 export default {
+  mixins: [alertMixin, clickaway],
   props: {
     backButtonLabel: {
       type: String,
@@ -92,6 +137,9 @@ export default {
   data() {
     return {
       isSidebarOpen: false,
+      showActionsDropdown: false,
+      alertMessage: '',
+      ARTICLE_STATUS_TYPE: helpcenterConstants.ARTICLE_STATUS_TYPE,
     };
   },
   computed: {
@@ -99,6 +147,12 @@ export default {
       return this.isUpdating
         ? this.$t('HELP_CENTER.EDIT_HEADER.SAVING')
         : this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
+    },
+    articleId() {
+      return this.$route.params.articleSlug;
+    },
+    selectedPortalSlug() {
+      return this.$route.params.portalSlug;
     },
   },
   methods: {
@@ -111,6 +165,39 @@ export default {
     onClickAdd() {
       this.$emit('add');
     },
+    async updateArticleStatus(status) {
+      try {
+        await this.$store.dispatch('articles/update', {
+          portalSlug: this.selectedPortalSlug,
+          articleId: this.articleId,
+          status: status,
+        });
+        if (status === this.ARTICLE_STATUS_TYPE.DRAFT) {
+          this.alertMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.SUCCESS');
+        } else if (status === this.ARTICLE_STATUS_TYPE.PUBLISH) {
+          this.alertMessage = this.$t(
+            'HELP_CENTER.PUBLISH_ARTICLE.API.SUCCESS'
+          );
+        } else if (status === this.ARTICLE_STATUS_TYPE.ARCHIVE) {
+          this.alertMessage = this.$t(
+            'HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS'
+          );
+        }
+        this.closeActionsDropdown();
+      } catch (error) {
+        const errorMessage = '';
+        if (status === this.ARTICLE_STATUS_TYPE.DRAFT) {
+          errorMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.ERROR');
+        } else if (status === this.ARTICLE_STATUS_TYPE.PUBLISH) {
+          errorMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.ERROR');
+        } else if (status === this.ARTICLE_STATUS_TYPE.ARCHIVE) {
+          errorMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
+        }
+        this.alertMessage = error?.message || errorMessage;
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
     openSidebar() {
       this.isSidebarOpen = true;
       this.$emit('open');
@@ -118,6 +205,12 @@ export default {
     closeSidebar() {
       this.isSidebarOpen = false;
       this.$emit('close');
+    },
+    openActionsDropdown() {
+      this.showActionsDropdown = !this.showActionsDropdown;
+    },
+    closeActionsDropdown() {
+      this.showActionsDropdown = false;
     },
   },
 };
@@ -144,6 +237,9 @@ export default {
 }
 .article--buttons {
   margin-left: var(--space-smaller);
+  .dropdown-pane {
+    right: var(--space-smaller);
+  }
 }
 .draft-status {
   margin-right: var(--space-smaller);
@@ -160,5 +256,8 @@ export default {
       opacity: 1;
     }
   }
+}
+::v-deep.button-group .button {
+  font-size: var(--font-size-mini);
 }
 </style>

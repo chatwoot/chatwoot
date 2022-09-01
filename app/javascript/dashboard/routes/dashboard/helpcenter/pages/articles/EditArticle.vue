@@ -49,6 +49,7 @@ import ArticleSettings from './ArticleSettings.vue';
 import Spinner from 'shared/components/Spinner';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import helpcenterConstants from 'dashboard/routes/dashboard/helpcenter/constants';
 export default {
   components: {
     EditArticleHeader,
@@ -64,6 +65,7 @@ export default {
       showArticleSettings: false,
       alertMessage: '',
       showDeleteConfirmationPopup: false,
+      ARTICLE_STATUS_TYPE: helpcenterConstants.ARTICLE_STATUS_TYPE,
     };
   },
   computed: {
@@ -152,7 +154,7 @@ export default {
         await this.$store.dispatch('articles/update', {
           portalSlug: this.selectedPortalSlug,
           articleId: this.articleId,
-          status: 2,
+          status: this.ARTICLE_STATUS_TYPE.ARCHIVE,
         });
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
       } catch (error) {
