@@ -26,6 +26,7 @@
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
       </woot-button>
+      <!-- Hidden since this is in V2
       <woot-button
         class-names="article--buttons"
         icon="add"
@@ -35,7 +36,7 @@
         @click="onClickAdd"
       >
         {{ $t('HELP_CENTER.EDIT_HEADER.ADD_TRANSLATION') }}
-      </woot-button>
+      </woot-button> -->
       <woot-button
         v-if="!isSidebarOpen"
         v-tooltip.top-end="$t('HELP_CENTER.EDIT_HEADER.OPEN_SIDEBAR')"

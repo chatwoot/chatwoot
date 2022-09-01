@@ -33,6 +33,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import PortalListItem from '../../components/PortalListItem';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
@@ -44,6 +45,7 @@ export default {
     Spinner,
     AddPortal,
   },
+  mixins: [alertMixin],
   data() {
     return {
       isAddModalOpen: false,
