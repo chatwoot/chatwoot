@@ -27,6 +27,7 @@
         {{ $t('HELP_CENTER.EDIT_HEADER.PREVIEW') }}
       </woot-button>
       <woot-button
+        v-if="shouldShowAddLocaleButton"
         class-names="article--buttons"
         icon="add"
         color-scheme="secondary"
@@ -84,6 +85,10 @@ export default {
       default: false,
     },
     enableOpenSidebarButton: {
+      type: Boolean,
+      default: false,
+    },
+    shouldShowAddLocaleButton: {
       type: Boolean,
       default: false,
     },
