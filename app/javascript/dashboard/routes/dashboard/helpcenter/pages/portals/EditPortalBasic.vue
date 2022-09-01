@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       lastPortalSlug: undefined,
+      alertMessage: '',
     };
   },
   computed: {
@@ -65,6 +66,8 @@ export default {
         this.alertMessage =
           error?.message ||
           this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
   },

@@ -51,8 +51,13 @@ export default {
       this.$store.dispatch('portals/index');
     },
     async updatePortalSettings(portal) {
+      const portalSlug = this.$route.params.portalSlug;
+
       try {
-        await this.$store.dispatch('portals/update', { portalObj: portal });
+        await this.$store.dispatch('portals/update', {
+          portalSlug,
+          portalObj: portal,
+        });
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
         );
@@ -61,6 +66,7 @@ export default {
           error?.message ||
           this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
       } finally {
+        this.showAlert(this.alertMessage);
         this.$router.push({
           name: 'portal_finish',
         });

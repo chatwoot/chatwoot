@@ -18,6 +18,7 @@
           <div class="logo-container">
             <thumbnail :username="name" size="56" variant="square" />
             <woot-button
+              v-if="false"
               class="upload-button"
               variant="smooth"
               color-scheme="secondary"
