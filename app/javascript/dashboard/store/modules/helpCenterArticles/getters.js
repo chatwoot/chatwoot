@@ -13,9 +13,11 @@ export const getters = {
   },
   allArticles: (...getterArguments) => {
     const [state, _getters] = getterArguments;
-    const articles = state.articles.allIds.map(id => {
-      return _getters.articleById(id);
-    });
+    const articles = state.articles.allIds
+      .map(id => {
+        return _getters.articleById(id);
+      })
+      .filter(article => article !== undefined);
     return articles;
   },
   getMeta: state => {
