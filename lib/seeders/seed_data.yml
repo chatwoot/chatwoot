@@ -351,11 +351,11 @@ contacts:
             - message_type: incoming
               content: "Hey, \n My card is not working on your website. Please help"
     - name: "Candice Matherson"
-      email: "cmathersonj@va.gov"
+      email: "cmathersonj@va.test"
       gender: 'female'
       conversations:
         - channel: Channel::Email
-          source_id: "cmathersonj@va.gov"
+          source_id: "cmathersonj@va.test"
           assignee: michael_scott@paperlayer.test
           messages: 
             - message_type: incoming
