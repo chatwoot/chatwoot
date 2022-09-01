@@ -16,40 +16,21 @@ import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcent
 
 import { mapGetters } from 'vuex';
 
-import { getRandomColor } from 'dashboard/helper/labelColor';
-
 export default {
   components: {
     PortalSettingsCustomizationForm,
   },
   mixins: [alertMixin],
-  data() {
-    return {
-      color: '#000',
-      pageTitle: '',
-      headerText: '',
-      homePageLink: '',
-      alertMessage: '',
-    };
-  },
   computed: {
     ...mapGetters({
       uiFlags: 'portals/uiFlagsIn',
-      portals: 'portals/allPortals',
     }),
     currentPortal() {
       const slug = this.$route.params.portalSlug;
       return this.$store.getters['portals/portalBySlug'](slug);
     },
   },
-  mounted() {
-    this.fetchPortals();
-    this.color = getRandomColor();
-  },
   methods: {
-    fetchPortals() {
-      this.$store.dispatch('portals/index');
-    },
     async updatePortalSettings(portal) {
       try {
         await this.$store.dispatch('portals/update', { portalObj: portal });
@@ -60,10 +41,6 @@ export default {
         this.alertMessage =
           error?.message ||
           this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
-      } finally {
-        this.$router.push({
-          name: 'portal_finish',
-        });
       }
     },
   },
