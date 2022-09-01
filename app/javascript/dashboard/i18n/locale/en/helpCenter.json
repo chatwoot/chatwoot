@@ -227,7 +227,9 @@
           "ERROR": "Portal header text is required"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       }
