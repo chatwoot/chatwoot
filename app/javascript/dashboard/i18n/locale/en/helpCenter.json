@@ -84,7 +84,8 @@
             "COUNT_LABEL": "articles",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "Settings"
+            "SETTINGS": "Settings",
+            "DELETE": "Delete"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Portal Configurations",
@@ -108,6 +109,16 @@
               "DELETE": "Delete",
               "DEFAULT_LOCALE": "Default"
             }
+          }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Delete portal",
+          "MESSAGE": "Are you sure you want to delete this portal",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_ERROR": "Error while deleting portal"
           }
         }
       },

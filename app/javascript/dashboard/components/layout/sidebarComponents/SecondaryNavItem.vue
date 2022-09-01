@@ -5,9 +5,10 @@
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="isHelpCenterSidebar" class="submenu-icons">
+        <!-- Hidden since this is in V2
         <div class="submenu-icon">
           <fluent-icon icon="search" size="16" />
-        </div>
+        </div> -->
         <div class="submenu-icon" @click="onClickOpen">
           <fluent-icon icon="add" size="16" />
         </div>
