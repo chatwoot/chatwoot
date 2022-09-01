@@ -9,8 +9,6 @@ const ZERO = 0;
 const MINUTE_IN_MILLI_SECONDS = 60000;
 const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
 const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
-const MONTH_IN_MILLI_SECONDS = DAY_IN_MILLI_SECONDS * 30;
-const YEAR_IN_MILLI_SECONDS = MONTH_IN_MILLI_SECONDS * 12;
 
 import timeMixin from 'dashboard/mixins/time';
 import { differenceInMilliseconds } from 'date-fns';
@@ -40,12 +38,6 @@ export default {
         new Date(),
         new Date(this.timestamp * 1000)
       );
-      if (timeDiff > YEAR_IN_MILLI_SECONDS) {
-        return YEAR_IN_MILLI_SECONDS;
-      }
-      if (timeDiff > MONTH_IN_MILLI_SECONDS) {
-        return MONTH_IN_MILLI_SECONDS;
-      }
       if (timeDiff > DAY_IN_MILLI_SECONDS) {
         return DAY_IN_MILLI_SECONDS;
       }
