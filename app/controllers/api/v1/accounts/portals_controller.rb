@@ -58,7 +58,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived, config: { allowed_locales: [] }
+      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived, { config: [:default_locale,
+                                                                                                                          { allowed_locales: [] }] }
     )
   end
 
