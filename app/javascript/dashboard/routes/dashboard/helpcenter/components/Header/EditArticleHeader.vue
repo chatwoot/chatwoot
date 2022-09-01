@@ -64,6 +64,7 @@
             class-names="publish-button"
             size="small"
             color-scheme="primary"
+            :is-disabled="!articleId"
             @click="updateArticleStatus(ARTICLE_STATUS_TYPE.PUBLISH)"
           >
             {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
@@ -72,6 +73,7 @@
             ref="arrowDownButton"
             size="small"
             icon="chevron-down"
+            :is-disabled="!articleId"
             @click="openActionsDropdown"
           />
         </div>
