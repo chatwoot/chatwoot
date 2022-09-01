@@ -146,14 +146,14 @@
           },
           "FINISH_PAGE": {
             "TITLE": "هوراا !🎉 شما آماده‌اید!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "MESSAGE": "اکنون می توانید این پورتال ایجاد شده را در صفحه همه پورتال های خود مشاهده کنید.",
             "FINISH": "برو به صفحه همه پورتال‌ها"
           }
         },
         "LOGO": {
           "LABEL": "آرم",
           "UPLOAD_BUTTON": "بارگذاری آرم",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "HELP_TEXT": "این لوگو در هدر پورتال نمایش داده می شود."
         },
         "NAME": {
           "LABEL": "نام",
@@ -163,7 +163,7 @@
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
+          "PLACEHOLDER": "اسلاگ پورتال برای آدرس‌های اینترنتی",
           "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
           "ERROR": "Slug مورد نیاز است"
         },
@@ -186,18 +186,18 @@
         "PAGE_TITLE": {
           "LABEL": "عنوان صفحه",
           "PLACEHOLDER": "عنوان صفحه پورتال",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "HELP_TEXT": "عنوان صفحه در پرتال عمومی استفاده خواهد شد.",
           "ERROR": "عنوان صفحه الزامی است"
         },
         "HEADER_TEXT": {
           "LABEL": "متن سرصفحه",
           "PLACEHOLDER": "متن سرصفحه پورتال",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
+          "HELP_TEXT": "متن سرصفحه پورتال در پرتال عمومی استفاده خواهد شد.",
           "ERROR": "متن سرصفحه پورتال الزامی است"
         },
         "API": {
           "ERROR_MESSAGE_FOR_BASIC": "پورتال ایجاد نشد. دوباره امتحان کنید.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "ERROR_MESSAGE_FOR_UPDATE": "پورتال به روز رسانی نشد. دوباره امتحان کنید."
         }
       }
     },
