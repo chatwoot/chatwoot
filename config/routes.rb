@@ -228,6 +228,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :saml, only: [:index] do
+    collection do
+      post :consume
+    end
+  end
+
   if ChatwootApp.enterprise?
     namespace :enterprise, defaults: { format: 'json' } do
       namespace :api do
