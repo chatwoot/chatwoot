@@ -27,6 +27,17 @@
       v-if="showArticleSettings"
       :article="article"
       @save-article="saveArticle"
+      @delete-article="openDeletePopup"
+      @archive-article="archiveArticle"
+    />
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.TITLE')"
+      :message="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.MESSAGE')"
+      :confirm-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.YES')"
+      :reject-text="$t('HELP_CENTER.DELETE_ARTICLE.MODAL.CONFIRM.NO')"
     />
   </div>
 </template>
@@ -52,13 +63,13 @@ export default {
       isSaved: false,
       showArticleSettings: false,
       alertMessage: '',
+      showDeleteConfirmationPopup: false,
     };
   },
   computed: {
     ...mapGetters({
       isFetching: 'articles/isFetching',
       articles: 'articles/articles',
-      selectedPortal: 'portals/getSelectedPortal',
     }),
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);
@@ -67,7 +78,7 @@ export default {
       return this.$route.params.articleSlug;
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
   },
   mounted() {
@@ -83,6 +94,16 @@ export default {
         portalSlug: this.selectedPortalSlug,
       });
     },
+    openDeletePopup() {
+      this.showDeleteConfirmationPopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    confirmDeletion() {
+      this.closeDeletePopup();
+      this.deleteArticle();
+    },
     async saveArticle({ ...values }) {
       this.isUpdating = true;
       try {
@@ -93,14 +114,52 @@ export default {
         });
       } catch (error) {
         this.alertMessage =
-          error?.message ||
-          this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR_MESSAGE');
+          error?.message || this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR');
         this.showAlert(this.alertMessage);
       } finally {
         setTimeout(() => {
           this.isUpdating = false;
           this.isSaved = true;
         }, 1500);
+      }
+    },
+    async deleteArticle() {
+      try {
+        await this.$store.dispatch('articles/delete', {
+          portalSlug: this.selectedPortalSlug,
+          articleId: this.articleId,
+        });
+        this.alertMessage = this.$t(
+          'HELP_CENTER.DELETE_ARTICLE.API.SUCCESS_MESSAGE'
+        );
+        this.$router.push({
+          name: 'list_all_locale_articles',
+          params: {
+            portalSlug: this.selectedPortalSlug,
+            locale: this.locale,
+          },
+        });
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t('HELP_CENTER.DELETE_ARTICLE.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+    async archiveArticle() {
+      try {
+        await this.$store.dispatch('articles/update', {
+          portalSlug: this.selectedPortalSlug,
+          articleId: this.articleId,
+          status: 2,
+        });
+        this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
+      } catch (error) {
+        this.alertMessage =
+          error?.message || this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
+      } finally {
+        this.showAlert(this.alertMessage);
       }
     },
     openArticleSettings() {

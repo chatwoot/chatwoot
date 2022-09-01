@@ -17,6 +17,7 @@
           </label>
           <div class="logo-container">
             <thumbnail :username="name" size="56" variant="square" />
+            <!-- Hidden since this is in V2
             <woot-button
               class="upload-button"
               variant="smooth"
@@ -25,7 +26,7 @@
               size="small"
             >
               {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.UPLOAD_BUTTON') }}
-            </woot-button>
+            </woot-button> -->
           </div>
           <p class="logo-help--text">
             {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.HELP_TEXT') }}
@@ -145,9 +146,6 @@ export default {
             custom_domain: this.domain,
           },
         });
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_BASIC'
-        );
       } catch (error) {
         this.alertMessage =
           error?.message ||
