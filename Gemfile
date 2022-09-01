@@ -158,6 +158,10 @@ group :test do
   gem 'webmock'
 end
 
+group :development, :test, :staging do
+  gem 'faker'
+end
+
 group :development, :test do
   gem 'active_record_query_trace'
   ##--- gems for debugging and error reporting ---##
@@ -167,7 +171,6 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
