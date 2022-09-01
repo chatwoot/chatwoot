@@ -9,3 +9,5 @@
   enabled: true
 - name: ip_lookup
   enabled: false
+- name: disable_branding
+  enabled: false
