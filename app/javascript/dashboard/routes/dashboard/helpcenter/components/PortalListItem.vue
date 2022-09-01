@@ -250,11 +250,10 @@ export default {
       this.showDeleteConfirmationPopup = false;
     },
     async onClickDeletePortal() {
-      const { id, slug } = this.selectedPortalForDelete;
+      const { slug } = this.selectedPortalForDelete;
       try {
         await this.$store.dispatch('portals/delete', {
-          id: id,
-          slug: slug,
+          portalSlug: slug,
         });
         this.selectedPortalForDelete = {};
         this.closeDeletePopup();

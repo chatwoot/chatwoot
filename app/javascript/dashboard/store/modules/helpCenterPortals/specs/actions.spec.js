@@ -100,7 +100,7 @@ describe('#actions', () => {
     });
   });
 
-describe('#delete', () => {
+  describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({});
       await actions.delete({ commit }, { portalSlug: 'campaign' });

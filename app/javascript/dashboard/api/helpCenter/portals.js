@@ -10,8 +10,8 @@ class PortalsAPI extends ApiClient {
     return axios.patch(`${this.url}/${portalSlug}`, params);
   }
 
-  deletePortal({ portalSlug, id }) {
-    return axios.delete(`${this.url}/${portalSlug}`, id);
+  deletePortal(portalSlug) {
+    return axios.delete(`${this.url}/${portalSlug}`);
   }
 }
 
