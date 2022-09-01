@@ -64,8 +64,8 @@
             class-names="publish-button"
             size="small"
             color-scheme="primary"
-            :is-disabled="!articleId"
-            @click="updateArticleStatus(ARTICLE_STATUS_TYPE.PUBLISH)"
+            :is-disabled="!articleSlug"
+            @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"
           >
             {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
           </woot-button>
@@ -73,7 +73,7 @@
             ref="arrowDownButton"
             size="small"
             icon="chevron-down"
-            :is-disabled="!articleId"
+            :is-disabled="!articleSlug"
             @click="openActionsDropdown"
           />
         </div>
@@ -89,7 +89,7 @@
                 color-scheme="secondary"
                 size="small"
                 icon="book-clock"
-                @click="updateArticleStatus(ARTICLE_STATUS_TYPE.ARCHIVE)"
+                @click="updateArticleStatus(ARTICLE_STATUS_TYPES.ARCHIVE)"
               >
                 {{ $t('HELP_CENTER.EDIT_HEADER.UNPUBLISH_BUTTON') }}
               </woot-button>
@@ -100,7 +100,7 @@
                 color-scheme="secondary"
                 size="small"
                 icon="pen"
-                @click="updateArticleStatus(ARTICLE_STATUS_TYPE.DRAFT)"
+                @click="updateArticleStatus(ARTICLE_STATUS_TYPES.DRAFT)"
               >
                 {{ $t('HELP_CENTER.EDIT_HEADER.DRAFT_BUTTON') }}
               </woot-button>
@@ -115,7 +115,8 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
-import helpcenterConstants from 'dashboard/routes/dashboard/helpcenter/constants';
+import wootConstants from 'dashboard/constants.js';
+const { ARTICLE_STATUS_TYPES } = wootConstants;
 export default {
   mixins: [alertMixin, clickaway],
   props: {
@@ -141,7 +142,7 @@ export default {
       isSidebarOpen: false,
       showActionsDropdown: false,
       alertMessage: '',
-      ARTICLE_STATUS_TYPE: helpcenterConstants.ARTICLE_STATUS_TYPE,
+      ARTICLE_STATUS_TYPES: ARTICLE_STATUS_TYPES,
     };
   },
   computed: {
@@ -150,10 +151,10 @@ export default {
         ? this.$t('HELP_CENTER.EDIT_HEADER.SAVING')
         : this.$t('HELP_CENTER.EDIT_HEADER.SAVED');
     },
-    articleId() {
+    articleSlug() {
       return this.$route.params.articleSlug;
     },
-    selectedPortalSlug() {
+    currentPortalSlug() {
       return this.$route.params.portalSlug;
     },
   },
@@ -170,34 +171,35 @@ export default {
     async updateArticleStatus(status) {
       try {
         await this.$store.dispatch('articles/update', {
-          portalSlug: this.selectedPortalSlug,
-          articleId: this.articleId,
+          portalSlug: this.currentPortalSlug,
+          articleId: this.articleSlug,
           status: status,
         });
-        if (status === this.ARTICLE_STATUS_TYPE.DRAFT) {
-          this.alertMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.SUCCESS');
-        } else if (status === this.ARTICLE_STATUS_TYPE.PUBLISH) {
-          this.alertMessage = this.$t(
-            'HELP_CENTER.PUBLISH_ARTICLE.API.SUCCESS'
-          );
-        } else if (status === this.ARTICLE_STATUS_TYPE.ARCHIVE) {
-          this.alertMessage = this.$t(
-            'HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS'
-          );
-        }
+        this.statusUpdateSuccessMessage(status);
         this.closeActionsDropdown();
       } catch (error) {
-        const errorMessage = '';
-        if (status === this.ARTICLE_STATUS_TYPE.DRAFT) {
-          errorMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.ERROR');
-        } else if (status === this.ARTICLE_STATUS_TYPE.PUBLISH) {
-          errorMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.ERROR');
-        } else if (status === this.ARTICLE_STATUS_TYPE.ARCHIVE) {
-          errorMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
-        }
-        this.alertMessage = error?.message || errorMessage;
+        this.alertMessage =
+          error?.message || this.statusUpdateErrorMessage(status);
       } finally {
         this.showAlert(this.alertMessage);
+      }
+    },
+    statusUpdateSuccessMessage(status) {
+      if (status === this.ARTICLE_STATUS_TYPES.DRAFT) {
+        this.alertMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.SUCCESS');
+      } else if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+        this.alertMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.SUCCESS');
+      } else if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
+        this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
+      }
+    },
+    statusUpdateErrorMessage(status) {
+      if (status === this.ARTICLE_STATUS_TYPES.DRAFT) {
+        this.alertMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.ERROR');
+      } else if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+        this.alertMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.ERROR');
+      } else if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
+        this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
       }
     },
     openSidebar() {
