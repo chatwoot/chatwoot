@@ -64,7 +64,7 @@
             class-names="publish-button"
             size="small"
             color-scheme="primary"
-            :is-disabled="!articleSlug"
+            :is-disabled="!articleSlug || isPublishedArticle"
             @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"
           >
             {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
@@ -85,6 +85,7 @@
           <woot-dropdown-menu>
             <woot-dropdown-item>
               <woot-button
+                v-if="!isArchivedArticle"
                 variant="clear"
                 color-scheme="secondary"
                 size="small"
@@ -96,6 +97,7 @@
             </woot-dropdown-item>
             <woot-dropdown-item>
               <woot-button
+                v-if="!isDraftArticle"
                 variant="clear"
                 color-scheme="secondary"
                 size="small"
@@ -116,7 +118,9 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 import wootConstants from 'dashboard/constants.js';
+
 const { ARTICLE_STATUS_TYPES } = wootConstants;
+
 export default {
   mixins: [alertMixin, clickaway],
   props: {
@@ -156,6 +160,18 @@ export default {
     },
     currentPortalSlug() {
       return this.$route.params.portalSlug;
+    },
+    currentArticleStatus() {
+      return this.$store.getters['articles/articleStatus'](this.articleSlug);
+    },
+    isDraftArticle() {
+      return this.currentArticleStatus === 'draft';
+    },
+    isPublishedArticle() {
+      return this.currentArticleStatus === 'published';
+    },
+    isArchivedArticle() {
+      return this.currentArticleStatus === 'archived';
     },
   },
   methods: {

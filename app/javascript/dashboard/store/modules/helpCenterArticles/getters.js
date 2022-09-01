@@ -20,6 +20,12 @@ export const getters = {
       .filter(article => article !== undefined);
     return articles;
   },
+  articleStatus: (...getterArguments) => articleId => {
+    const [state] = getterArguments;
+    const article = state.articles.byId[articleId];
+    if (!article) return undefined;
+    return article.status;
+  },
   getMeta: state => {
     return state.meta;
   },
