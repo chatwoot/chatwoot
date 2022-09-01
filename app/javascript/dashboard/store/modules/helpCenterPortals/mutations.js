@@ -4,8 +4,10 @@ import { defaultPortalFlags } from './index';
 export const types = {
   SET_UI_FLAG: 'setUIFlag',
   ADD_PORTAL_ENTRY: 'addPortalEntry',
+  SET_PORTALS_META: 'setPortalsMeta',
   ADD_MANY_PORTALS_ENTRY: 'addManyPortalsEntry',
   ADD_PORTAL_ID: 'addPortalId',
+  CLEAR_PORTALS: 'clearPortals',
   ADD_MANY_PORTALS_IDS: 'addManyPortalsIds',
   UPDATE_PORTAL_ENTRY: 'updatePortalEntry',
   REMOVE_PORTAL_ENTRY: 'removePortalEntry',
@@ -22,7 +24,7 @@ export const mutations = {
   },
 
   [types.ADD_PORTAL_ENTRY]($state, portal) {
-    Vue.set($state.portals.byId, portal.id, {
+    Vue.set($state.portals.byId, portal.slug, {
       ...portal,
     });
   },
@@ -30,44 +32,56 @@ export const mutations = {
   [types.ADD_MANY_PORTALS_ENTRY]($state, portals) {
     const allPortals = { ...$state.portals.byId };
     portals.forEach(portal => {
-      allPortals[portal.id] = portal;
+      allPortals[portal.slug] = portal;
     });
-    Vue.set($state.portals, 'byId', {
-      allPortals,
-    });
+    Vue.set($state.portals, 'byId', allPortals);
   },
 
-  [types.ADD_PORTAL_ID]($state, portalId) {
-    $state.portals.allIds.push(portalId);
+  [types.CLEAR_PORTALS]: $state => {
+    Vue.set($state.portals, 'byId', {});
+    Vue.set($state.portals, 'allIds', []);
+    Vue.set($state.portals.uiFlags, 'byId', {});
   },
 
-  [types.ADD_MANY_PORTALS_IDS]($state, portalIds) {
-    $state.portals.allIds.push(...portalIds);
+  [types.SET_PORTALS_META]: ($state, data) => {
+    const { portals_count: count, current_page: currentPage } = data;
+    Vue.set($state.meta, 'count', count);
+    Vue.set($state.meta, 'currentPage', currentPage);
+  },
+
+  [types.ADD_PORTAL_ID]($state, portalSlug) {
+    $state.portals.allIds.push(portalSlug);
+  },
+
+  [types.ADD_MANY_PORTALS_IDS]($state, portalSlugs) {
+    $state.portals.allIds.push(...portalSlugs);
   },
 
   [types.UPDATE_PORTAL_ENTRY]($state, portal) {
-    const portalId = portal.id;
-    if (!$state.portals.allIds.includes(portalId)) return;
+    const portalSlug = portal.slug;
+    if (!$state.portals.allIds.includes(portalSlug)) return;
 
-    Vue.set($state.portals.byId, portalId, {
+    Vue.set($state.portals.byId, portalSlug, {
       ...portal,
     });
   },
 
-  [types.REMOVE_PORTAL_ENTRY]($state, portalId) {
-    if (!portalId) return;
+  [types.REMOVE_PORTAL_ENTRY]($state, portalSlug) {
+    if (!portalSlug) return;
 
-    const { [portalId]: toBeRemoved, ...newById } = $state.portals.byId;
+    const { [portalSlug]: toBeRemoved, ...newById } = $state.portals.byId;
     Vue.set($state.portals, 'byId', newById);
   },
 
-  [types.REMOVE_PORTAL_ID]($state, portalId) {
-    $state.portals.allIds = $state.portals.allIds.filter(id => id !== portalId);
+  [types.REMOVE_PORTAL_ID]($state, portalSlug) {
+    $state.portals.allIds = $state.portals.allIds.filter(
+      slug => slug !== portalSlug
+    );
   },
 
-  [types.SET_HELP_PORTAL_UI_FLAG]($state, { portalId, uiFlags }) {
-    const flags = $state.portals.uiFlags.byId[portalId];
-    Vue.set($state.portals.uiFlags.byId, portalId, {
+  [types.SET_HELP_PORTAL_UI_FLAG]($state, { portalSlug, uiFlags }) {
+    const flags = $state.portals.uiFlags.byId[portalSlug];
+    Vue.set($state.portals.uiFlags.byId, portalSlug, {
       ...defaultPortalFlags,
       ...flags,
       ...uiFlags,

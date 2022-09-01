@@ -1,0 +1,367 @@
+company: 
+  name: 'PaperLayer'
+  domain: 'paperlayer.test'
+users:
+  - name: 'Michael Scott'
+    gender: male
+    email: 'michale@paperlayer.test'
+    team: 
+      - 'sales'
+      - 'management'
+      - 'administration'
+      - 'warehouse'
+    role: 'administrator'
+  - name: 'David Wallace'
+    gender: male
+    email: 'david@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Deangelo Vickers'
+    gender: male
+    email: 'deangelo@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Jo Bennett'
+    gender: female
+    email: 'jo@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Josh Porter'
+    gender: male
+    email: 'josh@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Charles Miner'
+    gender: male
+    email: 'charles@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Ed Truck'
+    gender: male
+    email: 'ed@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Dan Gore'
+    gender: male
+    email: 'dan@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Craig D'
+    gender: male
+    email: 'craig@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Troy Underbridge'
+    gender: male
+    email: 'troy@paperlayer.test'
+    team: 
+      - 'Management' 
+  - name: 'Karen Filippelli'
+    gender: female
+    email: 'karn@paperlayer.test'
+    team: 
+      - 'Sales'
+  - name: 'Danny Cordray'
+    gender: female
+    email: 'danny@paperlayer.test'
+    team: 
+      - 'Sales'
+  - name: 'Ben Nugent'
+    gender: male
+    email: 'ben@paperlayer.test'
+    team: 
+      - 'Sales'
+  - name: 'Todd Packer'
+    gender: male
+    email: 'todd@paperlayer.test'
+    team: 
+      - 'Sales'
+  - name: 'Cathy Simms'
+    gender: female
+    email: 'cathy@paperlayer.test'
+    team: 
+      - 'Administration'
+  - name: 'Hunter Jo'
+    gender: male
+    email: 'hunter@paperlayer.test'
+    team: 
+      - 'Administration'
+  - name: 'Rolando Silva'
+    gender: male
+    email: 'rolando@paperlayer.test'
+    team: 
+      - 'Administration'
+  - name: 'Stephanie Wilson'
+    gender: female
+    email: 'stephanie@paperlayer.test'
+    team: 
+      - 'Administration'
+  - name: 'Jordan Garfield'
+    gender: male
+    email: 'jorodan@paperlayer.test'
+    team: 
+      - 'Administration'
+  - name: 'Ronni Carlo'
+    gender: male
+    email: 'ronni@paperlayer.test'
+    team: 
+      - 'Administration'
+  - name: 'Lonny Collins'
+    gender: female
+    email: 'lonny@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Madge Madsen'
+    gender: female
+    email: 'madge@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Glenn Max'
+    gender: female
+    email: 'glenn@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Jerry DiCanio'
+    gender: male
+    email: 'jerry@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Phillip Martin'
+    gender: male
+    email: 'phillip@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Michael Josh'
+    gender: male
+    email: 'michale_josh@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Matt Hudson'
+    gender: male
+    email: 'matt@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Gideon'
+    gender: male
+    email: 'gideon@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Bruce'
+    gender: male
+    email: 'bruce@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Frank'
+    gender: male
+    email: 'frank@paperlayer.test'
+    team: 
+      - 'Warehouse'
+  - name: 'Louanne Kelley' 
+    gender: female
+    email: 'louanne@paperlayer.test'
+  - name: 'Devon White' 
+    gender: male
+    email: 'devon@paperlayer.test'
+  - name: 'Kendall' 
+    gender: male
+    email: 'kendall@paperlayer.test'
+  - email: 'sadiq@paperlayer.test'
+    name: 'Sadiq' 
+    gender: male
+teams: 
+  - '💰 Sales'
+  - '💼 Management'
+  - '👩‍💼 Administration'
+  - '🚛 Warehouse'
+labels:
+    - title: 'billing'
+      color: '#28AD21'
+      show_on_sidebar: true
+    - title: 'software'
+      color: '#8F6EF2'
+      show_on_sidebar: true
+    - title: 'delivery'
+      color: '#A2FDD5'
+      show_on_sidebar: true
+    - title: 'ops-handover'
+      color: '#A53326' 
+      show_on_sidebar: true
+    - title: 'premium-customer'
+      color: '#6FD4EF'
+      show_on_sidebar: true
+    - title: 'lead'
+      color: '#F161C8'
+      show_on_sidebar: true 
+contacts: 
+    - name: "Lorrie Trosdall"
+      email: "ltrosdall0@bravesites.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::WebWidget
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Tiffanie Cloughton"
+      email: "tcloughton1@newyorker.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::FacebookPage
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Melonie Keatch"
+      email: "mkeatch2@reuters.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::TwitterProfile
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Olin Canniffe"
+      email: "ocanniffe3@feedburner.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Whatsapp
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Viviene Corp"
+      email: "vcorp4@instagram.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Sms
+          source_id: "+1234567"
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Drake Pittway"
+      email: "dpittway5@chron.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Line
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Klaus Crawley"
+      email: "kcrawley6@narod.ru"
+      gender: 'male'
+      conversations:
+        - channel: Channel::WebWidget
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Bing Cusworth"
+      email: "bcusworth7@arstechnica.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::TwitterProfile
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Claus Jira"
+      email: "cjira8@comcast.net"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Whatsapp
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Quent Dalliston"
+      email: "qdalliston9@zimbio.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Whatsapp
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Coreen Mewett"
+      email: "cmewetta@home.pl"
+      gender: 'female'
+      conversations:
+        - channel: Channel::FacebookPage
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Benyamin Janeway"
+      email: "bjanewayb@ustream.tv"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Line
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Cordell Dalinder"
+      email: "cdalinderc@msn.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Email
+          source_id: "cdalinderc@msn.test"
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Merrile Petruk"
+      email: "mpetrukd@wunderground.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Email
+          source_id: "mpetrukd@wunderground.test"
+          messages: 
+            - message_type: incoming
+              content: hello world
+    - name: "Nathaniel Vannuchi"
+      email: "nvannuchie@photobucket.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::FacebookPage
+          messages: 
+            - message_type: incoming
+              content: "Hey there,I need some help with billing, my card is not working on the website."
+    - name: "Olia Olenchenko"
+      email: "oolenchenkof@bluehost.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::WebWidget
+          assignee: michael_scott@paperlayer.test
+          messages: 
+            - message_type: incoming
+              content: "Billing section is not working, it throws some error."
+    - name: "Elisabeth Derington"
+      email: "ederingtong@printfriendly.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Whatsapp
+          messages: 
+            - message_type: incoming
+              content: "Hey \n I didn't get the product delivered, but it shows it is delivered to my address. Please check"
+    - name: "Willy Castelot"
+      email: "wcasteloth@exblog.jp"
+      gender: 'male'
+      conversations:
+        - channel: Channel::WebWidget
+          messages: 
+            - message_type: incoming
+              content: "Hey there, \n I need some help with the product, my button is not working on the website."
+    - name: "Ophelia Folkard"
+      email: "ofolkardi@taobao.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::WebWidget
+          assignee: michael_scott@paperlayer.test
+          messages: 
+            - message_type: incoming
+              content: "Hey, \n My card is not working on your website. Please help"
+    - name: "Candice Matherson"
+      email: "cmathersonj@va.gov"
+      gender: 'female'
+      conversations:
+        - channel: Channel::Email
+          source_id: "cmathersonj@va.gov"
+          assignee: michael_scott@paperlayer.test
+          messages: 
+            - message_type: incoming
+              content: "Hey, \n I'm looking for some help to figure out if it is the right product for me."
+            - message_type: outgoing
+              content: Welcome to PaperLayer. Our Team will be getting back you shortly.
+            - message_type: outgoing
+              content: How may i help you ?
+              sender: michael_scott@paperlayer.test

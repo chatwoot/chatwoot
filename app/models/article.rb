@@ -23,11 +23,6 @@
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (associated_article_id => articles.id)
-#  fk_rails_...  (author_id => users.id)
-#
 class Article < ApplicationRecord
   include PgSearch::Model
 

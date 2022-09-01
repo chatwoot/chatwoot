@@ -1,11 +1,15 @@
 json.id article.id
-json.category_id article.category_id
 json.title article.title
 json.content article.content
 json.description article.description
 json.status article.status
 json.account_id article.account_id
 json.updated_at article.updated_at.to_i
+json.meta article.meta
+json.category do
+  json.id article.category_id
+  json.name article.category.name
+end
 
 if article.portal.present?
   json.portal do

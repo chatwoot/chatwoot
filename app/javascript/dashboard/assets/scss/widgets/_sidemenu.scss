@@ -11,8 +11,8 @@
   //logo
   .logo {
     img {
-      @include padding($woot-logo-padding);
       max-height: 108px;
+      padding: $woot-logo-padding;
     }
   }
 
@@ -36,9 +36,9 @@
 .bottom-nav {
   @include flex;
   @include space-between-column;
-  @include padding($space-one $space-normal $space-one $space-one);
   @include border-normal-top;
   flex-direction: column;
+  padding: $space-one $space-normal $space-one $space-one;
   position: relative;
 
   &:hover {

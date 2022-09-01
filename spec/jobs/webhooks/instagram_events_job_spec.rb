@@ -51,7 +51,8 @@ describe Webhooks::InstagramEventsJob do
 
         instagram_inbox.reload
         expect(instagram_inbox.messages.count).to be 1
-        expect(instagram_inbox.messages.last.content).to eq('This is a test message from facebook.')
+        expect(instagram_inbox.messages.last.content).to eq('random_text')
+        expect(instagram_inbox.messages.last.source_id).to eq('random_mid')
       end
 
       it 'handle instagram unsend message event' do

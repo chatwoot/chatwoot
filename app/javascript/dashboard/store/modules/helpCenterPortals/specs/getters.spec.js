@@ -16,9 +16,9 @@ describe('#getters', () => {
     expect(getters.isFetchingPortals(state)).toEqual(true);
   });
 
-  it('portalById', () => {
+  it('portalBySlug', () => {
     const state = portal;
-    expect(getters.portalById(state)(1)).toEqual({
+    expect(getters.portalBySlug(state)(1)).toEqual({
       id: 1,
       color: 'red',
       custom_domain: 'domain_for_help',
@@ -41,5 +41,10 @@ describe('#getters', () => {
   it('count', () => {
     const state = portal;
     expect(getters.count(state)).toEqual(2);
+  });
+
+  it('getMeta', () => {
+    const state = portal;
+    expect(getters.getMeta(state)).toEqual({ count: 0, currentPage: 1 });
   });
 });
