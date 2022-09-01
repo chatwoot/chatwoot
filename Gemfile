@@ -131,6 +131,10 @@ gem 'pg_search'
 # Subscriptions, Billing
 gem 'stripe'
 
+## - helper gems --##
+## to populate db with sample data
+gem 'faker'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -156,10 +160,6 @@ group :test do
   gem 'database_cleaner'
   # mock http calls
   gem 'webmock'
-end
-
-group :development, :test, :staging do
-  gem 'faker'
 end
 
 group :development, :test do
