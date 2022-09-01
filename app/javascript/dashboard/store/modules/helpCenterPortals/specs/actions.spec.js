@@ -71,10 +71,7 @@ describe('#actions', () => {
       axios.patch.mockResolvedValue({ data: apiResponse.payload[1] });
       await actions.update(
         { commit },
-        {
-          portalSlug: apiResponse.payload[1].slug,
-          portalObj: apiResponse.payload[1],
-        }
+        { portalObj: apiResponse.payload[1], portalSlug: 'campaign' }
       );
       expect(commit.mock.calls).toEqual([
         [
@@ -93,10 +90,7 @@ describe('#actions', () => {
       await expect(
         actions.update(
           { commit },
-          {
-            portalSlug: apiResponse.payload[1].slug,
-            portalObj: apiResponse.payload[1],
-          }
+          { portalObj: apiResponse.payload[1], portalSlug: 'campaign' }
         )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
