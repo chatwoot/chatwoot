@@ -10,7 +10,7 @@
           color-scheme="secondary"
           icon="settings"
           size="small"
-          @click="openPortalPage"
+          @click="openPortalArticles"
         >
           {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
         </woot-button>
@@ -24,7 +24,7 @@
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
-        :active="portal.id === activePortal.id"
+        :active="portal.slug === activePortalSlug"
         @open-portal-page="openPortalPage"
       />
     </div>
@@ -32,7 +32,7 @@
       <woot-button variant="link" @click="closePortalPopover">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.CANCEL_BUTTON_LABEL') }}
       </woot-button>
-      <woot-button>
+      <woot-button @click="() => {}">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.CHOOSE_LOCALE_BUTTON') }}
       </woot-button>
     </footer>
@@ -52,19 +52,26 @@ export default {
       type: Array,
       default: () => [],
     },
-    activePortal: {
-      type: Object,
-      default: () => ({}),
+    activePortalSlug: {
+      type: String,
+      default: '',
     },
   },
+
   methods: {
     closePortalPopover() {
       this.$emit('close-popover');
     },
-    openPortalPage() {
+    openPortalArticles({ slug, locale }) {
       this.$emit('close-popover');
+      const portal = this.portals.find(p => p.slug === slug);
+      this.$store.dispatch('portals/setPortalId', portal.id);
       this.$router.push({
-        name: 'list_all_portals',
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: slug,
+          locale: locale,
+        },
       });
     },
   },

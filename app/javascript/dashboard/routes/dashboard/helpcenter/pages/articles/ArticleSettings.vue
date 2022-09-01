@@ -127,7 +127,7 @@ export default {
   props: {
     article: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
   },
   data() {
@@ -154,7 +154,7 @@ export default {
     },
   },
   mounted() {
-    if (!isEmptyObject(this.article.meta)) {
+    if (!isEmptyObject(this.article.meta || {})) {
       const {
         meta: { title = '', description = '', tags = [] },
       } = this.article;
