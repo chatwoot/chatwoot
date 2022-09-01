@@ -72,7 +72,7 @@ const portalRoutes = [
         roles: ['administrator'],
       },
       {
-        path: 'customizationsoos',
+        path: 'customizations',
         name: 'edit_portal_customization',
         component: EditPortalCustomization,
         roles: ['administrator'],
