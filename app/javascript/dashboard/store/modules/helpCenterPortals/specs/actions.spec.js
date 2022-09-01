@@ -69,7 +69,10 @@ describe('#actions', () => {
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
       axios.patch.mockResolvedValue({ data: apiResponse.payload[1] });
-      await actions.update({ commit }, { portalObj: apiResponse.payload[1] });
+      await actions.update(
+        { commit },
+        { portalObj: apiResponse.payload[1], portalSlug: 'campaign' }
+      );
       expect(commit.mock.calls).toEqual([
         [
           types.SET_HELP_PORTAL_UI_FLAG,
@@ -85,7 +88,10 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.update({ commit }, { portalObj: apiResponse.payload[1] })
+        actions.update(
+          { commit },
+          { portalObj: apiResponse.payload[1], portalSlug: 'campaign' }
+        )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [

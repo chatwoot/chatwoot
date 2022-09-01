@@ -28,6 +28,7 @@
       </woot-button>
       <!-- Hidden since this is in V2
       <woot-button
+        v-if="shouldShowAddLocaleButton"
         class-names="article--buttons"
         icon="add"
         color-scheme="secondary"
@@ -85,6 +86,10 @@ export default {
       default: false,
     },
     enableOpenSidebarButton: {
+      type: Boolean,
+      default: false,
+    },
+    shouldShowAddLocaleButton: {
       type: Boolean,
       default: false,
     },
