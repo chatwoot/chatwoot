@@ -234,7 +234,7 @@ export default {
   },
   methods: {
     addLocale() {
-      this.$emit('add');
+      this.$emit('add-locale', this.portal.id);
     },
     openSite() {
       this.$emit('open-site');
