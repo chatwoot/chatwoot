@@ -73,7 +73,7 @@
             icon="arrow-swap"
             color-scheme="primary"
             :disabled="locale.code === selectedLocaleCode"
-            @click="swapLocale"
+            @click="changeDefaultLocale(locale.code)"
           />
           <woot-button
             v-tooltip.top-end="
@@ -85,7 +85,7 @@
             variant="smooth"
             icon="delete"
             color-scheme="secondary"
-            @click="deleteLocale"
+            @click="deleteLocale(locale.code)"
           />
         </td>
       </tr>
@@ -113,11 +113,11 @@ export default {
   },
 
   methods: {
-    swapLocale() {
-      this.$emit('swap');
+    changeDefaultLocale(localeCode) {
+      this.$emit('change-default-locale', { localeCode });
     },
-    deleteLocale() {
-      this.$emit('delete');
+    deleteLocale(localeCode) {
+      this.$emit('delete', { localeCode });
     },
   },
 };

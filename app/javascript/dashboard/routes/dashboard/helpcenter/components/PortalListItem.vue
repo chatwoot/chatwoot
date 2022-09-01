@@ -165,7 +165,7 @@
           <locale-item-table
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
-            @swap="swapLocale"
+            @change-default-locale="changeDefaultLocale"
             @delete="deleteLocale"
           />
         </div>
@@ -270,11 +270,60 @@ export default {
         this.showAlert(this.alertMessage);
       }
     },
-    swapLocale() {
-      this.$emit('swap');
+    changeDefaultLocale({ localeCode }) {
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      const locales = Object.keys(allowedLocales).map(key => {
+        return allowedLocales[key].code;
+      });
+      this.updatePortalLocales({
+        allowedLocales: locales,
+        defaultLocale: localeCode,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
     },
-    deleteLocale() {
-      this.$emit('delete');
+    deleteLocale({ localeCode }) {
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      const addedLocales = Object.keys(allowedLocales).map(key => {
+        return allowedLocales[key].code;
+      });
+      const newLocales = addedLocales.filter(code => code !== localeCode);
+      const defaultLocale = this.portal.meta.default_locale;
+      this.updatePortalLocales({
+        allowedLocales: newLocales,
+        defaultLocale,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
+    },
+    async updatePortalLocales({
+      allowedLocales,
+      defaultLocale,
+      successMessage,
+      errorMessage,
+    }) {
+      try {
+        await this.$store.dispatch('portals/update', {
+          portalSlug: this.portal.slug,
+          config: {
+            default_locale: defaultLocale,
+            allowed_locales: allowedLocales,
+          },
+        });
+        this.alertMessage = successMessage;
+      } catch (error) {
+        this.alertMessage = error?.message || errorMessage;
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
     },
     navigateToPortalEdit() {
       this.$router.push({
