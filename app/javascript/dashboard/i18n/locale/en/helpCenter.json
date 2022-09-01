@@ -210,6 +210,24 @@
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Add a new locale",
+        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Locale",
+          "PLACEHOLDER": "Choose a locale",
+          "ERROR": "Locale is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create locale",
+          "CANCEL": "Cancel"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
+        }
       }
     },
     "TABLE": {
