@@ -553,6 +553,9 @@ export default {
         }
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
+        if (!this.isPrivate) {
+          this.clearEmailField();
+        }
         this.sendMessage(messagePayload);
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
@@ -601,9 +604,11 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
+      this.isRecordingAudio = false;
+    },
+    clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
-      this.isRecordingAudio = false;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -613,6 +618,7 @@ export default {
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
         this.clearMessage();
+        this.clearEmailField();
       }
     },
     toggleAudioRecorderPlayPause() {
