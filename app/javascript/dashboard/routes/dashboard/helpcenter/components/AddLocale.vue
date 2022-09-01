@@ -41,7 +41,6 @@
 import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import { convertToPortalSlug } from 'dashboard/helper/commons.js';
 import allLocales from 'shared/constants/locales.js';
 export default {
   components: {
@@ -61,6 +60,7 @@ export default {
   data() {
     return {
       selectedLocale: '',
+      isUpdating: false,
     };
   },
   computed: {
@@ -87,9 +87,6 @@ export default {
     },
   },
   methods: {
-    onNameChange() {
-      this.slug = convertToPortalSlug(this.name);
-    },
     async onCreate() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -100,23 +97,23 @@ export default {
         return allowedLocales[key].code;
       });
       addedLocales.push(this.selectedLocale);
-
       this.isUpdating = true;
       try {
         await this.$store.dispatch('portals/update', {
-          portalId: this.selectedPortalSlug,
+          portalSlug: this.portal.slug,
           config: { allowed_locales: addedLocales },
         });
+        this.alertMessage = this.$t(
+          'HELP_CENTER.PORTAL.ADD_LOCALE.API.SUCCESS_MESSAGE'
+        );
+        this.onClose();
       } catch (error) {
         this.alertMessage =
           error?.message ||
-          this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR_MESSAGE');
-        this.showAlert(this.alertMessage);
+          this.$t('HELP_CENTER.PORTAL.ADD_LOCALE.API.ERROR_MESSAGE');
       } finally {
-        setTimeout(() => {
-          this.isUpdating = false;
-          this.isSaved = true;
-        }, 1500);
+        this.showAlert(this.alertMessage);
+        this.isUpdating = false;
       }
     },
     onClose() {

@@ -36,8 +36,7 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, { portalObj }) => {
-    const portalSlug = portalObj.slug;
+  update: async ({ commit }, { portalSlug, ...params }) => {
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: { isUpdating: true },
       portalSlug,
@@ -45,7 +44,7 @@ export const actions = {
     try {
       const { data } = await portalAPIs.updatePortal({
         portalSlug,
-        portalObj,
+        params,
       });
       commit(types.UPDATE_PORTAL_ENTRY, data);
     } catch (error) {
