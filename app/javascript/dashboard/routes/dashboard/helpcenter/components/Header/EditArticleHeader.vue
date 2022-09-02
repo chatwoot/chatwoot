@@ -282,7 +282,4 @@ export default {
     }
   }
 }
-::v-deep.button-group .button {
-  font-size: var(--font-size-mini);
-}
 </style>
