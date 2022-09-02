@@ -74,7 +74,7 @@
             ref="arrowDownButton"
             size="small"
             icon="chevron-down"
-            :is-disabled="!articleSlug"
+            :is-disabled="!articleSlug || isArchivedArticle"
             @click="openActionsDropdown"
           />
         </div>
@@ -86,26 +86,13 @@
           <woot-dropdown-menu>
             <woot-dropdown-item>
               <woot-button
-                v-if="!isArchivedArticle"
                 variant="clear"
                 color-scheme="secondary"
                 size="small"
                 icon="book-clock"
                 @click="updateArticleStatus(ARTICLE_STATUS_TYPES.ARCHIVE)"
               >
-                {{ $t('HELP_CENTER.EDIT_HEADER.UNPUBLISH_BUTTON') }}
-              </woot-button>
-            </woot-dropdown-item>
-            <woot-dropdown-item>
-              <woot-button
-                v-if="!isDraftArticle"
-                variant="clear"
-                color-scheme="secondary"
-                size="small"
-                icon="pen"
-                @click="updateArticleStatus(ARTICLE_STATUS_TYPES.DRAFT)"
-              >
-                {{ $t('HELP_CENTER.EDIT_HEADER.DRAFT_BUTTON') }}
+                {{ $t('HELP_CENTER.EDIT_HEADER.MOVE_TO_ARCHIVE_BUTTON') }}
               </woot-button>
             </woot-dropdown-item>
           </woot-dropdown-menu>
@@ -169,9 +156,6 @@ export default {
     currentArticleStatus() {
       return this.$store.getters['articles/articleStatus'](this.articleSlug);
     },
-    isDraftArticle() {
-      return this.currentArticleStatus === 'draft';
-    },
     isPublishedArticle() {
       return this.currentArticleStatus === 'published';
     },
@@ -206,18 +190,14 @@ export default {
       }
     },
     statusUpdateSuccessMessage(status) {
-      if (status === this.ARTICLE_STATUS_TYPES.DRAFT) {
-        this.alertMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.SUCCESS');
-      } else if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+      if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
         this.alertMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.SUCCESS');
       } else if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
       }
     },
     statusUpdateErrorMessage(status) {
-      if (status === this.ARTICLE_STATUS_TYPES.DRAFT) {
-        this.alertMessage = this.$t('HELP_CENTER.DRAFT_ARTICLE.API.ERROR');
-      } else if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
+      if (status === this.ARTICLE_STATUS_TYPES.PUBLISH) {
         this.alertMessage = this.$t('HELP_CENTER.PUBLISH_ARTICLE.API.ERROR');
       } else if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
