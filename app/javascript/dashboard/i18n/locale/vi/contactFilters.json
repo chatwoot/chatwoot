@@ -1,50 +1,50 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Lọc liên hệ",
-        "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc liên hệ.",
-        "ADD_NEW_FILTER": "Thêm Bộ lọc",
-        "CLEAR_ALL_FILTERS": "Xoá tất cả bộ lọc",
-        "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
-        "SUBMIT_BUTTON_LABEL": "Gửi",
-        "CANCEL_BUTTON_LABEL": "Huỷ",
-        "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",
-        "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có",
-        "TOOLTIP_LABEL": "Lọc liên hệ",
+        "TITLE": "",
+        "SUBTITLE": "",
+        "ADD_NEW_FILTER": "",
+        "CLEAR_ALL_FILTERS": "",
+        "FILTER_DELETE_ERROR": "",
+        "SUBMIT_BUTTON_LABEL": "",
+        "CANCEL_BUTTON_LABEL": "",
+        "CLEAR_BUTTON_LABEL": "",
+        "EMPTY_VALUE_ERROR": "",
+        "TOOLTIP_LABEL": "",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "VÀ",
-            "OR": "HOẶC"
+            "AND": "",
+            "OR": ""
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Bằng",
-            "not_equal_to": "Không bằng",
-            "contains": "Bao gồm",
-            "does_not_contain": "Không bao gồm",
-            "is_present": "Có",
-            "is_not_present": "Không có",
-            "is_greater_than": "Lớn hơn",
-            "is_lesser_than": "Nhỏ hơn",
-            "days_before": "Khoảng x ngày trước"
+            "equal_to": "",
+            "not_equal_to": "",
+            "contains": "",
+            "does_not_contain": "",
+            "is_present": "",
+            "is_not_present": "",
+            "is_greater_than": "",
+            "is_lesser_than": "",
+            "days_before": ""
         },
         "ATTRIBUTES": {
-            "NAME": "Tên",
-            "EMAIL": "Thư điện tử",
-            "PHONE_NUMBER": "Số Điện Thoại",
-            "IDENTIFIER": "Định danh",
-            "CITY": "Tỉnh / Thành phố",
-            "COUNTRY": "Quốc gia",
-            "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
-            "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Số",
-            "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Tạo vào lúc",
-            "LAST_ACTIVITY": "Hành động cuối cùng",
-            "REFERER_LINK": "Liên kết người gới thiệu"
+            "NAME": "",
+            "EMAIL": "",
+            "PHONE_NUMBER": "",
+            "IDENTIFIER": "",
+            "CITY": "",
+            "COUNTRY": "",
+            "CUSTOM_ATTRIBUTE_LIST": "",
+            "CUSTOM_ATTRIBUTE_TEXT": "",
+            "CUSTOM_ATTRIBUTE_NUMBER": "",
+            "CUSTOM_ATTRIBUTE_LINK": "",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+            "CREATED_AT": "",
+            "LAST_ACTIVITY": "",
+            "REFERER_LINK": ""
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
-            "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
-            "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh"
+            "STANDARD_FILTERS": "",
+            "ADDITIONAL_FILTERS": "",
+            "CUSTOM_ATTRIBUTES": ""
         }
     }
 }
