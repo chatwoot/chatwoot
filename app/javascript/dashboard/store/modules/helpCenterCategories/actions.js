@@ -39,8 +39,7 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, portalSlug, categoryObj) => {
-    const categoryId = categoryObj.id;
+  update: async ({ commit }, { portalSlug, categoryId, categoryObj }) => {
     commit(types.ADD_CATEGORY_FLAG, {
       uiFlags: {
         isUpdating: true,
@@ -48,8 +47,14 @@ export const actions = {
       categoryId,
     });
     try {
-      const { data } = await categoriesAPI.update({ portalSlug, categoryObj });
-      commit(types.UPDATE_CATEGORY, data);
+      const {
+        data: { payload },
+      } = await categoriesAPI.update({
+        portalSlug,
+        categoryId,
+        categoryObj,
+      });
+      commit(types.UPDATE_CATEGORY, payload);
       return categoryId;
     } catch (error) {
       return throwErrorMessage(error);
@@ -63,7 +68,7 @@ export const actions = {
     }
   },
 
-  delete: async ({ commit }, portalSlug, categoryId) => {
+  delete: async ({ commit }, { portalSlug, categoryId }) => {
     commit(types.ADD_CATEGORY_FLAG, {
       uiFlags: {
         isDeleting: true,

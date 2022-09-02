@@ -57,21 +57,34 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: categoriesPayload.payload[0] });
+      axios.patch.mockResolvedValue({ data: categoriesPayload });
       await actions.update(
         { commit },
-        'web-docs',
-        categoriesPayload.payload[0]
+        {
+          portalSlug: 'room-rental',
+          categoryId: 1,
+          categoryObj: categoriesPayload.payload[0],
+        }
       );
       expect(commit.mock.calls).toEqual([
         [
           types.default.ADD_CATEGORY_FLAG,
-          { uiFlags: { isUpdating: true }, categoryId: 1 },
+          {
+            uiFlags: {
+              isUpdating: true,
+            },
+            categoryId: 1,
+          },
         ],
-        [types.default.UPDATE_CATEGORY, categoriesPayload.payload[0]],
+        [types.default.UPDATE_CATEGORY, categoriesPayload.payload],
         [
           types.default.ADD_CATEGORY_FLAG,
-          { uiFlags: { isUpdating: false }, categoryId: 1 },
+          {
+            uiFlags: {
+              isUpdating: false,
+            },
+            categoryId: 1,
+          },
         ],
       ]);
     });
@@ -79,7 +92,14 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.update({ commit }, 'web-docs', categoriesPayload.payload[0])
+        actions.update(
+          { commit },
+          {
+            portalSlug: 'room-rental',
+            categoryId: 1,
+            categoryObj: categoriesPayload.payload[0],
+          }
+        )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [
@@ -96,11 +116,13 @@ describe('#actions', () => {
 
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
-      axios.delete.mockResolvedValue({ data: categoriesPayload.payload[0] });
+      axios.delete.mockResolvedValue({ data: categoriesPayload });
       await actions.delete(
         { commit },
-        'portal-slug',
-        categoriesPayload.payload[0].id
+        {
+          portalSlug: 'room-rental',
+          categoryId: categoriesPayload.payload[0].id,
+        }
       );
       expect(commit.mock.calls).toEqual([
         [
@@ -120,8 +142,10 @@ describe('#actions', () => {
       await expect(
         actions.delete(
           { commit },
-          'portal-slug',
-          categoriesPayload.payload[0].id
+          {
+            portalSlug: 'room-rental',
+            categoryId: categoriesPayload.payload[0].id,
+          }
         )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([

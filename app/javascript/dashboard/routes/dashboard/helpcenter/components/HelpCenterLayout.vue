@@ -37,6 +37,7 @@
       />
       <add-category
         v-if="showAddCategoryModal"
+        :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
         :locale="selectedPortalLocale"
         @cancel="onClickCloseAddCategoryModal"
@@ -56,7 +57,7 @@ import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
-import AddCategory from '../components/AddCategory.vue';
+import AddCategory from '../pages/categories/AddCategory';
 
 export default {
   components: {
@@ -85,15 +86,24 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       portals: 'portals/allPortals',
-      categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    // return this.$store.getters['categories/allCategories'];
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
+      // this.$store.dispatch('categories/index', {
+      //   portalSlug: slug,
+      // });
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);
-
       return this.$store.getters['portals/allPortals'][0];
+    },
+    // selectedPortalCategory() {
+    //   const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
+    //   if (slug) return this.$store.getters['categories/categoryBySlug'](slug);
+    // },
+    categories() {
+      return this.$store.getters['categories/allCategories'];
     },
     sidebarClassName() {
       if (this.isOnDesktop) {
@@ -182,6 +192,7 @@ export default {
       ];
     },
     additionalSecondaryMenuItems() {
+      if (!this.selectedPortal) return [];
       return [
         {
           icon: 'folder',
