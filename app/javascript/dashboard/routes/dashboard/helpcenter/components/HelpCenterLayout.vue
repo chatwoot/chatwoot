@@ -262,12 +262,6 @@ export default {
     closePortalPopover() {
       this.showPortalPopover = false;
     },
-    openPortalPage() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-      this.showPortalPopover = false;
-    },
     onClickOpenAddCatogoryModal() {
       this.showAddCategoryModal = true;
     },

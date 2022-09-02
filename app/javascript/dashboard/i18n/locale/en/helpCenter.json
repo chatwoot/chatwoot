@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Publish",
+      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
@@ -122,6 +123,26 @@
           }
         }
       },
+      "EDIT": {
+        "HEADER_TEXT": "Edit portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Basic information"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portal customization"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categories"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Update basic settings"
+        }
+      },
       "ADD": {
         "CREATE_FLOW": [
           {
@@ -207,7 +228,9 @@
           "ERROR": "Portal header text is required"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       },
@@ -227,6 +250,18 @@
         "API": {
           "SUCCESS_MESSAGE": "Locale added successfully",
           "ERROR_MESSAGE": "Unable to add locale. Try again."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Default locale updated successfully",
+          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
+          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
         }
       }
     },
@@ -251,6 +286,12 @@
       "CONTENT_PLACEHOLDER": "Write your article here",
       "API": {
         "ERROR": "Error while saving article"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
       }
     },
     "ARCHIVE_ARTICLE": {

@@ -49,6 +49,9 @@ import ArticleSettings from './ArticleSettings.vue';
 import Spinner from 'shared/components/Spinner';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import wootConstants from 'dashboard/constants';
+
+const { ARTICLE_STATUS_TYPES } = wootConstants;
 export default {
   components: {
     EditArticleHeader,
@@ -152,7 +155,7 @@ export default {
         await this.$store.dispatch('articles/update', {
           portalSlug: this.selectedPortalSlug,
           articleId: this.articleId,
-          status: 2,
+          status: ARTICLE_STATUS_TYPES.ARCHIVE,
         });
         this.alertMessage = this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.SUCCESS');
       } catch (error) {
