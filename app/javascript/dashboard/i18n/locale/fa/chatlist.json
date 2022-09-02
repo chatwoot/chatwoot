@@ -9,57 +9,57 @@
     "TAB_HEADING": "گفتگوها",
     "MENTION_HEADING": "اشاره",
     "SEARCH": {
-      "INPUT": "پیدا کردن افراد، گفتگوها و پاسخ‌های از پیش نوشته شده..."
+      "INPUT": ""
     },
-    "FILTER_ALL": "همه",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "من",
-      "unassigned": "تخصیص داده نشده",
-      "all": "همه"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "باز"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "حل شده"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "در انتظار"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "به تعویق افتاد"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "پیام تصویری"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "پیام صوتی"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "پیام ویدیویی"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "فایل الصاقی"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "مکان"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "از طریق ایمیل دریافت شد",
-    "VIEW_TWEET_IN_TWITTER": "مشاهده توییت در توییتر",
-    "REPLY_TO_TWEET": "پاسخ به این توییت",
-    "LINK_TO_STORY": "برو به داستان اینستاگرام",
-    "SENT": "با موفقیت ارسال شد",
-    "NO_MESSAGES": "هیچ پیامی وجود ندارد",
-    "NO_CONTENT": "هیچ محتوایی موجود نیست",
-    "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
-    "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
-    "MESSAGE_READ": "خوانده شده"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
