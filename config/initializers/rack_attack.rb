@@ -49,7 +49,7 @@ class Rack::Attack
   throttle('req/ip', limit: 300, period: 1.minute, &:ip)
 
   ### Prevent Brute-Force Super Admin Login Attacks ###
-  throttle('super_admin_login/ip', limit: 5, period: 5.minute) do |req|
+  throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
     req.ip if req.path_without_extentions == '/super_admin/sign_in' && req.post?
   end
 
@@ -64,7 +64,7 @@ class Rack::Attack
   end
 
   # ### Prevent Brute-Force Login Attacks ###
-  throttle('login/ip', limit: 5, period: 5.minute) do |req|
+  throttle('login/ip', limit: 5, period: 5.minutes) do |req|
     req.ip if req.path_without_extentions == '/auth/sign_in' && req.post?
   end
 
