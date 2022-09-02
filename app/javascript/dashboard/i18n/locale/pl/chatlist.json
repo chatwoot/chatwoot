@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Pobieranie konwersacji",
-    "LOAD_MORE_CONVERSATIONS": "Załaduj więcej rozmów",
-    "EOF": "Wszystkie rozmowy załadowane 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "W tej grupie nie ma aktywnych konwersacji."
+      "404": ""
     },
-    "TAB_HEADING": "Rozmowy",
-    "MENTION_HEADING": "Wzmianki",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Wszystkie",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Moje",
-      "unassigned": "Nieprzypisane",
-      "all": "Wszystkie"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Otwarte"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Rozwiązane"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Oczekujące"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Uśpione"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Wiadomość obrazkowa"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Wiadomość audio"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Wiadomość wideo"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "Załącznik pliku"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Lokalizacja"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "udostępnił adres url"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "Otrzymano przez e-mail",
-    "VIEW_TWEET_IN_TWITTER": "Zobacz tweet na Twitterze",
-    "REPLY_TO_TWEET": "Odpowiedz na ten tweet",
-    "LINK_TO_STORY": "Przejdź do opowieści na Instagramie",
-    "SENT": "Wysłano pomyślnie",
-    "NO_MESSAGES": "Brak wiadomości",
-    "NO_CONTENT": "Brak treści",
-    "HIDE_QUOTED_TEXT": "Ukryj cytat",
-    "SHOW_QUOTED_TEXT": "Pokaż cytat",
-    "MESSAGE_READ": "Przeczytaj"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
