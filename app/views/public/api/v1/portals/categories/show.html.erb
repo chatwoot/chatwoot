@@ -1,6 +1,6 @@
 <%= render "public/api/v1/portals/header", portal: @portal %>
-<section class="bg-white max-w-4xl mx-auto py-6 px-4 flex flex-col items-center justify-center">
-    <div class="pb-8 flex items-center w-full h-32">
+<div class="bg-slate-50">
+    <div class="max-w-4xl px-6 py-16 mx-auto space-y-8">
         <a href="/public/api/v1/portals/<%= @portal.slug %>"
             class="flex flex-row items-center text-base font-sans font-medium text-slate-700 hover:text-slate-900 hover:underline">
             <span class="mr-2">
@@ -12,13 +12,16 @@
             </span>
             Back
         </a>
+        <div class="flex justify-between items-center w-full">
+            <h1 class="text-4xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
+                <%= @category.name %></h1>
+            <span class="text-slate-500"><%= @category.articles.published.size %> articles</span>
+        </div>
     </div>
-    <div class="flex justify-between items-center w-full">
-        <h3 class="text-2xl text-slate-900 font-semibold subpixel-antialiased leading-relaxed hover:underline">
-            <a href="/public/api/v1/portals/<%= @portal.slug %>/categories/<%= @category.slug %>"><%= @category.name %>
-            </a>
-        </h3> <span class="text-slate-500"><%= @category.articles.published.size %> articles</span>
-    </div>
+
+</div>
+<section class="bg-white max-w-4xl mx-auto py-6 px-4 flex flex-col items-center justify-center">
+
     <div class="py-4 w-full mt-2 flex-grow">
         <% if @category.articles.size == 0 %>
         <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl">
