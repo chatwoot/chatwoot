@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "正在取得對話",
-    "LOAD_MORE_CONVERSATIONS": "載入更多對話",
-    "EOF": "所有對話已載入 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "這個群組中無有效對話"
+      "404": ""
     },
-    "TAB_HEADING": "對話",
-    "MENTION_HEADING": "Mentions",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "搜尋人、聊天室、保存回覆"
+      "INPUT": ""
     },
-    "FILTER_ALL": "所有的",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "我的",
-      "unassigned": "未指派的",
-      "all": "所有的"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "打開"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "已解決"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "待處理"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "圖片訊息"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "聲音訊息"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "影片訊息"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "附件"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "位置"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "分享了一個網址"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "傳送成功",
-    "NO_MESSAGES": "沒有訊息",
-    "NO_CONTENT": "沒有可用內容",
-    "HIDE_QUOTED_TEXT": "隱藏引用文字",
-    "SHOW_QUOTED_TEXT": "顯示引用文字",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
