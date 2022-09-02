@@ -7,28 +7,28 @@
       "404": "Il n'y a aucune conversation active dans ce groupe."
     },
     "TAB_HEADING": "Conversations",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "Rechercher des personnes, des conversations, des réponses standardisées ..."
     },
-    "FILTER_ALL": "Tous",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Les miens",
+      "me": "",
       "unassigned": "Non assigné",
-      "all": "Tous"
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Ouvert"
       },
       "resolved": {
-        "TEXT": "Résolu"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "En attente"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Reporté"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Reçu par courriel",
     "VIEW_TWEET_IN_TWITTER": "Voir le tweet sur Twitter",
     "REPLY_TO_TWEET": "Répondre à ce tweet",
-    "LINK_TO_STORY": "Aller à l'histoire instagram",
-    "SENT": "Envoyé avec succès",
-    "NO_MESSAGES": "Pas de messages",
-    "NO_CONTENT": "Aucun contenu disponible",
-    "HIDE_QUOTED_TEXT": "Masquer le texte cité",
-    "SHOW_QUOTED_TEXT": "Afficher le texte cité",
-    "MESSAGE_READ": "Read"
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
