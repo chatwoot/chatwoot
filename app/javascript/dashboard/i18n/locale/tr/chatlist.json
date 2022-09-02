@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Görüşmeler getiriliyor",
-    "LOAD_MORE_CONVERSATIONS": "Daha fazla konuşma yükleyin",
-    "EOF": "Tüm görüşmeler yüklendi 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "Bu grupta aktif görüşme yok."
+      "404": ""
     },
-    "TAB_HEADING": "Konuşmalar",
-    "MENTION_HEADING": "Bahsedilmeler",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Kişileri, Sohbetleri, Kaydedilen Yanıtları Ara .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Hepsi",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Benim",
-      "unassigned": "Atanmamış",
-      "all": "Hepsi"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Açık"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Çözüldü"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Bekliyor"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Susturuldu"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Görsel mesaj"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Sesli mesaj"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Video mesajı"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "Dosya eklentisi"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Yer"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "bir url paylaştı"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "E-posta ile alındı",
-    "VIEW_TWEET_IN_TWITTER": "Twitter'da tweet'i görüntüleyin",
-    "REPLY_TO_TWEET": "Bu tweet'i yanıtla",
-    "LINK_TO_STORY": "Instagram hikayesine git",
-    "SENT": "Başarıyla gönderildi",
-    "NO_MESSAGES": "Mesaj yok",
-    "NO_CONTENT": "Kullanılabilir içerik yok",
-    "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
-    "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
-    "MESSAGE_READ": "Oku"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
