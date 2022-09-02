@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Mentett válaszok",
-    "HEADER_BTN_TXT": "Mentett válasz hozzáadása",
-    "LOADING": "Mentett válaszok letöltése",
-    "SEARCH_404": "Nincs megfelelő elem",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Nincs megfelelő mentett válasz ebben a fiókban.",
-      "TITLE": "Mentett válaszok kezelése",
-      "DESC": "A mentett válaszok előre meghatározott sablonok, melyeket gyors válaszok kiküldésére használhatsz.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Rövidkód",
-        "Tartalom",
-        "Műveletek"
+        "",
+        "",
+        ""
       ]
     },
     "ADD": {
-      "TITLE": "Mentett válasz hozzáadása",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
-      "CANCEL_BUTTON_TEXT": "Mégse",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Rövidkód",
-          "PLACEHOLDER": "Please enter a short code",
-          "ERROR": "Rövidkód szükséges"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "Tartalom",
-          "PLACEHOLDER": "Kérjük adj meg tartalmat",
-          "ERROR": "Tartalom szükséges"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Elküldés"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "A mentett válasz sikeresen hozzáadva",
-        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Mentett válasz szerkesztése",
-      "CANCEL_BUTTON_TEXT": "Mégse",
+      "TITLE": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Rövidkód",
-          "PLACEHOLDER": "Kérjük adj meg egy Rövidkódot",
-          "ERROR": "Rövidkód szükséges"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "Tartalom",
-          "PLACEHOLDER": "Kérjük adj meg tartalmat",
-          "ERROR": "Tartalom szükséges"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Elküldés"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Szerkesztés",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "A mentett válasz sikeresen frissítve",
-        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Törlés",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "A mentett válasz sikeresen törölve",
-        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Törlés megerősítése",
-        "MESSAGE": "Biztos abban, hogy törli ",
-        "YES": "Igen, Törlés ",
-        "NO": "Nem, Mégse "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
