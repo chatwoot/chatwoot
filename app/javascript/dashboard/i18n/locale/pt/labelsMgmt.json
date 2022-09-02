@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Etiquetas",
-    "HEADER_BTN_TXT": "Adicionar Etiqueta",
-    "LOADING": "Buscando etiquetas",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>As etiquetas o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir a etiqueta a uma conversa a partir do painel lateral. <br /><br />As etiquetas estão vinculadas à conta e podem ser usadas para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para uma etiqueta, facilitando a identificação da etiqueta. Você será capaz de exibir o rótulo na barra lateral para filtrar as conversas facilmente.</p>",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Não há etiquetas disponíveis nesta conta.",
-      "TITLE": "Gerir etiquetas",
-      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
         "Nome:",
-        "Descrição",
-        "Cor"
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome da etiqueta",
-        "PLACEHOLDER": "Nome da etiqueta",
-        "REQUIRED_ERROR": "O nome da etiqueta é obrigatório",
-        "MINIMUM_LENGTH_ERROR": "O tamanho mínimo obrigatório é 2",
-        "VALID_ERROR": "Apenas são permitidos Alfabetos, Números, Hífen e Underscores"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Descrição",
-        "PLACEHOLDER": "Descrição da etiqueta"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Cor"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Mostrar etiqueta na barra lateral"
+        "LABEL": ""
       },
       "EDIT": "Alterar",
-      "CREATE": "Criar",
+      "CREATE": "",
       "DELETE": "excluir",
       "CANCEL": "cancelar"
     },
     "ADD": {
-      "TITLE": "Adicionar Etiqueta",
-      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "EDIT": {
-      "TITLE": "Editar etiqueta",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Etiqueta eliminada com sucesso",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       },
       "CONFIRM": {
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, Manter "
+        "NO": ""
       }
     }
   }
