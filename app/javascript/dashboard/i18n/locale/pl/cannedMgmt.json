@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Przygotowane odpowiedzi",
-    "HEADER_BTN_TXT": "Dodaj przygotowaną odpowiedź",
-    "LOADING": "Pobieranie przygotowanych odpowiedzi",
-    "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Brak gotowych odpowiedzi dostępnych na tym koncie.",
-      "TITLE": "Zarządzaj gotowymi odpowiedziami",
-      "DESC": "Gotowe odpowiedzi to predefiniowane szablony odpowiedzi, które mogą być użyte do szybkiego wysyłania odpowiedzi na zgłoszenia.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Krótki kod",
-        "Zawartość",
-        "Akcje"
+        "",
+        "",
+        ""
       ]
     },
     "ADD": {
-      "TITLE": "Dodaj Gotową odpowiedź",
-      "DESC": "Gotowe odpowiedzi są zapisanymi szablonami odpowiedzi, które mogą być użyte do szybkiego wysyłania odpowiedzi do konwersacji.",
-      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Krótki kod",
-          "PLACEHOLDER": "Wprowadź krótki kod",
-          "ERROR": "Krótki kod jest wymagany"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "Zawartość",
-          "PLACEHOLDER": "Wprowadź zawartość",
-          "ERROR": "Zawartość jest wymagana"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Prześlij"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Gotowa odpowiedź dodana pomyślnie",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edytuj Gotową odpowiedź",
-      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "TITLE": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Krótki kod",
-          "PLACEHOLDER": "Wprowadź krótki kod",
-          "ERROR": "Krótki kod jest wymagany"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "Zawartość",
-          "PLACEHOLDER": "Wprowadź zawartość",
-          "ERROR": "Zawartość jest wymagana"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Prześlij"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Edytuj",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Gotowa odpowiedź została zaktualizowana",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Usuń",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Gotowa odpowiedź została usunięta",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Potwierdź usunięcie",
-        "MESSAGE": "Czy na pewno chcesz usunąć ",
-        "YES": "Tak, usuń ",
-        "NO": "Nie, zachowaj "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
