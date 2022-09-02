@@ -10,7 +10,7 @@
           color-scheme="secondary"
           icon="settings"
           size="small"
-          @click="openPortalArticles"
+          @click="openPortalPage"
         >
           {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
         </woot-button>
@@ -22,10 +22,10 @@
     <div>
       <portal-switch
         v-for="portal in portals"
-        :key="portal.id"
+        :key="portal.slug"
         :portal="portal"
         :active="portal.slug === activePortalSlug"
-        @open-portal-page="openPortalPage"
+        @open-portal-page="onPortalSelect"
       />
     </div>
     <footer>
@@ -62,16 +62,13 @@ export default {
     closePortalPopover() {
       this.$emit('close-popover');
     },
-    openPortalArticles({ slug, locale }) {
+    onPortalSelect() {
       this.$emit('close-popover');
-      const portal = this.portals.find(p => p.slug === slug);
-      this.$store.dispatch('portals/setPortalId', portal.id);
+    },
+    openPortalPage() {
+      this.closePortalPopover();
       this.$router.push({
-        name: 'list_all_locale_articles',
-        params: {
-          portalSlug: slug,
-          locale: locale,
-        },
+        name: 'list_all_portals',
       });
     },
   },
