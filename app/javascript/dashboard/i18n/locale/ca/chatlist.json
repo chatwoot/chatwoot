@@ -7,28 +7,28 @@
       "404": "No hi ha converses actives en aquest grup."
     },
     "TAB_HEADING": "Converses",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
-    "FILTER_ALL": "Totes",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Meves",
+      "me": "",
       "unassigned": "Sense assignar",
-      "all": "Totes"
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Obrir"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Resoltes"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -51,15 +51,15 @@
         "CONTENT": "ha compartit una URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
-    "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
-    "REPLY_TO_TWEET": "Respon a aquest tuit",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "Cap Missatge",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
