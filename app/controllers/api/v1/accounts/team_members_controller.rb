@@ -50,6 +50,6 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
   def validate_member_id_params
     invalid_ids = params[:user_ids].map(&:to_i) - @team.account.user_ids
 
-    render json: { error: "Invalid User IDs" }, status: :unauthorized and return if invalid_ids.present? 
+    render json: { error: 'Invalid User IDs' }, status: :unauthorized and return if invalid_ids.present?
   end
 end
