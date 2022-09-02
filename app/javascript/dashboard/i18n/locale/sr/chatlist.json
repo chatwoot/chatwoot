@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Preuzimanje razgovora",
-    "LOAD_MORE_CONVERSATIONS": "Učitaj više razgovora",
-    "EOF": "Svi razgovori su učitani 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "Ne postoje aktivni razgovori u ovoj grupi."
+      "404": ""
     },
-    "TAB_HEADING": "Razgovori",
-    "MENTION_HEADING": "Spominjanja",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Tražite osobe, razgovore, gotove odgovore .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Sve",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Moji",
-      "unassigned": "Nedodeljen",
-      "all": "Sve"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Otvoreni"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Rešeni"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Nerešen"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Odložen"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Slikovita poruka"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Govorna poruka"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Video poruka"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "Prilog"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Lokacija"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "je podelio link"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "Primljeno putem e-maila",
-    "VIEW_TWEET_IN_TWITTER": "Pogledaj tweet na Twitteru",
-    "REPLY_TO_TWEET": "Odgovori na tweet",
-    "LINK_TO_STORY": "Idi na instagram priču",
-    "SENT": "Uspešno poslano",
-    "NO_MESSAGES": "Nema poruka",
-    "NO_CONTENT": "Nema sadržaja",
-    "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
-    "SHOW_QUOTED_TEXT": "Prikaži citirani tekst",
-    "MESSAGE_READ": "Pročitane"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
