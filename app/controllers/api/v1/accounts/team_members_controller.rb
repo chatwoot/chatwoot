@@ -13,8 +13,12 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
   end
 
   def update
+    account_user_ids = account_user_member_ids(members_to_be_added_ids)
+
+    render json: { error: "Member id doesn't belong to th current account." }, status: :unauthorized and return if account_user_ids.empty?
+
     ActiveRecord::Base.transaction do
-      members_to_be_added_ids.each { |user_id| @team.add_member(user_id) }
+      account_user_ids.each { |user_id| @team.add_member(user_id) }
       members_to_be_removed_ids.each { |user_id| @team.remove_member(user_id) }
     end
     @team_members = @team.members
@@ -44,5 +48,10 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
 
   def fetch_team
     @team = Current.account.teams.find(params[:team_id])
+  end
+
+  def account_user_member_ids(_user_ids)
+    account_user_ids = @team.account.user_ids
+    account_user_ids & members_to_be_added_ids
   end
 end
