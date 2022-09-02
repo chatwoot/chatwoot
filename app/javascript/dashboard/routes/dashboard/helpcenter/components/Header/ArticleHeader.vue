@@ -82,6 +82,7 @@
       <woot-button
         class-names="article--buttons"
         size="small"
+        icon="add"
         color-scheme="primary"
         @click="onClickNewArticlePage"
       >
