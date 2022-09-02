@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "",
+      "EDIT_TEAM": ""
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Create",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Add Agents",
-          "route": "settings_teams_add_agents",
-          "body": "Pridať agentov do tímu."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Hotovo",
-          "route": "settings_teams_finish",
-          "body": "Všetko je pripravené!"
+          "title": "",
+          "route": "",
+          "body": ""
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Upravte údaje o svojom tíme",
-        "DESC": "Upravte názov a popis svojho tímu.",
-        "BUTTON_TEXT": "Aktualizovať tím"
+        "TITLE": "",
+        "DESC": "",
+        "BUTTON_TEXT": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Aktualizovať agentov v tíme",
-        "TITLE": "Pridať agentov do tímu - %{teamName}",
-        "DESC": "Pridajte agentov do novovytvoreného tímu. Všetci pridaní agenti budú upozornení, keď sa do tohto tímu priradí konverzácia."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Tímové detaily",
-          "route": "Upraviť tímové detaily",
-          "body": "Zmena názvu, popisu a ďalších údajov."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Upraviť agentov",
-          "route": "settings_teams_edit_members",
-          "body": "Upravte agentov vo svojom tíme."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Hotovo",
-          "route": "settings_teams_edit_finish",
-          "body": "Všetko je pripravené!"
+          "title": "",
+          "route": "",
+          "body": ""
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Nepodarilo sa uložiť údaje o tíme. Skúste to znova."
+      "ERROR_MESSAGE": ""
     },
     "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
-      "BUTTON_TEXT": "Pridať agentov",
-      "ADD_AGENTS": "Pridávajú sa agenti do tímu...",
-      "SELECT": "vybrať",
-      "SELECT_ALL": "vybrať všetkých agentov",
-      "SELECTED_COUNT": "%{selected} z %{total} vybraných agentov."
+      "AGENT": "",
+      "EMAIL": "",
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": ""
     },
     "ADD": {
-      "TITLE": "Pridať agentov do tímu - %{teamName}",
-      "DESC": "Pridajte agentov do novovytvoreného tímu. To vám umožní spolupracovať v tíme na konverzáciách a dostávať upozornenia na nové udalosti v tej istej konverzácii.",
-      "SELECT": "vybrať",
-      "SELECT_ALL": "vybrať všetkých agentov",
-      "SELECTED_COUNT": "%{selected} z %{total} vybraných agentov.",
-      "BUTTON_TEXT": "Pridať agentov",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "TITLE": "",
+      "DESC": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": "",
+      "BUTTON_TEXT": "",
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
-      "TITLE": "Váš tím je pripravený!",
-      "MESSAGE": "Na konverzáciách teraz môžete spolupracovať ako tím. Šťastná podpora ",
-      "BUTTON_TEXT": "Hotovo"
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": ""
     },
     "DELETE": {
-      "BUTTON_TEXT": "Vymazať",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Tím úspešne odstránený.",
-        "ERROR_MESSAGE": "Tím sa nepodarilo vymazať! Skúste to znova."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Určite chcete vymazať - %{teamName}",
-        "PLACE_HOLDER": "Pre potvrdenie zadajte {teamName}",
-        "MESSAGE": "Odstránením tímu sa odstráni priradenie tímu z konverzácií priradených k tomuto tímu.",
-        "YES": "Vymazať ",
-        "NO": "Zrušiť"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
-    "SETTINGS": "Nastavenia",
+    "SETTINGS": "",
     "FORM": {
-      "UPDATE": "Aktualizovať tím",
-      "CREATE": "Vytvoriť tím",
+      "UPDATE": "",
+      "CREATE": "",
       "NAME": {
-        "LABEL": "Názov tímu",
-        "PLACEHOLDER": "Príklad: Predaj, zákaznícka podpora"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Popis tímu",
-        "PLACEHOLDER": "Krátky popis tohto tímu."
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": ""
       },
-      "SUBMIT_CREATE": "Vytvoriť tím"
+      "SUBMIT_CREATE": ""
     }
   }
 }
