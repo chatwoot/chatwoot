@@ -86,24 +86,15 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       portals: 'portals/allPortals',
+      categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
-    // return this.$store.getters['categories/allCategories'];
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
-      // this.$store.dispatch('categories/index', {
-      //   portalSlug: slug,
-      // });
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);
+
       return this.$store.getters['portals/allPortals'][0];
-    },
-    // selectedPortalCategory() {
-    //   const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
-    //   if (slug) return this.$store.getters['categories/categoryBySlug'](slug);
-    // },
-    categories() {
-      return this.$store.getters['categories/allCategories'];
     },
     sidebarClassName() {
       if (this.isOnDesktop) {
