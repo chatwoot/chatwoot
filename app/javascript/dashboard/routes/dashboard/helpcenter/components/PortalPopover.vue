@@ -5,15 +5,24 @@
         <h2 class="block-title">
           {{ $t('HELP_CENTER.PORTAL.POPOVER.TITLE') }}
         </h2>
-        <woot-button
-          variant="smooth"
-          color-scheme="secondary"
-          icon="settings"
-          size="small"
-          @click="openPortalPage"
-        >
-          {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
-        </woot-button>
+        <div>
+          <woot-button
+            variant="smooth"
+            color-scheme="secondary"
+            icon="settings"
+            size="small"
+            @click="openPortalPage"
+          >
+            {{ $t('HELP_CENTER.PORTAL.POPOVER.PORTAL_SETTINGS') }}
+          </woot-button>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            icon="dismiss"
+            size="small"
+            @click="closePortalPopover"
+          />
+        </div>
       </div>
       <p class="subtitle">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
@@ -22,7 +31,7 @@
     <div>
       <portal-switch
         v-for="portal in portals"
-        :key="portal.slug"
+        :key="portal.id"
         :portal="portal"
         :active="portal.slug === activePortalSlug"
         @open-portal-page="onPortalSelect"
@@ -78,7 +87,7 @@ export default {
 <style lang="scss" scoped>
 .portal-popover__container {
   position: absolute;
-  overflow: scroll;
+  overflow-y: scroll;
   max-height: 96vh;
   padding: var(--space-normal);
   background-color: var(--white);
@@ -92,7 +101,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: var(--space-smaller);
+      margin-bottom: var(--space-normal);
 
       .new-popover-link {
         display: flex;
@@ -111,6 +120,7 @@ export default {
       .subtitle {
         font-size: var(--font-size-mini);
         color: var(--s-600);
+        margin-top: var(--space-small);
       }
     }
   }
