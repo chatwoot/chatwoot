@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Đăng nhập Chatwoot",
+    "TITLE": "",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email : someone@example.com"
+      "LABEL": "",
+      "PLACEHOLDER": ""
     },
     "PASSWORD": {
-      "LABEL": "Mật khẩu",
-      "PLACEHOLDER": "Mật khẩu"
+      "LABEL": "",
+      "PLACEHOLDER": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Đăng nhập thành công",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau",
-      "UNAUTH": "Tài khoản/Mật khẩu không đúng. Vui lòng thử lại"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "",
+      "UNAUTH": ""
     },
-    "FORGOT_PASSWORD": "Quên mật khẩu?",
-    "CREATE_NEW_ACCOUNT": "Tạo mới tài khoản",
-    "SUBMIT": "Đăng nhập"
+    "FORGOT_PASSWORD": "",
+    "CREATE_NEW_ACCOUNT": "",
+    "SUBMIT": ""
   }
 }
