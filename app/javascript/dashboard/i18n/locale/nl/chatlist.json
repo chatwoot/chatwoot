@@ -7,28 +7,28 @@
       "404": "Er zijn geen actieve gesprekken in deze groep."
     },
     "TAB_HEADING": "Gesprekken",
-    "MENTION_HEADING": "Vermeldingen",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
-    "FILTER_ALL": "Allemaal",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Mijn",
+      "me": "",
       "unassigned": "Niet toegewezen",
-      "all": "Allemaal"
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"
       },
       "resolved": {
-        "TEXT": "Opgelost"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Afwachtend"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Gesluimerd"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -51,15 +51,15 @@
         "CONTENT": "heeft een url gedeeld"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Ontvangen via e-mail",
-    "VIEW_TWEET_IN_TWITTER": "Bekijk tweet op Twitter",
-    "REPLY_TO_TWEET": "Antwoord op deze tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Succesvol verzonden",
-    "NO_MESSAGES": "Geen berichten",
-    "NO_CONTENT": "Geen inhoud beschikbaar",
-    "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
-    "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
