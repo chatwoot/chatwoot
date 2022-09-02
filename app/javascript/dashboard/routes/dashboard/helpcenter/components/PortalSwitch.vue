@@ -27,7 +27,8 @@
                 type="radio"
                 name="locale"
                 :value="locale.code"
-                @click="onClick(locale.code, portal)"
+                :checked="isLocaleActive(locale.code)"
+                @click="() => onClick(locale.code, portal)"
               />
               <div>
                 <p>{{ localeName(locale.code) }}</p>
@@ -84,7 +85,20 @@ export default {
   },
   methods: {
     onClick(code, portal) {
-      this.$emit('open-portal-page', { slug: portal.slug, locale: code });
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: portal.slug,
+          locale: code,
+        },
+      });
+      this.$emit('open-portal-page');
+    },
+    isLocaleActive(code) {
+      const isPortalActive = this.portalSlug === this.portal.slug;
+      const isLocaleActive = this.portal?.meta?.default_locale === code;
+
+      return isPortalActive && isLocaleActive;
     },
   },
 };
