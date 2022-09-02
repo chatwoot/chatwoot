@@ -158,7 +158,7 @@ RSpec.describe 'Team Members API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
         json_response = JSON.parse(response.body)
-        expect(json_response['error']).to eq("Member id doesn't belong to th current account.")
+        expect(json_response['error']).to eq("Invalid User IDs")
       end
     end
   end
