@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Afegeix una resposta predeterminada",
     "LOADING": "S'estan recollint les respostes predeterminades",
     "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "",
     "LIST": {
       "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
       "TITLE": "Gestiona les respostes predeterminades",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Afegeix Resposta Predeterminada",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "",
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Codi curt",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "",
           "ERROR": "És necessari el codi curt"
         },
         "CONTENT": {
@@ -69,7 +69,7 @@
         "TITLE": "Confirma esborrat",
         "MESSAGE": "N'estas segur ",
         "YES": "Si, esborra ",
-        "NO": "No, segueix "
+        "NO": ""
       }
     }
   }
