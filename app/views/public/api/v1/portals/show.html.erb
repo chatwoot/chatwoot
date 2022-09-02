@@ -1,7 +1,7 @@
 <%= render "header", portal: @portal %>
 <%= render "hero", portal: @portal %>
 
-<div class="grid grid-cols-2 gap-x-32 gap-y-12 max-w-4xl mx-auto ">
+<div class="grid grid-cols-2 gap-x-32 gap-y-12 max-w-4xl mx-auto py-16">
   <% @portal.categories.each do |category| %>
     <%= render "category-block", category: category, portal: @portal %>
   <% end %>

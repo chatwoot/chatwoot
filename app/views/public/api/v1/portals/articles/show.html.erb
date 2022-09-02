@@ -1,17 +1,28 @@
 <%= render "public/api/v1/portals/header", portal: @portal %>
 
-<div class="max-w-2xl px-6 py-16 mx-auto space-y-12">
+<div class="max-w-4xl px-6 py-16 mx-auto space-y-12">
 	<article class="space-y-8 ">
 		<div class="space-y-6">
-			<h1 class="text-4xl font-bold md:tracking-tight md:text-5xl text-slate-900"><%= @article.title %></h1>
+		<div class="pb-8">
+			<a href="/public/api/v1/portals/<%= @portal.slug %>" class="flex flex-row items-center text-base font-sans font-medium text-slate-700 hover:text-slate-900 hover:underline">  
+				<span class="mr-2"> 
+				<svg class="w-4 h-4 fill-current text-slate-600" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.733 19.79a.75.75 0 0 0 1.034-1.086L5.516 12.75H20.25a.75.75 0 0 0 0-1.5H5.516l6.251-5.955a.75.75 0 0 0-1.034-1.086l-7.42 7.067a.995.995 0 0 0-.3.58.754.754 0 0 0 .001.289.995.995 0 0 0 .3.579l7.419 7.067Z" fill="#212121"/></svg>
+				</span>
+				Back
+			</a>
+		</div>
+			<h1 class="text-4xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900"><%= @article.title %></h1>
 			<div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center ">
 				<div class="flex items-center md:space-x-2">
-					<img src="<%= @article.author.avatar_url %>" alt="" class="w-4 h-4 border rounded-full">
-					<p class="text-sm"><%= @article.author.name %> • <%= @article.author.updated_at %></p>
+					<img src="<%= @article.author.avatar_url %>" alt="" class="w-12 h-812 border rounded-full">
+					<div>
+						<h5 class="text-base font-medium text-slate-900 mb-2"><%= @article.author.name %></h5>
+						<p class="text-sm font-normal text-slate-700"><%= @article.author.updated_at.strftime("%B %d %Y") %></p>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="text-slate-800">
+		<div class="text-slate-800 font-sans leading-8 text-lg subpixel-antialiased max-w-3xl">
 			<p><%= @article.content %></p>
 		</div>
 	</article>
