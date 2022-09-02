@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "대화 가져오기",
-    "LOAD_MORE_CONVERSATIONS": "더 많은 대화 불러오기",
-    "EOF": "모든 대화 불러오기🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "이 그룹에는 활성 대화가 없습니다."
+      "404": ""
     },
-    "TAB_HEADING": "대화",
-    "MENTION_HEADING": "Mentions",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "사람 검색, 채팅, 저장된 응답..."
+      "INPUT": ""
     },
-    "FILTER_ALL": "모두",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "나에게 할당",
-      "unassigned": "지정되지 않음",
-      "all": "모두"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "열기"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "해결됨"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "사진 메시지"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "음성 메시지"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "영상 메시지"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "파일 첨부"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "장소"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "URL을 공유함"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "이메일을 통해 수신됨",
-    "VIEW_TWEET_IN_TWITTER": "트위터에서 트윗 보기",
-    "REPLY_TO_TWEET": "트윗에 응답하기",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "메시지 없음",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
