@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Configurações da conta",
     "SUBMIT": "Atualizar configurações",
-    "BACK": "Voltar",
+    "BACK": "",
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Conta ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "",
+        "NOTE": ""
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -28,113 +28,113 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Email recebido do domínio",
-        "PLACEHOLDER": "O domínio onde irá receber os emails",
+        "LABEL": "",
+        "PLACEHOLDER": "",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "E-mail de Suporte",
-        "PLACEHOLDER": "E-mail de suporte da sua empresa",
+        "LABEL": "",
+        "PLACEHOLDER": "",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Número de dias sem nenhuma atividade, após os quais, o ticket se auto-resolve",
-        "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Já pode receber emails no domínio que escolheu."
+        "INBOUND_EMAIL_ENABLED": "",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": ""
       }
     },
-    "UPDATE_CHATWOOT": "Está disponível uma nova atualização %{latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
-    "LEARN_MORE": "Saiba mais"
+    "UPDATE_CHATWOOT": "",
+    "LEARN_MORE": ""
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Pressione Enter para escolher",
-      "ENTER_TO_REMOVE": "Pressione Enter para eliminar",
-      "SELECT_ONE": "Selecionar um"
+      "ENTER_TO_SELECT": "",
+      "ENTER_TO_REMOVE": "",
+      "SELECT_ONE": ""
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificaçoes",
-    "MARK_ALL_DONE": "Marcar todos como Resolvidos",
-    "DELETE_TITLE": "deleted",
+    "HEADER": "",
+    "MARK_ALL_DONE": "",
+    "DELETE_TITLE": "",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "",
+      "ALL_NOTIFICATIONS": "",
+      "LOADING_UNREAD_MESSAGE": "",
+      "EMPTY_MESSAGE": ""
     },
     "LIST": {
-      "LOADING_MESSAGE": "A carregar notificações...",
-      "404": "Sem Notificações",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": [
         "Nome:",
-        "Número de telefone",
+        "",
         "Conversas",
-        "Último contato"
+        ""
       ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "Nova conversa",
-      "conversation_assignment": "Conversa atribuída",
-      "assigned_conversation_new_message": "Nova mensagem",
-      "conversation_mention": "Mencionar"
+      "conversation_assignment": "",
+      "assigned_conversation_new_message": "",
+      "conversation_mention": ""
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Desconectado do Chatwoot"
+      "TEXT": ""
     },
     "BUTTON": {
-      "REFRESH": "Atualizar"
+      "REFRESH": ""
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Pesquisar ou pular para",
+    "SEARCH_PLACEHOLDER": "",
     "SECTIONS": {
-      "GENERAL": "Geral",
-      "REPORTS": "relatórios",
-      "CONVERSATION": "Conversa",
-      "CHANGE_ASSIGNEE": "Alterar Responsável",
-      "CHANGE_TEAM": "Alterar Equipa",
-      "ADD_LABEL": "Adicionar etiqueta à conversa",
-      "REMOVE_LABEL": "Remover etiqueta da conversa",
+      "GENERAL": "",
+      "REPORTS": "",
+      "CONVERSATION": "",
+      "CHANGE_ASSIGNEE": "",
+      "CHANGE_TEAM": "",
+      "ADD_LABEL": "",
+      "REMOVE_LABEL": "",
       "SETTINGS": "Confirgurações"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
-      "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
-      "GO_TO_REPORTS_OVERVIEW": "Ir para Visão Geral de Relatórios",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Ir para Relatórios de Agentes",
-      "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
-      "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
-      "GO_TO_TEAM_REPORTS": "Ir para Relatórios da Equipa",
-      "GO_TO_SETTINGS_AGENTS": "Ir para Configurações do Agente",
-      "GO_TO_SETTINGS_TEAMS": "Ir para Configurações da Equipa",
-      "GO_TO_SETTINGS_INBOXES": "Ir para Configurações da Caixa de entrada",
-      "GO_TO_SETTINGS_LABELS": "Ir para Configurações da Etiquetas",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para Configurações de Resposta Pronta",
-      "GO_TO_SETTINGS_APPLICATIONS": "Ir para Configurações da Aplicação",
-      "GO_TO_SETTINGS_ACCOUNT": "Ir para Configurações da Conta",
-      "GO_TO_SETTINGS_PROFILE": "Ir para Configurações do Perfil",
-      "GO_TO_NOTIFICATIONS": "Ir para Notificações",
-      "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
-      "ASSIGN_AN_AGENT": "Atribuir um agente",
-      "ASSIGN_A_TEAM": "Atribuir uma equipa",
-      "MUTE_CONVERSATION": "Silenciar Conversa",
-      "UNMUTE_CONVERSATION": "Reativar conversa",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
-      "REOPEN_CONVERSATION": "Reabrir conversa",
-      "RESOLVE_CONVERSATION": "Resolver conversa",
-      "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Até à próxima resposta",
-      "UNTIL_NEXT_WEEK": "Até à próxima semana",
-      "UNTIL_TOMORROW": "Até amanhã"
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "GO_TO_REPORTS_OVERVIEW": "",
+      "GO_TO_CONVERSATION_REPORTS": "",
+      "GO_TO_AGENT_REPORTS": "",
+      "GO_TO_LABEL_REPORTS": "",
+      "GO_TO_INBOX_REPORTS": "",
+      "GO_TO_TEAM_REPORTS": "",
+      "GO_TO_SETTINGS_AGENTS": "",
+      "GO_TO_SETTINGS_TEAMS": "",
+      "GO_TO_SETTINGS_INBOXES": "",
+      "GO_TO_SETTINGS_LABELS": "",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "",
+      "GO_TO_SETTINGS_APPLICATIONS": "",
+      "GO_TO_SETTINGS_ACCOUNT": "",
+      "GO_TO_SETTINGS_PROFILE": "",
+      "GO_TO_NOTIFICATIONS": "",
+      "ADD_LABELS_TO_CONVERSATION": "",
+      "ASSIGN_AN_AGENT": "",
+      "ASSIGN_A_TEAM": "",
+      "MUTE_CONVERSATION": "",
+      "UNMUTE_CONVERSATION": "",
+      "REMOVE_LABEL_FROM_CONVERSATION": "",
+      "REOPEN_CONVERSATION": "",
+      "RESOLVE_CONVERSATION": "",
+      "SEND_TRANSCRIPT": "",
+      "SNOOZE_CONVERSATION": "",
+      "UNTIL_NEXT_REPLY": "",
+      "UNTIL_NEXT_WEEK": "",
+      "UNTIL_TOMORROW": ""
     }
   }
 }
