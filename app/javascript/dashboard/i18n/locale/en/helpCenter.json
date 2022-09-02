@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Publish",
+      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
@@ -143,7 +144,8 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [{
+        "CREATE_FLOW": [
+          {
             "title": "Help center information",
             "route": "new_portal_information",
             "body": "Basic information about portal",
@@ -284,6 +286,12 @@
       "CONTENT_PLACEHOLDER": "Write your article here",
       "API": {
         "ERROR": "Error while saving article"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
       }
     },
     "ARCHIVE_ARTICLE": {
