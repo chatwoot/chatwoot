@@ -93,6 +93,7 @@ export default {
   max-height: var(--space-jumbo);
   border: 0px solid transparent;
   padding: 0;
+  color: var(--s-900);
 }
 
 ::v-deep {
