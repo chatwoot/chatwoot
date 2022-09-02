@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Wählen Sie Kanal",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
       },
       {
         "title": "Posteingang erstellen",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
       },
       {
         "title": "Agenten hinzufügen",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
       },
       {
         "title": "Voila!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Sie sind bereit zu gehen!"
       }
     ],
