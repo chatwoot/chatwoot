@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "แคมเปญ",
-    "SIDEBAR_TXT": "ข้อความที่ช่วยให้ลูกค้าสามารถส่งข้อควาไปยังผู้ติดต่อซึ่งจะทำให้เกิดการสนทนามากขึ้น คลิกที่ <b> เพิ่มแคมเปญ </b> เพื่อสร้างแคมเปญใหม่ คุณยังสามารถแก้ไขหรือลบแคมเปญที่มีอยู่ได้โดยคลิกที่ปุ่มแก้ไขหรือลบ",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "สร้างแคมเปญครั้งเดียว",
-      "ONGOING": "สร้างแคมเปญต่อเนื่อง"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "สร้างแคมเปญใหม่",
-      "DESC": "ข้อความที่จะทำให้ลูกค้าส่งไปยังผู้ติดต่อที่จะได้รับข้อความมากขึ้น",
-      "CANCEL_BUTTON_TEXT": "ยกเลิก",
-      "CREATE_BUTTON_TEXT": "สร้าง",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "หัวข้อ",
-          "PLACEHOLDER": "กรุณาใส่หัวข้อแคมเปญ",
-          "ERROR": "โปรดระบุหัวข้อด้วย"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "วันเริ่มแคมเปญ",
-          "PLACEHOLDER": "โปรดระบุเวลา",
-          "CONFIRM": "ยืนยัน",
-          "ERROR": "โปรดระบุวันเริ่มแคมเปญ"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "ผู้รับ",
-          "PLACEHOLDER": "เลือกป้ายกำกับลูกค้า",
-          "ERROR": "โปรดระบุผู้รับ"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "เลือกกล่องข้อความ",
-          "PLACEHOLDER": "เลือกกล่องข้อความ",
-          "ERROR": "โปรดเลือกกล่องข้อความ"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
-          "LABEL": "ข้อความ",
-          "PLACEHOLDER": "โปรดระบุข้อความของแคมเปญด้วย",
-          "ERROR": "โปรดระบุข้อความด้วย"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "ส่งโดย",
-          "PLACEHOLDER": "กรุณาเลือกเนื้อหาด้วย",
-          "ERROR": "โปรดระบุชื่อผู้ส่ง"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "ลิ้ง",
-          "PLACEHOLDER": "โปรดระบุลิ้งด้วย",
-          "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "เวลาของหน้า (วินาที)",
-          "PLACEHOLDER": "โปรดระบุเวลาด้วย",
-          "ERROR": "กรุณาระบุเวลาที่อยู่ในหน้านั้นด้วย"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "เปิดเเคมเปญ",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "เปิดใช้แค่ในเวลาทำการ",
-        "SUBMIT": "เพิ่มเเคมเปญ"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "สร้างเเคมเปญเสร็จสิ้น",
-        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "CONFIRM": {
         "TITLE": "ยืนยันการลบ",
-        "MESSAGE": "คุณต้องการที่จะลบไหม?",
+        "MESSAGE": "",
         "YES": "เอาเลย ",
         "NO": "ไม่อะเก็บไว้ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "ลบแคมเปญเรียบร้อยแล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถลบแคมเปญได้ โปรดลองใหม่อีกครั้ง"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "เเก้ไขเเคมเปญ",
-      "UPDATE_BUTTON_TEXT": "อัพเดท",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "อัพเดทเเคมเปญเรียบร้อยเเล้ว",
-        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "กำลังโหลดแคมเปญ",
-      "404": "ไม่มีเเคมเปณลญในกล่องข้อความนี้",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "หัวข้อ",
-        "MESSAGE": "ข้อความ",
-        "INBOX": "กล่องข้อความ",
+        "TITLE": "",
+        "MESSAGE": "",
+        "INBOX": "",
         "STATUS": "สถานะ",
-        "SENDER": "ผู้ส่ง",
-        "URL": "ลิ้ง",
-        "SCHEDULED_AT": "วันเริ่มแคมเปญ",
-        "TIME_ON_PAGE": "เวลา (วินาที)",
-        "CREATED_AT": "สร้างเมื่อ"
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "เพิ่ม",
-        "EDIT": "เเก้ไข",
+        "ADD": "",
+        "EDIT": "",
         "DELETE": "ลบ"
       },
       "STATUS": {
-        "ENABLED": "เปิด",
-        "DISABLED": "ปิด",
-        "COMPLETED": "เสร็จสิ้น",
-        "ACTIVE": "ใช้งานอยู่"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "บอท"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "แคมเปญครั้งเดียว",
-      "404": "ยังไม่มีแคมเปญครั้งเดียวที่ถูกสร้าง",
-      "INBOXES_NOT_FOUND": "โปรดสร้างกล่องข้อความ SMS และเพิ่มแคมเปญ"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "แคมเปญต่อเนื่อง",
-      "404": "ยังไม่มีแคมเปญต่อเนื่องที่ถูกสร้าง",
-      "INBOXES_NOT_FOUND": "โปรดสร้างกล่องข้อความของเว็บไซต์ และเพิ่มแคมเปญ"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
