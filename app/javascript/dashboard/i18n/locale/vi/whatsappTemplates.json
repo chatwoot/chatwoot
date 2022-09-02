@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Mẫu Whatsapp",
-            "SUBTITLE": "Chọn mẫu whatsapp bạn muốn gửi",
-            "TEMPLATE_SELECTED_SUBTITLE": "Xử lý %{templateName}"
+            "TITLE": "",
+            "SUBTITLE": "",
+            "TEMPLATE_SELECTED_SUBTITLE": ""
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Tìm kiếm Mẫu",
-            "NO_TEMPLATES_FOUND": "Không tìm thấy mẫu nào cho",
+            "SEARCH_PLACEHOLDER": "",
+            "NO_TEMPLATES_FOUND": "",
             "LABELS": {
-                "LANGUAGE": "Ngôn ngữ",
-                "TEMPLATE_BODY": "Nội dung của Mẫu",
-                "CATEGORY": "Loại"
+                "LANGUAGE": "",
+                "TEMPLATE_BODY": "",
+                "CATEGORY": ""
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Biến",
-            "VARIABLE_PLACEHOLDER": "Nhập giá trị %{variable}",
-            "GO_BACK_LABEL": "Quay lại",
-            "SEND_MESSAGE_LABEL": "Gửi tin nhắn",
-            "FORM_ERROR_MESSAGE": "Vui lòng điền vào tất cả các biến trước khi gửi"
+            "VARIABLES_LABEL": "",
+            "VARIABLE_PLACEHOLDER": "",
+            "GO_BACK_LABEL": "",
+            "SEND_MESSAGE_LABEL": "",
+            "FORM_ERROR_MESSAGE": ""
         }
     }
 }
