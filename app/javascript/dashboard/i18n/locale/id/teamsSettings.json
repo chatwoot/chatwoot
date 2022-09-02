@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Tim",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Belum ada tim yang dibuat pada akun ini.",
-      "EDIT_TEAM": "Edit Tim"
+      "404": "",
+      "EDIT_TEAM": ""
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Buat tim",
-        "DESC": "Tambahkan judul dan deskripsi untuk tim baru Anda."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Tambahkan agen ke tim Anda",
-        "TITLE": "Tambahkan agen ke tim - %{teamName}",
-        "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Buat",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Tambahkan Agen",
-          "route": "settings_teams_add_agents",
-          "body": "Tambahkan agen ke tim."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Selesai",
-          "route": "settings_teams_finish",
-          "body": "Kotak masuk Anda sudah siap!"
+          "title": "",
+          "route": "",
+          "body": ""
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit detil tim Anda",
-        "DESC": "Edit judul dan deskripsi tim Anda.",
-        "BUTTON_TEXT": "Update tim"
+        "TITLE": "",
+        "DESC": "",
+        "BUTTON_TEXT": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agen dalam tim",
-        "TITLE": "Tambahkan agen ke tim - %{teamName}",
-        "DESC": "Tambahkan agen pada tim baru anda. Semua agen yang telah ditambahkan akan mendapat notifikasi ketika sebuah percakapan dialokasikan pada tim ini."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Detil tim",
-          "route": "settings_teams_edit",
-          "body": "Ubah nama, deskripsi dan detil lainnya."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Edit Agen",
-          "route": "settings_teams_edit_members",
-          "body": "Edit agen dalam tim Anda."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Selesai",
-          "route": "settings_teams_edit_finish",
-          "body": "Kotak masuk Anda sudah siap!"
+          "title": "",
+          "route": "",
+          "body": ""
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Tidak bisa menyimpan detil tim. Coba lagi."
+      "ERROR_MESSAGE": ""
     },
     "AGENTS": {
-      "AGENT": "Agen",
-      "EMAIL": "Email",
-      "BUTTON_TEXT": "Tambahkan Agen",
-      "ADD_AGENTS": "Menambahkan Agen ke Tim Anda...",
-      "SELECT": "pilih",
-      "SELECT_ALL": "pilih semua agen",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "AGENT": "",
+      "EMAIL": "",
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": ""
     },
     "ADD": {
-      "TITLE": "Tambahkan agen ke tim - %{teamName}",
-      "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama.",
-      "SELECT": "pilih",
-      "SELECT_ALL": "pilih semua agen",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Tambahkan Agen",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "TITLE": "",
+      "DESC": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": "",
+      "BUTTON_TEXT": "",
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
-      "TITLE": "Tim Anda siap!",
-      "MESSAGE": "Sekarang Anda dapat berkolaborasi sebagai sebuah tim pada percakapan. Selamat mendukung ",
-      "BUTTON_TEXT": "Selesai"
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": ""
     },
     "DELETE": {
-      "BUTTON_TEXT": "Hapus",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Tim telah berhasil dihapus.",
-        "ERROR_MESSAGE": "Tidak bisa menghapus tim. Coba lagi."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Anda yakin akan menghapus - %{teamName}",
-        "PLACE_HOLDER": "Silakan ketikkan {teamName} untuk konfirmasi",
-        "MESSAGE": "Menghapus tim akan menghilangkan alokasi tim dari percakapan yang telah ditetapkan terhadapa tim ini.",
-        "YES": "Hapus ",
-        "NO": "Batalkan"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
-    "SETTINGS": "Pengaturan",
+    "SETTINGS": "",
     "FORM": {
-      "UPDATE": "Update tim",
-      "CREATE": "Create team",
+      "UPDATE": "",
+      "CREATE": "",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": ""
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": ""
     }
   }
 }
