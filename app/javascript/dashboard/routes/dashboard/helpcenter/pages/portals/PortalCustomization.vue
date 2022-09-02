@@ -50,13 +50,13 @@ export default {
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
-    async updatePortalSettings(portal) {
+    async updatePortalSettings(portalObj) {
       const portalSlug = this.$route.params.portalSlug;
 
       try {
         await this.$store.dispatch('portals/update', {
           portalSlug,
-          portalObj: portal,
+          ...portalObj,
         });
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
