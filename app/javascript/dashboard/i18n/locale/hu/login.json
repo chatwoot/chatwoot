@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Chatwoot belépés",
+    "TITLE": "",
     "EMAIL": {
-      "LABEL": "E-mail",
-      "PLACEHOLDER": "E-mail pl.: valaki@példa.hu"
+      "LABEL": "",
+      "PLACEHOLDER": ""
     },
     "PASSWORD": {
-      "LABEL": "Jelszó",
-      "PLACEHOLDER": "Jelszó"
+      "LABEL": "",
+      "PLACEHOLDER": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Bejelentkezés sikeres",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később",
-      "UNAUTH": "A felhasználó / jelszó helytelen. Kérjük próbálja újra"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "",
+      "UNAUTH": ""
     },
-    "FORGOT_PASSWORD": "Elfelejtetted a jelszavad?",
-    "CREATE_NEW_ACCOUNT": "Új fiók létrehozása",
-    "SUBMIT": "Bejelentkezés"
+    "FORGOT_PASSWORD": "",
+    "CREATE_NEW_ACCOUNT": "",
+    "SUBMIT": ""
   }
 }
