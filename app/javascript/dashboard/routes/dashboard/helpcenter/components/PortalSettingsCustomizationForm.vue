@@ -109,10 +109,6 @@ export default {
         page_title: this.pageTitle,
         header_text: this.headerText,
         homepage_link: this.homePageLink,
-        config: {
-          // TODO: add support for choosing locale
-          allowed_locales: ['en'],
-        },
       };
       this.$emit('submit', portal);
     },

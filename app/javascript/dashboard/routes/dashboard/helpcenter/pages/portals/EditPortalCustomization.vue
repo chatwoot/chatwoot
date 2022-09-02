@@ -36,11 +36,11 @@ export default {
     },
   },
   methods: {
-    async updatePortalSettings(portal) {
+    async updatePortalSettings(portalObj) {
       const portalSlug = this.$route.params.portalSlug;
       try {
         await this.$store.dispatch('portals/update', {
-          portalObj: portal,
+          ...portalObj,
           portalSlug,
         });
         this.alertMessage = this.$t(

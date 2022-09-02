@@ -48,7 +48,7 @@ export default {
       try {
         const portalSlug = this.lastPortalSlug;
         await this.$store.dispatch('portals/update', {
-          portalObj,
+          ...portalObj,
           portalSlug,
         });
         this.alertMessage = this.$t(
