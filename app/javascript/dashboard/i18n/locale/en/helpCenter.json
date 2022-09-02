@@ -150,7 +150,8 @@
             "ACTION_BUTTON": {
               "EDIT": "Edit category",
               "DELETE": "Delete category"
-            }
+            },
+            "EMPTY_TEXT": "No categories found"
           }
         },
         "EDIT_BASIC_INFO": {
