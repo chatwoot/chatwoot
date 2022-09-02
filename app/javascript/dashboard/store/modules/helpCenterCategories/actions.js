@@ -9,6 +9,7 @@ export const actions = {
         const {
           data: { payload },
         } = await categoriesAPI.get({ portalSlug });
+        commit(types.CLEAR_CATEGORIES);
         const categoryIds = payload.map(category => category.id);
         commit(types.ADD_MANY_CATEGORIES, payload);
         commit(types.ADD_MANY_CATEGORIES_ID, categoryIds);

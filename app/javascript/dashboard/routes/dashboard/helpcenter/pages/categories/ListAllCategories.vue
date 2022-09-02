@@ -113,18 +113,7 @@ export default {
       return this.allLocales.map(locale => locale.code);
     },
   },
-  mounted() {
-    // this.fetchCategories();
-    this.$store.getters['categories/categoriesByLocaleCode'](
-      this.currentLocaleCode
-    );
-  },
   methods: {
-    fetchCategories() {
-      this.$store.dispatch('categories/index', {
-        portalSlug: this.currentPortalSlug,
-      });
-    },
     openAddCategoryModal() {
       this.showAddCategoryModal = true;
     },
