@@ -71,29 +71,29 @@
           "ERROR": "ต้องระบุประเภทของพนักงาน"
         },
         "EMAIL": {
-          "LABEL": "ที่อยู่อีเมล์",
-          "PLACEHOLDER": "กรุณาระบุที่อยู่อีเมล์ของพนักงาน"
+          "LABEL": "อีเมล์",
+          "PLACEHOLDER": "กรุณาระบุอีเมล์ของพนักงาน"
         },
-        "SUBMIT": "เเก้ไขพนักงาน"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "เเก้ไข",
-      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "อัพเดทพนักงานเสร็จสิ้น",
-        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้ โปรดลองอีกครั้งในภายหลัง"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "รีเซ็ตหรัสผ่าน",
-        "ADMIN_SUCCESS_MESSAGE": "อีเมล์เเละวิธีการรีเซ็ตหรัสผ่านได้ส่งไปที่พนักงานเเล้ว",
-        "SUCCESS_MESSAGE": "พนักงานรีเซ็ตหรัสผ่านเเล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้ โปรดลองอีกครั้งในภายหลัง"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "ไม่พบผลการค้นหา"
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "ไม่มี",
+      "PLACEHOLDER": "",
       "TITLE": {
         "AGENT": "เลือกพนักงาน",
         "TEAM": "เลือกทีม"
