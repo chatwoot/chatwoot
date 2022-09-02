@@ -241,9 +241,11 @@ export default {
   padding-left: 0;
 }
 .article--buttons {
+  position: relative;
   margin-left: var(--space-smaller);
   .dropdown-pane {
-    right: var(--space-smaller);
+    position: absolute;
+    right: 0;
   }
 }
 .draft-status {
