@@ -83,6 +83,11 @@ const portalRoutes = [
         name: 'edit_portal_locales',
         component: EditPortalLocales,
         roles: ['administrator'],
+      }
+        path: getPortalRoute(':portalSlug/edit/:locale/categories'),
+        name: 'list_all_locale_categories',
+        roles: ['administrator', 'agent'],
+        component: ListAllCategories,
       },
     ],
   },
@@ -132,7 +137,7 @@ const articleRoutes = [
 const categoryRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
-    name: 'list_all_locale_categories',
+    name: 'all_locale_categories',
     roles: ['administrator', 'agent'],
     component: ListAllCategories,
   },

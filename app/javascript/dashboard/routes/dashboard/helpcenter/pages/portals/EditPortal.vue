@@ -49,7 +49,8 @@ export default {
     }),
     currentPortal() {
       const slug = this.$route.params.portalSlug;
-      return this.$store.getters['portals/portalBySlug'](slug);
+      if (slug) return this.$store.getters['portals/portalBySlug'](slug);
+      return this.$store.getters['portals/allPortals'][0];
     },
     tabs() {
       const tabs = [
@@ -64,7 +65,7 @@ export default {
           ),
         },
         {
-          key: 'categories',
+          key: `list_all_locale_categories`,
           name: this.$t('HELP_CENTER.PORTAL.EDIT.TABS.CATEGORY_SETTINGS.TITLE'),
         },
         {
@@ -81,6 +82,9 @@ export default {
     portalName() {
       return this.currentPortal ? this.currentPortal.name : '';
     },
+    currentPortalLocale() {
+      return this.currentPortal ? this.currentPortal?.meta?.default_locale : '';
+    },
   },
   methods: {
     onTabChange(index) {
@@ -89,7 +93,7 @@ export default {
 
       this.$router.push({
         name: nextRoute,
-        params: { portalSlug: slug },
+        params: { portalSlug: slug, locale: this.currentPortalLocale },
       });
     },
   },
@@ -99,14 +103,7 @@ export default {
 .wrapper {
   flex: 1;
 }
-.container {
-  display: flex;
-  flex: 1;
-}
-.wizard-box {
-  border-right: 1px solid var(--s-25);
-  ::v-deep .item {
-    background: var(--white);
-  }
+::v-deep .tabs {
+  padding-left: 0;
 }
 </style>

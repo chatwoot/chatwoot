@@ -132,11 +132,12 @@ export default {
     },
 
     async addCategory() {
-      const { name, slug, description } = this;
+      const { name, slug, description, locale } = this;
       const data = {
         name,
         slug,
         description,
+        locale,
       };
       this.$v.$touch();
       if (this.$v.$invalid) {
