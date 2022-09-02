@@ -5,7 +5,11 @@
         <label class="sub-block-title header-text">{{
           $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TITLE')
         }}</label>
-        <select :value="currentLocaleCode" @change="changeCurrentCategory">
+        <select
+          :value="currentLocaleCode"
+          class="row small-2 select-locale"
+          @change="changeCurrentCategory"
+        >
           <option
             v-for="allowedLocaleCode in allowedLocaleCodes"
             :key="allowedLocaleCode"
@@ -169,6 +173,7 @@ export default {
       width: 100%;
 
       .header-text {
+        font-weight: var(--font-weight-normal);
         margin-right: var(--space-slab);
         margin-bottom: 0;
       }
@@ -178,9 +183,8 @@ export default {
       flex: none;
       align-items: center;
     }
-    select {
+    .select-locale {
       height: var(--space-large);
-      max-width: 16rem;
       margin-bottom: 0;
       padding-top: var(--space-micro);
       padding-bottom: var(--space-micro);
