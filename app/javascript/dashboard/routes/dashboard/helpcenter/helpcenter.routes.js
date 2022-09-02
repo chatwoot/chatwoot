@@ -8,6 +8,7 @@ const EditPortal = () => import('./pages/portals/EditPortal');
 const EditPortalBasic = () => import('./pages/portals/EditPortalBasic');
 const EditPortalCustomization = () =>
   import('./pages/portals/EditPortalCustomization');
+const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
 const ShowPortal = () => import('./pages/portals/ShowPortal');
 const PortalDetails = () => import('./pages/portals/PortalDetails');
 const PortalCustomization = () => import('./pages/portals/PortalCustomization');
@@ -75,6 +76,12 @@ const portalRoutes = [
         path: 'customizations',
         name: 'edit_portal_customization',
         component: EditPortalCustomization,
+        roles: ['administrator'],
+      },
+      {
+        path: 'locales',
+        name: 'edit_portal_locales',
+        component: EditPortalLocales,
         roles: ['administrator'],
       },
     ],
