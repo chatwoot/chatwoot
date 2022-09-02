@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrer en konto",
-    "TITLE": "Registrer",
-    "TERMS_ACCEPT": "Ved å registrere deg, samtykker du til våre <a href=\"https://www.chatwoot.com/terms\"> brukerbetingelser </a> og <a href=\"https://www.chatwoot.com/privacy-policy\">retningslinjer for personvern</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Kontonavn",
-      "PLACEHOLDER": "Skriv inn et kontonavn. f. eks: Ola's bedrift",
-      "ERROR": "Kontonavnet er for kort"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Fullt navn",
-      "PLACEHOLDER": "Skriv inn fullt navn. F. eks: Ola Nordmann",
-      "ERROR": "Kontonavnet er for kort"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Bedriftse-postadresse",
-      "PLACEHOLDER": "Skriv inn din profesjonelle e-postadresse. F.eks: ola@olasbedrift.no",
-      "ERROR": "E-postadressen er ugyldig"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Passord",
-      "PLACEHOLDER": "Passord",
-      "ERROR": "Passordet er for kort",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Bekreft passord",
-      "PLACEHOLDER": "Bekreft passord",
-      "ERROR": "Passordet stemmer ikke"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registrering fullført",
-      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Send",
-    "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
