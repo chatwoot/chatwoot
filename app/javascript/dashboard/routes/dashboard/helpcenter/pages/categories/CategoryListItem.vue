@@ -21,7 +21,7 @@
       <td colspan="100%" class="horizontal-line" />
     </tr>
     <tbody>
-      <tr v-for="category in categories" :key="category.is">
+      <tr v-for="category in categories" :key="category.id">
         <td>
           <span>{{ category.name }}</span>
         </td>

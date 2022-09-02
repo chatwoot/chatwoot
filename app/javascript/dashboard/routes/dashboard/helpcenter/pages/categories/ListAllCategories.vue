@@ -47,7 +47,7 @@
       v-if="showAddCategoryModal"
       :show.sync="showAddCategoryModal"
       :portal-name="currentPortalName"
-      :locale="selectedCategory.locale"
+      :locale="currentLocaleCode"
       @cancel="closeAddCategoryModal"
     />
   </div>
