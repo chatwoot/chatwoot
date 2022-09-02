@@ -33,6 +33,7 @@
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
+        :active-portal-slug="activePortalSlug"
         :active="portal.slug === activePortalSlug"
         @open-portal-page="onPortalSelect"
       />

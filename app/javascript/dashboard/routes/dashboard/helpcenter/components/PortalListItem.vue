@@ -9,10 +9,11 @@
               <h2 class="portal-title block-title">
                 {{ portal.name }}
               </h2>
-              <Label
+              <woot-label
                 :title="status"
                 :color-scheme="labelColor"
-                :small="true"
+                size="small"
+                variant="smooth"
                 class="status"
               />
             </div>
@@ -186,13 +187,11 @@
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
-import Label from 'dashboard/components/ui/Label';
 import LocaleItemTable from './PortalListItemTable';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     thumbnail,
-    Label,
     LocaleItemTable,
   },
   mixins: [alertMixin],

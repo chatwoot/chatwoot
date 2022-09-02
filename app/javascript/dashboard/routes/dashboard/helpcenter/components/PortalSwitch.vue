@@ -10,9 +10,13 @@
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
         </div>
-        <span v-if="active" class="badge">{{
-          $t('HELP_CENTER.PORTAL.ACTIVE_BADGE')
-        }}</span>
+        <woot-label
+          v-if="active"
+          variant="smooth"
+          size="small"
+          color-scheme="success"
+          :title="$t('HELP_CENTER.PORTAL.ACTIVE_BADGE')"
+        />
       </header>
       <div class="portal-locales">
         <h5 class="locale-title">
@@ -23,7 +27,9 @@
             <woot-button
               :class="
                 `locale-item ${
-                  isLocaleActive(locale.code) ? 'smooth' : 'clear'
+                  isLocaleActive(locale.code, activePortalSlug)
+                    ? 'smooth'
+                    : 'clear'
                 }`
               "
               size="large"
@@ -32,23 +38,29 @@
             >
               <div class="locale-content">
                 <div class="meta">
-                  <p>{{ localeName(locale.code) }}</p>
-                  <span>
+                  <h6 class="text-block-title text-left">
+                    <span>
+                      {{ localeName(locale.code) }}
+                    </span>
+                    <span
+                      v-if="isLocaleDefault(locale.code)"
+                      class="fs-small text-muted"
+                    >
+                      {{ `(${$t('HELP_CENTER.PORTAL.DEFAULT')})` }}
+                    </span>
+                  </h6>
+
+                  <span class="locale-meta">
                     {{ locale.articles_count }}
                     {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
                     {{ locale.code }}
                   </span>
                 </div>
-                <fluent-icon
-                  :v-if="isLocaleActive(locale.code)"
-                  icon="checkmark"
-                  class="locale__radio"
-                />
+                <div v-if="isLocaleActive(locale.code, activePortalSlug)">
+                  <fluent-icon icon="checkmark" class="locale__radio" />
+                </div>
               </div>
             </woot-button>
-          </li>
-          <li class="add-locale-wrap">
-            <a>+ {{ $t('HELP_CENTER.PORTAL.ADD_NEW_LOCALE') }}</a>
           </li>
         </ul>
       </div>
@@ -59,6 +71,7 @@
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import portalMixin from '../mixins/portalMixin';
+
 export default {
   components: {
     thumbnail,
@@ -72,6 +85,10 @@ export default {
     active: {
       type: Boolean,
       default: false,
+    },
+    activePortalSlug: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -110,10 +127,13 @@ export default {
       });
       this.$emit('open-portal-page');
     },
-    isLocaleActive(code) {
-      const isPortalActive = this.portalSlug === this.portal.slug;
+    isLocaleActive(code, slug) {
+      const isPortalActive = this.portal.slug === slug;
       const isLocaleActive = this.portal?.meta?.default_locale === code;
       return isPortalActive && isLocaleActive;
+    },
+    isLocaleDefault(code) {
+      return this.portal?.meta?.default_locale === code;
     },
   },
 };
@@ -206,7 +226,7 @@ export default {
       text-align: left;
     }
 
-    span {
+    .locale-meta {
       display: flex;
       color: var(--s-500);
       font-size: var(--font-size-small);
@@ -219,5 +239,9 @@ export default {
       flex-grow: 1;
     }
   }
+}
+
+.text-block-title {
+  margin-bottom: var(--space-micro);
 }
 </style>
