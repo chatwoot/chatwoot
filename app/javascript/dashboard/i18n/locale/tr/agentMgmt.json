@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Kullanıcılar",
-    "HEADER_BTN_TXT": "Kullanıcı Ekle",
-    "LOADING": "Kullanıcı Listesi Alınıyor",
-    "SIDEBAR_TXT": "<p><b>Alanlar</b> </p> <p> Bir <b> Temsilci </b>, Müşteri Destek ekibinizin bir üyesidir. </p> <p> Temsilciler, kullanıcılarınızdan gelen mesajları görüntüleyebilecek ve yanıtlayabilecek. Liste, şu anda hesabınızda bulunan tüm aracıları gösterir. </p> <p> Yeni bir temsilci eklemek için <b> Temsilci Ekle </b> 'yi tıklayın. Eklediğiniz temsilci, hesabını etkinleştirmek için bir onay bağlantısı içeren bir e-posta alacak ve ardından Chatwoot'a erişebilecek ve mesajlara yanıt verebilecek. </p> <p> Chatwoot'un özelliklerine erişim aşağıdaki rollere bağlıdır. </p> <p> <b> Temsilci </b> - Bu role sahip temsilciler yalnızca gelen kutularına, raporlara ve konuşmalara erişebilir. Görüşmeleri başka aracılara veya kendilerine atayabilir ve görüşmeleri çözebilirler. </p> <p> <b> Yönetici </b> - Yönetici, ayarlar da dahil olmak üzere hesabınız için etkinleştirilmiş tüm Chatwoot özelliklerine ve tüm normal temsilcilerin ayrıcalıkları. </p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Yönetici",
-      "AGENT": "Kullanıcı"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Bu hesapla ilişkilendirilmiş hesap yok",
-      "TITLE": "Bu hesapla ilişkilendirilmiş kullanıcı yok",
-      "DESC": "Ekibinize kullanıcı ekleyebilir veya kaldırabilirsiniz.",
-      "NAME": "İsim",
-      "EMAIL": "E-Posta",
-      "STATUS": "Durum",
-      "ACTIONS": "Hareketler",
-      "VERIFIED": "Doğrulandı",
-      "VERIFICATION_PENDING": "Doğrulama Bekleniyor"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Ekibinize temsilci ekleyin",
-      "DESC": "Gelen kutularınız için destek sağlayabilecek kişiler ekleyebilirsiniz.",
-      "CANCEL_BUTTON_TEXT": "İptal et",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Kullanıcı Adı",
-          "PLACEHOLDER": "Lütfen temsilcinin adını girin"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-posta adresi",
-          "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Kullanıcı Ekle"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kullanıcı başarıyla eklendi",
-        "EXIST_MESSAGE": "Temsilci e-postası zaten kullanımda, Lütfen başka bir e-posta adresi deneyin",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Sil",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Kullanıcı başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Silmeyi onayla",
-        "MESSAGE": "Silmek istediğinize emin misiniz ?",
-        "YES": "Evet, Sil ",
-        "NO": "Hayır, Tut"
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Temsilciyi düzenle",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Kullanıcı Adı",
-          "PLACEHOLDER": "Lütfen temsilcinin adını girin"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-posta adresi",
-          "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Temsilciyi düzenle"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Düzenle",
-      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Kullanıcı başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Şifreyi yenile",
-        "ADMIN_SUCCESS_MESSAGE": "Temsilciye şifre sıfırlama talimatlarını içeren bir e-posta gönderildi",
-        "SUCCESS_MESSAGE": "Kullanıcı şifresi başarıyla sıfırlandı",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Sonuç bulunamadı."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Hiç",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Temsilci seçin",
-        "TEAM": "Takım seçin"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Kullanıcı bulunamadı",
-          "TEAM": "Takım bulunamadı"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Temsilci ara",
-          "TEAM": "Takım ara"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
