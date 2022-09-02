@@ -3,7 +3,6 @@
     <div class="header-left--wrap">
       <woot-button
         icon="chevron-left"
-        class-names="article-back-buttons"
         variant="clear"
         color-scheme="primary"
         @click="onClickGoBack"
@@ -237,9 +236,6 @@ export default {
 .header-right--wrap {
   display: flex;
   align-items: center;
-}
-.article-back-buttons {
-  padding-left: 0;
 }
 .article--buttons {
   margin-left: var(--space-smaller);
