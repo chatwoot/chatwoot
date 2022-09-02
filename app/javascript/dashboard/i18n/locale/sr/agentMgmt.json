@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agenti",
-    "HEADER_BTN_TXT": "Dodaj agenta",
-    "LOADING": "Preuzimanje liste agenata",
-    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> <b>Agent</b> je član vašeg tima korisničke podršek. </p><p> Agenti će biti u mogućnosti da vide i odgovore na poruke od strane vaših korisnika. Spisak prikazuje sve trenutne agente na vašem nalogu. </p><p> Kliknite na <b>Dodaj agenta</b> da bi ste dodali novog agenta. Agent će dobiti e-poruku sa vezom za potvrdu aktiviranja njihovog naloga, nakon čega mogu da pristupe Chatwoot-u i odgovaraju na poruke. </p><p> Pristup mogućnostima Chatwoot-a zavisi od sledećih uloga. </p><p> <b>Agent</b> - Agent sa ovom ulogom može samo da pristupa prijamnim sandučićima, izveštajima i razgovorima. Oni mogu da dodele razgovore drugim agentima ili sami sebi i da rešavaju razgovore.</p><p> <b>Administrator</b> - Administrator ima pristup svim mogućnostima Chatwoot-a koja su aktivirana za vaš nalog, uključujući podešavanjima, pored svih normalnih privilegija agenata.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Nema agenata povezanih sa ovim nalogom",
-      "TITLE": "Upravljajte agentima u Vašem timu",
-      "DESC": "Možete dodati ili ukloniti agente iz Vašeg tima.",
-      "NAME": "Ime",
-      "EMAIL": "E-POŠTA",
-      "STATUS": "Status",
-      "ACTIONS": "Akcije",
-      "VERIFIED": "Provereno",
-      "VERIFICATION_PENDING": "Verifikacija na čekanju"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Dodajte agenta u Vaš tim",
-      "DESC": "Možete dodati ljude koji će moći da rukovode podrškom za vaše prijemno sanduče.",
-      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Ime agenta",
-          "PLACEHOLDER": "Unesite ime agenta"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Uloga",
-          "PLACEHOLDER": "Izaberite ulogu",
-          "ERROR": "Uloga je obavezna"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-mail adresa",
-          "PLACEHOLDER": "Unesite e-mail adresu agenta"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Dodaj agenta"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent je uspešno dodat",
-        "EXIST_MESSAGE": "E-mail adresa agenta je već u upotrebi, pokušajte sa drugom e-mail adresom",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Izbriši",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Agent je uspešno obrisan",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Potvrdite brisanje",
-        "MESSAGE": "Sigurni ste da želite izbrisati ",
-        "YES": "Da, izbriši ",
-        "NO": "Ne, zadrži "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Uredi agenta",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Ime agenta",
-          "PLACEHOLDER": "Unesite ime agenta"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Uloga",
-          "PLACEHOLDER": "Izaberite ulogu",
-          "ERROR": "Uloga je obavezna"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-mail adresa",
-          "PLACEHOLDER": "Unesite e-mail adresu agenta"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Uredi agenta"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Uredi",
-      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Agent je uspešno ažuriran",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Resetuj šifru",
-        "ADMIN_SUCCESS_MESSAGE": "Agentu je poslana e-mail poruka sa instrukcijama za promenu šifre",
-        "SUCCESS_MESSAGE": "Šifra agenta je uspešno promenjena",
-        "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Nema rezultata."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Nijedan",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Izaberite agenta",
-        "TEAM": "Izaberite tim"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Nema pronađenih agenata",
-          "TEAM": "Nema pronađenih timova"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Traži agente",
-          "TEAM": "Traži tim"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
