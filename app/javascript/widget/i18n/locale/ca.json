@@ -2,85 +2,85 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
-      "UPLOADING": "S'està carregant..."
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envia"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Estem en línia",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
-    "IN_A_FEW_HOURS": "Normalment responem en poques hores",
-    "IN_A_DAY": "Normalment respon en un dia"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Inicia la conversa",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
+    "VIEW_MESSAGES_BUTTON": "",
     "CLOSE_MESSAGES_BUTTON": "Tanca",
-    "COMPANY_FROM": "from",
-    "BOT": "Bot"
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Xateja amb nosaltres"
+    "LABEL": ""
   },
-  "POWERED_BY": "Desenvolupat per Chatwoot",
+  "POWERED_BY": "",
   "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
-  "CHAT_PLACEHOLDER": "Escriu el missatge",
-  "TODAY": "Avui",
-  "YESTERDAY": "Ahir",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Nom complet",
-        "PLACEHOLDER": "Introdueix el vostre nom complet",
-        "REQUIRED_ERROR": "El Nom Complert és obligatori"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Adreça de correu electrònic",
-        "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
       },
       "PHONE_NUMBER": {
-        "LABEL": "Número de telèfon",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Missatge",
-        "PLACEHOLDER": "Si us plau, introdueix el teu missatge",
-        "ERROR": "Missatge massa curt"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
-    "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
