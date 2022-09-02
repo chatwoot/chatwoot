@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Извличане на разговори",
-    "LOAD_MORE_CONVERSATIONS": "Зареди още разговори",
-    "EOF": "Всички разговори са заредени 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "Няма активни разговори в тази група."
+      "404": ""
     },
-    "TAB_HEADING": "Разговори",
-    "MENTION_HEADING": "Споменавания",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Търсене на хора, чатове, запазени отговори .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Всички",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Мой",
-      "unassigned": "Неназначен",
-      "all": "Всички"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Отворен"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Разрешен"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Предстоящ"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Отложен"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Съобщение със снимка"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Аудио съобщение"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Видео съобщение"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "Прикачен файл"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Локация"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "сподели линк"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "Получено чрез имейл",
-    "VIEW_TWEET_IN_TWITTER": "Виж туита в Twitter",
-    "REPLY_TO_TWEET": "Отговори на този туит",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Успено изпратено",
-    "NO_MESSAGES": "Няма съобщения",
-    "NO_CONTENT": "Няма налично съдържание",
-    "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",
-    "SHOW_QUOTED_TEXT": "Показване на цитирания текст",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
