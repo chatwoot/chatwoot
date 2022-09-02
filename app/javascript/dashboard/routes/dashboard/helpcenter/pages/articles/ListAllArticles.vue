@@ -147,7 +147,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  padding: var(--space-small) var(--space-normal);
+  padding: 0 var(--space-normal);
   width: 100%;
   .articles--loader {
     align-items: center;
