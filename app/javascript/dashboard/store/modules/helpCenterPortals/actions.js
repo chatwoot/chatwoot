@@ -1,4 +1,4 @@
-import PortalAPI from 'dashboard/api/helpCenter/portals.js';
+import PortalAPI from 'dashboard/api/helpCenter/portals';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 const portalAPIs = new PortalAPI();
