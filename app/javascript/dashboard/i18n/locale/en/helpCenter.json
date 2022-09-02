@@ -122,9 +122,28 @@
           }
         }
       },
+      "EDIT": {
+        "HEADER_TEXT": "Edit portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Basic information"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portal customization"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categories"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Update basic settings"
+        }
+      },
       "ADD": {
-        "CREATE_FLOW": [
-          {
+        "CREATE_FLOW": [{
             "title": "Help center information",
             "route": "new_portal_information",
             "body": "Basic information about portal",
@@ -207,7 +226,9 @@
           "ERROR": "Portal header text is required"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       },
