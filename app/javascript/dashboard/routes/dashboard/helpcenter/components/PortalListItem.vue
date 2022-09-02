@@ -243,6 +243,7 @@ export default {
       this.$emit('open-site');
     },
     openSettings() {
+      this.fetchPortalsAndItsCategories();
       this.navigateToPortalEdit();
     },
     onClickOpenDeleteModal(portal) {
@@ -251,6 +252,13 @@ export default {
     },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
+    },
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.portal.slug,
+        });
+      });
     },
     async onClickDeletePortal() {
       const { slug } = this.selectedPortalForDelete;
