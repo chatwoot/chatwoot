@@ -64,6 +64,7 @@
           <woot-button
             class-names="publish-button"
             size="small"
+            icon="checkmark"
             color-scheme="primary"
             :is-disabled="!articleSlug || isPublishedArticle"
             @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"

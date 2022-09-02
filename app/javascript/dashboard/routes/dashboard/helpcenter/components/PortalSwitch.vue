@@ -21,23 +21,17 @@
         <ul>
           <li v-for="locale in locales" :key="locale.code">
             <woot-button
-              class="locale-item"
-              variant="clear"
+              :class="
+                `locale-item ${
+                  isLocaleActive(locale.code) ? 'smooth' : 'clear'
+                }`
+              "
               size="large"
               color-scheme="secondary"
               @click="event => onClick(event, locale.code, portal)"
             >
               <div class="locale-content">
-                <input
-                  :id="`locale-${locale.code}`"
-                  v-model="selectedLocale"
-                  type="radio"
-                  name="locale"
-                  :value="locale.code"
-                  class="locale__radio"
-                  :checked="isLocaleActive(locale.code)"
-                />
-                <div>
+                <div class="meta">
                   <p>{{ localeName(locale.code) }}</p>
                   <span>
                     {{ locale.articles_count }}
@@ -45,6 +39,11 @@
                     {{ locale.code }}
                   </span>
                 </div>
+                <fluent-icon
+                  :v-if="isLocaleActive(locale.code)"
+                  icon="checkmark"
+                  class="locale__radio"
+                />
               </div>
             </woot-button>
           </li>
@@ -106,7 +105,6 @@ export default {
     isLocaleActive(code) {
       const isPortalActive = this.portalSlug === this.portal.slug;
       const isLocaleActive = this.portal?.meta?.default_locale === code;
-
       return isPortalActive && isLocaleActive;
     },
   },
@@ -176,24 +174,6 @@ export default {
         margin: 0;
       }
 
-      .locale-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: var(--space-smaller);
-        padding: var(--space-smaller);
-        border-radius: var(--border-radius-normal);
-
-        p {
-          margin-bottom: 0;
-          text-align: left;
-        }
-
-        span {
-          color: var(--s-500);
-          font-size: var(--font-size-small);
-        }
-      }
-
       .locale__radio {
         width: var(--space-large);
         margin-top: var(--space-tiny);
@@ -202,6 +182,33 @@ export default {
       .add-locale-wrap {
         margin-top: var(--spacing-small);
       }
+    }
+  }
+
+  .locale-item {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--space-smaller) var(--space-normal);
+    border-radius: var(--border-radius-normal);
+    width: 100%;
+    margin-bottom: var(--space-small);
+
+    p {
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    span {
+      display: flex;
+      color: var(--s-500);
+      font-size: var(--font-size-small);
+      text-align: left;
+      line-height: var(--space-normal);
+      width: 100%;
+    }
+
+    .meta {
+      flex-grow: 1;
     }
   }
 }

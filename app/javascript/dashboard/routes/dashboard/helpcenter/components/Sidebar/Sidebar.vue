@@ -4,6 +4,7 @@
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
       :sub-title="subTitle"
+      :portal-link="portalLink"
       @open-popover="openPortalPopover"
     />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
@@ -65,6 +66,10 @@ export default {
         this.additionalSecondaryMenuItems[0] &&
         this.additionalSecondaryMenuItems[0].children.length > 0
       );
+    },
+    portalLink() {
+      const slug = this.$route.params.portalSlug;
+      return `/public/api/v1/portals/${slug}`;
     },
   },
   methods: {

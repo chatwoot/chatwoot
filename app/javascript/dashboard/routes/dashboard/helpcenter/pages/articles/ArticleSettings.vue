@@ -214,7 +214,8 @@ export default {
 .article-settings--container {
   flex: 0.3;
   min-width: var(--space-giga);
-  overflow: scroll;
+  max-width: 36rem;
+  overflow-y: auto;
   border-left: 1px solid var(--color-border-light);
   margin-left: var(--space-normal);
   padding-left: var(--space-normal);

@@ -11,6 +11,7 @@
         @back="onClickGoBack"
         @open="openArticleSettings"
         @close="closeArticleSettings"
+        @show="showArticleInPortal"
       />
       <div v-if="isFetching" class="text-center p-normal fs-default h-full">
         <spinner size="" />
@@ -82,6 +83,10 @@ export default {
     },
     selectedPortalSlug() {
       return this.$route.params.portalSlug;
+    },
+    portalLink() {
+      const slug = this.$route.params.portalSlug;
+      return `/public/api/v1/portals/${slug}`;
     },
   },
   mounted() {
@@ -171,6 +176,9 @@ export default {
     closeArticleSettings() {
       this.showArticleSettings = false;
     },
+    showArticleInPortal() {
+      window.open(this.portalLink, '_blank');
+    },
   },
 };
 </script>
@@ -190,7 +198,8 @@ export default {
   }
 
   .is-sidebar-open {
-    flex: 0.7;
+    flex-grow: 1;
+    flex-shrink: 0;
   }
 }
 </style>

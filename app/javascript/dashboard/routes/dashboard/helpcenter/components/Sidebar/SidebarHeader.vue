@@ -52,10 +52,14 @@ export default {
       type: String,
       default: '',
     },
+    portalLink: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     popoutHelpCenter() {
-      this.$emit('pop-out');
+      window.open(this.portalLink, '_blank');
     },
     openPortalPopover() {
       this.$emit('open-popover');
