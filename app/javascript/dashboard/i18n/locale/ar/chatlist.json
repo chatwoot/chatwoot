@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "جاري جلب المحادثات",
-    "LOAD_MORE_CONVERSATIONS": "تحميل المزيد من المحادثات",
-    "EOF": "تم تحميل كافة المحادثات 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "لا توجد محادثات نشطة في هذه المجموعة."
+      "404": ""
     },
-    "TAB_HEADING": "المحادثات",
-    "MENTION_HEADING": "الإشارات",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "الكل",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "محادثاتي",
-      "unassigned": "غير مسند",
-      "all": "الكل"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "فتح"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "مغلقة"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "معلق"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "غفوة"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "رسالة صورة"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "رسالة صوتية"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "رسالة فيديو"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "مرفقات"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "الموقع الجغرافي"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "قام بمشاركة رابط"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
-    "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
-    "REPLY_TO_TWEET": "الرد على هذه التغريدة",
-    "LINK_TO_STORY": "الذهاب إلى قصة الإنستقرام",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "لا توجد رسائل",
-    "NO_CONTENT": "لم يتم العثور على محتوى",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "قرائة"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
