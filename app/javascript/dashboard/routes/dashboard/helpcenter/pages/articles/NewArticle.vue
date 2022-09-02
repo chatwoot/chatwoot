@@ -122,8 +122,7 @@ export default {
 .new-article--container {
   flex: 1;
   flex-shrink: 0;
-  overflow: scroll;
-  overflow: auto;
+  overflow-y: auto;
 }
 .is-sidebar-open {
   flex: 0.7;

@@ -18,7 +18,7 @@
               />
             </div>
             <p class="portal-count">
-              {{ portal.articles_count }}
+              {{ articleCount }}
               {{
                 $t(
                   'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.COUNT_LABEL'
@@ -233,6 +233,10 @@ export default {
         return this.locales[key].code;
       });
     },
+    articleCount() {
+      const { all_articles_count: count } = this.portal.meta;
+      return count;
+    },
   },
   methods: {
     addLocale() {
@@ -357,7 +361,7 @@ export default {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: var(--space-normal);
+      margin-bottom: var(--space-large);
       .title-status--wrap {
         display: flex;
         align-items: center;
@@ -379,6 +383,7 @@ export default {
       }
     }
     .portal-locales {
+      margin-top: var(--space-medium);
       margin-bottom: var(--space-small);
       .locale-title {
         color: var(--s-800);
@@ -410,7 +415,7 @@ export default {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
-      margin-bottom: var(--space-slab);
+      margin-bottom: var(--space-normal);
       .content-theme-wrap {
         display: flex;
         align-items: center;
