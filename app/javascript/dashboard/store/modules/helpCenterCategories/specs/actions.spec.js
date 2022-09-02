@@ -13,6 +13,7 @@ describe('#actions', () => {
       await actions.index({ commit }, { portalSlug: 'room-rental' });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_UI_FLAG, { isFetching: true }],
+        [types.default.CLEAR_CATEGORIES],
         [types.default.ADD_MANY_CATEGORIES, categoriesPayload.payload],
         [types.default.ADD_MANY_CATEGORIES_ID, [1, 2]],
         [types.default.SET_UI_FLAG, { isFetching: false }],
