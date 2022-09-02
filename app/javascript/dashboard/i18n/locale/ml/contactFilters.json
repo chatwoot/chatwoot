@@ -1,50 +1,50 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "സേവ് ചെയ്യാൻ നിങ്ങൾക്ക് ഒരു ഫിൽട്ടറെങ്കിലും ഉണ്ടായിരിക്കണം",
+        "TITLE": "",
+        "SUBTITLE": "",
+        "ADD_NEW_FILTER": "",
+        "CLEAR_ALL_FILTERS": "",
+        "FILTER_DELETE_ERROR": "",
         "SUBMIT_BUTTON_LABEL": "സമർപ്പിക്കുക",
         "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
-        "CLEAR_BUTTON_LABEL": "ഫിൽട്ടറുകൾ മായ്ക്കുക",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "",
+        "EMPTY_VALUE_ERROR": "",
+        "TOOLTIP_LABEL": "",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "ഒപ്പം",
-            "OR": "അഥവാ"
+            "AND": "",
+            "OR": ""
         },
         "OPERATOR_LABELS": {
-            "equal_to": "തുല്യമാണ്",
-            "not_equal_to": "തുല്യമല്ല",
-            "contains": "അടങ്ങിയിരിക്കുന്നു",
-            "does_not_contain": "ഉൾപ്പെട്ടിട്ടില്ല",
-            "is_present": "നിലവിലുണ്ട്",
-            "is_not_present": "നിലവിലില്ല",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "equal_to": "",
+            "not_equal_to": "",
+            "contains": "",
+            "does_not_contain": "",
+            "is_present": "",
+            "is_not_present": "",
+            "is_greater_than": "",
+            "is_lesser_than": "",
+            "days_before": ""
         },
         "ATTRIBUTES": {
             "NAME": "പേര്",
             "EMAIL": "ഇമെയിൽ",
             "PHONE_NUMBER": "ഫോൺ നമ്പർ",
-            "IDENTIFIER": "Identifier",
-            "CITY": "നഗരം",
-            "COUNTRY": "രാജ്യം",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
-            "REFERER_LINK": "Referrer link"
+            "IDENTIFIER": "",
+            "CITY": "",
+            "COUNTRY": "",
+            "CUSTOM_ATTRIBUTE_LIST": "",
+            "CUSTOM_ATTRIBUTE_TEXT": "",
+            "CUSTOM_ATTRIBUTE_NUMBER": "",
+            "CUSTOM_ATTRIBUTE_LINK": "",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+            "CREATED_AT": "",
+            "LAST_ACTIVITY": "",
+            "REFERER_LINK": ""
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
-            "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ"
+            "STANDARD_FILTERS": "",
+            "ADDITIONAL_FILTERS": "",
+            "CUSTOM_ATTRIBUTES": ""
         }
     }
 }
