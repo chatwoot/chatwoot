@@ -84,7 +84,8 @@
             "COUNT_LABEL": "Artikel",
             "ADD": "Sprache hinzufügen",
             "VISIT": "Seite besuchen",
-            "SETTINGS": "Einstellungen"
+            "SETTINGS": "Einstellungen",
+            "DELETE": "Löschen"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Portalkonfigurationen",
@@ -109,25 +110,35 @@
               "DEFAULT_LOCALE": "Standard"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Portal löschen",
+          "MESSAGE": "Möchten Sie dieses Portal wirklich löschen",
+          "YES": "Ja, Portal löschen",
+          "NO": "Nein, Portal behalten",
+          "API": {
+            "DELETE_SUCCESS": "Portal erfolgreich gelöscht",
+            "DELETE_ERROR": "Fehler beim Löschen des Portals"
+          }
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
             "title": "Informationen zum Hilfezentrum",
-            "route": "new_portal_information",
+            "route": "",
             "body": "Grundlegende Informationen zum Portal",
             "CREATE_BASIC_SETTING_BUTTON": "Portalgrundeinstellungen erstellen"
           },
           {
             "title": "Anpassung des Help Centers",
-            "route": "portal_customization",
+            "route": "",
             "body": "Portal anpassen",
             "UPDATE_PORTAL_BUTTON": "Portaleinstellungen aktualisieren"
           },
           {
             "title": "Voila! 🎉",
-            "route": "portal_finish",
+            "route": "",
             "body": "Sie sind bereit!",
             "FINISH": "Abschließen"
           }
@@ -147,7 +158,7 @@
           "FINISH_PAGE": {
             "TITLE": "Voila!🎉 Sie sind fertig!",
             "MESSAGE": "Sie können dieses erstellte Portal jetzt auf Ihrer Seite \"Alle Portale\" sehen.",
-            "FINISH": "Zur Seite Alle Portale"
+            "FINISH": ""
           }
         },
         "LOGO": {
@@ -196,8 +207,26 @@
           "ERROR": "Portal-Kopfzeilentext ist erforderlich"
         },
         "API": {
-          "ERROR_MESSAGE_FOR_BASIC": "Das Portal konnte nicht erstellt werden. Versuchen Sie es nochmal.",
+          "ERROR_MESSAGE_FOR_BASIC": "",
           "ERROR_MESSAGE_FOR_UPDATE": "Das Portal konnte nicht aktualisiert werden. Versuchen Sie es nochmal."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Neues Gebietsschema hinzufügen",
+        "SUB_TITLE": "",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Sprache",
+          "PLACEHOLDER": "Wählen Sie ein Gebietsschema",
+          "ERROR": ""
+        },
+        "BUTTONS": {
+          "CREATE": "",
+          "CANCEL": "Stornieren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     },
@@ -222,6 +251,26 @@
       "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel",
       "API": {
         "ERROR": "Fehler beim Speichern des Artikels"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Fehler beim Archivieren des Artikels",
+        "SUCCESS": "Artikel erfolgreich archiviert"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Löschung bestätigen",
+          "MESSAGE": "Möchten Sie den Artikel wirklich löschen?",
+          "YES": "Ja, löschen",
+          "NO": "Nein, behalte es"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Artikel erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Fehler beim Löschen des Artikels"
       }
     },
     "CREATE_ARTICLE": {
