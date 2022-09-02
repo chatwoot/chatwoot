@@ -19,7 +19,7 @@ export const mutations = {
   [types.CLEAR_CATEGORIES]: $state => {
     Vue.set($state.categories, 'byId', {});
     Vue.set($state.categories, 'allIds', []);
-    Vue.set($state.categories, 'uiFlags', {});
+    Vue.set($state.categories.uiFlags, 'byId', {});
   },
   [types.ADD_MANY_CATEGORIES]($state, categories) {
     const allCategories = { ...$state.categories.byId };
