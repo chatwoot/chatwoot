@@ -148,8 +148,8 @@ RSpec.describe 'Team Members API', type: :request do
         expect(json_response.count).to eq(user_ids.count)
       end
 
-      it 'ingnore the team members when its not part of team account_user' do
-        params = { user_ids: [agent_2] }
+      it 'ignores the user ids when its not a valid account user id' do
+        params = { user_ids: [agent_2.id] }
 
         patch "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
               params: params,
