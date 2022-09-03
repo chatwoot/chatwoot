@@ -234,10 +234,6 @@ export default {
   .action-buttons {
     display: flex;
     flex-direction: column;
-
-    ::v-deep .button {
-      padding-left: 0;
-    }
   }
 }
 ::v-deep {

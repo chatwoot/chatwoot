@@ -44,9 +44,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
-import ArticleEditor from '../../components/ArticleEditor.vue';
-import ArticleSettings from './ArticleSettings.vue';
+import EditArticleHeader from '../../components/Header/EditArticleHeader';
+import ArticleEditor from '../../components/ArticleEditor';
+import ArticleSettings from './ArticleSettings';
 import Spinner from 'shared/components/Spinner';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
