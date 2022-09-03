@@ -4,7 +4,7 @@
     <div class="actions-container">
       <header>
         <div>
-          <h3 class="text-block-title portal-title">{{ portal.name }}</h3>
+          <h3 class="sub-block-title portal-title">{{ portal.name }}</h3>
           <p class="portal-count">
             {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
@@ -171,8 +171,7 @@ export default {
       }
 
       .portal-title {
-        margin-bottom: 0;
-        color: var(--s-700);
+        margin-bottom: var(--space-micro);
       }
 
       .portal-count {
@@ -239,9 +238,5 @@ export default {
       flex-grow: 1;
     }
   }
-}
-
-.text-block-title {
-  margin-bottom: var(--space-micro);
 }
 </style>
