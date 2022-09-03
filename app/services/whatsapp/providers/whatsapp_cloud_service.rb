@@ -40,11 +40,31 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "https://graph.facebook.com/v13.0/#{media_id}"
   end
 
+  def message_update_payload(message)
+    {
+      messaging_product: 'whatsapp',
+      status: message[:status],
+      message_id: message[:source_id]
+    }
+  end
+
+  def message_update_http_method
+    :post
+  end
+
+  def message_path(_message)
+    messages_path
+  end
+
   private
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
     "https://graph.facebook.com/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+  end
+
+  def messages_path
+    "#{phone_id_path}/messages"
   end
 
   def business_account_path
@@ -53,7 +73,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def send_text_message(phone_number, message)
     response = HTTParty.post(
-      "#{phone_id_path}/messages",
+      messages_path,
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',

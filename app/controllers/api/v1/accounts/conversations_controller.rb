@@ -82,6 +82,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     last_incoming_message = @conversation.messages.incoming.last
     last_seen_at = last_incoming_message.created_at - 1.second if last_incoming_message.present?
     update_last_seen_on_conversation(last_seen_at, true)
+    @conversation.update_last_seen(DateTime.now.utc, assignee?)
   end
 
   def custom_attributes

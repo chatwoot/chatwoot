@@ -45,6 +45,14 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     "#{api_base_path}/media/#{media_id}"
   end
 
+  def message_update_payload(message)
+    { status: message[:status] }
+  end
+
+  def message_path(message)
+    "#{api_base_path}/messages/#{message[:source_id]}"
+  end
+
   private
 
   def api_base_path

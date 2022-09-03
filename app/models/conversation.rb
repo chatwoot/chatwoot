@@ -95,7 +95,7 @@ class Conversation < ApplicationRecord
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
-  after_commit :set_display_id, unless: :display_id?
+  after_commit :reload, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
 
@@ -184,6 +184,16 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  def update_last_seen(agent_last_seen_at, assignee)
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:agent_last_seen_at, agent_last_seen_at)
+    update_column(:assignee_last_seen_at, agent_last_seen_at) if assignee
+    messages.to_read(agent_last_seen_at).each do |message|
+      message.update_column(:status, :read)
+    end
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -218,10 +228,6 @@ class Conversation < ApplicationRecord
 
   def self_assign?(assignee_id)
     assignee_id.present? && Current.user&.id == assignee_id
-  end
-
-  def set_display_id
-    reload
   end
 
   def notify_status_change
