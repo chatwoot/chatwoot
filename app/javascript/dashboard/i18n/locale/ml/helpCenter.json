@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "",
       "PUBLISH_BUTTON": "",
+      "MOVE_TO_ARCHIVE_BUTTON": "",
       "PREVIEW": "",
       "ADD_TRANSLATION": "",
       "OPEN_SIDEBAR": "",
@@ -122,6 +123,41 @@
           }
         }
       },
+      "EDIT": {
+        "HEADER_TEXT": "",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": ""
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": ""
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": ""
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": ""
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "",
+          "NEW_CATEGORY": "",
+          "TABLE": {
+            "NAME": "പേര്",
+            "DESCRIPTION": "",
+            "LOCALE": "",
+            "ARTICLE_COUNT": "",
+            "ACTION_BUTTON": {
+              "EDIT": "",
+              "DELETE": ""
+            },
+            "EMPTY_TEXT": ""
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": ""
+        }
+      },
       "ADD": {
         "CREATE_FLOW": [
           {
@@ -207,7 +243,9 @@
           "ERROR": ""
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "",
           "ERROR_MESSAGE_FOR_BASIC": "",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "",
           "ERROR_MESSAGE_FOR_UPDATE": ""
         }
       },
@@ -224,6 +262,18 @@
           "CREATE": "",
           "CANCEL": "റദ്ദാക്കുക"
         },
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
+        }
+      },
+      "DELETE_LOCALE": {
         "API": {
           "SUCCESS_MESSAGE": "",
           "ERROR_MESSAGE": ""
@@ -251,6 +301,12 @@
       "CONTENT_PLACEHOLDER": "",
       "API": {
         "ERROR": ""
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "",
+        "SUCCESS": ""
       }
     },
     "ARCHIVE_ARTICLE": {
@@ -308,6 +364,43 @@
           "CREATE": "",
           "CANCEL": "റദ്ദാക്കുക"
         },
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
+        }
+      },
+      "EDIT": {
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "",
+        "LOCALE": "",
+        "NAME": {
+          "LABEL": "പേര്",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
+        },
+        "SLUG": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
+        },
+        "DESCRIPTION": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "BUTTONS": {
+          "CREATE": "",
+          "CANCEL": "റദ്ദാക്കുക"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
+        }
+      },
+      "DELETE": {
         "API": {
           "SUCCESS_MESSAGE": "",
           "ERROR_MESSAGE": ""
