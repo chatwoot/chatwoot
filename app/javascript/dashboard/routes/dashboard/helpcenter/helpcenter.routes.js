@@ -85,7 +85,7 @@ const portalRoutes = [
         roles: ['administrator'],
       },
       {
-        path: getPortalRoute(':portalSlug/edit/:locale/categories'),
+        path: 'categories',
         name: 'list_all_locale_categories',
         roles: ['administrator', 'agent'],
         component: ListAllCategories,
