@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "Alle Artikel",
       "PUBLISH_BUTTON": "Veröffentlichen",
+      "MOVE_TO_ARCHIVE_BUTTON": "Zu archiviert verschieben",
       "PREVIEW": "Vorschau",
       "ADD_TRANSLATION": "Übersetzung hinzufügen",
       "OPEN_SIDEBAR": "Seitenleiste öffnen",
@@ -122,6 +123,41 @@
           }
         }
       },
+      "EDIT": {
+        "HEADER_TEXT": "Portal bearbeiten",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Grundinformation"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portalanpassung"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Kategorien"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Sprachen"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "",
+          "NEW_CATEGORY": "",
+          "TABLE": {
+            "NAME": "Name",
+            "DESCRIPTION": "Beschreibung",
+            "LOCALE": "Sprache",
+            "ARTICLE_COUNT": "Anzahl Artikel",
+            "ACTION_BUTTON": {
+              "EDIT": "",
+              "DELETE": ""
+            },
+            "EMPTY_TEXT": "Keine Kategorien gefunden"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Grundeinstellungen aktualisieren"
+        }
+      },
       "ADD": {
         "CREATE_FLOW": [
           {
@@ -207,26 +243,40 @@
           "ERROR": "Portal-Kopfzeilentext ist erforderlich"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal erfolgreich erstellt.",
           "ERROR_MESSAGE_FOR_BASIC": "",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal erfolgreich aktualisiert.",
           "ERROR_MESSAGE_FOR_UPDATE": "Das Portal konnte nicht aktualisiert werden. Versuchen Sie es nochmal."
         }
       },
       "ADD_LOCALE": {
         "TITLE": "Neues Gebietsschema hinzufügen",
-        "SUB_TITLE": "",
+        "SUB_TITLE": "Dadurch wird Ihrer verfügbaren Übersetzungsliste eine neue Sprache hinzugefügt.",
         "PORTAL": "Portal",
         "LOCALE": {
           "LABEL": "Sprache",
           "PLACEHOLDER": "Wählen Sie ein Gebietsschema",
-          "ERROR": ""
+          "ERROR": "Sprache ist erforderlich"
         },
         "BUTTONS": {
-          "CREATE": "",
+          "CREATE": "Sprache erstellen",
           "CANCEL": "Stornieren"
         },
         "API": {
-          "SUCCESS_MESSAGE": "",
-          "ERROR_MESSAGE": ""
+          "SUCCESS_MESSAGE": "Sprache erfolgreich hinzugefügt",
+          "ERROR_MESSAGE": "Sprache kann nicht hinzugefügt werden. Versuchen Sie es nochmal."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Standardsprache erfolgreich aktualisiert",
+          "ERROR_MESSAGE": "Die Standardsprache kann nicht aktualisiert werden. Versuchen Sie es nochmal."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Sprache wurde erfolgreich aus dem Portal entfernt",
+          "ERROR_MESSAGE": "Sprache kann nicht aus dem Portal entfernt werden. Versuchen Sie es nochmal."
         }
       }
     },
@@ -251,6 +301,12 @@
       "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel",
       "API": {
         "ERROR": "Fehler beim Speichern des Artikels"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Fehler beim Veröffentlichen des Artikels",
+        "SUCCESS": "Artikel erfolgreich veröffentlicht"
       }
     },
     "ARCHIVE_ARTICLE": {
@@ -311,6 +367,43 @@
         "API": {
           "SUCCESS_MESSAGE": "Kategorie erfolgreich erstellt",
           "ERROR_MESSAGE": "Kategorie kann nicht erstellt werden"
+        }
+      },
+      "EDIT": {
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "Portal",
+        "LOCALE": "Sprache",
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Kategoriename",
+          "HELP_TEXT": "Der Kategoriename wird im öffentlich zugänglichen Portal verwendet, um Artikel zu kategorisieren.",
+          "ERROR": "Name wird benötigt"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Kategorie-Slug für URLs",
+          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug ist erforderlich"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Beschreibung",
+          "PLACEHOLDER": "Geben Sie eine kurze Beschreibung der Kategorie ein.",
+          "ERROR": "Beschreibung wird benötigt"
+        },
+        "BUTTONS": {
+          "CREATE": "",
+          "CANCEL": "Stornieren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     }
