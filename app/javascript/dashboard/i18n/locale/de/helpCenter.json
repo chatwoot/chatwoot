@@ -140,16 +140,16 @@
           }
         },
         "CATEGORIES": {
-          "TITLE": "",
-          "NEW_CATEGORY": "",
+          "TITLE": "Kategorien in",
+          "NEW_CATEGORY": "Neue Kategorie",
           "TABLE": {
             "NAME": "Name",
             "DESCRIPTION": "Beschreibung",
             "LOCALE": "Sprache",
             "ARTICLE_COUNT": "Anzahl Artikel",
             "ACTION_BUTTON": {
-              "EDIT": "",
-              "DELETE": ""
+              "EDIT": "Kategorie bearbeiten",
+              "DELETE": "Kategorie löschen"
             },
             "EMPTY_TEXT": "Keine Kategorien gefunden"
           }
@@ -370,8 +370,8 @@
         }
       },
       "EDIT": {
-        "TITLE": "",
-        "SUB_TITLE": "",
+        "TITLE": "Eine Kategorie bearbeiten",
+        "SUB_TITLE": "Durch das Bearbeiten einer Kategorie wird die Kategorie im öffentlich zugänglichen Portal aktualisiert.",
         "PORTAL": "Portal",
         "LOCALE": "Sprache",
         "NAME": {
@@ -392,18 +392,18 @@
           "ERROR": "Beschreibung wird benötigt"
         },
         "BUTTONS": {
-          "CREATE": "",
+          "CREATE": "Kategorie aktualisieren",
           "CANCEL": "Stornieren"
         },
         "API": {
-          "SUCCESS_MESSAGE": "",
-          "ERROR_MESSAGE": ""
+          "SUCCESS_MESSAGE": "Kategorie erfolgreich aktualisiert",
+          "ERROR_MESSAGE": "Kategorie kann nicht aktualisiert werden"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "",
-          "ERROR_MESSAGE": ""
+          "SUCCESS_MESSAGE": "Kategorie erfolgreich gelöscht",
+          "ERROR_MESSAGE": "Kategorie kann nicht gelöscht werden"
         }
       }
     }
