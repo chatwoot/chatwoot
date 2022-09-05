@@ -239,9 +239,11 @@ export default {
   align-items: center;
 }
 .article--buttons {
+  position: relative;
   margin-left: var(--space-smaller);
   .dropdown-pane {
-    right: var(--space-smaller);
+    position: absolute;
+    right: 0;
   }
 }
 .draft-status {
