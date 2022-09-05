@@ -6,7 +6,11 @@
 import Rails from '@rails/ujs';
 import Turbolinks from 'turbolinks';
 
+import { navigateToLocalePage } from '../portal/portal';
+
 import '../portal/application.scss';
 
 Rails.start();
 Turbolinks.start();
+
+document.addEventListener('DOMContentLoaded', navigateToLocalePage);

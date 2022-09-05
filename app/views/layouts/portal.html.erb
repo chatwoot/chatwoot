@@ -30,9 +30,10 @@ By default, it renders:
 
 
   <div class="app-container">
-    <main class="main-content" role="main">
-
+    <main class="main-content min-h-screen flex flex-col" role="main">
+      <%= render "public/api/v1/portals/header", portal: @portal %>
       <%= yield %>
+      <%= render "public/api/v1/portals/footer" %>
     </main>
   </div>
 

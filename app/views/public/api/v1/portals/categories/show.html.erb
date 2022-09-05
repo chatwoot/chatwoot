@@ -1,26 +1,19 @@
-<%= render "public/api/v1/portals/header", portal: @portal %>
+
 <div class="bg-slate-50">
     <div class="max-w-4xl px-6 py-16 mx-auto space-y-8">
-        <a href="/public/api/v1/portals/<%= @portal.slug %>"
-            class="flex flex-row items-center text-base font-sans font-medium text-slate-700 hover:text-slate-900 hover:underline">
-            <span class="mr-2">
-                <svg class="w-4 h-4 fill-current text-slate-600" width="24" height="24" fill="none" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M10.733 19.79a.75.75 0 0 0 1.034-1.086L5.516 12.75H20.25a.75.75 0 0 0 0-1.5H5.516l6.251-5.955a.75.75 0 0 0-1.034-1.086l-7.42 7.067a.995.995 0 0 0-.3.58.754.754 0 0 0 .001.289.995.995 0 0 0 .3.579l7.419 7.067Z"
-                        fill="#212121" /></svg>
-            </span>
-            Back
-        </a>
-        <div class="flex justify-between items-center w-full">
-            <h1 class="text-4xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
+        <a class="text-slate-800 hover:underline leading-8"
+        href="/public/api/v1/portals/<%= @portal.slug %>/" class=""><%= @portal.name %> Home</a>
+		<span>/</span>
+        
+        <div class="flex justify-start items-center w-full">
+            <h1 class="text-3xl font-bold md:tracking-normal leading-snug text-slate-900">
                 <%= @category.name %></h1>
-            <span class="text-slate-500"><%= @category.articles.published.size %> articles</span>
+            <span class="text-slate-500 px-8"><%= @category.articles.published.size %> articles</span>
         </div>
     </div>
 
 </div>
-<section class="bg-white max-w-4xl mx-auto py-6 px-4 flex flex-col items-center justify-center">
+<section class="bg-white max-w-4xl w-full mx-auto py-6 px-4 flex flex-col items-center justify-center flex-grow">
 
     <div class="py-4 w-full mt-2 flex-grow">
         <% if @category.articles.size == 0 %>
@@ -45,3 +38,4 @@
         <% end %>
     </div>
 </section>
+
