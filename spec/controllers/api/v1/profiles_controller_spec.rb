@@ -199,7 +199,7 @@ RSpec.describe 'Profile API', type: :request do
   describe 'PUT /api/v1/profile/set_active_account' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post '/api/v1/profile/set_active_account'
+        put '/api/v1/profile/set_active_account'
 
         expect(response).to have_http_status(:unauthorized)
       end

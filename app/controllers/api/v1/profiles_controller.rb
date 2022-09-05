@@ -19,7 +19,7 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def availability
-    @user.active_account_user.account_id
+    @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
   end
 
   def set_active_account
