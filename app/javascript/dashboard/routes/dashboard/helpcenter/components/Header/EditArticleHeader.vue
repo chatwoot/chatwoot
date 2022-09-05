@@ -3,7 +3,6 @@
     <div class="header-left--wrap">
       <woot-button
         icon="chevron-left"
-        class-names="article-back-buttons"
         variant="clear"
         color-scheme="primary"
         @click="onClickGoBack"
@@ -64,6 +63,7 @@
           <woot-button
             class-names="publish-button"
             size="small"
+            icon="checkmark"
             color-scheme="primary"
             :is-disabled="!articleSlug || isPublishedArticle"
             @click="updateArticleStatus(ARTICLE_STATUS_TYPES.PUBLISH)"
@@ -227,7 +227,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: var(--space-larger);
+  height: var(--space-jumbo);
+  padding-top: var(--space-small);
 }
 .header-left--wrap {
   display: flex;
@@ -237,13 +238,12 @@ export default {
   display: flex;
   align-items: center;
 }
-.article-back-buttons {
-  padding-left: 0;
-}
 .article--buttons {
+  position: relative;
   margin-left: var(--space-smaller);
   .dropdown-pane {
-    right: var(--space-smaller);
+    position: absolute;
+    right: 0;
   }
 }
 .draft-status {

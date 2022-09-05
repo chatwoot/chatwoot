@@ -9,15 +9,16 @@
               <h2 class="portal-title block-title">
                 {{ portal.name }}
               </h2>
-              <Label
+              <woot-label
                 :title="status"
                 :color-scheme="labelColor"
-                :small="true"
+                size="small"
+                variant="smooth"
                 class="status"
               />
             </div>
             <p class="portal-count">
-              {{ portal.articles_count }}
+              {{ articleCount }}
               {{
                 $t(
                   'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.COUNT_LABEL'
@@ -186,13 +187,11 @@
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
-import Label from 'dashboard/components/ui/Label';
 import LocaleItemTable from './PortalListItemTable';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     thumbnail,
-    Label,
     LocaleItemTable,
   },
   mixins: [alertMixin],
@@ -233,6 +232,10 @@ export default {
       return Object.keys(this.locales).map(key => {
         return this.locales[key].code;
       });
+    },
+    articleCount() {
+      const { all_articles_count: count } = this.portal.meta;
+      return count;
     },
   },
   methods: {
@@ -358,7 +361,7 @@ export default {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: var(--space-normal);
+      margin-bottom: var(--space-large);
       .title-status--wrap {
         display: flex;
         align-items: center;
@@ -380,6 +383,7 @@ export default {
       }
     }
     .portal-locales {
+      margin-top: var(--space-medium);
       margin-bottom: var(--space-small);
       .locale-title {
         color: var(--s-800);
@@ -411,7 +415,7 @@ export default {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
-      margin-bottom: var(--space-slab);
+      margin-bottom: var(--space-normal);
       .content-theme-wrap {
         display: flex;
         align-items: center;
