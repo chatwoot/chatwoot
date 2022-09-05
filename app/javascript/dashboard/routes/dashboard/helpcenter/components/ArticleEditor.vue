@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="edit-article--container"
-    :class="{ 'is-settings-sidebar-open': isSettingsSidebarOpen }"
-  >
+  <div class="edit-article--container">
     <input
       v-model="articleTitle"
       type="text"
@@ -82,10 +79,6 @@ export default {
   width: 640px;
 }
 
-.is-settings-sidebar-open {
-  margin: var(--space-large) var(--space-small);
-}
-
 .article-heading {
   font-size: var(--font-size-giga);
   font-weight: var(--font-weight-bold);
@@ -93,6 +86,7 @@ export default {
   max-height: var(--space-jumbo);
   border: 0px solid transparent;
   padding: 0;
+  color: var(--s-900);
 }
 
 ::v-deep {

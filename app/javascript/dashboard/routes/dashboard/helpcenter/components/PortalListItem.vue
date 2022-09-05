@@ -9,15 +9,16 @@
               <h2 class="portal-title block-title">
                 {{ portal.name }}
               </h2>
-              <Label
+              <woot-label
                 :title="status"
                 :color-scheme="labelColor"
-                :small="true"
+                size="small"
+                variant="smooth"
                 class="status"
               />
             </div>
             <p class="portal-count">
-              {{ portal.articles_count }}
+              {{ articleCount }}
               {{
                 $t(
                   'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.COUNT_LABEL'
@@ -165,8 +166,8 @@
           <locale-item-table
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
-            @swap="swapLocale"
-            @delete="deleteLocale"
+            @change-default-locale="changeDefaultLocale"
+            @delete="deletePortalLocale"
           />
         </div>
       </div>
@@ -186,13 +187,11 @@
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
-import Label from 'dashboard/components/ui/Label';
 import LocaleItemTable from './PortalListItemTable';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     thumbnail,
-    Label,
     LocaleItemTable,
   },
   mixins: [alertMixin],
@@ -223,23 +222,31 @@ export default {
           return 'success';
       }
     },
-    // Delete portal modal
     deleteMessageValue() {
       return ` ${this.selectedPortalForDelete.name}?`;
     },
-
     locales() {
       return this.portal ? this.portal.config.allowed_locales : [];
+    },
+    allowedLocales() {
+      return Object.keys(this.locales).map(key => {
+        return this.locales[key].code;
+      });
+    },
+    articleCount() {
+      const { all_articles_count: count } = this.portal.meta;
+      return count;
     },
   },
   methods: {
     addLocale() {
-      this.$emit('add');
+      this.$emit('add-locale', this.portal.id);
     },
     openSite() {
       this.$emit('open-site');
     },
     openSettings() {
+      this.fetchPortalsAndItsCategories();
       this.navigateToPortalEdit();
     },
     onClickOpenDeleteModal(portal) {
@@ -248,6 +255,13 @@ export default {
     },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
+    },
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.portal.slug,
+        });
+      });
     },
     async onClickDeletePortal() {
       const { slug } = this.selectedPortalForDelete;
@@ -270,11 +284,54 @@ export default {
         this.showAlert(this.alertMessage);
       }
     },
-    swapLocale() {
-      this.$emit('swap');
+    changeDefaultLocale({ localeCode }) {
+      this.updatePortalLocales({
+        allowedLocales: this.allowedLocales,
+        defaultLocale: localeCode,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
     },
-    deleteLocale() {
-      this.$emit('delete');
+    deletePortalLocale({ localeCode }) {
+      const updatedLocales = this.allowedLocales.filter(
+        code => code !== localeCode
+      );
+      const defaultLocale = this.portal.meta.default_locale;
+      this.updatePortalLocales({
+        allowedLocales: updatedLocales,
+        defaultLocale,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
+    },
+    async updatePortalLocales({
+      allowedLocales,
+      defaultLocale,
+      successMessage,
+      errorMessage,
+    }) {
+      try {
+        await this.$store.dispatch('portals/update', {
+          portalSlug: this.portal.slug,
+          config: {
+            default_locale: defaultLocale,
+            allowed_locales: allowedLocales,
+          },
+        });
+        this.alertMessage = successMessage;
+      } catch (error) {
+        this.alertMessage = error?.message || errorMessage;
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
     },
     navigateToPortalEdit() {
       this.$router.push({
@@ -304,7 +361,7 @@ export default {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: var(--space-normal);
+      margin-bottom: var(--space-large);
       .title-status--wrap {
         display: flex;
         align-items: center;
@@ -326,6 +383,7 @@ export default {
       }
     }
     .portal-locales {
+      margin-top: var(--space-medium);
       margin-bottom: var(--space-small);
       .locale-title {
         color: var(--s-800);
@@ -357,7 +415,7 @@ export default {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
-      margin-bottom: var(--space-slab);
+      margin-bottom: var(--space-normal);
       .content-theme-wrap {
         display: flex;
         align-items: center;

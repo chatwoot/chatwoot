@@ -37,6 +37,7 @@
       />
       <add-category
         v-if="showAddCategoryModal"
+        :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
         :locale="selectedPortalLocale"
         @cancel="onClickCloseAddCategoryModal"
@@ -56,7 +57,7 @@ import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
-import AddCategory from '../components/AddCategory.vue';
+import AddCategory from '../pages/categories/AddCategory';
 
 export default {
   components: {
@@ -182,6 +183,7 @@ export default {
       ];
     },
     additionalSecondaryMenuItems() {
+      if (!this.selectedPortal) return [];
       return [
         {
           icon: 'folder',
@@ -260,12 +262,6 @@ export default {
       this.showPortalPopover = !this.showPortalPopover;
     },
     closePortalPopover() {
-      this.showPortalPopover = false;
-    },
-    openPortalPage() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
       this.showPortalPopover = false;
     },
     onClickOpenAddCatogoryModal() {
