@@ -65,6 +65,7 @@
     },
     "PORTAL": {
       "HEADER": "Portale",
+      "DEFAULT": "Standard",
       "NEW_BUTTON": "Neues Portal",
       "ACTIVE_BADGE": "aktiv",
       "CHOOSE_LOCALE_LABEL": "Wählen Sie ein Gebietsschema",
