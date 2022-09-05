@@ -40,15 +40,16 @@
       <tr v-for="locale in locales" :key="locale.code">
         <td>
           <span>{{ localeName(locale.code) }}</span>
-          <Label
+          <woot-label
             v-if="locale.code === selectedLocaleCode"
             :title="
               $t(
                 'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TABLE.DEFAULT_LOCALE'
               )
             "
-            color-scheme="primary"
+            color-scheme="warning"
             :small="true"
+            variant="smooth"
             class="default-status"
           />
         </td>
@@ -95,12 +96,8 @@
 </template>
 
 <script>
-import Label from 'dashboard/components/ui/Label';
 import portalMixin from '../mixins/portalMixin';
 export default {
-  components: {
-    Label,
-  },
   mixins: [portalMixin],
   props: {
     locales: {
