@@ -10,7 +10,7 @@
 
 class Seeders::InboxSeeder
   def initialize(account:, company_data:)
-    raise 'Inbox Seeding is not allowed in production.' if Rails.env.production?
+    raise 'Inbox Seeding is not allowed in production.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
 
     @account = account
     @company_data = company_data

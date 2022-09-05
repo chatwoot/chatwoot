@@ -12,6 +12,11 @@ export default {
     SNOOZED: 'snoozed',
     ALL: 'all',
   },
+  ARTICLE_STATUS_TYPES: {
+    DRAFT: 0,
+    PUBLISH: 1,
+    ARCHIVE: 2,
+  },
   LAYOUT_TYPES: {
     CONDENSED: 'condensed',
     EXPANDED: 'expanded',
