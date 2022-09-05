@@ -65,6 +65,7 @@
     },
     "PORTAL": {
       "HEADER": "Portals",
+      "DEFAULT": "Default",
       "NEW_BUTTON": "New Portal",
       "ACTIVE_BADGE": "active",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
@@ -159,8 +160,7 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
+        "CREATE_FLOW": [{
             "title": "Help center information",
             "route": "new_portal_information",
             "body": "Basic information about portal",
