@@ -143,6 +143,16 @@ export const actions = {
     }
   },
 
+  // eslint-disable-next-line no-empty-pattern
+  setActiveAccount: async ({}, { accountId }) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      await authAPI.setActiveAccount({ accountId });
+    } catch (error) {
+      throw error;
+    }
+  },
+
   updateUISettings: async ({ commit }, params) => {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);

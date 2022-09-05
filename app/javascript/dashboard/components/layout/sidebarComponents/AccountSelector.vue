@@ -13,7 +13,7 @@
       :key="account.id"
       class="account-selector"
     >
-      <a :href="`/app/accounts/${account.id}/dashboard`">
+      <a @click="onChangeAccount(account.id)">
         <fluent-icon
           v-if="account.id === accountId"
           class="selected--account"
@@ -57,6 +57,15 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
     }),
+  },
+  methods: {
+    async onChangeAccount(accountId) {
+      await this.$store.dispatch('setActiveAccount', {
+        accountId: accountId,
+      });
+      const accountUrl = `/app/accounts/${accountId}/dashboard`;
+      window.location.href = accountUrl;
+    },
   },
 };
 </script>
