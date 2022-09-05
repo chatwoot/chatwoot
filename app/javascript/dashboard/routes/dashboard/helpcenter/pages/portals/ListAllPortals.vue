@@ -5,7 +5,12 @@
         <woot-sidemenu-icon />
         <h1 class="page-title">{{ $t('HELP_CENTER.PORTAL.HEADER') }}</h1>
       </div>
-      <woot-button color-scheme="primary" size="small" @click="addPortal">
+      <woot-button
+        color-scheme="primary"
+        icon="add"
+        size="small"
+        @click="addPortal"
+      >
         {{ $t('HELP_CENTER.PORTAL.NEW_BUTTON') }}
       </woot-button>
     </div>
