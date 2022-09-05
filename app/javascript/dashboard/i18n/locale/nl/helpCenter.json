@@ -65,6 +65,7 @@
     },
     "PORTAL": {
       "HEADER": "",
+      "DEFAULT": "",
       "NEW_BUTTON": "",
       "ACTIVE_BADGE": "",
       "CHOOSE_LOCALE_LABEL": "",
