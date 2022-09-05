@@ -16,14 +16,29 @@ environment.loaders.append('opus', {
 
 environment.loaders.append('audio', {
   test: /\.(mp3)(\?.*)?$/,
-  loader: 'url-loader',
-  query: {
-    limit: 10000,
-    name: 'audio/[name].[ext]',
+  use: {
+    loader: 'url-loader',
+    options: {
+      limit: 10000,
+      name: 'audio/[name].[ext]',
+    }
   },
 });
 
-environment.config.merge({ resolve });
+const node = {};
+
+environment.config.delete('node.dgram')
+environment.config.delete('node.fs')
+environment.config.delete('node.net')
+environment.config.delete('node.tls')
+environment.config.delete('node.child_process')
+
+environment.config.merge(
+  {
+    resolve,
+    node
+  }
+);
 environment.config.set('output.filename', chunkData => {
   return chunkData.chunk.name === 'sdk'
     ? 'js/[name].js'
