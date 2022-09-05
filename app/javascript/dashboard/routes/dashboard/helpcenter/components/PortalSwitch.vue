@@ -4,15 +4,19 @@
     <div class="actions-container">
       <header>
         <div>
-          <h3 class="text-block-title portal-title">{{ portal.name }}</h3>
+          <h3 class="sub-block-title portal-title">{{ portal.name }}</h3>
           <p class="portal-count">
             {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
         </div>
-        <span v-if="active" class="badge">{{
-          $t('HELP_CENTER.PORTAL.ACTIVE_BADGE')
-        }}</span>
+        <woot-label
+          v-if="active"
+          variant="smooth"
+          size="small"
+          color-scheme="success"
+          :title="$t('HELP_CENTER.PORTAL.ACTIVE_BADGE')"
+        />
       </header>
       <div class="portal-locales">
         <h5 class="locale-title">
@@ -21,35 +25,42 @@
         <ul>
           <li v-for="locale in locales" :key="locale.code">
             <woot-button
-              class="locale-item"
-              variant="clear"
+              :class="
+                `locale-item ${
+                  isLocaleActive(locale.code, activePortalSlug)
+                    ? 'smooth'
+                    : 'clear'
+                }`
+              "
               size="large"
               color-scheme="secondary"
               @click="event => onClick(event, locale.code, portal)"
             >
               <div class="locale-content">
-                <input
-                  :id="`locale-${locale.code}`"
-                  v-model="selectedLocale"
-                  type="radio"
-                  name="locale"
-                  :value="locale.code"
-                  class="locale__radio"
-                  :checked="isLocaleActive(locale.code)"
-                />
-                <div>
-                  <p>{{ localeName(locale.code) }}</p>
-                  <span>
+                <div class="meta">
+                  <h6 class="text-block-title text-left">
+                    <span>
+                      {{ localeName(locale.code) }}
+                    </span>
+                    <span
+                      v-if="isLocaleDefault(locale.code)"
+                      class="fs-small text-muted"
+                    >
+                      {{ `(${$t('HELP_CENTER.PORTAL.DEFAULT')})` }}
+                    </span>
+                  </h6>
+
+                  <span class="locale-meta">
                     {{ locale.articles_count }}
                     {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
                     {{ locale.code }}
                   </span>
                 </div>
+                <div v-if="isLocaleActive(locale.code, activePortalSlug)">
+                  <fluent-icon icon="checkmark" class="locale__radio" />
+                </div>
               </div>
             </woot-button>
-          </li>
-          <li class="add-locale-wrap">
-            <a>+ {{ $t('HELP_CENTER.PORTAL.ADD_NEW_LOCALE') }}</a>
           </li>
         </ul>
       </div>
@@ -60,6 +71,7 @@
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import portalMixin from '../mixins/portalMixin';
+
 export default {
   components: {
     thumbnail,
@@ -73,6 +85,10 @@ export default {
     active: {
       type: Boolean,
       default: false,
+    },
+    activePortalSlug: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -111,11 +127,13 @@ export default {
       });
       this.$emit('open-portal-page');
     },
-    isLocaleActive(code) {
-      const isPortalActive = this.portalSlug === this.portal.slug;
+    isLocaleActive(code, slug) {
+      const isPortalActive = this.portal.slug === slug;
       const isLocaleActive = this.portal?.meta?.default_locale === code;
-
       return isPortalActive && isLocaleActive;
+    },
+    isLocaleDefault(code) {
+      return this.portal?.meta?.default_locale === code;
     },
   },
 };
@@ -153,8 +171,7 @@ export default {
       }
 
       .portal-title {
-        margin-bottom: 0;
-        color: var(--s-700);
+        margin-bottom: var(--space-micro);
       }
 
       .portal-count {
@@ -184,24 +201,6 @@ export default {
         margin: 0;
       }
 
-      .locale-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: var(--space-smaller);
-        padding: var(--space-smaller);
-        border-radius: var(--border-radius-normal);
-
-        p {
-          margin-bottom: 0;
-          text-align: left;
-        }
-
-        span {
-          color: var(--s-500);
-          font-size: var(--font-size-small);
-        }
-      }
-
       .locale__radio {
         width: var(--space-large);
         margin-top: var(--space-tiny);
@@ -210,6 +209,33 @@ export default {
       .add-locale-wrap {
         margin-top: var(--spacing-small);
       }
+    }
+  }
+
+  .locale-item {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--space-smaller) var(--space-normal);
+    border-radius: var(--border-radius-normal);
+    width: 100%;
+    margin-bottom: var(--space-small);
+
+    p {
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    .locale-meta {
+      display: flex;
+      color: var(--s-500);
+      font-size: var(--font-size-small);
+      text-align: left;
+      line-height: var(--space-normal);
+      width: 100%;
+    }
+
+    .meta {
+      flex-grow: 1;
     }
   }
 }
