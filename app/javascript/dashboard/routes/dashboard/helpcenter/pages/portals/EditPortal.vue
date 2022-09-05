@@ -25,7 +25,7 @@
         </woot-tabs>
       </setting-intro-banner>
     </div>
-    <div class="row content-box full-height">
+    <div class="row content-box">
       <router-view />
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
           name: this.$t('HELP_CENTER.PORTAL.EDIT.TABS.CATEGORY_SETTINGS.TITLE'),
         },
         {
-          key: 'locales',
+          key: 'edit_portal_locales',
           name: this.$t('HELP_CENTER.PORTAL.EDIT.TABS.LOCALE_SETTINGS.TITLE'),
         },
       ];
