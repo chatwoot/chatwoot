@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
@@ -105,11 +104,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      selectedPortal: 'portals/getSelectedPortal',
-    }),
     selectedPortalSlug() {
-      return this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
     nameError() {
       if (this.$v.name.$error) {
@@ -136,11 +132,12 @@ export default {
     },
 
     async addCategory() {
-      const { name, slug, description } = this;
+      const { name, slug, description, locale } = this;
       const data = {
         name,
         slug,
         description,
+        locale,
       };
       this.$v.$touch();
       if (this.$v.$invalid) {
