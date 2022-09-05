@@ -114,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   display: flex;
-  padding: var(--space-small) var(--space-normal);
+  padding: 0 var(--space-normal);
   width: 100%;
   flex: 1;
   overflow: auto;
@@ -122,8 +122,7 @@ export default {
 .new-article--container {
   flex: 1;
   flex-shrink: 0;
-  overflow: scroll;
-  overflow: auto;
+  overflow-y: auto;
 }
 .is-sidebar-open {
   flex: 0.7;
