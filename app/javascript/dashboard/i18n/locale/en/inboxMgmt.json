@@ -454,7 +454,7 @@
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key"
     },
-    "AUTO_ASSIGNMENT":{
+    "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
@@ -471,7 +471,7 @@
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fields",
         "LABEL": "Label",
-        "PLACE_HOLDER":"Placeholder",
+        "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
         "TYPE": "Type",
         "REQUIRED": "Required"
@@ -577,11 +577,11 @@
     },
     "NOTE": "Note: ",
     "WIDGET_BUILDER": {
-      "WIDGET_OPTIONS":{
-        "AVATAR":{
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
           "LABEL": "Website Avatar",
-          "DELETE":{
-            "API":{
+          "DELETE": {
+            "API": {
               "SUCCESS_MESSAGE": "Avatar deleted successfully",
               "ERROR_MESSAGE": "There was an error, please try again"
             }
@@ -609,7 +609,7 @@
         "WIDGET_COLOR_LABEL": "Widget Color",
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
-        "WIDGET_BUBBLE_LAUNCHER_TITLE":{
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chat with us",
           "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Chat with us"
@@ -621,15 +621,15 @@
             "ERROR_MESSAGE": "Unable to update widget settings"
           }
         },
-        "WIDGET_VIEW_OPTION":{
+        "WIDGET_VIEW_OPTION": {
           "PREVIEW": "Preview",
           "SCRIPT": "Script"
         },
-        "WIDGET_BUBBLE_POSITION":{
+        "WIDGET_BUBBLE_POSITION": {
           "LEFT": "Left",
           "RIGHT": "Right"
         },
-        "WIDGET_BUBBLE_TYPE":{
+        "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Standard",
           "EXPANDED_BUBBLE": "Expanded Bubble"
         }
@@ -648,7 +648,7 @@
         "CHAT_INPUT_PLACEHOLDER": "Type your message"
       },
       "BODY": {
-        "TEAM_AVAILABILITY":{
+        "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
           "OFFLINE": "We are away at the moment"
         },
