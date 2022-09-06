@@ -72,7 +72,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
                params: payload
-        end.to change(CustomAttributeDefinition, :count).by(0)
+        end.not_to change(CustomAttributeDefinition, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end

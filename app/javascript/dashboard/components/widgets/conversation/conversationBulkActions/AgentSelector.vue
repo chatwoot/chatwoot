@@ -46,7 +46,8 @@
           <li v-for="agent in filteredAgents" :key="agent.id">
             <div class="agent-list-item" @click="assignAgent(agent)">
               <thumbnail
-                src="agent.thumbnail"
+                :src="agent.thumbnail"
+                :status="agent.availability_status"
                 :username="agent.name"
                 size="22px"
                 class="margin-right-small"

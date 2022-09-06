@@ -117,7 +117,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('AGENT_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -167,9 +168,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.currentAgent.name
-      } ?`;
+      return ` ${this.currentAgent.name}?`;
     },
   },
   mounted() {

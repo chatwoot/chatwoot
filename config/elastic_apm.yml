@@ -1,0 +1,5 @@
+# Disabled by default to prevent the agent starting up when not required
+# To enable, set your ELASTIC_APM_SERVER_URL and ELASTIC_APM_SECRET_TOKEN in your .env
+# Additional configuration options can be set below, as per the docs: https://www.elastic.co/guide/en/apm/agent/ruby/current/configuration.html#configuration
+
+enabled: <%= ENV.fetch('ELASTIC_APM_SECRET_TOKEN',  false).present? %>

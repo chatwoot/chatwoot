@@ -59,7 +59,7 @@ module Api::V1::InboxesHelper
   def check_smtp_connection(channel_data, smtp)
     smtp.start(channel_data[:smtp_domain], channel_data[:smtp_login], channel_data[:smtp_password],
                channel_data[:smtp_authentication]&.to_sym || :login)
-    smtp.finish unless smtp&.nil?
+    smtp.finish
   end
 
   def set_smtp_encryption(channel_data, smtp)

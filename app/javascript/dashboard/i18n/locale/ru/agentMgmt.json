@@ -95,7 +95,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Ничего",
       "TITLE": {
-        "AGENT": "Выберите агента",
+        "AGENT": "Выбрать Агента",
         "TEAM": "Выберите команду"
       },
       "SEARCH": {

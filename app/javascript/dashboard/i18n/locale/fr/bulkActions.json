@@ -1,17 +1,29 @@
 {
-    "BULK_ACTION": {
-        "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
-        "AGENT_SELECT_LABEL": "Sélectionner un agent",
-        "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
-        "GO_BACK_LABEL": "Go back",
-        "ASSIGN_LABEL": "Assigner",
-        "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
-        "RESOLVE_TOOLTIP": "Résoudre",
-        "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
-        "ASSIGN_FAILED": "Failed to assign conversations, please try again",
-        "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
-        "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
-        "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
-        "AGENT_LIST_LOADING": "Loading Agents"
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
+    "AGENT_SELECT_LABEL": "Sélectionner un agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
+    "GO_BACK_LABEL": "Go back",
+    "ASSIGN_LABEL": "Assigner",
+    "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
+    "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
+    "ASSIGN_FAILED": "Failed to assign conversations, please try again",
+    "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
+    "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
+    "AGENT_LIST_LOADING": "Loading Agents",
+    "UPDATE": {
+      "CHANGE_STATUS": "Change status",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
+      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
+      "UPDATE_FAILED": "Failed to update conversations, please try again"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assign Labels",
+      "NO_LABELS_FOUND": "No labels found for",
+      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
+      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
+      "ASSIGN_FAILED": "Failed to assign labels, please try again"
     }
+  }
 }

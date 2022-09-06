@@ -27,6 +27,6 @@ if ENV['IP_LOOKUP_SERVICE'].present?
   if ENV['IP_LOOKUP_SERVICE'] == 'geoip2'
     Geocoder.configure(ip_lookup: :geoip2, geoip2: { file: GeocoderConfiguration::LOOK_UP_DB })
   else
-    Geocoder.configure(ip_lookup: ENV['IP_LOOKUP_SERVICE'].to_sym, api_key: ENV['IP_LOOKUP_API_KEY'])
+    Geocoder.configure(ip_lookup: ENV['IP_LOOKUP_SERVICE'].to_sym, api_key: ENV.fetch('IP_LOOKUP_API_KEY', nil))
   end
 end

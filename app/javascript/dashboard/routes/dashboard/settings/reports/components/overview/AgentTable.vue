@@ -18,7 +18,7 @@
     />
     <div v-if="agentMetrics.length > 0" class="table-pagination">
       <ve-pagination
-        :total="totalAgents"
+        :total="agents.length"
         :page-index="pageIndex"
         :page-size="25"
         :page-size-option="[25]"
@@ -43,9 +43,9 @@ export default {
     VePagination,
   },
   props: {
-    totalAgents: {
-      type: Number,
-      default: 0,
+    agents: {
+      type: Array,
+      default: () => [],
     },
     agentMetrics: {
       type: Array,
@@ -60,19 +60,17 @@ export default {
       default: 1,
     },
   },
-  data() {
-    return {};
-  },
   computed: {
     tableData() {
       return this.agentMetrics.map(agent => {
+        const agentInformation = this.getAgentInformation(agent.id);
         return {
-          agent: agent.name,
-          email: agent.email,
-          thumbnail: agent.thumbnail,
+          agent: agentInformation.name,
+          email: agentInformation.email,
+          thumbnail: agentInformation.thumbnail,
           open: agent.metric.open || 0,
           unattended: agent.metric.unattended || 0,
-          status: agent.availability,
+          status: agentInformation.availability_status,
         };
       });
     },
@@ -123,10 +121,12 @@ export default {
       ];
     },
   },
-  mounted() {},
   methods: {
     onPageNumberChange(pageIndex) {
       this.$emit('page-change', pageIndex);
+    },
+    getAgentInformation(id) {
+      return this.agents.find(agent => agent.id === Number(id));
     },
   },
 };

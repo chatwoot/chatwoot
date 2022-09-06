@@ -1,15 +1,5 @@
-class Webhooks::InstagramController < ApplicationController
-  skip_before_action :authenticate_user!, raise: false
-  skip_before_action :set_current_user
-
-  def verify
-    if valid_instagram_token?(params['hub.verify_token'])
-      Rails.logger.info('Instagram webhook verified')
-      render json: params['hub.challenge']
-    else
-      render json: { error: 'Error; wrong verify token', status: 403 }
-    end
-  end
+class Webhooks::InstagramController < ActionController::API
+  include MetaTokenVerifyConcern
 
   def events
     Rails.logger.info('Instagram webhook received events')
@@ -24,7 +14,7 @@ class Webhooks::InstagramController < ApplicationController
 
   private
 
-  def valid_instagram_token?(token)
+  def valid_token?(token)
     token == GlobalConfigService.load('IG_VERIFY_TOKEN', '')
   end
 end

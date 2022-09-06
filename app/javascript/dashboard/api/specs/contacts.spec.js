@@ -12,6 +12,7 @@ describe('#ContactsAPI', () => {
     expect(contactAPI).toHaveProperty('delete');
     expect(contactAPI).toHaveProperty('getConversations');
     expect(contactAPI).toHaveProperty('filter');
+    expect(contactAPI).toHaveProperty('destroyAvatar');
   });
 
   describeWithAPIMock('API calls', context => {
@@ -98,6 +99,13 @@ describe('#ContactsAPI', () => {
       expect(context.axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/contacts/filter?include_contact_inboxes=false&page=1&sort=name',
         queryPayload
+      );
+    });
+
+    it('#destroyAvatar', () => {
+      contactAPI.destroyAvatar(1);
+      expect(context.axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/avatar'
       );
     });
   });

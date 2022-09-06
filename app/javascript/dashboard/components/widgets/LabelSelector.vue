@@ -7,7 +7,8 @@
       :title="label.title"
       :description="label.description"
       :show-close="true"
-      :bg-color="label.color"
+      :color="label.color"
+      variant="smooth"
       @click="removeItem"
     />
     <div class="dropdown-wrap">

@@ -65,6 +65,7 @@
       "PLACEHOLDER": "اختر نطاق المدة"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "تجميع بواسطة",
+    "DURATION_FILTER_LABEL": "المدة",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

@@ -57,7 +57,7 @@ class Sms::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
+    @conversation = @contact_inbox.conversations.last
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)

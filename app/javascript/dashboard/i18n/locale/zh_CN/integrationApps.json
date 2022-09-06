@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "收件箱",
       "DELETE": {
         "BUTTON_TEXT": "删除"
       }
