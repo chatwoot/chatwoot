@@ -8,6 +8,7 @@ const EditPortal = () => import('./pages/portals/EditPortal');
 const EditPortalBasic = () => import('./pages/portals/EditPortalBasic');
 const EditPortalCustomization = () =>
   import('./pages/portals/EditPortalCustomization');
+const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
 const ShowPortal = () => import('./pages/portals/ShowPortal');
 const PortalDetails = () => import('./pages/portals/PortalDetails');
 const PortalCustomization = () => import('./pages/portals/PortalCustomization');
@@ -78,7 +79,13 @@ const portalRoutes = [
         roles: ['administrator'],
       },
       {
-        path: getPortalRoute(':portalSlug/edit/:locale/categories'),
+        path: 'locales',
+        name: 'edit_portal_locales',
+        component: EditPortalLocales,
+        roles: ['administrator'],
+      },
+      {
+        path: 'categories',
         name: 'list_all_locale_categories',
         roles: ['administrator', 'agent'],
         component: ListAllCategories,
