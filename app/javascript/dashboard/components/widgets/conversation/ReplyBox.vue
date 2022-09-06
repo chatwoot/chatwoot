@@ -26,6 +26,7 @@
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
+        :class="emojiDialogClassOnExpanedLayout"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -161,6 +162,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -387,6 +389,20 @@ export default {
     inReplyTo() {
       const selectedTweet = this.selectedTweet || {};
       return selectedTweet.id;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = CONDENSED,
+      } = this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
+    },
+    emojiDialogClassOnExpanedLayout() {
+      return this.isOnExpandedLayout && !this.popoutReplyBox
+        ? 'emoji-dialog--expanded'
+        : '';
     },
     replyToUserLength() {
       const selectedTweet = this.selectedTweet || {};
@@ -867,7 +883,18 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
+.emoji-dialog--expanded {
+  left: unset;
+  bottom: var(--space-jumbo);
+  position: absolute;
+  z-index: var(--z-index-normal);
 
+  &::before {
+    transform: rotate(0deg);
+    left: var(--space-half);
+    bottom: var(--space-minus-slab);
+  }
+}
 .message-signature {
   margin-bottom: 0;
 
