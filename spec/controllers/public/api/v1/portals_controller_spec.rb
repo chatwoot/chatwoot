@@ -11,7 +11,7 @@ RSpec.describe 'Public Portals API', type: :request do
 
   describe 'GET /public/api/v1/portals/{portal_slug}' do
     it 'Show portal and categories belonging to the portal' do
-      get "/hc/#{portal.slug}"
+      get "/hc/#{portal.slug}/en"
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
@@ -22,7 +22,7 @@ RSpec.describe 'Public Portals API', type: :request do
     it 'Throws unauthorised error for unknown domain' do
       portal.update(custom_domain: 'www.something.com')
 
-      get "/hc/#{portal.slug}"
+      get "/hc/#{portal.slug}/en"
 
       expect(response).to have_http_status(:unauthorized)
       json_response = JSON.parse(response.body)

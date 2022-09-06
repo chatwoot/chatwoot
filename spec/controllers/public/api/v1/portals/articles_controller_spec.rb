@@ -17,7 +17,7 @@ RSpec.describe 'Public Articles API', type: :request do
 
   describe 'GET /public/api/v1/portals/:slug/articles' do
     it 'Fetch all articles in the portal' do
-      get "/hc/#{portal.slug}/categories/#{category.locale}/articles"
+      get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/articles"
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
@@ -35,7 +35,7 @@ RSpec.describe 'Public Articles API', type: :request do
                         content: 'this is some test and funny content')
       expect(article2.id).not_to be_nil
 
-      get "/hc/#{portal.slug}/categories/#{category.locale}/articles",
+      get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/articles",
           headers: agent.create_new_auth_token,
           params: { query: 'funny' }
       expect(response).to have_http_status(:success)
@@ -47,7 +47,7 @@ RSpec.describe 'Public Articles API', type: :request do
 
   describe 'GET /public/api/v1/portals/:slug/articles/:id' do
     it 'Fetch article with the id' do
-      get "/hc/#{portal.slug}/categories/#{category.locale}/articles/#{article.id}"
+      get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/#{article.id}"
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
