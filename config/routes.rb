@@ -340,7 +340,9 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts
+      resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
+        post :seed, on: :member
+      end
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]

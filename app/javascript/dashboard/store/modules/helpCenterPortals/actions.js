@@ -1,4 +1,4 @@
-import PortalAPI from 'dashboard/api/helpCenter/portals.js';
+import PortalAPI from 'dashboard/api/helpCenter/portals';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import { types } from './mutations';
 const portalAPIs = new PortalAPI();
@@ -36,8 +36,7 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, { portalObj }) => {
-    const portalSlug = portalObj.slug;
+  update: async ({ commit }, { portalSlug, ...portalObj }) => {
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: { isUpdating: true },
       portalSlug,
@@ -76,6 +75,7 @@ export const actions = {
       });
     }
   },
+
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },

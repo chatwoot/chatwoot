@@ -34,6 +34,10 @@ describe('#getters', () => {
     });
   });
 
+  it('articleStatus', () => {
+    expect(getters.articleStatus(state)(1)).toEqual('draft');
+  });
+
   it('isFetchingArticles', () => {
     expect(getters.isFetching(state)).toEqual(true);
   });
