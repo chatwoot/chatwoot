@@ -287,11 +287,11 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'hc/:slug', to: 'public/api/v1/portals#show', format: 'json'
-  get 'hc/:slug/categories', to: 'public/api/v1/portals/categories#index', format: 'json'
-  get 'hc/:slug/categories/:locale', to: 'public/api/v1/portals/categories#show', format: 'json'
-  get 'hc/:slug/categories/:locale/articles', to: 'public/api/v1/portals/articles#index', format: 'json'
-  get 'hc/:slug/categories/:locale/articles/:id', to: 'public/api/v1/portals/articles#show', format: 'json'
+  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', format: 'json'
+  get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index', format: 'json'
+  get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show', format: 'json'
+  get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index', format: 'json'
+  get 'hc/:slug/:locale/:category_slug/:id', to: 'public/api/v1/portals/articles#show', format: 'json'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
