@@ -13,8 +13,9 @@
       <div v-if="showSwitchButton" class="account-context--switch-group">
         <woot-button
           variant="clear"
+          size="tiny"
           icon="arrow-swap"
-          class="cursor-pointer"
+          class="switch-button"
           @click="$emit('toggle-accounts')"
         >
           {{ $t('SIDEBAR.SWITCH') }}
@@ -65,6 +66,10 @@ export default {
     font-weight: var(--font-weight-medium);
     margin-bottom: 0;
   }
+}
+
+.switch-button {
+  margin-right: var(--space-small);
 }
 
 .account-context--switch-group {
