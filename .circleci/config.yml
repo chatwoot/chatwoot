@@ -16,6 +16,8 @@ defaults: &defaults
     - image: cimg/redis:6.2.6
   environment:
       - RAILS_LOG_TO_STDOUT: false
+      - COVERAGE: true
+      - LOG_LEVEL: warn
   parallelism: 4
 
 jobs:
@@ -128,11 +130,6 @@ jobs:
           command: |
             ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - codeclimate.*.json
-
       - run:
           name: Run frontend tests
           command: |
@@ -146,13 +143,14 @@ jobs:
           name: Code Climate Test Coverage
           command: |
             ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json buildreports/lcov.info
+      
       - persist_to_workspace:
           root: coverage
           paths:
-            - codeclimate.frontend_*.json
+            - codeclimate.*.json
 
       # collect reports
-      - store_test_results:
+       - store_test_results:
           path: ~/tmp/test-results
       - store_artifacts:
           path: ~/tmp/test-artifacts
