@@ -11,25 +11,27 @@
       @key-shortcut-modal="toggleKeyShortcutModal"
       @open-notification-panel="openNotificationPanel"
     />
-    <secondary-sidebar
-      v-if="showSecondarySidebar"
-      :account-id="accountId"
-      :inboxes="inboxes"
-      :labels="labels"
-      :teams="teams"
-      :custom-views="customViews"
-      :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
-      :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @add-label="showAddLabelPopup"
-      @toggle-accounts="toggleAccountModal"
-    />
+    <div class="secondary-sidebar">
+      <secondary-sidebar
+        v-if="showSecondarySidebar"
+        :class="sidebarClassName"
+        :account-id="accountId"
+        :inboxes="inboxes"
+        :labels="labels"
+        :teams="teams"
+        :custom-views="customViews"
+        :menu-config="activeSecondaryMenu"
+        :current-role="currentRole"
+        :is-on-chatwoot-cloud="isOnChatwootCloud"
+        @add-label="showAddLabelPopup"
+        @toggle-accounts="toggleAccountModal"
+      />
+    </div>
   </aside>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-
 import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -57,6 +59,10 @@ export default {
     showSecondarySidebar: {
       type: Boolean,
       default: true,
+    },
+    sidebarClassName: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -214,6 +220,14 @@ export default {
     width: 40rem;
   }
 }
+.off-canvas-content.is-open-left {
+  transform: translateX(18.8rem);
+}
+
+.secondary-sidebar {
+  overflow-y: auto;
+  height: 100%;
+}
 
 .account-selector {
   cursor: pointer;
@@ -271,6 +285,8 @@ export default {
 }
 
 .secondary-menu .nested.vertical.menu {
+  overflow-y: auto;
+  height: 100%;
   margin-left: var(--space-small);
 }
 </style>
