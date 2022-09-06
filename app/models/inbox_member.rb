@@ -28,10 +28,10 @@ class InboxMember < ApplicationRecord
   private
 
   def add_agent_to_round_robin
-    ::RoundRobin::ManageService.new(inbox: inbox).add_agent_to_queue(user_id)
+    ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).add_agent_to_queue(user_id)
   end
 
   def remove_agent_from_round_robin
-    ::RoundRobin::ManageService.new(inbox: inbox).remove_agent_from_queue(user_id) if inbox.present?
+    ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).remove_agent_from_queue(user_id) if inbox.present?
   end
 end

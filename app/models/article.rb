@@ -5,6 +5,7 @@
 #  id                    :bigint           not null, primary key
 #  content               :text
 #  description           :text
+#  meta                  :jsonb
 #  status                :integer
 #  title                 :string
 #  views                 :integer
@@ -21,11 +22,6 @@
 #
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (associated_article_id => articles.id)
-#  fk_rails_...  (author_id => users.id)
 #
 class Article < ApplicationRecord
   include PgSearch::Model
@@ -57,6 +53,8 @@ class Article < ApplicationRecord
 
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
+  scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
+  scope :search_by_status, ->(status) { where(status: status) if status.present? }
 
   # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
   pg_search_scope(
@@ -76,7 +74,10 @@ class Article < ApplicationRecord
   def self.search(params)
     records = joins(
       :category
-    ).search_by_category_slug(params[:category_slug]).search_by_category_locale(params[:locale])
+    ).search_by_category_slug(
+      params[:category_slug]
+    ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
+
     records = records.text_search(params[:query]) if params[:query].present?
     records.page(current_page(params))
   end

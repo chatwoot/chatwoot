@@ -28,8 +28,8 @@ class Channel::TwilioSms < ApplicationRecord
   validates :auth_token, presence: true
 
   # Must have _one_ of messaging_service_sid _or_ phone_number, and messaging_service_sid is preferred
-  validates :messaging_service_sid, uniqueness: true, presence: true, unless: :phone_number?
-  validates :phone_number, absence: true, if: :messaging_service_sid?
+  validates :messaging_service_sid, uniqueness: true, presence: true, unless: :phone_number.presence
+  validates :phone_number, absence: true, if: :messaging_service_sid.presence
   validates :phone_number, uniqueness: true, allow_nil: true
 
   enum medium: { sms: 0, whatsapp: 1 }

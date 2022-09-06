@@ -413,7 +413,8 @@
       "CONFIGURATION": "Beállítások",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Chat előtti űrlap",
-      "BUSINESS_HOURS": "Nyitvatartás"
+      "BUSINESS_HOURS": "Nyitvatartás",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Beállítások",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Website név",
+          "PLACE_HOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Köszöntő fejléc üzenet",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Köszöntő üzenet",
+          "PLACE_HOLDER": "Könnyűvé tesszük, hogy kapcsolatba kerülj velünk. Kérdezz bármit, vagy oszd meg véleményed."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "Néhány percen belül",
+          "IN_A_FEW_HOURS": "Néhány órán belül",
+          "IN_A_DAY": "Egy napon belül"
+        },
+        "WIDGET_COLOR_LABEL": "Widget szín",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chatelj velünk",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Chatelj velünk"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
+        "IN_A_FEW_HOURS": "Néhány órán belül válaszol",
+        "IN_A_DAY": "Általánban egy napon belül válaszol"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Beszélgetés megkezdése",
+        "CHAT_INPUT_PLACEHOLDER": "Gépeld be üzeneted"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Jelenleg nem vagyunk elérhetőek"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

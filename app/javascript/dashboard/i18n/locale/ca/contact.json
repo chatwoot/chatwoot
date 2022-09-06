@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
     "COMPANY": "Companyia",
     "LOCATION": "Ubicació",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Detalls de les converses",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Navegador",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Introdueix el nom d'usuari de Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contacte guardat correctament",

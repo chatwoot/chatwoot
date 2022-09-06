@@ -51,12 +51,12 @@ RSpec.describe MailPresenter do
       expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
-      expect(data[:multipart]).to eq(true)
+      expect(data[:multipart]).to be(true)
       expect(data[:subject]).to eq(decorated_mail.subject)
     end
 
     it 'give email from in downcased format' do
-      expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to eq true
+      expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to be true
     end
 
     it 'parse html content in the mail' do

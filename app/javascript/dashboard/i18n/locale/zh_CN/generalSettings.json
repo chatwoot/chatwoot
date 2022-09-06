@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "帐号 ID",
+        "NOTE": "如果您正在构建基于 API 的集成，那么此 ID 是必需的"
       },
       "NAME": {
         "LABEL": "帐户名称",
@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "非活跃工单的自动结单的天数",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "请输入一个有效的自动解决时间 (至少 1 天，最多999 天)。"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "了解更多"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,17 +59,17 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "消息通知",
-    "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "MARK_ALL_DONE": "标记全部完成",
+    "DELETE_TITLE": "已删除",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
+      "ALL_NOTIFICATIONS": "查看所有通知",
       "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
       "EMPTY_MESSAGE": "You have no unread notifications"
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "正在加载通知...",
+      "404": "没有通知",
       "TABLE_HEADER": [
         "姓名：",
         "电话号码",
@@ -78,35 +78,35 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
+      "conversation_creation": "新建对话",
       "conversation_assignment": "Conversation Assigned",
       "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_mention": "提及"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "已与 Chatwoot 断开链接"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "刷新"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "搜索或跳转到",
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "报告",
       "CONVERSATION": "会话",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CHANGE_ASSIGNEE": "更改分配",
+      "CHANGE_TEAM": "更改团队",
+      "ADD_LABEL": "为对话添加标签",
+      "REMOVE_LABEL": "从对话移除标签",
       "SETTINGS": "设置"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_CONVERSATION_DASHBOARD": "转到对话面板",
+      "GO_TO_CONTACTS_DASHBOARD": "转到联系人面板",
       "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
       "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
@@ -121,13 +121,13 @@
       "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "GO_TO_NOTIFICATIONS": "转到通知",
+      "ADD_LABELS_TO_CONVERSATION": "为对话添加标签",
+      "ASSIGN_AN_AGENT": "分配一位客服代表",
+      "ASSIGN_A_TEAM": "分配一个团队",
+      "MUTE_CONVERSATION": "静音对话",
+      "UNMUTE_CONVERSATION": "取消静音对话",
+      "REMOVE_LABEL_FROM_CONVERSATION": "从对话移除标签",
       "REOPEN_CONVERSATION": "重新打开会话",
       "RESOLVE_CONVERSATION": "解决会话",
       "SEND_TRANSCRIPT": "Send an email transcript",

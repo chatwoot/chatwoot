@@ -17,10 +17,6 @@ class ApplicationController < ActionController::Base
     Current.user = @user
   end
 
-  def current_subscription
-    @subscription ||= Current.account.subscription
-  end
-
   def pundit_user
     {
       user: Current.user,

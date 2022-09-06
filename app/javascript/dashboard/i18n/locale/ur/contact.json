@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "COMPANY": "کمپنی",
     "LOCATION": "مقام",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "گفتگو کی تفصیلات",
     "VIEW_PROFILE": "پروفائل کا مشاھدہ کریں",
     "BROWSER": "براؤزر",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "گٹ حب صارف کا خصوصی نام درج کریں۔",
           "LABEL": "گٹ حب"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",

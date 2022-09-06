@@ -22,6 +22,8 @@ da:
     reset_password_success: Woot! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
     reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,19 @@ da:
       invalid_email: Du har indtastet en ugyldig e-mail
       email_already_exists: "Du har allerede tilmeldt dig en konto med %{email}"
       failed: Tilmelding mislykkedes
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.

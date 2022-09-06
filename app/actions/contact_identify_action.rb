@@ -104,7 +104,7 @@ class ContactIdentifyAction
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
     @contact.save!
-    ContactAvatarJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
+    Avatar::AvatarFromUrlJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 
   def merge_contact(base_contact, merge_contact)

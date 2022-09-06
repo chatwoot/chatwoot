@@ -61,7 +61,7 @@ describe Integrations::Csml::ProcessorService do
       let(:conversation) { create(:conversation, account: account, status: :open) }
 
       it 'returns nil' do
-        expect(processor.perform).to be(nil)
+        expect(processor.perform).to be_nil
       end
     end
 
@@ -69,7 +69,7 @@ describe Integrations::Csml::ProcessorService do
       let(:message) { create(:message, account: account, conversation: conversation, private: true) }
 
       it 'returns nil' do
-        expect(processor.perform).to be(nil)
+        expect(processor.perform).to be_nil
       end
     end
 
@@ -77,7 +77,7 @@ describe Integrations::Csml::ProcessorService do
       let(:message) { create(:message, account: account, conversation: conversation, message_type: :template) }
 
       it 'returns nil' do
-        expect(processor.perform).to be(nil)
+        expect(processor.perform).to be_nil
       end
     end
 
@@ -100,7 +100,7 @@ describe Integrations::Csml::ProcessorService do
         let(:event_name) { 'message.updated' }
 
         it 'returns nil' do
-          expect(processor.perform).to be(nil)
+          expect(processor.perform).to be_nil
         end
       end
     end

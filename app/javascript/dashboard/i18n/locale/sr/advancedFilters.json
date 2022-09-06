@@ -1,7 +1,7 @@
 {
   "FILTER": {
     "TITLE": "Filtrirajte razgovore",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "SUBTITLE": "Dodajte filtere ispod i kliknite na 'Primeni filtere' da bi ste flitrirali razgovore.",
     "ADD_NEW_FILTER": "Dodajte filter",
     "FILTER_DELETE_ERROR": "Trebali bi da imate barem jedan filter da bi ste ga sačuvali",
     "SUBMIT_BUTTON_LABEL": "Primenite filtere",
@@ -30,7 +30,7 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Ime dodeljenom",
       "INBOX_NAME": "Naziv prijemnog sandučeta",
       "TEAM_NAME": "Naziv tima",
       "CONVERSATION_IDENTIFIER": "Identifikator razgovora",
@@ -43,7 +43,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
       "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
       "CUSTOM_ATTRIBUTE_LINK": "Veza",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Poslednja aktivnost"
     },

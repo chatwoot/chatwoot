@@ -8,7 +8,7 @@ RSpec.describe Channel::Whatsapp do
 
     it 'validates false when provider config is wrong' do
       stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key').to_return(status: 401)
-      expect(channel.save).to eq(false)
+      expect(channel.save).to be(false)
     end
 
     it 'validates true when provider config is right' do
@@ -17,7 +17,7 @@ RSpec.describe Channel::Whatsapp do
                    body: { data: [{
                      id: '123456789', name: 'test_template'
                    }] }.to_json)
-      expect(channel.save).to eq(true)
+      expect(channel.save).to be(true)
     end
   end
 end

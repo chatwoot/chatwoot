@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
     "COMPANY": "شرکت",
     "LOCATION": "مکان",
+    "BROWSER_LANGUAGE": "مرور زبان",
     "CONVERSATION_TITLE": "جزئیات مکالمه",
     "VIEW_PROFILE": "نمایش مشخصات",
     "BROWSER": "مرورگر",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "نام‌کاربری گیت‌هاب را وارد کنید",
           "LABEL": "گیت‌هاب"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "آواتار مخاطب با موفقیت حذف شد",
+        "ERROR_MESSAGE": "آواتار مخاطب حذف نشد. لطفا بعدا دوباره امتحان کنید."
       }
     },
     "SUCCESS_MESSAGE": "مخاطب با موفقیت ذخیره شد",

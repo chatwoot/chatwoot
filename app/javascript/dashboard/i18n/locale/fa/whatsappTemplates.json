@@ -1,16 +1,16 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "قالب های واتساپ",
+            "SUBTITLE": "قالب واتساپ مورد نظر برای ارسال را انتخاب کنید",
+            "TEMPLATE_SELECTED_SUBTITLE": "فرآیند %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "جستجوی الگوها",
+            "NO_TEMPLATES_FOUND": "هیچ قالبی برای",
             "LABELS": {
                 "LANGUAGE": "زبان",
-                "TEMPLATE_BODY": "Template Body",
+                "TEMPLATE_BODY": "بدنه الگو",
                 "CATEGORY": "دسته‌بندی"
             }
         },

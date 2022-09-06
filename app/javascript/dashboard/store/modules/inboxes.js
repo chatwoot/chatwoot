@@ -5,7 +5,7 @@ import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
-import { parseAPIErrorResponse } from '../utils/api';
+import { throwErrorMessage } from '../utils/api';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -41,11 +41,6 @@ export const state = {
     isUpdatingIMAP: false,
     isUpdatingSMTP: false,
   },
-};
-
-const throwErrorMessage = error => {
-  const errorMessage = parseAPIErrorResponse(error);
-  throw new Error(errorMessage);
 };
 
 export const getters = {

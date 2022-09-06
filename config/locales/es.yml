@@ -22,6 +22,8 @@ es:
     reset_password_success: '¡Genial! La solicitud de restablecimiento de contraseña ha sido exitosa. Revisa tu correo para ver las instrucciones.'
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Eventos inválidos
     signup:
@@ -29,9 +31,19 @@ es:
       invalid_email: Ha introducido un correo electrónico no válido
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
       failed: Registro fallido
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: Archivo está en blanco
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.

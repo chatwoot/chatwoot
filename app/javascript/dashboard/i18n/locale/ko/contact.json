@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
     "COMPANY": "회사",
     "LOCATION": "장소",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "대화 자세히",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "브라우저",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "깃허브 사용자 이름 입력",
           "LABEL": "깃허브"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",

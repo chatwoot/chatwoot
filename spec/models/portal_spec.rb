@@ -24,6 +24,7 @@ RSpec.describe Portal, type: :model do
       it 'Adds default allowed_locales en' do
         expect(portal.config).to be_present
         expect(portal.config['allowed_locales']).to eq(['en'])
+        expect(portal.config['default_locale']).to eq('en')
       end
 
       it 'Does not allow any other config than allowed_locales' do

@@ -413,7 +413,8 @@
       "CONFIGURATION": "Configurare",
       "CAMPAIGN": "Campanii",
       "PRE_CHAT_FORM": "Formular pre chat",
-      "BUSINESS_HOURS": "Program de lucru"
+      "BUSINESS_HOURS": "Program de lucru",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Deschideți modul de verificare SSL",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nume website",
+          "PLACE_HOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Titlu de salut",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Tagline de Bun Venit",
+          "PLACE_HOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "În câteva minute",
+          "IN_A_FEW_HOURS": "În câteva ore",
+          "IN_A_DAY": "Într-o zi"
+        },
+        "WIDGET_COLOR_LABEL": "Culoare widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Discută cu noi",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Discută cu noi"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
+        "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
+        "IN_A_DAY": "De obicei, răspunsurile într-o zi"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Începe conversația",
+        "CHAT_INPUT_PLACEHOLDER": "Scrie mesajul tău"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Suntem plecați în acest moment"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Oferit de Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

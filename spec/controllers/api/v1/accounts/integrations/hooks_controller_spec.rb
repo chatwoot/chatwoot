@@ -104,7 +104,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(::Integrations::Hook.exists?(hook.id)).to eq false
+        expect(::Integrations::Hook.exists?(hook.id)).to be false
       end
     end
   end

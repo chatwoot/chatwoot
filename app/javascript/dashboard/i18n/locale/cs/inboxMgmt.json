@@ -413,7 +413,8 @@
       "CONFIGURATION": "Nastavení",
       "CAMPAIGN": "Kampaně",
       "PRE_CHAT_FORM": "Formulář před chatem",
-      "BUSINESS_HOURS": "Pracovní doba"
+      "BUSINESS_HOURS": "Pracovní doba",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Nastavení",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Website Name",
+          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Úvod uvítání",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Vítejte Tagline",
+          "PLACE_HOLDER": "Snadno se s námi spojujeme. Požádejte nás o cokoliv, nebo sdílejte svou zpětnou vazbu."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "Do několika minut",
+          "IN_A_FEW_HOURS": "Do několika hodin",
+          "IN_A_DAY": "Do dne"
+        },
+        "WIDGET_COLOR_LABEL": "Barva widgetu",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Napiště nám",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Napiště nám"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
+        "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
+        "IN_A_DAY": "Obvykle odpoví za den"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Zahájit konverzaci",
+        "CHAT_INPUT_PLACEHOLDER": "Zde začněte psát"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "V současné době jsme pryč"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Powered by Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

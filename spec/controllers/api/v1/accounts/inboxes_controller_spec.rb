@@ -414,7 +414,7 @@ RSpec.describe 'Inboxes API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(api_channel.reload.tweets_enabled).to eq(false)
+        expect(api_channel.reload.tweets_enabled).to be(false)
       end
 
       it 'updates email inbox when administrator' do
@@ -458,7 +458,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates avatar when administrator' do
         # no avatar before upload
-        expect(inbox.avatar.attached?).to eq(false)
+        expect(inbox.avatar.attached?).to be(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
               params: valid_params.merge(avatar: file),
@@ -466,7 +466,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         inbox.reload
-        expect(inbox.avatar.attached?).to eq(true)
+        expect(inbox.avatar.attached?).to be(true)
       end
 
       it 'updates working hours when administrator' do
@@ -613,7 +613,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         inbox_data = JSON.parse(response.body, symbolize_names: true)
-        expect(inbox_data[:agent_bot].blank?).to eq(true)
+        expect(inbox_data[:agent_bot].blank?).to be(true)
       end
 
       it 'returns the agent bot attached to the inbox' do

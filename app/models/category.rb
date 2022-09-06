@@ -23,11 +23,6 @@
 #  index_categories_on_parent_category_id             (parent_category_id)
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (associated_category_id => categories.id)
-#  fk_rails_...  (parent_category_id => categories.id)
-#
 class Category < ApplicationRecord
   belongs_to :account
   belongs_to :portal
@@ -63,7 +58,7 @@ class Category < ApplicationRecord
   validates :name, presence: true
   validate :allowed_locales
   validates :locale, uniqueness: { scope: %i[slug portal_id],
-                                   message: 'should be unique in the category and portal' }
+                                   message: I18n.t('errors.categories.locale.unique') }
   accepts_nested_attributes_for :related_categories
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }

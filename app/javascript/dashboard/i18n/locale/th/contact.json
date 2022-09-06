@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "คัดลอกไปยังคริปบอร์ดเเล้ว",
     "COMPANY": "บริษัท",
     "LOCATION": "สถานที่",
+    "BROWSER_LANGUAGE": "ภาษาของเบราว์เซอร์",
     "CONVERSATION_TITLE": "รายละเอียดการสนทนา",
     "VIEW_PROFILE": "ดูโปรไฟล์",
     "BROWSER": "บราวเซอร์",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "กรอกชื่อ Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "สร้างการติดต่อเรียบร้อยเเล้ว",

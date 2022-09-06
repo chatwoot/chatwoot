@@ -4,7 +4,7 @@ class Public::Api::V1::Portals::ArticlesController < ApplicationController
 
   def index
     @articles = @portal.articles
-    @articles = @articles.search(list_params) if params[:payload].present?
+    @articles = @articles.search(list_params) if list_params.present?
   end
 
   def show; end
@@ -20,6 +20,6 @@ class Public::Api::V1::Portals::ArticlesController < ApplicationController
   end
 
   def list_params
-    params.require(:payload).permit(:query)
+    params.permit(:query)
   end
 end

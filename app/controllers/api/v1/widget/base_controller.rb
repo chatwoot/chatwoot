@@ -36,9 +36,10 @@ class Api::V1::Widget::BaseController < ApplicationController
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: {
+        browser_language: browser.accept_language&.first&.code,
         browser: browser_params,
-        referer: permitted_params[:message][:referer_url],
-        initiated_at: timestamp_params
+        initiated_at: timestamp_params,
+        referer: permitted_params[:message][:referer_url]
       },
       custom_attributes: permitted_params[:custom_attributes].presence || {}
     }

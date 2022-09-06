@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Succesvol gekopieerd naar klembord",
     "COMPANY": "Bedrijfsnaam",
     "LOCATION": "Locatie",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Gesprekdetails",
     "VIEW_PROFILE": "Profiel Bekijken",
     "BROWSER": "Browser",
@@ -146,6 +147,12 @@
           "PLACEHOLDER": "Voer de Github gebruikersnaam in",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",

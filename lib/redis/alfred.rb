@@ -89,5 +89,11 @@ module Redis::Alfred
     def zrangebyscore(key, range_start, range_end)
       $alfred.zrangebyscore(key, range_start, range_end)
     end
+
+    # remove values by score
+    # exclusive score is specified by prefixing (
+    def zremrangebyscore(key, range_start, range_end)
+      $alfred.zremrangebyscore(key, range_start, range_end)
+    end
   end
 end

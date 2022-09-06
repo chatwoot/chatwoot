@@ -2,7 +2,7 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} گفتگو انتخاب شده است",
     "AGENT_SELECT_LABEL": "انتخاب ایجنت",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
+    "ASSIGN_CONFIRMATION_LABEL": "آیا مطمئن هستید که می‌خواهید %{conversationCount} %{conversationLabel} را به آن اختصاص دهید؟",
     "GO_BACK_LABEL": "بازگشت",
     "ASSIGN_LABEL": "اختصاص دادن",
     "ASSIGN_AGENT_TOOLTIP": "تعیین ایجنت",

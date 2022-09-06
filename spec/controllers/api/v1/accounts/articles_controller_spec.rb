@@ -137,7 +137,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
                headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         deleted_article = Article.find_by(id: article.id)
-        expect(deleted_article).to be nil
+        expect(deleted_article).to be_nil
       end
     end
   end
@@ -153,11 +153,11 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
     context 'when it is an authenticated user' do
       it 'get all articles' do
         article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
-        expect(article2.id).not_to be nil
+        expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
             headers: agent.create_new_auth_token,
-            params: { payload: {} }
+            params: {}
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 2
@@ -165,11 +165,11 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
       it 'get all articles with searched params' do
         article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
-        expect(article2.id).not_to be nil
+        expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
             headers: agent.create_new_auth_token,
-            params: { payload: { category_slug: category.slug } }
+            params: { category_slug: category.slug }
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 2
@@ -182,21 +182,22 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
                           category: category,
                           author_id: agent.id,
                           content: 'this is some test and funny content')
-        expect(article2.id).not_to be nil
+        expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
             headers: agent.create_new_auth_token,
-            params: { payload: { query: 'funny' } }
+            params: { query: 'funny' }
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 1
+        expect(json_response['meta']['articles_count']).to be 2
       end
     end
 
     describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/{article.id}' do
       it 'get article' do
         article2 = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id)
-        expect(article2.id).not_to be nil
+        expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article2.id}",
             headers: agent.create_new_auth_token

@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Whatsapp šabloni",
+            "SUBTITLE": "Izaberite koji whatsapp šablon želite da pošaljete",
+            "TEMPLATE_SELECTED_SUBTITLE": "Obrada %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Pretraži šablone",
+            "NO_TEMPLATES_FOUND": "Nijedan šablon nije pronađen",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Jezik",
+                "TEMPLATE_BODY": "Telo šablona",
+                "CATEGORY": "Kategorija"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Promenljive",
+            "VARIABLE_PLACEHOLDER": "Unesite vrednost za %{variable}",
+            "GO_BACK_LABEL": "Povratak",
+            "SEND_MESSAGE_LABEL": "Pošalji poruku",
+            "FORM_ERROR_MESSAGE": "Molim vas popunite sve promenljive pre slanja"
         }
     }
 }

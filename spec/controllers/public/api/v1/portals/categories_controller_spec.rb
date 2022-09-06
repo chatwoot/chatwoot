@@ -31,6 +31,7 @@ RSpec.describe 'Public Categories API', type: :request do
       json_response = JSON.parse(response.body)
 
       expect(json_response['slug']).to eql category_slug
+      expect(json_response['meta']['articles_count']).to be 0
     end
   end
 end

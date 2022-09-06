@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "الرابط",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
             "CREATED_AT": "تم إنشاؤها في",
-            "LAST_ACTIVITY": "آخر نشاط"
+            "LAST_ACTIVITY": "آخر نشاط",
+            "REFERER_LINK": "رابط المرجع"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "الفلاتر القياسية",

@@ -25,3 +25,7 @@ if category.root_category.present?
     json.partial! 'api/v1/accounts/categories/associated_category.json.jbuilder', category: category.root_category
   end
 end
+
+json.meta do
+  json.articles_count category.articles.size
+end

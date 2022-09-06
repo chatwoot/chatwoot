@@ -77,7 +77,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
+        expect(conversation.messages.last.attachments.first.file.present?).to be(true)
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
     end
@@ -113,7 +113,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
-        expect(conversation.messages.first.content).to eq nil
+        expect(conversation.messages.first.content).to be_nil
       end
 
       it 'creates a new outgoing cards message' do
@@ -187,8 +187,8 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(message.reload.content).to eq 'This message was deleted'
-        expect(message.reload.deleted).to eq true
-        expect(message.reload.content_attributes['bcc_emails']).to eq nil
+        expect(message.reload.deleted).to be true
+        expect(message.reload.content_attributes['bcc_emails']).to be_nil
       end
     end
 

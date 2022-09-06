@@ -413,7 +413,8 @@
       "CONFIGURATION": "설치",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "대화 전 설문",
-      "BUSINESS_HOURS": "영업시간"
+      "BUSINESS_HOURS": "영업시간",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "설정",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "웹사이트 이름",
+          "PLACE_HOLDER": "웹사이트 이름 입력 (예: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "헤드라인 입력",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "태그라인 입력",
+          "PLACE_HOLDER": "우리는 간단하게 우리와 연결되도록 합니다. 우리에게 무엇이든 물어보거나 피드백을 공유하십시오."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "몇 분 후에",
+          "IN_A_FEW_HOURS": "몇 시간 안에",
+          "IN_A_DAY": "며칠 안에"
+        },
+        "WIDGET_COLOR_LABEL": "위젯 색깔",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "채팅하기",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "채팅하기"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
+        "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
+        "IN_A_DAY": "보통 하루 안에 응답"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "대화 시작",
+        "CHAT_INPUT_PLACEHOLDER": "메시지 입력"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "부재중"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Chatwoot 작동중",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

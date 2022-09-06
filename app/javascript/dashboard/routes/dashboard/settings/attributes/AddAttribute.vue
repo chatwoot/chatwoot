@@ -104,7 +104,7 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { convertToSlug } from 'dashboard/helper/commons.js';
+import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 
@@ -199,7 +199,7 @@ export default {
       this.isTouched = true;
     },
     onDisplayNameChange() {
-      this.attributeKey = convertToSlug(this.displayName);
+      this.attributeKey = convertToAttributeSlug(this.displayName);
     },
     async addAttributes() {
       this.$v.$touch();
