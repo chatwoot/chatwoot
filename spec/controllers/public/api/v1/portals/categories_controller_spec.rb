@@ -15,9 +15,6 @@ RSpec.describe 'Public Categories API', type: :request do
       get "/public/api/v1/portals/#{portal.slug}/categories"
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['payload'].length).to eql portal.categories.count
     end
   end
 
@@ -28,10 +25,6 @@ RSpec.describe 'Public Categories API', type: :request do
       get "/public/api/v1/portals/#{portal.slug}/categories/#{category_slug}"
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['slug']).to eql category_slug
-      expect(json_response['meta']['articles_count']).to be 0
     end
   end
 end
