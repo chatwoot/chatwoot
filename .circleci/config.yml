@@ -15,7 +15,7 @@ defaults: &defaults
     - image: cimg/postgres:14.1
     - image: cimg/redis:6.2.6
   environment:
-      - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
+      - CC_TEST_REPORTER_ID: caf26a895e937974a90860cfadfded20891cfd1373a5aaafb3f67406ab9d433f
       - RAILS_LOG_TO_STDOUT: false
   parallelism: 4
 
