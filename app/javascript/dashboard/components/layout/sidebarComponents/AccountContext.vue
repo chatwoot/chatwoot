@@ -54,8 +54,7 @@ export default {
   border: 1px solid var(--color-border);
   font-size: var(--font-size-mini);
   padding: var(--space-small);
-  margin-bottom: var(--space-small);
-  width: 100%;
+  margin: var(--space-small) var(--space-small) 0 var(--space-small);
   position: relative;
 
   &:hover {
