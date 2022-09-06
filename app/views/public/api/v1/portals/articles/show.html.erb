@@ -3,12 +3,12 @@
 	<div class="max-w-4xl px-6 py-16 mx-auto space-y-12 w-full">
 		<div class="space-y-4">
 		<div>
-				<a class="text-slate-800 hover:underline leading-8"
+				<a class="text-slate-700 hover:underline leading-8 text-sm font-medium"
         href="/public/api/v1/portals/<%= @portal.slug %>/" class=""><%= @portal.name %> Home</a>
-		<span>/</span>
-			<a class="text-slate-800 hover:underline leading-8"
+		<span class="text-xs text-slate-600 px-1">/</span>
+			<a class="text-slate-700 hover:underline leading-8 text-sm font-medium"
         href="/public/api/v1/portals/<%= @portal.slug %>/categories/<%= @article.category.slug %>" class=""><%= @article.category.name %></a>
-		<span>/</span>
+		<span class="text-xs text-slate-600 px-1">/</span>
 		</div>
 			<h1 class="text-4xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
 				<%= @article.title %></h1>
