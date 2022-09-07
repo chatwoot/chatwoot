@@ -15,9 +15,6 @@ RSpec.describe 'Public Categories API', type: :request do
       get "/hc/#{portal.slug}/categories"
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['payload'].length).to eql portal.categories.count
     end
   end
 
@@ -25,13 +22,9 @@ RSpec.describe 'Public Categories API', type: :request do
     it 'Fetch category with the slug' do
       category_locale = 'en'
 
-      get "/hc/#{portal.slug}/categories/#{category_locale}"
+      get "/hc/#{portal.slug}/#{category_locale}/categories"
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['locale']).to eql category_locale
-      expect(json_response['meta']['articles_count']).to be 0
     end
   end
 end

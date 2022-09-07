@@ -34,7 +34,7 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   private
 
   def fetch_category
-    @category = @portal.categories.find_by(slug: params[:category_slug])
+    @category = @portal.categories.find(params[:id])
   end
 
   def portal
