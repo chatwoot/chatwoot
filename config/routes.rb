@@ -287,20 +287,11 @@ Rails.application.routes.draw do
     end
   end
 
-  #---------------------------------------
-  #-------------------- Public routes for help center portals
-  namespace :public do
-    namespace :api do
-      namespace :v1 do
-        resources :portals, only: [:show, :index], param: :slug do
-          scope module: :portals do
-            resources :categories, only: [:index, :show], param: :slug
-            resources :articles, only: [:index, :show]
-          end
-        end
-      end
-    end
-  end
+  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', format: 'json'
+  get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index', format: 'json'
+  get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show', format: 'json'
+  get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index', format: 'json'
+  get 'hc/:slug/:locale/:category_slug/:id', to: 'public/api/v1/portals/articles#show', format: 'json'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
