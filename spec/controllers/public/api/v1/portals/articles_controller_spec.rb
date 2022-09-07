@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Public Articles API', type: :request do
   let!(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:portal, slug: 'test-portal', config: { allowed_locales: %w[en es] }) }
+  let!(:portal) { create(:portal, slug: 'test-portal', config: { allowed_locales: %w[en es] }, custom_domain: 'www.example.com') }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
   let!(:category_2) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'es', slug: 'category_2_slug') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
@@ -15,9 +15,9 @@ RSpec.describe 'Public Articles API', type: :request do
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id)
   end
 
-  describe 'GET /public/api/v1/portals/:portal_slug/articles' do
+  describe 'GET /public/api/v1/portals/:slug/articles' do
     it 'Fetch all articles in the portal' do
-      get "/public/api/v1/portals/#{portal.slug}/articles"
+      get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/articles"
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
@@ -35,7 +35,7 @@ RSpec.describe 'Public Articles API', type: :request do
                         content: 'this is some test and funny content')
       expect(article2.id).not_to be_nil
 
-      get "/public/api/v1/portals/#{portal.slug}/articles",
+      get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/articles",
           headers: agent.create_new_auth_token,
           params: { query: 'funny' }
       expect(response).to have_http_status(:success)
@@ -45,9 +45,9 @@ RSpec.describe 'Public Articles API', type: :request do
     end
   end
 
-  describe 'GET /public/api/v1/portals/:portal_slug/articles/:id' do
+  describe 'GET /public/api/v1/portals/:slug/articles/:id' do
     it 'Fetch article with the id' do
-      get "/public/api/v1/portals/#{portal.slug}/articles/#{article.id}"
+      get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/#{article.id}"
 
       expect(response).to have_http_status(:success)
       json_response = JSON.parse(response.body)
