@@ -6,17 +6,16 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <div v-if="portals.length">
-      <help-center-sidebar
-        :class="sidebarClassName"
-        :header-title="headerTitle"
-        :sub-title="localeName(selectedPortalLocale)"
-        :accessible-menu-items="accessibleMenuItems"
-        :additional-secondary-menu-items="additionalSecondaryMenuItems"
-        @open-popover="openPortalPopover"
-        @open-modal="onClickOpenAddCatogoryModal"
-      />
-    </div>
+    <help-center-sidebar
+      v-if="portals.length"
+      :class="sidebarClassName"
+      :header-title="headerTitle"
+      :sub-title="localeName(selectedPortalLocale)"
+      :accessible-menu-items="accessibleMenuItems"
+      :additional-secondary-menu-items="additionalSecondaryMenuItems"
+      @open-popover="openPortalPopover"
+      @open-modal="onClickOpenAddCatogoryModal"
+    />
     <section class="app-content columns" :class="contentClassName">
       <router-view />
       <command-bar />
