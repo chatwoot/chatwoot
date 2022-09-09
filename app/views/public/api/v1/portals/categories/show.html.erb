@@ -16,12 +16,12 @@
 <section class="bg-white max-w-4xl w-full mx-auto py-6 px-4 flex flex-col items-center justify-center flex-grow">
 
     <div class="py-4 w-full mt-2 flex-grow">
-        <% if @category.articles.size == 0 %>
+        <% if @category.articles.published.size == 0 %>
         <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl">
             <p class="text-sm text-slate-500">No articles here</p>
         </div>
         <% else %>
-        <% @category.articles.each do |article| %>
+        <% @category.articles.published.each do |article| %>
         <div class="flex justify-between content-center h-8 my-1">
             <a class="text-slate-800 hover:underline"
                 href="/public/api/v1/portals/<%= @portal.slug %>/articles/<%= article.id %>"
