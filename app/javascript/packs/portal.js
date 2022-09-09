@@ -6,7 +6,7 @@
 import Rails from '@rails/ujs';
 import Turbolinks from 'turbolinks';
 
-import { navigateToLocalePage } from '../portal/portal';
+import { navigateToLocalePage } from '../portal/portalHelpers';
 
 import '../portal/application.scss';
 
