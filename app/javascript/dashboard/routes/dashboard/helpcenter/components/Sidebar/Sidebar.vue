@@ -4,9 +4,9 @@
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
       :sub-title="subTitle"
+      :portal-link="portalLink"
       @open-popover="openPortalPopover"
     />
-    <sidebar-search @input="onSearch" />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -28,13 +28,11 @@
 
 <script>
 import SecondaryNavItem from 'dashboard/components/layout/sidebarComponents/SecondaryNavItem';
-import SidebarSearch from './SidebarSearch';
 import SidebarHeader from './SidebarHeader';
 
 export default {
   components: {
     SecondaryNavItem,
-    SidebarSearch,
     SidebarHeader,
   },
   props: {
@@ -69,6 +67,10 @@ export default {
         this.additionalSecondaryMenuItems[0].children.length > 0
       );
     },
+    portalLink() {
+      const slug = this.$route.params.portalSlug;
+      return `/public/api/v1/portals/${slug}`;
+    },
   },
   methods: {
     onSearch(value) {
@@ -85,6 +87,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~dashboard/assets/scss/woot';
 .secondary-menu {
   background: var(--white);
   border-right: 1px solid var(--s-50);
@@ -93,6 +96,14 @@ export default {
   flex-shrink: 0;
   overflow: hidden;
   padding: var(--space-small);
+
+  @include breakpoint(xlarge down) {
+    position: absolute;
+  }
+
+  @include breakpoint(xlarge up) {
+    position: unset;
+  }
 
   &:hover {
     overflow: auto;

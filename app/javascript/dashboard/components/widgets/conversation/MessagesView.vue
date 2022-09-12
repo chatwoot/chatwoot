@@ -431,12 +431,12 @@ export default {
       position: fixed;
       left: unset;
       position: absolute;
-    }
 
-    .emoji-dialog::before {
-      transform: rotate(0deg);
-      left: 5px;
-      bottom: var(--space-minus-slab);
+      &::before {
+        transform: rotate(0deg);
+        left: var(--space-half);
+        bottom: var(--space-minus-slab);
+      }
     }
   }
 }

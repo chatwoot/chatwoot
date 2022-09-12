@@ -46,7 +46,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedPortal: 'portals/getSelectedPortal',
       currentUserID: 'getCurrentUserID',
       articles: 'articles/articles',
       categories: 'categories/allCategories',
@@ -58,7 +57,7 @@ export default {
       return { title: this.articleTitle, content: this.articleContent };
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
     categoryId() {
       return this.categories.length ? this.categories[0].id : null;
@@ -115,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   display: flex;
-  padding: var(--space-small) var(--space-normal);
+  padding: 0 var(--space-normal);
   width: 100%;
   flex: 1;
   overflow: auto;
@@ -123,8 +122,7 @@ export default {
 .new-article--container {
   flex: 1;
   flex-shrink: 0;
-  overflow: scroll;
-  overflow: auto;
+  overflow-y: auto;
 }
 .is-sidebar-open {
   flex: 0.7;
