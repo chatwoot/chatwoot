@@ -84,5 +84,5 @@ Rails.application.configure do
       user_id: controller.current_user.try(:id)
     }
   end
-
+  config.lograge.keep_original_rails_log = false
 end
