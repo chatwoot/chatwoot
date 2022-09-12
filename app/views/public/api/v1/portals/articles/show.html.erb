@@ -1,15 +1,15 @@
-
 <div class="bg-slate-50">
 	<div class="max-w-4xl px-6 py-16 mx-auto space-y-12 w-full">
 		<div class="space-y-4">
-		<div>
+			<div>
 				<a class="text-slate-700 hover:underline leading-8 text-sm font-medium"
-        href="/public/api/v1/portals/<%= @portal.slug %>/" class=""><%= @portal.name %> Home</a>
-		<span class="text-xs text-slate-600 px-1">/</span>
-			<a class="text-slate-700 hover:underline leading-8 text-sm font-medium"
-        href="/public/api/v1/portals/<%= @portal.slug %>/categories/<%= @article.category.slug %>" class=""><%= @article.category.name %></a>
-		<span class="text-xs text-slate-600 px-1">/</span>
-		</div>
+					href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>" class=""><%= @portal.name %> Home</a>
+				<span class="text-xs text-slate-600 px-1">/</span>
+				<a class="text-slate-700 hover:underline leading-8 text-sm font-medium"
+					href="/hc/<%= @portal.slug %>/<%= @article.category.locale %>/<%= @article.category.slug %>"
+					class=""><%= @article.category.name %></a>
+				<span class="text-xs text-slate-600 px-1">/</span>
+			</div>
 			<h1 class="text-4xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
 				<%= @article.title %></h1>
 			<div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 </div>
 <div class="max-w-4xl flex-grow w-full px-6 py-16 mx-auto space-y-12">
 	<article class="space-y-8 ">
@@ -33,4 +33,3 @@
 		</div>
 	</article>
 </div>
-

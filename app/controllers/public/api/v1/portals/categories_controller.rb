@@ -13,7 +13,7 @@ class Public::Api::V1::Portals::CategoriesController < PublicController
   private
 
   def set_category
-    @category = @portal.categories.find_by!(locale: params[:locale])
+    @category = @portal.categories.find_by!(locale: params[:locale], slug: params[:category_slug])
   end
 
   def set_portal

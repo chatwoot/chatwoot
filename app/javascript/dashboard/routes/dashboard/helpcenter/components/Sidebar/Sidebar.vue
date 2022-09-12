@@ -69,7 +69,7 @@ export default {
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
-      return `/public/api/v1/portals/${slug}`;
+      return `/hc/${slug}`;
     },
   },
   methods: {

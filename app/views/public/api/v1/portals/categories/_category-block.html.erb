@@ -2,7 +2,7 @@
 <section class="bg-white lg:container w-full py-6 px-4 flex flex-col h-full">
   <div class="flex justify-between items-center w-full">
     <h3 class="text-xl text-slate-900 font-semibold subpixel-antialiased leading-relaxed hover:underline"">
-     <a href="/public/api/v1/portals/<%= portal.slug %>/categories/<%= category.slug %>"><%= category.name %> </a>
+     <a href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>"><%= category.name %> </a>
       </h3> <span class="text-slate-500"><%= category.articles.published.size %> articles</span>
   </div>
   <div class="py-4 w-full mt-2 flex-grow">
@@ -14,7 +14,7 @@
     <% category.articles.published.take(5).each do |article| %>
     <div class="flex justify-between content-center h-8 my-1">
       <a class="text-slate-800 hover:underline leading-8"
-        href="/public/api/v1/portals/<%= portal.slug %>/articles/<%= article.id %>" class=""><%= article.title %></a>
+        href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>" class=""><%= article.title %></a>
       <span class="flex items-center">
         <svg class="w-4 h-4 fill-current text-slate-700" width="24" height="24" fill="none" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@
 
   </div>
   <div>
-    <a href="/public/api/v1/portals/<%= portal.slug %>/categories/<%= category.slug %>"
+    <a href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>"
       class="flex flex-row items-center text-base font-sans font-medium text-woot-600 hover:text-slate-900 hover:underline mt-4">
 
       View all articles

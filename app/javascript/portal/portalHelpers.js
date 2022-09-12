@@ -3,6 +3,6 @@ export const navigateToLocalePage = () => {
 
   const { portalSlug } = allLocaleSwitcher.dataset;
   allLocaleSwitcher.addEventListener('change', event => {
-    window.location = `/public/api/v1/portals/${portalSlug}/${event.target.value}/dashboard`;
+    window.location = `/hc/${portalSlug}/${event.target.value}/`;
   });
 };
