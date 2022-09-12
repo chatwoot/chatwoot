@@ -185,3 +185,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+gem "lograge", "~> 0.12.0"

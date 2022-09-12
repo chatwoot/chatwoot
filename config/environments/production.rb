@@ -103,4 +103,13 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+
+  config.lograge.enabled = true
+  config.lograge.custom_payload do |controller|
+    {
+      host: controller.request.host,
+      user_id: controller.current_user.try(:id)
+    }
+  end
+
 end

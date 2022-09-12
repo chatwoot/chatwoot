@@ -51,4 +51,13 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
+
+  config.lograge.enabled = true
+  config.lograge.custom_payload do |controller|
+    {
+      host: controller.request.host,
+      user_id: controller.current_user.try(:id)
+    }
+  end
+
 end

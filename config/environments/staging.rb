@@ -75,4 +75,13 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.lograge.enabled = true
+  config.lograge.custom_payload do |controller|
+    {
+      host: controller.request.host,
+      user_id: controller.current_user.try(:id)
+    }
+  end
+
 end
