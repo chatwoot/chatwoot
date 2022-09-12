@@ -285,8 +285,6 @@ export default {
 }
 
 .secondary-menu .nested.vertical.menu {
-  overflow-y: auto;
-  height: 100%;
   margin-left: var(--space-small);
 }
 </style>

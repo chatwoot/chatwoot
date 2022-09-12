@@ -89,6 +89,8 @@ export default {
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
@@ -107,6 +109,11 @@ export default {
 
   &:hover {
     overflow: auto;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
   }
 }
 </style>
