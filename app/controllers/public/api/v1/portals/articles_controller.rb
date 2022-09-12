@@ -3,6 +3,7 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
   before_action :set_portal
   before_action :set_category
   before_action :set_article, only: [:show]
+  layout 'portal'
 
   def index
     @articles = @portal.articles
@@ -15,6 +16,7 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
 
   def set_article
     @article = @category.articles.find(params[:id])
+    @parsed_content = render_article_content(@article.content)
   end
 
   def set_category
@@ -27,5 +29,11 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
 
   def list_params
     params.permit(:query)
+  end
+
+  def render_article_content(content)
+    # rubocop:disable Rails/OutputSafety
+    CommonMarker.render_html(content).html_safe
+    # rubocop:enable Rails/OutputSafety
   end
 end
