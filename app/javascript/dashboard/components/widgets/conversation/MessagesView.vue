@@ -86,7 +86,6 @@
         :is-a-tweet="isATweet"
         :selected-tweet="selectedTweet"
         :popout-reply-box.sync="isPopoutReplyBox"
-        :default-editor="defaultEditor"
         @click="showPopoutReplyBox"
       />
     </div>

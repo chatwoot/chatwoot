@@ -231,13 +231,6 @@ export default {
         return true;
       }
 
-      if (this.isRichEditorEnabled) {
-        const {
-          display_rich_content_editor: displayRichContentEditor,
-        } = this.uiSettings;
-
-        return displayRichContentEditor;
-      }
       return false;
     },
     assignedAgent: {
@@ -373,7 +366,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel;
+      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;
