@@ -87,6 +87,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~dashboard/assets/scss/woot';
 .secondary-menu {
   background: var(--white);
   border-right: 1px solid var(--s-50);
@@ -95,6 +96,14 @@ export default {
   flex-shrink: 0;
   overflow: hidden;
   padding: var(--space-small);
+
+  @include breakpoint(xlarge down) {
+    position: absolute;
+  }
+
+  @include breakpoint(xlarge up) {
+    position: unset;
+  }
 
   &:hover {
     overflow: auto;

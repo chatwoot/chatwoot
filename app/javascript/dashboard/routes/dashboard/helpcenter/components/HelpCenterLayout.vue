@@ -273,3 +273,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.off-canvas-content.is-open-left.has-transition-push {
+  transform: translateX(var(--space-giga));
+}
+</style>
