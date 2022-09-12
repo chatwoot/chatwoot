@@ -39,6 +39,7 @@
         :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
         :locale="selectedPortalLocale"
+        :portal-slug="selectedPortalSlug"
         @cancel="onClickCloseAddCategoryModal"
       />
     </section>
