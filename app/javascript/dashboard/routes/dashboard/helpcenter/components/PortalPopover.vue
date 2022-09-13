@@ -39,14 +39,6 @@
         @open-portal-page="onPortalSelect"
       />
     </div>
-    <footer>
-      <woot-button variant="clear" size="small" @click="closePortalPopover">
-        {{ $t('HELP_CENTER.PORTAL.POPOVER.CANCEL_BUTTON_LABEL') }}
-      </woot-button>
-      <woot-button size="small" @click="() => {}">
-        {{ $t('HELP_CENTER.PORTAL.POPOVER.CHOOSE_LOCALE_BUTTON') }}
-      </woot-button>
-    </footer>
   </div>
 </template>
 
@@ -129,13 +121,6 @@ export default {
         margin-top: var(--space-small);
       }
     }
-  }
-
-  footer {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: var(--space-small);
   }
 }
 </style>
