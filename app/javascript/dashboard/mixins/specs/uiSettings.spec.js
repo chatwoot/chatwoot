@@ -16,7 +16,6 @@ describe('uiSettingsMixin', () => {
     actions = { updateUISettings: jest.fn(), toggleSidebarUIState: jest.fn() };
     getters = {
       getUISettings: () => ({
-        display_rich_content_editor: false,
         enter_to_send_enabled: false,
         is_ct_labels_open: true,
         conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
@@ -34,7 +33,6 @@ describe('uiSettingsMixin', () => {
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.uiSettings).toEqual({
-      display_rich_content_editor: false,
       enter_to_send_enabled: false,
       is_ct_labels_open: true,
       conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
@@ -55,7 +53,6 @@ describe('uiSettingsMixin', () => {
         expect.anything(),
         {
           uiSettings: {
-            display_rich_content_editor: false,
             enter_to_send_enabled: true,
             is_ct_labels_open: true,
             conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
@@ -80,7 +77,6 @@ describe('uiSettingsMixin', () => {
         expect.anything(),
         {
           uiSettings: {
-            display_rich_content_editor: false,
             enter_to_send_enabled: false,
             is_ct_labels_open: false,
             conversation_sidebar_items_order: DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
