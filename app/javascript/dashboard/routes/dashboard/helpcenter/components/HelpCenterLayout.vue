@@ -10,7 +10,7 @@
       v-if="portals.length"
       :class="sidebarClassName"
       :header-title="headerTitle"
-      :sub-title="localeName(selectedPortalLocale)"
+      :sub-title="localeName(selectedLocaleInPortal)"
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
       @open-popover="openPortalPopover"
@@ -32,13 +32,14 @@
         v-if="showPortalPopover"
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
+        :active-locale="selectedLocaleInPortal"
         @close-popover="closePortalPopover"
       />
       <add-category
         v-if="showAddCategoryModal"
         :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
-        :locale="selectedPortalLocale"
+        :locale="selectedLocaleInPortal"
         :portal-slug="selectedPortalSlug"
         @cancel="onClickCloseAddCategoryModal"
       />
@@ -96,6 +97,9 @@ export default {
 
       return this.$store.getters['portals/allPortals'][0];
     },
+    selectedLocaleInPortal() {
+      return this.$route.params.locale || this.defaultPortalLocale;
+    },
     sidebarClassName() {
       if (this.isOnDesktop) {
         return '';
@@ -120,7 +124,7 @@ export default {
     selectedPortalSlug() {
       return this.selectedPortal ? this.selectedPortal?.slug : '';
     },
-    selectedPortalLocale() {
+    defaultPortalLocale() {
       return this.selectedPortal
         ? this.selectedPortal?.meta?.default_locale
         : '';
@@ -142,7 +146,7 @@ export default {
           key: 'list_all_locale_articles',
           count: allArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles`
           ),
           toolTip: 'All Articles',
           toStateName: 'list_all_locale_articles',
@@ -153,7 +157,7 @@ export default {
           key: 'list_mine_articles',
           count: mineArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/mine`
           ),
           toolTip: 'My articles',
           toStateName: 'list_mine_articles',
@@ -164,7 +168,7 @@ export default {
           key: 'list_draft_articles',
           count: draftArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/draft`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/draft`
           ),
           toolTip: 'Draft',
           toStateName: 'list_draft_articles',
@@ -175,7 +179,7 @@ export default {
           key: 'list_archived_articles',
           count: archivedArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/archived`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/archived`
           ),
           toolTip: 'Archived',
           toStateName: 'list_archived_articles',
