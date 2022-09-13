@@ -84,7 +84,7 @@ class Integrations::Csml::ProcessorService < Integrations::BotProcessorService
   end
 
   def process_text_messages(message_payload, conversation)
-    conversation.messages.create(
+    conversation.messages.create!(
       {
         message_type: :outgoing,
         account_id: conversation.account_id,
@@ -99,7 +99,7 @@ class Integrations::Csml::ProcessorService < Integrations::BotProcessorService
     buttons = message_payload['content']['buttons'].map do |button|
       { title: button['content']['title'], value: button['content']['payload'] }
     end
-    conversation.messages.create(
+    conversation.messages.create!(
       {
         message_type: :outgoing,
         account_id: conversation.account_id,

@@ -69,7 +69,7 @@ export default {
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
-      return `/public/api/v1/portals/${slug}`;
+      return `/hc/${slug}`;
     },
   },
   methods: {
@@ -87,7 +87,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~dashboard/assets/scss/woot';
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
@@ -96,8 +99,21 @@ export default {
   overflow: hidden;
   padding: var(--space-small);
 
+  @include breakpoint(xlarge down) {
+    position: absolute;
+  }
+
+  @include breakpoint(xlarge up) {
+    position: unset;
+  }
+
   &:hover {
     overflow: auto;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
   }
 }
 </style>

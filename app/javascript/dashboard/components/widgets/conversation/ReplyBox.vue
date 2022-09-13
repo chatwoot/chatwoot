@@ -26,6 +26,7 @@
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
+        :class="emojiDialogClassOnExpanedLayout"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -106,10 +107,8 @@
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
-      :set-format-mode="setFormatMode"
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
-      :enable-rich-editor="isRichEditorEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
@@ -161,6 +160,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -227,17 +227,10 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
     showRichContentEditor() {
-      if (this.isOnPrivateNote) {
+      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
       }
 
-      if (this.isRichEditorEnabled) {
-        const {
-          display_rich_content_editor: displayRichContentEditor,
-        } = this.uiSettings;
-
-        return displayRichContentEditor;
-      }
       return false;
     },
     assignedAgent: {
@@ -381,7 +374,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel;
+      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;
@@ -395,6 +388,20 @@ export default {
     inReplyTo() {
       const selectedTweet = this.selectedTweet || {};
       return selectedTweet.id;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = CONDENSED,
+      } = this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
+    },
+    emojiDialogClassOnExpanedLayout() {
+      return this.isOnExpandedLayout && !this.popoutReplyBox
+        ? 'emoji-dialog--expanded'
+        : '';
     },
     replyToUserLength() {
       const selectedTweet = this.selectedTweet || {};
@@ -827,9 +834,6 @@ export default {
 
       return messagePayload;
     },
-    setFormatMode(value) {
-      this.updateUISettings({ display_rich_content_editor: value });
-    },
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
       this.ccEmails = value.ccEmails;
@@ -911,7 +915,18 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
+.emoji-dialog--expanded {
+  left: unset;
+  bottom: var(--space-jumbo);
+  position: absolute;
+  z-index: var(--z-index-normal);
 
+  &::before {
+    transform: rotate(0deg);
+    left: var(--space-half);
+    bottom: var(--space-minus-slab);
+  }
+}
 .message-signature {
   margin-bottom: 0;
 

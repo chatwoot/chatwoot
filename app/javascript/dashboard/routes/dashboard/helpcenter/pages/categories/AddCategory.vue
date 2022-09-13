@@ -86,6 +86,10 @@ export default {
       type: String,
       default: '',
     },
+    portalSlug: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -105,7 +109,9 @@ export default {
   },
   computed: {
     selectedPortalSlug() {
-      return this.$route.params.portalSlug;
+      return this.$route.params.portalSlug
+        ? this.$route.params.portalSlug
+        : this.portalSlug;
     },
     nameError() {
       if (this.$v.name.$error) {
