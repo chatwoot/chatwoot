@@ -107,10 +107,8 @@
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
-      :set-format-mode="setFormatMode"
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
-      :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
@@ -229,17 +227,10 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
     showRichContentEditor() {
-      if (this.isOnPrivateNote) {
+      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
       }
 
-      if (this.isRichEditorEnabled) {
-        const {
-          display_rich_content_editor: displayRichContentEditor,
-        } = this.uiSettings;
-
-        return displayRichContentEditor;
-      }
       return false;
     },
     assignedAgent: {
@@ -375,7 +366,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel;
+      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;
@@ -798,9 +789,6 @@ export default {
       }
 
       return messagePayload;
-    },
-    setFormatMode(value) {
-      this.updateUISettings({ display_rich_content_editor: value });
     },
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
