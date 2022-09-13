@@ -85,7 +85,7 @@
 
   .modal-footer {
     @include flex;
-    @include flex-align($x: flex-start, $y: middle);
+    @include flex-align($x: flex-end, $y: middle);
     padding: $space-small $zero;
 
     button {

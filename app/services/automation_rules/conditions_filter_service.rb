@@ -88,7 +88,11 @@ class AutomationRules::ConditionsFilterService < FilterService
 
     case current_filter['attribute_type']
     when 'standard'
-      " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
+      if current_filter['data_type'] == 'text'
+        " LOWER(messages.#{attribute_key}) #{filter_operator_value} #{query_operator} "
+      else
+        " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
+      end
     end
   end
 

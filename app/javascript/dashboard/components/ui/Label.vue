@@ -72,7 +72,9 @@ export default {
       return this.color || getContrastingTextColor(this.bgColor);
     },
     labelClass() {
-      return `label ${this.colorScheme} ${this.small ? 'small' : ''}`;
+      return `label ${this.colorScheme} ${this.variant} ${
+        this.small ? 'small' : ''
+      }`;
     },
     labelStyle() {
       if (this.bgColor) {
@@ -146,6 +148,9 @@ export default {
     a {
       color: var(--w-900);
     }
+    .label-color-dot {
+      background: var(--w-600);
+    }
   }
   &.secondary {
     background: var(--s-100);
@@ -153,6 +158,9 @@ export default {
     border: 1px solid var(--s-200);
     a {
       color: var(--s-900);
+    }
+    .label-color-dot {
+      background: var(--s-600);
     }
   }
   &.success {
@@ -162,6 +170,9 @@ export default {
     a {
       color: var(--g-900);
     }
+    .label-color-dot {
+      background: var(--g-600);
+    }
   }
   &.alert {
     background: var(--r-100);
@@ -169,6 +180,9 @@ export default {
     border: 1px solid var(--r-200);
     a {
       color: var(--r-900);
+    }
+    .label-color-dot {
+      background: var(--r-600);
     }
   }
   &.warning {
@@ -178,6 +192,15 @@ export default {
     a {
       color: var(--y-900);
     }
+    .label-color-dot {
+      background: var(--y-900);
+    }
+  }
+
+  &.smooth {
+    background: transparent;
+    border: 1px solid var(--s-75);
+    color: var(--s-800);
   }
 }
 

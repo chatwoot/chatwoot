@@ -26,6 +26,7 @@
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
+        :class="emojiDialogClassOnExpanedLayout"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -144,7 +145,10 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+import {
+  MAXIMUM_FILE_UPLOAD_SIZE,
+  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
+} from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { debounce } from 'shared/helpers/TimeHelpers';
 
@@ -162,6 +166,7 @@ import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent } from '@chatwoot/utils';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -279,7 +284,7 @@ export default {
       return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsappChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -326,7 +331,7 @@ export default {
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isAWhatsappChannel) {
+      if (this.isAWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isASmsInbox) {
@@ -343,7 +348,7 @@ export default {
       return (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
-        this.isAWhatsappChannel ||
+        this.isAWhatsAppChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isASmsInbox ||
@@ -389,6 +394,20 @@ export default {
     inReplyTo() {
       const selectedTweet = this.selectedTweet || {};
       return selectedTweet.id;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = CONDENSED,
+      } = this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
+    },
+    emojiDialogClassOnExpanedLayout() {
+      return this.isOnExpandedLayout && !this.popoutReplyBox
+        ? 'emoji-dialog--expanded'
+        : '';
     },
     replyToUserLength() {
       const selectedTweet = this.selectedTweet || {};
@@ -441,7 +460,7 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsappChannel) {
+      if (canReply || this.isAWhatsAppChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -628,6 +647,11 @@ export default {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
+
+        this.clearMessage();
+        if (!this.isPrivate) {
+          this.clearEmailField();
+        }
         this.sendMessage(messagePayload);
         this.clearMessage();
         this.hideEmojiPicker();
@@ -663,7 +687,7 @@ export default {
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
 
-      if (canReply || this.isAWhatsappChannel) this.replyType = mode;
+      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
@@ -678,9 +702,11 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
+      this.isRecordingAudio = false;
+    },
+    clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
-      this.isRecordingAudio = false;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -690,6 +716,7 @@ export default {
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
         this.clearMessage();
+        this.clearEmailField();
       }
     },
     toggleAudioRecorderPlayPause() {
@@ -752,10 +779,14 @@ export default {
       }
     },
     onDirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
+
       if (!file) {
         return;
       }
-      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
         const upload = new DirectUpload(
           file.file,
           `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
@@ -779,21 +810,24 @@ export default {
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_FILE_UPLOAD_SIZE,
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
           })
         );
       }
     },
     onIndirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
       if (!file) {
         return;
       }
-      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
         this.attachFile({ file });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_FILE_UPLOAD_SIZE,
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
           })
         );
       }
@@ -932,7 +966,18 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
+.emoji-dialog--expanded {
+  left: unset;
+  bottom: var(--space-jumbo);
+  position: absolute;
+  z-index: var(--z-index-normal);
 
+  &::before {
+    transform: rotate(0deg);
+    left: var(--space-half);
+    bottom: var(--space-minus-slab);
+  }
+}
 .message-signature {
   margin-bottom: 0;
 
