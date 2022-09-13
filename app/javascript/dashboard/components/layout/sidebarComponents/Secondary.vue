@@ -245,6 +245,8 @@ export default {
 @import '~dashboard/assets/scss/woot';
 
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
@@ -267,7 +269,6 @@ export default {
   .menu {
     padding: var(--space-small);
     overflow-y: auto;
-    height: 94%;
   }
 }
 </style>

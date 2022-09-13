@@ -10,7 +10,7 @@ class Conversations::UserMentionJob < ApplicationJob
       )
 
       if mention.nil?
-        Mention.create(
+        Mention.create!(
           user_id: mentioned_user_id,
           conversation_id: conversation_id,
           mentioned_at: Time.zone.now,

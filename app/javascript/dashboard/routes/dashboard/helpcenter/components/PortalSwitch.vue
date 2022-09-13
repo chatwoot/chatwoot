@@ -19,13 +19,13 @@
         />
       </header>
       <div class="portal-locales">
-        <h5 class="locale-title">
+        <h5 class="locale-title sub-block-title">
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
         </h5>
         <ul>
           <li v-for="locale in locales" :key="locale.code">
             <woot-button
-              :class="
+              :variant="
                 `locale-item ${
                   isLocaleActive(locale.code, activePortalSlug)
                     ? 'smooth'
@@ -38,7 +38,7 @@
             >
               <div class="locale-content">
                 <div class="meta">
-                  <h6 class="text-block-title text-left">
+                  <h6 class="text-block-title text-left locale-name">
                     <span>
                       {{ localeName(locale.code) }}
                     </span>
@@ -90,6 +90,10 @@ export default {
       type: String,
       default: '',
     },
+    activeLocale: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -129,7 +133,7 @@ export default {
     },
     isLocaleActive(code, slug) {
       const isPortalActive = this.portal.slug === slug;
-      const isLocaleActive = this.portal?.meta?.default_locale === code;
+      const isLocaleActive = this.activeLocale === code;
       return isPortalActive && isLocaleActive;
     },
     isLocaleDefault(code) {
@@ -151,6 +155,7 @@ export default {
 
   &.active {
     border: 1px solid var(--w-400);
+    background: var(---25);
   }
 
   .actions-container {
@@ -177,15 +182,13 @@ export default {
       .portal-count {
         font-size: var(--font-size-mini);
         margin-bottom: 0;
-        color: var(--s-500);
+        color: var(--s-600);
       }
     }
 
     .portal-locales {
-      .locale-title {
-        color: var(--s-600);
-        font-size: var(--font-size-default);
-        font-weight: var(--font-weight-medium);
+      .locale-name {
+        margin-bottom: var(--space-micro);
       }
 
       .locale-content {
@@ -204,6 +207,7 @@ export default {
       .locale__radio {
         width: var(--space-large);
         margin-top: var(--space-tiny);
+        color: var(--g-600);
       }
 
       .add-locale-wrap {
@@ -227,7 +231,7 @@ export default {
 
     .locale-meta {
       display: flex;
-      color: var(--s-500);
+      color: var(--s-600);
       font-size: var(--font-size-small);
       text-align: left;
       line-height: var(--space-normal);
