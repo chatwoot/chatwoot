@@ -9,6 +9,7 @@ describe Agents::DestroyService do
   before do
     create(:team_member, team: team1, user: user)
     create(:inbox_member, inbox: inbox, user: user)
+    create(:conversation, account: account, assignee: user, inbox: inbox)
   end
 
   describe '#perform' do
@@ -18,6 +19,7 @@ describe Agents::DestroyService do
       expect(user.teams.length).to eq 0
       expect(user.inboxes.length).to eq 0
       expect(user.notification_settings.length).to eq 0
+      expect(user.assigned_conversations.where(account: account).length).to eq 0
     end
   end
 end
