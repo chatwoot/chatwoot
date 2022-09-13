@@ -44,9 +44,9 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
 
     conversation = message.conversation
     conversation.messages.create!(content_params.merge({
-                                                        message_type: :outgoing,
-                                                        account_id: conversation.account_id,
-                                                        inbox_id: conversation.inbox_id
-                                                      }))
+                                                         message_type: :outgoing,
+                                                         account_id: conversation.account_id,
+                                                         inbox_id: conversation.inbox_id
+                                                       }))
   end
 end
