@@ -13,7 +13,7 @@ describe Agents::DestroyService do
   end
 
   describe '#perform' do
-    it 'remove inboxes and teams when removed from account' do
+    it 'remove inboxes, teams, and conversations when removed from account' do
       described_class.new(account: account, user: user).perform
       user.reload
       expect(user.teams.length).to eq 0
