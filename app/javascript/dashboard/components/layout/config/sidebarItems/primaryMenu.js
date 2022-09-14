@@ -34,6 +34,14 @@ const primaryMenuItems = accountId => [
     roles: ['administrator'],
   },
   {
+    icon: 'library',
+    key: 'helpcenter',
+    label: 'HELP_CENTER.TITLE',
+    toState: frontendURL(`accounts/${accountId}/portals`),
+    toStateName: 'list_all_portals',
+    roles: ['administrator'],
+  },
+  {
     icon: 'settings',
     key: 'settings',
     label: 'SETTINGS',
