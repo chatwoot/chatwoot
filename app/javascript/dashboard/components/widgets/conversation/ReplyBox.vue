@@ -148,7 +148,6 @@ import {
   MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { debounce } from 'shared/helpers/TimeHelpers';
 
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import {
@@ -163,7 +162,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
-import { trimContent } from '@chatwoot/utils';
+import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 
 export default {
@@ -492,7 +491,7 @@ export default {
         this.saveDraft(this.conversationId, this.replyType);
       },
       5000,
-      false
+      true
     );
   },
   destroyed() {
