@@ -77,12 +77,4 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  config.lograge.enabled = true
-  config.lograge.custom_payload do |controller|
-    {
-      host: controller.request.host,
-      user_id: controller.current_user.try(:id)
-    }
-  end
-  config.lograge.keep_original_rails_log = false
 end

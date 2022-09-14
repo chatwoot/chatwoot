@@ -24,4 +24,17 @@ class ApplicationController < ActionController::Base
       account_user: Current.account_user
     }
   end
+
+  def append_info_to_payload(payload)
+    super
+    case
+      when payload[:status] == 200
+        payload[:level] = "INFO"
+      when payload[:status] == 302
+        payload[:level] = "WARN"
+      else
+        payload[:level] = "ERROR"
+    end
+  end
+
 end
