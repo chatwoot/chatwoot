@@ -18,8 +18,7 @@
 .auth-screen--footer {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
-  margin-bottom: var(--space-two);
-  margin-top: var(--space-three);
+  margin: var(--space-two) 0;
 }
 
 @media screen and (max-width: 1200px) {
