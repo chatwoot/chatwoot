@@ -6,6 +6,7 @@ Rails.application.configure do
   config.lograge.custom_payload do |controller|
     {
       host: controller.request.host,
+      remote_ip: controller.request.remote_ip,
       user_id: controller.current_user.try(:id)
     }
   end
