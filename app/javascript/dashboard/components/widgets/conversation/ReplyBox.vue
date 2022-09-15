@@ -490,7 +490,7 @@ export default {
       () => {
         this.saveDraft(this.conversationId, this.replyType);
       },
-      5000,
+      500,
       true
     );
   },
@@ -502,7 +502,7 @@ export default {
     getSavedDraftMessages() {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
-    saveDraft(conversationId, replyType) {
+    async saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
         const savedDraftMessages = this.getSavedDraftMessages();
         const key = `draft-${conversationId}-${replyType}`;
@@ -525,7 +525,7 @@ export default {
         );
       }
     },
-    setToDraft(conversationId, replyType) {
+    async setToDraft(conversationId, replyType) {
       this.saveDraft(conversationId, replyType);
       this.message = '';
     },
