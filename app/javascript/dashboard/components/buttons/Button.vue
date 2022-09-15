@@ -7,7 +7,7 @@
       :icon="icon"
     />
     <spinner v-if="isLoading" />
-    <slot></slot>
+    <slot />
   </button>
 </template>
 

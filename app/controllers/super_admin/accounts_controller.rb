@@ -41,4 +41,9 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
+
+  def seed
+    Internal::SeedAccountJob.perform_later(requested_resource)
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account seeding triggered')
+  end
 end

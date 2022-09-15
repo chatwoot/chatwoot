@@ -9,9 +9,7 @@
         {{ attribute }}
       </div>
       <div>
-        <span
-          v-dompurify-html="valueWithLink(customAttributes[attribute])"
-        ></span>
+        <span v-dompurify-html="valueWithLink(customAttributes[attribute])" />
       </div>
     </div>
     <p v-if="!listOfAttributes.length">

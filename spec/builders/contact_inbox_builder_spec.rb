@@ -226,7 +226,7 @@ describe ::ContactInboxBuilder do
           inbox_id: api_inbox.id
         ).perform
 
-        expect(contact_inbox.source_id).not_to be(nil)
+        expect(contact_inbox.source_id).not_to be_nil
       end
     end
 
@@ -241,7 +241,7 @@ describe ::ContactInboxBuilder do
           source_id: 'test'
         ).perform
 
-        expect(contact_inbox).to be(nil)
+        expect(contact_inbox).to be_nil
       end
     end
 
@@ -260,7 +260,7 @@ describe ::ContactInboxBuilder do
           source_id: 'test'
         ).perform
 
-        expect(contact_inbox).to be(nil)
+        expect(contact_inbox).to be_nil
       end
     end
 
@@ -275,7 +275,7 @@ describe ::ContactInboxBuilder do
           source_id: 'test'
         ).perform
 
-        expect(contact_inbox).to be(nil)
+        expect(contact_inbox).to be_nil
       end
     end
   end

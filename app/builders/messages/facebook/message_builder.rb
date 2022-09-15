@@ -27,7 +27,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     end
     ensure_contact_avatar
   rescue Koala::Facebook::AuthenticationError
-    Rails.logger.error "Facebook Authorization expired for Inbox #{@inbox.id}"
+    @inbox.channel.authorization_error!
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true
@@ -58,7 +58,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     return if contact_params[:remote_avatar_url].blank?
     return if @contact.avatar.attached?
 
-    ContactAvatarJob.perform_later(@contact, contact_params[:remote_avatar_url])
+    Avatar::AvatarFromUrlJob.perform_later(@contact, contact_params[:remote_avatar_url])
   end
 
   def conversation

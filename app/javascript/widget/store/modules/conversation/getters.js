@@ -1,5 +1,5 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import groupBy from 'lodash.groupby';
+import { groupBy } from 'widget/helpers/utils';
 import { groupConversationBySender } from './helpers';
 import { formatUnixDate } from 'shared/helpers/DateHelper';
 

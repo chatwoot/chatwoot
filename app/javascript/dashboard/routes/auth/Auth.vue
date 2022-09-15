@@ -1,14 +1,6 @@
 <template>
-  <div class="row auth--wrap h-full w-full">
-    <router-view></router-view>
+  <div class="row auth-wrap login align-center">
+    <router-view />
     <auth-right-screen />
   </div>
 </template>
-<script>
-import AuthRightScreen from 'dashboard/routes/auth/components/AuthRightScreen.vue';
-export default {
-  components: {
-    AuthRightScreen,
-  },
-};
-</script>

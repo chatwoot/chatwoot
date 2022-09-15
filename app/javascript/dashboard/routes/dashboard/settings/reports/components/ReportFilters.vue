@@ -1,7 +1,7 @@
 <template>
   <div class="flex-container flex-dir-column medium-flex-dir-row">
     <div v-if="type === 'agent'" class="small-12 medium-3 pull-right">
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
@@ -17,7 +17,8 @@
         <template slot="singleLabel" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -30,7 +31,8 @@
         <template slot="option" slot-scope="props">
           <div class="reports-option__wrap">
             <thumbnail
-              src="props.option.thumbnail"
+              :src="props.option.thumbnail"
+              :status="props.option.availability_status"
               :username="props.option.name"
               size="22px"
               class="margin-right-small"
@@ -41,7 +43,7 @@
       </multiselect>
     </div>
     <div v-else-if="type === 'label'" class="small-12 medium-3 pull-right">
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
@@ -76,7 +78,7 @@
                 reports-option__item
                 reports-option__label--swatch
               "
-            ></div>
+            />
             <span class="reports-option__desc">
               <span class="reports-option__title">
                 {{ props.option.title }}
@@ -87,7 +89,7 @@
       </multiselect>
     </div>
     <div v-else class="small-12 medium-3 pull-right">
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect
@@ -105,6 +107,9 @@
       />
     </div>
     <div class="small-12 medium-3 pull-right margin-left-small">
+      <p>
+        {{ $t('REPORT.DURATION_FILTER_LABEL') }}
+      </p>
       <multiselect
         v-model="currentDateRangeSelection"
         track-by="name"
@@ -131,7 +136,7 @@
       v-if="notLast7Days"
       class="small-12 medium-3 pull-right margin-left-small"
     >
-      <p aria-hidden="true" class="hide">
+      <p>
         {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
       </p>
       <multiselect

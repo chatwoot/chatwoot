@@ -19,6 +19,7 @@ class Api::V1::AccountsController < Api::BaseController
       user_full_name: account_params[:user_full_name],
       email: account_params[:email],
       user_password: account_params[:password],
+      locale: account_params[:locale],
       user: current_user
     ).perform
     if @user

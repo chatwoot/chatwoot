@@ -26,7 +26,7 @@ class Contacts::FilterService < FilterService
     query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
 
-    return custom_attribute_query(query_hash, 'contacts', current_index) if current_filter.nil?
+    return custom_attribute_query(query_hash, 'contact_attribute', current_index) if current_filter.nil?
 
     case current_filter['attribute_type']
     when 'additional_attributes'

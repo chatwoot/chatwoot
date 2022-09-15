@@ -55,6 +55,10 @@ export default {
       type: String,
       default: '',
     },
+    isOnChatwootCloud: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     hasSecondaryMenu() {
@@ -67,12 +71,18 @@ export default {
       if (!this.currentRole) {
         return [];
       }
-      return this.menuConfig.menuItems.filter(
+      const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[this.currentRole].indexOf(
             menuItem.toStateName
           ) > -1
       );
+      return menuItemsFilteredByRole.filter(item => {
+        if (item.showOnlyOnCloud) {
+          return this.isOnChatwootCloud;
+        }
+        return true;
+      });
     },
     inboxSection() {
       return {
@@ -95,6 +105,7 @@ export default {
             ),
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
+            reauthorizationRequired: inbox.reauthorization_required,
           }))
           .sort((a, b) =>
             a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
@@ -231,17 +242,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/woot';
+
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
-  width: 19rem;
+  width: 20rem;
   flex-shrink: 0;
-  overflow: hidden;
-  padding: var(--space-small);
+  overflow-y: hidden;
+
+  @include breakpoint(xlarge down) {
+    position: absolute;
+  }
+
+  @include breakpoint(xlarge up) {
+    position: unset;
+  }
 
   &:hover {
-    overflow: auto;
+    overflow-y: hidden;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
   }
 }
 </style>

@@ -31,8 +31,7 @@
                 icon="dismiss-circle"
                 class-names="grey-btn"
                 @click="$emit('delete', hook)"
-              >
-              </woot-button>
+              />
             </td>
           </tr>
         </tbody>

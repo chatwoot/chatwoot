@@ -69,7 +69,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/agent_bots", params: valid_params }.to change(Label, :count).by(0)
+        expect { post "/api/v1/accounts/#{account.id}/agent_bots", params: valid_params }.not_to change(Label, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -89,7 +89,7 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/agent_bots", headers: agent.create_new_auth_token,
                                                             params: valid_params
-        end.to change(AgentBot, :count).by(0)
+        end.not_to change(AgentBot, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end

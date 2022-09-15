@@ -6,7 +6,7 @@
     <p v-if="headerContent" class="small-12 column">
       {{ headerContent }}
     </p>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-top-banner {
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-background-light);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--s-25);
   padding: var(--space-normal) var(--space-large) 0;
 }
 </style>

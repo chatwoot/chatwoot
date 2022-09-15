@@ -50,11 +50,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required, email } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
-
-const validEmail = (value = '') => value.includes('@');
 
 export default {
   components: {
@@ -74,7 +72,7 @@ export default {
   },
   validations: {
     channelName: { required },
-    email: { required, validEmail },
+    email: { required, email },
   },
   methods: {
     async createChannel() {

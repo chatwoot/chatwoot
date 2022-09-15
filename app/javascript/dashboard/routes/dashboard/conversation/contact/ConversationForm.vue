@@ -1,12 +1,12 @@
 <template>
-  <form class="conversation--form" @submit.prevent="handleSubmit">
+  <form class="conversation--form" @submit.prevent="onFormSubmit">
     <div v-if="showNoInboxAlert" class="callout warning">
       <p>
         {{ $t('NEW_CONVERSATION.NO_INBOX') }}
       </p>
     </div>
     <div v-else>
-      <div class="row">
+      <div class="row gutter-small">
         <div class="columns">
           <label :class="{ error: $v.targetInbox.$error }">
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
@@ -88,6 +88,12 @@
               </label>
             </label>
           </div>
+          <whatsapp-templates
+            v-else-if="hasWhatsappTemplates"
+            :inbox-id="selectedInbox.inbox.id"
+            @on-select-template="toggleWaTemplate"
+            @on-send="onSendWhatsAppReply"
+          />
           <label v-else :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
@@ -104,7 +110,7 @@
         </div>
       </div>
     </div>
-    <div class="modal-footer">
+    <div v-if="!hasWhatsappTemplates" class="modal-footer">
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
@@ -121,7 +127,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-
+import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -133,6 +139,7 @@ export default {
     WootMessageEditor,
     ReplyEmailHead,
     CannedResponse,
+    WhatsappTemplates,
   },
   mixins: [alertMixin],
   props: {
@@ -155,6 +162,7 @@ export default {
       selectedInbox: '',
       bccEmails: '',
       ccEmails: '',
+      whatsappTemplateSelected: false,
     };
   },
   validations: {
@@ -174,7 +182,7 @@ export default {
       conversationsUiFlags: 'contactConversations/getUIFlags',
       currentUser: 'getCurrentUser',
     }),
-    getNewConversation() {
+    emailMessagePayload() {
       const payload = {
         inboxId: this.targetInbox.inbox.id,
         sourceId: this.targetInbox.source_id,
@@ -194,7 +202,7 @@ export default {
     },
     targetInbox: {
       get() {
-        return this.selectedInbox || '';
+        return this.selectedInbox || {};
       },
       set(value) {
         this.selectedInbox = value;
@@ -221,6 +229,9 @@ export default {
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.WEB
       );
     },
+    hasWhatsappTemplates() {
+      return !!this.selectedInbox.inbox?.message_templates;
+    },
   },
   watch: {
     message(value) {
@@ -243,13 +254,30 @@ export default {
     onSuccess() {
       this.$emit('success');
     },
-    async handleSubmit() {
+    replaceTextWithCannedResponse(message) {
+      setTimeout(() => {
+        this.message = message;
+      }, 50);
+    },
+    prepareWhatsAppMessagePayload({ message: content, templateParams }) {
+      const payload = {
+        inboxId: this.targetInbox.inbox.id,
+        sourceId: this.targetInbox.source_id,
+        contactId: this.contact.id,
+        message: { content, templateParams },
+        assigneeId: this.currentUser.id,
+      };
+      return payload;
+    },
+    onFormSubmit() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
       }
+      this.createConversation(this.emailMessagePayload);
+    },
+    async createConversation(payload) {
       try {
-        const payload = this.getNewConversation;
         const data = await this.onSubmit(payload);
         const action = {
           type: 'link',
@@ -269,10 +297,13 @@ export default {
         }
       }
     },
-    replaceTextWithCannedResponse(message) {
-      setTimeout(() => {
-        this.message = message;
-      }, 50);
+
+    toggleWaTemplate(val) {
+      this.whatsappTemplateSelected = val;
+    },
+    async onSendWhatsAppReply(messagePayload) {
+      const payload = this.prepareWhatsAppMessagePayload(messagePayload);
+      await this.createConversation(payload);
     },
   },
 };
@@ -320,5 +351,8 @@ export default {
 .modal-footer {
   display: flex;
   justify-content: flex-end;
+}
+.row.gutter-small {
+  gap: var(--space-small);
 }
 </style>

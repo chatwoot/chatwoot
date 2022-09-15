@@ -1,7 +1,7 @@
 {
   "FILTER": {
     "TITLE": "Filtrar Conversaciones",
-    "SUBTITLE": "Añada filtros a continuación y pulse 'Aplicar filtros' para las conversaciones de filtro.",
+    "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar conversaciones.",
     "ADD_NEW_FILTER": "Añadir Filtro",
     "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
@@ -22,7 +22,7 @@
       "is_not_present": "No está presente",
       "is_greater_than": "Es mayor que",
       "is_less_than": "Es menor que",
-      "days_before": "Is x days before"
+      "days_before": "Es X días antes"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Verdadero",
@@ -44,7 +44,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Enlace",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
-      "CREATED_AT": "Created At",
+      "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad"
     },
     "GROUPS": {

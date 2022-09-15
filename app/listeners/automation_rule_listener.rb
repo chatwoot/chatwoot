@@ -4,11 +4,12 @@ class AutomationRuleListener < BaseListener
 
     conversation = event_obj.data[:conversation]
     account = conversation.account
+    changed_attributes = event_obj.data[:changed_attributes]
 
     return unless rule_present?('conversation_updated', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
       AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
   end
@@ -18,11 +19,12 @@ class AutomationRuleListener < BaseListener
 
     conversation = event_obj.data[:conversation]
     account = conversation.account
+    changed_attributes = event_obj.data[:changed_attributes]
 
     return unless rule_present?('conversation_created', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation).perform
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
       ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
   end
@@ -32,11 +34,13 @@ class AutomationRuleListener < BaseListener
 
     message = event_obj.data[:message]
     account = message.try(:account)
+    changed_attributes = event_obj.data[:changed_attributes]
 
     return unless rule_present?('message_created', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation, { message: message }).perform
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation,
+                                                                        { message: message, changed_attributes: changed_attributes }).perform
       ::AutomationRules::ActionService.new(rule, account, message.conversation).perform if conditions_match.present?
     end
   end

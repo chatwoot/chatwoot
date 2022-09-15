@@ -11,7 +11,7 @@
         v-dompurify-html="formatMessage(message, false)"
         class="message-content"
         :class="$dm('text-black-900', 'dark:text-slate-50')"
-      ></div>
+      />
       <email-input
         v-if="isTemplateEmail"
         :message-id="messageId"
@@ -24,8 +24,7 @@
         :options="messageContentAttributes.items"
         :hide-fields="!!messageContentAttributes.submitted_values"
         @click="onOptionSelect"
-      >
-      </chat-options>
+      />
     </div>
     <chat-form
       v-if="isForm && !messageContentAttributes.submitted_values"
@@ -33,8 +32,7 @@
       :button-label="messageContentAttributes.button_label"
       :submitted-values="messageContentAttributes.submitted_values"
       @submit="onFormSubmit"
-    >
-    </chat-form>
+    />
     <div v-if="isCards">
       <chat-card
         v-for="item in messageContentAttributes.items"
@@ -43,11 +41,10 @@
         :title="item.title"
         :description="item.description"
         :actions="item.actions"
-      >
-      </chat-card>
+      />
     </div>
     <div v-if="isArticle">
-      <chat-article :items="messageContentAttributes.items"></chat-article>
+      <chat-article :items="messageContentAttributes.items" />
     </div>
     <customer-satisfaction
       v-if="isCSAT"
@@ -141,7 +138,7 @@ export default {
 .chat-bubble .message-content::v-deep pre {
   background: $color-primary-light;
   color: $color-body;
-  overflow: scroll;
+  overflow-y: auto;
   padding: $space-smaller;
 }
 </style>

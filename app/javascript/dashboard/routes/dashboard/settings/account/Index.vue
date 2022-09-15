@@ -89,7 +89,7 @@
           </p>
         </div>
         <div class="columns small-9 medium-5">
-          <woot-code :script="getAccountId"></woot-code>
+          <woot-code :script="getAccountId" />
         </div>
       </div>
       <div class="current-version">
@@ -107,8 +107,7 @@
         class="button nice success button--fixed-right-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
         :loading="isUpdating"
-      >
-      </woot-submit-button>
+      />
     </form>
 
     <woot-loading-state v-if="uiFlags.isFetchingItem" />

@@ -68,6 +68,7 @@ x-tagGroups:
       - Reports
       - Teams
       - Webhooks
+      - Automation Rule
   - name: Client
     tags:
       - Contacts API

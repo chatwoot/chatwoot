@@ -39,9 +39,17 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'conversation_mention' do
+    let(:contact) { create(:contact, name: nil, account: account) }
     let(:another_agent) { create(:user, email: 'agent2@example.com', account: account) }
     let(:message) { create(:message, conversation: conversation, account: account, sender: another_agent) }
     let(:mail) { described_class.with(account: account).conversation_mention(message, agent).deliver_now }
+    let(:contact_inbox) { create(:contact_inbox, account: account, inbox: conversation.inbox) }
+
+    before do
+      create(:message, conversation: conversation, account: account, sender: contact)
+      create(:message, conversation: conversation, account: account, sender: contact)
+      create(:message, conversation: conversation, account: account, sender: contact)
+    end
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.available_name}, You have been mentioned in conversation [ID - #{conversation.display_id}]")
@@ -53,6 +61,12 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
 
     it 'renders the senders name' do
       expect(mail.body.encoded).to match("You've been mentioned in a conversation. <b>#{another_agent.display_name}</b> wrote:")
+    end
+
+    it 'renders Customer if contacts name not available in the conversation' do
+      expect(contact.name).to be_nil
+      expect(conversation.recent_messages).not_to be_empty
+      expect(mail.body.encoded).to match('Incoming Message')
     end
   end
 
@@ -70,7 +84,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
 
     it 'will not send email if agent is online' do
       ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
-      expect(mail).to eq nil
+      expect(mail).to be_nil
     end
   end
 end

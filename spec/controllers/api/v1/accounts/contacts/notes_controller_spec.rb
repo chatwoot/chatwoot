@@ -114,7 +114,7 @@ RSpec.describe 'Notes API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
-        expect(::Note.exists?(note.id)).to eq false
+        expect(::Note.exists?(note.id)).to be false
       end
     end
   end

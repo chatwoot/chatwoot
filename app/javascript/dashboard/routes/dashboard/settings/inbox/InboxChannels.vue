@@ -5,7 +5,7 @@
       :global-config="globalConfig"
       :items="items"
     />
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 

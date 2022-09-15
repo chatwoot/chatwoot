@@ -90,9 +90,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def set_avatar(facebook_inbox, page_id)
-    avatar_file = Down.download(
-      "http://graph.facebook.com/#{page_id}/picture?type=large"
-    )
-    facebook_inbox.avatar.attach(io: avatar_file, filename: avatar_file.original_filename, content_type: avatar_file.content_type)
+    avatar_url = "https://graph.facebook.com/#{page_id}/picture?type=large"
+    Avatar::AvatarFromUrlJob.perform_later(facebook_inbox, avatar_url)
   end
 end

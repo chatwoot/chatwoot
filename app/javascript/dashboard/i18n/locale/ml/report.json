@@ -65,6 +65,7 @@
       "PLACEHOLDER": "തീയതി ശ്രേണി തിരഞ്ഞെടുക്കുക"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "ഗ്രൂപ്പ് പ്രകാരം",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

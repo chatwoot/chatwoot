@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Primljeno putem e-maila",
     "VIEW_TWEET_IN_TWITTER": "Pogledaj tweet na Twitteru",
     "REPLY_TO_TWEET": "Odgovori na tweet",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "Idi na instagram priču",
     "SENT": "Uspešno poslano",
     "NO_MESSAGES": "Nema poruka",
     "NO_CONTENT": "Nema sadržaja",
     "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
     "SHOW_QUOTED_TEXT": "Prikaži citirani tekst",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Pročitane"
   }
 }

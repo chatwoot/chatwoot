@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Notification do
+  include ActiveJob::TestHelper
+
   context 'with associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:user) }
@@ -95,6 +97,19 @@ RSpec.describe Notification do
                                                                  'id' => notification.primary_actor.id,
                                                                  'conversation_id' => notification.primary_actor.conversation.display_id
                                                                })
+    end
+  end
+
+  context 'when primary actory is deleted' do
+    let!(:conversation) { create(:conversation) }
+
+    it 'clears notifications' do
+      notification = create(:notification, notification_type: 'conversation_creation', primary_actor: conversation)
+      perform_enqueued_jobs do
+        conversation.inbox.destroy!
+      end
+
+      expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

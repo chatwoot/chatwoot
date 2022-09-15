@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Ομαδοποίηση Κατά",
+    "DURATION_FILTER_LABEL": "Διάρκεια",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

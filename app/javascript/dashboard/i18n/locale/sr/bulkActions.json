@@ -1,0 +1,29 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} razgovora je izabrano",
+    "AGENT_SELECT_LABEL": "Izaberite agenta",
+    "ASSIGN_CONFIRMATION_LABEL": "Da li zaista želite da dodelite %{conversationCount} %{conversationLabel}",
+    "GO_BACK_LABEL": "Povratak",
+    "ASSIGN_LABEL": "Dodeli",
+    "ASSIGN_AGENT_TOOLTIP": "Dodeli agenta",
+    "ASSIGN_SUCCESFUL": "Razgovor je uspešno dodeljen",
+    "ASSIGN_FAILED": "Neuspelo je dodeljivanje razgovora, molim vas pokušajte ponovo",
+    "RESOLVE_SUCCESFUL": "Razgovor je uspešno rešen",
+    "RESOLVE_FAILED": "Nije uspelo rešavanje razgovora, molim vas pokušajte ponovo",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Jedino razgovori na ovoj stranici su izabrani.",
+    "AGENT_LIST_LOADING": "Učitavanje agenata",
+    "UPDATE": {
+      "CHANGE_STATUS": "Promeni status",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Odloži do sledećeg odgovora",
+      "UPDATE_SUCCESFUL": "Status razgovora je uspešno promenjen.",
+      "UPDATE_FAILED": "Nije uspela promena razgovora, molim vas pokušajte ponovo"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Dodeli oznake",
+      "NO_LABELS_FOUND": "Nije pronađena nijedna oznaka",
+      "ASSIGN_SELECTED_LABELS": "Dodeli izabrane oznake",
+      "ASSIGN_SUCCESFUL": "Oznake su uspešno dodeljene",
+      "ASSIGN_FAILED": "Nije uspelo dodeljivanje oznaka, molim vas pokušajte ponovo"
+    }
+  }
+}

@@ -42,7 +42,6 @@
   overflow: hidden;
 }
 
-
 .border-right {
   border-right: 1px solid var(--color-border);
 }
@@ -59,4 +58,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.flex-between {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: end;
+}
+
+.flex-align-center {
+  align-items: center;
+  display: flex;
 }

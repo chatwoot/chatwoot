@@ -12,7 +12,7 @@
         "NAME": {
           "LABEL": "Rule Name",
           "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "ERROR": "名前が必須です"
         },
         "DESC": {
           "LABEL": "説明",

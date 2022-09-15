@@ -5,8 +5,7 @@
         v-model="content"
         class="input--reminder"
         @keydown.enter.shift.exact="onAdd"
-      >
-      </textarea>
+      />
       <div class="select-wrap">
         <div class="select">
           <div class="input-group">

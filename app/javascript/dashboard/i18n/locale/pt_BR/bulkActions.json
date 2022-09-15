@@ -1,0 +1,29 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} conversas selecionadas",
+    "AGENT_SELECT_LABEL": "Selecione Agente",
+    "ASSIGN_CONFIRMATION_LABEL": "Você tem certeza que deseja atribuir %{conversationCount} %{conversationLabel} para",
+    "GO_BACK_LABEL": "Voltar atrás",
+    "ASSIGN_LABEL": "Atribua",
+    "ASSIGN_AGENT_TOOLTIP": "Atribuir Agente",
+    "ASSIGN_SUCCESFUL": "Conversas atribuídas com sucesso",
+    "ASSIGN_FAILED": "Falha ao atribuir conversas, por favor, tente novamente",
+    "RESOLVE_SUCCESFUL": "Conversas resolvidas com sucesso",
+    "RESOLVE_FAILED": "Falha ao resolver conversas, por favor, tente novamente",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversas visíveis nesta página só estão selecionadas.",
+    "AGENT_LIST_LOADING": "Carregando agentes",
+    "UPDATE": {
+      "CHANGE_STATUS": "Alterar status",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Adiar até a próxima resposta",
+      "UPDATE_SUCCESFUL": "Status da conversa atualizado com sucesso.",
+      "UPDATE_FAILED": "Falha ao atualizar as conversas. Por favor, tente novamente"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Atribuir rótulo",
+      "NO_LABELS_FOUND": "Não há rótulos encontrados para",
+      "ASSIGN_SELECTED_LABELS": "Atribuir rótulos selecionados",
+      "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso",
+      "ASSIGN_FAILED": "Falha ao atribuir rótulos, por favor, tente novamente"
+    }
+  }
+}

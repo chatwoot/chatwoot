@@ -6,6 +6,7 @@
         :title="$t('REGISTER.TITLE')"
         :sub-title="$t('REGISTER.TRY_WOOT')"
       />
+
       <div class="w-ful column">
         <form @submit.prevent="submit">
           <div class="input-wrap">
@@ -138,7 +139,6 @@ export default {
         fullName: '',
         email: '',
         password: '',
-        confirmPassword: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
@@ -164,15 +164,6 @@ export default {
         required,
         isValidPassword,
         minLength: minLength(6),
-      },
-      confirmPassword: {
-        required,
-        isEqPassword(value) {
-          if (value !== this.credentials.password) {
-            return false;
-          }
-          return true;
-        },
       },
     },
   },

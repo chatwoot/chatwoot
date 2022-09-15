@@ -45,7 +45,7 @@
         />
       </div>
       <div class="mb-3">
-        <branding></branding>
+        <branding />
       </div>
     </div>
   </div>

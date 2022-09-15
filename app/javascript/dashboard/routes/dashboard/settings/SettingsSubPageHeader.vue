@@ -3,7 +3,7 @@
     <h2 class="page-sub-title">
       {{ headerTitle }}
     </h2>
-    <p v-dompurify-html="headerContent" class="small-12 column"></p>
+    <p v-dompurify-html="headerContent" class="small-12 column" />
   </div>
 </template>
 

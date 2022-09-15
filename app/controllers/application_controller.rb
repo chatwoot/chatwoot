@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   include RequestExceptionHandler
-  include Pundit
+  include Pundit::Authorization
   include SwitchLocale
 
   skip_before_action :verify_authenticity_token
@@ -15,10 +15,6 @@ class ApplicationController < ActionController::Base
   def set_current_user
     @user ||= current_user
     Current.user = @user
-  end
-
-  def current_subscription
-    @subscription ||= Current.account.subscription
   end
 
   def pundit_user

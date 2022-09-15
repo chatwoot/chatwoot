@@ -1,9 +1,8 @@
-/* eslint no-console: 0 */
-/* eslint no-param-reassign: 0 */
-/* eslint no-shadow: 0 */
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
+import EnterpriseAccountAPI from '../../api/enterprise/account';
+import { throwErrorMessage } from '../utils/api';
 
 const state = {
   records: [],
@@ -11,6 +10,7 @@ const state = {
     isFetching: false,
     isFetchingItem: false,
     isUpdating: false,
+    isCheckoutInProcess: false,
   },
 };
 
@@ -58,6 +58,29 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
       throw error;
+    }
+  },
+
+  checkout: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      const response = await EnterpriseAccountAPI.checkout();
+      window.location = response.data.redirect_url;
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  subscription: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      await EnterpriseAccountAPI.subscription();
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
     }
   },
 };

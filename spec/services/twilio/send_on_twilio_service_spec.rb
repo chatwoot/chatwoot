@@ -4,8 +4,8 @@ describe Twilio::SendOnTwilioService do
   subject(:outgoing_message_service) { described_class.new(message: message) }
 
   let(:twilio_client) { instance_double(::Twilio::REST::Client) }
-  let(:messages_double) { instance_double('messages') }
-  let(:message_record_double) { instance_double('message_record_double') }
+  let(:messages_double) { double }
+  let(:message_record_double) { double }
 
   let!(:account) { create(:account) }
   let!(:widget_inbox) { create(:inbox, account: account) }

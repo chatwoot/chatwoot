@@ -1,6 +1,7 @@
 <template>
   <button
     class="button"
+    :type="type"
     :class="buttonClasses"
     :disabled="isDisabled || isLoading"
     @click="handleClick"
@@ -13,7 +14,9 @@
       :icon="icon"
       :icon-size="iconSize"
     />
-    <span v-if="$slots.default" class="button__content"><slot></slot></span>
+    <span v-if="$slots.default" class="button__content">
+      <slot />
+    </span>
   </button>
 </template>
 <script>
@@ -24,6 +27,10 @@ export default {
   name: 'WootButton',
   components: { EmojiOrIcon, Spinner },
   props: {
+    type: {
+      type: String,
+      default: 'submit',
+    },
     variant: {
       type: String,
       default: '',

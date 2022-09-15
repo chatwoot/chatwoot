@@ -4,7 +4,7 @@
       <span class="item__title">
         {{ title }}
       </span>
-      <slot name="button"></slot>
+      <slot name="button" />
     </h4>
     <div v-if="value" class="conv-details--item__value">
       <slot>

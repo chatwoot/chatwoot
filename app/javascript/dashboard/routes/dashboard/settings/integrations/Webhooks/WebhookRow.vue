@@ -17,8 +17,7 @@
         color-scheme="secondary"
         icon="edit"
         @click="$emit('edit', webhook)"
-      >
-      </woot-button>
+      />
       <woot-button
         v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')"
         variant="smooth"
@@ -26,8 +25,7 @@
         size="tiny"
         icon="dismiss-circle"
         @click="$emit('delete', webhook, index)"
-      >
-      </woot-button>
+      />
     </td>
   </tr>
 </template>

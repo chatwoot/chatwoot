@@ -7,7 +7,7 @@
     :tabindex="disabled ? null : -1"
     :aria-disabled="disabled"
   >
-    <slot></slot>
+    <slot />
   </li>
 </template>
 <script>

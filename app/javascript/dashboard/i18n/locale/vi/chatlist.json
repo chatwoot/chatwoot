@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Nhận được từ email",
     "VIEW_TWEET_IN_TWITTER": "Xem tweet trên Twitter",
     "REPLY_TO_TWEET": "Trả lời cho tweet này",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "Đến xem câu chuyên insta",
     "SENT": "Gửi thành công",
     "NO_MESSAGES": "Không có tin nhắn",
     "NO_CONTENT": "Không có nội dung",
     "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",
     "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Đã xem"
   }
 }

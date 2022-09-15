@@ -22,9 +22,9 @@
     "IN_A_DAY": "Zwykle odpowiadamy w przeciągu jednego dnia"
   },
   "START_CONVERSATION": "Rozpocznij rozmowę",
-  "END_CONVERSATION": "End Conversation",
+  "END_CONVERSATION": "Zakończ rozmowę",
   "CONTINUE_CONVERSATION": "Kontynuuj rozmowę",
-  "START_NEW_CONVERSATION": "Rozpocznij rozmowę",
+  "START_NEW_CONVERSATION": "Rozpocznij nową rozmowę",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Pokaż nowe wiadomości",
     "CLOSE_MESSAGES_BUTTON": "Zamknij",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Adres e-mail",
         "PLACEHOLDER": "Wprowadź swój adres e-mail",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "Adres email jest wymagany",
         "VALID_ERROR": "Wprowadź poprawny adres e-mail"
       },
       "PHONE_NUMBER": {
         "LABEL": "Numer telefonu",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Wprowadź numer telefonu",
+        "REQUIRED_ERROR": "Numer telefonu jest wymagany",
+        "VALID_ERROR": "Numer telefonu powinien być w formacie E.164 tj. +48123456789"
       },
       "MESSAGE": {
         "LABEL": "Wiadomość",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Proszę podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem rozmowy",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": "jest wymagany"
   },
   "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
   "CHAT_FORM": {

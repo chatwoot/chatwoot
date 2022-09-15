@@ -31,20 +31,23 @@ describe Telegram::IncomingMessageService do
   end
 
   let!(:telegram_channel) { create(:channel_telegram) }
+  let!(:message_params) do
+    {
+      'message_id' => 1,
+      'from' => {
+        'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
+      },
+      'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
+      'date' => 1_631_132_077
+    }
+  end
 
   describe '#perform' do
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {
           'update_id' => 2_342_342_343_242,
-          'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077, 'text' => 'test'
-          }
+          'message' => { 'text' => 'test' }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -57,14 +60,7 @@ describe Telegram::IncomingMessageService do
       it 'creates appropriate conversations, message and contacts' do
         params = {
           'update_id' => 2_342_342_343_242,
-          'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077, 'caption' => 'test'
-          }
+          'message' => { 'caption' => 'test' }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -97,12 +93,6 @@ describe Telegram::IncomingMessageService do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077,
             'audio' => {
               'file_id' => 'AwADBAADbXXXXXXXXXXXGBdhD2l6_XX',
               'duration' => 243,
@@ -110,7 +100,7 @@ describe Telegram::IncomingMessageService do
               'file_size' => 3_897_500,
               'title' => 'Test music file'
             }
-          }
+          }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -125,17 +115,11 @@ describe Telegram::IncomingMessageService do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077,
             'photo' => [{
               'file_id' => 'AgACAgUAAxkBAAODYV3aGZlD6vhzKsE2WNmblsr6zKwAAi-tMRvCoeBWNQ1ENVBzJdwBAAMCAANzAAMhBA',
               'file_unique_id' => 'AQADL60xG8Kh4FZ4', 'file_size' => 1883, 'width' => 90, 'height' => 67
             }]
-          }
+          }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -150,14 +134,9 @@ describe Telegram::IncomingMessageService do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077,
             'sticker' => {
-              'emoji' => '👍', 'width' => 512, 'height' => 512, 'set_name' => 'a834556273_by_HopSins_1_anim', 'is_animated' => 1, 'thumb' => {
+              'emoji' => '👍', 'width' => 512, 'height' => 512, 'set_name' => 'a834556273_by_HopSins_1_anim', 'is_animated' => 1,
+              'thumb' => {
                 'file_id' => 'AAMCAQADGQEAA0dhXpKorj9CiRpNX3QOn7YPZ6XS4AAC4wADcVG-MexptyOf8SbfAQAHbQADIQQ',
                 'file_unique_id' => 'AQAD4wADcVG-MXI', 'file_size' => 4690, 'width' => 128, 'height' => 128
               },
@@ -165,7 +144,7 @@ describe Telegram::IncomingMessageService do
               'file_unique_id' => 'AgAD4wADcVG-MQ',
               'file_size' => 7340
             }
-          }
+          }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -180,12 +159,6 @@ describe Telegram::IncomingMessageService do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077,
             'video' => {
               'duration' => 1, 'width' => 720, 'height' => 1280, 'file_name' => 'IMG_2170.MOV', 'mime_type' => 'video/mp4', 'thumb' => {
                 'file_id' => 'AAMCBQADGQEAA4ZhXd78Xz6_c6gCzbdIkgGiXJcwwwACqwMAAp3x8Fbhf3EWamgCWAEAB20AAyEE', 'file_unique_id' => 'AQADqwMAAp3x8FZy',
@@ -193,7 +166,7 @@ describe Telegram::IncomingMessageService do
               }, 'file_id' => 'BAACAgUAAxkBAAOGYV3e_F8-v3OoAs23SJIBolyXMMMAAqsDAAKd8fBW4X9xFmpoAlghBA', 'file_unique_id' => 'AgADqwMAAp3x8FY',
               'file_size' => 291_286
             }
-          }
+          }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -208,17 +181,11 @@ describe Telegram::IncomingMessageService do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077,
             'voice' => {
               'duration' => 2, 'mime_type' => 'audio/ogg', 'file_id' => 'AwACAgUAAxkBAANjYVwnWF_w8LYTchqVdK9dY7mbwYEAAskDAALCoeBWFvS2u4zS6HAhBA',
               'file_unique_id' => 'AgADyQMAAsKh4FY', 'file_size' => 11_833
             }
-          }
+          }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
@@ -233,19 +200,13 @@ describe Telegram::IncomingMessageService do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {
-            'message_id' => 1,
-            'from' => {
-              'id' => 23, 'is_bot' => false, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'language_code' => 'en'
-            },
-            'chat' => { 'id' => 23, 'first_name' => 'Sojan', 'last_name' => 'Jose', 'username' => 'sojan', 'type' => 'private' },
-            'date' => 1_631_132_077,
             'document' => {
               'file_id' => 'AwADBAADbXXXXXXXXXXXGBdhD2l6_XX',
               'file_name' => 'Screenshot 2021-09-27 at 2.01.14 PM.png',
               'mime_type' => 'application/png',
               'file_size' => 536_392
             }
-          }
+          }.merge(message_params)
         }.with_indifferent_access
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)

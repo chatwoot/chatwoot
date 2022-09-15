@@ -1,4 +1,10 @@
 module Api::V1::InboxesHelper
+  def inbox_name(channel)
+    return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
+
+    permitted_params[:name]
+  end
+
   def validate_email_channel(attributes)
     channel_data = permitted_params(attributes)[:channel]
 
@@ -19,8 +25,7 @@ module Api::V1::InboxesHelper
                                 enable_ssl: channel_data[:imap_enable_ssl] }
     end
 
-    Mail.connection do # rubocop:disable:block
-    end
+    check_imap_connection(channel_data)
   end
 
   def validate_smtp(channel_data)
@@ -32,10 +37,29 @@ module Api::V1::InboxesHelper
     check_smtp_connection(channel_data, smtp)
   end
 
+  def check_imap_connection(channel_data)
+    Mail.connection {} # rubocop:disable:block
+  rescue SocketError => e
+    raise StandardError, I18n.t('errors.inboxes.imap.socket_error')
+  rescue Net::IMAP::NoResponseError => e
+    raise StandardError, I18n.t('errors.inboxes.imap.no_response_error')
+  rescue Errno::EHOSTUNREACH => e
+    raise StandardError, I18n.t('errors.inboxes.imap.host_unreachable_error')
+  rescue Net::OpenTimeout => e
+    raise StandardError,
+          I18n.t('errors.inboxes.imap.connection_timed_out_error', address: channel_data[:imap_address], port: channel_data[:imap_port])
+  rescue Net::IMAP::Error => e
+    raise StandardError, I18n.t('errors.inboxes.imap.connection_closed_error')
+  rescue StandardError => e
+    raise StandardError, e.message
+  ensure
+    ChatwootExceptionTracker.new(e).capture_exception if e.present?
+  end
+
   def check_smtp_connection(channel_data, smtp)
     smtp.start(channel_data[:smtp_domain], channel_data[:smtp_login], channel_data[:smtp_password],
                channel_data[:smtp_authentication]&.to_sym || :login)
-    smtp.finish unless smtp&.nil?
+    smtp.finish
   end
 
   def set_smtp_encryption(channel_data, smtp)
@@ -73,5 +97,23 @@ module Api::V1::InboxesHelper
     context = Net::SMTP.default_ssl_context
     context.verify_mode = openssl_verify_mode
     context
+  end
+
+  def account_channels_method
+    {
+      'web_widget' => Current.account.web_widgets,
+      'api' => Current.account.api_channels,
+      'email' => Current.account.email_channels,
+      'line' => Current.account.line_channels,
+      'telegram' => Current.account.telegram_channels,
+      'whatsapp' => Current.account.whatsapp_channels,
+      'sms' => Current.account.sms_channels
+    }[permitted_params[:channel][:type]]
+  end
+
+  def validate_limit
+    return unless Current.account.inboxes.count >= Current.account.usage_limits[:inboxes]
+
+    render_payment_required('Account limit exceeded. Upgrade to a higher plan')
   end
 end

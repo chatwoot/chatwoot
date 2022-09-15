@@ -7,7 +7,7 @@
     :aria-checked="value.toString()"
     @click="onClick"
   >
-    <span aria-hidden="true" :class="{ active: value }"></span>
+    <span aria-hidden="true" :class="{ active: value }" />
   </button>
 </template>
 
