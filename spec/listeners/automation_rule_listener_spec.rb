@@ -43,7 +43,7 @@ describe AutomationRuleListener do
                                       ])
     file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
     automation_rule.files.attach(file)
-    automation_rule.save
+    automation_rule.save!
   end
 
   describe '#conversation_updated with contacts attributes' do
