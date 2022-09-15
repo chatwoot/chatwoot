@@ -1,5 +1,5 @@
 <template>
-  <div class="log-in">
+  <div class="auth-screen--view">
     <div class="login-form--wrap flex-divided-view">
       <div class="form--wrap w-full">
         <auth-header
@@ -45,7 +45,7 @@
               @click="login()"
             />
           </form>
-          <div class="column text-center auth--footer">
+          <div class="column text-center auth-screen--footer">
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link to="auth/reset/password">
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
@@ -178,12 +178,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.log-in {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
-
 .login-form--wrap {
   flex-direction: column;
   margin: var(--space-medium) 0;

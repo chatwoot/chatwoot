@@ -58,20 +58,6 @@
               :error="passwordErrorText"
               @blur="$v.credentials.password.$touch"
             />
-            <auth-input
-              v-model.trim="credentials.confirmPassword"
-              type="password"
-              :class="{ error: $v.credentials.confirmPassword.$error }"
-              icon-name="lock-shield"
-              :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
-              :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-              :error="
-                $v.credentials.confirmPassword.$error
-                  ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
-                  : ''
-              "
-              @blur="$v.credentials.confirmPassword.$touch"
-            />
           </div>
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
@@ -96,7 +82,7 @@
           />
           <p v-dompurify-html="termsLink" class="accept--terms" />
         </form>
-        <div class="column text-center auth--footer">
+        <div class="column text-center auth-screen--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
           <router-link to="/app/login">
             {{

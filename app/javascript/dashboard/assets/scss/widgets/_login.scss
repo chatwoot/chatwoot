@@ -1,6 +1,7 @@
-.auth--wrap {
+.auth-screen--view {
   display: flex;
   justify-content: center;
+  height: 100%;
 }
 
 .flex-divided-view {
@@ -14,7 +15,7 @@
   padding: 0 var(--space-mega);
 }
 
-.auth--footer {
+.auth-screen--footer {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--space-two);
