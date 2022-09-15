@@ -81,7 +81,7 @@
         </form>
         <div class="column text-center sigin--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-          <router-link to="/app/login">
+          <router-link to="/saml">
             {{
               useInstallationName(
                 $t('LOGIN.TITLE'),
