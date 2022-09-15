@@ -8,25 +8,33 @@
       :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
       :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
     />
-    <div
-      v-for="account in currentUser.accounts"
-      :key="account.id"
-      class="account-selector"
-    >
-      <a @click="onChangeAccount(account.id)">
-        <fluent-icon
-          v-if="account.id === accountId"
-          class="selected--account"
-          icon="checkmark-circle"
-          type="solid"
-          size="24"
-        />
-        <label :for="account.name" class="account--details">
-          <div class="account--name">{{ account.name }}</div>
-          <div class="account--role">{{ account.role }}</div>
-        </label>
-      </a>
+    <div>
+      <div
+        v-for="account in currentUser.accounts"
+        :key="account.id"
+        class="account-selector"
+      >
+        <button
+          class="button expanded clear link"
+          @click="onChangeAccount(account.id)"
+        >
+          <span class="button__content">
+            <label :for="account.name" class="account--details">
+              <div class="account--name">{{ account.name }}</div>
+              <div class="account--role">{{ account.role }}</div>
+            </label>
+          </span>
+          <fluent-icon
+            v-show="account.id === accountId"
+            class="selected--account"
+            icon="checkmark-circle"
+            type="solid"
+            size="24"
+          />
+        </button>
+      </div>
     </div>
+
     <div
       v-if="globalConfig.createNewAccountFromDashboard"
       class="modal-footer delete-item"
@@ -60,12 +68,35 @@ export default {
   },
   methods: {
     async onChangeAccount(accountId) {
+      const accountUrl = `/app/accounts/${accountId}/dashboard`;
+      window.location.href = accountUrl;
       await this.$store.dispatch('setActiveAccount', {
         accountId: accountId,
       });
-      const accountUrl = `/app/accounts/${accountId}/dashboard`;
-      window.location.href = accountUrl;
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.account-selector {
+  button {
+    padding: var(--space-one) 0;
+    .account--details {
+      padding-left: var(--space-normal);
+      text-align: left;
+      .account--name {
+        cursor: pointer;
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-medium);
+        line-height: 1;
+      }
+
+      .account--role {
+        cursor: pointer;
+        font-size: var(--font-size-mini);
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+</style>
