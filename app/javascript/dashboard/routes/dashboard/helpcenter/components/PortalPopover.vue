@@ -34,18 +34,11 @@
         :key="portal.id"
         :portal="portal"
         :active-portal-slug="activePortalSlug"
+        :active-locale="activeLocale"
         :active="portal.slug === activePortalSlug"
         @open-portal-page="onPortalSelect"
       />
     </div>
-    <footer>
-      <woot-button variant="link" @click="closePortalPopover">
-        {{ $t('HELP_CENTER.PORTAL.POPOVER.CANCEL_BUTTON_LABEL') }}
-      </woot-button>
-      <woot-button @click="() => {}">
-        {{ $t('HELP_CENTER.PORTAL.POPOVER.CHOOSE_LOCALE_BUTTON') }}
-      </woot-button>
-    </footer>
   </div>
 </template>
 
@@ -63,6 +56,10 @@ export default {
       default: () => [],
     },
     activePortalSlug: {
+      type: String,
+      default: '',
+    },
+    activeLocale: {
       type: String,
       default: '',
     },
@@ -124,13 +121,6 @@ export default {
         margin-top: var(--space-small);
       }
     }
-  }
-
-  footer {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: var(--space-small);
   }
 }
 </style>

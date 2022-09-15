@@ -4,6 +4,7 @@
       <woot-button
         icon="chevron-left"
         variant="clear"
+        size="small"
         color-scheme="primary"
         @click="onClickGoBack"
       >
