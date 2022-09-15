@@ -94,7 +94,7 @@
             icon="arrow-chevron-right"
             @click="submit"
           />
-          <p v-dompurify-html="termsLink" class="accept--terms"></p>
+          <p v-dompurify-html="termsLink" class="accept--terms" />
         </form>
         <div class="column text-center auth--footer">
           <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
