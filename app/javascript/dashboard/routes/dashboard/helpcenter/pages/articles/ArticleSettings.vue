@@ -127,7 +127,7 @@ export default {
   props: {
     article: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
   },
   data() {
@@ -154,7 +154,7 @@ export default {
     },
   },
   mounted() {
-    if (!isEmptyObject(this.article.meta)) {
+    if (!isEmptyObject(this.article.meta || {})) {
       const {
         meta: { title = '', description = '', tags = [] },
       } = this.article;
@@ -214,7 +214,8 @@ export default {
 .article-settings--container {
   flex: 0.3;
   min-width: var(--space-giga);
-  overflow: scroll;
+  max-width: 36rem;
+  overflow-y: auto;
   border-left: 1px solid var(--color-border-light);
   margin-left: var(--space-normal);
   padding-left: var(--space-normal);
@@ -233,10 +234,6 @@ export default {
   .action-buttons {
     display: flex;
     flex-direction: column;
-
-    ::v-deep .button {
-      padding-left: 0;
-    }
   }
 }
 ::v-deep {
