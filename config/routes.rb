@@ -231,6 +231,8 @@ Rails.application.routes.draw do
   resources :saml, only: [:index] do
     collection do
       post :consume
+      get :metadata
+      get :logout
     end
   end
 
