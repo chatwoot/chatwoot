@@ -2,6 +2,7 @@ import { default as _advancedFilters } from './advancedFilters.json';
 import { default as _agentMgmt } from './agentMgmt.json';
 import { default as _attributesMgmt } from './attributesMgmt.json';
 import { default as _automation } from './automation.json';
+import { default as _macros } from './macros.json';
 import { default as _bulkActions } from './bulkActions.json';
 import { default as _campaign } from './campaign.json';
 import { default as _cannedMgmt } from './cannedMgmt.json';
@@ -52,4 +53,5 @@ export default {
   ..._whatsappTemplates,
   ..._bulkActions,
   ..._helpCenter,
+  ..._macros,
 };

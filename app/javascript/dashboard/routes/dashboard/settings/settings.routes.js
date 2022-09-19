@@ -12,6 +12,7 @@ import campaigns from './campaigns/campaigns.routes';
 import teams from './teams/teams.routes';
 import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
+import macros from './macros/macros.routes';
 import store from '../../../store';
 import billing from './billing/billing.routes';
 
@@ -42,5 +43,6 @@ export default {
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,
+    ...macros.routes,
   ],
 };

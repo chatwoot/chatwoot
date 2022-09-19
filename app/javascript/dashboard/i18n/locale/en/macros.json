@@ -1,0 +1,111 @@
+{
+    "MACROS": {
+        "HEADER": "Macros",
+        "HEADER_BTN_TXT": "Add new macro",
+        "HEADER_BTN_TXT_SAVE": "Save macro",
+        "LOADING": "Fetching macros",
+        "SIDEBAR_TXT": "<p><b>Macros</b> <p>Macros help you run a series of actions and tasks. They're a list of instructions which tell chatwoot how to execute based on the order which you define them.</p> <p>Please refer to the <a href='https://chatwoot.com/docs/macros'>docs</a> to read more about macros in detail.</p>",
+        "ADD": {
+            "TITLE": "Add new Macro",
+            "SUBMIT": "Create",
+            "CANCEL_BUTTON_TEXT": "Cancel",
+            "FORM": {
+                "NAME": {
+                    "LABEL": "Macro name",
+                    "PLACEHOLDER": "Enter macro name",
+                    "ERROR": "Name is required"
+                },
+                "DESC": {
+                    "LABEL": "Description",
+                    "PLACEHOLDER": "Enter macro description",
+                    "ERROR": "Description is required"
+                },
+                "CONDITIONS": {
+                    "LABEL": "Conditions"
+                },
+                "ACTIONS": {
+                    "LABEL": "Actions"
+                }
+            },
+            "ACTION_BUTTON_LABEL": "Add Action",
+            "API": {
+                "SUCCESS_MESSAGE": "Macro added successfully",
+                "ERROR_MESSAGE": "Could not able to create macro, Please try again later"
+            }
+        },
+        "LIST": {
+            "TABLE_HEADER": [
+                "Name",
+                "Created by",
+                "Last updated by",
+                "Visibility"
+            ],
+            "404": "No macros found"
+        },
+        "DELETE": {
+            "TITLE": "Delete Macro",
+            "SUBMIT": "Delete",
+            "CANCEL_BUTTON_TEXT": "Cancel",
+            "CONFIRM": {
+                "TITLE": "Confirm Deletion",
+                "MESSAGE": "Are you sure to delete ",
+                "YES": "Yes, Delete ",
+                "NO": "No, Keep "
+            },
+            "API": {
+                "SUCCESS_MESSAGE": "Macro deleted successfully",
+                "ERROR_MESSAGE": "Could not able to delete macro, Please try again later"
+            }
+        },
+        "EDIT": {
+            "TITLE": "Edit Macro",
+            "SUBMIT": "Update",
+            "CANCEL_BUTTON_TEXT": "Cancel",
+            "API": {
+                "SUCCESS_MESSAGE": "Macro updated successfully",
+                "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+            }
+        },
+        "CLONE": {
+            "TOOLTIP": "Clone",
+            "API": {
+                "SUCCESS_MESSAGE": "Macro cloned successfully",
+                "ERROR_MESSAGE": "Could not clone Macro, Please try again later"
+            }
+        },
+        "FORM": {
+            "EDIT": "Edit",
+            "CREATE": "Create",
+            "DELETE": "Delete",
+            "CANCEL": "Cancel",
+            "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+        },
+        "CONDITION": {
+            "DELETE_MESSAGE": "You need to have atleast one condition to save"
+        },
+        "ACTION": {
+            "DELETE_MESSAGE": "You need to have atleast one action to save",
+            "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+            "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+        },
+        "TOGGLE": {
+            "ACTIVATION_TITLE": "Activate Macro",
+            "DEACTIVATION_TITLE": "Deactivate Macro",
+            "ACTIVATION_DESCRIPTION": "This action will activate the Macro '{macroName}'. Are you sure you want to proceed?",
+            "DEACTIVATION_DESCRIPTION": "This action will deactivate the Macro '{macroName}'. Are you sure you want to proceed?",
+            "ACTIVATION_SUCCESFUL": "Macro Activated Successfully",
+            "DEACTIVATION_SUCCESFUL": "Macro Deactivated Successfully",
+            "ACTIVATION_ERROR": "Could not Activate Macro, Please try again later",
+            "DEACTIVATION_ERROR": "Could not Deactivate Macro, Please try again later",
+            "CONFIRMATION_LABEL": "Yes",
+            "CANCEL_LABEL": "No"
+        },
+        "ATTACHMENT": {
+            "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+            "LABEL_IDLE": "Upload Attachment",
+            "LABEL_UPLOADING": "Uploading...",
+            "LABEL_UPLOADED": "Succesfully Uploaded",
+            "LABEL_UPLOAD_FAILED": "Upload Failed"
+        }
+    }
+}

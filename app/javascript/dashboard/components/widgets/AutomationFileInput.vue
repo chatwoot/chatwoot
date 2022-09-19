@@ -21,7 +21,7 @@
       type="outline"
       class="error-icon"
     />
-    <p class="file-button">{{ label }}</p>
+    <span class="file-button">{{ label }}</span>
   </label>
 </template>
 

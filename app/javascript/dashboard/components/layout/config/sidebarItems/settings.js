@@ -32,6 +32,7 @@ const settings = accountId => ({
     'settings_teams_edit_finish',
     'billing_settings_index',
     'automation_list',
+    'macros_wrapper',
   ],
   menuItems: [
     {
@@ -77,6 +78,13 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
+    },
+    {
+      icon: 'macros',
+      label: 'MACROS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/macros`),
+      toStateName: 'macros_wrapper',
     },
     {
       icon: 'chat-multiple',

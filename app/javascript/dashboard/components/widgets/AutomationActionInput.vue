@@ -1,7 +1,10 @@
 <template>
   <div
     class="filter"
-    :class="{ error: v.action_params.$dirty && v.action_params.$error }"
+    :class="{
+      error: v.action_params.$dirty && v.action_params.$error,
+      'is-a-macro': isMacro,
+    }"
   >
     <div class="filter-inputs">
       <select
@@ -60,6 +63,7 @@
         </div>
       </div>
       <woot-button
+        v-if="!isMacro"
         icon="dismiss"
         variant="clear"
         color-scheme="secondary"
@@ -120,6 +124,10 @@ export default {
       type: String,
       default: '',
     },
+    isMacro: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     action_name: {
@@ -165,6 +173,18 @@ export default {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-medium);
   margin-bottom: var(--space-small);
+
+  &.is-a-macro {
+    margin-bottom: 0;
+    background: var(--white);
+    padding: var(--space-zero);
+    border: unset;
+    border-radius: unset;
+  }
+}
+
+.no-margin-bottom {
+  margin-bottom: 0;
 }
 
 .filter.error {
