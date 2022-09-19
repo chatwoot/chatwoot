@@ -80,6 +80,7 @@ export default {
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
@@ -108,9 +109,15 @@ export default {
     },
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;
-      return menuItems.filter(menuItem =>
-        menuItem.roles.includes(this.currentRole)
-      );
+      return menuItems.filter(menuItem => {
+        if (menuItem.featureFlag) {
+          return this.isFeatureEnabledonAccount(
+            this.accountId,
+            menuItem.featureFlag
+          );
+        }
+        return menuItem.roles.includes(this.currentRole);
+      });
     },
     activeSecondaryMenu() {
       const { secondaryMenu } = this.sideMenuConfig;
