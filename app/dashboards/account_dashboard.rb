@@ -8,11 +8,15 @@ class AccountDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
 
-  enterprise_attribute_types = ChatwootApp.enterprise? ? { 
-    limits: Enterprise::AccountLimitsField,
-    all_features: Enterprise::AccountFeaturesField
-    } : {}
-    
+  enterprise_attribute_types = if ChatwootApp.enterprise?
+                                 {
+                                   limits: Enterprise::AccountLimitsField,
+                                   all_features: Enterprise::AccountFeaturesField
+                                 }
+                               else
+                                 {}
+                               end
+
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     name: Field::String,
