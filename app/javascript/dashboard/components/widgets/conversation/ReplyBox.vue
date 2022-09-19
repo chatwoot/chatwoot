@@ -440,8 +440,9 @@ export default {
   watch: {
     currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
+      const { conversation_id: conversationId } = this.$route.params;
 
-      if (oldConversation.id !== conversation.id) {
+      if (oldConversation.id !== conversationId) {
         this.setToDraft(oldConversation.id, this.replyType);
         this.getFromDraft();
       }
