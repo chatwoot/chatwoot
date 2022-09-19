@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "",
     "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
     "HELP_CENTER": {
+      "TITLE": "",
       "ALL_ARTICLES": "",
       "MY_ARTICLES": "",
       "DRAFT": "",
