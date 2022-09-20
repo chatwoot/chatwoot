@@ -243,7 +243,7 @@ export default {
       this.$emit('add-locale', this.portal.id);
     },
     openSite() {
-      this.$emit('open-site');
+      this.$emit('open-site', this.portal.slug);
     },
     openSettings() {
       this.fetchPortalsAndItsCategories();

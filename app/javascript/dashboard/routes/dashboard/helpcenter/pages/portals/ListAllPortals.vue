@@ -21,6 +21,7 @@
         :portal="portal"
         :status="portalStatus"
         @add-locale="addLocale"
+        @open-site="openPortal"
       />
       <div v-if="isFetching" class="portals--loader">
         <spinner />
@@ -51,6 +52,8 @@ import PortalListItem from '../../components/PortalListItem';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
 import AddLocale from '../../components/AddLocale';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
+
 export default {
   components: {
     PortalListItem,
@@ -79,6 +82,9 @@ export default {
     },
   },
   methods: {
+    openPortal(portalSlug) {
+      window.open(buildPortalURL(portalSlug), '_blank');
+    },
     addPortal() {
       this.$router.push({ name: 'new_portal_information' });
     },
