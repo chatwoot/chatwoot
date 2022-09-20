@@ -95,6 +95,7 @@ export default {
       isCreating: 'conversation/getIsCreating',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
+      setUserTriggerStatus: 'contacts/getSetUserTriggerStatus',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -122,6 +123,9 @@ export default {
           (isUserEmailAvailable && field.name === 'emailAddress') ||
           (isUserPhoneNumberAvailable && field.name === 'phoneNumber')
         ) {
+          return false;
+        }
+        if (this.setUserTriggerStatus && field.name === 'fullName') {
           return false;
         }
         return true;
