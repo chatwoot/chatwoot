@@ -46,7 +46,6 @@ export default {
     ...mapGetters({
       articles: 'articles/allArticles',
       categories: 'categories/allCategories',
-      selectedPortal: 'portals/getSelectedPortal',
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
@@ -64,7 +63,7 @@ export default {
       return this.isFetching && !this.articles.length;
     },
     selectedPortalSlug() {
-      return this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
     selectedCategorySlug() {
       const { categorySlug } = this.$route.params;
@@ -148,7 +147,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  padding: var(--space-small) var(--space-normal);
+  padding: 0 var(--space-normal);
   width: 100%;
   .articles--loader {
     align-items: center;

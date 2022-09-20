@@ -83,7 +83,7 @@ class Integrations::Slack::IncomingMessageBuilder
   def create_message
     return unless conversation
 
-    @message = conversation.messages.create(
+    @message = conversation.messages.create!(
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,

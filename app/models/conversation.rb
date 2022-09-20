@@ -36,6 +36,7 @@
 #  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_team_id                     (team_id)
+#  index_conversations_on_uuid                        (uuid) UNIQUE
 #
 
 class Conversation < ApplicationRecord
@@ -51,6 +52,7 @@ class Conversation < ApplicationRecord
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validates :uuid, uniqueness: true
   validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }

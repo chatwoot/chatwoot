@@ -31,13 +31,13 @@ describe('#mutations', () => {
       expect(state).toEqual(portal);
     });
     it('does adds helpcenter object to state', () => {
-      mutations[types.ADD_PORTAL_ENTRY](state, { id: 3 });
-      expect(state.portals.byId[3]).toEqual({ id: 3 });
+      mutations[types.ADD_PORTAL_ENTRY](state, { slug: 'new' });
+      expect(state.portals.byId.new).toEqual({ slug: 'new' });
     });
   });
 
   describe('[types.ADD_PORTAL_ID]', () => {
-    it('adds helpcenter id to state', () => {
+    it('adds helpcenter slug to state', () => {
       mutations[types.ADD_PORTAL_ID](state, 12);
       expect(state.portals.allIds).toEqual([1, 2, 12]);
     });
@@ -48,13 +48,13 @@ describe('#mutations', () => {
       mutations[types.UPDATE_PORTAL_ENTRY](state, {});
       expect(state).toEqual(portal);
     });
-    it('does not updates if object id is not present ', () => {
-      mutations[types.UPDATE_PORTAL_ENTRY](state, { id: 5 });
+    it('does not updates if object slug is not present ', () => {
+      mutations[types.UPDATE_PORTAL_ENTRY](state, { slug: 5 });
       expect(state).toEqual(portal);
     });
-    it(' updates if object with id already present in the state', () => {
+    it(' updates if object with slug already present in the state', () => {
       mutations[types.UPDATE_PORTAL_ENTRY](state, {
-        id: 2,
+        slug: 2,
         name: 'Updated name',
       });
       expect(state.portals.byId[2].name).toEqual('Updated name');
@@ -62,7 +62,7 @@ describe('#mutations', () => {
   });
 
   describe('[types.REMOVE_PORTAL_ENTRY]', () => {
-    it('does not remove object entry if no id is passed', () => {
+    it('does not remove object entry if no slug is passed', () => {
       mutations[types.REMOVE_PORTAL_ENTRY](state, undefined);
       expect(state).toEqual({ ...portal });
     });
@@ -73,7 +73,7 @@ describe('#mutations', () => {
   });
 
   describe('[types.REMOVE_PORTAL_ID]', () => {
-    it('removes id from state', () => {
+    it('removes slug from state', () => {
       mutations[types.REMOVE_PORTAL_ID](state, 2);
       expect(state.portals.allIds).toEqual([1, 12]);
     });
@@ -82,12 +82,12 @@ describe('#mutations', () => {
   describe('[types.SET_HELP_PORTAL_UI_FLAG]', () => {
     it('sets correct flag in state', () => {
       mutations[types.SET_HELP_PORTAL_UI_FLAG](state, {
-        portalId: 1,
+        portalSlug: 'domain',
         uiFlags: { isFetching: true },
       });
-      expect(state.portals.uiFlags.byId[1]).toEqual({
+      expect(state.portals.uiFlags.byId.domain).toEqual({
         isFetching: true,
-        isUpdating: true,
+        isUpdating: false,
         isDeleting: false,
       });
     });
@@ -98,7 +98,9 @@ describe('#mutations', () => {
       mutations[types.CLEAR_PORTALS](state);
       expect(state.portals.allIds).toEqual([]);
       expect(state.portals.byId).toEqual({});
-      expect(state.portals.uiFlags).toEqual({});
+      expect(state.portals.uiFlags).toEqual({
+        byId: {},
+      });
     });
   });
 
@@ -112,13 +114,6 @@ describe('#mutations', () => {
         count: 10,
         currentPage: 1,
       });
-    });
-  });
-
-  describe('#SET_SELECTED_PORTAL_ID', () => {
-    it('set selected portal id', () => {
-      mutations[types.SET_SELECTED_PORTAL_ID](state, 4);
-      expect(state.portals.selectedPortalId).toEqual(4);
     });
   });
 });

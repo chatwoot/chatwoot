@@ -92,5 +92,8 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    // eslint-disable-next-line
+    require('@tailwindcss/typography'),
+  ],
 };

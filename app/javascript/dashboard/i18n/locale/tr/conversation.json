@@ -1,10 +1,10 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Lütfen sol bölmeden bir konuşma seçin",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "404": "Maalesef konuşmayı bulamıyoruz. Lütfen tekrar deneyin",
+    "SWITCH_VIEW_LAYOUT": "Düzeni değiştir",
     "DASHBOARD_APP_TAB_MESSAGES": "Mesajlar",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "UNVERIFIED_SESSION": "Bu kullanıcının kimliği doğrulanmadı",
     "NO_MESSAGE_1": "Görünüşe göre gelen kutunuzda müşterilerden hiç mesaj yok.",
     "NO_MESSAGE_2": "sayfanıza bir mesaj göndermek için!",
     "NO_INBOX_1": "Görünüşe göre henüz gelen kutusu eklemediniz.",
@@ -27,7 +27,7 @@
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
     "ASSIGN_TO_ME": "Bana ata",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Bu konuşmaya yalnızca şablon mesaj kullanarak yanıt verebilirsiniz, çünkü",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "SELECT_A_TWEET_TO_REPLY": "Lütfen yanıtlamak için bir tweet seçin.",
     "REPLYING_TO": "Cevap veriyorsun:",
@@ -38,8 +38,8 @@
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "Değerlendirme",
+    "FEEDBACK_TITLE": "Geribildirim",
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
@@ -47,22 +47,22 @@
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
       "DETAILS": "detaylar",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Beklemede olarak işaretle",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
+        "TITLE": "Şu tarihe kadar ertele",
+        "NEXT_REPLY": "Sonraki yanıt",
         "TOMORROW": "Yarın",
         "NEXT_WEEK": "Sonraki hafta"
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
+      "PENDING": "Beklemede olarak işaretle",
+      "RESOLVED": "Çözüldü olarak işaretle",
       "REOPEN": "Görüşmeyi yeniden açın",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -70,14 +70,14 @@
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Temsilci ata",
+      "ASSIGN_LABEL": "Etiket ata",
+      "AGENTS_LOADING": "Temsilciler Yükleniyor...",
+      "ASSIGN_TEAM": "Takım ata",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "Temsilci atanamadı. Lütfen tekrar deneyin."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
@@ -171,15 +171,15 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "TITLE": "Merhaba 👋, %{installationName}'a hoş geldiniz!",
+    "DESCRIPTION": "Üye olduğunuz için teşekkürler. %{installationName}'dan en iyi şekilde yararlanmanızı istiyoruz. Deneyimi keyifli hale getirmek için %{installationName} içinde yapabileceğiniz birkaç şey var.",
     "READ_LATEST_UPDATES": "Son güncellemeleri okuyun",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "DESCRIPTION": "Müşterilerinizden gelen tüm konuşmaları tek bir gösterge panosunda görüntüleyin. Gelen kanala, etikete ve duruma göre konuşmaları filtreleyebilirsiniz."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
+      "TITLE": "Ekip üyelerinizi davet edin",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Click here to invite a team member"
     },

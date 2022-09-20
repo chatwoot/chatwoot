@@ -16,9 +16,9 @@ describe('#getters', () => {
     expect(getters.isFetchingPortals(state)).toEqual(true);
   });
 
-  it('portalById', () => {
+  it('portalBySlug', () => {
     const state = portal;
-    expect(getters.portalById(state)(1)).toEqual({
+    expect(getters.portalBySlug(state)(1)).toEqual({
       id: 1,
       color: 'red',
       custom_domain: 'domain_for_help',

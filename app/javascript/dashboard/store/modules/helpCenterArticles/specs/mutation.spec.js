@@ -106,7 +106,11 @@ describe('#mutations', () => {
       mutations[types.CLEAR_ARTICLES](state);
       expect(state.articles.allIds).toEqual([]);
       expect(state.articles.byId).toEqual({});
-      expect(state.articles.uiFlags).toEqual({});
+      expect(state.articles.uiFlags).toEqual({
+        byId: {
+          '1': { isFetching: false, isUpdating: true, isDeleting: false },
+        },
+      });
     });
   });
 });

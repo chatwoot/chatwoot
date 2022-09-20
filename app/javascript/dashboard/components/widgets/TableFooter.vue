@@ -14,7 +14,7 @@
       >
         <woot-button
           size="small"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           class-names="goto-first"
           :is-disabled="hasFirstPage"
@@ -29,7 +29,7 @@
         </woot-button>
         <woot-button
           size="small"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           :is-disabled="hasPrevPage"
           @click="onPrevPage"
@@ -38,7 +38,7 @@
         </woot-button>
         <woot-button
           size="small"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           @click.prevent
         >
@@ -46,7 +46,7 @@
         </woot-button>
         <woot-button
           size="small"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           :is-disabled="hasNextPage"
           @click="onNextPage"
@@ -55,7 +55,7 @@
         </woot-button>
         <woot-button
           size="small"
-          variant="clear"
+          variant="smooth"
           color-scheme="secondary"
           class-names="goto-last"
           :is-disabled="hasLastPage"
