@@ -149,6 +149,7 @@ export default {
 .container {
   padding: 0 var(--space-normal);
   width: 100%;
+  overflow: auto;
   .articles--loader {
     align-items: center;
     display: flex;

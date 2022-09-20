@@ -126,5 +126,6 @@ export default {
 }
 .is-sidebar-open {
   flex: 0.7;
+  flex-grow: 1;
 }
 </style>
