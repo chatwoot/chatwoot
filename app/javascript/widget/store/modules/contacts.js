@@ -47,7 +47,12 @@ export const actions = {
       // Ignore error
     }
   },
-  setUser: async ({ dispatch, commit }, { identifier, user: userObject }) => {
+  setUser: async (
+    { dispatch, commit, getters: { getCurrentUser: currentUser } },
+    { identifier, user: userObject }
+  ) => {
+    const { name: oldName } = currentUser;
+
     try {
       const {
         email,
@@ -80,7 +85,7 @@ export const actions = {
       const {
         data: { widget_auth_token: widgetAuthToken },
       } = await ContactsAPI.setUser(identifier, user);
-      commit(TRIGGER_SET_USER);
+      if (oldName !== name) commit(TRIGGER_SET_USER);
       updateWidgetAuthToken(widgetAuthToken);
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
