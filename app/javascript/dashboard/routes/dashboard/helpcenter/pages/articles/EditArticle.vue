@@ -86,7 +86,7 @@ export default {
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
-      return `/hc/${slug}`;
+      return `/hc/${slug}/${this.article.category.slug}/${this.article.id}`;
     },
   },
   mounted() {
