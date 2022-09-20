@@ -45,7 +45,7 @@ class DashboardController < ActionController::Base
     @portal = Portal.find_by(custom_domain: domain)
     return unless @portal
 
-    render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
+    redirect_to "/hc/#{@portal.slug}/#{@portal.default_locale}"
   end
 
   def app_config
