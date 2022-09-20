@@ -135,7 +135,7 @@ gem 'stripe'
 ## to populate db with sample data
 gem 'faker'
 
-gem 'ruby-saml', '~> 1.14'
+gem 'ruby-saml', '= 1.11'
 
 group :production, :staging do
   # we dont want request timing out in development while using byebug

@@ -558,9 +558,8 @@ GEM
     rubocop-rspec (2.12.1)
       rubocop (~> 1.31)
     ruby-progressbar (1.11.0)
-    ruby-saml (1.14.0)
-      nokogiri (>= 1.10.5)
-      rexml
+    ruby-saml (1.11.0)
+      nokogiri (>= 1.5.10)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
@@ -776,7 +775,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  ruby-saml (~> 1.14)
+  ruby-saml (= 1.11)
   scout_apm
   seed_dump
   sentry-rails (~> 5.3)

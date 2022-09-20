@@ -11,7 +11,7 @@ class SamlController < ApplicationController
   def consume
     response          = OneLogin::RubySaml::Response.new(params['SAMLResponse'])
     response.settings = saml_settings
-
+    binding.pry
     # We validate the SAML Response and check if the user already exists in the system
     if response.is_valid?
       # authorize_success, log the user
@@ -58,20 +58,20 @@ class SamlController < ApplicationController
 
     settings.soft = true
 
-    settings.assertion_consumer_service_url = 'https://staging.chatwoot.com/saml/consume'
-    settings.sp_entity_id                   = 'https://staging.chatwoot.com/saml/metadata'
+    settings.assertion_consumer_service_url = 'https://f222-49-248-88-43.in.ngrok.io/saml/consume'
+    settings.sp_entity_id                   = 'https://f222-49-248-88-43.in.ngrok.io/saml/metadata'
 
-    settings.idp_entity_id                  = 'https://app.onelogin.com/saml2'
-    settings.idp_sso_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-redirect/sso/ef91ee22-a899-4a96-8329-0381dbdf71cf'
-    settings.idp_slo_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-redirect/slo/1857853'
+    settings.idp_entity_id                  = 'https://app.onelogin.com/saml/metadata/c65ea300-da14-44bc-989e-1e374d17b1a8'
+    settings.idp_sso_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-post/sso/c65ea300-da14-44bc-989e-1e374d17b1a8'
+    settings.idp_slo_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-redirect/slo/1858161'
 
-    settings.name_identifier_format         = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+    settings.name_identifier_format         = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
     settings.idp_cert_fingerprint           = 'FD:17:5E:81:F8:F5:88:EF:21:AB:94:44:3E:4A:C4:72:94:E2:63:AE'
     settings.idp_cert_fingerprint_algorithm = 'http://www.w3.org/2000/09/xmldsig#sha1'
 
     # Optional bindings (defaults to Redirect for logout POST for ACS)
     settings.single_logout_service_binding      = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect' # or :post, :redirect
-    settings.assertion_consumer_service_binding = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect' # or :post, :redirect
+    settings.assertion_consumer_service_binding = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST' # or :post, :redirect
 
     settings
   end
