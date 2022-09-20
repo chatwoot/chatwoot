@@ -9,6 +9,7 @@ json.meta article.meta
 json.category do
   json.id article.category_id
   json.name article.category.name
+  json.slug article.category.slug
 end
 
 if article.portal.present?
