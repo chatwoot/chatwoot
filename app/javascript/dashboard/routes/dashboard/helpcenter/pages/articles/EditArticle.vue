@@ -65,7 +65,7 @@ export default {
     return {
       isUpdating: false,
       isSaved: false,
-      showArticleSettings: false,
+      showArticleSettings: true,
       alertMessage: '',
       showDeleteConfirmationPopup: false,
     };
