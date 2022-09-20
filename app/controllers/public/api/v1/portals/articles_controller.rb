@@ -1,6 +1,6 @@
 class Public::Api::V1::Portals::ArticlesController < PublicController
   before_action :ensure_custom_domain_request, only: [:show, :index]
-  before_action :set_portal
+  before_action :portal
   before_action :set_category
   before_action :set_article, only: [:show]
   layout 'portal'
@@ -23,8 +23,8 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
     @category = @portal.categories.find_by!(slug: params[:category_slug])
   end
 
-  def set_portal
-    @portal = @portals.find_by!(slug: params[:slug], archived: false)
+  def portal
+    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
   end
 
   def list_params
