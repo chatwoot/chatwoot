@@ -20,7 +20,11 @@ By default, it renders:
     <%= javascript_pack_tag 'portal' %>
     <%= stylesheet_pack_tag 'portal' %>
     <%= csrf_meta_tags %>
-    <title><%= @portal.page_title%></title>
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% else %>
+      <title><%= @portal.page_title%></title>
+    <% end %>
   </head>
   <body>
     <div class="antialiased">

@@ -2,7 +2,7 @@
 <header class="bg-white mx-auto px-4 max-w-5xl w-full">
   <nav class="px-0 flex" aria-label="Top">
     <div class="w-full py-8 flex items-center">
-      <a href="#" class="text-base font-semibold">
+      <a href="/hc/<%= @portal.slug %>/<%= params[:locale] %>/" class="text-base font-semibold">
         <%= @portal.name %>
       </a>
       <% if @portal.homepage_link %>
@@ -18,14 +18,19 @@
       <% end %>
     </div>
     <div class="flex items-center">
-      <select
-        data-portal-slug="<%= @portal.slug %>"
-        class="h-8 block w-full flex-shrink bg-slate-50 border border-slate-200 text-slate-700 py-1 px-4 pr-8 rounded leading-tight text-base font-medium focus:outline-none focus:bg-white focus:border-slate-500 locale-switcher"
-      >
-        <% @portal.config["allowed_locales"].each do |locale| %>
-          <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= locale %></option>
-        <% end %>
-      </select>
+      <div class="inline-flex relative w-24">
+        <select
+          data-portal-slug="<%= @portal.slug %>"
+          class="appearance-none w-full bg-white px-3 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline locale-switcher"
+        >
+          <% @portal.config["allowed_locales"].each do |locale| %>
+            <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= locale %></option>
+          <% end %>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+      </div>
     </div>
   </nav>
 </header>

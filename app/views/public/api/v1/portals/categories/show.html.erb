@@ -1,3 +1,9 @@
+<% content_for :head do %>
+  <title><%= @category.name %> | <%= @portal.name %></title>
+  <% if @category.description.present? %>
+    <meta name="description" content="<%= @category.description %>">
+  <% end %>
+<% end %>
 
 <div class="bg-gradient-to-b from-white to-black-50 pt-8 pb-16">
   <div class="max-w-5xl px-4 mx-auto space-y-2">

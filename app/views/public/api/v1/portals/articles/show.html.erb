@@ -1,3 +1,16 @@
+<% content_for :head do %>
+  <title><%= @article.title %> | <%= @portal.name %></title>
+  <% if @article.meta["title"].present? %>
+    <meta name="title" content="<%= @article.meta["title"] %>">
+  <% end %>
+  <% if @article.meta["description"].present? %>
+    <meta name="description" content="<%= @article.meta["description"] %>">
+  <% end %>
+  <% if @article.meta["tags"].present? %>
+    <meta name="tags" content="<%= @article.meta["tags"].join(',') %>">
+  <% end %>
+<% end %>
+
 <div class="bg-gradient-to-b from-white to-slate-50">
   <div class="max-w-5xl px-8 lg:px-4 pt-8 pb-16 mx-auto space-y-4 w-full">
     <div>
