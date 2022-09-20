@@ -4,7 +4,7 @@ class DashboardController < ActionController::Base
   before_action :set_global_config
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
-  before_action :redirect_to_custom_domain_page
+  before_action :render_hc_if_custom_domain, only: [:index]
 
   layout 'vueapp'
 
@@ -38,13 +38,14 @@ class DashboardController < ActionController::Base
     redirect_to '/installation/onboarding' if ::Redis::Alfred.get(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)
   end
 
-  def redirect_to_custom_domain_page
-    custom_domain = request.host
-    portal = Portal.find_by(custom_domain: custom_domain)
+  def render_hc_if_custom_domain
+    domain = request.host
+    return if domain == URI.parse(ENV.fetch('FRONTEND_URL', '')).host
 
-    return unless portal
+    @portal = Portal.find_by(custom_domain: domain)
+    return unless @portal
 
-    redirect_to "/hc/#{portal.slug}"
+    render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 
   def app_config
