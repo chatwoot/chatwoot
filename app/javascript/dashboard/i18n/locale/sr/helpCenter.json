@@ -164,7 +164,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug portala za adrese",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal",
+
           "ERROR": "Slug je obavezan"
         },
         "DOMAIN": {

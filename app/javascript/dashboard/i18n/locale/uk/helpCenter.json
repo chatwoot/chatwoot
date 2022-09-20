@@ -164,7 +164,7 @@
         "SLUG": {
           "LABEL": "Мітка",
           "PLACEHOLDER": "Портал slug для URL-адрес",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal",
+
           "ERROR": "Необхідно вказати мітку"
         },
         "DOMAIN": {

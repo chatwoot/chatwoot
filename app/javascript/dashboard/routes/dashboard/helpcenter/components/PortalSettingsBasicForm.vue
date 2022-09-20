@@ -50,7 +50,7 @@
             :error="slugError"
             :label="$t('HELP_CENTER.PORTAL.ADD.SLUG.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.SLUG.PLACEHOLDER')"
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.SLUG.HELP_TEXT')"
+            :help-text="domainHelpText"
             @input="$v.slug.$touch"
           />
         </div>
@@ -131,6 +131,11 @@ export default {
     },
     domainError() {
       return this.$v.domain.$error;
+    },
+    domainHelpText() {
+      const { hostURL, helpCenterURL } = window.chatwootConfig;
+      const baseURL = helpCenterURL || hostURL || '';
+      return `${baseURL}/hc/${this.slug}`;
     },
   },
   mounted() {

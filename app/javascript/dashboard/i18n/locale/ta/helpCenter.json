@@ -164,7 +164,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal",
+
           "ERROR": "Slug is required"
         },
         "DOMAIN": {

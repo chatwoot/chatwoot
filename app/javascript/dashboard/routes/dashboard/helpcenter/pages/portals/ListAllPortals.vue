@@ -21,6 +21,7 @@
         :portal="portal"
         :status="portalStatus"
         @add-locale="addLocale"
+        @open-site="openPortal"
       />
       <div v-if="isFetching" class="portals--loader">
         <spinner />
@@ -79,6 +80,11 @@ export default {
     },
   },
   methods: {
+    openPortal(portalSlug) {
+      const { hostURL, helpCenterURL } = window.chatwootConfig;
+      const baseURL = helpCenterURL || hostURL || '';
+      window.open(`${baseURL}/hc/${portalSlug}`, '_blank');
+    },
     addPortal() {
       this.$router.push({ name: 'new_portal_information' });
     },
