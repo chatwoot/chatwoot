@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Все статьи",
       "PUBLISH_BUTTON": "Опубликовано",
       "PREVIEW": "Предпросмотр",
       "ADD_TRANSLATION": "Добавить перевод",
       "OPEN_SIDEBAR": "Открыть боковую панель",
       "CLOSE_SIDEBAR": "Закрыть боковую панель",
-      "SAVING": "Сохранение черновиков...",
-      "SAVED": "Черновик сохранён"
+      "SAVING": "Сохранение...",
+      "SAVED": "Сохранено"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Article Settings",
@@ -111,19 +112,54 @@
         }
       },
       "ADD": {
-        "TITLE": "Создать портал",
-        "SUB_TITLE": "Справочный центр в  Chatwoot известен как портал. У вас может быть несколько порталов и может иметь разные доколе для каждого портала.",
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Завершить"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Назад",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
+        },
         "NAME": {
           "LABEL": "Имя",
           "PLACEHOLDER": "Имя портала",
-          "HELP_TEXT": "Название будет использоваться на публичном портале",
+          "HELP_TEXT": "Название будет использоваться на публичном портале.",
           "ERROR": "Необходимо указать имя"
-        },
-        "PAGE_TITLE": {
-          "LABEL": "Название страницы",
-          "PLACEHOLDER": "Заголовок страницы портала",
-          "HELP_TEXT": "Название будет использоваться на публичном портале",
-          "ERROR": "Необходимо указать название"
         },
         "SLUG": {
           "LABEL": "Метка",
@@ -134,7 +170,7 @@
         "DOMAIN": {
           "LABEL": "Пользовательский домен",
           "PLACEHOLDER": "Пользовательский домен портала",
-          "HELP_TEXT": "Добавьте только если вы хотите использовать пользовательский домен для ваших порталов",
+          "HELP_TEXT": "Добавьте только если вы хотите использовать пользовательский домен для ваших порталов.",
           "ERROR": "Требуется пользовательский домен"
         },
         "HOME_PAGE_LINK": {
@@ -143,19 +179,25 @@
           "HELP_TEXT": "Ссылка, используемая для возврата с портала на главную страницу.",
           "ERROR": "Счалка главной страницы обязательна"
         },
+        "THEME_COLOR": {
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Название страницы",
+          "PLACEHOLDER": "Заголовок страницы портала",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Необходимо указать название"
+        },
         "HEADER_TEXT": {
           "LABEL": "Header Text",
           "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "Portal header text",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
           "ERROR": "Portal header text is required"
         },
-        "BUTTONS": {
-          "CREATE": "Создать портал",
-          "CANCEL": "Отменить"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Портал создан успешно.",
-          "ERROR_MESSAGE": "Не удалось создать портал. Попробуйте еще раз."
+          "ERROR_MESSAGE_FOR_BASIC": "Не удалось создать портал. Попробуйте еще раз.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       }
     },
@@ -175,8 +217,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Загрузка статей...",
       "TITLE_PLACEHOLDER": "Название статьи",
-      "CONTENT_PLACEHOLDER": "Напишите свою статью здесь"
+      "CONTENT_PLACEHOLDER": "Напишите свою статью здесь",
+      "API": {
+        "ERROR": "Ошибка при сохранении статьи"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {

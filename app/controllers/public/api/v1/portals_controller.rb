@@ -1,11 +1,13 @@
 class Public::Api::V1::PortalsController < PublicController
-  before_action :set_portal
+  before_action :ensure_custom_domain_request, only: [:show]
+  before_action :portal
+  layout 'portal'
 
   def show; end
 
   private
 
-  def set_portal
-    @portal = ::Portal.find_by!(slug: params[:slug], archived: false)
+  def portal
+    @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
   end
 end

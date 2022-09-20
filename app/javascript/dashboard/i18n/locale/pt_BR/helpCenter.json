@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Todos os artigos",
       "PUBLISH_BUTTON": "Publicar",
       "PREVIEW": "Pré-visualizar",
       "ADD_TRANSLATION": "Adicionar tradução",
       "OPEN_SIDEBAR": "Abrir barra lateral",
       "CLOSE_SIDEBAR": "Fechar barra lateral",
-      "SAVING": "Salvando rascunho...",
-      "SAVED": "Rascunho salvo"
+      "SAVING": "Salvando...",
+      "SAVED": "Salvo"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Configurações de Artigo",
@@ -111,19 +112,54 @@
         }
       },
       "ADD": {
-        "TITLE": "Criar um portal",
-        "SUB_TITLE": "Um Centro de Ajuda no Chatwoot é conhecido como um portal. Você pode ter vários portais e pode ter diferentes localidades para cada portal.",
+        "CREATE_FLOW": [
+          {
+            "title": "Informações da central de ajuda",
+            "route": "nova_informação_de_portal",
+            "body": "Informações básicas sobre o portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Criar configurações básicas do portal"
+          },
+          {
+            "title": "Personalização da central de ajuda",
+            "route": "personalização_portal",
+            "body": "Personalizar portal",
+            "UPDATE_PORTAL_BUTTON": "Atualizar configurações do portal"
+          },
+          {
+            "title": "Pronto! 🎉",
+            "route": "fim_portal",
+            "body": "Está tudo pronto!",
+            "FINISH": "Finalizar"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Anterior",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Criar portal",
+            "TITLE": "Informações da central de ajuda",
+            "CREATE_BASIC_SETTING_BUTTON": "Criar configurações básicas do portal"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Personalização do Portal",
+            "TITLE": "Personalização da central de ajuda",
+            "UPDATE_PORTAL_BUTTON": "Atualizar configurações do portal"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Muito bem!🎉 Está tudo pronto!",
+            "MESSAGE": "Agora você pode ver este portal criado na página de todos os portais.",
+            "FINISH": "Ir para a página de todos os portais"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logotipo",
+          "UPLOAD_BUTTON": "Carregar logotipo",
+          "HELP_TEXT": "Este logotipo será exibido no cabeçalho do portal."
+        },
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Nome do portal",
-          "HELP_TEXT": "O nome será usado no portal voltado ao público internamente",
+          "HELP_TEXT": "O nome será usado no portal voltado ao público internamente.",
           "ERROR": "O nome é obrigatório"
-        },
-        "PAGE_TITLE": {
-          "LABEL": "Título da Página",
-          "PLACEHOLDER": "Título da página do portal",
-          "HELP_TEXT": "O nome será usado no portal voltado ao público",
-          "ERROR": "Título da página é obrigatório"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -134,7 +170,7 @@
         "DOMAIN": {
           "LABEL": "Domínio personalizado",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "HELP_TEXT": "Adicionar somente se você quiser usar um domínio personalizado para seus portais",
+          "HELP_TEXT": "Adicionar somente se você quiser usar um domínio personalizado para seus portais.",
           "ERROR": "Domínio Personalizado é obrigatório"
         },
         "HOME_PAGE_LINK": {
@@ -143,19 +179,25 @@
           "HELP_TEXT": "O link usado para retornar do portal para a página inicial.",
           "ERROR": "O Link da Página Inicial é obrigatório"
         },
+        "THEME_COLOR": {
+          "LABEL": "Cor do tema do portal",
+          "HELP_TEXT": "Esta cor será exibida como a cor do tema para o portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Título da Página",
+          "PLACEHOLDER": "Título da página do portal",
+          "HELP_TEXT": "O título da página será usado no portal voltado para público.",
+          "ERROR": "Título da página é obrigatório"
+        },
         "HEADER_TEXT": {
           "LABEL": "Texto do Cabeçalho",
           "PLACEHOLDER": "Texto do cabeçalho do portal",
-          "HELP_TEXT": "Texto do cabeçalho do portal",
+          "HELP_TEXT": "O texto do cabeçalho do Portal será usado no portal voltado para o público.",
           "ERROR": "O texto do cabeçalho do Portal é obrigatório"
         },
-        "BUTTONS": {
-          "CREATE": "Criar portal",
-          "CANCEL": "Cancelar"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Portal criado com sucesso.",
-          "ERROR_MESSAGE": "Não foi possível criar o portal. Tente novamente."
+          "ERROR_MESSAGE_FOR_BASIC": "Não foi possível criar o portal. Tente novamente.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Não foi possível atualizar o portal. Tente novamente."
         }
       }
     },
@@ -175,8 +217,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Carregando artigo...",
       "TITLE_PLACEHOLDER": "O título do artigo vai aqui",
-      "CONTENT_PLACEHOLDER": "Escreva o seu artigo aqui"
+      "CONTENT_PLACEHOLDER": "Escreva o seu artigo aqui",
+      "API": {
+        "ERROR": "Erro ao salvar artigo"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {

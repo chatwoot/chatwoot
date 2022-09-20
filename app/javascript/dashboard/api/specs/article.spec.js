@@ -26,4 +26,41 @@ describe('#PortalAPI', () => {
       );
     });
   });
+  describeWithAPIMock('API calls', context => {
+    it('#getArticle', () => {
+      articlesAPI.getArticle({
+        id: 1,
+        portalSlug: 'room-rental',
+      });
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/portals/room-rental/articles/1'
+      );
+    });
+  });
+  describeWithAPIMock('API calls', context => {
+    it('#updateArticle', () => {
+      articlesAPI.updateArticle({
+        articleId: 1,
+        portalSlug: 'room-rental',
+        articleObj: { title: 'Update shipping address' },
+      });
+      expect(context.axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/portals/room-rental/articles/1',
+        {
+          title: 'Update shipping address',
+        }
+      );
+    });
+  });
+  describeWithAPIMock('API calls', context => {
+    it('#deleteArticle', () => {
+      articlesAPI.deleteArticle({
+        articleId: 1,
+        portalSlug: 'room-rental',
+      });
+      expect(context.axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/portals/room-rental/articles/1'
+      );
+    });
+  });
 });

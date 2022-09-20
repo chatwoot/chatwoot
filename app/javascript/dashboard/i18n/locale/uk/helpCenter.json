@@ -18,13 +18,14 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Всі статті",
       "PUBLISH_BUTTON": "Опублікувати",
       "PREVIEW": "Попередній перегляд",
       "ADD_TRANSLATION": "Додати переклад",
       "OPEN_SIDEBAR": "Відкрити бічну панель",
       "CLOSE_SIDEBAR": "Закрити бічну панель",
-      "SAVING": "Збереження чернетки...",
-      "SAVED": "Чернетку збережено"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_SETTINGS": {
       "TITLE": "Налаштування статей",
@@ -111,19 +112,54 @@
         }
       },
       "ADD": {
-        "TITLE": "Створити портал",
-        "SUB_TITLE": "Довідковий центр з Chatwoot відомий як портал. Ви можете мати кілька порталів і ви можете мати різні локалі для кожного порталу.",
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Закінчити"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Назад",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
+        },
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва порталу",
-          "HELP_TEXT": "Ім'я буде використовуватися в публічному інтерфейсі порталу всередині",
+          "HELP_TEXT": "Ім'я буде використовуватися в публічному інтерфейсі порталу всередині.",
           "ERROR": "Назва обов'язкова"
-        },
-        "PAGE_TITLE": {
-          "LABEL": "Заголовок сторінки",
-          "PLACEHOLDER": "Заголовок сторінки порталу",
-          "HELP_TEXT": "Ім'я буде використане в публічному інтерфейсі порталу",
-          "ERROR": "Необхідно вказати заголовок сторінки"
         },
         "SLUG": {
           "LABEL": "Мітка",
@@ -134,7 +170,7 @@
         "DOMAIN": {
           "LABEL": "Домен для користувача",
           "PLACEHOLDER": "Власний домен порталу",
-          "HELP_TEXT": "Додавати лише у випадку, якщо ви хочете використовувати власний домен для своїх порталів",
+          "HELP_TEXT": "Додавати лише у випадку, якщо ви хочете використовувати власний домен для своїх порталів.",
           "ERROR": "Потрібен власний домен"
         },
         "HOME_PAGE_LINK": {
@@ -143,19 +179,25 @@
           "HELP_TEXT": "Посилання для повернення з порталу на головну сторінку.",
           "ERROR": "Потрібне посилання на головну сторінку"
         },
+        "THEME_COLOR": {
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Заголовок сторінки",
+          "PLACEHOLDER": "Заголовок сторінки порталу",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Необхідно вказати заголовок сторінки"
+        },
         "HEADER_TEXT": {
           "LABEL": "Текст заголовку",
           "PLACEHOLDER": "Текст заголовку порталу",
-          "HELP_TEXT": "Текст заголовку порталу",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
           "ERROR": "Потрібен текст заголовка портала"
         },
-        "BUTTONS": {
-          "CREATE": "Створити портал",
-          "CANCEL": "Скасувати"
-        },
         "API": {
-          "SUCCESS_MESSAGE": "Портал успішно створено.",
-          "ERROR_MESSAGE": "Не вдалося створити портал. Повторіть спробу."
+          "ERROR_MESSAGE_FOR_BASIC": "Не вдалося створити портал. Повторіть спробу.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       }
     },
@@ -175,8 +217,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Заголовок статті іде тут",
-      "CONTENT_PLACEHOLDER": "Напишіть свою статтю тут"
+      "CONTENT_PLACEHOLDER": "Напишіть свою статтю тут",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {
