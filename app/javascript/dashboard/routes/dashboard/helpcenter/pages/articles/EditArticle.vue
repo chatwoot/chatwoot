@@ -65,7 +65,7 @@ export default {
     return {
       isUpdating: false,
       isSaved: false,
-      showArticleSettings: false,
+      showArticleSettings: true,
       alertMessage: '',
       showDeleteConfirmationPopup: false,
     };
@@ -86,7 +86,7 @@ export default {
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
-      return `/hc/${slug}`;
+      return `/hc/${slug}/${this.article.category.slug}/${this.article.id}`;
     },
   },
   mounted() {
