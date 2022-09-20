@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_09_104508) do
+ActiveRecord::Schema.define(version: 2022_09_20_014549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -395,7 +395,7 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -413,6 +413,7 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
+    t.index ["uuid"], name: "index_conversations_on_uuid", unique: true
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
@@ -707,6 +708,7 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.boolean "archived", default: false
+    t.index ["custom_domain"], name: "index_portals_on_custom_domain", unique: true
     t.index ["slug"], name: "index_portals_on_slug", unique: true
   end
 
