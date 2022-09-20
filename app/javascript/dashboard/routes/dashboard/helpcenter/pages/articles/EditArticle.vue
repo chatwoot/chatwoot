@@ -51,6 +51,7 @@ import Spinner from 'shared/components/Spinner';
 import portalMixin from '../../mixins/portalMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants';
+import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 export default {
@@ -86,7 +87,11 @@ export default {
     },
     portalLink() {
       const slug = this.$route.params.portalSlug;
-      return `/hc/${slug}/${this.article.category.slug}/${this.article.id}`;
+      return buildPortalArticleURL(
+        slug,
+        this.article.category.slug,
+        this.article.id
+      );
     },
   },
   mounted() {

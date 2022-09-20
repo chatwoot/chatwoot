@@ -52,6 +52,8 @@ import PortalListItem from '../../components/PortalListItem';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState';
 import AddLocale from '../../components/AddLocale';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
+
 export default {
   components: {
     PortalListItem,
@@ -81,9 +83,7 @@ export default {
   },
   methods: {
     openPortal(portalSlug) {
-      const { hostURL, helpCenterURL } = window.chatwootConfig;
-      const baseURL = helpCenterURL || hostURL || '';
-      window.open(`${baseURL}/hc/${portalSlug}`, '_blank');
+      window.open(buildPortalURL(portalSlug), '_blank');
     },
     addPortal() {
       this.$router.push({ name: 'new_portal_information' });

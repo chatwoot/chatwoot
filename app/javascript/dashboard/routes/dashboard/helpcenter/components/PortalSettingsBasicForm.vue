@@ -80,6 +80,7 @@
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 export default {
   components: {
@@ -133,9 +134,7 @@ export default {
       return this.$v.domain.$error;
     },
     domainHelpText() {
-      const { hostURL, helpCenterURL } = window.chatwootConfig;
-      const baseURL = helpCenterURL || hostURL || '';
-      return `${baseURL}/hc/${this.slug}`;
+      return buildPortalURL(this.slug);
     },
   },
   mounted() {
