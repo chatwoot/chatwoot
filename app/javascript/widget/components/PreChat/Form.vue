@@ -95,7 +95,7 @@ export default {
       isCreating: 'conversation/getIsCreating',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
-      setUserTriggerStatus: 'contacts/getSetUserTriggerStatus',
+      getSetUserTriggerStatus: 'contacts/getSetUserTriggerStatus',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -125,7 +125,10 @@ export default {
         ) {
           return false;
         }
-        if (this.setUserTriggerStatus && field.name === 'fullName') {
+        if (
+          this.getSetUserTriggerStatus.fullName &&
+          field.name === 'fullName'
+        ) {
           return false;
         }
         return true;

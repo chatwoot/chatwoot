@@ -10,6 +10,7 @@ describe('#getters', () => {
     };
     const state = {
       currentUser: user,
+      isSetUserTriggered: { fullName: false },
     };
     expect(getters.getCurrentUser(state)).toEqual({
       email: 'thoma@sphadikam.com',
@@ -17,5 +18,6 @@ describe('#getters', () => {
       avatar_url: '',
       identifier_hash: 'malana_hash',
     });
+    expect(getters.getSetUserTriggerStatus(state)).toEqual({ fullName: false });
   });
 });

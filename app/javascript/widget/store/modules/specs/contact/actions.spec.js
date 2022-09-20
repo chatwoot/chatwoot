@@ -17,11 +17,16 @@ describe('#actions', () => {
         avatar_url: '',
       };
       API.patch.mockResolvedValue({ data: { widget_auth_token: 'token' } });
-      await actions.setUser({ commit, dispatch }, { identifier: 1, user });
+      await actions.setUser(
+        { commit, dispatch, getters: { getCurrentUser: {} } },
+        { identifier: 1, user }
+      );
       expect(sendMessage.mock.calls).toEqual([
         [{ data: { widgetAuthToken: 'token' }, event: 'setAuthCookie' }],
       ]);
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([
+        ['TRIGGER_SET_USER', { key: 'fullName' }],
+      ]);
       expect(dispatch.mock.calls).toEqual([
         ['get'],
         ['conversation/clearConversations', {}, { root: true }],
@@ -38,9 +43,14 @@ describe('#actions', () => {
         identifier_hash: '12345',
       };
       API.patch.mockResolvedValue({ data: { id: 1 } });
-      await actions.setUser({ commit, dispatch }, { identifier: 1, user });
+      await actions.setUser(
+        { commit, dispatch, getters: { getCurrentUser: {} } },
+        { identifier: 1, user }
+      );
       expect(sendMessage.mock.calls).toEqual([]);
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([
+        ['TRIGGER_SET_USER', { key: 'fullName' }],
+      ]);
       expect(dispatch.mock.calls).toEqual([
         ['get'],
         ['conversation/clearConversations', {}, { root: true }],
@@ -56,9 +66,14 @@ describe('#actions', () => {
         avatar_url: '',
       };
       API.patch.mockResolvedValue({ data: { id: 1 } });
-      await actions.setUser({ commit, dispatch }, { identifier: 1, user });
+      await actions.setUser(
+        { commit, dispatch, getters: { getCurrentUser: {} } },
+        { identifier: 1, user }
+      );
       expect(sendMessage.mock.calls).toEqual([]);
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([
+        ['TRIGGER_SET_USER', { key: 'fullName' }],
+      ]);
       expect(dispatch.mock.calls).toEqual([['get']]);
     });
   });
