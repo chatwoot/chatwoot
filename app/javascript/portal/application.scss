@@ -7,7 +7,7 @@
 @import 'widget/assets/scss/buttons';
 @import 'widget/assets/scss/mixins';
 @import 'widget/assets/scss/forms';
-@import 'shared/assets/fonts/widget_fonts';
+@import 'shared/assets/fonts/inter';
 
 html,
 body {
@@ -15,64 +15,4 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
-}
-
-.woot-survey-wrap {
-  height: 100%;
-}
-
-.blog-content {
-  @apply text-lg;
-  @apply font-sans;
-  @apply text-slate-800;
-  @apply leading-normal;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-sans leading-relaxed font-extrabold text-slate-900;
-    @apply mb-4;
-    @apply mt-8;
-  }
-
-  h1 {
-    @apply text-5xl leading-normal;
-  }
-
-  h2 {
-    @apply text-4xl leading-normal;
-  }
-
-  h3 {
-    @apply text-3xl leading-normal;
-  }
-
-  h4 {
-    @apply text-2xl leading-normal;
-  }
-
-  p {
-    @apply text-lg;
-    @apply font-sans;
-    @apply text-slate-800;
-    @apply leading-relaxed;
-    @apply mb-4;
-  }
-
-  ul {
-    @apply list-disc;
-    @apply pl-8;
-    @apply ml-4;
-  }
-
-  li {
-    @apply text-lg;
-    @apply font-sans;
-    @apply text-slate-800;
-    @apply leading-relaxed;
-    @apply mb-2;
-  }
 }
