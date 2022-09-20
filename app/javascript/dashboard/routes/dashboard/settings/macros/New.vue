@@ -1,8 +1,5 @@
 <template>
   <div class="column content-box">
-    <woot-button color-scheme="success" class-names="button--fixed-right-top">
-      {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
-    </woot-button>
     <div class="row">
       <div class="small-8 columns with-right-space macros-canvas">
         <ul class="macros-feed-container">
@@ -30,10 +27,15 @@
               class="macros-feed-item"
             >
               <div class="macros-action-item-container">
-                <div class="drag-handle">
+                <div v-if="macro.actions.length > 1" class="drag-handle">
                   <fluent-icon size="20" icon="navigation" />
                 </div>
-                <div class="macros-action-item">
+                <div
+                  class="macros-action-item"
+                  :class="{
+                    'has-error': hasError($v.macro.actions.$each[i]),
+                  }"
+                >
                   <action-input
                     v-model="macro.actions[i]"
                     :action-types="macroActionTypes"
@@ -88,14 +90,65 @@
               v-model.trim="macro.name"
               label="Macro name"
               placeholder="Enter a name for your macro"
+              error="Please enter a name"
+              :class="{ error: $v.macro.name.$error }"
             />
           </div>
           <div>
-            <input-radio-group
-              name="macro-visibility"
-              label="Macro Visibility"
-              :items="macroVisibilityOptions"
-            />
+            <p class="title">Macro Visibility</p>
+            <div class="macros-form-radio-group">
+              <button
+                class="card"
+                :class="{ active: macro.visibility === 'global' }"
+                @click="macro.visibility = 'global'"
+              >
+                <fluent-icon
+                  v-if="macro.visibility === 'global'"
+                  icon="checkmark-circle"
+                  type="solid"
+                  class="visibility-check"
+                />
+                <p class="title">Global</p>
+                <p class="subtitle">
+                  This macro is available globally for all agents in this
+                  account.
+                </p>
+              </button>
+              <button
+                class="card"
+                :class="{ active: macro.visibility === 'private' }"
+                @click="macro.visibility = 'private'"
+              >
+                <fluent-icon
+                  v-if="macro.visibility === 'private'"
+                  icon="checkmark-circle"
+                  type="solid"
+                  class="visibility-check"
+                />
+                <p class="title">Private</p>
+                <p class="subtitle">
+                  This macro will be private to you and not be available to
+                  others.
+                </p>
+              </button>
+            </div>
+            <div class="macros-information-panel">
+              <fluent-icon icon="info" size="20" />
+              <p>
+                Macros will run in the order you add yout actions. You can
+                rearrange them by dragging them by the handle beside each
+                action.
+              </p>
+            </div>
+          </div>
+          <div class="macros-submit-btn">
+            <woot-button
+              size="expanded"
+              color-scheme="success"
+              @click="saveMacro"
+            >
+              {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
+            </woot-button>
           </div>
         </div>
       </div>
@@ -104,18 +157,18 @@
 </template>
 
 <script>
-import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import { AUTOMATION_ACTION_TYPES } from 'dashboard/routes/dashboard/settings/automation/constants.js';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 import draggable from 'vuedraggable';
-
+import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
-    InputRadioGroup,
     ActionInput,
     draggable,
   },
+  mixins: [alertMixin],
   validations: {
     macro: {
       name: {
@@ -211,6 +264,22 @@ export default {
     onDragEnd() {
       this.dragging = false;
     },
+    hasError(v) {
+      return !!(v.action_params.$dirty && v.action_params.$error);
+    },
+    async saveMacro() {
+      this.$v.$touch();
+      if (this.$v.$invalid) return;
+      try {
+        const macro = JSON.parse(JSON.stringify(this.macro));
+        macro.actions = actionQueryGenerator(macro.actions);
+        await this.$store.dispatch('macros/create', macro);
+        this.showAlert('Macro created Succesfully');
+        this.$router.push({ name: 'macros_wrapper' });
+      } catch (error) {
+        this.showAlert('Something went wrong, please try again');
+      }
+    },
   },
 };
 </script>
@@ -224,10 +293,17 @@ export default {
   background-size: 16px 16px;
   height: 100%;
   max-height: 100%;
-  padding-left: var(--space-three);
+  padding: var(--space-normal) var(--space-three);
+  max-height: 100vh;
+  overflow-y: auto;
 }
 .macros-properties-panel {
   padding: var(--space-slab);
+  background-color: var(--white);
+  height: calc(100vh - 5.6rem);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--s-50);
 }
 
 .macros-feed-container {
@@ -246,7 +322,7 @@ export default {
     height: 30px;
     width: 3px;
     margin-left: 24px;
-    background-image: url("data:image/svg+xml,%3Csvg width='3' height='31' viewBox='0 0 3 31' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1.50098' y1='0.579529' x2='1.50098' y2='30.5795' stroke='%2394A3B8' stroke-width='2' stroke-dasharray='5 5'/%3E%3C/svg%3E%0A");
+    background-image: url("data:image/svg+xml,%3Csvg width='3' height='31' viewBox='0 0 3 31' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1.50098' y1='0.579529' x2='1.50098' y2='30.5795' stroke='%2393afc8' stroke-width='2' stroke-dasharray='5 5'/%3E%3C/svg%3E%0A");
   }
   .macros-feed-draggable {
     position: relative;
@@ -322,7 +398,91 @@ export default {
           }
         }
       }
+
+      &.has-error {
+        animation: shake 0.3s ease-in-out 0s 2;
+        background-color: var(--r-50);
+      }
     }
+  }
+}
+.macros-submit-btn {
+  margin-top: auto;
+}
+.macros-form-radio-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  .card {
+    padding: var(--space-small);
+    border-radius: var(--border-radius-normal);
+    border: 1px solid var(--s-200);
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+
+    &.active {
+      background-color: var(--w-25);
+      border: 1px solid var(--w-300);
+    }
+
+    .subtitle {
+      font-size: var(--font-size-mini);
+      color: var(--s-500);
+    }
+
+    .visibility-check {
+      position: absolute;
+      color: var(--w-300);
+      top: var(--space-small);
+      right: var(--space-small);
+    }
+  }
+}
+
+.title {
+  display: block;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.8;
+  color: #3c4858;
+}
+.content-box {
+  padding: 0;
+  height: 100vh;
+}
+.macros-information-panel {
+  margin-top: var(--space-small);
+  display: flex;
+  background-color: var(--s-50);
+  padding: var(--space-small);
+  border-radius: var(--border-radius-normal);
+  align-items: flex-start;
+  svg {
+    flex-shrink: 0;
+  }
+  p {
+    margin-left: var(--space-small);
+    color: var(--s-600);
+  }
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(0.375rem);
+  }
+  50% {
+    transform: translateX(-0.375rem);
+  }
+  75% {
+    transform: translateX(0.375rem);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 </style>

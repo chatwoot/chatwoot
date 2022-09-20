@@ -33,6 +33,7 @@ const settings = accountId => ({
     'billing_settings_index',
     'automation_list',
     'macros_wrapper',
+    'macros_new',
   ],
   menuItems: [
     {

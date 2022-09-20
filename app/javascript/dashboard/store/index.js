@@ -38,6 +38,7 @@ import webhooks from './modules/webhooks';
 import articles from './modules/helpCenterArticles';
 import portals from './modules/helpCenterPortals';
 import categories from './modules/helpCenterCategories';
+import macros from './modules/macros';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -79,5 +80,6 @@ export default new Vuex.Store({
     articles,
     portals,
     categories,
+    macros,
   },
 });
