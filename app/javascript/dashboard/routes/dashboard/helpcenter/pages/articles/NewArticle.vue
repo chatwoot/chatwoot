@@ -40,7 +40,7 @@ export default {
       articleTitle: '',
       articleContent: '',
       showOpenSidebarButton: false,
-      showArticleSettings: false,
+      showArticleSettings: true,
       article: {},
     };
   },
