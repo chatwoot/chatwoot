@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labelen",
-    "HEADER_BTN_TXT": "Label toevoegen",
-    "LOADING": "Labels ophalen",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels helpen u om gesprekken te categoriseren en ze prioriteit te geven. Vanaf het zijpaneel kunt u het label toewijzen aan een gesprek. <br /><br />Labels zijn gekoppeld aan het account en kunnen worden gebruikt om aangepaste workflows in uw organisatie te creëren. U kunt aangepaste kleur aan een label toewijzen, het maakt het gemakkelijker om het label te identificeren. Je kunt het label op de zijbalk weergeven om de gesprekken gemakkelijk te filteren.</p>",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Er zijn geen labels beschikbaar in dit account.",
-      "TITLE": "Beheer labels",
-      "DESC": "Labels laten je gesprekken groeperen.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
         "Naam",
-        "Beschrijving",
-        "Kleur"
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label naam",
-        "PLACEHOLDER": "Label naam",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Beschrijving",
-        "PLACEHOLDER": "Beschrijving label"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Kleur"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Label op zijbalk weergeven"
+        "LABEL": ""
       },
       "EDIT": "Bewerken",
-      "CREATE": "Aanmaken",
+      "CREATE": "",
       "DELETE": "Verwijderen",
       "CANCEL": "Annuleren"
     },
     "ADD": {
-      "TITLE": "Label toevoegen",
-      "DESC": "Labels laten je gesprekken groeperen.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Label succesvol toegevoegd",
-        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Bewerk label",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Label succesvol bijgewerkt",
-        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
       "API": {
-        "SUCCESS_MESSAGE": "Label succesvol verwijderd",
-        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Verwijdering bevestigen",
+        "TITLE": "Verwijderen bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "Nee, Behouden "
+        "NO": ""
       }
     }
   }
