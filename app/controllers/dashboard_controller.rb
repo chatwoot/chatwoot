@@ -91,5 +91,7 @@ class DashboardController < ActionController::Base
     settings
   end
 
-  def cosnume; end
+  def cosnume
+    binding.pry
+  end
 end

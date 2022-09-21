@@ -58,14 +58,14 @@ class SamlController < ApplicationController
 
     settings.soft = true
 
-    settings.assertion_consumer_service_url = 'https://f222-49-248-88-43.in.ngrok.io/saml/consume'
-    settings.sp_entity_id                   = 'https://f222-49-248-88-43.in.ngrok.io/saml/metadata'
+    settings.assertion_consumer_service_url = 'https://aa0d-49-248-88-43.in.ngrok.io/saml/consume'
+    settings.sp_entity_id                   = 'https://aa0d-49-248-88-43.in.ngrok.io/saml/metadata'
 
-    settings.idp_entity_id                  = 'https://app.onelogin.com/saml/metadata/c65ea300-da14-44bc-989e-1e374d17b1a8'
-    settings.idp_sso_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-post/sso/c65ea300-da14-44bc-989e-1e374d17b1a8'
-    settings.idp_slo_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-redirect/slo/1858161'
+    settings.idp_entity_id                  = 'https://app.onelogin.com/saml2'
+    settings.idp_sso_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-post/sso/de789d10-0617-44e9-8fd6-9d798809cfbf'
+    settings.idp_slo_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-redirect/slo/1861655'
 
-    settings.name_identifier_format         = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
+    settings.name_identifier_format         = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
     settings.idp_cert_fingerprint           = 'FD:17:5E:81:F8:F5:88:EF:21:AB:94:44:3E:4A:C4:72:94:E2:63:AE'
     settings.idp_cert_fingerprint_algorithm = 'http://www.w3.org/2000/09/xmldsig#sha1'
 
