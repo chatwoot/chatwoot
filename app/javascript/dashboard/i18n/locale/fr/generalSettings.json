@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "",
+        "NOTE": ""
       },
       "NAME": {
         "LABEL": "Nom du compte",
@@ -40,36 +40,36 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Nombre de jours après qu'un ticket soit automatiquement résolu s'il n'y a pas d'activité",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": ""
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
       }
     },
-    "UPDATE_CHATWOOT": "Une mise à jour %{latestChatwootVersion} de Chatwoot est disponible. Veuillez mettre à jour votre instance.",
-    "LEARN_MORE": "Learn more"
+    "UPDATE_CHATWOOT": "",
+    "LEARN_MORE": ""
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Appuyer sur Entrée pour sélectionner",
-      "ENTER_TO_REMOVE": "Appuyer sur Entrée pour supprimer",
-      "SELECT_ONE": "Sélectionnez un"
+      "ENTER_TO_SELECT": "",
+      "ENTER_TO_REMOVE": "",
+      "SELECT_ONE": ""
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Tout marquer comme terminé",
-    "DELETE_TITLE": "deleted",
+    "HEADER": "",
+    "MARK_ALL_DONE": "",
+    "DELETE_TITLE": "",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "",
+      "ALL_NOTIFICATIONS": "",
+      "LOADING_UNREAD_MESSAGE": "",
+      "EMPTY_MESSAGE": ""
     },
     "LIST": {
-      "LOADING_MESSAGE": "Chargement des notifications...",
-      "404": "Aucune notification",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": [
         "Nom",
         "Numéro de téléphone",
@@ -78,63 +78,63 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "Nouvelle conversation",
-      "conversation_assignment": "Conversation assignée",
-      "assigned_conversation_new_message": "Nouveau message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "",
+      "conversation_assignment": "",
+      "assigned_conversation_new_message": "",
+      "conversation_mention": ""
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": ""
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": ""
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "",
       "REPORTS": "Rapports",
-      "CONVERSATION": "Conversation",
-      "CHANGE_ASSIGNEE": "Change Assignee",
+      "CONVERSATION": "",
+      "CHANGE_ASSIGNEE": "",
       "CHANGE_TEAM": "Changer d’équipe",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "ADD_LABEL": "",
+      "REMOVE_LABEL": "",
       "SETTINGS": "Paramètres"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Aller au tableau de bord des conversations",
-      "GO_TO_CONTACTS_DASHBOARD": "Aller au tableau de bord des contacts",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reprendre la conversation",
-      "RESOLVE_CONVERSATION": "Reprendre la conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "GO_TO_REPORTS_OVERVIEW": "",
+      "GO_TO_CONVERSATION_REPORTS": "",
+      "GO_TO_AGENT_REPORTS": "",
+      "GO_TO_LABEL_REPORTS": "",
+      "GO_TO_INBOX_REPORTS": "",
+      "GO_TO_TEAM_REPORTS": "",
+      "GO_TO_SETTINGS_AGENTS": "",
+      "GO_TO_SETTINGS_TEAMS": "",
+      "GO_TO_SETTINGS_INBOXES": "",
+      "GO_TO_SETTINGS_LABELS": "",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "",
+      "GO_TO_SETTINGS_APPLICATIONS": "",
+      "GO_TO_SETTINGS_ACCOUNT": "",
+      "GO_TO_SETTINGS_PROFILE": "",
+      "GO_TO_NOTIFICATIONS": "",
+      "ADD_LABELS_TO_CONVERSATION": "",
+      "ASSIGN_AN_AGENT": "",
+      "ASSIGN_A_TEAM": "",
+      "MUTE_CONVERSATION": "",
+      "UNMUTE_CONVERSATION": "",
+      "REMOVE_LABEL_FROM_CONVERSATION": "",
+      "REOPEN_CONVERSATION": "",
+      "RESOLVE_CONVERSATION": "",
+      "SEND_TRANSCRIPT": "",
+      "SNOOZE_CONVERSATION": "",
+      "UNTIL_NEXT_REPLY": "",
+      "UNTIL_NEXT_WEEK": "",
+      "UNTIL_TOMORROW": ""
     }
   }
 }
