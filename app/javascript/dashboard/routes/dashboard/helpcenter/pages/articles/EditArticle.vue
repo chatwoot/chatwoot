@@ -90,6 +90,7 @@ export default {
       return buildPortalArticleURL(
         slug,
         this.article.category.slug,
+        this.article.category.locale,
         this.article.id
       );
     },
