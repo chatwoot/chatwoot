@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "סוכנים",
-    "HEADER_BTN_TXT": "הוסף סוכן",
-    "LOADING": "טוען רשימת סוכנים",
-    "SIDEBAR_TXT": "<p> <b> נציג</b> </p> <p> <b> נציג</b> חבר בצוות תמיכת הלקוחות שלך. </p> <p> נציגים יוכלו לצפות ולהשיב להודעות מהמשתמשים שלך. הרשימה מציגה את כל הסוכנים הנמצאים כעת בחשבונך. </p> <p> לחץ על <b> הוסף נציג</b> כדי להוסיף נציג חדש. הנציג שאתה מוסיף יקבל דוא\"ל עם קישור אישור להפעלת חשבונו, ולאחר מכן יוכל לגשת ל- Chatwoot ולהגיב להודעות. </p> <p> הגישה לתכונות של Chatwoot מבוססת על תפקידים הבאים. </p> <p> <b> נציג </b> - סוכנים בעלי התפקיד הזה יכולים לגשת לתיבות דואר נכנס, לדוחות ולשיחות בלבד. הם יכולים להקצות שיחות לסוכנים אחרים או לעצמם ולפתור שיחות. </P> <p> <b> מנהל </b> - למנהל תהיה גישה לכל תכונות Chatwoot המופעלות בחשבון שלך, כולל הגדרות, יחד עם כל הרשאות נציגים רגילות. </p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "אדמין",
-      "AGENT": "סוכן"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "אין סוכנים המקושרים לחשבון זה",
-      "TITLE": "נהל סוכנים בצוות שלך",
-      "DESC": "אתה יכול להוסיף/להסיר סוכנים לצוות שלך.",
-      "NAME": "שם",
-      "EMAIL": "מייל",
-      "STATUS": "מצב",
-      "ACTIONS": "פעולות",
-      "VERIFIED": "אומת",
-      "VERIFICATION_PENDING": "מחכה לאימות"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "הוסף סוכן לצוות שלך",
-      "DESC": "אתה יכול להוסיף אנשים אשר יוכלו לטפל בתמיכה בתיבות שלך.",
-      "CANCEL_BUTTON_TEXT": "ביטול",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "שם סוכן",
-          "PLACEHOLDER": "אנא הכנס את שם הסוכן"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "תפקיד",
-          "PLACEHOLDER": "אנא בחר תפקיד",
-          "ERROR": "תפקיד שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "כתובת מייל",
-          "PLACEHOLDER": "אנא הכנס כתובת מייל של הסוכן"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "הוסף סוכן"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "סוכן הוסף בהצלחה",
-        "EXIST_MESSAGE": "המייל בשימוש, אנא נסה כתובת מייל אחרת",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "מחק",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "סוכן נמחק בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "אשר מחיקה",
-        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-        "YES": "כן, מחק ",
-        "NO": "לא, השאר "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "ערוך סוכן",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "שם סוכן",
-          "PLACEHOLDER": "אנא הכנס את שם הסוכן"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "תפקיד",
-          "PLACEHOLDER": "אנא בחר תפקיד",
-          "ERROR": "תפקיד שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "כתובת מייל",
-          "PLACEHOLDER": "אנא הכנס כתובת מייל של הסוכן"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "ערוך סוכן"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "ערוך",
-      "CANCEL_BUTTON_TEXT": "ביטול",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "סוכן עודכן בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "אפס ססמה",
-        "ADMIN_SUCCESS_MESSAGE": "מייל עם הוראות איפוס ססמא נשלח לסוכן",
-        "SUCCESS_MESSAGE": "ססמת הסוכן אופסה בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "לא נמצאו תוצאות."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "אין",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "בחר נציג",
-        "TEAM": "בחר קבוצה"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "לא נמצא סוכן",
-          "TEAM": "לא נמצאו קבוצות"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "חפש נציגים",
-          "TEAM": "חפש קבוצות"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
