@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "สร้างบัญชี",
-    "TITLE": "สร้างบัญชี",
-    "TERMS_ACCEPT": "การสมัครบ่งบอกว่าคุณได้การยอมรับ <a href=\"https://www.chatwoot.com/terms\">ข้อตกลง</a> และ <a href=\"https://www.chatwoot.com/privacy-policy\">นโยบายความเป็นส่วนตัว</a> ของเรา",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "ชื่อบัญชี",
-      "PLACEHOLDER": "ใส่ชื่อบัญชี เช่น ชื่อบริษัทของคุณ",
-      "ERROR": "ชื่อบัญชีสั้นเกินไป"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "ชื่อเต็ม",
-      "PLACEHOLDER": "ใส่ชื่อเต็มของคุณ",
-      "ERROR": "ชื่อเต็มสั้นเกินไป"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "อีเมลบริษัท",
-      "PLACEHOLDER": "ใส่อีเมลบริษัทของคุณ",
-      "ERROR": "ไม่สามารถใช้อีเมลนี้ได้"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "หรัสผ่าน",
-      "PLACEHOLDER": "หรัสผ่าน",
-      "ERROR": "หรัสผ่านนั้นสั้นเกินไป",
-      "IS_INVALID_PASSWORD": "รหัสผ่านต้องมีอย่างน้อย 1 ตัวอักษรภาษาอังกฤษพิมพ์เล็ก, 1 ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่, 1 ตัวเลข และอักขระพิเศษ 1 ตัว"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "ยืนยันหรัสผ่าน",
-      "PLACEHOLDER": "ยืนยันหรัสผ่าน",
-      "ERROR": "รหัสผ่านไม่เหมือนกัน"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "ลงทะเบียนสำเร็จแล้ว",
-      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้ โปรดลองอีกครั้งในภายหลัง"
     },
-    "SUBMIT": "ส่ง",
-    "HAVE_AN_ACCOUNT": "มีบัญชีอยู่แล้ว?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
