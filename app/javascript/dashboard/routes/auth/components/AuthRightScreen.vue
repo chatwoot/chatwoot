@@ -2,14 +2,49 @@
   <div class="image--wrap">
     <div class="image">
       <img src="./assets/top-left.svg" class="top-left absolute" />
-      <img src="./assets/center.svg" class="union-center absolute" />
+      <img
+        v-show="showTestimonials"
+        src="./assets/testimonials.svg"
+        class="union-center absolute"
+      />
+      <img
+        v-show="!showTestimonials"
+        src="./assets/reports.svg"
+        class="union-center absolute"
+      />
       <img src="./assets/bottom-right.svg" class="bottom-right absolute" />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      showTestimonials: false,
+      timer: null,
+    };
+  },
+  mounted() {
+    this.switchImage();
+  },
+  beforeDestroy() {
+    this.clearTimer();
+  },
+  methods: {
+    switchImage() {
+      this.timer = setTimeout(() => {
+        this.showTestimonials = !this.showTestimonials;
+        this.switchImage();
+      }, 5000);
+    },
+    clearTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
