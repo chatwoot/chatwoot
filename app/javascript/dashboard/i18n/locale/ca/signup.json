@@ -5,24 +5,24 @@
     "TERMS_ACCEPT": "En registrar-vos, esteu d’acord amb el nostre <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">Polítiques de Privadesa</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nom del compte",
-      "PLACEHOLDER": "Introdueix el nom del compte. ex: Wayne Enterprises",
-      "ERROR": "El nom del compte és massa curt"
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Nom complet",
-      "PLACEHOLDER": "Introdueix el teu nom complet. ex: Bruce Wayne",
-      "ERROR": "El nom del compte és massa curt"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Email de treball",
-      "PLACEHOLDER": "Introdueix la teva adreça email de treball. ex: bruce@wayne.enterprises",
-      "ERROR": "Adreça email invàlida"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
       "LABEL": "Contrasenya",
       "PLACEHOLDER": "Contrasenya",
       "ERROR": "La contrasenya és massa curta",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirma la contrasenya",
@@ -34,6 +34,6 @@
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
     "SUBMIT": "Envia",
-    "HAVE_AN_ACCOUNT": "Ja tens un compte?"
+    "HAVE_AN_ACCOUNT": ""
   }
 }
