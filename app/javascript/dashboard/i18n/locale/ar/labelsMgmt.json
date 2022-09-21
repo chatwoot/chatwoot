@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "الوسوم",
-    "HEADER_BTN_TXT": "إضافة وسم جديد",
-    "LOADING": "جار جلب الوسوم",
-    "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-    "SIDEBAR_TXT": "<p><b>الوسوم</b> <p>تساعدك الوسو على تصنيف المحادثات وإعطائها الأولوية. يمكنك تعيين وسم إلى محادثة من القائمة الجانبية. <br /><br />الوسوم مرتبطة بالحساب ويمكن استخدامها لإنشاء سير عمل مخصص في مؤسستك. يمكنك تعيين لون مخصص للوسم، مما يسهل التعرف على الوسم. ستتمكن من عرض الوسم على الشريط الجانبي لتصفية المحادثات بسهولة.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "لا يوجد وسوم متوفرة في هذا الحساب.",
-      "TITLE": "إدارة الوسوم",
-      "DESC": "الوسوم تسمح لك بتجميع المحادثات المتشابهة معاً.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "الاسم",
-        "الوصف",
-        "اللون"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الوسم",
-        "PLACEHOLDER": "اسم الوسم",
-        "REQUIRED_ERROR": "اسم التسمية مطلوب",
-        "MINIMUM_LENGTH_ERROR": "الحد الأدنى للطول 2 مطلوب",
-        "VALID_ERROR": "مسموح فقط بالابجدية,الارقام, -, _"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "الوصف",
-        "PLACEHOLDER": "وصف الوسم"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "اللون"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "إظهار الوسم على الشريط الجانبي"
+        "LABEL": ""
       },
-      "EDIT": "تعديل",
-      "CREATE": "إنشاء",
-      "DELETE": "حذف",
-      "CANCEL": "إلغاء"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "إضافة وسم جديد",
-      "DESC": "الوسوم تسمح لك بتجميع المحادثات المتشابهة معاً.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "تم إضافة الوسم بنجاح",
-        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "تعديل الوسم",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "تم تحديث الوسم بنجاح",
-        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "تم حذف الوسم بنجاح",
-        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "تأكيد الحذف",
-        "MESSAGE": "هل أنت متأكد من الحذف ",
-        "YES": "نعم، احذف ",
-        "NO": "لا، احتفظ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
