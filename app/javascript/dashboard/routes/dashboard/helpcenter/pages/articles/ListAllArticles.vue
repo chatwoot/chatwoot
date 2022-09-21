@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container overflow-auto">
     <article-header
       :header-title="headerTitle"
       :count="articleCount"
@@ -149,6 +149,7 @@ export default {
 .container {
   padding: 0 var(--space-normal);
   width: 100%;
+  overflow: auto;
   .articles--loader {
     align-items: center;
     display: flex;
