@@ -3,10 +3,10 @@
     "HEADER": "Medewerkers",
     "HEADER_BTN_TXT": "Medewerker toevoegen",
     "LOADING": "Ophalen van medewerkerslijst",
-    "SIDEBAR_TXT": "<p><b>Agenten</b></p> <p> Een <b>Agent</b> is lid van uw klantenservice. </p><p> De agenten kunnen berichten van uw gebruikers bekijken en beantwoorden. De lijst toont alle agenten die momenteel in uw account staan. </p><p> Klik op <b>Voeg agent toe</b> om een nieuwe agent toe te voegen. De agent die je toevoegt ontvangt een e-mail met een bevestigingslink om zijn account te activeren, waarna hij Chatwoot kan bezoeken en op berichten kan reageren. </p><p> Toegang tot Chatwoot's functies zijn gebaseerd op de volgende rollen. </p><p> <b>Agent</b> - Agenten met deze rol kunnen alleen inboxen, rapporten en gesprekken gebruiken. Ze kunnen gesprekken toewijzen aan andere agenten of zichzelf en gesprekken oplossen.</p><p> <b>Beheerder</b> - Beheerder heeft toegang tot alle Chatwoot functies ingeschakeld voor uw account, inclusief instellingen, samen met alle normale agents' privileges.</p>",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Beheerder",
-      "AGENT": "Medewerker"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
       "404": "Er zijn geen medewerkers gekoppeld aan dit account",
@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Voer een naam in voor de medewerker"
         },
         "AGENT_TYPE": {
-          "LABEL": "Type medewerker",
-          "PLACEHOLDER": "Selecteer een type",
-          "ERROR": "Type medewerker is vereist"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
           "LABEL": "Uw e-mailadres",
@@ -55,7 +55,7 @@
         "TITLE": "Verwijderen bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "Nee, Behouden "
+        "NO": ""
       }
     },
     "EDIT": {
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "Voer een naam in voor de medewerker"
         },
         "AGENT_TYPE": {
-          "LABEL": "Type medewerker",
-          "PLACEHOLDER": "Selecteer een type",
-          "ERROR": "Type medewerker is vereist"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
           "LABEL": "Uw e-mailadres",
@@ -90,22 +90,22 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Geen resultaten gevonden."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Geen",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Selecteer agent",
-        "TEAM": "Selecteer team"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Geen medewerkers gevonden",
-          "TEAM": "Geen teams gevonden"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Zoek agenten",
-          "TEAM": "Teams zoeken"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
