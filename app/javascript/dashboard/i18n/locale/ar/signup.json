@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "تسجيل حساب",
-    "TITLE": "تسجيل",
-    "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "اسم الحساب",
-      "PLACEHOLDER": "أدخل اسم الحساب. مثال: Wayne Enterprises",
-      "ERROR": "اسم الحساب قصير جداً"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "الاسم الكامل",
-      "PLACEHOLDER": "أدخل اسمك الكامل. مثال: بروس وين",
-      "ERROR": "الاسم الكامل قصير جداً"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "البريد الإلكتروني للعمل",
-      "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce@wayne.enterprises",
-      "ERROR": "عنوان البريد الإلكتروني غير صالح"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
       "PLACEHOLDER": "كلمة المرور",
-      "ERROR": "كلمة المرور قصيرة جداً",
-      "IS_INVALID_PASSWORD": "يجب أن تحتوي كلمة المرور على الأقل على حرف كبير واحد وحرف صغير واحد ورقم واحد وحرف خاص واحد"
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "تأكيد كلمة المرور",
-      "PLACEHOLDER": "تأكيد كلمة المرور",
-      "ERROR": "كلمة المرور غير متطابقة"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "تم التسجيل بنجاح",
-      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "إرسال",
-    "HAVE_AN_ACCOUNT": "هل لديك حساب مسبق؟"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
