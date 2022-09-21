@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "アカウントを登録",
-    "TITLE": "登録",
-    "TERMS_ACCEPT": "サインアップすることで、 <a href=\"https://www.chatwoot.com/terms\">T & C</a> および <a href=\"https://www.chatwoot.com/privacy-policy\">プライバシー ポリシー</a> に同意したことになります。",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "アカウント名",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "パスワード",
-      "PLACEHOLDER": "パスワード",
-      "ERROR": "パスワードが短すぎます",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "パスワードの確認",
-      "PLACEHOLDER": "パスワードの確認",
-      "ERROR": "パスワードが一致しません"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "登録に成功しました",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "送信",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
