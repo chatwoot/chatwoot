@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Luo tili",
-    "TITLE": "Rekisteröidy",
-    "TERMS_ACCEPT": "Rekisteröitymällä hyväksyt <a href=\"https://www.chatwoot.com/terms\">käyttöehdot & säännöt</a> sekä <a href=\"https://www.chatwoot.com/privacy-policy\">yksityisyydensuojan</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Tilin nimi",
-      "PLACEHOLDER": "Anna käyttäjän nimi, esim: Wayne Enterprises",
-      "ERROR": "Tilin nimi on liian lyhyt"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Koko nimi",
-      "PLACEHOLDER": "Anna koko nimesi, esim: Bruce Wayne",
-      "ERROR": "Koko nimi on liian lyhyt"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Työsähköposti",
-      "PLACEHOLDER": "Anna työsi sähköpostiosoite, esim: bruce@wayne.enterprises",
-      "ERROR": "Sähköpostiosoite ei ole kelvollinen"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Salasana",
-      "PLACEHOLDER": "Salasana",
-      "ERROR": "Salasana on liian lyhyt",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Vahvista salasana",
-      "PLACEHOLDER": "Vahvista salasana",
-      "ERROR": "Salasanat eivät täsmää"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Rekisteröinti onnistui",
-      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Lähetä",
-    "HAVE_AN_ACCOUNT": "Onko sinulla jo tili?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
