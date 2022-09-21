@@ -17,6 +17,7 @@
       </div>
       <% end %>
     </div>
+    <% if @portal.config["allowed_locales"].length > 1 %>
     <div class="flex items-center">
       <div class="inline-flex relative w-24">
         <select
@@ -32,5 +33,6 @@
         </div>
       </div>
     </div>
+    <% end %>
   </nav>
 </header>
