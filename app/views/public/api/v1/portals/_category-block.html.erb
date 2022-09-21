@@ -15,7 +15,7 @@
     </div>
     <% else %>
       <% category.articles.published.take(5).each do |article| %>
-      <div class="flex justify-between content-center min:h-8 my-1">
+      <div class="flex justify-between content-center my-1">
         <a
           class="text-slate-800 hover:underline leading-8"
           href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
