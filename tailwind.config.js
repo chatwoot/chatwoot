@@ -5,6 +5,7 @@ module.exports = {
     './app/javascript/widget/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
+    './app/views/**/*.html.erb',
   ],
   future: {
     removeDeprecatedGapUtilities: true,

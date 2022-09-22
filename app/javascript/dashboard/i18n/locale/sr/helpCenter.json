@@ -164,7 +164,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug portala za adrese",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+
           "ERROR": "Slug je obavezan"
         },
         "DOMAIN": {
@@ -247,7 +247,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorije za adrese",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug je obavezan"
         },
         "DESCRIPTION": {
