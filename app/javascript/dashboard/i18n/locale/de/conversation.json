@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
+    "CSAT_REPLY_MESSAGE": "Bitte bewerte die Unterhaltung",
     "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
     "SWITCH_VIEW_LAYOUT": "Layout wechseln",
     "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label erfolgreich zugewiesen",
     "ASSIGN_LABEL_FAILED": "Labelzuweisung fehlgeschlagen",
     "CHANGE_TEAM": "Das Konversationsteam hat sich geändert",
-    "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
+    "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
     "BOT": "Bot",
