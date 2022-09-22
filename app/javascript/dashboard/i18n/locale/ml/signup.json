@@ -5,24 +5,24 @@
     "TERMS_ACCEPT": "സൈൻ അപ്പ് ചെയ്യുന്നതിലൂടെ, നിങ്ങൾ ഞങ്ങളുടെ <a href=\"https://www.chatwoot.com/terms\">ഉപാധികളും നിബന്ധനകളും</a> <a href=\"https://www.chatwoot.com/privacy-policy\">സ്വകാര്യതാ നയങ്ങളും </a> അംഗീകരിക്കുന്നു",
     "ACCOUNT_NAME": {
       "LABEL": "അക്കൗണ്ടിന്റെ പേര്",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
       "LABEL": "പാസ്‌വേഡ്",
       "PLACEHOLDER": "പാസ്‌വേഡ്",
       "ERROR": "പാസ്‌വേഡ് വളരെ ചെറുതാണ്",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക",
@@ -34,6 +34,6 @@
       "ERROR_MESSAGE": "സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
     },
     "SUBMIT": "സമർപ്പിക്കുക",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": ""
   }
 }
