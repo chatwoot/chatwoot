@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Haetaan keskusteluita",
-    "LOAD_MORE_CONVERSATIONS": "Lataa lisää keskusteluita",
-    "EOF": "Kaikki keskustelut ladattu 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "Tässä ryhmässä ei ole aktiivisia keskusteluja."
+      "404": ""
     },
-    "TAB_HEADING": "Keskustelut",
-    "MENTION_HEADING": "Mentions",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Kaikki",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minun",
-      "unassigned": "Osoittamaton",
-      "all": "Kaikki"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Avaa"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Ratkaistu"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Kuvaviesti"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Ääniviesti"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Videoviesti"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "Liite"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Sijainti"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "on jakanut URL-osoitteen"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "Vastaanotettu sähköpostitse",
-    "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
-    "REPLY_TO_TWEET": "Vastaa tähän twiittiin",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "Ei Viestejä",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
