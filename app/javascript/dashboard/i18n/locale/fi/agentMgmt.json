@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Edustajat",
-    "HEADER_BTN_TXT": "Lisää edustaja",
-    "LOADING": "Haetaan Edustajalistaa",
-    "SIDEBAR_TXT": "<p><b>Edustajat</b></p> <p> An <b>Edustaja</b> on jäsenenä asiakastukitiimissäsi. </p><p> Edustajat voivat katsella ja vastata viesteihin asiakkailtasi. Luettelo näyttää kaikki edustajat, jotka ovat tällä hetkellä tililläsi. </p><p> Klikkaa <b>Lisää edustaja</b> lisätäksesi uuden edustajan. Edustaja, jonka lisäät, saa sähköpostiviestin, jossa on vahvistuslinkki tilin aktivointiin, jonka jälkeen he voivat käyttää Chatwoot -sovellusta ja vastata viesteihin. </p><p> Pääsy Chatwoot'n ominaisuuksiin perustuu seuraaviin rooleihin. </p><p> <b>Edustaja</b> - Tällä roolilla toimivat edustajat voivat käyttää vain saapuneita, raportteja ja keskusteluja. He voivat määrittää keskusteluja muille edustajille tai itse ratkaista keskusteluja.</p><p> <b>Ylläpitäjä</b> - Ylläpitäjällä on pääsy kaikkiin Chatwoot ominaisuuksiin, jotka ovat käytössä tililläsi, mukaan lukien asetukset sekä kaikki normaalien asiamiesten oikeudet.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Ylläpitäjä",
-      "AGENT": "Edustajat"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Tälle tilille ei ole liitetty edustajia",
-      "TITLE": "Hallitse edustajia tiimissäsi",
-      "DESC": "Voit lisätä tai poistaa edustajia tiimissäsi.",
-      "NAME": "Nimi",
-      "EMAIL": "Sähköposti",
-      "STATUS": "Tila",
-      "ACTIONS": "Toiminnot",
-      "VERIFIED": "Vahvistettu",
-      "VERIFICATION_PENDING": "Vahvistus odottaa"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Lisää edustaja tiimiisi",
-      "DESC": "Voit lisätä ihmisiä, jotka voivat vastata viesteihin saapuneet-kansiossa.",
-      "CANCEL_BUTTON_TEXT": "Peruuta",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Edustajan nimi",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Sähköpostiosoite",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan sähköpostiosoite"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Lisää edustaja"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Edustaja lisätty onnistuneesti",
-        "EXIST_MESSAGE": "Edustajan sähköposti on jo käytössä, kokeile toista sähköpostiosoitetta",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Poista",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Edustaja poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Vahvista poistaminen",
-        "MESSAGE": "Oletko varma että haluat poistaa ",
-        "YES": "Kyllä, poista ",
-        "NO": "Ei, säilytä "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Muokkaa edustajaa",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Edustajan nimi",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan nimi"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Sähköpostiosoite",
-          "PLACEHOLDER": "Ole hyvä ja kirjoita edustajan sähköpostiosoite"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Muokkaa edustajaa"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Muokkaa",
-      "CANCEL_BUTTON_TEXT": "Peruuta",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Edustajaa muokattu onnistuneesti",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Nollaa Salasana",
-        "ADMIN_SUCCESS_MESSAGE": "Edustajalle on lähetetty sähköposti, jossa on salasanan palautusohjeet",
-        "SUCCESS_MESSAGE": "Edustajan salasanan nollaus onnistui",
-        "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Edustajia ei löytynyt",
-          "TEAM": "No teams found"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
