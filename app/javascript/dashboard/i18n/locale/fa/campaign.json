@@ -1,101 +1,101 @@
 {
   "CAMPAIGN": {
-    "HEADER": "کمپین ها",
-    "SIDEBAR_TXT": "پیام های فعال به مشتری اجازه می دهد تا پیام های خروجی را برای مخاطبین خود ارسال کند که باعث ایجاد مکالمات بیشتر می شود. برای ایجاد یک کمپین جدید ، روی <b> افزودن کمپین </b> کلیک کنید. همچنین می توانید با کلیک روی دکمه ویرایش یا حذف ، کمپین موجود را ویرایش یا حذف کنید.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "ایجاد کمپین یکبار مصرف",
-      "ONGOING": "یک کمپین مداوم ایجاد کنید"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "یک کمپین ایجاد کنید",
-      "DESC": "پیام های فعال به مشتری اجازه می دهد تا پیام های خروجی را برای مخاطبین خود ارسال کند که باعث ایجاد مکالمات بیشتر می شود.",
+      "TITLE": "",
+      "DESC": "",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "CREATE_BUTTON_TEXT": "ايجاد كردن",
       "FORM": {
         "TITLE": {
-          "LABEL": "عنوان",
-          "PLACEHOLDER": "لطفا عنوان کمپین را وارد کنید",
-          "ERROR": "عنوان الزامی است"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "زمان برنامه ریزی شده",
-          "PLACEHOLDER": "لطفاً زمان را انتخاب کنید",
-          "CONFIRM": "تایید",
-          "ERROR": "زمان برنامه ریزی شده الزامی است"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "شنودگان",
-          "PLACEHOLDER": "برچسب های مشتری را انتخاب کنید",
-          "ERROR": "شنودگان ضروری است"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "انتخاب صندوق ورودی",
-          "PLACEHOLDER": "انتخاب صندوق ورودی",
-          "ERROR": "صندوق ورودی مورد نیاز است"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
           "LABEL": "پیام",
-          "PLACEHOLDER": "لطفاً پیام کمپین را وارد کنید",
-          "ERROR": "پیام الزامی است"
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "ارسال شده توسط",
-          "PLACEHOLDER": "لطفاً محتوای کمپین را انتخاب کنید",
-          "ERROR": "ارسال کننده الزامی است"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "لطفاً URL را وارد کنید",
-          "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "زمان در صفحه (ثانیه ها)",
-          "PLACEHOLDER": "لطفاً زمان را وارد کنید",
-          "ERROR": "زمان حضور در صفحه لازم است"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "فعال کردن کمپین",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "تنها در طول ساعات کاری",
-        "SUBMIT": "افزودن کمپین"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "کمپین با موفقیت ایجاد شد",
-        "ERROR_MESSAGE": "یک خطای وجود دارد. لطفا دوباره تلاش کنید."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
-        "MESSAGE": "مطمئن هستید که حذف شود?",
-        "YES": "بله، حذف شود ",
-        "NO": "نه، بماند "
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "کمپین با موفقیت حذف شد",
-        "ERROR_MESSAGE": "کمپین حذف نشد. لطفا بعداً دوباره امتحان کنید."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "ویرایش کمپین",
-      "UPDATE_BUTTON_TEXT": "اعمال شود",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "کمپین با موفقیت به روز شد",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "در حال بارگیری کمپین ها...",
-      "404": "هیچ کمپینی برای این صندوق ورودی ایجاد نشده است.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
         "TITLE": "عنوان",
         "MESSAGE": "پیام",
         "INBOX": "صندوق ورودی",
         "STATUS": "وضعیت",
         "SENDER": "فرستنده",
-        "URL": "URL",
-        "SCHEDULED_AT": "زمان برنامه ریزی شده",
-        "TIME_ON_PAGE": "زمان (ثانیه)",
-        "CREATED_AT": "ایجاد شده در"
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
         "ADD": "افزودن",
@@ -103,24 +103,24 @@
         "DELETE": "حذف"
       },
       "STATUS": {
-        "ENABLED": "فعال",
-        "DISABLED": "غیرفعال",
-        "COMPLETED": "تکمیل شد",
-        "ACTIVE": "فعال"
+        "ENABLED": "فعال شد",
+        "DISABLED": "غیرفعال شد",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
         "BOT": "ربات"
       }
     },
     "ONE_OFF": {
-      "HEADER": "کمپین های یکبار مصرف",
-      "404": "هیچ کمپینی یکبار مصرفی ایجاد نشده است",
-      "INBOXES_NOT_FOUND": "لطفاً صندوق ورودی پیامک ایجاد کنید و کمپین ها را اضافه کنید"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "کمپین های مداوم",
-      "404": "هیچ کمپینی ایجاد نشده است",
-      "INBOXES_NOT_FOUND": "لطفا صندوق ورودی وب سایت ایجاد کنید و کمپین ها را اضافه کنید"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
