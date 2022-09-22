@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Etiketter",
-    "HEADER_BTN_TXT": "Lägg till etikett",
-    "LOADING": "Hämtar etiketter",
-    "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
-    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>Etiketter hjälper dig att kategorisera konversationer och prioritera dem. Du kan tilldela etiketter till en konversation från sidopanelen. <br /><br />Etiketter är knutna till kontot och kan användas för att skapa anpassade arbetsflöden i din organisation. Du kan tilldela en färg till en etikett, det gör det lättare att identifiera etiketten. Du kommer att kunna visa etiketten på sidofältet för att enkelt filtrera konversationerna.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Det finns inga etiketter tillgängliga på detta konto.",
-      "TITLE": "Hantera etiketter",
-      "DESC": "Etiketter låter dig gruppera ihop konversationer.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Namn",
-        "Beskrivning",
-        "Färg"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Etikettnamn",
-        "PLACEHOLDER": "Etikettnamn",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Beskrivning",
-        "PLACEHOLDER": "Etikettbeskrivning"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Färg"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Visa etikett i sidofältet"
+        "LABEL": ""
       },
-      "EDIT": "Redigera",
-      "CREATE": "Skapa",
-      "DELETE": "Radera",
-      "CANCEL": "Avbryt"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "Lägg till etikett",
-      "DESC": "Etiketter låter dig gruppera ihop konversationer.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiketten har lagts till",
-        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Redigera etikett",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiketten har uppdaterats",
-        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Radera",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiketten har tagits bort",
-        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Bekräfta borttagning",
-        "MESSAGE": "Är du säker på att ta bort ",
-        "YES": "Ja, ta bort ",
-        "NO": "Nej, behåll "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
