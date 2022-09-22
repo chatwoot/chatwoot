@@ -44,6 +44,7 @@ export default {
 .submit--button {
   display: flex;
   align-items: center;
+  margin: 0 0 var(--space-normal) 0;
 
   &::v-deep .button__content {
     align-items: center;

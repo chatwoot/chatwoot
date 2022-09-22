@@ -6,7 +6,7 @@
         :sub-title="$t('RESET_PASSWORD.DESCRIPTION')"
       />
       <form class="w-full" @submit.prevent="submit()">
-        <div class="input-wrap">
+        <div>
           <auth-input
             v-model.trim="credentials.email"
             type="email"
@@ -103,9 +103,5 @@ export default {
 .reset--password {
   flex-direction: column;
   margin: var(--space-larger) 0;
-}
-
-.input-wrap {
-  padding-bottom: var(--space-one);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-screen--view">
+  <div class="row auth-screen--view align-center">
     <div class="login-form--wrap flex-divided-view">
       <div class="form--wrap w-full">
         <auth-header
@@ -183,7 +183,7 @@ export default {
   margin: var(--space-medium) 0;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   .login-form--wrap {
     margin: var(--space-larger) 0;
   }
