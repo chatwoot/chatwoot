@@ -1,294 +1,294 @@
 {
   "REPORT": {
     "HEADER": "گفتگوها",
-    "LOADING_CHART": "در حال دریافت اطلاعات...",
-    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_AGENT_REPORTS": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
-        "DESC": "( جمع کل )"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "پیام‌های ورودی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "پیام‌های خروجی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "اولین زمان پاسخگویی",
-        "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "زمان تا حل شدن مساله",
-        "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "تعداد مسائل حل شده",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
+        "id": "",
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 1,
+        "id": "",
         "name": "در ۳۰ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۳ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۶ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "پارسال"
       },
       {
         "id": 0,
-        "name": "محدوده تاریخ سفارشی"
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "درخواست دادن",
-      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "دسته بندی بر اساس",
-    "DURATION_FILTER_LABEL": "مدت زمان",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "",
+    "DURATION_FILTER_LABEL": "",
     "GROUP_BY_DAY_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "روز"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "روز"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 0,
-        "groupBy": "هفته"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "روز"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 0,
-        "groupBy": "هفته"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 0,
-        "groupBy": "ماه"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "روز"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 0,
-        "groupBy": "هفته"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 0,
-        "groupBy": "ماه"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 0,
-        "groupBy": "سال"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "BUSINESS_HOURS": "ساعت کاری"
   },
   "AGENT_REPORTS": {
-    "HEADER": "نمای کلی ایجنت ها",
-    "LOADING_CHART": "در حال دریافت اطلاعات...",
-    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
-    "FILTER_DROPDOWN_LABEL": "انتخاب ایجنت",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_AGENT_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
-        "DESC": "( جمع کل )"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "پیام‌های ورودی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "پیام‌های خروجی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "اولین زمان پاسخگویی",
+        "NAME": "",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "زمان تا حل شدن مساله",
+        "NAME": "",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "تعداد مسائل حل شده",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
+        "id": "",
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 1,
+        "id": "",
         "name": "در ۳۰ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۳ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۶ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "پارسال"
       },
       {
         "id": 0,
-        "name": "محدوده تاریخ سفارشی"
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "درخواست دادن",
-      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "نمای کلی برچسب ها",
-    "LOADING_CHART": "در حال دریافت اطلاعات...",
-    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_LABEL_REPORTS": "دانلود گزارش برچسب ها",
-    "FILTER_DROPDOWN_LABEL": "برچسب را انتخاب کنید",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_LABEL_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
-        "DESC": "( جمع کل )"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "پیام‌های ورودی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "پیام‌های خروجی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "اولین زمان پاسخگویی",
-        "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "زمان تا حل شدن مساله",
-        "DESC": "( میانگین )",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "تعداد مسائل حل شده",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
+        "id": "",
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 1,
+        "id": "",
         "name": "در ۳۰ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۳ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۶ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "پارسال"
       },
       {
         "id": 0,
-        "name": "محدوده تاریخ سفارشی"
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "درخواست دادن",
-      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "نمای کلی صندوق ورودی",
-    "LOADING_CHART": "در حال دریافت اطلاعات...",
-    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_INBOX_REPORTS": "دانلود گزارش های صندوق ورودی",
-    "FILTER_DROPDOWN_LABEL": "انتخاب صندوق ورودی",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_INBOX_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
-        "DESC": "( جمع کل )"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "پیام‌های ورودی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "پیام‌های خروجی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "اولین زمان پاسخگویی",
+        "NAME": "",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "زمان تا حل شدن مساله",
+        "NAME": "",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "تعداد مسائل حل شده",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
+        "id": "",
         "name": "در ۷ روز گذشته"
       },
       {
@@ -296,66 +296,66 @@
         "name": "در ۳۰ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۳ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۶ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "پارسال"
       },
       {
         "id": 0,
-        "name": "محدوده تاریخ سفارشی"
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "درخواست دادن",
-      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "نمای کلی تیم",
-    "LOADING_CHART": "در حال دریافت اطلاعات...",
-    "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_TEAM_REPORTS": "دانلود گزارشات تیم",
-    "FILTER_DROPDOWN_LABEL": "تیم را انتخاب کنید",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_TEAM_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
-        "DESC": "( جمع کل )"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "پیام‌های ورودی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "پیام‌های خروجی",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "اولین زمان پاسخگویی",
+        "NAME": "",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "زمان تا حل شدن مساله",
+        "NAME": "",
         "DESC": "« میانگین »",
-        "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "تعداد مسائل حل شده",
-        "DESC": "( جمع کل )"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
+        "id": "",
         "name": "در ۷ روز گذشته"
       },
       {
@@ -363,82 +363,82 @@
         "name": "در ۳۰ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۳ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "۶ ماه گذشته"
       },
       {
-        "id": 0,
+        "id": "",
         "name": "پارسال"
       },
       {
         "id": 0,
-        "name": "محدوده تاریخ سفارشی"
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "درخواست دادن",
-      "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "گزارشات رضایت مشتری",
-    "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
-    "DOWNLOAD": "دانلود گزارش CSAT",
+    "HEADER": "",
+    "NO_RECORDS": "",
+    "DOWNLOAD": "",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "ایجنت را انتخاب کنید"
+        "PLACEHOLDER": ""
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "مخاطب",
-        "AGENT_NAME": "ایجنت تعیین شده",
+        "AGENT_NAME": "",
         "RATING": "رتبه",
-        "FEEDBACK_TEXT": "نظر ثبت شده"
+        "FEEDBACK_TEXT": ""
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "مجموع پاسخ ها",
-        "TOOLTIP": "تعداد کل پاسخهای جمع آوری شده"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "نمره رضایت",
-        "TOOLTIP": "تعداد کل پاسخ های مثبت / تعداد کل پاسخ ها از 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "RESPONSE_RATE": {
-        "LABEL": "نرخ پاسخ",
-        "TOOLTIP": "تعداد کل پاسخ ها / تعداد کل پیام های نظرسنجی رضایت مشتری ارسال شده از 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "بررسی اجمالی",
-    "LIVE": "زنده",
+    "HEADER": "",
+    "LIVE": "",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "گفتگوها را باز کنید",
-      "LOADING_MESSAGE": "در حال بارگیری معیارهای مکالمه...",
-      "OPEN": "باز",
-      "UNATTENDED": "بی سرپرست",
-      "UNASSIGNED": "تخصیص داده نشده"
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "OPEN": "",
+      "UNATTENDED": "",
+      "UNASSIGNED": ""
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "گفتگوهای ایجنت ها",
-      "LOADING_MESSAGE": "در حال بارگیری معیارهای ایجنت...",
-      "NO_AGENTS": "هیچ مکالمه ای توسط ایجنت ها وجود ندارد",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "NO_AGENTS": "",
       "TABLE_HEADER": {
-        "AGENT": "ایجنت",
-        "OPEN": "باز",
-        "UNATTENDED": "بی سرپرست",
+        "AGENT": "",
+        "OPEN": "",
+        "UNATTENDED": "",
         "STATUS": "وضعیت"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "وضعیت ایجنت",
+      "HEADER": "",
       "ONLINE": "آنلاین",
       "BUSY": "مشغول",
       "OFFLINE": "آفلاین"
