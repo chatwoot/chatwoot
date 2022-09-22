@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Отримання інтеграцій",
-    "NO_HOOK_CONFIGURED": "Немає сконфігурованих інтеграцій %{integrationId} в цьому обліковому записі.",
-    "HEADER": "Додатки",
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "",
+    "HEADER": "",
     "STATUS": {
-      "ENABLED": "Увімкнено",
-      "DISABLED": "Вимкнено"
+      "ENABLED": "",
+      "DISABLED": ""
     },
     "CONFIGURE": "Настроїти",
-    "ADD_BUTTON": "Додати новий хук",
+    "ADD_BUTTON": "",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Підтвердіть видалення",
-        "ACCOUNT": "Від'єднатись"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "MESSAGE": {
-        "INBOX": "Справді бажаєте видалити?",
-        "ACCOUNT": "Ви дійсно бажаєте відключитися?"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Так, видалити",
-        "ACCOUNT": "Так, відключити"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
-        "SUCCESS_MESSAGE": "Хук успішно видалено",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
       }
     },
     "LIST": {
-      "FETCHING": "Отримання інтеграційних хуків",
-      "INBOX": "Вхідні",
+      "FETCHING": "",
+      "INBOX": "",
       "DELETE": {
         "BUTTON_TEXT": "Видалити"
       }
@@ -38,25 +38,25 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Вибрати \"Вхідний\" канал",
-          "PLACEHOLDER": "Виділити \"Вхідні\""
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Створити",
+        "SUBMIT": "",
         "CANCEL": "Скасувати"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Хук інтеграції успішно додано",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Підключитися"
+      "BUTTON_TEXT": ""
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Від'єднатись"
+      "BUTTON_TEXT": ""
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow - це платформа природного розуміння мови, що дозволяє легко розробляти та інтегрувати розмовний інтерфейс користувача у ваш мобільний додаток, веб-додаток, пристрій, бот, інтерактивна система голосової відповіді тощо. <br /> <br /> Dialogflow інтеграція з %{installationName} дозволяє вам налаштувати бота Dialogflow потоку вашими папками \"Вхідні\", що дозволяє боту обробляти запити спочатку, і передавати їх агенту по необхідності. Dialogflow може бути використаний для кваліфікації лідів, зменшення навантаження агентів, надаючи часті запитання та ін. <br /> <br /> Щоб додати Dialogflow, потрібно створити обліковий запис служби в консолі проекту Google і надати доступ до облікових даних. Будь-ласка, зверніться до документації Dialogflow для отримання додаткової інформації."
+      "DIALOGFLOW": ""
     }
   }
 }
