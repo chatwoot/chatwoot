@@ -16,7 +16,9 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     @macro.save!
   end
 
-  def show; end
+  def show
+    head :not_found if @macro.nil?
+  end
 
   def destroy
     @macro.destroy!
