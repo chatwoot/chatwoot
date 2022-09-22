@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp šabloni",
-            "SUBTITLE": "Izaberite koji whatsapp šablon želite da pošaljete",
-            "TEMPLATE_SELECTED_SUBTITLE": "Obrada %{templateName}"
+            "TITLE": "",
+            "SUBTITLE": "",
+            "TEMPLATE_SELECTED_SUBTITLE": ""
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Pretraži šablone",
-            "NO_TEMPLATES_FOUND": "Nijedan šablon nije pronađen",
+            "SEARCH_PLACEHOLDER": "",
+            "NO_TEMPLATES_FOUND": "",
             "LABELS": {
-                "LANGUAGE": "Jezik",
-                "TEMPLATE_BODY": "Telo šablona",
-                "CATEGORY": "Kategorija"
+                "LANGUAGE": "",
+                "TEMPLATE_BODY": "",
+                "CATEGORY": ""
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Promenljive",
-            "VARIABLE_PLACEHOLDER": "Unesite vrednost za %{variable}",
-            "GO_BACK_LABEL": "Povratak",
-            "SEND_MESSAGE_LABEL": "Pošalji poruku",
-            "FORM_ERROR_MESSAGE": "Molim vas popunite sve promenljive pre slanja"
+            "VARIABLES_LABEL": "",
+            "VARIABLE_PLACEHOLDER": "",
+            "GO_BACK_LABEL": "",
+            "SEND_MESSAGE_LABEL": "",
+            "FORM_ERROR_MESSAGE": ""
         }
     }
 }
