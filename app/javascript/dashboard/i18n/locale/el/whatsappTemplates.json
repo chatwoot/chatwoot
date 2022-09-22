@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Πρότυπα Whatsapp",
-            "SUBTITLE": "Επιλέξτε το πρότυπο Whatsapp που θέλετε να στείλετε",
-            "TEMPLATE_SELECTED_SUBTITLE": "Επεξεργασία %{templateName}"
+            "TITLE": "",
+            "SUBTITLE": "",
+            "TEMPLATE_SELECTED_SUBTITLE": ""
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Αναζήτηση Προτύπων",
-            "NO_TEMPLATES_FOUND": "Δεν βρέθηκαν πρότυπα για",
+            "SEARCH_PLACEHOLDER": "",
+            "NO_TEMPLATES_FOUND": "",
             "LABELS": {
-                "LANGUAGE": "Γλώσσα",
-                "TEMPLATE_BODY": "Σώμα Προτύπου",
-                "CATEGORY": "Κατηγορία"
+                "LANGUAGE": "",
+                "TEMPLATE_BODY": "",
+                "CATEGORY": ""
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Μεταβλητές",
-            "VARIABLE_PLACEHOLDER": "Εισάγετε τιμή για %{variable}",
-            "GO_BACK_LABEL": "Πίσω",
-            "SEND_MESSAGE_LABEL": "Αποστολή μηνύματος",
-            "FORM_ERROR_MESSAGE": "Παρακαλώ συμπληρώστε όλες τις μεταβλητές πριν την αποστολή"
+            "VARIABLES_LABEL": "",
+            "VARIABLE_PLACEHOLDER": "",
+            "GO_BACK_LABEL": "",
+            "SEND_MESSAGE_LABEL": "",
+            "FORM_ERROR_MESSAGE": ""
         }
     }
 }
