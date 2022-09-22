@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Tambahkan Canned Response",
-    "LOADING": "Mengambil Canned Responses",
-    "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Tidak ada canned response yang tersedia di akun ini.",
-      "TITLE": "Kelola canned response",
-      "DESC": "Canned Response adalah template balasan yang telah ditentukan sebelumnya yang dapat digunakan untuk mengirimkan balasan dengan cepat ke tiket.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Short Code",
-        "Konten",
-        "Aksi"
+        "",
+        "",
+        ""
       ]
     },
     "ADD": {
-      "TITLE": "Tambahkan Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
-      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a short code",
-          "ERROR": "Short Code dibutuhkan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "Konten",
-          "PLACEHOLDER": "Harap masukkan sebuah konten",
-          "ERROR": "Konten dibutuhkan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Kirim"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response berhasil ditambahkan",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "TITLE": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Harap masukkan shortcode",
-          "ERROR": "Short Code dibutuhkan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "Konten",
-          "PLACEHOLDER": "Harap masukkan sebuah konten",
-          "ERROR": "Konten dibutuhkan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Kirim"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response berhasil diperbarui",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Hapus",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Konfirmasi Penghapusan",
-        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
-        "YES": "Ya, Hapus ",
-        "NO": "Tidak, Simpan "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
