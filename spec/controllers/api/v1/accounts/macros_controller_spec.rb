@@ -173,6 +173,13 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         expect(json_response['payload']['name']).to eql(macro.name)
         expect(json_response['payload']['created_by']['id']).to eql(administrator.id)
       end
+
+      it 'return not_found status when macros not available' do
+        get "/api/v1/accounts/#{account.id}/macros/15",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
