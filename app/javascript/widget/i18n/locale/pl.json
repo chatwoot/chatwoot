@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Pobierz",
-      "UPLOADING": "Przesyłanie..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Wyślij"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Wyślij wiadomość ponownie",
-      "ERROR_MESSAGE": "Nie udało się wysłać! Spróbuj ponownie"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Jesteśmy dostępni",
-    "OFFLINE": "W tej chwili jesteśmy niedostępni"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Zwykle odpowiadamy w ciągu paru minut",
-    "IN_A_FEW_HOURS": "Zwykle odpowiadamy w ciągu paru godzin",
-    "IN_A_DAY": "Zwykle odpowiadamy w przeciągu jednego dnia"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Rozpocznij rozmowę",
-  "END_CONVERSATION": "Zakończ rozmowę",
-  "CONTINUE_CONVERSATION": "Kontynuuj rozmowę",
-  "START_NEW_CONVERSATION": "Rozpocznij nową rozmowę",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Pokaż nowe wiadomości",
-    "CLOSE_MESSAGES_BUTTON": "Zamknij",
-    "COMPANY_FROM": "od",
-    "BOT": "Bot"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Porozmawiaj z nami"
+    "LABEL": ""
   },
-  "POWERED_BY": "Napędzany przez Chatwoot",
-  "EMAIL_PLACEHOLDER": "Wprowadź swój adres e-mail",
-  "CHAT_PLACEHOLDER": "Wpisz treść wiadomości",
-  "TODAY": "Dzisiaj",
-  "YESTERDAY": "Wczoraj",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Pełna nazwa (imię i nazwisko)",
-        "PLACEHOLDER": "Podaj swoje imię i nazwisko",
-        "REQUIRED_ERROR": "Pełne imię i nazwisko jest wymagane"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Adres e-mail",
-        "PLACEHOLDER": "Wprowadź swój adres e-mail",
-        "REQUIRED_ERROR": "Adres email jest wymagany",
-        "VALID_ERROR": "Wprowadź poprawny adres e-mail"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Numer telefonu",
-        "PLACEHOLDER": "Wprowadź numer telefonu",
-        "REQUIRED_ERROR": "Numer telefonu jest wymagany",
-        "VALID_ERROR": "Numer telefonu powinien być w formacie E.164 tj. +48123456789"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Wiadomość",
-        "PLACEHOLDER": "Wprowadź swoją wiadomość",
-        "ERROR": "Wiadomość za krótka"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Proszę podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem rozmowy",
-    "IS_REQUIRED": "jest wymagany"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Nieprawidłowe pole"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Oceń udzielone Ci wsparcie",
-    "SUBMITTED_TITLE": "Dziękujemy za przesłanie oceny",
-    "PLACEHOLDER": "Dodaj swój komentarz..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Poproś o skrypt rozmowy",
-    "SEND_EMAIL_SUCCESS": "Transkrypcja czatu została wysłana pomyślnie",
-    "SEND_EMAIL_ERROR": "Wystąpił błąd, spróbuj ponownie"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
