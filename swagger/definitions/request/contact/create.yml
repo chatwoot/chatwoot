@@ -14,7 +14,8 @@ properties:
     type: string
     description: phone number of the contact
   avatar:
-    type: string <binary>
+    type: string
+    format: binary
     description: Send the form data with the avatar image binary or use the avatar_url
   avatar_url:
     type: string
