@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Hazır Yanıtlar",
-    "HEADER_BTN_TXT": "Hazır Yanıt Ekle",
-    "LOADING": "Hazır Yanıtlar Getiriliyor",
-    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-    "SIDEBAR_TXT": "<p><b>Hazır Yanıtlar</b> </p><p> Hazır Yanıtlar, bir sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır. </p><p> Bir Hazır Yanıt oluşturmak için, <b>Hazır Yanıt Ekle</b>'yi tıklamanız yeterlidir. Ayrıca, Düzenle veya Sil düğmesini tıklayarak mevcut bir Hazır Yanıtı düzenleyebilir veya silebilirsiniz </p><p> Hazır yanıtlar, <b>Kısa Kodlar</b> yardımıyla kullanılır. Temsilciler, sohbet sırasında <b>'/'</b> ve ardından kısa kodu yazarak hazır yanıtlara erişebilir. </p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Bu hesapta hazır yanıt yok.",
-      "TITLE": "Hazır yanıtları yönetin",
-      "DESC": "Hazır Yanıtlar, çağrılara hızlı bir şekilde yanıt göndermek için kullanılabilen önceden tanımlanmış yanıt şablonlarıdır.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Kısa kod",
-        "İçerik",
-        "Hareketler"
+        "",
+        "",
+        ""
       ]
     },
     "ADD": {
-      "TITLE": "Hazır Yanıt Ekle",
-      "DESC": "Hazır Yanıtlar, sohbete hızlı bir şekilde yanıt göndermek için kullanılabilen kaydedilmiş yanıt şablonlarıdır.",
-      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kısa kod",
-          "PLACEHOLDER": "Lütfen bir kısa kod girin",
-          "ERROR": "Kısa Kod gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "İçerik",
-          "PLACEHOLDER": "Lütfen bir içerik girin",
-          "ERROR": "İçerik gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Yolla"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla eklendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Hazır Yanıtı Düzenle",
-      "CANCEL_BUTTON_TEXT": "İptal Et",
+      "TITLE": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kısa kod",
-          "PLACEHOLDER": "Lütfen bir kısa kod girin",
-          "ERROR": "Kısa Kod gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONTENT": {
-          "LABEL": "İçerik",
-          "PLACEHOLDER": "Lütfen bir içerik girin",
-          "ERROR": "İçerik gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "SUBMIT": "Yolla"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Düzenle",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Hazır Yanıt başarıyla güncellendi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Sil",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Hazır yanıt başarıyla silindi",
-        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Silmeyi onayla",
-        "MESSAGE": "Silmek istediğinize emin misiniz ?",
-        "YES": "Evet, Sil ",
-        "NO": "Hayır, Tut"
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
