@@ -55,7 +55,7 @@ export default {
     },
     readonly: {
       type: Boolean,
-      deafaut: false,
+      default: false,
     },
   },
   methods: {
