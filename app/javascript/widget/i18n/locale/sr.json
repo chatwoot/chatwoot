@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Preuzimanje",
-      "UPLOADING": "Dodavanje..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Pošalji"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Ponovo pošalji poruku",
-      "ERROR_MESSAGE": "Slanje neuspešno, pokušajte ponovo"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Dostupni smo",
-    "OFFLINE": "Trenutno nismo dostupni"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Obično odgovaramo u roku od nekoliko minuta",
-    "IN_A_FEW_HOURS": "Obično odgovaramo u roku od nekoliko sati",
-    "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Započnite razgovor",
-  "END_CONVERSATION": "Završi razgovor",
-  "CONTINUE_CONVERSATION": "Nastavi razgovor",
-  "START_NEW_CONVERSATION": "Započnite novi razgovor",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Pogledajte nove poruke",
-    "CLOSE_MESSAGES_BUTTON": "Zatvori",
-    "COMPANY_FROM": "od",
-    "BOT": "Bot"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Razgovarajte sa nama"
+    "LABEL": ""
   },
-  "POWERED_BY": "Pokreće Chatwoot",
-  "EMAIL_PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
-  "CHAT_PLACEHOLDER": "Napišite vašu poruku",
-  "TODAY": "Danas",
-  "YESTERDAY": "Juče",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Puno ime",
-        "PLACEHOLDER": "Molimo unesite vaše puno ime",
-        "REQUIRED_ERROR": "Puno ime je obavezno"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "E-mail adresa",
-        "PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
-        "REQUIRED_ERROR": "Adresa e-pošte je obavezna",
-        "VALID_ERROR": "Molim vas unesite ispravnu adresu e-pošte"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Broj telefona",
-        "PLACEHOLDER": "Molim vas unesite vaš broj telefona",
-        "REQUIRED_ERROR": "Broj telefona je obavezan",
-        "VALID_ERROR": "Broj telefona bi trebao biti u E.164 formatu npr.: +381601234567"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Poruka",
-        "PLACEHOLDER": "Molimo unesite vašu poruku",
-        "ERROR": "Poruka prekratka"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Molim vas dostavite vaše ime i e-poštu pre započinjanja razgovora",
-    "IS_REQUIRED": "je obavezno"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Datoteka prevazilazi {MAXIMUM_FILE_UPLOAD_SIZE} ograničenje priloga",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Neispravno polje"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Ocenite razgovor",
-    "SUBMITTED_TITLE": "Hvala vam na dostavljenoj oceni",
-    "PLACEHOLDER": "Pričajte nam više..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Zatražite kopiju razgovora",
-    "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
-    "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
