@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agenter",
-    "HEADER_BTN_TXT": "Legg til agent",
-    "LOADING": "Henter agentliste",
-    "SIDEBAR_TXT": "<p><b>Agenter</b></p><p>En <b>agent</b> er en medlem i ditt kundeserivce-team. </p><p>Agenter vil ha mulighet til å se på og svare på henvendelser fra dine brukere. Listen viser alle agenter i din konto</p><p> Klikk på <b>Legg til agent</b> for å legge til agent. Agenten du legger til vil motta en e-post med en link for å bekrefte kontoen deres. Etter dette får de tilgang til Chatwoot og kan begynne å svare på henvendelser. </p><p> Tilgang til funksjonene i Chatwoot er basert på følgende roller. </p><p> <b>Agent</b> - Agenter med denne rollen har bare tilgang til innbokser, rapporter og samtaler. De kan tildele samtaler til seg selv og andre agenter, og markere samtaler som løst. </p><p> <b>Administrator</b> - En administrator har tilgang til alle funksjoner og innstillinger i Chatwoot, i tillegg til det en agent vil ha tilgang til.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Det er ingen agenter tilknyttet denne kontoen",
-      "TITLE": "Administrer agentene i ditt team",
-      "DESC": "Du kan legge til eller fjerne agenter i ditt team.",
-      "NAME": "Navn",
-      "EMAIL": "E-POST",
-      "STATUS": "Satus",
-      "ACTIONS": "Handlinger",
-      "VERIFIED": "Verifisert",
-      "VERIFICATION_PENDING": "Verifisering venter"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Legg til agent i teamet ditt",
-      "DESC": "Du kan legge til personer som vil kunne håndtere støtte for dine innbokser.",
-      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent navn",
-          "PLACEHOLDER": "Skriv inn navnet til agenten"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Rolle",
-          "PLACEHOLDER": "Velg en rolle",
-          "ERROR": "En rolle er påkrevd"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-postadresse",
-          "PLACEHOLDER": "Skriv inn en agent sin e-postadresse"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Legg til agent"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent ble lagt til",
-        "EXIST_MESSAGE": "E-postadressen til agenten er allerede i bruk, prøv en annen e-postadresse",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Slett",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Agenten ble slettet",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Bekreft sletting",
-        "MESSAGE": "Er du sikker på at du vil slette ",
-        "YES": "Ja, slett ",
-        "NO": "Nei, behold "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Rediger agent",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent navn",
-          "PLACEHOLDER": "Skriv inn navnet til agenten"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Rolle",
-          "PLACEHOLDER": "Velg en rolle",
-          "ERROR": "En rolle er påkrevd"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-postadresse",
-          "PLACEHOLDER": "Skriv inn en agent sin e-postadresse"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Rediger agent"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Rediger",
-      "CANCEL_BUTTON_TEXT": "Avbryt",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Agenten ble oppdatert",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Tilbakestill passord",
-        "ADMIN_SUCCESS_MESSAGE": "En e-post med instruksjoner for å tilbakestille passordet er sendt til agenten",
-        "SUCCESS_MESSAGE": "Passordet til agenten ble tilbakestilt",
-        "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Ingen agenter funnet",
-          "TEAM": "No teams found"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
