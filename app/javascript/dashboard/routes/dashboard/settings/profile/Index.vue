@@ -80,32 +80,17 @@
         </p>
       </div>
       <div class="columns small-9 medium-5 card-preview">
-        <button class="preview-button" @click="toggleEditorMessageKey('enter')">
+        <button
+          v-for="keyOption in keyOptions"
+          :key="keyOption.key"
+          class="preview-button"
+          @click="toggleEditorMessageKey(keyOption.key)"
+        >
           <preview-card
-            :heading="
-              $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING')
-            "
-            :content="
-              $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT')
-            "
-            :image-src="editorEnterKeyImage"
-            :active="isEnterKeyToSendMessageEnabled"
-          />
-        </button>
-        <button @click="toggleEditorMessageKey('cmd_enter')">
-          <preview-card
-            :heading="
-              $t(
-                'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
-              )
-            "
-            :content="
-              $t(
-                'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
-              )
-            "
-            :image-src="editorCmdPlusEnterKeyImage"
-            :active="!isEnterKeyToSendMessageEnabled"
+            :heading="keyOption.heading"
+            :content="keyOption.content"
+            :src="keyOption.src"
+            :active="keyOption.key === editorMessageKey"
           />
         </button>
       </div>
@@ -145,9 +130,6 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
-import enterKeyImage from 'dashboard/assets/images/editor/enter-editor.png';
-import cmdEnterKeyImage from 'dashboard/assets/images/editor/cmd-editor.png';
-
 export default {
   components: {
     NotificationSettings,
@@ -165,8 +147,28 @@ export default {
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
-      editorEnterKeyImage: enterKeyImage,
-      editorCmdPlusEnterKeyImage: cmdEnterKeyImage,
+      keyOptions: [
+        {
+          key: 'enter',
+          src: '/assets/images/dashboard/editor/enter-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
+        },
+        {
+          key: 'cmd_enter',
+          src: '/assets/images/dashboard/editor/cmd-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
+        },
+      ],
     };
   },
   validations: {
@@ -190,9 +192,6 @@ export default {
       const key = 'enter' || 'cmd_enter';
       const { editor_message_key: messageKey } = this.uiSettings;
       return messageKey || key;
-    },
-    isEnterKeyToSendMessageEnabled() {
-      return this.editorMessageKey === 'enter';
     },
   },
   watch: {
@@ -280,25 +279,30 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .profile--settings {
-  padding: 24px;
   overflow: auto;
+  padding: 24px;
 }
 
 .profile--settings--row {
-  display: flex;
-  align-items: center;
   @include border-normal-bottom;
+  align-items: center;
+  display: flex;
   padding: $space-normal;
+
   .small-3 {
     padding: $space-normal $space-medium $space-normal 0;
   }
+
   .small-9 {
     padding: $space-normal;
   }
+
   .card-preview {
     display: flex;
     flex-direction: row;
+
     .preview-button {
+      cursor: pointer;
       margin-right: var(--space-normal);
     }
   }

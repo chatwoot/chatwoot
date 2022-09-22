@@ -14,7 +14,7 @@
       {{ content }}
     </div>
     <div class="image-wrap">
-      <img :src="imageSrc" class="image" :class="{ activeimage: active }" />
+      <img :src="src" class="image" :class="{ activeimage: active }" />
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
       type: String,
       default: 'Active',
     },
-    imageSrc: {
+    src: {
       type: String,
       default: '',
     },

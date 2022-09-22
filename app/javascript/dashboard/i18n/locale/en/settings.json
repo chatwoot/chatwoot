@@ -20,8 +20,8 @@
         "NOTE": "Your email address is your identity and is used to log in."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Send Message",
-        "NOTE": "With this settings, now you can send messages by key pressing instead of clicking send button.",
+        "TITLE": "Select a key to send messages",
+        "NOTE": "You can select a key (either Enter or Cmd/Ctl+Enter) based on your preference of writing.",
         "UPDATE_SUCCESS": "Your settings have been updated successfully",
         "CARD": {
           "ENTER_KEY": {
