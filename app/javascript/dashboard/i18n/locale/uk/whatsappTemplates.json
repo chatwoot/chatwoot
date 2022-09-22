@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Шаблони Whatsapp",
-            "SUBTITLE": "Виберіть шаблон whatsApp, який Ви хочете надіслати",
-            "TEMPLATE_SELECTED_SUBTITLE": "Процес %{templateName}"
+            "TITLE": "",
+            "SUBTITLE": "",
+            "TEMPLATE_SELECTED_SUBTITLE": ""
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Знайти шаблони",
-            "NO_TEMPLATES_FOUND": "Шаблонів не знайдено для",
+            "SEARCH_PLACEHOLDER": "",
+            "NO_TEMPLATES_FOUND": "",
             "LABELS": {
-                "LANGUAGE": "Мова",
-                "TEMPLATE_BODY": "Тіло шаблона",
-                "CATEGORY": "Категорія"
+                "LANGUAGE": "",
+                "TEMPLATE_BODY": "",
+                "CATEGORY": ""
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Змінні",
-            "VARIABLE_PLACEHOLDER": "Введіть значення %{variable}",
-            "GO_BACK_LABEL": "Повернутися",
-            "SEND_MESSAGE_LABEL": "Надіслати повідомлення",
-            "FORM_ERROR_MESSAGE": "Будь ласка, заповніть всі змінні перед надсиланням"
+            "VARIABLES_LABEL": "",
+            "VARIABLE_PLACEHOLDER": "",
+            "GO_BACK_LABEL": "",
+            "SEND_MESSAGE_LABEL": "",
+            "FORM_ERROR_MESSAGE": ""
         }
     }
 }
