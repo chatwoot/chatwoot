@@ -2,29 +2,29 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "دانلود",
-      "UPLOADING": "در حال آپلود..."
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "دوباره پیام بدید",
-      "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
-    "OFFLINE": "در حال حاضر دردسترس نیستیم"
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
-    "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
-    "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
   "START_CONVERSATION": "شروع گفتگو",
-  "END_CONVERSATION": "پایان گفتگو",
-  "CONTINUE_CONVERSATION": "ادامه گفتگو",
-  "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
     "CLOSE_MESSAGES_BUTTON": "بستن",
@@ -34,7 +34,7 @@
   "BUBBLE": {
     "LABEL": "با ما گفتگو کنید"
   },
-  "POWERED_BY": "قدرت گرفته از چت ووت",
+  "POWERED_BY": "",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
   "TODAY": "امروز",
@@ -44,19 +44,19 @@
       "FULL_NAME": {
         "LABEL": "نام کامل",
         "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید",
-        "REQUIRED_ERROR": "نام کامل مورد نیاز است"
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ایمیل",
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
-        "REQUIRED_ERROR": "آدرس ایمیل مورد نیاز است",
-        "VALID_ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "شماره تلفن",
-        "PLACEHOLDER": "لطفا شماره تلفن خود را وارد کنید",
-        "REQUIRED_ERROR": "شماره تلفن الزامی است",
-        "VALID_ERROR": "شماره تلفن باید با فرمت E.164 باشد، به عنوان مثال: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -65,21 +65,21 @@
       }
     },
     "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
-    "IS_REQUIRED": "مورد نیاز است"
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "فیلد نامتعارف"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "به مکالمه خود امتیاز دهید",
-    "SUBMITTED_TITLE": "با تشکر از شما برای ثبت رتبه",
-    "PLACEHOLDER": "توضیحات بیشتر بدهید..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "درخواست رونوشت مکالمه",
+    "BUTTON_TEXT": "",
     "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   }
