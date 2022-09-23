@@ -4,6 +4,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
   { name: 'conversation_info' },
   { name: 'contact_attributes' },
   { name: 'previous_conversation' },
+  { name: 'macros' },
 ];
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_attributes' },
@@ -16,8 +17,8 @@ export default {
       uiSettings: 'getUISettings',
     }),
     conversationSidebarItemsOrder() {
-      const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
-      return itemsOrder || DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      // const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
+      return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
     },
     contactSidebarItemsOrder() {
       const { contact_sidebar_items_order: itemsOrder } = this.uiSettings;

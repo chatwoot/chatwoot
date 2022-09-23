@@ -1,6 +1,6 @@
 import SettingsContent from '../Wrapper';
 import Macros from './Index';
-const NewMacro = () => import('./New.vue');
+const MacroEditor = () => import('./MacroEditor.vue');
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
@@ -23,7 +23,13 @@ export default {
         {
           path: 'new',
           name: 'macros_new',
-          component: NewMacro,
+          component: MacroEditor,
+          roles: ['administrator'],
+        },
+        {
+          path: ':macroId/edit',
+          name: 'macros_edit',
+          component: MacroEditor,
           roles: ['administrator'],
         },
       ],

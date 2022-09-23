@@ -2,11 +2,18 @@
   <div class="column content-box">
     <div class="row">
       <div class="small-8 columns with-right-space macros-canvas">
-        <ul class="macros-feed-container">
+        <p v-if="!uiFlags.isFetching && !macro" class="no-items-error-message">
+          {{ $t('MACROS.LIST.404') }}
+        </p>
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('MACROS.LOADING')"
+        />
+        <ul v-if="!uiFlags.isFetching && macro" class="macros-feed-container">
           <!-- start flow pill -->
           <li class="macros-feed-item">
             <div class="macros-item macros-pill">
-              <span>Start Flow</span>
+              <span>{{ $t('MACROS.EDITOR.START_FLOW') }}</span>
             </div>
           </li>
           <!-- start flow pill -->
@@ -77,7 +84,7 @@
           <!-- end flow pill -->
           <li class="macros-feed-item">
             <div class="macros-item macros-pill">
-              <span>End Flow</span>
+              <span>{{ $t('MACROS.EDITOR.END_FLOW') }}</span>
             </div>
           </li>
           <!-- end flow pill -->
@@ -88,14 +95,16 @@
           <div>
             <woot-input
               v-model.trim="macro.name"
-              label="Macro name"
-              placeholder="Enter a name for your macro"
-              error="Please enter a name"
+              :label="$t('MACROS.ADD.FORM.NAME.LABEL')"
+              :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
+              :error="
+                $v.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null
+              "
               :class="{ error: $v.macro.name.$error }"
             />
           </div>
           <div>
-            <p class="title">Macro Visibility</p>
+            <p class="title">{{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}</p>
             <div class="macros-form-radio-group">
               <button
                 class="card"
@@ -108,36 +117,36 @@
                   type="solid"
                   class="visibility-check"
                 />
-                <p class="title">Global</p>
+                <p class="title">
+                  {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL') }}
+                </p>
                 <p class="subtitle">
-                  This macro is available globally for all agents in this
-                  account.
+                  {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.DESCRIPTION') }}
                 </p>
               </button>
               <button
                 class="card"
-                :class="{ active: macro.visibility === 'private' }"
-                @click="macro.visibility = 'private'"
+                :class="{ active: macro.visibility === 'personal' }"
+                @click="macro.visibility = 'personal'"
               >
                 <fluent-icon
-                  v-if="macro.visibility === 'private'"
+                  v-if="macro.visibility === 'personal'"
                   icon="checkmark-circle"
                   type="solid"
                   class="visibility-check"
                 />
-                <p class="title">Private</p>
+                <p class="title">
+                  {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL') }}
+                </p>
                 <p class="subtitle">
-                  This macro will be private to you and not be available to
-                  others.
+                  {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.DESCRIPTION') }}
                 </p>
               </button>
             </div>
             <div class="macros-information-panel">
               <fluent-icon icon="info" size="20" />
               <p>
-                Macros will run in the order you add yout actions. You can
-                rearrange them by dragging them by the handle beside each
-                action.
+                {{ $t('MACROS.ORDER_INFO') }}
               </p>
             </div>
           </div>
@@ -163,6 +172,8 @@ import { required, requiredIf } from 'vuelidate/lib/validators';
 import draggable from 'vuedraggable';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import alertMixin from 'shared/mixins/alertMixin';
+import { mapGetters } from 'vuex';
+
 export default {
   components: {
     ActionInput,
@@ -196,32 +207,47 @@ export default {
   },
   data() {
     return {
+      mode: 'CREATE',
       dragEnabled: true,
       dragging: false,
-      macroActionTypes: AUTOMATION_ACTION_TYPES,
+      loadingMacro: false,
       macroVisibilityOptions: [
         {
           id: 'global',
-          title: 'Global',
+          title: this.$t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL'),
           checked: true,
         },
         {
-          id: 'private',
-          title: 'Private',
+          id: 'personal',
+          title: this.$t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL'),
           checked: false,
         },
       ],
-      macro: {
-        name: '',
-        actions: [
-          {
-            action_name: 'assign_team',
-            action_params: [],
-          },
-        ],
-        visibility: 'global',
-      },
+      macro: {},
     };
+  },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'macros/getUIFlags',
+    }),
+    macroActionTypes() {
+      // Because we do not support attachments in macros - yet!
+      return AUTOMATION_ACTION_TYPES.filter(
+        obj => obj.key !== 'send_attachment'
+      );
+    },
+    macroId() {
+      return this.$route.params.macroId;
+    },
+  },
+  watch: {
+    '$route.params.macroId': {
+      handler() {
+        this.$v.$reset();
+        this.fetchMacro();
+      },
+      immediate: true,
+    },
   },
   methods: {
     appendNewAction() {
@@ -271,13 +297,84 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) return;
       try {
-        const macro = JSON.parse(JSON.stringify(this.macro));
+        const action = this.mode === 'EDIT' ? 'macros/update' : 'macros/create';
+        const successMessage =
+          this.mode === 'EDIT'
+            ? this.$t('MACROS.EDIT.API.SUCCESS_MESSAGE')
+            : this.$t('MACROS.ADD.API.SUCCESS_MESSAGE');
+        let macro = JSON.parse(JSON.stringify(this.macro));
         macro.actions = actionQueryGenerator(macro.actions);
-        await this.$store.dispatch('macros/create', macro);
-        this.showAlert('Macro created Succesfully');
+        await this.$store.dispatch(action, macro);
+        this.showAlert(this.$t(successMessage));
         this.$router.push({ name: 'macros_wrapper' });
       } catch (error) {
-        this.showAlert('Something went wrong, please try again');
+        this.showAlert(this.$t('MACROS.ERROR'));
+      }
+    },
+    formatMacro(macro) {
+      const formattedActions = macro.actions.map(action => {
+        let actionParams = [];
+        if (action.action_params.length) {
+          const inputType = this.macroActionTypes.find(
+            item => item.key === action.action_name
+          ).inputType;
+          if (inputType === 'multi_select') {
+            actionParams = [
+              ...this.getActionDropdownValues(action.action_name),
+            ].filter(item => [...action.action_params].includes(item.id));
+          } else if (inputType === 'team_message') {
+            actionParams = {
+              team_ids: [
+                ...this.getActionDropdownValues(action.action_name),
+              ].filter(item =>
+                [...action.action_params[0].team_ids].includes(item.id)
+              ),
+              message: action.action_params[0].message,
+            };
+          } else actionParams = [...action.action_params];
+        }
+        return {
+          ...action,
+          action_params: actionParams,
+        };
+      });
+      return {
+        ...macro,
+        actions: formattedActions,
+      };
+    },
+    async manifestMacro() {
+      const macroAvailable = this.$store.getters['macros/getMacro'](
+        this.macroId
+      );
+      if (macroAvailable) this.macro = this.formatMacro(macroAvailable);
+      else {
+        const rawMacro = await this.$store.dispatch(
+          'macros/getSingleMacro',
+          this.macroId
+        );
+        this.macro = this.formatMacro(rawMacro);
+      }
+    },
+    fetchMacro() {
+      if (this.macroId) {
+        this.mode = 'EDIT';
+        this.$store.dispatch('agents/get');
+        this.$store.dispatch('teams/get');
+        this.$store.dispatch('labels/get');
+        this.manifestMacro();
+      } else {
+        this.mode = 'CREATE';
+        this.macro = {
+          name: '',
+          actions: [
+            {
+              action_name: 'assign_team',
+              action_params: [],
+            },
+          ],
+          visibility: 'global',
+        };
       }
     },
   },
@@ -290,7 +387,7 @@ export default {
 }
 .macros-canvas {
   background-image: radial-gradient(#e0e0e0bd 1.2px, transparent 0);
-  background-size: 16px 16px;
+  background-size: var(--space-normal) var(--space-normal);
   height: 100%;
   max-height: 100%;
   padding: var(--space-normal) var(--space-three);
@@ -300,6 +397,7 @@ export default {
 .macros-properties-panel {
   padding: var(--space-slab);
   background-color: var(--white);
+  // full screen height subtracted by the height of the header
   height: calc(100vh - 5.6rem);
   display: flex;
   flex-direction: column;
@@ -308,6 +406,7 @@ export default {
 
 .macros-feed-container {
   list-style-type: none;
+  // Make sure the macros ui is not too wide in large screens
   max-width: 800px;
 
   .macros-feed-item:not(:last-child) {
@@ -319,9 +418,9 @@ export default {
   .macros-feed-draggable:after {
     content: '';
     position: absolute;
-    height: 30px;
+    height: var(--space-three);
     width: 3px;
-    margin-left: 24px;
+    margin-left: var(--space-medium);
     background-image: url("data:image/svg+xml,%3Csvg width='3' height='31' viewBox='0 0 3 31' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1.50098' y1='0.579529' x2='1.50098' y2='30.5795' stroke='%2393afc8' stroke-width='2' stroke-dasharray='5 5'/%3E%3C/svg%3E%0A");
   }
   .macros-feed-draggable {
@@ -349,7 +448,7 @@ export default {
     font-size: var(--font-size-default);
     border-radius: var(--border-radius-rounded);
     position: relative;
-    margin-left: 10px;
+    margin-left: var(--space-one);
   }
   .macros-action-item_button {
     height: var(--space-three);
@@ -361,7 +460,7 @@ export default {
     font-size: var(--font-size-default);
     border-radius: var(--border-radius-rounded);
     position: relative;
-    margin-left: 10px;
+    margin-left: var(--space-one);
 
     &.add {
       background-color: var(--g-100);
@@ -389,6 +488,7 @@ export default {
       background-color: var(--white);
       padding: var(--space-slab);
       border-radius: var(--border-radius-medium);
+      // Custom shadow so it wont look to heavy over the dots.
       box-shadow: rgb(0 0 0 / 3%) 0px 6px 24px 0px,
         rgb(0 0 0 / 6%) 0px 0px 0px 1px;
       &:hover {
@@ -398,7 +498,7 @@ export default {
           }
         }
       }
-
+      //Adding a custom shake animation on error because the save button and the action inputs were too far to notice that there was an error.
       &.has-error {
         animation: shake 0.3s ease-in-out 0s 2;
         background-color: var(--r-50);
@@ -412,7 +512,7 @@ export default {
 .macros-form-radio-group {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: var(--space-slab);
 
   .card {
     padding: var(--space-small);
@@ -434,7 +534,7 @@ export default {
 
     .visibility-check {
       position: absolute;
-      color: var(--w-300);
+      color: var(--w-500);
       top: var(--space-small);
       right: var(--space-small);
     }
@@ -444,10 +544,10 @@ export default {
 .title {
   display: block;
   margin: 0;
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
   line-height: 1.8;
-  color: #3c4858;
+  color: var(--color-body);
 }
 .content-box {
   padding: 0;

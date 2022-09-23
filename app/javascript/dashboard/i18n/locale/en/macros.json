@@ -5,6 +5,8 @@
         "HEADER_BTN_TXT_SAVE": "Save macro",
         "LOADING": "Fetching macros",
         "SIDEBAR_TXT": "<p><b>Macros</b> <p>Macros help you run a series of actions and tasks. They're a list of instructions which tell chatwoot how to execute based on the order which you define them.</p> <p>Please refer to the <a href='https://chatwoot.com/docs/macros'>docs</a> to read more about macros in detail.</p>",
+        "ERROR": "Something went wrong. Please try again",
+        "ORDER_INFO": "Macros will run in the order you add yout actions. You can rearrange them by dragging them by the handle beside each action.",
         "ADD": {
             "TITLE": "Add new Macro",
             "SUBMIT": "Create",
@@ -12,8 +14,8 @@
             "FORM": {
                 "NAME": {
                     "LABEL": "Macro name",
-                    "PLACEHOLDER": "Enter macro name",
-                    "ERROR": "Name is required"
+                    "PLACEHOLDER": "Enter a name for your macro",
+                    "ERROR": "Please enter a macro name"
                 },
                 "DESC": {
                     "LABEL": "Description",
@@ -30,7 +32,7 @@
             "ACTION_BUTTON_LABEL": "Add Action",
             "API": {
                 "SUCCESS_MESSAGE": "Macro added successfully",
-                "ERROR_MESSAGE": "Could not able to create macro, Please try again later"
+                "ERROR_MESSAGE": "Unable to create macro, Please try again later"
             }
         },
         "LIST": {
@@ -66,13 +68,6 @@
                 "ERROR_MESSAGE": "Could not update Macro, Please try again later"
             }
         },
-        "CLONE": {
-            "TOOLTIP": "Clone",
-            "API": {
-                "SUCCESS_MESSAGE": "Macro cloned successfully",
-                "ERROR_MESSAGE": "Could not clone Macro, Please try again later"
-            }
-        },
         "FORM": {
             "EDIT": "Edit",
             "CREATE": "Create",
@@ -80,32 +75,30 @@
             "CANCEL": "Cancel",
             "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
         },
-        "CONDITION": {
-            "DELETE_MESSAGE": "You need to have atleast one condition to save"
-        },
         "ACTION": {
             "DELETE_MESSAGE": "You need to have atleast one action to save",
             "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
             "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
         },
-        "TOGGLE": {
-            "ACTIVATION_TITLE": "Activate Macro",
-            "DEACTIVATION_TITLE": "Deactivate Macro",
-            "ACTIVATION_DESCRIPTION": "This action will activate the Macro '{macroName}'. Are you sure you want to proceed?",
-            "DEACTIVATION_DESCRIPTION": "This action will deactivate the Macro '{macroName}'. Are you sure you want to proceed?",
-            "ACTIVATION_SUCCESFUL": "Macro Activated Successfully",
-            "DEACTIVATION_SUCCESFUL": "Macro Deactivated Successfully",
-            "ACTIVATION_ERROR": "Could not Activate Macro, Please try again later",
-            "DEACTIVATION_ERROR": "Could not Deactivate Macro, Please try again later",
-            "CONFIRMATION_LABEL": "Yes",
-            "CANCEL_LABEL": "No"
+        "EDITOR": {
+            "START_FLOW": "Start Flow",
+            "END_FLOW": "End Flow",
+            "VISIBILITY": {
+                "LABEL": "Macro Visibility",
+                "GLOBAL": {
+                    "LABEL": "Global",
+                    "DESCRIPTION": "This macro is available globally for all agents in this account."
+                },
+                "PERSONAL": {
+                    "LABEL": "Personal",
+                    "DESCRIPTION": "This macro will be personal to you and not be available to others."
+                }
+            }
         },
-        "ATTACHMENT": {
-            "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-            "LABEL_IDLE": "Upload Attachment",
-            "LABEL_UPLOADING": "Uploading...",
-            "LABEL_UPLOADED": "Succesfully Uploaded",
-            "LABEL_UPLOAD_FAILED": "Upload Failed"
+        "EXECUTE": {
+            "BUTTON_TOOLTIP": "Execute",
+            "PREVIEW": "Preview Macro",
+            "EXECUTED_SUCCESFULLY": "Macro executed successfully"
         }
     }
 }

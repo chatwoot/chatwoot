@@ -34,6 +34,7 @@ const settings = accountId => ({
     'automation_list',
     'macros_wrapper',
     'macros_new',
+    'macros_edit',
   ],
   menuItems: [
     {
