@@ -386,6 +386,7 @@ export default {
   height: 100%;
 }
 .macros-canvas {
+  // dotted matrix bag for canvas
   background-image: radial-gradient(#e0e0e0bd 1.2px, transparent 0);
   background-size: var(--space-normal) var(--space-normal);
   height: 100%;
@@ -406,7 +407,7 @@ export default {
 
 .macros-feed-container {
   list-style-type: none;
-  // Make sure the macros ui is not too wide in large screens
+  // max-width Makes sure the macros ui is not too wide in large screens
   max-width: 800px;
 
   .macros-feed-item:not(:last-child) {
@@ -421,6 +422,7 @@ export default {
     height: var(--space-three);
     width: 3px;
     margin-left: var(--space-medium);
+    // trail line for the macros - feed
     background-image: url("data:image/svg+xml,%3Csvg width='3' height='31' viewBox='0 0 3 31' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1.50098' y1='0.579529' x2='1.50098' y2='30.5795' stroke='%2393afc8' stroke-width='2' stroke-dasharray='5 5'/%3E%3C/svg%3E%0A");
   }
   .macros-feed-draggable {

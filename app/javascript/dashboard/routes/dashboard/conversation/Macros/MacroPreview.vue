@@ -105,23 +105,27 @@ export default {
   position: absolute;
   max-height: calc(var(--space-giga) * 1.5);
   min-height: var(--space-jumbo);
-  width: var(--space-giga);
+  width: calc(var(--space-giga) + var(--space-large));
   border-radius: var(--border-radius-normal);
   background-color: var(--white);
   box-shadow: var(--shadow-dropdown-pane);
-  bottom: var(--space-three);
-  right: var(--space-jumbo);
+  bottom: calc(var(--space-three) + var(--space-half));
+  right: calc(var(--space-three) + var(--space-half));
   overflow-y: auto;
   padding: var(--space-slab);
 
   .macro-title {
     margin-bottom: var(--space-slab);
+    color: var(--s-900);
+    font-weight: var(--font-weight-bold);
   }
 
   .macro-block {
     position: relative;
     padding-left: var(--space-slab);
-    padding-bottom: var(--space-slab);
+    &:not(:last-child) {
+      padding-bottom: var(--space-slab);
+    }
 
     .macro-block-border {
       top: 0.625rem;
