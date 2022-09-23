@@ -17,8 +17,21 @@ export default {
       uiSettings: 'getUISettings',
     }),
     conversationSidebarItemsOrder() {
-      // const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
-      return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
+      if (!itemsOrder) {
+        return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      }
+      const items = itemsOrder;
+      if (
+        DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.length !== itemsOrder.length
+      ) {
+        DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.forEach(item => {
+          if (!itemsOrder.find(i => i.name === item.name)) {
+            items.push(item);
+          }
+        });
+      }
+      return items;
     },
     contactSidebarItemsOrder() {
       const { contact_sidebar_items_order: itemsOrder } = this.uiSettings;
