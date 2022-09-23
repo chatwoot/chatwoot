@@ -49,10 +49,7 @@ class DashboardController < ActionController::Base
   end
 
   def redirect_to_saml_login
-    #   request = OneLogin::RubySaml::Authrequest.new
-    #   redirect_to(request.create(saml_settings))
-    # end
-    redirect_to '/saml' and return unless Current.user
+    redirect_to '/saml' and return unless current_user
   end
 
   def app_config
@@ -89,9 +86,5 @@ class DashboardController < ActionController::Base
     settings.assertion_consumer_service_binding = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST' # or :post, :redirect
 
     settings
-  end
-
-  def cosnume
-    binding.pry
   end
 end

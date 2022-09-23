@@ -11,14 +11,16 @@ class SamlController < ApplicationController
   def consume
     response          = OneLogin::RubySaml::Response.new(params['SAMLResponse'])
     response.settings = saml_settings
-    binding.pry
     # We validate the SAML Response and check if the user already exists in the system
     if response.is_valid?
       # authorize_success, log the user
-      session[:userid] = response.nameid
-      session[:attributes] = response.attributes
+      find_the_resource(response.nameid)
+      create_session_and_assign_token
+      set_current_user
+
+      render_create_success
     else
-      Rails.logger.error response.errors
+      Rails.logger.error "Response Invalid. Errors: #{response.errors}"
     end
   end
 
@@ -53,13 +55,38 @@ class SamlController < ApplicationController
 
   private
 
+  def find_the_resource(email)
+    @resource = User.find_by(email: email)
+  end
+
+  def create_session_and_assign_token
+    create_and_assign_token
+    sign_in(:user, @resource, store: true, bypass: false)
+  end
+
+  def create_and_assign_token
+    if @resource.respond_to?(:with_lock)
+      @resource.with_lock do
+        @token = @resource.create_token
+        @resource.save!
+      end
+    else
+      @token = @resource.create_token
+      @resource.save!
+    end
+  end
+
+  def render_create_success
+    render partial: 'devise/auth.json', locals: { resource: @resource }
+  end
+
   def saml_settings
     settings = OneLogin::RubySaml::Settings.new
 
     settings.soft = true
 
-    settings.assertion_consumer_service_url = 'https://aa0d-49-248-88-43.in.ngrok.io/saml/consume'
-    settings.sp_entity_id                   = 'https://aa0d-49-248-88-43.in.ngrok.io/saml/metadata'
+    settings.assertion_consumer_service_url = 'https://39c9-49-248-88-43.in.ngrok.io/saml/consume'
+    settings.sp_entity_id                   = 'https://39c9-49-248-88-43.in.ngrok.io/saml/metadata'
 
     settings.idp_entity_id                  = 'https://app.onelogin.com/saml2'
     settings.idp_sso_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-post/sso/de789d10-0617-44e9-8fd6-9d798809cfbf'
