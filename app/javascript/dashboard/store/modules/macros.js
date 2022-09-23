@@ -63,8 +63,7 @@ export const actions = {
   execute: async function executeMacro({ commit }, macrosObj) {
     commit(types.SET_MACROS_UI_FLAG, { isExecuting: true });
     try {
-      const response = await MacrosAPI.executeMacro(macrosObj);
-      return response.data.payload;
+      await MacrosAPI.executeMacro(macrosObj);
     } catch (error) {
       throw new Error(error);
     } finally {
