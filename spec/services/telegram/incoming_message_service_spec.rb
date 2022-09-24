@@ -70,7 +70,7 @@ describe Telegram::IncomingMessageService do
     end
 
     context 'when group messages' do
-      it 'doesnot create conversations, message and contacts' do
+      it 'does not create conversations, message and contacts' do
         params = {
           'update_id' => 2_342_342_343_242,
           'message' => {

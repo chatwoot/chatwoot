@@ -20,7 +20,7 @@ module Avatarable
     return unless saved_changes.key?(:email)
     return if email.blank?
 
-    # Incase avatar_url is supplied, we don't want to fetch avatar from gravatar
+    # In case avatar_url is supplied, we don't want to fetch avatar from gravatar
     # So we will wait for it to be processed
     Avatar::AvatarFromGravatarJob.set(wait: 30.seconds).perform_later(self, email)
   end

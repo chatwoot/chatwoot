@@ -78,7 +78,7 @@ shared_examples_for 'assignment_handler' do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
-    it 'dispaches assignee changed event' do
+    it 'dispatches assignee changed event' do
       # TODO: FIX me
       # expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once).with('assignee.changed', anything, anything, anything, anything))
       expect(EventDispatcherJob).to(have_been_enqueued.at_least(:once))

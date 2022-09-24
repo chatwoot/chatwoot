@@ -8,7 +8,7 @@ describe ChatwootExceptionTracker do
 
   context 'with sentry DSN' do
     before do
-      # since sentry is not initated in test, we need to do it manually
+      # since sentry is not initiated in test, we need to do it manually
       Sentry.init do |config|
         config.dsn = 'test'
       end

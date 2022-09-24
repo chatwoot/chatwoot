@@ -14,7 +14,7 @@ describe('#mutations', () => {
       });
     });
 
-    it('doesnot add user if user already exist', () => {
+    it('does not add user if user already exist', () => {
       const state = {
         records: {
           1: [{ id: 1, type: 'contact', name: 'user-1' }],

@@ -37,7 +37,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
     end
 
     context 'when message creation' do
-      it 'doesnot create message if thread info is missing' do
+      it 'does not create message if thread info is missing' do
         messages_count = conversation.messages.count
         builder = described_class.new(message_without_thread_ts)
         builder.perform

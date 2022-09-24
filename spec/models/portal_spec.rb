@@ -30,7 +30,7 @@ RSpec.describe Portal, type: :model do
       it 'Does not allow any other config than allowed_locales' do
         portal.update(config: { 'some_other_key': 'test_value' })
         expect(portal).not_to be_valid
-        expect(portal.errors.full_messages[0]).to eq('Cofig in portal on some_other_key is not supported.')
+        expect(portal.errors.full_messages[0]).to eq('Config in portal on some_other_key is not supported.')
       end
 
       it 'converts empty string to nil' do

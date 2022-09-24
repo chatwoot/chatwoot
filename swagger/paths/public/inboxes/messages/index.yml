@@ -1,6 +1,6 @@
 tags:
   - Messages API
-operationId: list-all-converation-messages
+operationId: list-all-conversation-messages
 summary: List all messages
 description: List all messages in the conversation
 responses:

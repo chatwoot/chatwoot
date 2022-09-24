@@ -159,7 +159,7 @@ RSpec.describe Inbox do
         )
       end
 
-      it 'does not allow chacters like /\@<> in the entire string' do
+      it 'does not allow characters like /\@<> in the entire string' do
         inbox.name = 'inbox@name'
         expect(inbox).not_to be_valid
         expect(inbox.errors.full_messages).to eq(

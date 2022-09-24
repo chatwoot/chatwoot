@@ -130,7 +130,7 @@ export default {
         this.menuItem.toStateName === 'settings_teams_list'
       );
     },
-    isInboxsSettings() {
+    isInboxesSettings() {
       return (
         this.$store.state.route.name === 'settings_inbox_show' &&
         this.menuItem.toStateName === 'settings_inbox_list'
@@ -160,7 +160,7 @@ export default {
         if (
           this.isInboxConversation ||
           this.isTeamsSettings ||
-          this.isInboxsSettings ||
+          this.isInboxesSettings ||
           this.isIntegrationsSettings ||
           this.isApplicationsSettings
         ) {

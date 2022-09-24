@@ -9,7 +9,7 @@ import WootButton from '../../app/javascript/dashboard/components/ui/WootButton.
 Buttons can be used by `woot-button` component in `vue`. You can play with all the props here 👉 [woot-button](/story/components-button--primary). The button component is made on top of [foundation button](https://get.foundation/sites/docs/button.html)
 so the style of button can be used outside of vue with `button` class.
 
-Other than declred props the `woot-button` can be customised by providing custom classnames through `class-names` prop.
+Other than declared props the `woot-button` can be customised by providing custom classnames through `class-names` prop.
 
 <Story name="default">
   {{
@@ -30,16 +30,16 @@ Size of the buttons can be set with `size` to `woot-button`. By default medium i
     {{
       template: `<div class="row">
           <div class="margin-horizontal-2">
-              <woot-button size="tiny">Tiny</woot-button> 
+              <woot-button size="tiny">Tiny</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button size="small">Small</woot-button> 
+              <woot-button size="small">Small</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button size="">Default</woot-button> 
+              <woot-button size="">Default</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button size="large">Large</woot-button> 
+              <woot-button size="large">Large</woot-button>
           </div>
         </div>`,
     }}
@@ -54,7 +54,7 @@ Buttons can expanded to full width by setting the `is-expanded` prop. For with b
     {{
       template: `<div class="row">
           <div class="columns">
-              <woot-button size="large" is-expanded title="Micheal Scott said the rest">This is buttons is very long</woot-button> 
+              <woot-button size="large" is-expanded title="Micheal Scott said the rest">This is buttons is very long</woot-button>
           </div>
         </div>`,
     }}
@@ -71,19 +71,19 @@ Default color scheme is `primary`, other color-schemes are `secondary, success, 
     {{
       template: `<div class="row">
           <div class="margin-horizontal-2">
-              <woot-button >Primary</woot-button> 
+              <woot-button >Primary</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="secondary">Secondary</woot-button> 
+              <woot-button color-scheme="secondary">Secondary</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="success">Success</woot-button> 
+              <woot-button color-scheme="success">Success</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="alert">Alert</woot-button> 
+              <woot-button color-scheme="alert">Alert</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="warning">Warning</woot-button> 
+              <woot-button color-scheme="warning">Warning</woot-button>
           </div>
         </div>`,
     }}
@@ -92,7 +92,7 @@ Default color scheme is `primary`, other color-schemes are `secondary, success, 
 
 ## Button style variations
 
-There are diffrent styles that comes with chatwoot buttons. This can set with `variants` prop for `woot-button`. By deault the filled will be the style, other variations are `smooth, hollow, clear, link`
+There are different styles that comes with chatwoot buttons. This can set with `variants` prop for `woot-button`. By deault the filled will be the style, other variations are `smooth, hollow, clear, link`
 
 - Primary form actions like Save details, Create campaign etc should use default style.
 - The Cancel action has to use the smooth style.
@@ -102,19 +102,19 @@ There are diffrent styles that comes with chatwoot buttons. This can set with `v
     {{
       template: `<div class="row">
           <div class="margin-horizontal-2">
-              <woot-button >Default</woot-button> 
+              <woot-button >Default</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button variant="smooth" color-scheme="alert">Smooth</woot-button> 
+              <woot-button variant="smooth" color-scheme="alert">Smooth</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="secondary" variant="hollow">Hollow</woot-button> 
+              <woot-button color-scheme="secondary" variant="hollow">Hollow</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="success" variant="clear">Success</woot-button> 
+              <woot-button color-scheme="success" variant="clear">Success</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="alert" variant="link">Link</woot-button> 
+              <woot-button color-scheme="alert" variant="link">Link</woot-button>
           </div>
         </div>`,
     }}
@@ -123,7 +123,7 @@ There are diffrent styles that comes with chatwoot buttons. This can set with `v
 
 ## Button states
 
-The button can be disbaled with `is-disabled` which accepts a boolean value. The button can set to a loading state with `is-loading` which accepts a boolean value.
+The button can be disabled with `is-disabled` which accepts a boolean value. The button can set to a loading state with `is-loading` which accepts a boolean value.
 
 These are states other than the default interaction states like hover, active, focused.
 
@@ -132,10 +132,10 @@ These are states other than the default interaction states like hover, active, f
     {{
       template: `<div class="row">
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="alert" is-disabled>disabled :/</woot-button> 
+              <woot-button color-scheme="alert" is-disabled>disabled :/</woot-button>
           </div>
           <div class="margin-horizontal-2">
-              <woot-button variant="smooth" color-scheme="primary" is-loading>Loading...</woot-button> 
+              <woot-button variant="smooth" color-scheme="primary" is-loading>Loading...</woot-button>
           </div>
         </div>`,
     }}
@@ -152,7 +152,7 @@ The prop `icon` can be used to pass the **ion icon classname** to render the ico
     {{
       template: `<div class="row">
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="alert" icon="ion-stop">Stop</woot-button> 
+              <woot-button color-scheme="alert" icon="ion-stop">Stop</woot-button>
           </div>
           <div class="margin-horizontal-2">
               <woot-button icon="ion-person" variant="hollow">Hollow man</woot-button>
@@ -171,7 +171,7 @@ The `woot-button` can be used as an icon only button by keeping the button text 
     {{
       template: `<div class="row">
           <div class="margin-horizontal-2">
-              <woot-button color-scheme="success" icon="ion-plus" size="tiny"></woot-button> 
+              <woot-button color-scheme="success" icon="ion-plus" size="tiny"></woot-button>
           </div>
           <div class="margin-horizontal-2">
               <woot-button color-scheme="secondary" icon="ion-plus" size="small" variant="smooth"></woot-button>

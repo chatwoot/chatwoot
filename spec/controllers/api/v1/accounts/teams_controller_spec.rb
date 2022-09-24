@@ -63,7 +63,7 @@ RSpec.describe 'Teams API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
-      it 'returns unathorized for agent' do
+      it 'returns unauthorized for agent' do
         params = { name: 'Test Team' }
 
         post "/api/v1/accounts/#{account.id}/teams",

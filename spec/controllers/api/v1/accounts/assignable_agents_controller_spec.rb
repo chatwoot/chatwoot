@@ -24,7 +24,7 @@ RSpec.describe 'Assignable Agents API', type: :request do
     end
 
     context 'when the user is not part of an inbox' do
-      context 'when the user is an admininstrator' do
+      context 'when the user is an administrator' do
         it 'returns all assignable inbox members along with administrators' do
           get "/api/v1/accounts/#{account.id}/assignable_agents",
               params: { inbox_ids: [inbox1.id, inbox2.id] },

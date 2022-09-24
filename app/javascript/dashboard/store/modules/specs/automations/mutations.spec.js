@@ -3,7 +3,7 @@ import { mutations } from '../../automations';
 import automations from './fixtures';
 describe('#mutations', () => {
   describe('#SET_automations', () => {
-    it('set autonmation records', () => {
+    it('set automation records', () => {
       const state = { records: [] };
       mutations[types.SET_AUTOMATIONS](state, automations);
       expect(state.records).toEqual(automations);
@@ -11,7 +11,7 @@ describe('#mutations', () => {
   });
 
   describe('#ADD_AUTOMATION', () => {
-    it('push newly created automatuion to the store', () => {
+    it('push newly created automation to the store', () => {
       const state = { records: [automations[0]] };
       mutations[types.ADD_AUTOMATION](state, automations[1]);
       expect(state.records).toEqual([automations[0], automations[1]]);

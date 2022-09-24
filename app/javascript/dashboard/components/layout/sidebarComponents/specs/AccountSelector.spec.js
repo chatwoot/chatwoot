@@ -22,7 +22,7 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 
-describe('accountSelctor', () => {
+describe('accountSelector', () => {
   let accountSelector = null;
   const currentUser = {
     accounts: [

@@ -19,7 +19,7 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="flex-view notification-contant--wrap text-truncate">
+            <div class="flex-view notification-content--wrap text-truncate">
               <h5 class="notification--title">
                 {{
                   `#${
@@ -203,7 +203,7 @@ export default {
   text-align: right;
 }
 
-.notification-contant--wrap {
+.notification-content--wrap {
   flex-direction: column;
   max-width: 50rem;
 }

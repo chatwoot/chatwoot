@@ -1,5 +1,5 @@
 <template>
-  <div class="customer-satisfcation mb-2">
+  <div class="customer-satisfaction mb-2">
     <div class="ratings flex py-5 px-0">
       <button
         v-for="rating in ratings"

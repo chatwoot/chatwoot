@@ -20,7 +20,7 @@ RSpec.describe Category, type: :model do
     let(:user) { create(:user, account_ids: [account.id], role: :agent) }
     let!(:portal) { create(:portal, account_id: account.id, config: { allowed_locales: ['en'] }) }
 
-    it 'returns erros when locale is not allowed in the portal' do
+    it 'returns errors when locale is not allowed in the portal' do
       category = create(:category, slug: 'category_1', locale: 'en', portal_id: portal.id)
       expect(category).to be_valid
       category.update(locale: 'es')

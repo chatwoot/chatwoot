@@ -76,7 +76,7 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         }
       end
 
-      it 'throws an error for unknown attributes in condtions' do
+      it 'throws an error for unknown attributes in conditions' do
         expect(account.automation_rules.count).to eq(0)
         params[:conditions] << {
           'attribute_key': 'unknown_attribute',

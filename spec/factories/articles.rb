@@ -5,7 +5,7 @@ FactoryBot.define do
     author_id { 1 }
     title { 'MyString' }
     content { 'MyText' }
-    description { 'MyDescrption' }
+    description { 'MyDescription' }
     status { 1 }
     views { 1 }
   end

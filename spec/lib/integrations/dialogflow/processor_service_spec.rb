@@ -28,7 +28,7 @@ describe Integrations::Dialogflow::ProcessorService do
       allow(dialogflow_text_double).to receive(:to_h).and_return({ text: ['hello payload'] })
     end
 
-    context 'when valid message and dialogflow returns fullfillment text' do
+    context 'when valid message and dialogflow returns fulfillment text' do
       it 'creates the response message' do
         processor.perform
         expect(conversation.reload.messages.last.content).to eql('hello payload')

@@ -7,7 +7,7 @@ describe ::ContactBuilder do
   let(:existing_contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
 
   describe '#perform' do
-    it 'doesnot create contact if it already exist with source id' do
+    it 'does not create contact if it already exist with source id' do
       contact_inbox = described_class.new(
         source_id: existing_contact_inbox.source_id,
         inbox: inbox,

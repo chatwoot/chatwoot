@@ -21,7 +21,7 @@ describe('#mutations', () => {
       ]);
     });
 
-    it('doesnot send any mutation if chat doesnot exist', () => {
+    it('does not send any mutation if chat does not exist', () => {
       const state = { allConversations: [] };
       const lastSeen = new Date().getTime() / 1000;
       mutations[types.MARK_MESSAGE_READ](state, { id: 1, lastSeen });

@@ -85,7 +85,7 @@ describe ::ContactIdentifyAction do
         expect(result.email).to be_nil
       end
 
-      it 'will not overide the phone contacts email when params contains different email' do
+      it 'will not override the phone contacts email when params contains different email' do
         existing_phone_number_contact = create(:contact, account: account, email: '1@test.com', phone_number: '+919999888877')
         params = { email: '2@test.com', phone_number: '+919999888877' }
         result = described_class.new(contact: contact, params: params).perform

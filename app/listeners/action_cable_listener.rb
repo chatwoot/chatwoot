@@ -171,7 +171,7 @@ class ActionCableListener < BaseListener
     return if tokens.blank?
 
     payload = data.merge(account_id: account.id)
-    # So the frondend knows who performed the action.
+    # So the frontend knows who performed the action.
     # Useful in cases like conversation assignment for generating a notification with assigner name.
     payload[:performer] = Current.user&.push_event_data if Current.user.present?
 

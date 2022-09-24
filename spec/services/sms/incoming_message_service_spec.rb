@@ -29,7 +29,7 @@ describe Sms::IncomingMessageService do
         expect(sms_channel.inbox.messages.first.content).to eq(params[:text])
       end
 
-      it 'appends to last conversation when if conversation already exisits' do
+      it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: sms_channel.inbox, source_id: params[:from])
         2.times.each { create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox) }
         last_conversation = create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox)

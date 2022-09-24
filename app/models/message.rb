@@ -43,7 +43,7 @@ class Message < ApplicationRecord
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
 
-  # when you have a temperory id in your frontend and want it echoed back via action cable
+  # when you have a temporary id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
 
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }

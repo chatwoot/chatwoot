@@ -25,7 +25,7 @@ class Rack::Attack
       allowed_ips.include?(remote_ip)
     end
 
-    # Rails would allow requests to paths with extentions, so lets compare against the path with extention stripped
+    # Rails would allow requests to paths with extensions, so lets compare against the path with extension stripped
     # example /auth & /auth.json would both work
     def path_without_extentions
       path[/^[^.]+/]

@@ -33,7 +33,7 @@ RSpec.describe ContactInbox do
 
       new_token = obj.pubsub_token
       obj.update(source_id: '234234323')
-      # the generated token shoul be persisted in db
+      # the generated token should be persisted in db
       expect(obj.pubsub_token).to eq(new_token)
     end
   end

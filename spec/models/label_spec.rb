@@ -21,7 +21,7 @@ RSpec.describe Label, type: :model do
       expect(label.valid?).to be false
     end
 
-    it 'allows foreign charactes' do
+    it 'allows foreign characters' do
       label = FactoryBot.build(:label, title: '学中文_12')
       expect(label.valid?).to be true
     end

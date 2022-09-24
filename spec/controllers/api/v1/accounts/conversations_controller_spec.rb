@@ -251,7 +251,7 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:additional_attributes]).to eq(additional_attributes)
         end
 
-        it 'creates a conversation in specificed status' do
+        it 'creates a conversation in specified status' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
                headers: agent.create_new_auth_token,
@@ -370,7 +370,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.assignee_id).to eq(agent.id)
       end
 
-      it 'disbale self assign if admin changes the conversation status to open' do
+      it 'disable self assign if admin changes the conversation status to open' do
         conversation.update!(status: 'pending')
         conversation.update!(assignee_id: nil)
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",

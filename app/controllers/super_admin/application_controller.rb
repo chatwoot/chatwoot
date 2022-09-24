@@ -5,7 +5,7 @@
 # If you want to add pagination or other controller-level concerns,
 # you're free to overwrite the RESTful controller actions.
 class SuperAdmin::ApplicationController < Administrate::ApplicationController
-  # authenticiation done via devise : SuperAdmin Model
+  # authentication done via devise : SuperAdmin Model
   before_action :authenticate_super_admin!
 
   # Override this value to specify the number of elements to display at a time

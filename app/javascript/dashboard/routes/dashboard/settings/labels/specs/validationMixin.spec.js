@@ -43,7 +43,7 @@ describe('validationMixin', () => {
     wrapper.vm.$v.$touch();
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe('Label name is required');
   });
-  it('it should return label minimum length error message if one charceter label name is passed', async () => {
+  it('it should return label minimum length error message if one character label name is passed', async () => {
     const wrapper = shallowMount(Component, {
       i18n: i18nConfig,
       localVue,

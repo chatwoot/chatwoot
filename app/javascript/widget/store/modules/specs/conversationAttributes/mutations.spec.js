@@ -21,7 +21,7 @@ describe('#mutations', () => {
       });
       expect(state).toEqual({ id: 1, status: 'open' });
     });
-    it('doesnot update status if it is not the same conversation', () => {
+    it('does not update status if it is not the same conversation', () => {
       const state = { id: 1, status: 'pending' };
       mutations.UPDATE_CONVERSATION_ATTRIBUTES(state, {
         id: 2,

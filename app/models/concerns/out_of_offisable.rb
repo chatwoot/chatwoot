@@ -22,7 +22,7 @@ module OutOfOffisable
     working_hours.order(day_of_week: :asc).select(*OFFISABLE_ATTRS).as_json(except: :id)
   end
 
-  # accepts an array of hashes similiar to the format of weekly_schedule
+  # accepts an array of hashes similar to the format of weekly_schedule
   #  [
   #    { "day_of_week"=>1,
   #      "closed_all_day"=>false,

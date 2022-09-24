@@ -19,7 +19,7 @@ RSpec.describe 'Twitter Authorization API', type: :request do
       let(:twitter_response) { double }
       let(:raw_response) { double }
 
-      it 'returns unathorized for agent' do
+      it 'returns unauthorized for agent' do
         post "/api/v1/accounts/#{account.id}/twitter/authorization",
              headers: agent.create_new_auth_token,
              as: :json

@@ -12,7 +12,7 @@ class MailPresenter < SimpleDelegator
   end
 
   # encode decoded mail text_part or html_part if mail is multipart email
-  # encode decoded mail raw bodyt if mail is not multipart email but the body content is text/html
+  # encode decoded mail raw body if mail is not multipart email but the body content is text/html
   def mail_content(mail_part)
     if multipart_mail_body?
       decoded_multipart_mail(mail_part)

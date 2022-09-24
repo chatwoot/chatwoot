@@ -223,7 +223,7 @@ export default {
   justify-content: flex-end;
 }
 
-/* TDOD: Clean errors in forms style */
+/* TODO: Clean errors in forms style */
 .error .message {
   margin-top: 0;
 }

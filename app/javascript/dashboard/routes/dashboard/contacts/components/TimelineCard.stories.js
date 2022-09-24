@@ -19,7 +19,7 @@ export default {
     },
     eventBody: {
       defaultValue:
-        'Commentedmany variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour',
+        'Commented many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour',
       control: {
         type: 'text',
       },

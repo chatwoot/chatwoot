@@ -12,7 +12,7 @@ describe('#mutations', () => {
   });
 
   describe('#SET_INBOXES_ITEM', () => {
-    it('push inbox if inbox doesnot exist to the store', () => {
+    it('push inbox if inbox does not exist to the store', () => {
       const state = {
         records: [],
       };

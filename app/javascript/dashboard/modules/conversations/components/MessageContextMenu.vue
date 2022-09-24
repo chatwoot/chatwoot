@@ -79,7 +79,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/* TDOD: Remove once MenuComponent supports postions */
+/* TODO: Remove once MenuComponent supports positions */
 .dropdown-pane {
   bottom: var(--space-medium);
 }

@@ -39,7 +39,7 @@ describe(`when there ARE errors loading the thumbnail`, () => {
 });
 
 describe(`when Avatar shows`, () => {
-  it(`initials shold correspond to username`, () => {
+  it(`initials should correspond to username`, () => {
     const wrapper = mount(Avatar, {
       propsData: {
         username: 'Angie Rojas',

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ::MessageTemplates::HookExecutionService do
   context 'when Greeting Message' do
-    it 'doesnot calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
+    it 'does not calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
       # ensure greeting hook is enabled

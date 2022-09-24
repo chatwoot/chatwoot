@@ -22,7 +22,7 @@ $default-button-height: 4.0rem;
     padding-left: var(--space-small);
   }
 
-  // @TODDO - Remove after moving all buttons to woot-button
+  // @TODO - Remove after moving all buttons to woot-button
   .icon+.button__content {
     padding-left: var(--space-small);
     width: auto;
@@ -180,7 +180,7 @@ $default-button-height: 4.0rem;
 }
 
 
-// @TDOD move to utility file
+// @TODO move to utility file
 .button--fixed-right-top {
   position: fixed;
   right: $space-small;

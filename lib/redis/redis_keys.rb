@@ -16,9 +16,9 @@ module Redis::RedisKeys
   ## Online Status Keys
   # hash containing user_id key and status as value
   ONLINE_STATUS = 'ONLINE_STATUS::%<account_id>d'.freeze
-  # sorted set storing online presense of account contacts
+  # sorted set storing online presence of account contacts
   ONLINE_PRESENCE_CONTACTS = 'ONLINE_PRESENCE::%<account_id>d::CONTACTS'.freeze
-  # sorted set storing online presense of account users
+  # sorted set storing online presence of account users
   ONLINE_PRESENCE_USERS = 'ONLINE_PRESENCE::%<account_id>d::USERS'.freeze
 
   ## Authorization Status Keys
