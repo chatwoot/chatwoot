@@ -5,8 +5,7 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
 
 //borders
 @mixin border-nil() {
-  border-color: transparent;
-  border: 0;
+  border: 0 transparent;
 }
 
 @mixin thin-border($color) {

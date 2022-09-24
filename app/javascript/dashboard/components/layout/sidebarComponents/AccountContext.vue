@@ -81,10 +81,7 @@ export default {
 
   align-items: center;
   background-image: var(--overlay-shadow);
-  border-top-left-radius: 0;
-  border-top-right-radius: var(--border-radius-normal);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: var(--border-radius-normal);
+  border-radius: 0 var(--border-radius-normal) var(--border-radius-normal) 0;
   display: flex;
   height: 100%;
   justify-content: flex-end;

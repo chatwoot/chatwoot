@@ -98,7 +98,7 @@ describe('#actions', () => {
   describe('#updatePresence', () => {
     it('sends correct actions', async () => {
       const data = { users: { 1: 'online' }, contacts: { 2: 'online' } };
-      actions.updatePresence({ commit, dispatch }, data);
+      await actions.updatePresence({ commit, dispatch }, data);
       expect(commit.mock.calls).toEqual([
         [types.default.UPDATE_AGENTS_PRESENCE, data],
       ]);

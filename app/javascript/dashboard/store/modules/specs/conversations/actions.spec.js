@@ -79,7 +79,7 @@ describe('#actions', () => {
   });
 
   describe('#addConversation', () => {
-    it('doesnot send mutation if conversation is from a different inbox', () => {
+    it('does not send mutation if conversation is from a different inbox', () => {
       const conversation = {
         id: 1,
         messages: [],
@@ -99,7 +99,7 @@ describe('#actions', () => {
       expect(dispatch.mock.calls).toEqual([]);
     });
 
-    it('doesnot send mutation if conversation filters are applied', () => {
+    it('does not send mutation if conversation filters are applied', () => {
       const conversation = {
         id: 1,
         messages: [],
@@ -119,7 +119,7 @@ describe('#actions', () => {
       expect(dispatch.mock.calls).toEqual([]);
     });
 
-    it('doesnot send mutation if the view is conversation mentions', () => {
+    it('does not send mutation if the view is conversation mentions', () => {
       const conversation = {
         id: 1,
         messages: [],

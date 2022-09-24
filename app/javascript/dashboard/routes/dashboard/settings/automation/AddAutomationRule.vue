@@ -251,12 +251,10 @@ export default {
       });
     },
     hasAutomationMutated() {
-      if (
+      return !!(
         this.automation.conditions[0].values ||
         this.automation.actions[0].action_params.length
-      )
-        return true;
-      return false;
+      );
     },
   },
   methods: {
@@ -440,9 +438,9 @@ export default {
       this.automation.actions[index].action_params = [];
     },
     showUserInput(operatorType) {
-      if (operatorType === 'is_present' || operatorType === 'is_not_present')
-        return false;
-      return true;
+      return !(
+        operatorType === 'is_present' || operatorType === 'is_not_present'
+      );
     },
     showActionInput(actionName) {
       if (actionName === 'send_email_to_team' || actionName === 'send_message')
@@ -450,8 +448,7 @@ export default {
       const type = AUTOMATION_ACTION_TYPES.find(
         action => action.key === actionName
       ).inputType;
-      if (type === null) return false;
-      return true;
+      return type !== null;
     },
   },
 };

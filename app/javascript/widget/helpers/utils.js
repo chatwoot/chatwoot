@@ -22,9 +22,7 @@ export const IFrameHelper = {
   sendMessage,
   isAValidEvent: e => {
     const isDataAString = typeof e.data === 'string';
-    const isAValidWootEvent =
-      isDataAString && e.data.indexOf(WOOT_PREFIX) === 0;
-    return isAValidWootEvent;
+    return isDataAString && e.data.indexOf(WOOT_PREFIX) === 0;
   },
   getMessage: e => JSON.parse(e.data.replace(WOOT_PREFIX, '')),
 };

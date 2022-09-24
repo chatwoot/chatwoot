@@ -125,10 +125,7 @@ export default {
       if (!this.assignedAgent) {
         return true;
       }
-      if (this.assignedAgent.id !== this.currentUser.id) {
-        return true;
-      }
-      return false;
+      return this.assignedAgent.id !== this.currentUser.id;
     },
   },
   methods: {
@@ -143,7 +140,7 @@ export default {
         role,
         avatar_url,
       } = this.currentUser;
-      const selfAssign = {
+      this.assignedAgent = {
         account_id,
         availability_status,
         available_name,
@@ -153,7 +150,6 @@ export default {
         role,
         thumbnail: avatar_url,
       };
-      this.assignedAgent = selfAssign;
     },
     onClickAssignAgent(selectedItem) {
       if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {

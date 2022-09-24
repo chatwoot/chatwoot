@@ -1,5 +1,4 @@
 import Vue from 'vue';
-
 import AssignableAgentsAPI from '../../api/assignableAgents';
 
 const state = {
@@ -17,8 +16,7 @@ export const types = {
 export const getters = {
   getAssignableAgents: $state => inboxId => {
     const allAgents = $state.records[inboxId] || [];
-    const verifiedAgents = allAgents.filter(record => record.confirmed);
-    return verifiedAgents;
+    return allAgents.filter(record => record.confirmed);
   },
   getUIFlags($state) {
     return $state.uiFlags;

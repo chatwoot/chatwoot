@@ -1,4 +1,4 @@
-import { addClass, removeClass, toggleClass, wootOn } from './DOMHelpers';
+import { addClass, removeClass, toggleClass } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
 import { isExpandedView } from './settingsHelper';
 
@@ -71,7 +71,7 @@ export const onBubbleClick = (props = {}) => {
 };
 
 export const onClickChatBubble = () => {
-  wootOn(bubbleHolder, 'click', onBubbleClick);
+  bubbleHolder.addEventListener('click', onBubbleClick);
 };
 
 export const addUnreadClass = () => {

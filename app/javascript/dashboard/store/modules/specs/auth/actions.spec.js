@@ -124,14 +124,14 @@ describe('#actions', () => {
   describe('#setUser', () => {
     it('sends correct actions if user is logged in', async () => {
       Cookies.getJSON.mockImplementation(() => true);
-      actions.setUser({ commit, dispatch });
+      await actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['validityCheck']]);
     });
 
     it('sends correct actions if user is not logged in', async () => {
       Cookies.getJSON.mockImplementation(() => false);
-      actions.setUser({ commit, dispatch });
+      await actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([
         [types.default.CLEAR_USER],
         [types.default.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],

@@ -91,8 +91,7 @@ export default {
       ];
     },
     showEmptySearchResult() {
-      const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
-      return hasEmptyResults;
+      return !!this.searchQuery && this.records.length === 0;
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);

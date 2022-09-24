@@ -146,7 +146,7 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.DELETE_ARTICLE.API.SUCCESS_MESSAGE'
         );
-        this.$router.push({
+        await this.$router.push({
           name: 'list_all_locale_articles',
           params: {
             portalSlug: this.selectedPortalSlug,

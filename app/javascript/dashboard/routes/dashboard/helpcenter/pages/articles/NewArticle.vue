@@ -81,7 +81,7 @@ export default {
             // TODO: Change to un categorized later when API supports
             category_id: this.categoryId,
           });
-          this.$router.push({
+          await this.$router.push({
             name: 'edit_article',
             params: {
               articleSlug: articleId,

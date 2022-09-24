@@ -259,9 +259,9 @@ export default {
       this.appliedFilters[index].values = '';
     },
     showUserInput(operatorType) {
-      if (operatorType === 'is_present' || operatorType === 'is_not_present')
-        return false;
-      return true;
+      return !(
+        operatorType === 'is_present' || operatorType === 'is_not_present'
+      );
     },
     clearFilters() {
       this.$emit('clearFilters');

@@ -17,8 +17,7 @@ export default {
   computed: {
     computedInboxClass() {
       const { phone_number: phoneNumber, channel_type: type } = this.inbox;
-      const classByType = getInboxClassByType(type, phoneNumber);
-      return classByType;
+      return getInboxClassByType(type, phoneNumber);
     },
   },
 };

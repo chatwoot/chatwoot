@@ -10,9 +10,10 @@
 <script>
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
-  hasPressedArrowUpKey,
   hasPressedArrowDownKey,
+  hasPressedArrowUpKey,
 } from 'shared/helpers/KeyboardHelpers';
+
 export default {
   name: 'WootDropdownMenu',
   componentName: 'WootDropdownMenu',
@@ -36,8 +37,7 @@ export default {
       const focusedButton = this.$refs.dropdownMenu.querySelector(
         'ul.dropdown li.dropdown-menu__item .button:focus'
       );
-      const activeIndex = [...menuButtons].indexOf(focusedButton);
-      return activeIndex;
+      return [...menuButtons].indexOf(focusedButton);
     },
     handleKeyEvents(e) {
       const menuButtons = this.dropdownMenuButtons();

@@ -148,7 +148,6 @@ export default {
 .customer-satisfaction {
   @include light-shadow;
 
-  border-bottom-left-radius: $space-smaller;
   border-radius: $space-small;
   border-top: $space-micro solid $color-woot;
   color: $color-body;

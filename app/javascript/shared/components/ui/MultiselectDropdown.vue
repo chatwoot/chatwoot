@@ -104,10 +104,7 @@ export default {
   },
   computed: {
     hasValue() {
-      if (this.selectedItem && this.selectedItem.id) {
-        return true;
-      }
-      return false;
+      return !!(this.selectedItem && this.selectedItem.id);
     },
   },
   methods: {

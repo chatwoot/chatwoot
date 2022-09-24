@@ -34,7 +34,7 @@ services:
       - mailhog
       - sidekiq
     ports:
-      - 3000:3000
+      - '3000:3000'
     env_file: .env
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpack
@@ -107,8 +107,8 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
-      - 1025:1025
-      - 8025:8025
+      - '1025:1025'
+      - '8025:8025'
 
 volumes:
   postgres:

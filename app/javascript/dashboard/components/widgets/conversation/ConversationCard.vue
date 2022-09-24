@@ -118,7 +118,7 @@ import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
-import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
+import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
@@ -282,8 +282,7 @@ export default {
 
     inbox() {
       const { inbox_id: inboxId } = this.chat;
-      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
-      return stateInbox;
+      return this.$store.getters['inboxes/getInbox'](inboxId);
     },
 
     showInboxName() {

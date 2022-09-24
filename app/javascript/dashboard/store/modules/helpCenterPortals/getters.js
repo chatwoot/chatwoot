@@ -8,16 +8,13 @@ export const getters = {
   isFetchingPortals: state => state.uiFlags.isFetching,
   portalBySlug: (...getterArguments) => portalId => {
     const [state] = getterArguments;
-    const portal = state.portals.byId[portalId];
-
-    return portal;
+    return state.portals.byId[portalId];
   },
   allPortals: (...getterArguments) => {
     const [state, _getters] = getterArguments;
-    const portals = state.portals.allIds.map(id => {
+    return state.portals.allIds.map(id => {
       return _getters.portalBySlug(id);
     });
-    return portals;
   },
   count: state => state.portals.allIds.length || 0,
   getMeta: state => {

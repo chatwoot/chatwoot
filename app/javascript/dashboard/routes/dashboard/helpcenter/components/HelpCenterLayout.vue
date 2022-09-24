@@ -235,11 +235,7 @@ export default {
   },
   methods: {
     handleResize() {
-      if (window.innerWidth > 1200) {
-        this.isOnDesktop = true;
-      } else {
-        this.isOnDesktop = false;
-      }
+      this.isOnDesktop = window.innerWidth > 1200;
     },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;

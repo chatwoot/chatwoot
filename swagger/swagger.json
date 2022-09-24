@@ -677,7 +677,7 @@
               "properties": {
                 "url": {
                   "type": "string",
-                  "description": "SSO url to autenticate the user"
+                  "description": "SSO url to authenticate the user"
                 }
               }
             }
@@ -900,7 +900,7 @@
         "tags": [
           "Messages API"
         ],
-        "operationId": "list-all-converation-messages",
+        "operationId": "list-all-conversation-messages",
         "summary": "List all messages",
         "description": "List all messages in the conversation",
         "responses": {

@@ -80,7 +80,7 @@ export default {
       if (!contactId) {
         return;
       }
-      this.$store.dispatch('contactLabels/get', contactId);
+      await this.$store.dispatch('contactLabels/get', contactId);
     },
   },
 };

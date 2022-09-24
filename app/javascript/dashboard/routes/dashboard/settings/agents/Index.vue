@@ -23,7 +23,7 @@
           <table v-else class="woot-table">
             <tbody>
               <tr v-for="(agent, index) in agentList" :key="agent.email">
-                <!-- Gravtar Image -->
+                <!-- Gravatar Image -->
                 <td>
                   <thumbnail
                     :src="agent.thumbnail"

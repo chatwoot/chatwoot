@@ -211,7 +211,7 @@ export default {
       try {
         await this.$store.dispatch('automations/clone', id);
         this.showAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
-        this.$store.dispatch('automations/get');
+        await this.$store.dispatch('automations/get');
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
         this.showAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
@@ -225,7 +225,7 @@ export default {
           mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-        await await this.$store.dispatch(action, payload);
+        await this.$store.dispatch(action, payload);
         this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
         this.hideEditPopup();
@@ -252,7 +252,7 @@ export default {
         // Check if user confirms to proceed
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
-          await await this.$store.dispatch('automations/update', {
+          await this.$store.dispatch('automations/update', {
             id: automation.id,
             active: !status,
           });

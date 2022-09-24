@@ -83,7 +83,7 @@
  * Src - source for round image
  * Size - Size of the thumbnail
  * Badge - Chat source indication { fb / telegram }
- * Username - User name for avatar
+ * Username - Username for avatar
  */
 import Avatar from './Avatar';
 import { removeEmoji } from 'shared/helpers/emoji';

@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 function prepareData(data) {
-  var labels = [];
-  var dataSet = [];
+  const labels = [];
+  const dataSet = [];
   data.forEach(item => {
     labels.push(item[0]);
     dataSet.push(item[1]);
@@ -10,7 +10,7 @@ function prepareData(data) {
 }
 
 function getChartOptions() {
-  var fontFamily =
+  const fontFamily =
     'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   return {
     responsive: true,
@@ -35,8 +35,8 @@ function getChartOptions() {
 
 // eslint-disable-next-line
 function drawSuperAdminDashboard(data) {
-  var ctx = document.getElementById('dashboard-chart').getContext('2d');
-  var chartData = prepareData(data);
+  const ctx = document.getElementById('dashboard-chart').getContext('2d');
+  const chartData = prepareData(data);
   // eslint-disable-next-line
   new Chart(ctx, {
     type: 'bar',

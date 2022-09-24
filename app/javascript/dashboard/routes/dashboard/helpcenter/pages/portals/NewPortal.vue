@@ -24,6 +24,7 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader';
+
 export default {
   components: {
     SettingsHeader,
@@ -34,17 +35,13 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      const allItems = this.$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW').map(
-        item => ({
-          ...item,
-          body: this.useInstallationName(
-            item.body,
-            this.globalConfig.installationName
-          ),
-        })
-      );
-
-      return allItems;
+      return this.$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW').map(item => ({
+        ...item,
+        body: this.useInstallationName(
+          item.body,
+          this.globalConfig.installationName
+        ),
+      }));
     },
     portalHeaderText() {
       if (this.$route.name === 'new_portal_information') {

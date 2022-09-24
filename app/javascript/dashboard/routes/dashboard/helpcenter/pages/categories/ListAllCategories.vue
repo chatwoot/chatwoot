@@ -150,8 +150,7 @@ export default {
       }
     },
     changeCurrentCategory(event) {
-      const localeCode = event.target.value;
-      this.currentLocaleCode = localeCode;
+      this.currentLocaleCode = event.target.value;
     },
   },
 };

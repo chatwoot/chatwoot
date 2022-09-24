@@ -1,10 +1,10 @@
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import { escapeHtml, afterSanitizeAttributes } from './HTMLSanitizer';
+import { afterSanitizeAttributes, escapeHtml } from './HTMLSanitizer';
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT =
-  '$1<a href="http://twitter.com/$2" target="_blank" rel="noreferrer nofollow noopener">@$2</a>';
+  '$1<a href="https://twitter.com/$2" target="_blank" rel="noreferrer nofollow noopener">@$2</a>';
 
 const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
 const TWITTER_HASH_REPLACEMENT =
@@ -45,8 +45,7 @@ class MessageFormatter {
         TWITTER_HASH_REGEX,
         TWITTER_HASH_REPLACEMENT
       );
-      const markedDownOutput = marked(withHash);
-      return markedDownOutput;
+      return marked(withHash);
     }
     DOMPurify.addHook('afterSanitizeAttributes', afterSanitizeAttributes);
     return DOMPurify.sanitize(

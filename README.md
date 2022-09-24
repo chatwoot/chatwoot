@@ -61,8 +61,8 @@ Other features include:
 - **Canned responses (Saved replies)**: Improve the response rate by adding saved replies for frequently asked questions.
 - **Conversation Labels**: Use conversation labels to create custom workflows.
 - **Auto assignment**: Chatwoot intelligently assigns a ticket to the agents who have access to the inbox depending on their availability and load.
-- **Conversation continuity**: If the user has provided an email address through the chat widget, Chatwoot will send an email to the customer under the agent name so that the user can continue the conversation over the email.
-- **Multi-lingual support**: Chatwoot supports 10+ languages.
+- **Conversation continuity**: If the user has provided an email address through the chat widget, Chatwoot will email the customer under the agent name so that the user can continue the conversation over the email.
+- **Multilingual support**: Chatwoot supports 10+ languages.
 - **Powerful API & Webhooks**: Extend the capability of the software using Chatwoot’s webhooks and APIs.
 - **Integrations**: Chatwoot natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
 
@@ -100,7 +100,7 @@ Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
 
 ### Other deployment options
 
-For other supported options, checkout our [deployment page](https://chatwoot.com/deploy). 
+For other supported options, checkout our [deployment page](https://chatwoot.com/deploy).
 
 ## Security
 

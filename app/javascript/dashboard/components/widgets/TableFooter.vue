@@ -99,33 +99,25 @@ export default {
       return this.totalCount && !(this.firstIndex > this.totalCount);
     },
     firstIndex() {
-      const firstIndex = this.pageSize * (this.currentPage - 1) + 1;
-      return firstIndex;
+      return this.pageSize * (this.currentPage - 1) + 1;
     },
     lastIndex() {
-      const index = Math.min(this.totalCount, this.pageSize * this.currentPage);
-      return index;
+      return Math.min(this.totalCount, this.pageSize * this.currentPage);
     },
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
     },
     hasLastPage() {
-      const isDisabled =
-        this.currentPage === Math.ceil(this.totalCount / this.pageSize);
-      return isDisabled;
+      return this.currentPage === Math.ceil(this.totalCount / this.pageSize);
     },
     hasFirstPage() {
-      const isDisabled = this.currentPage === 1;
-      return isDisabled;
+      return this.currentPage === 1;
     },
     hasNextPage() {
-      const isDisabled =
-        this.currentPage === Math.ceil(this.totalCount / this.pageSize);
-      return isDisabled;
+      return this.currentPage === Math.ceil(this.totalCount / this.pageSize);
     },
     hasPrevPage() {
-      const isDisabled = this.currentPage === 1;
-      return isDisabled;
+      return this.currentPage === 1;
     },
   },
   methods: {

@@ -14,7 +14,7 @@ amazon:
   region: <%= ENV.fetch('AWS_REGION', '') %>
   bucket: <%= ENV.fetch('S3_BUCKET_NAME', '') %>
 
-# Remember not to checkin your GCS keyfile to a repository
+# Remember not to check in your GCS keyfile to a repository
 google:
   service: GCS
   project: <%= ENV.fetch('GCS_PROJECT', '') %>

@@ -42,7 +42,7 @@
               <td class="item-description text-truncate">
                 {{ attribute.attribute_description }}
               </td>
-              <td class="item text-truncatee">
+              <td class="item text-truncate">
                 {{ attribute.attribute_display_type }}
               </td>
               <td class="item key text-truncate">

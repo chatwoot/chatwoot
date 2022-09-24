@@ -4,17 +4,17 @@ Chatwoot is looking forward to working with security researchers worldwide to ke
 
 We use [huntr.dev](https://huntr.dev/) for security issues that affect our project. If you believe you have found a vulnerability, please disclose it via this [form](https://huntr.dev/bounties/disclose). This will enable us to review the vulnerability, fix it promptly, and reward you for your efforts.
 
-If you have any questions about the process, contact security@chatwoot.com. 
+If you have any questions about the process, contact security@chatwoot.com.
 
 Please try your best to describe a clear and realistic impact for your report, and please don't open any public issues on GitHub or social media; we're doing our best to respond through Huntr as quickly as possible.
 
 > Note: Please use the email for questions related to the process. Disclosures should be done via [huntr.dev](https://huntr.dev/)
 ## Supported versions
 
-| Version | Supported        |
-| ------- | --------------   |
-| latest   | ️✅               |
-| <latest   | ❌               |
+| Version | Supported |
+|---------|-----------|
+| latest  | ️✅        |
+| <latest | ❌         |
 
 
 ## Vulnerabilities we care about 🫣
@@ -36,7 +36,7 @@ We consider the following out of scope, though there may be exceptions.
 - Missing HTTP security headers
 - Incomplete/Missing SPF/DKIM
 - Reports from automated tools or scanners
-- Theoretical attacks without proof of exploitability
+- Theoretical attacks without proof of exploit-ability
 - Social engineering
 - Reflected file download
 - Physical attacks

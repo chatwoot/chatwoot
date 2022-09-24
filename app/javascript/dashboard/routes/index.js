@@ -28,7 +28,7 @@ const generateRoleWiseRoute = route => {
     }
   });
 };
-// Create a object of routes
+// Create an object of routes
 // accessible by each role.
 // returns an object with roles as keys and routeArr as values
 generateRoleWiseRoute(routes);
@@ -97,7 +97,7 @@ const validateSSOLoginParams = to => {
 export const validateRouteAccess = (to, from, next, { getters }) => {
   // Disable navigation to signup page if signups are disabled
   // Signup route has an attribute (requireSignupEnabled)
-  // defined in it's route definition
+  // defined in its route definition
   if (
     window.chatwootConfig.signupEnabled !== 'true' &&
     to.meta &&

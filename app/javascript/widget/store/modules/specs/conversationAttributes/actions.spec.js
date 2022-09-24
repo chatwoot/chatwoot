@@ -14,7 +14,7 @@ describe('#actions', () => {
         ['conversation/setMetaUserLastSeenAt', undefined, { root: true }],
       ]);
     });
-    it('doesnot send mutation if api is error', async () => {
+    it('does not send mutation if api is error', async () => {
       API.get.mockRejectedValue({ message: 'Invalid Headers' });
       await actions.getAttributes({ commit });
       expect(commit.mock.calls).toEqual([]);

@@ -181,7 +181,7 @@ export default {
           }
         );
 
-        router.replace({
+        await router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
             page: 'new',
@@ -201,7 +201,7 @@ export default {
   margin-bottom: 15px;
 
   .checkbox {
-    margin: 0px 4px;
+    margin: 0 4px;
   }
 }
 </style>

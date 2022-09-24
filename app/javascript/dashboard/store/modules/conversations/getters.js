@@ -22,7 +22,7 @@ const getters = {
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
-    const lastEmail = [...messages].reverse().find(message => {
+    return [...messages].reverse().find(message => {
       const {
         content_attributes: contentAttributes = {},
         message_type: messageType,
@@ -31,13 +31,8 @@ const getters = {
       const isIncomingOrOutgoing =
         messageType === MESSAGE_TYPE.OUTGOING ||
         messageType === MESSAGE_TYPE.INCOMING;
-      if (email.from && isIncomingOrOutgoing) {
-        return true;
-      }
-      return false;
+      return email.from && isIncomingOrOutgoing;
     });
-
-    return lastEmail;
   },
   getMineChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUserID = rootGetters.getCurrentUser?.id;
@@ -46,9 +41,7 @@ const getters = {
       const { assignee } = conversation.meta;
       const isAssignedToMe = assignee && assignee.id === currentUserID;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
-      const isChatMine = isAssignedToMe && shouldFilter;
-
-      return isChatMine;
+      return isAssignedToMe && shouldFilter;
     });
   },
   getAppliedConversationFilters: _state => {
@@ -63,8 +56,7 @@ const getters = {
   },
   getAllStatusChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
-      const shouldFilter = applyPageFilters(conversation, activeFilters);
-      return shouldFilter;
+      return applyPageFilters(conversation, activeFilters);
     });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,

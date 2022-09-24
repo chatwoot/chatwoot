@@ -150,10 +150,10 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import {
-  isEscape,
-  isEnter,
-  hasPressedShift,
   hasPressedCommandPlusKKey,
+  hasPressedShift,
+  isEnter,
+  isEscape,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
@@ -227,11 +227,7 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
     showRichContentEditor() {
-      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
-        return true;
-      }
-
-      return false;
+      return !!(this.isOnPrivateNote || this.isRichEditorEnabled);
     },
     assignedAgent: {
       get() {
@@ -461,7 +457,7 @@ export default {
   },
 
   mounted() {
-    // Donot use the keyboard listener mixin here as the events here are supposed to be
+    // Do not use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
@@ -537,7 +533,7 @@ export default {
         role,
         avatar_url,
       } = this.currentUser;
-      const selfAssign = {
+      this.assignedAgent = {
         account_id,
         availability_status,
         available_name,
@@ -547,7 +543,6 @@ export default {
         role,
         thumbnail: avatar_url,
       };
-      this.assignedAgent = selfAssign;
     },
     async onSendReply() {
       if (this.isReplyButtonDisabled) {
@@ -563,7 +558,7 @@ export default {
         if (!this.isPrivate) {
           this.clearEmailField();
         }
-        this.sendMessage(messagePayload);
+        await this.sendMessage(messagePayload);
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
@@ -582,7 +577,7 @@ export default {
       }
     },
     async onSendWhatsAppReply(messagePayload) {
-      this.sendMessage({
+      await this.sendMessage({
         conversationId: this.currentChat.id,
         ...messagePayload,
       });

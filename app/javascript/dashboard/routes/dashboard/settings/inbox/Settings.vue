@@ -489,13 +489,11 @@ export default {
       return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
     },
     textAreaChannels() {
-      if (
+      return !!(
         this.isATwilioChannel ||
         this.isATwitterInbox ||
         this.isAFacebookInbox
-      )
-        return true;
-      return false;
+      );
     },
   },
   watch: {
@@ -517,8 +515,7 @@ export default {
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
-        return newSelectedFlags;
+        return selected.filter(flag => flag !== current);
       }
       return [...selected, current];
     },

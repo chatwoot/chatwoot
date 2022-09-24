@@ -96,7 +96,7 @@ export default {
 
   async mounted() {
     const { teamId } = this.$route.params;
-    this.$store.dispatch('agents/get');
+    await this.$store.dispatch('agents/get');
     try {
       await this.$store.dispatch('teamMembers/get', {
         teamId,
@@ -122,14 +122,14 @@ export default {
           teamId,
           agentsList: selectedAgents,
         });
-        router.replace({
+        await router.replace({
           name: 'settings_teams_edit_finish',
           params: {
             page: 'edit',
             teamId,
           },
         });
-        this.$store.dispatch('teams/get');
+        await this.$store.dispatch('teams/get');
       } catch (error) {
         this.showAlert(error.message);
       }

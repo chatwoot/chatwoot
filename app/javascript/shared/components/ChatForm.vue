@@ -196,7 +196,6 @@ export default {
 
   select {
     width: 110%;
-    padding: $space-smaller;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -211,7 +210,7 @@ export default {
     background-position: right -1.6rem center;
     background-repeat: no-repeat;
     background-size: 9px 6px;
-    padding-right: 2.4rem;
+    padding: $space-smaller 2.4rem $space-smaller $space-smaller;
   }
 
   .button {

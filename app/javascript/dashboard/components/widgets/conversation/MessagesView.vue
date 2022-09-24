@@ -44,7 +44,7 @@
         "
         :is-web-widget-inbox="isAWebWidgetInbox"
       />
-      <li v-show="getUnreadCount != 0" class="unread--toast">
+      <li v-show="getUnreadCount !== 0" class="unread--toast">
         <span class="text-uppercase">
           {{ getUnreadCount }}
           {{
@@ -158,10 +158,9 @@ export default {
           ${this.selectedTweet.content}` || '';
     },
     typingUsersList() {
-      const userList = this.$store.getters[
-        'conversationTypingStatus/getUserList'
-      ](this.currentChat.id);
-      return userList;
+      return this.$store.getters['conversationTypingStatus/getUserList'](
+        this.currentChat.id
+      );
     },
     isAnyoneTyping() {
       const userList = this.typingUsersList;
@@ -171,8 +170,7 @@ export default {
       const userList = this.typingUsersList;
 
       if (this.isAnyoneTyping) {
-        const userListAsName = getTypingUsersText(userList);
-        return userListAsName;
+        return getTypingUsersText(userList);
       }
 
       return '';

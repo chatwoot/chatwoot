@@ -92,10 +92,7 @@ export default {
         required,
         minLength: minLength(6),
         isEqPassword(value) {
-          if (value !== this.credentials.password) {
-            return false;
-          }
-          return true;
+          return value === this.credentials.password;
         },
       },
     },

@@ -88,7 +88,7 @@ export default {
 
       try {
         await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
-        router.replace({
+        await router.replace({
           name: 'settings_inbox_finish',
           params: {
             page: 'new',

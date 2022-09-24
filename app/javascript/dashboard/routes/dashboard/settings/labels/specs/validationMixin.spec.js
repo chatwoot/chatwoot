@@ -56,7 +56,7 @@ describe('validationMixin', () => {
       'Minimum length 2 is required'
     );
   });
-  it('it should return invalid character error message if invalid lable name passed', async () => {
+  it('it should return invalid character error message if invalid label name passed', async () => {
     const wrapper = shallowMount(Component, {
       i18n: i18nConfig,
       localVue,

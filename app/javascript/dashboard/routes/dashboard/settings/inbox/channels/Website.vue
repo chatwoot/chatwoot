@@ -155,13 +155,11 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
     }),
     textAreaChannels() {
-      if (
+      return !!(
         this.isATwilioChannel ||
         this.isATwitterInbox ||
         this.isAFacebookInbox
-      )
-        return true;
-      return false;
+      );
     },
   },
   methods: {
@@ -182,7 +180,7 @@ export default {
             },
           }
         );
-        router.replace({
+        await router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
             page: 'new',

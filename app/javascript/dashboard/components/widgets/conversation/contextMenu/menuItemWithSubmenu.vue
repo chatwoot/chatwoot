@@ -51,7 +51,6 @@ export default {
     box-shadow: var(--shadow-context-menu);
     border-radius: var(--border-radius-normal);
     position: absolute;
-    position: absolute;
     left: 100%;
     top: 0;
     display: none;
@@ -68,7 +67,7 @@ export default {
       z-index: var(--z-index-highest);
       bottom: -65%;
       height: 75%;
-      right: 0%;
+      right: 0;
       width: 50%;
       clip-path: polygon(100% 0, 0% 0%, 100% 100%);
     }

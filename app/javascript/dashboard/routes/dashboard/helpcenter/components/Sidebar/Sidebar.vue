@@ -20,7 +20,7 @@
         :menu-item="menuItem"
         :is-help-center-sidebar="true"
         :is-category-empty="!hasCategory"
-        @open="onClickOpenAddCatogoryModal"
+        @open="onClickOpenAddCategoryModal"
       />
     </transition-group>
   </div>
@@ -86,7 +86,7 @@ export default {
     openPortalPopover() {
       this.$emit('open-popover');
     },
-    onClickOpenAddCatogoryModal() {
+    onClickOpenAddCategoryModal() {
       this.$emit('open-modal');
     },
   },

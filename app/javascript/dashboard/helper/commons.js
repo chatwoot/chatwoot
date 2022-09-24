@@ -47,7 +47,7 @@ export const createPendingMessage = data => {
   const tempMessageId = getUuid();
   const { message, file } = data;
   const tempAttachments = [{ id: tempMessageId }];
-  const pendingMessage = {
+  return {
     ...data,
     content: message || null,
     id: tempMessageId,
@@ -58,8 +58,6 @@ export const createPendingMessage = data => {
     conversation_id: data.conversationId,
     attachments: file ? tempAttachments : null,
   };
-
-  return pendingMessage;
 };
 
 export const convertToAttributeSlug = text => {

@@ -49,11 +49,7 @@ export default {
       this.$emit('cancel');
     },
     async onSubmit(contactItem) {
-      const data = await this.$store.dispatch(
-        'contactConversations/create',
-        contactItem
-      );
-      return data;
+      return this.$store.dispatch('contactConversations/create', contactItem);
     },
   },
 };

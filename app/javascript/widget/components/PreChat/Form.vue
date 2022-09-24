@@ -118,13 +118,10 @@ export default {
       const isUserEmailAvailable = !!this.currentUser.email;
       const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
       return this.preChatFields.filter(field => {
-        if (
+        return !(
           (isUserEmailAvailable && field.name === 'emailAddress') ||
           (isUserPhoneNumberAvailable && field.name === 'phoneNumber')
-        ) {
-          return false;
-        }
-        return true;
+        );
       });
     },
     enabledPreChatFields() {

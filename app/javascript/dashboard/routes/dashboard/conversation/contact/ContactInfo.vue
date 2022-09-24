@@ -262,7 +262,7 @@ export default {
         this.$emit('panel-close');
         this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
         if (this.$route.name !== 'contacts_dashboard') {
-          this.$router.push({ name: 'contacts_dashboard' });
+          await this.$router.push({ name: 'contacts_dashboard' });
         }
       } catch (error) {
         this.showAlert(

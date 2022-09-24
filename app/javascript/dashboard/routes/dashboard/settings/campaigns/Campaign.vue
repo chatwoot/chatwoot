@@ -31,6 +31,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import CampaignsTable from './CampaignsTable';
 import EditCampaign from './EditCampaign';
+
 export default {
   components: {
     CampaignsTable,
@@ -59,9 +60,7 @@ export default {
       return this.$store.getters['campaigns/getCampaigns'](this.campaignType);
     },
     showEmptyResult() {
-      const hasEmptyResults =
-        !this.uiFlags.isFetching && this.campaigns.length === 0;
-      return hasEmptyResults;
+      return !this.uiFlags.isFetching && this.campaigns.length === 0;
     },
   },
   methods: {

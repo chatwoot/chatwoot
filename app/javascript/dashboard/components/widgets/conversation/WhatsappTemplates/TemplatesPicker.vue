@@ -40,7 +40,7 @@
             </div>
           </div>
         </button>
-        <hr v-if="i != filteredTemplateMessages.length - 1" :key="`hr-${i}`" />
+        <hr v-if="i !== filteredTemplateMessages.length - 1" :key="`hr-${i}`" />
       </div>
       <div v-if="!filteredTemplateMessages.length">
         <p>

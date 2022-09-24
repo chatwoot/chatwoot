@@ -5,7 +5,7 @@
         {{ message }}
       </div>
       <div v-if="action" class="ui-snackbar-action">
-        <router-link v-if="action.type == 'link'" :to="action.to">
+        <router-link v-if="action.type === 'link'" :to="action.to">
           {{ action.message }}
         </router-link>
       </div>

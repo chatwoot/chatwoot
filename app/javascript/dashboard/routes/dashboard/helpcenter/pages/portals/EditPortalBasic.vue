@@ -57,7 +57,7 @@ export default {
 
         if (this.lastPortalSlug !== portalObj.slug) {
           await this.$store.dispatch('portals/index');
-          this.$router.replace({
+          await this.$router.replace({
             name: this.$route.name,
             params: { portalSlug: portalObj.slug },
           });

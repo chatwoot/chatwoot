@@ -21,7 +21,7 @@ import {
   ICON_SNOOZE_CONVERSATION,
   ICON_SNOOZE_UNTIL_NEXT_REPLY,
   ICON_SNOOZE_UNTIL_NEXT_WEEK,
-  ICON_SNOOZE_UNTIL_TOMORRROW,
+  ICON_SNOOZE_UNTIL_TOMORROW,
   ICON_UNMUTE_CONVERSATION,
 } from './CommandBarIcons';
 
@@ -50,7 +50,7 @@ const OPEN_CONVERSATION_ACTIONS = [
     id: 'until_tomorrow',
     title: 'COMMAND_BAR.COMMANDS.UNTIL_TOMORROW',
     parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_UNTIL_TOMORRROW,
+    icon: ICON_SNOOZE_UNTIL_TOMORROW,
     handler: () => bus.$emit(CMD_SNOOZE_CONVERSATION, 'tomorrow'),
   },
   {

@@ -46,6 +46,7 @@ const allKeysRequired = value => {
   return keys.every(key => value[key]);
 };
 import { requiredIf } from 'vuelidate/lib/validators';
+
 export default {
   props: {
     template: {
@@ -66,8 +67,7 @@ export default {
   },
   computed: {
     variables() {
-      const variables = this.templateString.match(/{{([^}]+)}}/g);
-      return variables;
+      return this.templateString.match(/{{([^}]+)}}/g);
     },
     templateString() {
       return this.template.components.find(

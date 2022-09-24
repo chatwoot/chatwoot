@@ -181,11 +181,7 @@ export default {
         return false;
       }
 
-      if (this.emailMessageContent.includes('<blockquote')) {
-        return true;
-      }
-
-      return false;
+      return !!this.emailMessageContent.includes('<blockquote');
     },
     message() {
       if (this.contentType === 'input_csat') {

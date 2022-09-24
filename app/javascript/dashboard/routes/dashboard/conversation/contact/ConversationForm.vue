@@ -260,14 +260,13 @@ export default {
       }, 50);
     },
     prepareWhatsAppMessagePayload({ message: content, templateParams }) {
-      const payload = {
+      return {
         inboxId: this.targetInbox.inbox.id,
         sourceId: this.targetInbox.source_id,
         contactId: this.contact.id,
         message: { content, templateParams },
         assigneeId: this.currentUser.id,
       };
-      return payload;
     },
     onFormSubmit() {
       this.$v.$touch();
@@ -339,8 +338,7 @@ export default {
   border-radius: var(--border-radius-small);
 
   .contact-name {
-    margin: 0;
-    margin-left: var(--space-small);
+    margin: 0 0 0 var(--space-small);
   }
 }
 

@@ -2,7 +2,7 @@
 
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
-import { setAuthCredentials, clearCookiesOnLogout } from '../store/utils/api';
+import { clearCookiesOnLogout, setAuthCredentials } from '../store/utils/api';
 
 export default {
   login(creds) {
@@ -21,7 +21,7 @@ export default {
 
   register(creds) {
     const urlData = endPoints('register');
-    const fetchPromise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       axios
         .post(urlData.url, {
           account_name: creds.accountName.trim(),
@@ -38,7 +38,6 @@ export default {
           reject(error);
         });
     });
-    return fetchPromise;
   },
   validityCheck() {
     const urlData = endPoints('validityCheck');
@@ -46,7 +45,7 @@ export default {
   },
   logout() {
     const urlData = endPoints('logout');
-    const fetchPromise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       axios
         .delete(urlData.url)
         .then(response => {
@@ -57,7 +56,6 @@ export default {
           reject(error);
         });
     });
-    return fetchPromise;
   },
   hasAuthCookie() {
     return !!Cookies.getJSON('cw_d_session_info');

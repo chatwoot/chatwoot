@@ -103,7 +103,7 @@ export default {
           }
         );
 
-        router.replace({
+        await router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
             page: 'new',

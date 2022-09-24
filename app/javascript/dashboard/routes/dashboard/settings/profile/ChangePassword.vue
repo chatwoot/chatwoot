@@ -94,10 +94,7 @@ export default {
     passwordConfirmation: {
       minLength: minLength(6),
       isEqPassword(value) {
-        if (value !== this.password) {
-          return false;
-        }
-        return true;
+        return value === this.password;
       },
     },
   },

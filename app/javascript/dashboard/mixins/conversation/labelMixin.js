@@ -32,7 +32,7 @@ export default {
       this.onUpdateLabels(result);
     },
     async onUpdateLabels(selectedLabels) {
-      this.$store.dispatch('conversationLabels/update', {
+      await this.$store.dispatch('conversationLabels/update', {
         conversationId: this.conversationId,
         labels: selectedLabels,
       });

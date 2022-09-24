@@ -21,14 +21,13 @@ export const mutations = {
   },
 
   [types.SET_CONTACTS]: ($state, data) => {
-    const sortOrder = data.map(contact => {
+    $state.sortOrder = data.map(contact => {
       Vue.set($state.records, contact.id, {
         ...($state.records[contact.id] || {}),
         ...contact,
       });
       return contact.id;
     });
-    $state.sortOrder = sortOrder;
   },
 
   [types.SET_CONTACT_ITEM]: ($state, data) => {

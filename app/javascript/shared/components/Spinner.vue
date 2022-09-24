@@ -51,8 +51,7 @@ export default {
     padding: $space-one;
     top: 0;
     left: 0;
-    margin: 0 auto;
-    margin-top: $space-slab;
+    margin: $space-slab auto 0;
     background: $color-white;
     border-radius: $space-large;
 

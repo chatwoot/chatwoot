@@ -80,8 +80,8 @@ export const getPreChatFields = ({
   customAttributes = [],
 }) => {
   const { pre_chat_message, pre_chat_fields } = preChatFormOptions;
-  let customFields = {};
-  let preChatFields = {};
+  let customFields;
+  let preChatFields;
 
   const formattedPreChatFields = getFormattedPreChatFields({
     preChatFields: pre_chat_fields,

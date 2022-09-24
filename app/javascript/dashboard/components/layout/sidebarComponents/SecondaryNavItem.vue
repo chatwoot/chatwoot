@@ -154,7 +154,7 @@ export default {
 
     computedClass() {
       // If active Inbox is present
-      // donot highlight conversations
+      // do not highlight conversations
       if (this.activeInbox) return ' ';
       if (this.hasSubMenu) {
         if (
@@ -181,17 +181,12 @@ export default {
     computedInboxClass(child) {
       const { type, phoneNumber } = child;
       if (!type) return '';
-      const classByType = getInboxClassByType(type, phoneNumber);
-      return classByType;
+      return getInboxClassByType(type, phoneNumber);
     },
     computedInboxErrorClass(child) {
       const { type, reauthorizationRequired } = child;
       if (!type) return '';
-      const warningClass = getInboxWarningIconClass(
-        type,
-        reauthorizationRequired
-      );
-      return warningClass;
+      return getInboxWarningIconClass(type, reauthorizationRequired);
     },
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {

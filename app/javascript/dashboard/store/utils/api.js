@@ -42,8 +42,7 @@ export const clearCookiesOnLogout = () => {
   window.bus.$emit(ANALYTICS_RESET);
   clearBrowserSessionCookies();
   const globalConfig = window.globalConfig || {};
-  const logoutRedirectLink = globalConfig.LOGOUT_REDIRECT_LINK || '/';
-  window.location = logoutRedirectLink;
+  window.location = globalConfig.LOGOUT_REDIRECT_LINK || '/';
 };
 
 export const parseAPIErrorResponse = error => {

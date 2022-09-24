@@ -1,10 +1,10 @@
-describe('AdminDashboardAuthentication', function () {
+describe('AdminDashboardAuthentication', () => {
   before(() => {
     cy.app('clean');
     cy.appScenario('default');
   });
 
-  it('authenticates an admin ', function () {
+  it('authenticates an admin ', () => {
     cy.visit('/');
 
     cy.get("[data-testid='email_input']")
@@ -16,5 +16,4 @@ describe('AdminDashboardAuthentication', function () {
 
     cy.get("[data-testid='submit_button']").click();
   });
-
 });

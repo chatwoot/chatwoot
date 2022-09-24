@@ -168,8 +168,7 @@ export default {
       if (this.timeSlot.openAllDay) {
         return 24;
       }
-      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
-      return totalHours;
+      return differenceInMinutes(this.toDate, this.fromDate) / 60;
     },
     hasError() {
       return !this.timeSlot.valid;

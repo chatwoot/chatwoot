@@ -22,8 +22,8 @@
         </p>
         <banner
           v-if="shouldShowBanner"
-          :show-success="shouldShowSuccessMesage"
-          :show-error="shouldShowErrorMesage"
+          :show-success="shouldShowSuccessMessage"
+          :show-error="shouldShowErrorMessage"
           :message="message"
         />
         <label
@@ -110,10 +110,10 @@ export default {
     enableFeedbackForm() {
       return !this.isFeedbackSubmitted && this.isRatingSubmitted;
     },
-    shouldShowErrorMesage() {
+    shouldShowErrorMessage() {
       return !!this.errorMessage;
     },
-    shouldShowSuccessMesage() {
+    shouldShowSuccessMessage() {
       return !!this.isRatingSubmitted;
     },
     message() {
@@ -124,7 +124,7 @@ export default {
     },
   },
   async mounted() {
-    this.getSurveyDetails();
+    await this.getSurveyDetails();
   },
   methods: {
     selectRating(rating) {

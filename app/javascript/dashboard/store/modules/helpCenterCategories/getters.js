@@ -13,10 +13,9 @@ export const getters = {
   },
   allCategories: (...getterArguments) => {
     const [state, _getters] = getterArguments;
-    const categories = state.categories.allIds.map(id => {
+    return state.categories.allIds.map(id => {
       return _getters.categoryById(id);
     });
-    return categories;
   },
   categoriesByLocaleCode: (...getterArguments) => localeCode => {
     const [state, _getters] = getterArguments;

@@ -23,7 +23,7 @@ export const getters = {
     return $state.uiFlags;
   },
   getAgentStatus($state) {
-    let status = {
+    return {
       online: $state.records.filter(
         agent => agent.availability_status === 'online'
       ).length,
@@ -33,7 +33,6 @@ export const getters = {
         agent => agent.availability_status === 'offline'
       ).length,
     };
-    return status;
   },
 };
 

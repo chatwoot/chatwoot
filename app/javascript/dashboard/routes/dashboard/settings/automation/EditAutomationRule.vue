@@ -449,9 +449,9 @@ export default {
       this.automation.conditions[index].values = '';
     },
     showUserInput(operatorType) {
-      if (operatorType === 'is_present' || operatorType === 'is_not_present')
-        return false;
-      return true;
+      return !(
+        operatorType === 'is_present' || operatorType === 'is_not_present'
+      );
     },
     formatAutomation(automation) {
       const formattedConditions = automation.conditions.map(condition => {
@@ -510,8 +510,7 @@ export default {
       const type = AUTOMATION_ACTION_TYPES.find(
         action => action.key === actionName
       ).inputType;
-      if (type === null) return false;
-      return true;
+      return type !== null;
     },
     getFileName(id, actionType) {
       if (!id) return '';

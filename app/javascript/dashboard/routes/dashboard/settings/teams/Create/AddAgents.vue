@@ -100,14 +100,14 @@ export default {
           teamId,
           agentsList: selectedAgents,
         });
-        router.replace({
+        await router.replace({
           name: 'settings_teams_finish',
           params: {
             page: 'new',
             teamId,
           },
         });
-        this.$store.dispatch('teams/get');
+        await this.$store.dispatch('teams/get');
       } catch (error) {
         this.showAlert(error.message);
       }

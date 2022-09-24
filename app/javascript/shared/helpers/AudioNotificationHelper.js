@@ -34,10 +34,7 @@ export const notificationEnabled = (enableAudioAlerts, id, userId) => {
   if (enableAudioAlerts === 'mine') {
     return userId === id;
   }
-  if (enableAudioAlerts === 'all') {
-    return true;
-  }
-  return false;
+  return enableAudioAlerts === 'all';
 };
 
 export const shouldPlayAudio = (

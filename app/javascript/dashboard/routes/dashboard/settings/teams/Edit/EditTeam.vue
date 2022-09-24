@@ -61,7 +61,7 @@ export default {
           ...data,
         });
 
-        router.replace({
+        await router.replace({
           name: 'settings_teams_edit_members',
           params: {
             page: 'edit',

@@ -307,11 +307,7 @@ export default {
         registration.pushManager
           .getSubscription()
           .then(subscription => {
-            if (!subscription) {
-              this.hasEnabledPushPermissions = false;
-            } else {
-              this.hasEnabledPushPermissions = true;
-            }
+            this.hasEnabledPushPermissions = subscription;
           })
           // eslint-disable-next-line no-console
           .catch(error => console.log(error))
@@ -319,7 +315,7 @@ export default {
     },
     async updateNotificationSettings() {
       try {
-        this.$store.dispatch('userNotificationSettings/update', {
+        await this.$store.dispatch('userNotificationSettings/update', {
           selectedEmailFlags: this.selectedEmailFlags,
           selectedPushFlags: this.selectedPushFlags,
         });
@@ -353,8 +349,7 @@ export default {
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
-        return newSelectedFlags;
+        return selected.filter(flag => flag !== current);
       }
       return [...selected, current];
     },

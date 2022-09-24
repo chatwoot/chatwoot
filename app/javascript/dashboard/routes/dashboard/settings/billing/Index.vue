@@ -75,7 +75,7 @@ export default {
       await this.$store.dispatch('accounts/get');
 
       if (!this.hasABillingPlan) {
-        this.$store.dispatch('accounts/subscription');
+        await this.$store.dispatch('accounts/subscription');
       }
     },
     onClickBillingPortal() {

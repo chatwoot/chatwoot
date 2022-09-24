@@ -53,7 +53,7 @@ export default {
       return this.$store.getters['portals/allPortals'][0];
     },
     tabs() {
-      const tabs = [
+      return [
         {
           key: 'edit_portal_information',
           name: this.$t('HELP_CENTER.PORTAL.EDIT.TABS.BASIC_SETTINGS.TITLE'),
@@ -73,8 +73,6 @@ export default {
           name: this.$t('HELP_CENTER.PORTAL.EDIT.TABS.LOCALE_SETTINGS.TITLE'),
         },
       ];
-
-      return tabs;
     },
     activeTabIndex() {
       return this.tabs.map(tab => tab.key).indexOf(this.$route.name);

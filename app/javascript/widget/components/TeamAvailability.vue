@@ -13,7 +13,7 @@
           }}
         </div>
         <div class="text-xs leading-4 mt-1">
-          {{ replyWaitMeessage }}
+          {{ replyWaitMessage }}
         </div>
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
@@ -75,7 +75,7 @@ export default {
       }
       return anyAgentOnline;
     },
-    replyWaitMeessage() {
+    replyWaitMessage() {
       const { workingHoursEnabled } = this.channelConfig;
 
       if (this.isOnline) {

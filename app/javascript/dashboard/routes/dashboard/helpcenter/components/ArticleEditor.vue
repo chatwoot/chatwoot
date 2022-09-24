@@ -88,7 +88,7 @@ export default {
   min-height: var(--space-jumbo);
   max-height: 64rem;
   height: auto;
-  border: 0px solid transparent;
+  border: 0 solid transparent;
   padding: 0;
   color: var(--s-900);
 }

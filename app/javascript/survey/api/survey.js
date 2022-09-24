@@ -3,8 +3,7 @@ import { API } from 'survey/helpers/axios';
 
 const getSurveyDetails = async ({ uuid }) => {
   const urlData = endPoints.getSurvey({ uuid });
-  const result = await API.get(urlData.url, { params: urlData.params });
-  return result;
+  return API.get(urlData.url, { params: urlData.params });
 };
 
 const updateSurvey = async ({ uuid, data }) => {

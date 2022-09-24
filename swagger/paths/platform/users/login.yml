@@ -13,7 +13,7 @@ responses:
       properties:
         url:
           type: string
-          description: SSO url to autenticate the user
+          description: SSO url to authenticate the user
   401:
     description: Unauthorized
   404:

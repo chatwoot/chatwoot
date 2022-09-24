@@ -9,11 +9,11 @@ default: &default
   check_yarn_integrity: false
   webpack_compile_output: true
 
-  # Additional paths webpack should lookup modules
+  # Additional paths webpack should look up modules
   # ['app/assets', 'engine/foo/app/assets']
   resolved_paths: []
 
-  # Reload manifest.json on all requests so we reload latest compiled packs
+  # Reload manifest.json on all requests, so we reload latest compiled packs
   cache_manifest: false
 
   # Extract and emit a css file

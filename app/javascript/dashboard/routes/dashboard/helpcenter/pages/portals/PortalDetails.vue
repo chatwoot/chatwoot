@@ -51,7 +51,7 @@ export default {
           this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_BASIC');
       } finally {
         this.showAlert(this.alertMessage);
-        this.$router.push({
+        await this.$router.push({
           name: 'portal_customization',
           params: { portalSlug: portal.slug },
         });

@@ -38,7 +38,7 @@ export default {
           ...data,
         });
 
-        router.replace({
+        await router.replace({
           name: 'settings_teams_add_agents',
           params: {
             page: 'new',

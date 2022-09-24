@@ -294,6 +294,6 @@ export default {
 }
 
 .delivered-icon {
-  margin-left: -var(--space-normal);
+  margin-left: var(--space-normal);
 }
 </style>

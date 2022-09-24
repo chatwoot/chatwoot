@@ -138,8 +138,7 @@ export default {
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     showEmptySearchResult() {
-      const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
-      return hasEmptyResults;
+      return !!this.searchQuery && this.records.length === 0;
     },
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
@@ -164,10 +163,7 @@ export default {
     },
     selectedContact() {
       if (this.selectedContactId) {
-        const contact = this.records.find(
-          item => this.selectedContactId === item.id
-        );
-        return contact;
+        return this.records.find(item => this.selectedContactId === item.id);
       }
       return undefined;
     },

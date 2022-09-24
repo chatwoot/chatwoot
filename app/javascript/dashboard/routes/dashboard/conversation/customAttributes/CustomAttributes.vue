@@ -51,7 +51,7 @@ export default {
             customAttributes: updatedAttributes,
           });
         } else {
-          this.$store.dispatch('contacts/update', {
+          await this.$store.dispatch('contacts/update', {
             id: this.contactId,
             custom_attributes: updatedAttributes,
           });
@@ -73,7 +73,7 @@ export default {
             customAttributes: updatedAttributes,
           });
         } else {
-          this.$store.dispatch('contacts/deleteCustomAttributes', {
+          await this.$store.dispatch('contacts/deleteCustomAttributes', {
             id: this.contactId,
             customAttributes: [key],
           });

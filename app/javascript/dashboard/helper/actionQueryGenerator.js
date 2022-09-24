@@ -19,7 +19,7 @@ const formatArray = params => {
 
 const generatePayload = data => {
   const actions = JSON.parse(JSON.stringify(data));
-  let payload = actions.map(item => {
+  return actions.map(item => {
     if (Array.isArray(item.action_params)) {
       item.action_params = formatArray(item.action_params);
     } else if (typeof item.values === 'object') {
@@ -31,7 +31,6 @@ const generatePayload = data => {
     }
     return item;
   });
-  return payload;
 };
 
 export default generatePayload;

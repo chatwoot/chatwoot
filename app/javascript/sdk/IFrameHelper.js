@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 import {
-  wootOn,
   addClass,
   loadCSS,
   removeClass,
@@ -99,7 +98,7 @@ export const IFrameHelper = {
     };
   },
   initWindowSizeListener: () => {
-    wootOn(window, 'resize', () => IFrameHelper.toggleCloseButton());
+    window.addEventListener('resize', () => IFrameHelper.toggleCloseButton());
   },
   preventDefaultScroll: () => {
     widgetHolder.addEventListener('wheel', event => {
