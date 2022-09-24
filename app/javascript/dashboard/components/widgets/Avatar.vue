@@ -78,7 +78,7 @@ export default {
       if (initials.length > 2 && initials.search(/[A-Z]/) !== -1) {
         initials = initials.replace(/[a-z]+/g, '');
       }
-      initials = initials.substr(0, 2).toUpperCase();
+      initials = initials.substring(0, 2).toUpperCase();
       return initials;
     },
   },

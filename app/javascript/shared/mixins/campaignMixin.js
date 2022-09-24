@@ -4,7 +4,7 @@ export default {
   computed: {
     campaignType() {
       const pageURL = window.location.href;
-      return pageURL.substr(pageURL.lastIndexOf('/') + 1);
+      return pageURL.substring(pageURL.lastIndexOf('/') + 1);
     },
     isOngoingType() {
       return this.campaignType === CAMPAIGN_TYPES.ONGOING;
