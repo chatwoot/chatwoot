@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2022_09_26_164441) do
     t.bigint "author_id"
     t.bigint "associated_article_id"
     t.jsonb "meta", default: {}
-    t.string "slug", default: ""
+    t.string "slug", default: "", null: false
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug"
