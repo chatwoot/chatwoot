@@ -41,7 +41,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def avatar_url(sender)
-    sender.try(:avatar_url) || "#{ENV['FRONTEND_URL']}/admin/avatar_square.png"
+    sender.try(:avatar_url) || "#{ENV.fetch('FRONTEND_URL', nil)}/admin/avatar_square.png"
   end
 
   def send_message

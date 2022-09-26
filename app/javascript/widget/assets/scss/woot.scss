@@ -1,3 +1,5 @@
+@import 'shared/assets/stylesheets/animations';
+
 @import 'reset';
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
@@ -44,7 +46,6 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
-
 
 .message-content {
   ul {

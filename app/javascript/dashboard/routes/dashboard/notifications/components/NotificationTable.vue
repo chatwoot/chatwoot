@@ -13,10 +13,13 @@
         <tr
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
+          :class="{
+            'is-unread': notificationItem.read_at === null,
+          }"
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="flex-view notification-contant--wrap">
+            <div class="flex-view notification-contant--wrap text-truncate">
               <h5 class="notification--title">
                 {{
                   `#${
@@ -161,6 +164,10 @@ export default {
       }
     }
   }
+}
+
+.is-unread {
+  font-weight: var(--font-weight-bold);
 }
 
 .notifications--loader {

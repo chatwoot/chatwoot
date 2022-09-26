@@ -1,14 +1,14 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
+    "DESCRIPTION": "Arvoisa asiakas 👋, käytäthän hetken aikaasi ja annat palautetta keskustelusta, jonka kävit %{inboxName} kanssa.",
     "RATING": {
-      "LABEL": "Rate your conversation",
-      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
+      "LABEL": "Anna arvio palvelusta",
+      "SUCCESS_MESSAGE": "Kiitos, että lähetit arvion"
     },
     "FEEDBACK": {
-      "LABEL": "Do you have any thoughts you'd like to share?",
-      "PLACEHOLDER": "Your feedback (optional)",
-      "BUTTON_TEXT": "Submit feedback"
+      "LABEL": "Onko sinulla vielä jotain palautetta, jonka haluaisit jakaa meille?",
+      "PLACEHOLDER": "Sinun palautteesi (ei pakollinen)",
+      "BUTTON_TEXT": "Lähetä palaute"
     },
     "API": {
       "SUCCESS_MESSAGE": "Survey updated successfully",

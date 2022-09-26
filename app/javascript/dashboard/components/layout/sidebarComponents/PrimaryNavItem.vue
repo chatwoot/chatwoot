@@ -5,6 +5,8 @@
       :href="href"
       class="button clear button--only-icon menu-item"
       :class="{ 'is-active': isActive || isChildMenuActive }"
+      :rel="openInNewPage ? 'noopener noreferrer nofollow' : undefined"
+      :target="openInNewPage ? '_blank' : undefined"
       @click="navigate"
     >
       <fluent-icon :icon="icon" />
@@ -33,6 +35,10 @@ export default {
       default: '',
     },
     isChildMenuActive: {
+      type: Boolean,
+      default: false,
+    },
+    openInNewPage: {
       type: Boolean,
       default: false,
     },

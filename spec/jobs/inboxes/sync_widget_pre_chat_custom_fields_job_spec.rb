@@ -15,7 +15,7 @@ RSpec.describe Inboxes::SyncWidgetPreChatCustomFieldsJob, type: :job do
   end
 
   context 'when called' do
-    it 'reopens snoozed conversations whose snooze until has passed' do
+    it 'sync pre chat fields if custom attribute deleted' do
       described_class.perform_now(account, 'developer_id')
       expect(web_widget.reload.pre_chat_form_options['pre_chat_fields']).to eq [{
         'label' => 'Full Name',

@@ -35,9 +35,6 @@ export const getters = {
     };
     return status;
   },
-  getAgentsCount($state) {
-    return $state.records.length;
-  },
 };
 
 export const actions = {
@@ -73,14 +70,15 @@ export const actions = {
       throw new Error(error);
     }
   },
-
-  updatePresence: async ({ commit, dispatch }, data) => {
-    commit(types.default.SET_AGENT_UPDATING_STATUS, true);
-    commit(types.default.UPDATE_AGENTS_PRESENCE, data);
-    dispatch('updateReportAgentStatus', data, { root: true });
-    commit(types.default.SET_AGENT_UPDATING_STATUS, false);
+  updateSingleAgentPresence: ({ commit }, { id, availabilityStatus }) => {
+    commit(types.default.UPDATE_SINGLE_AGENT_PRESENCE, {
+      id,
+      availabilityStatus,
+    });
   },
-
+  updatePresence: async ({ commit }, data) => {
+    commit(types.default.UPDATE_AGENTS_PRESENCE, data);
+  },
   delete: async ({ commit }, agentId) => {
     commit(types.default.SET_AGENT_DELETING_STATUS, true);
     try {
@@ -113,6 +111,14 @@ export const mutations = {
   [types.default.EDIT_AGENT]: MutationHelpers.update,
   [types.default.DELETE_AGENT]: MutationHelpers.destroy,
   [types.default.UPDATE_AGENTS_PRESENCE]: MutationHelpers.updatePresence,
+  [types.default.UPDATE_SINGLE_AGENT_PRESENCE]: (
+    $state,
+    { id, availabilityStatus }
+  ) =>
+    MutationHelpers.updateSingleRecordPresence($state.records, {
+      id,
+      availabilityStatus,
+    }),
 };
 
 export default {

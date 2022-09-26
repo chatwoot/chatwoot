@@ -15,7 +15,7 @@ describe Whatsapp::SendOnWhatsappService do
 
     context 'when a valid message' do
       let(:whatsapp_request) { double }
-      let!(:whatsapp_channel) { create(:channel_whatsapp) }
+      let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
       let!(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '123456789') }
       let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: whatsapp_channel.inbox) }
 

@@ -30,6 +30,15 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(response.body).to include('Test Account')
         expect(platform_app.platform_app_permissibles.first.permissible.name).to eq('Test Account')
       end
+
+      it 'creates an account with locale' do
+        post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es' },
+                                          headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Test Account')
+        expect(response.body).to include('es')
+      end
     end
   end
 

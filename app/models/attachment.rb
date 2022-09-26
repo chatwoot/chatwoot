@@ -68,7 +68,8 @@ class Attachment < ApplicationRecord
     {
       extension: extension,
       data_url: file_url,
-      thumb_url: thumb_url
+      thumb_url: thumb_url,
+      file_size: file.byte_size
     }
   end
 

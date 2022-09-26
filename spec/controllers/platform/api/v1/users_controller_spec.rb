@@ -148,8 +148,8 @@ RSpec.describe 'Platform Users API', type: :request do
       it 'updates the user attributes' do
         create(:platform_app_permissible, platform_app: platform_app, permissible: user)
         patch "/platform/api/v1/users/#{user.id}", params: {
-          name: 'test123', email: 'newtestemail@test.com', custom_attributes: { test: 'test_update' }
-        },
+                                                     name: 'test123', email: 'newtestemail@test.com', custom_attributes: { test: 'test_update' }
+                                                   },
                                                    headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)

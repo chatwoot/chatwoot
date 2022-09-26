@@ -15,7 +15,7 @@ RSpec.describe Campaign, type: :model do
     let(:campaign) { build(:campaign, inbox: website_inbox, display_id: nil, trigger_rules: { url: 'https://test.com' }) }
 
     before do
-      campaign.save
+      campaign.save!
       campaign.reload
     end
 
@@ -34,7 +34,7 @@ RSpec.describe Campaign, type: :model do
     let(:campaign) { build(:campaign, inbox: facebook_inbox) }
 
     it 'would not save the campaigns' do
-      expect(campaign.save).to eq false
+      expect(campaign.save).to be false
       expect(campaign.errors.full_messages.first).to eq 'Inbox Unsupported Inbox type'
     end
   end
@@ -46,18 +46,18 @@ RSpec.describe Campaign, type: :model do
 
     it 'would prevent further updates' do
       campaign.title = 'new name'
-      expect(campaign.save).to eq false
+      expect(campaign.save).to be false
       expect(campaign.errors.full_messages.first).to eq 'Status The campaign is already completed'
     end
 
     it 'can be deleted' do
       campaign.destroy!
-      expect(described_class.exists?(campaign.id)).to eq false
+      expect(described_class.exists?(campaign.id)).to be false
     end
 
     it 'cant be triggered' do
       expect(Twilio::OneoffSmsCampaignService).not_to receive(:new).with(campaign: campaign)
-      expect(campaign.trigger!).to eq nil
+      expect(campaign.trigger!).to be_nil
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe Campaign, type: :model do
         campaign.campaign_type = 'ongoing'
         campaign.save!
         expect(campaign.reload.campaign_type).to eq 'one_off'
-        expect(campaign.scheduled_at.present?).to eq true
+        expect(campaign.scheduled_at.present?).to be true
       end
 
       it 'calls twilio service on trigger!' do
@@ -92,7 +92,7 @@ RSpec.describe Campaign, type: :model do
         campaign.campaign_type = 'ongoing'
         campaign.save!
         expect(campaign.reload.campaign_type).to eq 'one_off'
-        expect(campaign.scheduled_at.present?).to eq true
+        expect(campaign.scheduled_at.present?).to be true
       end
 
       it 'calls sms service on trigger!' do

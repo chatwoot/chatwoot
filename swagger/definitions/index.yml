@@ -16,6 +16,8 @@ canned_response:
   $ref: ./resource/canned_response.yml
 custom_attribute:
   $ref: ./resource/custom_attribute.yml
+automation_rule:
+  $ref: ./resource/automation_rule.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
@@ -101,6 +103,10 @@ integrations_hook_create_payload:
 
 integrations_hook_update_payload:
   $ref: ./request/integrations/hook_update_payload.yml
+
+# Automation Rule
+automation_rule_create_update_payload:
+  $ref: ./request/automation_rule/create_update_payload.yml
 
 
 ## public requests

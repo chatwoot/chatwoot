@@ -43,19 +43,27 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def update
     @inbox.update!(permitted_params.except(:channel))
-    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
+    update_inbox_working_hours
     channel_attributes = get_channel_attributes(@inbox.channel_type)
 
     # Inbox update doesn't necessarily need channel attributes
     return if permitted_params(channel_attributes)[:channel].blank?
 
     if @inbox.inbox_type == 'Email'
-      validate_email_channel(channel_attributes)
+      begin
+        validate_email_channel(channel_attributes)
+      rescue StandardError => e
+        render json: { message: e }, status: :unprocessable_entity and return
+      end
       @inbox.channel.reauthorized!
     end
 
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
     update_channel_feature_flags
+  end
+
+  def update_inbox_working_hours
+    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
   end
 
   def agent_bot
@@ -87,12 +95,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_agent_bot
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
-  end
-
-  def inbox_name(channel)
-    return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
-
-    permitted_params[:name]
   end
 
   def create_channel

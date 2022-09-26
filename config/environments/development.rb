@@ -76,17 +76,5 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
-
-  # ref: https://github.com/cyu/rack-cors
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '/packs/*', headers: :any, methods: [:get, :options]
-      resource '/audio/*', headers: :any, methods: [:get, :options]
-      resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
-    end
-  end
-
-  # ref : https://medium.com/@emikaijuin/connecting-to-action-cable-without-rails-d39a8aaa52d5
-  config.action_cable.disable_request_forgery_protection = true
+  
 end

@@ -1,40 +1,40 @@
 {
   "AUTOMATION": {
     "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
+    "HEADER_BTN_TXT": "添加自动化规则",
+    "LOADING": "正在获取自动化规则",
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "添加自动化规则",
       "SUBMIT": "创建",
       "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "名字必填"
+          "LABEL": "规则名称",
+          "PLACEHOLDER": "请输入规则名称",
+          "ERROR": "名称是必填项"
         },
         "DESC": {
           "LABEL": "描述信息",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "输入规则说明",
           "ERROR": "描述是必需的"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "事件",
           "PLACEHOLDER": "请选择一个",
-          "ERROR": "Event is required"
+          "ERROR": "事件是必填项"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "条件"
         },
         "ACTIONS": {
           "LABEL": "操作"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "添加条件",
+      "ACTION_BUTTON_LABEL": "添加操作",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "SUCCESS_MESSAGE": "自动化规则添加成功",
         "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
       }
     },
@@ -102,15 +102,15 @@
       "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
       "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
       "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "CONFIRMATION_LABEL": "是",
+      "CANCEL_LABEL": "否"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "无法上传附件。请重试",
+      "LABEL_IDLE": "上传附件",
       "LABEL_UPLOADING": "上传中...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "上传成功",
+      "LABEL_UPLOAD_FAILED": "上传失败"
     }
   }
 }

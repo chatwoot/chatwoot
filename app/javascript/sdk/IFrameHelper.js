@@ -33,6 +33,12 @@ import {
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
 
+const updateAuthCookie = cookieContent =>
+  Cookies.set('cw_conversation', cookieContent, {
+    expires: 365,
+    sameSite: 'Lax',
+  });
+
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
     return `${baseUrl}/widget?website_token=${websiteToken}`;
@@ -134,10 +140,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      Cookies.set('cw_conversation', message.config.authToken, {
-        expires: 365,
-        sameSite: 'Lax',
-      });
+      updateAuthCookie(message.config.authToken);
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
@@ -176,6 +179,10 @@ export const IFrameHelper = {
 
     setBubbleLabel(message) {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
+    },
+
+    setAuthCookie({ data: { widgetAuthToken } }) {
+      updateAuthCookie(widgetAuthToken);
     },
 
     toggleBubble: state => {

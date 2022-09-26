@@ -10,7 +10,7 @@
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
     "TOOLTIP_LABEL": "Filtrar conversas",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "OU",
+      "AND": "E",
       "OR": "ou"
     },
     "OPERATOR_LABELS": {

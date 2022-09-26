@@ -47,7 +47,7 @@ class ContactIpLookupJob < ApplicationJob
   def setup_vendor_db
     base_url = 'https://download.maxmind.com/app/geoip_download'
     source_file = Down.download(
-      "#{base_url}?edition_id=GeoLite2-City&suffix=tar.gz&license_key=#{ENV['IP_LOOKUP_API_KEY']}"
+      "#{base_url}?edition_id=GeoLite2-City&suffix=tar.gz&license_key=#{ENV.fetch('IP_LOOKUP_API_KEY', nil)}"
     )
     tar_extract = Gem::Package::TarReader.new(Zlib::GzipReader.open(source_file))
     tar_extract.rewind

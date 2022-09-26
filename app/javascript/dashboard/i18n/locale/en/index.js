@@ -23,6 +23,7 @@ import { default as _settings } from './settings.json';
 import { default as _signup } from './signup.json';
 import { default as _teamsSettings } from './teamsSettings.json';
 import { default as _whatsappTemplates } from './whatsappTemplates.json';
+import { default as _helpCenter } from './helpCenter.json';
 
 export default {
   ..._advancedFilters,
@@ -50,4 +51,5 @@ export default {
   ..._teamsSettings,
   ..._whatsappTemplates,
   ..._bulkActions,
+  ..._helpCenter,
 };

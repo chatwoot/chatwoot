@@ -1,0 +1,8 @@
+<%= render "public/api/v1/portals/hero", portal: @portal %>
+<div class="max-w-5xl w-full flex-grow mx-auto py-8 px-4">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-32 gap-y-0 lg:gap-y-12">
+    <% @portal.categories.where(locale: @locale).each do |category| %>
+      <%= render "public/api/v1/portals/category-block", category: category, portal: @portal %>
+    <% end %>
+  </div>
+</div>

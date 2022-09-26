@@ -6,7 +6,7 @@ class Sms::IncomingMessageService
   def perform
     set_contact
     set_conversation
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: params[:text],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -57,7 +57,7 @@ class Sms::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
+    @conversation = @contact_inbox.conversations.last
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)

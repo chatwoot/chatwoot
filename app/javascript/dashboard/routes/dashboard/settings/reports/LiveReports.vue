@@ -41,7 +41,7 @@
         :header="this.$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')"
       >
         <agent-table
-          :total-agents="agentsCount"
+          :agents="agents"
           :agent-metrics="agentConversationMetric"
           :page-index="pageIndex"
           :is-loading="uiFlags.isFetchingAgentConversationMetric"
@@ -70,7 +70,7 @@ export default {
   computed: {
     ...mapGetters({
       agentStatus: 'agents/getAgentStatus',
-      agentsCount: 'agents/getAgentsCount',
+      agents: 'agents/getAgents',
       accountConversationMetric: 'getAccountConversationMetric',
       agentConversationMetric: 'getAgentConversationMetric',
       uiFlags: 'getOverviewUIFlags',

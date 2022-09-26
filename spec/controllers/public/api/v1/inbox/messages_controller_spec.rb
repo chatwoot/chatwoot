@@ -49,7 +49,7 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       data = JSON.parse(response.body)
       expect(data['content']).to eq('hello')
 
-      expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
+      expect(conversation.messages.last.attachments.first.file.present?).to be(true)
       expect(conversation.messages.last.attachments.first.file_type).to eq('image')
     end
   end

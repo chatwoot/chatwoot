@@ -183,3 +183,5 @@ AllCops:
     - db/migrate/20200503151130_add_account_feature_flag.rb
     - db/migrate/20200927135222_add_last_activity_at_to_conversation.rb
     - db/migrate/20210306170117_add_last_activity_at_to_contacts.rb
+    - db/migrate/20220809104508_revert_cascading_indexes.rb
+    

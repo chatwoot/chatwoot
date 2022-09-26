@@ -22,6 +22,8 @@ pt:
     reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
   errors:
+    validations:
+      presence: não pode estar vazio
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,28 @@ pt:
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se inscreveu para uma conta com %{email}"
       failed: Falha na inscrição
+    data_import:
+      data_type:
+        invalid: Tipo de dados inválido
     contacts:
       import:
         failed: Arquivo está vazio
+      email:
+        invalid: Email inválido
+      phone_number:
+        invalid: deve estar no formato e164
+    categories:
+      locale:
+        unique: deve ser único na categoria e no portal
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Período do relatório de %{since} a %{until}
     agent_csv:
@@ -75,6 +96,7 @@ pt:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na história: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Esta mensagem foi apagada
     activity:
       status:

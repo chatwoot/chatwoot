@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Enlace",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
             "CREATED_AT": "Creado el",
-            "LAST_ACTIVITY": "Última actividad"
+            "LAST_ACTIVITY": "Última actividad",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Filtros estándar",
