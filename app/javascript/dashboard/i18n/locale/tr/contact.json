@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Müsait değil",
     "EMAIL_ADDRESS": "E-posta adresi",
     "PHONE_NUMBER": "Telefon numarası",
+    "IDENTIFIER": "Doğrulayıcı",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
     "COMPANY": "Şirket",
     "LOCATION": "Yer",
@@ -159,7 +160,7 @@
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Görüşmeyi Başlatın",
+    "BUTTON_LABEL": "Çatı başla",
     "TITLE": "Yeni görüşme",
     "DESC": "Mesaj göndererek yeni bir görüşme başlatın.",
     "NO_INBOX": "Bu kişiyle yeni bir görüşme başlatılamadı.",
