@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Izaberite razgovor sa leve strane",
+    "CSAT_REPLY_MESSAGE": "Molim vas ocenite ovaj razgovor",
     "404": "Izvinite, ne možemo da pronađemo razgovor. Molim vas pokušajte ponovo",
     "SWITCH_VIEW_LAYOUT": "Promeni raspored",
     "DASHBOARD_APP_TAB_MESSAGES": "Poruke",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
     "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
     "CHANGE_TEAM": "Tim razgovora je promenjen",
-    "FILE_SIZE_LIMIT": "Datoteka premašuje ograničenje priloga od {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",
