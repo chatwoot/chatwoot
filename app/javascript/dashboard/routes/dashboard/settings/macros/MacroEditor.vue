@@ -231,9 +231,10 @@ export default {
       uiFlags: 'macros/getUIFlags',
     }),
     macroActionTypes() {
-      // Because we do not support attachments in macros - yet!
+      // Because we do not support attachments and email transcripts in macros - yet!
+      const itemsToRemove = ['send_attachment', 'send_email_transcript'];
       return AUTOMATION_ACTION_TYPES.filter(
-        obj => obj.key !== 'send_attachment'
+        item => !itemsToRemove.includes(item.key)
       );
     },
     macroId() {
@@ -241,10 +242,14 @@ export default {
     },
   },
   watch: {
-    '$route.params.macroId': {
+    $route: {
       handler() {
         this.$v.$reset();
-        this.fetchMacro();
+        if (this.$route.params.macroId) {
+          this.fetchMacro();
+        } else {
+          this.initializeMacro();
+        }
       },
       immediate: true,
     },
@@ -363,19 +368,20 @@ export default {
         this.$store.dispatch('teams/get');
         this.$store.dispatch('labels/get');
         this.manifestMacro();
-      } else {
-        this.mode = 'CREATE';
-        this.macro = {
-          name: '',
-          actions: [
-            {
-              action_name: 'assign_team',
-              action_params: [],
-            },
-          ],
-          visibility: 'global',
-        };
       }
+    },
+    initializeMacro() {
+      this.mode = 'CREATE';
+      this.macro = {
+        name: '',
+        actions: [
+          {
+            action_name: 'assign_team',
+            action_params: [],
+          },
+        ],
+        visibility: 'global',
+      };
     },
     isActive(key) {
       return { active: this.macro.visibility === key };
