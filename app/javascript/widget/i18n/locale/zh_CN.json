@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "下载",
-      "UPLOADING": "上传中..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "提交"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "重新发送消息",
-      "ERROR_MESSAGE": "无法发送，请重试"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "在线",
-    "OFFLINE": "当前已离线"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
-    "IN_A_FEW_HOURS": "通常在几小时内回复您",
-    "IN_A_DAY": "通常在一天之内回复您"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "开始会话",
-  "END_CONVERSATION": "结束对话",
-  "CONTINUE_CONVERSATION": "继续对话",
-  "START_NEW_CONVERSATION": "开始新的对话",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "查看新消息",
-    "CLOSE_MESSAGES_BUTTON": "关闭",
-    "COMPANY_FROM": "发自",
-    "BOT": "机器人"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "联系我们"
+    "LABEL": ""
   },
-  "POWERED_BY": "由 Chatwoot 支持",
-  "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
-  "CHAT_PLACEHOLDER": "输入您的消息",
-  "TODAY": "今天",
-  "YESTERDAY": "昨天",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "名字",
-        "PLACEHOLDER": "请输入您的姓名",
-        "REQUIRED_ERROR": "必须填写姓名"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "电子邮件地址",
-        "PLACEHOLDER": "请输入您的邮箱地址",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "请输入一个有效的电子邮件"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "电话号码",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "消息",
-        "PLACEHOLDER": "请输入您的消息",
-        "ERROR": "消息太短了"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "无效字段"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "评价您的对话",
-    "SUBMITTED_TITLE": "感谢您提交评分",
-    "PLACEHOLDER": "请告诉我们更多..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "请求会话抄本",
-    "SEND_EMAIL_SUCCESS": "已成功发送聊天记录",
-    "SEND_EMAIL_ERROR": "出现错误，请重试"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
