@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Kampanye",
-    "SIDEBAR_TXT": "Pesan proaktif mengizinkan pelanggan untuk mengirimkan pesan keluar kepada kontak mereka yang akan memicu percakapan lebih. Klik pada <b>Tambahkan Kampanye</b> untuk membuat sebuah kampanye baru. Anda juga dapat mengedit atau menghapus kampanye yang telah ada dengan mengklik pada tombol Edit atau Delete.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "Buat sebuah kampanye",
-      "DESC": "Pesan proaktif mengizinkan pelanggan untuk mengirimkan pesan keluar kepada kontak mereka yang akan memicu percakapan lebih.",
-      "CANCEL_BUTTON_TEXT": "Batalkan",
-      "CREATE_BUTTON_TEXT": "Buat",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "Judul",
-          "PLACEHOLDER": "Silakan masukkan judul kampanye",
-          "ERROR": "Judul wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "Waktu penjadwalan",
-          "PLACEHOLDER": "Silakan pilih waktu",
-          "CONFIRM": "Konfirmasi",
-          "ERROR": "Jadwal waktu wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "Hadirin",
-          "PLACEHOLDER": "Pilih label pelanggan",
-          "ERROR": "Hadirin wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "Pilih kotak masuk",
-          "PLACEHOLDER": "Pilih Kotak Masuk",
-          "ERROR": "Kotak Masuk wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
-          "LABEL": "Pesan",
-          "PLACEHOLDER": "Silakan masukkan pesan kampanye",
-          "ERROR": "Pesan wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "Dikirim oleh",
-          "PLACEHOLDER": "Silakan pilih isi kampanye",
-          "ERROR": "Pengirim wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Silakan masukkan URL",
-          "ERROR": "Harap masukkan URL yang valid"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Waktu pada halaman(detik)",
-          "PLACEHOLDER": "Silakan masukkan waktu",
-          "ERROR": "Waktu pada halaman wajib diisi"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "Aktifkan kampanye",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Tambahkan kampanye"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kampanye telah berhasil dibuat",
-        "ERROR_MESSAGE": "Terjadi sebuah kesalahan. Silakan coba lagi."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Hapus",
+      "BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Konfirmasi Penghapusan",
-        "MESSAGE": "Apakah Anda yakin untuk menghapus?",
-        "YES": "Ya, Hapus ",
-        "NO": "Tidak, Simpan "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kampanye berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat menghapus kampanye. Silakan coba lagi nanti."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit kampanye",
-      "UPDATE_BUTTON_TEXT": "Perbarui",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Kampanye berhasil diperbarui",
-        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Memuat kampanye...",
-      "404": "Tidak ada kampanye yang dibuat untuk kotak masuk ini.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "Judul",
-        "MESSAGE": "Pesan",
-        "INBOX": "Kotak masuk",
-        "STATUS": "Status",
-        "SENDER": "Pengirim",
-        "URL": "URL",
-        "SCHEDULED_AT": "Waktu penjadwalan",
-        "TIME_ON_PAGE": "Waktu(Detik)",
-        "CREATED_AT": "Dibuat pada"
+        "TITLE": "",
+        "MESSAGE": "",
+        "INBOX": "",
+        "STATUS": "",
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "Tambah",
-        "EDIT": "Edit",
-        "DELETE": "Hapus"
+        "ADD": "",
+        "EDIT": "",
+        "DELETE": ""
       },
       "STATUS": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif",
-        "COMPLETED": "Selesai",
-        "ACTIVE": "Aktif"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "Bot"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Silakan buat sebuah kotak masuk sms dan mulai menambahkan kampanye"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "Kampanye yang sedang berlangsung",
-      "404": "Tidak ada kampanye yang sedang berlangsung yang dibuat",
-      "INBOXES_NOT_FOUND": "Silakan buat sebuah kotak masuk sms dan mulai menambahkan kampanye"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
