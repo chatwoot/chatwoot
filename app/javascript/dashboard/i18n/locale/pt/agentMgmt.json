@@ -3,10 +3,10 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Adicionar Agente",
     "LOADING": "Buscando lista de agente",
-    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é um membro da sua equipa de Suporte ao Cliente. </p><p> Os agentes podem ver e responder às mensagens dos seus utilizadores. A lista mostra todos os agentes atualmente na sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. O agente que adicionar receberá um e-mail com um link de confirmação para ativar a sua conta, de forma a poderem aceder ao Chatwoot e responder às mensagens. </p><p> Os acessos aos recursos do Chatwoot têm como base as seguintes funções. </p><p> <b>Agentes</b> - Só podem aceder às caixas de entrada, relatórios e conversas. Podem atribuir conversas a outros agentes ou a eles próprios e responder a pedidos.</p><p> <b>Administrador</b> - Têm acesso a todos os recursos do Chatwoot ativados na sua conta, incluindo configurações e todos os privilégios que os Agentes normais têm.</p>",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrador",
-      "AGENT": "Representante"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
       "404": "Não há agentes associados a esta conta",
@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Por favor, insira um nome para o agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Por favor, selecione um tipo",
-          "ERROR": "O tipo de agente é obrigatório"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
@@ -55,7 +55,7 @@
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, Manter "
+        "NO": ""
       }
     },
     "EDIT": {
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "Por favor, insira um nome para o agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Por favor, selecione um tipo",
-          "ERROR": "O tipo de agente é obrigatório"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
@@ -90,22 +90,22 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Nenhum resultado encontrado."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "nenhum",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Escolher Agente",
-        "TEAM": "Escolher Equipa"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Nenhum agente encontrado",
-          "TEAM": "Nenhuma Equipa encontrada"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Procurar Agentes",
-          "TEAM": "Procurar Equipas"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
