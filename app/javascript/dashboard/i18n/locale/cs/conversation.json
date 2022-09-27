@@ -1,9 +1,10 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "SELECT_A_CONVERSATION": "Vyberte prosím konverzaci z levého panelu",
+    "CSAT_REPLY_MESSAGE": "Ohodnoťte prosím konverzaci",
+    "404": "Omlouváme se, konverzaci nelze najít. Zkuste to prosím znovu",
+    "SWITCH_VIEW_LAYOUT": "Přepnout rozložení",
+    "DASHBOARD_APP_TAB_MESSAGES": "Zprávy",
     "UNVERIFIED_SESSION": "Identita tohoto uživatele není ověřena",
     "NO_MESSAGE_1": "Ale ne! Vypadá to, že ve vaší schránce nejsou žádné zprávy od zákazníků.",
     "NO_MESSAGE_2": " pro odeslání zprávy na vaši stránku!",
@@ -33,7 +34,7 @@
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "Neznámý soubor",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
@@ -62,30 +63,30 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označit jako nevyřízené",
-      "RESOLVED": "Mark as resolved",
-      "REOPEN": "Reopen conversation",
+      "RESOLVED": "Označit jako vyřešené",
+      "REOPEN": "Znovu otevřít konverzaci",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "Odložit",
+        "NEXT_REPLY": "Do další odpovědi",
+        "TOMORROW": "Do zítřka",
+        "NEXT_WEEK": "Do příštího týdne"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Přiřadit agenta",
+      "ASSIGN_LABEL": "Přiřadit štítek",
+      "AGENTS_LOADING": "Načítání agentů...",
+      "ASSIGN_TEAM": "Přiřadit tým",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Konverzace id %{conversationId} přiřazena \"%{agentName}\"",
+          "FAILED": "Nelze přiřadit agenta. Zkuste to prosím znovu."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "Přiřazený štítek #%{labelName} ke konverzaci id %{conversationId}",
+          "FAILED": "Nelze přiřadit štítek. Zkuste to prosím znovu."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "Přiřazený tým #%{team} ke konverzaci id %{conversationId}",
+          "FAILED": "Nelze přiřadit tým. Zkuste to prosím znovu."
         }
       }
     },
@@ -95,7 +96,7 @@
       "DISABLE_SIGN_TOOLTIP": "Zakázat podpis",
       "MSG_INPUT": "Shift + zadejte pro nový řádek. Začněte '/' pro výběr zrušené odpovědi.",
       "PRIVATE_MSG_INPUT": "Shift + zadejte pro nový řádek. Toto bude viditelné pouze pro agenty",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis zprávy není nakonfigurován, prosím nakonfigurujte jej v nastavení profilu.",
       "CLICK_HERE": "Klikněte zde pro aktualizaci"
     },
     "REPLYBOX": {
@@ -131,13 +132,13 @@
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "Změna stavu konverzace se nezdařila",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "Změna přiřazeného agenta se nezdařila",
+    "ASSIGN_LABEL_SUCCESFUL": "Štítek byl úspěšně přiřazen",
+    "ASSIGN_LABEL_FAILED": "Přiřazení štítku se nezdařilo",
     "CHANGE_TEAM": "Tým konverzace se změnil",
-    "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
     "BOT": "Bot",
@@ -180,7 +181,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvěte své členy týmu",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Vzhledem k tomu, že se připravujete na rozhovor se zákazníkem, přiveďte své týmové spolupracovníky, kteří Vám pomohou. Můžete pozvat své spolupracovníky přidáním jejich e-mailové adresy do seznamu agentů.",
       "NEW_LINK": "Klikněte zde pro pozvání člena týmu"
     },
     "INBOXES": {
