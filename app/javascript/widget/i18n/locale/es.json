@@ -2,85 +2,85 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
-      "UPLOADING": "Subiendo..."
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Enviar mensaje de nuevo",
-      "ERROR_MESSAGE": "¡No se pudo enviar! intente nuevamente"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Estamos en línea",
-    "OFFLINE": "Estamos ausentes en este momento"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
-    "IN_A_FEW_HOURS": "Normalmente responde en unas pocas horas",
-    "IN_A_DAY": "Normalmente responde en un día"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Iniciar conversación",
-  "END_CONVERSATION": "Finalizar conversación",
-  "CONTINUE_CONVERSATION": "Continuar conversación",
-  "START_NEW_CONVERSATION": "Iniciar una nueva conversación",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",
+    "VIEW_MESSAGES_BUTTON": "",
     "CLOSE_MESSAGES_BUTTON": "Cerrar",
-    "COMPANY_FROM": "De",
-    "BOT": "Bot"
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Chatea con nosotros"
+    "LABEL": ""
   },
-  "POWERED_BY": "Desarrollado por Chatwoot",
+  "POWERED_BY": "",
   "EMAIL_PLACEHOLDER": "Por favor ingrese su email",
-  "CHAT_PLACEHOLDER": "Escribe tu mensaje",
-  "TODAY": "Hoy",
-  "YESTERDAY": "Ayer",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Nombre completo",
-        "PLACEHOLDER": "Introduzca su nombre completo por favor",
-        "REQUIRED_ERROR": "Nombre completo es obligatorio"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Dirección de correo",
-        "PLACEHOLDER": "Introduzca su dirección de correo electrónico",
-        "REQUIRED_ERROR": "La dirección de correo es obligatoria",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Por favor, introduzca una dirección de correo válida"
       },
       "PHONE_NUMBER": {
-        "LABEL": "Número telefónico",
-        "PLACEHOLDER": "Por favor ingrese su número de teléfono",
-        "REQUIRED_ERROR": "El número de teléfono es obligatorio",
-        "VALID_ERROR": "El número de teléfono debe ser de formato E.164 por ejemplo: +5493995777777"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Mensaje",
-        "PLACEHOLDER": "Introduzca su mensaje",
-        "ERROR": "Mensaje demasiado corto"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Por favor, introduce tu nombre y correo electrónico antes de iniciar la conversación",
-    "IS_REQUIRED": "es obligatorio"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Campo no válido"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Califica tu conversación",
-    "SUBMITTED_TITLE": "Gracias por enviar la valoración",
-    "PLACEHOLDER": "Cuéntanos más..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Enviar transcripción de la conversación",
-    "SEND_EMAIL_SUCCESS": "La transcripción ha sido enviada",
-    "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtelo de nuevo"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
