@@ -1,19 +1,19 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Poštovani korisniče 👋, molim vas izdvojite jedan trenutak da podelite iskustvo o razgovoru koje ste obavili sa %{inboxName}.",
+    "DESCRIPTION": "",
     "RATING": {
-      "LABEL": "Ocenite razgovor",
-      "SUCCESS_MESSAGE": "Hvala vam na dostavljenoj oceni"
+      "LABEL": "",
+      "SUCCESS_MESSAGE": ""
     },
     "FEEDBACK": {
-      "LABEL": "Da li ima nešto što bi ste podelili sa nama?",
-      "PLACEHOLDER": "Vaš utisak (opciono)",
-      "BUTTON_TEXT": "Podelite utisak"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "BUTTON_TEXT": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Anketa je uspešno poslata",
-      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   },
-  "POWERED_BY": "Pokreće Chatwoot"
+  "POWERED_BY": ""
 }
