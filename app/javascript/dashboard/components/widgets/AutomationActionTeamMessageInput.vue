@@ -38,7 +38,9 @@ export default {
   },
   mounted() {
     const { team_ids: teamIds } = this.value;
-    this.selectedTeams = teamIds;
+    if (teamIds) {
+      this.selectedTeams = this.teams.filter(team => teamIds.includes(team.id));
+    }
     this.message = this.value.message;
   },
   methods: {
