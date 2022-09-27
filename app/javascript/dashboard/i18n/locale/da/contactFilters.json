@@ -2,7 +2,7 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "Tilføj Filter",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Send",
