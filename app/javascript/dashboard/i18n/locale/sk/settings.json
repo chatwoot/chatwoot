@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Prehľad",
     "FACEBOOK_REAUTHORIZE": "Vaše pripojenie k Facebooku vypršalo, pre pokračovanie v službách prosím znovu pripojte svoju stránku na Facebooku",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Prejsť na nastavenia",
       "SWITCH_CONVERSATION_STATUS": "Prepnúť na ďalší stav konverzácie",
       "SWITCH_TO_PRIVATE_NOTE": "Prepnúť na súkromnú poznámku",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Prepnúť na rozšírený editor",
       "SWITCH_TO_REPLY": "Prepnúť na odpoveď",
       "TOGGLE_SNOOZE_DROPDOWN": "Prepínanie módu \"snooze\""
     },
