@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Gambaran",
     "FACEBOOK_REAUTHORIZE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Menuju ke Settings",
       "SWITCH_CONVERSATION_STATUS": "Beralih ke status percakapan selanjutnya",
       "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Catatan Pribadi",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
       "SWITCH_TO_REPLY": "Ganti ke Balasan",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },
