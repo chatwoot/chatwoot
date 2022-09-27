@@ -1,267 +1,409 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Lọc bởi",
+      "SORT": "Sắp bởi",
       "SETTINGS_BUTTON": "Cài đặt",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Bài mới",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Đã phát hành",
+        "DRAFT": "Nháp",
+        "ARCHIVED": "Đã lưu trữ"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Tất cả các bài",
+        "MINE": "Các bài của tôi",
+        "DRAFT": "Các bài nháp",
+        "ARCHIVED": "Các bài lưu"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Tất cả các bài",
+      "PUBLISH_BUTTON": "Phát hành",
+      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
+      "PREVIEW": "Xem trước",
+      "ADD_TRANSLATION": "Thêm bản dịch",
+      "OPEN_SIDEBAR": "Mở thanh bên",
+      "CLOSE_SIDEBAR": "Đóng thanh bên",
+      "SAVING": "Đang lưu...",
+      "SAVED": "Đã lưu"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Cài đặt bài viết",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Loại",
+          "TITLE": "Chọn loại",
+          "PLACEHOLDER": "Chọn loại",
+          "NO_RESULT": "Không tìm thấy loại",
+          "SEARCH_PLACEHOLDER": "Tìm loại"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Tác giả",
+          "TITLE": "Chọn tác giả",
+          "PLACEHOLDER": "Chọn tác giả",
+          "NO_RESULT": "Không tìm thấy tác giả",
+          "SEARCH_PLACEHOLDER": "Tìm tác giả"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Tiêu đề meta",
+          "PLACEHOLDER": "Thêm Tiêu đề meta"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Mô tả meta",
+          "PLACEHOLDER": "Thêm mô tả meta của bạn để có kết quả SEO tốt hơn..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Các thẻ meta",
+          "PLACEHOLDER": "Thêm các thẻ meta bằng dấu phẩy..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Bài lưu trữ",
+        "DELETE": "Xoá bài"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "NEW_BUTTON": "New Portal",
+      "HEADER": "Cổng",
+      "DEFAULT": "Mặc định",
+      "NEW_BUTTON": "Cổng mới",
       "ACTIVE_BADGE": "có hiệu lực",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "CHOOSE_LOCALE_LABEL": "Chọn một ngôn ngữ",
+      "LOADING_MESSAGE": "Đang tải cổng...",
+      "ARTICLES_LABEL": "các bài",
+      "NO_PORTALS_MESSAGE": "Không có cổng nào",
+      "ADD_NEW_LOCALE": "Thêm ngôn ngữ",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "Cổng",
+        "PORTAL_SETTINGS": "Cài đặt cổng",
+        "SUBTITLE": "Bạn có nhiều cổng và có thể có các ngôn ngữ khác nhau cho mỗi cổng.",
         "CANCEL_BUTTON_LABEL": "Huỷ",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Chọn ngôn ngữ"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Cài đặt"
+            "COUNT_LABEL": "các bài",
+            "ADD": "Thêm ngôn ngữ",
+            "VISIT": "Thăm trang",
+            "SETTINGS": "Cài đặt",
+            "DELETE": "Xoá"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Cấu hình Cổng thông tin",
             "ITEMS": {
               "NAME": "Tên",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Tên miền tuỳ chỉnh",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Tiêu đề cổng",
+              "THEME": "Màu chủ đề",
+              "SUB_TEXT": "Tiêu đề phụ của cổng thông tin"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Các ngôn ngữ sẵn có",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Tên ngôn ngữ",
+              "CODE": "Mã ngôn ngữ",
+              "ARTICLE_COUNT": "Số lượng bài",
+              "CATEGORIES": "Số danh mục",
+              "SWAP": "Chuyển",
               "DELETE": "Xoá",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Mặc định"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Delete portal",
+          "MESSAGE": "Are you sure you want to delete this portal",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_ERROR": "Error while deleting portal"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Edit portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Basic information"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portal customization"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categories"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Categories in",
+          "NEW_CATEGORY": "New category",
+          "TABLE": {
+            "NAME": "Tên",
+            "DESCRIPTION": "Mô tả",
+            "LOCALE": "Ngôn ngữ",
+            "ARTICLE_COUNT": "Số lượng bài",
+            "ACTION_BUTTON": {
+              "EDIT": "Edit category",
+              "DELETE": "Delete category"
+            },
+            "EMPTY_TEXT": "Không tìm thấy danh mục nào"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Update basic settings"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
-            "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "title": "Thông tin trung tâm trợ giúp",
+            "route": "Thông tin cổng mới",
+            "body": "Thông tin cơ bản về cổng",
+            "CREATE_BASIC_SETTING_BUTTON": "Tạo cài đặt cơ bản cho cổng thông tin"
           },
           {
-            "title": "Help center customization",
-            "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "title": "Tùy chỉnh trung tâm trợ giúp",
+            "route": "Tuỳ chỉnh cổng",
+            "body": "Tuỳ chỉnh cổng",
+            "UPDATE_PORTAL_BUTTON": "Cập nhật thông tin cấu hình cổng"
           },
           {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "You're all set!",
+            "title": "Tới rồi! 🎉",
+            "route": "kết_thúc_cổng",
+            "body": "Bạn đã sẵn sàng!",
             "FINISH": "Hoàn tất"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Trờ về",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Tạo cổng",
+            "TITLE": "Thông tin trung tâm trợ giúp",
+            "CREATE_BASIC_SETTING_BUTTON": "Tạo cài đặt cơ bản cho cổng thông tin"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Tuỳ biến cổng",
+            "TITLE": "Tùy chỉnh trung tâm trợ giúp",
+            "UPDATE_PORTAL_BUTTON": "Cập nhật thông tin cấu hình cổng"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Tới rồi!🎉 Bạn đã sẵn sàng!",
+            "MESSAGE": "Bây giờ bạn có thể thấy cổng được tạo này trên trang tất cả các cổng của bạn.",
+            "FINISH": "Đi đến tất cả các trang cổng thông tin"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "UPLOAD_BUTTON": "Tải lên logo",
+          "HELP_TEXT": "Logo này sẽ được hiển thị trên tiêu đề cổng thông tin."
         },
         "NAME": {
           "LABEL": "Tên",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "Tên cổng",
+          "HELP_TEXT": "Tên sẽ được sử dụng trong nội bộ cổng thông tin công khai.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug cổng cho các url",
+          "ERROR": "Phải có Slug"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "LABEL": "Tên miền tuỳ biến",
+          "PLACEHOLDER": "Tên miền tuỳ biến cổng",
+          "HELP_TEXT": "Chỉ thêm nếu bạn muốn sử dụng miền tùy chỉnh cho cổng thông tin của mình.",
+          "ERROR": "Cần có tên miền tuỳ chỉnh"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "LABEL": "Liên kết trang chủ",
+          "PLACEHOLDER": "Liên kế trang chủ cổng thông tin",
+          "HELP_TEXT": "Liên kết được sử dụng để quay lại từ cổng thông tin đến trang chủ.",
+          "ERROR": "Phải có liên kết trang chủ"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Màu chủ đề cổng thông tin",
+          "HELP_TEXT": "Màu này sẽ hiển thị dưới dạng màu chủ đề cho cổng thông tin."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Tiêu đề trang",
+          "PLACEHOLDER": "Tiêu đề trang cổng thông tin",
+          "HELP_TEXT": "Tiêu đề trang sẽ được sử dụng trong cổng công khai.",
+          "ERROR": "Phải có Tiêu đề trang"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Văn bản tiêu đề",
+          "PLACEHOLDER": "Văn bản tiêu đề cổng thông tin",
+          "HELP_TEXT": "Văn bản tiêu đề Cổng thông tin sẽ được sử dụng trong cổng thông tin công khai.",
+          "ERROR": "Phải có Văn bản tiêu đề cổng"
         },
         "API": {
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
+          "ERROR_MESSAGE_FOR_BASIC": "Không thể tạo cổng. Thử lại.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Không thể cập nhật cổng. Thử lại."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Thêm ngôn ngữ",
+        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "PORTAL": "Cổng",
+        "LOCALE": {
+          "LABEL": "Ngôn ngữ",
+          "PLACEHOLDER": "Chọn một ngôn ngữ",
+          "ERROR": "Locale is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create locale",
+          "CANCEL": "Huỷ"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Default locale updated successfully",
+          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
+          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Đang tải bài...",
+      "404": "Không có bài viết nào phù hợp với tìm kiếm của bạn 🔍",
+      "NO_ARTICLES": "Không có bài viết nào có sẵn",
       "HEADERS": {
         "TITLE": "Tiêu đề",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "CATEGORY": "Loại",
+        "READ_COUNT": "Số lượt đọc",
         "STATUS": "Trạng thái",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Sửa lần cuối"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "bởi"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Đang tải bài...",
+      "TITLE_PLACEHOLDER": "Tiêu đề bài viết ở đây",
+      "CONTENT_PLACEHOLDER": "Viết bài của bạn ở đây",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Lỗi khi lưu bài viết"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Error while archiving article",
+        "SUCCESS": "Article archived successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Xác nhận xoá",
+          "MESSAGE": "Are you sure to delete the article?",
+          "YES": "Có, Xoá",
+          "NO": "Không, Giữ"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Tìm kiếm các bài"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "Tạo một danh mục",
+        "SUB_TITLE": "Danh mục sẽ được sử dụng trong cổng thông tin công khai để phân loại các bài.",
+        "PORTAL": "Cổng",
+        "LOCALE": "Ngôn ngữ",
         "NAME": {
           "LABEL": "Tên",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Tên danh mục",
+          "HELP_TEXT": "Tên danh mục sẽ được sử dụng trong cổng thông tin công khai để phân loại các bài.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Danh mục slug cho url",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Phải có Slug"
         },
         "DESCRIPTION": {
           "LABEL": "Mô tả",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Đưa ra một mô tả ngắn về danh mục.",
           "ERROR": "Mô tả bắt buộc có"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Tạo danh mục",
           "CANCEL": "Huỷ"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Danh mục đã được tạo thành công",
+          "ERROR_MESSAGE": "Không thể tạo danh mục"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit a category",
+        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "PORTAL": "Cổng",
+        "LOCALE": "Ngôn ngữ",
+        "NAME": {
+          "LABEL": "Tên",
+          "PLACEHOLDER": "Tên danh mục",
+          "HELP_TEXT": "Tên danh mục sẽ được sử dụng trong cổng thông tin công khai để phân loại các bài.",
+          "ERROR": "Tên bắt buộc có"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Danh mục slug cho url",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Phải có Slug"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Mô tả",
+          "PLACEHOLDER": "Đưa ra một mô tả ngắn về danh mục.",
+          "ERROR": "Mô tả bắt buộc có"
+        },
+        "BUTTONS": {
+          "CREATE": "Update category",
+          "CANCEL": "Huỷ"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category updated successfully",
+          "ERROR_MESSAGE": "Unable to update category"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Category deleted successfully",
+          "ERROR_MESSAGE": "Unable to delete category"
         }
       }
     }
