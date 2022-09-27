@@ -1,116 +1,116 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "Automatizācijas",
+    "HEADER_BTN_TXT": "Pievienot Automatizācijas Noteikumu",
+    "LOADING": "Notiek automatizācijas noteikumu iegūšana",
+    "SIDEBAR_TXT": "<p><b>Automatizācijas Noteikumi</b> <p>Automatizācija var aizstāt un automatizēt esošos procesus, kuriem nepieciešama manuāla piepūle. Izmantojot automatizāciju, Jūs varat veikt daudzas darbības, tostarp pievienot etiķetes un piešķirt sarunu labākajam aģentam. Šādi komanda koncentrēsies uz to, kas viņiem padodas vislabāk, un mazāk laika veltītīs manuāliem uzdevumiem.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
-      "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Pievienot Automatizācijas Noteikumu",
+      "SUBMIT": "Izveidot",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "Noteikuma Nosaukums",
+          "PLACEHOLDER": "Ievadiet noteikuma nosaukumu",
+          "ERROR": "Nepieciešams nosaukums"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "LABEL": "Apraksts",
+          "PLACEHOLDER": "Ievadiet noteikuma aprakstu",
+          "ERROR": "Nepieciešams apraksts"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "Notikums",
+          "PLACEHOLDER": "Lūdzu, izvēlieties vienu",
+          "ERROR": "Nepieciešams notikums"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Nosacījumi"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Darbības"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Pievienot Nosacījumu",
+      "ACTION_BUTTON_LABEL": "Pievienot Darbību",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizācijas noteikums ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevarēja izveidot automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Active",
-        "Created on"
+        "Vārds",
+        "Apraksts",
+        "Aktīvs",
+        "Izveidots"
       ],
-      "404": "No automation rules found"
+      "404": "Automatizācijas noteikumi nav atrasti"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Delete",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Dzēst automatizācijas noteikumu",
+      "SUBMIT": "Dzēst",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizācijas noteikums ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevarēja izdzēst automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Update",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Rediģēt Automatizācijas Noteikumu",
+      "SUBMIT": "Atjaunināt",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizācijas noteikums ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevarēja atjaunināt automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Klonēt",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatizācija ir veiksmīgi noklonēta",
+        "ERROR_MESSAGE": "Nevarēja noklonēt automatizācijas noteikumu. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "FORM": {
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "EDIT": "Rediģēt",
+      "CREATE": "Izveidot",
+      "DELETE": "Dzēst",
+      "CANCEL": "Atcelt",
+      "RESET_MESSAGE": "Mainot notikuma tipu tiks atiestatīti tālāk pievienotie nosacījumi un notikumi"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Lai saglabātu, Jums ir nepieciešams vismaz viens nosacījums"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "Lai saglabātu, ir nepieciešama vismaz viena darbība",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Ievadiet savu ziņojumu šeit",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Izvēlieties komandas"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "ACTIVATION_TITLE": "Aktivizēt Automatizācijas Noteikumu",
+      "DEACTIVATION_TITLE": "Deaktivizēt Automatizācijas Noteikumu",
+      "ACTIVATION_DESCRIPTION": "Šī darbība aktivizēs automatizācijas noteikumu '{automationName}'. Vai tiešām vēlaties turpināt?",
+      "DEACTIVATION_DESCRIPTION": "Šī darbība deaktivizēs automatizācijas noteikumu '{automationName}'. Vai tiešām vēlaties turpināt?",
+      "ACTIVATION_SUCCESFUL": "Automatizācijas Noteikums ir Veiksmīgi Aktivizēts",
+      "DEACTIVATION_SUCCESFUL": "Automatizācijas Noteikums ir Veiksmīgi Deaktivizēts",
+      "ACTIVATION_ERROR": "Nevarēja Aktivizēt Automatizāciju. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "DEACTIVATION_ERROR": "Nevarēja Deaktivizēt Automatizāciju. Lūdzu, vēlāk mēģiniet vēlreiz",
+      "CONFIRMATION_LABEL": "Jā",
+      "CANCEL_LABEL": "Nē"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
-      "LABEL_UPLOADING": "Uploading...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "UPLOAD_ERROR": "Nevarēja augšupielādēt pielikumu. Lūdzu, mēģiniet vēlreiz",
+      "LABEL_IDLE": "Augšupielādēt pielikumu",
+      "LABEL_UPLOADING": "Notiek augšupielāde...",
+      "LABEL_UPLOADED": "Veiksmīgi augšupielādēts",
+      "LABEL_UPLOAD_FAILED": "Augšupielāde neizdevās"
     }
   }
 }
