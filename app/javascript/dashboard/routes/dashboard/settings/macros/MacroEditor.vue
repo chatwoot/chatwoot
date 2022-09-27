@@ -248,7 +248,7 @@ export default {
         if (this.$route.params.macroId) {
           this.fetchMacro();
         } else {
-          this.initializeMacro();
+          this.initializeNewMacro();
         }
       },
       immediate: true,
@@ -370,7 +370,7 @@ export default {
         this.manifestMacro();
       }
     },
-    initializeMacro() {
+    initializeNewMacro() {
       this.mode = 'CREATE';
       this.macro = {
         name: '',
