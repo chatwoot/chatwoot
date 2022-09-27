@@ -1,8 +1,8 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
+    "TITLE": "Filtrer Samtaler",
+    "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Anvend filtre' for at filtrere samtaler.",
+    "ADD_NEW_FILTER": "Tilføj Filter",
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
     "CANCEL_BUTTON_LABEL": "Annuller",
