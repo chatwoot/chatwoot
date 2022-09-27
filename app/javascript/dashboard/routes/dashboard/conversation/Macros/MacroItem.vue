@@ -34,7 +34,7 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
-import MacroPreview from './MacroPreview.vue';
+import MacroPreview from './MacroPreview';
 export default {
   components: {
     MacroPreview,

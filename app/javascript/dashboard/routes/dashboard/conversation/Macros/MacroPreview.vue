@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { AUTOMATION_ACTION_TYPES } from 'dashboard/routes/dashboard/settings/automation/constants.js';
+import { AUTOMATION_ACTION_TYPES } from 'dashboard/routes/dashboard/settings/automation/constants';
 
 export default {
   props: {
@@ -34,22 +34,6 @@ export default {
     },
   },
   methods: {
-    valueStore(type) {
-      switch (type) {
-        case 'assign_team':
-        case 'send_email_to_team':
-          return this.$store.getters['teams/getTeams'];
-        case 'add_label':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.title,
-              name: i.title,
-            };
-          });
-        default:
-          return undefined;
-      }
-    },
     getActionName(key) {
       return AUTOMATION_ACTION_TYPES.find(i => i.key === key).label;
     },
@@ -130,7 +114,7 @@ export default {
     .macro-block-border {
       top: 0.625rem;
       position: absolute;
-      bottom: -0.5rem;
+      bottom: var(--space-minus-half);
       left: 0;
       width: 1px;
       background-color: var(--s-100);

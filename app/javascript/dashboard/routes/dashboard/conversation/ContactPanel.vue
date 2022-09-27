@@ -115,7 +115,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
-import MacrosList from './Macros/List.vue';
+import MacrosList from './Macros/List';
 
 import ContactInfo from './contact/ContactInfo';
 import ConversationInfo from './ConversationInfo';

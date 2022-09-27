@@ -15,7 +15,7 @@
                 "NAME": {
                     "LABEL": "Macro name",
                     "PLACEHOLDER": "Enter a name for your macro",
-                    "ERROR": "Please enter a macro name"
+                    "ERROR": "Name is required for creating a macro"
                 },
                 "DESC": {
                     "LABEL": "Description",

@@ -1,7 +1,7 @@
 import SettingsContent from '../Wrapper';
 import Macros from './Index';
-const MacroEditor = () => import('./MacroEditor.vue');
-import { frontendURL } from '../../../../helper/URLHelper';
+const MacroEditor = () => import('./MacroEditor');
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
   routes: [

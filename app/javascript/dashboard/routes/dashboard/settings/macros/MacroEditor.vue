@@ -108,7 +108,7 @@
             <div class="macros-form-radio-group">
               <button
                 class="card"
-                :class="{ active: macro.visibility === 'global' }"
+                :class="isActive('global')"
                 @click="macro.visibility = 'global'"
               >
                 <fluent-icon
@@ -126,7 +126,7 @@
               </button>
               <button
                 class="card"
-                :class="{ active: macro.visibility === 'personal' }"
+                :class="isActive('personal')"
                 @click="macro.visibility = 'personal'"
               >
                 <fluent-icon
@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import ActionInput from 'dashboard/components/widgets/AutomationActionInput';
 import { AUTOMATION_ACTION_TYPES } from 'dashboard/routes/dashboard/settings/automation/constants.js';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 import draggable from 'vuedraggable';
@@ -376,6 +376,9 @@ export default {
           visibility: 'global',
         };
       }
+    },
+    isActive(key) {
+      return { active: this.macro.visibility === key };
     },
   },
 };

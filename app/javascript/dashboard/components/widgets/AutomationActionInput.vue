@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="filter"
-    :class="{
-      error: v.action_params.$dirty && v.action_params.$error,
-      'is-a-macro': isMacro,
-    }"
-  >
+  <div class="filter" :class="actionInputStyles">
     <div class="filter-inputs">
       <select
         v-model="action_name"
@@ -153,6 +147,12 @@ export default {
     inputType() {
       return this.actionTypes.find(action => action.key === this.action_name)
         .inputType;
+    },
+    actionInputStyles() {
+      return {
+        error: this.v.action_params.$dirty && this.v.action_params.$error,
+        'is-a-macro': this.isMacro,
+      };
     },
   },
   methods: {
