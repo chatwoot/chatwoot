@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "ภาพรวม",
     "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "ไปที่ตั้งค่า",
       "SWITCH_CONVERSATION_STATUS": "ไปยังสถานะการสนทนาถัดไป",
       "SWITCH_TO_PRIVATE_NOTE": "สลับเป็นโน้ตส่วนตัว",
-      "TOGGLE_RICH_CONTENT_EDITOR": "เปิดหรือปิดเครื่องมือแก้ไขริชคอนเทนท์",
       "SWITCH_TO_REPLY": "สลับเป็นการตอบกลับ",
       "TOGGLE_SNOOZE_DROPDOWN": "เปิดหรือปิดเมนูพักการสนทนา"
     },
