@@ -272,7 +272,7 @@ export default {
       let manifestedCustomAttributes = generateCustomAttributes(
         conversationCustomAttributeTypes,
         contactCustomAttributeTypes,
-        this.$t('AUTOMATION.CONDITION.`CONVERSATION_CUSTOM_ATTR_LABEL`'),
+        this.$t('AUTOMATION.CONDITION.CONVERSATION_CUSTOM_ATTR_LABEL'),
         this.$t('AUTOMATION.CONDITION.CONTACT_CUSTOM_ATTR_LABEL')
       );
       this.automationTypes.message_created.conditions.push(
