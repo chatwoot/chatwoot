@@ -138,8 +138,8 @@ $font-size-medium: 18px;
     padding: $space-smaller 0 0;
     
     &::-webkit-scrollbar {
-      width: 5px;
-      height: 5px
+      width: $space-small;
+      height: $space-small;
     }
     
     &::-webkit-scrollbar-track {
@@ -149,7 +149,7 @@ $font-size-medium: 18px;
     
     &::-webkit-scrollbar-thumb {
       border-radius: $space-small;
-      border: 5px solid transparent;
+      border: $space-small solid transparent;
       background-clip: content-box;
       background-color: $color-border-dark;
     }
