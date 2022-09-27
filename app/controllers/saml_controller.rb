@@ -2,6 +2,7 @@
 class SamlController < ApplicationController
   # skip_before_action :verify_authenticity_token, :only => [:consume]
   layout 'vueapp'
+  include SsoAuthenticatable
 
   def index
     request = OneLogin::RubySaml::Authrequest.new
@@ -16,9 +17,9 @@ class SamlController < ApplicationController
       # authorize_success, log the user
       find_the_resource(response.nameid)
       create_session_and_assign_token
-      set_current_user
 
-      render_create_success
+      encoded_email = ERB::Util.url_encode(@resource.email)
+      redirect_to "https://db7b-103-51-75-84.in.ngrok.io/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}"
     else
       Rails.logger.error "Response Invalid. Errors: #{response.errors}"
     end
@@ -85,8 +86,8 @@ class SamlController < ApplicationController
 
     settings.soft = true
 
-    settings.assertion_consumer_service_url = 'https://39c9-49-248-88-43.in.ngrok.io/saml/consume'
-    settings.sp_entity_id                   = 'https://39c9-49-248-88-43.in.ngrok.io/saml/metadata'
+    settings.assertion_consumer_service_url = 'https://db7b-103-51-75-84.in.ngrok.io/saml/consume'
+    settings.sp_entity_id                   = 'https://db7b-103-51-75-84.in.ngrok.io/saml/metadata'
 
     settings.idp_entity_id                  = 'https://app.onelogin.com/saml2'
     settings.idp_sso_target_url             = 'https://chatwoot-dev.onelogin.com/trust/saml2/http-post/sso/de789d10-0617-44e9-8fd6-9d798809cfbf'
