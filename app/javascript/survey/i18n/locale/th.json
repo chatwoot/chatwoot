@@ -1,19 +1,19 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "โปรดสละเวลา เพื่อแสดงความคิดเห็นกับการสนทนากับ %{inboxName} ครั้งนี้",
+    "DESCRIPTION": "",
     "RATING": {
-      "LABEL": "ให้คะแนนการสนทนาครั้งนี้",
-      "SUCCESS_MESSAGE": "ขอบคุณที่ร่วมมือให้คะแนนการสนทนากับเรา"
+      "LABEL": "",
+      "SUCCESS_MESSAGE": ""
     },
     "FEEDBACK": {
-      "LABEL": "คุณมีความคิดเห็นอะไรที่ต้องการให้เราปรับปรุงไหม?",
-      "PLACEHOLDER": "ความคิดเห็นของคุณ (ไม่จำเป็น)",
-      "BUTTON_TEXT": "ส่งความคิดเห็น"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "BUTTON_TEXT": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "แบบสอบถามได้รับการอัพเดทแล้ว",
-      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้ โปรดลองอีกครั้งในภายหลัง"
     }
   },
-  "POWERED_BY": "Powered by Chatwoot"
+  "POWERED_BY": ""
 }
