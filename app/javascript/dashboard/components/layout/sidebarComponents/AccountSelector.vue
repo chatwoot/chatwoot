@@ -8,7 +8,7 @@
       :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
       :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
     />
-    <div>
+    <div class="account-selector--wrap">
       <div
         v-for="account in currentUser.accounts"
         :key="account.id"
@@ -19,7 +19,7 @@
           @click="onChangeAccount(account.id)"
         >
           <span class="button__content">
-            <label :for="account.name" class="account--details">
+            <label :for="account.name" class="account-details--wrap">
               <div class="account--name">{{ account.name }}</div>
               <div class="account--role">{{ account.role }}</div>
             </label>
@@ -78,11 +78,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.account-selector--wrap {
+  margin-top: var(--space-normal);
+}
 .account-selector {
+  padding-top: 0;
+  padding-bottom: 0;
   button {
-    padding: var(--space-one) 0;
-    .account--details {
-      padding-left: var(--space-normal);
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-one) var(--space-normal);
+    .account-details--wrap {
       text-align: left;
       .account--name {
         cursor: pointer;
