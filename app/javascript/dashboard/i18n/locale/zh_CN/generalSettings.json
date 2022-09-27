@@ -62,10 +62,10 @@
     "MARK_ALL_DONE": "标记全部完成",
     "DELETE_TITLE": "已删除",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
+      "TITLE": "未读通知",
       "ALL_NOTIFICATIONS": "查看所有通知",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "LOADING_UNREAD_MESSAGE": "正在加载未读通知...",
+      "EMPTY_MESSAGE": "您没有未读通知"
     },
     "LIST": {
       "LOADING_MESSAGE": "正在加载通知...",
@@ -79,8 +79,8 @@
     },
     "TYPE_LABEL": {
       "conversation_creation": "新建对话",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
+      "conversation_assignment": "对话已分配",
+      "assigned_conversation_new_message": "新消息",
       "conversation_mention": "提及"
     }
   },
@@ -95,7 +95,7 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "搜索或跳转到",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "一般",
       "REPORTS": "报告",
       "CONVERSATION": "会话",
       "CHANGE_ASSIGNEE": "更改分配",
@@ -107,16 +107,16 @@
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "转到对话面板",
       "GO_TO_CONTACTS_DASHBOARD": "转到联系人面板",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
+      "GO_TO_REPORTS_OVERVIEW": "前往报告概览",
+      "GO_TO_CONVERSATION_REPORTS": "前往对话报告",
+      "GO_TO_AGENT_REPORTS": "前往客服代理报告",
+      "GO_TO_LABEL_REPORTS": "前往标签报告",
+      "GO_TO_INBOX_REPORTS": "前往收件箱报告",
+      "GO_TO_TEAM_REPORTS": "前往团队报告",
+      "GO_TO_SETTINGS_AGENTS": "前往客服代理设置",
+      "GO_TO_SETTINGS_TEAMS": "前往团队设置",
+      "GO_TO_SETTINGS_INBOXES": "前往收件箱设置",
+      "GO_TO_SETTINGS_LABELS": "前往标签设置",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
