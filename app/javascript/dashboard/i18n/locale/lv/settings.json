@@ -1,264 +1,264 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "Profila Iestatījumi",
+    "TITLE": "Profila Iestatījumi",
+    "BTN_TEXT": "Atjaunināt Profilu",
+    "DELETE_AVATAR": "Dzēst Avatāru",
+    "AVATAR_DELETE_SUCCESS": "Avatārs ir veiksmīgi izdzēsts",
+    "AVATAR_DELETE_FAILED": "Avatāra dzēšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "UPDATE_SUCCESS": "Jūsu profils ir veiksmīgi atjaunināts",
+    "PASSWORD_UPDATE_SUCCESS": "Jūsu parole ir veiksmīgi nomainīta",
+    "AFTER_EMAIL_CHANGED": "Jūsu profils ir veiksmīgi atjaunināts. Lūdzu, atkārtoti pierakstieties, jo Jūsu akreditācijas dati ir mainīti",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "Profila Attēls",
+      "ERROR": "Lūdzu, izlabojiet veidlapas kļūdas",
+      "REMOVE_IMAGE": "Noņemt",
+      "UPLOAD_IMAGE": "Augšupielādēt attēlu",
+      "UPDATE_IMAGE": "Atjaunināt attēlu",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "Profils",
+        "NOTE": "Jūsu e -pasta adrese ir jūsu identitāte, un to izmanto lai pierakstītos."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Personīgais ziņojuma paraksts",
+        "NOTE": "Izveidojiet personīgu ziņojumu parakstu, kas tiks pievienots visiem ziņojumiem, kurus nosūtat no jūsu e -pasta iesūtnes. Izmantojiet bagātīgā satura redaktoru, lai izveidotu īpaši personalizētu parakstu.",
+        "BTN_TEXT": "Saglabāt ziņojuma parakstu",
+        "API_ERROR": "Nevarēja saglabāt parakstu! Lūdzu, mēģiniet vēlreiz",
+        "API_SUCCESS": "Paraksts ir veiksmīgi saglabāts"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Ziņojuma Paraksts",
+        "ERROR": "Ziņojuma Paraksts nevar būt tukšs",
+        "PLACEHOLDER": "Ievietojiet savu personīgo ziņojumu parakstu šeit."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "TITLE": "Parole",
+        "NOTE": "Paroles atjaunināšana varētu atiestatīt jūsu pierakstīšanos vairākās ierīcēs.",
+        "BTN_TEXT": "Mainīt paroli"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Piekļuves Token",
+        "NOTE": "Šo token var izmantot, ja veidojat uz API balstītu integrāciju"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Audio Paziņojumi",
+        "NOTE": "Iespējot audio paziņojumus informācijas panelī jauniem ziņojumiem un sarunām.",
+        "NONE": "Nav",
+        "ASSIGNED": "Piešķirtās Sarunas",
+        "ALL_CONVERSATIONS": "Visas Sarunas"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "TITLE": "E-pasta Ziņojumi",
+        "NOTE": "Atjauniniet savas e -pasta paziņojumu preferences šeit",
+        "CONVERSATION_ASSIGNMENT": "Nosūtīt e -pasta paziņojumus, kad man tiek piešķirta saruna",
+        "CONVERSATION_CREATION": "Nosūtīt e -pasta paziņojumus, kad tiek izveidota jauna saruna",
+        "CONVERSATION_MENTION": "Nosūtīt e -pasta paziņojumus, kad tiekat pieminēts sarunā",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Jūsu paziņojumu preferences ir veiksmīgi atjauninātas",
+        "UPDATE_ERROR": "Preferenču atjaunināšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Push Paziņojumi",
+        "NOTE": "Atjauniniet savas Push paziņojumu preferences šeit",
+        "CONVERSATION_ASSIGNMENT": "Nosūtīt push paziņojumus, kad man tiek piešķirta saruna",
+        "CONVERSATION_CREATION": "Nosūtīt push paziņojumus, kad tiek izveidota jauna saruna",
+        "CONVERSATION_MENTION": "Nosūtīt push paziņojumus, kad tiekat pieminēts sarunā",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt push paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
+        "HAS_ENABLED_PUSH": "Jūs esat iespējojis push šajā pārlūkprogrammā.",
+        "REQUEST_PUSH": "Iespējot push paziņojumus"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profila Attēls"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Jūsu pilnais vārds",
+        "ERROR": "Lūdzu, ievadiet derīgu pilnu vārdu",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu pilno vārdu"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Parādāmais vārds",
+        "ERROR": "Lūdzu, ievadiet derīgu parādāmo vārdu",
+        "PLACEHOLDER": "Lūdzu, ievadiet parādāmo vārdu, tas tiks parādīts sarunās"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Pieejamība",
         "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
+          "Tiešsaistē",
+          "Aizņemts",
+          "Bezsaistē"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Jūsu e-pasta adrese",
+        "ERROR": "Lūdzu, ievadiet derīgu e-pasta adresi",
+        "PLACEHOLDER": "Lūdzu, ievadiet savu e-pasta adresi, tā tiks parādīta sarunās"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Pašreizējā parole",
+        "ERROR": "Lūdzu, ievadiet pašreizējo paroli",
+        "PLACEHOLDER": "Lūdzu, ievadiet pašreizējo paroli"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Jauna parole",
+        "ERROR": "Lūdzu, ievadiet paroli, kuras garums ir 6 vai vairāk simboli",
+        "PLACEHOLDER": "Lūdzu, ievadiet jauno paroli"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "Apstipriniet jauno paroli",
+        "ERROR": "Apstiprinājuma parolei ir jāsakrīt ar paroli",
+        "PLACEHOLDER": "Lūdzu, vēlreiz ievadiet savu jauno paroli"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "LOGOUT": "Logout"
+    "CHANGE_AVAILABILITY_STATUS": "Mainīt",
+    "CHANGE_ACCOUNTS": "Pārslēgt Kontu",
+    "CONTACT_SUPPORT": "Sazināties ar Atbalsta Dienestu",
+    "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
+    "PROFILE_SETTINGS": "Profila Iestatījumi",
+    "KEYBOARD_SHORTCUTS": "Tastatūras Īsinājumtaustiņi",
+    "LOGOUT": "Izrakstīties"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "izmēģinājuma dienas atlikušas.",
+    "TRAIL_BUTTON": "Pirkt Tagad",
+    "DELETED_USER": "Dzēsts Lietotājs",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Konts Iesaldēts",
+      "MESSAGE": "Jūsu konts ir iesaldēts. Lai iegūtu papildu informāciju, lūdzu, sazinieties ar atbalsta komandu."
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Kopēt",
+      "COPY_SUCCESSFUL": "Kods ir veiksmīgi nokopēts uz clipboard"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Parādīt Vairāk",
+      "SHOW_LESS": "Parādīt Mazāk"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Lejupielādēt",
+      "UPLOADING": "Notiek augšupielāde..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Iesniegt"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Notiek pārbaude...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Pievienot Iesūtni"
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "CONVERSATIONS": "Conversations",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
+    "SWITCH": "Pārslēgt",
+    "CONVERSATIONS": "Sarunas",
+    "ALL_CONVERSATIONS": "Visas Sarunas",
+    "MENTIONED_CONVERSATIONS": "Pieminēšanas",
+    "REPORTS": "Pārskati",
+    "SETTINGS": "Iestatījumi",
+    "CONTACTS": "Kontaktpersonas",
+    "HOME": "Sākums",
+    "AGENTS": "Aģenti",
+    "INBOXES": "Iesūtnes",
+    "NOTIFICATIONS": "Paziņojumi",
+    "CANNED_RESPONSES": "Sagatavotās Atbildes",
+    "INTEGRATIONS": "Integrācijas",
+    "PROFILE_SETTINGS": "Profila Iestatījumi",
+    "ACCOUNT_SETTINGS": "Konta Iestatījumi",
+    "APPLICATIONS": "Lietojumprogrammas",
+    "LABELS": "Etiķetes",
+    "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības",
+    "AUTOMATION": "Automatizācija",
+    "TEAMS": "Komandas",
+    "BILLING": "Norēķini",
+    "CUSTOM_VIEWS_FOLDER": "Mapes",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
+    "ALL_CONTACTS": "Visi Kontakti",
+    "TAGGED_WITH": "Marķēts ar",
+    "NEW_LABEL": "Jauna etiķete",
+    "NEW_TEAM": "Jauna komanda",
+    "NEW_INBOX": "Jauna iesūtne",
+    "REPORTS_CONVERSATION": "Sarunas",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agents",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "CAMPAIGNS": "Kampaņas",
+    "ONGOING": "Notiekošs",
+    "ONE_OFF": "Vienreizējs",
+    "REPORTS_AGENT": "Aģenti",
+    "REPORTS_LABEL": "Etiķetes",
+    "REPORTS_INBOX": "Iesūtne",
+    "REPORTS_TEAM": "Komanda",
+    "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "REPORTS_OVERVIEW": "Pārskats",
+    "FACEBOOK_REAUTHORIZE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "Palīdzības Centrs (Beta)",
+      "ALL_ARTICLES": "Visi Raksti",
+      "MY_ARTICLES": "Mani Raksti",
+      "DRAFT": "Melnraksts",
+      "ARCHIVED": "Arhivēts",
+      "CATEGORY": "Kategorija",
+      "CATEGORY_EMPTY_MESSAGE": "Kategorijas nav atrastas"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Lasīt dokumentus"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Norēķini",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Pašreizējais Norēķinu Plāns",
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **%{plan}** plānu ar **%{quantity}** licencēm"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Pārvaldīt savu abonementu",
+      "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
+      "BUTTON_TXT": "Doties uz norēķinu portālu"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
+      "TITLE": "Nepieciešama palīdzība?",
+      "DESCRIPTION": "Vai Jūs saskārāties ar kādām problēmām norēķinu laikā? Mēs esam šeit, lai palīdzētu.",
+      "BUTTON_TXT": "Tērzēt ar mums"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Jūsu norēķinu konts tiek konfigurēts. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "Ak, vai! Mēs nevarējām atrast nevienu chatwoot kontu. Lūdzu, izveidojiet jaunu kontu, lai turpinātu.",
+    "NEW_ACCOUNT": "Jauns Konts",
+    "SELECTOR_SUBTITLE": "Izveidot jaunu kontu",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Konts ir veiksmīgi izveidots",
+      "EXIST_MESSAGE": "Konts jau pastāv",
+      "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Konta Nosaukums",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Iesniegt"
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Atvērt sarunu",
+      "RESOLVE_AND_NEXT": "Atrisināt un pāriet uz nākamo",
+      "NAVIGATE_DROPDOWN": "Pārvietoties starp nolaižamā saraksta vienumiem",
+      "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
+      "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
+      "ADD_ATTACHMENT": "Pievienot Pielikumu",
+      "GO_TO_CONTACTS_DASHBOARD": "Doties uz Kontaktu Informācijas Paneli",
+      "TOGGLE_SIDEBAR": "Pārslēgt Sānjoslu",
+      "GO_TO_REPORTS_SIDEBAR": "Doties uz Pārskatu sānjoslu",
+      "MOVE_TO_NEXT_TAB": "Pāriet uz sarunu saraksta nākamo cilni",
+      "GO_TO_SETTINGS": "Doties uz Iestatījumiem",
+      "SWITCH_CONVERSATION_STATUS": "Pārslēgties uz nākamās sarunas statusu",
+      "SWITCH_TO_PRIVATE_NOTE": "Pārslēgties uz Privāto Piezīmi",
+      "SWITCH_TO_REPLY": "Pārslēgties uz Atbildi",
+      "TOGGLE_SNOOZE_DROPDOWN": "Pārslēgt atlikšanas nolaižamo izvēlni"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
