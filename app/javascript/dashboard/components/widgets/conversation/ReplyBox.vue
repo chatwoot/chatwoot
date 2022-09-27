@@ -436,16 +436,14 @@ export default {
     conversationId() {
       return this.currentChat.id;
     },
+    conversationIdByRoute() {
+      const { conversation_id: conversationId } = this.$route.params;
+      return conversationId;
+    },
   },
   watch: {
-    currentChat(conversation, oldConversation) {
+    currentChat(conversation) {
       const { can_reply: canReply } = conversation;
-      const { conversation_id: conversationId } = this.$route.params;
-
-      if (oldConversation.id !== conversationId) {
-        this.setToDraft(oldConversation.id, this.replyType);
-        this.getFromDraft();
-      }
 
       if (this.isOnPrivateNote) {
         return;
@@ -458,6 +456,12 @@ export default {
       }
 
       this.setCCEmailFromLastChat();
+    },
+    conversationIdByRoute(conversationId, oldConversationId) {
+      if (conversationId !== oldConversationId) {
+        this.setToDraft(oldConversationId, this.replyType);
+        this.getFromDraft();
+      }
     },
     message(updatedMessage) {
       this.hasSlashCommand =
