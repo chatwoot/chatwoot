@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Tutti gli articoli",
       "MY_ARTICLES": "I miei articoli",
       "DRAFT": "Bozza",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Vai alle impostazioni",
       "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
       "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Attiva/Disattiva editor di contenuti esteso",
       "SWITCH_TO_REPLY": "Passa a Risposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva sospensione a discesa"
     },
