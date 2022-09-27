@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Mẫu Whatsapp",
+            "SUBTITLE": "Chọn mẫu whatsapp bạn muốn gửi",
+            "TEMPLATE_SELECTED_SUBTITLE": "Xử lý %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Tìm kiếm Mẫu",
+            "NO_TEMPLATES_FOUND": "Không tìm thấy mẫu nào cho",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Ngôn ngữ",
+                "TEMPLATE_BODY": "Nội dung của Mẫu",
+                "CATEGORY": "Loại"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Biến",
+            "VARIABLE_PLACEHOLDER": "Nhập giá trị %{variable}",
+            "GO_BACK_LABEL": "Quay lại",
+            "SEND_MESSAGE_LABEL": "Gửi tin nhắn",
+            "FORM_ERROR_MESSAGE": "Vui lòng điền vào tất cả các biến trước khi gửi"
         }
     }
 }
