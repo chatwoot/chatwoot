@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Übersicht",
     "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
     "HELP_CENTER": {
+      "TITLE": "Hilfezentrum (Beta)",
       "ALL_ARTICLES": "Alle Artikel",
       "MY_ARTICLES": "Meine Artikel",
       "DRAFT": "Entwürfe",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Zu den Einstellungen",
       "SWITCH_CONVERSATION_STATUS": "Zum nächsten Gesprächsstatus wechseln",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",
       "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"
     },
