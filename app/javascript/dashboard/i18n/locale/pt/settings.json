@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Ir para as configurações",
       "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo estado de conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Alterar para nota privada",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar suspensos"
     },
