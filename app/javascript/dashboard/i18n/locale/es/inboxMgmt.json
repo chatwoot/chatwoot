@@ -203,7 +203,7 @@
         "PROVIDERS": {
           "LABEL": "Proveedor de API",
           "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD": "Nube de WhatsApp",
           "360_DIALOG": "360 Diálogo"
         },
         "INBOX_NAME": {
@@ -217,7 +217,7 @@
           "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
+          "LABEL": "ID de número de teléfono",
           "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
           "ERROR": "Por favor, introduzca un valor válido."
         },
@@ -622,7 +622,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "Previsualizar",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
