@@ -115,9 +115,9 @@ cs:
         assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
         removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
+        added: "%{user_name} odstranil/a %{labels}"
+        removed: "%{user_name} odebral/a %{labels}"
+      muted: "%{user_name} ztlumil/a konverzaci"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} typically replies in a few hours."
@@ -129,7 +129,7 @@ cs:
         header:
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "New messages on this conversation"
+      email_subject: "Nové zprávy v této konverzaci"
       transcript_subject: "Přepis konverzace"
     survey:
       response: "Please rate this conversation, %{link}"
