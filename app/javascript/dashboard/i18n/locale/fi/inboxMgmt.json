@@ -594,7 +594,7 @@
         },
         "WELCOME_HEADING": {
           "LABEL": "Tervetuloa-otsikko",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "Hei siellä!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Tervetulotoivotus",
@@ -649,11 +649,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "Olemme online-tilassa",
+          "OFFLINE": "Olemme tällä hetkellä poissa"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Hei",
+        "AGENT_MESSAGE": "Moi"
       },
       "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
