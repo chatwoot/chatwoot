@@ -78,15 +78,15 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "Tạo mới cuộc trò chuyện",
-      "conversation_assignment": "Cuộc trò chuyện được phân công",
+      "conversation_creation": "Hội thoại mới mới",
+      "conversation_assignment": "Hội thoại đã được phân công",
       "assigned_conversation_new_message": "Tin nhắn mới",
-      "conversation_mention": "Nhắn đến"
+      "conversation_mention": "Nhắc đến"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Đã ngắt kết nối khỏi Chatwoot"
+      "TEXT": "Đã ngắt kết nối khỏi máy chủ"
     },
     "BUTTON": {
       "REFRESH": "Làm mới"
@@ -97,41 +97,41 @@
     "SECTIONS": {
       "GENERAL": "Chung",
       "REPORTS": "Báo cáo",
-      "CONVERSATION": "Cuộc trò chuyện",
+      "CONVERSATION": "Hội thoại",
       "CHANGE_ASSIGNEE": "Thay đổi người được phân công",
       "CHANGE_TEAM": "Thay đổi nhóm",
-      "ADD_LABEL": "Thêm nhãn vào cuộc trò chuyện",
-      "REMOVE_LABEL": "Xoá nhãn khỏi cuộc trò chuyện",
+      "ADD_LABEL": "Thêm nhãn vào hội thoại",
+      "REMOVE_LABEL": "Xoá nhãn khỏi hội thoại",
       "SETTINGS": "Cài đặt"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
+      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan hội thoại",
       "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
       "GO_TO_REPORTS_OVERVIEW": "Đi đến Tổng quan Báo cáo",
-      "GO_TO_CONVERSATION_REPORTS": "Đi tới Trang Báo cáo cuộc trò chuyện",
-      "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Đại lý",
+      "GO_TO_CONVERSATION_REPORTS": "Đi tới Trang Báo cáo hội thoại",
+      "GO_TO_AGENT_REPORTS": "Đi đến Báo cáo Tổng đài viên",
       "GO_TO_LABEL_REPORTS": "Đi đến Báo cáo Nhãn",
-      "GO_TO_INBOX_REPORTS": "Đi đến Báo cáo Hộp thư đến",
+      "GO_TO_INBOX_REPORTS": "Đi đến Báo cáo Kênh",
       "GO_TO_TEAM_REPORTS": "Đi đến Báo cáo Nhóm",
-      "GO_TO_SETTINGS_AGENTS": "Đi đến Cài đặt Đại lý",
+      "GO_TO_SETTINGS_AGENTS": "Đi đến Cài đặt Tổng đài viên",
       "GO_TO_SETTINGS_TEAMS": "Đi đến Cài đặt Nhóm",
-      "GO_TO_SETTINGS_INBOXES": "Đi đến Cài đặt Hộp thư đến",
+      "GO_TO_SETTINGS_INBOXES": "Đi đến Cài đặt Kênh",
       "GO_TO_SETTINGS_LABELS": "Đi đến Cài đặt Nhãn",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Đi đến Cài đặt Tin trả lời lưu sẵn",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Đi đến Cài đặt Tin trả lời mẫu",
       "GO_TO_SETTINGS_APPLICATIONS": "Đi đến Cài đặt Ứng dụng",
       "GO_TO_SETTINGS_ACCOUNT": "Đi đến Cài đặt Tài khoản",
       "GO_TO_SETTINGS_PROFILE": "Đi đến Cài đặt Hồ sơ",
       "GO_TO_NOTIFICATIONS": "Đi đến Thông báo",
-      "ADD_LABELS_TO_CONVERSATION": "Thêm nhãn vào cuộc trò chuyện",
-      "ASSIGN_AN_AGENT": "Phân công một đại lý",
+      "ADD_LABELS_TO_CONVERSATION": "Thêm nhãn vào hội thoại",
+      "ASSIGN_AN_AGENT": "Gán cho tổng đài viên",
       "ASSIGN_A_TEAM": "Phân công một nhóm",
-      "MUTE_CONVERSATION": "Tắt tiếng",
-      "UNMUTE_CONVERSATION": "Bật tiếng cuộc trò chuyện",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Xoá nhãn khỏi cuộc trò chuyện",
-      "REOPEN_CONVERSATION": "Mở lại cuộc trò chuyện",
-      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
-      "SEND_TRANSCRIPT": "Gửi bản ghi email",
-      "SNOOZE_CONVERSATION": "Tạm dừng Cuộc trò chuyện",
+      "MUTE_CONVERSATION": "Tắt tiếng hội thoại",
+      "UNMUTE_CONVERSATION": "Bật tiếng hội thoại",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Xoá nhãn khỏi hội thoại",
+      "REOPEN_CONVERSATION": "Mở lại hội thoại",
+      "RESOLVE_CONVERSATION": "Giải quyết hội thoại",
+      "SEND_TRANSCRIPT": "Gửi bản ghi qua email",
+      "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
       "UNTIL_NEXT_REPLY": "Cho đến phản hồi kế tiếp",
       "UNTIL_NEXT_WEEK": "Cho đến tuần sau",
       "UNTIL_TOMORROW": "Cho đến ngày mai"
