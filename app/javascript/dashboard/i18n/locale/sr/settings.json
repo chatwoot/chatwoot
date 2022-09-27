@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Pregled",
     "FACEBOOK_REAUTHORIZE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Svi članci",
       "MY_ARTICLES": "Moji članci",
       "DRAFT": "Nacrt",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Idi na podešavanja",
       "SWITCH_CONVERSATION_STATUS": "Prebaci se na sledeći status razgovora",
       "SWITCH_TO_PRIVATE_NOTE": "Prebaci se na privatnu belešku",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Uključi uređivač bogatog sadržaja",
       "SWITCH_TO_REPLY": "Prebaci se na odgovor",
       "TOGGLE_SNOOZE_DROPDOWN": "Uključite padajućim menijom odlaganja"
     },
