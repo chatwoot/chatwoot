@@ -1,98 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Prilagođeni atributi",
-    "HEADER_BTN_TXT": "Dodaj prilagođeni atribut",
-    "LOADING": "Prikupljanje prilagođenih atributa",
-    "SIDEBAR_TXT": "<p><b>Prilagođeni atributi</b> <p>Prilagođeni atribut vodi računa o činjenicama o vašim kontaktima/razgovorima - kao što je pretplatni plan, ili kada su prvi put naručili neki proizvod itd. <br /><br />Da bi ste kreirali prilagođeni atribut, samo kliknite na <b>Dodaj prilagođeni atribut.</b> Takođe možete urediti ili obrisati postojeći Prilagođeni atribut klikom na dugme Uredi ili Obriši.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "Dodaj prilagođeni atribut",
-      "SUBMIT": "Kreiraj",
-      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Ime za prikaz",
-          "PLACEHOLDER": "Unesite ime za prikaz prilagođenog atributa",
-          "ERROR": "Ime je neophodno"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "Opis",
-          "PLACEHOLDER": "Unesite opis prilagođenog atributa",
-          "ERROR": "Opis je neophodan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MODEL": {
-          "LABEL": "Primenjujese na",
-          "PLACEHOLDER": "Molim izaberite jedno",
-          "ERROR": "Model je neophodan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TYPE": {
-          "LABEL": "Tip",
-          "PLACEHOLDER": "MOlim izaberite tip",
-          "ERROR": "Tip je neophodan",
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
           "LIST": {
-            "LABEL": "Lista vrednosti",
-            "PLACEHOLDER": "Molim unesite vrednost i pritisnite taster Enter",
-            "ERROR": "Mora da sadrži barem jednu vrednost"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           }
         },
         "KEY": {
-          "LABEL": "Ključ",
-          "PLACEHOLDER": "Unesite ključ prilagođenog atributa",
-          "ERROR": "Ključ je neophodan",
-          "IN_VALID": "Neispravan ključ"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "IN_VALID": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno dodat",
-        "ERROR_MESSAGE": "Nije bilo moguće kreirati prilagođeni atribut. Molim Vas pokušajte kasnije"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Izbriši",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno obrisan.",
-        "ERROR_MESSAGE": "NIje bilo moguće obrisati prilagođeni atribut. Pokušajte ponovo."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Da li zaista želite da obrišete - %{attributeName}",
-        "PLACE_HOLDER": "Molim upišite {attributeName} za potvrdu",
-        "MESSAGE": "Brisanjem ćete ukloniti prilagođeni atribut",
-        "YES": "Obriši ",
-        "NO": "Otkaži"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Uredite prilagođeni atribut",
-      "UPDATE_BUTTON_TEXT": "Izmeni",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "TYPE": {
         "LIST": {
-          "LABEL": "Lista vrednosti",
-          "PLACEHOLDER": "Molim unesite vrednosti i pritisnite taster Enter"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Prilagođeni atribut je uspešno izmenjen",
-        "ERROR_MESSAGE": "Pojavila se greška pri izmeni prilagođenog atributa. Molim pokušajte ponovo"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "HEADER": "Prilagođeni atributi",
-      "CONVERSATION": "Razgovor",
-      "CONTACT": "Kontakt"
+      "HEADER": "",
+      "CONVERSATION": "",
+      "CONTACT": ""
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Tip",
-        "Ključ"
+        "",
+        "",
+        "",
+        ""
       ],
       "BUTTONS": {
-        "EDIT": "Uredi",
-        "DELETE": "Izbriši"
+        "EDIT": "",
+        "DELETE": ""
       },
       "EMPTY_RESULT": {
-        "404": "Nema kreiranih prilagođenih atributa",
-        "NOT_FOUND": "Nema podešenih prilagođenih atributa"
+        "404": "",
+        "NOT_FOUND": ""
       }
     }
   }
