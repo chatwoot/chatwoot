@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Aģenti",
+    "HEADER_BTN_TXT": "Pievienot Aģentu",
+    "LOADING": "Aģentu Saraksta Iegūšana",
+    "SIDEBAR_TXT": "<p><b>Aģenti</b></p> <p><b>Aģents</b> ir Jūsu Klientu Atbalsta komandas biedrs.</p><p> Aģenti varēs skatīt jūsu lietotāju ziņojumus un atbildēt uz tiem. Sarakstā ir redzami visi aģenti, kas pašlaik ir jūsu kontā. </p><p> Klikšķiniet uz <b>Pievienot Aģentu</b> lai pievienotu jaunu aģentu. Jūsu pievienotais aģents saņems e-pasta ziņojumu ar apstiprinājuma saiti, lai aktivizētu savu kontu, pēc tam viņš varēs piekļūt Chatwoot un atbildēt uz ziņojumiem. </p><p> Piekļuve Chatwoot funkcijām ir balstīta uz šādām lomām. </p><p> <b>Aģents</b> - Šīs lomas aģentiem ir piekļuve tikai pie iesūtnēm, pārskatiem un sarunām. Viņi var piešķirt sarunas citiem aģentiem, vai sev, un atrisināt sarunas.</p><p> <b>Administrators</b> - Administratoram būs piekļuve pie visām jūsu kontam iespējotajām Chatwoot funkcijām, tostarp iestatījumiem, kā arī visām parasto aģentu privilēģijām.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "Administrators",
+      "AGENT": "Aģents"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "Šim kontam nav piesaistīts neviens aģents",
+      "TITLE": "Pārvaldīt Jūsu komandas aģentus",
+      "DESC": "Jūs varat pievienot/noņemt aģentus pie/no savas komandas.",
+      "NAME": "Vārds",
+      "EMAIL": "e-pasts",
+      "STATUS": "Statuss",
+      "ACTIONS": "Darbības",
+      "VERIFIED": "Pārbaudīts",
+      "VERIFICATION_PENDING": "Gaida apstiprinājumu"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Pievienot aģentu Jūsu komandai",
+      "DESC": "Jūs varat pievienot personas, kuras būs spējīgas apstrādāt iesūtnes un sniegt atbalstu.",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Aģenta Vārds",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta vārdu"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Loma",
+          "PLACEHOLDER": "Lūdzu, izvēlieties lomu",
+          "ERROR": "Nepieciešama loma"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "e-pasta Adrese",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta e-pasta adresi"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Pievienot Aģentu"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Aģents ir veiksmīgi pievienots",
+        "EXIST_MESSAGE": "Aģenta e-pasts jau tiek izmantots. Lūdzu, pamēģiniet citu e-pasta adresi",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Dzēst",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Aģents ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Rediģēt aģentu",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Aģenta Vārds",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta vārdu"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Loma",
+          "PLACEHOLDER": "Lūdzu, izvēlieties lomu",
+          "ERROR": "Nepieciešama loma"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "e-pasta Adrese",
+          "PLACEHOLDER": "Lūdzu, ievadiet aģenta e-pasta adresi"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Rediģēt Aģentu"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Rediģēt",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Aģents ir veiksmīgi atjaunināts",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Atiestatīt Paroli",
+        "ADMIN_SUCCESS_MESSAGE": "Aģentam tika nosūtīts e-pasta ziņojums ar paroles atiestatīšanas norādījumiem",
+        "SUCCESS_MESSAGE": "Aģenta parole ir veiksmīgi atiestatīta",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Nav atrasts."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Nav",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Izvēlieties aģentu",
+        "TEAM": "Izvēlieties komandu"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Aģenti nav atrasti",
+          "TEAM": "Komandas nav atrastas"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Meklēt aģentus",
+          "TEAM": "Meklēt komandas"
         }
       }
     }
