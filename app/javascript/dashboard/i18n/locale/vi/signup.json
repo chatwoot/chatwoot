@@ -22,7 +22,7 @@
       "LABEL": "Mật khẩu",
       "PLACEHOLDER": "Mật khẩu",
       "ERROR": "Mật khẩu quá ngắn",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Xác nhận mật khẩu",
