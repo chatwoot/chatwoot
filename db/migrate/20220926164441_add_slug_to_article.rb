@@ -1,6 +1,6 @@
 class AddSlugToArticle < ActiveRecord::Migration[6.1]
   def up
-    add_column :articles, :slug, :string, default: ''
+    add_column :articles, :slug, :string
 
     update_past_articles_with_slug
 
@@ -13,9 +13,9 @@ class AddSlugToArticle < ActiveRecord::Migration[6.1]
   end
 
   def update_past_articles_with_slug
-    Article.all.each do |article|
-      slug = article.title.underscore.parameterize(separator: '_')
-      article.update!(slug: slug)
+    Article.all.each_with_index do |article, index|
+      slug = article.title.underscore.parameterize(separator: '-')
+      article.update!(slug: "#{slug}-#{index}")
     end
   end
 end

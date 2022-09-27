@@ -6,7 +6,7 @@
 #  content               :text
 #  description           :text
 #  meta                  :jsonb
-#  slug                  :string           default(""), not null
+#  slug                  :string           not null
 #  status                :integer
 #  title                 :string
 #  views                 :integer
