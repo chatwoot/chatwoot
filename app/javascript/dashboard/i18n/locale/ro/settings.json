@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Prezentare generală",
     "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Accesați Pagina Setări",
       "SWITCH_CONVERSATION_STATUS": "Comutarea la următoarea stare a conversației",
       "SWITCH_TO_PRIVATE_NOTE": "Comutarea la Notă privată",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Comutarea editorului de conținut îmbogățit",
       "SWITCH_TO_REPLY": "Comutarea la Răspuns",
       "TOGGLE_SNOOZE_DROPDOWN": "Comutați snooze dropdown"
     },
