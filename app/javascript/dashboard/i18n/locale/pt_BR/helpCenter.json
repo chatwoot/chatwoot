@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "Todos os artigos",
       "PUBLISH_BUTTON": "Publicar",
+      "MOVE_TO_ARCHIVE_BUTTON": "Mover para arquivado",
       "PREVIEW": "Pré-visualizar",
       "ADD_TRANSLATION": "Adicionar tradução",
       "OPEN_SIDEBAR": "Abrir barra lateral",
@@ -64,6 +65,7 @@
     },
     "PORTAL": {
       "HEADER": "Portais",
+      "DEFAULT": "Padrão",
       "NEW_BUTTON": "Novo portal",
       "ACTIVE_BADGE": "ativo",
       "CHOOSE_LOCALE_LABEL": "Escolha uma localidade",
@@ -84,7 +86,8 @@
             "COUNT_LABEL": "artigos",
             "ADD": "Adicionar localidade",
             "VISIT": "Visitar site",
-            "SETTINGS": "Confirgurações"
+            "SETTINGS": "Confirgurações",
+            "DELETE": "Excluir"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Configurações do Portal",
@@ -109,6 +112,51 @@
               "DEFAULT_LOCALE": "Padrão"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Excluir portal",
+          "MESSAGE": "Tem certeza de que deseja excluir este portal?",
+          "YES": "Sim, excluir portal",
+          "NO": "Não, mantenha o portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal excluído com sucesso",
+            "DELETE_ERROR": "Erro enquanto excluía o portal"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Editar portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Informação Básica"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Personalização do Portal"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categorias"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Localidades"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Categorias em",
+          "NEW_CATEGORY": "Nova categoria",
+          "TABLE": {
+            "NAME": "Nome",
+            "DESCRIPTION": "Descrição",
+            "LOCALE": "Localidade",
+            "ARTICLE_COUNT": "No. de artigos",
+            "ACTION_BUTTON": {
+              "EDIT": "Editar categoria",
+              "DELETE": "Excluir categoria"
+            },
+            "EMPTY_TEXT": "Nenhuma categoria encontrada"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Atualizar configurações básicas"
         }
       },
       "ADD": {
@@ -164,7 +212,6 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug do Portal para URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/meu-portal",
           "ERROR": "Slug é obrigatório"
         },
         "DOMAIN": {
@@ -196,8 +243,40 @@
           "ERROR": "O texto do cabeçalho do Portal é obrigatório"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal criado com sucesso.",
           "ERROR_MESSAGE_FOR_BASIC": "Não foi possível criar o portal. Tente novamente.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal atualizado com sucesso.",
           "ERROR_MESSAGE_FOR_UPDATE": "Não foi possível atualizar o portal. Tente novamente."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Adicionar uma nova localidade",
+        "SUB_TITLE": "Isso adiciona uma nova localidade à sua lista de tradução disponível.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Localidade",
+          "PLACEHOLDER": "Escolha uma localidade",
+          "ERROR": "Localidade é necessária"
+        },
+        "BUTTONS": {
+          "CREATE": "Criar localidade",
+          "CANCEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Localidade adicionada com sucesso",
+          "ERROR_MESSAGE": "Não foi possível adicionar a localidade. Tente novamente."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localização padrão atualizada com sucesso",
+          "ERROR_MESSAGE": "Não é possível atualizar a localidade padrão. Tente novamente."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Localização removida do portal com sucesso",
+          "ERROR_MESSAGE": "Não é possível remover a localidade do portal. Tente novamente."
         }
       }
     },
@@ -224,8 +303,34 @@
         "ERROR": "Erro ao salvar artigo"
       }
     },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Erro ao publicar o artigo",
+        "SUCCESS": "Artigo publicado com sucesso"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Erro durante o arquivamento do artigo",
+        "SUCCESS": "Artigo arquivado com sucesso"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Confirmar exclusão",
+          "MESSAGE": "Tem certeza que deseja excluir o artigo?",
+          "YES": "Sim, excluir",
+          "NO": "Não, mantenha"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Artigo excluído com sucesso",
+        "ERROR_MESSAGE": "Erro enquanto excluía o artigo"
+      }
+    },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Por favor, adicione o cabeçalho e o conteúdo do artigo, só então você pode atualizar as configurações"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -247,7 +352,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria de slug para URLs",
-          "HELP_TEXT": "app.chatwoot.com/hc/meu-portal/en-US/categories/meu-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {
@@ -262,6 +367,43 @@
         "API": {
           "SUCCESS_MESSAGE": "Categoria criada com sucesso",
           "ERROR_MESSAGE": "Não é possível criar categoria"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Editar uma categoria",
+        "SUB_TITLE": "Editar uma categoria atualizará a categoria no portal voltado ao público.",
+        "PORTAL": "Portal",
+        "LOCALE": "Localidade",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome da categoria",
+          "HELP_TEXT": "O nome da categoria será utilizada no portal voltado ao público para categorizar artigos.",
+          "ERROR": "O nome é obrigatório"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Categoria de slug para URLs",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug é obrigatório"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Forneça uma breve descrição sobre a categoria.",
+          "ERROR": "Descrição obrigatória"
+        },
+        "BUTTONS": {
+          "CREATE": "Atualizar categoria",
+          "CANCEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria atualizada com sucesso",
+          "ERROR_MESSAGE": "Não é possível atualizar categoria"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria excluída com sucesso",
+          "ERROR_MESSAGE": "Não é possível excluir a categoria"
         }
       }
     }
