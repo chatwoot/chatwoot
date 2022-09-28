@@ -138,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Štítek byl úspěšně přiřazen",
     "ASSIGN_LABEL_FAILED": "Přiřazení štítku se nezdařilo",
     "CHANGE_TEAM": "Tým konverzace se změnil",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
     "BOT": "Bot",
