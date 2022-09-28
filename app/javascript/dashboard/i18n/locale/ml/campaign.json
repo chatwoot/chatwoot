@@ -25,7 +25,7 @@
         },
         "AUDIENCE": {
           "LABEL": "പ്രേക്ഷകർ",
-          "PLACEHOLDER": "Select the customer labels",
+          "PLACEHOLDER": "",
           "ERROR": "പ്രേക്ഷകർ ആവശ്യമാണ്"
         },
         "INBOX": {
@@ -54,7 +54,7 @@
           "ERROR": "പേജിൽ സമയം ആവശ്യമാണ്"
         },
         "ENABLED": "പ്രചാരണം പ്രവർത്തനക്ഷമമാക്കുക",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
         "SUBMIT": "പ്രചാരണം ചേർക്കുക"
       },
       "API": {
