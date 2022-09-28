@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "Назва Джерела",
         "PLACEHOLDER": "Введіть назву свого Джерела (наприклад: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Будь ласка, введіть припустиме ім'я вхідної скриньки"
       },
       "WEBSITE_NAME": {
         "LABEL": "Назва сайту",
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "Створити скриньку \"Вхідні\"",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Ми не змогли створити канал сайту, будь ласка, спробуйте ще раз"
         }
       },
       "TWILIO": {
@@ -112,10 +112,10 @@
           "ERROR": "Це поле є обов'язковим"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "Служба обміну повідомленнями SID",
+          "PLACEHOLDER": "Будь ласка, введіть свій Twilio Messaging Service SID",
           "ERROR": "Це поле є обов'язковим",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Використовувати Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Тип каналу",
@@ -217,18 +217,18 @@
           "ERROR": "Номер телефону повинен починатися з символу `+'."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "LABEL": "ID номера телефону",
+          "PLACEHOLDER": "Введіть ID телефону, отриманого з панелі розробника Facebook.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "LABEL": "Ідентифікатор бізнес-акаунту",
+          "PLACEHOLDER": "Будь ласка, введіть ідентифікатор бізнес-профілю, отриманий з панелі розробників Facebook.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "LABEL": "Токен перевірки вебхуків",
+          "PLACEHOLDER": "Введіть ключ підтвердження, який ви хочете налаштувати на Facebook webhook'и.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "API_KEY": {
@@ -239,7 +239,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "Необхідно налаштувати URL вебхука у панелі розробників facebook з URL-адресою, яку ви згадували."
         },
         "SUBMIT_BUTTON": "Створити канал WhatsApp",
         "API": {
@@ -327,7 +327,7 @@
       },
       "AUTH": {
         "TITLE": "Оберіть канал",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot підтримує live-chat віджети, Facebook Messenger, профілі Twitter, WhatsApp, електронну пошту і т.д. Якщо ви хочете створити користувальницький канал, ви можете створити його за допомогою каналу API. Щоб почати, виберіть один з каналів нижче."
       },
       "AGENTS": {
         "TITLE": "Агенти",
@@ -368,7 +368,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Налаштування вхідних повідомлень успішно оновлені",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автопризначення успішно оновлено",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "Ми не змогли оновити параметри \"Вхідні\". Будь ласка, повторіть спробу пізніше."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Увімкнено",
@@ -414,7 +414,7 @@
       "CAMPAIGN": "Розсилка",
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Конструктор віджетів"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -442,16 +442,16 @@
       "INBOX_UPDATE_SUB_TEXT": "Оновіть параметри каналу",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Увімкнення або вимкнення автоматичного призначення нових розмов до агентів, доданих до цього каналу.",
       "HMAC_VERIFICATION": "Перевірка ідентифікації користувача",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "Щоб підтвердити ідентифікацію користувача, ви можете передати `identifier_hash` для кожного користувача. Ви можете згенерувати хеш HMAC sha256 за допомогою `identifier` з ключем, який показано тут.",
       "HMAC_MANDATORY_VERIFICATION": "Застосувати примусову перевірку особистості користувача",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "Якщо увімкнено, запити де не знайдено `identifier_hash`, буде відхилено.",
       "INBOX_IDENTIFIER": "Ідентифікатор каналу",
       "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
       "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
       "FORWARD_EMAIL_SUB_TEXT": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "API ключ"
     },
     "AUTO_ASSIGNMENT": {
@@ -579,10 +579,10 @@
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Аватар веб-сайту",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "Аватар успішно видалено",
               "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
             }
           }
@@ -590,53 +590,53 @@
         "WEBSITE_NAME": {
           "LABEL": "Назва сайту",
           "PLACE_HOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "Будь ласка введіть правильну назву сайту"
         },
         "WELCOME_HEADING": {
           "LABEL": "Заголовок",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": "Привіт!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Талін привітання",
           "PLACE_HOLDER": "Ми робимо це простим — запитуємо що-небудь чи поділіться своїми відгуками."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "Час відповіді",
           "IN_A_FEW_MINUTES": "За кілька хвилин",
           "IN_A_FEW_HOURS": "За кілька годин",
           "IN_A_DAY": "Протягом дня"
         },
         "WIDGET_COLOR_LABEL": "Колір віджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Позиція віджету",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип віджету",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Почніть розмову з нами",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "Заголовок віджета",
           "PLACE_HOLDER": "Почніть розмову з нами"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Оновити налаштування віджета",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Налаштування віджета успішно оновлені",
+            "ERROR_MESSAGE": "Не вдалося оновити налаштування віджета"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Попередній перегляд",
+          "SCRIPT": "Скрипт"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Ліворуч",
+          "RIGHT": "Праворуч"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Стандартний",
+          "EXPANDED_BUBBLE": "Розширена рамка сповіщення"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "За замовчуванням",
+        "CHAT": "Чат"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
@@ -649,11 +649,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Ми Онлайн",
           "OFFLINE": "Нас наразі немає"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Привіт",
+        "AGENT_MESSAGE": "Доброго дня"
       },
       "BRANDING_TEXT": "Працює на Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"

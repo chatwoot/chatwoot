@@ -19,6 +19,10 @@ describe('#getters', () => {
     );
   });
 
+  it('categoriesByLocaleCode', () => {
+    expect(getters.categoriesByLocaleCode(state, getters)('en_US')).toEqual([]);
+  });
+
   it('isFetchingCategories', () => {
     expect(getters.isFetching(state)).toEqual(true);
   });

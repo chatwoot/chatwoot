@@ -4,9 +4,9 @@
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
       :sub-title="subTitle"
+      :portal-link="portalLink"
       @open-popover="openPortalPopover"
     />
-    <sidebar-search @input="onSearch" />
     <transition-group name="menu-list" tag="ul" class="menu vertical">
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -19,6 +19,8 @@
         :key="menuItem.key"
         :menu-item="menuItem"
         :is-help-center-sidebar="true"
+        :is-category-empty="!hasCategory"
+        @open="onClickOpenAddCatogoryModal"
       />
     </transition-group>
   </div>
@@ -26,13 +28,11 @@
 
 <script>
 import SecondaryNavItem from 'dashboard/components/layout/sidebarComponents/SecondaryNavItem';
-import SidebarSearch from './SidebarSearch';
 import SidebarHeader from './SidebarHeader';
 
 export default {
   components: {
     SecondaryNavItem,
-    SidebarSearch,
     SidebarHeader,
   },
   props: {
@@ -48,6 +48,14 @@ export default {
       type: String,
       default: '',
     },
+    portalSlug: {
+      type: String,
+      default: '',
+    },
+    localeSlug: {
+      type: String,
+      default: '',
+    },
     accessibleMenuItems: {
       type: Array,
       default: () => [],
@@ -60,6 +68,17 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    hasCategory() {
+      return (
+        this.additionalSecondaryMenuItems[0] &&
+        this.additionalSecondaryMenuItems[0].children.length > 0
+      );
+    },
+    portalLink() {
+      return `/hc/${this.portalSlug}/${this.localeSlug}`;
+    },
+  },
   methods: {
     onSearch(value) {
       this.$emit('input', value);
@@ -67,12 +86,18 @@ export default {
     openPortalPopover() {
       this.$emit('open-popover');
     },
+    onClickOpenAddCatogoryModal() {
+      this.$emit('open-modal');
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
+@import '~dashboard/assets/scss/woot';
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
@@ -81,8 +106,21 @@ export default {
   overflow: hidden;
   padding: var(--space-small);
 
+  @include breakpoint(xlarge down) {
+    position: absolute;
+  }
+
+  @include breakpoint(xlarge up) {
+    position: unset;
+  }
+
   &:hover {
     overflow: auto;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
   }
 }
 </style>

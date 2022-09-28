@@ -126,8 +126,8 @@
     "TRAIL_BUTTON": "Acquista ora",
     "DELETED_USER": "Utente eliminato",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Account sospeso",
+      "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
     }
   },
   "COMPONENTS": {
@@ -201,9 +201,10 @@
       "MY_ARTICLES": "I miei articoli",
       "DRAFT": "Bozza",
       "ARCHIVED": "Archiviato",
-      "CATEGORY": "Categoria"
+      "CATEGORY": "Categoria",
+      "CATEGORY_EMPTY_MESSAGE": "Nessuna categoria trovata"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Leggi i documenti"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",

@@ -201,7 +201,8 @@
       "MY_ARTICLES": "Meine Artikel",
       "DRAFT": "Entwürfe",
       "ARCHIVED": "Archiviert",
-      "CATEGORY": "Kategorie"
+      "CATEGORY": "Kategorie",
+      "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
     },
     "DOCS": "Dokumente lesen"
   },

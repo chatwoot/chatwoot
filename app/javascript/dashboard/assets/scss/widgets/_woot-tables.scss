@@ -15,7 +15,7 @@ table {
     }
 
     td {
-      @include padding($space-one $space-small);
+      padding: $space-one $space-small;
     }
   }
 }
@@ -54,6 +54,6 @@ table {
   }
 
   .button {
-    @include margin($zero);
+    margin: 0;
   }
 }

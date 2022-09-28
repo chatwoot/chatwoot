@@ -18,20 +18,58 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Alle Artikel",
       "PUBLISH_BUTTON": "Veröffentlichen",
       "PREVIEW": "Vorschau",
       "ADD_TRANSLATION": "Übersetzung hinzufügen",
       "OPEN_SIDEBAR": "Seitenleiste öffnen",
       "CLOSE_SIDEBAR": "Seitenleiste schließen",
-      "SAVING": "Entwurf speichern...",
-      "SAVED": "Entwurf gespeichert"
+      "SAVING": "Speichern...",
+      "SAVED": "Gespeichert"
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Artikeleinstellungen",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategorie",
+          "TITLE": "Kategorie wählen",
+          "PLACEHOLDER": "Kategorie wählen",
+          "NO_RESULT": "Keine Kategorie gefunden",
+          "SEARCH_PLACEHOLDER": "Kategorie suchen"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Autor auswählen",
+          "PLACEHOLDER": "Autor auswählen",
+          "NO_RESULT": "Keine Autoren gefunden",
+          "SEARCH_PLACEHOLDER": "Autor suchen"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta-Titel",
+          "PLACEHOLDER": "Metatitel hinzufügen"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta-Beschreibung",
+          "PLACEHOLDER": "Fügen Sie Ihre Meta-Beschreibung hinzu, um bessere SEO-Ergebnisse zu erzielen..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta-Tags",
+          "PLACEHOLDER": "Meta-Tags durch Komma getrennt hinzufügen..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Artikel archivieren",
+        "DELETE": "Artikel löschen"
+      }
     },
     "PORTAL": {
       "HEADER": "Portale",
       "NEW_BUTTON": "Neues Portal",
       "ACTIVE_BADGE": "aktiv",
       "CHOOSE_LOCALE_LABEL": "Wählen Sie ein Gebietsschema",
+      "LOADING_MESSAGE": "Portale werden geladen...",
       "ARTICLES_LABEL": "Artikel",
+      "NO_PORTALS_MESSAGE": "Es sind keine Portale verfügbar",
       "ADD_NEW_LOCALE": "Neues Gebietsschema hinzufügen",
       "POPOVER": {
         "TITLE": "Portale",
@@ -72,6 +110,94 @@
             }
           }
         }
+      },
+      "ADD": {
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Abschließen"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Zurück",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
+        },
+        "NAME": {
+          "LABEL": "Name",
+          "PLACEHOLDER": "Portalname",
+          "HELP_TEXT": "Der Name wird intern im öffentlich zugänglichen Portal verwendet.",
+          "ERROR": "Name wird benötigt"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal-Slug für URLs",
+          "ERROR": "Slug ist erforderlich"
+        },
+        "DOMAIN": {
+          "LABEL": "Benutzerdefinierte Domain",
+          "PLACEHOLDER": "Benutzerdefinierte Domain des Portals",
+          "HELP_TEXT": "Nur hinzufügen, wenn Sie eine benutzerdefinierte Domain für Ihre Portale verwenden möchten.",
+          "ERROR": "Benutzerdefinierte Domäne ist erforderlich"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Homepage-Link",
+          "PLACEHOLDER": "Link zur Startseite des Portals",
+          "HELP_TEXT": "Der Link, der verwendet wird, um vom Portal zur Startseite zurückzukehren.",
+          "ERROR": "Homepage-Link ist erforderlich"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Seitentitel",
+          "PLACEHOLDER": "Titel der Portalseite",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Seitentitel ist erforderlich"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Überschrift",
+          "PLACEHOLDER": "Portal-Header-Text",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
+          "ERROR": "Portal-Kopfzeilentext ist erforderlich"
+        },
+        "API": {
+          "ERROR_MESSAGE_FOR_BASIC": "Das Portal konnte nicht erstellt werden. Versuchen Sie es nochmal.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+        }
       }
     },
     "TABLE": {
@@ -90,8 +216,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Artikel wird geladen...",
       "TITLE_PLACEHOLDER": "Artikeltitel kommt hier rein",
-      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel"
+      "CONTENT_PLACEHOLDER": "Schreiben Sie hier Ihren Artikel",
+      "API": {
+        "ERROR": "Fehler beim Speichern des Artikels"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -113,7 +246,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Kategorie-Slug für URLs",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug ist erforderlich"
         },
         "DESCRIPTION": {
@@ -124,6 +257,10 @@
         "BUTTONS": {
           "CREATE": "Kategorie erstellen",
           "CANCEL": "Stornieren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorie erfolgreich erstellt",
+          "ERROR_MESSAGE": "Kategorie kann nicht erstellt werden"
         }
       }
     }

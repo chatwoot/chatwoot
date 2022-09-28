@@ -201,7 +201,8 @@
       "MY_ARTICLES": "مقالات من",
       "DRAFT": "پیش‌نویس",
       "ARCHIVED": "بایگانی شد",
-      "CATEGORY": "دسته‌بندی"
+      "CATEGORY": "دسته‌بندی",
+      "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
     },
     "DOCS": "اسناد را بخوانید"
   },

@@ -1,11 +1,13 @@
 <template>
   <div class="header--wrap">
     <div class="header-left--wrap">
+      <woot-sidemenu-icon />
       <h3 class="page-title">{{ headerTitle }}</h3>
       <span class="text-block-title count-view">{{ `(${count})` }}</span>
     </div>
     <div class="header-right--wrap">
       <woot-button
+        v-if="shouldShowSettings"
         class-names="article--buttons"
         icon="filter"
         color-scheme="secondary"
@@ -16,6 +18,7 @@
         {{ $t('HELP_CENTER.HEADER.FILTER') }}
       </woot-button>
       <woot-button
+        v-if="shouldShowSettings"
         class-names="article--buttons"
         icon="arrow-sort"
         color-scheme="secondary"
@@ -68,6 +71,7 @@
         </woot-dropdown-menu>
       </div>
       <woot-button
+        v-if="shouldShowSettings"
         v-tooltip.top-end="$t('HELP_CENTER.HEADER.SETTINGS_BUTTON')"
         icon="settings"
         class-names="article--buttons"
@@ -78,6 +82,7 @@
       <woot-button
         class-names="article--buttons"
         size="small"
+        icon="add"
         color-scheme="primary"
         @click="onClickNewArticlePage"
       >
@@ -113,6 +118,10 @@ export default {
       type: String,
       default: '',
     },
+    shouldShowSettings: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -144,11 +153,16 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: var(--space-larger);
+  height: var(--space-jumbo);
+  padding-top: var(--space-small);
 }
 .header-left--wrap {
   display: flex;
   align-items: center;
+
+  .page-title {
+    margin-bottom: 0;
+  }
 }
 .header-right--wrap {
   display: flex;

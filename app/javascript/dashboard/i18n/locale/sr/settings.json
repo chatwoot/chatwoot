@@ -1,143 +1,143 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "Podešavanja profila",
+    "TITLE": "Podešavanja profila",
+    "BTN_TEXT": "Izmeni profil",
+    "DELETE_AVATAR": "Obriši avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar je uspešno obrisan",
+    "AVATAR_DELETE_FAILED": "Pojavila se greška pri brisanju avatara, molim vas pokušajte ponovo",
+    "UPDATE_SUCCESS": "Vaš profil je uspešno izmenjen",
+    "PASSWORD_UPDATE_SUCCESS": "Vaša lozinka je uspešno promenjena",
+    "AFTER_EMAIL_CHANGED": "Vaš profil je uspešno izmenjen, molim vas prijavite se ponovo jer su vaši kredencijali za prijavu izmenjeni",
     "FORM": {
-      "AVATAR": "Profile Image",
+      "AVATAR": "Slika profila",
       "ERROR": "Molim vas ispravite greške formulara",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "REMOVE_IMAGE": "Ukloni",
+      "UPLOAD_IMAGE": "Dodaj sliku",
+      "UPDATE_IMAGE": "Izmeni sliku",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "Profil",
+        "NOTE": "Vaša adresa e-pošte je vaš identitet i koristi se za prijavu."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Potpis privatne poruke",
+        "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
+        "BTN_TEXT": "Sačuvaj potpis poruke",
+        "API_ERROR": "Nije bilo moguće sačuvati potpis! Pokušajte ponovo",
+        "API_SUCCESS": "Potpis je uspešno sačuvan"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Potpis poruke",
+        "ERROR": "Potpis poruke ne može biti prazan",
+        "PLACEHOLDER": "Unesite ovde vaš potpis lične poruke."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Lozinka",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "NOTE": "Izmena lozinke će resetovati vaše prijave na više uređaja.",
+        "BTN_TEXT": "Promeni lozinku"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Token za pristup",
+        "NOTE": "Ovaj token se može koristiti ako izgrađujete integraciju zasnovanu na API-ju"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "Zvučna obaveštenja",
+        "NOTE": "Omogućavanje zvučnih obaveštenja u radnoj tabli za nove poruke i razgovore.",
         "NONE": "Niko",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "ASSIGNED": "Dodeljeni razgovori",
+        "ALL_CONVERSATIONS": "Svi razgovori"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "TITLE": "Obaveštenja e-porukom",
+        "NOTE": "Ovde izmenite podešavanja obaveštenja putem e-pošte",
+        "CONVERSATION_ASSIGNMENT": "Pošalji obaveštenje putem e-poruke kada je razgovor dodeljen meni",
+        "CONVERSATION_CREATION": "Pošalji obaveštenje putem e-poruke kada je napravljen novi razgovor",
+        "CONVERSATION_MENTION": "Pošalji obaveštenje putem e-poruke kada ste pomenuti u razgovoru",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji obaveštenje putem e-poruke kada je napravljena nova poruka u dodeljenom razgovoru"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Vaša podešavanja obaveštenja su uspešno izmenjena",
+        "UPDATE_ERROR": "Pojavila se greška pri izmeni podešavanja, molim vas pokušajte ponovo"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Mobilna obaveštenja",
+        "NOTE": "Ovde izmenite vaša podešavanja mobilnih obaveštenja",
+        "CONVERSATION_ASSIGNMENT": "Pošalji mobilno obaveštenje kada je razgovor dodeljen meni",
+        "CONVERSATION_CREATION": "Pošalji mobilno obaveštenje kada je napravljen novi razgovor",
+        "CONVERSATION_MENTION": "Pošalji mobilno obaveštenje kada ste pomenuti u razgovoru",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji mobilno obaveštenje kada je napravljena nova poruka u dodeljenom razgovoru",
+        "HAS_ENABLED_PUSH": "Omogućili ste obaveštenje za ovaj pregledač.",
+        "REQUEST_PUSH": "Omogućite mobilna obaveštenja"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Slika profila"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Vaše puno ime",
+        "ERROR": "Molimo unesite ispravno puno ime",
+        "PLACEHOLDER": "Molimo unesite vaše puno ime"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Ime za prikaz",
+        "ERROR": "Molimo unesite ispravno ime za prikaz",
+        "PLACEHOLDER": "Molim vas unesite ime za prikaz, ovo će biti prikazano u razgovorima"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Dostupnost",
         "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
+          "Dostupan",
+          "Zauzet",
+          "Nedostupan"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Vaša adresa e-pošte",
+        "ERROR": "Molim vas unesite ispravnu adresu e-pošte",
+        "PLACEHOLDER": "Molim vas unesite adresu e-pošte, ovo će biti prikazano u razgovorima"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Trenutna lozinka",
+        "ERROR": "Molim vas unesite trenutnu lozinku",
+        "PLACEHOLDER": "Molim vas unesite trenutnu lozinku"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Nova lozinka",
+        "ERROR": "Molim vas unesite lozinku od 6 karaktera ili dužu",
+        "PLACEHOLDER": "Molim vas unesite novu lozinku"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "Potvrdite novu lozinku",
+        "ERROR": "Potvrdna lozinka bi trebala da se poklapa sa lozinkom",
+        "PLACEHOLDER": "Molim vas ponovo unesite novu lozinku"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "LOGOUT": "Logout"
+    "CHANGE_AVAILABILITY_STATUS": "Promeni",
+    "CHANGE_ACCOUNTS": "Promeni nalog",
+    "CONTACT_SUPPORT": "Kontaktiraj podršku",
+    "SELECTOR_SUBTITLE": "Izaberite nalog iz sledećeg spiska",
+    "PROFILE_SETTINGS": "Podešavanja profila",
+    "KEYBOARD_SHORTCUTS": "Prečice tastature",
+    "LOGOUT": "Odjavi se"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "dana preostalo od probnog perioda.",
+    "TRAIL_BUTTON": "Kupi sada",
+    "DELETED_USER": "Obrisan korisnik",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Nalog je suspendovan",
+      "MESSAGE": "Vaš nalog je suspendovan. Molim vas kontaktirajte tim za podršku za dodatne informacije."
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Kopiraj",
+      "COPY_SUCCESSFUL": "Kod je uspešno kopiran na beležnicu"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Prikaži više",
+      "SHOW_LESS": "Prikaži manje"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Preuzmi",
@@ -147,94 +147,95 @@
       "SUBMIT": "Pošalji"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Proveravanje...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Dodaj prijemno sanduče"
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "Trenutno pregledate:",
+    "SWITCH": "Prebaci",
     "CONVERSATIONS": "Razgovori",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Spominjanja",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
+    "REPORTS": "Izveštaji",
+    "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
-    "HOME": "Home",
+    "HOME": "Početak",
     "AGENTS": "Agenti",
     "INBOXES": "Prijemni sandučići",
     "NOTIFICATIONS": "Obaveštenja",
     "CANNED_RESPONSES": "Gotovi odgovori",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
+    "INTEGRATIONS": "Integracije",
+    "PROFILE_SETTINGS": "Podešavanja profila",
+    "ACCOUNT_SETTINGS": "Podešavanja naloga",
     "APPLICATIONS": "Aplikacije",
     "LABELS": "Oznake",
     "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
-    "AUTOMATION": "Automation",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "AUTOMATION": "Automatizacija",
+    "TEAMS": "Timovi",
+    "BILLING": "Plaćanje",
+    "CUSTOM_VIEWS_FOLDER": "Fascikle",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
+    "ALL_CONTACTS": "Svi kontakti",
+    "TAGGED_WITH": "Označeni sa",
+    "NEW_LABEL": "Nova oznaka",
+    "NEW_TEAM": "Novi tim",
+    "NEW_INBOX": "Novo prijemno sanduče",
     "REPORTS_CONVERSATION": "Razgovori",
-    "CSAT": "CSAT",
+    "CSAT": "Izveštaj o zadovoljstvu",
     "CAMPAIGNS": "Kampanje",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "ONGOING": "Dugotrajne",
+    "ONE_OFF": "Jednokratne",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Oznake",
     "REPORTS_INBOX": "Prijemno sanduče",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "REPORTS_TEAM": "Tim",
+    "SET_AVAILABILITY_TITLE": "Postavite da ste",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "REPORTS_OVERVIEW": "Pregled",
+    "FACEBOOK_REAUTHORIZE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Kategorija"
+      "ALL_ARTICLES": "Svi članci",
+      "MY_ARTICLES": "Moji članci",
+      "DRAFT": "Nacrt",
+      "ARCHIVED": "Arhivirano",
+      "CATEGORY": "Kategorija",
+      "CATEGORY_EMPTY_MESSAGE": "Nije pronađena nijedna kategorija"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Pročitaj dokumentaciju"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Plaćanje",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Trenutni plan",
+      "PLAN_NOTE": "Trenutno ste pretplaćeni na **%{plan}** plan sa **%{quantity}** licenci"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Upravljate vašom pretplatom",
+      "DESCRIPTION": "Pregledajte vaše prethodne račune, izmenite podatke o plaćanju ili prekinite vašu pretplatu.",
+      "BUTTON_TXT": "Idite na portal za plaćanje"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Treba vam pomoć?",
+      "DESCRIPTION": "Da li imate probleme sa plaćanjem? Ovde smo da bi vam pomogli.",
       "BUTTON_TXT": "Razgovarajte sa nama"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Vaš nalog za plaćanje se podešava. Molim vas osvežite stranicu i pokušajte ponovo."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan Chatwoot nalog. Molim vas kreirajte novi da bi ste nastavili.",
+    "NEW_ACCOUNT": "Novi nalog",
+    "SELECTOR_SUBTITLE": "Napravite novi nalog",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Nalog je uspešno kreiran",
+      "EXIST_MESSAGE": "Nalog već postoji",
       "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Naziv naloga",
         "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Pošalji"
@@ -242,22 +243,22 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Otvoren razgovor",
+      "RESOLVE_AND_NEXT": "Reši i idi na sledeći",
+      "NAVIGATE_DROPDOWN": "Navigacija stavkama padajućeg menija",
+      "RESOLVE_CONVERSATION": "Reši razgovor",
+      "GO_TO_CONVERSATION_DASHBOARD": "Idi na radnu tablu razgovora",
+      "ADD_ATTACHMENT": "Dodaj prilog",
+      "GO_TO_CONTACTS_DASHBOARD": "Idi na radnu tablu kontakata",
+      "TOGGLE_SIDEBAR": "Prikaži bočnu traku",
+      "GO_TO_REPORTS_SIDEBAR": "Idi na bočnu traku izveštaja",
+      "MOVE_TO_NEXT_TAB": "idi na sledeću karticu u spisku razgovora",
+      "GO_TO_SETTINGS": "Idi na podešavanja",
+      "SWITCH_CONVERSATION_STATUS": "Prebaci se na sledeći status razgovora",
+      "SWITCH_TO_PRIVATE_NOTE": "Prebaci se na privatnu belešku",
+      "TOGGLE_RICH_CONTENT_EDITOR": "Uključi uređivač bogatog sadržaja",
+      "SWITCH_TO_REPLY": "Prebaci se na odgovor",
+      "TOGGLE_SNOOZE_DROPDOWN": "Uključite padajućim menijom odlaganja"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",

@@ -188,6 +188,10 @@ export default {
       return false;
     },
     message() {
+      if (this.contentType === 'input_csat') {
+        return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE');
+      }
+
       // If the message is an email, emailMessageContent would be present
       // In that case, we would use letter package to render the email
       if (this.emailMessageContent && this.isIncoming) {

@@ -72,7 +72,22 @@
       },
       "ASSIGN_AGENT": "ایجنت را تعیین کنید",
       "ASSIGN_LABEL": "برچسب اختصاص دهید",
-      "AGENTS_LOADING": "بارگذاری ایجنت ها..."
+      "AGENTS_LOADING": "بارگذاری ایجنت ها...",
+      "ASSIGN_TEAM": "تیم را تعیین کنید",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "شناسه مکالمه %{conversationId} به \"%{agentName}\" اختصاص داده شد",
+          "FAILED": "ایجنت تعیین نشد. لطفا دوباره تلاش کنید."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "برچسب #%{labelName} را به شناسه مکالمه %{conversationId} اختصاص داد",
+          "FAILED": "برچسب اختصاص داده نشد. لطفا دوباره تلاش کنید."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "تیم \"%{team}\" را به شناسه مکالمه %{conversationId} اختصاص داد",
+          "FAILED": "تیم تعیین نشد. لطفا دوباره تلاش کنید."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "امضای پیام",

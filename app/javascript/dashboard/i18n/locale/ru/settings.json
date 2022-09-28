@@ -126,8 +126,8 @@
     "TRAIL_BUTTON": "Купить",
     "DELETED_USER": "Удаленный пользователь",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Аккаунт заблокирован",
+      "MESSAGE": "Ваша учетная запись приостановлена. Пожалуйста, обратитесь в службу поддержки для получения дополнительной информации."
     }
   },
   "COMPONENTS": {
@@ -175,7 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
     "AUTOMATION": "Автоматизация",
     "TEAMS": "Команды",
-    "BILLING": "Billing",
+    "BILLING": "Платёж",
     "CUSTOM_VIEWS_FOLDER": "Папки",
     "CUSTOM_VIEWS_SEGMENTS": "Сегменты",
     "ALL_CONTACTS": "Все контакты",
@@ -197,31 +197,32 @@
     "REPORTS_OVERVIEW": "Обзор",
     "FACEBOOK_REAUTHORIZE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Категория"
+      "ALL_ARTICLES": "Все статьи",
+      "MY_ARTICLES": "Мои статьи",
+      "DRAFT": "Черновик",
+      "ARCHIVED": "Архив",
+      "CATEGORY": "Категория",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "DOCS": "Чтение документов"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Платёж",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Текущий план",
+      "PLAN_NOTE": "На данный момент вы подписаны на ** план%{plan}** с **%{quantity}** лицензиями"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Управление подпиской",
+      "DESCRIPTION": "Просматривайте ваши предыдущие счета, редактируйте платежные реквизиты или отмените подписку.",
+      "BUTTON_TXT": "Перейти на платёжный портал"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Нужна помощь?",
+      "DESCRIPTION": "Вы сталкиваетесь с какими-либо проблемами при оплате? Мы здесь, чтобы помочь.",
       "BUTTON_TXT": "Пообщайтесь с нами"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Ваш платёжный счёт настраивается. Пожалуйста, обновите страницу и повторите попытку."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",

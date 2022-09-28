@@ -105,30 +105,30 @@
         "TITLE_PLACEHOLDER": "Введите имя для вашего приложения",
         "TITLE_ERROR": "Требуется название для панели приложений",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Введите URL-адрес конечной точки, где размещено приложение",
+        "URL_ERROR": "Требуется действительный URL"
       },
       "CREATE": {
         "HEADER": "Добавить новое приложение",
         "FORM_SUBMIT": "Отправить",
         "FORM_CANCEL": "Отменить",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Приложение панели инструментов успешно настроено",
+        "API_ERROR": "Не удалось обновить настройки входящих сообщений. Пожалуйста, повторите попытку позже"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Редактировать приложение",
         "FORM_SUBMIT": "Обновить",
         "FORM_CANCEL": "Отменить",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Приложение панели инструментов успешно обновлено",
+        "API_ERROR": "Не удалось обновить приложение. Повторите попытку позже"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Да, удалить",
+        "CONFIRM_NO": "Нет, не удалять",
         "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "Вы уверены, что хотите удалить приложение - %{appName}?",
+        "API_SUCCESS": "Приложение успешно удалено",
+        "API_ERROR": "Не удалось удалить приложение. Повторите попытку позже"
       }
     }
   }

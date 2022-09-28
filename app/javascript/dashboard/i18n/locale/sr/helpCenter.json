@@ -18,20 +18,58 @@
       }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "Svi članci",
       "PUBLISH_BUTTON": "Objavite",
       "PREVIEW": "Pregledajte",
       "ADD_TRANSLATION": "Dodajte prevod",
       "OPEN_SIDEBAR": "Otvorite bočnu traku",
       "CLOSE_SIDEBAR": "Zatvorite bočnu traku",
-      "SAVING": "Nacrt se čuva...",
-      "SAVED": "Nacrt je sačuvan"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Podešavanja ćlanka",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "Kategorija",
+          "TITLE": "Izaberi kategoriju",
+          "PLACEHOLDER": "Izaberi kategoriju",
+          "NO_RESULT": "Nije pronađena kategorija",
+          "SEARCH_PLACEHOLDER": "Pretraži kategoriju"
+        },
+        "AUTHOR": {
+          "LABEL": "Autor",
+          "TITLE": "Izaberi autora",
+          "PLACEHOLDER": "Izaberi autora",
+          "NO_RESULT": "Nije pronađen autor",
+          "SEARCH_PLACEHOLDER": "Pretraži autora"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta naslov",
+          "PLACEHOLDER": "Dodaj meta naslov"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta opis",
+          "PLACEHOLDER": "Dodajte meta opis za bolje SEO rezultate..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta oznake",
+          "PLACEHOLDER": "Dodajte meta oznake odvojene zarezom..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Arhiviraj članak",
+        "DELETE": "Obriši članak"
+      }
     },
     "PORTAL": {
       "HEADER": "Portali",
       "NEW_BUTTON": "Novi portal",
       "ACTIVE_BADGE": "aktivan",
       "CHOOSE_LOCALE_LABEL": "Izaberi lokal",
+      "LOADING_MESSAGE": "Učitavanje portala...",
       "ARTICLES_LABEL": "članci",
+      "NO_PORTALS_MESSAGE": "Nema dostupnih portala",
       "ADD_NEW_LOCALE": "Dodaj novi lokal",
       "POPOVER": {
         "TITLE": "Portali",
@@ -72,6 +110,95 @@
             }
           }
         }
+      },
+      "ADD": {
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Završi"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "Nazad",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
+        },
+        "NAME": {
+          "LABEL": "Ime",
+          "PLACEHOLDER": "Naziv portala",
+          "HELP_TEXT": "Naziv će se koristiti interno u javno dostupnim portalima.",
+          "ERROR": "Ime je neophodno"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug portala za adrese",
+
+          "ERROR": "Slug je obavezan"
+        },
+        "DOMAIN": {
+          "LABEL": "Prilagođeni domen",
+          "PLACEHOLDER": "Prilagođeni domen portala",
+          "HELP_TEXT": "Dodajte samo ako želite da koristite prilagođen domen za vaše portale.",
+          "ERROR": "Prilagođeni domen je obavezan"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Veza početne stranice",
+          "PLACEHOLDER": "Veza do početne stranice portala",
+          "HELP_TEXT": "Veza koja se koristi kao povratna sa portala na početnu stranicu.",
+          "ERROR": "Veza početne stranice je obavezna"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Naslov stranice",
+          "PLACEHOLDER": "Naslov stranice portala",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Naslov stranice je obavezan"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Tekst zaglavlja",
+          "PLACEHOLDER": "Tekst zaglavlja portala",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
+          "ERROR": "Tekst zaglavlja portala je obavezan"
+        },
+        "API": {
+          "ERROR_MESSAGE_FOR_BASIC": "Nije bilo moguće napraviti portal. Pokušajte ponovo.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+        }
       }
     },
     "TABLE": {
@@ -90,8 +217,15 @@
       }
     },
     "EDIT_ARTICLE": {
+      "LOADING": "Loading article...",
       "TITLE_PLACEHOLDER": "Ovde ide naslov članka",
-      "CONTENT_PLACEHOLDER": "Ovde pišite vaš članak"
+      "CONTENT_PLACEHOLDER": "Ovde pišite vaš članak",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -112,9 +246,9 @@
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug kategorije za adrese",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug je obavezan"
         },
         "DESCRIPTION": {
           "LABEL": "Opis",
@@ -124,6 +258,10 @@
         "BUTTONS": {
           "CREATE": "Napravi kategoriju",
           "CANCEL": "Otkaži"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategorija je uspešno napravljena",
+          "ERROR_MESSAGE": "Nije bilo moguće napraviti kategoriju"
         }
       }
     }

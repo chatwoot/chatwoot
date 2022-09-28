@@ -75,3 +75,10 @@ export const convertToCategorySlug = text => {
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');
 };
+
+export const convertToPortalSlug = text => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '-');
+};

@@ -19,7 +19,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
       before do
         # this UUID is hardcoded in the reply.eml, that's why we are updating this
         conversation.uuid = '6bdc3f4d-0bec-4515-a284-5d916fdde489'
-        conversation.save
+        conversation.save!
 
         described_subject
       end
@@ -129,7 +129,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
       before do
         # this UUID is hardcoded in the reply.eml, that's why we are updating this
         conversation.uuid = '6bdc3f4d-0bec-4515-a284-5d916fdde489'
-        conversation.save
+        conversation.save!
       end
 
       it 'add the mail content as new message on the conversation' do

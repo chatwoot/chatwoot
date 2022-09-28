@@ -23,9 +23,9 @@ ro:
     reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
   errors:
     validations:
-      presence: must not be blank
+      presence: nu trebuie să fie gol
     webhook:
-      invalid: Invalid events
+      invalid: Evenimente nevalide
     signup:
       disposable_email: Nu permitem email-uri de unică folosință
       invalid_email: Ați introdus un e-mail invalid
@@ -33,26 +33,26 @@ ro:
       failed: Înregistrare eșuată
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Tip de date nevalid
     contacts:
       import:
         failed: Fișierul este necompletat
       email:
-        invalid: Invalid email
+        invalid: E-mail invalid
       phone_number:
-        invalid: should be in e164 format
+        invalid: ar trebui să fie în format e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: ar trebui să fie unic în categorie și portal
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Verificați conexiunea la rețea, adresa IMAP și încercați din nou.
+        no_response_error: Verificați acreditările IMAP și încercați din nou.
+        host_unreachable_error: Gazdă imposibil de găsit, Verificați adresa IMAP, portul IMAP și încercați din nou.
+        connection_timed_out_error: Conexiunea a expirat pentru %{address}:%{port}
+        connection_closed_error: Conexiune închisă.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
   reports:
     period: Perioada de raportare %{since}-%{until}
     agent_csv:
@@ -61,14 +61,14 @@ ro:
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
+      inbox_name: Nume Inbox
+      inbox_type: Tip inbox
+      conversations_count: Conversații
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
+      label_title: Etichetă
+      conversations_count: Conversații
       avg_first_response_time: Avg primul timp de răspuns (minute)
       avg_resolution_time: Timp de rezoluție AVG (proces-verbal)
     team_csv:
@@ -79,14 +79,14 @@ ro:
     default_group_by: zi
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Nume de contact
+        contact_email_address: Adresă de e-mail persoană de contact
+        contact_phone_number: Număr de telefon persoană de contact
+        link_to_the_conversation: Link către conversație
         agent_name: Nume Agent
         rating: Evaluare
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: Feedback comentariu
+        recorded_at: Data înregistrată
   notifications:
     notification_title:
       conversation_creation: "[Conversație nouă] - #%{display_id} a fost creat în %{inbox_name}"
@@ -96,7 +96,7 @@ ro:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} menționat în poveste: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Această poveste nu mai este disponibilă.
       deleted: Acest mesaj a fost șters
     activity:
       status:

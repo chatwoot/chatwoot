@@ -26,7 +26,7 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
 
     context 'with correct website token and a defined label' do
       before do
-        account.labels.create(title: 'customer-support')
+        account.labels.create!(title: 'customer-support')
       end
 
       it 'add the label to the conversation' do

@@ -6,6 +6,7 @@
 #  content               :text
 #  description           :text
 #  meta                  :jsonb
+#  slug                  :string           not null
 #  status                :integer
 #  title                 :string
 #  views                 :integer
@@ -22,11 +23,7 @@
 #
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (associated_article_id => articles.id)
-#  fk_rails_...  (author_id => users.id)
+#  index_articles_on_slug                   (slug)
 #
 class Article < ApplicationRecord
   include PgSearch::Model

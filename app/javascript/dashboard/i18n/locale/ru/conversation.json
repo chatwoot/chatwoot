@@ -72,7 +72,22 @@
       },
       "ASSIGN_AGENT": "Назначить агента",
       "ASSIGN_LABEL": "Назначить метки",
-      "AGENTS_LOADING": "Загрузка агентов..."
+      "AGENTS_LOADING": "Загрузка агентов...",
+      "ASSIGN_TEAM": "Назначить команду",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID разговора %{conversationId} присвоен \"%{agentName}\"",
+          "FAILED": "Не удалось назначить агента. Пожалуйста, попробуйте еще раз."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{labelName} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить метку. Пожалуйста, попробуйте еще раз."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{team} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить команду. Пожалуйста, попробуйте еще раз."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
@@ -118,9 +133,9 @@
     "CHANGE_STATUS": "Статус разговора изменен",
     "CHANGE_STATUS_FAILED": "Не удалось изменить статус диалога",
     "CHANGE_AGENT": "Назначенный оператор изменен",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "Не удалось изменить назначение",
+    "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
+    "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
     "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
