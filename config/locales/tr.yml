@@ -48,11 +48,6 @@ tr:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
         no_response_error: Lütfen IMAP erişim bilgilerinizi kontrol edip tekrar deneyin.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
-      validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
@@ -61,14 +56,9 @@ tr:
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     team_csv:
@@ -79,32 +69,20 @@ tr:
     default_group_by: gün
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
         link_to_the_conversation: Görüşmenin bağlantısı
         agent_name: Kullanıcı Adı
         rating: Değerlendirme
         feedback: Değerlendirme Yorumu
         recorded_at: Kaydedilen tarih
-  notifications:
-    notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
-      instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
         contact_resolved: "Görüşme %{contact_name} tarafından çözüldü olarak işaretlendi"
         open: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: " %{duration} günlük hareketsizlik nedeniyle görüşme, sistem tarafından çözümlendi olarak işaretlendi"
       assignee:
         self_assigned: "%{user_name} bu görüşmeyi kendisi atadı"
@@ -112,8 +90,6 @@ tr:
         removed: "Görüşmenin ataması %{user_name} tarafından kaldırıldı"
       team:
         assigned: "%{user_name} tarafından %{team_name} adına atandı"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name},%{labels} ekledi"
         removed: "%{user_name} , %{labels} kaldırdı"
@@ -125,17 +101,10 @@ tr:
       email_input_box_message_body: "E-posta ile haberdar olun"
       csat_input_message_body: "Lütfen görüşmeyi değerlendirin"
     reply:
-      email:
-        header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Bu görüşmedeki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
     survey:
       response: "Lütfen bu görüşmeyi değerlendirin, %{link}"
-  contacts:
-    online:
-      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
@@ -145,7 +114,3 @@ tr:
       description: "Webhook olayları size hesabınızda gerçekleşen gerçek zamanlı bilgileri getirmenizi sağlar. Bu webhookları kullanarak olaylar ile favori uygulamalarınızı haberleştirebilirsiniz(ör: Slack , \n Github). Yapılandıra basarak webhooklarınızı ayarlayabilirsiniz."
     dialogflow:
       name: "Diagflow botu"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
