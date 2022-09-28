@@ -8,8 +8,8 @@
       "SUBMIT": "Send"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,8 @@
     "IN_A_DAY": "Svarer vanligvis innen en dag"
   },
   "START_CONVERSATION": "Start samtale",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
   "START_NEW_CONVERSATION": "Start en ny samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadresse",
         "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Vennligst skriv inn en gyldig e-postadresse"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "Melding",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Angi navn og e-post før du starter samtalen",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "Filens størrelse overskrider grensen på {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
