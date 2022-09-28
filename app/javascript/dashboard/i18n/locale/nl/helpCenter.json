@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "All Articles",
       "PUBLISH_BUTTON": "Publish",
+      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
@@ -64,6 +65,7 @@
     },
     "PORTAL": {
       "HEADER": "Portals",
+      "DEFAULT": "Default",
       "NEW_BUTTON": "New Portal",
       "ACTIVE_BADGE": "active",
       "CHOOSE_LOCALE_LABEL": "Choose a locale",
@@ -84,7 +86,8 @@
             "COUNT_LABEL": "articles",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "Instellingen"
+            "SETTINGS": "Instellingen",
+            "DELETE": "Verwijderen"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Portal Configurations",
@@ -109,6 +112,51 @@
               "DEFAULT_LOCALE": "Default"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Delete portal",
+          "MESSAGE": "Are you sure you want to delete this portal",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_ERROR": "Error while deleting portal"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Edit portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Basic information"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portal customization"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categories"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Categories in",
+          "NEW_CATEGORY": "New category",
+          "TABLE": {
+            "NAME": "Naam",
+            "DESCRIPTION": "Beschrijving",
+            "LOCALE": "Locale",
+            "ARTICLE_COUNT": "No. of articles",
+            "ACTION_BUTTON": {
+              "EDIT": "Edit category",
+              "DELETE": "Delete category"
+            },
+            "EMPTY_TEXT": "No categories found"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Update basic settings"
         }
       },
       "ADD": {
@@ -164,7 +212,6 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug for urls",
-
           "ERROR": "Slug is required"
         },
         "DOMAIN": {
@@ -196,8 +243,40 @@
           "ERROR": "Portal header text is required"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Add a new locale",
+        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Locale",
+          "PLACEHOLDER": "Choose a locale",
+          "ERROR": "Locale is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create locale",
+          "CANCEL": "Annuleren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Default locale updated successfully",
+          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
+          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
         }
       }
     },
@@ -224,8 +303,34 @@
         "ERROR": "Error while saving article"
       }
     },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Error while archiving article",
+        "SUCCESS": "Article archived successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Verwijderen bevestigen",
+          "MESSAGE": "Are you sure to delete the article?",
+          "YES": "Ja, verwijderen",
+          "NO": "Nee, Bewaar het"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
+      }
+    },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -262,6 +367,43 @@
         "API": {
           "SUCCESS_MESSAGE": "Category created successfully",
           "ERROR_MESSAGE": "Unable to create category"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit a category",
+        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "PORTAL": "Portal",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "Naam",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "ERROR": "Name is required"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Beschrijving",
+          "PLACEHOLDER": "Give a short description about the category.",
+          "ERROR": "Description is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Update category",
+          "CANCEL": "Annuleren"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category updated successfully",
+          "ERROR_MESSAGE": "Unable to update category"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Category deleted successfully",
+          "ERROR_MESSAGE": "Unable to delete category"
         }
       }
     }
