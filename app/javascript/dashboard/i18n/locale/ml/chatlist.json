@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "ഇമെയിൽ വഴി ലഭിച്ചു",
     "VIEW_TWEET_IN_TWITTER": "ട്വിറ്ററിൽ ട്വീറ്റ് കാണുക",
     "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "",
     "SENT": "വിജയകരമായി അയച്ചു",
     "NO_MESSAGES": "സന്ദേശങ്ങളൊന്നുമില്ല",
     "NO_CONTENT": "ഉള്ളടക്കമൊന്നും ലഭ്യമല്ല",
     "HIDE_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം മറയ്ക്കുക",
     "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": ""
   }
 }
