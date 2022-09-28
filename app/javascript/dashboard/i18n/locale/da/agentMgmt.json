@@ -93,19 +93,19 @@
       "NO_RESULTS": "Ingen resultater fundet."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Ingen agenter fundet",
-          "TEAM": "No teams found"
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
