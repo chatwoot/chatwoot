@@ -1,7 +1,7 @@
 {
     "MACROS": {
         "HEADER": "Macros",
-        "HEADER_BTN_TXT": "Add new macro",
+        "HEADER_BTN_TXT": "Add a new macro",
         "HEADER_BTN_TXT_SAVE": "Save macro",
         "LOADING": "Fetching macros",
         "SIDEBAR_TXT": "<p><b>Macros</b> <p>Macros help you run a series of actions and tasks. They're a list of instructions which tell chatwoot how to execute based on the order which you define them.</p> <p>Please refer to the <a href='https://chatwoot.com/docs/macros'>docs</a> to read more about macros in detail.</p>",
