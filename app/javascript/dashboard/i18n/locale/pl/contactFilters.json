@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
         "TITLE": "Filtruj kontakty",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "SUBTITLE": "",
         "ADD_NEW_FILTER": "Dodaj filtr",
         "CLEAR_ALL_FILTERS": "Wyczyść wszystkie filtry",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "",
         "SUBMIT_BUTTON_LABEL": "Prześlij",
         "CANCEL_BUTTON_LABEL": "Anuluj",
         "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
         "EMPTY_VALUE_ERROR": "Wartość jest wymagana",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "TOOLTIP_LABEL": "",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "i",
             "OR": "albo"
@@ -22,24 +22,24 @@
             "is_present": "Istnieje",
             "is_not_present": "Nie istnieje",
             "is_greater_than": "Jest większe niż",
-            "is_lesser_than": "Is lesser than",
+            "is_lesser_than": "",
             "days_before": "Jest x dni przed"
         },
         "ATTRIBUTES": {
             "NAME": "Nazwa",
             "EMAIL": "E-mail",
             "PHONE_NUMBER": "Numer telefonu",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "",
             "CITY": "Miasto",
             "COUNTRY": "Kraj",
             "CUSTOM_ATTRIBUTE_LIST": "Lista",
             "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
             "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
             "CUSTOM_ATTRIBUTE_LINK": "Łącze",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "",
             "CREATED_AT": "Utworzono",
             "LAST_ACTIVITY": "Ostatnia aktywność",
-            "REFERER_LINK": "Referrer link"
+            "REFERER_LINK": ""
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Filtry standardowe",
