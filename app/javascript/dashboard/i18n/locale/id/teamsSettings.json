@@ -1,8 +1,8 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "",
     "HEADER": "Tim",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "",
     "LIST": {
       "404": "Belum ada tim yang dibuat pada akun ini.",
       "EDIT_TEAM": "Edit Tim"
@@ -20,17 +20,17 @@
       "WIZARD": [
         {
           "title": "Buat",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "route": "",
+          "body": ""
         },
         {
           "title": "Tambahkan Agen",
-          "route": "settings_teams_add_agents",
+          "route": "",
           "body": "Tambahkan agen ke tim."
         },
         {
           "title": "Selesai",
-          "route": "settings_teams_finish",
+          "route": "",
           "body": "Kotak masuk Anda sudah siap!"
         }
       ]
@@ -49,17 +49,17 @@
       "WIZARD": [
         {
           "title": "Detil tim",
-          "route": "settings_teams_edit",
+          "route": "",
           "body": "Ubah nama, deskripsi dan detil lainnya."
         },
         {
           "title": "Edit Agen",
-          "route": "settings_teams_edit_members",
+          "route": "",
           "body": "Edit agen dalam tim Anda."
         },
         {
           "title": "Selesai",
-          "route": "settings_teams_edit_finish",
+          "route": "",
           "body": "Kotak masuk Anda sudah siap!"
         }
       ]
@@ -74,16 +74,16 @@
       "ADD_AGENTS": "Menambahkan Agen ke Tim Anda...",
       "SELECT": "pilih",
       "SELECT_ALL": "pilih semua agen",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": ""
     },
     "ADD": {
       "TITLE": "Tambahkan agen ke tim - %{teamName}",
       "DESC": "Tambahkan agen pada tim baru Anda. Ini memungkinkan Anda berkolaborasi sebagai sebuah tim pada percakapan, mendapatkan notifikasi atas peristiwa baru dalam percakapan yang sama.",
       "SELECT": "pilih",
       "SELECT_ALL": "pilih semua agen",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "",
       "BUTTON_TEXT": "Tambahkan Agen",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
       "TITLE": "Tim Anda siap!",
@@ -107,19 +107,19 @@
     "SETTINGS": "Pengaturan",
     "FORM": {
       "UPDATE": "Update tim",
-      "CREATE": "Create team",
+      "CREATE": "",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": ""
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": ""
     }
   }
 }
