@@ -2,48 +2,48 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "Tambahan Tapisan",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "Kamu perlukan sekurang-kurangnya satu tapisan untuk simpan tetapan",
         "SUBMIT_BUTTON_LABEL": "Submit",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "CANCEL_BUTTON_LABEL": "Batalkan",
+        "CLEAR_BUTTON_LABEL": "Kosongkan tapisan",
+        "EMPTY_VALUE_ERROR": "Nilai diperlukan",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "DAN",
+            "OR": "ATAU"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
+            "equal_to": "Sama dengan",
+            "not_equal_to": "Tak sama dengan",
+            "contains": "Mengandungi",
+            "does_not_contain": "Tidak mengandungi",
+            "is_present": "Sedia ada",
+            "is_not_present": "Tidak sedia ada",
+            "is_greater_than": "Adalah lebih besar",
             "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "days_before": "Adalah x hari sebelum"
         },
         "ATTRIBUTES": {
-            "NAME": "Name",
+            "NAME": "Nama",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Phone number",
             "IDENTIFIER": "Identifier",
             "CITY": "City",
             "COUNTRY": "Country",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CUSTOM_ATTRIBUTE_LIST": "Senarai",
+            "CUSTOM_ATTRIBUTE_TEXT": "Teks",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Nombor",
+            "CUSTOM_ATTRIBUTE_LINK": "Pautan",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
+            "CREATED_AT": "Dicipta Pada",
             "LAST_ACTIVITY": "Last Activity",
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Penapis Standard",
+            "ADDITIONAL_FILTERS": "Penapis Tambahan",
             "CUSTOM_ATTRIBUTES": "Custom Attributes"
         }
     }
