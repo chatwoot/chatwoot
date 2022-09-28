@@ -22,37 +22,14 @@ id:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
   errors:
-    validations:
-      presence: must not be blank
-    webhook:
-      invalid: Invalid events
     signup:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       invalid_email: Anda telah memasukkan email yang tidak valid
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       failed: Pendaftaran gagal
-    data_import:
-      data_type:
-        invalid: Invalid data type
     contacts:
       import:
         failed: File kosong
-      email:
-        invalid: Invalid email
-      phone_number:
-        invalid: should be in e164 format
-    categories:
-      locale:
-        unique: should be unique in the category and portal
-    inboxes:
-      imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
-      validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Periode pelaporan %{since} hingga %{until}
     agent_csv:
@@ -61,14 +38,9 @@ id:
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
     team_csv:
@@ -76,17 +48,10 @@ id:
       conversations_count: Jumlah percakapan
       avg_first_response_time: Rata-rata waktu respons pertama (Menit)
       avg_resolution_time: Rata-rata waktu resolusi (Menit)
-    default_group_by: day
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
         agent_name: Nama Agen
         rating: Peringkat
-        feedback: Feedback Comment
-        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
@@ -95,13 +60,10 @@ id:
       conversation_mention: "Anda telah di mention dalam percakapan [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
       deleted: Pesan ini telah terhapus
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Percakapan telah dibuka kembali oleh %{user_name}"
         pending: "Percakapan telah ditandai sebagai tertunda oleh %{user_name}"
         snoozed: "Percakapan telah ditunda oleh %{user_name}"
@@ -125,10 +87,6 @@ id:
       email_input_box_message_body: "Dapatkan pemberitahuan melalui email"
       csat_input_message_body: "Silakan beri peringkat percakapan ini"
     reply:
-      email:
-        header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Pesan baru pada percakapan ini"
       transcript_subject: "Transkrip Percakapan"
     survey:
@@ -146,6 +104,3 @@ id:
     dialogflow:
       name: "Dialogflow"
       description: "Pembuatan chatbot menggunakan Dialogflow dan menghubungkannya ke kotak masuk Anda secepatnya. Biarkan bot menangani semua permintaan sebelum menyerahkannya pada agen layanan pelanggan."
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
