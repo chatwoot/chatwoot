@@ -11,14 +11,14 @@
             "LABELS": {
                 "LANGUAGE": "Language",
                 "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "CATEGORY": "类别"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
+            "VARIABLES_LABEL": "参数",
             "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
+            "GO_BACK_LABEL": "返回",
+            "SEND_MESSAGE_LABEL": "发送消息",
             "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
         }
     }
