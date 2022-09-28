@@ -3,11 +3,11 @@
     "NOT_AVAILABLE": "دستیاب نہیں ہے",
     "EMAIL_ADDRESS": "ای میل اڈریس",
     "PHONE_NUMBER": "فون نمبر",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "",
     "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "COMPANY": "کمپنی",
     "LOCATION": "مقام",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "",
     "CONVERSATION_TITLE": "گفتگو کی تفصیلات",
     "VIEW_PROFILE": "پروفائل کا مشاھدہ کریں",
     "BROWSER": "براؤزر",
@@ -114,7 +114,7 @@
         "PLACEHOLDER": "کانٹیکٹ کا ای میل درج کریں۔",
         "LABEL": "ای میل اڈریس",
         "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
-        "ERROR": "Please enter a valid email address."
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "کانٹیکٹ کا فون نمبر درج کریں۔",
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
@@ -276,47 +276,47 @@
       "CANCEL": "منسوخ کریں۔",
       "NAME": {
         "LABEL": "حسب ضرورت صفات کا نام",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "",
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "صفات شامل کریں۔",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "",
+    "DESCRIPTION": "",
     "PRIMARY": {
       "TITLE": "بنیادی رابطہ",
       "HELP_LABEL": "رکھا جائے ۔"
