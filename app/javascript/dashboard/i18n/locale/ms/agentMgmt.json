@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Ejen",
+    "HEADER_BTN_TXT": "Tambahkan ejen",
+    "LOADING": "Mendapatkan senarai ejen",
+    "SIDEBAR_TXT": "<p><b>Ejen</b></p> <p> Seorang <b>Ejen</b> adalah ahli sistem bantuan anda. </p><p> Ejen boleh membaca dan menjawab mesej dari pengguna pengguna anda </p><p> Klik di <b>Tambah Ejen</b> untuk menambah bilangan ejen. Ejen yang ditambah akan menerima emel dengan pengesahan untuk mengaktifkan akaun mereka, selepas itu, mereka boleh akses Chatwoot dan respon kepada mesej. </p><p> Akses ke ciri-ciri Chatwoot adalah berdasarkan kepada peranan peranan berikut. </p><p> <b>Ejen</b> - Ejen dengan peranan ini boleh akses inbox, repot dan perbualan. Mereka boleh tugaskan perbualan kepada ejen lain atau mereka sendiri dan boleh selesaikan sendiri.</p><p> <b>Pentadbir</b> - Pentadbir boleh akses semua ciri-ciri Chatwoot yang dibenarkan terhadap akaun anda termasuk, settings dan apa apa yang ejen biasa boleh lakukan.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "Pentadbir",
+      "AGENT": "Ejen"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
+      "404": "Tiada ejen yang dikaitkan ke akaun ini",
+      "TITLE": "Tadbir ejen dalam pasukan anda",
+      "DESC": "Kamu boleh tambahkan/padamkan ejen dalam pasukan anda.",
+      "NAME": "Nama",
+      "EMAIL": "Emel",
       "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "ACTIONS": "Tindakan-tindakan",
+      "VERIFIED": "Disahkan",
+      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Tambahkan ejen ke pasukan anda",
+      "DESC": "Anda boleh tambahkan ejen yang akan mengendalikan perbualan untuk inbox anda.",
+      "CANCEL_BUTTON_TEXT": "Batal",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Nama Ejen",
+          "PLACEHOLDER": "Sila masukkan nama ejen"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Peranan",
+          "PLACEHOLDER": "Sila pilih peranan",
+          "ERROR": "Peranan diperlukan"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Emel",
+          "PLACEHOLDER": "Sila masukkan emel ejen anda"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Tambahkan ejen"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Ejen berjaya ditambahkan",
+        "EXIST_MESSAGE": "Emel ejen telah diguankkan, Tolong gunakkan emel yang lain",
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Padamkan",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Ejen berjaya dipadam",
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Pasti Padamkan",
+        "MESSAGE": "Adakan anda pasti untuk padamkan ",
+        "YES": "Ya, Padamkan ",
+        "NO": "Tidak, simpankan "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Edit ejen",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Nama Ejen",
+          "PLACEHOLDER": "Sila masukkan nama ejen"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "Peranan",
+          "PLACEHOLDER": "Sila pilih peranan",
+          "ERROR": "Peranan diperlukan"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Emel",
+          "PLACEHOLDER": "Sila masukkan emel ejen anda"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Edit ejen"
       },
       "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Ejen berjaya dikemaskini",
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Reset kata laluan",
+        "ADMIN_SUCCESS_MESSAGE": "Email untuk reset kata laluan telah di hantar kepada ejen yang berkenaan",
+        "SUCCESS_MESSAGE": "Kata laluan ejen telah berjaya set semula",
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "Tiada dijumpa."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "Tiada",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "Pilih ejen",
+        "TEAM": "Pilih pasukan"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "Tiada ejen dijumpa",
+          "TEAM": "Tiada pasukan dijumpa"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Cari ejen",
+          "TEAM": "Cari pasukan"
         }
       }
     }
