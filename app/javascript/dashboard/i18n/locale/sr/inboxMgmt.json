@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Izaberite kanal",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
       },
       {
         "title": "Napravi prijemno sanduče",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Potvrdite vaš nalog i napravite prijemno sanduće."
       },
       {
         "title": "Dodaj agente",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Dodajte agente napravljenom prijamnom sandučetu."
       },
       {
         "title": "Izvolite!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Sve je spremno za početak!"
       }
     ],
