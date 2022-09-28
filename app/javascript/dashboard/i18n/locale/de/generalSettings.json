@@ -1,14 +1,14 @@
 {
   "GENERAL_SETTINGS": {
     "TITLE": "Kontoeinstellungen",
-    "SUBMIT": "Update Einstellungen",
+    "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",
     "UPDATE": {
       "ERROR": "Einstellungen konnten nicht aktualisiert werden, versuchen Sie es erneut!",
       "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
     },
     "FORM": {
-      "ERROR": "Bitte korrigieren Sie Formularfehler",
+      "ERROR": "Bitte Formularfehler korrigieren",
       "GENERAL_SECTION": {
         "TITLE": "Allgemeine Einstellungen",
         "NOTE": ""
@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Push-Benachrichtigungen",
     "MARK_ALL_DONE": "Alle als Erledigt markieren",
+    "DELETE_TITLE": "Gelöscht",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Ungelesene Benachrichtigungen",
+      "ALL_NOTIFICATIONS": "Alle Benachrichtigungen anzeigen",
+      "LOADING_UNREAD_MESSAGE": "Ungelesene Benachrichtigungen werden geladen...",
+      "EMPTY_MESSAGE": "Sie haben keine ungelesenen Benachrichtigungen"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Benachrichtigungen werden geladen...",
       "404": "Keine Benachrichtigungen",
@@ -95,12 +102,13 @@
       "CHANGE_TEAM": "Team wechseln",
       "ADD_LABEL": "Label zur Konversation hinzufügen",
       "REMOVE_LABEL": "Label aus der Konversation entfernen",
-      "SETTINGS": "die Einstellungen"
+      "SETTINGS": "Einstellungen"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "GO_TO_REPORTS_OVERVIEW": "Zur Berichtsübersicht",
+      "GO_TO_CONVERSATION_REPORTS": "Gehen Sie zu Konversationsberichten",
       "GO_TO_AGENT_REPORTS": "Zu den Agentenberichten",
       "GO_TO_LABEL_REPORTS": "Zu den Label-Berichten",
       "GO_TO_INBOX_REPORTS": "Zu den Posteingangsberichten",

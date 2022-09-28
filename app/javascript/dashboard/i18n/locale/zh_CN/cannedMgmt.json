@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "添加预设回复",
     "LOADING": "获取预设回复",
     "SEARCH_404": "没有任何项目符合此查询",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>预设回复</b> </p><p> 预设回复是保存的回复模板，可用于快速发送回复到对话中。 </p><p> 若要创建预设回复，只需点击 <b>添加预设回复</b> 按钮。 您也可以通过点击编辑或删除按钮来编辑或删除已存在的预定回复。 </p><p> <b>短码</b> 可用于帮助使用预设回复。 客服代表在聊天时可以通过输入 <b>'/'</b> 加短码来快速使用预设回复。 </p>",
     "LIST": {
       "404": "此帐户中没有预设的回复。",
       "TITLE": "管理预设回复",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "添加预设回复",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "预设回复是保存的回复模板，可用于快速发送回复到对话中。",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "短码",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "请输入一个短代码",
           "ERROR": "必须输入短代码"
         },
         "CONTENT": {

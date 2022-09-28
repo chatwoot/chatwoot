@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Ειδοποιήσεις",
     "MARK_ALL_DONE": "Όλες ολοκληρωμένες",
+    "DELETE_TITLE": "διαγράφηκε",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Μη Αναγνωσμένες Ειδοποιήσεις",
+      "ALL_NOTIFICATIONS": "Προβολή όλων των ειδοποιήσεων",
+      "LOADING_UNREAD_MESSAGE": "Φόρτωση μη αναγνωσμένων ειδοποιήσεων...",
+      "EMPTY_MESSAGE": "Δεν έχετε μη αναγνωσμένες ειδοποιήσεις"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Φόρτωση ειδοποιήσεων...",
       "404": "Καμία Ειδοποίηση",
@@ -101,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Μεταβείτε στον Πίνακα Συνομιλίων",
       "GO_TO_CONTACTS_DASHBOARD": "Μετάβαση στον Πίνακα Επαφών",
       "GO_TO_REPORTS_OVERVIEW": "Μετάβαση στις Αναφορές",
+      "GO_TO_CONVERSATION_REPORTS": "Μετάβαση στις Αναφορές Συνομιλίας",
       "GO_TO_AGENT_REPORTS": "Μεταβείτε στις Αναφορές Πράκτορα",
       "GO_TO_LABEL_REPORTS": "Μεταβείτε στις Αναφορές Ετικετών",
       "GO_TO_INBOX_REPORTS": "Μεταβείτε στις Αναφορές Εισερχομένων",

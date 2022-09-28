@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Umfrage wurde erfolgreich aktualisiert",
-      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
     }
   },
   "POWERED_BY": "Unterstützt von Chatwoot"

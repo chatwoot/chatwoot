@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "Kata Sandi",
       "PLACEHOLDER": "Kata Sandi",
-      "ERROR": "Kata sandi terlalu pendek"
+      "ERROR": "Kata sandi terlalu pendek",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Konfirmasi Kata Sandi",

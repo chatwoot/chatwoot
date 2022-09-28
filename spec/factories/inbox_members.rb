@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :inbox_member do
-    user
+    user { create(:user, :with_avatar) }
     inbox
   end
 end

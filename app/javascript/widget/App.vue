@@ -15,7 +15,7 @@
       'is-flat-design': isWidgetStyleFlat,
     }"
   >
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -38,6 +38,9 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
+
+import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
+
 export default {
   name: 'App',
   components: {
@@ -80,12 +83,11 @@ export default {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
-      setHeader('X-Auth-Token', window.authToken);
     } else {
-      setHeader('X-Auth-Token', window.authToken);
       this.fetchOldConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
@@ -103,6 +105,7 @@ export default {
       'setAppConfig',
       'setReferrerHost',
       'setWidgetColor',
+      'setBubbleVisibility',
     ]),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
@@ -140,7 +143,7 @@ export default {
     registerUnreadEvents() {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
         const { name: routeName } = this.$route;
-        if (this.isWidgetOpen && routeName === 'messages') {
+        if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
           this.$store.dispatch('conversation/setUserLastSeen');
         }
         this.setUnreadView();
@@ -249,7 +252,7 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contacts/update', message);
+          this.$store.dispatch('contacts/setUser', message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',
@@ -285,6 +288,8 @@ export default {
           if (!message.isOpen) {
             this.resetCampaign();
           }
+        } else if (message.event === SDK_SET_BUBBLE_VISIBILITY) {
+          this.setBubbleVisibility(message.hideMessageBubble);
         }
       });
     },

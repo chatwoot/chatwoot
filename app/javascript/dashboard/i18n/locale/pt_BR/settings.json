@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Assinatura de mensagens pessoais",
-        "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens que você envia a partir da plataforma. Use o editor de conteúdo rico para criar uma assinatura altamente personalizada.",
+        "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens enviadas a partir da sua caixa de entrada. Use o editor de conteúdo para criar uma assinatura altamente personalizada.",
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
         "API_SUCCESS": "Assinatura salva com sucesso"
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
-    "DELETED_USER": "Deletar Usuário"
+    "DELETED_USER": "Deletar Usuário",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Conta Suspensa",
+      "MESSAGE": "Sua conta está suspensa. Por favor, entre em contato com a equipe de suporte para mais informações."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copiar",
       "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mostrar Mais",
+      "SHOW_LESS": "Mostrar Menos"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Baixar",
@@ -146,7 +154,8 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
+    "SWITCH": "Trocar",
     "CONVERSATIONS": "Conversas",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
@@ -166,6 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "TEAMS": "Times",
+    "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "Nova etiqueta",
     "NEW_TEAM": "Novo time",
     "NEW_INBOX": "Nova caixa de entrada",
-    "REPORTS_OVERVIEW": "Visão geral",
+    "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Visão geral",
+    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "Todos os artigos",
+      "MY_ARTICLES": "Meus Artigos",
+      "DRAFT": "Rascunho",
+      "ARCHIVED": "Arquivado",
+      "CATEGORY": "Categoria",
+      "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+    },
+    "DOCS": "Ler documentos"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Cobrança",
+    "CURRENT_PLAN": {
+      "TITLE": "Plano Atual",
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **%{plan}** com **%{quantity}** licenças"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gerencie sua assinatura",
+      "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
+      "BUTTON_TXT": "Ir para o portal de cobrança"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Precisa de ajuda?",
+      "DESCRIPTION": "Você está com algum problema de cobrança? Nós estamos aqui para ajudar.",
+      "BUTTON_TXT": "Fale conosco no chat"
+    },
+    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",

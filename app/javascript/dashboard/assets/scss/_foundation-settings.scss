@@ -370,7 +370,7 @@ $input-font-weight: $global-weight-normal;
 $input-background: $white;
 $input-background-focus: $white;
 $input-background-disabled: $light-gray;
-$input-border: 1px solid $color-border;
+$input-border: 1px solid var(--s-200);
 $input-border-focus: 1px solid lighten($primary-color, 15%);
 $input-shadow: 0;
 $input-shadow-focus: 0;
@@ -383,8 +383,8 @@ $form-button-radius: var(--border-radius-normal);
 // 20. Label
 // ---------
 
-$label-background: $primary-color;
-$label-color: $white;
+$label-background: $white;
+$label-color: $black;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
 $label-font-size: $font-size-mini;

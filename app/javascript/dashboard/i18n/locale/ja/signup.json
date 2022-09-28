@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "パスワード",
       "PLACEHOLDER": "パスワード",
-      "ERROR": "パスワードが短すぎます"
+      "ERROR": "パスワードが短すぎます",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "パスワードの確認",

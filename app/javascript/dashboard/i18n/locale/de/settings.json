@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Persönliche Nachrichtensignatur",
-        "NOTE": "Erstelle eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Du von der Plattform sendest. Verwende den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
+        "NOTE": "Erstellen Sie eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Sie aus Ihrem E-Mail-Posteingang senden. Verwenden Sie den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
         "BTN_TEXT": "Nachrichten-Signatur speichern",
         "API_ERROR": "Signatur konnte nicht gespeichert werden! Versuch es noch einmal",
         "API_SUCCESS": "Signatur erfolgreich gespeichert"
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
     "TRAIL_BUTTON": "Jetzt kaufen",
-    "DELETED_USER": "Gelöschter Benutzer"
+    "DELETED_USER": "Gelöschter Benutzer",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Konto gesperrt",
+      "MESSAGE": "Ihr Account wurde gesperrt. Wenden Sie sich für weitere Informationen bitte an das Support-Team."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopieren",
       "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Mehr zeigen",
+      "SHOW_LESS": "Weniger zeigen"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
@@ -147,8 +155,9 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
+    "SWITCH": "Wechseln",
     "CONVERSATIONS": "Gespräche",
-    "ALL_CONVERSATIONS": "Alle Unterhaltungen",
+    "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
@@ -166,6 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
     "AUTOMATION": "Automatisierung",
     "TEAMS": "Teams",
+    "BILLING": "Rechnungen",
     "CUSTOM_VIEWS_FOLDER": "Ordner",
     "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Alle Kontakte",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "Neues Label",
     "NEW_TEAM": "Neues Team",
     "NEW_INBOX": "Neuer Posteingang",
-    "REPORTS_OVERVIEW": "Übersicht",
+    "REPORTS_CONVERSATION": "Gespräche",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampagnen",
     "ONGOING": "Im Gange",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "Posteingang",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Übersicht",
+    "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "Alle Artikel",
+      "MY_ARTICLES": "Meine Artikel",
+      "DRAFT": "Entwürfe",
+      "ARCHIVED": "Archiviert",
+      "CATEGORY": "Kategorie",
+      "CATEGORY_EMPTY_MESSAGE": "Keine Kategorien gefunden"
+    },
+    "DOCS": "Dokumente lesen"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Rechnungen",
+    "CURRENT_PLAN": {
+      "TITLE": "Derzeitiger Plan",
+      "PLAN_NOTE": "Sie haben derzeit den Tarif **%{plan}** mit **%{quantity}** Lizenzen abonniert"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Abonnement verwalten",
+      "DESCRIPTION": "Zeigen Sie Ihre vorherigen Rechnungen an, bearbeiten Sie Ihre Rechnungsdaten oder kündigen Sie Ihr Abonnement.",
+      "BUTTON_TXT": "Gehen Sie zum Abrechnungsportal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Brauchen Sie Hilfe?",
+      "DESCRIPTION": "Haben Sie Probleme bei der Abrechnung? Wir sind hier um zu helfen.",
+      "BUTTON_TXT": "Chatten Sie mit uns"
+    },
+    "NO_BILLING_USER": "Ihr Rechnungskonto wird konfiguriert. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",

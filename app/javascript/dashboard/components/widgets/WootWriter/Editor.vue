@@ -10,7 +10,7 @@
       :search-key="cannedSearchTerm"
       @click="insertCannedResponse"
     />
-    <div ref="editor"></div>
+    <div ref="editor" />
   </div>
 </template>
 

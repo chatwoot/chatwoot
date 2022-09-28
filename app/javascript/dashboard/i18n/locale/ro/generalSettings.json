@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "ID cont",
+        "NOTE": "Acest ID este necesar dacă construiți o integrare bazată pe API"
       },
       "NAME": {
         "LABEL": "Nume cont",
@@ -40,93 +40,101 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Numărul de zile de pe bilet ar trebui să se rezolve automat dacă nu există activitate",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Vă rugăm să introduceți o durată validă de rezolvare automată (minim 1 zi și maximum 999 de zile)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance.",
-    "LEARN_MORE": "Learn more"
+    "UPDATE_CHATWOOT": "Este disponibilă o actualizare %{latestChatwootVersion} pentru Chatwoot. Vă rugăm să actualizați instanța.",
+    "LEARN_MORE": "Află mai mult"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
+      "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
+      "SELECT_ONE": "Alege una"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Notificări",
+    "MARK_ALL_DONE": "Marcați toate gata",
+    "DELETE_TITLE": "șterse",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notificări necitite",
+      "ALL_NOTIFICATIONS": "Vizualizarea tuturor notificărilor",
+      "LOADING_UNREAD_MESSAGE": "Încărcarea notificărilor necitite...",
+      "EMPTY_MESSAGE": "Nu aveți notificări necitite"
+    },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Se încarcă contactele...",
+      "404": "Notificări prin e-mail",
       "TABLE_HEADER": [
         "Nume",
-        "Phone Number",
+        "Număr de telefon",
         "Conversații",
-        "Last Contacted"
+        "Ultimul contactat"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Conversație nouă",
+      "conversation_assignment": "Conversație atribuită",
+      "assigned_conversation_new_message": "Trimite mesaj nou",
+      "conversation_mention": "a menţiona"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "Oferit de Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Reîmprospătare"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Căutarea sau saltul la",
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CHANGE_ASSIGNEE": "Modificarea cesionarului",
+      "CHANGE_TEAM": "Schimbarea echipei",
+      "ADD_LABEL": "Adăugarea etichetei la conversație",
+      "REMOVE_LABEL": "Eliminarea etichetei din conversație",
       "SETTINGS": "Setări"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
+      "GO_TO_CONTACTS_DASHBOARD": "Accesați Tabloul de bord persoane de contact",
+      "GO_TO_REPORTS_OVERVIEW": "Accesați Prezentare generală a rapoartelor",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_AGENT_REPORTS": "Accesați povestea Instagram",
+      "GO_TO_LABEL_REPORTS": "Accesați Etichetarea rapoartelor",
+      "GO_TO_INBOX_REPORTS": "Accesați Rapoarte Inbox",
+      "GO_TO_TEAM_REPORTS": "Accesați Rapoarte de echipă",
+      "GO_TO_SETTINGS_AGENTS": "Accesați Setări agent",
+      "GO_TO_SETTINGS_TEAMS": "Accesați Setările echipei",
+      "GO_TO_SETTINGS_INBOXES": "Accesați Setări Inbox",
+      "GO_TO_SETTINGS_LABELS": "Accesați Setări etichetă",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Accesați Setări răspuns conservat",
+      "GO_TO_SETTINGS_APPLICATIONS": "Accesați Setări aplicație",
+      "GO_TO_SETTINGS_ACCOUNT": "Accesați Setări cont",
+      "GO_TO_SETTINGS_PROFILE": "Accesați Setări profil",
+      "GO_TO_NOTIFICATIONS": "Accesați Notificări",
+      "ADD_LABELS_TO_CONVERSATION": "Adăugarea etichetei la conversație",
+      "ASSIGN_AN_AGENT": "Atribuirea unui agent",
+      "ASSIGN_A_TEAM": "Atribuirea unei echipe",
+      "MUTE_CONVERSATION": "Silențios conversația",
+      "UNMUTE_CONVERSATION": "Sunet conversația",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Eliminarea etichetei din conversație",
+      "REOPEN_CONVERSATION": "Redeschiderea conversației",
+      "RESOLVE_CONVERSATION": "Rezolvarea conversației",
+      "SEND_TRANSCRIPT": "Trimiterea unei transcrieri a e-mailului",
+      "SNOOZE_CONVERSATION": "Snooze conversație",
+      "UNTIL_NEXT_REPLY": "Până la următorul răspuns",
+      "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
+      "UNTIL_TOMORROW": "Până mâine"
     }
   }
 }

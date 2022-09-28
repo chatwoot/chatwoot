@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Fullständigt namn",
         "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
-        "ERROR": "Fullständigt namn krävs"
+        "REQUIRED_ERROR": "Fullständigt namn krävs"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-postadress",
         "PLACEHOLDER": "Vänligen ange din e-postadress",
-        "ERROR": "Ogiltig e-postadress"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Ange en giltig e-postadress"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Meddelande",
@@ -57,7 +64,8 @@
         "ERROR": "Meddelandet är för kort"
       }
     },
-    "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen"
+    "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {

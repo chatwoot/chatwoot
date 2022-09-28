@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ChatwootHub do
   it 'generates installation identifier' do
     installation_identifier = described_class.installation_identifier
-    expect(installation_identifier).not_to eq nil
+    expect(installation_identifier).not_to be_nil
     expect(described_class.installation_identifier).to eq installation_identifier
   end
 
@@ -28,7 +28,7 @@ describe ChatwootHub do
 
     it 'returns nil when chatwoot hub is down' do
       allow(RestClient).to receive(:post).and_raise(ExceptionList::REST_CLIENT_EXCEPTIONS.sample)
-      expect(described_class.latest_version).to eq nil
+      expect(described_class.latest_version).to be_nil
     end
   end
 

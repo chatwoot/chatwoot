@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "Kérjük válassz egy beszélgetést a bal sávból",
+    "SELECT_A_CONVERSATION": "Kérjük válassz egy beszélgetést a bal sávból",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
     "NO_MESSAGE_1": "Jajj ne! Úgy tűnik, hogy nincs több ügyfélbeszélgetés az inboxodban.",
     "NO_MESSAGE_2": "egy üzenet küldéséhez az oldaladra!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "Neki válaszolsz:",
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
+    "UNKNOWN_FILE_TYPE": "Unknown File",
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
@@ -54,6 +58,35 @@
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Beszélgetés újranyitása",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
       }
     },
     "FOOTER": {
@@ -98,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
     "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",

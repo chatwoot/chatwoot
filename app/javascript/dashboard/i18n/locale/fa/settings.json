@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "امضای پیام شخصی",
-        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از پلتفرم ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
+        "NOTE": "یک امضای پیام شخصی ایجاد کنید که به همه پیام‌هایی که از صندوق ورودی ایمیل ارسال می‌کنید اضافه شود. از ویرایشگر محتوای غنی برای ایجاد یک امضای بسیار شخصی استفاده کنید.",
         "BTN_TEXT": "ذخیره امضای پیام",
         "API_ERROR": "امضا ذخیره نشد! دوباره امتحان کنید",
         "API_SUCCESS": "امضا با موفقیت ذخیره شد"
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
     "TRAIL_BUTTON": "الان بخرید",
-    "DELETED_USER": "کاربر حذف شده"
+    "DELETED_USER": "کاربر حذف شده",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "حساب‌کاربری معلق شده است",
+      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "کپی",
       "COPY_SUCCESSFUL": "کد به حافظه کپی شد"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "نمایش بیشتر",
+      "SHOW_LESS": "نمایش کمتر"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "دانلود",
@@ -147,6 +155,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
+    "SWITCH": "تعویض",
     "CONVERSATIONS": "گفتگوها",
     "ALL_CONVERSATIONS": "همه گفتگوها",
     "MENTIONED_CONVERSATIONS": "اشاره",
@@ -166,6 +175,7 @@
     "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
     "AUTOMATION": "خودکارسازی",
     "TEAMS": "تیم‌ها",
+    "BILLING": "صورتحساب",
     "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
     "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
     "ALL_CONTACTS": "تمام مخاطبین",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "برچسب جدید",
     "NEW_TEAM": "تیم جدید",
     "NEW_INBOX": "صندوق ورودی جدید",
-    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "REPORTS_CONVERSATION": "گفتگوها",
     "CSAT": "رضایت مشتری",
     "CAMPAIGNS": "کمپین ها",
     "ONGOING": "درحال انجام",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "صندوق ورودی",
     "REPORTS_TEAM": "تیم‌",
     "SET_AVAILABILITY_TITLE": "خود را به عنوان",
-    "BETA": "آزمایشی"
+    "BETA": "آزمایشی",
+    "REPORTS_OVERVIEW": "بررسی اجمالی",
+    "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "همه مقالات",
+      "MY_ARTICLES": "مقالات من",
+      "DRAFT": "پیش‌نویس",
+      "ARCHIVED": "بایگانی شد",
+      "CATEGORY": "دسته‌بندی",
+      "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
+    },
+    "DOCS": "اسناد را بخوانید"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "صورتحساب",
+    "CURRENT_PLAN": {
+      "TITLE": "طرح فعلی",
+      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **%{plan}** با مجوز **%{quantity}** هستید"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "اشتراک خود را مدیریت کنید",
+      "DESCRIPTION": "فاکتورهای قبلی خود را مشاهده کنید، جزئیات صورتحساب خود را ویرایش کنید یا اشتراک خود را لغو کنید.",
+      "BUTTON_TXT": "برو به پورتال صورتحساب"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "به کمک احتياج داری؟",
+      "DESCRIPTION": "آیا در صورتحساب با مشکلی مواجه هستید؟ ما اینجاییم تا کمک کنیم.",
+      "BUTTON_TXT": "با ما گفتگو کنید"
+    },
+    "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
@@ -208,9 +247,9 @@
       "RESOLVE_AND_NEXT": "حل کنید و به مرحله بعدی بروید",
       "NAVIGATE_DROPDOWN": "به موارد کشویی بروید",
       "RESOLVE_CONVERSATION": "حل مکالمه",
-      "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
+      "GO_TO_CONVERSATION_DASHBOARD": "به پیشخوان گفتگو بروید",
       "ADD_ATTACHMENT": "افزودن پیوست",
-      "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "GO_TO_CONTACTS_DASHBOARD": "به پیشخوان مخاطبین بروید",
       "TOGGLE_SIDEBAR": "نوار کناری",
       "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
       "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",

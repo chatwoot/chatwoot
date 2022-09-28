@@ -1,9 +1,5 @@
 <template>
-  <li
-    class="dropdown-menu--divider"
-    :tabindex="null"
-    :aria-disabled="true"
-  ></li>
+  <li class="dropdown-menu--divider" :tabindex="null" :aria-disabled="true" />
 </template>
 <script>
 export default {};

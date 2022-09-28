@@ -33,5 +33,23 @@ describe('#Reports API', () => {
         }
       );
     });
+    it('#download', () => {
+      csatReportsAPI.download({
+        from: 1622485800,
+        to: 1623695400,
+        user_ids: 1,
+      });
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/csat_survey_responses/download',
+        {
+          params: {
+            since: 1622485800,
+            until: 1623695400,
+            user_ids: 1,
+            sort: '-created_at',
+          },
+        }
+      );
+    });
   });
 });

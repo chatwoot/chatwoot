@@ -1,0 +1,29 @@
+{
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} бесед выбрано",
+    "AGENT_SELECT_LABEL": "Выбрать Агента",
+    "ASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите назначить %{conversationCount} %{conversationLabel}",
+    "GO_BACK_LABEL": "Вернуться",
+    "ASSIGN_LABEL": "Назначить",
+    "ASSIGN_AGENT_TOOLTIP": "Назначенный оператор",
+    "ASSIGN_SUCCESFUL": "Беседы успешно назначены",
+    "ASSIGN_FAILED": "Не удалось назначить беседы, попробуйте еще раз",
+    "RESOLVE_SUCCESFUL": "Беседы успешно завершены",
+    "RESOLVE_FAILED": "Не удалось завершить беседы, попробуйте еще раз",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Беседы, видимые на этой странице, выбраны.",
+    "AGENT_LIST_LOADING": "Загрузка Операторов",
+    "UPDATE": {
+      "CHANGE_STATUS": "Изменить статус",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Отложить до следующего ответа",
+      "UPDATE_SUCCESFUL": "Статус беседы успешно обновлен.",
+      "UPDATE_FAILED": "Не удалось обновить беседы, попробуйте еще раз"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Назначить метки",
+      "NO_LABELS_FOUND": "Нет меток для",
+      "ASSIGN_SELECTED_LABELS": "Назначить выбранные метки",
+      "ASSIGN_SUCCESFUL": "Метки успешно назначены",
+      "ASSIGN_FAILED": "Не удалось присвоить метки, пожалуйста, попробуйте снова"
+    }
+  }
+}

@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Aggiungi regola di automazione",
       "SUBMIT": "Crea",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "FORM": {
         "NAME": {
           "LABEL": "Nome regola",
@@ -50,12 +50,12 @@
     "DELETE": {
       "TITLE": "Elimina regola di automazione",
       "SUBMIT": "Elimina",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       },
       "API": {
         "SUCCESS_MESSAGE": "Regola di automazione eliminata con successo",
@@ -65,7 +65,7 @@
     "EDIT": {
       "TITLE": "Modifica regola di automazione",
       "SUBMIT": "Aggiorna",
-      "CANCEL_BUTTON_TEXT": "annulla",
+      "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
         "SUCCESS_MESSAGE": "Regola di automazione aggiornata con successo",
         "ERROR_MESSAGE": "Impossibile aggiornare la regola di automazione, riprova più tardi"
@@ -82,14 +82,16 @@
       "EDIT": "Modifica",
       "CREATE": "Crea",
       "DELETE": "Elimina",
-      "CANCEL": "annulla",
+      "CANCEL": "Annulla",
       "RESET_MESSAGE": "Cambiare il tipo di evento resetterà le condizioni e gli eventi che hai aggiunto di seguito"
     },
     "CONDITION": {
       "DELETE_MESSAGE": "È necessario avere almeno una condizione per salvare"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare"
+      "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Inserisci qui il tuo messaggio",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleziona i team"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Attiva regola di automazione",
@@ -102,6 +104,13 @@
       "DEACTIVATION_ERROR": "Impossibile disattivare l'automazione, riprova più tardi",
       "CONFIRMATION_LABEL": "Sì",
       "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Impossibile caricare l'allegato, si prega di riprovare",
+      "LABEL_IDLE": "Carica allegato",
+      "LABEL_UPLOADING": "Caricamento...",
+      "LABEL_UPLOADED": "Caricato con successo",
+      "LABEL_UPLOAD_FAILED": "Caricamento fallito"
     }
   }
 }

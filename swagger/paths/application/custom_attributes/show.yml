@@ -3,6 +3,13 @@ tags:
 operationId: get-details-of-a-single-custom-attribute
 summary: Get a custom attribute details
 description: Get the details of a custom attribute in the account
+parameters:
+  - $ref: '#/parameters/account_id'
+  - in: path
+    name: id
+    type: integer
+    required: true
+    description: The ID of the custom attribute to be updated.
 responses:
   200:
     description: Success

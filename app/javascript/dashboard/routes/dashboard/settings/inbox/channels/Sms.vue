@@ -17,7 +17,7 @@
         </select>
       </label>
     </div>
-    <twilio v-if="provider === 'twilio'" type="sms"></twilio>
+    <twilio v-if="provider === 'twilio'" type="sms" />
     <bandwidth-sms v-else />
   </div>
 </template>

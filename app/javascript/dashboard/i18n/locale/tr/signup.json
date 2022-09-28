@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola",
-      "ERROR": "Parola çok kısa"
+      "ERROR": "Parola çok kısa",
+      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Parolayı Onayla",

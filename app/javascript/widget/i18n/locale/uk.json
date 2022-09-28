@@ -8,8 +8,8 @@
       "SUBMIT": "Додати"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Надіслати ще раз",
+      "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,8 @@
     "IN_A_DAY": "Зазвичай, відповідаємо протягом доби"
   },
   "START_CONVERSATION": "Розпочати розмову",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "Закінчити спілкуванна",
+  "CONTINUE_CONVERSATION": "Продовжити спілкування",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Повне ім`я",
         "PLACEHOLDER": "Будь ласка, введіть своє повне ім'я",
-        "ERROR": "Потрібне повне ім'я"
+        "REQUIRED_ERROR": "Потрібне повне ім'я"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Адреса електронної пошти",
         "PLACEHOLDER": "Будь ласка, введіть адресу вашої електронної пошти",
-        "ERROR": "Некоректна адреса ел. пошти"
+        "REQUIRED_ERROR": "Необхідно вказати адресу електронної пошти",
+        "VALID_ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Номер телефону",
+        "PLACEHOLDER": "Будь ласка, введіть номер телефону",
+        "REQUIRED_ERROR": "Номер телефону є обов'язковим",
+        "VALID_ERROR": "Номер телефону має бути в форматі E.164; наприклад: + 1415555555"
       },
       "MESSAGE": {
         "LABEL": "Текст повідомлення",
@@ -57,7 +64,8 @@
         "ERROR": "Занадто коротке повідомлення"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
+    "IS_REQUIRED": "обов'язково"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

@@ -12,12 +12,12 @@ describe('#actions', () => {
       axios.get.mockResolvedValue({
         data: { payload: agentsData },
       });
-      await actions.fetch({ commit }, { inboxId: 1 });
+      await actions.fetch({ commit }, [1]);
       expect(commit.mock.calls).toEqual([
         [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true }],
         [
           types.SET_INBOX_ASSIGNABLE_AGENTS,
-          { inboxId: 1, members: agentsData },
+          { inboxId: '1', members: agentsData },
         ],
         [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false }],
       ]);

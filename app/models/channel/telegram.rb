@@ -72,7 +72,7 @@ class Channel::Telegram < ApplicationRecord
     HTTParty.post("#{telegram_api_url}/deleteWebhook")
     response = HTTParty.post("#{telegram_api_url}/setWebhook",
                              body: {
-                               url: "#{ENV['FRONTEND_URL']}/webhooks/telegram/#{bot_token}"
+                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
                              })
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
@@ -90,6 +90,8 @@ class Channel::Telegram < ApplicationRecord
       telegram_attachment = {}
 
       case attachment[:file_type]
+      when 'audio'
+        telegram_attachment[:type] = 'audio'
       when 'image'
         telegram_attachment[:type] = 'photo'
       when 'file'

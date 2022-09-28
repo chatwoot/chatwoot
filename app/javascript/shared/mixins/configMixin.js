@@ -9,5 +9,8 @@ export default {
     enabledLanguages() {
       return window.chatwootConfig.enabledLanguages;
     },
+    isEnterprise() {
+      return window.chatwootConfig.isEnterprise === 'true';
+    },
   },
 };

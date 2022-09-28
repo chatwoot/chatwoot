@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Προσωπική υπογραφή μηνύματος",
-        "NOTE": "Δημιουργήστε μια προσωπική υπογραφή μηνύματος που θα προστίθεται σε όλα τα μηνύματα που στέλνετε από την πλατφόρμα. Χρησιμοποιήστε τον επεξεργαστή πλούσιου περιεχομένου για να δημιουργήσετε μια εξατομικευμένη υπογραφή.",
+        "NOTE": "Δημιουργήστε μια προσωπική υπογραφή, η οποία θα προστεθεί σε όλα τα μηνύματα που στέλνετε από τα εισερχόμενα email σας. Χρησιμοποιήστε τον επεξεργαστή πλούσιου περιεχομένου για να δημιουργήσετε μια εξατομικευμένη υπογραφή.",
         "BTN_TEXT": "Αποθήκευση υπογραφής μηνύματος",
         "API_ERROR": "Δεν ήταν δυνατή η αποθήκευση της υπογραφής! Δοκιμάστε ξανά",
         "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία"
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
     "TRAIL_BUTTON": "Αγόρασε τώρα",
-    "DELETED_USER": "Διαγραμμένος Χρήστης"
+    "DELETED_USER": "Διαγραμμένος Χρήστης",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Αντιγραφή",
       "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Εμφάνιση Περισσότερων",
+      "SHOW_LESS": "Εμφάνιση Λιγότερων"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
@@ -147,6 +155,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
+    "SWITCH": "Εναλλαγή",
     "CONVERSATIONS": "Συζητήσεις",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
     "MENTIONED_CONVERSATIONS": "Αναφορές",
@@ -166,6 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
     "AUTOMATION": "Αυτοματισμός",
     "TEAMS": "Ομάδες",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Φάκελοι",
     "CUSTOM_VIEWS_SEGMENTS": "Τμήματα",
     "ALL_CONTACTS": "Όλες Οι Επαφές",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "Νέα ετικέτα",
     "NEW_TEAM": "Νέα ομάδα",
     "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
-    "REPORTS_OVERVIEW": "Επισκόπηση",
+    "REPORTS_CONVERSATION": "Συζητήσεις",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "Εισερχόμενα",
     "REPORTS_TEAM": "Ομάδα",
     "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Επισκόπηση",
+    "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Κατηγορία",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Συνομιλήστε μαζί μας"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",

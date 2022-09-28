@@ -16,20 +16,20 @@ RSpec.describe Message, type: :model do
     it 'reopens resolved conversation when the message is from a contact' do
       conversation.resolved!
       message.save!
-      expect(message.conversation.open?).to eq true
+      expect(message.conversation.open?).to be true
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do
       conversation.snoozed!
       message.save!
-      expect(message.conversation.open?).to eq true
+      expect(message.conversation.open?).to be true
     end
 
     it 'will not reopen if the conversation is muted' do
       conversation.resolved!
       conversation.mute!
       message.save!
-      expect(message.conversation.open?).to eq false
+      expect(message.conversation.open?).to be false
     end
   end
 

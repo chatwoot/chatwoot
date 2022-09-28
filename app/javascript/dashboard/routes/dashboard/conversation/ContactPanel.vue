@@ -9,6 +9,7 @@
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
+      animation="200"
       class="list-group"
       ghost-class="ghost"
       handle=".drag-handle"
@@ -50,8 +51,7 @@
               <conversation-info
                 :conversation-attributes="conversationAdditionalAttributes"
                 :contact-attributes="contactAdditionalAttributes"
-              >
-              </conversation-info>
+              />
             </accordion-item>
           </div>
           <div v-else-if="element.name === 'contact_attributes'">

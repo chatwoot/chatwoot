@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaçoes",
     "MARK_ALL_DONE": "Marcar todos como Resolvidos",
+    "DELETE_TITLE": "deleted",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Unread Notifications",
+      "ALL_NOTIFICATIONS": "View all notifications",
+      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "EMPTY_MESSAGE": "You have no unread notifications"
+    },
     "LIST": {
       "LOADING_MESSAGE": "A carregar notificações...",
       "404": "Sem Notificações",
@@ -101,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
       "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
       "GO_TO_REPORTS_OVERVIEW": "Ir para Visão Geral de Relatórios",
+      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Ir para Relatórios de Agentes",
       "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",

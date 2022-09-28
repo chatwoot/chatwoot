@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "COMPANY": "Công ty",
     "LOCATION": "Vị trí",
+    "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
     "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
     "VIEW_PROFILE": "Xem hồ sơ cá nhân",
     "BROWSER": "Trình duyệt",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Xác nhận xoá",
+      "MESSAGE": "Bạn có chắc chắn muốn xoá ghi chú này?",
+      "YES": "Có, xoá",
+      "NO": "Không, Giữ"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Xoá liên lạc",
     "TITLE": "Xoá liên lạc",
@@ -103,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
         "LABEL": "Email",
-        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác."
+        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
+        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
@@ -137,6 +147,12 @@
           "PLACEHOLDER": "Nhập tên người dùng Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",

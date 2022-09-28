@@ -39,7 +39,10 @@ export const createBubbleIcon = ({ className, src, target }) => {
   return target;
 };
 
-export const createBubbleHolder = () => {
+export const createBubbleHolder = hideMessageBubble => {
+  if (hideMessageBubble) {
+    addClass(bubbleHolder, 'woot-hidden');
+  }
   addClass(bubbleHolder, 'woot--bubble-holder');
   body.appendChild(bubbleHolder);
 };

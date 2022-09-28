@@ -1,21 +1,27 @@
 <template>
   <section class="conversation-page">
     <chat-list
+      :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
       :folders-id="foldersId"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @conversation-load="onConversationLoad"
     >
-      <pop-over-search />
+      <pop-over-search
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
+      />
     </chat-list>
     <conversation-box
+      v-if="showMessageView"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
+      :is-on-expanded-layout="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
-    >
-    </conversation-box>
+    />
   </section>
 </template>
 
@@ -26,6 +32,7 @@ import ConversationBox from '../../../components/widgets/conversation/Conversati
 import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import wootConstants from 'dashboard/constants';
 
 export default {
   components: {
@@ -70,6 +77,21 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
+    showConversationList() {
+      return this.isOnExpandedLayout ? !this.conversationId : true;
+    },
+    showMessageView() {
+      return this.conversationId ? true : !this.isOnExpandedLayout;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = CONDENSED,
+      } = this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
+    },
     isContactPanelOpen() {
       if (this.currentChat.id) {
         const {
@@ -102,6 +124,17 @@ export default {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
     },
+    toggleConversationLayout() {
+      const { LAYOUT_TYPES } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+      } = this.uiSettings;
+      const newViewType =
+        conversationDisplayType === LAYOUT_TYPES.CONDENSED
+          ? LAYOUT_TYPES.EXPANDED
+          : LAYOUT_TYPES.CONDENSED;
+      this.updateUISettings({ conversation_display_type: newViewType });
+    },
     fetchConversationIfUnavailable() {
       if (!this.conversationId) {
         return;
@@ -118,11 +151,16 @@ export default {
     },
     setActiveChat() {
       if (this.conversationId) {
-        const chat = this.findConversation();
-        if (!chat) {
+        const selectedConversation = this.findConversation();
+        // If conversation doesn't exist or selected conversation is same as the active
+        // conversation, don't set active conversation.
+        if (
+          !selectedConversation ||
+          selectedConversation.id === this.currentChat.id
+        ) {
           return;
         }
-        this.$store.dispatch('setActiveChat', chat).then(() => {
+        this.$store.dispatch('setActiveChat', selectedConversation).then(() => {
           bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
       } else {

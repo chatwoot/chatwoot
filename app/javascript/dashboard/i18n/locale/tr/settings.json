@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "İmzanız",
-        "NOTE": "Oluşturacağınız imzanız bu platformdan yapacağınız tüm yazışmalara eklenecektir. Daha fazla özelleştirmek için zengin metin editörünü kullanın.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "İmzanızı kaydedin",
         "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
         "API_SUCCESS": "İmza başarıyla kaydedildi"
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "gün deneme kaldı.",
     "TRAIL_BUTTON": "Şimdi satın al",
-    "DELETED_USER": "Silinmiş Kullanıcı"
+    "DELETED_USER": "Silinmiş Kullanıcı",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Hesap Askıya Alndı",
+      "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
       "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "İndir",
@@ -147,6 +155,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
@@ -166,6 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Otomasyon",
     "TEAMS": "Ekipler",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Tüm Kişiler",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "Yeni etiket",
     "NEW_TEAM": "Yeni ekip",
     "NEW_INBOX": "Yeni mesaj kutusu",
-    "REPORTS_OVERVIEW": "Önizleme",
+    "REPORTS_CONVERSATION": "Konuşmalar",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanyalar",
     "ONGOING": "Giden",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Önizleme",
+    "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Sohbet et"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

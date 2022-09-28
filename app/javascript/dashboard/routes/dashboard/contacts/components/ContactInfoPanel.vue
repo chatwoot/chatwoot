@@ -8,7 +8,6 @@
     </span>
     <contact-info
       :show-avatar="showAvatar"
-      show-new-message
       :contact="contact"
       @panel-close="onClose"
     />

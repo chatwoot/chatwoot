@@ -12,7 +12,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
     it 'shouldnt create a conversation in the channel' do
       described_subject
-      expect(conversation.present?).to eq(false)
+      expect(conversation.present?).to be(false)
     end
   end
 
@@ -21,6 +21,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let!(:channel_email) { create(:channel_email, account: account) }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
+    let(:support_in_reply_to_mail) { create_inbound_email_from_fixture('support_in_reply_to.eml') }
     let(:described_subject) { described_class.receive support_mail }
     let(:serialized_attributes) do
       %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments subject
@@ -31,7 +32,18 @@ RSpec.describe SupportMailbox, type: :mailbox do
     before do
       # this email is hardcoded in the support.eml, that's why we are updating this
       channel_email.email = 'care@example.com'
-      channel_email.save
+      channel_email.save!
+    end
+
+    describe 'covers email address format' do
+      before do
+        described_class.receive support_in_reply_to_mail
+      end
+
+      it 'creates contact with proper email address' do
+        expect(support_in_reply_to_mail.mail['reply_to'].try(:value)).to eq('Sony Mathew <sony@chatwoot.com>')
+        expect(conversation.contact.email).to eq('sony@chatwoot.com')
+      end
     end
 
     describe 'covers basic ticket creation' do
@@ -109,7 +121,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
       before do
         # this email is hardcoded eml fixture file that's why we are updating this
         channel_email.email = 'support@chatwoot.com'
-        channel_email.save
+        channel_email.save!
       end
 
       it 'create new contact with original sender' do
@@ -190,7 +202,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
         expect(conversation.messages.last.content_attributes['email']['html_content']['reply']).to include(
-          <<-BODY.strip_heredoc.chomp
+          <<~BODY.chomp
             Hi,
             We are providing you platform from here you can sell paid posts on your website.
 
@@ -219,8 +231,8 @@ RSpec.describe SupportMailbox, type: :mailbox do
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
         expect(conversation.messages.last.content).to eq(
-          <<-BODY.strip_heredoc.chomp
-          This is html only mail
+          <<~BODY.chomp
+            This is html only mail
           BODY
         )
         expect(conversation.messages.last.content_attributes['email']['subject']).to eq('test html only mail')
@@ -231,7 +243,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
 
         expect(conversation.inbox.id).to eq(channel_email.inbox.id)
 
-        expect(conversation.messages.last.content).to eq(nil)
+        expect(conversation.messages.last.content).to be_nil
         expect(conversation.messages.last.attachments.count).to eq(1)
         expect(conversation.messages.last.content_attributes['email']['subject']).to eq('only attachments')
       end

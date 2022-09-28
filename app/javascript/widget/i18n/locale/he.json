@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "שם מלא",
         "PLACEHOLDER": "הכנס שם מלא בבקשה",
-        "ERROR": "שם מלא שדה חובה"
+        "REQUIRED_ERROR": "שם מלא שדה חובה"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "כתובת מייל",
         "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
-        "ERROR": "כתובת מייל לא חוקית"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "מספר טלפון",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
@@ -57,7 +64,8 @@
         "ERROR": "הודעה קצרה מדי"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

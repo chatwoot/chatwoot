@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "聯絡人姓名",
         "PLACEHOLDER": "請輸入您的完整姓名",
-        "ERROR": "姓名為必填"
+        "REQUIRED_ERROR": "姓名為必填"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "電子信箱地址",
         "PLACEHOLDER": "請輸入你的 Email",
-        "ERROR": "無效的電子郵件"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "請輸入一個有效的電子信箱"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "聯絡人電話",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -57,7 +64,8 @@
         "ERROR": "訊息過短"
       }
     },
-    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵"
+    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
   "CHAT_FORM": {

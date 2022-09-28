@@ -44,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Teljes név",
         "PLACEHOLDER": "Kérjük a teljes nevedet add meg",
-        "ERROR": "A teljes név megadása kötelező"
+        "REQUIRED_ERROR": "A teljes név megadása kötelező"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Email cím",
         "PLACEHOLDER": "Kérjük helyes e-mailcímet adj meg",
-        "ERROR": "Helytelen e-mailcím"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Kérjük helyes e-mailcímet adj meg"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonszám",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Üzenet",
@@ -57,7 +64,8 @@
         "ERROR": "Az üzenet túl rövid"
       }
     },
-    "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed"
+    "CAMPAIGN_HEADER": "Kérjük a beszélgetés megkezdése előtt add meg neved és e-mail címed",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
   "CHAT_FORM": {

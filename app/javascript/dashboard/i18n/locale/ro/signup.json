@@ -5,23 +5,24 @@
     "TERMS_ACCEPT": "Prin înregistrare, ești de acord cu politica noastră de confidențialitate <a href=\"https://www.chatwoot.com/terms\">T & C</a> și <a href=\"https://www.chatwoot.com/privacy-policy\"></a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nume cont",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "Introduceți un nume de cont. de exemplu: Wayne Intreprinderi",
+      "ERROR": "Numele contului este prea scurt"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Nume complet",
+      "PLACEHOLDER": "Introduceți numele complet. de exemplu: Bruce Wayne",
+      "ERROR": "Numele complet este prea scurt"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "E-mail de lucru",
+      "PLACEHOLDER": "Introduceți adresa de e-mail de la locul de muncă. de exemplu: bruce@wayne.enterprises",
+      "ERROR": "Adresa de e-mail nu este validă"
     },
     "PASSWORD": {
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola",
-      "ERROR": "Parola este prea scurta"
+      "ERROR": "Parola este prea scurta",
+      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmă parola",
@@ -33,6 +34,6 @@
       "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
     },
     "SUBMIT": "Trimite",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Ai deja un cont?"
   }
 }

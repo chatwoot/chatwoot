@@ -24,6 +24,24 @@ common: &default_settings
   # Logging level for log/newrelic_agent.log
   log_level: <%= ENV.fetch('NEW_RELIC_LOG_LEVEL', 'info')  %>
 
+  application_logging:
+    # If `true`, all logging-related features for the agent can be enabled or disabled
+    # independently. If `false`, all logging-related features are disabled.
+    enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_ENABLED', false) %>
+    forwarding:
+      # If `true`, the agent captures log records emitted by this application.
+      enabled: true
+      # Defines the maximum number of log records to buffer in memory at a time.
+      max_samples_stored: 30000
+    metrics:
+      # If `true`, the agent captures metrics related to logging for this application.
+      enabled: true
+    local_decorating:
+      # If `true`, the agent decorates logs with metadata to link to entities, hosts, traces, and spans.
+      # This requires a log forwarder to send your log files to New Relic.
+      # This should not be used when forwarding is enabled.
+      enabled: false
+
 
 # Environment-specific settings are in this section.
 # RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.

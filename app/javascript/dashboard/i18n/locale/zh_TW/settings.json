@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from the platform. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully"
@@ -74,12 +74,12 @@
       },
       "NAME": {
         "LABEL": "你的姓名",
-        "ERROR": "Please enter a valid full name",
+        "ERROR": "請輸入一個有效的完整姓名",
         "PLACEHOLDER": "請輸入您的完整姓名"
       },
       "DISPLAY_NAME": {
         "LABEL": "顯示名稱",
-        "ERROR": "Please enter a valid display name",
+        "ERROR": "請輸入一個有效的顯示名稱",
         "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
@@ -101,14 +101,14 @@
         "PLACEHOLDER": "請輸入目前的密碼"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "新密碼",
         "ERROR": "請輸入長度6或更長的密碼",
         "PLACEHOLDER": "請輸入新密碼"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "重新輸入一次密碼",
         "ERROR": "兩次密碼不一致",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "請重複您的新密碼"
       }
     }
   },
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "剩餘試用期天數",
     "TRAIL_BUTTON": "立即購買",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Deleted User",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "複製",
       "COPY_SUCCESSFUL": "代碼複製到剪貼簿成功"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",
@@ -147,6 +155,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "會話",
     "ALL_CONVERSATIONS": "所有對話",
     "MENTIONED_CONVERSATIONS": "Mentions",
@@ -159,13 +168,14 @@
     "NOTIFICATIONS": "通知",
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
-    "PROFILE_SETTINGS": "個人資料設定",
+    "PROFILE_SETTINGS": "個人檔案設定",
     "ACCOUNT_SETTINGS": "帳戶設定",
     "APPLICATIONS": "Applications",
     "LABELS": "標籤",
     "CUSTOM_ATTRIBUTES": "自訂屬性",
     "AUTOMATION": "Automation",
     "TEAMS": "團隊",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "所有聯絡人",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_OVERVIEW": "總覽",
+    "REPORTS_CONVERSATION": "對話",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "收件匣",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "總覽",
+    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "與我們對話"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

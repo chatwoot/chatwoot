@@ -21,7 +21,8 @@
     "PASSWORD": {
       "LABEL": "Senha",
       "PLACEHOLDER": "Senha",
-      "ERROR": "A senha é muito curta"
+      "ERROR": "A senha é muito curta",
+      "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirme a senha",

@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Уведомления",
     "MARK_ALL_DONE": "Отметить все прочитанными",
+    "DELETE_TITLE": "удалено",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Непрочитанные уведомления",
+      "ALL_NOTIFICATIONS": "Просмотр всех уведомлений",
+      "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
+      "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Загрузка уведомлений...",
       "404": "Уведомления отсутствуют",
@@ -101,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
       "GO_TO_CONTACTS_DASHBOARD": "Перейти к панели контактов",
       "GO_TO_REPORTS_OVERVIEW": "Перейти к обзору отчетов",
+      "GO_TO_CONVERSATION_REPORTS": "Перейти к отчетам по диалогам",
       "GO_TO_AGENT_REPORTS": "Перейти к отчетам по сотрудникам",
       "GO_TO_LABEL_REPORTS": "Перейти к отчетам по меткам",
       "GO_TO_INBOX_REPORTS": "Перейти к отчётам по \"Входящим\"",

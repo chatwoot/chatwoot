@@ -1,0 +1,38 @@
+<%=
+  CSV.generate_line([
+    I18n.t('reports.csat.headers.agent_name'),
+    I18n.t('reports.csat.headers.rating'),
+    I18n.t('reports.csat.headers.feedback'),
+    I18n.t('reports.csat.headers.contact_name'),
+    I18n.t('reports.csat.headers.contact_email_address'),
+    I18n.t('reports.csat.headers.contact_phone_number'),
+    I18n.t('reports.csat.headers.link_to_the_conversation'),
+    I18n.t('reports.csat.headers.recorded_at')
+  ])
+-%>
+<% @csat_survey_responses.each do |csat_response| %>
+<% assigned_agent = csat_response.assigned_agent %>
+<% contact = csat_response.contact %>
+<% conversation = csat_response.conversation %>
+<%=
+  CSV.generate_line([
+    assigned_agent ? "#{assigned_agent.name} (#{assigned_agent.email})" : nil,
+    csat_response.rating,
+    csat_response.feedback_message.present? ? csat_response.feedback_message : nil,
+    contact&.name.present? ? contact&.name: nil,
+    contact&.email.present? ? contact&.email: nil,
+    contact&.phone_number.present? ? contact&.phone_number: nil,
+    conversation ? app_account_conversation_url(account_id: Current.account.id, id: conversation.display_id): nil,
+    csat_response.created_at,
+]).html_safe
+-%>
+<% end %>
+<%=
+  CSV.generate_line([
+    I18n.t(
+      'reports.period',
+      since: Date.strptime(params[:since], '%s'),
+      until: Date.strptime(params[:until], '%s')
+    )
+  ])
+-%>

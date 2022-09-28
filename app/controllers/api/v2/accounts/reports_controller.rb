@@ -1,4 +1,5 @@
 class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
+  include Api::V2::Accounts::ReportsHelper
   before_action :check_authorization
 
   def index
@@ -12,27 +13,23 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def agents
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=agents_report.csv'
-    render layout: false, template: 'api/v2/accounts/reports/agents.csv.erb', format: 'csv'
+    @report_data = generate_agents_report
+    generate_csv('agents_report', 'api/v2/accounts/reports/agents.csv.erb')
   end
 
   def inboxes
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=inboxes_report.csv'
-    render layout: false, template: 'api/v2/accounts/reports/inboxes.csv.erb', format: 'csv'
+    @report_data = generate_inboxes_report
+    generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes.csv.erb')
   end
 
   def labels
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=labels_report.csv'
-    render layout: false, template: 'api/v2/accounts/reports/labels.csv.erb', format: 'csv'
+    @report_data = generate_labels_report
+    generate_csv('labels_report', 'api/v2/accounts/reports/labels.csv.erb')
   end
 
   def teams
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=teams_report.csv'
-    render layout: false, template: 'api/v2/accounts/reports/teams.csv.erb', format: 'csv'
+    @report_data = generate_teams_report
+    generate_csv('teams_report', 'api/v2/accounts/reports/teams.csv.erb')
   end
 
   def conversations
@@ -42,6 +39,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def generate_csv(filename, template)
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
+    render layout: false, template: template, format: 'csv'
+  end
 
   def check_authorization
     raise Pundit::NotAuthorizedError unless Current.account_user.administrator?

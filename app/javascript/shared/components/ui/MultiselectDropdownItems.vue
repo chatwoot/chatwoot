@@ -43,8 +43,7 @@
                   <fluent-icon
                     v-if="option.id === (selectedItem && selectedItem.id)"
                     icon="checkmark"
-                  >
-                  </fluent-icon>
+                  />
                 </div>
               </div>
             </woot-button>

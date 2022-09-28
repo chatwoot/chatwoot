@@ -53,3 +53,4 @@ exclude_patterns:
   - 'app/javascript/dashboard/i18n/index.js'
   - 'app/javascript/widget/i18n/index.js'
   - 'app/javascript/survey/i18n/index.js'
+  - 'app/javascript/shared/constants/locales.js'

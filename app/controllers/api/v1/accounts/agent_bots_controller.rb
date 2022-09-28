@@ -30,6 +30,6 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :description, :outgoing_url)
+    params.permit(:name, :description, :outgoing_url, :bot_type, bot_config: [:csml_content])
   end
 end

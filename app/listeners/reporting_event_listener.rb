@@ -16,7 +16,7 @@ class ReportingEventListener < BaseListener
       event_start_time: conversation.created_at,
       event_end_time: conversation.updated_at
     )
-    reporting_event.save
+    reporting_event.save!
   end
 
   def first_reply_created(event)
@@ -36,6 +36,9 @@ class ReportingEventListener < BaseListener
       event_start_time: conversation.created_at,
       event_end_time: message.created_at
     )
-    reporting_event.save
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_columns(first_reply_created_at: message.created_at)
+    # rubocop:enable Rails/SkipsModelValidations
+    reporting_event.save!
   end
 end

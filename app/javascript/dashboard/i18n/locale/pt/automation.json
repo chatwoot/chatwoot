@@ -34,8 +34,8 @@
       "CONDITION_BUTTON_LABEL": "Adicionar Condição",
       "ACTION_BUTTON_LABEL": "Adicionar Ação",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regra de automatização adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível criar uma regra de automatização, por favor tente novamente mais tarde"
       }
     },
     "LIST": {
@@ -58,7 +58,7 @@
         "NO": "Não, Manter "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "SUCCESS_MESSAGE": "Regra de automatização eliminada com sucesso",
         "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
       }
     },
@@ -89,7 +89,9 @@
       "DELETE_MESSAGE": "É necessário ter pelo menos uma condição para salvar"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "É necessário ter pelo menos uma ação para salvar"
+      "DELETE_MESSAGE": "É necessário ter pelo menos uma ação para salvar",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduza aqui a sua mensagem",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecionar equipas"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar Regra de Automação",
@@ -102,6 +104,13 @@
       "DEACTIVATION_ERROR": "Não foi possível Desativar a Automação, por favor, tente novamente mais tarde",
       "CONFIRMATION_LABEL": "Sim",
       "CANCEL_LABEL": "Não"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Não foi possível carregar anexo, por favor tente novamente",
+      "LABEL_IDLE": "Carregar anexo",
+      "LABEL_UPLOADING": "A carregar...",
+      "LABEL_UPLOADED": "Carregado com sucesso",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }

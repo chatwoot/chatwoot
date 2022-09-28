@@ -1,6 +1,6 @@
 {
   "REPORT": {
-    "HEADER": "Übersicht",
+    "HEADER": "Gespräche",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
@@ -19,11 +19,15 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
@@ -61,6 +65,7 @@
       "PLACEHOLDER": "Zeitraum auswählen"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppieren nach",
+    "DURATION_FILTER_LABEL": "Dauer",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -108,7 +113,8 @@
         "id": 4,
         "groupBy": "Jahr"
       }
-    ]
+    ],
+    "BUSINESS_HOURS": "Öffnungszeiten"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agenten-Übersicht",
@@ -118,7 +124,7 @@
     "FILTER_DROPDOWN_LABEL": "Agent auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -131,21 +137,25 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -153,11 +163,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -175,13 +185,13 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Label-Übersicht",
-    "LOADING_CHART": "Diagrammdaten laden ...",
+    "LOADING_CHART": "Diagrammdaten laden...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_LABEL_REPORTS": "Label-Berichte herunterladen",
     "FILTER_DROPDOWN_LABEL": "Label auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -194,21 +204,25 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -216,11 +230,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -244,7 +258,7 @@
     "FILTER_DROPDOWN_LABEL": "Eingang auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -257,21 +271,25 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -279,11 +297,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -307,7 +325,7 @@
     "FILTER_DROPDOWN_LABEL": "Team auswählen",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Gespräche",
+        "NAME": "Konversationen",
         "DESC": "( Gesamt )"
       },
       "INCOMING_MESSAGES": {
@@ -320,21 +338,25 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Zeit bis zur ersten Reaktion beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "( Durchschnitt )"
+        "DESC": "( Durchschnitt )",
+        "INFO_TEXT": "Gesamtzahl der Konversationen, die für die Berechnung verwendet wurden:",
+        "TOOLTIP_TEXT": "Die Lösungszeit beträgt %{metricValue} (basierend auf %{conversationCount} Konversationen)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Auflösungsanzahl",
+        "NAME": "Lösungsanzahl",
         "DESC": "( Gesamt )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Letzten 7 Tage"
+        "name": "Letzte 7 Tage"
       },
       {
         "id": 1,
@@ -342,11 +364,11 @@
       },
       {
         "id": 2,
-        "name": "Die letzten 3 Monate"
+        "name": "Letzte 3 Monate"
       },
       {
         "id": 3,
-        "name": "Die letzten 6 Monate"
+        "name": "Letzte 6 Monate"
       },
       {
         "id": 4,
@@ -365,6 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT-Berichte",
     "NO_RECORDS": "Es sind keine Antworten zu CSAT Umfragen verfügbar.",
+    "DOWNLOAD": "CSAT-Berichte herunterladen",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Agenten wählen"
@@ -391,6 +414,34 @@
         "LABEL": "Antwortrate",
         "TOOLTIP": "Anzahl aller Antworten / Anzahl der gesendeten CSAT-Umfrage * 100"
       }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Übersicht",
+    "LIVE": "Live",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Offene Konversationen",
+      "LOADING_MESSAGE": "Konversationsdaten werden geladen...",
+      "OPEN": "Öffnen",
+      "UNATTENDED": "Unbeaufsichtigt",
+      "UNASSIGNED": "Nicht zugewiesen"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Konversationen von Agenten",
+      "LOADING_MESSAGE": "Agent-Daten werden geladen...",
+      "NO_AGENTS": "Es existieren keine Konversationen von Agenten",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OFFEN",
+        "UNATTENDED": "Unbeaufsichtigt",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agentenstatus",
+      "ONLINE": "Online",
+      "BUSY": "Beschäftigt",
+      "OFFLINE": "Offline"
     }
   }
 }

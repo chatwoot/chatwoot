@@ -7,10 +7,10 @@ class Webhooks::Trigger
       timeout: 5
     )
     Rails.logger.info "Performed Request:  Code - #{response.code}"
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, URI::InvalidURIError => e
     Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
   rescue StandardError => e
     Rails.logger.error "Exception: invalid webhook url #{url} : #{e.message}"
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e).capture_exception
   end
 end

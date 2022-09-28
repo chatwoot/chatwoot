@@ -60,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "اعلان ها",
     "MARK_ALL_DONE": "همه را به انجام شده تغییر بده",
+    "DELETE_TITLE": "حذف شده",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "آگاه‌سازی‌های خوانده نشده",
+      "ALL_NOTIFICATIONS": "مشاهده همه آگاه‌سازی‌ها",
+      "LOADING_UNREAD_MESSAGE": "در حال بارگیری آگاه‌سازی‌های خوانده نشده...",
+      "EMPTY_MESSAGE": "شما هیچ آگاه‌سازی‌ خوانده نشده‌ای ندارید"
+    },
     "LIST": {
       "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
       "404": "اعلانی وجود ندارد",
@@ -101,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
       "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
       "GO_TO_REPORTS_OVERVIEW": "به نمای کلی گزارش ها بروید",
+      "GO_TO_CONVERSATION_REPORTS": "به گزارش های گفتگو بروید",
       "GO_TO_AGENT_REPORTS": "به گزارش های ایجنت بروید",
       "GO_TO_LABEL_REPORTS": "به گزارش برچسب بروید",
       "GO_TO_INBOX_REPORTS": "به گزارش صندوق ورودی بروید",

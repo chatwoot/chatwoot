@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Benutzerdefiniertes Attribut hinzufügen",
       "SUBMIT": "Erstellen",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "NAME": {
           "LABEL": "Anzeigename",
@@ -57,7 +57,7 @@
         "PLACE_HOLDER": "Bitte geben Sie {attributeName} zur Bestätigung ein",
         "MESSAGE": "Beim Löschen wird das benutzerdefinierte Attribut entfernt",
         "YES": "Löschen ",
-        "NO": "Stornieren"
+        "NO": "Abbrechen"
       }
     },
     "EDIT": {

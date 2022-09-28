@@ -36,7 +36,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/contact_inboxes', typ
                params: { inbox_id: channel_twilio_sms.inbox.id },
                headers: agent.create_new_auth_token,
                as: :json
-        end.to change(ContactInbox, :count).by(0)
+        end.not_to change(ContactInbox, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end

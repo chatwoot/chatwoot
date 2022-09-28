@@ -10,6 +10,7 @@ export const buildCreatePayload = ({
   files,
   ccEmails = '',
   bccEmails = '',
+  templateParams,
 }) => {
   let payload;
   if (files && files.length !== 0) {
@@ -32,6 +33,7 @@ export const buildCreatePayload = ({
       content_attributes: contentAttributes,
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
+      template_params: templateParams,
     };
   }
   return payload;
@@ -51,6 +53,7 @@ class MessageApi extends ApiClient {
     files,
     ccEmails = '',
     bccEmails = '',
+    templateParams,
   }) {
     return axios({
       method: 'post',
@@ -63,6 +66,7 @@ class MessageApi extends ApiClient {
         files,
         ccEmails,
         bccEmails,
+        templateParams,
       }),
     });
   }

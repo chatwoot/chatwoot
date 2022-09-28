@@ -9,19 +9,23 @@ class Campaigns::CampaignConversationBuilder
       @contact_inbox.lock!
 
       # We won't send campaigns if a conversation is already present
-      return if @contact_inbox.reload.conversations.present?
+      raise 'Conversation alread present' if @contact_inbox.reload.conversations.present?
 
       @conversation = ::Conversation.create!(conversation_params)
       Messages::MessageBuilder.new(@campaign.sender, @conversation, message_params).perform
     end
     @conversation
+  rescue StandardError => e
+    Rails.logger.info(e.message)
+    nil
   end
 
   private
 
   def message_params
     ActionController::Parameters.new({
-                                       content: @campaign.message
+                                       content: @campaign.message,
+                                       campaign_id: @campaign.id
                                      })
   end
 

@@ -98,4 +98,7 @@ export default {
     width: 48rem;
   }
 }
+.modal-big {
+  width: 60%;
+}
 </style>

@@ -19,7 +19,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
       before do
         # this UUID is hardcoded in the reply.eml, that's why we are updating this
         conversation.uuid = '6bdc3f4d-0bec-4515-a284-5d916fdde489'
-        conversation.save
+        conversation.save!
 
         described_subject
       end
@@ -129,14 +129,14 @@ RSpec.describe ReplyMailbox, type: :mailbox do
       before do
         # this UUID is hardcoded in the reply.eml, that's why we are updating this
         conversation.uuid = '6bdc3f4d-0bec-4515-a284-5d916fdde489'
-        conversation.save
+        conversation.save!
       end
 
       it 'add the mail content as new message on the conversation' do
         described_subject
         current_message = conversation.messages.last
         expect(current_message.content).to eq(
-          <<-BODY.strip_heredoc.chomp
+          <<~BODY.chomp
             Yes, I am providing you step how to reproduce this issue
 
             On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:
@@ -157,7 +157,7 @@ RSpec.describe ReplyMailbox, type: :mailbox do
         described_subject
         current_message = conversation.messages.last
         expect(current_message.reload.content_attributes[:email][:text_content][:reply]).to eq(
-          <<-BODY.strip_heredoc.chomp
+          <<~BODY.chomp
             Yes, I am providing you step how to reproduce this issue
 
             On Thu, Aug 19, 2021 at 2:07 PM Tejaswini from Email sender test < tejaswini@chatwoot.com> wrote:

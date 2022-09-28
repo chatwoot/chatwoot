@@ -45,6 +45,8 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def current_account
+    return if current_user.blank?
+
     @current_account ||= if @current_user.is_a? Contact
                            @current_user.account
                          else

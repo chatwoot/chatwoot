@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Tạo chữ ký tin nhắn cá nhân sẽ được thêm vào tất cả các tin nhắn bạn gửi từ một nền tảng. Sử dụng trình soạn thảo nội dung đa dạng thức để tạo chữ ký được cá nhân hóa cao.",
+        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
         "API_SUCCESS": "Chữ ký được lưu thành công"
@@ -124,12 +124,20 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
     "TRAIL_BUTTON": "Mua Ngay",
-    "DELETED_USER": "Người dùng bị xoá"
+    "DELETED_USER": "Người dùng bị xoá",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Sao Chép",
       "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "Show More",
+      "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
@@ -147,6 +155,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
+    "SWITCH": "Switch",
     "CONVERSATIONS": "Cuộc trò chuyện",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
@@ -166,6 +175,7 @@
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
     "AUTOMATION": "Tự động hoá",
     "TEAMS": "Nhóm",
+    "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Thư mục",
     "CUSTOM_VIEWS_SEGMENTS": "Phân khúc",
     "ALL_CONTACTS": "Tất cả liên lạc",
@@ -173,7 +183,7 @@
     "NEW_LABEL": "Nhãn mới",
     "NEW_TEAM": "Nhóm mới",
     "NEW_INBOX": "Hộp thư đến mới",
-    "REPORTS_OVERVIEW": "Tổng quan",
+    "REPORTS_CONVERSATION": "Các cuộc hội thoại",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Chiến dịch",
     "ONGOING": "Đang diễn ra",
@@ -183,7 +193,36 @@
     "REPORTS_INBOX": "Hộp thư đến",
     "REPORTS_TEAM": "Nhóm",
     "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
-    "BETA": "Beta"
+    "BETA": "Beta",
+    "REPORTS_OVERVIEW": "Tổng quan",
+    "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
+    "HELP_CENTER": {
+      "ALL_ARTICLES": "All Articles",
+      "MY_ARTICLES": "My Articles",
+      "DRAFT": "Draft",
+      "ARCHIVED": "Archived",
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+    },
+    "DOCS": "Read docs"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Billing",
+    "CURRENT_PLAN": {
+      "TITLE": "Current Plan",
+      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Manage your subscription",
+      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Need help?",
+      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "BUTTON_TXT": "Trò chuyện với chúng tôi"
+    },
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
