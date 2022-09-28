@@ -34,7 +34,7 @@
   "BUBBLE": {
     "LABEL": "คุยกับเรา"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "",
   "EMAIL_PLACEHOLDER": "กรุณากรอกอีเมล์ของคุณ",
   "CHAT_PLACEHOLDER": "พิมพ์ข้อความ",
   "TODAY": "วันนี้",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "ที่อยู่อีเมล์",
         "PLACEHOLDER": "โปรดใส่อีเมล์ของคุณ",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "กรุณากรอกที่อยู่อีเมล์ให้ถูกต้อง"
       },
       "PHONE_NUMBER": {
         "LABEL": "หมายเลขโทรศัพท์",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "ข้อความ",
@@ -65,12 +65,12 @@
       }
     },
     "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
