@@ -8,8 +8,8 @@
       "SUBMIT": "Изпращане"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,8 @@
     "IN_A_DAY": "Обикновено отговаряме до един ден"
   },
   "START_CONVERSATION": "Започнете разговор",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
   "START_NEW_CONVERSATION": "Започнете нов разговор",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Вижте новите съобщения",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Имейл адрес",
         "PLACEHOLDER": "Моля, въведете имейл адреса си",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Please enter a valid email address"
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
         "LABEL": "Телефон",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "Съобщение",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "Файлът надхвърля {MAXIMUM_FILE_UPLOAD_SIZE} лимит",
   "CHAT_FORM": {
