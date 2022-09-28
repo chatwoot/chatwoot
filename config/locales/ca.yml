@@ -22,71 +22,16 @@ ca:
     reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
     reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
   errors:
-    validations:
-      presence: must not be blank
-    webhook:
-      invalid: Invalid events
     signup:
       disposable_email: Els correus d'un sol ús no s'accepten
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
       failed: El registre ha fallat
-    data_import:
-      data_type:
-        invalid: Invalid data type
-    contacts:
-      import:
-        failed: File is blank
-      email:
-        invalid: Invalid email
-      phone_number:
-        invalid: should be in e164 format
-    categories:
-      locale:
-        unique: should be unique in the category and portal
-    inboxes:
-      imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
-      validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Període d'informes %{since} a %{until}
-    agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: day
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
         agent_name: Nom de l'Agent
-        rating: Rating
-        feedback: Feedback Comment
-        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
@@ -95,16 +40,11 @@ ca:
       conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
       deleted: Aquest missatge a sigut eliminat
     activity:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "La conversa es va reobrir per %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "El sistema ha marcat que la conversa s'ha resolt a causa de %{duration} dies d'inactivitat"
       assignee:
         self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
@@ -112,8 +52,6 @@ ca:
         removed: "%{user_name} ha tret l'assignació de la conversa"
       team:
         assigned: "Assignada a %{team_name} per %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} ha afegit %{labels}"
         removed: "%{user_name} ha eliminat %{labels}"
@@ -123,19 +61,9 @@ ca:
       greeting_message_body: "%{account_name} normalment respon a les poques hores."
       ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
-      csat_input_message_body: "Please rate the conversation"
     reply:
-      email:
-        header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
-    survey:
-      response: "Please rate this conversation, %{link}"
-  contacts:
-    online:
-      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
@@ -143,9 +71,3 @@ ca:
     webhooks:
       name: "Webhooks"
       description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."
-    dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
