@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "NAME": {
           "LABEL": "Rule Name",
@@ -28,7 +28,7 @@
           "LABEL": "Conditions"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Tindakan-tindakan"
         }
       },
       "CONDITION_BUTTON_LABEL": "Add Condition",
@@ -40,7 +40,7 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
+        "Nama",
         "Description",
         "Active",
         "Created on"
@@ -49,13 +49,13 @@
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Delete",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Padamkan",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Pasti Padamkan",
+        "MESSAGE": "Adakan anda pasti untuk padamkan ",
+        "YES": "Ya, Padamkan ",
+        "NO": "Tidak, simpankan "
       },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
@@ -65,7 +65,7 @@
     "EDIT": {
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
@@ -81,8 +81,8 @@
     "FORM": {
       "EDIT": "Edit",
       "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel",
+      "DELETE": "Padamkan",
+      "CANCEL": "Batalkan",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
