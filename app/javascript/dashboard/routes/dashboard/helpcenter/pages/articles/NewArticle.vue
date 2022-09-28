@@ -40,7 +40,7 @@ export default {
       articleTitle: '',
       articleContent: '',
       showOpenSidebarButton: false,
-      showArticleSettings: false,
+      showArticleSettings: true,
       article: {},
     };
   },
@@ -126,5 +126,6 @@ export default {
 }
 .is-sidebar-open {
   flex: 0.7;
+  flex-grow: 1;
 }
 </style>

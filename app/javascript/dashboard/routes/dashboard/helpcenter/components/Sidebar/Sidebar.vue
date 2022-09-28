@@ -48,6 +48,14 @@ export default {
       type: String,
       default: '',
     },
+    portalSlug: {
+      type: String,
+      default: '',
+    },
+    localeSlug: {
+      type: String,
+      default: '',
+    },
     accessibleMenuItems: {
       type: Array,
       default: () => [],
@@ -68,8 +76,7 @@ export default {
       );
     },
     portalLink() {
-      const slug = this.$route.params.portalSlug;
-      return `/hc/${slug}`;
+      return `/hc/${this.portalSlug}/${this.localeSlug}`;
     },
   },
   methods: {

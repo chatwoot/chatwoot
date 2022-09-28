@@ -193,6 +193,7 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",

@@ -14,29 +14,25 @@ By default, it renders:
 
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
-<head>
-  <meta charset="utf-8">
-  <meta name="ROBOTS" content="NOODP">
-  <meta name="viewport" content="initial-scale=1">
-
-  <%= javascript_pack_tag 'portal' %>
-  <%= stylesheet_pack_tag 'portal' %>
-
-
-  <%= csrf_meta_tags %>
-  <title><%= @portal.page_title%></title>
-</head>
-<body>
-
-
-  <div class="app-container">
-    <main class="main-content min-h-screen flex flex-col" role="main">
-      <%= render "public/api/v1/portals/header", portal: @portal %>
-      <%= yield %>
-      <%= render "public/api/v1/portals/footer" %>
-    </main>
-  </div>
-
-
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <%= javascript_pack_tag 'portal' %>
+    <%= stylesheet_pack_tag 'portal' %>
+    <%= csrf_meta_tags %>
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% else %>
+      <title><%= @portal.page_title%></title>
+    <% end %>
+  </head>
+  <body>
+    <div class="antialiased">
+      <main class="main-content min-h-screen flex flex-col" role="main">
+        <%= render "public/api/v1/portals/header", portal: @portal %>
+        <%= yield %>
+        <%= render "public/api/v1/portals/footer" %>
+      </main>
+    </div>
+  </body>
 </html>

@@ -164,7 +164,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug do Portal para URLs",
-          "HELP_TEXT": "app.chatwoot.com/portal/meu-portal",
+          "HELP_TEXT": "app.chatwoot.com/hc/meu-portal",
           "ERROR": "Slug é obrigatório"
         },
         "DOMAIN": {
@@ -247,7 +247,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria de slug para URLs",
-          "HELP_TEXT": "app.chatwoot.com/portal/meu-portal/en-US/categories/meu-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/meu-portal/en-US/categories/meu-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {
