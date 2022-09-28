@@ -3,11 +3,11 @@
     "NOT_AVAILABLE": "無法使用",
     "EMAIL_ADDRESS": "電子信箱地址",
     "PHONE_NUMBER": "電話號碼",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "",
     "COPY_SUCCESSFUL": "成功複製到剪貼簿",
     "COMPANY": "公司",
     "LOCATION": "位置",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "",
     "CONVERSATION_TITLE": "對話詳細資訊",
     "VIEW_PROFILE": "查看個人檔案",
     "BROWSER": "瀏覽器",
@@ -35,13 +35,13 @@
         "NO_RESULT": "查無標籤"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "",
+    "CONTACT_ACTIONS": "",
     "MUTE_CONTACT": "將對話靜音",
     "UNMUTE_CONTACT": "將對話解除靜音",
     "MUTED_SUCCESS": "將對話靜音 6 小時",
     "UNMUTED_SUCCESS": "對話已解除靜音",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "SEND_TRANSCRIPT": "",
     "EDIT_LABEL": "編輯",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自訂屬性",
@@ -65,7 +65,7 @@
     "DESC": "透過 CSV 匯入聯絡人",
     "DOWNLOAD_LABEL": "下載 CSV 範例",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "",
       "SUBMIT": "匯入",
       "CANCEL": "取消"
     },
@@ -75,8 +75,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "確認刪除",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "",
+      "YES": "",
       "NO": "否，保留它"
     }
   },
@@ -92,7 +92,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "聯絡人刪除成功",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACT_FORM": {
@@ -119,9 +119,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "請輸入聯絡人電話",
         "LABEL": "聯絡人電話",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "",
+        "ERROR": "",
+        "DUPLICATE": ""
       },
       "LOCATION": {
         "PLACEHOLDER": "請輸入聯絡人位置",
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
@@ -163,7 +163,7 @@
     "BUTTON_LABEL": "開始對話",
     "TITLE": "新的對話",
     "DESC": "傳送一則新訊息以開始新的對話",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "NO_INBOX": "",
     "FORM": {
       "TO": {
         "LABEL": "To"
@@ -175,7 +175,7 @@
       "SUBJECT": {
         "LABEL": "主旨",
         "PLACEHOLDER": "主旨",
-        "ERROR": "Subject can't be empty"
+        "ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -191,16 +191,16 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "聯絡人",
-    "FIELDS": "Contact fields",
+    "FIELDS": "",
     "SEARCH_BUTTON": "搜尋",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS": "",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
       "LOADING_MESSAGE": "聯絡人載入中...",
       "404": "找不到符合條件的聯絡人 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "",
       "TABLE_HEADER": {
         "NAME": "姓名",
         "PHONE_NUMBER": "聯絡人電話",
@@ -222,49 +222,49 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "新增",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": ""
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "",
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "",
+    "NOT_AVAILABLE": "",
     "HEADER": {
       "TITLE": "筆記"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": ""
     },
     "ADD": {
       "BUTTON": "新增",
       "PLACEHOLDER": "新增筆記",
-      "TITLE": "Shift + Enter to create a note"
+      "TITLE": ""
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": ""
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": ""
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "筆記",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "",
       "PILL_BUTTON_CONVO": "對話"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
+    "ADD_BUTTON_TEXT": "",
     "BUTTON": "新增自訂屬性",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "NOT_AVAILABLE": "",
     "COPY_SUCCESSFUL": "成功複製到剪貼簿",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
+      "COPY": "",
+      "DELETE": "",
       "EDIT": "編輯屬性"
     },
     "ADD": {
@@ -277,59 +277,59 @@
       "NAME": {
         "LABEL": "自訂屬性名稱",
         "PLACEHOLDER": "例如：shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "ERROR": ""
       },
       "VALUE": {
         "LABEL": "屬性值",
         "PLACEHOLDER": "例如：11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
+        "TITLE": "",
         "SUCCESS": "屬性新增成功",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": ""
       },
       "UPDATE": {
         "SUCCESS": "屬性更新成功",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "合併聯絡人",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "",
+      "HELP_LABEL": ""
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "",
+      "DELETE_WARNING": "",
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -338,10 +338,10 @@
       "SUBMIT": " 合併聯絡人",
       "CANCEL": "取消",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
