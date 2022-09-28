@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Počet dní po automatickom vyriešení tiketu, ak sa nevykonáva žiadna aktivita",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": ""
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Pre vaše konto je povolená kontinuita konverzácie s e-mailami.",
@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "K dispozícii je aktualizácia %{latestChatwootVersion} pre Chatwoot. Prosím, aktualizujte svoju inštanciu.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": ""
   },
   "FORMS": {
     "MULTISELECT": {
@@ -60,12 +60,12 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Upozornenia",
     "MARK_ALL_DONE": "Označiť všetky ako hotové",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "",
+      "ALL_NOTIFICATIONS": "",
+      "LOADING_UNREAD_MESSAGE": "",
+      "EMPTY_MESSAGE": ""
     },
     "LIST": {
       "LOADING_MESSAGE": "Načítavajú sa notifikácie...",
@@ -108,7 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Prejsť na ovládací panel konverzácie",
       "GO_TO_CONTACTS_DASHBOARD": "Prejsť na ovládací panel kontaktov",
       "GO_TO_REPORTS_OVERVIEW": "Prejsť na prehľad reportov",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_CONVERSATION_REPORTS": "",
       "GO_TO_AGENT_REPORTS": "Prejsť na reporty o agentoch",
       "GO_TO_LABEL_REPORTS": "Prejsť na reporty o štítkoch",
       "GO_TO_INBOX_REPORTS": "Prejsť na reporty o schránkach",
@@ -118,23 +118,23 @@
       "GO_TO_SETTINGS_INBOXES": "Prejsť na nastavenia chránok",
       "GO_TO_SETTINGS_LABELS": "Prejsť na nastavenia štítkov",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Prejsť na nastavenia uložených odpovedí",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
+      "GO_TO_SETTINGS_APPLICATIONS": "",
+      "GO_TO_SETTINGS_ACCOUNT": "",
+      "GO_TO_SETTINGS_PROFILE": "",
+      "GO_TO_NOTIFICATIONS": "",
       "ADD_LABELS_TO_CONVERSATION": "Pridať štítok do konverzácie",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
+      "ASSIGN_AN_AGENT": "",
+      "ASSIGN_A_TEAM": "",
+      "MUTE_CONVERSATION": "",
+      "UNMUTE_CONVERSATION": "",
       "REMOVE_LABEL_FROM_CONVERSATION": "Odstrániť štítok z konverzácie",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "REOPEN_CONVERSATION": "",
+      "RESOLVE_CONVERSATION": "",
+      "SEND_TRANSCRIPT": "",
+      "SNOOZE_CONVERSATION": "",
+      "UNTIL_NEXT_REPLY": "",
+      "UNTIL_NEXT_WEEK": "",
+      "UNTIL_TOMORROW": ""
     }
   }
 }
