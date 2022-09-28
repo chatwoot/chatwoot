@@ -39,7 +39,7 @@ class Channel::FacebookPage < ApplicationRecord
   def create_contact_inbox(instagram_id, name)
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(name: name)
-      ::ContactInbox.create(
+      ::ContactInbox.create!(
         contact_id: contact.id,
         inbox_id: inbox.id,
         source_id: instagram_id

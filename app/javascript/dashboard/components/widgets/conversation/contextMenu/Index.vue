@@ -6,7 +6,7 @@
         :key="option.key"
         :option="option"
         variant="icon"
-        @click.native="toggleStatus(option.key, null)"
+        @click="toggleStatus(option.key, null)"
       />
     </template>
     <menu-item-with-submenu :option="snoozeMenuConfig">
@@ -14,7 +14,7 @@
         v-for="(option, i) in snoozeMenuConfig.options"
         :key="i"
         :option="option"
-        @click.native="snoozeConversation(option.snoozedUntil)"
+        @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
     <menu-item-with-submenu :option="labelMenuConfig">
@@ -24,7 +24,7 @@
           :key="label.id"
           :option="generateMenuLabelConfig(label, 'label')"
           variant="label"
-          @click.native="$emit('assign-label', label)"
+          @click="$emit('assign-label', label)"
         />
       </template>
     </menu-item-with-submenu>
@@ -36,9 +36,17 @@
           :key="agent.id"
           :option="generateMenuLabelConfig(agent, 'agent')"
           variant="agent"
-          @click.native="$emit('assign-agent', agent)"
+          @click="$emit('assign-agent', agent)"
         />
       </template>
+    </menu-item-with-submenu>
+    <menu-item-with-submenu :option="teamMenuConfig">
+      <menu-item
+        v-for="team in teams"
+        :key="team.id"
+        :option="generateMenuLabelConfig(team, 'team')"
+        @click="$emit('assign-team', team)"
+      />
     </menu-item-with-submenu>
   </div>
 </template>
@@ -119,11 +127,17 @@ export default {
         icon: 'person-add',
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_AGENT'),
       },
+      teamMenuConfig: {
+        key: 'team',
+        icon: 'people-team-add',
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_TEAM'),
+      },
     };
   },
   computed: {
     ...mapGetters({
       labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     assignableAgents() {
@@ -160,6 +174,7 @@ export default {
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),
+        ...(type === 'team' && { label: option.name }),
       };
     },
   },

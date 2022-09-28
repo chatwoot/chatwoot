@@ -3,6 +3,7 @@ import {
   createPendingMessage,
   convertToAttributeSlug,
   convertToCategorySlug,
+  convertToPortalSlug,
 } from '../commons';
 
 describe('#getTypingUsersText', () => {
@@ -102,5 +103,11 @@ describe('convertToCategorySlug', () => {
     expect(convertToCategorySlug('User profile guide')).toBe(
       'user-profile-guide'
     );
+  });
+});
+
+describe('convertToPortalSlug', () => {
+  it('should convert to slug', () => {
+    expect(convertToPortalSlug('Room rental')).toBe('room-rental');
   });
 });

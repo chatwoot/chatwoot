@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.1.0
+# Script Version: 2.2.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
 OPTIONS=cdhiI:l:rsuwv
-CWCTL_VERSION="2.1.0"
+CWCTL_VERSION="2.2.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
@@ -128,7 +128,7 @@ trap exit_handler EXIT
 #   None
 ##############################################################################
 function exit_handler() {
-  if [ "$?" -ne 0 ]; then
+  if [ "$?" -ne 0 ] && [ "$u" == "n" ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
    exit 1
   fi
@@ -687,6 +687,28 @@ function ssl() {
 }
 
 ##############################################################################
+# Abort upgrade if custom code changes detected(-u/--upgrade)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function upgrade_prereq() {
+  sudo -i -u chatwoot << "EOF"
+  cd chatwoot
+  git update-index --refresh
+  git diff-index --quiet HEAD --
+  if [ "$?" -eq 1 ]; then
+    echo "Custom code changes detected. Aborting update."
+    echo "Please proceed to update manually."
+    exit 1
+  fi
+EOF
+}
+
+##############################################################################
 # Upgrade an existing installation to latest stable version(-u/--upgrade)
 # Globals:
 #   None
@@ -699,6 +721,7 @@ function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
   sleep 3
+  upgrade_prereq
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory

@@ -32,3 +32,16 @@ export const hasEmojiSupport = () => {
   ctx.fillText('\ud83d\udc28', 0, 0); // U+1F428 KOALA
   return ctx.getImageData(offset, offset, 1, 1).data[0] !== 0;
 };
+
+export const removeEmoji = text => {
+  if (text) {
+    return text
+      .replace(
+        /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+        ''
+      )
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  return '';
+};

@@ -124,7 +124,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
     "TRAIL_BUTTON": "الان بخرید",
-    "DELETED_USER": "کاربر حذف شده"
+    "DELETED_USER": "کاربر حذف شده",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "حساب‌کاربری معلق شده است",
+      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -197,8 +201,10 @@
       "MY_ARTICLES": "مقالات من",
       "DRAFT": "پیش‌نویس",
       "ARCHIVED": "بایگانی شد",
-      "CATEGORY": "دسته‌بندی"
-    }
+      "CATEGORY": "دسته‌بندی",
+      "CATEGORY_EMPTY_MESSAGE": "هیچ دسته‌بندی‌ای یافت نشد"
+    },
+    "DOCS": "اسناد را بخوانید"
   },
   "BILLING_SETTINGS": {
     "TITLE": "صورتحساب",

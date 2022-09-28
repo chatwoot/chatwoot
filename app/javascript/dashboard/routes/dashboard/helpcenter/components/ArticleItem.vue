@@ -1,13 +1,13 @@
 <template>
-  <tr>
+  <tr class="row--article-block">
     <td>
-      <div class="row--article-block">
+      <div class="article-content-wrap">
         <div class="article-block">
-          <h6 class="sub-block-title text-truncate">
-            <router-link class="article-name" :to="articlePath">
+          <router-link :to="articleUrl(id)">
+            <h6 class="sub-block-title text-truncate">
               {{ title }}
-            </router-link>
-          </h6>
+            </h6>
+          </router-link>
           <div class="author">
             <span class="by">{{ $t('HELP_CENTER.TABLE.COLUMNS.BY') }}</span>
             <span class="name">{{ articleAuthorName }}</span>
@@ -15,25 +15,42 @@
         </div>
       </div>
     </td>
-    <td>{{ category }}</td>
-    <td>{{ readCount }}</td>
     <td>
-      <Label :title="status" :color-scheme="labelColor" />
+      <span class="fs-small">{{ category.name }}</span>
     </td>
-    <td>{{ lastUpdatedAt }}</td>
+    <td>
+      <span class="fs-small">
+        {{ readCount }}
+      </span>
+    </td>
+    <td>
+      <div>
+        <woot-label
+          :title="status"
+          size="small"
+          variant="smooth"
+          :color-scheme="labelColor"
+        />
+      </div>
+    </td>
+    <td>
+      <span class="fs-small">
+        {{ lastUpdatedAt }}
+      </span>
+    </td>
   </tr>
 </template>
 <script>
-import { frontendURL } from 'dashboard/helper/URLHelper';
-import Label from 'dashboard/components/ui/Label';
 import timeMixin from 'dashboard/mixins/time';
+import portalMixin from '../mixins/portalMixin';
 export default {
-  components: {
-    Label,
-  },
-  mixins: [timeMixin],
+  mixins: [timeMixin, portalMixin],
 
   props: {
+    id: {
+      type: Number,
+      required: true,
+    },
     title: {
       type: String,
       default: '',
@@ -44,8 +61,8 @@ export default {
       default: () => {},
     },
     category: {
-      type: String,
-      default: '',
+      type: Object,
+      default: () => {},
     },
     readCount: {
       type: Number,
@@ -79,9 +96,6 @@ export default {
           return 'success';
       }
     },
-    articlePath() {
-      return frontendURL(`accounts/${this.accountId}/hc/articles/${this.id}`);
-    },
   },
 };
 </script>
@@ -94,25 +108,25 @@ td {
   padding-left: 0;
 }
 .row--article-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-
+  border-bottom-color: transparent;
+  .article-content-wrap {
+    align-items: center;
+    display: flex;
+    text-align: left;
+  }
   .article-block {
     min-width: 0;
   }
 
   .sub-block-title {
     margin-bottom: 0;
+    line-height: var(--space-medium);
+    height: var(--space-medium);
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  .article-name {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-default);
-    margin: 0;
-    text-transform: capitalize;
-    color: var(--s-900);
-  }
   .author {
     .by {
       font-weight: var(--font-weight-normal);
@@ -122,7 +136,7 @@ td {
     .name {
       font-weight: var(--font-weight-medium);
       color: var(--s-600);
-      font-size: var(--font-size-mini);
+      font-size: var(--font-size-small);
     }
   }
 }

@@ -4,22 +4,211 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "SETTINGS_BUTTON": "设置",
-      "NEW_BUTTON": "New Article"
+      "NEW_BUTTON": "New Article",
+      "DROPDOWN_OPTIONS": {
+        "PUBLISHED": "已发布",
+        "DRAFT": "草稿",
+        "ARCHIVED": "已存档"
+      },
+      "TITLES": {
+        "ALL_ARTICLES": "所有文章",
+        "MINE": "我的文章",
+        "DRAFT": "Draft Articles",
+        "ARCHIVED": "已存档的文章"
+      }
     },
     "EDIT_HEADER": {
+      "ALL_ARTICLES": "所有文章",
       "PUBLISH_BUTTON": "Publish",
       "PREVIEW": "Preview",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Draft saving...",
-      "SAVED": "Draft saved"
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
+    },
+    "ARTICLE_SETTINGS": {
+      "TITLE": "Article Settings",
+      "FORM": {
+        "CATEGORY": {
+          "LABEL": "类别",
+          "TITLE": "Select category",
+          "PLACEHOLDER": "Select category",
+          "NO_RESULT": "No category found",
+          "SEARCH_PLACEHOLDER": "Search category"
+        },
+        "AUTHOR": {
+          "LABEL": "Author",
+          "TITLE": "Select author",
+          "PLACEHOLDER": "Select author",
+          "NO_RESULT": "No authors found",
+          "SEARCH_PLACEHOLDER": "Search author"
+        },
+        "META_TITLE": {
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Add a meta title"
+        },
+        "META_DESCRIPTION": {
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Add your meta description for better SEO results..."
+        },
+        "META_TAGS": {
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Add meta tags separated by comma..."
+        }
+      },
+      "BUTTONS": {
+        "ARCHIVE": "Archive article",
+        "DELETE": "Delete article"
+      }
+    },
+    "PORTAL": {
+      "HEADER": "门户网站",
+      "NEW_BUTTON": "新门户网站",
+      "ACTIVE_BADGE": "活跃",
+      "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
+      "LOADING_MESSAGE": "Loading portals...",
+      "ARTICLES_LABEL": "文章",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
+      "ADD_NEW_LOCALE": "添加一个新的语言环境",
+      "POPOVER": {
+        "TITLE": "门户网站",
+        "PORTAL_SETTINGS": "Portal settings",
+        "SUBTITLE": "您有多个门户网站，每个门户网站可以有不同的语言环境。",
+        "CANCEL_BUTTON_LABEL": "取消",
+        "CHOOSE_LOCALE_BUTTON": "选择语言"
+      },
+      "PORTAL_SETTINGS": {
+        "LIST_ITEM": {
+          "HEADER": {
+            "COUNT_LABEL": "文章",
+            "ADD": "Add locale",
+            "VISIT": "Visit site",
+            "SETTINGS": "设置"
+          },
+          "PORTAL_CONFIG": {
+            "TITLE": "Portal Configurations",
+            "ITEMS": {
+              "NAME": "姓名：",
+              "DOMAIN": "Custom domain",
+              "SLUG": "Slug",
+              "TITLE": "Portal title",
+              "THEME": "Theme color",
+              "SUB_TEXT": "Portal sub text"
+            }
+          },
+          "AVAILABLE_LOCALES": {
+            "TITLE": "Available locales",
+            "TABLE": {
+              "NAME": "Locale name",
+              "CODE": "Locale code",
+              "ARTICLE_COUNT": "No. of articles",
+              "CATEGORIES": "No. of categories",
+              "SWAP": "Swap",
+              "DELETE": "删除",
+              "DEFAULT_LOCALE": "Default"
+            }
+          }
+        }
+      },
+      "ADD": {
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Finish"
+          }
+        ],
+        "CREATE_FLOW_PAGE": {
+          "BACK_BUTTON": "后退",
+          "BASIC_SETTINGS_PAGE": {
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+          },
+          "CUSTOMIZATION_PAGE": {
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+          },
+          "FINISH_PAGE": {
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
+          }
+        },
+        "LOGO": {
+          "LABEL": "Logo",
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
+        },
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "Portal name",
+          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug for urls",
+
+          "ERROR": "Slug is required"
+        },
+        "DOMAIN": {
+          "LABEL": "Custom Domain",
+          "PLACEHOLDER": "Portal custom domain",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
+          "ERROR": "Custom Domain is required"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home Page Link",
+          "PLACEHOLDER": "Portal home page link",
+          "HELP_TEXT": "The link used to return from the portal to the home page.",
+          "ERROR": "Home Page Link is required"
+        },
+        "THEME_COLOR": {
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page Title",
+          "PLACEHOLDER": "Portal page title",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Page title is required"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header Text",
+          "PLACEHOLDER": "Portal header text",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
+          "ERROR": "Portal header text is required"
+        },
+        "API": {
+          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+        }
+      }
     },
     "TABLE": {
+      "LOADING_MESSAGE": "正在加载文章...",
+      "404": "没有找到您要搜索的文章 🔍",
+      "NO_ARTICLES": "没有可用的文章",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "TITLE": "标题",
+        "CATEGORY": "类别",
+        "READ_COUNT": "阅读数",
         "STATUS": "状态",
         "LAST_EDITED": "Last edited"
       },
@@ -28,12 +217,52 @@
       }
     },
     "EDIT_ARTICLE": {
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here"
+      "LOADING": "Loading article...",
+      "TITLE_PLACEHOLDER": "文章标题在此处显示",
+      "CONTENT_PLACEHOLDER": "在此处写下您的文章",
+      "API": {
+        "ERROR": "Error while saving article"
+      }
+    },
+    "CREATE_ARTICLE": {
+      "ERROR_MESSAGE": "Something went wrong. Please try again."
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "搜索文章"
+      }
+    },
+    "CATEGORY": {
+      "ADD": {
+        "TITLE": "创建一个类别",
+        "SUB_TITLE": "类别将用于公共门户来对文章进行归类。",
+        "PORTAL": "门户网站",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "类别名称",
+          "HELP_TEXT": "类别名称将用于公共门户来对文章进行归类。",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/zh-CN/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "给出有关该类别的简短描述。",
+          "ERROR": "描述是必需的"
+        },
+        "BUTTONS": {
+          "CREATE": "创建类别",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category created successfully",
+          "ERROR_MESSAGE": "Unable to create category"
+        }
       }
     }
   }

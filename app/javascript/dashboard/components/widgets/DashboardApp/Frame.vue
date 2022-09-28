@@ -38,6 +38,18 @@ export default {
       return this.currentChat?.meta?.sender?.id;
     },
   },
+
+  mounted() {
+    window.onmessage = e => {
+      if (
+        typeof e.data !== 'string' ||
+        e.data !== 'chatwoot-dashboard-app:fetch-info'
+      ) {
+        return;
+      }
+      this.onIframeLoad(0);
+    };
+  },
   methods: {
     onIframeLoad(index) {
       const frameElement = document.getElementById(

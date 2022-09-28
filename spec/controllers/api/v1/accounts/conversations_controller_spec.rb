@@ -220,7 +220,7 @@ RSpec.describe 'Conversations API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, role: :agent, auto_offline: false) }
       let(:team) { create(:team, account: account) }
 
       it 'will not create a new conversation if agent does not have access to inbox' do

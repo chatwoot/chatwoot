@@ -30,15 +30,15 @@
             "EMAIL": "Email",
             "PHONE_NUMBER": "电话号码",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
+            "CITY": "城市",
+            "COUNTRY": "国家",
             "CUSTOM_ATTRIBUTE_LIST": "列表",
             "CUSTOM_ATTRIBUTE_TEXT": "文本",
             "CUSTOM_ATTRIBUTE_NUMBER": "号码",
             "CUSTOM_ATTRIBUTE_LINK": "链接",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
             "CREATED_AT": "创建于",
-            "LAST_ACTIVITY": "Last Activity",
+            "LAST_ACTIVITY": "最后一次活动",
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {

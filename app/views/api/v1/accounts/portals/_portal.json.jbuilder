@@ -7,7 +7,15 @@ json.name portal.name
 json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
-json.config portal.config
+
+json.config do
+  json.allowed_locales do
+    json.array! portal.config['allowed_locales'].each do |locale|
+      json.partial! 'api/v1/models/portal_config.json.jbuilder', locale: locale, portal: portal
+    end
+  end
+end
+
 json.logo portal.file_base_data if portal.logo.present?
 
 json.portal_members do
@@ -19,7 +27,11 @@ json.portal_members do
 end
 
 json.meta do
-  json.articles_count portal.articles.size
+  json.all_articles_count portal.articles.size
+  json.archived_articles_count portal.articles.archived.size
+  json.published_count portal.articles.published.size
+  json.draft_articles_count portal.articles.draft.size
+  json.mine_articles_count portal.articles.search_by_author(current_user.id).size if current_user.present?
   json.categories_count portal.categories.size
   json.default_locale portal.default_locale
 end

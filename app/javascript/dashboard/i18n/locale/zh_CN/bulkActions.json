@@ -4,7 +4,7 @@
     "AGENT_SELECT_LABEL": "选择代理",
     "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
     "GO_BACK_LABEL": "Go back",
-    "ASSIGN_LABEL": "Assign",
+    "ASSIGN_LABEL": "分配",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
     "ASSIGN_FAILED": "Failed to assign conversations, please try again",

@@ -120,7 +120,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "days trial remaining.",
     "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User"
+    "DELETED_USER": "Deleted User",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account Suspended",
+      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -189,17 +193,19 @@
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
       "ARCHIVED": "Archived",
-      "CATEGORY": "Category"
+      "CATEGORY": "Category",
+      "CATEGORY_EMPTY_MESSAGE": "No categories found"
     },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
-    "CURRENT_PLAN" : {
+    "CURRENT_PLAN": {
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
     },
@@ -248,7 +254,6 @@
       "GO_TO_SETTINGS": "Go to Settings",
       "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
     },

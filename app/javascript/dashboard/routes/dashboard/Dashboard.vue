@@ -2,7 +2,7 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
-      :class="sidebarClassName"
+      :sidebar-class-name="sidebarClassName"
       @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
@@ -44,8 +44,8 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
-import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 
 export default {
   components: {
@@ -77,7 +77,7 @@ export default {
         return '';
       }
       if (this.isSidebarOpen) {
-        return 'off-canvas position-left is-transition-push is-open';
+        return 'off-canvas is-open';
       }
       return 'off-canvas is-transition-push is-closed';
     },
@@ -86,7 +86,7 @@ export default {
         return '';
       }
       if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push has-position-left';
+        return 'off-canvas-content is-open-left has-transition-push';
       }
       return 'off-canvas-content has-transition-push';
     },
@@ -144,6 +144,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .off-canvas-content.is-open-left {
-  transform: translateX(25.4rem);
+  transform: translateX(20rem);
 }
 </style>

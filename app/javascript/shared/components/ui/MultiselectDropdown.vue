@@ -136,7 +136,7 @@ export default {
 
   .selector-button {
     width: 100%;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--s-200);
     padding-left: var(--space-one);
     padding-right: var(--space-one);
 

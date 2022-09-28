@@ -281,16 +281,18 @@ Rails.application.routes.draw do
             end
           end
         end
-        resources :portals, only: [:show], param: :slug do
-          scope module: :portals do
-            resources :categories, only: [:index, :show], param: :slug
-            resources :articles, only: [:index, :show]
-          end
-        end
+
         resources :csat_survey, only: [:show, :update]
       end
     end
   end
+
+  get 'hc/:slug', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
+  get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
+  get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/:locale/:category_slug/:id', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
@@ -340,7 +342,9 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts
+      resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
+        post :seed, on: :member
+      end
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]

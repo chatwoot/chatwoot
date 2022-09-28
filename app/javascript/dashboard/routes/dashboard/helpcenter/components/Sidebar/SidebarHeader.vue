@@ -2,40 +2,33 @@
   <div class="sidebar-header--wrap">
     <div class="header-left--side">
       <thumbnail
-        size="40px"
+        size="32px"
         :src="thumbnailSrc"
         :username="headerTitle"
         variant="square"
       />
       <div class="header-title--wrap">
-        <h4 class="sub-block-title title-view">{{ headerTitle }}</h4>
+        <h4 class="text-block-title title-view text-truncate">
+          {{ headerTitle }}
+        </h4>
         <span class="sub-title--view">{{ subTitle }}</span>
       </div>
     </div>
     <div class="header-right--side">
       <woot-button
-        variant="link"
+        variant="clear"
         color-scheme="secondary"
-        @click="popOutHelpCenter"
-      >
-        <fluent-icon
-          icon="arrow-up-right"
-          size="28px"
-          class="pop-out--icon"
-          @click="popOutHelpCenter"
-        />
-      </woot-button>
+        size="small"
+        icon="arrow-up-right"
+        @click="popoutHelpCenter"
+      />
       <woot-button
-        variant="link"
+        variant="clear"
+        size="small"
         color-scheme="secondary"
+        icon="arrow-swap"
         @click="openPortalPopover"
-      >
-        <fluent-icon
-          icon="arrow-swap"
-          size="28px"
-          class="portal-switch--icon"
-        />
-      </woot-button>
+      />
     </div>
   </div>
 </template>
@@ -59,10 +52,14 @@ export default {
       type: String,
       default: '',
     },
+    portalLink: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
-    popOutHelpCenter() {
-      this.$emit('pop-out');
+    popoutHelpCenter() {
+      window.open(this.portalLink, '_blank');
     },
     openPortalPopover() {
       this.$emit('open-popover');
@@ -77,7 +74,9 @@ export default {
   height: var(--space-jumbo);
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-small) 0 var(--space-normal) 0;
+  padding: var(--space-normal);
+  margin: var(--space-minus-small);
+  margin-bottom: var(--space-small);
   border-bottom: 1px solid var(--color-border-light);
 }
 
@@ -89,12 +88,17 @@ export default {
 }
 
 .title-view {
+  width: var(--space-mega);
   margin-bottom: var(--space-zero);
+  height: var(--space-normal);
+  line-height: var(--space-normal);
 }
 
 .sub-title--view {
   font-size: var(--font-size-mini);
-  color: var(--b-600);
+  color: var(--s-600);
+  height: var(--space-normal);
+  line-height: var(--space-normal);
 }
 
 .header-left--side {
@@ -104,21 +108,6 @@ export default {
 
 .header-right--side {
   display: flex;
-  align-items: center;
-}
-
-.pop-out--icon {
-  padding: var(--space-smaller);
-}
-
-.portal-switch--icon {
-  padding: var(--space-smaller);
-  margin-left: var(--space-small);
-
-  &:hover {
-    cursor: pointer;
-    background: var(--s-50);
-    border-radius: var(--border-radius-normal);
-  }
+  align-items: flex-end;
 }
 </style>

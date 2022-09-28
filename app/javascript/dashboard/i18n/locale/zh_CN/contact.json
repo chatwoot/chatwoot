@@ -40,7 +40,7 @@
     "UNMUTE_CONTACT": "取消静音",
     "MUTED_SUCCESS": "此对话被静音6小时",
     "UNMUTED_SUCCESS": "此对话已取消静音",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "SEND_TRANSCRIPT": "发送客服记录",
     "EDIT_LABEL": "编辑",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自定义属性",
@@ -68,13 +68,13 @@
       "SUBMIT": "导入",
       "CANCEL": "取消"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "已成功保存联系人",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "确认删除",
-      "MESSAGE": "您确定要删除此笔记吗？",
+      "MESSAGE": "您确定要删除此备注吗？",
       "YES": "是的，删除",
       "NO": "否，保留它"
     }
@@ -91,7 +91,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "联系人删除成功",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": "无法删除联系人，请稍后再试。"
     }
   },
   "CONTACT_FORM": {
@@ -112,7 +112,7 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "输入联系人的电子邮件地址",
         "LABEL": "电子邮件地址",
-        "DUPLICATE": "This email address is in use for another contact.",
+        "DUPLICATE": "此电子邮件地址正在用于另一个联系人。",
         "ERROR": "请输入一个有效的电子邮件."
       },
       "PHONE_NUMBER": {
@@ -120,19 +120,19 @@
         "LABEL": "电话号码",
         "HELP": "电话号码应为E.164格式，例如：+14155555 [+] [国家代码][地区代码][本地电话号码]",
         "ERROR": "电话号码应为空或E.164格式",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "DUPLICATE": "此电话号码正在用于另一个联系人。"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "输入联系人的位置",
         "LABEL": "位置"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "输入公司名称",
+        "LABEL": "公司名称"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "输入 Facebook 用户名",
           "LABEL": "Facebook"
         },
         "TWITTER": {
@@ -161,186 +161,186 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "开始会话",
     "TITLE": "新的会话",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "通过发送一条新消息来开始新的对话。",
+    "NO_INBOX": "找不到收件箱来发起与此联系人的新对话。",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "发送至"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "收件箱",
+        "ERROR": "选择一个收件箱"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
-        "ERROR": "Subject can't be empty"
+        "LABEL": "主题",
+        "PLACEHOLDER": "主题",
+        "ERROR": "主题不能为空"
       },
       "MESSAGE": {
         "LABEL": "消息",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "在此处输入您的消息",
+        "ERROR": "消息不能为空"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "发送消息",
       "CANCEL": "取消",
-      "SUCCESS_MESSAGE": "Message sent!",
+      "SUCCESS_MESSAGE": "消息已发送！",
       "GO_TO_CONVERSATION": "查看",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "ERROR_MESSAGE": "无法发送，请重试！"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "FIELDS": "Contact fields",
+    "HEADER": "联系人",
+    "FIELDS": "联系人字段",
     "SEARCH_BUTTON": "搜索",
     "SEARCH_INPUT_PLACEHOLDER": "搜索联系人",
-    "FILTER_CONTACTS": "Filter",
+    "FILTER_CONTACTS": "过滤器",
     "FILTER_CONTACTS_SAVE": "保存过滤器",
     "FILTER_CONTACTS_DELETE": "删除过滤器",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "没有可用的联系人",
       "TABLE_HEADER": {
         "NAME": "姓名：",
         "PHONE_NUMBER": "电话号码",
         "CONVERSATIONS": "会话",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "最后一次活动",
+        "COUNTRY": "国家",
+        "CITY": "城市",
+        "SOCIAL_PROFILES": "社交资料",
         "COMPANY": "公司",
         "EMAIL_ADDRESS": "电子邮件地址"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "查看详细信息"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contacts",
-    "LOADING": "Loading contact profile..."
+    "BACK_BUTTON": "联系人",
+    "LOADING": "正在加载联系人资料..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "添加",
+      "TITLE": "Shift + Enter 创建任务"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
+      "DUE_DATE": "截止日期",
       "LABEL_TITLE": "Set type"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "FETCHING_NOTES": "正在获取备注...",
+    "NOT_AVAILABLE": "没有为此联系人创建备注",
     "HEADER": {
-      "TITLE": "Notes"
+      "TITLE": "备注"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "添加备注"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "添加",
+      "PLACEHOLDER": "添加备注",
+      "TITLE": "Shift + Enter 创建备注"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "删除备注"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "活动"
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_NOTES": "备注",
+      "PILL_BUTTON_EVENTS": "事件",
       "PILL_BUTTON_CONVO": "会话"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "添加属性",
+    "BUTTON": "添加自定义属性",
+    "NOT_AVAILABLE": "此联系人没有可用的自定义属性。",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "复制属性",
+      "DELETE": "删除属性",
+      "EDIT": "编辑属性"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "创建自定义属性",
+      "DESC": "在此联系人中添加自定义信息。"
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "添加属性",
       "CANCEL": "取消",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "自定义属性名称",
+        "PLACEHOLDER": "例如：会员 ID",
+        "ERROR": "无效的自定义属性名称"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "属性值",
+        "PLACEHOLDER": "例如：11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "新建属性 ",
+        "SUCCESS": "已成功添加属性",
+        "ERROR": "无法添加属性，请稍后再试。"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "已成功更新属性",
+        "ERROR": "无法更新属性，请稍后再试。"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "已成功删除属性",
+        "ERROR": "无法删除属性，请稍后再试。"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "添加属性",
+        "PLACEHOLDER": "搜索属性",
+        "NO_RESULT": "未找到属性"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "选择值",
+          "SEARCH_INPUT_PLACEHOLDER": "搜索值",
+          "NO_RESULT": "未找到结果"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "需要有效的值",
+      "INVALID_URL": "无效的 URL"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "合并联系人",
+    "DESCRIPTION": "合并联系人以将两个个人资料合并为一个，包括所有属性和对话。 如果发生冲突，将以主联系人的属性为优先。",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "主联系人",
+      "HELP_LABEL": "将被保留"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "需要合并的联系人",
+      "PLACEHOLDER": "搜索联系人",
+      "HELP_LABEL": "将被删除"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "总结",
+      "DELETE_WARNING": "<strong>%{childContactName}</strong> 的联系信息将被删除。",
+      "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> 的联系信息将拷贝到 <strong>%{primaryContactName}</strong>。"
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " 合并联系人",
       "CANCEL": "取消",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "选择一个需要合并的子联系人"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "已成功合并联系人",
+      "ERROR_MESSAGE": "无法合并联系人，请重试！"
     }
   }
 }

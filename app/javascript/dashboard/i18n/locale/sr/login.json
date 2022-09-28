@@ -2,20 +2,20 @@
   "LOGIN": {
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "LABEL": "E-pošta",
+      "PLACEHOLDER": "E-pošta npr.: ime.prezime@primer.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Lozinka",
+      "PLACEHOLDER": "Lozinka"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
+      "SUCCESS_MESSAGE": "Prijava je uspešna",
       "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "UNAUTH": "Korisničko ime / lozinka nije ispravna. Molim vas pokušajte ponovo"
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "Da li ste zaboravili lozinku?",
+    "CREATE_NEW_ACCOUNT": "Napravite novi nalog",
+    "SUBMIT": "Prijava"
   }
 }

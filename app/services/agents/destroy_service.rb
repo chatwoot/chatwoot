@@ -6,6 +6,7 @@ class Agents::DestroyService
       destroy_notification_setting
       remove_user_from_teams
       remove_user_from_inboxes
+      unassign_conversations
     end
   end
 
@@ -26,5 +27,9 @@ class Agents::DestroyService
   def destroy_notification_setting
     setting = user.notification_settings.find_by(account_id: account.id)
     setting&.destroy!
+  end
+
+  def unassign_conversations
+    user.assigned_conversations.where(account: account).find_each(&:update_assignee)
   end
 end

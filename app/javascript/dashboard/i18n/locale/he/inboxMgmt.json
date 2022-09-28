@@ -413,7 +413,8 @@
       "CONFIGURATION": "תצורה",
       "CAMPAIGN": "קמפיין",
       "PRE_CHAT_FORM": "טופס צ'אט מקדים",
-      "BUSINESS_HOURS": "שעות פעילות"
+      "BUSINESS_HOURS": "שעות פעילות",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "הגדרות",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "שם האתר",
+          "PLACE_HOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "כותרת ברוכים הבאים",
+          "PLACE_HOLDER": "שלום שם!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "ברוך הבא לתיוג",
+          "PLACE_HOLDER": "אנחנו עושים את זה פשוט להתחבר אלינו. שאל אותנו כל דבר, או שתף את המשוב שלך."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "בעוד כמה דקות",
+          "IN_A_FEW_HOURS": "בעוד כמה שעות",
+          "IN_A_DAY": "ביום"
+        },
+        "WIDGET_COLOR_LABEL": "צבע יישומון",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "דבר איתנו",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "דבר איתנו"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
+        "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
+        "IN_A_DAY": "מענה ממוצע לאחר יום"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "התחל שיחה",
+        "CHAT_INPUT_PLACEHOLDER": "הקלד הודעה"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "אנחנו לא זמינים כרגע"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "מופעל על ידי Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }
