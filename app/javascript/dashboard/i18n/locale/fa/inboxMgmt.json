@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "کانال ورودی را انتخاب کنید",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "جایی که قرار است امکان گفتگوی آنلاین در آنجا فراهم شود را انتخاب کنید"
       },
       {
         "title": "ساخت صندوق ورودی",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "به حساب کاربری وارد شوید و صندوق ورودی بسازید."
       },
       {
         "title": "معرفی ایجنت",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "ایجنت ها را به صندوق ورودی ساخته شده تخصیص می‌دهد."
       },
       {
         "title": "ماشالله!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "دیگه می‌تونی بترکونی"
       }
     ],
