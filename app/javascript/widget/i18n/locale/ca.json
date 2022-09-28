@@ -8,13 +8,13 @@
       "SUBMIT": "Envia"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Estem en línia",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
@@ -22,13 +22,13 @@
     "IN_A_DAY": "Normalment respon en un dia"
   },
   "START_CONVERSATION": "Inicia la conversa",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
     "CLOSE_MESSAGES_BUTTON": "Tanca",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Adreça de correu electrònic",
         "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
       },
       "PHONE_NUMBER": {
         "LABEL": "Número de telèfon",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "Missatge",
@@ -64,22 +64,22 @@
         "ERROR": "Missatge massa curt"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "",
     "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar"
   }
