@@ -22,8 +22,8 @@
     "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു"
   },
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
   "START_NEW_CONVERSATION": "ഒരു പുതിയ സംഭാഷണം ആരംഭിക്കുക",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "ഇമെയിൽ വിലാസം",
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
       },
       "PHONE_NUMBER": {
         "LABEL": "ഫോൺ നമ്പർ",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "സന്ദേശം",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "സംഭാഷണം ആരംഭിക്കുന്നതിന് മുമ്പ് ദയവായി നിങ്ങളുടെ പേരും ഇമെയിലും നൽകുക",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "ഫയൽ {MAXIMUM_FILE_UPLOAD_SIZE} അറ്റാച്ച്‌മെന്റ് പരിധി കവിഞ്ഞു",
   "CHAT_FORM": {
