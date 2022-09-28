@@ -163,19 +163,19 @@
         "CREATE_FLOW": [
           {
             "title": "Informationen zum Hilfezentrum",
-            "route": "new_portal_information",
+            "route": "",
             "body": "Grundlegende Informationen zum Portal",
             "CREATE_BASIC_SETTING_BUTTON": "Portalgrundeinstellungen erstellen"
           },
           {
             "title": "Anpassung des Help Centers",
-            "route": "portal_customization",
+            "route": "",
             "body": "Portal anpassen",
             "UPDATE_PORTAL_BUTTON": "Portaleinstellungen aktualisieren"
           },
           {
             "title": "Voila! 🎉",
-            "route": "portal_finish",
+            "route": "",
             "body": "Sie sind bereit!",
             "FINISH": "Abschließen"
           }
