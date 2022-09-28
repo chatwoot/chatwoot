@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Выберите источник",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Выберите канал, который вы хотите подключить к Chatwoot."
       },
       {
         "title": "Создать источник",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Авторизуйте свой аккаунт и создайте ящик."
       },
       {
         "title": "Добавить операторов",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Добавить агента в созданный источник."
       },
       {
         "title": "Ура!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Все готово!"
       }
     ],
