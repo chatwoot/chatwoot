@@ -56,6 +56,7 @@
       <woot-message-editor
         v-else
         v-model="message"
+        :editor-id="draftStoreKey"
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
@@ -439,6 +440,10 @@ export default {
     conversationIdByRoute() {
       const { conversation_id: conversationId } = this.$route.params;
       return conversationId;
+    },
+    draftStoreKey() {
+      const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+      return key;
     },
   },
   watch: {
