@@ -20,6 +20,7 @@
     "EDIT_HEADER": {
       "ALL_ARTICLES": "Tutti gli articoli",
       "PUBLISH_BUTTON": "Pubblica",
+      "MOVE_TO_ARCHIVE_BUTTON": "Sposta nell'archivio",
       "PREVIEW": "Anteprima",
       "ADD_TRANSLATION": "Aggiungi traduzione",
       "OPEN_SIDEBAR": "Apri barra laterale",
@@ -64,6 +65,7 @@
     },
     "PORTAL": {
       "HEADER": "Portali",
+      "DEFAULT": "Predefinito",
       "NEW_BUTTON": "Nuovo portale",
       "ACTIVE_BADGE": "attivo",
       "CHOOSE_LOCALE_LABEL": "Scegli una lingua",
@@ -84,7 +86,8 @@
             "COUNT_LABEL": "articoli",
             "ADD": "Aggiungi lingua",
             "VISIT": "Visita sito",
-            "SETTINGS": "Impostazioni"
+            "SETTINGS": "Impostazioni",
+            "DELETE": "Elimina"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Configurazioni portale",
@@ -109,6 +112,51 @@
               "DEFAULT_LOCALE": "Predefinito"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Elimina portale",
+          "MESSAGE": "Sei sicuro di voler eliminare questo portale",
+          "YES": "Sì, elimina il portale",
+          "NO": "No, mantieni il portale",
+          "API": {
+            "DELETE_SUCCESS": "Portale eliminato con successo",
+            "DELETE_ERROR": "Errore durante l'eliminazione del portale"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Modifica portale",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Informazioni di base"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Personalizzazione del portale"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categorie"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Categorie in",
+          "NEW_CATEGORY": "Nuova categoria",
+          "TABLE": {
+            "NAME": "Nome",
+            "DESCRIPTION": "Descrizione",
+            "LOCALE": "Locale",
+            "ARTICLE_COUNT": "N° di articoli",
+            "ACTION_BUTTON": {
+              "EDIT": "Modifica categoria",
+              "DELETE": "Elimina categoria"
+            },
+            "EMPTY_TEXT": "Nessuna categoria trovata"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Aggiorna impostazioni di base"
         }
       },
       "ADD": {
@@ -164,7 +212,6 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug portale per URLs",
-
           "ERROR": "Slug è obbligatorio"
         },
         "DOMAIN": {
@@ -196,8 +243,40 @@
           "ERROR": "Il testo dell'intestazione del portale è obbligatorio"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portale creato con successo.",
           "ERROR_MESSAGE_FOR_BASIC": "Impossibile creare il portale. Riprova.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portale aggiornato con successo.",
           "ERROR_MESSAGE_FOR_UPDATE": "Impossibile aggiornare il portale. Riprova."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Aggiungi una nuova lingua",
+        "SUB_TITLE": "Questo aggiunge un nuova lingua alla tua lista di traduzioni disponibili.",
+        "PORTAL": "Portale",
+        "LOCALE": {
+          "LABEL": "Locale",
+          "PLACEHOLDER": "Scegli una lingua",
+          "ERROR": "Lingua richiesta"
+        },
+        "BUTTONS": {
+          "CREATE": "Crea lingua",
+          "CANCEL": "annulla"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Lingua aggiunta con successo",
+          "ERROR_MESSAGE": "Impossibile aggiungere la lingua. Riprova."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Lingua predefinita aggiornata correttamente",
+          "ERROR_MESSAGE": "Impossibile aggiornare la lingua predefinita. Riprova."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Lingua rimossa dal portale con successo",
+          "ERROR_MESSAGE": "Impossibile rimuovere la lingua dal portale. Riprova."
         }
       }
     },
@@ -224,8 +303,34 @@
         "ERROR": "Errore durante il salvataggio dell'articolo"
       }
     },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Errore durante la pubblicazione dell'articolo",
+        "SUCCESS": "Articolo pubblicato con successo"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Errore durante l'archiviazione dell'articolo",
+        "SUCCESS": "Articolo archiviato con successo"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Conferma eliminazione",
+          "MESSAGE": "Sei sicuro di voler eliminare l'articolo?",
+          "YES": "Sì, elimina",
+          "NO": "No, conserva"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Articolo eliminato con successo",
+        "ERROR_MESSAGE": "Errore durante l'eliminazione dell'articolo"
+      }
+    },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Qualcosa è andato storto. Per favore, riprova."
+      "ERROR_MESSAGE": "Si prega di aggiungere l'intestazione e il contenuto dell'articolo quindi solo è possibile aggiornare le impostazioni"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -262,6 +367,43 @@
         "API": {
           "SUCCESS_MESSAGE": "Categoria creata con successo",
           "ERROR_MESSAGE": "Impossibile creare la categoria"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Modifica una categoria",
+        "SUB_TITLE": "Modificare una categoria aggiornerà la categoria nel portale pubblico.",
+        "PORTAL": "Portale",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Nome categoria",
+          "HELP_TEXT": "Il nome della categoria verrà utilizzato nel portale pubblico per categorizzare gli articoli.",
+          "ERROR": "Il nome è obbligatorio"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Slug categoria per url",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug è obbligatorio"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrizione",
+          "PLACEHOLDER": "Fornisci una breve descrizione della categoria.",
+          "ERROR": "La descrizione è obbligatoria"
+        },
+        "BUTTONS": {
+          "CREATE": "Aggiorna categoria",
+          "CANCEL": "annulla"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria aggiornata con successo",
+          "ERROR_MESSAGE": "Impossibile aggiornare la categoria"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Categoria eliminata con successo",
+          "ERROR_MESSAGE": "Impossibile eliminare la categoria"
         }
       }
     }
