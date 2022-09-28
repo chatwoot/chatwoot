@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Chọn kênh",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Chọn nhà cung cấp bạn muốn tích hợp với Chatwoot."
       },
       {
         "title": "Tạo Hộp thư đến",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Xác thực tài khoản của bạn và tạo hộp thư đến."
       },
       {
         "title": "Thêm đại lý",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Thêm đại lý vào hộp thư đến đã tạo."
       },
       {
         "title": "Tới rồi!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Bạn đã sẵn sàng để đi!"
       }
     ],
