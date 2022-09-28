@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
         "PLACEHOLDER": "Por favor, insira um endereço de email válido",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
       },
       "PHONE_NUMBER": {
         "LABEL": "Número de telefone",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "Messagem",
@@ -65,7 +65,7 @@
       }
     },
     "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
-    "IS_REQUIRED": "is required"
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
