@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Niedostępne",
     "EMAIL_ADDRESS": "Adres e-mail",
     "PHONE_NUMBER": "Numer telefonu",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "",
     "COPY_SUCCESSFUL": "Pomyślnie skopiowano do schowka",
     "COMPANY": "Firma",
     "LOCATION": "Lokalizacja",
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "Kontakt zapisany pomyślnie",
