@@ -10,7 +10,7 @@
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
       "TABLE_HEADER": [
-        "Name",
+        "Nama",
         "Description",
         "Color"
       ]
@@ -35,8 +35,8 @@
       },
       "EDIT": "Edit",
       "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "DELETE": "Padamkan",
+      "CANCEL": "Batalkan"
     },
     "ADD": {
       "TITLE": "Add label",
@@ -54,16 +54,16 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Padamkan",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Pasti Padamkan",
+        "MESSAGE": "Adakan anda pasti untuk padamkan ",
+        "YES": "Ya, Padamkan ",
+        "NO": "Tidak, simpankan "
       }
     }
   }
