@@ -7,7 +7,7 @@
       "404": "Tässä ryhmässä ei ole aktiivisia keskusteluja."
     },
     "TAB_HEADING": "Keskustelut",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
     },
@@ -25,10 +25,10 @@
         "TEXT": "Ratkaistu"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Vastaanotettu sähköpostitse",
     "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
     "REPLY_TO_TWEET": "Vastaa tähän twiittiin",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "",
+    "SENT": "",
     "NO_MESSAGES": "Ei Viestejä",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
