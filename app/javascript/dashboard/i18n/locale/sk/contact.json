@@ -3,11 +3,11 @@
     "NOT_AVAILABLE": "NIe je k dispozícii",
     "EMAIL_ADDRESS": "E-mailová adresa",
     "PHONE_NUMBER": "Telefónne číslo",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "",
     "COPY_SUCCESSFUL": "Úspešne nakopírované",
     "COMPANY": "Spoločnosť",
     "LOCATION": "Lokácia",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "",
     "CONVERSATION_TITLE": "Detaily konverzácie",
     "VIEW_PROFILE": "Ukáž profil",
     "BROWSER": "Prehliadač",
@@ -75,9 +75,9 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Potvrdiť vymazanie",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "No, Keep it"
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "Kontakt bol úspešne uložený",
@@ -185,7 +185,7 @@
       "SUBMIT": "Poslať správu",
       "CANCEL": "Zrušiť",
       "SUCCESS_MESSAGE": "Správa poslaná!",
-      "GO_TO_CONVERSATION": "View",
+      "GO_TO_CONVERSATION": "",
       "ERROR_MESSAGE": "Nepodarilo sa odoslať! Skúste to znova"
     }
   },
@@ -195,8 +195,8 @@
     "SEARCH_BUTTON": "Hľadať",
     "SEARCH_INPUT_PLACEHOLDER": "Hľadať kontakty",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
       "LOADING_MESSAGE": "Kontakty sa hľadajú...",
       "404": "Žiadny kontakt nezodpovedá vášmu vyhľadávaniu 🔍",
