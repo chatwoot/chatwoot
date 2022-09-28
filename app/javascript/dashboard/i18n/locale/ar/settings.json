@@ -126,8 +126,8 @@
     "TRAIL_BUTTON": "اشترك الآن",
     "DELETED_USER": "حذف المستخدم",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
@@ -175,7 +175,7 @@
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
-    "BILLING": "Billing",
+    "BILLING": "",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
     "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
@@ -197,33 +197,33 @@
     "REPORTS_OVERVIEW": "نظرة عامة",
     "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
       "CATEGORY": "الفئة",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "",
+      "DESCRIPTION": "",
       "BUTTON_TXT": "تحدث الينا"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",
