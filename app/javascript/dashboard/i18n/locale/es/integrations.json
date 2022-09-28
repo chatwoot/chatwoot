@@ -95,7 +95,7 @@
         "LOADING": "Obteniendo aplicaciones del tablero...",
         "TABLE_HEADER": [
           "Nombre",
-          "Endpoint"
+          ""
         ],
         "EDIT_TOOLTIP": "Editar aplicación",
         "DELETE_TOOLTIP": "Eliminar aplicación"
@@ -103,32 +103,32 @@
       "FORM": {
         "TITLE_LABEL": "Nombre",
         "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_ERROR": "",
+        "URL_LABEL": "",
+        "URL_PLACEHOLDER": "",
+        "URL_ERROR": ""
       },
       "CREATE": {
         "HEADER": "Añadir una nueva aplicación",
         "FORM_SUBMIT": "Enviar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "",
+        "API_ERROR": ""
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "",
         "FORM_SUBMIT": "Actualizar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "",
+        "API_ERROR": ""
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "",
+        "CONFIRM_NO": "",
         "TITLE": "Confirme eliminación",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "",
+        "API_SUCCESS": "",
+        "API_ERROR": ""
       }
     }
   }
