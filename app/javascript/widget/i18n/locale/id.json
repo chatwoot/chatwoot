@@ -8,8 +8,8 @@
       "SUBMIT": "Kirim"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,9 +22,9 @@
     "IN_A_DAY": "Biasanya membalas dalam sehari"
   },
   "START_CONVERSATION": "Mulai Percakapan",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Alamat email",
         "PLACEHOLDER": "Harap masukkan alamat email Anda",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Harap masukkan alamat email yang valid"
       },
       "PHONE_NUMBER": {
         "LABEL": "Nomor Telpon",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "Pesan",
@@ -64,22 +64,22 @@
         "ERROR": "Pesan terlalu pendek"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "",
     "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
     "SEND_EMAIL_ERROR": "Terjadi kesalahan, harap coba lagi"
   }
