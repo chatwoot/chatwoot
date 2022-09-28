@@ -1,12 +1,13 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
+    "EMAIL_ADDRESS": "Emel",
     "PHONE_NUMBER": "Phone number",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "Location",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "Bahasa Pelayar",
     "CONVERSATION_TITLE": "Conversation Details",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
@@ -66,14 +67,14 @@
     "FORM": {
       "LABEL": "CSV File",
       "SUBMIT": "Import",
-      "CANCEL": "Cancel"
+      "CANCEL": "Batalkan"
     },
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
+      "TITLE": "Pasti Padamkan",
       "MESSAGE": "Are you want sure to delete this note?",
       "YES": "Yes, Delete it",
       "NO": "No, Keep it"
@@ -84,8 +85,8 @@
     "TITLE": "Delete contact",
     "DESC": "Delete contact details",
     "CONFIRM": {
-      "TITLE": "Confirm Deletion",
-      "MESSAGE": "Are you sure to delete ",
+      "TITLE": "Pasti Padamkan",
+      "MESSAGE": "Adakan anda pasti untuk padamkan ",
       "YES": "Yes, Delete",
       "NO": "No, Keep"
     },
@@ -97,7 +98,7 @@
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "CANCEL": "Batalkan",
       "AVATAR": {
         "LABEL": "Contact Avatar"
       },
@@ -111,7 +112,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address",
+        "LABEL": "Emel",
         "DUPLICATE": "This email address is in use for another contact.",
         "ERROR": "Please enter a valid email address."
       },
@@ -182,7 +183,7 @@
         "ERROR": "Message can't be empty"
       },
       "SUBMIT": "Send message",
-      "CANCEL": "Cancel",
+      "CANCEL": "Batalkan",
       "SUCCESS_MESSAGE": "Message sent!",
       "GO_TO_CONVERSATION": "View",
       "ERROR_MESSAGE": "Couldn't send! try again"
@@ -194,14 +195,14 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "Tetapkan penapis",
+    "FILTER_CONTACTS_DELETE": "Padam tapisan",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
       "NO_CONTACTS": "There are no available contacts",
       "TABLE_HEADER": {
-        "NAME": "Name",
+        "NAME": "Nama",
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "Conversations",
         "LAST_ACTIVITY": "Last Activity",
@@ -209,7 +210,7 @@
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Company",
-        "EMAIL_ADDRESS": "Email Address"
+        "EMAIL_ADDRESS": "Emel"
       },
       "VIEW_DETAILS": "View details"
     }
@@ -272,7 +273,7 @@
     },
     "FORM": {
       "CREATE": "Add attribute",
-      "CANCEL": "Cancel",
+      "CANCEL": "Batalkan",
       "NAME": {
         "LABEL": "Custom attribute name",
         "PLACEHOLDER": "Eg: shopify id",
@@ -335,7 +336,7 @@
     },
     "FORM": {
       "SUBMIT": " Merge contacts",
-      "CANCEL": "Cancel",
+      "CANCEL": "Batalkan",
       "CHILD_CONTACT": {
         "ERROR": "Select a child contact to merge"
       },
