@@ -138,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
     "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
     "CHANGE_TEAM": "Tim razgovora je promenjen",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",
