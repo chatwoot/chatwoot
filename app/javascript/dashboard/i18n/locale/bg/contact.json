@@ -75,9 +75,9 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Потвърди изтриването",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "No, Keep it"
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
@@ -114,7 +114,7 @@
         "PLACEHOLDER": "Добавете имейл на контакта",
         "LABEL": "Имейл адрес",
         "DUPLICATE": "Този имейл се използва от друг контакт.",
-        "ERROR": "Please enter a valid email address."
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Добавете телефона на контакта",
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "Успешно запазване на контакта",
@@ -185,7 +185,7 @@
       "SUBMIT": "Изпрати съобщение",
       "CANCEL": "Отмени",
       "SUCCESS_MESSAGE": "Съобщението е изпратено!",
-      "GO_TO_CONVERSATION": "View",
+      "GO_TO_CONVERSATION": "",
       "ERROR_MESSAGE": "Не може да се изпрати! Опитайте пак"
     }
   },
@@ -195,8 +195,8 @@
     "SEARCH_BUTTON": "Търсене",
     "SEARCH_INPUT_PLACEHOLDER": "Търсене на контакти",
     "FILTER_CONTACTS": "Филтър",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
       "LOADING_MESSAGE": "Зареждане на контактите...",
       "404": "Няма контакти отговарящи на търсенети ви 🔍",
