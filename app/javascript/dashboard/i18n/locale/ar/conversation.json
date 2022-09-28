@@ -2,8 +2,8 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
     "CSAT_REPLY_MESSAGE": "الرجاء تقييم المحادثة",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "404": "",
+    "SWITCH_VIEW_LAYOUT": "",
     "DASHBOARD_APP_TAB_MESSAGES": "الرسائل",
     "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
@@ -63,30 +63,30 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "تحديد كمعلق",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "",
         "NEXT_REPLY": "حتى الرد القادم",
         "TOMORROW": "حتى الغد",
         "NEXT_WEEK": "حتى الأسبوع القادم"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "",
+      "ASSIGN_LABEL": "",
+      "AGENTS_LOADING": "",
+      "ASSIGN_TEAM": "",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         }
       }
     },
@@ -132,13 +132,13 @@
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "",
+    "ASSIGN_LABEL_SUCCESFUL": "",
+    "ASSIGN_LABEL_FAILED": "",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
     "BOT": "رد آلي",
