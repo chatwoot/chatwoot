@@ -10,6 +10,8 @@
       v-if="portals.length"
       :class="sidebarClassName"
       :header-title="headerTitle"
+      :portal-slug="selectedPortalSlug"
+      :locale-slug="selectedLocaleInPortal"
       :sub-title="localeName(selectedLocaleInPortal)"
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"

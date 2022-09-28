@@ -110,13 +110,19 @@ export default {
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
+        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+
+        if (!isAvailableForTheUser) {
+          return false;
+        }
+
         if (menuItem.featureFlag) {
           return this.isFeatureEnabledonAccount(
             this.accountId,
             menuItem.featureFlag
           );
         }
-        return menuItem.roles.includes(this.currentRole);
+        return true;
       });
     },
     activeSecondaryMenu() {

@@ -160,7 +160,8 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [{
+        "CREATE_FLOW": [
+          {
             "title": "Help center information",
             "route": "new_portal_information",
             "body": "Basic information about portal",
@@ -211,7 +212,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal",
+
           "ERROR": "Slug is required"
         },
         "DOMAIN": {
@@ -352,7 +353,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
@@ -383,7 +384,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/portal/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
