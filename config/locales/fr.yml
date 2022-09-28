@@ -48,11 +48,6 @@ fr:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
         no_response_error: Veuillez vérifier les identifiants IMAP et réessayez.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
-      validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Période de rapport %{since} à %{until}
     agent_csv:
@@ -61,14 +56,9 @@ fr:
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
       avg_first_response_time: Temps de réponse moyen (Minutes)
       avg_resolution_time: Temps moyen de résolution (Minutes)
     team_csv:
@@ -79,14 +69,8 @@ fr:
     default_group_by: jour
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
         agent_name: Nom de l'agent
         rating: Note
-        feedback: Feedback Comment
-        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
@@ -96,7 +80,6 @@ fr:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} vous a mentionné dans l'histoire: "
-      instagram_deleted_story_content: This story is no longer available.
       deleted: Ce message a été supprimé
     activity:
       status:
