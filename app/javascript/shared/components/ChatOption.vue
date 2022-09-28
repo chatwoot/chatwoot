@@ -12,6 +12,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
 export default {
   components: {},
   props: {
@@ -51,7 +52,6 @@ export default {
     background: transparent;
     border-radius: $space-large;
     border: 0;
-    color: $color-woot;
     cursor: pointer;
     height: auto;
     line-height: 1.5;

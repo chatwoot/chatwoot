@@ -1,13 +1,13 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatisierung",
+    "HEADER": "Automatisierungen",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
     "LOADING": "Automatisierungsregeln abrufen",
     "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation kann bestehende Prozesse ersetzen und automatisieren, die manuellen Aufwand erfordern. Mit der Automatisierung kannst Du viele Dinge tun, darunter das Hinzufügen von Labels und das Zuweisen von Gesprächen zum besten Agenten. Das Team konzentriert sich also auf das, was es am besten kann, und verbringt weniger Zeit mit manuellen Aufgaben.</p>",
     "ADD": {
       "TITLE": "Automatisierungsregel hinzufügen",
       "SUBMIT": "Erstellen",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "NAME": {
           "LABEL": "Regelname",
@@ -50,10 +50,10 @@
     "DELETE": {
       "TITLE": "Automatisierungsregel löschen",
       "SUBMIT": "Löschen",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
-        "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
+        "MESSAGE": "Bist du sicher, dass du das löschen möchtest ",
         "YES": "Ja, löschen ",
         "NO": "Nein, behalten "
       },
@@ -64,8 +64,8 @@
     },
     "EDIT": {
       "TITLE": "Automatisierungsregel bearbeiten",
-      "SUBMIT": "Bearbeiten",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "SUBMIT": "Aktualisieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "API": {
         "SUCCESS_MESSAGE": "Automatisierungsregel erfolgreich aktualisiert",
         "ERROR_MESSAGE": "Die Automatisierungsregel konnte nicht aktualisiert werden. Bitte versuchen Sie es später erneut"
@@ -82,8 +82,35 @@
       "EDIT": "Bearbeiten",
       "CREATE": "Erstellen",
       "DELETE": "Löschen",
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "RESET_MESSAGE": "Durch das Ändern des Ereignistyps werden die unten hinzugefügten Bedingungen und Ereignisse zurückgesetzt"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Du musst mindestens eine Bedingung zum Speichern haben"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Automatisierungsregel aktivieren",
+      "DEACTIVATION_TITLE": "Automatisierungsregel deaktivieren",
+      "ACTIVATION_DESCRIPTION": "Diese Aktion aktiviert die Automatisierungsregel '{automationName}'. Sind Sie sicher, dass Sie fortfahren möchten?",
+      "DEACTIVATION_DESCRIPTION": "Diese Aktion deaktiviert die Automatisierungsregel '{automationName}'. Sind Sie sicher, dass Sie fortfahren möchten?",
+      "ACTIVATION_SUCCESFUL": "Automatisierungsregel erfolgreich aktiviert",
+      "DEACTIVATION_SUCCESFUL": "Automatisierungsregel erfolgreich deaktiviert",
+      "ACTIVATION_ERROR": "Automatisierung konnte nicht aktiviert werden. Bitte versuchen Sie es später erneut",
+      "DEACTIVATION_ERROR": "Die Automatisierung konnte nicht deaktiviert werden. Bitte versuchen Sie es später erneut",
+      "CONFIRMATION_LABEL": "Ja",
+      "CANCEL_LABEL": "Nein"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Anhang konnte nicht hochgeladen werden, bitte versuchen Sie es erneut",
+      "LABEL_IDLE": "Anhang hochladen",
+      "LABEL_UPLOADING": "Hochladen...",
+      "LABEL_UPLOADED": "Erfolgreich hochgeladen",
+      "LABEL_UPLOAD_FAILED": "Upload fehlgeschlagen"
     }
   }
 }

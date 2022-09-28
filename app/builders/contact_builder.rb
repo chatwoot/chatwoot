@@ -15,16 +15,15 @@ class ContactBuilder
   end
 
   def create_contact_inbox(contact)
-    ::ContactInbox.create!(
+    ::ContactInbox.create_with(hmac_verified: hmac_verified || false).find_or_create_by!(
       contact_id: contact.id,
       inbox_id: inbox.id,
-      source_id: source_id,
-      hmac_verified: hmac_verified || false
+      source_id: source_id
     )
   end
 
   def update_contact_avatar(contact)
-    ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
+    ::Avatar::AvatarFromUrlJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
   end
 
   def create_contact
@@ -70,7 +69,7 @@ class ContactBuilder
       update_contact_avatar(contact)
       contact_inbox
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
       raise e
     end
   end

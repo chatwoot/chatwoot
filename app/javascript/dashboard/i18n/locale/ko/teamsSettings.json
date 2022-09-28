@@ -83,7 +83,7 @@
       "SELECT_ALL": "모든 에이전트 선택",
       "SELECTED_COUNT": "%{total} 에이전트 중 %{selected} 선택됨.",
       "BUTTON_TEXT": "에이전트 추가",
-      "AGENT_VALIDATION_ERROR": "최소 1명의 에이전트를 선택하세요."
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "준비가 완료되었습니다!",

@@ -7,38 +7,16 @@
       "404": "В цій групі немає активних бесід."
     },
     "TAB_HEADING": "Бесіди",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Згадування",
     "SEARCH": {
       "INPUT": "Пошук людей, чатів та збережених відповідей.."
     },
     "FILTER_ALL": "Всі",
-    "STATUS_TABS": [
-      {
-        "NAME": "Відкриті",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Вирішені",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Мої",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Непризначені",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Всі",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Мої",
+      "unassigned": "Непризначені",
+      "all": "Всі"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Відкриті"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Отримано електронною поштою",
     "VIEW_TWEET_IN_TWITTER": "Переглянути твіт у Twitter",
     "REPLY_TO_TWEET": "Відповісти на цей твіт",
+    "LINK_TO_STORY": "Перейти до історії Instagram",
     "SENT": "Успішно надіслано",
     "NO_MESSAGES": "Немає повідомлень",
     "NO_CONTENT": "Немає вмісту",
     "HIDE_QUOTED_TEXT": "Приховати цитований текст",
-    "SHOW_QUOTED_TEXT": "Показати цитований текст"
+    "SHOW_QUOTED_TEXT": "Показати цитований текст",
+    "MESSAGE_READ": "Прочитано"
   }
 }

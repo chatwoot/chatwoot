@@ -4,6 +4,7 @@ import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
 import wootConstants from '../../../constants';
+import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
 const state = {
   allConversations: [],
@@ -13,6 +14,7 @@ const state = {
   selectedChatId: null,
   appliedFilters: [],
   conversationParticipants: [],
+  conversationLastSeen: null,
 };
 
 // mutations
@@ -32,6 +34,9 @@ export const mutations = {
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;
+  },
+  [types.SET_CONVERSATION_LAST_SEEN](_state, timestamp) {
+    _state.conversationLastSeen = timestamp;
   },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
@@ -64,8 +69,8 @@ export const mutations = {
     Vue.set(chat.meta, 'assignee', assignee);
   },
 
-  [types.ASSIGN_TEAM](_state, team) {
-    const [chat] = getSelectedChatConversation(_state);
+  [types.ASSIGN_TEAM](_state, { team, conversationId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     Vue.set(chat.meta, 'team', team);
   },
 
@@ -109,7 +114,7 @@ export const mutations = {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
       if (selectedChatId === conversationId) {
-        window.bus.$emit('scrollToMessage');
+        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
   },
@@ -131,7 +136,7 @@ export const mutations = {
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChatId === conversation.id) {
-        window.bus.$emit('scrollToMessage');
+        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
       _state.allConversations.push(conversation);

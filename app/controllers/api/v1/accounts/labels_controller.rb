@@ -18,7 +18,7 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    @label.destroy
+    @label.destroy!
     head :ok
   end
 

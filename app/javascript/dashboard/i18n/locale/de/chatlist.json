@@ -12,33 +12,11 @@
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
     "FILTER_ALL": "Alle",
-    "STATUS_TABS": [
-      {
-        "NAME": "Offen",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Gelöst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Meine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Nicht zugewiesen",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meine",
+      "unassigned": "Nicht zugewiesen",
+      "all": "Alle"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Öffnen"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",
     "VIEW_TWEET_IN_TWITTER": "Tweet auf Twitter anzeigen",
     "REPLY_TO_TWEET": "Auf diesen Tweet antworten",
+    "LINK_TO_STORY": "Zur Instagram-Geschichte",
     "SENT": "Erfolgreich gesendet",
     "NO_MESSAGES": "Keine Nachrichten",
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
-    "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen"
+    "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
+    "MESSAGE_READ": "Lesen"
   }
 }

@@ -15,17 +15,17 @@
         "ACCOUNT": "Verbindung trennen"
       },
       "MESSAGE": {
-        "INBOX": "Bist du sicher, das du das löschen möchtest?",
-        "ACCOUNT": "Sind Sie sicher, dass Sie die Verbindung trennen möchten?"
+        "INBOX": "Sind Sie sicher, dass Sie das löschen möchten?",
+        "ACCOUNT": "Möchten Sie die Verbindung wirklich trennen?"
       },
       "CONFIRM_BUTTON_TEXT": {
         "INBOX": "Ja, löschen",
         "ACCOUNT": "Ja, Verbindung trennen"
       },
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "API": {
         "SUCCESS_MESSAGE": "Hook wurde erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "LIST": {
@@ -39,14 +39,14 @@
       "FORM": {
         "INBOX": {
           "LABEL": "Eingang auswählen",
-          "PLACEHOLDER": "Eingang auswählen"
+          "PLACEHOLDER": "Posteingang auswählen"
         },
         "SUBMIT": "Erstellen",
-        "CANCEL": "Stornieren"
+        "CANCEL": "Abbrechen"
       },
       "API": {
         "SUCCESS_MESSAGE": "Integrations-Hook erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "CONNECT": {

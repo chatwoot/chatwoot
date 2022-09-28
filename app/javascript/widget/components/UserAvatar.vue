@@ -1,5 +1,5 @@
 <template>
-  <div class="user-avatar" :class="size" :style="getBgImage"></div>
+  <div class="user-avatar" :class="size" :style="getBgImage" />
 </template>
 <script>
 /**

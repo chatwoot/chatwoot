@@ -57,6 +57,36 @@ RSpec.describe 'Webhooks API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body)['message']).to eql 'Url is invalid'
       end
+
+      it 'throws error if subscription events are invalid' do
+        post "/api/v1/accounts/#{account.id}/webhooks",
+             params: { url: 'https://hello.com', subscriptions: ['conversation_random_event'] },
+             headers: administrator.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['message']).to eql 'Subscriptions Invalid events'
+      end
+
+      it 'throws error if subscription events are empty' do
+        post "/api/v1/accounts/#{account.id}/webhooks",
+             params: { url: 'https://hello.com', subscriptions: [] },
+             headers: administrator.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['message']).to eql 'Subscriptions Invalid events'
+      end
+
+      it 'use default if subscription events are nil' do
+        post "/api/v1/accounts/#{account.id}/webhooks",
+             params: { url: 'https://hello.com', subscriptions: nil },
+             headers: administrator.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:ok)
+        expect(
+          JSON.parse(response.body)['payload']['webhook']['subscriptions']
+        ).to eql %w[conversation_status_changed conversation_updated conversation_created message_created message_updated
+                    webwidget_triggered]
+      end
     end
   end
 

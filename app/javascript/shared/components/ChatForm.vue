@@ -1,5 +1,8 @@
 <template>
-  <div class="form chat-bubble agent">
+  <div
+    class="form chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
     <form @submit.prevent="onSubmit">
       <div
         v-for="item in items"
@@ -9,10 +12,13 @@
           'has-submitted': hasSubmitted,
         }"
       >
-        <label>{{ item.label }}</label>
+        <label :class="$dm('text-black-900', 'dark:text-slate-50')">{{
+          item.label
+        }}</label>
         <input
           v-if="item.type === 'email'"
           v-model="formValues[item.name]"
+          :class="inputColor"
           :type="item.type"
           :pattern="item.regex"
           :title="item.title"
@@ -24,6 +30,7 @@
         <input
           v-else-if="item.type === 'text'"
           v-model="formValues[item.name]"
+          :class="inputColor"
           :required="item.required && 'required'"
           :pattern="item.pattern"
           :title="item.title"
@@ -35,6 +42,7 @@
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
+          :class="inputColor"
           :required="item.required && 'required'"
           :title="item.title"
           :name="item.name"
@@ -44,6 +52,7 @@
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
+          :class="inputColor"
           :required="item.required && 'required'"
         >
           <option
@@ -73,7 +82,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
 export default {
+  mixins: [darkModeMixin],
   props: {
     buttonLabel: {
       type: String,
@@ -98,6 +110,10 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+    },
     isFormValid() {
       return this.items.reduce((acc, { name }) => {
         return !!this.formValues[name] && acc;
@@ -186,7 +202,6 @@ export default {
     appearance: none;
     border: 1px solid $color-border;
     border-radius: $space-smaller;
-    background-color: $color-white;
     font-family: inherit;
     font-size: $space-normal;
     font-weight: normal;

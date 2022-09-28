@@ -12,33 +12,11 @@
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
     "FILTER_ALL": "Alla",
-    "STATUS_TABS": [
-      {
-        "NAME": "Öppna",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Löst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mina",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Otilldelade",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alla",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mina",
+      "unassigned": "Otilldelade",
+      "all": "Alla"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Öppna"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Mottaget via e-post",
     "VIEW_TWEET_IN_TWITTER": "Visa tweet i Twitter",
     "REPLY_TO_TWEET": "Svara på detta tweet",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Skickades framgångsrikt",
     "NO_MESSAGES": "Inga meddelanden",
     "NO_CONTENT": "Inget innehåll tillgängligt",
     "HIDE_QUOTED_TEXT": "Dölj citerad text",
-    "SHOW_QUOTED_TEXT": "Visa citerad text"
+    "SHOW_QUOTED_TEXT": "Visa citerad text",
+    "MESSAGE_READ": "Read"
   }
 }

@@ -22,7 +22,8 @@
             "is_present": "Có",
             "is_not_present": "Không có",
             "is_greater_than": "Lớn hơn",
-            "is_lesser_than": "Nhỏ hơn"
+            "is_lesser_than": "Nhỏ hơn",
+            "days_before": "Khoảng x ngày trước"
         },
         "ATTRIBUTES": {
             "NAME": "Tên",
@@ -35,7 +36,10 @@
             "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
             "CUSTOM_ATTRIBUTE_NUMBER": "Số",
             "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+            "CREATED_AT": "Tạo vào lúc",
+            "LAST_ACTIVITY": "Hành động cuối cùng",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",

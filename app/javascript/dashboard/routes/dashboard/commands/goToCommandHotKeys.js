@@ -13,6 +13,7 @@ import {
   ICON_REPORTS_OVERVIEW,
   ICON_TEAM_REPORTS,
   ICON_USER_PROFILE,
+  ICON_CONVERSATION_REPORTS,
 } from './CommandBarIcons';
 import { frontendURL } from '../../../helper/URLHelper';
 
@@ -39,6 +40,14 @@ const GO_TO_COMMANDS = [
     title: 'COMMAND_BAR.COMMANDS.GO_TO_REPORTS_OVERVIEW',
     icon: ICON_REPORTS_OVERVIEW,
     path: accountId => `accounts/${accountId}/reports/overview`,
+    role: ['administrator'],
+  },
+  {
+    id: 'open_conversation_reports',
+    section: 'COMMAND_BAR.SECTIONS.REPORTS',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CONVERSATION_REPORTS',
+    icon: ICON_CONVERSATION_REPORTS,
+    path: accountId => `accounts/${accountId}/reports/conversation`,
     role: ['administrator'],
   },
   {

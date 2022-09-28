@@ -22,6 +22,7 @@
     "IN_A_DAY": "Responde normalmente em um dia"
   },
   "START_CONVERSATION": "Iniciar Conversa",
+  "END_CONVERSATION": "Fim da Conversa",
   "CONTINUE_CONVERSATION": "Continuar conversa",
   "START_NEW_CONVERSATION": "Iniciar uma nova conversa",
   "UNREAD_VIEW": {
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Nome Completo",
         "PLACEHOLDER": "Por favor, digite seu nome completo",
-        "ERROR": "Nome Completo é mandatório"
+        "REQUIRED_ERROR": "Nome Completo é mandatório"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Endereço de e-mail",
         "PLACEHOLDER": "Por favor, digite seu e-mail",
-        "ERROR": "Endereço de e-mail inválido"
+        "REQUIRED_ERROR": "Endereço de e-mail é obrigatório",
+        "VALID_ERROR": "Por favor, insira um endereço de e-mail válido"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Número de Telefone",
+        "PLACEHOLDER": "Por favor, digite seu número de telefone",
+        "REQUIRED_ERROR": "O número de telefone é obrigatório",
+        "VALID_ERROR": "Número de telefone deve ser do formato E.164, por exemplo: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
@@ -56,7 +64,8 @@
         "ERROR": "Mensagem muito curta"
       }
     },
-    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa"
+    "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
+    "IS_REQUIRED": "é obrigatório"
   },
   "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

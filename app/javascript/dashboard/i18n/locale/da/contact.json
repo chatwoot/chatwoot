@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
     "COMPANY": "Virksomhed",
     "LOCATION": "Lokation",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Samtaledetaljer",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Browser",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Bekræft Sletning",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "Nej, behold det"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -77,9 +86,8 @@
     "CONFIRM": {
       "TITLE": "Bekræft Sletning",
       "MESSAGE": "Er du sikker på du vil slette ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "Ja, Slet ",
-      "NO": "Nej, Behold "
+      "YES": "Ja, Slet",
+      "NO": "Nej, Behold"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -104,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Indtast e-mailadressen på kontaktpersonen",
         "LABEL": "E-Mail Adresse",
-        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt."
+        "DUPLICATE": "Denne e-mail adresse er i brug for en anden kontakt.",
+        "ERROR": "Indtast venligst en gyldig e-mailadresse."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",
@@ -138,6 +147,12 @@
           "PLACEHOLDER": "Indtast Github brugernavn",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",

@@ -18,7 +18,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   end
 
   def destroy
-    @custom_attribute_definition.destroy
+    @custom_attribute_definition.destroy!
     head :no_content
   end
 

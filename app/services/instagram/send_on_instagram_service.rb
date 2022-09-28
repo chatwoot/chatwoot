@@ -17,33 +17,37 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     send_to_facebook_page attachament_message_params if message.attachments.present?
     send_to_facebook_page message_params
   rescue StandardError => e
-    Sentry.capture_exception(e)
+    ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific errors or else page will get disconnected
     # channel.authorization_error!
   end
 
   def message_params
-    {
+    params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         text: message.content
       }
     }
+
+    merge_human_agent_tag(params)
   end
 
   def attachament_message_params
     attachment = message.attachments.first
-    {
+    params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.file_url
+            url: attachment.download_url
           }
         }
       }
     }
+
+    merge_human_agent_tag(params)
   end
 
   # Deliver a message with the given payload.
@@ -62,7 +66,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       query: query
     )
 
-    Rails.logger.info("Instagram response: #{response['error']} : #{message_content}") if response['error']
+    Rails.logger.error("Instagram response: #{response['error']} : #{message_content}") if response['error']
     message.update!(source_id: response['message_id']) if response['message_id'].present?
 
     response
@@ -95,5 +99,15 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def config
     Facebook::Messenger.config
+  end
+
+  def merge_human_agent_tag(params)
+    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+
+    return params unless global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+
+    params[:messaging_type] = 'MESSAGE_TAG'
+    params[:tag] = 'HUMAN_AGENT'
+    params
   end
 end

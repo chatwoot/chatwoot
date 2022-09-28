@@ -8,8 +8,8 @@
       "SUBMIT": "提交"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "重新发送消息",
+      "ERROR_MESSAGE": "无法发送，请重试"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,9 @@
     "IN_A_DAY": "通常在一天之内回复您"
   },
   "START_CONVERSATION": "开始会话",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "END_CONVERSATION": "结束对话",
+  "CONTINUE_CONVERSATION": "继续对话",
+  "START_NEW_CONVERSATION": "开始新的对话",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "名字",
         "PLACEHOLDER": "请输入您的姓名",
-        "ERROR": "必须填写姓名"
+        "REQUIRED_ERROR": "必须填写姓名"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "电子邮件地址",
         "PLACEHOLDER": "请输入您的邮箱地址",
-        "ERROR": "无效的邮箱地址"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "请输入一个有效的电子邮件"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "电话号码",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "消息",
@@ -56,7 +64,8 @@
         "ERROR": "消息太短了"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {
@@ -66,12 +75,12 @@
   },
   "CSAT": {
     "TITLE": "评价您的对话",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "SUBMITTED_TITLE": "感谢您提交评分",
     "PLACEHOLDER": "请告诉我们更多..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "BUTTON_TEXT": "请求会话抄本",
+    "SEND_EMAIL_SUCCESS": "已成功发送聊天记录",
     "SEND_EMAIL_ERROR": "出现错误，请重试"
   }
 }

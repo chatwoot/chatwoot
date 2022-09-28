@@ -26,7 +26,7 @@ module ConversationReplyMailerHelper
     smtp_settings = {
       address: @channel.smtp_address,
       port: @channel.smtp_port,
-      user_name: @channel.smtp_email,
+      user_name: @channel.smtp_login,
       password: @channel.smtp_password,
       domain: @channel.smtp_domain,
       tls: @channel.smtp_enable_ssl_tls,
@@ -40,14 +40,26 @@ module ConversationReplyMailerHelper
   end
 
   def email_smtp_enabled
+    @inbox.inbox_type == 'Email' && @channel.smtp_enabled
+  end
+
+  def email_imap_enabled
     @inbox.inbox_type == 'Email' && @channel.imap_enabled
   end
 
   def email_from
-    email_smtp_enabled ? @channel.smtp_email : from_email_with_name
+    email_smtp_enabled ? @channel.email : from_email_with_name
   end
 
   def email_reply_to
-    email_smtp_enabled ? @channel.smtp_email : reply_email
+    email_imap_enabled ? @channel.email : reply_email
+  end
+
+  # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to
+  def channel_email_domain
+    return @account.inbound_email_domain if @account.inbound_email_domain.present?
+
+    email = @inbox.channel.try(:email)
+    email.present? ? email.split('@').last : raise(StandardError, 'Channel email domain not present.')
   end
 end

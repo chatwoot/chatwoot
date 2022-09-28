@@ -1,54 +1,54 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "เงื่อนไขอัตโนมัติ",
+    "HEADER_BTN_TXT": "เพิ่มเงื่อนไขอัตโนมัติ",
+    "LOADING": "กำลังโหลดเงื่อนไขอัตโนมัติ",
+    "SIDEBAR_TXT": "<p><b>เงื่อนไขอัตโนมัติ</b> <p>เงื่อนไขอัตโนมัติช่วยให้คุณไม่ต้องทำงานเดิมซ้ำๆ คุณสามารถใช้เงื่อนไขอัตโนมัติทำได้หลายอย่าง เช่น การเพิ่มป้ายกำกับ และมอบหมายงานให้พนักงานที่เกี่ยวข้องโดยอัตโนมัติ ช่วยให้ทีมโฟกัสกับงานที่เหมาะสมและลดเวลาที่ใช้ในการทำงานที่คุณต้องคลิกเอง </p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "เพิ่มเงื่อนไขอัตโนมัติ",
       "SUBMIT": "สร้าง",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "ชื่อเงื่อนไขอัตโนมัติ",
+          "PLACEHOLDER": "ใส่ชื่อเงื่อนไขอัตโนมัติ",
+          "ERROR": "โปรดระบุชื่อ"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "LABEL": "คำอธิบาย",
+          "PLACEHOLDER": "ใส่คำอธิบาย",
+          "ERROR": "โปรดระบุคำอธิบาย"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "เหตุการณ์",
+          "PLACEHOLDER": "โปรดเลือก",
+          "ERROR": "โปรดระบุเหตุการณ์"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "เงื่อนไข"
         },
         "ACTIONS": {
           "LABEL": "การกระทำ"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "เพิ่มเงื่อนไข",
+      "ACTION_BUTTON_LABEL": "เพื่มการกระทำ",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "เพิ่มเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถสร้างเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "ชื่อ",
-        "Description",
+        "คำอธิบาย",
         "ใช้งานอยู่",
-        "Created on"
+        "สร้างเมื่อ"
       ],
-      "404": "No automation rules found"
+      "404": "ไม่พบเงื่อนไขอัตโนมัติ"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "ลบเงื่อนไขอัตโนมัติ",
       "SUBMIT": "ลบ",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "ไม่อะเก็บไว้ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "ลบเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถลบเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "เเก้ไข",
+      "TITLE": "แก้ไขเงื่อนไขอัตโนมัติ",
+      "SUBMIT": "อัพเดท",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "แก้ไขเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถอัปเดตเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "คัดลอก",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "คัดลอกเงื่อนไขอัตโนมัติสำเร็จแล้ว",
+        "ERROR_MESSAGE": "ไม่สามารถคัดลอกเงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง"
       }
     },
     "FORM": {
@@ -83,7 +83,34 @@
       "CREATE": "สร้าง",
       "DELETE": "ลบ",
       "CANCEL": "ยกเลิก",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "การเปลี่ยนประเภทเหตุการณ์ จะรีเช็ทเงื่อนไขและเหตุการณ์ที่คุณเพิ่มไว้ด้านล่าง"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "คุณต้องมีอย่างน้อย 1 เงื่อนไขเพื่อบันทึก"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย 1 การกระทำเพื่อบันทึก",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "เปิดใช้เงื่อนไขอัตโนมัติ",
+      "DEACTIVATION_TITLE": "ปิดการใช้เงื่อนไขอัตโนมัติ",
+      "ACTIVATION_DESCRIPTION": "การกระทำนี้จะทำให้เปิดใช้เงื่อนไขอัตโนมัติ '{automationName}' คุณต้องการดำเนินการต่อหรือไม่?",
+      "DEACTIVATION_DESCRIPTION": "การกระทำนี้จะทำให้ปิดการใช้เงื่อนไขอัตโนมัติ '{automationName}' คุณต้องการดำเนินการต่อหรือไม่?",
+      "ACTIVATION_SUCCESFUL": "เปิดใช้เงื่อนไขอัตโนมัติสำเร็จแล้ว",
+      "DEACTIVATION_SUCCESFUL": "ปิดการใช้เงื่อนไขอัตโนมัติสำเร็จแล้ว",
+      "ACTIVATION_ERROR": "ไม่สามารถเปิดใช้เงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง",
+      "DEACTIVATION_ERROR": "ไม่สามารถปิดการใช้เงื่อนไขอัตโนมัติได้ โปรดลองใหม่อีกครั้ง",
+      "CONFIRMATION_LABEL": "ใช่",
+      "CANCEL_LABEL": "ไม่"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "ไม่สามารถอัปโหลดไฟล์แนบได้ โปรดลองใหม่อีกครั้ง",
+      "LABEL_IDLE": "อัปโหลดไฟล์แนบ",
+      "LABEL_UPLOADING": "กำลังอัปโหลด",
+      "LABEL_UPLOADED": "อัปโหลดสำเร็จแล้ว",
+      "LABEL_UPLOAD_FAILED": "อัปโหลดไม่สำเร็จ"
     }
   }
 }

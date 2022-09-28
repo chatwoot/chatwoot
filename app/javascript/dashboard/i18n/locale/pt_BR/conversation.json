@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "Por favor, selecione uma conversa no painel da esquerda",
+    "SELECT_A_CONVERSATION": "Por favor, selecione uma conversa no painel da esquerda",
+    "404": "Desculpe, não conseguimos encontrar a conversa. Por favor, tente novamente",
+    "SWITCH_VIEW_LAYOUT": "Alternar o layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Mensagens",
     "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
+    "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
@@ -56,12 +60,43 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Marcar como pendente",
+      "RESOLVED": "Marcar como resolvido",
+      "REOPEN": "Reabrir conversa",
+      "SNOOZE": {
+        "TITLE": "Adiar",
+        "NEXT_REPLY": "Até a próxima resposta",
+        "TOMORROW": "Até amanhã",
+        "NEXT_WEEK": "Até a próxima semana"
+      },
+      "ASSIGN_AGENT": "Atribuir Agente",
+      "ASSIGN_LABEL": "Atribuir etiqueta",
+      "AGENTS_LOADING": "Carregando agentes...",
+      "ASSIGN_TEAM": "Atribuir equipe",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID da conversa %{conversationId} atribuído para \"%{agentName}\"",
+          "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Etiqueta #%{labelName} atribuída para o id de conversa %{conversationId}",
+          "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Equipe %{team} atribuído para o id de conversa %{conversationId}",
+          "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
+        }
+      }
+    },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
+      "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
+      "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
-      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes"
+      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
+      "CLICK_HERE": "Clique aqui para atualizar"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -72,8 +107,14 @@
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
       "TIP_ATTACH_ICON": "Anexar arquivos",
+      "TIP_AUDIORECORDER_ICON": "Gravar áudio",
+      "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
+      "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
       "ENTER_TO_SEND": "Enter para enviar",
       "DRAG_DROP": "Arraste e solte aqui para anexar",
+      "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
+      "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Adicionar cco",
         "CC": {
@@ -90,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
+    "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
     "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
+    "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
+    "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
     "CHANGE_TEAM": "Estado da conversa mudou",
     "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
@@ -187,7 +232,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "De",
     "TO": "Para",
     "BCC": "CCO",
     "CC": "Cc",

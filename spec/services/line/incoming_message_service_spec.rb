@@ -149,7 +149,7 @@ describe Line::IncomingMessageService do
         described_class.new(inbox: line_channel.inbox, params: image_params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
-        expect(line_channel.inbox.messages.first.content).to eq(nil)
+        expect(line_channel.inbox.messages.first.content).to be_nil
         expect(line_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
         expect(line_channel.inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('media-354718.png')
       end
@@ -178,7 +178,7 @@ describe Line::IncomingMessageService do
         described_class.new(inbox: line_channel.inbox, params: video_params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
         expect(Contact.all.first.name).to eq('LINE Test')
-        expect(line_channel.inbox.messages.first.content).to eq(nil)
+        expect(line_channel.inbox.messages.first.content).to be_nil
         expect(line_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
         expect(line_channel.inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('media-354718.mp4')
       end

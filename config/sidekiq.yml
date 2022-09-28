@@ -18,6 +18,7 @@
   - [bots, 1]
   - [active_storage_analysis, 1]
   - [action_mailbox_incineration, 1]
+  - [active_storage_purge, 1]
   - [integrations, 2]
   - [default, 2]
   - [mailers, 2]

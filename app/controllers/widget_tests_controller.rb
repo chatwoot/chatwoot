@@ -3,6 +3,7 @@ class WidgetTestsController < ActionController::Base
   before_action :ensure_widget_position
   before_action :ensure_widget_type
   before_action :ensure_widget_style
+  before_action :ensure_dark_mode
 
   def index
     render
@@ -12,6 +13,10 @@ class WidgetTestsController < ActionController::Base
 
   def ensure_widget_style
     @widget_style = params[:widget_style] || 'standard'
+  end
+
+  def ensure_dark_mode
+    @dark_mode = params[:dark_mode] || 'light'
   end
 
   def ensure_widget_position

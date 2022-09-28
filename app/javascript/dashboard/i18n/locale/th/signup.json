@@ -1,38 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "สร้างบัญชี",
+    "TITLE": "สร้างบัญชี",
+    "TERMS_ACCEPT": "การสมัครบ่งบอกว่าคุณได้การยอมรับ <a href=\"https://www.chatwoot.com/terms\">ข้อตกลง</a> และ <a href=\"https://www.chatwoot.com/privacy-policy\">นโยบายความเป็นส่วนตัว</a> ของเรา",
     "ACCOUNT_NAME": {
       "LABEL": "ชื่อบัญชี",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "ใส่ชื่อบัญชี เช่น ชื่อบริษัทของคุณ",
+      "ERROR": "ชื่อบัญชีสั้นเกินไป"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "ชื่อเต็ม",
+      "PLACEHOLDER": "ใส่ชื่อเต็มของคุณ",
+      "ERROR": "ชื่อเต็มสั้นเกินไป"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "อีเมลบริษัท",
+      "PLACEHOLDER": "ใส่อีเมลบริษัทของคุณ",
+      "ERROR": "ไม่สามารถใช้อีเมลนี้ได้"
     },
     "PASSWORD": {
       "LABEL": "หรัสผ่าน",
       "PLACEHOLDER": "หรัสผ่าน",
-      "ERROR": "หรัสผ่านนั้นสั้นเกินไป"
+      "ERROR": "หรัสผ่านนั้นสั้นเกินไป",
+      "IS_INVALID_PASSWORD": "รหัสผ่านต้องมีอย่างน้อย 1 ตัวอักษรภาษาอังกฤษพิมพ์เล็ก, 1 ตัวอักษรภาษาอังกฤษพิมพ์ใหญ่, 1 ตัวเลข และอักขระพิเศษ 1 ตัว"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "ยืนยันหรัสผ่าน",
       "PLACEHOLDER": "ยืนยันหรัสผ่าน",
-      "ERROR": "Password doesnot match"
+      "ERROR": "รหัสผ่านไม่เหมือนกัน"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
+      "SUCCESS_MESSAGE": "ลงทะเบียนสำเร็จแล้ว",
       "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
     },
     "SUBMIT": "ส่ง",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "มีบัญชีอยู่แล้ว?"
   }
 }

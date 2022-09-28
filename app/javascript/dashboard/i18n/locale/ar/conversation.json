@@ -1,6 +1,9 @@
 {
   "CONVERSATION": {
-    "404": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
+    "404": "Sorry, we cannot find the conversation. Please try again",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "الرسائل",
     "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
@@ -30,6 +33,7 @@
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
+    "UNKNOWN_FILE_TYPE": "ملف غير معروف",
     "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
@@ -56,12 +60,43 @@
         "NEXT_WEEK": "الأسبوع المقبل"
       }
     },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "تحديد كمعلق",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "إعادة فتح المحادثة",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "حتى الرد القادم",
+        "TOMORROW": "حتى الغد",
+        "NEXT_WEEK": "حتى الأسبوع القادم"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
+      "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
+      "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
-      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط"
+      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
+      "CLICK_HERE": "انقر هنا للتحديث"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
@@ -72,8 +107,14 @@
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
       "TIP_ATTACH_ICON": "إرفاق الملفات",
+      "TIP_AUDIORECORDER_ICON": "تسجيل الصوت",
+      "TIP_AUDIORECORDER_PERMISSION": "السماح بالوصول إلى الصوت",
+      "TIP_AUDIORECORDER_ERROR": "تعذر فتح الصوت",
       "ENTER_TO_SEND": "زر الإدخل للإرسال",
       "DRAG_DROP": "اسحب و أسقط هنا للإرفاق",
+      "START_AUDIO_RECORDING": "بدء التسجيل الصوتي",
+      "STOP_AUDIO_RECORDING": "إيقاف التسجيل الصوتي",
+      "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "إضافة bcc",
         "CC": {
@@ -90,7 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",

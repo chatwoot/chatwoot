@@ -18,7 +18,7 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
   end
 
   def destroy
-    @custom_filter.destroy
+    @custom_filter.destroy!
     head :no_content
   end
 

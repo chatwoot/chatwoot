@@ -25,8 +25,8 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def handle_smtp_exceptions(message)
-    Rails.logger.info 'Failed to send Email'
-    Rails.logger.info "Exception: #{message}"
+    Rails.logger.warn 'Failed to send Email'
+    Rails.logger.error "Exception: #{message}"
   end
 
   def send_mail_with_liquid(*args)

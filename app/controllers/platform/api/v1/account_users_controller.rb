@@ -13,7 +13,7 @@ class Platform::Api::V1::AccountUsersController < PlatformController
   end
 
   def destroy
-    @resource.account_users.find_by(user_id: account_user_params[:user_id])&.destroy
+    @resource.account_users.find_by(user_id: account_user_params[:user_id])&.destroy!
     head :ok
   end
 

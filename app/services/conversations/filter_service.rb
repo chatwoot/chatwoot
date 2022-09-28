@@ -32,7 +32,7 @@ class Conversations::FilterService < FilterService
     query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
 
-    return custom_attribute_query(query_hash, current_index) if current_filter.nil?
+    return custom_attribute_query(query_hash, 'conversation_attribute', current_index) if current_filter.nil?
 
     case current_filter['attribute_type']
     when 'additional_attributes'
@@ -61,21 +61,5 @@ class Conversations::FilterService < FilterService
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team
     )
     @conversations.latest.page(current_page)
-  end
-
-  private
-
-  def custom_attribute_query(query_hash, current_index)
-    attribute_key = query_hash[:attribute_key]
-    query_operator = query_hash[:query_operator]
-    attribute_type = custom_attribute(attribute_key).try(:attribute_display_type)
-    filter_operator_value = filter_operation(query_hash, current_index)
-    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
-
-    if custom_attribute(attribute_key)
-      " LOWER(conversations.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-    else
-      ' '
-    end
   end
 end

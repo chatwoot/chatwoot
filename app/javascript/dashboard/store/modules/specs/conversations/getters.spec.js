@@ -132,6 +132,16 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getConversationLastSeen', () => {
+    it('getConversationLastSeen', () => {
+      const timestamp = 1649856659;
+      const state = {
+        conversationLastSeen: timestamp,
+      };
+      expect(getters.getConversationLastSeen(state)).toEqual(timestamp);
+    });
+  });
+
   describe('#getLastEmailInSelectedChat', () => {
     it('Returns cc in last email', () => {
       const state = {};

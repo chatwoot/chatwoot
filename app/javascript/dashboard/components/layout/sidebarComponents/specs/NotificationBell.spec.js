@@ -14,6 +14,10 @@ const i18nConfig = new VueI18n({
   messages: i18n,
 });
 
+const $route = {
+  name: 'notifications_index',
+};
+
 describe('notificationBell', () => {
   const accountId = 1;
   const notificationMetadata = { unreadCount: 19 };
@@ -45,24 +49,40 @@ describe('notificationBell', () => {
   });
 
   it('it should return unread count 19 ', () => {
-    const notificationBell = shallowMount(NotificationBell, {
-      store,
+    const wrapper = shallowMount(NotificationBell, {
       localVue,
       i18n: i18nConfig,
+      store,
+      mocks: {
+        $route,
+      },
     });
-
-    const statusViewTitle = notificationBell.find('primary-nav-item-stub');
-    expect(statusViewTitle.vm.count).toBe('19');
+    expect(wrapper.vm.unreadCount).toBe('19');
   });
 
   it('it should return unread count 99+ ', async () => {
-    notificationMetadata.unreadCount = 101;
+    notificationMetadata.unreadCount = 100;
+    const wrapper = shallowMount(NotificationBell, {
+      localVue,
+      i18n: i18nConfig,
+      store,
+      mocks: {
+        $route,
+      },
+    });
+    expect(wrapper.vm.unreadCount).toBe('99+');
+  });
+
+  it('isNotificationPanelActive', async () => {
     const notificationBell = shallowMount(NotificationBell, {
       store,
       localVue,
       i18n: i18nConfig,
+      mocks: {
+        $route,
+      },
     });
-    const statusViewTitle = notificationBell.find('primary-nav-item-stub');
-    expect(statusViewTitle.vm.count).toBe('99+');
+
+    expect(notificationBell.vm.isNotificationPanelActive).toBe(true);
   });
 });

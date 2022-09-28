@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puede recibir emails en su dominio personalizado."
       }
     },
-    "UPDATE_CHATWOOT": "Hay una actualización %{latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia."
+    "UPDATE_CHATWOOT": "Hay una actualización %{latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia.",
+    "LEARN_MORE": "Más información"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaciones",
     "MARK_ALL_DONE": "Marcar Todo Hecho",
+    "DELETE_TITLE": "Eliminado",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Notificaciones sin leer",
+      "ALL_NOTIFICATIONS": "Ver todas las notificaciones",
+      "LOADING_UNREAD_MESSAGE": "Cargando notificaciones no leídas...",
+      "EMPTY_MESSAGE": "No tiene notificaciones sin leer"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Cargando notificaciones...",
       "404": "Aún no hay notificaciones",
@@ -100,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
       "GO_TO_CONTACTS_DASHBOARD": "Ir al panel de contactos",
       "GO_TO_REPORTS_OVERVIEW": "Ir al Resumen de Reportes",
+      "GO_TO_CONVERSATION_REPORTS": "Ir a Reportes de Conversación",
       "GO_TO_AGENT_REPORTS": "Ir a Reportes de Agente",
       "GO_TO_LABEL_REPORTS": "Ir a Reportes de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir a Reportes de Entrada",

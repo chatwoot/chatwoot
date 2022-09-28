@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="preview-item__wrap">
     <div
       v-for="(attachment, index) in attachments"
       :key="attachment.id"
@@ -19,7 +19,7 @@
         </span>
       </div>
       <div class="file-size-wrap">
-        <span class="item">
+        <span class="item text-truncate">
           {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
@@ -70,15 +70,23 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.preview-item__wrap {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  margin-top: var(--space-normal);
+  max-height: 20rem;
+}
+
 .preview-item {
   display: flex;
   padding: var(--space-slab) 0 0;
   background: var(--color-background-light);
   background: var(--b-50);
   border-radius: var(--border-radius-normal);
-  width: fit-content;
+  width: 24rem;
   padding: var(--space-smaller);
-  margin-top: var(--space-normal);
+  margin-bottom: var(--space-one);
 }
 
 .thumb-wrap {
@@ -114,6 +122,7 @@ export default {
 
   > .item {
     margin: 0;
+    overflow: hidden;
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-medium);
   }
@@ -124,7 +133,8 @@ export default {
 }
 
 .file-name-wrap {
-  max-width: 50%;
+  max-width: 60%;
+  min-width: 50%;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: var(--space-small);

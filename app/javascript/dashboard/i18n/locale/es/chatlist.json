@@ -12,33 +12,11 @@
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
     "FILTER_ALL": "Todos",
-    "STATUS_TABS": [
-      {
-        "NAME": "Abrir",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resuelto",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mías",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Unassigned",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Todos",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mías",
+      "unassigned": "Sin asignar",
+      "all": "Todos"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Abrir"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
     "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
     "REPLY_TO_TWEET": "Responder a éste trino",
+    "LINK_TO_STORY": "Ir a la historia de Instagram",
     "SENT": "Enviado con éxito",
     "NO_MESSAGES": "No hay mensajes",
     "NO_CONTENT": "No hay contenido disponible",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
-    "SHOW_QUOTED_TEXT": "Mostrar texto citado"
+    "SHOW_QUOTED_TEXT": "Mostrar texto citado",
+    "MESSAGE_READ": "Leído"
   }
 }

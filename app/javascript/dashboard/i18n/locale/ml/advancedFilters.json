@@ -21,7 +21,12 @@
       "is_present": "നിലവിലുണ്ട്",
       "is_not_present": "നിലവിലില്ല",
       "is_greater_than": "Is greater than",
-      "is_lesser_than": "Is lesser than"
+      "is_less_than": "Is lesser than",
+      "days_before": "Is x days before"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "True",
+      "FALSE": "False"
     },
     "ATTRIBUTES": {
       "STATUS": "സ്റ്റാറ്റസ്",
@@ -38,7 +43,9 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
       "CUSTOM_ATTRIBUTE_NUMBER": "Number",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CREATED_AT": "Created At",
+      "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

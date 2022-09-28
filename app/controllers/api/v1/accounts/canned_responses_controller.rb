@@ -17,7 +17,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def destroy
-    @canned_response.destroy
+    @canned_response.destroy!
     head :ok
   end
 

@@ -1,10 +1,10 @@
 <template>
   <div class="settings--content">
-    <div class="prechat--title">
+    <div class="pre-chat--title">
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
-    <form class="medium-6" @submit.prevent="updateInbox">
-      <label class="medium-9 columns">
+    <form @submit.prevent="updateInbox">
+      <label class="medium-3 columns">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL') }}
         <select v-model="preChatFormEnabled">
           <option :value="true">
@@ -16,7 +16,7 @@
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <label class="medium-9">
+        <label class="medium-3 columns">
           {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           <textarea
             v-model.trim="preChatMessage"
@@ -26,49 +26,47 @@
             "
           />
         </label>
-        <label> {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }} </label>
-        <table class="table table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.FIELDS') }}
-              </th>
-              <th scope="col">
-                {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED') }}
-              </th>
-            </tr>
-          </thead>
-          <draggable v-model="preChatFields" tag="tbody">
-            <tr v-for="(item, index) in preChatFields" :key="index">
-              <th scope="col"><fluent-icon icon="drag" /></th>
-              <td scope="row">
-                <toggle-button
-                  :active="item['enabled']"
-                  @click="handlePreChatFieldOptions($event, 'enabled', item)"
-                />
-              </td>
-              <td :class="{ 'disabled-text': !item['enabled'] }">
-                {{ item.label }}
-              </td>
-              <td>
-                <input
-                  v-model="item['required']"
-                  type="checkbox"
-                  :value="`${item.name}-required`"
-                  :disabled="!item['enabled']"
-                  @click="handlePreChatFieldOptions($event, 'required', item)"
-                />
-              </td>
-            </tr>
-          </draggable>
-        </table>
+        <div class="medium-8 columns">
+          <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
+          <table class="table table-striped w-full">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col" />
+                <th scope="col" />
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.KEY') }}
+                </th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.TYPE') }}
+                </th>
+                <th scope="col">
+                  {{
+                    $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.REQUIRED')
+                  }}
+                </th>
+                <th scope="col">
+                  {{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.LABEL') }}
+                </th>
+                <th scope="col">
+                  {{
+                    $t(
+                      'INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS_HEADER.PLACE_HOLDER'
+                    )
+                  }}
+                </th>
+              </tr>
+            </thead>
+            <pre-chat-fields
+              :pre-chat-fields="preChatFields"
+              @update="handlePreChatFieldOptions"
+              @drag-end="changePreChatFieldFieldsOrder"
+            />
+          </table>
+        </div>
       </div>
-
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :loading="uiFlags.isUpdatingInbox"
+        :loading="uiFlags.isUpdating"
       />
     </form>
   </div>
@@ -76,12 +74,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import draggable from 'vuedraggable';
-import ToggleButton from 'dashboard/components/buttons/ToggleButton';
+import PreChatFields from './PreChatFields.vue';
+import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
+
 export default {
   components: {
-    draggable,
-    ToggleButton,
+    PreChatFields,
   },
   mixins: [alertMixin],
   props: {
@@ -94,12 +92,21 @@ export default {
     return {
       preChatFormEnabled: false,
       preChatMessage: '',
-      preChatFieldOptions: [],
       preChatFields: [],
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+      customAttributes: 'attributes/getAttributes',
+    }),
+    preChatFieldOptions() {
+      const { pre_chat_form_options: preChatFormOptions } = this.inbox;
+      return getPreChatFields({
+        preChatFormOptions,
+        customAttributes: this.customAttributes,
+      });
+    },
   },
   watch: {
     inbox() {
@@ -111,17 +118,17 @@ export default {
   },
   methods: {
     setDefaults() {
-      const {
-        pre_chat_form_enabled: preChatFormEnabled,
-        pre_chat_form_options: preChatFormOptions,
-      } = this.inbox;
+      const { pre_chat_form_enabled: preChatFormEnabled } = this.inbox;
       this.preChatFormEnabled = preChatFormEnabled;
       const {
         pre_chat_message: preChatMessage,
         pre_chat_fields: preChatFields,
-      } = preChatFormOptions || {};
+      } = this.preChatFieldOptions || {};
       this.preChatMessage = preChatMessage;
       this.preChatFields = preChatFields;
+    },
+    isFieldEditable(item) {
+      return !!standardFieldKeys[item.name] || !item.enabled;
     },
     handlePreChatFieldOptions(event, type, item) {
       this.preChatFields.forEach((field, index) => {
@@ -130,6 +137,11 @@ export default {
         }
       });
     },
+
+    changePreChatFieldFieldsOrder(updatedPreChatFieldOptions) {
+      this.preChatFields = updatedPreChatFieldOptions;
+    },
+
     async updateInbox() {
       try {
         const payload = {
@@ -152,24 +164,11 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .settings--content {
   font-size: var(--font-size-default);
 }
-
-.prechat--title {
+.pre-chat--title {
   margin: var(--space-medium) 0 var(--space-slab);
-}
-
-.disabled-text {
-  font-size: var(--font-size-small);
-  color: var(--s-500);
-}
-
-table thead th {
-  text-transform: none;
-}
-checkbox {
-  margin: 0;
 }
 </style>

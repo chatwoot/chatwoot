@@ -21,7 +21,12 @@
       "is_present": "موجود",
       "is_not_present": "غير موجود",
       "is_greater_than": "هو أكبر من",
-      "is_lesser_than": "هو أقل من"
+      "is_less_than": "هو أقل من",
+      "days_before": "قبل x أيام"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "صحيح",
+      "FALSE": "خاطئ"
     },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
@@ -38,7 +43,9 @@
       "CUSTOM_ATTRIBUTE_TEXT": "النص",
       "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
       "CUSTOM_ATTRIBUTE_LINK": "الرابط",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
+      "CREATED_AT": "تم إنشاؤها في",
+      "LAST_ACTIVITY": "آخر نشاط"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "الفلاتر القياسية",

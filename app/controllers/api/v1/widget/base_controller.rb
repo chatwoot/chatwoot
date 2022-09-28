@@ -1,5 +1,6 @@
 class Api::V1::Widget::BaseController < ApplicationController
   include SwitchLocale
+  include WebsiteTokenHelper
 
   before_action :set_web_widget
   before_action :set_contact
@@ -19,23 +20,6 @@ class Api::V1::Widget::BaseController < ApplicationController
     @conversation ||= conversations.last
   end
 
-  def auth_token_params
-    @auth_token_params ||= ::Widget::TokenService.new(token: request.headers['X-Auth-Token']).decode_token
-  end
-
-  def set_web_widget
-    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
-    @current_account = @web_widget.account
-  end
-
-  def set_contact
-    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
-      source_id: auth_token_params[:source_id]
-    )
-    @contact = @contact_inbox&.contact
-    raise ActiveRecord::RecordNotFound unless @contact
-  end
-
   def create_conversation
     ::Conversation.create!(conversation_params)
   end
@@ -52,36 +36,25 @@ class Api::V1::Widget::BaseController < ApplicationController
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: {
+        browser_language: browser.accept_language&.first&.code,
         browser: browser_params,
-        referer: permitted_params[:message][:referer_url],
-        initiated_at: timestamp_params
-      }
+        initiated_at: timestamp_params,
+        referer: permitted_params[:message][:referer_url]
+      },
+      custom_attributes: permitted_params[:custom_attributes].presence || {}
     }
   end
 
-  def update_contact(email)
-    contact_with_email = @current_account.contacts.find_by(email: email)
-    if contact_with_email
-      @contact = ::ContactMergeAction.new(
-        account: @current_account,
-        base_contact: contact_with_email,
-        mergee_contact: @contact
-      ).perform
-    else
-      @contact.update!(email: email, name: contact_name, phone_number: contact_phone_number)
-    end
-  end
-
   def contact_email
-    permitted_params[:contact][:email].downcase
+    permitted_params.dig(:contact, :email)&.downcase
   end
 
   def contact_name
-    params[:contact][:name] || contact_email.split('@')[0]
+    params[:contact][:name] || contact_email.split('@')[0] if contact_email.present?
   end
 
   def contact_phone_number
-    params[:contact][:phone_number]
+    permitted_params.dig(:contact, :phone_number)
   end
 
   def browser_params
@@ -96,10 +69,6 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def timestamp_params
     { timestamp: permitted_params[:message][:timestamp] }
-  end
-
-  def permitted_params
-    params.permit(:website_token)
   end
 
   def message_params

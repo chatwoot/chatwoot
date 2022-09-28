@@ -47,7 +47,8 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث."
+    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث.",
+    "LEARN_MORE": "اعرف المزيد"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -59,6 +60,13 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "الإشعارات",
     "MARK_ALL_DONE": "وضع علامة على جميع المنجز",
+    "DELETE_TITLE": "تم الحذف",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "إشعارات غير مقروءة",
+      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
+      "LOADING_UNREAD_MESSAGE": "تحميل الإشعارات الغير مقروءة...",
+      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
+    },
     "LIST": {
       "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
       "404": "لا يوجد إشعارات",
@@ -100,6 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
       "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
       "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير",
+      "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
       "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
       "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير التسمية",
       "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",

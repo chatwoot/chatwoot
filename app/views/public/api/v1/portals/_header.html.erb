@@ -1,0 +1,38 @@
+
+<header class="bg-white mx-auto px-4 max-w-5xl w-full">
+  <nav class="px-0 flex" aria-label="Top">
+    <div class="w-full py-8 flex items-center">
+      <a href="/hc/<%= @portal.slug %>/<%= params[:locale] %>/" class="text-base font-semibold">
+        <%= @portal.name %>
+      </a>
+      <% if @portal.homepage_link %>
+      <div class="ml-8 border-l-1 border-slate-50 hidden md:block">
+        <div class="flex-grow flex-shrink-0">
+          <a target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center text-sm font-medium text-slate-700 hover:text-slate-800 hover:underline"> Go to main site
+            <span class="ml-2">
+              <svg class="w-4 h-4 fill-current text-slate-600" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.267 4.209a.75.75 0 0 0-1.034 1.086l6.251 5.955H3.75a.75.75 0 0 0 0 1.5h14.734l-6.251 5.954a.75.75 0 0 0 1.034 1.087l7.42-7.067a.996.996 0 0 0 .3-.58.758.758 0 0 0-.001-.29.995.995 0 0 0-.3-.578l-7.419-7.067Z" /></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <% if @portal.config["allowed_locales"].length > 1 %>
+    <div class="flex items-center">
+      <div class="inline-flex relative w-24">
+        <select
+          data-portal-slug="<%= @portal.slug %>"
+          class="appearance-none w-full bg-white px-3 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline locale-switcher"
+        >
+          <% @portal.config["allowed_locales"].each do |locale| %>
+            <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= locale %></option>
+          <% end %>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </nav>
+</header>

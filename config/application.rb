@@ -28,9 +28,23 @@ module Chatwoot
 
     # Custom chatwoot configurations
     config.x = config_for(:app).with_indifferent_access
+
+    # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
+    # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
+    # FIX ME : fixes breakage of installation config. we need to migrate.
+    config.active_record.yaml_column_permitted_classes = [HashWithIndifferentAccess]
   end
 
   def self.config
     @config ||= Rails.configuration.x
+  end
+
+  def self.redis_ssl_verify_mode
+    # Introduced this method to fix the issue in heroku where redis connections fail for redis 6
+    # ref: https://github.com/chatwoot/chatwoot/issues/2420
+    #
+    # unless the redis verify mode is explicitly specified as none, we will fall back to the default 'verify peer'
+    # ref: https://www.rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLContext#DEFAULT_PARAMS-constant
+    ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
   end
 end

@@ -3,28 +3,35 @@
     <primary-sidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       :active-menu-item="activePrimaryMenu.key"
       @toggle-accounts="toggleAccountModal"
       @key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
     />
-    <secondary-sidebar
-      :account-id="accountId"
-      :inboxes="inboxes"
-      :labels="labels"
-      :teams="teams"
-      :custom-views="customViews"
-      :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
-      @add-label="showAddLabelPopup"
-    />
+    <div class="secondary-sidebar">
+      <secondary-sidebar
+        v-if="showSecondarySidebar"
+        :class="sidebarClassName"
+        :account-id="accountId"
+        :inboxes="inboxes"
+        :labels="labels"
+        :teams="teams"
+        :custom-views="customViews"
+        :menu-config="activeSecondaryMenu"
+        :current-role="currentRole"
+        :is-on-chatwoot-cloud="isOnChatwootCloud"
+        @add-label="showAddLabelPopup"
+        @toggle-accounts="toggleAccountModal"
+      />
+    </div>
   </aside>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-
 import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -48,6 +55,16 @@ export default {
     SecondarySidebar,
   },
   mixins: [adminMixin, alertMixin, eventListenerMixins],
+  props: {
+    showSecondarySidebar: {
+      type: Boolean,
+      default: true,
+    },
+    sidebarClassName: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       showOptionsMenu: false,
@@ -58,9 +75,12 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
@@ -89,9 +109,21 @@ export default {
     },
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;
-      return menuItems.filter(menuItem =>
-        menuItem.roles.includes(this.currentRole)
-      );
+      return menuItems.filter(menuItem => {
+        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+
+        if (!isAvailableForTheUser) {
+          return false;
+        }
+
+        if (menuItem.featureFlag) {
+          return this.isFeatureEnabledonAccount(
+            this.accountId,
+            menuItem.featureFlag
+          );
+        }
+        return true;
+      });
     },
     activeSecondaryMenu() {
       const { secondaryMenu } = this.sideMenuConfig;
@@ -176,6 +208,9 @@ export default {
     showAddLabelPopup() {
       this.$emit('show-add-label-popup');
     },
+    openNotificationPanel() {
+      this.$emit('open-notification-panel');
+    },
   },
 };
 </script>
@@ -184,6 +219,9 @@ export default {
 .woot-sidebar {
   background: var(--white);
   display: flex;
+  min-height: 0;
+  height: 100%;
+  width: fit-content;
 }
 </style>
 
@@ -194,6 +232,14 @@ export default {
   .modal-container {
     width: 40rem;
   }
+}
+.off-canvas-content.is-open-left {
+  transform: translateX(18.8rem);
+}
+
+.secondary-sidebar {
+  overflow-y: auto;
+  height: 100%;
 }
 
 .account-selector {

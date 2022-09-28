@@ -2,23 +2,27 @@
 #
 # Table name: reporting_events
 #
-#  id              :bigint           not null, primary key
-#  name            :string
-#  value           :float
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :integer
-#  conversation_id :integer
-#  inbox_id        :integer
-#  user_id         :integer
+#  id                      :bigint           not null, primary key
+#  event_end_time          :datetime
+#  event_start_time        :datetime
+#  name                    :string
+#  value                   :float
+#  value_in_business_hours :float
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :integer
+#  conversation_id         :integer
+#  inbox_id                :integer
+#  user_id                 :integer
 #
 # Indexes
 #
-#  index_reporting_events_on_account_id  (account_id)
-#  index_reporting_events_on_created_at  (created_at)
-#  index_reporting_events_on_inbox_id    (inbox_id)
-#  index_reporting_events_on_name        (name)
-#  index_reporting_events_on_user_id     (user_id)
+#  index_reporting_events_on_account_id       (account_id)
+#  index_reporting_events_on_conversation_id  (conversation_id)
+#  index_reporting_events_on_created_at       (created_at)
+#  index_reporting_events_on_inbox_id         (inbox_id)
+#  index_reporting_events_on_name             (name)
+#  index_reporting_events_on_user_id          (user_id)
 #
 
 class ReportingEvent < ApplicationRecord

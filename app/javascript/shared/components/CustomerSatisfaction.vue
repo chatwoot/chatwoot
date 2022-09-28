@@ -1,6 +1,10 @@
 <template>
-  <div class="customer-satisfcation" :style="{ borderColor: widgetColor }">
-    <h6 class="title">
+  <div
+    class="customer-satisfaction"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+    :style="{ borderColor: widgetColor }"
+  >
+    <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
       {{ title }}
     </h6>
     <div class="ratings">
@@ -21,8 +25,9 @@
       <input
         v-model="feedback"
         class="form-input"
+        :class="inputColor"
         :placeholder="$t('CSAT.PLACEHOLDER')"
-        @keyup.enter="onSubmit"
+        @keydown.enter="onSubmit"
       />
       <button
         class="button small"
@@ -41,12 +46,14 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
   },
+  mixins: [darkModeMixin],
   props: {
     messageContentAttributes: {
       type: Object,
@@ -67,9 +74,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
     },
@@ -79,6 +84,10 @@ export default {
     },
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
+    },
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
     },
     title() {
       return this.isRatingSubmitted
@@ -136,10 +145,9 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
 
-.customer-satisfcation {
+.customer-satisfaction {
   @include light-shadow;
 
-  background: $color-white;
   border-bottom-left-radius: $space-smaller;
   border-radius: $space-small;
   border-top: $space-micro solid $color-woot;
@@ -193,6 +201,10 @@ export default {
       border-top: 1px solid $color-border;
       padding: $space-one;
       width: 100%;
+
+      &::placeholder {
+        color: $color-light-gray;
+      }
     }
 
     .button {

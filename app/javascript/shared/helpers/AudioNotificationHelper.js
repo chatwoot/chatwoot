@@ -3,8 +3,8 @@ import { IFrameHelper } from 'widget/helpers/utils';
 
 import { showBadgeOnFavicon } from './faviconHelper';
 
-export const initOnEvents = ['click', 'touchstart', 'keypress'];
-export const getAlertAudio = async (baseUrl = '') => {
+export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
+export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const playsound = audioBuffer => {
     window.playAudioAlert = () => {
@@ -16,19 +16,18 @@ export const getAlertAudio = async (baseUrl = '') => {
     };
   };
 
-  try {
-    const resourceUrl = `${baseUrl}/dashboard/audios/ding.mp3`;
-    const audioRequest = new Request(resourceUrl);
+  const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
+  const audioRequest = new Request(resourceUrl);
 
-    fetch(audioRequest)
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        audioCtx.decodeAudioData(buffer).then(playsound);
-        return new Promise(res => res());
-      });
-  } catch (error) {
-    // error
-  }
+  fetch(audioRequest)
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+      audioCtx.decodeAudioData(buffer).then(playsound);
+      return new Promise(res => res());
+    })
+    .catch(() => {
+      // error
+    });
 };
 
 export const notificationEnabled = (enableAudioAlerts, id, userId) => {
@@ -53,6 +52,10 @@ export const shouldPlayAudio = (
     message_type: messageType,
     private: isPrivate,
   } = message;
+  if (!isDocHidden && messageType === MESSAGE_TYPE.INCOMING) {
+    showBadgeOnFavicon();
+    return false;
+  }
   const isFromCurrentUser = userId === senderId;
 
   const playAudio =

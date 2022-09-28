@@ -12,33 +12,11 @@
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
     "FILTER_ALL": "Totes",
-    "STATUS_TABS": [
-      {
-        "NAME": "Obrir",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resoltes",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Meves",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Sense assignar",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Totes",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Meves",
+      "unassigned": "Sense assignar",
+      "all": "Totes"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Obrir"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
     "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
     "REPLY_TO_TWEET": "Respon a aquest tuit",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Sent successfully",
     "NO_MESSAGES": "Cap Missatge",
     "NO_CONTENT": "No content available",
     "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text"
+    "SHOW_QUOTED_TEXT": "Show Quoted Text",
+    "MESSAGE_READ": "Read"
   }
 }

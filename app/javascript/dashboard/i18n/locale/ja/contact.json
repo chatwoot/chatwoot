@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "企業",
     "LOCATION": "場所",
+    "BROWSER_LANGUAGE": "ブラウザの言語",
     "CONVERSATION_TITLE": "会話の詳細",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "ブラウザ",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Contacts saved successfully",
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "削除の確認",
+      "MESSAGE": "Are you want sure to delete this note?",
+      "YES": "Yes, Delete it",
+      "NO": "いいえ、保存しておきます"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Delete Contact",
     "TITLE": "Delete contact",
@@ -77,9 +86,8 @@
     "CONFIRM": {
       "TITLE": "削除の確認",
       "MESSAGE": "削除してもよろしいですか？ ",
-      "PLACE_HOLDER": "Please type {contactName} to confirm",
-      "YES": "削除する ",
-      "NO": "いいえ "
+      "YES": "削除する",
+      "NO": "いいえ"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
@@ -104,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
         "LABEL": "Eメールアドレス",
-        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。"
+        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
+        "ERROR": "正しいメールアドレスを入力してください."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "連絡先の電話番号を入力してください",
@@ -138,6 +147,12 @@
           "PLACEHOLDER": "GitHubのユーザー名を入力してください",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
@@ -179,7 +194,7 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_SAVE": "フィルターの保存",
     "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",

@@ -83,7 +83,7 @@
       "SELECT_ALL": "Selecionar todos os agentes",
       "SELECTED_COUNT": "%{selected} de %{total} agentes selecionados.",
       "BUTTON_TEXT": "Adicionar agentes",
-      "AGENT_VALIDATION_ERROR": "Selecione pelo menos um agente"
+      "AGENT_VALIDATION_ERROR": "Selecione pelo menos um agente."
     },
     "FINISH": {
       "TITLE": "Sua caixa de entrada está pronta!",

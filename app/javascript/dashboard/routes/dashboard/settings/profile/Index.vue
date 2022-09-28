@@ -87,7 +87,7 @@
         </p>
       </div>
       <div class="columns small-9 medium-5">
-        <woot-code :script="currentUser.access_token"></woot-code>
+        <woot-code :script="currentUser.access_token" />
       </div>
     </div>
   </div>

@@ -9,9 +9,9 @@
           @click="changeCategory(category)"
         >
           <button
+            v-dompurify-html="emojis[category][0]"
             class="emoji--item"
             @click="changeCategory(category)"
-            v-html="emojis[category][0]"
           />
         </li>
       </ul>
@@ -23,10 +23,10 @@
       <button
         v-for="emoji in emojis[selectedKey]"
         :key="emoji"
+        v-dompurify-html="emoji"
         class="emoji--item"
         track-by="$index"
         @click="onClick(emoji)"
-        v-html="emoji"
       />
     </div>
   </div>

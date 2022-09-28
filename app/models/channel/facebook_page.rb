@@ -32,20 +32,20 @@ class Channel::FacebookPage < ApplicationRecord
     'Facebook'
   end
 
-  def has_24_hour_messaging_window?
-    true
+  def messaging_window_enabled?
+    false
   end
 
   def create_contact_inbox(instagram_id, name)
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(name: name)
-      ::ContactInbox.create(
+      ::ContactInbox.create!(
         contact_id: contact.id,
         inbox_id: inbox.id,
         source_id: instagram_id
       )
     rescue StandardError => e
-      Rails.logger.info e
+      Rails.logger.error e
     end
   end
 
@@ -54,7 +54,7 @@ class Channel::FacebookPage < ApplicationRecord
     response = Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
-        messages message_deliveries message_echoes message_reads
+        messages message_deliveries message_echoes message_reads standby messaging_handovers
       ]
     )
   rescue => e

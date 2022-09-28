@@ -34,9 +34,9 @@
               <td>{{ automation.name }}</td>
               <td>{{ automation.description }}</td>
               <td>
-                <toggle-button
-                  :active="automation.active"
-                  @click="toggleAutomation(automation, automation.active)"
+                <woot-switch
+                  :value="automation.active"
+                  @input="toggleAutomation(automation, automation.active)"
                 />
               </td>
               <td>{{ readableTime(automation.created_on) }}</td>
@@ -50,8 +50,7 @@
                   :is-loading="loading[automation.id]"
                   icon="edit"
                   @click="openEditPopup(automation)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
                   variant="smooth"
@@ -61,8 +60,7 @@
                   :is-loading="loading[automation.id]"
                   icon="copy"
                   @click="cloneAutomation(automation.id)"
-                >
-                </woot-button>
+                />
                 <woot-button
                   v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
                   variant="smooth"
@@ -72,8 +70,7 @@
                   class-names="grey-btn"
                   :is-loading="loading[automation.id]"
                   @click="openDeletePopup(automation, index)"
-                >
-                </woot-button>
+                />
               </td>
             </tr>
           </tbody>
@@ -81,7 +78,7 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('AUTOMATION.SIDEBAR_TXT')"></span>
+        <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
     <woot-modal
@@ -101,7 +98,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -131,13 +129,11 @@ import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import timeMixin from 'dashboard/mixins/time';
-import ToggleButton from 'dashboard/components/buttons/ToggleButton';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
-    ToggleButton,
   },
   mixins: [alertMixin, timeMixin],
   data() {
@@ -170,9 +166,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.name
-      } ?`;
+      return ` ${this.selectedResponse.name}?`;
     },
   },
   mounted() {
@@ -231,7 +225,6 @@ export default {
           mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-
         await await this.$store.dispatch(action, payload);
         this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
@@ -256,7 +249,7 @@ export default {
           : this.$t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION', {
               automationName: automation.name,
             });
-        // Check if uses confirms to proceed
+        // Check if user confirms to proceed
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
           await await this.$store.dispatch('automations/update', {

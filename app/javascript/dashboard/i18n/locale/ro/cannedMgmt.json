@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Adauga Răspunsuri predefinite",
     "LOADING": "Preluarea Răspunsuri predefinite",
     "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>Răspunsuri conservate</b> </p><p> Răspunsurile conservate sunt șabloane de răspuns salvate care pot fi utilizate pentru a trimite rapid un răspuns la o conversație. </p><p> Pentru a crea un răspuns conservat, trebuie doar să faceți clic pe <b>Adăugare răspuns conservat</b>. De asemenea, puteți edita sau șterge un răspuns conservat existent făcând clic pe butonul Editare sau Ștergere </p><p> Răspunsurile conservate sunt utilizate cu ajutorul <b>codurilor scurte</b>. Agenții pot accesa răspunsurile conservate în timp ce se află pe un chat tastând <b>\"/\"</b> urmat de codul scurt. </p>",
     "LIST": {
       "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
       "TITLE": "Gestionare Răspunsuri predefinite",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Adauga Răspunsuri predefinite",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Răspunsurile conservate sunt salvate șabloane de răspuns care pot fi utilizate pentru a trimite rapid răspuns la conversație.",
       "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Cod scurt",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Vă rugăm să introduceți un cod scurt",
           "ERROR": "Codul scurt este necesar"
         },
         "CONTENT": {
@@ -69,7 +69,7 @@
         "TITLE": "Confirmă ștergerea",
         "MESSAGE": "Sigur doriți să ștergeți",
         "YES": "Da, șterge ",
-        "NO": "Nu, păstreaza"
+        "NO": "Nu, păstreaza "
       }
     }
   }

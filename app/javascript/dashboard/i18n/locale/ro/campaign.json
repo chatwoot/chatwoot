@@ -105,22 +105,22 @@
       "STATUS": {
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "COMPLETED": "Finalizată",
+        "ACTIVE": "Activ"
       },
       "SENDER": {
         "BOT": "Bot"
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+      "HEADER": "Campanii unice",
+      "404": "Nu există o singură campanie creată",
+      "INBOXES_NOT_FOUND": "Vă rugăm să creați un inbox sms și să începeți să adăugați campanii"
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "HEADER": "Campanii în curs de desfășurare",
+      "404": "Nu există campanii în curs de desfășurare create",
+      "INBOXES_NOT_FOUND": "Vă rugăm să creați un inbox de site web și să începeți să adăugați campanii"
     }
   }
 }

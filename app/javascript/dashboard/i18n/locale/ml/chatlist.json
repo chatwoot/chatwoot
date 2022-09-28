@@ -12,33 +12,11 @@
       "INPUT": "ആളുകൾ, ചാറ്റുകൾ, ക്യാൻഡ് മറുപടികൾ എന്നിവയ്ക്കായി തിരയുക .."
     },
     "FILTER_ALL": "എല്ലാം",
-    "STATUS_TABS": [
-      {
-        "NAME": "സജീവം",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "പരിഹരിച്ചത്",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "എന്റേത്",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "നിയുക്തമാക്കാത്തത്",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "എല്ലാം",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "എന്റേത്",
+      "unassigned": "നിയുക്തമാക്കാത്തത്",
+      "all": "എല്ലാം"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "സജീവം"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "ഇമെയിൽ വഴി ലഭിച്ചു",
     "VIEW_TWEET_IN_TWITTER": "ട്വിറ്ററിൽ ട്വീറ്റ് കാണുക",
     "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "വിജയകരമായി അയച്ചു",
     "NO_MESSAGES": "സന്ദേശങ്ങളൊന്നുമില്ല",
     "NO_CONTENT": "ഉള്ളടക്കമൊന്നും ലഭ്യമല്ല",
     "HIDE_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം മറയ്ക്കുക",
-    "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക"
+    "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക",
+    "MESSAGE_READ": "Read"
   }
 }

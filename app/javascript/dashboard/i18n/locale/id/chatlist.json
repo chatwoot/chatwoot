@@ -12,33 +12,11 @@
       "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
     },
     "FILTER_ALL": "Semua",
-    "STATUS_TABS": [
-      {
-        "NAME": "Terbuka",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Terselesaikan",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Milikku",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Belum ditugaskan",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Semua",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Milikku",
+      "unassigned": "Belum ditugaskan",
+      "all": "Semua"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Terbuka"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Diterima melalui email",
     "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter",
     "REPLY_TO_TWEET": "Balas tweet ini",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Berhasil terkirim",
     "NO_MESSAGES": "Tidak Ada Pesan",
     "NO_CONTENT": "Tidak ada konten yang tersedia",
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
-    "SHOW_QUOTED_TEXT": "Tampilkan Tex yang Dikutip"
+    "SHOW_QUOTED_TEXT": "Tampilkan Tex yang Dikutip",
+    "MESSAGE_READ": "Read"
   }
 }

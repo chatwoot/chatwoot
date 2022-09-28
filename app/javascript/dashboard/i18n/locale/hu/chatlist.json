@@ -12,33 +12,11 @@
       "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
     "FILTER_ALL": "Mind",
-    "STATUS_TABS": [
-      {
-        "NAME": "Megnyitás",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Megoldva",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Enyém",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Gazdátlan",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Mind",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Enyém",
+      "unassigned": "Gazdátlan",
+      "all": "Mind"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Megnyitás"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
     "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
     "REPLY_TO_TWEET": "Válasz",
+    "LINK_TO_STORY": "Go to instagram story",
     "SENT": "Sikeresen elküldve",
     "NO_MESSAGES": "Nincs üzenet",
     "NO_CONTENT": "Nincs elérhető tartalom",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
-    "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése"
+    "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
+    "MESSAGE_READ": "Read"
   }
 }

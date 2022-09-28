@@ -22,6 +22,7 @@
     "IN_A_DAY": "Reageert meestal binnen een dag"
   },
   "START_CONVERSATION": "Start Chat",
+  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Een nieuw gesprek starten",
   "UNREAD_VIEW": {
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Volledige Naam",
         "PLACEHOLDER": "Voer uw volledige naam in",
-        "ERROR": "Volledige naam is vereist"
+        "REQUIRED_ERROR": "Volledige naam is vereist"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Uw e-mailadres",
         "PLACEHOLDER": "Voer uw e-mailadres in",
-        "ERROR": "Ongeldig e-mailadres"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Voer een geldig e-mailadres in"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefoonnummer",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Bericht",
@@ -56,7 +64,8 @@
         "ERROR": "Bericht te kort"
       }
     },
-    "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint"
+    "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-1 flex-col justify-end">
     <div class="flex flex-1 overflow-auto">
-      <!-- Load Converstion List Components Here -->
+      <!-- Load Conversation List Components Here -->
     </div>
     <team-availability
       :available-agents="availableAgents"

@@ -1,5 +1,5 @@
 tags:
-  - Custom Filter
+  - Custom Filters
 operationId: create-a-custom-filter
 summary: Create a custom filter
 description: Create a custom filter in the account

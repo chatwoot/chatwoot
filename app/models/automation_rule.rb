@@ -18,30 +18,52 @@
 #  index_automation_rules_on_account_id  (account_id)
 #
 class AutomationRule < ApplicationRecord
-  belongs_to :account
+  include Rails.application.routes.url_helpers
 
-  validates :account, presence: true
+  belongs_to :account
+  has_many_attached :files
+
   validate :json_conditions_format
   validate :json_actions_format
+  validates :account_id, presence: true
 
   scope :active, -> { where(active: true) }
 
-  CONDITIONS_ATTRS = %w[country_code status browser_language assignee_id team_id referer].freeze
-  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents].freeze
+  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id].freeze
+  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agent send_webhook_event mute_conversation send_attachment
+                     change_status resolve_conversation snooze_conversation send_email_transcript].freeze
+
+  def file_base_data
+    files.map do |file|
+      {
+        id: file.id,
+        automation_rule_id: id,
+        file_type: file.content_type,
+        account_id: account_id,
+        file_url: url_for(file),
+        blob_id: file.blob_id,
+        filename: file.filename.to_s
+      }
+    end
+  end
 
   private
 
   def json_conditions_format
-    return if conditions.nil?
+    return if conditions.blank?
 
     attributes = conditions.map { |obj, _| obj['attribute_key'] }
-    (attributes - CONDITIONS_ATTRS).blank?
+    conditions = attributes - CONDITIONS_ATTRS
+    conditions -= account.custom_attribute_definitions.pluck(:attribute_key)
+    errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
 
   def json_actions_format
-    return if actions.nil?
+    return if actions.blank?
 
-    attributes = actions.map { |obj, _| obj['attribute_key'] }
-    (attributes - ACTIONS_ATTRS).blank?
+    attributes = actions.map { |obj, _| obj['action_name'] }
+    actions = attributes - ACTIONS_ATTRS
+
+    errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
 end

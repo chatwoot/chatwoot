@@ -10,6 +10,8 @@ properties:
             type: number
           unassigned_count:
             type: number
+          assigned_count:
+            type: number
           all_count:
             type: number
       payload:

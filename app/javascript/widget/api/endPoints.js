@@ -17,6 +17,7 @@ const createConversation = params => {
         timestamp: new Date().toString(),
         referer_url: referrerURL,
       },
+      custom_attributes: params.customAttributes,
     },
   };
 };
@@ -77,12 +78,13 @@ const getCampaigns = token => ({
     website_token: token,
   },
 });
-const triggerCampaign = ({ websiteToken, campaignId }) => ({
+const triggerCampaign = ({ websiteToken, campaignId, customAttributes }) => ({
   url: '/api/v1/widget/events',
   data: {
     name: 'campaign.triggered',
     event_info: {
       campaign_id: campaignId,
+      custom_attributes: customAttributes,
       ...generateEventParams(),
     },
   },

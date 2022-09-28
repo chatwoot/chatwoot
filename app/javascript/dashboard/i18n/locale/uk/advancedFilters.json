@@ -1,84 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Фільтрувати Діалоги",
+    "SUBTITLE": "Додайте фільтри та натисніть \"Застосувати фільтри\" для фільтрації діалогів.",
+    "ADD_NEW_FILTER": "Додати фільтр",
+    "FILTER_DELETE_ERROR": "Ви повинні мати хоча б один фільтр для збереження",
+    "SUBMIT_BUTTON_LABEL": "Застосувати фільтри",
     "CANCEL_BUTTON_LABEL": "Скасувати",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "Скинути фільтри",
+    "EMPTY_VALUE_ERROR": "Необхідно вказати значення",
+    "TOOLTIP_LABEL": "Фільтрувати діалоги",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "ТА",
+      "OR": "АБО"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_lesser_than": "Is lesser than"
+      "equal_to": "Дорівнює",
+      "not_equal_to": "Не дорівнює",
+      "contains": "Містить",
+      "does_not_contain": "Не містить",
+      "is_present": "Є",
+      "is_not_present": "Немає",
+      "is_greater_than": "Більше ніж",
+      "is_less_than": "Менше ніж",
+      "days_before": "X днів до"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Так",
+      "FALSE": "Ні"
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "Ім'я виконавця",
       "INBOX_NAME": "Назва каналу",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Назва Команди",
+      "CONVERSATION_IDENTIFIER": "Номер діалогу",
+      "CAMPAIGN_NAME": "Назва Кампанії",
       "LABELS": "Мітки",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
+      "BROWSER_LANGUAGE": "Мова браузера",
+      "COUNTRY_NAME": "Назва країни",
+      "REFERER_LINK": "Посилання",
+      "CUSTOM_ATTRIBUTE_LIST": "Список",
+      "CUSTOM_ATTRIBUTE_TEXT": "Текст",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Номер",
+      "CUSTOM_ATTRIBUTE_LINK": "Лінк",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Прапорець",
+      "CREATED_AT": "Створений в",
+      "LAST_ACTIVITY": "Остання активність"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "Стандартні фільтри",
+      "ADDITIONAL_FILTERS": "Додаткові фільтри",
       "CUSTOM_ATTRIBUTES": "Свої атрибути"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "Зберегти цей фільтр?",
+        "LABEL": "Назвіть цей фільтр",
+        "PLACEHOLDER": "Введіть назву цього фільтру",
         "ERROR_MESSAGE": "Назва обов'язкова",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "Зберегти фільтр",
         "CANCEL_BUTTON": "Скасувати",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Папка успішно створена",
+          "ERROR_MESSAGE": "Помилка при створенні папки"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Сегмент успішно створено",
+          "ERROR_MESSAGE": "Помилка при створенні сегменту"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Видалити фільтр",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Підтвердження видалення",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "Ви впевнені, що хочете видалити фільтр ",
             "YES": "Так, видалити",
             "NO": "Ні, залиште"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Папка успішно видалена",
+          "ERROR_MESSAGE": "Помилка під час видалення папки"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Сегмент успішно видалено",
+          "ERROR_MESSAGE": "Помилка при видаленні сегменту"
         }
       }
     }

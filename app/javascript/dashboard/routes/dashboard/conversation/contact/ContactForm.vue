@@ -2,6 +2,19 @@
   <form class="contact--form" @submit.prevent="handleSubmit">
     <div class="row">
       <div class="columns">
+        <woot-avatar-uploader
+          :label="$t('CONTACT_FORM.FORM.AVATAR.LABEL')"
+          :src="avatarUrl"
+          :username-avatar="name"
+          :delete-avatar="!!avatarUrl"
+          class="settings-item"
+          @change="handleImageUpload"
+          @onAvatarDelete="handleAvatarDelete"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns">
         <label :class="{ error: $v.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
@@ -20,6 +33,9 @@
             :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
             @input="$v.email.$touch"
           />
+          <span v-if="$v.email.$error" class="message">
+            {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
+          </span>
         </label>
       </div>
     </div>
@@ -99,7 +115,7 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { required } from 'vuelidate/lib/validators';
+import { required, email } from 'vuelidate/lib/validators';
 
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
@@ -126,6 +142,8 @@ export default {
       email: '',
       name: '',
       phoneNumber: '',
+      avatarFile: null,
+      avatarUrl: '',
       socialProfileUserNames: {
         facebook: '',
         twitter: '',
@@ -145,7 +163,9 @@ export default {
       required,
     },
     description: {},
-    email: {},
+    email: {
+      email,
+    },
     companyName: {},
     phoneNumber: {
       isPhoneE164OrEmpty,
@@ -169,14 +189,19 @@ export default {
       this.$emit('success');
     },
     setContactObject() {
-      const { email: email, phone_number: phoneNumber, name } = this.contact;
+      const {
+        email: emailAddress,
+        phone_number: phoneNumber,
+        name,
+      } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
 
       this.name = name || '';
-      this.email = email || '';
+      this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
       this.companyName = additionalAttributes.company_name || '';
       this.description = additionalAttributes.description || '';
+      this.avatarUrl = this.contact.thumbnail || '';
       const {
         social_profiles: socialProfiles = {},
         screen_name: twitterScreenName,
@@ -189,7 +214,7 @@ export default {
       };
     },
     getContactObject() {
-      return {
+      const contactObject = {
         id: this.contact.id,
         name: this.name,
         email: this.email,
@@ -201,6 +226,11 @@ export default {
           social_profiles: this.socialProfileUserNames,
         },
       };
+      if (this.avatarFile) {
+        contactObject.avatar = this.avatarFile;
+        contactObject.isFormData = true;
+      }
+      return contactObject;
     },
     async handleSubmit() {
       this.$v.$touch();
@@ -226,6 +256,28 @@ export default {
         } else {
           this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
         }
+      }
+    },
+    handleImageUpload({ file, url }) {
+      this.avatarFile = file;
+      this.avatarUrl = url;
+    },
+    async handleAvatarDelete() {
+      try {
+        if (this.contact && this.contact.id) {
+          await this.$store.dispatch('contacts/deleteAvatar', this.contact.id);
+          this.showAlert(
+            this.$t('CONTACT_FORM.DELETE_AVATAR.API.SUCCESS_MESSAGE')
+          );
+        }
+        this.avatarFile = null;
+        this.avatarUrl = '';
+      } catch (error) {
+        this.showAlert(
+          error.message
+            ? error.message
+            : this.$t('CONTACT_FORM.DELETE_AVATAR.API.ERROR_MESSAGE')
+        );
       }
     },
   },

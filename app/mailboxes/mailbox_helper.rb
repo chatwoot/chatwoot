@@ -2,10 +2,12 @@ module MailboxHelper
   private
 
   def create_message
-    @message = @conversation.messages.create(
+    return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
+
+    @message = @conversation.messages.create!(
       account_id: @conversation.account_id,
       sender: @conversation.contact,
-      content: mail_content,
+      content: mail_content&.truncate(150_000),
       inbox_id: @conversation.inbox_id,
       message_type: 'incoming',
       content_type: 'incoming_email',
@@ -19,6 +21,8 @@ module MailboxHelper
   end
 
   def add_attachments_to_message
+    return if @message.blank?
+
     processed_mail.attachments.each do |mail_attachment|
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
@@ -31,7 +35,7 @@ module MailboxHelper
 
   def create_contact
     @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
+      source_id: processed_mail.original_sender,
       inbox: @inbox,
       contact_attributes: {
         name: identify_contact_name,

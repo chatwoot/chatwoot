@@ -12,33 +12,11 @@
       "INPUT": "搜尋人、聊天室、保存回覆"
     },
     "FILTER_ALL": "所有的",
-    "STATUS_TABS": [
-      {
-        "NAME": "打開",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "已解決",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "我的",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "未指派的",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "所有的",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "我的",
+      "unassigned": "未指派的",
+      "all": "所有的"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "打開"
@@ -76,10 +54,12 @@
     "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
     "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
     "REPLY_TO_TWEET": "Reply to this tweet",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "傳送成功",
     "NO_MESSAGES": "沒有訊息",
     "NO_CONTENT": "沒有可用內容",
     "HIDE_QUOTED_TEXT": "隱藏引用文字",
-    "SHOW_QUOTED_TEXT": "顯示引用文字"
+    "SHOW_QUOTED_TEXT": "顯示引用文字",
+    "MESSAGE_READ": "Read"
   }
 }

@@ -5,6 +5,7 @@ module.exports = {
     './app/javascript/widget/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
+    './app/views/**/*.html.erb',
   ],
   future: {
     removeDeprecatedGapUtilities: true,
@@ -85,8 +86,15 @@ module.exports = {
         900: '#C30011',
       },
     },
-    extend: {},
+    extend: {
+      screens: {
+        dark: { raw: '(prefers-color-scheme: dark)' },
+      },
+    },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    // eslint-disable-next-line
+    require('@tailwindcss/typography'),
+  ],
 };

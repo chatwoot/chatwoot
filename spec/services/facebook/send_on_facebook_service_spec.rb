@@ -10,7 +10,7 @@ describe Facebook::SendOnFacebookService do
   end
 
   let!(:account) { create(:account) }
-  let(:bot) { class_double('Facebook::Messenger::Bot').as_stubbed_const }
+  let(:bot) { class_double(Facebook::Messenger::Bot).as_stubbed_const }
   let!(:widget_inbox) { create(:inbox, account: account) }
   let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
   let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
@@ -57,10 +57,13 @@ describe Facebook::SendOnFacebookService do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
         message.save!
+        allow(attachment).to receive(:download_url).and_return('url1')
         ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
-                                                      message: { text: message.content }
+                                                      message: { text: message.content },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
@@ -68,10 +71,12 @@ describe Facebook::SendOnFacebookService do
                                                         attachment: {
                                                           type: 'image',
                                                           payload: {
-                                                            url: attachment.file_url
+                                                            url: 'url1'
                                                           }
                                                         }
-                                                      }
+                                                      },
+                                                      messaging_type: 'MESSAGE_TAG',
+                                                      tag: 'ACCOUNT_UPDATE'
                                                     }, { page_id: facebook_channel.page_id })
       end
     end

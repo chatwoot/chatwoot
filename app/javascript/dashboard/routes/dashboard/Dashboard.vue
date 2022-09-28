@@ -2,14 +2,15 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
-      :class="sidebarClassName"
+      :sidebar-class-name="sidebarClassName"
+      @open-notification-panel="openNotificationPanel"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
-    ></sidebar>
+    />
     <section class="app-content columns" :class="contentClassName">
-      <router-view></router-view>
+      <router-view />
       <command-bar />
       <account-selector
         :show-account-modal="showAccountModal"
@@ -25,6 +26,10 @@
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
+      <notification-panel
+        v-if="isNotificationPanel"
+        @close="closeNotificationPanel"
+      />
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
         <add-label-modal @close="hideAddLabelPopup" />
       </woot-modal>
@@ -39,7 +44,8 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
-import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel';
+import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 
 export default {
   components: {
@@ -49,6 +55,7 @@ export default {
     AddAccountModal,
     AccountSelector,
     AddLabelModal,
+    NotificationPanel,
   },
   data() {
     return {
@@ -58,6 +65,7 @@ export default {
       showCreateAccountModal: false,
       showAddLabelModal: false,
       showShortcutModal: false,
+      isNotificationPanel: false,
     };
   },
   computed: {
@@ -69,7 +77,7 @@ export default {
         return '';
       }
       if (this.isSidebarOpen) {
-        return 'off-canvas position-left is-transition-push is-open';
+        return 'off-canvas is-open';
       }
       return 'off-canvas is-transition-push is-closed';
     },
@@ -78,13 +86,12 @@ export default {
         return '';
       }
       if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push has-position-left';
+        return 'off-canvas-content is-open-left has-transition-push';
       }
       return 'off-canvas-content has-transition-push';
     },
   },
   mounted() {
-    this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
@@ -126,11 +133,17 @@ export default {
     hideAddLabelPopup() {
       this.showAddLabelModal = false;
     },
+    openNotificationPanel() {
+      this.isNotificationPanel = true;
+    },
+    closeNotificationPanel() {
+      this.isNotificationPanel = false;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
 .off-canvas-content.is-open-left {
-  transform: translateX(25.4rem);
+  transform: translateX(20rem);
 }
 </style>

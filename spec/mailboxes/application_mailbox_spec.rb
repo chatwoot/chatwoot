@@ -6,6 +6,7 @@ RSpec.describe ApplicationMailbox, type: :mailbox do
   describe 'route the inbound mail to appropriate mailbox' do
     let(:welcome_mail) { create_inbound_email_from_fixture('welcome.eml') }
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
+    let(:reply_cc_mail) { create_inbound_email_from_fixture('reply_cc.eml') }
     let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply.eml') }
     let(:reply_mail_with_in_reply_to) { create_inbound_email_from_fixture('in_reply_to.eml') }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
@@ -54,6 +55,14 @@ RSpec.describe ApplicationMailbox, type: :mailbox do
         expect(SupportMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route support_mail
+      end
+
+      it 'routes support emails to Support Mailbox with cc email' do
+        channel_email.update(email: 'test@example.com')
+        dbl = double
+        expect(SupportMailbox).to receive(:new).and_return(dbl)
+        expect(dbl).to receive(:perform_processing).and_return(true)
+        described_class.route reply_cc_mail
       end
     end
   end

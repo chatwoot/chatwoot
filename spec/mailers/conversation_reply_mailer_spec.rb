@@ -54,15 +54,15 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'renders the subject in conversation as reply' do
         conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
-        conversation.save
-        new_message.save
+        conversation.save!
+        new_message.save!
         expect(mail.subject).to eq('Re: Mail Subject')
       end
 
       it 'not have private notes' do
         # make the message private
         private_message.private = true
-        private_message.save
+        private_message.save!
 
         expect(mail.body.decoded).not_to include(private_message.content)
         expect(mail.body.decoded).to include(message.content)
@@ -71,7 +71,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'will not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
-        expect(mail).to eq nil
+        expect(mail).to be_nil
       end
 
       it 'will send email to cc and bcc email addresses' do
@@ -104,7 +104,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:mail) { described_class.reply_without_summary(message_2.conversation, message_2.id).deliver_now }
 
       before do
-        message_2.save
+        message_2.save!
       end
 
       it 'renders the default subject' do
@@ -113,14 +113,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'renders the subject in conversation' do
         conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
-        conversation.save
+        conversation.save!
         expect(mail.subject).to eq('Mail Subject')
       end
 
       it 'not have private notes' do
         # make the message private
         private_message.private = true
-        private_message.save
+        private_message.save!
         expect(mail.body.decoded).not_to include(private_message.content)
       end
 
@@ -132,7 +132,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'will not send email if conversation is already viewed by contact' do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update(contact_last_seen_at: Time.zone.now)
-        expect(mail).to eq nil
+        expect(mail).to be_nil
       end
     end
 
@@ -156,7 +156,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
     context 'when smtp enabled for email channel' do
       let(:smtp_email_channel) do
-        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_email: 'smtp@gmail.com',
+        create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_login: 'smtp@gmail.com',
                                smtp_password: 'password', smtp_domain: 'smtp.gmail.com', account: account)
       end
       let(:conversation) { create(:conversation, assignee: agent, inbox: smtp_email_channel.inbox, account: account).reload }
@@ -249,6 +249,25 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'sets the correct in reply to id' do
         expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{conversation.account.domain}")
+      end
+    end
+
+    context 'when inbound email domain is not enabled' do
+      let(:new_account) { create(:account, domain: nil) }
+      let!(:email_channel) { create(:channel_email, account: new_account) }
+      let!(:inbox) { create(:inbox, channel: email_channel, account: new_account) }
+      let(:inbox_member) { create(:inbox_member, user: agent, inbox: inbox) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: new_account) }
+      let!(:message) { create(:message, conversation: conversation, account: new_account) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
+      let(:domain) { inbox.channel.email.split('@').last }
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{domain}")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
       end
     end
   end

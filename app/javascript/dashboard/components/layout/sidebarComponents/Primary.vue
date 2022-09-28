@@ -16,7 +16,14 @@
       />
     </nav>
     <div class="menu vertical user-menu">
-      <notification-bell />
+      <primary-nav-item
+        v-if="!isACustomBrandedInstance"
+        icon="book-open-globe"
+        name="DOCS"
+        :open-in-new-page="true"
+        :to="helpDocsURL"
+      />
+      <notification-bell @open-notification-panel="openNotificationPanel" />
       <agent-details @toggle-menu="toggleOptions" />
       <options-menu
         :show="showOptionsMenu"
@@ -34,7 +41,7 @@ import PrimaryNavItem from './PrimaryNavItem';
 import OptionsMenu from './OptionsMenu';
 import AgentDetails from './AgentDetails';
 import NotificationBell from './NotificationBell';
-
+import wootConstants from 'dashboard/constants';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
@@ -46,6 +53,10 @@ export default {
     NotificationBell,
   },
   props: {
+    isACustomBrandedInstance: {
+      type: Boolean,
+      default: false,
+    },
     logoSource: {
       type: String,
       default: '',
@@ -69,6 +80,7 @@ export default {
   },
   data() {
     return {
+      helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
     };
   },
@@ -83,6 +95,9 @@ export default {
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
+    openNotificationPanel() {
+      this.$emit('open-notification-panel');
+    },
   },
 };
 </script>
@@ -93,7 +108,7 @@ export default {
   width: var(--space-jumbo);
   border-right: 1px solid var(--s-50);
   box-sizing: content-box;
-  height: 100vh;
+  height: 100%;
   flex-shrink: 0;
 }
 

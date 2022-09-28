@@ -1,5 +1,8 @@
 <template>
-  <div v-if="globalConfig.brandName" class="px-0 py-3 flex justify-center">
+  <div
+    v-if="globalConfig.brandName && !disableBranding"
+    class="px-0 py-3 flex justify-center"
+  >
     <a
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
@@ -21,7 +24,6 @@
 
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { mapGetters } from 'vuex';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -31,6 +33,12 @@ const {
 
 export default {
   mixins: [globalConfigMixin],
+  props: {
+    disableBranding: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       globalConfig: {
@@ -41,13 +49,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ referrerHost: 'appConfig/getReferrerHost' }),
     brandRedirectURL() {
-      const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=widget_branding`;
-      if (this.referrerHost) {
-        return `${baseURL}&utm_referrer=${this.referrerHost}`;
+      try {
+        const referrerHost = this.$store.getters['appConfig/getReferrerHost'];
+        const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=${
+          referrerHost ? 'widget_branding' : 'survey_branding'
+        }`;
+        if (referrerHost) {
+          return `${baseURL}&utm_referrer=${referrerHost}`;
+        }
+        return baseURL;
+      } catch (e) {
+        // Suppressing the error as getter is not defined in some cases
       }
-      return baseURL;
+      return '';
     },
   },
 };

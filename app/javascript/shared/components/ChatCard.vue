@@ -1,11 +1,14 @@
 <template>
-  <div class="card-message chat-bubble agent">
+  <div
+    class="card-message chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
     <img class="media" :src="mediaUrl" />
     <div class="card-body">
-      <h4 class="title">
+      <h4 class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
         {{ title }}
       </h4>
-      <p class="body">
+      <p class="body" :class="$dm('text-black-700', 'dark:text-slate-100')">
         {{ description }}
       </p>
       <card-button
@@ -19,11 +22,13 @@
 
 <script>
 import CardButton from 'shared/components/CardButton';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
     CardButton,
   },
+  mixins: [darkModeMixin],
   props: {
     title: {
       type: String,
@@ -52,7 +57,6 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .card-message {
-  background: white;
   max-width: 220px;
   padding: $space-small;
   border-radius: $space-small;
@@ -63,12 +67,10 @@ export default {
     font-weight: $font-weight-medium;
     margin-top: $space-smaller;
     margin-bottom: $space-smaller;
-    color: $color-heading;
     line-height: 1.5;
   }
 
   .body {
-    color: $color-body;
     margin-bottom: $space-smaller;
   }
 
@@ -77,10 +79,11 @@ export default {
     width: 100%;
     object-fit: contain;
     max-height: 150px;
+    border-radius: 5px;
   }
 
   .action-button + .action-button {
-    background: white;
+    background: $color-white;
     @include thin-border($color-woot);
     color: $color-woot;
   }

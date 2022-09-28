@@ -12,6 +12,7 @@ import { mapGetters } from 'vuex';
 import PreChatForm from '../components/PreChat/Form';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
+import { isEmptyObject } from 'widget/helpers/utils';
 
 export default {
   components: {
@@ -41,9 +42,14 @@ export default {
       message,
       activeCampaignId,
       phoneNumber,
+      contactCustomAttributes,
+      conversationCustomAttributes,
     }) {
       if (activeCampaignId) {
-        bus.$emit('execute-campaign', activeCampaignId);
+        bus.$emit('execute-campaign', {
+          campaignId: activeCampaignId,
+          customAttributes: conversationCustomAttributes,
+        });
         this.$store.dispatch('contacts/update', {
           user: {
             email: emailAddress,
@@ -57,7 +63,14 @@ export default {
           emailAddress: emailAddress,
           message: message,
           phoneNumber: phoneNumber,
+          customAttributes: conversationCustomAttributes,
         });
+      }
+      if (!isEmptyObject(contactCustomAttributes)) {
+        this.$store.dispatch(
+          'contacts/setCustomAttributes',
+          contactCustomAttributes
+        );
       }
     },
   },

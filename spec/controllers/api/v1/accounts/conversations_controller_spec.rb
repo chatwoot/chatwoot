@@ -15,6 +15,8 @@ RSpec.describe 'Conversations API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:conversation) { create(:conversation, account: account) }
+      let(:attended_conversation) { create(:conversation, account: account, first_reply_created_at: Time.now.utc) }
+      let(:unattended_conversation) { create(:conversation, account: account, first_reply_created_at: nil) }
 
       before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
@@ -42,6 +44,22 @@ RSpec.describe 'Conversations API', type: :request do
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:data][:meta][:all_count]).to eq(1)
         expect(body[:data][:payload].first[:messages]).to eq([])
+      end
+
+      it 'returns unattended conversations' do
+        agent_1 = create(:user, account: account, role: :agent)
+        create(:inbox_member, user: agent_1, inbox: attended_conversation.inbox)
+        create(:inbox_member, user: agent_1, inbox: unattended_conversation.inbox)
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent_1.create_new_auth_token,
+            params: { reply_status: 'unattended' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:data][:meta][:all_count]).to eq(1)
+        expect(body[:data][:payload].count).to eq(1)
       end
     end
   end
@@ -202,7 +220,7 @@ RSpec.describe 'Conversations API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, role: :agent, auto_offline: false) }
       let(:team) { create(:team, account: account) }
 
       it 'will not create a new conversation if agent does not have access to inbox' do
@@ -472,20 +490,20 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.agent_last_seen_at).not_to eq nil
+        expect(conversation.reload.agent_last_seen_at).not_to be_nil
       end
 
       it 'updates assignee last seen' do
         conversation.update!(assignee_id: agent.id)
 
-        expect(conversation.reload.assignee_last_seen_at).to eq nil
+        expect(conversation.reload.assignee_last_seen_at).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.assignee_last_seen_at).not_to eq nil
+        expect(conversation.reload.assignee_last_seen_at).not_to be_nil
       end
     end
   end
@@ -514,8 +532,8 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.resolved?).to eq(true)
-        expect(conversation.reload.muted?).to eq(true)
+        expect(conversation.reload.resolved?).to be(true)
+        expect(conversation.reload.muted?).to be(true)
       end
     end
   end
@@ -544,7 +562,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.muted?).to eq(false)
+        expect(conversation.reload.muted?).to be(false)
       end
     end
   end
@@ -618,7 +636,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.custom_attributes).not_to eq nil
+        expect(conversation.reload.custom_attributes).not_to be_nil
         expect(conversation.reload.custom_attributes.count).to eq 3
       end
     end

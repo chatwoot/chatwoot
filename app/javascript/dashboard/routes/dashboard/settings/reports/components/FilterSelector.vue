@@ -61,6 +61,17 @@
         @input="handleAgentsFilterSelection"
       />
     </div>
+    <div
+      v-if="showBusinessHoursSwitch"
+      class="small-12 medium-3 business-hours"
+    >
+      <span class="business-hours-text margin-right-small">
+        {{ $t('REPORT.BUSINESS_HOURS') }}
+      </span>
+      <span>
+        <woot-switch v-model="businessHoursSelected" />
+      </span>
+    </div>
   </div>
 </template>
 <script>
@@ -97,6 +108,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showBusinessHoursSwitch: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -105,6 +120,7 @@ export default {
       customDateRange: [new Date(), new Date()],
       currentSelectedFilter: null,
       selectedAgents: [],
+      businessHoursSelected: false,
     };
   },
   computed: {
@@ -152,6 +168,9 @@ export default {
   watch: {
     filterItemsList() {
       this.currentSelectedFilter = this.selectedGroupByFilter;
+    },
+    businessHoursSelected() {
+      this.$emit('business-hours-toggle', this.businessHoursSelected);
     },
   },
   mounted() {

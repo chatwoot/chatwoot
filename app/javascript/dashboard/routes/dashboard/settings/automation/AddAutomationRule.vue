@@ -100,7 +100,11 @@
               :dropdown-values="
                 getActionDropdownValues(automation.actions[i].action_name)
               "
+              :show-action-input="
+                showActionInput(automation.actions[i].action_name)
+              "
               :v="$v.automation.actions.$each[i]"
+              @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
@@ -187,7 +191,14 @@ export default {
         required,
         $each: {
           action_params: {
-            required,
+            required: requiredIf(prop => {
+              if (prop.action_name === 'send_email_to_team') return true;
+              return !(
+                prop.action_name === 'mute_conversation' ||
+                prop.action_name === 'snooze_conversation' ||
+                prop.action_name === 'resolve_conversation'
+              );
+            }),
           },
         },
       },
@@ -407,14 +418,15 @@ export default {
     submitAutomation() {
       this.$v.$touch();
       if (this.$v.$invalid) return;
-      this.automation.conditions[
-        this.automation.conditions.length - 1
+      const automation = JSON.parse(JSON.stringify(this.automation));
+      automation.conditions[
+        automation.conditions.length - 1
       ].query_operator = null;
-      this.automation.conditions = filterQueryGenerator(
-        this.automation.conditions
+      automation.conditions = filterQueryGenerator(
+        automation.conditions
       ).payload;
-      this.automation.actions = actionQueryGenerator(this.automation.actions);
-      this.$emit('saveAutomation', this.automation);
+      automation.actions = actionQueryGenerator(automation.actions);
+      this.$emit('saveAutomation', automation);
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
@@ -424,9 +436,21 @@ export default {
       ).filterOperators[0].value;
       this.automation.conditions[index].values = '';
     },
+    resetAction(index) {
+      this.automation.actions[index].action_params = [];
+    },
     showUserInput(operatorType) {
       if (operatorType === 'is_present' || operatorType === 'is_not_present')
         return false;
+      return true;
+    },
+    showActionInput(actionName) {
+      if (actionName === 'send_email_to_team' || actionName === 'send_message')
+        return false;
+      const type = AUTOMATION_ACTION_TYPES.find(
+        action => action.key === actionName
+      ).inputType;
+      if (type === null) return false;
       return true;
     },
   },

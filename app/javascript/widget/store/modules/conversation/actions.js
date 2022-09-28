@@ -5,6 +5,7 @@ import {
   sendAttachmentAPI,
   toggleTyping,
   setUserLastSeenAt,
+  toggleStatus,
 } from 'widget/api/conversation';
 
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
@@ -83,8 +84,12 @@ export const actions = {
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getMessagesAPI({ before });
-      const formattedMessages = getNonDeletedMessages({ messages: data });
+      const {
+        data: { payload, meta },
+      } = await getMessagesAPI({ before });
+      const { contact_last_seen_at: lastSeen } = meta;
+      const formattedMessages = getNonDeletedMessages({ messages: payload });
+      commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
       commit('setConversationListLoading', false);
     } catch (error) {
@@ -129,5 +134,9 @@ export const actions = {
     } catch (error) {
       // IgnoreError
     }
+  },
+
+  resolveConversation: async () => {
+    await toggleStatus();
   },
 };

@@ -8,8 +8,8 @@
       "SUBMIT": "Odeslat"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Odeslat zprávu znovu",
+      "ERROR_MESSAGE": "Odeslání se nezdařilo, zkuste to znovu"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,7 +22,8 @@
     "IN_A_DAY": "Obvykle odpoví za den"
   },
   "START_CONVERSATION": "Zahájit konverzaci",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "Ukončit konverzaci",
+  "CONTINUE_CONVERSATION": "Pokračovat v konverzaci",
   "START_NEW_CONVERSATION": "Zahájit novou konverzaci",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Celé jméno",
         "PLACEHOLDER": "Zadejte své celé jméno",
-        "ERROR": "Je vyžadováno celé jméno"
+        "REQUIRED_ERROR": "Je vyžadováno celé jméno"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-mailová adresa",
         "PLACEHOLDER": "Zadejte prosím Váš e-mail",
-        "ERROR": "Neplatná e-mailová adresa"
+        "REQUIRED_ERROR": "E-mailová adresa je vyžadována",
+        "VALID_ERROR": "Zadejte prosím platnou e-mailovou adresu"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonní číslo",
+        "PLACEHOLDER": "Zadejte prosím Vaše telefonní číslo",
+        "REQUIRED_ERROR": "Telefonní číslo je vyžadováno",
+        "VALID_ERROR": "Telefonní číslo by mělo být ve formátu E.164, např.: +141555555555"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -56,7 +64,8 @@
         "ERROR": "Zpráva je příliš krátká"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation"
+    "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
+    "IS_REQUIRED": "je vyžadováno"
   },
   "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
   "CHAT_FORM": {

@@ -8,7 +8,7 @@ RSpec.describe Imap::ImapMailbox, type: :mailbox do
     let(:agent) { create(:user, email: 'agent@example.com', account: account) }
     let(:channel) do
       create(:channel_email, imap_enabled: true, imap_address: 'imap.gmail.com',
-                             imap_port: 993, imap_email: 'imap@gmail.com', imap_password: 'password',
+                             imap_port: 993, imap_login: 'imap@gmail.com', imap_password: 'password',
                              account: account)
     end
     let(:inbox) { create(:inbox, channel: channel, account: account) }

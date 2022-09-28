@@ -14,8 +14,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "หมายเลขบัญชี",
+        "NOTE": "โปรดระบุหมายเลขบัญชีหากคุณต้องการเชื่อมต่อกับ API"
       },
       "NAME": {
         "LABEL": "ชื่อบัญชี",
@@ -38,94 +38,103 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "จำนวนวันที่จะเปลี่ยนสถานะเป็นสำเร็จถ้าไม่มีความเคลื่อนไหว",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "โปรดระบุช่วงเวลาในการปิดการสนทนาอัตโนมัติให้ถูกต้อง (ขั้นต่ำ 1 วัน มากสุด 999 วัน)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "การสนทนาด้วยอีเมล์ถูกเปิดสำหรับบัญชีของคุณ",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "คุณสามารถรับอีเมล์ในโดเมนเเบบกำหนดเองได้เเล้ว"
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Chatwoot เวอร์ชั่น %{latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
+    "LEARN_MORE": "เรียนรู้เพิ่มเติม"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
+      "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
+      "SELECT_ONE": "เลือก"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "การแจ้งเตือน",
+    "MARK_ALL_DONE": "ทำเครื่องหมายว่าเสร็จแล้วทั้งหมด",
+    "DELETE_TITLE": "ลบ",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "การแจ้งเตือนที่ยังไม่ได้อ่าน",
+      "ALL_NOTIFICATIONS": "ดูการแจ้งเตือนทั้งหมด",
+      "LOADING_UNREAD_MESSAGE": "กำลังโหลดการแจ้งเตือนที่ยังไม่ได้อ่าน",
+      "EMPTY_MESSAGE": "ไม่มีการแจ้งเตือนที่ยังไม่ได้อ่าน"
+    },
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "กำลังโหลดการแจ้งเตือน",
+      "404": "ไม่มีการแจ้งเตือน",
       "TABLE_HEADER": [
         "ชื่อ",
         "หมายเลขโทรศัพท์",
         "การสนทนา",
-        "Last Contacted"
+        "ติดต่อครั้งสุดท้าย"
       ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "สร้างการสนทนาใหม่",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
+      "assigned_conversation_new_message": "ข้อความใหม่",
+      "conversation_mention": "กล่าวถึง"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Disconnected from Chatwoot"
+      "TEXT": "ยกเลิกการเชื่อมต่อกับ Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "โหลดใหม่"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "ค้นหาหรือไปยัง",
     "SECTIONS": {
-      "GENERAL": "General",
-      "REPORTS": "Reports",
-      "CONVERSATION": "Conversation",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
-      "SETTINGS": "Settings"
+      "GENERAL": "ทั่วไป",
+      "REPORTS": "รายงาน",
+      "CONVERSATION": "การสนทนา",
+      "CHANGE_ASSIGNEE": "เปลี่ยนผู้รับมอบหมาย",
+      "CHANGE_TEAM": "เปลี่ยนทีม",
+      "ADD_LABEL": "เพิ่มป้ายกำกับให้การสนทนา",
+      "REMOVE_LABEL": "ลบป้ายกำกับออกจากการสนทนา",
+      "SETTINGS": "ตั้งค่า"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reopen conversation",
-      "RESOLVE_CONVERSATION": "Resolve conversation",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow"
+      "GO_TO_CONVERSATION_DASHBOARD": "ไปยังแดชบอร์ดการสนทนา",
+      "GO_TO_CONTACTS_DASHBOARD": "ไปยังแดชบอร์ดรายชื่อผู้ติดต่อ",
+      "GO_TO_REPORTS_OVERVIEW": "ไปยังภาพรวมรายงาน",
+      "GO_TO_CONVERSATION_REPORTS": "ไปที่หน้ารายงานการสนทนา",
+      "GO_TO_AGENT_REPORTS": "ไปที่หน้ารายงานพนักงาน",
+      "GO_TO_LABEL_REPORTS": "ไปที่หน้ารายงานป้ายกำกับ",
+      "GO_TO_INBOX_REPORTS": "ไปที่หน้ารายงานกล่องข้อความ",
+      "GO_TO_TEAM_REPORTS": "ไปที่หน้ารายงานทีม",
+      "GO_TO_SETTINGS_AGENTS": "ไปที่หน้าจัดการพนักงาน",
+      "GO_TO_SETTINGS_TEAMS": "ไปที่หน้าจัดการทีม",
+      "GO_TO_SETTINGS_INBOXES": "ไปที่หน้าจัดการกล่องข้อความ",
+      "GO_TO_SETTINGS_LABELS": "ไปที่หน้าจัดการป้ายกำกับ",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "ไปที่หน้าจัดการข้อความลัด",
+      "GO_TO_SETTINGS_APPLICATIONS": "ไปที่หน้าตั้งค่าโปรแกรม",
+      "GO_TO_SETTINGS_ACCOUNT": "ไปที่หน้าตั้งค่าบัญชี",
+      "GO_TO_SETTINGS_PROFILE": "ไปที่หน้าตั้งค่าข้อมูลส่วนตัว",
+      "GO_TO_NOTIFICATIONS": "ไปที่หน้าการแจ้งเตือน",
+      "ADD_LABELS_TO_CONVERSATION": "เพิ่มป้ายกำกับให้บทสนทนา",
+      "ASSIGN_AN_AGENT": "กำหนดพนักงาน",
+      "ASSIGN_A_TEAM": "กำหนดทีม",
+      "MUTE_CONVERSATION": "ปิดการแจ้งเตือน",
+      "UNMUTE_CONVERSATION": "เปิดการแจ้งเตือน",
+      "REMOVE_LABEL_FROM_CONVERSATION": "ลบป้ายกำกับออกจากการสนทนา",
+      "REOPEN_CONVERSATION": "เปิดการสนทนาอีกครั้ง",
+      "RESOLVE_CONVERSATION": "เสร็จสิ้นการสนทนา",
+      "SEND_TRANSCRIPT": "ส่งรายละเอียดทางอีเมล",
+      "SNOOZE_CONVERSATION": "พักการสนทนา",
+      "UNTIL_NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
+      "UNTIL_NEXT_WEEK": "จนกว่าสัปดาห์หน้า",
+      "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้"
     }
   }
 }

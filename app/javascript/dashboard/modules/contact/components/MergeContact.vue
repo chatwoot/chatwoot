@@ -9,7 +9,7 @@
             color-scheme="success"
             small
             class="label--merge-warning"
-          ></woot-label>
+          />
         </label>
         <multiselect
           :value="primaryContact"
@@ -46,7 +46,7 @@
               color-scheme="alert"
               small
               class="label--merge-warning"
-            ></woot-label>
+            />
           </label>
           <multiselect
             v-model="childContact"

@@ -1,6 +1,12 @@
 <template>
-  <div class="conversations-list-wrap">
-    <slot></slot>
+  <div
+    class="conversations-list-wrap"
+    :class="{
+      hide: !showConversationList,
+      'list--full-width': isOnExpandedLayout,
+    }"
+  >
+    <slot />
     <div
       class="chat-list__top"
       :class="{ filter__applied: hasAppliedFiltersOrActiveFolders }"
@@ -46,15 +52,14 @@
 
         <woot-button
           v-else
-          v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
+          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
           icon="filter"
           size="small"
           class="btn-filter"
           @click="onToggleAdvanceFiltersModal"
-        >
-        </woot-button>
+        />
       </div>
     </div>
 
@@ -85,8 +90,24 @@
     <p v-if="!chatListLoading && !conversationList.length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
-
-    <div ref="activeConversation" class="conversations-list">
+    <conversation-bulk-actions
+      v-if="selectedConversations.length"
+      :conversations="selectedConversations"
+      :all-conversations-selected="allConversationsSelected"
+      :selected-inboxes="uniqueInboxes"
+      :show-open-action="allSelectedConversationsStatus('open')"
+      :show-resolved-action="allSelectedConversationsStatus('resolved')"
+      :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
+      @select-all-conversations="selectAllConversations"
+      @assign-agent="onAssignAgent"
+      @update-conversations="onUpdateConversations"
+      @assign-labels="onAssignLabels"
+    />
+    <div
+      ref="activeConversation"
+      class="conversations-list"
+      :class="{ 'is-context-menu-open': isContextMenuOpen }"
+    >
       <conversation-card
         v-for="chat in conversationList"
         :key="chat.id"
@@ -96,10 +117,18 @@
         :chat="chat"
         :conversation-type="conversationType"
         :show-assignee="showAssigneeInConversationCard"
+        :selected="isConversationSelected(chat.id)"
+        @select-conversation="selectConversation"
+        @de-select-conversation="deSelectConversation"
+        @assign-agent="onAssignAgent"
+        @assign-team="onAssignTeam"
+        @assign-label="onAssignLabels"
+        @update-conversation-status="toggleConversationStatus"
+        @context-menu-toggle="onContextMenuToggle"
       />
 
       <div v-if="chatListLoading" class="text-center">
-        <span class="spinner"></span>
+        <span class="spinner" />
       </div>
 
       <woot-button
@@ -112,11 +141,7 @@
       </woot-button>
 
       <p
-        v-if="
-          conversationList.length &&
-            hasCurrentPageEndReached &&
-            !chatListLoading
-        "
+        v-if="showEndOfListMessage"
         class="text-center text-muted end-of-list-text"
       >
         {{ $t('CHAT_LIST.EOF') }}
@@ -152,6 +177,8 @@ import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
+import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import {
   hasPressedAltAndJKey,
@@ -166,8 +193,9 @@ export default {
     ChatFilter,
     ConversationAdvancedFilter,
     DeleteCustomViews,
+    ConversationBulkActions,
   },
-  mixins: [timeMixin, conversationMixin, eventListenerMixins],
+  mixins: [timeMixin, conversationMixin, eventListenerMixins, alertMixin],
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -189,6 +217,14 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    showConversationList: {
+      default: true,
+      type: Boolean,
+    },
+    isOnExpandedLayout: {
+      default: false,
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -202,6 +238,9 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
+      selectedConversations: [],
+      selectedInboxes: [],
+      isContextMenuOpen: false,
     };
   },
   computed: {
@@ -217,6 +256,7 @@ export default {
       conversationStats: 'conversationStats/getStats',
       appliedFilters: 'getAppliedConversationFilters',
       folders: 'customViews/getCustomViews',
+      inboxes: 'inboxes/getInboxes',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -234,12 +274,24 @@ export default {
       }
       return {};
     },
+    showEndOfListMessage() {
+      return (
+        this.conversationList.length &&
+        this.hasCurrentPageEndReached &&
+        !this.chatListLoading
+      );
+    },
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
-        const count = this.conversationStats[item.COUNT_KEY] || 0;
+      const ASSIGNEE_TYPE_TAB_KEYS = {
+        me: 'mineCount',
+        unassigned: 'unAssignedCount',
+        all: 'allCount',
+      };
+      return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
+        const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
         return {
-          key: item.KEY,
-          name: item.NAME,
+          key,
+          name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
           count,
         };
       });
@@ -341,6 +393,17 @@ export default {
       }
       return {};
     },
+    allConversationsSelected() {
+      return (
+        this.conversationList.length === this.selectedConversations.length &&
+        this.conversationList.every(el =>
+          this.selectedConversations.includes(el.id)
+        )
+      );
+    },
+    uniqueInboxes() {
+      return [...new Set(this.selectedInboxes)];
+    },
   },
   watch: {
     activeTeam() {
@@ -374,6 +437,7 @@ export default {
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
+      this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
@@ -439,6 +503,7 @@ export default {
       }
     },
     resetAndFetchData() {
+      this.resetBulkActions();
       this.$store.dispatch('conversationPage/reset');
       this.$store.dispatch('emptyAllConversations');
       this.$store.dispatch('clearConversationFilters');
@@ -489,12 +554,17 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        this.resetBulkActions();
         bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
         }
       }
+    },
+    resetBulkActions() {
+      this.selectedConversations = [];
+      this.selectedInboxes = [];
     },
     updateStatusType(index) {
       if (this.activeStatus !== index) {
@@ -518,6 +588,142 @@ export default {
         this.fetchConversations();
       }
     },
+    isConversationSelected(id) {
+      return this.selectedConversations.includes(id);
+    },
+    selectConversation(conversationId, inboxId) {
+      this.selectedConversations.push(conversationId);
+      this.selectedInboxes.push(inboxId);
+    },
+    deSelectConversation(conversationId, inboxId) {
+      this.selectedConversations = this.selectedConversations.filter(
+        item => item !== conversationId
+      );
+      this.selectedInboxes = this.selectedInboxes.filter(
+        item => item !== inboxId
+      );
+    },
+    selectAllConversations(check) {
+      if (check) {
+        this.selectedConversations = this.conversationList.map(item => item.id);
+        this.selectedInboxes = this.conversationList.map(item => item.inbox_id);
+      } else {
+        this.resetBulkActions();
+      }
+    },
+    // Same method used in context menu, conversationId being passed from there.
+    async onAssignAgent(agent, conversationId = null) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: conversationId || this.selectedConversations,
+          fields: {
+            assignee_id: agent.id,
+          },
+        });
+        this.selectedConversations = [];
+        if (conversationId) {
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.AGENT_ASSIGNMENT.SUCCESFUL',
+              {
+                agentName: agent.name,
+                conversationId,
+              }
+            )
+          );
+        } else {
+          this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
+        }
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async onAssignTeam(team, conversationId = null) {
+      try {
+        await this.$store.dispatch('assignTeam', {
+          conversationId,
+          teamId: team.id,
+        });
+        this.showAlert(
+          this.$t(
+            'CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.SUCCESFUL',
+            {
+              team: team.name,
+              conversationId,
+            }
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED')
+        );
+      }
+    },
+    // Same method used in context menu, conversationId being passed from there.
+    async onAssignLabels(labels, conversationId = null) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: conversationId || this.selectedConversations,
+          labels: {
+            add: labels,
+          },
+        });
+        this.selectedConversations = [];
+        if (conversationId) {
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_ASSIGNMENT.SUCCESFUL',
+              {
+                labelName: labels[0],
+                conversationId,
+              }
+            )
+          );
+        } else {
+          this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
+        }
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
+      }
+    },
+    async onUpdateConversations(status) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            status,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
+      }
+    },
+    toggleConversationStatus(conversationId, status, snoozedUntil) {
+      this.$store
+        .dispatch('toggleStatus', {
+          conversationId,
+          status,
+          snoozedUntil,
+        })
+        .then(() => {
+          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          this.isLoading = false;
+        });
+    },
+    allSelectedConversationsStatus(status) {
+      if (!this.selectedConversations.length) return false;
+      return this.selectedConversations.every(item => {
+        return this.$store.getters.getConversationById(item).status === status;
+      });
+    },
+    onContextMenuToggle(state) {
+      this.isContextMenuOpen = state;
+    },
   },
 };
 </script>
@@ -530,10 +736,17 @@ export default {
   margin-bottom: var(--space-normal);
 }
 
+.conversations-list {
+  // Prevent the list from scrolling if the submenu is opened
+  &.is-context-menu-open {
+    overflow: hidden !important;
+  }
+}
+
 .conversations-list-wrap {
   flex-shrink: 0;
   width: 34rem;
-
+  overflow: hidden;
   @include breakpoint(large up) {
     width: 36rem;
   }
@@ -545,6 +758,17 @@ export default {
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
+  }
+
+  &.hide {
+    display: none;
+  }
+
+  &.list--full-width {
+    width: 100%;
+    @include breakpoint(xxxlarge up) {
+      flex-basis: 100%;
+    }
   }
 }
 .filter--actions {

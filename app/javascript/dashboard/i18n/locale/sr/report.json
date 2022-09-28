@@ -1,0 +1,447 @@
+{
+  "REPORT": {
+    "HEADER": "Razgovori",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
+    "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaj o agentima",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Poslednjih 7 dana"
+      },
+      {
+        "id": 1,
+        "name": "Poslednjih 30 dana"
+      },
+      {
+        "id": 2,
+        "name": "Poslednja 3 meseca"
+      },
+      {
+        "id": 3,
+        "name": "Poslednjih 6 meseci"
+      },
+      {
+        "id": 4,
+        "name": "Poslednja godina"
+      },
+      {
+        "id": 5,
+        "name": "Prilagođen opseg vremena"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberite opseg vremena"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Vrednost za grupisanje",
+    "DURATION_FILTER_LABEL": "Trajanje",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dan"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dan"
+      },
+      {
+        "id": 2,
+        "groupBy": "Nedelja"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dan"
+      },
+      {
+        "id": 2,
+        "groupBy": "Nedelja"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mesec"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dan"
+      },
+      {
+        "id": 2,
+        "groupBy": "Nedelja"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mesec"
+      },
+      {
+        "id": 4,
+        "groupBy": "Godina"
+      }
+    ],
+    "BUSINESS_HOURS": "Radno vreme"
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Pregled agenata",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
+    "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaj o agentima",
+    "FILTER_DROPDOWN_LABEL": "Izaberi agenta",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Poslednjih 7 dana"
+      },
+      {
+        "id": 1,
+        "name": "Poslednjih 30 dana"
+      },
+      {
+        "id": 2,
+        "name": "Poslednja 3 meseca"
+      },
+      {
+        "id": 3,
+        "name": "Poslednjih 6 meseci"
+      },
+      {
+        "id": 4,
+        "name": "Poslednja godina"
+      },
+      {
+        "id": 5,
+        "name": "Prilagođen opseg vremena"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberite opseg vremena"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Pregled oznaka",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
+    "DOWNLOAD_LABEL_REPORTS": "Preuzmi izveštaj o oznakama",
+    "FILTER_DROPDOWN_LABEL": "Izaberi oznaku",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Poslednjih 7 dana"
+      },
+      {
+        "id": 1,
+        "name": "Poslednjih 30 dana"
+      },
+      {
+        "id": 2,
+        "name": "Poslednja 3 meseca"
+      },
+      {
+        "id": 3,
+        "name": "Poslednjih 6 meseci"
+      },
+      {
+        "id": 4,
+        "name": "Poslednja godina"
+      },
+      {
+        "id": 5,
+        "name": "Prilagođen opseg vremena"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberite opseg vremena"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Pregled prijemnih sandučića",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
+    "DOWNLOAD_INBOX_REPORTS": "Preuzmi izveštaj o prijemnim sandučićima",
+    "FILTER_DROPDOWN_LABEL": "Izaberi prijemno sanduče",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Poslednjih 7 dana"
+      },
+      {
+        "id": 1,
+        "name": "Poslednjih 30 dana"
+      },
+      {
+        "id": 2,
+        "name": "Poslednja 3 meseca"
+      },
+      {
+        "id": 3,
+        "name": "Poslednjih 6 meseci"
+      },
+      {
+        "id": 4,
+        "name": "Poslednja godina"
+      },
+      {
+        "id": 5,
+        "name": "Prilagođen opseg vremena"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberite opseg vremena"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Pregled tima",
+    "LOADING_CHART": "Učitavanje podataka grafikona...",
+    "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
+    "DOWNLOAD_TEAM_REPORTS": "Preuzmi izveštaj o timu",
+    "FILTER_DROPDOWN_LABEL": "Izaberi tim",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Razgovori",
+        "DESC": "( Ukupno )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Dolazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Odlazne poruke",
+        "DESC": "( Ukupno )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Vreme prvog odgovora",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Vreme rešavanja",
+        "DESC": "( Prosečno )",
+        "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
+        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Poslednjih 7 dana"
+      },
+      {
+        "id": 1,
+        "name": "Poslednjih 30 dana"
+      },
+      {
+        "id": 2,
+        "name": "Poslednja 3 meseca"
+      },
+      {
+        "id": 3,
+        "name": "Poslednjih 6 meseci"
+      },
+      {
+        "id": 4,
+        "name": "Poslednja godina"
+      },
+      {
+        "id": 5,
+        "name": "Prilagođen opseg vremena"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Primeni",
+      "PLACEHOLDER": "Izaberite opseg vremena"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "Izveštaji zadovoljstva korisnika",
+    "NO_RECORDS": "Nema dostupnih odgovora o zadovoljstvu korisnika.",
+    "DOWNLOAD": "Preuzmite izveštaje o zadovoljstvu korisnika",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": "Izaberite agente"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Kontakt",
+        "AGENT_NAME": "Dodeljeni agent",
+        "RATING": "Ocena",
+        "FEEDBACK_TEXT": "Komentar povratne informacije"
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Ukupno odgovora",
+        "TOOLTIP": "Ukupan broj prikupljenih odgovora"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Ocena zadovoljstva",
+        "TOOLTIP": "Ukupan broj pozitivnih odgovora / Ukupan broj odgovora * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Procenat odgovora",
+        "TOOLTIP": "Ukupan broj odgovora / Ukupan broj poruka o zadovoljstvu korisnika * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Pregled",
+    "LIVE": "Uživo",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Otvoreni razgovori",
+      "LOADING_MESSAGE": "Učitavanje metrike razgovora...",
+      "OPEN": "Otvoreni",
+      "UNATTENDED": "Nedodeljeni",
+      "UNASSIGNED": "Nedodeljen"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Razgovori prema agentima",
+      "LOADING_MESSAGE": "Učitavanje metrike agenata...",
+      "NO_AGENTS": "Nema razgovora po agentima",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "OTVORENI",
+        "UNATTENDED": "Nedodeljeni",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Status agenta",
+      "ONLINE": "Dostupan",
+      "BUSY": "Zauzet",
+      "OFFLINE": "Nedostupan"
+    }
+  }
+}

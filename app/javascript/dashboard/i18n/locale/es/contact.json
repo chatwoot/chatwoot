@@ -6,6 +6,7 @@
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "COMPANY": "Empresa",
     "LOCATION": "Ubicación",
+    "BROWSER_LANGUAGE": "Idioma del navegador",
     "CONVERSATION_TITLE": "Detalles de la conversación",
     "VIEW_PROFILE": "Ver Perfil",
     "BROWSER": "Navegador",
@@ -70,6 +71,14 @@
     "SUCCESS_MESSAGE": "Contacto guardado correctamente",
     "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
   },
+  "DELETE_NOTE": {
+    "CONFIRM": {
+      "TITLE": "Confirmar eliminación",
+      "MESSAGE": "¿Está seguro de eliminar esta nota?",
+      "YES": "Sí, eliminar",
+      "NO": "No, mantenerlo"
+    }
+  },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Eliminar contacto",
     "TITLE": "Eliminar contacto",
@@ -77,9 +86,8 @@
     "CONFIRM": {
       "TITLE": "Confirmar eliminación",
       "MESSAGE": "¿Está seguro de eliminar ",
-      "PLACE_HOLDER": "Por favor, escriba {contactName} para confirmar",
-      "YES": "Sí, eliminar ",
-      "NO": "No, mantenerlo "
+      "YES": "Sí, eliminar",
+      "NO": "No, mantenerlo"
     },
     "API": {
       "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
@@ -104,7 +112,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Escriba la dirección email del contacto",
         "LABEL": "Dirección de correo",
-        "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto."
+        "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto.",
+        "ERROR": "Por favor, introduzca una dirección de correo válida."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Escriba el número de teléfono del contacto",
@@ -138,6 +147,12 @@
           "PLACEHOLDER": "Escriba el usuario de Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contacto guardado correctamente",
@@ -179,7 +194,7 @@
     "SEARCH_BUTTON": "Buscar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_SAVE": "Guardar filtro",
     "FILTER_CONTACTS_DELETE": "Eliminar filtro",
     "LIST": {
       "LOADING_MESSAGE": "Cargando contactos...",

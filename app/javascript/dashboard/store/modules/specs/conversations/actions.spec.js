@@ -327,10 +327,13 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: { id: 1, name: 'Team' },
       });
-      await actions.setCurrentChatTeam({ commit }, { id: 1, name: 'Team' });
+      await actions.setCurrentChatTeam(
+        { commit },
+        { team: { id: 1, name: 'Team' }, conversationId: 1 }
+      );
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
-        ['ASSIGN_TEAM', { id: 1, name: 'Team' }],
+        ['ASSIGN_TEAM', { team: { id: 1, name: 'Team' }, conversationId: 1 }],
       ]);
     });
   });
@@ -370,6 +373,15 @@ describe('#actions', () => {
     it('commits the correct mutation and clears filter state', () => {
       actions.clearConversationFilters({ commit });
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
+    });
+  });
+
+  describe('#updateConversationRead', () => {
+    it('commits the correct mutation and sets the contact_last_seen', () => {
+      actions.updateConversationRead({ commit }, 1649856659);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONVERSATION_LAST_SEEN, 1649856659],
+      ]);
     });
   });
 });

@@ -35,6 +35,9 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
 
       it 'assigns a team to the conversation' do
+        team_member = create(:user, account: account, role: :agent, auto_offline: false)
+        create(:inbox_member, inbox: conversation.inbox, user: team_member)
+        create(:team_member, team: team, user: team_member)
         params = { team_id: team.id }
 
         post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
@@ -44,6 +47,8 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.team).to eq(team)
+        # assignee will be from team
+        expect(conversation.reload.assignee).to eq(team_member)
       end
     end
 
@@ -63,7 +68,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.assignee).to eq(nil)
+        expect(conversation.reload.assignee).to be_nil
         expect(Conversations::ActivityMessageJob)
           .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -88,7 +93,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.team).to eq(nil)
+        expect(conversation.reload.team).to be_nil
       end
     end
   end

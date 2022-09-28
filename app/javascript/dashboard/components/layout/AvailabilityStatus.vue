@@ -53,7 +53,7 @@ export default {
   computed: {
     ...mapGetters({
       getCurrentUserAvailability: 'getCurrentUserAvailability',
-      getCurrentAccountId: 'getCurrentAccountId',
+      currentAccountId: 'getCurrentAccountId',
     }),
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
@@ -62,9 +62,6 @@ export default {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
         availabilityIndex
       ];
-    },
-    currentAccountId() {
-      return this.getCurrentAccountId;
     },
     currentUserAvailability() {
       return this.getCurrentUserAvailability;

@@ -103,8 +103,8 @@
         "DELETE": "Vymazať"
       },
       "STATUS": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
+        "ENABLED": "Zapnuté",
+        "DISABLED": "Vypnuté",
         "COMPLETED": "Completed",
         "ACTIVE": "Active"
       },

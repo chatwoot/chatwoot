@@ -29,9 +29,9 @@
           "ERROR": "Il pubblico è obbligatorio"
         },
         "INBOX": {
-          "LABEL": "Seleziona Posta in arrivo",
-          "PLACEHOLDER": "Seleziona Posta in arrivo",
-          "ERROR": "La posta in arrivo è obbligatoria"
+          "LABEL": "Seleziona Casella",
+          "PLACEHOLDER": "Seleziona Casella",
+          "ERROR": "La casella è obbligatoria"
         },
         "MESSAGE": {
           "LABEL": "Messaggio",
@@ -54,7 +54,7 @@
           "ERROR": "Il tempo sulla pagina è richiesto"
         },
         "ENABLED": "Abilita campagna",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Attiva solo durante l'orario lavorativo",
         "SUBMIT": "Aggiungi campagna"
       },
       "API": {
@@ -68,7 +68,7 @@
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare?",
         "YES": "Sì, elimina ",
-        "NO": "No, Conserva "
+        "NO": "No, conserva "
       },
       "API": {
         "SUCCESS_MESSAGE": "Campagna eliminata con successo",
@@ -85,11 +85,11 @@
     },
     "LIST": {
       "LOADING_MESSAGE": "Caricamento campagne...",
-      "404": "Non ci sono campagne create per questa casella di posta.",
+      "404": "Non ci sono campagne create per questa casella.",
       "TABLE_HEADER": {
         "TITLE": "Titolo",
         "MESSAGE": "Messaggio",
-        "INBOX": "Posta in arrivo",
+        "INBOX": "Casella",
         "STATUS": "Stato",
         "SENDER": "Mittente",
         "URL": "URL",

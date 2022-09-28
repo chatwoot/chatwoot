@@ -36,12 +36,14 @@ describe Sms::SendOnSmsService do
         allow(HTTParty).to receive(:post).and_return(sms_request)
         allow(sms_request).to receive(:success?).and_return(true)
         allow(sms_request).to receive(:parsed_response).and_return({ 'id' => '123456789' })
+        allow(attachment).to receive(:download_url).and_return('url1')
+        allow(attachment2).to receive(:download_url).and_return('url2')
         expect(HTTParty).to receive(:post).with(
           'https://messaging.bandwidth.com/api/v2/users/1/messages',
           basic_auth: { username: '1', password: '1' },
           headers: { 'Content-Type' => 'application/json' },
           body: { 'to' => '+123456789', 'from' => sms_channel.phone_number, 'text' => 'test', 'applicationId' => '1',
-                  'media' => [attachment.download_url, attachment2.download_url] }.to_json
+                  'media' => %w[url1 url2] }.to_json
         )
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')

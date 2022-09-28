@@ -57,3 +57,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+button:disabled {
+  opacity: 1;
+  background-color: var(--w-100);
+
+  &:hover {
+    background-color: var(--w-100);
+  }
+}
+</style>

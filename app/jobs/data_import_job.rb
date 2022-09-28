@@ -21,9 +21,6 @@ class DataImportJob < ApplicationJob
 
     contact.name = params[:name] if params[:name].present?
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name)))
-
-    # since callbacks aren't triggered lets ensure a pubsub token
-    contact.pubsub_token ||= SecureRandom.base58(24)
     contact
   end
 

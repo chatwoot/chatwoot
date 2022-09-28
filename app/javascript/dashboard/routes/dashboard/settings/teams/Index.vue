@@ -33,8 +33,7 @@
                       color-scheme="secondary"
                       class-names="grey-btn"
                       icon="settings"
-                    >
-                    </woot-button>
+                    />
                   </router-link>
                   <woot-button
                     v-if="isAdmin"
@@ -46,8 +45,7 @@
                     class-names="grey-btn"
                     :is-loading="loading[item.id]"
                     @click="openDelete(item)"
-                  >
-                  </woot-button>
+                  />
                 </div>
               </td>
             </tr>
@@ -57,7 +55,7 @@
 
       <div class="small-4 columns">
         <span
-          v-html="
+          v-dompurify-html="
             $t('TEAMS_SETTINGS.SIDEBAR_TXT', {
               installationName: globalConfig.installationName,
             })

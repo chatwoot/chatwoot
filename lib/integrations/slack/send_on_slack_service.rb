@@ -41,14 +41,14 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def avatar_url(sender)
-    sender.try(:avatar_url) || "#{ENV['FRONTEND_URL']}/admin/avatar_square.png"
+    sender.try(:avatar_url) || "#{ENV.fetch('FRONTEND_URL', nil)}/admin/avatar_square.png"
   end
 
   def send_message
     post_message if message_content.present?
     upload_file if message.attachments.any?
   rescue Slack::Web::Api::Errors::AccountInactive => e
-    Rails.logger.info e
+    Rails.logger.error e
     hook.authorization_error!
     hook.disable if hook.enabled?
   end
@@ -73,7 +73,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def file_type
-    File.extname(message.attachments.first.file_url).strip.downcase[1..]
+    File.extname(message.attachments.first.download_url).strip.downcase[1..]
   end
 
   def file_information

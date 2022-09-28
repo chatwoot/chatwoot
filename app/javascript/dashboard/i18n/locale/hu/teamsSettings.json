@@ -83,7 +83,7 @@
       "SELECT_ALL": "összes kiválasztása",
       "SELECTED_COUNT": "%{selected} a %{total}-ból kiválasztva.",
       "BUTTON_TEXT": "Ügynök Hozzádása",
-      "AGENT_VALIDATION_ERROR": "Legalább egy ügynököt válassz."
+      "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "A csapatod kész!",

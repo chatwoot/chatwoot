@@ -1,6 +1,4 @@
-/* eslint no-console: 0 */
 /* global axios */
-/* eslint no-undef: "error" */
 
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
@@ -61,41 +59,15 @@ export default {
     });
     return fetchPromise;
   },
-
-  isLoggedIn() {
-    const hasAuthCookie = !!Cookies.getJSON('auth_data');
-    const hasUserCookie = !!Cookies.getJSON('user');
-    return hasAuthCookie && hasUserCookie;
+  hasAuthCookie() {
+    return !!Cookies.getJSON('cw_d_session_info');
   },
-
-  isAdmin() {
-    if (this.isLoggedIn()) {
-      return Cookies.getJSON('user').role === 'administrator';
-    }
-    return false;
-  },
-
   getAuthData() {
-    if (this.isLoggedIn()) {
-      return Cookies.getJSON('auth_data');
+    if (this.hasAuthCookie()) {
+      return Cookies.getJSON('cw_d_session_info');
     }
     return false;
   },
-  getPubSubToken() {
-    if (this.isLoggedIn()) {
-      const user = Cookies.getJSON('user') || {};
-      const { pubsub_token: pubsubToken } = user;
-      return pubsubToken;
-    }
-    return null;
-  },
-  getCurrentUser() {
-    if (this.isLoggedIn()) {
-      return Cookies.getJSON('user');
-    }
-    return null;
-  },
-
   verifyPasswordToken({ confirmationToken }) {
     return new Promise((resolve, reject) => {
       axios

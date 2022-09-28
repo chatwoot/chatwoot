@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "Login to Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-pošta",
+      "PLACEHOLDER": "E-pošta npr.: ime.prezime@primer.com"
+    },
+    "PASSWORD": {
+      "LABEL": "Lozinka",
+      "PLACEHOLDER": "Lozinka"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Prijava je uspešna",
+      "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije",
+      "UNAUTH": "Korisničko ime / lozinka nije ispravna. Molim vas pokušajte ponovo"
+    },
+    "FORGOT_PASSWORD": "Da li ste zaboravili lozinku?",
+    "CREATE_NEW_ACCOUNT": "Napravite novi nalog",
+    "SUBMIT": "Prijava"
+  }
+}

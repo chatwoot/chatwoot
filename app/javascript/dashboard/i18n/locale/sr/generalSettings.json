@@ -1,0 +1,140 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Podešavanja naloga",
+    "SUBMIT": "Primeni izmene",
+    "BACK": "Nazad",
+    "UPDATE": {
+      "ERROR": "Nije bilo moguće primeniti izmene, pokušajte ponovo!",
+      "SUCCESS": "Izmene podešavanja naloga su uspešno primenjene"
+    },
+    "FORM": {
+      "ERROR": "Molim vas ispravite greške formulara",
+      "GENERAL_SECTION": {
+        "TITLE": "Opšta podešavanja",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "ID naloga",
+        "NOTE": "Ovaj ID je neophodan ako izgrađujete integraciju zasnovanu na API-ju"
+      },
+      "NAME": {
+        "LABEL": "Naziv naloga",
+        "PLACEHOLDER": "Naziv vašeg naloga",
+        "ERROR": "Molim vas unesite ispravan naziv naloga"
+      },
+      "LANGUAGE": {
+        "LABEL": "Jezik sajta (beta)",
+        "PLACEHOLDER": "Naziv vašeg naloga",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domen dolazne e-pošte",
+        "PLACEHOLDER": "Domen gde ćete primati e-poruke",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-pošta podrške",
+        "PLACEHOLDER": "E-pošta podrške vaše kompanije",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Broj dana nakon čega će se tiket automatski rešiti ako nema aktivnosti",
+        "PLACEHOLDER": "30",
+        "ERROR": "Molim vas unesite ispravno trajanje za automatsko rešavanje (minimalno 1 dan i maksimalno 999 dana)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Nastavljanje razgovora putem e-poruka je omogućeno za vaš nalog.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sada možete da dobijate e-poruke u vaš prilagođeni domen."
+      }
+    },
+    "UPDATE_CHATWOOT": "Dostupna je nadogradnja %{latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
+    "LEARN_MORE": "Saznajte više"
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Pritisnite enter da bi ste izabrali",
+      "ENTER_TO_REMOVE": "Pritisnite enter da bi ste uklonili",
+      "SELECT_ONE": "Izaberite jedno"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Obaveštenja",
+    "MARK_ALL_DONE": "Označi sve kao završeno",
+    "DELETE_TITLE": "obrisano",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Nepročitana obaveštenja",
+      "ALL_NOTIFICATIONS": "Pregledaj sva obaveštenja",
+      "LOADING_UNREAD_MESSAGE": "Učitavanje nepročitanih obaveštenja...",
+      "EMPTY_MESSAGE": "Nemate nepročitanih obaveštenja"
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Učitavanje obaveštenja...",
+      "404": "Nema obaveštenja",
+      "TABLE_HEADER": [
+        "Ime",
+        "Broj telefona",
+        "Razgovori",
+        "Poslednji put kontaktiran"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Novi razgovor",
+      "conversation_assignment": "Dodeljen razgovoru",
+      "assigned_conversation_new_message": "Nova poruka",
+      "conversation_mention": "Pominjanje"
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": "Prekini vezu sa Chatwoot"
+    },
+    "BUTTON": {
+      "REFRESH": "Osveži"
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "Pretraži ili idi na",
+    "SECTIONS": {
+      "GENERAL": "Opšta",
+      "REPORTS": "Izveštaji",
+      "CONVERSATION": "Razgovor",
+      "CHANGE_ASSIGNEE": "Promeni dodeljenog",
+      "CHANGE_TEAM": "Promeni tim",
+      "ADD_LABEL": "Dodaj oznaku razgovoru",
+      "REMOVE_LABEL": "Ukloni oznaku sa razgovora",
+      "SETTINGS": "Podešavanja"
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "Idi na radnu tablu razgovora",
+      "GO_TO_CONTACTS_DASHBOARD": "Idi na radnu tablu kontakata",
+      "GO_TO_REPORTS_OVERVIEW": "Idi na pregled izveštaja",
+      "GO_TO_CONVERSATION_REPORTS": "Idi na izveštaje o razgovorima",
+      "GO_TO_AGENT_REPORTS": "Idi na izveštaje o agentima",
+      "GO_TO_LABEL_REPORTS": "Idi na izveštaje o oznakama",
+      "GO_TO_INBOX_REPORTS": "Idi na izveštaje o prijamnim sandučićima",
+      "GO_TO_TEAM_REPORTS": "Idi na izveštaje o timovima",
+      "GO_TO_SETTINGS_AGENTS": "Idi na podešavanja agenata",
+      "GO_TO_SETTINGS_TEAMS": "Idi na podešavanja timova",
+      "GO_TO_SETTINGS_INBOXES": "Idi na podešavanja prijemnih sandučića",
+      "GO_TO_SETTINGS_LABELS": "Idi na podešavanja oznaka",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Idi na podešavanja brzih odgovora",
+      "GO_TO_SETTINGS_APPLICATIONS": "Idi na podešavanja aplikacije",
+      "GO_TO_SETTINGS_ACCOUNT": "Idi na podešavanja naloga",
+      "GO_TO_SETTINGS_PROFILE": "Idi na podešavanja profila",
+      "GO_TO_NOTIFICATIONS": "Idi na obaveštenja",
+      "ADD_LABELS_TO_CONVERSATION": "Dodaj oznaku razgovoru",
+      "ASSIGN_AN_AGENT": "Dodeli agenta",
+      "ASSIGN_A_TEAM": "Dodeli tim",
+      "MUTE_CONVERSATION": "Utišaj razgovor",
+      "UNMUTE_CONVERSATION": "Poništi utišanje razgovora",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Ukloni oznaku sa razgovora",
+      "REOPEN_CONVERSATION": "Ponovo otvori razgovor",
+      "RESOLVE_CONVERSATION": "Reši razgovor",
+      "SEND_TRANSCRIPT": "Pošalji transkript e-poštom",
+      "SNOOZE_CONVERSATION": "Odloži razgovor",
+      "UNTIL_NEXT_REPLY": "Do sledećeg odgovora",
+      "UNTIL_NEXT_WEEK": "Do sledeće nedelje",
+      "UNTIL_TOMORROW": "Do sutra"
+    }
+  }
+}

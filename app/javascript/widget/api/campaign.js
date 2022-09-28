@@ -7,9 +7,16 @@ const getCampaigns = async websiteToken => {
   return result;
 };
 
-const triggerCampaign = async ({ campaignId, websiteToken }) => {
-  const urlData = endPoints.triggerCampaign({ websiteToken, campaignId });
-
+const triggerCampaign = async ({
+  campaignId,
+  websiteToken,
+  customAttributes,
+}) => {
+  const urlData = endPoints.triggerCampaign({
+    websiteToken,
+    campaignId,
+    customAttributes,
+  });
   await API.post(
     urlData.url,
     { ...urlData.data },
@@ -18,5 +25,4 @@ const triggerCampaign = async ({ campaignId, websiteToken }) => {
     }
   );
 };
-
 export { getCampaigns, triggerCampaign };

@@ -154,6 +154,44 @@
   delete:
     $ref: ./application/agents/delete.yml
 
+# Canned Responses
+/api/v1/accounts/{account_id}/canned_responses:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/canned_responses/index.yml
+  post:
+    $ref: ./application/canned_responses/create.yml
+/api/v1/accounts/{account_id}/canned_responses/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  patch:
+    $ref: ./application/canned_responses/update.yml
+  delete:
+    $ref: ./application/canned_responses/delete.yml
+
+# Custom Attributes
+/api/v1/accounts/{account_id}/custom_attribute_definitions:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/custom_attributes/index.yml
+  post:
+    $ref: ./application/custom_attributes/create.yml
+/api/v1/accounts/{account_id}/custom_attribute_definitions/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the custom attribute
+      required: true
+  get:
+    $ref: './application/custom_attributes/show.yml'
+  patch:
+    $ref: ./application/custom_attributes/update.yml
+  delete:
+    $ref: ./application/custom_attributes/delete.yml
 
 # Contacts
 /api/v1/accounts/{account_id}/contacts:
@@ -175,7 +213,33 @@
   $ref: ./application/contactable_inboxes/get.yml
 
 
+# Automation Rule
+/api/v1/accounts/{account_id}/automation_rules:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/automation_rule/index.yml
+  post:
+    $ref: ./application/automation_rule/create.yml
+/api/v1/accounts/{account_id}/automation_rules/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - name: id
+      in: path
+      type: number
+      description: ID of the Automation Rule
+      required: true
+  get:
+    $ref: ./application/automation_rule/show.yml
+  patch:
+    $ref: ./application/automation_rule/update.yml
+  delete:
+    $ref: ./application/automation_rule/delete.yml
+
+
 # Conversations
+/api/v1/accounts/{account_id}/conversations/meta:
+  $ref: ./application/conversation/meta.yml
 /api/v1/accounts/{account_id}/conversations:
   $ref: ./application/conversation/index.yml
 /api/v1/accounts/{account_id}/conversations/filter:
@@ -238,12 +302,16 @@
     - $ref: '#/parameters/inbox_id'
   get:
     $ref: ./application/inboxes/inbox_members/show.yml
+  delete:
+    $ref: ./application/inboxes/inbox_members/delete.yml
+
+/api/v1/accounts/{account_id}/inbox_members:
+  parameters:
+    - $ref: '#/parameters/account_id'
   post:
     $ref: ./application/inboxes/inbox_members/create.yml
   patch:
     $ref: ./application/inboxes/inbox_members/update.yml
-  delete:
-    $ref: ./application/inboxes/inbox_members/delete.yml
 
 
 
@@ -296,7 +364,7 @@
     $ref: ./application/teams/index.yml
   post:
     $ref: ./application/teams/create.yml
-/api/v1/accounts/{account_id}/teams/{id}:
+/api/v1/accounts/{account_id}/teams/{team_id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'
@@ -306,6 +374,18 @@
     $ref: ./application/teams/update.yml
   delete:
     $ref: ./application/teams/delete.yml
+/accounts/{account_id}/teams/{team_id}/team_members:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/team_id'
+  get:
+    $ref: ./application/team_members/index.yml
+  post:
+    $ref: ./application/team_members/create.yml
+  patch:
+    $ref: ./application/team_members/update.yml
+  delete:
+    $ref: ./application/team_members/delete.yml
 
 ### Custom Filters goes here
 
@@ -333,6 +413,23 @@
     $ref: ./application/custom_filters/update.yml
   delete:
     $ref: ./application/custom_filters/delete.yml
+
+# webhooks
+/api/v1/accounts/{account_id}/webhooks:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./application/webhooks/index.yml
+  post:
+    $ref: ./application/webhooks/create.yml
+/api/v1/accounts/{account_id}/webhooks/{webhook_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/webhook_id'
+  patch:
+    $ref: ./application/webhooks/update.yml
+  delete:
+    $ref: ./application/webhooks/delete.yml
 
 ### Reports
 
@@ -376,3 +473,35 @@
       description: The timestamp from where report should stop.
   get:
     $ref: './application/reports/summary.yml'
+
+# Conversation metrics for account
+/api/v2/accounts/{account_id}/reports/conversations:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: type
+      type: string
+      enum:
+        - account
+      required: true
+      description: Type of report
+  get:
+    $ref: './application/reports/conversation/account.yml'
+
+# Conversation metrics for agent
+/api/v2/accounts/{account_id}/reports/conversations/:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - in: query
+      name: type
+      type: string
+      enum:
+        - agent
+      required: true
+      description: Type of report
+    - in: query
+      name: user_id
+      type: string
+      description: The numeric ID of the user
+  get:
+    $ref: './application/reports/conversation/agent.yml'

@@ -21,7 +21,12 @@
       "is_present": "Присутствует",
       "is_not_present": "Отсутствует",
       "is_greater_than": "Больше чем",
-      "is_lesser_than": "Меньше чем"
+      "is_less_than": "Меньше чем",
+      "days_before": "x дней до"
+    },
+    "ATTRIBUTE_LABELS": {
+      "TRUE": "Истина",
+      "FALSE": "Ложь"
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",
@@ -38,7 +43,9 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Текст",
       "CUSTOM_ATTRIBUTE_NUMBER": "Число",
       "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
+      "CREATED_AT": "Дата создания",
+      "LAST_ACTIVITY": "Последние действия"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",

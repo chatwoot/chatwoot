@@ -22,6 +22,7 @@
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
   },
   "START_CONVERSATION": "Unterhaltung beginnen",
+  "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "UNREAD_VIEW": {
@@ -42,13 +43,20 @@
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "Vollständiger Name",
-        "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt",
-        "ERROR": "Vollständiger Name ist erforderlich"
+        "PLACEHOLDER": "Bitte geben Sie Ihren vollständigen Namen ein",
+        "REQUIRED_ERROR": "Vollständiger Name ist erforderlich"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail-Adresse",
         "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
-        "ERROR": "Ungültige E-Mail-Adresse"
+        "REQUIRED_ERROR": "E-Mail-Adresse wird benötigt",
+        "VALID_ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonnummer",
+        "PLACEHOLDER": "Bitte geben Sie ihre Telefonnummer ein",
+        "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
+        "VALID_ERROR": "Die Telefonnummer sollte im E.164-Format vorliegen, z. B.: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -56,7 +64,8 @@
         "ERROR": "Nachricht ist zu kurz"
       }
     },
-    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie das Gespräch beginnen"
+    "CAMPAIGN_HEADER": "Bitte geben Sie Ihren Namen und Ihre E-Mail-Adresse an, bevor Sie die Konversation beginnen",
+    "IS_REQUIRED": "erforderlich"
   },
   "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -65,9 +74,9 @@
     }
   },
   "CSAT": {
-    "TITLE": "Bewerte deine Unterhaltung",
+    "TITLE": "Bewerten Sie Ihre Konversation",
     "SUBMITTED_TITLE": "Danke, dass Sie die Bewertung eingereicht haben",
-    "PLACEHOLDER": "Erzähl uns mehr..."
+    "PLACEHOLDER": "Erzählen Sie uns mehr..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Chat-Protokoll anfordern",

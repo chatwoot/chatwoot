@@ -15,4 +15,15 @@ export default {
     },
     resolutions_count: 3,
   },
+  report: {
+    data: [
+      { value: '0.00', timestamp: 1647541800, count: 0 },
+      { value: '0.00', timestamp: 1647628200, count: 0 },
+      { value: '0.00', timestamp: 1647714600, count: 0 },
+      { value: '0.00', timestamp: 1647801000, count: 0 },
+      { value: '0.01', timestamp: 1647887400, count: 4 },
+      { value: '0.00', timestamp: 1647973800, count: 0 },
+      { value: '0.00', timestamp: 1648060200, count: 0 },
+    ],
+  },
 };

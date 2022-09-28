@@ -1,8 +1,8 @@
 import {
   formatDate,
   formatUnixDate,
-  buildDateFromTime,
   formatDigitToString,
+  isTimeAfter,
 } from '../DateHelper';
 
 describe('#DateHelper', () => {
@@ -44,27 +44,21 @@ describe('#DateHelper', () => {
       })
     ).toEqual('Yesterday');
   });
-
-  describe('#buildDate', () => {
-    it('returns correctly parsed date', () => {
-      const date = new Date();
-      date.setFullYear(2021);
-      date.setMonth(2);
-      date.setDate(5);
-
-      const result = buildDateFromTime(12, 15, '.465Z', date);
-      expect(result + '').toEqual(
-        'Fri Mar 05 2021 12:15:00 GMT+0000 (Coordinated Universal Time)'
-      );
-    });
+});
+describe('#formatDigitToString', () => {
+  it('returns date compatabile string from number is less than 9', () => {
+    expect(formatDigitToString(8)).toEqual('08');
   });
+  it('returns date compatabile string from number is greater than 9', () => {
+    expect(formatDigitToString(11)).toEqual('11');
+  });
+});
 
-  describe('#formatDigitToString', () => {
-    it('returns date compatabile string from number is less than 9', () => {
-      expect(formatDigitToString(8)).toEqual('08');
-    });
-    it('returns date compatabile string from number is greater than 9', () => {
-      expect(formatDigitToString(11)).toEqual('11');
-    });
+describe('#isTimeAfter', () => {
+  it('return correct values', () => {
+    expect(isTimeAfter(5, 30, 9, 30)).toEqual(false);
+    expect(isTimeAfter(9, 30, 9, 30)).toEqual(true);
+    expect(isTimeAfter(9, 29, 9, 30)).toEqual(false);
+    expect(isTimeAfter(11, 59, 12, 0)).toEqual(false);
   });
 });

@@ -22,6 +22,7 @@
     "IN_A_DAY": "Обикновено отговаряме до един ден"
   },
   "START_CONVERSATION": "Започнете разговор",
+  "END_CONVERSATION": "End Conversation",
   "CONTINUE_CONVERSATION": "Continue conversation",
   "START_NEW_CONVERSATION": "Започнете нов разговор",
   "UNREAD_VIEW": {
@@ -43,12 +44,19 @@
       "FULL_NAME": {
         "LABEL": "Пълно име",
         "PLACEHOLDER": "Моля, въведете пълното си име",
-        "ERROR": "Пълното име е задължително"
+        "REQUIRED_ERROR": "Пълното име е задължително"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Имейл адрес",
         "PLACEHOLDER": "Моля, въведете имейл адреса си",
-        "ERROR": "Невалиден имейл адрес"
+        "REQUIRED_ERROR": "Email Address is required",
+        "VALID_ERROR": "Please enter a valid email address"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Телефон",
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Съобщение",
@@ -56,7 +64,8 @@
         "ERROR": "Съобщението е прекалено кратко"
       }
     },
-    "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес"
+    "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес",
+    "IS_REQUIRED": "is required"
   },
   "FILE_SIZE_LIMIT": "Файлът надхвърля {MAXIMUM_FILE_UPLOAD_SIZE} лимит",
   "CHAT_FORM": {

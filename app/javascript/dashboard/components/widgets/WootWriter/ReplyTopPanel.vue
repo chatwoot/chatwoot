@@ -163,13 +163,13 @@ export default {
 
     &:hover,
     &:active {
-      color: var(--y-800);
+      color: var(--y-700);
     }
   }
 }
 
 .button--note {
-  color: var(--y-900);
+  color: var(--y-600);
 }
 
 .action-wrap {

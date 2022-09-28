@@ -43,7 +43,7 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
-
+          resources :assignable_agents, only: [:index]
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -52,12 +52,18 @@ Rails.application.routes.draw do
               post :reauthorize_page
             end
           end
-          resources :canned_responses, except: [:show, :edit, :new]
-          resources :automation_rules, except: [:edit] do
+          resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
+            post :attach_file, on: :collection
+          end
+          resources :macros, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :execute
+            end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
-
+          resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -72,6 +78,7 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
+              resource :direct_uploads, only: [:create]
             end
             member do
               post :mute
@@ -94,6 +101,7 @@ Rails.application.routes.draw do
             member do
               get :contactable_inboxes
               post :destroy_custom_attributes
+              delete :avatar
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -105,6 +113,7 @@ Rails.application.routes.draw do
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
@@ -145,7 +154,7 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
-          resources :webhooks, except: [:show]
+          resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:create, :update, :destroy]
@@ -153,13 +162,13 @@ Rails.application.routes.draw do
           end
           resources :working_hours, only: [:update]
 
-          namespace :kbase do
-            resources :portals do
-              resources :categories do
-                resources :folders
-              end
-              resources :articles
+          resources :portals do
+            member do
+              patch :archive
+              put :add_members
             end
+            resources :categories
+            resources :articles
           end
         end
       end
@@ -180,6 +189,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -189,11 +199,13 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            get  :toggle_status
           end
         end
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
+            patch :set_user
           end
         end
         resources :inbox_members, only: [:index]
@@ -210,9 +222,27 @@ Rails.application.routes.draw do
             get :inboxes
             get :labels
             get :teams
+            get :conversations
           end
         end
       end
+    end
+  end
+
+  if ChatwootApp.enterprise?
+    namespace :enterprise, defaults: { format: 'json' } do
+      namespace :api do
+        namespace :v1 do
+          resources :accounts do
+            member do
+              post :checkout
+              post :subscription
+            end
+          end
+        end
+      end
+
+      post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
     end
   end
 
@@ -252,10 +282,18 @@ Rails.application.routes.draw do
             end
           end
         end
+
         resources :csat_survey, only: [:show, :update]
       end
     end
   end
+
+  get 'hc/:slug', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
+  get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
+  get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/:locale/:category_slug/:id', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
@@ -272,8 +310,9 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
   post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
-  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
+  get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
+  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
@@ -304,7 +343,9 @@ Rails.application.routes.draw do
       resource :app_config, only: [:show, :create]
 
       # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts
+      resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
+        post :seed, on: :member
+      end
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]

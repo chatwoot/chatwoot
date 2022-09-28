@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Kampanje",
+    "SIDEBAR_TXT": "Proaktivne poruke omogućavaju korisnicima da šalju odlazne poruke njihovim kontaktima koje će pokrenuti dodatne razgovore. Kliknite na <b>Dodaj kampanju</b> da bi ste napravili novu kampanju. Takođe možetet urediti ili obrisati postojeću kampanju klikom na dugme Uredi ili Obriši.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "Napravi jednokratnu kampanju",
+      "ONGOING": "Napravi dugotrajnu kampanju"
+    },
+    "ADD": {
+      "TITLE": "Napravi kamapanju",
+      "DESC": "Proaktivne poruke omogućavaju korisnicima da šalju odlazne poruke njihovim kontaktima koje će pokrenuti dodatne razgovore.",
+      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "CREATE_BUTTON_TEXT": "Napravi",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Naslov",
+          "PLACEHOLDER": "Molim vas unesite naslov kampanje",
+          "ERROR": "Naslov je obavezan"
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "Vremenski raspored",
+          "PLACEHOLDER": "Molim vas unesite vreme",
+          "CONFIRM": "Potvrdi",
+          "ERROR": "Vremenski raspored je obavezan"
+        },
+        "AUDIENCE": {
+          "LABEL": "Publika",
+          "PLACEHOLDER": "Izaberite oznake potrošača",
+          "ERROR": "Publika je obavezna"
+        },
+        "INBOX": {
+          "LABEL": "Izaberite prijemno sanduče",
+          "PLACEHOLDER": "Izaberite prijemno sanduče",
+          "ERROR": "Prijemno sanduče je obavezno"
+        },
+        "MESSAGE": {
+          "LABEL": "Poruka",
+          "PLACEHOLDER": "Molim vas unesite poruku kampanje",
+          "ERROR": "Poruka je obavezna"
+        },
+        "SENT_BY": {
+          "LABEL": "Poslao",
+          "PLACEHOLDER": "Molim vas izaberite sadržaj kampanje",
+          "ERROR": "Pošiljalac je obavezan"
+        },
+        "END_POINT": {
+          "LABEL": "Adresa",
+          "PLACEHOLDER": "Molim vas unesite adresu",
+          "ERROR": "Molim vas unesite ispravnu adresu"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Vreme na stranici(sekunde)",
+          "PLACEHOLDER": "Molim vas unesite vreme",
+          "ERROR": "Vreme na stranici je obavezno"
+        },
+        "ENABLED": "Omogući kampanju",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "Aktiviraj samo tokom radnog vremena",
+        "SUBMIT": "Dodaj kampanju"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampanja je uspešno napravljena",
+        "ERROR_MESSAGE": "Pojavila se greška. Molim vas pokušajte ponovo."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "CONFIRM": {
+        "TITLE": "Potvrdite brisanje",
+        "MESSAGE": "Da li zaista želite da izbrišete?",
+        "YES": "Da, izbriši ",
+        "NO": "Ne, zadrži "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampanja je uspešno obrisana",
+        "ERROR_MESSAGE": "Nije bilo moguće obrisati kampanju. Molim vas pokušajte ponovo."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Uredi kampanju",
+      "UPDATE_BUTTON_TEXT": "Primeni",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampanja je uspešno izmenjena",
+        "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Preuzimanje kampanji...",
+      "404": "Nema kampanji napravljenih za ovo prijemno sanduče.",
+      "TABLE_HEADER": {
+        "TITLE": "Naslov",
+        "MESSAGE": "Poruka",
+        "INBOX": "Prijemno sanduče",
+        "STATUS": "Status",
+        "SENDER": "Pošiljalac",
+        "URL": "Adresa",
+        "SCHEDULED_AT": "Vremenski raspored",
+        "TIME_ON_PAGE": "Vreme(sekunde)",
+        "CREATED_AT": "Napravljena u"
+      },
+      "BUTTONS": {
+        "ADD": "Dodaj",
+        "EDIT": "Uredi",
+        "DELETE": "Izbriši"
+      },
+      "STATUS": {
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno",
+        "COMPLETED": "Završeno",
+        "ACTIVE": "Aktivno"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "Jednokratne kampanje",
+      "404": "Ne postoje napravljene jednokratne kampanje",
+      "INBOXES_NOT_FOUND": "Molim vas napravite sms prijemno sanduče i započnite dodavanje kamapanja"
+    },
+    "ONGOING": {
+      "HEADER": "Dugotrajne kamapanje",
+      "404": "Ne postoje napravljene dugotrajne kampanje",
+      "INBOXES_NOT_FOUND": "Molim vas napravite prijemno sanduče sajta i započnite dodavanje kampanja"
+    }
+  }
+}

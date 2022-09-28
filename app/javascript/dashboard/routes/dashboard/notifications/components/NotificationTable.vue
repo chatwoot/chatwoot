@@ -6,28 +6,30 @@
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
       @click="onMarkAllDoneClick"
-    >
-    </woot-submit-button>
+    />
 
     <table class="woot-table notifications-table">
       <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
+          :class="{
+            'is-unread': notificationItem.read_at === null,
+          }"
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="">
+            <div class="flex-view notification-contant--wrap text-truncate">
               <h5 class="notification--title">
                 {{
                   `#${
                     notificationItem.primary_actor
                       ? notificationItem.primary_actor.id
-                      : 'deleted'
+                      : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
                   }`
                 }}
               </h5>
-              <span class="notification--message-title">
+              <span class="notification--message-title text-truncate">
                 {{ notificationItem.push_message_title }}
               </span>
             </div>
@@ -164,6 +166,10 @@ export default {
   }
 }
 
+.is-unread {
+  font-weight: var(--font-weight-bold);
+}
+
 .notifications--loader {
   font-size: var(--font-size-default);
   display: flex;
@@ -195,6 +201,11 @@ export default {
 .timestamp--column {
   min-width: 13rem;
   text-align: right;
+}
+
+.notification-contant--wrap {
+  flex-direction: column;
+  max-width: 50rem;
 }
 
 .notification--message-title {

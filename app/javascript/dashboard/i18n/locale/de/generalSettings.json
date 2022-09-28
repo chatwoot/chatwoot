@@ -1,14 +1,14 @@
 {
   "GENERAL_SETTINGS": {
     "TITLE": "Kontoeinstellungen",
-    "SUBMIT": "Update Einstellungen",
+    "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",
     "UPDATE": {
       "ERROR": "Einstellungen konnten nicht aktualisiert werden, versuchen Sie es erneut!",
       "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
     },
     "FORM": {
-      "ERROR": "Bitte korrigieren Sie Formularfehler",
+      "ERROR": "Bitte Formularfehler korrigieren",
       "GENERAL_SECTION": {
         "TITLE": "Allgemeine Einstellungen",
         "NOTE": ""
@@ -34,44 +34,52 @@
       },
       "SUPPORT_EMAIL": {
         "LABEL": "Support-E-Mail",
-        "PLACEHOLDER": "Support E-Mail deines Unternehmens",
+        "PLACEHOLDER": "Die Support-E-Mail Ihres Unternehmens",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Anzahl der Tage, nach denen ein Ticket automatisch geschlossen wird, wenn keine Aktivität erfolgt",
         "PLACEHOLDER": "30",
-        "ERROR": "Bitte gebe eine gültige automatische Auflösungsdauer ein (mindestens 1 Tag und maximal 999 Tage)"
+        "ERROR": "Bitte geben Sie eine gültige Dauer für die automatische Auflösung ein (mindestens 1Tag und maximal 999Tage)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Für dein Konto wurde der Empfang von E-Mails aktiviert.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kannst E-Mails jetzt von der festgelegten Domain erhalten."
+        "INBOUND_EMAIL_ENABLED": "Konversationskontinuität mit E-Mails ist für Ihr Konto aktiviert.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sie können jetzt E-Mails in Ihrer benutzerdefinierten Domäne empfangen."
       }
     },
-    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisiere deine Installation."
+    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
+    "LEARN_MORE": "Mehr erfahren"
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Drücke Enter zum Auswählen",
-      "ENTER_TO_REMOVE": "Drücke Enter zum Entfernen",
-      "SELECT_ONE": "Eine Option wählen"
+      "ENTER_TO_SELECT": "Drücken Sie zur Auswahl die Eingabetaste",
+      "ENTER_TO_REMOVE": "Drücken Sie zum Entfernen die Eingabetaste",
+      "SELECT_ONE": "Eines wählen"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Push-Benachrichtigungen",
     "MARK_ALL_DONE": "Alle als Erledigt markieren",
+    "DELETE_TITLE": "Gelöscht",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "Ungelesene Benachrichtigungen",
+      "ALL_NOTIFICATIONS": "Alle Benachrichtigungen anzeigen",
+      "LOADING_UNREAD_MESSAGE": "Ungelesene Benachrichtigungen werden geladen...",
+      "EMPTY_MESSAGE": "Sie haben keine ungelesenen Benachrichtigungen"
+    },
     "LIST": {
       "LOADING_MESSAGE": "Benachrichtigungen werden geladen...",
       "404": "Keine Benachrichtigungen",
       "TABLE_HEADER": [
         "Name",
         "Telefonnummer",
-        "Gespräche",
-        "Letzter Kontakt"
+        "Konversationen",
+        "Zuletzt kontaktiert"
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "Neue Unterhaltung",
-      "conversation_assignment": "Unterhaltung zugewiesen",
+      "conversation_creation": "Neue Konversation",
+      "conversation_assignment": "Konversation zugewiesen",
       "assigned_conversation_new_message": "Neue Nachricht",
       "conversation_mention": "Erwähnung"
     }
@@ -89,17 +97,18 @@
     "SECTIONS": {
       "GENERAL": "Generell",
       "REPORTS": "Berichte",
-      "CONVERSATION": "Unterhaltung",
+      "CONVERSATION": "Konversation",
       "CHANGE_ASSIGNEE": "Beauftragten ändern",
       "CHANGE_TEAM": "Team wechseln",
-      "ADD_LABEL": "Label zur Unterhaltung hinzufügen",
-      "REMOVE_LABEL": "Label aus der Unterhaltung entfernen",
-      "SETTINGS": "die Einstellungen"
+      "ADD_LABEL": "Label zur Konversation hinzufügen",
+      "REMOVE_LABEL": "Label aus der Konversation entfernen",
+      "SETTINGS": "Einstellungen"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht gehen",
+      "GO_TO_CONVERSATION_DASHBOARD": "Zur Konversationsübersicht",
       "GO_TO_CONTACTS_DASHBOARD": "Zur Kontaktübersicht",
       "GO_TO_REPORTS_OVERVIEW": "Zur Berichtsübersicht",
+      "GO_TO_CONVERSATION_REPORTS": "Gehen Sie zu Konversationsberichten",
       "GO_TO_AGENT_REPORTS": "Zu den Agentenberichten",
       "GO_TO_LABEL_REPORTS": "Zu den Label-Berichten",
       "GO_TO_INBOX_REPORTS": "Zu den Posteingangsberichten",
@@ -113,15 +122,15 @@
       "GO_TO_SETTINGS_ACCOUNT": "Zu den Kontoeinstellungen",
       "GO_TO_SETTINGS_PROFILE": "Zu Profileinstellungen",
       "GO_TO_NOTIFICATIONS": "Zu Benachrichtigungen",
-      "ADD_LABELS_TO_CONVERSATION": "Label zur Unterhaltung hinzufügen",
+      "ADD_LABELS_TO_CONVERSATION": "Label zur Konversation hinzufügen",
       "ASSIGN_AN_AGENT": "Einen Agent zuweisen",
       "ASSIGN_A_TEAM": "Ein Team zuweisen",
       "MUTE_CONVERSATION": "Konversation stummschalten",
       "UNMUTE_CONVERSATION": "Konversation entstummen",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Label aus der Unterhaltung entfernen",
-      "REOPEN_CONVERSATION": "Unterhaltung wieder öffnen",
-      "RESOLVE_CONVERSATION": "Unterhaltung lösen",
-      "SEND_TRANSCRIPT": "Gesprächsprotokoll per E-Mail senden",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Label aus der Konversation entfernen",
+      "REOPEN_CONVERSATION": "Konversation wieder öffnen",
+      "RESOLVE_CONVERSATION": "Konversation lösen",
+      "SEND_TRANSCRIPT": "Ein E-Mail-Transkript senden",
       "SNOOZE_CONVERSATION": "Snooze-Konversation",
       "UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort",
       "UNTIL_NEXT_WEEK": "Bis nächste Woche",

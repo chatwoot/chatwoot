@@ -1,5 +1,5 @@
 tags:
-  - Custom Filter
+  - Custom Filters
 operationId: update-a-custom-filter
 summary: Update a custom filter
 description: Update a custom filter's attributes

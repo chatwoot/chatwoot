@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Procurando Hooks de integração",
-      "INBOX": "Recebidas",
+      "INBOX": "Caixa de Entrada",
       "DELETE": {
         "BUTTON_TEXT": "excluir"
       }

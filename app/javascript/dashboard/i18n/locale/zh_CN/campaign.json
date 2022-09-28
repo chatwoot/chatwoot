@@ -89,7 +89,7 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "消息",
-        "INBOX": "Inbox",
+        "INBOX": "收件箱",
         "STATUS": "状态",
         "SENDER": "Sender",
         "URL": "URL",
@@ -98,7 +98,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "添加",
         "EDIT": "编辑",
         "DELETE": "删除"
       },

@@ -1,8 +1,8 @@
 <template>
   <div
+    v-dompurify-html="formatMessage(message, false)"
     class="chat-bubble user"
     :style="{ background: widgetColor }"
-    v-html="formatMessage(message, false)"
   />
 </template>
 
@@ -35,7 +35,7 @@ export default {
 .chat-bubble.user::v-deep pre {
   background: $color-primary-light;
   color: $color-body;
-  overflow: scroll;
+  overflow: auto;
   padding: $space-smaller;
 }
 </style>

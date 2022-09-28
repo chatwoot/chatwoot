@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DateSeparator matches snapshot 1`] = `
+exports[`dateSeparator date separator snapshot 1`] = `
 <div
-  class="date--separator"
+  class="date--separator text-slate-700"
 >
   
   Nov 18, 2019

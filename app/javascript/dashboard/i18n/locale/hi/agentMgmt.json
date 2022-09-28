@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Role",
+          "PLACEHOLDER": "कृपया एक भूमिका का चयन करें",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "Email Address",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Role",
+          "PLACEHOLDER": "कृपया एक भूमिका का चयन करें",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "Email Address",

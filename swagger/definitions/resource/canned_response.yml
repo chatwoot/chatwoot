@@ -1,0 +1,14 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: ID of the canned response
+  content:
+    type: string
+    description: Message content for canned response
+  short_code:
+    type: string
+    description: Short Code for quick access of the canned response
+  account_id:
+    type: integer
+    description: Account Id

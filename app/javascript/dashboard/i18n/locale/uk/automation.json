@@ -1,41 +1,41 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "Автоматизація",
+    "HEADER_BTN_TXT": "Додати правило автоматизації",
+    "LOADING": "Отримання правил автоматизації",
+    "SIDEBAR_TXT": "<p><b>Правила автоматизації</b> <p>Автоматизація може замінити і автоматизувати існуючі процеси, які потребують ручних зусиль. За допомогою автоматизації можна зробити багато речей, включаючи додавання ярликів і призначення бесід найкращому агенту. Тож команда зосереджена на тому, що вона робить найкраще, та витрачає мало часу на завдання з ручної роботи.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "Додати правило автоматизації",
       "SUBMIT": "Створити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
+          "LABEL": "Ім'я правила",
+          "PLACEHOLDER": "Введіть назву правила",
           "ERROR": "Назва обов'язкова"
         },
         "DESC": {
           "LABEL": "Опис",
-          "PLACEHOLDER": "Enter rule description",
+          "PLACEHOLDER": "Введіть опис правила",
           "ERROR": "Необхідний опис"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Івент",
           "PLACEHOLDER": "Будь ласка, виберіть",
-          "ERROR": "Event is required"
+          "ERROR": "Івент обов'язковий"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Умови"
         },
         "ACTIONS": {
           "LABEL": "Дії"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Додати умову",
+      "ACTION_BUTTON_LABEL": "Додати дію",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизації додано успішно",
+        "ERROR_MESSAGE": "Не вдалося створити правило автоматизації, спробуйте ще раз пізніше"
       }
     },
     "LIST": {
@@ -43,12 +43,12 @@
         "Ім'я",
         "Опис",
         "Активний",
-        "Created on"
+        "Створено"
       ],
-      "404": "No automation rules found"
+      "404": "Не знайдено правил автоматизації"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Видалити правило автоматизації",
       "SUBMIT": "Видалити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "Ні, залишити "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизації видалено успішно",
+        "ERROR_MESSAGE": "Не вдалося видалити правило автоматизації, спробуйте ще раз пізніше"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "Редагувати",
+      "TITLE": "Редагувати правило автоматизації",
+      "SUBMIT": "Оновити",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Правило автоматизації успішно оновлено",
+        "ERROR_MESSAGE": "Не вдалося оновити правило автоматизації, спробуйте ще раз пізніше"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Копіювати",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Автоматизацію успішно скопійовано",
+        "ERROR_MESSAGE": "Не вдалося скопіювати правило автоматизації, будь ласка, спробуйте ще раз пізніше"
       }
     },
     "FORM": {
@@ -83,7 +83,34 @@
       "CREATE": "Створити",
       "DELETE": "Видалити",
       "CANCEL": "Скасувати",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Зміна типу події скине умови та події, які ви додали нижче"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Ви повинні мати принаймні одну умову для збереження"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Ви повинні мати принаймні одну дію для збереження",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Введіть ваше повідомлення тут",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Обрати команди"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Активувати правило автоматизації",
+      "DEACTIVATION_TITLE": "Вимкнути правило автоматизації",
+      "ACTIVATION_DESCRIPTION": "Ця дія активує правило автоматизації '{automationName}. Ви впевнені, що хочете продовжити?",
+      "DEACTIVATION_DESCRIPTION": "Ця дія деактивує правило автоматизації '{automationName}. Ви впевнені, що хочете продовжити?",
+      "ACTIVATION_SUCCESFUL": "Правило автоматизації активоване успішно",
+      "DEACTIVATION_SUCCESFUL": "Правило автоматизації успішно деактивовано",
+      "ACTIVATION_ERROR": "Не вдалося активувати автоматизацію, спробуйте ще раз пізніше",
+      "DEACTIVATION_ERROR": "Не вдалося деактивувати автоматизацію, спробуйте ще раз пізніше",
+      "CONFIRMATION_LABEL": "Так",
+      "CANCEL_LABEL": "Ні"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Не вдалося завантажити вкладення, будь ласка, спробуйте ще раз",
+      "LABEL_IDLE": "Завантажити вкладення",
+      "LABEL_UPLOADING": "Завантажується...",
+      "LABEL_UPLOADED": "Успішно завантажено",
+      "LABEL_UPLOAD_FAILED": "Не вдалося завантажити"
     }
   }
 }

@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Añadir respuesta predefinida",
     "LOADING": "Obteniendo respuestas predefinidas",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>Respuestas predefinidas</b> </p><p> Respuestas predefinidas son plantillas de respuesta guardadas que pueden utilizarse para enviar rápidamente una respuesta a una conversación. </p><p> Para crear una respuesta predefinida, simplemente haga clic en <b>Añadir respuesta predefinida</b>. También puede editar o eliminar una respuesta predefinida haciendo clic en el botón Editar o Borrar </p><p> Las respuestas predefinidas se utilizan con la ayuda de <b>Códigos cortos</b>. Los agentes pueden acceder a las respuestas predefinidas mientras están en un chat escribiendo <b>'/'</b> seguido del código corto. </p>",
     "LIST": {
       "404": "No hay respuestas enlatadas disponibles en esta cuenta.",
       "TITLE": "Administrar respuestas predefinidas",
@@ -17,12 +17,12 @@
     },
     "ADD": {
       "TITLE": "Añadir respuesta predefinida",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "DESC": "Las respuestas predefinidas son plantillas de respuesta guardadas que se pueden utilizar para enviar rápidamente la respuesta a la conversación.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código corto",
-          "PLACEHOLDER": "Please enter a short code",
+          "PLACEHOLDER": "Por favor, introduzca un código corto",
           "ERROR": "El código corto es requerido"
         },
         "CONTENT": {

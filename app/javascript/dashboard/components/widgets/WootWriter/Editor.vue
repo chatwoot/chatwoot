@@ -10,7 +10,7 @@
       :search-key="cannedSearchTerm"
       @click="insertCannedResponse"
     />
-    <div ref="editor"></div>
+    <div ref="editor" />
   </div>
 </template>
 
@@ -185,6 +185,12 @@ export default {
         },
         blur: () => {
           this.onBlur();
+        },
+        paste: (view, event) => {
+          const data = event.clipboardData.files;
+          if (data.length > 0) {
+            event.preventDefault();
+          }
         },
       },
     });

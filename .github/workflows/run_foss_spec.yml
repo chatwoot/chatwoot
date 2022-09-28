@@ -1,0 +1,73 @@
+# #
+# # This action will strip the enterprise folder
+# # and run the spec.
+# # This is set to run against every PR.
+# #
+
+name: Run Chatwoot CE spec
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ""
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        # tmpfs makes DB faster by using RAM
+        options: >-
+          --mount type=tmpfs,destination=/var/lib/postgresql/data
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.4 # Not needed with a .ruby-version file
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+    - name: yarn
+      run: yarn install
+
+    - name: Strip enterprise code
+      run: |
+        rm -rf enterprise
+        rm -rf spec/enterprise
+
+    - name: Create database
+      run: bundle exec rake db:create
+
+    - name: Seed database
+      run: bundle exec rake db:schema:load
+
+    - name: yarn check-files
+      run: yarn install --check-files
+
+    # Run rails tests
+    - name: Run backend tests
+      run: |
+        bundle exec rspec --profile=10 --format documentation

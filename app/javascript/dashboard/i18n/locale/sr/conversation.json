@@ -1,0 +1,241 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Izaberite razgovor sa leve strane",
+    "404": "Izvinite, ne možemo da pronađemo razgovor. Molim vas pokušajte ponovo",
+    "SWITCH_VIEW_LAYOUT": "Promeni raspored",
+    "DASHBOARD_APP_TAB_MESSAGES": "Poruke",
+    "UNVERIFIED_SESSION": "Identitet korisnika nije potvrđen",
+    "NO_MESSAGE_1": "O ne! Izgleda da nema poruka od korisnika u vašem prijemnom sandučetu.",
+    "NO_MESSAGE_2": " poslati poruku tvojoj stranici!",
+    "NO_INBOX_1": "Pozdrav! Izgleda da još uvek niste dodali prijemno sanduče.",
+    "NO_INBOX_2": " da bi ste počeli",
+    "NO_INBOX_AGENT": "O ne! Izgleda da niste deo nijednog prijemnog sandučeta. Molim vas kontaktirajte vašeg administratora",
+    "SEARCH_MESSAGES": "Pretražite poruke u razgovorima",
+    "SEARCH": {
+      "TITLE": "Pretraži poruke",
+      "RESULT_TITLE": "Rezultat pretrage",
+      "LOADING_MESSAGE": "Obrada podataka...",
+      "PLACEHOLDER": "Upišite bilo koji tekst da bi ste pretražili poruke",
+      "NO_MATCHING_RESULTS": "Ništa nije pronađeno."
+    },
+    "UNREAD_MESSAGES": "Nepročitane poruke",
+    "UNREAD_MESSAGE": "Nepročitana poruka",
+    "CLICK_HERE": "Kliknite ovde",
+    "LOADING_INBOXES": "Učitavanje prijemnih sandučića",
+    "LOADING_CONVERSATIONS": "Učitavanje razgovora",
+    "CANNOT_REPLY": "Ne možete da odgovorite zbog",
+    "24_HOURS_WINDOW": "24-časovno ograničenje poruka",
+    "NOT_ASSIGNED_TO_YOU": "Ovaj razgovor nije dodeljen vama. Da li želite da dodelite razgovor sebi?",
+    "ASSIGN_TO_ME": "Dodeli meni",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Možete jedino da odgovarate na ovaj razgovor koristeći šablon poruka zbog",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-časovno ograničenje poruka",
+    "SELECT_A_TWEET_TO_REPLY": "Molim vas izaberite tvit na koji da odgovorite.",
+    "REPLYING_TO": "Odgovarate na:",
+    "REMOVE_SELECTION": "Ukloni izbor",
+    "DOWNLOAD": "Preuzmi",
+    "UNKNOWN_FILE_TYPE": "Nepoznata datoteka",
+    "UPLOADING_ATTACHMENTS": "Dodavanje priloga...",
+    "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
+    "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
+    "NO_RESPONSE": "Nema odgovora",
+    "RATING_TITLE": "Ocena",
+    "FEEDBACK_TITLE": "Povratne informacije",
+    "HEADER": {
+      "RESOLVE_ACTION": "Reši",
+      "REOPEN_ACTION": "Ponovo otvori",
+      "OPEN_ACTION": "Otvoreni",
+      "OPEN": "Više",
+      "CLOSE": "Zatvori",
+      "DETAILS": "detalji",
+      "SNOOZED_UNTIL_TOMORROW": "Odloženo do sutra",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do sledeće nedelje",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora"
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Označeno na čekanju",
+      "SNOOZE": {
+        "TITLE": "Odloži do",
+        "NEXT_REPLY": "Sledećeg odgovora",
+        "TOMORROW": "Sutra",
+        "NEXT_WEEK": "Sledeće nedelje"
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Označeno na čekanju",
+      "RESOLVED": "Označi kao rešeno",
+      "REOPEN": "Ponovo otvori razgovor",
+      "SNOOZE": {
+        "TITLE": "Odloži",
+        "NEXT_REPLY": "Do sledećeg odgovora",
+        "TOMORROW": "Do sutra",
+        "NEXT_WEEK": "Do sledeće nedelje"
+      },
+      "ASSIGN_AGENT": "Dodeli agenta",
+      "ASSIGN_LABEL": "Dodeli oznaku",
+      "AGENTS_LOADING": "Učitavanje agenata...",
+      "ASSIGN_TEAM": "Dodeli tim",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Razgovor sa ID %{conversationId} je dodeljen \"%{agentName}\"",
+          "FAILED": "Nije bilo moguće dodeliti agenta. Molim vas pokušajte ponovo."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Dodeljena je oznaka # %{labelName} razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Dodeljen je tim \"%{team}\" razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti tim. Molim vas pokušajte ponovo."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Potpis poruke",
+      "ENABLE_SIGN_TOOLTIP": "Omogući potpis",
+      "DISABLE_SIGN_TOOLTIP": "Onemogući potpis",
+      "MSG_INPUT": "Shift + enter za novi red. Počni sa '/' da bi ste izabrali brzi odgovor.",
+      "PRIVATE_MSG_INPUT": "Shift + enter za novi red. Ovo će biti vidljivo samo agentima",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Potpis poruke nije podešen, molim vas podesite ga u podešavanjima profila.",
+      "CLICK_HERE": "Kliknite ovde da izmenite"
+    },
+    "REPLYBOX": {
+      "REPLY": "Odgovor",
+      "PRIVATE_NOTE": "Privatna beleška",
+      "SEND": "Pošalji",
+      "CREATE": "Dodaj belešku",
+      "TWEET": "Tvit",
+      "TIP_FORMAT_ICON": "Prikaži bogat uređivač teksta",
+      "TIP_EMOJI_ICON": "Prikaži birač emotikona",
+      "TIP_ATTACH_ICON": "Dodaj datoteke",
+      "TIP_AUDIORECORDER_ICON": "Snimi zvuk",
+      "TIP_AUDIORECORDER_PERMISSION": "Dozvoli pristup zvuku",
+      "TIP_AUDIORECORDER_ERROR": "Nije moguće pristupiti zvuku",
+      "ENTER_TO_SEND": "Enter za slanje",
+      "DRAG_DROP": "Prevuci i pusti za dodavanje",
+      "START_AUDIO_RECORDING": "Pokreni snimanje zvuka",
+      "STOP_AUDIO_RECORDING": "Zaustavi snimanje zvuka",
+      "": "",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Dodaj bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "E-pošte odvojene zarezima",
+          "ERROR": "Molim vas unesite ispravne adrese e-pošte"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "E-pošte odvojene zarezima",
+          "ERROR": "Molim vas unesite ispravne adrese e-pošte"
+        }
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Privatna beleška: Vidljiva samo vama i vašem timu",
+    "CHANGE_STATUS": "Status razgovora je izmenjen",
+    "CHANGE_STATUS_FAILED": "Nije uspela izmena statusa razgovora",
+    "CHANGE_AGENT": "Izmenjen je dodeljen razgovoru",
+    "CHANGE_AGENT_FAILED": "Nije uspela izmena dodeljenog",
+    "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
+    "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
+    "CHANGE_TEAM": "Tim razgovora je promenjen",
+    "FILE_SIZE_LIMIT": "Datoteka premašuje ograničenje priloga od {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
+    "SENT_BY": "Poslao:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Nije bilo moguće poslati poruku! Pokušajte ponovo",
+    "TRY_AGAIN": "pokušaj ponovo",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Izaberi agenta",
+      "REMOVE": "Ukloni",
+      "ASSIGN": "Dodeli"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Kopiraj",
+      "DELETE": "Izbriši"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Pošalji transkript razgovora",
+    "DESC": "Pošaljite kopiju transkripta razgovora na određenu adresu e-pošte",
+    "SUBMIT": "Pošalji",
+    "CANCEL": "Otkaži",
+    "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
+    "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo",
+    "FORM": {
+      "SEND_TO_CONTACT": "Pošaljite transkript potrošaču",
+      "SEND_TO_AGENT": "Pošaljite transkript dodeljenom agentu",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Pošaljite transkript još jednoj adresi e-pošte",
+      "EMAIL": {
+        "PLACEHOLDER": "Unesite adresu e-pošte",
+        "ERROR": "Molim vas unesite ispravnu adresu e-pošte"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Zdravo 👋, Dobrodošli u %{installationName}!",
+    "DESCRIPTION": "Hvala vam na registraciji. Želimo da najbolje iskoristite ovu %{installationName}. Evo nekoliko stvari koje možete da uradite u %{installationName} da bi vaše iskustvo bilo izvrsno.",
+    "READ_LATEST_UPDATES": "Pročitajte naše najnovije izmene",
+    "ALL_CONVERSATION": {
+      "TITLE": "Svi vaši razgovori na jednom mestu",
+      "DESCRIPTION": "Pregledajte sve razgovore sa vašim kupcima u jednoj radnoj tabli. Možete filtrirati razgovore prema dolaznom kanalu, oznaci i statusu."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Pozovite članove vašeg tima",
+      "DESCRIPTION": "Sobzirom da se spremate da razgovarate sa vašim potrošačima, dovedite članove vašeg time da vam pomognu. Možete pozvati članove vašeg time dodavanjem njihove adrese e-pošte u spisak agenata.",
+      "NEW_LINK": "Kliknite ovde da pozovete člana tima"
+    },
+    "INBOXES": {
+      "TITLE": "Povežite prijemna sandučeta",
+      "DESCRIPTION": "Povežite razne kanale kroz koje bi vaši potrošači mogli da razgovaraju sa vama. To može biti uživo časkanje na sajtu, vaša Fejsbuk ili Tviter stranica ili čak vaš WhatsApp broj.",
+      "NEW_LINK": "Kliknite ovde da napravite prijemno sanduče"
+    },
+    "LABELS": {
+      "TITLE": "Organizujte razgovore sa oznakama",
+      "DESCRIPTION": "Oznake omogućavaju lakši način da se kategorišu razgovori. Napravite oznake poput #upit-podrske, #pitanje-placanja itd., kako bi ste ih koristili u kasnijim razgovorima.",
+      "NEW_LINK": "Kliknite ovde da napravite oznake"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Dodeljeni agent",
+    "SELF_ASSIGN": "Dodeli meni",
+    "TEAM_LABEL": "Dodeljeni tim",
+    "SELECT": {
+      "PLACEHOLDER": "Niko"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Detalji o kontaktu",
+      "CONVERSATION_ACTIONS": "Akcije nad razgovorom",
+      "CONVERSATION_LABELS": "Oznake razgovora",
+      "CONVERSATION_INFO": "Informacije o razgovoru",
+      "CONTACT_ATTRIBUTES": "Atributi kontakta",
+      "PREVIOUS_CONVERSATION": "Prethodni razgovor"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Napravi atribut",
+    "UPDATE": {
+      "SUCCESS": "Atribut je uspešno izmenjen",
+      "ERROR": "Nije bilo moguće izmeniti atribut. Molim vas pokušajte ponovo"
+    },
+    "ADD": {
+      "TITLE": "Dodaj",
+      "SUCCESS": "Atribut je uspešno dodat",
+      "ERROR": "Nije bilo moguće dodati atribut. Molim vas pokušajte ponovo"
+    },
+    "DELETE": {
+      "SUCCESS": "Atribut je uspešno obrisan",
+      "ERROR": "Nije bilo moguće obrisati atribut. Molim vas pokušajte ponovo"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Dodaj atribute",
+      "PLACEHOLDER": "Traži atribute",
+      "NO_RESULT": "Nijedan atribut nije pronađen"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "Od",
+    "TO": "Za",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Naslov"
+  }
+}
