@@ -281,7 +281,7 @@
       },
       "VALUE": {
         "LABEL": "Özellik değeri",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": ""
       },
       "ADD": {
         "TITLE": "Yeni öznitelik oluştur ",
@@ -329,10 +329,10 @@
     "SUMMARY": {
       "TITLE": "Özet",
       "DELETE_WARNING": "<strong>%{childContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": ""
     },
     "FORM": {
       "SUBMIT": " Kişileri birleştir",
