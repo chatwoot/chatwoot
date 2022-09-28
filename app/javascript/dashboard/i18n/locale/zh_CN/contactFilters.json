@@ -1,15 +1,15 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "TITLE": "",
+        "SUBTITLE": "",
         "ADD_NEW_FILTER": "添加过滤器",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
+        "CLEAR_ALL_FILTERS": "",
         "FILTER_DELETE_ERROR": "您至少需要一个过滤器来保存",
         "SUBMIT_BUTTON_LABEL": "提交",
         "CANCEL_BUTTON_LABEL": "取消",
         "CLEAR_BUTTON_LABEL": "清除过滤器",
         "EMPTY_VALUE_ERROR": "必须填写值",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "TOOLTIP_LABEL": "",
         "QUERY_DROPDOWN_LABELS": {
             "AND": "和",
             "OR": "或"
@@ -22,14 +22,14 @@
             "is_present": "存在",
             "is_not_present": "不存在",
             "is_greater_than": "大于",
-            "is_lesser_than": "Is lesser than",
+            "is_lesser_than": "",
             "days_before": "是 x 天前"
         },
         "ATTRIBUTES": {
             "NAME": "姓名：",
             "EMAIL": "Email",
             "PHONE_NUMBER": "电话号码",
-            "IDENTIFIER": "Identifier",
+            "IDENTIFIER": "",
             "CITY": "城市",
             "COUNTRY": "国家",
             "CUSTOM_ATTRIBUTE_LIST": "列表",
@@ -39,7 +39,7 @@
             "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
             "CREATED_AT": "创建于",
             "LAST_ACTIVITY": "最后一次活动",
-            "REFERER_LINK": "Referrer link"
+            "REFERER_LINK": ""
         },
         "GROUPS": {
             "STANDARD_FILTERS": "标准过滤器",
