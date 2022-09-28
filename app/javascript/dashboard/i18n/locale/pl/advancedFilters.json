@@ -3,7 +3,7 @@
     "TITLE": "Filtruj rozmowy",
     "SUBTITLE": "Dodaj poniższe filtry i kliknij 'Zastosuj filtry', aby przefiltrować rozmowy.",
     "ADD_NEW_FILTER": "Dodaj filtr",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "FILTER_DELETE_ERROR": "",
     "SUBMIT_BUTTON_LABEL": "Zastosuj filtry",
     "CANCEL_BUTTON_LABEL": "Anuluj",
     "CLEAR_BUTTON_LABEL": "Wyczyść filtry",
@@ -43,7 +43,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
       "CUSTOM_ATTRIBUTE_NUMBER": "Numer",
       "CUSTOM_ATTRIBUTE_LINK": "Łącze",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "",
       "CREATED_AT": "Utworzono",
       "LAST_ACTIVITY": "Ostatnia aktywność"
     },
