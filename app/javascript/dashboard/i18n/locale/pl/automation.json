@@ -21,8 +21,8 @@
         },
         "EVENT": {
           "LABEL": "Zdarzenie",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONDITIONS": {
           "LABEL": "Warunki"
@@ -35,7 +35,7 @@
       "ACTION_BUTTON_LABEL": "Dodaj akcję",
       "API": {
         "SUCCESS_MESSAGE": "Reguła automatyzacji została dodana",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
@@ -75,7 +75,7 @@
       "TOOLTIP": "Klonuj",
       "API": {
         "SUCCESS_MESSAGE": "Reguła automatyzacji sklonowana pomyślnie",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "ERROR_MESSAGE": ""
       }
     },
     "FORM": {
@@ -83,23 +83,23 @@
       "CREATE": "Stwórz",
       "DELETE": "Usuń",
       "CANCEL": "Anuluj",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": ""
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": ""
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "DELETE_MESSAGE": "",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
       "TEAM_DROPDOWN_PLACEHOLDER": "Wybierz zespoły"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktywuj regułę automatyzacji",
       "DEACTIVATION_TITLE": "Wyłącz regułę automatyzacji",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_DESCRIPTION": "",
+      "DEACTIVATION_DESCRIPTION": "",
+      "ACTIVATION_SUCCESFUL": "",
+      "DEACTIVATION_SUCCESFUL": "",
       "ACTIVATION_ERROR": "Nie można włączyć reguły automatyzacji, spróbuj ponownie później",
       "DEACTIVATION_ERROR": "Nie można wyłączyć reguły automatyzacji, spróbuj ponownie później",
       "CONFIRMATION_LABEL": "Tak",
