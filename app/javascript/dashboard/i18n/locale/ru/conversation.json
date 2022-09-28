@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
+    "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените разговор",
     "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
     "SWITCH_VIEW_LAYOUT": "Изменить раскладку",
     "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
     "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
-    "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
