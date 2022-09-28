@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
     "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
     "REPLY_TO_TWEET": "Válasz",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "",
     "SENT": "Sikeresen elküldve",
     "NO_MESSAGES": "Nincs üzenet",
     "NO_CONTENT": "Nincs elérhető tartalom",
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
     "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": ""
   }
 }
