@@ -17,7 +17,7 @@ describe ::ContactInboxBuilder do
           source_id: contact.phone_number
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
@@ -27,7 +27,7 @@ describe ::ContactInboxBuilder do
           inbox_id: twilio_inbox.id
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'creates a new contact inbox when different source id is provided' do
@@ -38,8 +38,8 @@ describe ::ContactInboxBuilder do
           source_id: '+224213223422'
         ).perform
 
-        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
-        expect(contact_inbox.source_id).not_to be('+224213223422')
+        expect(contact_inbox.id).not_to eq(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).to eq('+224213223422')
       end
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
@@ -48,7 +48,7 @@ describe ::ContactInboxBuilder do
           inbox_id: twilio_inbox.id
         ).perform
 
-        expect(contact_inbox.source_id).not_to be(contact.phone_number)
+        expect(contact_inbox.source_id).to eq(contact.phone_number)
       end
     end
 
@@ -64,7 +64,7 @@ describe ::ContactInboxBuilder do
           source_id: "whatsapp:#{contact.phone_number}"
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
@@ -74,7 +74,7 @@ describe ::ContactInboxBuilder do
           inbox_id: twilio_inbox.id
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'creates a new contact inbox when different source id is provided' do
@@ -85,8 +85,8 @@ describe ::ContactInboxBuilder do
           source_id: 'whatsapp:+555555'
         ).perform
 
-        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
-        expect(contact_inbox.source_id).not_to be('whatsapp:+55555')
+        expect(contact_inbox.id).not_to eq(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).to eq('whatsapp:+555555')
       end
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
@@ -95,7 +95,53 @@ describe ::ContactInboxBuilder do
           inbox_id: twilio_inbox.id
         ).perform
 
-        expect(contact_inbox.source_id).not_to be("whatsapp:#{contact.phone_number}")
+        expect(contact_inbox.source_id).to eq("whatsapp:#{contact.phone_number}")
+      end
+    end
+
+    describe 'whatsapp inbox' do
+      let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+
+      it 'does not create contact inbox when contact inbox already exists with the source id provided' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: contact.phone_number&.delete('+'))
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: whatsapp_inbox.id,
+          source_id: contact.phone_number&.delete('+')
+        ).perform
+
+        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+      end
+
+      it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: contact.phone_number&.delete('+'))
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: whatsapp_inbox.id
+        ).perform
+
+        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+      end
+
+      it 'creates a new contact inbox when different source id is provided' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: contact.phone_number&.delete('+'))
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: whatsapp_inbox.id,
+          source_id: '555555'
+        ).perform
+
+        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).not_to be('555555')
+      end
+
+      it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
+        contact_inbox = described_class.new(
+          contact_id: contact.id,
+          inbox_id: whatsapp_inbox.id
+        ).perform
+
+        expect(contact_inbox.source_id).to eq(contact.phone_number&.delete('+'))
       end
     end
 
@@ -111,7 +157,7 @@ describe ::ContactInboxBuilder do
           source_id: contact.phone_number
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
@@ -121,7 +167,7 @@ describe ::ContactInboxBuilder do
           inbox_id: sms_inbox.id
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'creates a new contact inbox when different source id is provided' do
@@ -132,8 +178,8 @@ describe ::ContactInboxBuilder do
           source_id: '+224213223422'
         ).perform
 
-        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
-        expect(contact_inbox.source_id).not_to be('+224213223422')
+        expect(contact_inbox.id).not_to eq(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).to eq('+224213223422')
       end
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
@@ -142,7 +188,7 @@ describe ::ContactInboxBuilder do
           inbox_id: sms_inbox.id
         ).perform
 
-        expect(contact_inbox.source_id).not_to be(contact.phone_number)
+        expect(contact_inbox.source_id).to eq(contact.phone_number)
       end
     end
 
@@ -158,7 +204,7 @@ describe ::ContactInboxBuilder do
           source_id: contact.email
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'does not create contact inbox when contact inbox already exists with email and source id is not provided' do
@@ -168,7 +214,7 @@ describe ::ContactInboxBuilder do
           inbox_id: email_inbox.id
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'creates a new contact inbox when different source id is provided' do
@@ -179,8 +225,8 @@ describe ::ContactInboxBuilder do
           source_id: 'xyc@xyc.com'
         ).perform
 
-        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
-        expect(contact_inbox.source_id).not_to be('xyc@xyc.com')
+        expect(contact_inbox.id).not_to eq(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).to eq('xyc@xyc.com')
       end
 
       it 'creates a contact inbox with contact email when source id not provided and no contact inbox exists' do
@@ -189,7 +235,7 @@ describe ::ContactInboxBuilder do
           inbox_id: email_inbox.id
         ).perform
 
-        expect(contact_inbox.source_id).not_to be(contact.email)
+        expect(contact_inbox.source_id).to eq(contact.email)
       end
     end
 
@@ -205,7 +251,7 @@ describe ::ContactInboxBuilder do
           source_id: 'test'
         ).perform
 
-        expect(contact_inbox.id).to be(existing_contact_inbox.id)
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
       end
 
       it 'creates a new contact inbox when different source id is provided' do
@@ -216,8 +262,8 @@ describe ::ContactInboxBuilder do
           source_id: 'test'
         ).perform
 
-        expect(contact_inbox.id).not_to be(existing_contact_inbox.id)
-        expect(contact_inbox.source_id).not_to be('test')
+        expect(contact_inbox.id).not_to eq(existing_contact_inbox.id)
+        expect(contact_inbox.source_id).to eq('test')
       end
 
       it 'creates a contact inbox with SecureRandom.uuid when source id not provided and no contact inbox exists' do
