@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "نظرة عامة",
     "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
       "SWITCH_CONVERSATION_STATUS": "التبديل إلى حالة المحادثة التالية",
       "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
-      "TOGGLE_RICH_CONTENT_EDITOR": "تبديل محرر المحتوى المتقدم",
       "SWITCH_TO_REPLY": "التبديل إلى الرد",
       "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
     },

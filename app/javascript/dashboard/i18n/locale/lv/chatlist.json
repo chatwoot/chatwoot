@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Notiek sarunu iegūšana",
+    "LOAD_MORE_CONVERSATIONS": "Ielādēt vairāk sarunu",
+    "EOF": "Visas sarunas ir ielādētas 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Šajā grupā nav aktīvu sarunu."
     },
-    "TAB_HEADING": "Conversations",
-    "MENTION_HEADING": "Mentions",
+    "TAB_HEADING": "Sarunas",
+    "MENTION_HEADING": "Pieminēšanas",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Meklēt Cilvēkus, Tērzēšanas, Saglabātās Atbildes.."
     },
-    "FILTER_ALL": "All",
+    "FILTER_ALL": "Visi",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Mine",
-      "unassigned": "Unassigned",
-      "all": "All"
+      "me": "Mani",
+      "unassigned": "Nepiešķirtie",
+      "all": "Visi"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Open"
+        "TEXT": "Atvērt"
       },
       "resolved": {
-        "TEXT": "Resolved"
+        "TEXT": "Atrisināts"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Gaida"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Atlikts"
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Picture message"
+        "CONTENT": "Attēla ziņojums"
       },
       "audio": {
-        "CONTENT": "Audio message"
+        "CONTENT": "Audio ziņojums"
       },
       "video": {
-        "CONTENT": "Video message"
+        "CONTENT": "Video ziņojums"
       },
       "file": {
-        "CONTENT": "File Attachment"
+        "CONTENT": "Faila pielikums"
       },
       "location": {
-        "CONTENT": "Location"
+        "CONTENT": "Atrašanās vieta"
       },
       "fallback": {
-        "CONTENT": "has shared a url"
+        "CONTENT": "ir kopīgojis URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "Saņemts pa e-pastu",
+    "VIEW_TWEET_IN_TWITTER": "Skatīt tvītu pakalpojumā Twitter",
+    "REPLY_TO_TWEET": "Atbildēt uz šo tvītu",
+    "LINK_TO_STORY": "Doties uz instagram stāstu",
+    "SENT": "Veiksmīgi nosūtīts",
+    "NO_MESSAGES": "Nav Ziņojumu",
+    "NO_CONTENT": "Saturs nav pieejams",
+    "HIDE_QUOTED_TEXT": "Paslēpt Citēto Tekstu",
+    "SHOW_QUOTED_TEXT": "Rādīt Citēto Tekstu",
+    "MESSAGE_READ": "Lasīt"
   }
 }
