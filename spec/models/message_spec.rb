@@ -115,7 +115,7 @@ RSpec.describe Message, type: :model do
         attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
       end
 
-      expect(message.errors.messages).to eq({:attachments=>['exceeded maximum allowed']})
+      expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed'] })
     end
   end
 
