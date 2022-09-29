@@ -131,9 +131,7 @@ class Attachment < ApplicationRecord
   end
 
   def merge_story_mention_image(metadata)
-    if message.try(:content_attributes)[:image_type] == 'story_mention'
-      return unless message.inbox.instagram?
-
+    if message.try(:content_attributes)[:image_type] == 'story_mention' && message.inbox.instagram?
       begin
         metadata = fetch_story_link(message, metadata)
       rescue Koala::Facebook::ClientError
