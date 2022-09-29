@@ -119,6 +119,12 @@ RSpec.describe Article, type: :model do
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
       end
+
+      it 'auto saves article slug' do
+        article = create(:article, category_id: category_1.id, title: 'title 1', content: 'This is the content', portal_id: portal_1.id,
+                       author_id: user.id)
+        expect(article.slug).to eq('title-1')
+      end
     end
 
     context 'with pagination' do

@@ -45,6 +45,8 @@ class Article < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
   before_validation :ensure_account_id
+  before_validation :ensure_article_slug
+
   validates :account_id, presence: true
   validates :category_id, presence: true
   validates :author_id, presence: true
@@ -111,5 +113,9 @@ class Article < ApplicationRecord
 
   def ensure_account_id
     self.account_id = portal&.account_id
+  end
+
+  def ensure_article_slug
+    self.slug = self.title.underscore.parameterize(separator: '-')
   end
 end
