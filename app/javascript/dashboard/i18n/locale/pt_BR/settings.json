@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
     "HELP_CENTER": {
+      "TITLE": "Centro de ajuda",
       "ALL_ARTICLES": "Todos os artigos",
       "MY_ARTICLES": "Meus Artigos",
       "DRAFT": "Rascunho",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Ir para Configurações",
       "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo status da conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo rico",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
     },
