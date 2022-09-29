@@ -30,17 +30,16 @@ describe('#actions', () => {
 
   describe('#getMacroById', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: macrosList } });
-      await actions.get({ commit });
+      axios.get.mockResolvedValue({ data: { payload: macrosList[0] } });
+      await actions.getSingleMacro({ commit }, 22);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_MACROS_UI_FLAG, { isFetching: true }],
-        [types.default.SET_MACROS, macrosList],
         [types.default.SET_MACROS_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.get({ commit });
+      await actions.getSingleMacro({ commit }, 22);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_MACROS_UI_FLAG, { isFetching: true }],
         [types.default.SET_MACROS_UI_FLAG, { isFetching: false }],
