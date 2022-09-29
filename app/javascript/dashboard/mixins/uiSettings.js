@@ -18,20 +18,18 @@ export default {
     }),
     conversationSidebarItemsOrder() {
       const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
+      // If the sidebar order is not set, use the default order.
       if (!itemsOrder) {
         return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
       }
-      const items = itemsOrder;
-      if (
-        DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.length !== itemsOrder.length
-      ) {
-        DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.forEach(item => {
-          if (!itemsOrder.find(i => i.name === item.name)) {
-            items.push(item);
-          }
-        });
-      }
-      return items;
+
+      // If the sidebar order doesn't have the new elements, then add them to the list.
+      DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.forEach(item => {
+        if (!itemsOrder.find(i => i.name === item.name)) {
+          itemsOrder.push(item);
+        }
+      });
+      return itemsOrder;
     },
     contactSidebarItemsOrder() {
       const { contact_sidebar_items_order: itemsOrder } = this.uiSettings;
