@@ -3,10 +3,10 @@
     "LINK": "Profilindstillinger",
     "TITLE": "Profilindstillinger",
     "BTN_TEXT": "Opdater Profil",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "DELETE_AVATAR": "Slet Avatar",
+    "AVATAR_DELETE_SUCCESS": "Avatar er blevet slettet",
+    "AVATAR_DELETE_FAILED": "Der er en fejl under sletning af avatar, prøv igen",
+    "UPDATE_SUCCESS": "Din profil er blevet opdateret",
     "PASSWORD_UPDATE_SUCCESS": "Din adgangskode er blevet ændret",
     "AFTER_EMAIL_CHANGED": "Din profil er blevet opdateret. Log venligst ind igen, da dine loginoplysninger er ændret",
     "FORM": {
@@ -20,39 +20,39 @@
         "NOTE": "Din e-mailadresse er din identitet og bruges til at logge ind."
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "Personlig beskedsignatur",
+        "NOTE": "Opret en personlig besked signatur, der vil blive føjet til alle de meddelelser, du sender fra din e-mail indbakke. Brug den rige content editor til at oprette en meget personlig signatur.",
+        "BTN_TEXT": "Gem beskedsignatur",
+        "API_ERROR": "Kunne ikke gemme signatur! Prøv igen",
+        "API_SUCCESS": "Signatur gemt"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "Besked Signatur",
+        "ERROR": "Beskedsignatur kan ikke være tom",
+        "PLACEHOLDER": "Indsæt din personlige beskedsignatur her."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Adgangskode",
         "NOTE": "Opdatering af din adgangskode vil nulstille dine logins på flere enheder.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Skift adgangskode"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Adgangs Token",
         "NOTE": "Denne token kan bruges, hvis du bygger en API-baseret integration"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "Lyd Notifikationer",
+        "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
+        "NONE": "Ingen",
+        "ASSIGNED": "Tildelte Samtaler",
+        "ALL_CONVERSATIONS": "Alle Samtaler"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Notifikationer",
         "NOTE": "Opdater dine e-mail notifikationspræferencer her",
         "CONVERSATION_ASSIGNMENT": "Send e-mail notifikationer når en samtale er tildelt mig",
         "CONVERSATION_CREATION": "Send e-mail notifikationer når en ny samtale er oprettet",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Send e-mail notifikationer, når du er nævnt i en samtale",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-mail notifikationer når en ny besked er oprettet i en tildelt samtale"
       },
       "API": {
@@ -64,7 +64,7 @@
         "NOTE": "Opdater dine push-notifikationspræferencer her",
         "CONVERSATION_ASSIGNMENT": "Send push-notifikationer, når en samtale er tildelt mig",
         "CONVERSATION_CREATION": "Send push-notifikationer, når en ny samtale er oprettet",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Send push-notifikationer, når du er nævnt i en samtale",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-notifikationer, når en ny besked oprettes i en tildelt samtale",
         "HAS_ENABLED_PUSH": "Du har aktiveret push for denne browser.",
         "REQUEST_PUSH": "Aktivér push-notifikationer"
@@ -96,38 +96,38 @@
         "PLACEHOLDER": "Indtast venligst din e-mailadresse, dette vil blive vist i samtaler"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Nuværende adgangskode",
+        "ERROR": "Indtast den aktuelle adgangskode",
+        "PLACEHOLDER": "Indtast den aktuelle adgangskode"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Ny adgangskode",
         "ERROR": "Indtast en adgangskode med længde 6 eller flere",
         "PLACEHOLDER": "Indtast venligst en ny adgangskode"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekræft ny adgangskode",
         "ERROR": "Bekræftelses adgangskoden skal matche adgangskoden",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Indtast venligst din nye adgangskode igen"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Skift",
     "CHANGE_ACCOUNTS": "Skift Konto",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Kontakt Support",
     "SELECTOR_SUBTITLE": "Vælg en konto fra følgende liste",
     "PROFILE_SETTINGS": "Profilindstillinger",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "Tastaturgenveje",
     "LOGOUT": "Log Ud"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dage prøveperiode tilbage.",
     "TRAIL_BUTTON": "Køb Nu",
-    "DELETED_USER": "Deleted User",
+    "DELETED_USER": "Slettet Bruger",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Konto Suspenderet",
+      "MESSAGE": "Din konto er suspenderet. Gå ud til supportteamet for mere information."
     }
   },
   "COMPONENTS": {
@@ -136,8 +136,8 @@
       "COPY_SUCCESSFUL": "Kode kopieret til udklipsholder med succes"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Vis Mere",
+      "SHOW_LESS": "Vis Mindre"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Download",
@@ -154,78 +154,79 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
+    "SWITCH": "Skift",
     "CONVERSATIONS": "Samtaler",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "Alle Samtaler",
+    "MENTIONED_CONVERSATIONS": "Omtaler",
     "REPORTS": "Rapporter",
     "SETTINGS": "Indstillinger",
     "CONTACTS": "Kontakter",
     "HOME": "Hjem",
     "AGENTS": "Agenter",
     "INBOXES": "Indbakker",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Notifikationer",
     "CANNED_RESPONSES": "Standardsvar Svar",
     "INTEGRATIONS": "Integrationer",
     "PROFILE_SETTINGS": "Profilindstillinger",
     "ACCOUNT_SETTINGS": "Kontoindstillinger",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "Applikationer",
     "LABELS": "Etiketter",
     "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatisering",
     "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "BILLING": "Fakturering",
+    "CUSTOM_VIEWS_FOLDER": "Mapper",
+    "CUSTOM_VIEWS_SEGMENTS": "Segmenter",
+    "ALL_CONTACTS": "Alle Kontakter",
+    "TAGGED_WITH": "Mærket med",
+    "NEW_LABEL": "Ny label",
+    "NEW_TEAM": "Nyt team",
+    "NEW_INBOX": "Ny indbakke",
     "REPORTS_CONVERSATION": "Samtaler",
     "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "Kampagner",
+    "ONGOING": "Igangværende",
+    "ONE_OFF": "En rabat",
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Indbakke",
     "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_AVAILABILITY_TITLE": "Sæt dig selv som",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_OVERVIEW": "Oversigt",
     "FACEBOOK_REAUTHORIZE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "Hjælpecenter (Beta)",
+      "ALL_ARTICLES": "Alle Artikler",
+      "MY_ARTICLES": "Alle Artikler",
+      "DRAFT": "Kladde",
+      "ARCHIVED": "Arkiveret",
+      "CATEGORY": "Kategori",
+      "CATEGORY_EMPTY_MESSAGE": "Ingen kategorier fundet"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Læs dokumenter"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Fakturering",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Nuværende Abonnement",
+      "PLAN_NOTE": "Du abonnerer i øjeblikket på **%{plan}** planen med **%{quantity}** licenser"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Administrer dit abonnement",
+      "DESCRIPTION": "Se dine tidligere fakturaer, rediger dine fakturaoplysninger eller annuller dit abonnement.",
+      "BUTTON_TXT": "Gå til faktureringsportalen"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Brug for hjælp?",
+      "DESCRIPTION": "Har du problemer med fakturering? Vi er her for at hjælpe.",
       "BUTTON_TXT": "Chat med os"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Din faktureringskonto er ved at blive konfigureret. Opdater venligst siden og prøv igen."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Vi kunne ikke finde nogen Chatwoot-konti. Opret venligst en ny konto for at fortsætte.",
     "NEW_ACCOUNT": "Ny Konto",
     "SELECTOR_SUBTITLE": "Opret en ny konto",
     "API": {
@@ -243,26 +244,25 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Toggle Rich Content editor",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Åbn samtale",
+      "RESOLVE_AND_NEXT": "Løs og flyt til næste",
+      "NAVIGATE_DROPDOWN": "Naviger rullemenuer",
+      "RESOLVE_CONVERSATION": "Løs Samtale",
+      "GO_TO_CONVERSATION_DASHBOARD": "Gå til Konversationspanel",
+      "ADD_ATTACHMENT": "Tilføj Vedhæftning",
+      "GO_TO_CONTACTS_DASHBOARD": "Gå til Contacts Dashboard",
+      "TOGGLE_SIDEBAR": "Slå Sidebjælke Til/Fra",
+      "GO_TO_REPORTS_SIDEBAR": "Gå til Rapporter sidepanel",
+      "MOVE_TO_NEXT_TAB": "Flyt til næste fane i samtalelisten",
+      "GO_TO_SETTINGS": "Gå til Indstillinger",
+      "SWITCH_CONVERSATION_STATUS": "Skift til næste samtalestatus",
+      "SWITCH_TO_PRIVATE_NOTE": "Skift til privat note",
+      "SWITCH_TO_REPLY": "Skift til svar",
+      "TOGGLE_SNOOZE_DROPDOWN": "Skift snooze dropdown"
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
+      "WINDOWS_KEY_AND_COMMAND_KEY": "Vind / ¤",
+      "ALT_OR_OPTION_KEY": "Alt. / ¤",
       "FORWARD_SLASH_KEY": "/"
     }
   }

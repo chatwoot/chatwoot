@@ -45,6 +45,7 @@ class DashboardController < ActionController::Base
     @portal = Portal.find_by(custom_domain: domain)
     return unless @portal
 
+    @locale = @portal.default_locale
     render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 

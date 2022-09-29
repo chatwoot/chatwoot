@@ -42,7 +42,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 
-    find_or_create_contact(result)
+    find_or_create_contact(result) if result.present?
   end
 
   def agent_message_via_echo?
@@ -71,6 +71,8 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   end
 
   def create_message
+    return unless @contact_inbox
+
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
 
