@@ -116,6 +116,6 @@ class Article < ApplicationRecord
   end
 
   def ensure_article_slug
-    self.slug = self.title.underscore.parameterize(separator: '-')
+    self.slug = title.underscore.parameterize(separator: '-')
   end
 end
