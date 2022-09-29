@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "CSAT_REPLY_MESSAGE": "Vă rugăm să evaluați conversația",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Echipa de conversație schimbată",
-    "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
     "SENT_BY": "Trimis de:",
     "BOT": "Bot",
