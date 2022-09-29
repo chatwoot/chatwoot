@@ -252,7 +252,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
   .sign-up {
     margin-top: var(--space-larger);
     width: 100%;

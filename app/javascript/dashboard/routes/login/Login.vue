@@ -183,7 +183,7 @@ export default {
   margin: var(--space-medium) 0;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
   .login-form--wrap {
     margin: var(--space-larger) 0;
   }
