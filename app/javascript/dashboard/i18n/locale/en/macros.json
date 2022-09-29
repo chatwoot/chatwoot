@@ -1,104 +1,104 @@
 {
-    "MACROS": {
-        "HEADER": "Macros",
-        "HEADER_BTN_TXT": "Add a new macro",
-        "HEADER_BTN_TXT_SAVE": "Save macro",
-        "LOADING": "Fetching macros",
-        "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-        "ERROR": "Something went wrong. Please try again",
-        "ORDER_INFO": "Macros will run in the order you add yout actions. You can rearrange them by dragging them by the handle beside each action.",
-        "ADD": {
-            "TITLE": "Add new Macro",
-            "SUBMIT": "Create",
-            "CANCEL_BUTTON_TEXT": "Cancel",
-            "FORM": {
-                "NAME": {
-                    "LABEL": "Macro name",
-                    "PLACEHOLDER": "Enter a name for your macro",
-                    "ERROR": "Name is required for creating a macro"
-                },
-                "DESC": {
-                    "LABEL": "Description",
-                    "PLACEHOLDER": "Enter macro description",
-                    "ERROR": "Description is required"
-                },
-                "CONDITIONS": {
-                    "LABEL": "Conditions"
-                },
-                "ACTIONS": {
-                    "LABEL": "Actions"
-                }
-            },
-            "ACTION_BUTTON_LABEL": "Add Action",
-            "API": {
-                "SUCCESS_MESSAGE": "Macro added successfully",
-                "ERROR_MESSAGE": "Unable to create macro, Please try again later"
-            }
+  "MACROS": {
+    "HEADER": "Macros",
+    "HEADER_BTN_TXT": "Add a new macro",
+    "HEADER_BTN_TXT_SAVE": "Save macro",
+    "LOADING": "Fetching macros",
+    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
+    "ERROR": "Something went wrong. Please try again",
+    "ORDER_INFO": "Macros will run in the order you add yout actions. You can rearrange them by dragging them by the handle beside each action.",
+    "ADD": {
+      "TITLE": "Add new Macro",
+      "SUBMIT": "Create",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Macro name",
+          "PLACEHOLDER": "Enter a name for your macro",
+          "ERROR": "Name is required for creating a macro"
         },
-        "LIST": {
-            "TABLE_HEADER": [
-                "Name",
-                "Created by",
-                "Last updated by",
-                "Visibility"
-            ],
-            "404": "No macros found"
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Enter macro description",
+          "ERROR": "Description is required"
         },
-        "DELETE": {
-            "TITLE": "Delete Macro",
-            "SUBMIT": "Delete",
-            "CANCEL_BUTTON_TEXT": "Cancel",
-            "CONFIRM": {
-                "TITLE": "Confirm Deletion",
-                "MESSAGE": "Are you sure to delete ",
-                "YES": "Yes, Delete ",
-                "NO": "No, Keep "
-            },
-            "API": {
-                "SUCCESS_MESSAGE": "Macro deleted successfully",
-                "ERROR_MESSAGE": "Could not able to delete macro, Please try again later"
-            }
+        "CONDITIONS": {
+          "LABEL": "Conditions"
         },
-        "EDIT": {
-            "TITLE": "Edit Macro",
-            "SUBMIT": "Update",
-            "CANCEL_BUTTON_TEXT": "Cancel",
-            "API": {
-                "SUCCESS_MESSAGE": "Macro updated successfully",
-                "ERROR_MESSAGE": "Could not update Macro, Please try again later"
-            }
-        },
-        "FORM": {
-            "EDIT": "Edit",
-            "CREATE": "Create",
-            "DELETE": "Delete",
-            "CANCEL": "Cancel",
-            "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
-        },
-        "ACTION": {
-            "DELETE_MESSAGE": "You need to have atleast one action to save",
-            "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-            "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
-        },
-        "EDITOR": {
-            "START_FLOW": "Start Flow",
-            "END_FLOW": "End Flow",
-            "VISIBILITY": {
-                "LABEL": "Macro Visibility",
-                "GLOBAL": {
-                    "LABEL": "Global",
-                    "DESCRIPTION": "This macro is available globally for all agents in this account."
-                },
-                "PERSONAL": {
-                    "LABEL": "Personal",
-                    "DESCRIPTION": "This macro will be personal to you and not be available to others."
-                }
-            }
-        },
-        "EXECUTE": {
-            "BUTTON_TOOLTIP": "Execute",
-            "PREVIEW": "Preview Macro",
-            "EXECUTED_SUCCESFULLY": "Macro executed successfully"
+        "ACTIONS": {
+          "LABEL": "Actions"
         }
+      },
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro added successfully",
+        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Name",
+        "Created by",
+        "Last updated by",
+        "Visibility"
+      ],
+      "404": "No macros found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Macro",
+      "SUBMIT": "Delete",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Macro deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete macro, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Macro",
+      "SUBMIT": "Update",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro updated successfully",
+        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+      }
+    },
+    "FORM": {
+      "EDIT": "Edit",
+      "CREATE": "Create",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel",
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+    },
+    "EDITOR": {
+      "START_FLOW": "Start Flow",
+      "END_FLOW": "End Flow",
+      "VISIBILITY": {
+        "LABEL": "Macro Visibility",
+        "GLOBAL": {
+          "LABEL": "Global",
+          "DESCRIPTION": "This macro is available globally for all agents in this account."
+        },
+        "PERSONAL": {
+          "LABEL": "Personal",
+          "DESCRIPTION": "This macro will be personal to you and not be available to others."
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Execute",
+      "PREVIEW": "Preview Macro",
+      "EXECUTED_SUCCESFULLY": "Macro executed successfully"
     }
+  }
 }
