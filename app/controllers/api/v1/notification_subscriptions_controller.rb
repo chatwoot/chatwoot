@@ -9,7 +9,7 @@ class Api::V1::NotificationSubscriptionsController < Api::BaseController
 
   def destroy
     notification_subscription = NotificationSubscription.where(["subscription_attributes->>'push_token' = ?", params[:push_token]]).first
-    notification_subscription.destroy!
+    notification_subscription.destroy! if notification_subscription.present?
     head :ok
   end
 
