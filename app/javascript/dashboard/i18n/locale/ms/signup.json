@@ -31,7 +31,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
     },
     "SUBMIT": "Submit",
     "HAVE_AN_ACCOUNT": "Already have an account?"

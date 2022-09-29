@@ -21,7 +21,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Tạo chữ ký thư cá nhân sẽ được thêm vào tất cả các thư bạn gửi từ hộp thư email của mình. Sử dụng trình chỉnh sửa nội dung phong phú để tạo chữ ký được cá nhân hóa cao.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
         "API_SUCCESS": "Chữ ký được lưu thành công"
@@ -126,8 +126,8 @@
     "TRAIL_BUTTON": "Mua Ngay",
     "DELETED_USER": "Người dùng bị xoá",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Tài khoản bị ngưng",
+      "MESSAGE": "Tài khoản của bạn bị tạm ngưng. Vui lòng liên hệ với nhóm hỗ trợ để biết thêm thông tin."
     }
   },
   "COMPONENTS": {
@@ -136,8 +136,8 @@
       "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "Xem thêm",
+      "SHOW_LESS": "Xem ít"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
@@ -154,8 +154,8 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
+    "SWITCH": "Chuyển",
     "CONVERSATIONS": "Cuộc trò chuyện",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
@@ -175,14 +175,14 @@
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
     "AUTOMATION": "Tự động hoá",
     "TEAMS": "Nhóm",
-    "BILLING": "Billing",
+    "BILLING": "Phí",
     "CUSTOM_VIEWS_FOLDER": "Thư mục",
     "CUSTOM_VIEWS_SEGMENTS": "Phân khúc",
     "ALL_CONTACTS": "Tất cả liên lạc",
     "TAGGED_WITH": "Được gắn thẻ với",
     "NEW_LABEL": "Nhãn mới",
     "NEW_TEAM": "Nhóm mới",
-    "NEW_INBOX": "Hộp thư đến mới",
+    "NEW_INBOX": "Kênh mới",
     "REPORTS_CONVERSATION": "Các cuộc hội thoại",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Chiến dịch",
@@ -190,39 +190,40 @@
     "ONE_OFF": "Một lần",
     "REPORTS_AGENT": "Nhà cung cấp",
     "REPORTS_LABEL": "Nhãn",
-    "REPORTS_INBOX": "Hộp thư đến",
+    "REPORTS_INBOX": "Kênh",
     "REPORTS_TEAM": "Nhóm",
     "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Tổng quan",
     "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "Help Center (Beta)",
+      "ALL_ARTICLES": "Tất cả các bài",
+      "MY_ARTICLES": "Các bài của tôi",
+      "DRAFT": "Nháp",
+      "ARCHIVED": "Lưu trữ",
+      "CATEGORY": "Loại",
+      "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Đọc tài liệu"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Phí",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Gói hiện tại",
+      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **%{plan}** với **%{quantity}** giấy phép"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Quản lý thuê bao của bạn",
+      "DESCRIPTION": "Xem các hóa đơn trước đây của bạn, chỉnh sửa chi tiết thanh toán hoặc hủy thuê bao của bạn.",
+      "BUTTON_TXT": "Đi tới cổng thanh toán"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Cần hỗ trợ?",
+      "DESCRIPTION": "Bạn có gặp phải bất kỳ vấn đề nào trong thanh toán không? Hãy cho chúng tôi biết.",
       "BUTTON_TXT": "Trò chuyện với chúng tôi"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Tài khoản thanh toán của bạn đang được định cấu hình. Hãy làm mới trang và thử lại."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Đi đến Cài đặt",
       "SWITCH_CONVERSATION_STATUS": "Chuyển sang trạng thái cuộc trò chuyện tiếp theo",
       "SWITCH_TO_PRIVATE_NOTE": "Chuyển sang Ghi chú Riêng tư",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Chuyển đổi trình chỉnh sửa Nội dung đa dạng thức",
       "SWITCH_TO_REPLY": "Chuyển sang phản hồi",
       "TOGGLE_SNOOZE_DROPDOWN": "Chuyển đổi thả xuống tạm dừng"
     },
