@@ -31,7 +31,8 @@ describe('#actions', () => {
   describe('#getMacroById', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: { payload: macrosList[0] } });
-      await actions.getSingleMacro({ commit }, 22);
+      const data = await actions.getSingleMacro({ commit }, 22);
+      expect(data).toEqual(macrosList[0]);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_MACROS_UI_FLAG, { isFetching: true }],
         [types.default.SET_MACROS_UI_FLAG, { isFetching: false }],
@@ -147,15 +148,4 @@ describe('#actions', () => {
       ]);
     });
   });
-
-  // describe('#clone', () => {
-  //   it('clones the macro', async () => {
-  //     axios.post.mockResolvedValue({ data: macrosList[0] });
-  //     await actions.clone({ commit }, macrosList[0]);
-  //     expect(commit.mock.calls).toEqual([
-  //       [types.default.SET_MACROS_UI_FLAG, { isCloning: true }],
-  //       [types.default.SET_MACROS_UI_FLAG, { isCloning: false }],
-  //     ]);
-  //   });
-  // });
 });
