@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Si prega di selezionare una conversazione dal pannello sinistro",
+    "CSAT_REPLY_MESSAGE": "Valuta la conversazione",
     "404": "Siamo spiacenti, non siamo riusciti a trovare la conversazione. Riprova",
     "SWITCH_VIEW_LAYOUT": "Cambia il layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messaggi",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etichetta assegnata correttamente",
     "ASSIGN_LABEL_FAILED": "Assegnazione etichetta non riuscita",
     "CHANGE_TEAM": "Team conversazione cambiato",
-    "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_FILE_UPLOAD_SIZE} per poter essere allegato",
+    "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB per l'allegato",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
     "SENT_BY": "Inviato da:",
     "BOT": "Bot",

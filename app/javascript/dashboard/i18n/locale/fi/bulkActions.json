@@ -3,7 +3,7 @@
     "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
     "AGENT_SELECT_LABEL": "Valitse edustaja",
     "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
-    "GO_BACK_LABEL": "Go back",
+    "GO_BACK_LABEL": "Mene takaisin",
     "ASSIGN_LABEL": "Delegoi",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",

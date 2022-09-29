@@ -197,12 +197,13 @@
     "REPORTS_OVERVIEW": "Обзор",
     "FACEBOOK_REAUTHORIZE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
     "HELP_CENTER": {
+      "TITLE": "Центр Справки (Бета)",
       "ALL_ARTICLES": "Все статьи",
       "MY_ARTICLES": "Мои статьи",
       "DRAFT": "Черновик",
       "ARCHIVED": "Архив",
       "CATEGORY": "Категория",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
     },
     "DOCS": "Чтение документов"
   },
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Перейти к настройкам",
       "SWITCH_CONVERSATION_STATUS": "Переключиться на статус следующего диалога",
       "SWITCH_TO_PRIVATE_NOTE": "Переключиться на заметку",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Переключить редактор содержимого",
       "SWITCH_TO_REPLY": "Переключиться на ответ",
       "TOGGLE_SNOOZE_DROPDOWN": "Вкл/выкл повтор"
     },
