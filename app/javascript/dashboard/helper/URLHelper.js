@@ -14,7 +14,7 @@ const getSSOAccountPath = ({ ssoAccountId, user }) => {
   if (ssoAccount) {
     accountPath = `accounts/${ssoAccountId}`;
   } else if (accounts.length) {
-    // If the account is not found, redirect to the first account
+    // If the account id is not found, redirect to the first account
     const accountId = account_id || accounts[0].id;
     accountPath = `accounts/${accountId}`;
   }
