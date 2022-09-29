@@ -143,16 +143,6 @@ export const actions = {
     }
   },
 
-  // eslint-disable-next-line no-empty-pattern
-  setActiveAccount: async ({}, { accountId }) => {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      await authAPI.setActiveAccount({ accountId });
-    } catch (error) {
-      throw error;
-    }
-  },
-
   updateUISettings: async ({ commit }, params) => {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
@@ -181,6 +171,14 @@ export const actions = {
   setCurrentUserAvailability({ commit, state: $state }, data) {
     if (data[$state.currentUser.id]) {
       commit(types.SET_CURRENT_USER_AVAILABILITY, data[$state.currentUser.id]);
+    }
+  },
+
+  setActiveAccount: async (_, { accountId }) => {
+    try {
+      await authAPI.setActiveAccount({ accountId });
+    } catch (error) {
+      // Ignore error
     }
   },
 };

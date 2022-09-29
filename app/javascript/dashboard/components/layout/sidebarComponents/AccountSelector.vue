@@ -67,12 +67,9 @@ export default {
     }),
   },
   methods: {
-    async onChangeAccount(accountId) {
+    onChangeAccount(accountId) {
       const accountUrl = `/app/accounts/${accountId}/dashboard`;
       window.location.href = accountUrl;
-      await this.$store.dispatch('setActiveAccount', {
-        accountId: accountId,
-      });
     },
   },
 };
@@ -84,7 +81,7 @@ export default {
 .account-selector {
   padding-top: 0;
   padding-bottom: 0;
-  button {
+  .button {
     display: flex;
     justify-content: space-between;
     padding: var(--space-one) var(--space-normal);
