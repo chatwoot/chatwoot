@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Accéder aux paramètres",
       "SWITCH_CONVERSATION_STATUS": "Passer au statut suivant de la conversation",
       "SWITCH_TO_PRIVATE_NOTE": "Basculer vers une note privée",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Activer/désactiver l'éditeur de texte enrichi",
       "SWITCH_TO_REPLY": "Basculer vers la réponse",
       "TOGGLE_SNOOZE_DROPDOWN": "Activer/désactiver la liste déroulante de répétition"
     },

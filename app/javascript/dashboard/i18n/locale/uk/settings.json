@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Всі статті",
       "MY_ARTICLES": "Мої статті",
       "DRAFT": "Чернетка",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Перейти до налаштувань",
       "SWITCH_CONVERSATION_STATUS": "Перейти до статусу наступної розмови",
       "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Перемкнути редагування Rich Content",
       "SWITCH_TO_REPLY": "Перейти до відповіді",
       "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
     },

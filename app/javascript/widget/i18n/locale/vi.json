@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Chúng tôi đang trực tuyến",
-    "OFFLINE": "Hiện tại chúng tôi đang ngoại tuyến"
+    "OFFLINE": "Hiện tại chúng tôi đang bận chút"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
@@ -22,9 +22,9 @@
     "IN_A_DAY": "Thường trả lời trong một ngày"
   },
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Tiếp tục cuộc trò chuyện",
-  "START_NEW_CONVERSATION": "Bắt đầu cuộc trò chuyện mới",
+  "END_CONVERSATION": "Kết thúc hội thoại",
+  "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
+  "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
     "CLOSE_MESSAGES_BUTTON": "Đóng",
@@ -34,7 +34,7 @@
   "BUBBLE": {
     "LABEL": "Trò chuyện với chúng tôi"
   },
-  "POWERED_BY": "Cung cấp bởi Chatwoot",
+  "POWERED_BY": "CC bởi Chatwoot",
   "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
   "CHAT_PLACEHOLDER": "Gõ tin nhắn của bạn",
   "TODAY": "Hôm nay",
@@ -49,37 +49,37 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Email",
         "PLACEHOLDER": "Vui lòng nhập email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "Phải có \u001dđịa chỉ email",
         "VALID_ERROR": "Vui lòng nhập một địa chỉ email hợp lệ"
       },
       "PHONE_NUMBER": {
         "LABEL": "Số điện thoại",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "\u001dVui lòng nhập số điện thoại của bạn",
+        "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
+        "VALID_ERROR": "Số điện thoại nên theo định dạng E.164, ví dụ: +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
         "PLACEHOLDER": "Vui lòng nhập tin nhắn",
-        "ERROR": "Tin nhắnn quá ngắn"
+        "ERROR": "Tin nhắn quá ngắn"
       }
     },
-    "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu cuộc trò chuyện",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "Vui lòng cung cấp tên và địa chỉ email của bạn trước khi bắt đầu hội thoại",
+    "IS_REQUIRED": "được yêu cầu"
   },
-  "FILE_SIZE_LIMIT": "File vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "FILE_SIZE_LIMIT": "Tệp vượt quá kích thước giới hạn {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Trường không hợp lệ"
     }
   },
   "CSAT": {
-    "TITLE": "Đánh giá cuộc trò chuyện",
+    "TITLE": "Đánh giá hội thoại",
     "SUBMITTED_TITLE": "Cảm ơn vì đã đánh giá",
     "PLACEHOLDER": "Cho chúng tôi biết thêm..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Yêu cầu bản ghi cuộc trò chuyện",
+    "BUTTON_TEXT": "Yêu cầu bản ghi hội thoại",
     "SEND_EMAIL_SUCCESS": "Bản ghi cuộc trò chuyện đã được gửi thành công",
     "SEND_EMAIL_ERROR": "Đã có lỗi, vui lòng thử lại"
   }
