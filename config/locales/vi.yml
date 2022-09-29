@@ -17,15 +17,15 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 vi:
-  hello: "Xin chào bạn"
+  hello: "Chào thế giới"
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
   errors:
     validations:
-      presence: must not be blank
+      presence: không được để trống
     webhook:
-      invalid: Invalid events
+      invalid: Sự kiện không hợp lệ
     signup:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       invalid_email: Bạn đã nhập một email không hợp lệ
@@ -33,81 +33,81 @@ vi:
       failed: Đăng ký thât bại
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Kiểu dữ liệu không hợp lệ
     contacts:
       import:
-        failed: Chưa chọn file
+        failed: Chưa chọn tệp
       email:
-        invalid: Invalid email
+        invalid: Email không hợp lệ
       phone_number:
-        invalid: should be in e164 format
+        invalid: nên theo đinh dạng e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: phải là duy nhất trong danh mục và cổng thông tin
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Vui lòng kiểm tra kết nối mạng, địa chỉ IMAP và thử lại.
+        no_response_error: Vui lòng kiểm tra thông tin đăng nhập IMAP và thử lại.
+        host_unreachable_error: Máy chủ không thể truy cập được, Vui lòng kiểm tra địa chỉ IMAP, cổng IMAP và thử lại.
+        connection_timed_out_error: Kết nối đã hết thời gian chờ %{address}:%{port}
+        connection_closed_error: Kêt nối bị đóng.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     agent_csv:
-      agent_name: Tên nhà cung cấp
-      conversations_count: Số cuộc trò chuyện
+      agent_name: Tên tổng đài viên
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
+      inbox_name: Tên kênh
+      inbox_type: Kiểu kênh
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     label_csv:
       label_title: Nhãn
-      conversations_count: No. of conversations
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     team_csv:
       team_name: Tên nhóm
-      conversations_count: Số cuộc trò chuyện
+      conversations_count: Số hội thoại
       avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
       avg_resolution_time: Thời gian giải quyết trung bình (phút)
     default_group_by: ngày
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Tên liên hệ
+        contact_email_address: Địa chỉ email của liên hệ
+        contact_phone_number: Số điện thoại của liên hệ
+        link_to_the_conversation: Liên kế tới hội thoại
         agent_name: Tên nhà cung cấp
         rating: Đánh giá
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: Bình luận phản hồi
+        recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "[Cuộc trò chuyện mới] - #%{display_id} đã được tạo trong %{inbox_name}"
+      conversation_creation: "[Hội thoại mới] - #%{display_id} đã được tạo trong %{inbox_name}"
       conversation_assignment: "[Phân công cho bạn] - #%{display_id} đã được phân công cho bạn"
       assigned_conversation_new_message: "[Tin nhắn mới] - #%{display_id} %{content}"
-      conversation_mention: "Bạn đã được nhắn đến trong cuộc trò chuyện [ID - %{display_id}] bởi %{name}"
+      conversation_mention: "Bạn đã được nhắn đến trong hội thoại [ID - %{display_id}] bởi %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
+      instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "Hội thoại đã được giải quyết bởi %{contact_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
-        pending: "Cuộc trò chuyện được đánh dấu là chưa giải quyết bởi %{user_name}"
-        snoozed: "Cuộc trò chuyện đã được tạm dừng lại bởi %{user_name}"
-        auto_resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
+        pending: "Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}"
+        snoozed: "Hội thoại đã được tạm dừng lại bởi %{user_name}"
+        auto_resolved: "Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
       assignee:
-        self_assigned: "%{user_name} phân công chính mình vào cuộc trò chuyện này"
+        self_assigned: "%{user_name} phân công chính mình vào hội thoại này"
         assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
         removed: "Cuộc hội thoại chưa được chỉ định bởi %{user_name}"
       team:
@@ -117,13 +117,13 @@ vi:
       labels:
         added: "%{user_name} thêm %{labels}"
         removed: "%{user_name} xoá %{labels}"
-      muted: "%{user_name} đã tắt tiếng cuộc trò chuyện"
+      muted: "%{user_name} đã tắt tiếng hội thoại"
       unmuted: "%{user_name} đã bật tiếng cuộc trò chuyện"
     templates:
       greeting_message_body: "%{account_name} thường trả lời trong vài giờ."
-      ways_to_reach_you_message_body: "Cung cấp cho nhóm một cách để tiếp cận bạn."
+      ways_to_reach_you_message_body: "Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé."
       email_input_box_message_body: "Nhận thông báo qua email"
-      csat_input_message_body: "Bạn hãy vui lòng đánh giá cuộc trò chuyện"
+      csat_input_message_body: "Bạn hãy vui lòng đánh giá hội thoại"
     reply:
       email:
         header:
@@ -132,7 +132,7 @@ vi:
       email_subject: "Tin nhắn mới về cuộc trò chuyện này"
       transcript_subject: "Bản ghi cuộc hội thoại"
     survey:
-      response: "Bạn hãy vui lòng đánh giá cuộc trò chuyện, %{link}"
+      response: "Bạn hãy vui lòng đánh giá hội thoại, %{link}"
   contacts:
     online:
       delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"

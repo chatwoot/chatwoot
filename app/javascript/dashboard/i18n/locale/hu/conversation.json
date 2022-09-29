@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Kérjük válassz egy beszélgetést a bal sávból",
+    "CSAT_REPLY_MESSAGE": "Kérlek értékeld a beszélgetést",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
-    "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Küldő:",
     "BOT": "Bot",
