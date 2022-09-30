@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "请从左侧窗格选择一个对话",
+    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "消息",
@@ -14,7 +15,7 @@
     "SEARCH": {
       "TITLE": "搜索消息",
       "RESULT_TITLE": "搜索结果",
-      "LOADING_MESSAGE": "Crunching data...",
+      "LOADING_MESSAGE": "正在处理数据",
       "PLACEHOLDER": "输入任何文本来搜索消息",
       "NO_MATCHING_RESULTS": "未找到结果。"
     },
@@ -47,14 +48,14 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
+      "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "标记为待处理",
       "SNOOZE": {
-        "TITLE": "Snooze until",
+        "TITLE": "推迟到",
         "NEXT_REPLY": "下一个回复",
         "TOMORROW": "明天",
         "NEXT_WEEK": "下周"
@@ -65,7 +66,7 @@
       "RESOLVED": "标记为已解决",
       "REOPEN": "重新打开会话",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "推迟",
         "NEXT_REPLY": "Until next reply",
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
@@ -77,11 +78,11 @@
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "无法分配客服，请再试。"
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "FAILED": "无法分配标签。请再试。"
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
@@ -137,7 +138,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "已成功分配标签",
     "ASSIGN_LABEL_FAILED": "分配标签失败",
     "CHANGE_TEAM": "对话团队已更改",
-    "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
     "SENT_BY": "发送人：",
     "BOT": "机器人",

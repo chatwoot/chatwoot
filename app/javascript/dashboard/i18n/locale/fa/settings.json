@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "بررسی اجمالی",
     "FACEBOOK_REAUTHORIZE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
     "HELP_CENTER": {
+      "TITLE": "مرکز راهنمایی (آزمایشی)",
       "ALL_ARTICLES": "همه مقالات",
       "MY_ARTICLES": "مقالات من",
       "DRAFT": "پیش‌نویس",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "برو به تنظیمات",
       "SWITCH_CONVERSATION_STATUS": "به وضعیت مکالمه بعدی بروید",
       "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
-      "TOGGLE_RICH_CONTENT_EDITOR": "تغییر وضعیت ویرایشگر محتوا",
       "SWITCH_TO_REPLY": "رفتن به پاسخ",
       "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
     },
