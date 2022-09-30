@@ -32,6 +32,26 @@ describe  ::Messages::Facebook::MessageBuilder do
       expect(message.content).to eq('facebook message')
     end
 
+    it 'creates contact without uniq index violation' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          first_name: 'Jane',
+          last_name: 'Dae',
+          account_id: facebook_channel.inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      message_builder
+      message_builder
+
+      contact = facebook_channel.inbox.contacts.first
+
+      expect(contact.name).to eq('Jane Dae')
+      expect(facebook_channel.inbox.contacts.count).to eq(1)
+      expect(facebook_channel.inbox.contact_inboxes.count).to eq(1)
+    end
+
     it 'increments channel authorization_error_count when error is thrown' do
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(500, 'Error validating access token'))
