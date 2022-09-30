@@ -197,6 +197,7 @@
     "REPORTS_OVERVIEW": "Επισκόπηση",
     "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -256,7 +257,6 @@
       "GO_TO_SETTINGS": "Μετάβαση στις ρυθμίσεις",
       "SWITCH_CONVERSATION_STATUS": "Εναλλαγή στην επόμενη κατάσταση συνομιλίας",
       "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Εναλλαγή επεξεργαστή εμπλουτισμένου περιεχομένου",
       "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
       "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
     },

@@ -187,18 +187,18 @@
             "PLACEHOLDER": "请输入发送消息的电话号码。",
             "ERROR": "请输入一个有效的值。电话号码应该以`+`开始。"
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "创建Bandwidth渠道",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "我们无法身份验证Bandwidth凭据，请重试"
           },
           "API_CALLBACK": {
             "TITLE": "回调地址",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": "您必须使用这里提到的URL来配置Bandwidth的消息回调URL。"
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
+        "TITLE": "WhatsApp 渠道",
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
@@ -622,7 +622,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
+          "PREVIEW": "预览",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
