@@ -129,7 +129,13 @@ RSpec.describe Article, type: :model do
 
     context 'with pagination' do
       it 'returns paginated articles' do
-        create_list(:article, 30, category_id: category_2.id, slug: 'title-1', title: 'title 1', portal_id: portal_2.id, author_id: user.id)
+        build_list(:article, 30) do |record, i|
+          record.category_id = category_2.id
+          record.title = "title #{i}" 
+          record.portal_id = portal_2.id
+          record.author_id =  user.id
+          record.save!
+        end
         params = { category_slug: 'category_2' }
         records = portal_2.articles.search(params)
         expect(records.count).to eq(25)
