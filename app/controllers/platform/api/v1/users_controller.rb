@@ -51,6 +51,6 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def user_params
-    params.permit(:name, :email, :password, custom_attributes: {})
+    params.permit(:name, :display_name, :email, :password, custom_attributes: {})
   end
 end
