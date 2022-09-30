@@ -22,17 +22,17 @@
         "INBOX": "Yes, Delete",
         "ACCOUNT": "Yes, Disconnect"
       },
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       }
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Inbox",
       "DELETE": {
-        "BUTTON_TEXT": "Delete"
+        "BUTTON_TEXT": "Padamkan"
       }
     },
     "ADD": {
@@ -42,11 +42,11 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Create",
-        "CANCEL": "Cancel"
+        "CANCEL": "Batalkan"
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Masalah untuk hubungi Woot Server, Sila cuba sebentar lagi"
       }
     },
     "CONNECT": {
