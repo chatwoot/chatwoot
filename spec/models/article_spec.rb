@@ -122,8 +122,8 @@ RSpec.describe Article, type: :model do
 
       it 'auto saves article slug' do
         article = create(:article, category_id: category_1.id, title: 'the awesome article 1', content: 'This is the content', portal_id: portal_1.id,
-                                   author_id: user.id)                                        
-        expect(article.slug).to include("the-awesome-article-1")
+                                   author_id: user.id)
+        expect(article.slug).to include('the-awesome-article-1')
       end
     end
 
