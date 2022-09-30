@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "사용할 수 없음",
     "EMAIL_ADDRESS": "이메일 주소",
     "PHONE_NUMBER": "휴대폰 번호",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
     "COMPANY": "회사",
     "LOCATION": "장소",

@@ -69,7 +69,7 @@
     },
     "AGENTS": {
       "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
+      "EMAIL": "Emel",
       "BUTTON_TEXT": "Add agents",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
@@ -91,7 +91,7 @@
       "BUTTON_TEXT": "Finish"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Padamkan",
       "API": {
         "SUCCESS_MESSAGE": "Team deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the team. Try again."
@@ -101,7 +101,7 @@
         "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "Delete ",
-        "NO": "Cancel"
+        "NO": "Batalkan"
       }
     },
     "SETTINGS": "Settings",
