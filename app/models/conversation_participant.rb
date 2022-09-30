@@ -15,12 +15,6 @@
 #  index_conversation_participants_on_conversation_id  (conversation_id)
 #  index_conversation_participants_on_user_id          (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
-#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
-#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
-#
 class ConversationParticipant < ApplicationRecord
   validates :account_id, presence: true
   validates :conversation_id, presence: true

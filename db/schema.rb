@@ -879,32 +879,6 @@ ActiveRecord::Schema.define(version: 2022_09_26_164441) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_bots", "accounts", on_delete: :cascade
-  add_foreign_key "campaigns", "accounts", on_delete: :cascade
-  add_foreign_key "campaigns", "inboxes", on_delete: :cascade
-  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
-  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
-  add_foreign_key "conversation_participants", "accounts", on_delete: :cascade
-  add_foreign_key "conversation_participants", "conversations", on_delete: :cascade
-  add_foreign_key "conversation_participants", "users", on_delete: :cascade
-  add_foreign_key "conversations", "campaigns", on_delete: :cascade
-  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "teams", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "accounts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "contacts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
-  add_foreign_key "data_imports", "accounts", on_delete: :cascade
-  add_foreign_key "mentions", "conversations", on_delete: :cascade
-  add_foreign_key "mentions", "users", on_delete: :cascade
-  add_foreign_key "notes", "accounts", on_delete: :cascade
-  add_foreign_key "notes", "contacts", on_delete: :cascade
-  add_foreign_key "notes", "users", on_delete: :cascade
-  add_foreign_key "team_members", "teams", on_delete: :cascade
-  add_foreign_key "team_members", "users", on_delete: :cascade
-  add_foreign_key "teams", "accounts", on_delete: :cascade
-
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
