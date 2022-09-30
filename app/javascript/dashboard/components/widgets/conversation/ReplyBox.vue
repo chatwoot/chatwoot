@@ -339,25 +339,15 @@ export default {
         this.isATelegramChannel
       );
     },
-    keyShortcutNameToSendMessage() {
-      return !this.commandPlusEnterToSendEnabled
-        ? this.$t('CONVERSATION.REPLYBOX.ENTER_TO_SEND')
-        : this.$t('CONVERSATION.REPLYBOX.CMD_PLUS_ENTER');
-    },
     replyButtonLabel() {
+      let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
-        return `${this.$t('CONVERSATION.REPLYBOX.CREATE')} ${
-          this.keyShortcutNameToSendMessage
-        }`;
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
+      } else if (this.conversationType === 'tweet') {
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
-      if (this.conversationType === 'tweet') {
-        return `${this.$t('CONVERSATION.REPLYBOX.TWEET')} ${
-          this.keyShortcutNameToSendMessage
-        }`;
-      }
-      return `${this.$t('CONVERSATION.REPLYBOX.SEND')} ${
-        this.keyShortcutNameToSendMessage
-      }`;
+      const keyLabel = this.isKeyEnabled('cmd_enter') ? '(⌘ + ↵)' : '(↵)';
+      return `${sendMessageText} ${keyLabel}`;
     },
     replyBoxClass() {
       return {
@@ -643,7 +633,6 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
-
       if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {

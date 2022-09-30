@@ -48,58 +48,66 @@ export default {
 
 <style lang="scss" scoped>
 .preview-card--wrap {
+  border-radius: var(--border-radius-normal);
+  border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  min-width: 24rem;
-  max-width: 38rem;
   max-height: 34rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-normal);
+  max-width: 38rem;
+  min-width: 24rem;
 
   .header--wrap {
-    display: flex;
-    justify-content: space-between;
-    height: 4rem;
-    border-top-left-radius: var(--border-radius-normal);
-    border-top-right-radius: var(--border-radius-normal);
     background: var(--s-50);
     border-bottom: 1px solid var(--color-border);
+    border-top-left-radius: var(--border-radius-normal);
+    border-top-right-radius: var(--border-radius-normal);
+    display: flex;
+    height: 4rem;
+    justify-content: space-between;
     padding: var(--space-small);
     width: 100%;
   }
+
   .active {
     background: var(--w-50);
     border-bottom: 1px solid var(--w-75);
   }
+
   .heading-wrap {
-    display: flex;
     align-items: center;
+    display: flex;
     font-weight: var(--font-weight-medium);
     padding: var(--space-smaller);
   }
+
   .checkmark {
     color: var(--w-500);
   }
+
   .content-wrap {
-    text-align: start;
-    padding: var(--space-slab) var(--space-slab) 0 var(--space-slab);
+    color: var(--s-700);
     font-size: var(--font-size-mini);
     line-height: 1.4;
-    color: var(--s-700);
+    padding: var(--space-slab) var(--space-slab) 0 var(--space-slab);
+    text-align: start;
   }
+
   .image-wrap {
     padding: var(--space-slab);
   }
+
   .image {
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-normal);
   }
+
   .activeimage {
     border: 1px solid var(--w-75);
   }
 }
+
 .activecard {
-  border: 1px solid var(--w-300);
   background: var(--w-25);
+  border: 1px solid var(--w-300);
 }
 </style>

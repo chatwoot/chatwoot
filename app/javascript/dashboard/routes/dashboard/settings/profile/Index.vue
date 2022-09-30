@@ -263,9 +263,7 @@ export default {
       return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
     toggleEditorMessageKey(key) {
-      this.updateUISettings({
-        editor_message_key: key,
-      });
+      this.updateUISettings({ editor_message_key: key });
       this.showAlert(
         this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
       );
