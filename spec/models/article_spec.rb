@@ -119,11 +119,23 @@ RSpec.describe Article, type: :model do
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
       end
+
+      it 'auto saves article slug' do
+        article = create(:article, category_id: category_1.id, title: 'the awesome article 1', content: 'This is the content', portal_id: portal_1.id,
+                                   author_id: user.id)
+        expect(article.slug).to include('the-awesome-article-1')
+      end
     end
 
     context 'with pagination' do
       it 'returns paginated articles' do
-        create_list(:article, 30, category_id: category_2.id, slug: 'title-1', title: 'title 1', portal_id: portal_2.id, author_id: user.id)
+        build_list(:article, 30) do |record, i|
+          record.category_id = category_2.id
+          record.title = "title #{i}"
+          record.portal_id = portal_2.id
+          record.author_id = user.id
+          record.save!
+        end
         params = { category_slug: 'category_2' }
         records = portal_2.articles.search(params)
         expect(records.count).to eq(25)
