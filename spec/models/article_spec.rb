@@ -131,9 +131,9 @@ RSpec.describe Article, type: :model do
       it 'returns paginated articles' do
         build_list(:article, 30) do |record, i|
           record.category_id = category_2.id
-          record.title = "title #{i}" 
+          record.title = "title #{i}"
           record.portal_id = portal_2.id
-          record.author_id =  user.id
+          record.author_id = user.id
           record.save!
         end
         params = { category_slug: 'category_2' }
