@@ -1,10 +1,10 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "过滤条件",
+      "SORT": "排序方式",
       "SETTINGS_BUTTON": "设置",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "新建文章",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "已发布",
         "DRAFT": "草稿",
@@ -13,67 +13,69 @@
       "TITLES": {
         "ALL_ARTICLES": "所有文章",
         "MINE": "我的文章",
-        "DRAFT": "Draft Articles",
+        "DRAFT": "文章草稿",
         "ARCHIVED": "已存档的文章"
       }
     },
     "EDIT_HEADER": {
       "ALL_ARTICLES": "所有文章",
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "PUBLISH_BUTTON": "发布",
+      "MOVE_TO_ARCHIVE_BUTTON": "移至已存档",
+      "PREVIEW": "预览",
+      "ADD_TRANSLATION": "添加翻译",
+      "OPEN_SIDEBAR": "打开侧边栏",
+      "CLOSE_SIDEBAR": "关闭侧边栏",
+      "SAVING": "保存中...",
+      "SAVED": "保存成功"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "文章设置",
       "FORM": {
         "CATEGORY": {
           "LABEL": "类别",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "TITLE": "选择类别",
+          "PLACEHOLDER": "选择类别",
+          "NO_RESULT": "未找到类别",
+          "SEARCH_PLACEHOLDER": "搜索类别"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "作者",
+          "TITLE": "选择作者",
+          "PLACEHOLDER": "选择作者",
+          "NO_RESULT": "未找到作者",
+          "SEARCH_PLACEHOLDER": "搜索作者"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta 标题",
+          "PLACEHOLDER": "增加一个Meta标题"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
+          "LABEL": "Meta描述",
           "PLACEHOLDER": "Add your meta description for better SEO results..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta标签",
+          "PLACEHOLDER": "增加Meta标签，以逗号分隔"
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "归档文章",
+        "DELETE": "删除文章"
       }
     },
     "PORTAL": {
       "HEADER": "门户网站",
+      "DEFAULT": "默认",
       "NEW_BUTTON": "新门户网站",
       "ACTIVE_BADGE": "活跃",
       "CHOOSE_LOCALE_LABEL": "选择一个语言环境",
-      "LOADING_MESSAGE": "Loading portals...",
+      "LOADING_MESSAGE": "正在加载门户...",
       "ARTICLES_LABEL": "文章",
       "NO_PORTALS_MESSAGE": "There are no available portals",
       "ADD_NEW_LOCALE": "添加一个新的语言环境",
       "POPOVER": {
         "TITLE": "门户网站",
-        "PORTAL_SETTINGS": "Portal settings",
+        "PORTAL_SETTINGS": "门户设置",
         "SUBTITLE": "您有多个门户网站，每个门户网站可以有不同的语言环境。",
         "CANCEL_BUTTON_LABEL": "取消",
         "CHOOSE_LOCALE_BUTTON": "选择语言"
@@ -84,7 +86,8 @@
             "COUNT_LABEL": "文章",
             "ADD": "Add locale",
             "VISIT": "Visit site",
-            "SETTINGS": "设置"
+            "SETTINGS": "设置",
+            "DELETE": "删除"
           },
           "PORTAL_CONFIG": {
             "TITLE": "Portal Configurations",
@@ -109,6 +112,51 @@
               "DEFAULT_LOCALE": "Default"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Delete portal",
+          "MESSAGE": "Are you sure you want to delete this portal",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_ERROR": "Error while deleting portal"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Edit portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Basic information"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Portal customization"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Categories"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Categories in",
+          "NEW_CATEGORY": "New category",
+          "TABLE": {
+            "NAME": "姓名：",
+            "DESCRIPTION": "描述信息",
+            "LOCALE": "语言环境",
+            "ARTICLE_COUNT": "No. of articles",
+            "ACTION_BUTTON": {
+              "EDIT": "Edit category",
+              "DELETE": "Delete category"
+            },
+            "EMPTY_TEXT": "No categories found"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Update basic settings"
         }
       },
       "ADD": {
@@ -164,7 +212,6 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug for urls",
-
           "ERROR": "Slug is required"
         },
         "DOMAIN": {
@@ -196,8 +243,40 @@
           "ERROR": "Portal header text is required"
         },
         "API": {
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "添加一个新的语言环境",
+        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "PORTAL": "门户网站",
+        "LOCALE": {
+          "LABEL": "语言环境",
+          "PLACEHOLDER": "选择一个语言环境",
+          "ERROR": "Locale is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create locale",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Default locale updated successfully",
+          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
+          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
         }
       }
     },
@@ -224,8 +303,34 @@
         "ERROR": "Error while saving article"
       }
     },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Error while archiving article",
+        "SUCCESS": "Article archived successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "确认删除",
+          "MESSAGE": "Are you sure to delete the article?",
+          "YES": "是，删除",
+          "NO": "否，保留它"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
+      }
+    },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -247,7 +352,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/zh-CN/categories/my-slug",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
@@ -262,6 +367,43 @@
         "API": {
           "SUCCESS_MESSAGE": "Category created successfully",
           "ERROR_MESSAGE": "Unable to create category"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit a category",
+        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "PORTAL": "门户网站",
+        "LOCALE": "语言环境",
+        "NAME": {
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "类别名称",
+          "HELP_TEXT": "类别名称将用于公共门户来对文章进行归类。",
+          "ERROR": "名字必填"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "给出有关该类别的简短描述。",
+          "ERROR": "描述是必需的"
+        },
+        "BUTTONS": {
+          "CREATE": "Update category",
+          "CANCEL": "取消"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category updated successfully",
+          "ERROR_MESSAGE": "Unable to update category"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Category deleted successfully",
+          "ERROR_MESSAGE": "Unable to delete category"
         }
       }
     }

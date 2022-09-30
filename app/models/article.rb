@@ -6,6 +6,7 @@
 #  content               :text
 #  description           :text
 #  meta                  :jsonb
+#  slug                  :string           not null
 #  status                :integer
 #  title                 :string
 #  views                 :integer
@@ -22,6 +23,7 @@
 #
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
+#  index_articles_on_slug                   (slug) UNIQUE
 #
 class Article < ApplicationRecord
   include PgSearch::Model
@@ -43,6 +45,8 @@ class Article < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
   before_validation :ensure_account_id
+  before_validation :ensure_article_slug
+
   validates :account_id, presence: true
   validates :category_id, presence: true
   validates :author_id, presence: true
@@ -109,5 +113,9 @@ class Article < ApplicationRecord
 
   def ensure_account_id
     self.account_id = portal&.account_id
+  end
+
+  def ensure_article_slug
+    self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
   end
 end

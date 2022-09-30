@@ -56,6 +56,7 @@
       <woot-message-editor
         v-else
         v-model="message"
+        :editor-id="editorStateId"
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
@@ -446,6 +447,9 @@ export default {
     },
     enterToSendEnabled() {
       return this.editorMessageKey === 'enter';
+    },
+    editorStateId() {
+      return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
   },
   watch: {
