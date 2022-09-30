@@ -28,7 +28,7 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Selection } from 'prosemirror-state';
 import { defaultMarkdownParser } from 'prosemirror-markdown';
 import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
@@ -61,23 +61,28 @@ export default {
   mixins: [eventListenerMixins],
   props: {
     value: { type: String, default: '' },
+    editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
-    isFormatMode: { type: Boolean, default: false },
     enableSuggestions: { type: Boolean, default: true },
   },
   data() {
     return {
-      lastValue: null,
       showUserMentions: false,
       showCannedMenu: false,
       mentionSearchKey: '',
       cannedSearchTerm: '',
       editorView: null,
       range: null,
+      state: undefined,
     };
   },
   computed: {
+    contentFromEditor() {
+      return addMentionsToMarkdownSerializer(
+        defaultMarkdownSerializer
+      ).serialize(this.editorView.state.doc);
+    },
     plugins() {
       if (!this.enableSuggestions) {
         return [];
@@ -102,7 +107,6 @@ export default {
           onExit: () => {
             this.mentionSearchKey = '';
             this.showUserMentions = false;
-            this.editorView = null;
             return false;
           },
           onKeyDown: ({ event }) => {
@@ -131,7 +135,6 @@ export default {
           onExit: () => {
             this.cannedSearchTerm = '';
             this.showCannedMenu = false;
-            this.editorView = null;
             return false;
           },
           onKeyDown: ({ event }) => {
@@ -149,54 +152,57 @@ export default {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
     value(newValue = '') {
-      if (newValue !== this.lastValue) {
-        const { tr } = this.state;
-        if (this.isFormatMode) {
-          this.state = createState(
-            newValue,
-            this.placeholder,
-            this.plugins,
-            this.isFormatMode
-          );
-        } else {
-          tr.insertText(newValue, 0, tr.doc.content.size);
-          this.state = this.view.state.apply(tr);
-        }
-        this.view.updateState(this.state);
+      if (newValue !== this.contentFromEditor) {
+        this.reloadState();
       }
+    },
+    editorId() {
+      this.reloadState();
+    },
+    isPrivate() {
+      this.reloadState();
     },
   },
   created() {
     this.state = createState(this.value, this.placeholder, this.plugins);
   },
   mounted() {
-    this.view = new EditorView(this.$refs.editor, {
-      state: this.state,
-      dispatchTransaction: tx => {
-        this.state = this.state.apply(tx);
-        this.emitOnChange();
-      },
-      handleDOMEvents: {
-        keyup: () => {
-          this.onKeyup();
-        },
-        focus: () => {
-          this.onFocus();
-        },
-        blur: () => {
-          this.onBlur();
-        },
-        paste: (view, event) => {
-          const data = event.clipboardData.files;
-          if (data.length > 0) {
-            event.preventDefault();
-          }
-        },
-      },
-    });
+    this.createEditorView();
+    this.editorView.updateState(this.state);
     this.focusEditorInputField();
   },
   methods: {
+    reloadState() {
+      this.state = createState(this.value, this.placeholder, this.plugins);
+      this.editorView.updateState(this.state);
+      this.focusEditorInputField();
+    },
+    createEditorView() {
+      this.editorView = new EditorView(this.$refs.editor, {
+        state: this.state,
+        dispatchTransaction: tx => {
+          this.state = this.state.apply(tx);
+          this.emitOnChange();
+        },
+        handleDOMEvents: {
+          keyup: () => {
+            this.onKeyup();
+          },
+          focus: () => {
+            this.onFocus();
+          },
+          blur: () => {
+            this.onBlur();
+          },
+          paste: (view, event) => {
+            const data = event.clipboardData.files;
+            if (data.length > 0) {
+              event.preventDefault();
+            }
+          },
+        },
+      });
+    },
     handleKeyEvents(e) {
       if (hasPressedAltAndPKey(e)) {
         this.focusEditorInputField();
@@ -206,47 +212,59 @@ export default {
       }
     },
     focusEditorInputField() {
-      this.$refs.editor.querySelector('div.ProseMirror-woot-style').focus();
+      const { tr } = this.editorView.state;
+      const selection = Selection.atEnd(tr.doc);
+
+      this.editorView.dispatch(tr.setSelection(selection));
+      this.editorView.focus();
     },
     insertMentionNode(mentionItem) {
-      if (!this.view) {
+      if (!this.editorView) {
         return null;
       }
-      const node = this.view.state.schema.nodes.mention.create({
+      const node = this.editorView.state.schema.nodes.mention.create({
         userId: mentionItem.key,
         userFullName: mentionItem.label,
       });
 
-      const tr = this.view.state.tr.replaceWith(
+      const tr = this.editorView.state.tr.replaceWith(
         this.range.from,
         this.range.to,
         node
       );
-      this.state = this.view.state.apply(tr);
+      this.state = this.editorView.state.apply(tr);
       return this.emitOnChange();
     },
 
     insertCannedResponse(cannedItem) {
-      if (!this.view) {
+      if (!this.editorView) {
         return null;
       }
 
-      const tr = this.view.state.tr.insertText(
+      const tr = this.editorView.state.tr.insertText(
         cannedItem,
         this.range.from,
         this.range.to
       );
-      this.state = this.view.state.apply(tr);
-      return this.emitOnChange();
+      this.state = this.editorView.state.apply(tr);
+      this.emitOnChange();
+
+      // Hacky fix for #5501
+      this.state = createState(
+        this.contentFromEditor,
+        this.placeholder,
+        this.plugins
+      );
+      this.editorView.updateState(this.state);
+      return false;
     },
 
     emitOnChange() {
-      this.view.updateState(this.state);
-      this.lastValue = addMentionsToMarkdownSerializer(
-        defaultMarkdownSerializer
-      ).serialize(this.state.doc);
-      this.$emit('input', this.lastValue);
+      this.editorView.updateState(this.state);
+
+      this.$emit('input', this.contentFromEditor);
     },
+
     hideMentions() {
       this.showUserMentions = false;
     },
