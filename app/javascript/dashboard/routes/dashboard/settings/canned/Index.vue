@@ -73,9 +73,9 @@
         </table>
       </div>
 
-      <div class="small-4 columns">
+      <!-- <div class="small-4 columns">
         <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
-      </div>
+      </div> -->
     </div>
     <!-- Add Agent -->
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
