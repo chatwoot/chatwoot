@@ -31,7 +31,7 @@ class ContactInboxBuilder
     return unless @contact.phone_number
 
     # whatsapp doesn't want the + in e164 format
-    "#{@contact.phone_number}.delete('+')"
+    @contact.phone_number.delete('+').to_s
   end
 
   def twilio_source_id
