@@ -23,7 +23,7 @@
 #
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
-#  index_articles_on_slug                   (slug)
+#  index_articles_on_slug                   (slug) UNIQUE
 #
 class Article < ApplicationRecord
   include PgSearch::Model
@@ -116,6 +116,6 @@ class Article < ApplicationRecord
   end
 
   def ensure_article_slug
-    self.slug = title.underscore.parameterize(separator: '-')
+    self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
   end
 end
