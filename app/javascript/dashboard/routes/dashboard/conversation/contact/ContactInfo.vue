@@ -84,7 +84,7 @@
           size="small"
           @click="toggleEditModal"
         />
-        <!--<woot-button
+        <woot-button
           v-if="isAdmin"
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
@@ -95,7 +95,7 @@
           color-scheme="secondary"
           :disabled="uiFlags.isMerging"
           @click="openMergeModal"
-        />-->
+        />
         <!--<woot-button
           v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"

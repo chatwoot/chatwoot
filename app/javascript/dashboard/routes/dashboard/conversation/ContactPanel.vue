@@ -54,7 +54,7 @@
               />
             </accordion-item>
           </div>
-          <!--<div v-else-if="element.name === 'contact_attributes'">
+          <!-- <div v-else-if="element.name === 'contact_attributes'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
               :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
@@ -75,7 +75,7 @@
                 :contact-id="contact.id"
               />
             </accordion-item>
-          </div>
+          </div> -->
           <div v-else-if="element.name === 'previous_conversation'">
             <accordion-item
               v-if="contact.id"
@@ -92,7 +92,7 @@
                 :conversation-id="conversationId"
               />
             </accordion-item>
-          </div>-->
+          </div>
         </div>
       </transition-group>
     </draggable>
