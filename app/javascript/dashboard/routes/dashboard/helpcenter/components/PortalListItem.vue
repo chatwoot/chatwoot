@@ -6,16 +6,19 @@
         <header>
           <div>
             <div class="title-status--wrap">
-              <h2 class="portal-title block-title">{{ portal.name }}</h2>
-              <Label
+              <h2 class="portal-title block-title">
+                {{ portal.name }}
+              </h2>
+              <woot-label
                 :title="status"
                 :color-scheme="labelColor"
-                :small="true"
+                size="small"
+                variant="smooth"
                 class="status"
               />
             </div>
             <p class="portal-count">
-              {{ portal.articles_count }}
+              {{ articleCount }}
               {{
                 $t(
                   'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.COUNT_LABEL'
@@ -59,6 +62,17 @@
               color-scheme="secondary"
               @click="openSettings"
             />
+            <woot-button
+              v-tooltip.top-end="
+                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.DELETE')
+              "
+              variant="hollow"
+              color-scheme="alert"
+              size="small"
+              icon="delete"
+              class="header-action-buttons"
+              @click="onClickOpenDeleteModal(portal)"
+            />
           </div>
         </header>
         <div class="portal-locales">
@@ -77,7 +91,9 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.name }}</span>
+                <span class="text-block-title">
+                  {{ portal.name }}
+                </span>
               </div>
               <div class="configuration-item">
                 <label>{{
@@ -85,7 +101,9 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.DOMAIN'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.custom_domain }}</span>
+                <span class="text-block-title">
+                  {{ portal.custom_domain }}
+                </span>
               </div>
             </div>
             <div class="configuration-items">
@@ -95,7 +113,9 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SLUG'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.slug }}</span>
+                <span class="text-block-title">
+                  {{ portal.slug }}
+                </span>
               </div>
               <div class="configuration-item">
                 <label>{{
@@ -103,7 +123,9 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.TITLE'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.page_title }}</span>
+                <span class="text-block-title">
+                  {{ portal.page_title }}
+                </span>
               </div>
             </div>
             <div class="configuration-items">
@@ -126,7 +148,9 @@
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
                   )
                 }}</label>
-                <span class="text-block-title">{{ portal.header_text }}</span>
+                <span class="text-block-title">
+                  {{ portal.header_text }}
+                </span>
               </div>
             </div>
           </div>
@@ -142,25 +166,35 @@
           <locale-item-table
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
-            @swap="swapLocale"
-            @delete="deleteLocale"
+            @change-default-locale="changeDefaultLocale"
+            @delete="deletePortalLocale"
           />
         </div>
       </div>
     </div>
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="onClickDeletePortal"
+      :title="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.TITLE')"
+      :message="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.MESSAGE')"
+      :message-value="deleteMessageValue"
+      :confirm-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.YES')"
+      :reject-text="$t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.NO')"
+    />
   </div>
 </template>
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
-import Label from 'dashboard/components/ui/Label';
 import LocaleItemTable from './PortalListItemTable';
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     thumbnail,
-    Label,
     LocaleItemTable,
   },
+  mixins: [alertMixin],
   props: {
     portal: {
       type: Object,
@@ -172,6 +206,13 @@ export default {
       values: ['archived', 'draft', 'published'],
     },
   },
+  data() {
+    return {
+      showDeleteConfirmationPopup: false,
+      alertMessage: '',
+      selectedPortalForDelete: {},
+    };
+  },
   computed: {
     labelColor() {
       switch (this.status) {
@@ -181,26 +222,122 @@ export default {
           return 'success';
       }
     },
-
+    deleteMessageValue() {
+      return ` ${this.selectedPortalForDelete.name}?`;
+    },
     locales() {
       return this.portal ? this.portal.config.allowed_locales : [];
+    },
+    allowedLocales() {
+      return Object.keys(this.locales).map(key => {
+        return this.locales[key].code;
+      });
+    },
+    articleCount() {
+      const { all_articles_count: count } = this.portal.meta;
+      return count;
     },
   },
   methods: {
     addLocale() {
-      this.$emit('add');
+      this.$emit('add-locale', this.portal.id);
     },
     openSite() {
-      this.$emit('open-site');
+      this.$emit('open-site', this.portal.slug);
     },
     openSettings() {
-      this.$emit('open');
+      this.fetchPortalsAndItsCategories();
+      this.navigateToPortalEdit();
     },
-    swapLocale() {
-      this.$emit('swap');
+    onClickOpenDeleteModal(portal) {
+      this.selectedPortalForDelete = portal;
+      this.showDeleteConfirmationPopup = true;
     },
-    deleteLocale() {
-      this.$emit('delete');
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.portal.slug,
+        });
+      });
+    },
+    async onClickDeletePortal() {
+      const { slug } = this.selectedPortalForDelete;
+      try {
+        await this.$store.dispatch('portals/delete', {
+          portalSlug: slug,
+        });
+        this.selectedPortalForDelete = {};
+        this.closeDeletePopup();
+        this.alertMessage = this.$t(
+          'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_SUCCESS'
+        );
+      } catch (error) {
+        this.alertMessage =
+          error?.message ||
+          this.$t(
+            'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR'
+          );
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+    changeDefaultLocale({ localeCode }) {
+      this.updatePortalLocales({
+        allowedLocales: this.allowedLocales,
+        defaultLocale: localeCode,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.CHANGE_DEFAULT_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
+    },
+    deletePortalLocale({ localeCode }) {
+      const updatedLocales = this.allowedLocales.filter(
+        code => code !== localeCode
+      );
+      const defaultLocale = this.portal.meta.default_locale;
+      this.updatePortalLocales({
+        allowedLocales: updatedLocales,
+        defaultLocale,
+        successMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.SUCCESS_MESSAGE'
+        ),
+        errorMessage: this.$t(
+          'HELP_CENTER.PORTAL.DELETE_LOCALE.API.ERROR_MESSAGE'
+        ),
+      });
+    },
+    async updatePortalLocales({
+      allowedLocales,
+      defaultLocale,
+      successMessage,
+      errorMessage,
+    }) {
+      try {
+        await this.$store.dispatch('portals/update', {
+          portalSlug: this.portal.slug,
+          config: {
+            default_locale: defaultLocale,
+            allowed_locales: allowedLocales,
+          },
+        });
+        this.alertMessage = successMessage;
+      } catch (error) {
+        this.alertMessage = error?.message || errorMessage;
+      } finally {
+        this.showAlert(this.alertMessage);
+      }
+    },
+    navigateToPortalEdit() {
+      this.$router.push({
+        name: 'edit_portal_information',
+        params: { portalSlug: this.portal.slug },
+      });
     },
   },
 };
@@ -224,7 +361,7 @@ export default {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: var(--space-normal);
+      margin-bottom: var(--space-large);
       .title-status--wrap {
         display: flex;
         align-items: center;
@@ -246,6 +383,7 @@ export default {
       }
     }
     .portal-locales {
+      margin-top: var(--space-medium);
       margin-bottom: var(--space-small);
       .locale-title {
         color: var(--s-800);
@@ -277,7 +415,7 @@ export default {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
-      margin-bottom: var(--space-slab);
+      margin-bottom: var(--space-normal);
       .content-theme-wrap {
         display: flex;
         align-items: center;

@@ -8,6 +8,7 @@
       :show-back-button="showBackButton"
       :back-url="backUrl"
       :show-new-button="showNewButton"
+      :show-sidemenu-icon="showSidemenuIcon"
     />
     <keep-alive v-if="keepAlive">
       <router-view />
@@ -43,6 +44,10 @@ export default {
     backUrl: {
       type: [String, Object],
       default: '',
+    },
+    showSidemenuIcon: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {

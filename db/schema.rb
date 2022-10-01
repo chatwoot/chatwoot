@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_09_104508) do
+ActiveRecord::Schema.define(version: 2022_09_30_025317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -131,8 +131,10 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.bigint "author_id"
     t.bigint "associated_article_id"
     t.jsonb "meta", default: {}
+    t.string "slug", null: false
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -394,7 +396,7 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -707,6 +709,7 @@ ActiveRecord::Schema.define(version: 2022_08_09_104508) do
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.boolean "archived", default: false
+    t.index ["custom_domain"], name: "index_portals_on_custom_domain", unique: true
     t.index ["slug"], name: "index_portals_on_slug", unique: true
   end
 

@@ -1,0 +1,8 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+    <% field.data.each do |key,val| %>
+    <%= key %>: <%= check_box "enabled_features", "feature_#{key}", { checked: val }, true, false  %>
+  <% end %>
+</div>

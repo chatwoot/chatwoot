@@ -117,6 +117,12 @@
         </label>
 
         <!--<label class="medium-9 columns settings-item">
+        <label v-if="isAWhatsAppChannel" class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
+          <input v-model="whatsAppAPIProviderName" type="text" disabled />
+        </label>
+
+        <label class="medium-9 columns settings-item">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
           }}
@@ -388,6 +394,18 @@ export default {
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
     },
+    whatsAppAPIProviderName() {
+      if (this.isAWhatsAppCloudChannel) {
+        return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD');
+      }
+      if (this.is360DialogWhatsAppChannel) {
+        return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.360_DIALOG');
+      }
+      if (this.isATwilioWhatsAppChannel) {
+        return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO');
+      }
+      return '';
+    },
     tabs() {
       const visibleToAllChannelTabs = [
         {
@@ -427,7 +445,7 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
-        this.isAWhatsappChannel
+        this.isAWhatsAppChannel
       ) {
         return [
           ...visibleToAllChannelTabs,
@@ -447,11 +465,11 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxName() {
-      if (this.isATwilioSMSChannel || this.isATwilioWhatsappChannel) {
+      if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.messaging_service_sid ||
           this.inbox.phone_number})`;
       }
-      if (this.isAWhatsappChannel) {
+      if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
       if (this.isAnEmailChannel) {

@@ -2,6 +2,7 @@
   <header class="header">
     <div class="table-actions-wrap">
       <div class="left-aligned-wrap">
+        <woot-sidemenu-icon />
         <h1 class="page-title">
           {{ headerTitle }}
         </h1>
@@ -173,11 +174,13 @@ export default {
 }
 
 .search-wrap {
-  width: 400px;
+  max-width: 400px;
+  min-width: 150px;
   display: flex;
   align-items: center;
   position: relative;
   margin-right: var(--space-small);
+  margin-left: var(--space-small);
 
   .search-icon {
     position: absolute;

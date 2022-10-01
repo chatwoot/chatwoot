@@ -202,8 +202,12 @@ class Message < ApplicationRecord
     inbox.web_widget? && inbox.channel.continuity_via_email
   end
 
+  def email_notifiable_api_channel?
+    inbox.api? && inbox.account.feature_enabled?('email_continuity_on_api_channel')
+  end
+
   def email_notifiable_channel?
-    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
+    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type) || email_notifiable_api_channel?
   end
 
   def can_notify_via_mail?
@@ -237,7 +241,7 @@ class Message < ApplicationRecord
   end
 
   def validate_attachments_limit(_attachment)
-    errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+    errors.add(:attachments, message: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 
   def set_conversation_activity

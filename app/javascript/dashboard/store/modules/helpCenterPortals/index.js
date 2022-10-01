@@ -25,7 +25,6 @@ const state = {
     meta: {
       byId: {},
     },
-    selectedPortalId: null,
   },
   uiFlags: {
     allFetched: false,

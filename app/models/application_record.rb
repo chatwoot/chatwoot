@@ -11,4 +11,12 @@ class ApplicationRecord < ActiveRecord::Base
 
     "#{self.class.name}Drop".constantize.new(self)
   end
+
+  private
+
+  def normalize_empty_string_to_nil(attrs = [])
+    attrs.each do |attr|
+      self[attr] = nil if self[attr].blank?
+    end
+  end
 end

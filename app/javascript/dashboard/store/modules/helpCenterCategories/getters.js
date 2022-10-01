@@ -18,6 +18,13 @@ export const getters = {
     });
     return categories;
   },
+  categoriesByLocaleCode: (...getterArguments) => localeCode => {
+    const [state, _getters] = getterArguments;
+    const categories = state.categories.allIds.map(id => {
+      return _getters.categoryById(id);
+    });
+    return categories.filter(category => category.locale === localeCode);
+  },
   getMeta: state => {
     return state.meta;
   },

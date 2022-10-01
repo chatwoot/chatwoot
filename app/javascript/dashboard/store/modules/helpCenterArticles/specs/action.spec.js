@@ -142,7 +142,11 @@ describe('#actions', () => {
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: articleList[0] });
-      await actions.delete({ commit }, articleList[0].id);
+      await actions.delete(
+        { commit },
+        { portalSlug: 'test', articleId: articleList[0].id }
+      );
+
       expect(commit.mock.calls).toEqual([
         [
           types.default.UPDATE_ARTICLE_FLAG,
@@ -159,7 +163,10 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.delete.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.delete({ commit }, articleList[0].id)
+        actions.delete(
+          { commit },
+          { portalSlug: 'test', articleId: articleList[0].id }
+        )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [

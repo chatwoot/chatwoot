@@ -6,17 +6,18 @@
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <div v-if="portals.length">
-      <help-center-sidebar
-        :class="sidebarClassName"
-        :header-title="headerTitle"
-        :sub-title="localeName(selectedPortalLocale)"
-        :accessible-menu-items="accessibleMenuItems"
-        :additional-secondary-menu-items="additionalSecondaryMenuItems"
-        @open-popover="openPortalPopover"
-        @open-modal="onClickOpenAddCatogoryModal"
-      />
-    </div>
+    <help-center-sidebar
+      v-if="portals.length"
+      :class="sidebarClassName"
+      :header-title="headerTitle"
+      :portal-slug="selectedPortalSlug"
+      :locale-slug="selectedLocaleInPortal"
+      :sub-title="localeName(selectedLocaleInPortal)"
+      :accessible-menu-items="accessibleMenuItems"
+      :additional-secondary-menu-items="additionalSecondaryMenuItems"
+      @open-popover="openPortalPopover"
+      @open-modal="onClickOpenAddCatogoryModal"
+    />
     <section class="app-content columns" :class="contentClassName">
       <router-view />
       <command-bar />
@@ -32,13 +33,16 @@
       <portal-popover
         v-if="showPortalPopover"
         :portals="portals"
-        :active-portal="selectedPortal"
+        :active-portal-slug="selectedPortalSlug"
+        :active-locale="selectedLocaleInPortal"
         @close-popover="closePortalPopover"
       />
       <add-category
         v-if="showAddCategoryModal"
+        :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
-        :locale="selectedPortalLocale"
+        :locale="selectedLocaleInPortal"
+        :portal-slug="selectedPortalSlug"
         @cancel="onClickCloseAddCategoryModal"
       />
     </section>
@@ -56,7 +60,7 @@ import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import portalMixin from '../mixins/portalMixin';
-import AddCategory from '../components/AddCategory.vue';
+import AddCategory from '../pages/categories/AddCategory';
 
 export default {
   components: {
@@ -77,18 +81,27 @@ export default {
       showNotificationPanel: false,
       showPortalPopover: false,
       showAddCategoryModal: false,
+      lastActivePortalSlug: '',
     };
   },
 
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      selectedPortal: 'portals/getSelectedPortal',
       portals: 'portals/allPortals',
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    selectedPortal() {
+      const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
+      if (slug) return this.$store.getters['portals/portalBySlug'](slug);
+
+      return this.$store.getters['portals/allPortals'][0];
+    },
+    selectedLocaleInPortal() {
+      return this.$route.params.locale || this.defaultPortalLocale;
+    },
     sidebarClassName() {
       if (this.isOnDesktop) {
         return '';
@@ -111,12 +124,15 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.selectedPortal ? this.selectedPortal?.slug : '';
     },
-    selectedPortalLocale() {
-      return this.locale || this.selectedPortal?.meta?.default_locale;
+    defaultPortalLocale() {
+      return this.selectedPortal
+        ? this.selectedPortal?.meta?.default_locale
+        : '';
     },
     accessibleMenuItems() {
+      if (!this.selectedPortal) return [];
       const {
         meta: {
           all_articles_count: allArticlesCount,
@@ -132,7 +148,7 @@ export default {
           key: 'list_all_locale_articles',
           count: allArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles`
           ),
           toolTip: 'All Articles',
           toStateName: 'list_all_locale_articles',
@@ -143,7 +159,7 @@ export default {
           key: 'list_mine_articles',
           count: mineArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/mine`
           ),
           toolTip: 'My articles',
           toStateName: 'list_mine_articles',
@@ -154,7 +170,7 @@ export default {
           key: 'list_draft_articles',
           count: draftArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/draft`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/draft`
           ),
           toolTip: 'Draft',
           toStateName: 'list_draft_articles',
@@ -165,7 +181,7 @@ export default {
           key: 'list_archived_articles',
           count: archivedArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/archived`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/archived`
           ),
           toolTip: 'Archived',
           toStateName: 'list_archived_articles',
@@ -173,6 +189,7 @@ export default {
       ];
     },
     additionalSecondaryMenuItems() {
+      if (!this.selectedPortal) return [];
       return [
         {
           icon: 'folder',
@@ -192,21 +209,29 @@ export default {
       ];
     },
     currentRoute() {
-      return ' ';
+      return '  ';
     },
     headerTitle() {
-      return this.selectedPortal.name;
+      return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+
+    const slug = this.$route.params.portalSlug;
+    if (slug) this.lastActivePortalSlug = slug;
+
     this.fetchPortalsAndItsCategories();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
+  },
+  updated() {
+    const slug = this.$route.params.portalSlug;
+    if (slug) this.lastActivePortalSlug = slug;
   },
   methods: {
     handleResize() {
@@ -245,12 +270,6 @@ export default {
     closePortalPopover() {
       this.showPortalPopover = false;
     },
-    openPortalPage() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-      this.showPortalPopover = false;
-    },
     onClickOpenAddCatogoryModal() {
       this.showAddCategoryModal = true;
     },
@@ -260,3 +279,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.off-canvas-content.is-open-left.has-transition-push {
+  transform: translateX(var(--space-giga));
+}
+</style>

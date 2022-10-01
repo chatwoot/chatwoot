@@ -82,6 +82,7 @@
       <woot-button
         class-names="article--buttons"
         size="small"
+        icon="add"
         color-scheme="primary"
         @click="onClickNewArticlePage"
       >
@@ -152,7 +153,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: var(--space-larger);
+  height: var(--space-jumbo);
+  padding-top: var(--space-small);
 }
 .header-left--wrap {
   display: flex;

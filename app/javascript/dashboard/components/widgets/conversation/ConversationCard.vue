@@ -99,7 +99,7 @@
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          {{ dynamicTime(chat.timestamp) }}
+          <time-ago :timestamp="chat.timestamp" />
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
@@ -135,6 +135,7 @@ import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import timeAgo from 'dashboard/components/ui/TimeAgo';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -150,6 +151,7 @@ export default {
     InboxName,
     Thumbnail,
     ConversationContextMenu,
+    timeAgo,
   },
 
   mixins: [

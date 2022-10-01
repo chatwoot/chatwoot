@@ -6,28 +6,21 @@ export const getters = {
   },
 
   isFetchingPortals: state => state.uiFlags.isFetching,
-  portalById: (...getterArguments) => portalId => {
+  portalBySlug: (...getterArguments) => portalId => {
     const [state] = getterArguments;
     const portal = state.portals.byId[portalId];
 
-    return {
-      ...portal,
-    };
+    return portal;
   },
   allPortals: (...getterArguments) => {
     const [state, _getters] = getterArguments;
     const portals = state.portals.allIds.map(id => {
-      return _getters.portalById(id);
+      return _getters.portalBySlug(id);
     });
     return portals;
   },
   count: state => state.portals.allIds.length || 0,
   getMeta: state => {
     return state.meta;
-  },
-  getSelectedPortal: (...getterArguments) => {
-    const [state, _getters] = getterArguments;
-    const { selectedPortalId } = state.portals;
-    return _getters.portalById(selectedPortalId);
   },
 };

@@ -135,7 +135,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     inbox = Current.account.inboxes.find(params[:inbox_id])
     source_id = params[:source_id] || SecureRandom.uuid
-    ContactInbox.create(contact: @contact, inbox: inbox, source_id: source_id)
+    ContactInbox.create!(contact: @contact, inbox: inbox, source_id: source_id)
   end
 
   def permitted_params

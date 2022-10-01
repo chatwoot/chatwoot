@@ -1,16 +1,19 @@
 <template>
   <li class="sidebar-item">
     <div v-if="hasSubMenu" class="secondary-menu--wrap">
-      <span class="secondary-menu--title fs-small">
+      <span class="secondary-menu--header fs-small">
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="isHelpCenterSidebar" class="submenu-icons">
-        <div class="submenu-icon">
-          <fluent-icon icon="search" size="16" />
-        </div>
-        <div class="submenu-icon" @click="onClickOpen">
+        <woot-button
+          size="tiny"
+          variant="clear"
+          color-scheme="secondary"
+          class="submenu-icon"
+          @click="onClickOpen"
+        >
           <fluent-icon icon="add" size="16" />
-        </div>
+        </woot-button>
       </div>
     </div>
     <router-link
@@ -217,13 +220,22 @@ export default {
 .secondary-menu--wrap {
   display: flex;
   justify-content: space-between;
+  margin-top: var(--space-small);
 }
 
+.secondary-menu--header {
+  color: var(--s-700);
+  display: flex;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--space-normal);
+  margin: var(--space-small) 0;
+  padding: 0 var(--space-small);
+}
 .secondary-menu--title {
   color: var(--s-600);
   display: flex;
-  font-weight: var(--font-weight-bold);
-  line-height: var(--space-two);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--space-normal);
   margin: var(--space-small) 0;
   padding: 0 var(--space-small);
 }
@@ -235,6 +247,7 @@ export default {
   padding: var(--space-small);
   font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-normal);
+  color: var(--s-700);
 
   &:hover {
     background: var(--s-25);
@@ -326,19 +339,14 @@ export default {
   align-items: center;
 
   .submenu-icon {
+    padding: 0;
     margin-left: var(--space-small);
-    color: var(--s-600);
-
-    &:hover {
-      cursor: pointer;
-      color: var(--w-500);
-    }
   }
 }
 
 .empty-text {
-  color: var(--s-600);
+  color: var(--s-500);
   font-size: var(--font-size-small);
-  margin: var(--space-smaller) 0;
+  margin: var(--space-smaller);
 }
 </style>
