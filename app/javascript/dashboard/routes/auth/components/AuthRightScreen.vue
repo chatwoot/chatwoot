@@ -22,7 +22,7 @@
         </div>
         <div v-show="showTestimonials">
           <div class="testimonial-left--card testimonial-card">
-            <img src="./assets/testimonials-left-card.svg" />
+            <img src="./assets/testimonials-card.svg" />
             <div class="left-card--wrap">
               <div class="left-card--content">
                 <p>
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="testimonial-right--card testimonial-card">
-            <img src="./assets/testimonials-left-card.svg" />
+            <img src="./assets/testimonials-card.svg" />
             <div class="right-card--wrap">
               <div class="right-card--content">
                 <p>
@@ -135,17 +135,18 @@ export default {
     flex: 1 1;
 
     .top-left--img {
-      width: 24rem;
-      height: 24rem;
+      width: var(--space-giga);
+      height: var(--space-giga);
       top: 0;
       left: 0;
     }
 
     .center-container {
       padding: var(--space-medium) 0;
+      z-index: var(--z-index-low);
       .center--img {
-        width: 70rem;
-        height: 70rem;
+        width: 72rem;
+        height: 72rem;
       }
     }
     .bottom-right--img {
@@ -173,7 +174,7 @@ export default {
 
     .testimonial-card {
       position: absolute;
-      width: 30rem;
+      width: 32rem;
       top: 50%;
       left: 50%;
       align-items: center;
@@ -182,10 +183,10 @@ export default {
     }
 
     .testimonial-left--card {
-      transform: translate(-90%, 0%);
+      transform: translate(-70%, 0%);
 
       .left-card--wrap {
-        width: 24rem;
+        width: var(--space-giga);
         position: absolute;
 
         .left-card--content {
@@ -198,10 +199,10 @@ export default {
       }
     }
     .testimonial-right--card {
-      transform: translate(-24%, -82%);
+      transform: translate(-22%, -88%);
 
       .right-card--wrap {
-        width: 24rem;
+        width: var(--space-giga);
         position: absolute;
 
         .right-card--content {
@@ -218,14 +219,14 @@ export default {
       top: 50%;
       left: 50%;
       position: absolute;
-      width: 36rem;
+      width: 38rem;
     }
 
     .reports-left-card {
-      transform: translate(-84%, 0%);
+      transform: translate(-75%, 0%);
     }
     .reports-right-card {
-      transform: translate(-25%, -90%);
+      transform: translate(-24%, -88%);
     }
 
     .content-author--details {
@@ -238,8 +239,8 @@ export default {
         background: white;
         border-radius: var(--border-radius-rounded);
         .author-image {
-          width: 4rem;
-          height: 4rem;
+          width: calc(var(--space-two) + var(--space-two));
+          height: calc(var(--space-two) + var(--space-two));
           border-radius: var(--border-radius-rounded);
         }
       }
