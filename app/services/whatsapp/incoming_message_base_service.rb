@@ -37,7 +37,8 @@ class Whatsapp::IncomingMessageBaseService
     message.dig(:text, :body) ||
       message.dig(:button, :text) ||
       message.dig(:interactive, :button_reply, :title) ||
-      message.dig(:interactive, :list_reply, :title)
+      message.dig(:interactive, :list_reply, :title) ||
+      message.dig(:reaction, :emoji)
   end
 
   def account
@@ -87,7 +88,7 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def attach_files
-    return if %w[text button interactive].include?(message_type)
+    return if %w[text button interactive reaction].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
     attachment_file = download_attachment_file(attachment_payload)
