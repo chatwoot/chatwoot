@@ -25,7 +25,7 @@
             <img src="./assets/testimonials-card.svg" />
             <div class="left-card--wrap">
               <div class="left-card--content">
-                <p>
+                <p class="card-content">
                   {{ LEFT_CARD.AUTHOR_REVIEW }}
                 </p>
                 <div class="content-author--details row">
@@ -48,7 +48,7 @@
             <img src="./assets/testimonials-card.svg" />
             <div class="right-card--wrap">
               <div class="right-card--content">
-                <p>
+                <p class="card-content">
                   {{ RIGHT_CARD.AUTHOR_REVIEW }}
                 </p>
                 <div class="content-author--details row">
@@ -118,14 +118,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/woot';
+
+.absolute {
+  position: absolute;
+}
+
 .image--wrap {
   display: flex;
   flex: 1 1;
   background: #56b9fc;
-
-  .absolute {
-    position: absolute;
-  }
 
   .image {
     display: flex;
@@ -184,11 +186,9 @@ export default {
 
     .testimonial-left--card {
       transform: translate(-82%, 0%);
-
       .left-card--wrap {
         width: var(--space-giga);
         position: absolute;
-
         .left-card--content {
           display: flex;
           justify-content: center;
@@ -199,12 +199,10 @@ export default {
       }
     }
     .testimonial-right--card {
-      transform: translate(-22%, -88%);
-
+      transform: translate(-17%, -92%);
       .right-card--wrap {
         width: var(--space-giga);
         position: absolute;
-
         .right-card--content {
           display: flex;
           justify-content: center;
@@ -223,17 +221,16 @@ export default {
     }
 
     .reports-left-card {
-      transform: translate(-78%, 0%);
+      transform: translate(-80%, 0%);
     }
     .reports-right-card {
-      transform: translate(-24%, -88%);
+      transform: translate(-20%, -92%);
     }
 
     .content-author--details {
       display: flex;
       align-items: center;
-      margin-top: var(--space-smaller);
-
+      margin-top: var(--space-small);
       .author-image--wrap {
         padding: var(--space-smaller);
         background: white;
@@ -249,7 +246,6 @@ export default {
         display: flex;
         flex-direction: column;
         margin-left: var(--space-small);
-
         .author-name {
           font-size: var(--font-size-small);
           font-weight: var(--font-weight-bold);
@@ -265,6 +261,52 @@ export default {
 @media screen and (max-width: 1200px) {
   .image--wrap {
     display: none;
+  }
+}
+
+@include breakpoint(xxxlarge up) {
+  .image--wrap .image {
+    .image-bottom--text {
+      .heading {
+        font-size: var(--font-size-mega);
+      }
+      .sub-heading {
+        font-size: var(--font-size-medium);
+      }
+    }
+
+    .content-author--details .author-name-company--details {
+      .author-name {
+        font-size: var(--font-size-default);
+      }
+      .author-company {
+        font-size: var(--font-size-small);
+      }
+    }
+
+    .center-container .center--img {
+      width: 86rem;
+      height: 86rem;
+    }
+
+    .reports-card {
+      width: 44rem;
+    }
+
+    .testimonial-card {
+      width: 37rem;
+      .card-content {
+        font-size: var(--font-size-default);
+      }
+    }
+
+    .testimonial-left--card .left-card--wrap {
+      width: 28rem;
+    }
+
+    .testimonial-right--card .right-card--wrap {
+      width: 28rem;
+    }
   }
 }
 </style>
