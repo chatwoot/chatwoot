@@ -90,7 +90,7 @@
             :heading="keyOption.heading"
             :content="keyOption.content"
             :src="keyOption.src"
-            :active="keyOption.key === editorMessageKey"
+            :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
           />
         </button>
       </div>
@@ -127,7 +127,9 @@ import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword';
 import MessageSignature from './MessageSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import uiSettingsMixin, {
+  isEditorHotKeyEnabled,
+} from 'dashboard/mixins/uiSettings';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
 export default {
@@ -188,11 +190,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
-    editorMessageKey() {
-      const key = 'enter' || 'cmd_enter';
-      const { editor_message_key: messageKey } = this.uiSettings;
-      return messageKey || key;
-    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -213,6 +210,7 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
     },
+    isEditorHotKeyEnabled,
     async updateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {

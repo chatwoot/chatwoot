@@ -119,9 +119,7 @@ import {
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyBottomPanel',
-  components: {
-    FileUpload,
-  },
+  components: { FileUpload },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {

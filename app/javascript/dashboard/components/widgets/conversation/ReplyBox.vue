@@ -155,6 +155,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
 import wootConstants from 'dashboard/constants';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -339,7 +340,9 @@ export default {
       } else if (this.conversationType === 'tweet') {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
-      const keyLabel = this.isKeyEnabled('cmd_enter') ? '(⌘ + ↵)' : '(↵)';
+      const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
+        ? '(⌘ + ↵)'
+        : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
     },
     replyBoxClass() {
@@ -500,12 +503,8 @@ export default {
         !this.hasUserMention &&
         !this.showCannedMenu &&
         this.isFocused &&
-        this.isKeyEnabled(selectedKey)
+        isEditorHotKeyEnabled(this.uiSettings, selectedKey)
       );
-    },
-    isKeyEnabled(key) {
-      const { editor_message_key: editorMessageKey } = this.uiSettings;
-      return editorMessageKey === key;
     },
     onPaste(e) {
       const data = e.clipboardData.files;
