@@ -21,9 +21,8 @@
           </div>
         </div>
         <div v-show="showTestimonials">
-          <div class="testimonial-left--card testimonial-card">
-            <img src="./assets/testimonials-card.svg" />
-            <div class="left-card--wrap">
+          <div class="testimonial-left--card testimonial-card absolute">
+            <div class="left-card--wrap absolute">
               <div class="left-card--content">
                 <p class="card-content">
                   {{ LEFT_CARD.AUTHOR_REVIEW }}
@@ -44,9 +43,8 @@
               </div>
             </div>
           </div>
-          <div class="testimonial-right--card testimonial-card">
-            <img src="./assets/testimonials-card.svg" />
-            <div class="right-card--wrap">
+          <div class="testimonial-right--card testimonial-card absolute">
+            <div class="right-card--wrap absolute">
               <div class="right-card--content">
                 <p class="card-content">
                   {{ RIGHT_CARD.AUTHOR_REVIEW }}
@@ -71,11 +69,11 @@
         <div v-show="!showTestimonials">
           <img
             src="./assets/reports-left-card.svg"
-            class="reports-card reports-left-card"
+            class="reports-card absolute reports-left-card"
           />
           <img
             src="./assets/reports-right-card.svg"
-            class="reports-card reports-right-card"
+            class="reports-card absolute reports-right-card"
           />
         </div>
       </div>
@@ -125,98 +123,99 @@ export default {
 }
 
 .image--wrap {
+  background: #56b9fc;
   display: flex;
   flex: 1 1;
-  background: #56b9fc;
 
   .image {
-    display: flex;
     align-items: center;
+    display: flex;
+    flex: 1 1;
     justify-content: center;
     position: relative;
-    flex: 1 1;
 
     .top-left--img {
-      width: var(--space-giga);
       height: var(--space-giga);
-      top: 0;
       left: 0;
+      top: 0;
+      width: var(--space-giga);
     }
 
     .center-container {
       padding: var(--space-medium) 0;
       z-index: var(--z-index-low);
       .center--img {
-        width: 72rem;
         height: 72rem;
+        width: 72rem;
       }
     }
     .bottom-right--img {
-      width: 28rem;
+      bottom: 0;
       height: 28rem;
       right: 0;
-      bottom: 0;
+      width: 28rem;
     }
 
     .image-bottom--text {
+      align-items: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
       .heading {
-        font-weight: var(--font-weight-black);
-        margin-bottom: var(--space-small);
-        font-size: var(--font-size-bigger);
         color: var(--white);
+        font-weight: var(--font-weight-black);
+        font-size: var(--font-size-bigger);
+        margin-bottom: var(--space-small);
       }
       .sub-heading {
-        font-weight: var(--font-weight-bold);
         color: var(--white);
+        font-weight: var(--font-weight-bold);
       }
     }
 
     .testimonial-card {
-      position: absolute;
-      width: 32rem;
-      top: 50%;
-      left: 50%;
       align-items: center;
+      background: var(--white);
+      box-shadow: var(--shadow-auth-page-card);
+      border-radius: var(--border-radius-normal);
       display: flex;
+      height: 26rem;
       justify-content: center;
+      left: 50%;
+      opacity: 0.92;
+      top: 50%;
+      width: 32rem;
     }
 
     .testimonial-left--card {
       transform: translate(-82%, 0%);
       .left-card--wrap {
         width: var(--space-giga);
-        position: absolute;
         .left-card--content {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
           color: var(--s-800);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           width: 100%;
         }
       }
     }
     .testimonial-right--card {
-      transform: translate(-17%, -92%);
+      transform: translate(-18%, -94%);
       .right-card--wrap {
         width: var(--space-giga);
-        position: absolute;
         .right-card--content {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
           color: var(--s-800);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           width: 100%;
         }
       }
     }
 
     .reports-card {
-      top: 50%;
       left: 50%;
-      position: absolute;
+      top: 50%;
       width: 38rem;
     }
 
@@ -228,17 +227,17 @@ export default {
     }
 
     .content-author--details {
-      display: flex;
       align-items: center;
+      display: flex;
       margin-top: var(--space-small);
       .author-image--wrap {
-        padding: var(--space-smaller);
         background: white;
         border-radius: var(--border-radius-rounded);
+        padding: var(--space-smaller);
         .author-image {
-          width: calc(var(--space-two) + var(--space-two));
-          height: calc(var(--space-two) + var(--space-two));
           border-radius: var(--border-radius-rounded);
+          height: calc(var(--space-two) + var(--space-two));
+          width: calc(var(--space-two) + var(--space-two));
         }
       }
 
@@ -285,8 +284,8 @@ export default {
     }
 
     .center-container .center--img {
-      width: 86rem;
       height: 86rem;
+      width: 86rem;
     }
 
     .reports-card {
@@ -294,7 +293,8 @@ export default {
     }
 
     .testimonial-card {
-      width: 37rem;
+      height: 30rem;
+      width: 38rem;
       .card-content {
         font-size: var(--font-size-default);
       }
