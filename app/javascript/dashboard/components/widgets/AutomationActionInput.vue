@@ -240,6 +240,6 @@ export default {
   margin-bottom: var(--space-zero);
 }
 .action-message {
-  margin: var(--space-small) 0 0;
+  margin: var(--space-small) var(--space-zero) var(--space-zero);
 }
 </style>
