@@ -148,14 +148,7 @@ import {
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import {
-  isEnter,
-  isEscape,
-  hasPressedShift,
-  hasPressedCommand,
-  hasPressedCommandAndEnter,
-  hasPressedCommandPlusKKey,
-} from 'shared/helpers/KeyboardHelpers';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -475,16 +468,42 @@ export default {
   mounted() {
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
-    document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
-
+    document.addEventListener('keydown', this.handleKeyEvents);
     this.setCCEmailFromLastChat();
   },
   destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    handleKeyEvents(e) {
+      const keyCode = buildHotKeys(e);
+      if (keyCode === 'escape') {
+        this.hideEmojiPicker();
+        this.hideMentions();
+      } else if (keyCode === 'meta+k') {
+        const ninja = document.querySelector('ninja-keys');
+        ninja.open();
+        e.preventDefault();
+      } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
+        this.onSendReply();
+      } else if (keyCode === 'meta+enter' && this.isAValidEvent('cmd_enter')) {
+        this.onSendReply();
+      }
+    },
+    isAValidEvent(selectedKey) {
+      return (
+        !this.hasUserMention &&
+        !this.showCannedMenu &&
+        this.isFocused &&
+        this.isKeyEnabled(selectedKey)
+      );
+    },
+    isKeyEnabled(key) {
+      const { editor_message_key: editorMessageKey } = this.uiSettings;
+      return editorMessageKey === key;
+    },
     onPaste(e) {
       const data = e.clipboardData.files;
       if (!this.showRichContentEditor && data.length !== 0) {
@@ -503,60 +522,6 @@ export default {
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
-    },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.hideEmojiPicker();
-        this.hideMentions();
-      } else if (!this.commandPlusEnterToSendEnabled && isEnter(e)) {
-        this.sendMesssageWithEnterKey(e);
-      } else if (
-        this.commandPlusEnterToSendEnabled &&
-        hasPressedCommandAndEnter(e)
-      ) {
-        this.sendMessageWithCmdPlusEnterKey(e);
-      } else if (hasPressedCommandPlusKKey(e)) {
-        this.openCommandBar();
-      }
-    },
-    sendMesssageWithEnterKey(e) {
-      const hasSendOnEnterEnabled =
-        (this.showRichContentEditor &&
-          this.enterToSendEnabled &&
-          !this.hasUserMention &&
-          !this.showCannedMenu) ||
-        !this.showRichContentEditor;
-      const shouldSendMessage =
-        hasSendOnEnterEnabled &&
-        !this.commandPlusEnterToSendEnabled &&
-        !hasPressedCommand(e) &&
-        !hasPressedShift(e) &&
-        this.isFocused;
-      if (shouldSendMessage) {
-        e.preventDefault();
-        this.onSendReply();
-      }
-    },
-    sendMessageWithCmdPlusEnterKey(e) {
-      const hasSendOnCmdEnterEnabled =
-        (this.showRichContentEditor &&
-          !this.hasUserMention &&
-          !this.showCannedMenu) ||
-        !this.showRichContentEditor;
-      const shouldSendMessage =
-        hasSendOnCmdEnterEnabled &&
-        this.commandPlusEnterToSendEnabled &&
-        hasPressedCommand(e) &&
-        !hasPressedShift(e) &&
-        this.isFocused;
-      if (shouldSendMessage) {
-        e.preventDefault();
-        this.onSendReply();
-      }
-    },
-    openCommandBar() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open();
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;

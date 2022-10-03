@@ -93,3 +93,25 @@ export const hasPressedArrowDownKey = e => {
 export const hasPressedCommandPlusKKey = e => {
   return e.metaKey && e.keyCode === 75;
 };
+
+export const buildHotKeys = e => {
+  const key = e.key.toLowerCase();
+  if (['shift', 'meta', 'alt', 'control'].includes(key)) {
+    return key;
+  }
+  let hotKeyPattern = '';
+  if (e.altKey) {
+    hotKeyPattern += 'alt+';
+  }
+  if (e.ctrlKey) {
+    hotKeyPattern += 'ctrl+';
+  }
+  if (e.metaKey && !e.ctrlKey) {
+    hotKeyPattern += 'meta+';
+  }
+  if (e.shiftKey) {
+    hotKeyPattern += 'shift+';
+  }
+  hotKeyPattern += key;
+  return hotKeyPattern;
+};
