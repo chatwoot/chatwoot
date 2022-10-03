@@ -56,6 +56,7 @@
       <woot-message-editor
         v-else
         v-model="message"
+        :editor-id="editorStateId"
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
@@ -428,6 +429,13 @@ export default {
     },
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
+    },
+    conversationId() {
+      return this.currentChat.id;
+    },
+    editorStateId() {
+      const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+      return key;
     },
   },
   watch: {
