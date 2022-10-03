@@ -488,7 +488,10 @@ export default {
         e.preventDefault();
       } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
         this.onSendReply();
-      } else if (keyCode === 'meta+enter' && this.isAValidEvent('cmd_enter')) {
+      } else if (
+        ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
+        this.isAValidEvent('cmd_enter')
+      ) {
         this.onSendReply();
       }
     },
