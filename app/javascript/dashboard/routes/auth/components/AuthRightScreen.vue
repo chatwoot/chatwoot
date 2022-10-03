@@ -183,7 +183,7 @@ export default {
     }
 
     .testimonial-left--card {
-      transform: translate(-70%, 0%);
+      transform: translate(-82%, 0%);
 
       .left-card--wrap {
         width: var(--space-giga);
@@ -223,7 +223,7 @@ export default {
     }
 
     .reports-left-card {
-      transform: translate(-75%, 0%);
+      transform: translate(-78%, 0%);
     }
     .reports-right-card {
       transform: translate(-24%, -88%);
