@@ -70,6 +70,31 @@
       </div>
     </form>
     <message-signature />
+    <div class="profile--settings--row row">
+      <div class="columns small-3">
+        <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
+        </p>
+      </div>
+      <div class="columns small-9 medium-5 card-preview">
+        <button
+          v-for="keyOption in keyOptions"
+          :key="keyOption.key"
+          class="preview-button"
+          @click="toggleEditorMessageKey(keyOption.key)"
+        >
+          <preview-card
+            :heading="keyOption.heading"
+            :content="keyOption.content"
+            :src="keyOption.src"
+            :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
+          />
+        </button>
+      </div>
+    </div>
     <change-password v-if="!globalConfig.disableUserProfileUpdate" />
     <notification-settings />
     <div class="profile--settings--row row">
@@ -102,14 +127,19 @@ import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword';
 import MessageSignature from './MessageSignature';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import uiSettingsMixin, {
+  isEditorHotKeyEnabled,
+} from 'dashboard/mixins/uiSettings';
+import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 
 export default {
   components: {
     NotificationSettings,
     ChangePassword,
     MessageSignature,
+    PreviewCard,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
     return {
       avatarFile: '',
@@ -119,6 +149,28 @@ export default {
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
+      keyOptions: [
+        {
+          key: 'enter',
+          src: '/assets/images/dashboard/editor/enter-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
+        },
+        {
+          key: 'cmd_enter',
+          src: '/assets/images/dashboard/editor/cmd-editor.png',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
+        },
+      ],
     };
   },
   validations: {
@@ -158,6 +210,7 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
     },
+    isEditorHotKeyEnabled,
     async updateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -207,6 +260,12 @@ export default {
     showDeleteButton() {
       return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
+    toggleEditorMessageKey(key) {
+      this.updateUISettings({ editor_message_key: key });
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+      );
+    },
   },
 };
 </script>
@@ -216,18 +275,32 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .profile--settings {
-  padding: 24px;
   overflow: auto;
+  padding: 24px;
 }
 
 .profile--settings--row {
   @include border-normal-bottom;
+  align-items: center;
+  display: flex;
   padding: $space-normal;
+
   .small-3 {
     padding: $space-normal $space-medium $space-normal 0;
   }
+
   .small-9 {
     padding: $space-normal;
+  }
+
+  .card-preview {
+    display: flex;
+    flex-direction: row;
+
+    .preview-button {
+      cursor: pointer;
+      margin-right: var(--space-normal);
+    }
   }
 }
 </style>
