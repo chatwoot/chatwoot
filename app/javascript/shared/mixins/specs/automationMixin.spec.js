@@ -244,22 +244,6 @@ describe('automationMethodsMixin', () => {
     expect(automation.actions.length).toEqual(1);
   });
 
-  //       },
-  //     ],
-  //     actions: [
-  //       {
-  //         action_name: 'add_label',
-  //         action_params: [2],
-  //       },
-  //     ],
-  //   };
-  //   const wrapper = createComponent([methodsMixin, validationsMixin], data);
-  //   wrapper.vm.submitAutomation();
-  //   await wrapper.vm.$nextTick();
-
-  //   expect(wrapper.emitted()).toEqual(generatedPayload);
-  // });
-
   it('resetFilter resets the current automation conditions', () => {
     const data = () => {
       return {
