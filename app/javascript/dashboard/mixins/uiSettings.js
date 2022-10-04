@@ -10,11 +10,24 @@ export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_labels' },
   { name: 'previous_conversation' },
 ];
+
+export const isEditorHotKeyEnabled = (uiSettings, key) => {
+  const {
+    editor_message_key: editorMessageKey,
+    enter_to_send_enabled: enterToSendEnabled,
+  } = uiSettings || {};
+  if (!editorMessageKey) {
+    if (enterToSendEnabled) {
+      return key === 'enter';
+    }
+    return key === 'cmd_enter';
+  }
+  return editorMessageKey === key;
+};
+
 export default {
   computed: {
-    ...mapGetters({
-      uiSettings: 'getUISettings',
-    }),
+    ...mapGetters({ uiSettings: 'getUISettings' }),
     conversationSidebarItemsOrder() {
       const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
       return itemsOrder || DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
