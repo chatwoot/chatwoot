@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
-import { setUser, clearCookiesOnLogout } from '../utils/api';
+
+import {
+  setUser,
+  clearCookiesOnLogout,
+  clearLocalStorageOnLogout,
+} from '../utils/api';
 import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const initialState = {
@@ -89,6 +94,7 @@ export const actions = {
       authAPI
         .login(credentials)
         .then(response => {
+          clearLocalStorageOnLogout();
           window.location = getLoginRedirectURL({
             ssoAccountId,
             ssoConversationId,
