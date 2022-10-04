@@ -244,22 +244,6 @@ describe('automationMethodsMixin', () => {
     expect(automation.actions.length).toEqual(1);
   });
 
-  // it('submitAutomation emits a structured automation payload', async () => {
-  //   const data = () => {
-  //     return {
-  //       automation: automationToSubmit,
-  //     };
-  //   };
-
-  //   const generatedPayload = {
-  //     name: 'Fayaz',
-  //     description: 'Hello',
-  //     event_name: 'conversation_created',
-  //     conditions: [
-  //       {
-  //         attribute_key: 'status',
-  //         filter_operator: 'equal_to',
-  //         values: ['open'],
   //       },
   //     ],
   //     actions: [
