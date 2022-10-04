@@ -200,7 +200,7 @@ export default {
       }
     }
     .testimonial-right--card {
-      transform: translate(-18%, -94%);
+      transform: translate(-22%, -94%);
       .right-card--wrap {
         width: var(--space-giga);
         .right-card--content {
@@ -223,7 +223,7 @@ export default {
       transform: translate(-80%, 0%);
     }
     .reports-right-card {
-      transform: translate(-20%, -92%);
+      transform: translate(-24%, -92%);
     }
 
     .content-author--details {
