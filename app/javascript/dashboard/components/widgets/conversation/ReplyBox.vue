@@ -110,10 +110,8 @@
       :is-recording-audio="isRecordingAudio"
       :is-on-private-note="isOnPrivateNote"
       :is-format-mode="showRichContentEditor"
-      :enter-to-send-enabled="enterToSendEnabled"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
-      @toggleEnterToSend="toggleEnterToSend"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
     <whatsapp-templates
@@ -151,12 +149,7 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import {
-  isEscape,
-  isEnter,
-  hasPressedShift,
-  hasPressedCommandPlusKKey,
-} from 'shared/helpers/KeyboardHelpers';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -165,6 +158,7 @@ import { frontendURL } from '../../../helper/URLHelper';
 import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -271,9 +265,6 @@ export default {
       return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
         .length;
     },
-    enterToSendEnabled() {
-      return !!this.uiSettings.enter_to_send_enabled;
-    },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
@@ -347,13 +338,16 @@ export default {
       );
     },
     replyButtonLabel() {
+      let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
-        return this.$t('CONVERSATION.REPLYBOX.CREATE');
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
+      } else if (this.conversationType === 'tweet') {
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
-      if (this.conversationType === 'tweet') {
-        return this.$t('CONVERSATION.REPLYBOX.TWEET');
-      }
-      return this.$t('CONVERSATION.REPLYBOX.SEND');
+      const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
+        ? '(⌘ + ↵)'
+        : '(↵)';
+      return `${sendMessageText} ${keyLabel}`;
     },
     replyBoxClass() {
       return {
@@ -434,8 +428,15 @@ export default {
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
-    conversationId() {
-      return this.currentChat.id;
+    editorMessageKey() {
+      const { editor_message_key: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    commandPlusEnterToSendEnabled() {
+      return this.editorMessageKey === 'cmd_enter';
+    },
+    enterToSendEnabled() {
+      return this.editorMessageKey === 'enter';
     },
     conversationIdByRoute() {
       const { conversation_id: conversationId } = this.$route.params;
@@ -444,6 +445,9 @@ export default {
     draftStoreKey() {
       const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
       return key;
+    },
+    editorStateId() {
+      return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
   },
   watch: {
@@ -492,9 +496,8 @@ export default {
     this.getFromDraft();
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
-    document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
-
+    document.addEventListener('keydown', this.handleKeyEvents);
     this.setCCEmailFromLastChat();
     this.doAutoSaveDraft = debounce(
       () => {
@@ -505,8 +508,8 @@ export default {
     );
   },
   destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
     getSavedDraftMessages() {
@@ -561,6 +564,32 @@ export default {
         );
       }
     },
+    handleKeyEvents(e) {
+      const keyCode = buildHotKeys(e);
+      if (keyCode === 'escape') {
+        this.hideEmojiPicker();
+        this.hideMentions();
+      } else if (keyCode === 'meta+k') {
+        const ninja = document.querySelector('ninja-keys');
+        ninja.open();
+        e.preventDefault();
+      } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
+        this.onSendReply();
+      } else if (
+        ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
+        this.isAValidEvent('cmd_enter')
+      ) {
+        this.onSendReply();
+      }
+    },
+    isAValidEvent(selectedKey) {
+      return (
+        !this.hasUserMention &&
+        !this.showCannedMenu &&
+        this.isFocused &&
+        isEditorHotKeyEnabled(this.uiSettings, selectedKey)
+      );
+    },
     onPaste(e) {
       const data = e.clipboardData.files;
       if (!this.showRichContentEditor && data.length !== 0) {
@@ -579,34 +608,6 @@ export default {
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
-    },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.hideEmojiPicker();
-        this.hideMentions();
-      } else if (isEnter(e)) {
-        const hasSendOnEnterEnabled =
-          (this.showRichContentEditor &&
-            this.enterToSendEnabled &&
-            !this.hasUserMention &&
-            !this.showCannedMenu) ||
-          !this.showRichContentEditor;
-        const shouldSendMessage =
-          hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
-        if (shouldSendMessage) {
-          e.preventDefault();
-          this.onSendReply();
-        }
-      } else if (hasPressedCommandPlusKKey(e)) {
-        this.openCommandBar();
-      }
-    },
-    openCommandBar() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open();
-    },
-    toggleEnterToSend(enterToSendEnabled) {
-      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;
@@ -686,7 +687,6 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
-
       if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
