@@ -91,17 +91,6 @@
       </transition>
     </div>
     <div class="right-wrap">
-      <div v-if="isFormatMode" class="enter-to-send--checkbox">
-        <input
-          :checked="enterToSendEnabled"
-          type="checkbox"
-          value="enterToSend"
-          @input="toggleEnterToSend"
-        />
-        <label for="enterToSend">
-          {{ $t('CONVERSATION.REPLYBOX.ENTER_TO_SEND') }}
-        </label>
-      </div>
       <woot-button
         size="small"
         :class-names="buttonClass"
@@ -201,10 +190,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    enterToSendEnabled: {
-      type: Boolean,
-      default: true,
-    },
     enableMultipleFileUpload: {
       type: Boolean,
       default: true,
@@ -278,9 +263,6 @@ export default {
         this.$refs.upload.$children[1].$el.click();
       }
     },
-    toggleEnterToSend() {
-      this.$emit('toggleEnterToSend', !this.enterToSendEnabled);
-    },
     toggleMessageSignature() {
       this.updateUISettings({
         send_with_signature: !this.sendWithSignature,
@@ -312,20 +294,6 @@ export default {
 
 .right-wrap {
   display: flex;
-
-  .enter-to-send--checkbox {
-    align-items: center;
-    display: flex;
-
-    input {
-      margin: 0;
-    }
-
-    label {
-      color: var(--s-500);
-      font-size: var(--font-size-mini);
-    }
-  }
 }
 
 ::v-deep .file-uploads {
