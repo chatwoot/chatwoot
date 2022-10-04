@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Din e-mailadresse er din identitet og bruges til at logge ind."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personlig beskedsignatur",
         "NOTE": "Opret en personlig besked signatur, der vil blive føjet til alle de meddelelser, du sender fra din e-mail indbakke. Brug den rige content editor til at oprette en meget personlig signatur.",
