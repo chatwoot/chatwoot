@@ -56,7 +56,7 @@
       <woot-message-editor
         v-else
         v-model="message"
-        :editor-id="draftStoreKey"
+        :editor-id="editorStateId"
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
@@ -438,13 +438,12 @@ export default {
     enterToSendEnabled() {
       return this.editorMessageKey === 'enter';
     },
+    conversationId() {
+      return this.currentChat.id;
+    },
     conversationIdByRoute() {
       const { conversation_id: conversationId } = this.$route.params;
       return conversationId;
-    },
-    draftStoreKey() {
-      const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-      return key;
     },
     editorStateId() {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
@@ -487,7 +486,7 @@ export default {
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
-      this.setToDraft(this.conversationId, oldReplyType);
+      this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
   },
@@ -501,7 +500,7 @@ export default {
     this.setCCEmailFromLastChat();
     this.doAutoSaveDraft = debounce(
       () => {
-        this.saveDraft(this.conversationId, this.replyType);
+        this.saveDraft(this.conversationIdByRoute, this.replyType);
       },
       500,
       true
@@ -543,9 +542,9 @@ export default {
       this.message = '';
     },
     getFromDraft() {
-      if (this.conversationId) {
+      if (this.conversationIdByRoute) {
         try {
-          const key = `draft-${this.conversationId}-${this.replyType}`;
+          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
           const savedDraftMessages = this.getSavedDraftMessages();
           this.message = `${savedDraftMessages[key] || ''}`;
         } catch (error) {
@@ -554,8 +553,8 @@ export default {
       }
     },
     removeFromDraft() {
-      if (this.conversationId) {
-        const key = `draft-${this.conversationId}-${this.replyType}`;
+      if (this.conversationIdByRoute) {
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
         const draftMessages = this.getSavedDraftMessages();
         const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
         LocalStorage.set(
@@ -745,7 +744,7 @@ export default {
     },
     onBlur() {
       this.isFocused = false;
-      this.saveDraft(this.conversationId, this.replyType);
+      this.saveDraft(this.conversationIdByRoute, this.replyType);
     },
     onFocus() {
       this.isFocused = true;
