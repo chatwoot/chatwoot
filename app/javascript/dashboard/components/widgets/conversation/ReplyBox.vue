@@ -147,6 +147,7 @@ import {
   MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
 } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
@@ -154,6 +155,8 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
+import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
+import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 
@@ -209,6 +212,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
     };
   },
@@ -434,6 +438,13 @@ export default {
     enterToSendEnabled() {
       return this.editorMessageKey === 'enter';
     },
+    conversationId() {
+      return this.currentChat.id;
+    },
+    conversationIdByRoute() {
+      const { conversation_id: conversationId } = this.$route.params;
+      return conversationId;
+    },
     editorStateId() {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
@@ -441,6 +452,7 @@ export default {
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
+
       if (this.isOnPrivateNote) {
         return;
       }
@@ -452,6 +464,12 @@ export default {
       }
 
       this.setCCEmailFromLastChat();
+    },
+    conversationIdByRoute(conversationId, oldConversationId) {
+      if (conversationId !== oldConversationId) {
+        this.setToDraft(oldConversationId, this.replyType);
+        this.getFromDraft();
+      }
     },
     message(updatedMessage) {
       this.hasSlashCommand =
@@ -465,21 +483,86 @@ export default {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
+      this.doAutoSaveDraft();
+    },
+    replyType(updatedReplyType, oldReplyType) {
+      this.setToDraft(this.conversationIdByRoute, oldReplyType);
+      this.getFromDraft();
     },
   },
 
   mounted() {
+    this.getFromDraft();
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
     document.addEventListener('paste', this.onPaste);
     document.addEventListener('keydown', this.handleKeyEvents);
     this.setCCEmailFromLastChat();
+    this.doAutoSaveDraft = debounce(
+      () => {
+        this.saveDraft(this.conversationIdByRoute, this.replyType);
+      },
+      500,
+      true
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    getSavedDraftMessages() {
+      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
+    },
+    saveDraft(conversationId, replyType) {
+      if (this.message || this.message === '') {
+        const savedDraftMessages = this.getSavedDraftMessages();
+        const key = `draft-${conversationId}-${replyType}`;
+        const draftToSave = trimContent(this.message || '');
+        const {
+          [key]: currentDraft,
+          ...restOfDraftMessages
+        } = savedDraftMessages;
+
+        const updatedDraftMessages = draftToSave
+          ? {
+              ...restOfDraftMessages,
+              [key]: draftToSave,
+            }
+          : restOfDraftMessages;
+
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
+      }
+    },
+    setToDraft(conversationId, replyType) {
+      this.saveDraft(conversationId, replyType);
+      this.message = '';
+    },
+    getFromDraft() {
+      if (this.conversationIdByRoute) {
+        try {
+          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+          const savedDraftMessages = this.getSavedDraftMessages();
+          this.message = `${savedDraftMessages[key] || ''}`;
+        } catch (error) {
+          this.message = '';
+        }
+      }
+    },
+    removeFromDraft() {
+      if (this.conversationIdByRoute) {
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        const draftMessages = this.getSavedDraftMessages();
+        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
+      }
+    },
     handleKeyEvents(e) {
       const keyCode = buildHotKeys(e);
       if (keyCode === 'escape') {
@@ -564,11 +647,13 @@ export default {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
+
         this.clearMessage();
         if (!this.isPrivate) {
           this.clearEmailField();
         }
         this.sendMessage(messagePayload);
+        this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
@@ -580,6 +665,7 @@ export default {
           messagePayload
         );
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        this.removeFromDraft();
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
@@ -658,6 +744,7 @@ export default {
     },
     onBlur() {
       this.isFocused = false;
+      this.saveDraft(this.conversationIdByRoute, this.replyType);
     },
     onFocus() {
       this.isFocused = true;
