@@ -22,7 +22,7 @@
         "body": "Thêm đại lý vào hộp thư đến đã tạo."
       },
       {
-        "title": "Voila!",
+        "title": "Tới rồi!",
         "route": "settings_inbox_finish",
         "body": "Bạn đã sẵn sàng để đi!"
       }
@@ -30,8 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Tên hộp thư đến",
-        "PLACEHOLDER": "Nhập tên hộp thư đến của bạn (ví dụ: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "Nhập tên kênh của bạn (ví dụ: WebA)",
+        "ERROR": "Vui lòng nhập tên kênh hợp lệ"
       },
       "WEBSITE_NAME": {
         "LABEL": "Tên trang web",
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Bật lời chào kênh",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "Tự động gửi tin nhắn chào mừng khi có hội thoại mới.",
           "ENABLED": "Bật",
           "DISABLED": "Không bật"
         },
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "Tạo hộp thư đến",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Chúng tôi không thể tạo kênh trang web, vui lòng thử lại"
         }
       },
       "TWILIO": {
@@ -112,10 +112,10 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "Dịch vụ nhắn tin SID",
+          "PLACEHOLDER": "Vui lòng nhập SID của dịch vụ nhắn tin Twilio của bạn",
           "ERROR": "Trường này là bắt buộc",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Sử dụng dịch vụ nhắn tin Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Loại kênh",
@@ -169,7 +169,7 @@
           },
           "API_SECRET": {
             "LABEL": "Bí mật API",
-            "PLACEHOLDER": "Vui lòng nhập \bBí mật API Bandwidth",
+            "PLACEHOLDER": "Vui lòng nhập mật khẩu API Bandwidth",
             "ERROR": "Trường này là bắt buộc"
           },
           "APPLICATION_ID": {
@@ -179,7 +179,7 @@
           },
           "INBOX_NAME": {
             "LABEL": "Tên hộp thư đến",
-            "PLACEHOLDER": "Vui lòng điền tên hộp thư đến",
+            "PLACEHOLDER": "Vui lòng điền tên kênh",
             "ERROR": "Trường này là bắt buộc"
           },
           "PHONE_NUMBER": {
@@ -203,12 +203,12 @@
         "PROVIDERS": {
           "LABEL": "Nhà cung cấp API",
           "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD": "Đám mây WhatsApp",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Tên hộp thư đến",
-          "PLACEHOLDER": "Vui lòng điền tên hộp thư đến",
+          "PLACEHOLDER": "Vui lòng điền tên kênh",
           "ERROR": "Trường này là bắt buộc"
         },
         "PHONE_NUMBER": {
@@ -217,18 +217,18 @@
           "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "LABEL": "ID số điện thoại",
+          "PLACEHOLDER": "Vui lòng nhập ID số điện thoại lấy được từ trang tổng quan nhà phát triển Facebook.",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "LABEL": "ID tài khoản doanh nghiệp",
+          "PLACEHOLDER": "Vui lòng nhập ID tài khoản doanh nghiệp có được từ trang tổng quan dành cho nhà phát triển Facebook.",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "LABEL": "Token xác thực Webhook",
+          "PLACEHOLDER": "Nhập mã xác thực mà bạn muốn định cấu hình cho webhook facebook.",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
         },
         "API_KEY": {
@@ -239,7 +239,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL gọi lại",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "Bạn phải định cấu hình URL webhook trong cổng nhà phát triển facebook với URL được đề cập ở đây."
         },
         "SUBMIT_BUTTON": "Tạo kênh WhatsApp",
         "API": {
@@ -327,7 +327,7 @@
       },
       "AUTH": {
         "TITLE": "Chọn kênh",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot hỗ trợ các tiện ích trò chuyện trực tiếp, Facebook Messenger, hồ sơ Twitter, WhatsApp, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh, bạn có thể tạo kênh này bằng cách sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
@@ -368,7 +368,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Đã cập nhật cài đặt hộp thư đến thành công",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Đã cập nhật thành công bài tập tự động",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "Chúng tôi không thể cập nhật cài đặt hộp thư. Vui lòng thử lại sau."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Bật",
@@ -414,7 +414,7 @@
       "CAMPAIGN": "Chiến dịch",
       "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
       "BUSINESS_HOURS": "Giờ làm việc",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": "Trình tạo widget"
     },
     "SETTINGS": "Cài đặt",
     "FEATURES": {
@@ -442,16 +442,16 @@
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
       "HMAC_VERIFICATION": "Xác thực danh tính người dùng",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "Để xác thực danh tính của người dùng, bạn có thể chuyển một `mã định danh_hash` cho mỗi người dùng. Bạn có thể tạo mã băm HMAC sha256 bằng cách sử dụng `mã định danh' với khóa được hiển thị ở đây.",
       "HMAC_MANDATORY_VERIFICATION": "Bắt buộc Xác thực danh tính người dùng",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "Nếu được bật, các yêu cầu thiếu `ID_hash` sẽ bị từ chối.",
       "INBOX_IDENTIFIER": "Định danh hộp thư đến",
       "INBOX_IDENTIFIER_SUB_TEXT": "Dùng token định danh hộp thư đến hiện ở đây để xác thực các ứng dụng khách API của bạn.",
       "FORWARD_EMAIL_TITLE": "Chuyển tiếp đến Email",
       "FORWARD_EMAIL_SUB_TEXT": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc trò chuyện được giải quyết",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_SUBHEADER": "Khóa API này được sử dụng để tích hợp với các API WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Khoá API"
     },
     "AUTO_ASSIGNMENT": {
@@ -473,7 +473,7 @@
         "LABEL": "Nhãn",
         "PLACE_HOLDER": "Cụm từ hiện nền trong ô",
         "KEY": "Khoá",
-        "TYPE": "Loại",
+        "TYPE": "Kiểu",
         "REQUIRED": "Bắt buộc"
       },
       "ENABLE": {
@@ -579,10 +579,10 @@
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Hình đại diện trang web",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "Hình đại diện đã được xóa thành công",
               "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
             }
           }
@@ -590,7 +590,7 @@
         "WEBSITE_NAME": {
           "LABEL": "Tên trang web",
           "PLACE_HOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": "Vui lòng nhập tên trang web hợp lệ"
         },
         "WELCOME_HEADING": {
           "LABEL": "Tiêu đề chào mừng",
@@ -601,41 +601,41 @@
           "PLACE_HOLDER": "Chúng tôi làm cho việc kết nối với chúng tôi trở nên đơn giản. Hỏi chúng tôi bất cứ điều gì hoặc chia sẻ phản hồi của bạn."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "Thời gian trả lời",
           "IN_A_FEW_MINUTES": "Trong một vài phút",
           "IN_A_FEW_HOURS": "Trong một vài giờ",
           "IN_A_DAY": "Trong một ngày"
         },
         "WIDGET_COLOR_LABEL": "Màu tiện ích",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Vị trí bong bóng widget",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Kiểu bong bóng widget",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Trò chuyện với chúng tôi",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "Tiêu đề trình khởi chạy bong bóng widget",
           "PLACE_HOLDER": "Trò chuyện với chúng tôi"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Cập nhật cài đặt widget",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Đã cập nhật cài đặt widget thành công",
+            "ERROR_MESSAGE": "Không thể cập nhật cài đặt widget"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Xem trước",
+          "SCRIPT": "Kịch bản"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Trái",
+          "RIGHT": "Phải"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Chuẩn",
+          "EXPANDED_BUBBLE": "Mở rộng bong bóng"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
+        "DEFAULT": "Mặc định",
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
@@ -649,14 +649,14 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "Hiện tại chúng tôi đang ngoại tuyến"
+          "ONLINE": "Chúng tôi đang trực tuyến",
+          "OFFLINE": "Hiện tại chúng tôi đang bận chút"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Xin chào",
+        "AGENT_MESSAGE": "Xin chào"
       },
-      "BRANDING_TEXT": "Cung cấp bởi Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "CC bởi Chatwoot",
+      "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     }
   }
 }
