@@ -19,6 +19,21 @@
         "TITLE": "Profils",
         "NOTE": "Jūsu e -pasta adrese ir jūsu identitāte, un to izmanto lai pierakstītos."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Karstais taustiņš ziņojumu sūtīšanai",
+        "NOTE": "Jūs varat izvēlēties karsto taustiņu (vai nu Enter, vai Cmd/Ctrl+Enter), pamatojoties uz Jūsu rakstības ieradumiem.",
+        "UPDATE_SUCCESS": "Jūsu iestatījumi ir veiksmīgi atjaunināti",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Sūtīt ziņojumus, nospiežot taustiņu Enter, nevis noklikšķinot uz pogas Sūtīt."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Sūtīt ziņojumus, nospiežot taustiņu Cmd/Ctrl + Enter, nevis noklikšķinot uz pogas Sūtīt."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personīgais ziņojuma paraksts",
         "NOTE": "Izveidojiet personīgu ziņojumu parakstu, kas tiks pievienots visiem ziņojumiem, kurus nosūtat no jūsu e -pasta iesūtnes. Izmantojiet bagātīgā satura redaktoru, lai izveidotu īpaši personalizētu parakstu.",
