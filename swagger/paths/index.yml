@@ -72,7 +72,7 @@
 
 # Inbox
 
-/public/api/v1/inboxes/{inbox_identifier}/details:
+/public/api/v1/inboxes/{inbox_identifier}:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
   get:
