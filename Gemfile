@@ -185,3 +185,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+gem "net-smtp", "~> 0.3.2"

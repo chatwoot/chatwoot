@@ -419,6 +419,10 @@ GEM
     multipart-post (2.2.3)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
+    net-protocol (0.1.3)
+      timeout
+    net-smtp (0.3.2)
+      net-protocol
     netrc (0.11.0)
     newrelic_rpm (8.10.1)
     nio4r (2.5.8)
@@ -641,6 +645,7 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
+    timeout (0.3.0)
     trailblazer-option (0.1.2)
     twilio-ruby (5.72.0)
       faraday (>= 0.9, < 3.0)
@@ -757,6 +762,7 @@ DEPENDENCIES
   listen
   maxminddb
   mock_redis
+  net-smtp (~> 0.3.2)
   newrelic_rpm
   pg
   pg_search
