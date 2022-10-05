@@ -8,21 +8,27 @@ export default {
     document.removeEventListener('keydown', this.handleKeyboardEvent);
   },
   methods: {
+    moveSelectionUp() {
+      if (!this.selectedIndex) {
+        this.selectedIndex = this.items.length - 1;
+      } else {
+        this.selectedIndex -= 1;
+      }
+    },
+    moveSelectionDown() {
+      if (this.selectedIndex === this.items.length - 1) {
+        this.selectedIndex = 0;
+      } else {
+        this.selectedIndex += 1;
+      }
+    },
     processKeyDownEvent(e) {
       const keyPattern = buildHotKeys(e);
       if (['arrowup', 'ctrl+p'].includes(keyPattern)) {
-        if (!this.selectedIndex) {
-          this.selectedIndex = this.items.length - 1;
-        } else {
-          this.selectedIndex -= 1;
-        }
+        this.moveSelectionUp();
         e.preventDefault();
       } else if (['arrowdown', 'ctrl+n'].includes(keyPattern)) {
-        if (this.selectedIndex === this.items.length - 1) {
-          this.selectedIndex = 0;
-        } else {
-          this.selectedIndex += 1;
-        }
+        this.moveSelectionDown();
         e.preventDefault();
       } else if (keyPattern === 'enter') {
         this.onSelect();

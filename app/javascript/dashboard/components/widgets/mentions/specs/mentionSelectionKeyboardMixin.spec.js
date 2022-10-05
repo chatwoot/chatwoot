@@ -11,7 +11,7 @@ const buildComponent = ({ data = {}, methods = {} }) => ({
 });
 
 describe('mentionSelectionKeyboardMixin', () => {
-  test(' register listeners', () => {
+  test('register listeners', () => {
     jest.spyOn(document, 'addEventListener');
     const Component = buildComponent({});
     shallowMount(Component);
