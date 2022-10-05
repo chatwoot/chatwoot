@@ -125,6 +125,7 @@ jobs:
             bundle exec rspec --profile 10 \
                               --out test-results/rspec/rspec.xml \
                               -- ${TESTFILES}
+          no_output_timeout: 30m
       - run:
           name: Code Climate Test Coverage
           command: |
