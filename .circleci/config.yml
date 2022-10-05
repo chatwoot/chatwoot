@@ -123,7 +123,8 @@ jobs:
             mkdir -p coverage
             ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --profile 10 \
+            bundle exec rspec --format progress \
+                              --format RspecJunitFormatter \
                               --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
           no_output_timeout: 30m
