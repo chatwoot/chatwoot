@@ -110,7 +110,7 @@
       "LABEL_IDLE": "Dodaj prilog",
       "LABEL_UPLOADING": "Dodavanje...",
       "LABEL_UPLOADED": "Uspešno je dodato",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOAD_FAILED": "Dodavanje nije uspelo"
     }
   }
 }

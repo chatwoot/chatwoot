@@ -131,6 +131,10 @@ gem 'pg_search'
 # Subscriptions, Billing
 gem 'stripe'
 
+## - helper gems --##
+## to populate db with sample data
+gem 'faker'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -167,7 +171,6 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'

@@ -23,7 +23,7 @@ uk:
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
   errors:
     validations:
-      presence: must not be blank
+      presence: не повинно бути пустим
     webhook:
       invalid: Недійсні події
     signup:
@@ -38,12 +38,12 @@ uk:
       import:
         failed: Файл порожній
       email:
-        invalid: Invalid email
+        invalid: Невірний email
       phone_number:
-        invalid: should be in e164 format
+        invalid: має бути у форматі e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: має бути унікальним на категорії і порталі
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
@@ -52,7 +52,7 @@ uk:
         connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
         connection_closed_error: З'єднання закрито.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
   reports:
     period: Період звіту %{since} до %{until}
     agent_csv:
@@ -96,7 +96,7 @@ uk:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} згадав вас у сторіс: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Ця історія більше не доступна.
       deleted: Це повідомлення було видалено
     activity:
       status:

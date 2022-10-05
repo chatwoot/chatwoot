@@ -21,6 +21,11 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
+  isFeatureEnabledonAccount: $state => (id, featureName) => {
+    const { features = {} } =
+      $state.records.find(record => record.id === Number(id)) || {};
+    return features[featureName] || false;
+  },
 };
 
 export const actions = {

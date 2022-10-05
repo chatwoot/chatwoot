@@ -109,7 +109,7 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.isASmsInbox).toBe(true);
   });
 
-  it('isATwilioWhatsappChannel returns true if channel type is Twilio and medium is whatsapp', () => {
+  it('isATwilioWhatsAppChannel returns true if channel type is Twilio and medium is WhatsApp', () => {
     const Component = {
       render() {},
       mixins: [inboxMixin],
@@ -124,7 +124,7 @@ describe('inboxMixin', () => {
     };
     const wrapper = shallowMount(Component);
     expect(wrapper.vm.isATwilioChannel).toBe(true);
-    expect(wrapper.vm.isATwilioWhatsappChannel).toBe(true);
+    expect(wrapper.vm.isATwilioWhatsAppChannel).toBe(true);
   });
 
   it('isAnEmailChannel returns true if channel type is email', () => {

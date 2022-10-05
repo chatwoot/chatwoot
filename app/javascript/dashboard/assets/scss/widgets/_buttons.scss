@@ -44,6 +44,52 @@ $default-button-height: 4.0rem;
     padding-top: 0;
   }
 
+  &.hollow {
+    border-color: var(--s-200);
+    color: var(--w-700);
+
+    &.secondary {
+      border-color: var(--s-200);
+      color: var(--s-700)
+    }
+
+    &.success {
+      border-color: var(--s-200);
+      color: var(--g-700)
+    }
+
+    &.alert {
+      border-color: var(--s-200);
+      color: var(--r-700)
+    }
+
+    &.warning {
+      border-color: var(--s-200);
+      color: var(--y-700)
+    }
+
+    &:hover {
+      background: var(--s-75);
+      border-color: var(--s-100);
+
+      &.secondary {
+        border-color: var(--s-100);
+      }
+
+      &.success {
+        border-color: var(--s-100);
+      }
+
+      &.alert {
+        border-color: var(--s-100);
+      }
+
+      &.warning {
+        border-color: var(--s-100);
+      }
+    }
+  }
+
   // Smooth style
   &.smooth {
     @include button-style(var(--w-50), var(--w-100), var(--w-700));
@@ -67,11 +113,12 @@ $default-button-height: 4.0rem;
   }
 
   &.clear {
+
     &.warning {
       color: var(--y-600);
     }
 
-    &.button--only-icon:hover {
+    &:hover {
       background: var(--w-50);
 
       &.secondary {

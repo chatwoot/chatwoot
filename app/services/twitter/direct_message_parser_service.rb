@@ -7,7 +7,7 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
     set_inbox
     ensure_contacts
     set_conversation
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: message_create_data['message_data']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -30,7 +30,7 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
   def save_media_urls(file)
     @message.content_attributes[:media_url] = file['media_url']
     @message.content_attributes[:display_url] = file['display_url']
-    @message.save
+    @message.save!
   end
 
   def direct_message_events_params
@@ -121,6 +121,6 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
         content_type: media['type']
       }
     )
-    @message.save
+    @message.save!
   end
 end

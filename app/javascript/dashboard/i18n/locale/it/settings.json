@@ -19,6 +19,21 @@
         "TITLE": "Profilo",
         "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
         "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
@@ -126,8 +141,8 @@
     "TRAIL_BUTTON": "Acquista ora",
     "DELETED_USER": "Utente eliminato",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Account sospeso",
+      "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
     }
   },
   "COMPONENTS": {
@@ -197,13 +212,15 @@
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Tutti gli articoli",
       "MY_ARTICLES": "I miei articoli",
       "DRAFT": "Bozza",
       "ARCHIVED": "Archiviato",
-      "CATEGORY": "Categoria"
+      "CATEGORY": "Categoria",
+      "CATEGORY_EMPTY_MESSAGE": "Nessuna categoria trovata"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Leggi i documenti"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
@@ -255,7 +272,6 @@
       "GO_TO_SETTINGS": "Vai alle impostazioni",
       "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
       "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Attiva/Disattiva editor di contenuti esteso",
       "SWITCH_TO_REPLY": "Passa a Risposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva sospensione a discesa"
     },

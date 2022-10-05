@@ -25,7 +25,7 @@ class NotificationSubscriptionBuilder
   end
 
   def build_identifier_subscription
-    @identifier_subscription = user.notification_subscriptions.create(params.merge(identifier: identifier))
+    @identifier_subscription = user.notification_subscriptions.create!(params.merge(identifier: identifier))
   end
 
   def update_identifier_subscription

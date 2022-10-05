@@ -74,7 +74,7 @@ export default {
 
     .header-expanded {
       max-height: var(--space-giga);
-      overflow: scroll;
+      overflow: auto;
       h2 {
         font-size: var(--font-size-big);
         margin-bottom: var(--space-small);

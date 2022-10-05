@@ -28,6 +28,7 @@
       </tbody>
     </table>
     <table-footer
+      v-if="articles.length"
       :on-page-change="onPageChange"
       :current-page="Number(currentPage)"
       :total-count="totalCount"

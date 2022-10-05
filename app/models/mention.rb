@@ -17,11 +17,6 @@
 #  index_mentions_on_user_id                      (user_id)
 #  index_mentions_on_user_id_and_conversation_id  (user_id,conversation_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
-#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
-#
 class Mention < ApplicationRecord
   include SortHandler
 

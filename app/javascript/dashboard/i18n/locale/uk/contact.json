@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Не доступно",
     "EMAIL_ADDRESS": "Адреса електронної пошти",
     "PHONE_NUMBER": "Номер телефону",
+    "IDENTIFIER": "Ідентифікатор",
     "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
     "COMPANY": "Організація",
     "LOCATION": "Місцезнаходження",
@@ -151,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Аватар контакту успішно видалено",
+        "ERROR_MESSAGE": "Не вдалося видалити аватар. Будь ласка, повторіть спробу пізніше."
       }
     },
     "SUCCESS_MESSAGE": "Контакт успішно збережено",

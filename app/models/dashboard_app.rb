@@ -15,11 +15,6 @@
 #  index_dashboard_apps_on_account_id  (account_id)
 #  index_dashboard_apps_on_user_id     (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
-#  fk_rails_...  (user_id => users.id)
-#
 class DashboardApp < ApplicationRecord
   belongs_to :user
   belongs_to :account

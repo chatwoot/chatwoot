@@ -8,7 +8,7 @@ json.slug portal.slug
 json.categories do
   if portal.categories.any?
     json.array! portal.categories.each do |category|
-      json.partial! 'api/v1/models/category.json.jbuilder', category: category
+      json.partial! 'public/api/v1/models/category.json.jbuilder', category: category
     end
   end
 end
