@@ -2,7 +2,7 @@
   <ul
     v-if="items.length"
     class="vertical dropdown menu mention--box"
-    :style="{ top: getTopPadding() + 'rem' }"
+    :style="{ top: getTopSpacing() + 'rem' }"
     :class="{ 'with-bottom-border': items.length <= 4 }"
   >
     <li
@@ -21,7 +21,9 @@
         />
       </div>
       <div class="mention--metadata text-truncate">
-        <div class="mention--user-name text-truncate">{{ agent.name }}</div>
+        <h5 class="text-block-title mention--user-name text-truncate">
+          {{ agent.name }}
+        </h5>
         <div class="text-truncate mention--email text-truncate">
           {{ agent.email }}
         </div>
@@ -67,15 +69,15 @@ export default {
   },
 
   methods: {
-    getTopPadding() {
+    getTopSpacing() {
       if (this.items.length <= 4) {
-        return -(this.items.length * 4.8 + 1.7);
+        return -(this.items.length * 5 + 1.7);
       }
       return -20;
     },
     handleKeyboardEvent(e) {
       this.processKeyDownEvent(e);
-      this.$el.scrollTop = 48 * this.selectedIndex;
+      this.$el.scrollTop = 50 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
@@ -143,8 +145,7 @@ export default {
 }
 
 .mention--user-name {
-  font-weight: var(--font-weight-medium);
-  color: var(--s-800);
+  margin-bottom: 0;
 }
 
 .mention--email {
