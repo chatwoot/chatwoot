@@ -19,6 +19,7 @@ defaults: &defaults
       - COVERAGE: true
       - LOG_LEVEL: warn
   parallelism: 4
+  resource_class: large
 
 jobs:
   build:
