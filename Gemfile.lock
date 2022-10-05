@@ -536,6 +536,8 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
+    rspec_junit_formatter (0.6.0)
+      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.31.2)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -769,6 +771,7 @@ DEPENDENCIES
   responders
   rest-client
   rspec-rails (~> 5.0.0)
+  rspec_junit_formatter
   rubocop
   rubocop-performance
   rubocop-rails
@@ -805,4 +808,4 @@ RUBY VERSION
    ruby 3.0.4p208
 
 BUNDLED WITH
-   2.3.17
+   2.3.18
