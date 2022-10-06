@@ -6,7 +6,7 @@
       :on-close="hideCannedResponseModal"
     >
       <add-canned-modal
-        :response-content="getPlainText(messageContent)"
+        :response-content="plainTextContent"
         :on-close="hideCannedResponseModal"
       />
     </woot-modal>
@@ -48,6 +48,7 @@
 
         <woot-dropdown-item>
           <woot-button
+            v-if="showCannedResponseOption"
             variant="clear"
             size="small"
             icon="comment-add"
@@ -61,12 +62,14 @@
   </div>
 </template>
 <script>
+import alertMixin from 'shared/mixins/alertMixin';
 import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
@@ -74,7 +77,7 @@ export default {
     WootDropdownMenu,
     WootDropdownItem,
   },
-  mixins: [clickaway, messageFormatterMixin],
+  mixins: [alertMixin, clickaway, messageFormatterMixin],
   props: {
     messageContent: {
       type: String,
@@ -100,19 +103,26 @@ export default {
   data() {
     return { isCannedResponseModalOpen: false };
   },
+  computed: {
+    plainTextContent() {
+      return this.getPlainText(this.messageContent);
+    },
+  },
   methods: {
     handleContextMenuClick() {
       this.$emit('toggle', !this.isOpen);
     },
-    handleCopy() {
-      this.$emit('copy');
+    async handleCopy() {
+      await copyTextToClipboard(this.plainTextContent);
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      this.$emit('toggle', false);
     },
     handleDelete() {
       this.$emit('delete');
     },
     hideCannedResponseModal() {
       this.isCannedResponseModalOpen = false;
-      this.$emit('toggle', !this.isOpen);
+      this.$emit('toggle', false);
     },
     showCannedResponseModal() {
       this.isCannedResponseModalOpen = true;
@@ -121,7 +131,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/* TDOD: Remove once MenuComponent supports postions */
 .dropdown-pane {
   bottom: var(--space-medium);
 }
