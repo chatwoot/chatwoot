@@ -55,6 +55,14 @@ class FilterService
     when 'content'
       string_filter_values(query_hash)
     else
+      case_insensitive_values(query_hash)
+    end
+  end
+
+  def case_insensitive_values(query_hash)
+    if query_hash['custom_attribute_type'].present? && query_hash['values'][0].is_a?(String)
+      string_filter_values(query_hash)
+    else
       query_hash['values']
     end
   end
