@@ -19,6 +19,21 @@
         "TITLE": "الملف الشخصي",
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "توقيع الرسالة الشخصية",
         "NOTE": "إنشاء توقيع رسالة شخصية يتم إضافتها إلى جميع الرسائل التي ترسلها من المنصة. استخدم محرر المحتوى الغني لإنشاء توقيع شديد التخصيص.",

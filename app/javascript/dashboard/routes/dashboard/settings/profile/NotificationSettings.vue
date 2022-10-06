@@ -154,7 +154,7 @@
             )
           }}
         </p>
-        <div v-else>
+        <div v-else class="push-notification--button">
           <woot-submit-button
             :button-text="
               $t(
@@ -367,5 +367,9 @@ export default {
 
 .notification--checkbox {
   font-size: $font-size-large;
+}
+
+.push-notification--button {
+  margin-bottom: var(--space-one);
 }
 </style>
