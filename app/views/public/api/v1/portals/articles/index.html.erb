@@ -1,0 +1,33 @@
+<div class="bg-slate-50">
+	<div class="max-w-4xl px-6 py-16 mx-auto space-y-12 w-full">
+		<div class="space-y-4">
+		<div>
+				<a class="text-slate-800 hover:underline leading-8"
+        href="/hc/<%= @portal.slug %>/<%= @category.slug %>" class=""><%= @portal.name %> Home</a>
+		<span>/</span>
+		<span>/</span>
+		</div>
+			<% @articles.each do |article| %>
+				<h1 class="text-4xl font-bold md:tracking-normal leading-snug md:text-5xl text-slate-900">
+				<%= article.title %></h1>
+				<div class="flex flex-col items-start justify-between w-full md:flex-row md:items-center pt-2">
+					<div class="flex items-center space-x-2">
+						<img src="<%= article.author.avatar_url %>" alt="" class="w-12 h-812 border rounded-full">
+						<div>
+							<h5 class="text-base font-medium text-slate-900 mb-2"><%= article.author.name %></h5>
+							<p class="text-sm font-normal text-slate-700">
+								<%= article.author.updated_at.strftime("%B %d %Y") %></p>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+
+</div>
+<div class="max-w-4xl flex-grow w-full px-6 py-16 mx-auto space-y-12">
+	<article class="space-y-8 ">
+		<div class="text-slate-800 font-sans leading-8 text-lg subpixel-antialiased max-w-3xl blog-content">
+		</div>
+	</article>
+</div>

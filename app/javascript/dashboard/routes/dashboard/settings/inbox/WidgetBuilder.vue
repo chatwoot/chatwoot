@@ -158,7 +158,10 @@ import Widget from 'dashboard/modules/widget-preview/components/Widget';
 import InputRadioGroup from './components/InputRadioGroup';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
-import LocalStorage from 'dashboard/helper/localStorage';
+import {
+  LocalStorage,
+  LOCAL_STORAGE_KEYS,
+} from 'dashboard/helper/localStorage';
 
 export default {
   components: {
@@ -225,6 +228,9 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    storageKey() {
+      return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
+    },
     widgetScript() {
       let options = {
         position: this.widgetBubblePosition,
@@ -313,24 +319,25 @@ export default {
       this.replyTime = reply_time;
       this.avatarUrl = avatar_url;
 
-      // Widget Bubble Settings
-      const { key, storage } = this.getLocalStorageWithKey(this.inbox.id);
-      this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
-        if (item.id === storage.get(key).position) {
-          item.checked = true;
-          this.widgetBubblePosition = item.id;
-        }
-        return item;
-      });
-      this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
-        if (item.id === storage.get(key).type) {
-          item.checked = true;
-          this.widgetBubbleType = item.id;
-        }
-        return item;
-      });
-      this.widgetBubbleLauncherTitle =
-        storage.get(key).launcherTitle || 'Chat with us';
+      const savedInformation = this.getSavedInboxInformation();
+      if (savedInformation) {
+        this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
+          if (item.id === savedInformation.position) {
+            item.checked = true;
+            this.widgetBubblePosition = item.id;
+          }
+          return item;
+        });
+        this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
+          if (item.id === savedInformation.type) {
+            item.checked = true;
+            this.widgetBubbleType = item.id;
+          }
+          return item;
+        });
+        this.widgetBubbleLauncherTitle =
+          savedInformation.launcherTitle || 'Chat with us';
+      }
     },
     handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
@@ -372,7 +379,7 @@ export default {
         type: this.widgetBubbleType,
       };
 
-      this.getLocalStorageWithKey(this.inbox.id).storage.store(bubbleSettings);
+      LocalStorage.set(this.storageKey, bubbleSettings);
 
       try {
         const payload = {
@@ -403,12 +410,8 @@ export default {
         );
       }
     },
-    getLocalStorageWithKey(id) {
-      const storageKey = `widgetBubble_${id}`;
-      return {
-        key: storageKey,
-        storage: new LocalStorage(storageKey),
-      };
+    getSavedInboxInformation() {
+      return LocalStorage.get(this.storageKey);
     },
   },
 };

@@ -6,10 +6,12 @@ class PortalsAPI extends ApiClient {
     super('portals', { accountScoped: true });
   }
 
-  getArticles({ pageNumber, portalSlug, locale }) {
-    return axios.get(
-      `${this.url}/${portalSlug}/articles?page=${pageNumber}&locale=${locale}`
-    );
+  updatePortal({ portalSlug, portalObj }) {
+    return axios.patch(`${this.url}/${portalSlug}`, portalObj);
+  }
+
+  deletePortal(portalSlug) {
+    return axios.delete(`${this.url}/${portalSlug}`);
   }
 }
 

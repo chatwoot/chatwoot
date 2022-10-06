@@ -143,7 +143,7 @@ export default {
     registerUnreadEvents() {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
         const { name: routeName } = this.$route;
-        if (this.isWidgetOpen && routeName === 'messages') {
+        if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
           this.$store.dispatch('conversation/setUserLastSeen');
         }
         this.setUnreadView();

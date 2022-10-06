@@ -40,7 +40,7 @@ describe('portalMixin', () => {
     expect(wrapper.vm.accountId).toBe(1);
   });
 
-  it('returns portal url', () => {
+  it('returns article url', () => {
     router.push({
       name: 'list_all_locale_articles',
       params: { portalSlug: 'fur-rent', locale: 'en' },
@@ -64,5 +64,13 @@ describe('portalMixin', () => {
       params: { portalSlug: 'campaign', locale: 'es' },
     });
     expect(wrapper.vm.portalSlug).toBe('campaign');
+  });
+
+  it('returns locale name', () => {
+    router.push({
+      name: 'list_all_locale_articles',
+      params: { portalSlug: 'fur-rent', locale: 'es' },
+    });
+    expect(wrapper.vm.localeName('es')).toBe('Spanish');
   });
 });

@@ -49,6 +49,13 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
+            v-if="contact.identifier"
+            :value="contact.identifier"
+            icon="contact-identify"
+            emoji="🪪"
+            :title="$t('CONTACT_PANEL.IDENTIFIER')"
+          />
+          <contact-info-row
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
@@ -131,7 +138,8 @@
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
-      :message="confirmDeleteMessage"
+      :message="$t('DELETE_CONTACT.CONFIRM.MESSAGE')"
+      :message-value="confirmDeleteMessage"
       :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
       :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
@@ -215,9 +223,7 @@ export default {
     },
     // Delete Modal
     confirmDeleteMessage() {
-      return `${this.$t('DELETE_CONTACT.CONFIRM.MESSAGE')} ${
-        this.contact.name
-      } ?`;
+      return ` ${this.contact.name}?`;
     },
   },
   methods: {

@@ -2,6 +2,8 @@ require 'administrate/field/base'
 
 class AvatarField < Administrate::Field::Base
   def avatar_url
-    data.presence&.gsub('?d=404', '?d=mp')
+    return data.presence if data.presence
+
+    resource.is_a?(User) ? '/assets/administrate/user/avatar.png' : '/assets/administrate/bot/avatar.png'
   end
 end
