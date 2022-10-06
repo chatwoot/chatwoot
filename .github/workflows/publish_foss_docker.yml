@@ -7,6 +7,7 @@
 name: Publish Chatwoot CE docker images
 on:
   push:
+    pull_request:
     branches:
       - develop
       - master
@@ -58,6 +59,6 @@ jobs:
         with:
           context: .
           file: docker/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm64
           push: true
           tags: ${{ env.DOCKER_TAG }}
