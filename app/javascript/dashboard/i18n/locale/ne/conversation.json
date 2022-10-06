@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Delete"
+      "DELETE": "Delete",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
