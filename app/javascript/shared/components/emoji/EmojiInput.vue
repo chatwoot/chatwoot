@@ -5,21 +5,21 @@
         <li
           v-for="category in Object.keys(emojis)"
           :key="category"
-          :class="{ active: selectedKey === category }"
           @click="changeCategory(category)"
         >
           <button
             v-dompurify-html="emojis[category][0]"
             class="emoji--item"
+            :class="{ active: selectedKey === category }"
             @click="changeCategory(category)"
           />
         </li>
       </ul>
     </header>
+    <h5 class="emoji-category--title">
+      {{ selectedKey }}
+    </h5>
     <div class="emoji--row">
-      <h5 class="emoji-category--title">
-        {{ selectedKey }}
-      </h5>
       <button
         v-for="emoji in emojis[selectedKey]"
         :key="emoji"
@@ -64,15 +64,17 @@ export default {
 
 $space-smaller: 4px;
 $space-small: 8px;
-$space-one: 10px;
 $space-slab: 12px;
 $space-normal: 16px;
 $space-two: 20px;
 $space-medium: 24px;
 
+$font-size-tiny: 12px;
 $font-size-small: 14px;
 $font-size-default: 16px;
 $font-size-medium: 18px;
+
+$color-bg: #ebf0f5;
 
 .emoji-dialog {
   @include elegant-card;
@@ -81,8 +83,8 @@ $font-size-medium: 18px;
   box-sizing: content-box;
   position: absolute;
   right: 0;
-  top: -22 * $space-one;
-  width: 32 * $space-one;
+  top: -220px;
+  width: 320px;
   z-index: 1;
 
   &::before {
@@ -96,36 +98,46 @@ $font-size-medium: 18px;
     cursor: pointer;
     background: transparent;
     border: 0;
-    font-size: $font-size-medium;
+    font-size: $font-size-small;
+    height: $space-medium;
+    width: $space-medium;
+    border-radius: $space-smaller;
     margin: 0;
-    padding: 0;
+    padding: 0 $space-smaller;
+
+    &:hover {
+      background: $color-bg;
+    }
   }
 
   .emoji--row {
+    display: flex;
     box-sizing: border-box;
-    height: $space-one * 18;
+    height: 180px;
     overflow-y: auto;
-    padding: $space-smaller $space-normal;
+    padding: $space-smaller;
+    flex-wrap: wrap;
 
     .emoji--item {
-      float: left;
       margin: $space-smaller;
       line-height: 1.5;
     }
   }
+}
 
-  .emoji-category--title {
-    color: $color-heading;
-    font-size: $font-size-small;
-    font-weight: 500;
-    line-height: 1.5;
-    margin: 0;
-    text-transform: capitalize;
-  }
+.emoji-category--title {
+  color: $color-heading;
+  font-size: $font-size-small;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
+  padding: $space-smaller $space-small;
+  margin-top: $space-smaller;
+  text-transform: capitalize;
 }
 
 .emoji-dialog--header {
-  background-color: $color-body;
+  background-color: $color-bg;
   border-top-left-radius: $space-small;
   border-top-right-radius: $space-small;
   padding: 0 $space-smaller;
@@ -136,37 +148,17 @@ $font-size-medium: 18px;
     overflow: auto;
     margin: 0;
     padding: $space-smaller 0 0;
-    
-    &::-webkit-scrollbar {
-      width: $space-small;
-      height: $space-small;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background-color: $color-body;
-      border-radius: $space-small;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      border-radius: $space-small;
-      border: $space-small solid transparent;
-      background-clip: content-box;
-      background-color: $color-border-dark;
-    }
 
     > li {
       align-items: center;
       cursor: pointer;
       display: flex;
-      height: 2.4 * $space-one;
       justify-content: center;
-      padding: $space-smaller $space-small;
+      padding: $space-smaller;
     }
 
-    > .active {
+    li .active {
       background: $color-white;
-      border-top-left-radius: $space-smaller;
-      border-top-right-radius: $space-smaller;
     }
   }
 }
