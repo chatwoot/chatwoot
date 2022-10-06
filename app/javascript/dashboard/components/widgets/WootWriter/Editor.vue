@@ -6,7 +6,7 @@
       @click="insertMentionNode"
     />
     <canned-response
-      v-if="showCannedMenu"
+      v-if="showCannedMenu && !isPrivate"
       :search-key="cannedSearchTerm"
       @click="insertCannedResponse"
     />
@@ -223,8 +223,8 @@ export default {
         return null;
       }
       const node = this.editorView.state.schema.nodes.mention.create({
-        userId: mentionItem.key,
-        userFullName: mentionItem.label,
+        userId: mentionItem.id,
+        userFullName: mentionItem.name,
       });
 
       const tr = this.editorView.state.tr.replaceWith(
@@ -256,6 +256,7 @@ export default {
         this.plugins
       );
       this.editorView.updateState(this.state);
+      this.focusEditorInputField();
       return false;
     },
 
