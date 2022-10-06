@@ -1,29 +1,29 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
-    "AGENT_SELECT_LABEL": "Select Agent",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure you want to assign %{conversationCount} %{conversationLabel} to",
-    "GO_BACK_LABEL": "Go back",
-    "ASSIGN_LABEL": "Assign",
-    "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
-    "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
-    "ASSIGN_FAILED": "Failed to assign conversations, please try again",
-    "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
-    "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
-    "AGENT_LIST_LOADING": "Loading Agents",
+    "CONVERSATIONS_SELECTED": "%{conversationCount} samtaler valgt",
+    "AGENT_SELECT_LABEL": "Vælg Agent",
+    "ASSIGN_CONFIRMATION_LABEL": "Er du sikker på, at du vil tildele %{conversationCount} %{conversationLabel} til",
+    "GO_BACK_LABEL": "Gå tilbage",
+    "ASSIGN_LABEL": "Tildel",
+    "ASSIGN_AGENT_TOOLTIP": "Tildel Agent",
+    "ASSIGN_SUCCESFUL": "Samtaler tildelt",
+    "ASSIGN_FAILED": "Mislykkedes at tildele samtaler, prøv igen",
+    "RESOLVE_SUCCESFUL": "Samtaler løst med succes",
+    "RESOLVE_FAILED": "Mislykkedes at løse samtaler, prøv igen",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Samtaler synlig på denne side er kun valgt.",
+    "AGENT_LIST_LOADING": "Indlæser Agenter",
     "UPDATE": {
-      "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
-      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations, please try again"
+      "CHANGE_STATUS": "Skift status",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Udsæt til næste svar",
+      "UPDATE_SUCCESFUL": "Samtalens status blev opdateret.",
+      "UPDATE_FAILED": "Mislykkedes at opdatere samtaler, prøv igen"
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign Labels",
-      "NO_LABELS_FOUND": "No labels found for",
-      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
-      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+      "ASSIGN_LABELS": "Tildel Etiketter",
+      "NO_LABELS_FOUND": "Ingen etiketter fundet for",
+      "ASSIGN_SELECTED_LABELS": "Tildel valgte etiketter",
+      "ASSIGN_SUCCESFUL": "Etiketter tildelt med succes",
+      "ASSIGN_FAILED": "Kunne ikke tildele etiketter. Prøv igen"
     }
   }
 }

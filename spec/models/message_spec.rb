@@ -106,6 +106,19 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  context 'when attachments size maximum' do
+    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+
+    it 'add errors to message for attachment size is more than allowed limit' do
+      16.times.each do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed'] })
+    end
+  end
+
   context 'when email notifiable message' do
     let(:message) { build(:message, content_type: nil, account: create(:account)) }
 
