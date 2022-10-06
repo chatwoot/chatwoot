@@ -60,5 +60,5 @@ jobs:
           context: .
           file: docker/Dockerfile
           platforms: linux/arm64
-          push: true
+          push: false
           tags: ${{ env.DOCKER_TAG }}
