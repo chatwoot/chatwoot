@@ -6,8 +6,8 @@
 
 name: Publish Chatwoot CE docker images
 on:
+  pull_request:
   push:
-    pull_request:
     branches:
       - develop
       - master
