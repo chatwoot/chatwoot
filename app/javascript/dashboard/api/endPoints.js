@@ -40,6 +40,10 @@ const endPoints = {
   deleteAvatar: {
     url: '/api/v1/profile/avatar',
   },
+
+  setActiveAccount: {
+    url: '/api/v1/profile/set_active_account',
+  },
 };
 
 export default page => {
