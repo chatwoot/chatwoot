@@ -12,7 +12,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     @response = response
     @inbox = inbox
     @outgoing_echo = outgoing_echo
-    @sender_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
+    @contact_source_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
     @message_type = (@outgoing_echo ? :outgoing : :incoming)
     @attachments = (@response.attachments || [])
   end
@@ -36,16 +36,14 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   private
 
   def contact
-    @contact = @inbox.contact_inboxes.find_by(source_id: @sender_id)&.contact
+    @contact = @inbox.contact_inboxes.find_by(source_id: @contact_source_id)&.contact
   end
 
   def build_contact
     return if contact.present?
 
     @contact = Contact.create!(contact_params.except(:remote_avatar_url))
-    @contact_inbox = ContactInbox.find_or_initialize_by(inbox: @inbox, source_id: @sender_id)
-    @contact_inbox.contact = @contact if @contact_inbox.present? && @contact.present?
-    @contact_inbox.save!
+    @contact_inbox = ContactInbox.find_or_create_by!(contact: contact, inbox: @inbox, source_id: @contact_source_id)
   end
 
   def build_message
@@ -68,7 +66,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_conversation
-    @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: @sender_id)
+    @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: @contact_source_id)
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id
                          ))
@@ -122,7 +120,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   def contact_params
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(@sender_id) || {}
+      result = k.get_object(@contact_source_id) || {}
     rescue Koala::Facebook::AuthenticationError
       @inbox.channel.authorization_error!
       raise
