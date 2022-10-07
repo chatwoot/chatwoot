@@ -11,6 +11,7 @@ on:
     branches:
       - develop
       - master
+      - test
     tags:
       - v*
   workflow_dispatch:
