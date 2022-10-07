@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Salin",
-      "DELETE": "Hapus"
+      "DELETE": "Hapus",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
