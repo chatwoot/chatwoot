@@ -4,7 +4,7 @@ json.account_id json.account_id
 json.contact_id json.contact_id
 if resource.user.present?
   json.user do
-    json.partial! 'api/v1/models/agent.json.jbuilder', resource: resource.user
+    json.partial! 'api/v1/models/agent', formats: [:json], resource: resource.user
   end
 end
 json.created_at resource.created_at.to_i
