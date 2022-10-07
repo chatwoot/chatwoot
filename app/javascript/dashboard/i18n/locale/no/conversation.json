@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopier",
-      "DELETE": "Slett"
+      "DELETE": "Slett",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
