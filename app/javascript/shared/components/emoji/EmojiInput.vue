@@ -84,7 +84,7 @@ $color-bg: #ebf0f5;
   position: absolute;
   right: 0;
   top: -220px;
-  width: 320px;
+  width: 332px;
   z-index: 1;
 
   &::before {
@@ -98,22 +98,21 @@ $color-bg: #ebf0f5;
     cursor: pointer;
     background: transparent;
     border: 0;
-    font-size: $font-size-small;
+    font-size: $font-size-medium;
     height: $space-medium;
-    width: $space-medium;
     border-radius: $space-smaller;
     margin: 0;
     padding: 0 $space-smaller;
 
     &:hover {
-      background: $color-bg;
+      background: $color-white;
     }
   }
 
   .emoji--row {
     display: flex;
     box-sizing: border-box;
-    height: 180px;
+    height: 200px;
     overflow-y: auto;
     padding: $space-smaller;
     flex-wrap: wrap;
@@ -147,7 +146,7 @@ $color-bg: #ebf0f5;
     list-style: none;
     overflow: auto;
     margin: 0;
-    padding: $space-smaller 0 0;
+    padding: $space-smaller 0;
 
     > li {
       align-items: center;
@@ -159,6 +158,9 @@ $color-bg: #ebf0f5;
 
     li .active {
       background: $color-white;
+    }
+    .emoji--item {
+      font-size: $font-size-small;
     }
   }
 }
