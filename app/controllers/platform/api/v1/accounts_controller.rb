@@ -1,6 +1,7 @@
 class Platform::Api::V1::AccountsController < PlatformController
   def create
-    @resource = Account.new(account_params)
+    @resource = Account.new(account_params.except(:feature_flags))
+    @resource.enable_features(*account_params[:feature_flags])
     @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
     render json: @resource
