@@ -39,6 +39,15 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(response.body).to include('Test Account')
         expect(response.body).to include('es')
       end
+
+      it 'creates an account with feature flags' do
+        post '/platform/api/v1/accounts', params: { name: 'Test Account', enabled_features: %w[feature_ip_lookup feature_help_center] },
+                                          headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Test Account')
+        expect(response.body).to include('159')
+      end
     end
   end
 
