@@ -137,7 +137,7 @@
     "TRAIL_BUTTON": "Buy Now",
     "DELETED_USER": "Deleted User",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
+      "TITLE": "Account suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
     }
   },
