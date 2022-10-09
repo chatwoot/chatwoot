@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "复制",
-      "DELETE": "删除"
+      "DELETE": "删除",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

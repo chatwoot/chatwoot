@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
-      "DELETE": "Xoá"
+      "DELETE": "Xoá",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
