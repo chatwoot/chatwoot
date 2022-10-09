@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
-      "DELETE": "Excluir"
+      "DELETE": "Excluir",
+      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas"
     }
   },
   "EMAIL_TRANSCRIPT": {
