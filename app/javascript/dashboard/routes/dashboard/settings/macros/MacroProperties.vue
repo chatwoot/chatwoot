@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     isActive(key) {
-      return { active: this.visibility === key };
+      return { active: this.macroVisibility === key };
     },
     onUpdateName(value) {
       this.$emit('update:name', value);
