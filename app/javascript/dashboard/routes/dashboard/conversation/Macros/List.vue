@@ -40,9 +40,7 @@ export default {
     }),
   },
   mounted() {
-    if (!this.macros.length) {
-      this.$store.dispatch('macros/get');
-    }
+    this.$store.dispatch('macros/get');
   },
 };
 </script>
