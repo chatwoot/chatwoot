@@ -36,7 +36,7 @@ class BulkActionsJob < ApplicationJob
   def available_params(params)
     return unless params[:fields]
 
-    params[:fields].delete_if { |_k, v| v.nil? }
+    params[:fields].delete_if { |k, _v| k.nil? }
   end
 
   def bulk_add_labels(conversation)
