@@ -3,7 +3,7 @@
     <span class="text-truncate">{{ macro.name }}</span>
     <div class="macros-actions">
       <woot-button
-        v-tooltip.top-start="$t('MACROS.EXECUTE.PREVIEW')"
+        v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
         size="tiny"
         variant="smooth"
         color-scheme="secondary"

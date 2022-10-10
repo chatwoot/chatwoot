@@ -11,7 +11,12 @@
 </template>
 
 <script>
-import { AUTOMATION_ACTION_TYPES } from 'dashboard/routes/dashboard/settings/automation/constants';
+import {
+  resolveActionName,
+  resolveTeamIds,
+  resolveLabels,
+  resolveSendEmailToTeam,
+} from 'dashboard/routes/dashboard/settings/macros/macroHelper.js';
 
 export default {
   props: {
@@ -24,7 +29,7 @@ export default {
     resolvedMacro() {
       return this.macro.actions.map(action => {
         return {
-          actionName: this.getActionName(action.action_name),
+          actionName: resolveActionName(action.action_name),
           actionValue: this.getActionValue(
             action.action_name,
             action.action_params
@@ -34,41 +39,15 @@ export default {
     },
   },
   methods: {
-    getActionName(key) {
-      return AUTOMATION_ACTION_TYPES.find(i => i.key === key).label;
-    },
-    resolveTeamIds(ids) {
-      const allTeams = this.$store.getters['teams/getTeams'];
-      return ids
-        .map(id => {
-          const team = allTeams.find(i => i.id === id);
-          return team ? team.name : '';
-        })
-        .join(', ');
-    },
-    resolveLabels(ids) {
-      const allLabels = this.$store.getters['labels/getLabels'];
-      return ids
-        .map(id => {
-          const label = allLabels.find(i => i.title === id);
-          return label ? label.title : '';
-        })
-        .join(', ');
-    },
-    resolveSendEmailToTeam(obj) {
-      return ` ${obj.message} - 
-      ${this.resolveTeamIds(obj.team_ids)}`;
-    },
     getActionValue(key, params) {
       switch (key) {
         case 'assign_team':
-          return this.resolveTeamIds(params);
+          return resolveTeamIds(this.$store, params);
         case 'add_label':
-          return this.resolveLabels(params);
+          return resolveLabels(this.$store, params);
         case 'send_email_to_team':
-          return this.resolveSendEmailToTeam(params[0]);
         case 'send_email_transcript':
-          return this.resolveSendEmailToTeam(params[0]);
+          return resolveSendEmailToTeam(params[0]);
         case 'mute_conversation':
         case 'snooze_conversation':
         case 'resolve_conversation':

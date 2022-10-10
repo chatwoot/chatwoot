@@ -83,6 +83,8 @@
     "EDITOR": {
       "START_FLOW": "Start Flow",
       "END_FLOW": "End Flow",
+      "ADD_BTN_TOOLTIP": "Add new action",
+      "DELETE_BTN_TOOLTIP": "Delete Action",
       "VISIBILITY": {
         "LABEL": "Macro Visibility",
         "GLOBAL": {
