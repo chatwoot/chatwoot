@@ -14,14 +14,4 @@ describe('#mutations', () => {
       expect(state.currentUser).toEqual(user);
     });
   });
-  describe('#TRIGGER_SET_USER', () => {
-    it('trigger set user', () => {
-      const state = {
-        currentUser: {},
-        isSetUserTriggered: { fullName: false },
-      };
-      mutations.TRIGGER_SET_USER(state, { key: 'fullName' });
-      expect(state.isSetUserTriggered.fullName).toEqual(true);
-    });
-  });
 });

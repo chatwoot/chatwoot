@@ -95,7 +95,6 @@ export default {
       isCreating: 'conversation/getIsCreating',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
-      getSetUserTriggerStatus: 'contacts/getSetUserTriggerStatus',
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -118,6 +117,12 @@ export default {
     filteredPreChatFields() {
       const isUserEmailAvailable = !!this.currentUser.email;
       const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
+      const isUserIdentifierAvailable = !!this.currentUser.identifier;
+      const isUserNameAvailable = !!(
+        isUserIdentifierAvailable ||
+        isUserEmailAvailable ||
+        isUserPhoneNumberAvailable
+      );
       return this.preChatFields.filter(field => {
         if (
           (isUserEmailAvailable && field.name === 'emailAddress') ||
@@ -125,10 +130,7 @@ export default {
         ) {
           return false;
         }
-        if (
-          this.getSetUserTriggerStatus.fullName &&
-          field.name === 'fullName'
-        ) {
+        if (field.name === 'fullName' && isUserNameAvailable) {
           return false;
         }
         return true;

@@ -4,11 +4,9 @@ import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
 const state = {
   currentUser: {},
-  isSetUserTriggered: { fullName: false },
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
-const TRIGGER_SET_USER = 'TRIGGER_SET_USER';
 const parseErrorData = error =>
   error && error.response && error.response.data ? error.response.data : error;
 export const updateWidgetAuthToken = widgetAuthToken => {
@@ -47,12 +45,7 @@ export const actions = {
       // Ignore error
     }
   },
-  setUser: async (
-    { dispatch, commit, getters: { getCurrentUser: currentUser } },
-    { identifier, user: userObject }
-  ) => {
-    const { name: oldName } = currentUser;
-
+  setUser: async ({ dispatch }, { identifier, user: userObject }) => {
     try {
       const {
         email,
@@ -85,7 +78,6 @@ export const actions = {
       const {
         data: { widget_auth_token: widgetAuthToken },
       } = await ContactsAPI.setUser(identifier, user);
-      if (oldName !== name) commit(TRIGGER_SET_USER, { key: 'fullName' });
       updateWidgetAuthToken(widgetAuthToken);
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
@@ -118,9 +110,6 @@ export const mutations = {
   [SET_CURRENT_USER]($state, user) {
     const { currentUser } = $state;
     $state.currentUser = { ...currentUser, ...user };
-  },
-  [TRIGGER_SET_USER]($state, { key }) {
-    $state.isSetUserTriggered[key] = true;
   },
 };
 
