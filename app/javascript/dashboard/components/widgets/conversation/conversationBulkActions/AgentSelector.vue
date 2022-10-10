@@ -131,7 +131,17 @@ export default {
           agent.name.toLowerCase().includes(this.query.toLowerCase())
         );
       }
-      return this.assignableAgents;
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.assignableAgents,
+      ];
     },
     assignableAgents() {
       return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
