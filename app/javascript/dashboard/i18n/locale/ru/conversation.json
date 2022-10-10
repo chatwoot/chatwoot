@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "DELETE": "Удалить"
+      "DELETE": "Удалить",
+      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы"
     }
   },
   "EMAIL_TRANSCRIPT": {
