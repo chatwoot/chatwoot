@@ -18,7 +18,7 @@ export default {
           path: '',
           name: 'macros_wrapper',
           component: Macros,
-          roles: ['administrator'],
+          roles: ['administrator', 'agent'],
         },
         {
           path: 'new',
