@@ -134,6 +134,15 @@ export default {
       color: var(--s-500);
     }
 
+    .title {
+      display: block;
+      margin: 0;
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.8;
+      color: var(--color-body);
+    }
+
     .visibility-check {
       position: absolute;
       color: var(--w-500);

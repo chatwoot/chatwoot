@@ -15,8 +15,8 @@ import {
   resolveActionName,
   resolveTeamIds,
   resolveLabels,
-  resolveSendEmailToTeam,
 } from 'dashboard/routes/dashboard/settings/macros/macroHelper.js';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -37,23 +37,25 @@ export default {
         };
       });
     },
+    ...mapGetters({
+      labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
+    }),
   },
   methods: {
     getActionValue(key, params) {
       switch (key) {
         case 'assign_team':
-          return resolveTeamIds(this.$store, params);
+          return resolveTeamIds(this.teams, params);
         case 'add_label':
-          return resolveLabels(this.$store, params);
-        case 'send_email_to_team':
-        case 'send_email_transcript':
-          return resolveSendEmailToTeam(params[0]);
+          return resolveLabels(this.labels, params);
         case 'mute_conversation':
         case 'snooze_conversation':
         case 'resolve_conversation':
           return null;
         case 'send_webhook_event':
         case 'send_message':
+        case 'send_email_transcript':
           return params[0];
         default:
           return '';

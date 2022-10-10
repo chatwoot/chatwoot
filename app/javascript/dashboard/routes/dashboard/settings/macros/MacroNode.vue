@@ -37,12 +37,15 @@
 <script>
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput';
 import MacroActionButton from './ActionButton.vue';
-import { getDropdownValues } from './macroHelper';
+import macrosMixin from './macrosMixin';
+import { mapGetters } from 'vuex';
+
 export default {
   components: {
     ActionInput,
     MacroActionButton,
   },
+  mixins: [macrosMixin],
   inject: ['macroActionTypes', '$v'],
   props: {
     singleNode: {
@@ -59,6 +62,10 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
+    }),
     actionData: {
       get() {
         return this.value;
@@ -81,7 +88,7 @@ export default {
   },
   methods: {
     dropdownValues() {
-      return getDropdownValues(this.value.action_name, this.$store);
+      return this.getDropdownValues(this.value.action_name, this.$store);
     },
     hasError(v) {
       return !!(v.action_params.$dirty && v.action_params.$error);

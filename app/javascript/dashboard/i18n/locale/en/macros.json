@@ -88,12 +88,12 @@
       "VISIBILITY": {
         "LABEL": "Macro Visibility",
         "GLOBAL": {
-          "LABEL": "Global",
-          "DESCRIPTION": "This macro is available globally for all agents in this account."
+          "LABEL": "Public",
+          "DESCRIPTION": "This macro is available publicly for all agents in this account."
         },
         "PERSONAL": {
-          "LABEL": "Personal",
-          "DESCRIPTION": "This macro will be personal to you and not be available to others."
+          "LABEL": "Private",
+          "DESCRIPTION": "This macro will be private to you and not be available to others."
         }
       }
     },

@@ -31,45 +31,12 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="(macro, index) in records" :key="index">
-              <td>{{ macro.name }}</td>
-              <td>
-                <div class="avatar-container">
-                  <thumbnail :username="macro.created_by.name" size="24px" />
-                  <span class="ml-2">{{ macro.created_by.name }}</span>
-                </div>
-              </td>
-              <td>
-                <div class="avatar-container">
-                  <thumbnail :username="macro.updated_by.name" size="24px" />
-                  <span class="ml-2">{{ macro.updated_by.name }}</span>
-                </div>
-              </td>
-              <td class="macro-visibility">{{ macro.visibility }}</td>
-              <td class="button-wrapper">
-                <router-link
-                  :to="addAccountScoping(`settings/macros/${macro.id}/edit`)"
-                >
-                  <woot-button
-                    v-tooltip.top="$t('MACROS.FORM.EDIT')"
-                    variant="smooth"
-                    size="tiny"
-                    color-scheme="secondary"
-                    class-names="grey-btn"
-                    icon="edit"
-                  />
-                </router-link>
-                <woot-button
-                  v-tooltip.top="$t('MACROS.FORM.DELETE')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  @click="openDeletePopup(macro, index)"
-                />
-              </td>
-            </tr>
+            <macros-table-row
+              v-for="(macro, index) in records"
+              :key="index"
+              :macro="macro"
+              @delete="openDeletePopup(macro, index)"
+            />
           </tbody>
         </table>
       </div>
@@ -93,11 +60,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import accountMixin from 'dashboard/mixins/account.js';
+import MacrosTableRow from './MacrosTableRow';
 export default {
   components: {
-    Thumbnail,
+    MacrosTableRow,
   },
   mixins: [alertMixin, accountMixin],
   data() {
@@ -112,7 +79,6 @@ export default {
       records: ['macros/getMacros'],
       uiFlags: 'macros/getUIFlags',
     }),
-    // Delete Modal
     deleteConfirmText() {
       return `${this.$t('MACROS.DELETE.CONFIRM.YES')} ${
         this.selectedResponse.name
@@ -155,18 +121,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.avatar-container {
-  display: flex;
-  align-items: center;
-
-  span {
-    margin-left: var(--space-one);
-  }
-}
-
-.macro-visibility {
-  text-transform: capitalize;
-}
-</style>

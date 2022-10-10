@@ -15,15 +15,16 @@
 import MacroForm from './MacroForm';
 import { MACRO_ACTION_TYPES } from './constants';
 import { mapGetters } from 'vuex';
-import { getDropdownValues, emptyMacro } from './macroHelper';
+import { emptyMacro } from './macroHelper';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import alertMixin from 'shared/mixins/alertMixin';
+import macrosMixin from './macrosMixin';
 
 export default {
   components: {
     MacroForm,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, macrosMixin],
   provide() {
     return {
       macroActionTypes: this.macroActionTypes,
@@ -39,6 +40,8 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'macros/getUIFlags',
+      labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
     }),
     macroId() {
       return this.$route.params.macroId;
@@ -86,12 +89,12 @@ export default {
           ).inputType;
           if (inputType === 'multi_select') {
             actionParams = [
-              ...getDropdownValues(action.action_name, this.$store),
+              ...this.getDropdownValues(action.action_name, this.$store),
             ].filter(item => [...action.action_params].includes(item.id));
           } else if (inputType === 'team_message') {
             actionParams = {
               team_ids: [
-                ...getDropdownValues(action.action_name, this.$store),
+                ...this.getDropdownValues(action.action_name, this.$store),
               ].filter(item =>
                 [...action.action_params[0].team_ids].includes(item.id)
               ),
