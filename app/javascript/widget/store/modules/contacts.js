@@ -23,9 +23,6 @@ export const getters = {
   getCurrentUser(_state) {
     return _state.currentUser;
   },
-  getSetUserTriggerStatus(_state) {
-    return _state.isSetUserTriggered;
-  },
 };
 
 export const actions = {
