@@ -39,6 +39,7 @@ export default {
   mounted() {
     const { team_ids: teamIds } = this.value;
     this.selectedTeams = teamIds;
+    this.message = this.value.message;
   },
   methods: {
     updateValue() {
