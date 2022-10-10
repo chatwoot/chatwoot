@@ -44,6 +44,10 @@
       v-if="channel.key === 'whatsapp'"
       src="~dashboard/assets/images/channels/whatsapp.png"
     />
+    <img
+      v-if="channel.key === 'xmpp'"
+      src="~dashboard/assets/images/channels/xmpp.svg"
+    />
     <h3 class="channel__title">
       {{ channel.name }}
     </h3>
@@ -85,6 +89,7 @@ export default {
         'sms',
         'telegram',
         'line',
+        'xmpp',
       ].includes(key);
     },
   },

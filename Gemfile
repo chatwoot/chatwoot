@@ -75,6 +75,7 @@ gem 'administrate'
 gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
+gem 'blather', git: 'https://github.com/singpolyma/blather', branch: 'allow-nested-client-xmlns'
 # TODO: bump up gem to 2.0
 gem 'facebook-messenger'
 gem 'line-bot-api'

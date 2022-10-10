@@ -63,6 +63,7 @@ class ContactInboxWithContactBuilder
     contact = find_contact_by_identifier(contact_attributes[:identifier])
     contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
+    contact ||= find_contact_by_jid(contact_attributes.dig(:custom_attributes, :jid))
     contact
   end
 
@@ -82,5 +83,11 @@ class ContactInboxWithContactBuilder
     return if phone_number.blank?
 
     account.contacts.find_by(phone_number: phone_number)
+  end
+
+  def find_contact_by_jid(jid)
+    return if jid.blank?
+
+    account.contacts.where("custom_attributes->>'jid' = ?", jid).first
   end
 end

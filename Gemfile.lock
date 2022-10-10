@@ -6,6 +6,17 @@ GIT
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 7.0.0)
 
+GIT
+  remote: https://github.com/singpolyma/blather
+  revision: ecd2b023bd0c9b01f99ae8b7074d6ceb681b2d22
+  branch: allow-nested-client-xmlns
+  specs:
+    blather (2.0.0)
+      activesupport (>= 2.3.11)
+      eventmachine (~> 1.2, >= 1.2.6)
+      niceogiri (~> 1.0)
+      nokogiri (~> 1.8, >= 1.8.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -189,6 +200,7 @@ GEM
     erubi (1.10.0)
     et-orbi (1.2.7)
       tzinfo
+    eventmachine (1.2.7)
     execjs (2.8.1)
     facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
@@ -426,6 +438,8 @@ GEM
       connection_pool (~> 2.2)
     netrc (0.11.0)
     newrelic_rpm (8.9.0)
+    niceogiri (1.1.2)
+      nokogiri (~> 1.5)
     nio4r (2.5.8)
     nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
@@ -710,6 +724,7 @@ DEPENDENCIES
   aws-sdk-s3
   azure-storage-blob
   barnes
+  blather!
   bootsnap
   brakeman
   browser

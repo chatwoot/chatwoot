@@ -354,6 +354,16 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
+  create_table "channel_xmpp", force: :cascade do |t|
+    t.string "jid", null: false
+    t.string "password", null: false
+    t.string "last_mam_id"
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_channel_xmpp_on_account_id"
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"

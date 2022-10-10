@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+ENV['RAILS_ENV'] ||= ENV.fetch('RACK_ENV', 'development')
+ENV['NODE_ENV']  ||= 'development'
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+$stdout.sync = true
+
+require_relative '../config/environment'
+require_relative '../lib/xmpp/connection'
+
+Blather.logger = Rails.logger
+EM.threadpool_size = ENV.fetch('RAILS_MAX_THREADS', 5).to_i - 2
+
+Blather.logger.info 'XMPP worker starting up...'
+at_exit { Blather.logger.info 'XMPP worker shutdown' }
+
+Xmpp::SendOnXmppService.new(message: nil).start_worker_thread
+
+EM.epoll
+EM.set_descriptor_table_size(60_000)
+EM.run

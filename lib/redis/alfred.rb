@@ -48,6 +48,14 @@ module Redis::Alfred
       $alfred.lpush(key, values)
     end
 
+    def rpush(key, values)
+      $alfred.rpush(key, values)
+    end
+
+    def brpoplpush(source, destination)
+      $alfred.brpoplpush(source, destination, 0)
+    end
+
     def rpoplpush(source, destination)
       $alfred.rpoplpush(source, destination)
     end

@@ -89,3 +89,6 @@ if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
 end
+
+### XMPP Channel
+json.jid resource.channel.try(:jid) if resource.xmpp?

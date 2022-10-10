@@ -101,6 +101,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def xmpp?
+    channel_type == 'Channel::Xmpp'
+  end
+
   def inbox_type
     channel.name
   end

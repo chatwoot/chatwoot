@@ -9,6 +9,7 @@ export const INBOX_TYPES = {
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
+  XMPP: 'Channel::Xmpp',
 };
 
 export default {
@@ -42,6 +43,9 @@ export default {
     },
     isATelegramChannel() {
       return this.channelType === INBOX_TYPES.TELEGRAM;
+    },
+    isAnXmppChannel() {
+      return this.channelType === INBOX_TYPES.XMPP;
     },
     isATwilioSMSChannel() {
       const { medium: medium = '' } = this.inbox;
