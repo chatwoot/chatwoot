@@ -82,7 +82,7 @@ const settings = accountId => ({
       toStateName: 'automation_list',
     },
     {
-      icon: 'macros',
+      icon: 'flash-settings',
       label: 'MACROS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/macros`),

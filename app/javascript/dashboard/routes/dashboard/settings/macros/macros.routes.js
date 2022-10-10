@@ -10,7 +10,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'MACROS.HEADER',
-        icon: 'macros',
+        icon: 'flash-settings',
         showNewButton: false,
       },
       children: [
