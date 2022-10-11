@@ -1,1 +1,1 @@
-json.partial! 'platform/api/v1/models/acount', formats: [:json], resource: @resource
+json.partial! 'platform/api/v1/models/account', formats: [:json], resource: @resource
