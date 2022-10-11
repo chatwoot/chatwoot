@@ -97,6 +97,24 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(Conversation.first.status).to eq('open')
       end
 
+       it 'Do not bulk update status to nil' do
+        Conversation.first.update(assignee_id: agent_1.id)
+        Conversation.second.update(assignee_id: agent_2.id)
+        params = { type: 'Conversation', fields: { assignee_id: nil }, ids: Conversation.first(3).pluck(:display_id) }
+
+        expect(Conversation.first.status).to eq('open')
+
+        perform_enqueued_jobs do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
+        end
+
+        expect(Conversation.first.status).to eq('open')
+      end
+
       it 'Bulk update conversation status and assignee id' do
         params = { type: 'Conversation', fields: { assignee_id: agent_1.id, status: 'snoozed' }, ids: Conversation.first(3).pluck(:display_id) }
 
