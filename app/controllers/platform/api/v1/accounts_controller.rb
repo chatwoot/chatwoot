@@ -23,12 +23,11 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def account_params
-    account_features_params = permitted_params.except(:enabled_features)
     if permitted_params[:enabled_features]
-      return account_features_params.merge(selected_feature_flags: permitted_params[:enabled_features].map(&:to_sym))
+      return permitted_params.except(:enabled_features).merge(selected_feature_flags: permitted_params[:enabled_features].map(&:to_sym))
     end
 
-    account_features_params
+    permitted_params
   end
 
   def permitted_params
