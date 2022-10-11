@@ -105,7 +105,7 @@ $color-bg: #ebf0f5;
     padding: 0 $space-smaller;
 
     &:hover {
-      background: $color-white;
+      background: $color-bg;
     }
   }
 
@@ -161,6 +161,10 @@ $color-bg: #ebf0f5;
     }
     .emoji--item {
       font-size: $font-size-small;
+
+      &:hover {
+        background: $color-bg;
+      }
     }
   }
 }
