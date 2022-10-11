@@ -57,7 +57,7 @@
           </li>
         </ul>
         <div v-else class="agent-confirmation-container">
-          <p>
+          <p v-if="selectedAgent.id">
             {{
               $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
                 conversationCount,
@@ -67,6 +67,15 @@
             <strong>
               {{ selectedAgent.name }}
             </strong>
+            <span>?</span>
+          </p>
+          <p v-else>
+            {{
+              $t('BULK_ACTION.UNASSIGN_CONFIRMATION_LABEL', {
+                conversationCount,
+                conversationLabel,
+              })
+            }}
           </p>
           <div class="agent-confirmation-actions">
             <woot-button
@@ -82,7 +91,7 @@
               :is-loading="uiFlags.isUpdating"
               @click="submit"
             >
-              {{ $t('BULK_ACTION.ASSIGN_LABEL') }}
+              {{ $t('BULK_ACTION.YES') }}
             </woot-button>
           </div>
         </div>
@@ -131,7 +140,17 @@ export default {
           agent.name.toLowerCase().includes(this.query.toLowerCase())
         );
       }
-      return this.assignableAgents;
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.assignableAgents,
+      ];
     },
     assignableAgents() {
       return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
