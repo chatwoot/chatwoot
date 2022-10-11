@@ -168,7 +168,7 @@ export default {
       return (
         this.isOutgoing &&
         this.sourceId &&
-        (this.isAnEmailChannel || this.isAWhatsappChannel)
+        (this.isAnEmailChannel || this.isAWhatsAppChannel)
       );
     },
   },

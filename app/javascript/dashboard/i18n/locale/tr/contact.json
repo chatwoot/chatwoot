@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Müsait değil",
     "EMAIL_ADDRESS": "E-posta adresi",
     "PHONE_NUMBER": "Telefon numarası",
+    "IDENTIFIER": "Doğrulayıcı",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
     "COMPANY": "Şirket",
     "LOCATION": "Yer",
+    "BROWSER_LANGUAGE": "Tarayıcı Dili",
     "CONVERSATION_TITLE": "Sohbet Ayrıntıları",
     "VIEW_PROFILE": "Profili Görüntüle",
     "BROWSER": "Tarayıcı",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Kişinin e-posta adresini girin",
         "LABEL": "E-posta adresi",
-        "DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor."
+        "DUPLICATE": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
+        "ERROR": "Lütfen geçerli bir tam e-posta adresi."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Kişinin telefon numarasını girin",
@@ -147,11 +150,17 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Kişi profil resmi başarıyla silindi",
+        "ERROR_MESSAGE": "Kişi avatarı silinemedi. Lütfen daha sonra tekrar deneyiniz."
+      }
+    },
     "SUCCESS_MESSAGE": "Kişi bilgileri başarıyla kaydedildi",
     "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Görüşmeyi Başlatın",
+    "BUTTON_LABEL": "Çatı başla",
     "TITLE": "Yeni görüşme",
     "DESC": "Mesaj göndererek yeni bir görüşme başlatın.",
     "NO_INBOX": "Bu kişiyle yeni bir görüşme başlatılamadı.",
@@ -319,7 +328,7 @@
     },
     "SUMMARY": {
       "TITLE": "Özet",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "<strong>%{childContactName}</strong> kişisi silinecek.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
@@ -329,10 +338,10 @@
       "SUBMIT": " Kişileri birleştir",
       "CANCEL": "İptal Et",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Birleştirilecek bir alt kişi seçin"
       },
       "SUCCESS_MESSAGE": "Kişi başarıyla birleştirildi",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Kişiler birleştirilemedi, tekrar deneyin!"
     }
   }
 }

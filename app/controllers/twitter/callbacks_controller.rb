@@ -44,12 +44,12 @@ class Twitter::CallbacksController < Twitter::BaseController
   end
 
   def create_inbox
-    twitter_profile = account.twitter_profiles.create(
+    twitter_profile = account.twitter_profiles.create!(
       twitter_access_token: parsed_body['oauth_token'],
       twitter_access_token_secret: parsed_body['oauth_token_secret'],
       profile_id: parsed_body['user_id']
     )
-    account.inboxes.create(
+    account.inboxes.create!(
       name: parsed_body['screen_name'],
       channel: twitter_profile
     )

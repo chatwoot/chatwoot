@@ -9,5 +9,11 @@
   enabled: true
 - name: ip_lookup
   enabled: true
-- name: agent_bots
+- name: disable_branding
   enabled: false
+- name: email_continuity_on_api_channel
+  enabled: false
+- name: help_center
+  enabled: true
+- name: agent_bots
+  enabled: true

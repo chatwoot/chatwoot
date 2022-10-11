@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "پیوند",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
             "CREATED_AT": "ایجاد شده در",
-            "LAST_ACTIVITY": "آخرین فعالیت"
+            "LAST_ACTIVITY": "آخرین فعالیت",
+            "REFERER_LINK": "پیوند ارجاع‌دهنده"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "فیلترهای استاندارد",

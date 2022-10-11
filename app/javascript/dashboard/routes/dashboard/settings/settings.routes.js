@@ -1,19 +1,20 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
+import agentBots from './agentBots/agentBot.routes';
+import attributes from './attributes/attributes.routes';
+import automation from './automation/automation.routes';
+import billing from './billing/billing.routes';
+import campaigns from './campaigns/campaigns.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
-import integrations from './integrations/integrations.routes';
 import integrationapps from './integrationapps/integrations.routes';
+import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
-import campaigns from './campaigns/campaigns.routes';
-import teams from './teams/teams.routes';
-import attributes from './attributes/attributes.routes';
-import automation from './automation/automation.routes';
 import store from '../../../store';
-import agentBots from './agentBots/agentBot.routes';
+import teams from './teams/teams.routes';
 
 export default {
   routes: [
@@ -32,7 +33,10 @@ export default {
     ...agent.routes,
     ...agentBots.routes,
     ...attributes.routes,
+    ...attributes.routes,
     ...automation.routes,
+    ...automation.routes,
+    ...billing.routes,
     ...campaigns.routes,
     ...canned.routes,
     ...inbox.routes,

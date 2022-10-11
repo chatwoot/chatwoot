@@ -68,3 +68,7 @@
 - name: CSML_BOT_API_KEY
   value:
   locked: false
+- name: CHATWOOT_CLOUD_PLANS
+  value:
+- name: DEPLOYMENT_ENV
+  value: self-hosted

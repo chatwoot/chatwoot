@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Niet beschikbaar",
     "EMAIL_ADDRESS": "Uw e-mailadres",
     "PHONE_NUMBER": "Telefoon nummer",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Succesvol gekopieerd naar klembord",
     "COMPANY": "Bedrijfsnaam",
     "LOCATION": "Locatie",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Gesprekdetails",
     "VIEW_PROFILE": "Profiel Bekijken",
     "BROWSER": "Browser",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Voer het e-mailadres van de contactpersoon in",
         "LABEL": "Uw e-mailadres",
-        "DUPLICATE": "Dit e-mailadres is reeds in gebruik voor een ander contact."
+        "DUPLICATE": "Dit e-mailadres is reeds in gebruik voor een ander contact.",
+        "ERROR": "Voer een geldig e-mailadres in."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Voer het telefoonnummer van de contactpersoon in",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Voer de Github gebruikersnaam in",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",

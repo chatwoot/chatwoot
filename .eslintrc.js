@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['airbnb-base/legacy', 'prettier', 'plugin:vue/recommended'],
+  extends: [
+    'airbnb-base/legacy',
+    'prettier',
+    'plugin:vue/recommended',
+    'plugin:storybook/recommended',
+  ],
   parserOptions: {
     parser: 'babel-eslint',
     ecmaVersion: 2020,

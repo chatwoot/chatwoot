@@ -1,17 +1,29 @@
 {
-    "BULK_ACTION": {
-        "CONVERSATIONS_SELECTED": "%{conversationCount} conversazioni selezionate",
-        "AGENT_SELECT_LABEL": "Seleziona agente",
-        "ASSIGN_CONFIRMATION_LABEL": "Sei sicuro di voler assegnare %{conversationCount} %{conversationLabel} a",
-        "GO_BACK_LABEL": "Torna indietro",
-        "ASSIGN_LABEL": "Assegna",
-        "ASSIGN_AGENT_TOOLTIP": "Assegna agente",
-        "RESOLVE_TOOLTIP": "Risolvi",
-        "ASSIGN_SUCCESFUL": "Conversazioni assegnate correttamente",
-        "ASSIGN_FAILED": "Assegnazione delle conversazioni non riuscita, riprova",
-        "RESOLVE_SUCCESFUL": "Conversazioni risolte correttamente",
-        "RESOLVE_FAILED": "Risoluzione delle conversazioni non riuscita, riprova",
-        "ALL_CONVERSATIONS_SELECTED_ALERT": "Le conversazioni visibili in questa pagina sono selezionate.",
-        "AGENT_LIST_LOADING": "Caricamento agenti"
+  "BULK_ACTION": {
+    "CONVERSATIONS_SELECTED": "%{conversationCount} conversazioni selezionate",
+    "AGENT_SELECT_LABEL": "Seleziona agente",
+    "ASSIGN_CONFIRMATION_LABEL": "Sei sicuro di voler assegnare %{conversationCount} %{conversationLabel} a",
+    "GO_BACK_LABEL": "Torna indietro",
+    "ASSIGN_LABEL": "Assegna",
+    "ASSIGN_AGENT_TOOLTIP": "Assegna agente",
+    "ASSIGN_SUCCESFUL": "Conversazioni assegnate correttamente",
+    "ASSIGN_FAILED": "Assegnazione delle conversazioni non riuscita, riprova",
+    "RESOLVE_SUCCESFUL": "Conversazioni risolte correttamente",
+    "RESOLVE_FAILED": "Risoluzione delle conversazioni non riuscita, riprova",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Le conversazioni visibili in questa pagina sono selezionate.",
+    "AGENT_LIST_LOADING": "Caricamento agenti",
+    "UPDATE": {
+      "CHANGE_STATUS": "Cambia stato",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Posticipa fino alla prossima risposta",
+      "UPDATE_SUCCESFUL": "Stato della conversazione aggiornata correttamente.",
+      "UPDATE_FAILED": "Impossibile aggiornare le conversazioni, riprova"
+    },
+    "LABELS": {
+      "ASSIGN_LABELS": "Assegna etichette",
+      "NO_LABELS_FOUND": "Nessuna etichetta trovata per",
+      "ASSIGN_SELECTED_LABELS": "Assegna etichette selezeionate",
+      "ASSIGN_SUCCESFUL": "Etichette assegnate correttamente",
+      "ASSIGN_FAILED": "Impossibile assegnare le etichette, riprova"
     }
+  }
 }

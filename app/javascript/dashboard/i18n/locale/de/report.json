@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Zeitraum auswählen"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Gruppieren nach",
+    "DURATION_FILTER_LABEL": "Dauer",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

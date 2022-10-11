@@ -31,23 +31,20 @@
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
+#  index_conversations_on_contact_id                  (contact_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
+#  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_team_id                     (team_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (campaign_id => campaigns.id) ON DELETE => cascade
-#  fk_rails_...  (contact_inbox_id => contact_inboxes.id) ON DELETE => cascade
-#  fk_rails_...  (team_id => teams.id) ON DELETE => cascade
+#  index_conversations_on_uuid                        (uuid) UNIQUE
 #
 
 class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
-  include RoundRobinHandler
+  include AutoAssignmentHandler
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
@@ -57,6 +54,7 @@ class Conversation < ApplicationRecord
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validates :uuid, uniqueness: true
   validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
@@ -72,7 +70,7 @@ class Conversation < ApplicationRecord
 
   scope :last_user_message_at, lambda {
     joins(
-      "INNER JOIN (#{last_messaged_conversations.to_sql}) grouped_conversations
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
       ON grouped_conversations.conversation_id = conversations.id"
     ).sort_on_last_user_message_at
   }
@@ -88,7 +86,7 @@ class Conversation < ApplicationRecord
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
-  has_many :notifications, as: :primary_actor, dependent: :destroy
+  has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot

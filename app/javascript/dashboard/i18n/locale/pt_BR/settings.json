@@ -19,9 +19,24 @@
         "TITLE": "Perfil",
         "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Tecla de atalho para enviar mensagens",
+        "NOTE": "Você pode selecionar uma tecla de atalho (Enter ou Cmd/Ctrl+Enter) com base na sua preferência de escrita.",
+        "UPDATE_SUCCESS": "Suas configurações foram atualizadas com sucesso",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Inserir (↵)",
+            "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão de enviar."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Pressione a tecla Cmd/Ctrl + Enter ao invés de clicar no botão enviar."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Assinatura de mensagens pessoais",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Crie uma assinatura de mensagem pessoal que será adicionada a todas as mensagens enviadas a partir da sua caixa de entrada. Use o editor de conteúdo para criar uma assinatura altamente personalizada.",
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
         "API_SUCCESS": "Assinatura salva com sucesso"
@@ -124,7 +139,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
-    "DELETED_USER": "Deletar Usuário"
+    "DELETED_USER": "Deletar Usuário",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Conta Suspensa",
+      "MESSAGE": "Sua conta está suspensa. Por favor, entre em contato com a equipe de suporte para mais informações."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -171,6 +190,7 @@
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "TEAMS": "Times",
+    "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
@@ -190,7 +210,35 @@
     "SET_AVAILABILITY_TITLE": "Defina como",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
-    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços"
+    "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
+    "HELP_CENTER": {
+      "TITLE": "Centro de ajuda",
+      "ALL_ARTICLES": "Todos os artigos",
+      "MY_ARTICLES": "Meus Artigos",
+      "DRAFT": "Rascunho",
+      "ARCHIVED": "Arquivado",
+      "CATEGORY": "Categoria",
+      "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+    },
+    "DOCS": "Ler documentos"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Cobrança",
+    "CURRENT_PLAN": {
+      "TITLE": "Plano Atual",
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **%{plan}** com **%{quantity}** licenças"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gerencie sua assinatura",
+      "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
+      "BUTTON_TXT": "Ir para o portal de cobrança"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Precisa de ajuda?",
+      "DESCRIPTION": "Você está com algum problema de cobrança? Nós estamos aqui para ajudar.",
+      "BUTTON_TXT": "Fale conosco no chat"
+    },
+    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
@@ -224,7 +272,6 @@
       "GO_TO_SETTINGS": "Ir para Configurações",
       "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo status da conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Ativar/desativar editor de conteúdo rico",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
     },

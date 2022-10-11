@@ -1,7 +1,7 @@
 {
   "FILTER": {
     "TITLE": "Filtrar Conversaciones",
-    "SUBTITLE": "Añada filtros a continuación y pulse 'Aplicar filtros' para las conversaciones de filtro.",
+    "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar conversaciones.",
     "ADD_NEW_FILTER": "Añadir Filtro",
     "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",

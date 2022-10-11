@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "ไม่พร้อมใช้งาน",
     "EMAIL_ADDRESS": "ที่อยู่อีเมล์",
     "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+    "IDENTIFIER": "ตัวระบุ",
     "COPY_SUCCESSFUL": "คัดลอกไปยังคริปบอร์ดเเล้ว",
     "COMPANY": "บริษัท",
     "LOCATION": "สถานที่",
+    "BROWSER_LANGUAGE": "ภาษาของเบราว์เซอร์",
     "CONVERSATION_TITLE": "รายละเอียดการสนทนา",
     "VIEW_PROFILE": "ดูโปรไฟล์",
     "BROWSER": "บราวเซอร์",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "กรอกที่อยู่อีเมล์ผู้ติดต่อ",
         "LABEL": "ที่อยู่อีเมล์",
-        "DUPLICATE": "อีเมล์นี้ถูกใช้ในผู้ติดต่อคนอื่นเเล้ว"
+        "DUPLICATE": "อีเมล์นี้ถูกใช้ในผู้ติดต่อคนอื่นเเล้ว",
+        "ERROR": "กรุณากรอกที่อยู่อีเมล์ให้ถูกต้อง."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "กรอกหมายเลขโทรศัพท์ผู้ติดต่อ",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "กรอกชื่อ Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "สร้างการติดต่อเรียบร้อยเเล้ว",

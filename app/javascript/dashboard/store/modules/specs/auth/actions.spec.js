@@ -80,7 +80,10 @@ describe('#actions', () => {
         ],
       ]);
       expect(dispatch.mock.calls).toEqual([
-        ['agents/updatePresence', { 1: 'offline' }],
+        [
+          'agents/updateSingleAgentPresence',
+          { availabilityStatus: 'offline', id: 1 },
+        ],
       ]);
     });
   });
@@ -160,6 +163,17 @@ describe('#actions', () => {
         {}
       );
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#setActiveAccount', () => {
+    it('sends correct mutations if account id is available', async () => {
+      actions.setActiveAccount(
+        {
+          commit,
+        },
+        { accountId: 1 }
+      );
     });
   });
 });

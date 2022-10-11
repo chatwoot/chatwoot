@@ -36,3 +36,10 @@ export const RNHelper = {
     );
   },
 };
+
+export const groupBy = (array, predicate) => {
+  return array.reduce((acc, value) => {
+    (acc[predicate(value)] ||= []).push(value);
+    return acc;
+  }, {});
+};

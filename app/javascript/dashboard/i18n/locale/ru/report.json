@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Выберите диапазон дат"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Группировать по",
+    "DURATION_FILTER_LABEL": "Продолжительность",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

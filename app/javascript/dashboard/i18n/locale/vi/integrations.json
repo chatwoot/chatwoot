@@ -2,19 +2,19 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Tích hợp",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Những sự kiện được theo dõi",
       "FORM": {
         "CANCEL": "Huỷ",
         "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Các sự kiện",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
+            "CONVERSATION_STATUS_CHANGED": "Trạng thái cuộc trò chuyện đã thay đổi",
+            "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
+            "MESSAGE_CREATED": "Tin nhắn đã được tạo",
+            "MESSAGE_UPDATED": "Tin nhắn đã được cập nhật",
+            "WEBWIDGET_TRIGGERED": "Tiện ích trò chuyện trực tuyến do người dùng mở"
           }
         },
         "END_POINT": {
@@ -22,7 +22,7 @@
           "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
           "ERROR": "Vui lòng nhập một URL hợp lệ"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Cập nhật webhook",
         "ADD_SUBMIT": "Tạo webhook"
       },
       "TITLE": "Webhook",
@@ -44,7 +44,7 @@
         "BUTTON_TEXT": "Chỉnh sửa",
         "TITLE": "Sửa webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Đã cập nhật cấu hình Webhook thành công",
           "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         }
       },
@@ -52,7 +52,7 @@
         "CANCEL": "Xoá",
         "TITLE": "Thêm mới webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Đã thêm Webhook thành công",
           "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         }
       },
@@ -64,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "Xác Nhận Xoá",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Bạn có chắc chắn muốn xóa webhook không? (%{webhookURL})",
           "YES": "Có, Xoá ",
           "NO": "Không, Giữ"
         }
@@ -84,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "Kết nối"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Ứng dụng bảng điều khiển",
+      "HEADER_BTN_TXT": "Thêm mới một Ứng dụng bảng điều khiển",
+      "SIDEBAR_TXT": "<p> <b> Ứng dụng trên bảng điều khiển</b> </p> <p>Ứng dụng bảng điều khiển cho phép nhúng ứng dụng vào trang bảng điều khiển để cung cấp ngữ cảnh cho các tổng đài viên hỗ trợ khách hàng. Tính năng này cho phép bạn tạo ứng dụng một cách độc lập và nhúng ứng dụng đó vào bên trong trang điều khiển để cung cấp thông tin người dùng, đơn đặt hàng hoặc lịch sử thanh toán trước đó của họ. </p> <p> Khi bạn nhúng ứng dụng của mình bằng điều khiển, ứng dụng của bạn sẽ lấy bối cảnh của cuộc trò chuyện và liên hệ dưới dạng sự kiện cửa sổ. Triển khai trình nghe cho sự kiện thông báo trên trang của bạn để nhận ngữ cảnh. </p> <p> Để thêm ứng dụng trang điều khiển mới, hãy nhấp vào nút 'Thêm ứng dụng bảng điều khiển mới'. </p>",
+      "DESCRIPTION": "Ứng dụng bảng điều khiển cho phép các tổ chức nhúng một ứng dụng bên trong trang điều khiển để cung cấp ngữ cảnh cho các tổng đài viên hỗ trợ khách hàng. Tính năng này cho phép bạn tạo ứng dụng một cách độc lập và nhúng ứng dụng đó để cung cấp thông tin người dùng, đơn đặt hàng hoặc lịch sử thanh toán trước đó của họ.",
+      "LIST": {
+        "404": "Chưa có ứng dụng trang \u001dđiều khiển nào được định cấu hình trên tài khoản này",
+        "LOADING": "Đang tìm nạp ứng dụng bảng điều khiển...",
+        "TABLE_HEADER": [
+          "Tên",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Sửa app",
+        "DELETE_TOOLTIP": "Xoá app"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Tên",
+        "TITLE_PLACEHOLDER": "Nhập tên cho ứng dụng bảng điều khiển",
+        "TITLE_ERROR": "Cần có tên cho ứng dụng bảng điều khiển",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Nhập URL endpoint nơi ứng dụng của bạn được lưu trữ",
+        "URL_ERROR": "Cần một URL hợp lệ"
+      },
+      "CREATE": {
+        "HEADER": "Thêm mới một Ứng dụng bảng điều khiển",
+        "FORM_SUBMIT": "Gửi",
+        "FORM_CANCEL": "Huỷ",
+        "API_SUCCESS": "Ứng dụng trang điều khiển được định cấu hình thành công",
+        "API_ERROR": "Chúng tôi không thể tạo ứng dụng. Vui lòng thử lại sau"
+      },
+      "UPDATE": {
+        "HEADER": "Sửa app bảng điều khiển",
+        "FORM_SUBMIT": "Cập nhật",
+        "FORM_CANCEL": "Huỷ",
+        "API_SUCCESS": "Đã cập nhật ứng dụng trang điều khiển thành công",
+        "API_ERROR": "Chúng tôi không thể cập nhật ứng dụng. Vui lòng thử lại sau"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Có, xóa nó",
+        "CONFIRM_NO": "Không, giữ nó",
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc chắn xóa ứng dụng - %{appName}?",
+        "API_SUCCESS": "Đã xóa ứng dụng trang điều khiển thành công",
+        "API_ERROR": "Chúng tôi không thể xóa ứng dụng. Vui lòng thử lại sau"
+      }
     }
   }
 }

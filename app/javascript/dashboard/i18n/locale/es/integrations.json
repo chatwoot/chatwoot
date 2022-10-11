@@ -84,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "Conectar"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Panel de aplicaciones",
+      "HEADER_BTN_TXT": "Añadir una nueva aplicación",
+      "SIDEBAR_TXT": "<p><b>Aplicaciones de panel</b></p><p>Aplicaciones de panel de control permiten a las organizaciones incrustar una aplicación dentro del panel de control de Chatwoot para proporcionar el contexto para los agentes de atención al cliente. Esta característica le permite crear una aplicación de forma independiente e incrustarla dentro del panel de control para proporcionar información de usuario, sus pedidos, o su historial de pagos anterior.</p><p>Cuando incrustas tu aplicación usando el panel de control en Chatwoot, tu aplicación obtendrá el contexto de la conversación y el contacto como un evento de ventana. Implementa un oyente para el evento del mensaje en tu página para recibir el contexto.</p><p>Para añadir una nueva aplicación de panel, haga clic en el botón 'Añadir una nueva aplicación de panel'.</p>",
+      "DESCRIPTION": "Las aplicaciones de panel permiten a las organizaciones incrustar una aplicación dentro del panel de control para proporcionar el contexto para los agentes de soporte al cliente. Esta función le permite crear una aplicación de forma independiente e incrustada para proporcionar información de usuario, sus pedidos o su historial de pagos anterior.",
+      "LIST": {
+        "404": "Todavía no hay aplicaciones configuradas en esta cuenta",
+        "LOADING": "Obteniendo aplicaciones del tablero...",
+        "TABLE_HEADER": [
+          "Nombre",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Editar aplicación",
+        "DELETE_TOOLTIP": "Eliminar aplicación"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nombre",
+        "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
+        "TITLE_ERROR": "A name for the dashboard app is required",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
+        "URL_ERROR": "A valid URL is required"
+      },
+      "CREATE": {
+        "HEADER": "Añadir una nueva aplicación",
+        "FORM_SUBMIT": "Enviar",
+        "FORM_CANCEL": "Cancelar",
+        "API_SUCCESS": "Dashboard app configured successfully",
+        "API_ERROR": "We couldn't create an app. Please try again later"
+      },
+      "UPDATE": {
+        "HEADER": "Edit dashboard app",
+        "FORM_SUBMIT": "Actualizar",
+        "FORM_CANCEL": "Cancelar",
+        "API_SUCCESS": "Dashboard app updated successfully",
+        "API_ERROR": "We couldn't update the app. Please try again later"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_NO": "No, keep it",
+        "TITLE": "Confirme eliminación",
+        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "API_SUCCESS": "Dashboard app deleted successfully",
+        "API_ERROR": "We couldn't delete the app. Please try again later"
+      }
     }
   }
 }

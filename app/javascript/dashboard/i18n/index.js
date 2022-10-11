@@ -26,6 +26,7 @@ import ru from './locale/ru';
 import sk from './locale/sk';
 import sv from './locale/sv';
 import ta from './locale/ta';
+import th from './locale/th';
 import tr from './locale/tr';
 import uk from './locale/uk';
 import vi from './locale/vi';
@@ -54,13 +55,14 @@ export default {
   nl,
   no,
   pl,
-  pt,
   pt_BR,
+  pt,
   ro,
   ru,
   sk,
   sv,
   ta,
+  th,
   tr,
   uk,
   vi,

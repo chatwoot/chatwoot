@@ -126,6 +126,7 @@ export default {
     background: transparent;
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-bold);
+    padding-left: 0;
   }
   .input-group-field::v-deep input {
     margin-bottom: 0;

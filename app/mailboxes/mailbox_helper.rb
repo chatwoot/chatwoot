@@ -4,7 +4,7 @@ module MailboxHelper
   def create_message
     return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
 
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       account_id: @conversation.account_id,
       sender: @conversation.contact,
       content: mail_content&.truncate(150_000),
@@ -35,7 +35,7 @@ module MailboxHelper
 
   def create_contact
     @contact_inbox = ::ContactBuilder.new(
-      source_id: "email:#{processed_mail.message_id}",
+      source_id: processed_mail.original_sender,
       inbox: @inbox,
       contact_attributes: {
         name: identify_contact_name,

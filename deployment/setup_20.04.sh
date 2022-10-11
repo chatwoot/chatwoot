@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS
-# Script Version: 2.0.7
+# Script Version: 2.2.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -17,13 +17,13 @@ fi
 
 # Global variables
 # option --output/-o requires 1 argument
-LONGOPTS=console,debug,help,install:,logs:,restart,ssl,upgrade,webserver,version
-OPTIONS=cdhi:l:rsuwv
-CWCTL_VERSION="2.0.7"
+LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version
+OPTIONS=cdhiI:l:rsuwv
+CWCTL_VERSION="2.2.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 
 # if user does not specify an option
-if [ -z "$1" ]; then
+if [ "$#" -eq 0 ]; then
   echo "No options specified. Use --help to learn more."
   exit 1
 fi
@@ -41,7 +41,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-c=n d=n h=n i=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
+c=n d=n h=n i=n I=n l=n r=n s=n u=n w=n v=n BRANCH=master SERVICE=web
 # Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -51,7 +51,7 @@ while true; do
             ;;
         -d|--debug)
             d=y
-            break
+            shift
             ;;
         -h|--help)
             h=y
@@ -59,6 +59,11 @@ while true; do
             ;;
         -i|--install)
             i=y
+            BRANCH="master"
+            break
+            ;;
+       -I|--Install)
+            I=y
             BRANCH="$2"
             break
             ;;
@@ -100,7 +105,7 @@ done
 
 # log if debug flag set
 if [ "$d" == "y" ]; then
-  echo "console: $c, debug: $d, help: $h, install: $i, BRANCH: $BRANCH, \
+  echo "console: $c, debug: $d, help: $h, install: $i, Install: $I, BRANCH: $BRANCH, \
   logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w"
 fi
 
@@ -123,7 +128,7 @@ trap exit_handler EXIT
 #   None
 ##############################################################################
 function exit_handler() {
-  if [ "$?" -ne 0 ]; then
+  if [ "$?" -ne 0 ] && [ "$u" == "n" ]; then
    echo -en "\nSome error has occured. Check '/var/log/chatwoot-setup.log' for details.\n"
    exit 1
   fi
@@ -436,7 +441,7 @@ function ssl_success_message() {
 Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at https://$domain_name
 
-Join the community at https://chatwoot.com/community
+Join the community at https://chatwoot.com/community?utm_source=cwctl
 ***************************************************************************
 
 EOF
@@ -546,9 +551,9 @@ Woot! Woot!! Chatwoot server installation is complete.
 The server will be accessible at http://$public_ip:3000
 
 To configure a domain and SSL certificate, follow the guide at
-https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm
+https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm?utm_source=cwctl
 
-Join the community at https://chatwoot.com/community
+Join the community at https://chatwoot.com/community?utm_source=cwctl
 ***************************************************************************
 
 EOF
@@ -615,26 +620,27 @@ Example: cwctl --upgrade
 Example: cwctl -c
 
 Installation/Upgrade:
-  -i, --install             install Chatwoot with the git branch specified
-  -u, --upgrade             upgrade Chatwoot to latest version
-  -s, --ssl                 fetch and install ssl certificates using LetsEncrypt
-  -w, --webserver           install and configure Nginx webserver with SSL
+  -i, --install             Install the latest stable version of Chatwoot
+  -I                        Install Chatwoot from a git branch
+  -u, --upgrade             Upgrade Chatwoot to the latest stable version
+  -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
+  -w, --webserver           Install and configure Nginx webserver with SSL
 
 Management:
-  -c, --console             open ruby console
-  -l, --logs                view logs from Chatwoot. Supported values include web/worker.
-  -r, --restart             restart Chatwoot server
+  -c, --console             Open ruby console
+  -l, --logs                View logs from Chatwoot. Supported values include web/worker.
+  -r, --restart             Restart Chatwoot server
   
 Miscellaneous:
-  -d, --debug               show debug messages
-  -v, --version             display version information and exit
-  -h, --help                display this help text and exit
+  -d, --debug               Show debug messages
+  -v, --version             Display version information
+  -h, --help                Display this help text
 
 Exit status:
 Returns 0 if successful; non-zero otherwise.
 
 Report bugs at https://github.com/chatwoot/chatwoot/issues
-Get help, https://chatwoot.com/community
+Get help, https://chatwoot.com/community?utm_source=cwctl
 
 EOF
 }
@@ -651,7 +657,8 @@ EOF
 function get_logs() {
   if [ "$SERVICE" == "worker" ]; then
     journalctl -u chatwoot-worker.1.service -f
-  else
+  fi
+  if [ "$SERVICE" == "web" ]; then
     journalctl -u chatwoot-web.1.service -f
   fi
 }
@@ -668,13 +675,37 @@ function get_logs() {
 #   None
 ##############################################################################
 function ssl() {
-   echo "Setting up ssl"
+   if [ "$d" == "y" ]; then
+     echo "Setting up ssl"
+   fi
    get_domain_info
    if ! systemctl -q is-active nginx; then
     install_webserver
    fi
    setup_ssl
    ssl_success_message
+}
+
+##############################################################################
+# Abort upgrade if custom code changes detected(-u/--upgrade)
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+##############################################################################
+function upgrade_prereq() {
+  sudo -i -u chatwoot << "EOF"
+  cd chatwoot
+  git update-index --refresh
+  git diff-index --quiet HEAD --
+  if [ "$?" -eq 1 ]; then
+    echo "Custom code changes detected. Aborting update."
+    echo "Please proceed to update manually."
+    exit 1
+  fi
+EOF
 }
 
 ##############################################################################
@@ -689,7 +720,8 @@ function ssl() {
 function upgrade() {
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION"
-
+  sleep 3
+  upgrade_prereq
   sudo -i -u chatwoot << "EOF"
 
   # Navigate to the Chatwoot directory
@@ -756,7 +788,9 @@ function restart() {
 #   None
 ##############################################################################
 function webserver() {
-  echo "Installing nginx"
+  if [ "$d" == "y" ]; then
+     echo "Installing nginx"
+  fi
   ssl
   #TODO(@vn): allow installing nginx only without SSL
 }
@@ -794,7 +828,7 @@ function main() {
     help
   fi
 
-  if [ "$i" == "y" ]; then
+  if [ "$i" == "y" ] || [ "$I" == "y" ]; then
     install
   fi
 

@@ -60,7 +60,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/dashboard_apps", params: payload }.to change(CustomFilter, :count).by(0)
+        expect { post "/api/v1/accounts/#{account.id}/dashboard_apps", params: payload }.not_to change(CustomFilter, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -86,7 +86,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
                                                                 params: invalid_url_payload
-        end.to change(DashboardApp, :count).by(0)
+        end.not_to change(DashboardApp, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = JSON.parse(response.body)
@@ -97,7 +97,7 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
                                                                 params: invalid_type_payload
-        end.to change(DashboardApp, :count).by(0)
+        end.not_to change(DashboardApp, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end

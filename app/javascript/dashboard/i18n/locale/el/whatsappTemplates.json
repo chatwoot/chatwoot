@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
+            "TITLE": "Πρότυπα Whatsapp",
+            "SUBTITLE": "Επιλέξτε το πρότυπο Whatsapp που θέλετε να στείλετε",
+            "TEMPLATE_SELECTED_SUBTITLE": "Επεξεργασία %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "Αναζήτηση Προτύπων",
+            "NO_TEMPLATES_FOUND": "Δεν βρέθηκαν πρότυπα για",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
-                "CATEGORY": "Category"
+                "LANGUAGE": "Γλώσσα",
+                "TEMPLATE_BODY": "Σώμα Προτύπου",
+                "CATEGORY": "Κατηγορία"
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "VARIABLES_LABEL": "Μεταβλητές",
+            "VARIABLE_PLACEHOLDER": "Εισάγετε τιμή για %{variable}",
+            "GO_BACK_LABEL": "Πίσω",
+            "SEND_MESSAGE_LABEL": "Αποστολή μηνύματος",
+            "FORM_ERROR_MESSAGE": "Παρακαλώ συμπληρώστε όλες τις μεταβλητές πριν την αποστολή"
         }
     }
 }

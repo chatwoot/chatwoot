@@ -19,14 +19,10 @@
 #  index_contact_inboxes_on_pubsub_token            (pubsub_token) UNIQUE
 #  index_contact_inboxes_on_source_id               (source_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (contact_id => contacts.id) ON DELETE => cascade
-#  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
-#
 
 class ContactInbox < ApplicationRecord
   include Pubsubable
+  include RegexHelper
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   validates :source_id, presence: true
@@ -56,10 +52,10 @@ class ContactInbox < ApplicationRecord
 
   def validate_twilio_source_id
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
-    if inbox.channel.medium == 'sms' && !/\+[1-9]\d{1,14}\z/.match?(source_id)
-      errors.add(:source_id, 'invalid source id for twilio sms inbox. valid Regex /\+[1-9]\d{1,14}\z/')
-    elsif inbox.channel.medium == 'whatsapp' && !/whatsapp:\+[1-9]\d{1,14}\z/.match?(source_id)
-      errors.add(:source_id, 'invalid source id for twilio whatsapp inbox. valid Regex /whatsapp:\+[1-9]\d{1,14}\z/')
+    if inbox.channel.medium == 'sms' && !TWILIO_CHANNEL_SMS_REGEX.match?(source_id)
+      errors.add(:source_id, "invalid source id for twilio sms inbox. valid Regex #{TWILIO_CHANNEL_SMS_REGEX}")
+    elsif inbox.channel.medium == 'whatsapp' && !TWILIO_CHANNEL_WHATSAPP_REGEX.match?(source_id)
+      errors.add(:source_id, "invalid source id for twilio whatsapp inbox. valid Regex #{TWILIO_CHANNEL_WHATSAPP_REGEX}")
     end
   end
 
@@ -67,8 +63,15 @@ class ContactInbox < ApplicationRecord
     errors.add(:source_id, "invalid source id for Email inbox. valid Regex #{Devise.email_regexp}") unless Devise.email_regexp.match?(source_id)
   end
 
+  def validate_whatsapp_source_id
+    return if WHATSAPP_CHANNEL_REGEX.match?(source_id)
+
+    errors.add(:source_id, "invalid source id for whatsapp inbox. valid Regex #{WHATSAPP_CHANNEL_REGEX}")
+  end
+
   def valid_source_id_format?
     validate_twilio_source_id if inbox.channel_type == 'Channel::TwilioSms'
     validate_email_source_id if inbox.channel_type == 'Channel::Email'
+    validate_whatsapp_source_id if inbox.channel_type == 'Channel::Whatsapp'
   end
 end

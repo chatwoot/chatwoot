@@ -19,6 +19,21 @@
         "TITLE": "Profilo",
         "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma del messaggio personale",
         "NOTE": "Crea una firma personale del messaggio che sarà aggiunta a tutti i messaggi inviati dalla tua casella di posta elettronica. Usa l'editor di contenuti per creare una firma altamente personalizzata.",
@@ -124,7 +139,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "giorni di prova rimanenti.",
     "TRAIL_BUTTON": "Acquista ora",
-    "DELETED_USER": "Utente eliminato"
+    "DELETED_USER": "Utente eliminato",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Account sospeso",
+      "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -171,6 +190,7 @@
     "CUSTOM_ATTRIBUTES": "Attributi personalizzati",
     "AUTOMATION": "Automazione",
     "TEAMS": "Teams",
+    "BILLING": "Fatturazione",
     "CUSTOM_VIEWS_FOLDER": "Cartelle",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
     "ALL_CONTACTS": "Tutti i contatti",
@@ -190,7 +210,35 @@
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Panoramica",
-    "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi"
+    "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
+    "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
+      "ALL_ARTICLES": "Tutti gli articoli",
+      "MY_ARTICLES": "I miei articoli",
+      "DRAFT": "Bozza",
+      "ARCHIVED": "Archiviato",
+      "CATEGORY": "Categoria",
+      "CATEGORY_EMPTY_MESSAGE": "Nessuna categoria trovata"
+    },
+    "DOCS": "Leggi i documenti"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Fatturazione",
+    "CURRENT_PLAN": {
+      "TITLE": "Piano attuale",
+      "PLAN_NOTE": "Sei attualmente abbonato al piano **%{plan}** con **%{quantity}** licenze"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Gestisci il tuo abbonamento",
+      "DESCRIPTION": "Visualizza le tue fatture precedenti, modifica i tuoi dati di fatturazione o annulla il tuo abbonamento.",
+      "BUTTON_TXT": "Vai al portale di fatturazione"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Hai bisogno di aiuto?",
+      "DESCRIPTION": "Hai qualche problema di fatturazione? Siamo qui per aiutarti.",
+      "BUTTON_TXT": "Chatta con noi"
+    },
+    "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Non abbiamo trovato alcun account Chatwoot. Si prega di creare un nuovo account per continuare.",
@@ -224,7 +272,6 @@
       "GO_TO_SETTINGS": "Vai alle impostazioni",
       "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
       "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Attiva/Disattiva editor di contenuti esteso",
       "SWITCH_TO_REPLY": "Passa a Risposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva sospensione a discesa"
     },

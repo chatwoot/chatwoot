@@ -53,13 +53,13 @@ module Api::V1::InboxesHelper
   rescue StandardError => e
     raise StandardError, e.message
   ensure
-    Rails.logger.error e if e.present?
+    ChatwootExceptionTracker.new(e).capture_exception if e.present?
   end
 
   def check_smtp_connection(channel_data, smtp)
     smtp.start(channel_data[:smtp_domain], channel_data[:smtp_login], channel_data[:smtp_password],
                channel_data[:smtp_authentication]&.to_sym || :login)
-    smtp.finish unless smtp&.nil?
+    smtp.finish
   end
 
   def set_smtp_encryption(channel_data, smtp)

@@ -20,7 +20,7 @@ db_namespace = namespace :db do
       # handling case where database was created by the provider, with out running db:setup
       unless ActiveRecord::Base.connection.table_exists? 'ar_internal_metadata'
         db_namespace['load_config'].invoke if ActiveRecord::Base.schema_format == :ruby
-        ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, ENV['SCHEMA'])
+        ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, ENV.fetch('SCHEMA', nil))
         db_namespace['seed'].invoke
       end
 

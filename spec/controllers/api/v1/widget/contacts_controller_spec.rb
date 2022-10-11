@@ -33,7 +33,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expected_params = { contact: contact, params: params }
+        expected_params = { contact: contact, params: params, discard_invalid_attrs: true }
         expect(ContactIdentifyAction).to have_received(:new).with(expected_params)
         expect(identify_action).to have_received(:perform)
       end
@@ -103,8 +103,8 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
         body = JSON.parse(response.body)
         expect(body['id']).not_to eq(contact.id)
-        expect(body['widget_auth_token']).not_to eq(nil)
-        expect(Contact.find(body['id']).contact_inboxes.first.hmac_verified?).to eq(true)
+        expect(body['widget_auth_token']).not_to be_nil
+        expect(Contact.find(body['id']).contact_inboxes.first.hmac_verified?).to be(true)
       end
     end
 
