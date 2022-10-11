@@ -1,662 +1,662 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "Iesūtnes",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Chatwoot risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu Chatwoot kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Šim kontam nav pievienota neviena Iesūtne."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Izvēlieties Kanālu",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "Izveidot Iesūtni",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Autentificēt savu kontu un izveidot iesūtni."
       },
       {
-        "title": "Add Agents",
+        "title": "Pievienot Aģentus",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Pievienojiet aģentus izveidotajai iesūtnei."
       },
       {
-        "title": "Voila!",
+        "title": "Gatavs!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Jūs varat sākt darboties!"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "Iesūtnes Nosaukums",
+        "PLACEHOLDER": "Ievadiet Jūsu iesūtnes nosaukumu (piemēram: Acme Inc)",
+        "ERROR": "Lūdzu, ievadiet derīgu iesūtnes nosaukumu"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
-        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+        "LABEL": "Tīmekļa Vietnes Nosaukums",
+        "PLACEHOLDER": "Ievadiet Jūsu tīmekļa vietnes nosaukumu (piemēram: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "PS: Pierakstoties mēs iegūstam piekļuvi tikai pie Jūsu lapas ziņojumiem. Chatwoot nekad nevar piekļūt jūsu privātajām ziņām.",
+        "CHOOSE_PAGE": "Izvēlieties Lapu",
+        "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
+        "INBOX_NAME": "Iesūtnes Nosaukums",
+        "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
+        "PICK_NAME": "Izvēlieties savai iesūtnei nosaukumu",
+        "PICK_A_VALUE": "Izvēlieties vērtību"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
+        "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
+        "ERROR_MESSAGE": "Radās kļūda, veidojot savienojumu ar Twitter. Lūdzu, mēģiniet vēlreiz",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": "Izveidot sarunas no minētajiem Tvītiem"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Tīmekļa vietnes kanāls",
+        "DESC": "Izveidot savai tīmekļa vietnei kanālu un sākt atbalstīt savus klientus, izmantojot mūsu tīmekļu vietnes logrīku.",
+        "LOADING_MESSAGE": "Tiek Veikta Tīmekļa Vietnes Atbalsta Kanāla Izveide",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Kanāla Avatārs"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Ievadiet savu Webhook URL",
+          "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Tīmekļa Vietnes Domēns",
+          "PLACEHOLDER": "Ievadiet savas tīmekļa vietnes domēnu (piemēram: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Laipni lūdzam Virsraksts",
+          "PLACEHOLDER": "Sveicināti !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Laipni lūdzam Teksts",
+          "PLACEHOLDER": "Sazināties ar mums ir vienkārši. Vaicājiet mums jebko, vai dalieties ar savām atsauksmēm."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Kanāla sveiciena paziņojums",
+          "PLACEHOLDER": "Acme Inc parasti atbild dažu stundu laikā."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Iespējot kanāla sveicienu",
+          "HELP_TEXT": "Automātiski nosūtīt sveiciena paziņojumu, kad tiek izveidota jauna saruna.",
+          "ENABLED": "Iespējots",
+          "DISABLED": "Atspējots"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Iestatīt Atbildes laiku",
+          "IN_A_FEW_MINUTES": "Dažās minutēs",
+          "IN_A_FEW_HOURS": "Dažās stundās",
+          "IN_A_DAY": "Dienas laikā",
+          "HELP_TEXT": "Šis atbildes laiks tiks parādīts tiešsaistes tērzēšanas logrīkā"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Logrīka Krāsa",
+          "PLACEHOLDER": "Atjaunināt logrīkā izmantoto logrīka krāsu"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Izveidot iesūtni",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "Mēs nevarējām izveidot tīmekļa vietnes kanālu. Lūdzu, mēģiniet vēlreiz"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Kanāls",
+        "DESC": "Integrēt Twilio un sākt atbalstīt savus klientus, izmantojot SMS vai WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "Konta SID",
+          "PLACEHOLDER": "Lūdzu, ievadiet sava Twilio konta SID",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "This field is required",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "Ziņapmaiņas Pakalpojuma SID",
+          "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio ziņojumapmaiņas pakalpojuma SID",
+          "ERROR": "Šis lauks ir nepieciešams",
+          "USE_MESSAGING_SERVICE": "Izmantot Twilio Ziņojumapmaiņas Pakalpojumu"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Kanāla Tips",
+          "ERROR": "Lūdzu, izvēlieties sava Kanāla Tipu"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio Auth Token",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Iesūtnes Nosaukums",
+          "PLACEHOLDER": "Lūdzu, ievadiet iesūtnes nosaukumu",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Tālruņa numurs",
+          "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
+          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "Atzvanīšanas URL",
+          "SUBTITLE": "Jums ir jānokonfigurē Twilio pakalpojumā ziņojumu atzvanīšanas URL, izmantojot šeit minēto URL."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Izveidot Twilio Kanālu",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Mēs nevarējām autentificēt Twilio akreditācijas datus. Lūdzu, mēģiniet vēlreiz"
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "SMS Kanāls",
+        "DESC": "Sāciet atbalstīt savus klientus, izmantojot SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API Pakalpojumu Sniedzējs",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": "Mēs nevarējām saglabāt SMS kanālu"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "This field is required"
+            "LABEL": "Konta ID",
+            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwidth konta ID",
+            "ERROR": "Šis lauks ir nepieciešams"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
-            "ERROR": "This field is required"
+            "LABEL": "API atslēga",
+            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API atslēgu",
+            "ERROR": "Šis lauks ir nepieciešams"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
-            "ERROR": "This field is required"
+            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API Secret",
+            "ERROR": "Šis lauks ir nepieciešams"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "This field is required"
+            "LABEL": "Lietojumprogrammas ID",
+            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwidth lietojumprogrammas ID",
+            "ERROR": "Šis lauks ir nepieciešams"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "This field is required"
+            "LABEL": "Iesūtnes Nosaukums",
+            "PLACEHOLDER": "Lūdzu, ievadiet iesūtnes nosaukumu",
+            "ERROR": "Šis lauks ir nepieciešams"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Phone number",
-            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-            "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+            "LABEL": "Tālruņa numurs",
+            "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
+            "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "Izveidot Bandwidth kanālu",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": "Mēs nevarējām autentificēt Bandwidth akreditācijas datus. Lūdzu, mēģiniet vēlreiz"
           },
           "API_CALLBACK": {
-            "TITLE": "Callback URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "Atzvanīšanas URL",
+            "SUBTITLE": "Jums ir jānokonfigurē Bandwidth ziņojumu atzvanīšanas URL, izmantojot šeit minēto URL."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "WhatsApp Kanāls",
+        "DESC": "Sāciet atbalstīt savus klientus, izmantojot WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API Pakalpojumu Sniedzējs",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "This field is required"
+          "LABEL": "Iesūtnes Nosaukums",
+          "PLACEHOLDER": "Lūdzu, ievadiet iesūtnes nosaukumu",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Tālruņa numurs",
+          "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
+          "ERROR": "Lūdzu, ievadiet derīgu vērtību. Tālruņa numuram ir jāsākas ar `+` zīmi."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Tālruņa numura ID",
+          "PLACEHOLDER": "Lūdzu, ievadiet Tālruņa numura ID, kas iegūts no Facebook izstrādātāja informācijas paneļa.",
+          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Biznesa Konta ID",
+          "PLACEHOLDER": "Lūdzu, ievadiet Biznesa Konta ID, kas iegūts no Facebook izstrādātāja informācijas paneļa.",
+          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook Pārbaudes Token",
+          "PLACEHOLDER": "Ievadiet verifikācijas token, kuru vēlaties nokonfigurēt priekš Facebook webhooks.",
+          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API atslēga",
+          "SUBTITLE": "Nokonfigurējiet WhatsApp API atslēgu.",
+          "PLACEHOLDER": "API atslēga",
+          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "TITLE": "Atzvanīšanas URL",
+          "SUBTITLE": "Jums ir facebook izstrādātāju portālā jānokonfigurē webhook URL, izmantojot šeit minēto URL."
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "Izveidot WhatsApp kanālu",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "Mēs nevarējām saglabāt WhatsApp kanālu"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API Kanāls",
+        "DESC": "Integrēt ar API kanālu un sākt atbalstīt savus klientus.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Kanāla Nosaukums",
+          "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Konfigurēt URL, kurā vēlaties saņemt notikumu atzvanus.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Izveidot API kanālu",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Mēs nevarējām saglabāt API kanālu"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "E-pasta Kanāls",
+        "DESC": "Integrēt savu e-pasta iesūtni.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Kanāla Nosaukums",
+          "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "LABEL": "E-pasts",
+          "SUBTITLE": "E-pasts, uz kuru Jūsu klienti nosūta atbalsta biļetes",
+          "PLACEHOLDER": "E-pasts"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Izveidot E-pasta Kanālu",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Mēs nevarējām saglabāt e-pasta kanālu"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Sākt pārsūtīt savus e-pasta ziņojumus uz tālāk norādīto e-pasta adresi."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE Kanāls",
+        "DESC": "Integrēt ar LINE kanālu un sākt atbalstīt savus klientus.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Kanāla Nosaukums",
+          "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
+          "ERROR": "Šis lauks ir nepieciešams"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE Kanāla ID",
+          "PLACEHOLDER": "LINE Kanāla ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE Kanāla Secret",
+          "PLACEHOLDER": "LINE Kanāla Secret"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE Kanāla Token",
+          "PLACEHOLDER": "LINE Kanāla Token"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "Izveidot LINE Kanālu",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "Mēs nevarējām saglabāt LINE kanālu"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "Atzvanīšanas URL",
+          "SUBTITLE": "Jums LINE lietojumprogrammā ir jānokonfigurē webhook URL, ar šeit minēto URL."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram Kanāls",
+        "DESC": "Integrēt ar Telegram kanālu un sākt atbalstīt savus klientus.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "SUBTITLE": "Konfigurēt bot token, ko ieguvāt no Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "Izveidot Telegram Kanālu",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": "Mēs nevarējām saglabāt Telegram kanālu"
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "Izvēlieties kanālu",
+        "DESC": "Chatwoot atbalsta tiešraides tērzēšanas logrīkus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus kā kanālus. Ja vēlaties izveidot pielāgotu kanālu, varat to izveidot, izmantojot API kanālu. Lai sāktu, izvēlieties vienu no tālāk norādītajiem kanāliem."
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "Aģenti",
+        "DESC": "Šeit Jūs varat pievienot aģentus, lai pārvaldītu savu jaunizveidoto iesūtni. Tikai šiem atlasītajiem aģentiem būs piekļuve Jūsu iesūtnei. Aģenti, kas neietilpst šajā iesūtnē, nevarēs redzēt ziņojumus vai atbildēt uz ziņojumiem šajā iesūtnē, kad būs pierakstījušies sistēmā. <br> <b>PS:</b> Ja jums kā administratoram ir nepieciešama piekļuve pie visām iesūtnēm, jums ir jāpievieno sevi kā aģentu visām izveidotajām iesūtnēm.",
+        "VALIDATION_ERROR": "Pievienojiet savai jaunajai Iesūtnei vismaz vienu aģentu",
+        "PICK_AGENTS": "Izvēlieties aģentus priekš iesūtnes"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Informācija par Iesūtni",
+        "DESC": "Tālāk esošajā nolaižamajā izvēlnē izvēlieties Facebook lapu, kuru vēlaties savienot ar Chatwoot. Jūs varat savai iesūtnei, lai to labāk atpazītu, piešķirt pielāgotu nosaukumu."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "Sanāca!",
+        "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar Chatwoot. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē Chatwoot.<br>"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
+      "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
+      "CREATING_CHANNEL": "Notiek Iesūtnes izveide...",
+      "TITLE": "Nokonfigurēt Iesūtnes Informāciju",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Pievienot aģentus",
+      "ADD_AGENTS": "Notiek aģentu pievienošana Jūsu iesūtnei..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "Jūsu Iesūtne ir gatava!",
+      "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu ",
+      "BUTTON_TEXT": "Iet uz",
+      "MORE_SETTINGS": "Papildu iestatījumi",
+      "WEBSITE_SUCCESS": "Jūs esat veiksmīgi pabeidzis tīmekļa vietnes kanāla izveidi. Nokopējiet tālāk redzamo kodu un ievietojiet to savā tīmekļa vietnē. Nākamreiz, kad klients izmantos tiešsaistes tērzēšanu, saruna automātiski tiks parādīta Jūsu iesūtnē."
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Atkārtoti autorizēties",
+    "VIEW": "Apskatīt",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "Iesūtnes iestatījumi ir veiksmīgi atjaunināti",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automātiskā piešķiršana ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Mēs nevarējām atjaunināt iesūtnes iestatījumus. Lūdzu, vēlāk pamēģiniet vēlreiz."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Iespējots",
+        "DISABLED": "Atspējots"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": "Iespējot"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "Dzēst",
+      "AVATAR_DELETE_BUTTON_TEXT": "Dzēst Avatāru",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "PLACE_HOLDER": "Lūdzu, uzrakstiet {inboxName} lai apstiprinātu",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Iesūtne veiksmīgi izdzēsta",
+        "ERROR_MESSAGE": "Nevarēja izdzēst iesūtni. Lūdzu, vēlāk pamēģiniet vēlreiz.",
+        "AVATAR_SUCCESS_MESSAGE": "Iesūtnes avatārs ir veiksmīgi izdzēsts",
+        "AVATAR_ERROR_MESSAGE": "Nevarēja izdzēst iesūtnes avatāru. Lūdzu, vēlāk pamēģiniet vēlreiz."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "SETTINGS": "Iestatījumi",
+      "COLLABORATORS": "Līdzstrādnieki",
+      "CONFIGURATION": "Konfigurācija",
+      "CAMPAIGN": "Kampaņas",
+      "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
+      "BUSINESS_HOURS": "Darba Laiks",
+      "WIDGET_BUILDER": "Logrīku Veidotājs"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Iestatījumi",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "LABEL": "Īpašības",
+      "DISPLAY_FILE_PICKER": "Logrīkā parādīt failu atlasītāju",
+      "DISPLAY_EMOJI_PICKER": "Logrīkā parādīt emocijzīmju atlasītāju",
+      "ALLOW_END_CONVERSATION": "Atļaut lietotājiem beigt sarunu no logrīka"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Update",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "MESSENGER_HEADING": "Messenger Skripts",
+      "MESSENGER_SUB_HEAD": "Ievietojiet šo pogu savā body tagā",
+      "INBOX_AGENTS": "Aģenti",
+      "INBOX_AGENTS_SUB_TEXT": "Pievienot vai noņemt aģentus no šīs iesūtnes",
+      "AGENT_ASSIGNMENT": "Sarunas Piešķiršana",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Atjaunināt sarunas piešķiršanas iestatījumus",
+      "UPDATE": "Atjaunināt",
+      "ENABLE_EMAIL_COLLECT_BOX": "Iespējot e-pasta iegūšanas lodziņu",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespējot vai atspējot e-pasta iegūšanas lodziņu jaunai sarunai",
+      "AUTO_ASSIGNMENT": "Iespējot automātisko piešķiršanu",
+      "ENABLE_CSAT": "Iespējot CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
+      "INBOX_UPDATE_TITLE": "Iesūtnes Iestatījumi",
+      "INBOX_UPDATE_SUB_TEXT": "Atjaunināt Jūsu iesūtnes iestatījumus",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Iespējot vai atspējot jaunu sarunu automātisku piešķiršanu šai iesūtnei pievienotajiem aģentiem.",
+      "HMAC_VERIFICATION": "Lietotāja Identitātes Apstiprināšana",
+      "HMAC_DESCRIPTION": "Lai apstiprinātu lietotāja identitāti, katram lietotājam var izmantot `identifier_hash`. Jūs varat ģenerēt HMAC sha256 hash, izmantojot 'identifier' ar šeit uzrādīto atslēgu.",
+      "HMAC_MANDATORY_VERIFICATION": "Īstenot Lietotāja Identitātes Validāciju",
+      "HMAC_MANDATORY_DESCRIPTION": "Ja iespējots, pieprasījumi, kuros trūkst `identifier_hash`, tiks noraidīti.",
+      "INBOX_IDENTIFIER": "Iesūtnes identifikators",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Izmantojiet šeit uzrādīto `inbox_identifier` token, lai autentificētu savus API klientus.",
+      "FORWARD_EMAIL_TITLE": "Pārsūtīt uz E-pastu",
+      "FORWARD_EMAIL_SUB_TEXT": "Sākt pārsūtīt savus e-pasta ziņojumus uz tālāk norādīto e-pasta adresi.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
+      "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_TITLE": "API atslēga"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Lūdzu, ievadiet vērtību, kas ir lielāka par 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ierobežo maksimālo sarunu skaitu no šīs iesūtnes, ko var automātiski piešķirt aģentam"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "Atkārtoti autorizēties",
+      "SUBTITLE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",
+      "MESSAGE_SUCCESS": "Atkārtota savienojuma izveide ir veiksmīga",
+      "MESSAGE_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "Pirms tērzēšanas veidlapas ļauj iegūt informāciju par lietotājiem, pirms viņi sāk ar Jums sarunu.",
+      "SET_FIELDS": "Pirms tērzēšanas veidlapas lauki",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "Lauki",
+        "LABEL": "Etiķete",
+        "PLACE_HOLDER": "Vietturis",
+        "KEY": "Atslēga",
+        "TYPE": "Tips",
+        "REQUIRED": "Nepieciešams"
       },
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Iespējot pirms tērzēšanas veidlapu",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Jā",
+          "DISABLED": "Nē"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Pirms tērzēšanas ziņojums",
+        "PLACEHOLDER": "Šis ziņojums būs redzams lietotājiem, kopā ar veidlapu"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Apmeklētājiem pirms tērzēšanas ir jānorāda savs vārds un e-pasta adrese"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "Iestatīt savu pieejamību",
+      "SUBTITLE": "Iestatīt savu pieejamību tiešraides tērzēšanas logrīkā",
+      "WEEKLY_TITLE": "Iestatīt savu darba laiku",
+      "TIMEZONE_LABEL": "Izvēlieties laika joslu",
+      "UPDATE": "Atjaunināt darba laika iestatījumus",
+      "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
+      "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Šobrīd neesam pieejami. Lūdzu atstājiet ziņojumu, mēs atbildēsim, kad būsim atpakaļ.",
+      "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Iespējot pieejamību šai dienai",
+        "UNAVAILABLE": "Nav pieejams",
+        "HOURS": "darba laiks",
+        "VALIDATION_ERROR": "Sākuma laikam jābūt pirms slēgšanas laika.",
+        "CHOOSE": "Izvēlēties"
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": "Visu dienu"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "SUBTITLE": "Iestatīt IMAP informāciju",
+      "NOTE_TEXT": "Lai iespējotu SMTP, lūdzu, nokonfigurējiet IMAP.",
+      "UPDATE": "Atjaunināt IMAP iestatījumus",
+      "TOGGLE_AVAILABILITY": "Iespējot IMAP konfigurāciju šai iesūtnei",
+      "TOGGLE_HELP": "Iespējojot IMAP, lietotājs varēs saņemt e-pastu",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "IMAP iestatījumi ir veiksmīgi atjaunināti",
+        "ERROR_MESSAGE": "Nevar atjaunināt IMAP iestatījumus"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "Adrese",
+        "PLACE_HOLDER": "Adrese (piemēram: imap.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Ports",
+        "PLACE_HOLDER": "Ports"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Lietotājvārds",
+        "PLACE_HOLDER": "Lietotājvārds"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Parole",
+        "PLACE_HOLDER": "Parole"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Iespējot SSL"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "SUBTITLE": "Iestatīt SMTP informāciju",
+      "UPDATE": "Atjaunināt SMTP iestatījumus",
+      "TOGGLE_AVAILABILITY": "Iespējot SMTP konfigurāciju šai iesūtnei",
+      "TOGGLE_HELP": "Iespējojot SMTP lietotājs varēs nosūtīt e-pastu",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "SMTP iestatījumi ir veiksmīgi atjaunināti",
+        "ERROR_MESSAGE": "Nevar atjaunināt SMTP iestatījumus"
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "Adrese",
+        "PLACE_HOLDER": "Adrese (piemēram: smtp.gmail.com)"
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "Ports",
+        "PLACE_HOLDER": "Ports"
       },
       "LOGIN": {
-        "LABEL": "Login",
-        "PLACE_HOLDER": "Login"
+        "LABEL": "Lietotājvārds",
+        "PLACE_HOLDER": "Lietotājvārds"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "PLACE_HOLDER": "Password"
+        "LABEL": "Parole",
+        "PLACE_HOLDER": "Parole"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "Domēns",
+        "PLACE_HOLDER": "Domēns"
       },
-      "ENCRYPTION": "Encryption",
+      "ENCRYPTION": "Šifrēšana",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Režīms",
+      "AUTH_MECHANISM": "Autentifikācija"
     },
-    "NOTE": "Note: ",
+    "NOTE": "Piezīme: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "Tīmekļa Vietnes Avatārs",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "There was an error, please try again"
+              "SUCCESS_MESSAGE": "Avatārs ir veiksmīgi izdzēsts",
+              "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website Name",
-          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "Tīmekļa Vietnes Nosaukums",
+          "PLACE_HOLDER": "Ievadiet Jūsu tīmekļa vietnes nosaukumu (piemēram: Acme Inc)",
+          "ERROR": "Lūdzu, ievadiet derīgu tīmekļa vietnes nosaukumu"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Welcome Heading",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "Laipni lūdzam Virsraksts",
+          "PLACE_HOLDER": "Sveicināti!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Laipni lūdzam Teksts",
+          "PLACE_HOLDER": "Sazināties ar mums ir vienkārši. Vaicājiet mums jebko, vai dalieties ar savām atsauksmēm."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day"
+          "LABEL": "Atbildes Laiks",
+          "IN_A_FEW_MINUTES": "Dažās minutēs",
+          "IN_A_FEW_HOURS": "Dažās stundās",
+          "IN_A_DAY": "Dienas laikā"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "Logrīka Krāsa",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Logrīka Burbuļa Pozīcija",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Logrīka Burbuļa Tips",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat with us",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat with us"
+          "DEFAULT": "Tērzējiet ar mums",
+          "LABEL": "Logrīka Burbuļa Palaidēja Nosaukums",
+          "PLACE_HOLDER": "Tērzējiet ar mums"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "Atjaunināt Logrīka Iestatījumus",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "Logrīka iestatījumi ir veiksmīgi atjaunināti",
+            "ERROR_MESSAGE": "Nevar atjaunināt logrīka iestatījumus"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "Priekšskatījums",
+          "SCRIPT": "Skripts"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Pa kreisi",
+          "RIGHT": "Pa labi"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Standarta",
+          "EXPANDED_BUBBLE": "Izvērsts Burbulis"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "Noklusējums",
+        "CHAT": "Tērzēšana"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-        "IN_A_FEW_HOURS": "Typically replies in a few hours",
-        "IN_A_DAY": "Typically replies in a day"
+        "IN_A_FEW_MINUTES": "Parasti atbild dažu minūšu laikā",
+        "IN_A_FEW_HOURS": "Parasti atbild dažu stundu laikā",
+        "IN_A_DAY": "Parasti atbild vienas dienas laikā"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Start Conversation",
-        "CHAT_INPUT_PLACEHOLDER": "Type your message"
+        "START_CONVERSATION_BUTTON_TEXT": "Sākt Sarunu",
+        "CHAT_INPUT_PLACEHOLDER": "Rakstiet savu ziņojumu"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "We are away at the moment"
+          "ONLINE": "Mēs esam Tiešsaistē",
+          "OFFLINE": "Šobrīd neesam uz vietas"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Sveicināti",
+        "AGENT_MESSAGE": "Labdien"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Darbināts ar Chatwoot",
+      "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     }
   }
 }

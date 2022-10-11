@@ -182,6 +182,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :collection
         member do
           post :availability
+          put :set_active_account
         end
       end
 
@@ -287,6 +288,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'

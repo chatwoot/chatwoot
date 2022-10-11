@@ -50,7 +50,7 @@
             :error="slugError"
             :label="$t('HELP_CENTER.PORTAL.ADD.SLUG.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.SLUG.PLACEHOLDER')"
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.SLUG.HELP_TEXT')"
+            :help-text="domainHelpText"
             @input="$v.slug.$touch"
           />
         </div>
@@ -80,6 +80,7 @@
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 export default {
   components: {
@@ -131,6 +132,9 @@ export default {
     },
     domainError() {
       return this.$v.domain.$error;
+    },
+    domainHelpText() {
+      return buildPortalURL(this.slug);
     },
   },
   mounted() {
