@@ -58,9 +58,8 @@ Rails.application.routes.draw do
             post :attach_file, on: :collection
           end
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
-            member do
-              post :execute
-            end
+            post :execute, on: :member
+            post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]

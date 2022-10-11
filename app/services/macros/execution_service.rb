@@ -21,18 +21,25 @@ class Macros::ExecutionService < ActionService
 
   private
 
-  def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: "macro_event.#{@macro.name}")
-    WebhookJob.perform_later(webhook_url[0], payload)
-  end
-
   def send_message(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: false, content_attributes: { macro_id: @macro.id } }
+    params = { content: message[0], private: false }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
   end
 
-  def send_email_to_team(_params); end
+  def send_attachment(blob_ids)
+    return if conversation_a_tweet?
+
+    return unless @macro.files.attached?
+
+    blobs = ActiveStorage::Blob.where(id: blob_ids)
+
+    return if blobs.blank?
+
+    params = { content: nil, private: false, attachments: blobs }
+    mb = Messages::MessageBuilder.new(nil, @conversation, params)
+    mb.perform
+  end
 end
