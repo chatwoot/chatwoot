@@ -62,7 +62,7 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
       job.perform_now(wb_params)
     end
 
-    it 'creates message with reaction' do
+    it 'Ignore reaction type message and stop raising error' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
       wb_params = {
@@ -71,9 +71,7 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
         entry: [{
           changes: [{
             value: {
-              contacts: [
-                { profile: { name: 'Test Test' }, wa_id: '1111981136571' }
-              ],
+              contacts: [{ profile: { name: 'Test Test' }, wa_id: '1111981136571' }],
               messages: [{
                 from: '1111981136571', reaction: { emoji: '👍' }, timestamp: '1664799904', type: 'reaction'
               }],
@@ -85,8 +83,10 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
           }]
         }]
       }.with_indifferent_access
-      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
-      expect(Message.last.content).to eq('👍')
+      expect do
+        Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
+      end.not_to raise_error 'ArgumentError'
+      expect(Message.last.content).to be_nil
     end
 
     it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do

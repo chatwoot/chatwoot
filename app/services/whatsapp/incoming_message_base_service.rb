@@ -37,8 +37,7 @@ class Whatsapp::IncomingMessageBaseService
     message.dig(:text, :body) ||
       message.dig(:button, :text) ||
       message.dig(:interactive, :button_reply, :title) ||
-      message.dig(:interactive, :list_reply, :title) ||
-      message.dig(:reaction, :emoji)
+      message.dig(:interactive, :list_reply, :title)
   end
 
   def account
