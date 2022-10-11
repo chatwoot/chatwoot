@@ -3,16 +3,12 @@ class Platform::Api::V1::AccountsController < PlatformController
     @resource = Account.new(account_params)
     @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
-    render json: @resource
   end
 
-  def show
-    render json: @resource
-  end
+  def show; end
 
   def update
     @resource.update!(account_params)
-    render json: @resource
   end
 
   def destroy
@@ -36,6 +32,6 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def permitted_params
-    params.permit(:name, :locale, enabled_features: [])
+    params.permit(:name, :locale, enabled_features: [], limits: {})
   end
 end

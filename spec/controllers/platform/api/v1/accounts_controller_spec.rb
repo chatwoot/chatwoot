@@ -46,7 +46,8 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Test Account')
-        expect(response.body).to include('159')
+        expect(response.body).to include('ip_lookup')
+        expect(response.body).to include('help_center')
       end
     end
   end
