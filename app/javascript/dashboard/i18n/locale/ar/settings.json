@@ -20,17 +20,17 @@
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "المفتاح الرئيسي لإرسال الرسائل",
+        "NOTE": "يمكنك تحديد مفتاح سريع (إما Enter أو Cmd/Ctrl+Enter) استنادًا إلى تفضيلك للكتابة.",
+        "UPDATE_SUCCESS": "تم تحديث الإعدادات الخاصة بك بنجاح",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "إرسال الرسائل بالضغط على مفتاح الإدخال بدلاً من النقر على زر الإرسال."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "Cmd/Ctrl + Enter (<unk> + <unk> )",
+            "CONTENT": "إرسال الرسائل بالضغط على Cmd/Ctrl + إدخال المفتاح بدلاً من النقر على زر الإرسال."
           }
         }
       },
@@ -141,8 +141,8 @@
     "TRAIL_BUTTON": "اشترك الآن",
     "DELETED_USER": "حذف المستخدم",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "تم تعليق الحساب",
+      "MESSAGE": "تم تعليق حسابك. يرجى الاتصال بفريق الدعم للمزيد من المعلومات."
     }
   },
   "COMPONENTS": {
@@ -190,7 +190,7 @@
     "CUSTOM_ATTRIBUTES": "سمات مخصصة",
     "AUTOMATION": "الأتمتة",
     "TEAMS": "الفرق",
-    "BILLING": "Billing",
+    "BILLING": "الفواتير",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
     "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
@@ -212,33 +212,33 @@
     "REPORTS_OVERVIEW": "نظرة عامة",
     "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "TITLE": "مركز المساعدة (نسخة تجريبية)",
+      "ALL_ARTICLES": "جميع المقالات",
+      "MY_ARTICLES": "مقالاتي",
+      "DRAFT": "مسودة",
+      "ARCHIVED": "مؤرشفة",
       "CATEGORY": "الفئة",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
     },
-    "DOCS": "Read docs"
+    "DOCS": "قراءة المستندات"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "الفواتير",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "الباقة الحالية",
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**%{plan}** مع تراخيص **%{quantity}**"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "إدارة الاشتراك الخاص بك",
+      "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
+      "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "تحتاج مساعدة؟",
+      "DESCRIPTION": "هل تواجه أي مشاكل في الفواتير؟ نحن هنا للمساعدة.",
       "BUTTON_TXT": "تحدث الينا"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "حساب الفوترة الخاص بك قيد الإعداد. الرجاء تحديث الصفحة وحاول مرة أخرى."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

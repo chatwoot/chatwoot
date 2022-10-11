@@ -2,8 +2,8 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
     "CSAT_REPLY_MESSAGE": "الرجاء تقييم المحادثة",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "404": "عذراً، لا يمكننا العثور على المحادثة. الرجاء المحاولة مرة أخرى",
+    "SWITCH_VIEW_LAYOUT": "تبديل التصميم",
     "DASHBOARD_APP_TAB_MESSAGES": "الرسائل",
     "UNVERIFIED_SESSION": "لم يتم التحقق من هوية هذا المستخدم",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
@@ -63,30 +63,30 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "تحديد كمعلق",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "تحديد كمحلولة",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "غفوة",
         "NEXT_REPLY": "حتى الرد القادم",
         "TOMORROW": "حتى الغد",
         "NEXT_WEEK": "حتى الأسبوع القادم"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "تعيين وكيل",
+      "ASSIGN_LABEL": "إضافة وسم",
+      "AGENTS_LOADING": "جاري تحميل الوكلاء...",
+      "ASSIGN_TEAM": "تعيين فريق",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "معرف المحادثة %{conversationId} تم تعيينه ل \"%{agentName}\"",
+          "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "تعيين تسمية #%{labelName} لمعرف المحادثة %{conversationId}",
+          "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "الفريق المعين \"%{team}\" لمعرف المحادثة %{conversationId}",
+          "FAILED": "تعذر تعيين الفريق. الرجاء المحاولة مرة أخرى."
         }
       }
     },
@@ -131,13 +131,13 @@
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "فشل تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "فشل تغيير المحال إليه",
+    "ASSIGN_LABEL_SUCCESFUL": "تم تعيين الوسم بنجاح",
+    "ASSIGN_LABEL_FAILED": "فشل تعيين الوسم",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "الملف يتجاوز حد المرفق {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} ميغابايت",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
     "BOT": "رد آلي",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "نسخ",
       "DELETE": "حذف",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة"
     }
   },
   "EMAIL_TRANSCRIPT": {
