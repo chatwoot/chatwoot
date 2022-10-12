@@ -19,7 +19,7 @@
     // Ruby
     "rebornix.ruby",
     // Vue
-    "vue.volar",
+    "octref.vetur",
     // Prettier
     "esbenp.prettier-vscode",
     // Dot Env
