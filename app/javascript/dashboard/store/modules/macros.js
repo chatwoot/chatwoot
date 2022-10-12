@@ -15,14 +15,14 @@ export const state = {
 };
 
 export const getters = {
-  getMacros(_state) {
-    return _state.records;
+  getMacros($state) {
+    return $state.records;
   },
   getMacro: $state => id => {
     return $state.records.find(record => record.id === Number(id));
   },
-  getUIFlags(_state) {
-    return _state.uiFlags;
+  getUIFlags($state) {
+    return $state.uiFlags;
   },
 };
 
@@ -96,9 +96,9 @@ export const actions = {
 };
 
 export const mutations = {
-  [types.SET_MACROS_UI_FLAG](_state, data) {
-    _state.uiFlags = {
-      ..._state.uiFlags,
+  [types.SET_MACROS_UI_FLAG]($state, data) {
+    $state.uiFlags = {
+      ...$state.uiFlags,
       ...data,
     };
   },
