@@ -103,7 +103,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
-// import ContactConversations from './ContactConversations.vue';
+import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 
 import ContactInfo from './contact/ContactInfo';
@@ -116,7 +116,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 export default {
   components: {
     AccordionItem,
-    // ContactConversations,
+    ContactConversations,
     ContactInfo,
     ConversationInfo,
     // CustomAttributes,
