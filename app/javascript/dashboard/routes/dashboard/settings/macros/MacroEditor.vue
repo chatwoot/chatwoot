@@ -18,7 +18,7 @@ import { mapGetters } from 'vuex';
 import { emptyMacro } from './macroHelper';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import alertMixin from 'shared/mixins/alertMixin';
-import macrosMixin from './macrosMixin';
+import macrosMixin from 'dashboard/mixins/macrosMixin';
 
 export default {
   components: {

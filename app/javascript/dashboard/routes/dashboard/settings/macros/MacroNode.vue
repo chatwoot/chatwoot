@@ -37,7 +37,7 @@
 <script>
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput';
 import MacroActionButton from './ActionButton.vue';
-import macrosMixin from './macrosMixin';
+import macrosMixin from 'dashboard/mixins/macrosMixin';
 import { mapGetters } from 'vuex';
 
 export default {

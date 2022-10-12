@@ -11,12 +11,14 @@
     </router-link>
     <div class="row">
       <div class="small-8 columns with-right-space">
-        <p
-          v-if="!uiFlags.isFetching && !records.length"
-          class="no-items-error-message"
-        >
-          {{ $t('MACROS.LIST.404') }}
-        </p>
+        <div class="macros__empty-state">
+          <p
+            v-if="!uiFlags.isFetching && !records.length"
+            class="no-items-error-message"
+          >
+            {{ $t('MACROS.LIST.404') }}
+          </p>
+        </div>
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('MACROS.LOADING')"
@@ -121,3 +123,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.macros__empty-state {
+  padding: var(--space-slab);
+}
+</style>
