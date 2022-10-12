@@ -195,7 +195,6 @@ class Conversation < ApplicationRecord
   private
 
   def execute_after_update_commit_callbacks
-    binding.pry
     notify_status_change
     create_activity
     notify_conversation_updation
@@ -260,7 +259,7 @@ class Conversation < ApplicationRecord
   def create_label_change(user_name)
     return unless user_name
 
-    previous_labels, current_labels = reload.previous_changes[:label_list]
+    previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
 
     create_label_added(user_name, current_labels - previous_labels)

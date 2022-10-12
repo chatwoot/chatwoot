@@ -25,7 +25,7 @@ class Macros::ExecutionService < ActionService
     return if conversation_a_tweet?
 
     params = { content: message[0], private: false }
-    mb = Messages::MessageBuilder.new(nil, @conversation, params)
+    mb = Messages::MessageBuilder.new(nil, @conversation.reload, params)
     mb.perform
   end
 
@@ -39,7 +39,7 @@ class Macros::ExecutionService < ActionService
     return if blobs.blank?
 
     params = { content: nil, private: false, attachments: blobs }
-    mb = Messages::MessageBuilder.new(nil, @conversation, params)
+    mb = Messages::MessageBuilder.new(nil, @conversation.reload, params)
     mb.perform
   end
 end
