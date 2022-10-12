@@ -3,6 +3,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 const settings = accountId => ({
   parentNav: 'settings',
   routes: [
+    'agent_bots',
     'agent_list',
     'canned_list',
     'labels_list',
@@ -74,9 +75,19 @@ const settings = accountId => ({
     {
       icon: 'automation',
       label: 'AUTOMATION',
+      beta: true,
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
+    },
+    {
+      icon: 'bot',
+      label: 'AGENT_BOTS',
+      beta: true,
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
+      toStateName: 'agent_bots',
+      featureFlagKey: 'agent_bots',
     },
     {
       icon: 'chat-multiple',
