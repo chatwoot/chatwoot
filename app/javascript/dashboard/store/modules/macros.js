@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import MacrosAPI from '../../api/macros';
+import { throwErrorMessage } from '../utils/api';
 
 export const state = {
   records: [],
@@ -41,7 +42,7 @@ export const actions = {
   getSingleMacro: async function getMacroById({ commit }, macroId) {
     commit(types.SET_MACROS_UI_FLAG, { isFetching: true });
     try {
-      const response = await MacrosAPI.getSingleMacro(macroId);
+      const response = await MacrosAPI.show(macroId);
       return response.data.payload;
     } catch (error) {
       // Ignore error
@@ -55,7 +56,7 @@ export const actions = {
       const response = await MacrosAPI.create(macrosObj);
       commit(types.ADD_MACRO, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isCreating: false });
     }
@@ -65,7 +66,7 @@ export const actions = {
     try {
       await MacrosAPI.executeMacro(macrosObj);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isExecuting: false });
     }
@@ -76,7 +77,7 @@ export const actions = {
       const response = await MacrosAPI.update(id, updateObj);
       commit(types.EDIT_MACRO, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isUpdating: false });
     }
@@ -87,27 +88,9 @@ export const actions = {
       await MacrosAPI.delete(id);
       commit(types.DELETE_MACRO, id);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isDeleting: false });
-    }
-  },
-  clone: async ({ commit }, id) => {
-    commit(types.SET_MACROS_UI_FLAG, { isCloning: true });
-    try {
-      await MacrosAPI.clone(id);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_MACROS_UI_FLAG, { isCloning: false });
-    }
-  },
-  uploadAttachment: async (_, file) => {
-    try {
-      const { data } = await MacrosAPI.attachment(file);
-      return data.blob_id;
-    } catch (error) {
-      throw new Error(error);
     }
   },
 };
