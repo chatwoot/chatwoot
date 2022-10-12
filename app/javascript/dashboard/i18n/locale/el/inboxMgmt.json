@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL επανάκλησης",
-          "SUBTITLE": "Θα πρέπει να ρυθμίσετε το URL webhook στο facebook developer portal με το URL που αναφέρεται εδώ."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Σύνδεσμος Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Δημιουργία Καναλιού WhatsApp",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Το κιβώτιο σας είναι έτοιμο!",
-      "MESSAGE": "Μπορείτε να συνομιλείτε με τους πελάτες σας από το νέο κανάλι. Καλή υποστήριξη ",
+      "MESSAGE": "Μπορείτε να συνομιλείτε με τους πελάτες σας από το νέο κανάλι. Καλή υποστήριξη",
       "BUTTON_TEXT": "Μετάβαση",
       "MORE_SETTINGS": "Περισσότερες ρυθμίσεις",
       "WEBSITE_SUCCESS": "Επιτυχής δημιουργία του καναλιού ιστοσελίδας. Αντιγράψτε τον κώδικα που παρουσιάζεται παρακάτω, και τοποθετήστε τον στην ιστοσελίδα σας. Την επόμενη φορά που κάποιος πελάτης χρησιμοποιήσει το 'live chat', η συνομιλία θα εμφανιστεί στο κιβώτιο εισερχομένων σας."
