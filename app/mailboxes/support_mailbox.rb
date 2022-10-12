@@ -72,7 +72,7 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender)
+    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender&.downcase)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else
