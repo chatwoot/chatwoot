@@ -81,7 +81,7 @@ class Xmpp::SendOnXmppService < Base::SendOnChannelService
 
   def message_add_body(message, item)
     body = item['body'] && CommonMarker.render_doc(item['body'], :DEFAULT)
-    message.body = body ? CommonMarker::Xep0393Renderer.new.render(body) : item['attachments']&.join(', ').to_s
+    message.body = body ? CommonMarker::Xep0393Renderer.new.render(body).chomp : item['attachments']&.join(', ').to_s
     message.xhtml = body.to_html if body
   end
 

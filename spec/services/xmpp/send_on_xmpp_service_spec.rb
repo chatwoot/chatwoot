@@ -56,7 +56,7 @@ describe Xmpp::SendOnXmppService do
         expect(m.id).to eq 'chatwoot:uuid:mid'
         expect(m.type).to eq :chat
         expect(m.to).to eq 'test@example.com'
-        expect(m.body).to eq "hi\n"
+        expect(m.body).to eq 'hi'
         expect(m.xhtml).to eq '<p>hi</p>'
         expect(m.xpath('./ns:request', ns: 'urn:xmpp:receipts').length).to eq 1
         expect(m.xpath('./ns:markable', ns: 'urn:xmpp:chat-markers:0').length).to eq 1
@@ -76,7 +76,7 @@ describe Xmpp::SendOnXmppService do
 
       it 'converts' do
         m = ::Xmpp::SendOnXmppService.new(message: nil).message_for_item(item)
-        expect(m.body).to eq "*bold* _italic_ `code` link (http://example.com)\n"
+        expect(m.body).to eq '*bold* _italic_ `code` link (http://example.com)'
         expect(m.xhtml).to eq '<p><strong>bold</strong> <em>italic</em> <code>code</code> <a href="http://example.com">link</a></p>'
       end
     end
