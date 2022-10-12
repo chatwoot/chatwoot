@@ -11,6 +11,7 @@ import inbox from './inbox/inbox.routes';
 import integrationapps from './integrationapps/integrations.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
+import macros from './macros/macros.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
@@ -41,6 +42,7 @@ export default {
     ...integrationapps.routes,
     ...integrations.routes,
     ...labels.routes,
+    ...macros.routes,
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,
