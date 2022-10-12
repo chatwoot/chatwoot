@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import accounts from './modules/accounts';
 import agents from './modules/agents';
+import agentBots from './modules/agentBots';
 import attributes from './modules/attributes';
 import auth from './modules/auth';
 import automations from './modules/automations';
@@ -45,6 +46,7 @@ export default new Vuex.Store({
   modules: {
     accounts,
     agents,
+    agentBots,
     attributes,
     auth,
     automations,

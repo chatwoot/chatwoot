@@ -1,10 +1,12 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import MacrosAPI from '../../api/macros';
+import { throwErrorMessage } from '../utils/api';
 
 export const state = {
   records: [],
   uiFlags: {
+    isFetchingItem: false,
     isFetching: false,
     isCreating: false,
     isDeleting: false,
@@ -14,14 +16,14 @@ export const state = {
 };
 
 export const getters = {
-  getMacros(_state) {
-    return _state.records;
+  getMacros($state) {
+    return $state.records;
   },
   getMacro: $state => id => {
     return $state.records.find(record => record.id === Number(id));
   },
-  getUIFlags(_state) {
-    return _state.uiFlags;
+  getUIFlags($state) {
+    return $state.uiFlags;
   },
 };
 
@@ -37,16 +39,15 @@ export const actions = {
       commit(types.SET_MACROS_UI_FLAG, { isFetching: false });
     }
   },
-  // eslint-disable-next-line consistent-return
   getSingleMacro: async function getMacroById({ commit }, macroId) {
-    commit(types.SET_MACROS_UI_FLAG, { isFetching: true });
+    commit(types.SET_MACROS_UI_FLAG, { isFetchingItem: true });
     try {
-      const response = await MacrosAPI.getSingleMacro(macroId);
-      return response.data.payload;
+      const response = await MacrosAPI.show(macroId);
+      commit(types.ADD_MACRO, response.data.payload);
     } catch (error) {
       // Ignore error
     } finally {
-      commit(types.SET_MACROS_UI_FLAG, { isFetching: false });
+      commit(types.SET_MACROS_UI_FLAG, { isFetchingItem: false });
     }
   },
   create: async function createMacro({ commit }, macrosObj) {
@@ -55,7 +56,7 @@ export const actions = {
       const response = await MacrosAPI.create(macrosObj);
       commit(types.ADD_MACRO, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isCreating: false });
     }
@@ -65,7 +66,7 @@ export const actions = {
     try {
       await MacrosAPI.executeMacro(macrosObj);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isExecuting: false });
     }
@@ -76,7 +77,7 @@ export const actions = {
       const response = await MacrosAPI.update(id, updateObj);
       commit(types.EDIT_MACRO, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isUpdating: false });
     }
@@ -87,39 +88,21 @@ export const actions = {
       await MacrosAPI.delete(id);
       commit(types.DELETE_MACRO, id);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isDeleting: false });
-    }
-  },
-  clone: async ({ commit }, id) => {
-    commit(types.SET_MACROS_UI_FLAG, { isCloning: true });
-    try {
-      await MacrosAPI.clone(id);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_MACROS_UI_FLAG, { isCloning: false });
-    }
-  },
-  uploadAttachment: async (_, file) => {
-    try {
-      const { data } = await MacrosAPI.attachment(file);
-      return data.blob_id;
-    } catch (error) {
-      throw new Error(error);
     }
   },
 };
 
 export const mutations = {
-  [types.SET_MACROS_UI_FLAG](_state, data) {
-    _state.uiFlags = {
-      ..._state.uiFlags,
+  [types.SET_MACROS_UI_FLAG]($state, data) {
+    $state.uiFlags = {
+      ...$state.uiFlags,
       ...data,
     };
   },
-  [types.ADD_MACRO]: MutationHelpers.create,
+  [types.ADD_MACRO]: MutationHelpers.setSingleRecord,
   [types.SET_MACROS]: MutationHelpers.set,
   [types.EDIT_MACRO]: MutationHelpers.update,
   [types.DELETE_MACRO]: MutationHelpers.destroy,

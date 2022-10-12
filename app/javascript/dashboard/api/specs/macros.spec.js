@@ -8,6 +8,7 @@ describe('#macrosAPI', () => {
     expect(macros).toHaveProperty('create');
     expect(macros).toHaveProperty('update');
     expect(macros).toHaveProperty('delete');
+    expect(macros).toHaveProperty('show');
     expect(macros.url).toBe('/api/v1/macros');
   });
 });

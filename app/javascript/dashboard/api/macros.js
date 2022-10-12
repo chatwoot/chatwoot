@@ -6,10 +6,6 @@ class MacrosAPI extends ApiClient {
     super('macros', { accountScoped: true });
   }
 
-  getSingleMacro(macroId) {
-    return axios.get(`${this.url}/${macroId}`);
-  }
-
   executeMacro({ macroId, conversationIds }) {
     return axios.post(`${this.url}/${macroId}/execute`, {
       conversation_ids: conversationIds,
