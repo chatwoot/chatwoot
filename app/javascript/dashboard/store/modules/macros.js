@@ -6,6 +6,7 @@ import { throwErrorMessage } from '../utils/api';
 export const state = {
   records: [],
   uiFlags: {
+    isFetchingItem: false,
     isFetching: false,
     isCreating: false,
     isDeleting: false,
@@ -38,16 +39,15 @@ export const actions = {
       commit(types.SET_MACROS_UI_FLAG, { isFetching: false });
     }
   },
-  // eslint-disable-next-line consistent-return
   getSingleMacro: async function getMacroById({ commit }, macroId) {
-    commit(types.SET_MACROS_UI_FLAG, { isFetching: true });
+    commit(types.SET_MACROS_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await MacrosAPI.show(macroId);
-      return response.data.payload;
+      commit(types.ADD_MACRO, response.data.payload);
     } catch (error) {
       // Ignore error
     } finally {
-      commit(types.SET_MACROS_UI_FLAG, { isFetching: false });
+      commit(types.SET_MACROS_UI_FLAG, { isFetchingItem: false });
     }
   },
   create: async function createMacro({ commit }, macrosObj) {
