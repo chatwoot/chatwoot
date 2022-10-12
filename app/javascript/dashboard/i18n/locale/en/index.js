@@ -18,6 +18,7 @@ import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
 import labelsMgmt from './labelsMgmt.json';
 import login from './login.json';
+import macros from './macros.json';
 import report from './report.json';
 import resetPassword from './resetPassword.json';
 import setNewPassword from './setNewPassword.json';
@@ -47,6 +48,7 @@ export default {
   ...integrations,
   ...labelsMgmt,
   ...login,
+  ...macros,
   ...report,
   ...resetPassword,
   ...setNewPassword,
