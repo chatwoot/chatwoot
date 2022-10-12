@@ -55,7 +55,7 @@ class Macro < ApplicationRecord
     files.map do |file|
       {
         id: file.id,
-        automation_rule_id: id,
+        macro_id: id,
         file_type: file.content_type,
         account_id: account_id,
         file_url: url_for(file),
