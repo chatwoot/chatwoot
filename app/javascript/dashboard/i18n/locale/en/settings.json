@@ -99,7 +99,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": ["Online", "Busy", "Offline"]
+        "STATUSES_LIST": [
+          "Online",
+          "Busy",
+          "Offline"
+        ]
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -231,7 +235,6 @@
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
-
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",

@@ -42,6 +42,7 @@ export default {
     ...integrationapps.routes,
     ...integrations.routes,
     ...labels.routes,
+    ...macros.routes,
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,
