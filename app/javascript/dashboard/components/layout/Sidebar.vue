@@ -73,15 +73,14 @@ export default {
 
   computed: {
     ...mapGetters({
+      currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
-      currentUser: 'getCurrentUser',
-      getAccount: 'accounts/getAccount',
-      globalConfig: 'globalConfig/get',
-      inboxes: 'inboxes/getInboxes',
-      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
@@ -106,8 +105,7 @@ export default {
       );
     },
     sideMenuConfig() {
-      const { features = {} } = this.getAccount(this.accountId);
-      return getSidebarItems(this.accountId, features);
+      return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;
