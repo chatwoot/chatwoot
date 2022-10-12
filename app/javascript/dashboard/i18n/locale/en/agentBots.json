@@ -2,7 +2,7 @@
   "AGENT_BOTS": {
     "HEADER": "Bots",
     "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>CSML Bots</b> <p>You can create your own custom bots using <a href='https://www.csml.dev/' target='_blank'>csml.dev</a>. Read more about csml in their docs <a href='https://docs.csml.dev/language/'>here</a>.</p><p>Bots will allow you to add more rich features to your conversations like buttons, and links pre configured right from chatwoot editor.</p>",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Bot Name",

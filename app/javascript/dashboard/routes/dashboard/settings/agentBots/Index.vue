@@ -13,7 +13,6 @@
               :key="agentBot.id"
               :agent-bot="agentBot"
               :index="index"
-              :is-deleting="loading[agentBot.id]"
               @delete="onDeleteAgentBot"
               @edit="onEditAgentBot"
             />
@@ -33,7 +32,7 @@
       class-names="button--fixed-right-top"
       icon="add-circle"
     >
-      <router-link to="csml/new" class="white-text">
+      <router-link :to="newAgentBotsURL" class="white-text">
         {{ $t('AGENT_BOTS.ADD.TITLE') }}
       </router-link>
     </woot-button>
@@ -47,26 +46,46 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { frontendURL } from '../../../../helper/URLHelper';
 import AgentBotRow from './components/AgentBotRow.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { AgentBotRow },
+  mixins: [alertMixin],
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       agentBots: 'agentBots/getBots',
       uiFlags: 'agentBots/getUIFlags',
     }),
+    newAgentBotsURL() {
+      return frontendURL(
+        `accounts/${this.accountId}/settings/agent-bots/csml/new`
+      );
+    },
   },
   mounted() {
     this.$store.dispatch('agentBots/get');
   },
   methods: {
-    async onDeleteAgentBot(id) {
+    async onDeleteAgentBot(bot) {
       const ok = await this.$refs.confirmDialog.showConfirmation();
       if (ok) {
-        await this.$store.dispatch('bots/delete', id);
-        this.showAlert(this.$t('BOT.DELETE.API.SUCCESS_MESSAGE'));
+        try {
+          await this.$store.dispatch('agentBots/delete', bot.id);
+          this.showAlert(this.$t('AGENT_BOTS.DELETE.API.SUCCESS_MESSAGE'));
+        } catch (error) {
+          this.showAlert(this.$t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
+        }
       }
+    },
+    onEditAgentBot(bot) {
+      this.$router.push(
+        frontendURL(
+          `accounts/${this.accountId}/settings/agent-bots/csml/${bot.id}`
+        )
+      );
     },
   },
 };

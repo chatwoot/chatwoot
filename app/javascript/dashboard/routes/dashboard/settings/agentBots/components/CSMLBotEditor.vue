@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="small-4 columns content-box full-height">
-        <form class="details-editor" @submit.prevent="">
+        <form class="details-editor" @submit.prevent="onSubmit">
           <div>
             <label :class="{ error: $v.bot.name.$error }">
               {{ $t('AGENT_BOTS.CSML_BOT_EDITOR.NAME.LABEL') }}
@@ -49,6 +49,12 @@ import { CsmlMonacoEditor } from '@clevy/vue-csml-monaco';
 
 export default {
   components: { CsmlMonacoEditor },
+  props: {
+    agentBot: {
+      type: Object,
+      default: () => {},
+    },
+  },
   validations: {
     bot: {
       name: { required },
@@ -58,9 +64,9 @@ export default {
   data() {
     return {
       bot: {
-        name: '',
-        description: '',
-        csmlContent: '',
+        name: this.agentBot.name || '',
+        description: this.agentBot.description || '',
+        csmlContent: this.agentBot.bot_config.csml_content || '',
       },
     };
   },
@@ -70,7 +76,10 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.$emit('submit', this.bot);
+      this.$emit('submit', {
+        id: this.agentBot.id || '',
+        ...this.bot,
+      });
     },
   },
 };

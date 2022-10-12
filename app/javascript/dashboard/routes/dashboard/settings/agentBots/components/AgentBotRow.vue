@@ -3,11 +3,9 @@
     <td class="agent-bot--details">
       <div class="agent-bot--link">
         {{ agentBot.name }}
+        (<agent-bot-type :bot-type="agentBot.bot_type" />)
       </div>
       <div class="agent-bot--description">
-        <div class="agent-bot--type">
-          <agent-bot-type :bot-type="agentBot.bot_type" />
-        </div>
         <show-more :text="agentBot.description" :limit="120" />
       </div>
     </td>

@@ -11,10 +11,15 @@ export default {
   methods: {
     async saveBot(bot) {
       try {
-        await this.$store.dispatch('bots/create', bot);
-        this.showAlert(this.$t('BOT.ADD.API.SUCCESS_MESSAGE'));
+        await this.$store.dispatch('agentBots/create', {
+          name: bot.name,
+          description: bot.description,
+          bot_type: 'csml',
+          bot_config: { csml_content: bot.csmlContent },
+        });
+        this.showAlert(this.$t('AGENT_BOTS.ADD.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('BOT.ADD.FORM.BOT_CONFIG.API_ERROR'));
+        this.showAlert(this.$t('AGENT_BOTS.ADD.FORM.BOT_CONFIG.API_ERROR'));
       }
     },
   },

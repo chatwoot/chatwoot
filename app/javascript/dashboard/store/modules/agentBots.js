@@ -76,7 +76,7 @@ export const actions = {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingItem: true });
     try {
       const { data } = await AgentBotsAPI.show(id);
-      commit(types.DELETE_AGENT_BOT, data);
+      commit(types.ADD_AGENT_BOT, data);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -92,7 +92,7 @@ export const mutations = {
       ...data,
     };
   },
-  [types.ADD_AGENT_BOT]: MutationHelpers.create,
+  [types.ADD_AGENT_BOT]: MutationHelpers.setSingleRecord,
   [types.SET_AGENT_BOTS]: MutationHelpers.set,
   [types.EDIT_AGENT_BOT]: MutationHelpers.update,
   [types.DELETE_AGENT_BOT]: MutationHelpers.destroy,
