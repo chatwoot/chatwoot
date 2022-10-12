@@ -1,4 +1,4 @@
-import { addClass, removeClass, toggleClass, wootOn } from './DOMHelpers';
+import { addClasses, removeClasses, toggleClass } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
 import { isExpandedView } from './settingsHelper';
 
@@ -41,14 +41,14 @@ export const createBubbleIcon = ({ className, src, target }) => {
 
 export const createBubbleHolder = hideMessageBubble => {
   if (hideMessageBubble) {
-    addClass(bubbleHolder, 'woot-hidden');
+    addClasses(bubbleHolder, 'woot-hidden');
   }
-  addClass(bubbleHolder, 'woot--bubble-holder');
+  addClasses(bubbleHolder, 'woot--bubble-holder');
   body.appendChild(bubbleHolder);
 };
 
 export const createNotificationBubble = () => {
-  addClass(notificationBubble, 'woot--notification');
+  addClasses(notificationBubble, 'woot--notification');
   return notificationBubble;
 };
 
@@ -71,15 +71,15 @@ export const onBubbleClick = (props = {}) => {
 };
 
 export const onClickChatBubble = () => {
-  wootOn(bubbleHolder, 'click', onBubbleClick);
+  bubbleHolder.addEventListener('click', onBubbleClick);
 };
 
 export const addUnreadClass = () => {
   const holderEl = document.querySelector('.woot-widget-holder');
-  addClass(holderEl, 'has-unread-view');
+  addClasses(holderEl, 'has-unread-view');
 };
 
 export const removeUnreadClass = () => {
   const holderEl = document.querySelector('.woot-widget-holder');
-  removeClass(holderEl, 'has-unread-view');
+  removeClasses(holderEl, 'has-unread-view');
 };
