@@ -1,7 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import AgentBotsAPI from '../../api/agentBots';
-import { parseAPIErrorResponse } from '../utils/api';
+import { throwErrorMessage } from '../utils/api';
 
 export const state = {
   records: [],
@@ -15,14 +15,14 @@ export const state = {
 };
 
 export const getters = {
-  getBots(_state) {
-    return _state.records;
+  getBots($state) {
+    return $state.records;
   },
-  getUIFlags(_state) {
-    return _state.uiFlags;
+  getUIFlags($state) {
+    return $state.uiFlags;
   },
-  getBot: _state => botId => {
-    const [bot] = _state.records.filter(record => record.id === Number(botId));
+  getBot: $state => botId => {
+    const [bot] = $state.records.filter(record => record.id === Number(botId));
     return bot || {};
   },
 };
@@ -45,7 +45,7 @@ export const actions = {
       const response = await AgentBotsAPI.create(agentBotObj);
       commit(types.ADD_AGENT_BOT, response.data);
     } catch (error) {
-      parseAPIErrorResponse(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isCreating: false });
     }
@@ -56,7 +56,7 @@ export const actions = {
       const response = await AgentBotsAPI.update(id, agentBotObj);
       commit(types.EDIT_AGENT_BOT, response.data);
     } catch (error) {
-      parseAPIErrorResponse(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: false });
     }
@@ -67,7 +67,7 @@ export const actions = {
       await AgentBotsAPI.delete(id);
       commit(types.DELETE_AGENT_BOT, id);
     } catch (error) {
-      parseAPIErrorResponse(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isDeleting: false });
     }
@@ -78,7 +78,7 @@ export const actions = {
       const { data } = await AgentBotsAPI.show(id);
       commit(types.DELETE_AGENT_BOT, data);
     } catch (error) {
-      parseAPIErrorResponse(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingItem: false });
     }
@@ -86,9 +86,9 @@ export const actions = {
 };
 
 export const mutations = {
-  [types.SET_AGENT_BOT_UI_FLAG](_state, data) {
-    _state.uiFlags = {
-      ..._state.uiFlags,
+  [types.SET_AGENT_BOT_UI_FLAG]($state, data) {
+    $state.uiFlags = {
+      ...$state.uiFlags,
       ...data,
     };
   },
