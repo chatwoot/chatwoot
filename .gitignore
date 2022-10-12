@@ -59,4 +59,5 @@ package-lock.json
 test/cypress/videos/*
 
 /config/master.key
+
 /config/*.enc
