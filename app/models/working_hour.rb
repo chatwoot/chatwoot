@@ -39,8 +39,9 @@ class WorkingHour < ApplicationRecord
   validate :close_after_open, unless: :closed_all_day?
   validate :open_all_day_and_closed_all_day
 
-  # We call it over inbox.working_hours.today, so first returns the current working hour
   def self.today
+    # While getting the day of the week, consider the timezone as well. `first` would 
+    # return the first working hour from the list of working hours available per week.
     inbox = first.inbox
     find_by(day_of_week: Time.zone.now.in_time_zone(inbox.timezone).to_date.wday)
   end
