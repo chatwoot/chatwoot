@@ -90,7 +90,7 @@ class Xmpp::Connection
 
   def rsm(document, after_id)
     Niceogiri::XML::Node.new(:set, document, 'http://jabber.org/protocol/rsm').tap do |rsm|
-      rsm << Niceogiri::XML::Node.new(:max, document, 'http://jabber.org/protocol/rsm').tap { |max| max.content = (EM.threadpool_size * 2).to_s }
+      rsm << Niceogiri::XML::Node.new(:max, document, 'http://jabber.org/protocol/rsm').tap { |max| max.content = (EM.threadpool_size * 5).to_s }
       rsm << Niceogiri::XML::Node.new(:after, document, 'http://jabber.org/protocol/rsm').tap { |max| max.content = after_id } if after_id
     end
   end
@@ -106,12 +106,21 @@ class Xmpp::Connection
       fin = reply.xpath('./ns:fin', ns: 'urn:xmpp:mam:2')&.first
       next unless fin
 
-      last = fin.xpath('./ns:set/ns:last', ns: 'http://jabber.org/protocol/rsm').first&.content
-      Xmpp::ProcessMessageService.new(@channel, nil, mam_id: last).record_last_mam_id if last
-      next if fin['complete'].to_s == 'true'
-
-      sync_mam(last)
+      handle_rsm_reply_when_idle(fin)
     end
+  end
+
+  def handle_rsm_reply_when_idle(fin)
+    unless EM.defers_finished?
+      EM.add_timer(0.1) { handle_rsm_reply_when_idle(fin) }
+      return
+    end
+
+    last = fin.xpath('./ns:set/ns:last', ns: 'http://jabber.org/protocol/rsm').first&.content
+    Xmpp::ProcessMessageService.new(@channel, nil, mam_id: last).record_last_mam_id if last
+    return if fin['complete'].to_s == 'true'
+
+    sync_mam(last)
   end
 
   def handle_forwarded_message(fwd, with: Xmpp::ProcessMessageService, **kwargs)
