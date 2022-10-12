@@ -2,9 +2,11 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} σινομιλίες επιλέχθηκαν",
     "AGENT_SELECT_LABEL": "Επιλογή πράκτορα",
-    "ASSIGN_CONFIRMATION_LABEL": "Είσαστε σίγουροι ότι θέλετε να αντιστοιχίσετε %{conversationCount} %{conversationLabel} στον",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Πίσω",
     "ASSIGN_LABEL": "Αντιστοίχιση",
+    "YES": "Ναι",
     "ASSIGN_AGENT_TOOLTIP": "Ανάθεση σε πράκτορα",
     "ASSIGN_SUCCESFUL": "Οι σινομιλίες αντιστοιχήθηκαν επιτυχώς",
     "ASSIGN_FAILED": "Αποτυχία στην αντιστοίχιση σινομιλιών, παρακαλώ δοκιμάστε αργότερα",
