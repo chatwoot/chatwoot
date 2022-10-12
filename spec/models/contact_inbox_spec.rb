@@ -66,11 +66,11 @@ RSpec.describe ContactInbox do
         expect(valid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio sms inbox. valid Regex (?-mix:^\\+\\d{1,14}\\z)']
+          ['Source invalid source id for twilio sms inbox. valid Regex (?-mix:^\\+\\d{1,15}\\z)']
         )
         expect(ci_without_plus_in_source_id.valid?).to be(false)
         expect(ci_without_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio sms inbox. valid Regex (?-mix:^\\+\\d{1,14}\\z)']
+          ['Source invalid source id for twilio sms inbox. valid Regex (?-mix:^\\+\\d{1,15}\\z)']
         )
       end
 
@@ -83,11 +83,11 @@ RSpec.describe ContactInbox do
         expect(valid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,14}\\z)']
+          ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,15}\\z)']
         )
         expect(ci_without_plus_in_source_id.valid?).to be(false)
         expect(ci_without_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,14}\\z)']
+          ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,15}\\z)']
         )
       end
     end
