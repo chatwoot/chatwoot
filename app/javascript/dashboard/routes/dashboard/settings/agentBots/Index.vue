@@ -51,9 +51,6 @@ import AgentBotRow from './components/AgentBotRow.vue';
 
 export default {
   components: { AgentBotRow },
-  data() {
-    return { loading: {} };
-  },
   computed: {
     ...mapGetters({
       agentBots: 'agentBots/getBots',

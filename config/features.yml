@@ -16,4 +16,4 @@
 - name: help_center
   enabled: true
 - name: agent_bots
-  enabled: true
+  enabled: false

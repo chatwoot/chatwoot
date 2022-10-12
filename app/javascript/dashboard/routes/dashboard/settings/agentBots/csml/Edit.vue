@@ -1,3 +1,6 @@
 <template>
-  <p>This is the edit page of agent bots</p>
+  <div>Component to edit CSML Bots</div>
 </template>
+<script>
+export default {};
+</script>

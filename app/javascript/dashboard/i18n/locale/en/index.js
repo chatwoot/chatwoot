@@ -1,5 +1,5 @@
 import advancedFilters from './advancedFilters.json';
-import agentBot from './agentBot.json';
+import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
 import attributesMgmt from './attributesMgmt.json';
 import automation from './automation.json';
@@ -12,6 +12,7 @@ import contactFilters from './contactFilters.json';
 import conversation from './conversation.json';
 import csatMgmtMgmt from './csatMgmt.json';
 import generalSettings from './generalSettings.json';
+import helpCenter from './helpCenter.json';
 import inboxMgmt from './inboxMgmt.json';
 import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
@@ -27,7 +28,7 @@ import whatsappTemplates from './whatsappTemplates.json';
 
 export default {
   ...advancedFilters,
-  ...agentBot,
+  ...agentBots,
   ...agentMgmt,
   ...attributesMgmt,
   ...automation,
@@ -40,6 +41,7 @@ export default {
   ...conversation,
   ...csatMgmtMgmt,
   ...generalSettings,
+  ...helpCenter,
   ...inboxMgmt,
   ...integrationApps,
   ...integrations,

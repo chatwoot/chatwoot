@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <csml-bot-editor @submit="saveBot" />
-  </div>
+  <csml-bot-editor @submit="saveBot" />
 </template>
 
 <script>

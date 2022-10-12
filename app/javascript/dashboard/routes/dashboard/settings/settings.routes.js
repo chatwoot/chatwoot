@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
-import agentBots from './agentBots/agentBot.routes';
+import agentBot from './agentBots/agentBot.routes';
 import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
 import billing from './billing/billing.routes';
@@ -31,10 +31,8 @@ export default {
     },
     ...account.routes,
     ...agent.routes,
-    ...agentBots.routes,
+    ...agentBot.routes,
     ...attributes.routes,
-    ...attributes.routes,
-    ...automation.routes,
     ...automation.routes,
     ...billing.routes,
     ...campaigns.routes,
