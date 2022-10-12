@@ -132,7 +132,9 @@ class Contact < ApplicationRecord
   def self.resolved_contacts
     where.not(email: [nil, '']).or(
       Current.account.contacts.where.not(phone_number: [nil, ''])
-    ).or(Current.account.contacts.where.not(identifier: [nil, '']))
+    ).or(Current.account.contacts.where.not(identifier: [nil, ''])).or(
+      Current.account.contacts.where.not("contacts.custom_attributes->>'jid' IS NULL")
+    )
   end
 
   def discard_invalid_attrs
