@@ -93,8 +93,8 @@ RSpec.describe WorkingHour do
     let(:inbox) { create(:inbox) }
 
     before do
-      Time.zone = "Australia/Sydney"
-      inbox.update(timezone: "Australia/Sydney")
+      Time.zone = 'Australia/Sydney'
+      inbox.update(timezone: 'Australia/Sydney')
       travel_to '10.10.2022 9:00 AEDT'
     end
 
