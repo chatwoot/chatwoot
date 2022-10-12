@@ -1,12 +1,6 @@
 /* eslint-disable global-require */
 const plugins = () => [
   require('babel-plugin-macros'),
-  [
-    require('@babel/plugin-proposal-class-properties').default,
-    {
-      loose: true,
-    },
-  ],
   [require('babel-plugin-transform-vue-jsx')],
 ];
 
@@ -28,7 +22,7 @@ module.exports = api => {
     presets: [
       [
         require('@babel/preset-env').default,
-        { useBuiltIns: 'usage', corejs: 3 },
+        { useBuiltIns: 'usage', corejs: '3.25' },
       ],
     ],
     plugins: plugins(),
