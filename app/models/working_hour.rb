@@ -40,7 +40,8 @@ class WorkingHour < ApplicationRecord
   validate :open_all_day_and_closed_all_day
 
   def self.today
-    find_by(day_of_week: Date.current.wday)
+    inbox = self.first.inbox
+    find_by(day_of_week: Time.zone.now.in_time_zone(inbox.timezone).to_date.wday)
   end
 
   def open_at?(time)
