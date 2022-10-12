@@ -6,98 +6,98 @@
       "SETTINGS_BUTTON": "الإعدادات",
       "NEW_BUTTON": "مقالة جديدة",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "نُشرت",
+        "DRAFT": "مسودة",
+        "ARCHIVED": "أرشفة"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "جميع المقالات",
+        "MINE": "مقالاتي",
+        "DRAFT": "مقالات مسودة",
+        "ARCHIVED": "المقالات المؤرشفة"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
+      "ALL_ARTICLES": "جميع المقالات",
       "PUBLISH_BUTTON": "نشر",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
+      "MOVE_TO_ARCHIVE_BUTTON": "نقل إلى الأرشيف",
       "PREVIEW": "معاينة",
       "ADD_TRANSLATION": "إضافة ترجمة",
       "OPEN_SIDEBAR": "فتح الشريط الجانبي",
       "CLOSE_SIDEBAR": "إغلاق الشريط الجانبي",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "SAVING": "جاري الحفظ...",
+      "SAVED": "تم الحفظ"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "إعدادات المقالة",
       "FORM": {
         "CATEGORY": {
           "LABEL": "الفئة",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "TITLE": "اختر الفئة",
+          "PLACEHOLDER": "اختر الفئة",
+          "NO_RESULT": "لم يتم العثور على فئة",
+          "SEARCH_PLACEHOLDER": "البحث عن فئة"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "المؤلف",
+          "TITLE": "اختر المؤلف",
+          "PLACEHOLDER": "اختر المؤلف",
+          "NO_RESULT": "لم يتم العثور على مؤلفين",
+          "SEARCH_PLACEHOLDER": "البحث عن المؤلف"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "العنوان الوصفي",
+          "PLACEHOLDER": "اضافة عنوان وصفي"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "وصف التعريف",
+          "PLACEHOLDER": "أضف وصفك للحصول على أفضل نتائج SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "علامات الوصف",
+          "PLACEHOLDER": "إضافة وسوم ميتا مفصولة بفاصلة..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "المقالات المؤرشفة",
+        "DELETE": "حذف المقال"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
+      "HEADER": "الصفحات",
+      "DEFAULT": "افتراضي",
+      "NEW_BUTTON": "بوابة جديدة",
       "ACTIVE_BADGE": "مفعل",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "CHOOSE_LOCALE_LABEL": "اختر لغة محلية",
+      "LOADING_MESSAGE": "جاري تحميل البوابات ...",
+      "ARTICLES_LABEL": "المقالات",
+      "NO_PORTALS_MESSAGE": "لا توجد بوابات متاحة",
+      "ADD_NEW_LOCALE": "إضافة لغة جديدة",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "TITLE": "الصفحات",
+        "PORTAL_SETTINGS": "إعدادات البوابة",
+        "SUBTITLE": "لديك بوابات متعددة ويمكن أن تحتوي على مواقع مختلفة لكل بوابة.",
         "CANCEL_BUTTON_LABEL": "إلغاء",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "اختر لغة محلية"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "COUNT_LABEL": "المقالات",
+            "ADD": "إضافة لغة",
+            "VISIT": "زيارة الموقع",
             "SETTINGS": "الإعدادات",
             "DELETE": "حذف"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "اعدادات البوابة",
             "ITEMS": {
               "NAME": "الاسم",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "DOMAIN": "نطاق مخصص",
+              "SLUG": "وصف مختصر",
+              "TITLE": "عنوان البوابة",
+              "THEME": "لون القالب",
+              "SUB_TEXT": "النص الفرعي للبوابة"
             }
           },
           "AVAILABLE_LOCALES": {
@@ -109,7 +109,7 @@
               "CATEGORIES": "No. of categories",
               "SWAP": "Swap",
               "DELETE": "حذف",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "افتراضي"
             }
           }
         },
@@ -152,7 +152,7 @@
               "EDIT": "Edit category",
               "DELETE": "Delete category"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "لم يتم العثور على فئات"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -206,113 +206,113 @@
         "NAME": {
           "LABEL": "الاسم",
           "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "HELP_TEXT": "الاسم سيتم مشاهدتة من جميع من جميع زوار الصفحة.",
           "ERROR": "الاسم مطلوب"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "LABEL": "وصف مختصر",
+          "PLACEHOLDER": "وصف مختصر لرابط البوابة",
+          "ERROR": "الوصف مطلوب"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "LABEL": "نطاق مخصص",
+          "PLACEHOLDER": "نطاق البوابة المخصص",
+          "HELP_TEXT": "أضف فقط إذا كنت ترغب في استخدام نطاق مخصص للبوابات الخاصة بك.",
+          "ERROR": "النطاق المخصص مطلوب"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "LABEL": "رابط الصفحة الرئيسية",
+          "PLACEHOLDER": "رابط الصفحة الرئيسية للبوابة",
+          "HELP_TEXT": "الرابط المستخدم للعودة من البوابة إلى الصفحة الرئيسية.",
+          "ERROR": "رابط الصفحة الرئيسية مطلوب"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "لون قالب البوابة",
+          "HELP_TEXT": "هذا اللون سيظهر كلون للبوابة."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "عنوان الصفحة",
+          "PLACEHOLDER": "عنوان البوابة",
+          "HELP_TEXT": "سيتم استخدام عنوان الصفحة في البوابة التي تواجه الجمهور.",
+          "ERROR": "العنوان مطلوب"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "نص رأس الصفحة",
+          "PLACEHOLDER": "نص رأس البوابة",
+          "HELP_TEXT": "سيتم استخدام عنوان الصفحة في البوابة التي تواجه الجمهور.",
+          "ERROR": "نص رأس البوابة مطلوب"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "تم إنشاء البوابة بنجاح.",
+          "ERROR_MESSAGE_FOR_BASIC": "تعذر إنشاء البوابة. حاول مرة أخرى.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "تم تحديث البوابة بنجاح.",
+          "ERROR_MESSAGE_FOR_UPDATE": "تعذر تحديث البوابة. حاول مرة أخرى."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
-        "PORTAL": "Portal",
+        "TITLE": "إضافة لغة جديدة",
+        "SUB_TITLE": "هذا يضيف لغة جديدة إلى قائمة الترجمة المتاحة لديك.",
+        "PORTAL": "البوابة",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "اللغة",
+          "PLACEHOLDER": "اختر لغة محلية",
+          "ERROR": "اللغة مطلوبة"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
+          "CREATE": "إنشاء لغة",
           "CANCEL": "إلغاء"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "تمت إضافة اللغة بنجاح",
+          "ERROR_MESSAGE": "غير قادر على إضافة اللغة . حاول مرة أخرى."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "تم تحديث اللغة الغة الإفتراضية بنجاح",
+          "ERROR_MESSAGE": "غير قادر على تحديث اللغة الافتراضية. حاول مرة أخرى."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "تم إزالة اللغة من البوابة بنجاح",
+          "ERROR_MESSAGE": "غير قادر على إزالة اللغة من البوابة. حاول مرة أخرى."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "جاري تحميل المقالات...",
+      "404": "لا توجد مقالات تطابق بحثك 🔍",
+      "NO_ARTICLES": "لا توجد مقالات متوفرة",
       "HEADERS": {
         "TITLE": "العنوان",
         "CATEGORY": "الفئة",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "عدد القراءات",
         "STATUS": "الحالة",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "آخر تعديل"
       },
       "COLUMNS": {
         "BY": "بواسطة"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "جاري تحميل المقالات...",
+      "TITLE_PLACEHOLDER": "عنوان المقالة يذهب هنا",
+      "CONTENT_PLACEHOLDER": "اكتب مقالك هنا",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "حدث خطأ أثناء حفظ المقالة"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article publishied successfully"
+        "ERROR": "حدث خطأ أثناء نشر المقالة",
+        "SUCCESS": "تم نشر المقالة بنجاح"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "حدث خطأ أثناء نشر المقالة",
+        "SUCCESS": "تم أرشفة المقالة بنجاح"
       }
     },
     "DELETE_ARTICLE": {

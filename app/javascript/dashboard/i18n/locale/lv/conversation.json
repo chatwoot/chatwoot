@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Ierakstīt audio",
       "TIP_AUDIORECORDER_PERMISSION": "Atļaut piekļuvi pie audio",
       "TIP_AUDIORECORDER_ERROR": "Nevarēja atvērt audio",
-      "ENTER_TO_SEND": "Enter, lai nosūtītu",
       "DRAG_DROP": "Velciet un nometiet šeit, lai pievienotu",
       "START_AUDIO_RECORDING": "Sākt audio ierakstīšanu",
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
-      "DELETE": "Dzēst"
+      "DELETE": "Dzēst",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

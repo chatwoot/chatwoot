@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Εγγραφή ήχου",
       "TIP_AUDIORECORDER_PERMISSION": "Να επιτρέπεται η πρόσβαση στον ήχο",
       "TIP_AUDIORECORDER_ERROR": "Αδυναμία ανοίγματος ήχου",
-      "ENTER_TO_SEND": "Εισαγωγή για αποστολή",
       "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
       "START_AUDIO_RECORDING": "Έναρξη ηχογράφησης",
       "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Αντιγραφή",
-      "DELETE": "Διαγραφή"
+      "DELETE": "Διαγραφή",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

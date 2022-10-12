@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Optag lyd",
       "TIP_AUDIORECORDER_PERMISSION": "Tillad adgang til lyd",
       "TIP_AUDIORECORDER_ERROR": "Kunne ikke åbne lyden",
-      "ENTER_TO_SEND": "Indtast for at sende",
       "DRAG_DROP": "Træk og slip her for at vedhæfte",
       "START_AUDIO_RECORDING": "Start lydoptagelse",
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiér",
-      "DELETE": "Slet"
+      "DELETE": "Slet",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

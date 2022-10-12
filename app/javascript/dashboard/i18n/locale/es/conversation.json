@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Grabar audio",
       "TIP_AUDIORECORDER_PERMISSION": "Permitir el acceso a audio",
       "TIP_AUDIORECORDER_ERROR": "No se pudo abrir el audio",
-      "ENTER_TO_SEND": "Ingresar para enviar",
       "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
       "START_AUDIO_RECORDING": "Iniciar grabación de audio",
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiar",
-      "DELETE": "Eliminar"
+      "DELETE": "Eliminar",
+      "CREATE_A_CANNED_RESPONSE": "Añadir a respuestas predefinidas"
     }
   },
   "EMAIL_TRANSCRIPT": {
