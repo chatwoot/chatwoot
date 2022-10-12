@@ -13,3 +13,9 @@
   enabled: false
 - name: email_continuity_on_api_channel
   enabled: false
+- name: help_center
+  enabled: true
+- name: agent_bots
+  enabled: false
+- name: macros
+  enabled: false

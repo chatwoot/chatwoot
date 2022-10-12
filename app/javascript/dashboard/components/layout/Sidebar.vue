@@ -80,6 +80,7 @@ export default {
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
@@ -108,9 +109,21 @@ export default {
     },
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;
-      return menuItems.filter(menuItem =>
-        menuItem.roles.includes(this.currentRole)
-      );
+      return menuItems.filter(menuItem => {
+        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+
+        if (!isAvailableForTheUser) {
+          return false;
+        }
+
+        if (menuItem.featureFlag) {
+          return this.isFeatureEnabledonAccount(
+            this.accountId,
+            menuItem.featureFlag
+          );
+        }
+        return true;
+      });
     },
     activeSecondaryMenu() {
       const { secondaryMenu } = this.sideMenuConfig;
@@ -285,8 +298,6 @@ export default {
 }
 
 .secondary-menu .nested.vertical.menu {
-  overflow-y: auto;
-  height: 100%;
   margin-left: var(--space-small);
 }
 </style>

@@ -19,6 +19,7 @@ defaults: &defaults
       - COVERAGE: true
       - LOG_LEVEL: warn
   parallelism: 4
+  resource_class: large
 
 jobs:
   build:
@@ -122,9 +123,11 @@ jobs:
             mkdir -p coverage
             ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --profile 10 \
-                              --out test-results/rspec/rspec.xml \
+            bundle exec rspec --format progress \
+                              --format RspecJunitFormatter \
+                              --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
+          no_output_timeout: 30m
       - run:
           name: Code Climate Test Coverage
           command: |
@@ -137,7 +140,7 @@ jobs:
             ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
             yarn test:coverage --profile 10 \
-                               --out test-results/frontend_specs/rspec.xml \
+                               --out ~/tmp/test-results/yarn.xml \
                                -- ${TESTFILES}
       - run:
           name: Code Climate Test Coverage

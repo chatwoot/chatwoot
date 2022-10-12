@@ -75,6 +75,46 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(Conversation.first.status).to eq('open')
       end
 
+      it 'Bulk remove assignee id from conversations' do
+        Conversation.first.update(assignee_id: agent_1.id)
+        Conversation.second.update(assignee_id: agent_2.id)
+        params = { type: 'Conversation', fields: { assignee_id: nil }, ids: Conversation.first(3).pluck(:display_id) }
+
+        expect(Conversation.first.status).to eq('open')
+        expect(Conversation.first.assignee_id).to eq(agent_1.id)
+        expect(Conversation.second.assignee_id).to eq(agent_2.id)
+
+        perform_enqueued_jobs do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
+        end
+
+        expect(Conversation.first.assignee_id).to be_nil
+        expect(Conversation.second.assignee_id).to be_nil
+        expect(Conversation.first.status).to eq('open')
+      end
+
+      it 'Do not bulk update status to nil' do
+        Conversation.first.update(assignee_id: agent_1.id)
+        Conversation.second.update(assignee_id: agent_2.id)
+        params = { type: 'Conversation', fields: { status: nil }, ids: Conversation.first(3).pluck(:display_id) }
+
+        expect(Conversation.first.status).to eq('open')
+
+        perform_enqueued_jobs do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: params
+
+          expect(response).to have_http_status(:success)
+        end
+
+        expect(Conversation.first.status).to eq('open')
+      end
+
       it 'Bulk update conversation status and assignee id' do
         params = { type: 'Conversation', fields: { assignee_id: agent_1.id, status: 'snoozed' }, ids: Conversation.first(3).pluck(:display_id) }
 

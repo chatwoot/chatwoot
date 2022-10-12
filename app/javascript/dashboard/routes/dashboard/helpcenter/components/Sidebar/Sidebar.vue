@@ -48,6 +48,14 @@ export default {
       type: String,
       default: '',
     },
+    portalSlug: {
+      type: String,
+      default: '',
+    },
+    localeSlug: {
+      type: String,
+      default: '',
+    },
     accessibleMenuItems: {
       type: Array,
       default: () => [],
@@ -68,8 +76,7 @@ export default {
       );
     },
     portalLink() {
-      const slug = this.$route.params.portalSlug;
-      return `/public/api/v1/portals/${slug}`;
+      return `/hc/${this.portalSlug}/${this.localeSlug}`;
     },
   },
   methods: {
@@ -89,6 +96,8 @@ export default {
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/woot';
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
@@ -107,6 +116,11 @@ export default {
 
   &:hover {
     overflow: auto;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
   }
 }
 </style>

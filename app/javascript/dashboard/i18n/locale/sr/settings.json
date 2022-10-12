@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Vaša adresa e-pošte je vaš identitet i koristi se za prijavu."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Potpis privatne poruke",
         "NOTE": "Napravite potpis privatne poruke koji će se dodavati svakoj poruci koju pošaljete u prijemno sanduče e-pošte. Koristite bogati uređivač sadržaja da bi ste napravili personalizovan potpis.",
@@ -197,6 +212,7 @@
     "REPORTS_OVERVIEW": "Pregled",
     "FACEBOOK_REAUTHORIZE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",
     "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "Svi članci",
       "MY_ARTICLES": "Moji članci",
       "DRAFT": "Nacrt",
@@ -256,7 +272,6 @@
       "GO_TO_SETTINGS": "Idi na podešavanja",
       "SWITCH_CONVERSATION_STATUS": "Prebaci se na sledeći status razgovora",
       "SWITCH_TO_PRIVATE_NOTE": "Prebaci se na privatnu belešku",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Uključi uređivač bogatog sadržaja",
       "SWITCH_TO_REPLY": "Prebaci se na odgovor",
       "TOGGLE_SNOOZE_DROPDOWN": "Uključite padajućim menijom odlaganja"
     },

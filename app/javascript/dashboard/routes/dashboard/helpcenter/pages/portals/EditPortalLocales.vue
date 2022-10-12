@@ -140,13 +140,13 @@ export default {
   width: 100%;
   background: var(--white);
   height: 100%;
-  padding: 0 var(--space-medium);
+  padding: 0 0 0 var(--space-normal);
   .button-container {
     display: flex;
     justify-content: flex-end;
   }
   .locale-container {
-    margin-top: var(--space-large);
+    margin-top: var(--space-normal);
   }
 }
 </style>

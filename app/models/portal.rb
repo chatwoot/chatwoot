@@ -18,7 +18,8 @@
 #
 # Indexes
 #
-#  index_portals_on_slug  (slug) UNIQUE
+#  index_portals_on_custom_domain  (custom_domain) UNIQUE
+#  index_portals_on_slug           (slug) UNIQUE
 #
 class Portal < ApplicationRecord
   include Rails.application.routes.url_helpers
@@ -37,9 +38,11 @@ class Portal < ApplicationRecord
            source: :user
   has_one_attached :logo
 
+  before_validation -> { normalize_empty_string_to_nil(%i[custom_domain homepage_link]) }
   validates :account_id, presence: true
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
+  validates :custom_domain, uniqueness: true, allow_nil: true
   validate :config_json_format
 
   accepts_nested_attributes_for :members

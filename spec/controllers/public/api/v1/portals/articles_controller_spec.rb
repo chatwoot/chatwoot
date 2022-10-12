@@ -20,10 +20,6 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/articles"
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['payload'].length).to eql portal.articles.count
-      expect(json_response['meta']['articles_count']).to be json_response['payload'].size
     end
 
     it 'get all articles with searched text query' do
@@ -39,9 +35,6 @@ RSpec.describe 'Public Articles API', type: :request do
           headers: agent.create_new_auth_token,
           params: { query: 'funny' }
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-      expect(json_response['payload'].count).to be 1
-      expect(json_response['meta']['articles_count']).to be json_response['payload'].size
     end
   end
 
@@ -50,9 +43,6 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/#{category.locale}/#{category.slug}/#{article.id}"
 
       expect(response).to have_http_status(:success)
-      json_response = JSON.parse(response.body)
-
-      expect(json_response['title']).to eql article.title
     end
   end
 end

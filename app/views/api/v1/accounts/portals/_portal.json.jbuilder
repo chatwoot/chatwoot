@@ -11,7 +11,7 @@ json.archived portal.archived
 json.config do
   json.allowed_locales do
     json.array! portal.config['allowed_locales'].each do |locale|
-      json.partial! 'api/v1/models/portal_config.json.jbuilder', locale: locale, portal: portal
+      json.partial! 'api/v1/models/portal_config', formats: [:json], locale: locale, portal: portal
     end
   end
 end
@@ -21,7 +21,7 @@ json.logo portal.file_base_data if portal.logo.present?
 json.portal_members do
   if portal.members.any?
     json.array! portal.members.each do |member|
-      json.partial! 'api/v1/models/agent.json.jbuilder', resource: member
+      json.partial! 'api/v1/models/agent', formats: [:json], resource: member
     end
   end
 end
