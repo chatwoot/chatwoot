@@ -1,0 +1,9 @@
+<%= render "hero", portal: @portal %>
+
+<div class="max-w-4xl w-full flex-grow mx-auto py-16">
+  <div class="grid grid-cols-2 gap-x-32 gap-y-12">
+    <% @categories.each do |category| %>
+      <%= render "category-block", category: category, portal: @portal %>
+    <% end %>
+  </div>
+</div>

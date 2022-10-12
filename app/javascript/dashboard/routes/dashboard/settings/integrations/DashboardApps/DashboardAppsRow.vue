@@ -1,7 +1,13 @@
 <template>
   <tr>
-    <td>{{ app.title }}</td>
-    <td>{{ app.content[0].url }}</td>
+    <td>
+      {{ app.title }}
+    </td>
+    <td class="dashboard-app-label-url">
+      <span class="text-truncate">
+        {{ app.content[0].url }}
+      </span>
+    </td>
     <td class="button-wrapper">
       <woot-button
         v-tooltip.top="
@@ -43,3 +49,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.dashboard-app-label-url {
+  position: relative;
+  width: 50%;
+  &:before {
+    content: '&nbsp;';
+    visibility: hidden;
+  }
+  span {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+}
+</style>

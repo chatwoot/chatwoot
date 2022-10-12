@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Izaberite razgovor sa leve strane",
+    "CSAT_REPLY_MESSAGE": "Molim vas ocenite ovaj razgovor",
     "404": "Izvinite, ne možemo da pronađemo razgovor. Molim vas pokušajte ponovo",
     "SWITCH_VIEW_LAYOUT": "Promeni raspored",
     "DASHBOARD_APP_TAB_MESSAGES": "Poruke",
@@ -72,7 +73,22 @@
       },
       "ASSIGN_AGENT": "Dodeli agenta",
       "ASSIGN_LABEL": "Dodeli oznaku",
-      "AGENTS_LOADING": "Učitavanje agenata..."
+      "AGENTS_LOADING": "Učitavanje agenata...",
+      "ASSIGN_TEAM": "Dodeli tim",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Razgovor sa ID %{conversationId} je dodeljen \"%{agentName}\"",
+          "FAILED": "Nije bilo moguće dodeliti agenta. Molim vas pokušajte ponovo."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Dodeljena je oznaka # %{labelName} razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti oznaku. Molim vas pokušajte ponovo."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Dodeljen je tim \"%{team}\" razgovoru sa id %{conversationId}",
+          "FAILED": "Nije bilo moguće dodeliti tim. Molim vas pokušajte ponovo."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Potpis poruke",
@@ -95,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Snimi zvuk",
       "TIP_AUDIORECORDER_PERMISSION": "Dozvoli pristup zvuku",
       "TIP_AUDIORECORDER_ERROR": "Nije moguće pristupiti zvuku",
-      "ENTER_TO_SEND": "Enter za slanje",
       "DRAG_DROP": "Prevuci i pusti za dodavanje",
       "START_AUDIO_RECORDING": "Pokreni snimanje zvuka",
       "STOP_AUDIO_RECORDING": "Zaustavi snimanje zvuka",
@@ -122,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
     "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
     "CHANGE_TEAM": "Tim razgovora je promenjen",
-    "FILE_SIZE_LIMIT": "Datoteka premašuje ograničenje priloga od {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",
@@ -135,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiraj",
-      "DELETE": "Izbriši"
+      "DELETE": "Izbriši",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

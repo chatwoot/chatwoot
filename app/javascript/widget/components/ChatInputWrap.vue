@@ -189,7 +189,12 @@ export default {
 }
 
 .emoji-dialog {
-  right: $space-one;
+  right: $space-smaller;
+  top: -278px;
+
+  &::before {
+    right: $space-one;
+  }
 }
 
 .button-wrap {

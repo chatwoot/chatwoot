@@ -32,6 +32,11 @@ RSpec.describe Portal, type: :model do
         expect(portal).not_to be_valid
         expect(portal.errors.full_messages[0]).to eq('Cofig in portal on some_other_key is not supported.')
       end
+
+      it 'converts empty string to nil' do
+        portal.update(custom_domain: '')
+        expect(portal.custom_domain).to be_nil
+      end
     end
   end
 end

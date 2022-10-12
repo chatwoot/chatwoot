@@ -46,7 +46,7 @@
     >
       <router-view />
     </transition>
-    <branding />
+    <branding :disable-branding="disableBranding" />
   </div>
 </template>
 <script>
@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       showPopoutButton: false,
+      disableBranding: window.chatwootWebChannel.disableBranding || false,
     };
   },
   computed: {

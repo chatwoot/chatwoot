@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
+    "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените разговор",
     "404": "Мы не можем найти разговор. Пожалуйста, попробуйте еще раз",
     "SWITCH_VIEW_LAYOUT": "Изменить раскладку",
     "DASHBOARD_APP_TAB_MESSAGES": "Сообщения",
@@ -72,7 +73,22 @@
       },
       "ASSIGN_AGENT": "Назначить агента",
       "ASSIGN_LABEL": "Назначить метки",
-      "AGENTS_LOADING": "Загрузка агентов..."
+      "AGENTS_LOADING": "Загрузка агентов...",
+      "ASSIGN_TEAM": "Назначить команду",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "ID разговора %{conversationId} присвоен \"%{agentName}\"",
+          "FAILED": "Не удалось назначить агента. Пожалуйста, попробуйте еще раз."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{labelName} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить метку. Пожалуйста, попробуйте еще раз."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Назначена метка #%{team} в разговор id %{conversationId}",
+          "FAILED": "Не удалось назначить команду. Пожалуйста, попробуйте еще раз."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "Подпись сообщения",
@@ -95,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Записать аудио",
       "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
       "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
-      "ENTER_TO_SEND": "Введите чтобы отправить",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
       "START_AUDIO_RECORDING": "Начать запись аудио",
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
@@ -118,11 +133,11 @@
     "CHANGE_STATUS": "Статус разговора изменен",
     "CHANGE_STATUS_FAILED": "Не удалось изменить статус диалога",
     "CHANGE_AGENT": "Назначенный оператор изменен",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "Не удалось изменить назначение",
+    "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
+    "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
-    "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+    "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
@@ -135,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "DELETE": "Удалить"
+      "DELETE": "Удалить",
+      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы"
     }
   },
   "EMAIL_TRANSCRIPT": {

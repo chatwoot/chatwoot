@@ -21,14 +21,6 @@
 #  index_csat_survey_responses_on_conversation_id    (conversation_id)
 #  index_csat_survey_responses_on_message_id         (message_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
-#  fk_rails_...  (assigned_agent_id => users.id) ON DELETE => cascade
-#  fk_rails_...  (contact_id => contacts.id) ON DELETE => cascade
-#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
-#  fk_rails_...  (message_id => messages.id) ON DELETE => cascade
-#
 class CsatSurveyResponse < ApplicationRecord
   belongs_to :account
   belongs_to :conversation

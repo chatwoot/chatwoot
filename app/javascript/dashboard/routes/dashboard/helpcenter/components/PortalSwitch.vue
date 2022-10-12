@@ -4,42 +4,63 @@
     <div class="actions-container">
       <header>
         <div>
-          <h2 class="portal-title">{{ portal.name }}</h2>
+          <h3 class="sub-block-title portal-title">{{ portal.name }}</h3>
           <p class="portal-count">
-            {{ portal.articles_count }}
+            {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
         </div>
-        <span v-if="active" class="badge">{{
-          $t('HELP_CENTER.PORTAL.ACTIVE_BADGE')
-        }}</span>
+        <woot-label
+          v-if="active"
+          variant="smooth"
+          size="small"
+          color-scheme="success"
+          :title="$t('HELP_CENTER.PORTAL.ACTIVE_BADGE')"
+        />
       </header>
       <div class="portal-locales">
-        <h2 class="locale-title">
+        <h5 class="locale-title sub-block-title">
           {{ $t('HELP_CENTER.PORTAL.CHOOSE_LOCALE_LABEL') }}
-        </h2>
+        </h5>
         <ul>
-          <li v-for="locale in portal.locales" :key="locale.code">
-            <label :for="`locale-${locale.code}`" class="locale-item">
-              <input
-                :id="`locale-${locale.code}`"
-                v-model="selectedLocale"
-                type="radio"
-                name="locale"
-                :value="locale.code"
-              />
-              <div>
-                <p>{{ locale.name }}</p>
-                <span>
-                  {{ locale.articles_count }}
-                  {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
-                  {{ locale.code }}
-                </span>
+          <li v-for="locale in locales" :key="locale.code">
+            <woot-button
+              :variant="
+                `locale-item ${
+                  isLocaleActive(locale.code, activePortalSlug)
+                    ? 'smooth'
+                    : 'clear'
+                }`
+              "
+              size="large"
+              color-scheme="secondary"
+              @click="event => onClick(event, locale.code, portal)"
+            >
+              <div class="locale-content">
+                <div class="meta">
+                  <h6 class="text-block-title text-left locale-name">
+                    <span>
+                      {{ localeName(locale.code) }}
+                    </span>
+                    <span
+                      v-if="isLocaleDefault(locale.code)"
+                      class="fs-small text-muted"
+                    >
+                      {{ `(${$t('HELP_CENTER.PORTAL.DEFAULT')})` }}
+                    </span>
+                  </h6>
+
+                  <span class="locale-meta">
+                    {{ locale.articles_count }}
+                    {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -
+                    {{ locale.code }}
+                  </span>
+                </div>
+                <div v-if="isLocaleActive(locale.code, activePortalSlug)">
+                  <fluent-icon icon="checkmark" class="locale__radio" />
+                </div>
               </div>
-            </label>
-          </li>
-          <li>
-            <a>+ {{ $t('HELP_CENTER.PORTAL.ADD_NEW_LOCALE') }}</a>
+            </woot-button>
           </li>
         </ul>
       </div>
@@ -49,10 +70,13 @@
 
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
+import portalMixin from '../mixins/portalMixin';
+
 export default {
   components: {
     thumbnail,
   },
+  mixins: [portalMixin],
   props: {
     portal: {
       type: Object,
@@ -62,14 +86,59 @@ export default {
       type: Boolean,
       default: false,
     },
+    activePortalSlug: {
+      type: String,
+      default: '',
+    },
+    activeLocale: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
-      selectedLocale: '',
+      selectedLocale: null,
     };
   },
+  computed: {
+    locales() {
+      return this.portal?.config?.allowed_locales;
+    },
+    articlesCount() {
+      return this.portal?.meta?.all_articles_count;
+    },
+  },
   mounted() {
-    this.selectedLocale = this.portal.locales[0].code;
+    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
+  },
+  methods: {
+    fetchPortalsAndItsCategories() {
+      this.$store.dispatch('portals/index').then(() => {
+        this.$store.dispatch('categories/index', {
+          portalSlug: this.portal.slug,
+        });
+      });
+    },
+    onClick(event, code, portal) {
+      event.preventDefault();
+      this.fetchPortalsAndItsCategories();
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: portal.slug,
+          locale: code,
+        },
+      });
+      this.$emit('open-portal-page');
+    },
+    isLocaleActive(code, slug) {
+      const isPortalActive = this.portal.slug === slug;
+      const isLocaleActive = this.activeLocale === code;
+      return isPortalActive && isLocaleActive;
+    },
+    isLocaleDefault(code) {
+      return this.portal?.meta?.default_locale === code;
+    },
   },
 };
 </script>
@@ -86,6 +155,7 @@ export default {
 
   &.active {
     border: 1px solid var(--w-400);
+    background: var(---25);
   }
 
   .actions-container {
@@ -106,59 +176,71 @@ export default {
       }
 
       .portal-title {
-        color: var(--s-900);
-        font-size: var(--font-size-medium);
-        font-weight: var(--font-weight-bold);
-        margin-bottom: 0;
+        margin-bottom: var(--space-micro);
       }
 
       .portal-count {
         font-size: var(--font-size-mini);
         margin-bottom: 0;
-        color: var(--s-500);
+        color: var(--s-600);
       }
     }
 
     .portal-locales {
-      .locale-title {
-        color: var(--s-600);
-        font-size: var(--font-size-default);
-        font-weight: var(--font-weight-medium);
+      .locale-name {
+        margin-bottom: var(--space-micro);
+      }
+
+      .locale-content {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
       }
 
       ul {
         list-style: none;
         padding: 0;
         margin: 0;
+      }
 
-        .locale-item {
-          display: flex;
-          align-items: flex-start;
-          margin-bottom: var(--space-smaller);
-          cursor: pointer;
-          padding: var(--space-smaller);
-          border-radius: var(--border-radius-normal);
+      .locale__radio {
+        width: var(--space-large);
+        margin-top: var(--space-tiny);
+        color: var(--g-600);
+      }
 
-          &:hover {
-            background-color: var(--w-25);
-          }
-
-          p {
-            margin-bottom: 0;
-          }
-
-          span {
-            color: var(--s-500);
-            font-size: var(--font-size-small);
-          }
-        }
+      .add-locale-wrap {
+        margin-top: var(--spacing-small);
       }
     }
   }
-}
-label > [type='radio'] {
-  margin-bottom: 0;
-  margin-top: var(--space-smaller);
-  margin-right: var(--space-one);
+
+  .locale-item {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--space-smaller) var(--space-normal);
+    border-radius: var(--border-radius-normal);
+    width: 100%;
+    margin-bottom: var(--space-small);
+
+    p {
+      margin-bottom: 0;
+      text-align: left;
+    }
+
+    .locale-meta {
+      display: flex;
+      color: var(--s-600);
+      font-size: var(--font-size-small);
+      text-align: left;
+      line-height: var(--space-normal);
+      width: 100%;
+    }
+
+    .meta {
+      flex-grow: 1;
+    }
+  }
 }
 </style>

@@ -17,135 +17,135 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 sr-Latn:
-  hello: "Hello world"
+  hello: "Zdravo svete"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Opa! Zahtev za resetovanjem lozinke je uspešan. Proverite vašu e-poštu za uputstvo.
+    reset_password_failure: O ne! Nismo mogli da pronađemo nijednog korisnika sa navedenom e-poštom.
   errors:
     validations:
-      presence: must not be blank
+      presence: ne sme biti prazno
     webhook:
-      invalid: Invalid events
+      invalid: Neispravni događaji
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Ne dozvoljavamo potrošne e-pošte
+      invalid_email: Uneli ste neispravnu e-poštu
+      email_already_exists: "Već ste registrovali nalog sa %{email}"
+      failed: Registracija nije uspela
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Neispravan tip podatka
     contacts:
       import:
-        failed: File is blank
+        failed: Datoteka je prazna
       email:
-        invalid: Invalid email
+        invalid: Neispravna e-pošta
       phone_number:
-        invalid: should be in e164 format
+        invalid: treba biti u e164 formatu
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: treba biti jedinstvena u kategoriji i portalu
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
+        socket_error: Molim vas proverite vezu sa mrežom, IMAP adresu i pokušajte ponovo.
+        no_response_error: Molim vas proverite IMAP kredencijale i pokušajte ponovo.
+        host_unreachable_error: Domaćin je nedostupan, Molim vas proverite IMAP adresu, IMAP port i pokušajte ponovo.
+        connection_timed_out_error: Vreme za povezivanje je isteklo za %{address}:%{port}
+        connection_closed_error: Povezivanje je prekinuto.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: ne treba početi ili se završiti sa simbolima i ne treba da sadrži < > / \ @ karaktere.
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Period izveštaja %{since} do %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Naziv agenta
+      conversations_count: Broj razgovora
+      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
+      avg_resolution_time: Prosečno vreme rešavanja (minuti)
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      inbox_name: Naziv prijemnog sandučeta
+      inbox_type: Vrsta prijemnog sandučeta
+      conversations_count: Broj razgovora
+      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
+      avg_resolution_time: Prosečno vreme rešavanja (minuti)
     label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      label_title: Oznaka
+      conversations_count: Broj razgovora
+      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
+      avg_resolution_time: Prosečno vreme rešavanja (minuti)
     team_csv:
       team_name: Naziv tima
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: day
+      conversations_count: Broj razgovora
+      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
+      avg_resolution_time: Prosečno vreme rešavanja (minuti)
+    default_group_by: dan
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Naziv kontakta
+        contact_email_address: Adresa e-pošte kontakta
+        contact_phone_number: Broj telefona kontakta
+        link_to_the_conversation: Veza ka razgovoru
         agent_name: Ime agenta
         rating: Ocena
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: Komentar povratne informacije
+        recorded_at: Snimljen dana
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Novi razgovor] - #%{display_id} je napravljen u %{inbox_name}"
+      conversation_assignment: "[Dodeljeno vama] - #%{display_id} je dodeljen vama"
+      assigned_conversation_new_message: "[Nova poruka] - #%{display_id} %{content}"
+      conversation_mention: "Pomenuti ste u razgovoru [ID - %{display_id}] od strane %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} vas je pomenuo u priči: "
+      instagram_deleted_story_content: Ova priča više nije dostupna.
+      deleted: Poruka je obrisana
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
-        open: "Conversation was reopened by %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "Razgovor je označen kao rešen od strane %{user_name}"
+        contact_resolved: "Razgovor je rešen od strane %{contact_name}"
+        open: "Razgovor je ponovo otvoren od strane %{user_name}"
+        pending: "Razgovor je označen kao na čekanju od strane %{user_name}"
+        snoozed: "Razgovor je odložen od strane %{user_name}"
+        auto_resolved: "Razgovor je označen kao rešen od strane sistema zbog %{duration} dana neaktivnosti"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} je samododelio sebe ovom razgovoru"
+        assigned: "Dodeljeno %{assignee_name} od strane %{user_name}"
+        removed: "Razgovoru uklonjena dodela od strane %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "Dodeljeno %{team_name} od strane %{user_name}"
+        assigned_with_assignee: "Dodeljeno %{assignee_name} putem %{team_name} od strane %{user_name}"
+        removed: "Uklonjena dodela %{team_name} od strane %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} je dodao %{labels}"
+        removed: "%{user_name} je uklonio %{labels}"
+      muted: "%{user_name} je utišao razgovor"
+      unmuted: "%{user_name} je uklonio utišanje razgovora"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
-      csat_input_message_body: "Please rate the conversation"
+      greeting_message_body: "%{account_name} obično odgovara za nekoliko sati."
+      ways_to_reach_you_message_body: "Pružite timu način da vas kontaktira."
+      email_input_box_message_body: "Budite obavešteni putem e-poruke"
+      csat_input_message_body: "Molim vas ocenite ovaj razgovor"
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+          from_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>'
+      email_subject: "Nove poruke u ovom razgovoru"
+      transcript_subject: "Transkript razgovora"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "Molim vas ocenite ovaj razgovor, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} je dostupan, molim vas pokušajte ponovo"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack je alat za ćaskanje koji objedinjuje sve vaše komunikacije na jedno mesto. Integracijom Slack-a, možete biti obavešteni o svim novim razgovorima na vašem nalogu direktno u Slack-u."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Veb zakačke"
+      description: "Veb zakačke vam donose informacije u realnom vremenu o tome šta se dešava u vašem nalogu. Možete iskoristiti veb zakačke da prosledite događaje do vaših omiljenih aplikacija kao što su Slack ili Github. Kliknite na Konfiguriši da podesite vaše veb zakačke."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Izgradite botove ćaskanja koristeći Dialogflow i povežite ih sa vašim prijemnim sandučetom. Neka botovi rešavaju upite pre prosleđivanja do agenta korisničke podrške."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "FullContact integracija pomaže vam da obogatite profile posetilaca. Identifikujte korisnike čim podele njihovu adresu e-pošte i ponudite im prilagođenu korisničku podršku. Povežite vaš FullContact sa vašim nalogom deljenjem FullContact API ključa."

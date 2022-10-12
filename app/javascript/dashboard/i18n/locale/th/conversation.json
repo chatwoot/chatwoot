@@ -1,6 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "กรุณาเลือกการสนทนาจากด้านซ้าย",
+    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
@@ -72,7 +73,22 @@
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents..."
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "ข้อความลายเซ็น",
@@ -95,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "บันทึกเสียง",
       "TIP_AUDIORECORDER_PERMISSION": "ให้สิทธิ์เข้าถึงการใช้งานเสียง",
       "TIP_AUDIORECORDER_ERROR": "ไม่สามารถเปิดการใช้งานเสียงได้",
-      "ENTER_TO_SEND": "กด Enter เพื่อส่ง",
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
       "START_AUDIO_RECORDING": "เริ่มบันทึกเสียง",
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
@@ -122,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
-    "FILE_SIZE_LIMIT": "ไม่สามารถแนบไฟล์ขนาดใหญ่เกิน {MAXIMUM_FILE_UPLOAD_SIZE} ได้",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
     "BOT": "บอท",
@@ -135,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
-      "DELETE": "ลบ"
+      "DELETE": "ลบ",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
