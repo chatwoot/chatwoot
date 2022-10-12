@@ -23,7 +23,7 @@ class Whatsapp::IncomingMessageBaseService
       source_id: @processed_params[:messages].first[:id].to_s
     )
     attach_files
-    @message.save!
+    @message.save! unless unprocessable_message_type?
   end
 
   private
@@ -84,6 +84,10 @@ class Whatsapp::IncomingMessageBaseService
 
   def message_type
     @processed_params[:messages].first[:type]
+  end
+
+  def unprocessable_message_type?
+    %w[reaction].include?(message_type)
   end
 
   def attach_files
