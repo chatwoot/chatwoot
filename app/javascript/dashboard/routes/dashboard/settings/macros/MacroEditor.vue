@@ -73,12 +73,12 @@ export default {
       );
       if (isMacroAvailable) this.macro = this.formatMacro(isMacroAvailable);
       else {
-        const unserializedMacro = await this.getSingleMacro();
-        this.macro = this.formatMacro(unserializedMacro);
+        await this.$store.dispatch('macros/getSingleMacro', this.macroId);
+        const singleMacro = this.$store.getters['macros/getMacro'](
+          this.macroId
+        );
+        this.macro = this.formatMacro(singleMacro);
       }
-    },
-    async getSingleMacro() {
-      return this.$store.dispatch('macros/getSingleMacro', this.macroId);
     },
     formatMacro(macro) {
       const formattedActions = macro.actions.map(action => {
