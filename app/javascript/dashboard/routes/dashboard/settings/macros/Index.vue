@@ -11,11 +11,11 @@
     </router-link>
     <div class="row">
       <div class="small-8 columns with-right-space">
-        <div class="macros__empty-state">
-          <p
-            v-if="!uiFlags.isFetching && !records.length"
-            class="no-items-error-message"
-          >
+        <div
+          v-if="!uiFlags.isFetching && !records.length"
+          class="macros__empty-state"
+        >
+          <p class="no-items-error-message">
             {{ $t('MACROS.LIST.404') }}
           </p>
         </div>
