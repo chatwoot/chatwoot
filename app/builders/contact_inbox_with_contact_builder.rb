@@ -3,7 +3,7 @@
 # for contact inbox logic it uses the contact inbox builder
 
 class ContactInboxWithContactBuilder
-  pattr_initialize [:source_id!, :inbox!, :contact_attributes!, :hmac_verified]
+  pattr_initialize [:inbox!, :contact_attributes!, :source_id, :hmac_verified]
 
   def perform
     find_or_create_contact_and_contact_inbox
@@ -14,7 +14,7 @@ class ContactInboxWithContactBuilder
   end
 
   def find_or_create_contact_and_contact_inbox
-    @contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id)
+    @contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id) if source_id.present?
     return @contact_inbox if @contact_inbox
 
     ActiveRecord::Base.transaction(requires_new: true) do

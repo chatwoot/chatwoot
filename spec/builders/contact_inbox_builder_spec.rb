@@ -50,6 +50,17 @@ describe ::ContactInboxBuilder do
 
         expect(contact_inbox.source_id).to eq(contact.phone_number)
       end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: twilio_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+      end
     end
 
     describe 'twilio whatsapp inbox' do
@@ -97,6 +108,17 @@ describe ::ContactInboxBuilder do
 
         expect(contact_inbox.source_id).to eq("whatsapp:#{contact.phone_number}")
       end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: twilio_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+      end
     end
 
     describe 'whatsapp inbox' do
@@ -142,6 +164,17 @@ describe ::ContactInboxBuilder do
         ).perform
 
         expect(contact_inbox.source_id).to eq(contact.phone_number&.delete('+'))
+      end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: whatsapp_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
       end
     end
 
@@ -190,6 +223,17 @@ describe ::ContactInboxBuilder do
 
         expect(contact_inbox.source_id).to eq(contact.phone_number)
       end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: sms_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+      end
     end
 
     describe 'email inbox' do
@@ -236,6 +280,17 @@ describe ::ContactInboxBuilder do
         ).perform
 
         expect(contact_inbox.source_id).to eq(contact.email)
+      end
+
+      it 'raises error when contact email is not present and no source id is provided' do
+        contact.update!(email: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: email_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact email')
       end
     end
 
