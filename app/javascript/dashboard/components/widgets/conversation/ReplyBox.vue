@@ -477,7 +477,7 @@ export default {
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
+        this.mentionSearchKey = updatedMessage.substring(1);
         this.showMentions = true;
       } else {
         this.mentionSearchKey = '';
