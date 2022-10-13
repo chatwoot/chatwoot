@@ -59,6 +59,7 @@ import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory';
 
@@ -72,7 +73,7 @@ export default {
     PortalPopover,
     AddCategory,
   },
-  mixins: [portalMixin],
+  mixins: [portalMixin, uiSettingsMixin],
   data() {
     return {
       isSidebarOpen: false,
@@ -231,7 +232,13 @@ export default {
   },
   updated() {
     const slug = this.$route.params.portalSlug;
-    if (slug) this.lastActivePortalSlug = slug;
+    if (slug) {
+      this.lastActivePortalSlug = slug;
+      this.updateUISettings({
+        last_active_portal_slug: slug,
+        last_active_locale_code: this.selectedLocaleInPortal,
+      });
+    }
   },
   methods: {
     handleResize() {
