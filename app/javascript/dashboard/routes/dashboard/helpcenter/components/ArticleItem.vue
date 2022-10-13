@@ -106,10 +106,9 @@ export default {
   },
   methods: {
     getCategoryRoute(categorySlug) {
-      const slug = this.$route.params.portalSlug;
-      const locale = this.$route.params.locale;
+      const { portalSlug, locale } = this.$route.params;
       return frontendURL(
-        `accounts/${this.accountId}/portals/${slug}/${locale}/categories/${categorySlug}`
+        `accounts/${this.accountId}/portals/${portalSlug}/${locale}/categories/${categorySlug}`
       );
     },
   },
