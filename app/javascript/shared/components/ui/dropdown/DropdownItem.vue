@@ -34,6 +34,7 @@ export default {
   ::v-deep {
     a,
     .button {
+      display: inline-flex;
       width: 100%;
       text-align: left;
       color: var(--s-700);
