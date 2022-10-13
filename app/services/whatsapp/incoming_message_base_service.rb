@@ -12,7 +12,7 @@ class Whatsapp::IncomingMessageBaseService
 
     set_conversation
 
-    return if @processed_params[:messages].blank?
+    return if @processed_params[:messages].blank? || unprocessable_message_type?
 
     @message = @conversation.messages.build(
       content: message_content(@processed_params[:messages].first),
@@ -84,6 +84,10 @@ class Whatsapp::IncomingMessageBaseService
 
   def message_type
     @processed_params[:messages].first[:type]
+  end
+
+  def unprocessable_message_type?
+    %w[reaction contacts].include?(message_type)
   end
 
   def attach_files

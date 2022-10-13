@@ -188,13 +188,15 @@
 <script>
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import LocaleItemTable from './PortalListItemTable';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+
 export default {
   components: {
     thumbnail,
     LocaleItemTable,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     portal: {
       type: Object,
@@ -274,6 +276,10 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_SUCCESS'
         );
+        this.updateUISettings({
+          last_active_portal_slug: undefined,
+          last_active_locale_code: undefined,
+        });
       } catch (error) {
         this.alertMessage =
           error?.message ||
