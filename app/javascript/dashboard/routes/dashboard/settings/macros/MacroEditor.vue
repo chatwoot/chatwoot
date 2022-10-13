@@ -119,14 +119,14 @@ export default {
     async saveMacro(macro) {
       try {
         const action = this.mode === 'EDIT' ? 'macros/update' : 'macros/create';
-        const successMessage =
+        let successMessage =
           this.mode === 'EDIT'
             ? this.$t('MACROS.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('MACROS.ADD.API.SUCCESS_MESSAGE');
         let serializeMacro = JSON.parse(JSON.stringify(macro));
         serializeMacro.actions = actionQueryGenerator(serializeMacro.actions);
         await this.$store.dispatch(action, serializeMacro);
-        this.showAlert(this.$t(successMessage));
+        this.showAlert(successMessage);
         this.$router.push({ name: 'macros_wrapper' });
       } catch (error) {
         this.showAlert(this.$t('MACROS.ERROR'));
