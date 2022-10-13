@@ -59,7 +59,7 @@ class Article < ApplicationRecord
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
   scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
-
+  scope :order_by_id, ->(order = :asc) { order(id: order) }
   # TODO: if text search slows down https://www.postgresql.org/docs/current/textsearch-features.html#TEXTSEARCH-UPDATE-TRIGGERS
   pg_search_scope(
     :text_search,
@@ -80,14 +80,12 @@ class Article < ApplicationRecord
       :category
     ).search_by_category_slug(
       params[:category_slug]
-    ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
+    ).search_by_category_locale(params[:locale])
+              .search_by_author(params[:author_id])
+              .search_by_status(params[:status])
 
     records = records.text_search(params[:query]) if params[:query].present?
-    records.page(current_page(params))
-  end
-
-  def self.current_page(params)
-    params[:page] || 1
+    records
   end
 
   def associate_root_article(associated_article_id)

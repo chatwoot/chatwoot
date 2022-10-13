@@ -6,13 +6,19 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
   layout 'portal'
 
   def index
-    @articles = @portal.articles
+    @articles = @portal.articles.order_by_id(:asc)
     @articles = @articles.search(list_params) if list_params.present?
+    @articles_count = @articles.count
+    @articles = @articles.page(current_page)
   end
 
   def show; end
 
   private
+
+  def current_page
+    list_params[:page] || 1
+  end
 
   def set_article
     @article = @category.articles.find(params[:id])
@@ -28,7 +34,7 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
   end
 
   def list_params
-    params.permit(:query)
+    params.permit(:query, :page)
   end
 
   def render_article_content(content)

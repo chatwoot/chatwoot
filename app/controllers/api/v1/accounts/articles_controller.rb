@@ -5,9 +5,10 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :set_current_page, only: [:index]
 
   def index
-    @articles_count = @portal.articles.count
-    @articles = @portal.articles
+    @articles = @portal.articles.order_by_id(:desc)
     @articles = @articles.search(list_params) if list_params.present?
+    @articles_count = @articles.count
+    @articles = @articles.page(@current_page)
   end
 
   def create
@@ -52,6 +53,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def set_current_page
-    @current_page = params[:page] || 1
+    @current_page = list_params[:page] || 1
   end
 end
