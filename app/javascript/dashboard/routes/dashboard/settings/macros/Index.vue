@@ -53,8 +53,8 @@
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
       :message="$t('MACROS.DELETE.CONFIRM.MESSAGE')"
       :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
+      :confirm-text="$t('MACROS.DELETE.CONFIRM.YES')"
+      :reject-text="$t('MACROS.DELETE.CONFIRM.NO')"
     />
   </div>
 </template>
@@ -81,16 +81,6 @@ export default {
       records: ['macros/getMacros'],
       uiFlags: 'macros/getUIFlags',
     }),
-    deleteConfirmText() {
-      return `${this.$t('MACROS.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.name
-      }`;
-    },
-    deleteRejectText() {
-      return `${this.$t('MACROS.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.name
-      }`;
-    },
     deleteMessage() {
       return ` ${this.selectedResponse.name}?`;
     },

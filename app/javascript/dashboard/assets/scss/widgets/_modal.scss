@@ -87,6 +87,7 @@
     @include flex;
     @include flex-align($x: flex-end, $y: middle);
     padding: $space-small $zero;
+    gap: $space-normal;
 
     button {
       font-size: $font-size-small;

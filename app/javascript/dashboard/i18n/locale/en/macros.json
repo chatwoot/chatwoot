@@ -36,8 +36,8 @@
       "TOOLTIP": "Delete macro",
       "CONFIRM": {
         "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Yes, Delete",
+        "NO": "No"
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",
