@@ -25,6 +25,8 @@ class Macros::ExecutionService < ActionService
     return if conversation_a_tweet?
 
     params = { content: message[0], private: false }
+
+    # Added reload here to ensure conversation us persistent with the latest updates
     mb = Messages::MessageBuilder.new(nil, @conversation.reload, params)
     mb.perform
   end
@@ -39,6 +41,8 @@ class Macros::ExecutionService < ActionService
     return if blobs.blank?
 
     params = { content: nil, private: false, attachments: blobs }
+
+    # Added reload here to ensure conversation us persistent with the latest updates
     mb = Messages::MessageBuilder.new(nil, @conversation.reload, params)
     mb.perform
   end
