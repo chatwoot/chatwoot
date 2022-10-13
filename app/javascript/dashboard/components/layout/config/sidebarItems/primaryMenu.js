@@ -39,7 +39,7 @@ const primaryMenuItems = accountId => [
     label: 'HELP_CENTER.TITLE',
     featureFlag: 'help_center',
     toState: frontendURL(`accounts/${accountId}/portals`),
-    toStateName: 'list_all_portals',
+    toStateName: 'default_portal_articles',
     roles: ['administrator'],
   },
   {

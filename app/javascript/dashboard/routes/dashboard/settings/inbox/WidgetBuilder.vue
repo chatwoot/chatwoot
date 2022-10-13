@@ -243,7 +243,7 @@ export default {
         this.$t('INBOX_MGMT.WIDGET_BUILDER.SCRIPT_SETTINGS', {
           options: JSON.stringify(options),
         }) +
-        script.substring(13, script.length)
+        script.substring(13)
       );
     },
     getWidgetViewOptions() {
