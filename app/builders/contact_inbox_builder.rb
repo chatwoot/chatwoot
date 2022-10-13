@@ -29,26 +29,26 @@ class ContactInboxBuilder
   end
 
   def email_source_id
-    raise ActionController::ParameterMissing.new('contact email') unless @contact.email
+    raise ActionController::ParameterMissing, 'contact email' unless @contact.email
 
     @contact.email
   end
 
   def phone_source_id
-    raise ActionController::ParameterMissing.new('contact phone number') unless @contact.phone_number
+    raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     @contact.phone_number
   end
 
   def wa_source_id
-    raise raise ActionController::ParameterMissing.new('contact phone number') unless @contact.phone_number
+    raise raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     # whatsapp doesn't want the + in e164 format
     @contact.phone_number.delete('+').to_s
   end
 
   def twilio_source_id
-    raise raise ActionController::ParameterMissing.new('contact phone number') unless @contact.phone_number
+    raise raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     case @inbox.channel.medium
     when 'sms'
