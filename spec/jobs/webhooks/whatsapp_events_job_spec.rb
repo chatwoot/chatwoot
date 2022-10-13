@@ -65,7 +65,6 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
     it 'Ignore reaction type message and stop raising error' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
-      message_count = Message.count
       wb_params = {
         phone_number: channel.phone_number,
         object: 'whatsapp_business_account',
@@ -86,8 +85,34 @@ RSpec.describe Webhooks::WhatsappEventsJob, type: :job do
       }.with_indifferent_access
       expect do
         Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
-      end.not_to raise_error 'ArgumentError'
-      expect(Message.count).to eq(message_count)
+      end.not_to change(Message, :count)
+    end
+
+    it 'Ignore contacts type message and stop raising error' do
+      other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
+                                                validate_provider_config: false)
+      wb_params = {
+        phone_number: channel.phone_number,
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              contacts: [{ profile: { name: 'Test Test' }, wa_id: '1111981136571' }],
+              messages: [{ from: '1111981136571',
+                           contacts: [{ phones: [{ phone: '+1987654' }], name: { first_name: 'contact name' } }],
+                           timestamp: '1664799904',
+                           type: 'contacts' }],
+              metadata: {
+                phone_number_id: other_channel.provider_config['phone_number_id'],
+                display_phone_number: other_channel.phone_number.delete('+')
+              }
+            }
+          }]
+        }]
+      }.with_indifferent_access
+      expect do
+        Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
+      end.not_to change(Message, :count)
     end
 
     it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do
