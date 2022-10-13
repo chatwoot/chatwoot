@@ -16,7 +16,12 @@
       </div>
     </td>
     <td>
-      <span class="fs-small">{{ category.name }}</span>
+      <router-link
+        class="fs-small button clear link secondary"
+        :to="getCategoryRoute(category.slug)"
+      >
+        {{ category.name }}
+      </router-link>
     </td>
     <td>
       <span class="fs-small">
@@ -43,6 +48,8 @@
 <script>
 import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+
 export default {
   mixins: [timeMixin, portalMixin],
 
@@ -95,6 +102,15 @@ export default {
         default:
           return 'success';
       }
+    },
+  },
+  methods: {
+    getCategoryRoute(categorySlug) {
+      const slug = this.$route.params.portalSlug;
+      const locale = this.$route.params.locale;
+      return frontendURL(
+        `accounts/${this.accountId}/portals/${slug}/${locale}/categories/${categorySlug}`
+      );
     },
   },
 };
