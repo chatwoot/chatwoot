@@ -41,14 +41,14 @@ class ContactInboxBuilder
   end
 
   def wa_source_id
-    raise raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
+    raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     # whatsapp doesn't want the + in e164 format
     @contact.phone_number.delete('+').to_s
   end
 
   def twilio_source_id
-    raise raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
+    raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     case @inbox.channel.medium
     when 'sms'
