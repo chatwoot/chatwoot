@@ -10,10 +10,11 @@
       <woot-button
         v-if="showCopy"
         type="submit"
-        variant="link"
+        variant="clear"
+        size="tiny"
         color-scheme="secondary"
         icon="clipboard"
-        class-names="icon copy-icon"
+        class-names="copy-icon"
         @click="onCopy"
       />
     </a>
