@@ -1,3 +1,4 @@
+/* global axios */
 import ApiClient from './ApiClient';
 
 class Agents extends ApiClient {
