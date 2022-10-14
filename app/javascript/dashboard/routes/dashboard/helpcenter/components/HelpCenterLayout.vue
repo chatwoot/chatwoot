@@ -255,6 +255,7 @@ export default {
       this.$store.dispatch('portals/index').then(() => {
         this.$store.dispatch('categories/index', {
           portalSlug: this.selectedPortalSlug,
+          locale: this.selectedLocaleInPortal,
         });
       });
       this.$store.dispatch('agents/get');

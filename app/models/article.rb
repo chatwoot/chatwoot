@@ -27,6 +27,7 @@
 #
 class Article < ApplicationRecord
   include PgSearch::Model
+  ARTICLES_PER_PAGE = 15
 
   has_many :associated_articles,
            class_name: :Article,
@@ -83,7 +84,7 @@ class Article < ApplicationRecord
     ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
 
     records = records.text_search(params[:query]) if params[:query].present?
-    records.page(current_page(params))
+    records.page(current_page(params)).per(ARTICLES_PER_PAGE)
   end
 
   def self.current_page(params)

@@ -49,6 +49,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_portal
+    binding.pry
     @portal = Current.account.portals.find_by(slug: permitted_params[:id])
   end
 

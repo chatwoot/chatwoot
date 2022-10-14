@@ -13,6 +13,7 @@ class PortalsAPI extends ApiClient {
   deletePortal(portalSlug) {
     return axios.delete(`${this.url}/${portalSlug}`);
   }
+
 }
 
 export default PortalsAPI;
