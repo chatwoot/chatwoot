@@ -210,6 +210,6 @@ class User < ApplicationRecord
 
   def user_token
     payload = { email: email }
-    JWT.encode payload, ENV['SOCIAL_BOT_SECURE_KEY'], 'HS256'
+    JWT.encode payload, ENV.fetch('SOCIAL_BOT_SECURE_KEY', ''), 'HS256'
   end
 end
