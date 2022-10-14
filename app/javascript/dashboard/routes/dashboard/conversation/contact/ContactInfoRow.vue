@@ -14,7 +14,7 @@
         size="tiny"
         color-scheme="secondary"
         icon="clipboard"
-        class-names="icon copy-icon"
+        class-names="copy-icon"
         @click="onCopy"
       />
     </a>
