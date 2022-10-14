@@ -1,5 +1,5 @@
 class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
-  before_action :fetch_agent, except: [:create, :index]
+  before_action :fetch_agent, except: [:create, :index, :secure_token]
   before_action :check_authorization
   before_action :find_user, only: [:create]
   before_action :validate_limit, only: [:create]
@@ -20,6 +20,15 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   def destroy
     @agent.current_account_user.destroy!
     head :ok
+  end
+
+  def secure_token
+    token = Current.user.user_token
+    if token
+      render json: { token: token }, status: :ok
+    else
+      render json: { error: 'Something wrong in encrypted token', status: :unprocessable_entity }
+    end
   end
 
   private

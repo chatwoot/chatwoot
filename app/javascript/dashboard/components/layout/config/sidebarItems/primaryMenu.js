@@ -34,6 +34,14 @@ const primaryMenuItems = accountId => [
     roles: ['administrator'],
   },
   {
+    icon: 'bot',
+    key: 'social_bot',
+    label: 'SOCIAL_BOT',
+    toState: frontendURL(`accounts/${accountId}/social`),
+    toStateName: 'settings_account_social_bot',
+    roles: ['administrator', 'agent'],
+  },
+  {
     icon: 'library',
     key: 'helpcenter',
     label: 'HELP_CENTER.TITLE',

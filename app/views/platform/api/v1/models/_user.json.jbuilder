@@ -14,6 +14,7 @@ json.custom_attributes resource.custom_attributes if resource.custom_attributes.
 json.role resource.active_account_user&.role
 json.ui_settings resource.ui_settings
 json.uid resource.uid
+json.is_social_iframe resource.is_social_iframe
 json.accounts do
   json.array! resource.account_users do |account_user|
     json.id account_user.account_id

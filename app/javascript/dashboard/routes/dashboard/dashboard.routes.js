@@ -3,6 +3,7 @@ import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as notificationRoutes } from './notifications/routes';
+import { routes as socialBotRoutes } from './socialbot/socialbot.routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
@@ -19,6 +20,7 @@ export default {
         ...settings.routes,
         ...contactRoutes,
         ...notificationRoutes,
+        ...socialBotRoutes,
       ],
     },
     {

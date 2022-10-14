@@ -122,6 +122,14 @@ export default {
             menuItem.featureFlag
           );
         }
+
+        if (
+          menuItem.key === 'social_bot' &&
+          !this.currentUser.is_social_iframe
+        ) {
+          return false;
+        }
+
         return true;
       });
     },

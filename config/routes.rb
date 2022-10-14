@@ -41,7 +41,11 @@ Rails.application.routes.draw do
           end
 
           resource :bulk_actions, only: [:create]
-          resources :agents, only: [:index, :create, :update, :destroy]
+          resources :agents, only: [:index, :create, :update, :destroy] do
+            collection do
+              get :secure_token
+            end
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
           resources :assignable_agents, only: [:index]
           resources :callbacks, only: [] do

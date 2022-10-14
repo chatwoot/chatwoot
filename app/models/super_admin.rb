@@ -13,6 +13,7 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
+#  is_social_iframe       :boolean          default(FALSE)
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  message_signature      :text

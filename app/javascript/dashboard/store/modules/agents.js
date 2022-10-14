@@ -90,6 +90,14 @@ export const actions = {
       throw new Error(error);
     }
   },
+  async generateToken() {
+    try {
+      const response = await AgentAPI.generate_token();
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export const mutations = {

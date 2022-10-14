@@ -31,7 +31,8 @@ class UserDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     pubsub_token: Field::String,
     type: Field::Select.with_options(collection: [nil, 'SuperAdmin']),
-    accounts: CountField
+    accounts: CountField,
+    is_social_iframe: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -46,6 +47,7 @@ class UserDashboard < Administrate::BaseDashboard
     email
     accounts
     type
+    is_social_iframe
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -58,6 +60,7 @@ class UserDashboard < Administrate::BaseDashboard
     type
     display_name
     email
+    is_social_iframe
     created_at
     updated_at
     confirmed_at
@@ -74,6 +77,7 @@ class UserDashboard < Administrate::BaseDashboard
     password
     confirmed_at
     type
+    is_social_iframe
   ].freeze
 
   # COLLECTION_FILTERS

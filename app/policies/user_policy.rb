@@ -14,4 +14,8 @@ class UserPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def secure_token?
+    true
+  end
 end
