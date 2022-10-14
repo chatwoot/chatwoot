@@ -125,6 +125,8 @@ class AutomationRules::ConditionsFilterService < FilterService
       else
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
+    when 'date_attributes'
+      " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
     end
   end
 

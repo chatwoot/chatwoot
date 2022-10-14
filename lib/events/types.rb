@@ -27,6 +27,7 @@ module Events::Types
   CONVERSATION_TYPING_ON = 'conversation.typing_on'
   CONVERSATION_TYPING_OFF = 'conversation.typing_off'
   CONVERSATION_MENTIONED = 'conversation.mentioned'
+  TIME_SINCE_LAST_MESSAGE = 'conversation.time_since_last_message'
 
   # message events
   MESSAGE_CREATED = 'message.created'

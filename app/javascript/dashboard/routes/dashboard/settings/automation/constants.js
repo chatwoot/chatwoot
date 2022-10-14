@@ -47,6 +47,21 @@ const OPERATOR_TYPES_3 = [
   },
 ];
 
+const OPERATOR_TYPES_4 = [
+  {
+    value: 'is_less_than',
+    label: 'Less than',
+  },
+  {
+    value: 'is_greater_than',
+    label: 'Greater than',
+  },
+  {
+    value: 'hours_passed',
+    label: 'Is x hours passed',
+  },
+];
+
 export const AUTOMATIONS = {
   message_created: {
     conditions: [
@@ -322,6 +337,118 @@ export const AUTOMATIONS = {
       },
     ],
   },
+  conversation_time_since_last_message: {
+    conditions: [
+      {
+        key: 'status',
+        name: 'Status',
+        attributeI18nKey: 'STATUS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'browser_language',
+        name: 'Browser Language',
+        attributeI18nKey: 'BROWSER_LANGUAGE',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'country_code',
+        name: 'Country',
+        attributeI18nKey: 'COUNTRY_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'referer',
+        name: 'Referrer Link',
+        attributeI18nKey: 'REFERER_LINK',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'assignee_id',
+        name: 'Assignee',
+        attributeI18nKey: 'ASSIGNEE_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'team_id',
+        name: 'Team',
+        attributeI18nKey: 'TEAM_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'last_activity_at',
+        name: 'Last Activity At',
+        attributeI18nKey: 'LAST_ACTIVITY_AT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_4,
+      },
+    ],
+    actions: [
+      {
+        key: 'assign_team',
+        name: 'Assign a team',
+        attributeI18nKey: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'assign_agent',
+        name: 'Assign an agent',
+        attributeI18nKey: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'Send an email to team',
+        attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'Send a message',
+        attributeI18nKey: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'Send an email transcript',
+        attributeI18nKey: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
+        key: 'mute_conversation',
+        name: 'Mute conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'snooze_conversation',
+        name: 'Snooze conversation',
+        attributeI18nKey: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'resolve_conversation',
+        name: 'Resolve conversation',
+        attributeI18nKey: 'RESOLVE_CONVERSATION',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'Send Webhook Event',
+        attributeI18nKey: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'Send Attachment',
+        attributeI18nKey: 'SEND_ATTACHMENT',
+      },
+    ],
+  },
 };
 
 export const AUTOMATION_RULE_EVENTS = [
@@ -336,6 +463,10 @@ export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'message_created',
     value: 'Message Created',
+  },
+  {
+    key: 'conversation_time_since_last_message',
+    value: 'Conversation Timeout',
   },
 ];
 

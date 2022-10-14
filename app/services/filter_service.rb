@@ -8,7 +8,8 @@ class FilterService
     number: 'numeric',
     link: 'text',
     list: 'text',
-    checkbox: 'boolean'
+    checkbox: 'boolean',
+    timestamp: 'timestamp'
   }.with_indifferent_access
 
   def initialize(params, user)
@@ -36,6 +37,8 @@ class FilterService
       @filter_values["value_#{current_index}"] = 'IS NULL'
     when 'is_greater_than', 'is_less_than'
       @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
+    when 'hours_passed'
+      @filter_values["value_#{current_index}"] = hours_passed_filter_values(query_hash)
     when 'days_before'
       @filter_values["value_#{current_index}"] = days_before_filter_values(query_hash)
     else
@@ -66,10 +69,7 @@ class FilterService
   end
 
   def lt_gt_filter_values(query_hash)
-    attribute_key = query_hash[:attribute_key]
-    attribute_model = query_hash['custom_attribute_type'].presence || self.class::ATTRIBUTE_MODEL
-    attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
-    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
+    attribute_data_type = self.class::ATTRIBUTE_TYPES['timestamp']
     value = query_hash['values'][0]
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
     "#{operator} '#{value}'::#{attribute_data_type}"
@@ -77,7 +77,14 @@ class FilterService
 
   def days_before_filter_values(query_hash)
     date = Time.zone.today - query_hash['values'][0].to_i.days
-    query_hash['values'] = [date.strftime]
+    query_hash['values'] = [date.strftime('%F %T')]
+    query_hash['filter_operator'] = 'is_less_than'
+    lt_gt_filter_values(query_hash)
+  end
+
+  def hours_passed_filter_values(query_hash)
+    date = Time.zone.now - query_hash['values'][0].to_i.hours
+    query_hash['values'] = [date.strftime('%F %T')]
     query_hash['filter_operator'] = 'is_less_than'
     lt_gt_filter_values(query_hash)
   end

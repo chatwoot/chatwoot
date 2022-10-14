@@ -3,6 +3,7 @@ import {
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_5,
+  OPERATOR_TYPES_6,
 } from '../../FilterInput/FilterOperatorTypes';
 
 const filterTypes = [
@@ -99,7 +100,7 @@ const filterTypes = [
     attributeI18nKey: 'LAST_ACTIVITY',
     inputType: 'date',
     dataType: 'text',
-    filterOperators: OPERATOR_TYPES_5,
+    filterOperators: OPERATOR_TYPES_6,
     attributeModel: 'standard',
   },
   {

@@ -1,4 +1,4 @@
-class Account::ConversationsResolutionSchedulerJob < ApplicationJob
+class Accounts::ConversationsResolutionSchedulerJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
