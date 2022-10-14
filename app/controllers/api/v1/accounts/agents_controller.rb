@@ -23,7 +23,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def secure_token
-    token = Current.user.user_token
+    payload = { email: Current.user.email }
+    token = JWT.encode(payload, ENV.fetch('SOCIAL_BOT_SECURE_KEY', ''), 'HS256')
     if token
       render json: { token: token }, status: :ok
     else

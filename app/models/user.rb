@@ -49,7 +49,6 @@ class User < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reportable
   include SsoAuthenticatable
-  require 'jwt'
 
   devise :database_authenticatable,
          :registerable,
@@ -206,10 +205,5 @@ class User < ApplicationRecord
       unread_count: notifications.where(account_id: account_id, read_at: nil).count,
       count: notifications.where(account_id: account_id).count
     }
-  end
-
-  def user_token
-    payload = { email: email }
-    JWT.encode payload, ENV.fetch('SOCIAL_BOT_SECURE_KEY', ''), 'HS256'
   end
 end
