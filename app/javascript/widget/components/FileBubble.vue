@@ -49,8 +49,7 @@ export default {
         : decodeURI(this.fileName);
     },
     fileName() {
-      const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
-      return filename;
+      return this.url.substring(this.url.lastIndexOf('/') + 1);
     },
   },
   methods: {

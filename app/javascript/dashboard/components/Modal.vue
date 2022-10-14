@@ -7,9 +7,13 @@
       @click="onBackDropClick"
     >
       <div :class="modalContainerClassName" @click.stop>
-        <button class="modal--close" @click="close">
-          <fluent-icon icon="dismiss" />
-        </button>
+        <woot-button
+          color-scheme="secondary"
+          icon="dismiss"
+          variant="clear"
+          class="modal--close"
+          @click="close"
+        />
         <slot />
       </div>
     </div>
