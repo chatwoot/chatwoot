@@ -420,6 +420,8 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
+    min-width: 136px;
+
     &.is-image,
     &.is-video {
       padding: 0;
