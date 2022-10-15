@@ -134,12 +134,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-pane {
-  bottom: var(--space-medium);
+  bottom: var(--space-large);
 }
 .dropdown-pane--left {
-  right: var(--space-small);
+  right: var(--space-minus-small);
 }
 .dropdown-pane--right {
-  left: var(--space-small);
+  left: var(--space-minus-small);
 }
 </style>

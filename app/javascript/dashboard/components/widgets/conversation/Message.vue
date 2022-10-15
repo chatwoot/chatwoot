@@ -420,7 +420,7 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
-    min-width: 136px;
+    min-width: 128px;
 
     &.is-image,
     &.is-video {
