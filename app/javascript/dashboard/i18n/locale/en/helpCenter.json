@@ -83,6 +83,7 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
+            "VIEW_ARTICLES": "View articles",
             "COUNT_LABEL": "articles",
             "ADD": "Add locale",
             "VISIT": "Visit site",
@@ -307,7 +308,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Error while publishing article",
-        "SUCCESS": "Article publishied successfully"
+        "SUCCESS": "Article published successfully"
       }
     },
     "ARCHIVE_ARTICLE": {

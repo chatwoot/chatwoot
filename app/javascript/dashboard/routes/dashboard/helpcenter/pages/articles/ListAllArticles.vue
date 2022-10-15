@@ -2,13 +2,12 @@
   <div class="container overflow-auto">
     <article-header
       :header-title="headerTitle"
-      :count="articleCount"
+      :count="meta.count"
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
     <article-table
       :articles="articles"
-      :article-count="articles.length"
       :current-page="Number(meta.currentPage)"
       :total-count="Number(meta.count)"
       @page-change="onPageChange"

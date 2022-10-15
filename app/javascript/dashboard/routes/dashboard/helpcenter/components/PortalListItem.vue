@@ -32,10 +32,12 @@
               size="small"
               color-scheme="primary"
               class="header-action-buttons"
-              @click="addLocale"
+              @click="goToArticles"
             >
               {{
-                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.ADD')
+                $t(
+                  'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.VIEW_ARTICLES'
+                )
               }}
             </woot-button>
             <woot-button
@@ -156,13 +158,26 @@
           </div>
         </div>
         <div class="portal-locales">
-          <h2 class="locale-title sub-block-title">
-            {{
-              $t(
-                'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TITLE'
-              )
-            }}
-          </h2>
+          <div class="flex-between portal--heading">
+            <h2 class="locale-title sub-block-title">
+              {{
+                $t(
+                  'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.AVAILABLE_LOCALES.TITLE'
+                )
+              }}
+            </h2>
+            <woot-button
+              variant="smooth"
+              size="small"
+              color-scheme="primary"
+              class="header-action-buttons"
+              @click="addLocale"
+            >
+              {{
+                $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.ADD')
+              }}
+            </woot-button>
+          </div>
           <locale-item-table
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
@@ -190,6 +205,7 @@ import thumbnail from 'dashboard/components/widgets/Thumbnail';
 import LocaleItemTable from './PortalListItemTable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
   components: {
@@ -241,6 +257,18 @@ export default {
     },
   },
   methods: {
+    goToArticles() {
+      const {
+        account_id: accountId,
+        slug,
+        meta: { default_locale: defaultLocale },
+      } = this.portal;
+      this.$router.push(
+        frontendURL(
+          `accounts/${accountId}/portals/${slug}/${defaultLocale}/articles`
+        )
+      );
+    },
     addLocale() {
       this.$emit('add-locale', this.portal.id);
     },
@@ -388,14 +416,20 @@ export default {
         margin-left: var(--space-smaller);
       }
     }
+
     .portal-locales {
-      margin-top: var(--space-medium);
-      margin-bottom: var(--space-small);
+      margin-top: var(--space-large);
+      padding-bottom: var(--space-small);
+
       .locale-title {
         color: var(--s-800);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-small);
       }
+    }
+
+    .portal--heading {
+      margin-bottom: 16px;
     }
   }
   .portal-settings--icon {

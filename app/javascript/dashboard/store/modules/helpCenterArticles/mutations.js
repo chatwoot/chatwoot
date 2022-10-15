@@ -34,9 +34,22 @@ export const mutations = {
   },
 
   [types.SET_ARTICLES_META]: ($state, data) => {
-    const { articles_count: count, current_page: currentPage } = data;
+    const {
+      articles_count: count,
+      current_page: currentPage,
+      articles_count: articlesCount,
+      published_count: publishedArticlesCount,
+      draft_articles_count: draftArticlesCount,
+      mine_articles_count: mineArticlesCount,
+      archived_articles_count: archivedArticlesCount,
+    } = data;
     Vue.set($state.meta, 'count', count);
     Vue.set($state.meta, 'currentPage', currentPage);
+    Vue.set($state.meta, 'articlesCount', articlesCount);
+    Vue.set($state.meta, 'publishedArticlesCount', publishedArticlesCount);
+    Vue.set($state.meta, 'draftArticlesCount', draftArticlesCount);
+    Vue.set($state.meta, 'mineArticlesCount', mineArticlesCount);
+    Vue.set($state.meta, 'archivedArticlesCount', archivedArticlesCount);
   },
 
   [types.ADD_ARTICLE_ID]: ($state, articleId) => {

@@ -7,7 +7,7 @@
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
     <help-center-sidebar
-      v-if="portals.length"
+      v-if="showSecondarySidebar"
       :class="sidebarClassName"
       :header-title="headerTitle"
       :portal-slug="selectedPortalSlug"
@@ -92,12 +92,26 @@ export default {
       portals: 'portals/allPortals',
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
+      articlesMeta: 'articles/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    showSecondarySidebar() {
+      if (!this.portals.length) {
+        return false;
+      }
+      if (
+        this.$route.path.includes('/categories') ||
+        this.$route.path.includes('/articles')
+      ) {
+        return true;
+      }
+      return false;
+    },
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
-      if (slug) return this.$store.getters['portals/portalBySlug'](slug);
-
+      if (slug) {
+        return this.$store.getters['portals/portalBySlug'](slug);
+      }
       return this.$store.getters['portals/allPortals'][0];
     },
     selectedLocaleInPortal() {
@@ -133,21 +147,21 @@ export default {
         : '';
     },
     accessibleMenuItems() {
-      if (!this.selectedPortal) return [];
+      if (!this.selectedPortal) {
+        return [];
+      }
       const {
-        meta: {
-          all_articles_count: allArticlesCount,
-          mine_articles_count: mineArticlesCount,
-          draft_articles_count: draftArticlesCount,
-          archived_articles_count: archivedArticlesCount,
-        } = {},
-      } = this.selectedPortal;
+        articlesCount,
+        mineArticlesCount,
+        draftArticlesCount,
+        archivedArticlesCount,
+      } = this.articlesMeta;
       return [
         {
           icon: 'book',
           label: 'HELP_CENTER.ALL_ARTICLES',
           key: 'list_all_locale_articles',
-          count: allArticlesCount,
+          count: articlesCount,
           toState: frontendURL(
             `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles`
           ),
@@ -190,14 +204,19 @@ export default {
       ];
     },
     additionalSecondaryMenuItems() {
-      if (!this.selectedPortal) return [];
+      if (!this.selectedPortal) {
+        return [];
+      }
+      const categoriesToBeDisplayed = this.categories.filter(
+        category => category.locale === this.selectedLocaleInPortal
+      );
       return [
         {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
           key: 'category',
-          children: this.categories.map(category => ({
+          children: categoriesToBeDisplayed.map(category => ({
             id: category.id,
             label: category.name,
             count: category.meta.articles_count,
