@@ -71,7 +71,7 @@
       "LOADING_MESSAGE": "Notiek paziņojumu ielāde...",
       "404": "Nav paziņojumu",
       "TABLE_HEADER": [
-        "Vārds",
+        "Nosaukums",
         "Telefona numurs",
         "Sarunas",
         "Pēdējā Sazināšanās"
