@@ -133,10 +133,10 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.reload.name).to eq('Test Account')
-        expect(account.reload.enabled_features[:ip_lookup]).to be(true)
-        expect(account.reload.enabled_features[:help_center]).to be(true)
-        expect(account.reload.limits[:agents]).to eq(5)
-        expect(account.reload.limits[:inboxes]).to eq(10)
+        expect(account.reload.enabled_features['ip_lookup']).to be(true)
+        expect(account.reload.enabled_features['help_center']).to be(true)
+        expect(account.reload.limits['agents']).to eq(5)
+        expect(account.reload.limits['inboxes']).to eq(10)
       end
     end
   end
