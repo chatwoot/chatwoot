@@ -2,8 +2,8 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Παρακαλώ επιλέξτε συζήτηση από το αριστερό τμήμα",
     "CSAT_REPLY_MESSAGE": "Παρακαλώ αξιολογήστε τη συνομιλία",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "404": "Λυπούμαστε, δεν μπορούμε να βρούμε την συνομιλία. Παρακαλώ προσπαθήστε ξανά",
+    "SWITCH_VIEW_LAYOUT": "Εναλλαγή διάταξης",
     "DASHBOARD_APP_TAB_MESSAGES": "Μηνύματα",
     "UNVERIFIED_SESSION": "Η ταυτότητα αυτού του χρήστη δεν επαληθεύεται",
     "NO_MESSAGE_1": "Ωχ ωχ! Φαίνεται ότι δεν υπάρχουν μηνύματα από τους πελάτες στα εισερχόμενά σας.",
@@ -63,22 +63,22 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Σήμανση ως εκκρεμής",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "Σήμανση ως επιλυμένου",
       "REOPEN": "Άνοιγμα συνομιλίας",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "Αναβολή",
         "NEXT_REPLY": "Μέχρι την επόμενη απάντηση",
         "TOMORROW": "Μέχρι αύριο",
         "NEXT_WEEK": "Έως την επόμενη εβδομάδα"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Ανάθεση σε πράκτορα",
+      "ASSIGN_LABEL": "Εκχώρηση ετικέτας",
+      "AGENTS_LOADING": "Φόρτωση πρακτόρων...",
+      "ASSIGN_TEAM": "Ανάθεση ομάδας",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Η συνομιλία με αριθμό %{conversationId} ανατέθηκε στον \"%{agentName}\"",
+          "FAILED": "Αδυναμία αντιστοίχισης σε πράκτορα. Παρακαλώ δοκιμάστε ξανά."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
