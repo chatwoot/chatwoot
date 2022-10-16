@@ -45,18 +45,19 @@ class AutomationRuleListener < BaseListener
     end
   end
 
-  def conversation_time_since_last_message(event_obj)
+  def message_hours_since_last(event_obj)
     return if performed_by_automation?(event_obj)
 
-    conversation = event_obj.data[:conversation]
-    account = conversation.account
+    message = event_obj.data[:message]
+    account = message.conversation.account
     changed_attributes = event_obj.data[:changed_attributes]
 
-    return unless rule_present?('conversation_time_since_last_message', account)
+    return unless rule_present?('message_hours_since_last', account)
 
     @rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
-      ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation,
+                                                                        { changed_attributes: changed_attributes }).perform
+      ::AutomationRules::ActionService.new(rule, account, message.conversation).perform if conditions_match.present?
     end
   end
 

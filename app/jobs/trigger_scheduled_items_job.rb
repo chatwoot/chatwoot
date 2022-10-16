@@ -10,9 +10,6 @@ class TriggerScheduledItemsJob < ApplicationJob
     # Job to reopen snoozed conversations
     Conversations::ReopenSnoozedConversationsJob.perform_later
 
-    # Job to emit an recurring event with the time since last message from customer
-    Conversations::NotifyTimeSinceLastMessageJob.perform_later
-
     # Job to auto-resolve conversations
     Accounts::ConversationsResolutionSchedulerJob.perform_later
 

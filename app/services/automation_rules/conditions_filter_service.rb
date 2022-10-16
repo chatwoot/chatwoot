@@ -33,15 +33,16 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def apply_filter(query_hash, current_index)
+    # TODO: deal with same attribute key conflicts like created_at
     conversation_filter = @conversation_filters[query_hash['attribute_key']]
     contact_filter = @contact_filters[query_hash['attribute_key']]
     message_filter = @message_filters[query_hash['attribute_key']]
 
-    if conversation_filter
+    if message_filter
       @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
     elsif contact_filter
       @query_string += contact_query_string(contact_filter, query_hash.with_indifferent_access, current_index)
-    elsif message_filter
+    elsif conversation_filter
       @query_string += message_query_string(message_filter, query_hash.with_indifferent_access, current_index)
     elsif custom_attribute(query_hash['attribute_key'], @account, query_hash['custom_attribute_type'])
       # send table name according to attribute key right now we are supporting contact based custom attribute filter
@@ -93,6 +94,8 @@ class AutomationRules::ConditionsFilterService < FilterService
       else
         " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
+    when 'date_attributes'
+      " messages.#{attribute_key} #{filter_operator_value} #{query_operator} "
     end
   end
 

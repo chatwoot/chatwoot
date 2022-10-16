@@ -185,6 +185,13 @@
       "data_type": "text",
       "filter_operators": [ "equal_to", "not_equal_to", "contains", "does_not_contain" ],
       "attribute_type": "standard"
+    },
+    "created_at": {
+      "attribute_name": "Last Message Created",
+      "input_type": "date",
+      "data_type": "date",
+      "filter_operators": [ "is_greater_than", "is_less_than", "hours_passed" ],
+      "attribute_type": "date_attributes"
     }
   }
 }

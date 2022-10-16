@@ -27,12 +27,12 @@ module Events::Types
   CONVERSATION_TYPING_ON = 'conversation.typing_on'
   CONVERSATION_TYPING_OFF = 'conversation.typing_off'
   CONVERSATION_MENTIONED = 'conversation.mentioned'
-  TIME_SINCE_LAST_MESSAGE = 'conversation.time_since_last_message'
 
   # message events
   MESSAGE_CREATED = 'message.created'
   FIRST_REPLY_CREATED = 'first.reply.created'
   MESSAGE_UPDATED = 'message.updated'
+  MESSAGE_HOURS_SINCE_LAST = 'message.hours_since_last'
 
   # contact events
   CONTACT_CREATED = 'contact.created'

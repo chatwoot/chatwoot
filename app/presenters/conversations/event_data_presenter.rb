@@ -13,7 +13,6 @@ class Conversations::EventDataPresenter < SimpleDelegator
       custom_attributes: custom_attributes,
       snoozed_until: snoozed_until,
       unread_count: unread_incoming_messages.count,
-      last_activity_at: last_activity_at,
       **push_timestamps
     }
   end

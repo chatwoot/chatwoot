@@ -92,7 +92,7 @@ const filterTypes = [
     attributeI18nKey: 'CREATED_AT',
     inputType: 'date',
     dataType: 'text',
-    filterOperators: OPERATOR_TYPES_5,
+    filterOperators: OPERATOR_TYPES_6,
     attributeModel: 'standard',
   },
   {
@@ -100,7 +100,7 @@ const filterTypes = [
     attributeI18nKey: 'LAST_ACTIVITY',
     inputType: 'date',
     dataType: 'text',
-    filterOperators: OPERATOR_TYPES_6,
+    filterOperators: OPERATOR_TYPES_5,
     attributeModel: 'standard',
   },
   {

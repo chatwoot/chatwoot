@@ -337,7 +337,7 @@ export const AUTOMATIONS = {
       },
     ],
   },
-  conversation_time_since_last_message: {
+  message_hours_since_last: {
     conditions: [
       {
         key: 'status',
@@ -347,51 +347,9 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
-        key: 'browser_language',
-        name: 'Browser Language',
-        attributeI18nKey: 'BROWSER_LANGUAGE',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'country_code',
-        name: 'Country',
-        attributeI18nKey: 'COUNTRY_NAME',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'referer',
-        name: 'Referrer Link',
-        attributeI18nKey: 'REFERER_LINK',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
-      },
-      {
-        key: 'assignee_id',
-        name: 'Assignee',
-        attributeI18nKey: 'ASSIGNEE_NAME',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
-      {
-        key: 'team_id',
-        name: 'Team',
-        attributeI18nKey: 'TEAM_NAME',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_3,
-      },
-      {
-        key: 'inbox_id',
-        name: 'Inbox',
-        attributeI18nKey: 'INBOX',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
-        key: 'last_activity_at',
-        name: 'Last Activity At',
-        attributeI18nKey: 'LAST_ACTIVITY_AT',
+        key: 'created_at',
+        name: 'Created At',
+        attributeI18nKey: 'CREATED_AT',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_4,
       },
@@ -465,8 +423,8 @@ export const AUTOMATION_RULE_EVENTS = [
     value: 'Message Created',
   },
   {
-    key: 'conversation_time_since_last_message',
-    value: 'Conversation Timeout',
+    key: 'message_hours_since_last',
+    value: 'Hours From Last Message',
   },
 ];
 
