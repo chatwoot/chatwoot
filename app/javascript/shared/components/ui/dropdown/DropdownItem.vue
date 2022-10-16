@@ -35,6 +35,7 @@ export default {
     a,
     .button {
       display: inline-flex;
+      white-space: nowrap;
       width: 100%;
       text-align: left;
       color: var(--s-700);
