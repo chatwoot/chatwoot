@@ -340,6 +340,27 @@ export const AUTOMATIONS = {
   message_hours_since_last: {
     conditions: [
       {
+        key: 'message_type',
+        name: 'Message Type',
+        attributeI18nKey: 'MESSAGE_TYPE',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'content',
+        name: 'Message Content',
+        attributeI18nKey: 'MESSAGE_CONTAINS',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_2,
+      },
+      {
+        key: 'inbox_id',
+        name: 'Inbox',
+        attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
         key: 'created_at',
         name: 'Last Incoming Message Time',
         attributeI18nKey: 'CREATED_AT',

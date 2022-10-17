@@ -265,7 +265,10 @@ export default {
   },
   methods: {
     onEventChange() {
-      if (this.automation.event_name === 'message_created') {
+      if (
+        this.automation.event_name === 'message_created' ||
+        this.automation.event_name === 'message_hours_since_last'
+      ) {
         this.automation.conditions = [
           {
             attribute_key: 'message_type',
@@ -390,6 +393,7 @@ export default {
       }
       switch (this.automation.event_name) {
         case 'message_created':
+        case 'message_hours_since_last':
           this.automation.conditions.push({
             attribute_key: 'message_type',
             filter_operator: 'equal_to',
