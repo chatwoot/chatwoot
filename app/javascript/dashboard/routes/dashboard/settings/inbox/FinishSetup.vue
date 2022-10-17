@@ -19,15 +19,11 @@
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div class="medium-6 small-offset-3">
+        <div v-if="isWhatsAppCloudInbox" class="medium-6 small-offset-3">
           <p class="config--label">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
-          <woot-code
-            v-if="isWhatsAppCloudInbox"
-            lang="html"
-            :script="currentInbox.callback_webhook_url"
-          />
+          <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
           <p class="config--label">
             {{
               $t(
@@ -36,7 +32,6 @@
             }}
           </p>
           <woot-code
-            v-if="isWhatsAppCloudInbox"
             lang="html"
             :script="currentInbox.provider_config.webhook_verify_token"
           />
