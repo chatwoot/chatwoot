@@ -94,6 +94,12 @@
             @on-select-template="toggleWaTemplate"
             @on-send="onSendWhatsAppReply"
           />
+          <div v-if="isAPIInbox && hasPreviousConversationsInAPIInbox">
+            <p class="alert-text">
+              A conversation already exists. Whatsapp channel supports only one
+              single conversation
+            </p>
+          </div>
           <label v-else-if="!isAPIInbox" :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
@@ -392,5 +398,8 @@ export default {
 }
 .row.gutter-small {
   gap: var(--space-small);
+}
+.alert-text {
+  color: #ff382d;
 }
 </style>
