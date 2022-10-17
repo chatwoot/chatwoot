@@ -321,7 +321,7 @@ export default {
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-half) !important;
+  margin-left: var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
