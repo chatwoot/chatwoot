@@ -162,7 +162,7 @@ td {
 }
 
 .category-link-content {
-  max-width: 160px;
+  max-width: 16rem;
   line-height: 1.5;
 }
 </style>
