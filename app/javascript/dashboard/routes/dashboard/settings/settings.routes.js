@@ -25,7 +25,7 @@ export default {
       roles: ['administrator', 'agent'],
       redirect: () => {
         if (store.getters.getCurrentRole === 'administrator') {
-          return frontendURL('accounts/:accountId/settings/agents');
+          return frontendURL('accounts/:accountId/settings/general');
         }
         return frontendURL('accounts/:accountId/settings/canned-response');
       },

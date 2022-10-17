@@ -110,13 +110,15 @@ import { hasPressedAltAndAKey } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
-
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
 } from 'shared/constants/messages';
 
 import { REPLY_EDITOR_MODES } from './constants';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload },
@@ -200,6 +202,10 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     isNote() {
       return this.mode === REPLY_EDITOR_MODES.NOTE;
     },
@@ -217,7 +223,12 @@ export default {
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
-      return this.showAudioRecorder;
+      return (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.VOICE_RECORDER
+        ) && this.showAudioRecorder
+      );
     },
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
