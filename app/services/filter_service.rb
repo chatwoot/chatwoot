@@ -75,11 +75,11 @@ class FilterService
 
   def time_filter_values(query_hash)
     timestamp = case query_hash[:filter_operator]
-           when 'hours_passed'
-             Time.zone.now - query_hash['values'][0].to_i.hours
-           else
-             Time.zone.today - query_hash['values'][0].to_i.days
-           end
+                when 'hours_passed'
+                  Time.zone.now - query_hash['values'][0].to_i.hours
+                else
+                  Time.zone.today - query_hash['values'][0].to_i.days
+                end
 
     query_hash['values'] = [timestamp.strftime('%F %T')]
     query_hash['filter_operator'] = 'is_less_than'
