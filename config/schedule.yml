@@ -14,9 +14,9 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
-# executed At every 1th minute..
+# executed At every minute past every hour..
 trigger_automation_events_job:
-  cron: '*/1 * * * *'
+  cron: '* */1 * * *'
   class: 'TriggerAutomationEventsJob'
   queue: scheduled_jobs
 
