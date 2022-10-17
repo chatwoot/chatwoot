@@ -20,7 +20,10 @@
         class="fs-small button clear link secondary"
         :to="getCategoryRoute(category.slug)"
       >
-        <span :title="category.name" class="category-link-button text-ellipsis">
+        <span
+          :title="category.name"
+          class="category-link-content text-ellipsis"
+        >
           {{ category.name }}
         </span>
       </router-link>
@@ -158,7 +161,7 @@ td {
   }
 }
 
-.category-link-button {
+.category-link-content {
   max-width: 160px;
   line-height: 1.5;
 }
