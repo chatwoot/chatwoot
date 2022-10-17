@@ -4,7 +4,7 @@
       <div class="article-content-wrap">
         <div class="article-block">
           <router-link :to="articleUrl(id)">
-            <h6 class="sub-block-title text-truncate">
+            <h6 :title="title" class="sub-block-title text-truncate">
               {{ title }}
             </h6>
           </router-link>
@@ -20,7 +20,9 @@
         class="fs-small button clear link secondary"
         :to="getCategoryRoute(category.slug)"
       >
-        {{ category.name }}
+        <span :title="category.name" class="category-link-button text-ellipsis">
+          {{ category.name }}
+        </span>
       </router-link>
     </td>
     <td>
@@ -154,5 +156,10 @@ td {
       font-size: var(--font-size-small);
     }
   }
+}
+
+.category-link-button {
+  max-width: 160px;
+  line-height: 1.5;
 }
 </style>
