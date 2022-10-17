@@ -124,7 +124,7 @@ export default {
         isUserPhoneNumberAvailable
       );
       return this.preChatFields.filter(field => {
-        return !(
+        if (
           (isUserEmailAvailable && field.name === 'emailAddress') ||
           (isUserPhoneNumberAvailable && field.name === 'phoneNumber')
         ) {
