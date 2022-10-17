@@ -81,12 +81,12 @@
           "FAILED": "Αδυναμία αντιστοίχισης σε πράκτορα. Παρακαλώ δοκιμάστε ξανά."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "Εκχώρηση ετικέτας #%{labelName} στην συνομιλία με αριθμό %{conversationId}",
+          "FAILED": "Αποτυχία στην εκχώρηση ετικέτας, παρακαλώ δοκιμάστε αργότερα."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "Η συνομιλία με αριθμό %{conversationId} ανατέθηκε στην ομάδα \"%{team}\"",
+          "FAILED": "Αδυναμία αντιστοίχισης ομάδας. Παρακαλώ δοκιμάστε ξανά."
         }
       }
     },
@@ -131,13 +131,13 @@
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "Η αλλαγή κατάστασης συνομιλίας απέτυχε",
     "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "Η αλλαγή της ανάθεσης απέτυχε",
+    "ASSIGN_LABEL_SUCCESFUL": "Επιτυχής εκχώρηση ετικέτας",
+    "ASSIGN_LABEL_FAILED": "Η εκχώρηση ετικέτας απέτυχε",
     "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
     "BOT": "Bot",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Αντιγραφή",
       "DELETE": "Διαγραφή",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "Προσθήκη στις έτοιμες απαντήσεις"
     }
   },
   "EMAIL_TRANSCRIPT": {
