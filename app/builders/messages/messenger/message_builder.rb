@@ -84,6 +84,6 @@ class Messages::Messenger::MessageBuilder
   private
 
   def unsupported_file_type?(attachment)
-    [:template, :unsupported_type].include?attachment['type'].to_sym
+    [:template, :unsupported_type].include? attachment['type'].to_sym
   end
 end
