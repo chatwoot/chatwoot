@@ -202,7 +202,7 @@
       "404": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
       "NO_CONTACTS": "Nav pieejamu kontaktpersonu",
       "TABLE_HEADER": {
-        "NAME": "Vārds",
+        "NAME": "Nosaukums",
         "PHONE_NUMBER": "Telefona Numurs",
         "CONVERSATIONS": "Sarunas",
         "LAST_ACTIVITY": "Pēdējās Darbības",
