@@ -107,13 +107,11 @@ class CommonMarker::Xep0393Renderer < CommonMarker::Renderer
   end
 
   def linebreak(_node)
-    out('\n')
+    cr
   end
 
   def softbreak(_)
-    if option_enabled?(:HARDBREAKS)
-      out('\n')
-    elsif option_enabled?(:NOBREAKS)
+    if option_enabled?(:NOBREAKS)
       out(' ')
     else
       cr
