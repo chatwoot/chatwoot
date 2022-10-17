@@ -37,10 +37,8 @@ class FilterService
       @filter_values["value_#{current_index}"] = 'IS NULL'
     when 'is_greater_than', 'is_less_than'
       @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
-    when 'hours_passed'
-      @filter_values["value_#{current_index}"] = hours_passed_filter_values(query_hash)
-    when 'days_before'
-      @filter_values["value_#{current_index}"] = days_before_filter_values(query_hash)
+    when 'hours_passed', 'days_before'
+      @filter_values["value_#{current_index}"] = time_filter_values(query_hash)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
@@ -75,17 +73,17 @@ class FilterService
     "#{operator} '#{value}'::#{attribute_data_type}"
   end
 
-  def days_before_filter_values(query_hash)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
-    query_hash['values'] = [date.strftime('%F %T')]
-    query_hash['filter_operator'] = 'is_less_than'
-    lt_gt_filter_values(query_hash)
-  end
+  def time_filter_values(query_hash)
+    timestamp = case query_hash[:filter_operator]
+           when 'hours_passed'
+             Time.zone.now - query_hash['values'][0].to_i.hours
+           else
+             Time.zone.today - query_hash['values'][0].to_i.days
+           end
 
-  def hours_passed_filter_values(query_hash)
-    date = Time.zone.now - query_hash['values'][0].to_i.hours
-    query_hash['values'] = [date.strftime('%F %T')]
+    query_hash['values'] = [timestamp.strftime('%F %T')]
     query_hash['filter_operator'] = 'is_less_than'
+
     lt_gt_filter_values(query_hash)
   end
 
