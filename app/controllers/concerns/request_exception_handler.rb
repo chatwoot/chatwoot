@@ -13,6 +13,8 @@ module RequestExceptionHandler
     render_not_found_error('Resource could not be found')
   rescue Pundit::NotAuthorizedError
     render_unauthorized('You are not authorized to do this action')
+  rescue ActionController::ParameterMissing => e
+    render_could_not_create_error(e.message)
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.reset
