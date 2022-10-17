@@ -233,6 +233,7 @@ export default {
         text: null,
         select: null,
         number: null,
+        checkbox: false,
       };
       const validationKeys = Object.keys(validations);
       const validation = 'bail|required';
