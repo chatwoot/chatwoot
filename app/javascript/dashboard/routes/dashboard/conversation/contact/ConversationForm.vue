@@ -245,8 +245,15 @@ export default {
       );
     },
     hasPreviousConversationsInAPIInbox() {
-      return JSON.stringify(this.contact.contact_inboxes).includes(
-        'Channel::Api'
+      if (this.contact.contact_inboxes) {
+        return JSON.stringify(this.contact.contact_inboxes).includes(
+          'Channel::Api'
+        );
+      }
+      return (
+        JSON.stringify(this.contact.contactableInboxes).includes(
+          'Channel::Api'
+        ) && this.contact.conversations_count >= 1
       );
     },
     isAnWebWidgetInbox() {
