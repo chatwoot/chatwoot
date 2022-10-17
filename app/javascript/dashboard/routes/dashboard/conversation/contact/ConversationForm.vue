@@ -94,7 +94,7 @@
             @on-select-template="toggleWaTemplate"
             @on-send="onSendWhatsAppReply"
           />
-          <label v-else :class="{ error: $v.message.$error }">
+          <label v-else-if="!isAPIInbox" :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
@@ -114,8 +114,16 @@
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
-      <woot-button type="submit" :is-loading="conversationsUiFlags.isCreating">
-        {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
+      <woot-button
+        type="submit"
+        :is-disabled="isAPIInbox && hasPreviousConversationsInAPIInbox"
+        :is-loading="conversationsUiFlags.isCreating"
+      >
+        {{
+          isAPIInbox
+            ? 'Create Conversation'
+            : $t('NEW_CONVERSATION.FORM.SUBMIT')
+        }}
       </woot-button>
     </div>
   </form>
@@ -132,6 +140,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import axios from 'axios';
 
 export default {
   components: {
@@ -170,7 +179,7 @@ export default {
       required: requiredIf('isAnEmailInbox'),
     },
     message: {
-      required,
+      required: requiredIf('!isAPIInbox'),
     },
     targetInbox: {
       required,
@@ -221,6 +230,17 @@ export default {
       return (
         this.selectedInbox &&
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.EMAIL
+      );
+    },
+    isAPIInbox() {
+      return (
+        this.selectedInbox &&
+        this.selectedInbox.inbox.channel_type === INBOX_TYPES.API
+      );
+    },
+    hasPreviousConversationsInAPIInbox() {
+      return JSON.stringify(this.contact.contact_inboxes).includes(
+        'Channel::Api'
       );
     },
     isAnWebWidgetInbox() {
@@ -284,9 +304,27 @@ export default {
           to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
           message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
         };
+        const currentInbox = this.$store.getters['inboxes/getInbox'](
+          data.inbox_id
+        );
+        const currentContact = this.$store.getters['contacts/getContact'](
+          payload.contactId
+        );
+        if (currentInbox.channel_type === 'Channel::Api') {
+          axios.post(
+            'https://app.bitespeed.co/cxIntegrations/chatwoot/createThread',
+            {
+              accountId: data.account_id,
+              conversationId: data.id,
+              phoneNumber: currentContact.phone_number,
+            }
+          );
+        }
         this.onSuccess();
         this.showAlert(
-          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
+          currentInbox.channel_type === 'Channel::Api'
+            ? 'Conversation Created'
+            : this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
           action
         );
       } catch (error) {
