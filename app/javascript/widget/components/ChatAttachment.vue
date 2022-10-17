@@ -60,6 +60,7 @@ export default {
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       items.forEach(item => {
         if (item.kind === 'file') {
+          e.preventDefault();
           const file = item.getAsFile();
           this.$refs.upload.add(file);
         }
