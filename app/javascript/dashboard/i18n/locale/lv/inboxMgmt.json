@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Atzvanīšanas URL",
-          "SUBTITLE": "Jums ir facebook izstrādātāju portālā jānokonfigurē webhook URL, izmantojot šeit minēto URL."
+          "SUBTITLE": "Jums Facebook izstrādātāju portālā ir jānokonfigurē webhoot URL un verifikācijas token ar tālāk norādītajām vērtībām.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verifikācijas Token"
         },
         "SUBMIT_BUTTON": "Izveidot WhatsApp kanālu",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Jūsu Iesūtne ir gatava!",
-      "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu ",
+      "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu",
       "BUTTON_TEXT": "Iet uz",
       "MORE_SETTINGS": "Papildu iestatījumi",
       "WEBSITE_SUCCESS": "Jūs esat veiksmīgi pabeidzis tīmekļa vietnes kanāla izveidi. Nokopējiet tālāk redzamo kodu un ievietojiet to savā tīmekļa vietnē. Nākamreiz, kad klients izmantos tiešsaistes tērzēšanu, saruna automātiski tiks parādīta Jūsu iesūtnē."
