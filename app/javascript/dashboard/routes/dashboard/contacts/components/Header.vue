@@ -59,7 +59,7 @@
         >
           {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
         </woot-button>
-        <!-- <woot-button
+        <woot-button
           class="margin-right-small clear"
           color-scheme="success"
           icon="person-add"
@@ -69,7 +69,7 @@
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
 
-        <woot-button
+        <!-- <woot-button
           color-scheme="info"
           icon="upload"
           class="clear"

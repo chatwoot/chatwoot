@@ -59,6 +59,7 @@
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
             @input="$v.phoneNumber.$touch"
+            :readonly="this.contact.phone_number"
           />
           <span v-if="$v.phoneNumber.$error" class="message">
             {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}
@@ -79,9 +80,7 @@
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />
     <div class="medium-12 columns">
-      <label>
-        Social Profiles
-      </label>
+      <label> Social Profiles </label>
       <div
         v-for="socialProfile in socialProfileKeys"
         :key="socialProfile.key"
@@ -285,6 +284,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+input[readonly] {
+  background-color: #e3e9f2;
+  outline: none;
+}
 .contact--form {
   padding: var(--space-normal) var(--space-large) var(--space-large);
 
