@@ -32,16 +32,11 @@ class Channel::TwitterProfile < ApplicationRecord
   end
 
   def create_contact_inbox(profile_id, name, additional_attributes)
-    ActiveRecord::Base.transaction do
-      contact = inbox.account.contacts.create!(additional_attributes: additional_attributes, name: name)
-      ::ContactInbox.create!(
-        contact_id: contact.id,
-        inbox_id: inbox.id,
-        source_id: profile_id
-      )
-    rescue StandardError => e
-      Rails.logger.error e
-    end
+    ::ContactInboxWithContactBuilder.new({
+                                           source_id: profile_id,
+                                           inbox: inbox,
+                                           contact_attributes: { name: name, additional_attributes: additional_attributes }
+                                         }).perform
   end
 
   def twitter_client

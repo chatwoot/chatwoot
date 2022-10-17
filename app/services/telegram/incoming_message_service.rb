@@ -31,7 +31,7 @@ class Telegram::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:message][:from][:id],
       inbox: inbox,
       contact_attributes: contact_attributes
