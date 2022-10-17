@@ -37,7 +37,7 @@ class FilterService
       @filter_values["value_#{current_index}"] = 'IS NULL'
     when 'is_greater_than', 'is_less_than'
       @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
-    when 'hours_passed', 'days_before'
+    when 'hours_before', 'days_before'
       @filter_values["value_#{current_index}"] = time_filter_values(query_hash)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
@@ -75,7 +75,7 @@ class FilterService
 
   def time_filter_values(query_hash)
     timestamp = case query_hash[:filter_operator]
-                when 'hours_passed'
+                when 'hours_before'
                   Time.zone.now - query_hash['values'][0].to_i.hours
                 else
                   Time.zone.today - query_hash['values'][0].to_i.days

@@ -99,7 +99,7 @@ export const OPERATOR_TYPES_6 = [
     label: 'Is less than',
   },
   {
-    value: 'hours_passed',
-    label: 'Is x hours passed',
+    value: 'hours_before',
+    label: 'Is x hours before',
   },
 ];

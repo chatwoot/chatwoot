@@ -23,7 +23,7 @@
       "is_greater_than": "Is greater than",
       "is_less_than": "Is lesser than",
       "days_before": "Is x days before",
-      "hours_passed": "Is x hours passed"
+      "hours_before": "Is x hours before"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",

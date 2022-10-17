@@ -57,8 +57,8 @@ const OPERATOR_TYPES_4 = [
     label: 'Greater than',
   },
   {
-    value: 'hours_passed',
-    label: 'Is x hours passed',
+    value: 'hours_before',
+    label: 'Is x hours before',
   },
 ];
 
@@ -340,15 +340,8 @@ export const AUTOMATIONS = {
   message_hours_since_last: {
     conditions: [
       {
-        key: 'status',
-        name: 'Status',
-        attributeI18nKey: 'STATUS',
-        inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
-      {
         key: 'created_at',
-        name: 'Created At',
+        name: 'Last Incoming Message Time',
         attributeI18nKey: 'CREATED_AT',
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_4,

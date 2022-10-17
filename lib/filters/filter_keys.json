@@ -88,7 +88,7 @@
       "attribute_name": "Last Activity At",
       "input_type": "date",
       "data_type": "date",
-      "filter_operators": [ "is_greater_than", "is_less_than", "hours_passed" ],
+      "filter_operators": [ "is_greater_than", "is_less_than" ],
       "attribute_type": "date_attributes"
     }
   },
@@ -167,7 +167,7 @@
       "attribute_name": "Last Activity At",
       "input_type": "date",
       "data_type": "date",
-      "filter_operators": [ "is_greater_than", "is_less_than", "hours_passed" ],
+      "filter_operators": [ "is_greater_than", "is_less_than" ],
       "attribute_type": "date_attributes"
     }
   },
@@ -190,7 +190,7 @@
       "attribute_name": "Last Message Created",
       "input_type": "date",
       "data_type": "date",
-      "filter_operators": [ "is_greater_than", "is_less_than", "hours_passed" ],
+      "filter_operators": [ "is_greater_than", "is_less_than", "hours_before" ],
       "attribute_type": "date_attributes"
     }
   }
