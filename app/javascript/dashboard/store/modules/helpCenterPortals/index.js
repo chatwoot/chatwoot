@@ -30,6 +30,7 @@ const state = {
     allFetched: false,
     isFetching: false,
   },
+  selectedPortalMetadata: {},
 };
 
 export default {

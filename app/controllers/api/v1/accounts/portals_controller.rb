@@ -14,7 +14,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal.members << agents
   end
 
-  def show; end
+  def show
+    @current_locale = params[:locale]
+    @articles = @portal.articles.search(locale: @current_locale)
+  end
 
   def create
     @portal = Current.account.portals.build(portal_params)
@@ -49,7 +52,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_portal
-    binding.pry
     @portal = Current.account.portals.find_by(slug: permitted_params[:id])
   end
 

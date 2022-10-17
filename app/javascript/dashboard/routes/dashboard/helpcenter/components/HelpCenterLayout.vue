@@ -93,6 +93,7 @@ export default {
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
+      selectedPortalMetadata: 'portals/selectedPortalMetadata',
     }),
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
@@ -134,6 +135,7 @@ export default {
     },
     accessibleMenuItems() {
       if (!this.selectedPortal) return [];
+
       const {
         meta: {
           all_articles_count: allArticlesCount,
@@ -141,7 +143,7 @@ export default {
           draft_articles_count: draftArticlesCount,
           archived_articles_count: archivedArticlesCount,
         } = {},
-      } = this.selectedPortal;
+      } = this.selectedPortalMetadata;
       return [
         {
           icon: 'book',
@@ -254,9 +256,14 @@ export default {
     fetchPortalsAndItsCategories() {
       this.$store.dispatch('portals/index').then(() => {
         this.$store.dispatch('categories/index', {
-          portalSlug: this.selectedPortalSlug,
-          locale: this.selectedLocaleInPortal,
-        });
+            portalSlug: this.selectedPortalSlug,
+            locale: this.selectedLocaleInPortal,
+          });
+        }).then(() => {
+          this.$store.dispatch('portals/show', {
+            portalSlug: this.selectedPortalSlug,
+            locale: this.selectedLocaleInPortal,
+          });
       });
       this.$store.dispatch('agents/get');
     },
