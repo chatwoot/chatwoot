@@ -33,7 +33,7 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  context 'webhook_data' do
+  context 'with webhook_data' do
     it 'contains the message attachment when attachment is present' do
       message = create(:message)
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
