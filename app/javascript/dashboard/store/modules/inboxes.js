@@ -55,7 +55,7 @@ export const getters = {
     const {
       message_templates: whatsAppMessageTemplates,
       additional_attributes: additionalAttributes,
-    } = inbox;
+    } = inbox || {};
 
     const { message_templates: apiInboxMessageTemplates } =
       additionalAttributes || {};
