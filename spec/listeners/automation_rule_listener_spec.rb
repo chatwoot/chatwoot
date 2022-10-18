@@ -644,4 +644,60 @@ describe AutomationRuleListener do
       end
     end
   end
+
+  describe '#message_hours_since_last with last incoming message time condition' do
+    before do
+      automation_rule.update!(
+        event_name: 'message_hours_since_last',
+        name: 'Send message based on last incoming message time',
+        description: 'Send Message in the conversation',
+        conditions: [
+          { attribute_key: 'created_at', filter_operator: 'hours_before', values: ['1'], query_operator: nil }.with_indifferent_access
+        ],
+        actions: [
+          { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+          { 'action_name' => 'mute_conversation', 'action_params' => nil }
+        ]
+      )
+    end
+
+    context 'when rule matches' do
+      let(:conversation) { create(:conversation, account: account, status: :open) }
+      let!(:message) do
+        create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'Hi', created_at: 2.hours.ago)
+      end
+      let(:event) { Events::Base.new('message_hours_since_last', Time.zone.now, { message: message }) }
+
+      it 'triggers automation rule send message and mute conversation' do
+        expect(conversation).not_to be_muted
+
+        listener.message_hours_since_last(event)
+
+        conversation.reload
+
+        expect(conversation.messages.last.content).to eq('Send this message.')
+        expect(conversation).to be_muted
+      end
+    end
+
+    context 'when rule does not match' do
+      let(:conversation) { create(:conversation, account: account, status: :open) }
+      let!(:message) do
+        create(:message, account: account, conversation: conversation, message_type: 'incoming', content: 'Hi')
+      end
+      let(:event) { Events::Base.new('message_hours_since_last', Time.zone.now, { message: message }) }
+
+      it 'does not triggers automation rule message not sent and conversation not muted' do
+        expect(conversation.messages.count).to eq(1)
+
+        listener.message_hours_since_last(event)
+
+        conversation.reload
+
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.last.content).to eq(message.content)
+        expect(conversation).not_to be_muted
+      end
+    end
+  end
 end
