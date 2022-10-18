@@ -37,7 +37,7 @@
       "CONFIRM": {
         "MESSAGE": "Are you sure to delete ",
         "YES": "Yes, Delete",
-        "NO": "No"
+        "NO": "No, Keep"
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",
