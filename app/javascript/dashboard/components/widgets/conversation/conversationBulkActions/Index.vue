@@ -181,7 +181,7 @@ export default {
   color: var(--y-700);
   font-size: var(--font-size-mini);
   margin-top: var(--space-small);
-  padding: var(--space-half) var(--space-one);
+  padding: var(--space-smaller) var(--space-small);
 }
 
 .popover-animation-enter-active,
