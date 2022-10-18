@@ -101,6 +101,7 @@
               :show-action-input="showActionInput(action.action_name)"
               :v="$v.automation.actions.$each[i]"
               :initial-file-name="getFileName(action, automation.files)"
+              @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
             <div class="filter-actions">
