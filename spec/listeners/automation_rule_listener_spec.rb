@@ -647,6 +647,11 @@ describe AutomationRuleListener do
 
   describe '#message_hours_since_last with last incoming message time condition' do
     before do
+      create(:custom_attribute_definition,
+             attribute_key: 'created_at',
+             account: account,
+             attribute_model: 'conversation_attribute',
+             attribute_display_type: 'timestamp')
       automation_rule.update!(
         event_name: 'message_hours_since_last',
         name: 'Send message based on last incoming message time',
