@@ -111,7 +111,11 @@ class FilterService
 
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
-    "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    if attribute_data_type == 'text'
+      "  LOWER(#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    else
+      "  (#{table_name}.custom_attributes ->> '#{attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+    end
   end
 
   private

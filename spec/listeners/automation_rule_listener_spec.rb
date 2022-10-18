@@ -23,6 +23,11 @@ describe AutomationRuleListener do
            attribute_model: 'conversation_attribute',
            attribute_display_type: 'list',
            attribute_values: %w[P0 P1 P2])
+    create(:custom_attribute_definition,
+           attribute_key: 'cloud_customer',
+           attribute_display_type: 'checkbox',
+           account: account,
+           attribute_model: 'contact_attribute')
     create(:team_member, user: user_1, team: team)
     create(:team_member, user: user_2, team: team)
     create(:account_user, user: user_2, account: account)
@@ -269,6 +274,7 @@ describe AutomationRuleListener do
     context 'when rule matches based on custom_attributes' do
       before do
         conversation.update!(custom_attributes: { priority: 'P2' })
+        conversation.contact.update!(custom_attributes: { cloud_customer: false })
 
         automation_rule.update!(
           event_name: 'conversation_updated',
@@ -280,6 +286,13 @@ describe AutomationRuleListener do
               filter_operator: 'equal_to',
               values: ['P2'],
               custom_attribute_type: 'conversation_attribute',
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'cloud_customer',
+              filter_operator: 'equal_to',
+              values: [false],
+              custom_attribute_type: 'contact_attribute',
               query_operator: nil
             }.with_indifferent_access
           ]
