@@ -1,13 +1,14 @@
 <template>
   <div class="column content-box">
-    <p v-if="!uiFlags.isFetching && !macro" class="no-items-error-message">
-      {{ $t('MACROS.LIST.404') }}
-    </p>
     <woot-loading-state
-      v-if="uiFlags.isFetching"
-      :message="$t('MACROS.LOADING')"
+      v-if="uiFlags.isFetchingItem"
+      :message="$t('MACROS.EDITOR.LOADING')"
     />
-    <macro-form v-if="macro" :macro-data.sync="macro" @submit="saveMacro" />
+    <macro-form
+      v-if="macro && !uiFlags.isFetchingItem"
+      :macro-data.sync="macro"
+      @submit="saveMacro"
+    />
   </div>
 </template>
 
@@ -32,7 +33,7 @@ export default {
   },
   data() {
     return {
-      macro: {},
+      macro: null,
       mode: 'CREATE',
       macroActionTypes: MACRO_ACTION_TYPES,
     };
@@ -68,17 +69,9 @@ export default {
       this.manifestMacro();
     },
     async manifestMacro() {
-      const isMacroAvailable = this.$store.getters['macros/getMacro'](
-        this.macroId
-      );
-      if (isMacroAvailable) this.macro = this.formatMacro(isMacroAvailable);
-      else {
-        await this.$store.dispatch('macros/getSingleMacro', this.macroId);
-        const singleMacro = this.$store.getters['macros/getMacro'](
-          this.macroId
-        );
-        this.macro = this.formatMacro(singleMacro);
-      }
+      await this.$store.dispatch('macros/getSingleMacro', this.macroId);
+      const singleMacro = this.$store.getters['macros/getMacro'](this.macroId);
+      this.macro = this.formatMacro(singleMacro);
     },
     formatMacro(macro) {
       const formattedActions = macro.actions.map(action => {
