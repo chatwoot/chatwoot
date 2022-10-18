@@ -16,7 +16,7 @@
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
       @open-popover="openPortalPopover"
-      @open-modal="onClickOpenAddCatogoryModal"
+      @open-modal="onClickOpenAddCategoryModal"
     />
     <section class="app-content columns" :class="contentClassName">
       <router-view />
@@ -254,17 +254,20 @@ export default {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-            portalSlug: this.selectedPortalSlug,
-            locale: this.selectedLocaleInPortal,
-          });
-        }).then(() => {
+      this.$store
+        .dispatch('portals/index')
+        .then(() => {
           this.$store.dispatch('portals/show', {
             portalSlug: this.selectedPortalSlug,
             locale: this.selectedLocaleInPortal,
           });
-      });
+        })
+        .then(() => {
+          this.$store.dispatch('categories/index', {
+            portalSlug: this.selectedPortalSlug,
+            locale: this.selectedLocaleInPortal,
+          });
+        });
       this.$store.dispatch('agents/get');
     },
     toggleKeyShortcutModal() {
@@ -285,7 +288,7 @@ export default {
     closePortalPopover() {
       this.showPortalPopover = false;
     },
-    onClickOpenAddCatogoryModal() {
+    onClickOpenAddCategoryModal() {
       this.showAddCategoryModal = true;
     },
     onClickCloseAddCategoryModal() {

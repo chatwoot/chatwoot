@@ -4,7 +4,7 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
 
   def create
     source_id = params[:source_id] || SecureRandom.uuid
-    @contact_inbox = ::ContactBuilder.new(
+    @contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: source_id,
       inbox: @inbox_channel.inbox,
       contact_attributes: permitted_params.except(:identifier, :identifier_hash)

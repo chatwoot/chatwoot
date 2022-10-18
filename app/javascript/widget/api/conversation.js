@@ -3,26 +3,22 @@ import { API } from 'widget/helpers/axios';
 
 const createConversationAPI = async content => {
   const urlData = endPoints.createConversation(content);
-  const result = await API.post(urlData.url, urlData.params);
-  return result;
+  return API.post(urlData.url, urlData.params);
 };
 
 const sendMessageAPI = async content => {
   const urlData = endPoints.sendMessage(content);
-  const result = await API.post(urlData.url, urlData.params);
-  return result;
+  return API.post(urlData.url, urlData.params);
 };
 
 const sendAttachmentAPI = async attachment => {
   const urlData = endPoints.sendAttachment(attachment);
-  const result = await API.post(urlData.url, urlData.params);
-  return result;
+  return API.post(urlData.url, urlData.params);
 };
 
 const getMessagesAPI = async ({ before }) => {
   const urlData = endPoints.getConversation({ before });
-  const result = await API.get(urlData.url, { params: urlData.params });
-  return result;
+  return API.get(urlData.url, { params: urlData.params });
 };
 
 const getConversationAPI = async () => {
