@@ -24,6 +24,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             category_id: category.id,
             description: 'test description',
             title: 'MyTitle',
+            slug: 'my-title',
             content: 'This is my content.',
             status: :published,
             author_id: agent.id
@@ -39,8 +40,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       end
 
       it 'associate to the root article' do
-        root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        parent_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        root_article = create(:article, category: category, slug: 'root-article', portal: portal, account_id: account.id, author_id: agent.id,
+                                        associated_article_id: nil)
+        parent_article = create(:article, category: category, slug: 'parent-article', portal: portal, account_id: account.id, author_id: agent.id,
                                           associated_article_id: root_article.id)
 
         article_params = {
@@ -48,6 +50,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             category_id: category.id,
             description: 'test description',
             title: 'MyTitle',
+            slug: 'MyTitle',
             content: 'This is my content.',
             status: :published,
             author_id: agent.id,
@@ -73,6 +76,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             category_id: category.id,
             description: 'test description',
             title: 'MyTitle',
+            slug: 'MyTitle',
             content: 'This is my content.',
             status: :published,
             author_id: agent.id,
@@ -191,6 +195,8 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['payload'].count).to be 1
         expect(json_response['meta']['articles_count']).to be 2
+        expect(json_response['meta']['all_articles_count']).to be 2
+        expect(json_response['meta']['mine_articles_count']).to be 1
       end
     end
 
@@ -210,9 +216,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
       it 'get associated articles' do
         root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        child_article_1 = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_1 = create(:article, slug: 'child-1', category: category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
-        child_article_2 = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_2 = create(:article, slug: 'child-2', category: category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",

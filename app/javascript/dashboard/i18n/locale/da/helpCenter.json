@@ -1,267 +1,409 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
+      "FILTER": "Filtrer efter",
+      "SORT": "Sorter efter",
       "SETTINGS_BUTTON": "Indstillinger",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Ny Artikel",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publiceret",
+        "DRAFT": "Kladde",
+        "ARCHIVED": "Arkiveret"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Alle Artikler",
+        "MINE": "Alle Artikler",
+        "DRAFT": "Kladde Artikler",
+        "ARCHIVED": "Arkiverede Artikler"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Alle Artikler",
+      "PUBLISH_BUTTON": "Udgiv",
+      "MOVE_TO_ARCHIVE_BUTTON": "Flyt til arkiveret",
+      "PREVIEW": "Eksempelvisning",
+      "ADD_TRANSLATION": "Tilføj oversættelse",
+      "OPEN_SIDEBAR": "Åbn sidepanel",
+      "CLOSE_SIDEBAR": "Luk sidepanel",
+      "SAVING": "Gemmer...",
+      "SAVED": "Gemt"
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Artikel Indstillinger",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kategori",
+          "TITLE": "Vælg kategori",
+          "PLACEHOLDER": "Vælg kategori",
+          "NO_RESULT": "Ingen kategori fundet",
+          "SEARCH_PLACEHOLDER": "Søg kategori"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Forfatter",
+          "TITLE": "Vælg forfatter",
+          "PLACEHOLDER": "Vælg forfatter",
+          "NO_RESULT": "Ingen forfattere fundet",
+          "SEARCH_PLACEHOLDER": "Søg efter forfatter"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
+          "LABEL": "Meta titel",
           "PLACEHOLDER": "Add a meta title"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta beskrivelse",
+          "PLACEHOLDER": "Tilføj din meta beskrivelse for bedre SEO resultater..."
         },
         "META_TAGS": {
           "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "PLACEHOLDER": "Tilføj meta-tags adskilt af komma..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arkiv artikel",
+        "DELETE": "Slet artikel"
       }
     },
     "PORTAL": {
       "HEADER": "Portals",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "DEFAULT": "Standard",
+      "NEW_BUTTON": "Ny Portal",
+      "ACTIVE_BADGE": "aktiv",
+      "CHOOSE_LOCALE_LABEL": "Vælg en landestandard",
+      "LOADING_MESSAGE": "Indlæser portaler...",
+      "ARTICLES_LABEL": "artikler",
+      "NO_PORTALS_MESSAGE": "Der er ingen tilgængelige portaler",
+      "ADD_NEW_LOCALE": "Tilføj en ny landestandard",
       "POPOVER": {
         "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "PORTAL_SETTINGS": "Portal indstillinger",
+        "SUBTITLE": "Du har flere portaler og kan have forskellige landestandarder for hver portal.",
         "CANCEL_BUTTON_LABEL": "Annuller",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Vælg Landestandard"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Indstillinger"
+            "COUNT_LABEL": "artikler",
+            "ADD": "Tilføj landestandard",
+            "VISIT": "Besøg websted",
+            "SETTINGS": "Indstillinger",
+            "DELETE": "Slet"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Portal Konfigurationer",
             "ITEMS": {
               "NAME": "Navn",
-              "DOMAIN": "Custom domain",
-              "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "DOMAIN": "Tilpasset domæne",
+              "SLUG": "Snegl",
+              "TITLE": "Portal titel",
+              "THEME": "Tema farve",
+              "SUB_TEXT": "Portal undertekst"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Tilgængelige landestandarder",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Landestandard navn",
+              "CODE": "Landestandard kode",
+              "ARTICLE_COUNT": "Antal varer",
+              "CATEGORIES": "Antal kategorier",
+              "SWAP": "Byt",
               "DELETE": "Slet",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Standard"
             }
           }
+        },
+        "DELETE_PORTAL": {
+          "TITLE": "Slet portal",
+          "MESSAGE": "Er du sikker på du vil slette denne portal",
+          "YES": "Ja, slet portal",
+          "NO": "Nej, behold portal",
+          "API": {
+            "DELETE_SUCCESS": "Portal slettet",
+            "DELETE_ERROR": "Fejl under sletning af portal"
+          }
+        }
+      },
+      "EDIT": {
+        "HEADER_TEXT": "Rediger portal",
+        "TABS": {
+          "BASIC_SETTINGS": {
+            "TITLE": "Grundlæggende oplysninger"
+          },
+          "CUSTOMIZATION_SETTINGS": {
+            "TITLE": "Tilpasning af portal"
+          },
+          "CATEGORY_SETTINGS": {
+            "TITLE": "Kategorier"
+          },
+          "LOCALE_SETTINGS": {
+            "TITLE": "Locales"
+          }
+        },
+        "CATEGORIES": {
+          "TITLE": "Kategorier i",
+          "NEW_CATEGORY": "Ny kategori",
+          "TABLE": {
+            "NAME": "Navn",
+            "DESCRIPTION": "Beskrivelse",
+            "LOCALE": "Landestandard",
+            "ARTICLE_COUNT": "Antal varer",
+            "ACTION_BUTTON": {
+              "EDIT": "Rediger kategori",
+              "DELETE": "Slet kategori"
+            },
+            "EMPTY_TEXT": "Ingen kategorier fundet"
+          }
+        },
+        "EDIT_BASIC_INFO": {
+          "BUTTON_TEXT": "Opdater grundlæggende indstillinger"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Information om hjælpecenter",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Grundlæggende oplysninger om portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Opret grundlæggende portal indstillinger"
           },
           {
-            "title": "Help center customization",
-            "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "title": "Tilpasning af hjælpecenter",
+            "route": "portal_tilpasning",
+            "body": "Tilpas portal",
+            "UPDATE_PORTAL_BUTTON": "Opdater portalindstillinger"
           },
           {
             "title": "Voila! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
-            "FINISH": "Finish"
+            "body": "Du er klar!",
+            "FINISH": "Afslut"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Tilbage",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Opret Portal",
+            "TITLE": "Information om hjælpecenter",
+            "CREATE_BASIC_SETTING_BUTTON": "Opret grundlæggende portal indstillinger"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Tilpasning af portal",
+            "TITLE": "Tilpasning af hjælpecenter",
+            "UPDATE_PORTAL_BUTTON": "Opdater portalindstillinger"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Voila!🎉 Alt er sat op!",
+            "MESSAGE": "Du kan nu se denne oprettede portal på alle portaler siden.",
+            "FINISH": "Gå til alle portaler side"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "HELP_TEXT": "Dette logo vil blive vist i portalens header."
         },
         "NAME": {
           "LABEL": "Navn",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Portal navn",
+          "HELP_TEXT": "Navnet vil blive brugt i den offentlige vendende portal internt.",
+          "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-
-          "ERROR": "Slug is required"
+          "LABEL": "Snegl",
+          "PLACEHOLDER": "Portal slug for webadresser",
+          "ERROR": "Slug er påkrævet"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "LABEL": "Tilpasset Domæne",
+          "PLACEHOLDER": "Portal brugerdefineret domæne",
+          "HELP_TEXT": "Tilføj kun Hvis du vil bruge et brugerdefineret domæne til dine portaler.",
+          "ERROR": "Brugerdefineret domæne er påkrævet"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "LABEL": "Link Til Hjemmeside",
+          "PLACEHOLDER": "Link til portalens hjemmeside",
+          "HELP_TEXT": "Linket, der bruges til at vende tilbage fra portalen til hjemmesiden.",
+          "ERROR": "Hjemmeside Link er påkrævet"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Portal tema farve",
+          "HELP_TEXT": "Denne farve vil blive vist som temafarven for portalen."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
+          "LABEL": "Side Titel",
+          "PLACEHOLDER": "Portal side titel",
           "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "ERROR": "Sidetitel er påkrævet"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Header Tekst",
+          "PLACEHOLDER": "Portal header tekst",
+          "HELP_TEXT": "Portal header tekst vil blive brugt i den offentlige vender portal.",
+          "ERROR": "Portal header tekst er påkrævet"
         },
         "API": {
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal oprettet.",
+          "ERROR_MESSAGE_FOR_BASIC": "Portalen kunne ikke oprettes. Prøv igen.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal opdateret.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Portalen kunne ikke opdateres. Prøv igen."
+        }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Tilføj en ny landestandard",
+        "SUB_TITLE": "Dette tilføjer en ny landestandard til din tilgængelige oversættelsesliste.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Landestandard",
+          "PLACEHOLDER": "Vælg en landestandard",
+          "ERROR": "Landestandard er påkrævet"
+        },
+        "BUTTONS": {
+          "CREATE": "Opret landestandard",
+          "CANCEL": "Annuller"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Landestandard tilføjet",
+          "ERROR_MESSAGE": "Kan ikke tilføje locale. Prøv igen."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Standard landestandard opdateret",
+          "ERROR_MESSAGE": "Kan ikke opdatere standard locale. Prøv igen."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Landestandard fjernet fra portal",
+          "ERROR_MESSAGE": "Kan ikke fjerne landestandard fra portalen. Prøv igen."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Indlæser artikler...",
+      "404": "Ingen artikler matcher din søgning 🔍",
+      "NO_ARTICLES": "Der er ingen tilgængelige artikler",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "TITLE": "Titel",
+        "CATEGORY": "Kategori",
+        "READ_COUNT": "Læse antal",
         "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Sidst redigeret"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "af"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Indlæser artikel...",
+      "TITLE_PLACEHOLDER": "Artikel titel vises her",
+      "CONTENT_PLACEHOLDER": "Skriv din artikel her",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Fejl under lagring af artikel"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Fejl under publicering af artikel",
+        "SUCCESS": "Artikel publiceret med succes"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Fejl under arkivering af artikel",
+        "SUCCESS": "Artikel arkiveret"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Bekræft Sletning",
+          "MESSAGE": "Er du sikker på at du vil slette artiklen?",
+          "YES": "Ja, Slet",
+          "NO": "Nej, behold det"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Artikel slettet",
+        "ERROR_MESSAGE": "Fejl under sletning af artikel"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again."
+      "ERROR_MESSAGE": "Tilføj venligst artiklens overskrift og indhold, så kun du kan opdatere indstillingerne"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Søg efter artikler"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "TITLE": "Opret en kategori",
+        "SUB_TITLE": "Kategorien vil blive brugt i den offentlige vender portal til at kategorisere artikler.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Landestandard",
         "NAME": {
           "LABEL": "Navn",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "PLACEHOLDER": "Kategori navn",
+          "HELP_TEXT": "Kategorinavnet vil blive brugt i den offentlige vendende portal til at kategorisere artikler.",
+          "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "LABEL": "Snegl",
+          "PLACEHOLDER": "Kategori slug for webls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/da-DK/categories/my-slug",
+          "ERROR": "Slug er påkrævet"
         },
         "DESCRIPTION": {
           "LABEL": "Beskrivelse",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Giv en kort beskrivelse af kategorien.",
+          "ERROR": "Beskrivelse er påkrævet"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Opret kategori",
           "CANCEL": "Annuller"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Kategori oprettet",
+          "ERROR_MESSAGE": "Kan ikke oprette kategori"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Rediger en kategori",
+        "SUB_TITLE": "Redigering af en kategori vil opdatere kategorien i den offentlige vender portal.",
+        "PORTAL": "Portal",
+        "LOCALE": "Landestandard",
+        "NAME": {
+          "LABEL": "Navn",
+          "PLACEHOLDER": "Kategori navn",
+          "HELP_TEXT": "Kategorinavnet vil blive brugt i den offentlige vendende portal til at kategorisere artikler.",
+          "ERROR": "Navn er påkrævet"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Kategori slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/da-DK/categories/my-slug",
+          "ERROR": "Slug er påkrævet"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Beskrivelse",
+          "PLACEHOLDER": "Giv en kort beskrivelse af kategorien.",
+          "ERROR": "Beskrivelse er påkrævet"
+        },
+        "BUTTONS": {
+          "CREATE": "Opdater kategori",
+          "CANCEL": "Annuller"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Kategori opdateret",
+          "ERROR_MESSAGE": "Kan ikke opdatere kategori"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Kategori slettet",
+          "ERROR_MESSAGE": "Kan ikke slette kategori"
         }
       }
     }
