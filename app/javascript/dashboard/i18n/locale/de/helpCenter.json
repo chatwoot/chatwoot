@@ -306,7 +306,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Fehler beim Veröffentlichen des Artikels",
-        "SUCCESS": "Artikel erfolgreich veröffentlicht"
+        "SUCCESS": "Article published successfully"
       }
     },
     "ARCHIVE_ARTICLE": {
