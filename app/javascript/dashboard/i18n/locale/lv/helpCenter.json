@@ -92,7 +92,7 @@
           "PORTAL_CONFIG": {
             "TITLE": "Portāla Konfigurācijas",
             "ITEMS": {
-              "NAME": "Vārds",
+              "NAME": "Nosaukums",
               "DOMAIN": "Pielāgots domēns",
               "SLUG": "Slug",
               "TITLE": "Portāla nosaukums",
@@ -144,7 +144,7 @@
           "TITLE": "Kategorijas iekš",
           "NEW_CATEGORY": "Jauna kategorija",
           "TABLE": {
-            "NAME": "Vārds",
+            "NAME": "Nosaukums",
             "DESCRIPTION": "Apraksts",
             "LOCALE": "Lokalizācija",
             "ARTICLE_COUNT": "Rakstu skaits",
@@ -204,7 +204,7 @@
           "HELP_TEXT": "Šis logotips tiks attēlots portāla galvenē."
         },
         "NAME": {
-          "LABEL": "Vārds",
+          "LABEL": "Nosaukums",
           "PLACEHOLDER": "Portāla nosaukums",
           "HELP_TEXT": "Nosaukums tiks izmantots publiskajā portālā iekšēji.",
           "ERROR": "Nepieciešams nosaukums"
@@ -344,7 +344,7 @@
         "PORTAL": "Portāls",
         "LOCALE": "Lokalizācija",
         "NAME": {
-          "LABEL": "Vārds",
+          "LABEL": "Nosaukums",
           "PLACEHOLDER": "Kategorijas nosaukums",
           "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
           "ERROR": "Nepieciešams nosaukums"
@@ -375,7 +375,7 @@
         "PORTAL": "Portāls",
         "LOCALE": "Lokalizācija",
         "NAME": {
-          "LABEL": "Vārds",
+          "LABEL": "Nosaukums",
           "PLACEHOLDER": "Kategorijas nosaukums",
           "HELP_TEXT": "Kategorijas nosaukums tiks izmantots publiskajā portālā, lai klasificētu rakstus.",
           "ERROR": "Nepieciešams nosaukums"
