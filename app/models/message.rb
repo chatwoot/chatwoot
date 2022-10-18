@@ -116,7 +116,7 @@ class Message < ApplicationRecord
   end
 
   def webhook_data
-    {
+    data = {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
@@ -131,6 +131,8 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       source_id: source_id
     }
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data
   end
 
   def content
@@ -241,7 +243,7 @@ class Message < ApplicationRecord
   end
 
   def validate_attachments_limit(_attachment)
-    errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+    errors.add(:attachments, message: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 
   def set_conversation_activity

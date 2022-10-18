@@ -165,4 +165,15 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([]);
     });
   });
+
+  describe('#setActiveAccount', () => {
+    it('sends correct mutations if account id is available', async () => {
+      actions.setActiveAccount(
+        {
+          commit,
+        },
+        { accountId: 1 }
+      );
+    });
+  });
 });
