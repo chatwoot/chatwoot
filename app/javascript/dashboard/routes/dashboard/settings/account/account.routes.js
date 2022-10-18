@@ -10,7 +10,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'GENERAL_SETTINGS.TITLE',
-        icon: 'settings',
+        icon: 'briefcase',
         showNewButton: false,
       },
       children: [
