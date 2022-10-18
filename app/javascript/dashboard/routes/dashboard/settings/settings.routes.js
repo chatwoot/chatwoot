@@ -11,6 +11,7 @@ import inbox from './inbox/inbox.routes';
 import integrationapps from './integrationapps/integrations.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
+import macros from './macros/macros.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
@@ -24,7 +25,7 @@ export default {
       roles: ['administrator', 'agent'],
       redirect: () => {
         if (store.getters.getCurrentRole === 'administrator') {
-          return frontendURL('accounts/:accountId/settings/agents');
+          return frontendURL('accounts/:accountId/settings/general');
         }
         return frontendURL('accounts/:accountId/settings/canned-response');
       },
@@ -41,6 +42,7 @@ export default {
     ...integrationapps.routes,
     ...integrations.routes,
     ...labels.routes,
+    ...macros.routes,
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,

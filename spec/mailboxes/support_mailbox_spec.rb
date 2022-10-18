@@ -103,14 +103,35 @@ RSpec.describe SupportMailbox, type: :mailbox do
     end
 
     describe 'handle inbox contacts' do
-      let(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
-      let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+      let!(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
+      let!(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
 
       it 'does not create new contact if that contact exists in the inbox' do
-        # making sure we have a contact already present
-        expect(contact_inbox.contact.email).to eq(support_mail.mail.from.first)
-        described_subject
+        expect do
+          described_subject
+        end
+          .to(not_change { Contact.count }
+            .and(not_change { ContactInbox.count }))
+
         expect(conversation.messages.last.sender.id).to eq(contact.id)
+        expect(conversation.contact_inbox).to eq(contact_inbox)
+      end
+
+      context 'with uppercase reply-to' do
+        let(:support_mail) { create_inbound_email_from_fixture('support_uppercase.eml') }
+        let!(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
+        let!(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+
+        it 'does not create new contact if that contact exists in the inbox' do
+          expect do
+            described_subject
+          end
+            .to(not_change { Contact.count }
+              .and(not_change { ContactInbox.count }))
+
+          expect(conversation.messages.last.sender.id).to eq(contact.id)
+          expect(conversation.contact_inbox).to eq(contact_inbox)
+        end
       end
     end
 

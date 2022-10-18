@@ -123,12 +123,12 @@ export default {
       return !!this.menuItem.children;
     },
     isMenuItemVisible() {
-      if (!this.menuItem.featureFlagKey) {
+      if (!this.menuItem.featureFlag) {
         return true;
       }
       return this.isFeatureEnabledonAccount(
         this.accountId,
-        this.menuItem.featureFlagKey
+        this.menuItem.featureFlag
       );
     },
     isInboxConversation() {
@@ -217,7 +217,7 @@ export default {
       }
     },
     showItem(item) {
-      return this.isAdmin && item.newLink !== undefined;
+      return this.isAdmin && !!item.newLink;
     },
     onClickOpen() {
       this.$emit('open');
@@ -321,7 +321,7 @@ export default {
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-half) !important;
+  margin-left: var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
