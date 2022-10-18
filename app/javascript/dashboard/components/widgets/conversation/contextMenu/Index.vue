@@ -141,9 +141,19 @@ export default {
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inboxId
-      );
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+          this.inboxId
+        ),
+      ];
     },
   },
   mounted() {

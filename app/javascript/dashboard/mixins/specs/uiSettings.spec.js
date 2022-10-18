@@ -2,6 +2,7 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import uiSettingsMixin, {
   DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
   DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
+  isEditorHotKeyEnabled,
 } from '../uiSettings';
 import Vuex from 'vuex';
 const localVue = createLocalVue();
@@ -135,5 +136,28 @@ describe('uiSettingsMixin', () => {
         { name: 'previous_conversation' },
       ]);
     });
+  });
+});
+
+describe('isEditorHotKeyEnabled', () => {
+  it('returns true if hot key is not configured and enter to send flag is true', () => {
+    expect(
+      isEditorHotKeyEnabled({ enter_to_send_enabled: true }, 'enter')
+    ).toEqual(true);
+    expect(
+      isEditorHotKeyEnabled({ enter_to_send_enabled: true }, 'cmd_enter')
+    ).toEqual(false);
+
+    expect(isEditorHotKeyEnabled({}, 'cmd_enter')).toEqual(true);
+    expect(isEditorHotKeyEnabled({}, 'enter')).toEqual(false);
+  });
+
+  it('returns correct value if hot key is configured', () => {
+    expect(
+      isEditorHotKeyEnabled({ editor_message_key: 'enter' }, 'enter')
+    ).toEqual(true);
+    expect(
+      isEditorHotKeyEnabled({ editor_message_key: 'cmd_enter' }, 'enter')
+    ).toEqual(false);
   });
 });
