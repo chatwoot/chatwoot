@@ -123,9 +123,9 @@ export default {
           this.mode === 'EDIT'
             ? this.$t('MACROS.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('MACROS.ADD.API.SUCCESS_MESSAGE');
-        let serializeMacro = JSON.parse(JSON.stringify(macro));
-        serializeMacro.actions = actionQueryGenerator(serializeMacro.actions);
-        await this.$store.dispatch(action, serializeMacro);
+        let serializedMacro = JSON.parse(JSON.stringify(macro));
+        serializedMacro.actions = actionQueryGenerator(serializedMacro.actions);
+        await this.$store.dispatch(action, serializedMacro);
         this.showAlert(successMessage);
         this.$router.push({ name: 'macros_wrapper' });
       } catch (error) {
