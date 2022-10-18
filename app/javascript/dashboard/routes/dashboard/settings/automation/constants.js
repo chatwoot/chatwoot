@@ -300,7 +300,7 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'assign_team',
     label: 'Assign a team',
-    inputType: 'multi_select',
+    inputType: 'search_select',
   },
   {
     key: 'add_label',

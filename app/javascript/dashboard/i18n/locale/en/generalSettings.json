@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Press enter to select",
       "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "SELECT_ONE": "Select one",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {

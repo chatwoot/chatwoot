@@ -215,7 +215,7 @@ export default {
       const inputType = this.automationActionTypes.find(
         item => item.key === action.action_name
       ).inputType;
-      if (inputType === 'multi_select') {
+      if (inputType === 'multi_select' || inputType === 'search_select') {
         actionParams = [
           ...this.getActionDropdownValues(action.action_name),
         ].filter(item => [...params].includes(item.id));
