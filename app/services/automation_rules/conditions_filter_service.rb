@@ -39,11 +39,11 @@ class AutomationRules::ConditionsFilterService < FilterService
     message_filter = @message_filters[query_hash['attribute_key']]
 
     if message_filter
-      @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
+      @query_string += message_query_string(message_filter, query_hash.with_indifferent_access, current_index)
     elsif contact_filter
       @query_string += contact_query_string(contact_filter, query_hash.with_indifferent_access, current_index)
     elsif conversation_filter
-      @query_string += message_query_string(message_filter, query_hash.with_indifferent_access, current_index)
+      @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
     elsif custom_attribute(query_hash['attribute_key'], @account, query_hash['custom_attribute_type'])
       # send table name according to attribute key right now we are supporting contact based custom attribute filter
       @query_string += custom_attribute_query(query_hash.with_indifferent_access, query_hash['custom_attribute_type'], current_index)
