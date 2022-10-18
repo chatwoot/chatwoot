@@ -117,7 +117,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              },
              message: {
                content: 'This is a test message'
-             },
+             }
            },
            as: :json
 
