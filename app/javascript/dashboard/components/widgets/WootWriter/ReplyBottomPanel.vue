@@ -11,7 +11,6 @@
         size="small"
         @click="toggleEmojiPicker"
       />
-      <!-- ensure the same validations for attachment types are implemented in  backend models as well -->
       <file-upload
         ref="upload"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
@@ -46,6 +45,16 @@
         size="small"
         :title="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         @click="toggleAudioRecorder"
+      />
+      <woot-button
+        v-if="showEditorToggle"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+        icon="quote"
+        emoji="🖊️"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="$emit('toggle-editor')"
       />
       <woot-button
         v-if="showAudioPlayStopButton"
@@ -184,7 +193,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    isFormatMode: {
+    showEditorToggle: {
       type: Boolean,
       default: false,
     },
