@@ -112,16 +112,25 @@ export default {
     this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
   },
   methods: {
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.portal.slug,
+    fetchPortalsAndItsCategories(code, portal) {
+      this.$store
+        .dispatch('portals/index')
+        .then(() => {
+          this.$store.dispatch('portals/show', {
+            portalSlug: portal.slug,
+            locale: code,
+          });
+        })
+        .then(() => {
+          this.$store.dispatch('categories/index', {
+            portalSlug: portal.slug,
+            locale: code,
+          });
         });
-      });
     },
     onClick(event, code, portal) {
       event.preventDefault();
-      this.fetchPortalsAndItsCategories();
+      this.fetchPortalsAndItsCategories(code, portal);
       this.$router.push({
         name: 'list_all_locale_articles',
         params: {
