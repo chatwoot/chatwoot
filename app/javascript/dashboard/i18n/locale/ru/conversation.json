@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Записать аудио",
       "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
       "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
-      "ENTER_TO_SEND": "Введите чтобы отправить",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
       "START_AUDIO_RECORDING": "Начать запись аудио",
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "DELETE": "Удалить"
+      "DELETE": "Удалить",
+      "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы"
     }
   },
   "EMAIL_TRANSCRIPT": {

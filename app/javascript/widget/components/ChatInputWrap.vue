@@ -189,7 +189,8 @@ export default {
 }
 
 .emoji-dialog {
-  right: space-smaller;
+  right: $space-smaller;
+  top: -278px;
 
   &::before {
     right: $space-one;
@@ -208,9 +209,7 @@ export default {
   min-height: $space-large;
   max-height: 2.4 * $space-mega;
   resize: none;
-  padding: 0;
-  padding-top: $space-smaller;
-  padding-bottom: $space-smaller;
+  padding: $space-smaller 0;
   margin-top: $space-small;
   margin-bottom: $space-small;
 }

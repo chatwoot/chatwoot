@@ -7,7 +7,12 @@
       class="flex items-start"
       :class="[avatarUrl ? 'justify-between' : 'justify-end']"
     >
-      <img v-if="avatarUrl" class="h-12 rounded-full" :src="avatarUrl" />
+      <img
+        v-if="avatarUrl"
+        class="h-12 rounded-full"
+        :src="avatarUrl"
+        alt="Avatar"
+      />
       <header-actions :show-popout-button="showPopoutButton" />
     </div>
     <h2

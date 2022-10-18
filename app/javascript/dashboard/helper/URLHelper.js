@@ -6,7 +6,7 @@ export const frontendURL = (path, params) => {
 };
 
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
-  const { accounts = [] } = user || {};
+  const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
     account => account.id === Number(ssoAccountId)
   );
@@ -14,7 +14,9 @@ const getSSOAccountPath = ({ ssoAccountId, user }) => {
   if (ssoAccount) {
     accountPath = `accounts/${ssoAccountId}`;
   } else if (accounts.length) {
-    accountPath = `accounts/${accounts[0].id}`;
+    // If the account id is not found, redirect to the first account
+    const accountId = account_id || accounts[0].id;
+    accountPath = `accounts/${accountId}`;
   }
   return accountPath;
 };

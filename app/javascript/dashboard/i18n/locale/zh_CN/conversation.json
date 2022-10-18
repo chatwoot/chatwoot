@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "录制音频",
       "TIP_AUDIORECORDER_PERMISSION": "允许访问音频",
       "TIP_AUDIORECORDER_ERROR": "无法打开音频",
-      "ENTER_TO_SEND": "Enter 键发送",
       "DRAG_DROP": "拖放到此处添加附件",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "复制",
-      "DELETE": "删除"
+      "DELETE": "删除",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

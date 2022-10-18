@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Enregistrer l'audio",
       "TIP_AUDIORECORDER_PERMISSION": "Autoriser l'accès à l'audio",
       "TIP_AUDIORECORDER_ERROR": "Impossible d'ouvrir l'audio",
-      "ENTER_TO_SEND": "Entrer pour envoyer",
       "DRAG_DROP": "Glissez et déposez ici pour lier",
       "START_AUDIO_RECORDING": "Démarrer l'enregistrement audio",
       "STOP_AUDIO_RECORDING": "Arrêter l'enregistrement audio",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copier",
-      "DELETE": "Supprimer"
+      "DELETE": "Supprimer",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

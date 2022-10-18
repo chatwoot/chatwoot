@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Înregistrare audio",
       "TIP_AUDIORECORDER_PERMISSION": "Permiteți accesul la audio",
       "TIP_AUDIORECORDER_ERROR": "Nu s-a putut deschide audio",
-      "ENTER_TO_SEND": "Introduceţi pentru a trimite",
       "DRAG_DROP": "Trageți și plasați aici pentru atașare",
       "START_AUDIO_RECORDING": "Pornirea înregistrării audio",
       "STOP_AUDIO_RECORDING": "Mesaj audio",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copiază",
-      "DELETE": "Şterge"
+      "DELETE": "Şterge",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

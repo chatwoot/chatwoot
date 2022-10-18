@@ -111,7 +111,6 @@
       "TIP_AUDIORECORDER_ICON": "Ses kaydet",
       "TIP_AUDIORECORDER_PERMISSION": "Mikrofon erişimine izin ver",
       "TIP_AUDIORECORDER_ERROR": "Mikrofon açılamadı",
-      "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın",
       "DRAG_DROP": "Eklemek için buraya sürükleyip bırakın",
       "START_AUDIO_RECORDING": "Ses kaydetmeye başla",
       "STOP_AUDIO_RECORDING": "Ses kaydetmeyi durdur",
@@ -151,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopyala",
-      "DELETE": "Sil"
+      "DELETE": "Sil",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
