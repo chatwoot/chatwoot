@@ -41,7 +41,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete macro, Please try again later"
+        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
       }
     },
     "EDIT": {
