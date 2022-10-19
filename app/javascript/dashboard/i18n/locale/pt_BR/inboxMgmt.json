@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Você deve configurar a URL do webhook e o token de verificação no portal do desenvolvedor do Facebook com os valores mostrados abaixo.",
           "WEBHOOK_URL": "URL do Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Token de verificação Webhook"
         },
         "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "API": {
