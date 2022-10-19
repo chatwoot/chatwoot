@@ -26,6 +26,7 @@
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
+        :class="emojiDialogClassOnExpanedLayout"
         :on-click="emojiOnClick"
       />
       <reply-email-head
@@ -55,6 +56,7 @@
       <woot-message-editor
         v-else
         v-model="message"
+        :editor-id="editorStateId"
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
@@ -106,15 +108,12 @@
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
-      :set-format-mode="setFormatMode"
       :is-on-private-note="isOnPrivateNote"
-      :is-format-mode="showRichContentEditor"
-      :enable-rich-editor="isRichEditorEnabled"
-      :enter-to-send-enabled="enterToSendEnabled"
+      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
-      @toggleEnterToSend="toggleEnterToSend"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -144,20 +143,23 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import WootAudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import {
-  isEscape,
-  isEnter,
-  hasPressedShift,
-  hasPressedCommandPlusKKey,
-} from 'shared/helpers/KeyboardHelpers';
+  MAXIMUM_FILE_UPLOAD_SIZE,
+  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
+} from 'shared/constants/messages';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
+import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
+import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { DirectUpload } from 'activestorage';
 import { frontendURL } from '../../../helper/URLHelper';
+import { LocalStorage, LOCAL_STORAGE_KEYS } from '../../../helper/localStorage';
+import { trimContent, debounce } from '@chatwoot/utils';
+import wootConstants from 'dashboard/constants';
+import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -211,6 +213,7 @@ export default {
       hasSlashCommand: false,
       bccEmails: '',
       ccEmails: '',
+      doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
     };
   },
@@ -224,17 +227,17 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
     showRichContentEditor() {
-      if (this.isOnPrivateNote) {
+      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
       }
 
-      if (this.isRichEditorEnabled) {
+      if (this.isAPIInbox) {
         const {
-          display_rich_content_editor: displayRichContentEditor,
+          display_rich_content_editor: displayRichContentEditor = false,
         } = this.uiSettings;
-
         return displayRichContentEditor;
       }
+
       return false;
     },
     assignedAgent: {
@@ -270,11 +273,8 @@ export default {
       return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
         .length;
     },
-    enterToSendEnabled() {
-      return !!this.uiSettings.enter_to_send_enabled;
-    },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsappChannel) {
+      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -321,7 +321,7 @@ export default {
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isAWhatsappChannel) {
+      if (this.isAWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isASmsInbox) {
@@ -338,7 +338,7 @@ export default {
       return (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
-        this.isAWhatsappChannel ||
+        this.isAWhatsAppChannel ||
         this.isAPIInbox ||
         this.isAnEmailChannel ||
         this.isASmsInbox ||
@@ -346,13 +346,16 @@ export default {
       );
     },
     replyButtonLabel() {
+      let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isPrivate) {
-        return this.$t('CONVERSATION.REPLYBOX.CREATE');
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
+      } else if (this.conversationType === 'tweet') {
+        sendMessageText = this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
-      if (this.conversationType === 'tweet') {
-        return this.$t('CONVERSATION.REPLYBOX.TWEET');
-      }
-      return this.$t('CONVERSATION.REPLYBOX.SEND');
+      const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
+        ? '(⌘ + ↵)'
+        : '(↵)';
+      return `${sendMessageText} ${keyLabel}`;
     },
     replyBoxClass() {
       return {
@@ -384,6 +387,20 @@ export default {
     inReplyTo() {
       const selectedTweet = this.selectedTweet || {};
       return selectedTweet.id;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const {
+        conversation_display_type: conversationDisplayType = CONDENSED,
+      } = this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
+    },
+    emojiDialogClassOnExpanedLayout() {
+      return this.isOnExpandedLayout && !this.popoutReplyBox
+        ? 'emoji-dialog--expanded'
+        : '';
     },
     replyToUserLength() {
       const selectedTweet = this.selectedTweet || {};
@@ -419,15 +436,36 @@ export default {
     profilePath() {
       return frontendURL(`accounts/${this.accountId}/profile/settings`);
     },
+    editorMessageKey() {
+      const { editor_message_key: isEnabled } = this.uiSettings;
+      return isEnabled;
+    },
+    commandPlusEnterToSendEnabled() {
+      return this.editorMessageKey === 'cmd_enter';
+    },
+    enterToSendEnabled() {
+      return this.editorMessageKey === 'enter';
+    },
+    conversationId() {
+      return this.currentChat.id;
+    },
+    conversationIdByRoute() {
+      const { conversation_id: conversationId } = this.$route.params;
+      return conversationId;
+    },
+    editorStateId() {
+      return `draft-${this.conversationIdByRoute}-${this.replyType}`;
+    },
   },
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
+
       if (this.isOnPrivateNote) {
         return;
       }
 
-      if (canReply || this.isAWhatsappChannel) {
+      if (canReply || this.isAWhatsAppChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -435,34 +473,135 @@ export default {
 
       this.setCCEmailFromLastChat();
     },
+    conversationIdByRoute(conversationId, oldConversationId) {
+      if (conversationId !== oldConversationId) {
+        this.setToDraft(oldConversationId, this.replyType);
+        this.getFromDraft();
+      }
+    },
     message(updatedMessage) {
       this.hasSlashCommand =
         updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
+        this.mentionSearchKey = updatedMessage.substring(1);
         this.showMentions = true;
       } else {
         this.mentionSearchKey = '';
         this.showMentions = false;
       }
+      this.doAutoSaveDraft();
+    },
+    replyType(updatedReplyType, oldReplyType) {
+      this.setToDraft(this.conversationIdByRoute, oldReplyType);
+      this.getFromDraft();
     },
   },
 
   mounted() {
+    this.getFromDraft();
     // Donot use the keyboard listener mixin here as the events here are supposed to be
     // working even if input/textarea is focussed.
-    document.addEventListener('keydown', this.handleKeyEvents);
     document.addEventListener('paste', this.onPaste);
-
+    document.addEventListener('keydown', this.handleKeyEvents);
     this.setCCEmailFromLastChat();
+    this.doAutoSaveDraft = debounce(
+      () => {
+        this.saveDraft(this.conversationIdByRoute, this.replyType);
+      },
+      500,
+      true
+    );
   },
   destroyed() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
     document.removeEventListener('paste', this.onPaste);
+    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleRichContentEditor() {
+      this.updateUISettings({
+        display_rich_content_editor: !this.showRichContentEditor,
+      });
+    },
+    getSavedDraftMessages() {
+      return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
+    },
+    saveDraft(conversationId, replyType) {
+      if (this.message || this.message === '') {
+        const savedDraftMessages = this.getSavedDraftMessages();
+        const key = `draft-${conversationId}-${replyType}`;
+        const draftToSave = trimContent(this.message || '');
+        const {
+          [key]: currentDraft,
+          ...restOfDraftMessages
+        } = savedDraftMessages;
+
+        const updatedDraftMessages = draftToSave
+          ? {
+              ...restOfDraftMessages,
+              [key]: draftToSave,
+            }
+          : restOfDraftMessages;
+
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
+      }
+    },
+    setToDraft(conversationId, replyType) {
+      this.saveDraft(conversationId, replyType);
+      this.message = '';
+    },
+    getFromDraft() {
+      if (this.conversationIdByRoute) {
+        try {
+          const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+          const savedDraftMessages = this.getSavedDraftMessages();
+          this.message = `${savedDraftMessages[key] || ''}`;
+        } catch (error) {
+          this.message = '';
+        }
+      }
+    },
+    removeFromDraft() {
+      if (this.conversationIdByRoute) {
+        const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
+        const draftMessages = this.getSavedDraftMessages();
+        const { [key]: toBeRemoved, ...updatedDraftMessages } = draftMessages;
+        LocalStorage.set(
+          LOCAL_STORAGE_KEYS.DRAFT_MESSAGES,
+          updatedDraftMessages
+        );
+      }
+    },
+    handleKeyEvents(e) {
+      const keyCode = buildHotKeys(e);
+      if (keyCode === 'escape') {
+        this.hideEmojiPicker();
+        this.hideMentions();
+      } else if (keyCode === 'meta+k') {
+        const ninja = document.querySelector('ninja-keys');
+        ninja.open();
+        e.preventDefault();
+      } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
+        this.onSendReply();
+      } else if (
+        ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
+        this.isAValidEvent('cmd_enter')
+      ) {
+        this.onSendReply();
+      }
+    },
+    isAValidEvent(selectedKey) {
+      return (
+        !this.hasUserMention &&
+        !this.showCannedMenu &&
+        this.isFocused &&
+        isEditorHotKeyEnabled(this.uiSettings, selectedKey)
+      );
+    },
     onPaste(e) {
       const data = e.clipboardData.files;
       if (!this.showRichContentEditor && data.length !== 0) {
@@ -481,34 +620,6 @@ export default {
     },
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
-    },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.hideEmojiPicker();
-        this.hideMentions();
-      } else if (isEnter(e)) {
-        const hasSendOnEnterEnabled =
-          (this.showRichContentEditor &&
-            this.enterToSendEnabled &&
-            !this.hasUserMention &&
-            !this.showCannedMenu) ||
-          !this.showRichContentEditor;
-        const shouldSendMessage =
-          hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
-        if (shouldSendMessage) {
-          e.preventDefault();
-          this.onSendReply();
-        }
-      } else if (hasPressedCommandPlusKKey(e)) {
-        this.openCommandBar();
-      }
-    },
-    openCommandBar() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open();
-    },
-    toggleEnterToSend(enterToSendEnabled) {
-      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     openWhatsappTemplateModal() {
       this.showWhatsAppTemplatesModal = true;
@@ -549,8 +660,13 @@ export default {
           newMessage += '\n\n' + this.messageSignature;
         }
         const messagePayload = this.getMessagePayload(newMessage);
+
         this.clearMessage();
+        if (!this.isPrivate) {
+          this.clearEmailField();
+        }
         this.sendMessage(messagePayload);
+        this.clearMessage();
         this.hideEmojiPicker();
         this.$emit('update:popoutReplyBox', false);
       }
@@ -562,6 +678,7 @@ export default {
           messagePayload
         );
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        this.removeFromDraft();
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
@@ -582,8 +699,7 @@ export default {
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
-
-      if (canReply || this.isAWhatsappChannel) this.replyType = mode;
+      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
@@ -598,9 +714,11 @@ export default {
     clearMessage() {
       this.message = '';
       this.attachedFiles = [];
+      this.isRecordingAudio = false;
+    },
+    clearEmailField() {
       this.ccEmails = '';
       this.bccEmails = '';
-      this.isRecordingAudio = false;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -610,6 +728,7 @@ export default {
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
         this.clearMessage();
+        this.clearEmailField();
       }
     },
     toggleAudioRecorderPlayPause() {
@@ -638,6 +757,7 @@ export default {
     },
     onBlur() {
       this.isFocused = false;
+      this.saveDraft(this.conversationIdByRoute, this.replyType);
     },
     onFocus() {
       this.isFocused = true;
@@ -671,10 +791,14 @@ export default {
       }
     },
     onDirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
+
       if (!file) {
         return;
       }
-      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
         const upload = new DirectUpload(
           file.file,
           `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
@@ -698,21 +822,24 @@ export default {
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_FILE_UPLOAD_SIZE,
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
           })
         );
       }
     },
     onIndirectFileUpload(file) {
+      const MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE = this.isATwilioSMSChannel
+        ? MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
+        : MAXIMUM_FILE_UPLOAD_SIZE;
       if (!file) {
         return;
       }
-      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+      if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
         this.attachFile({ file });
       } else {
         this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-            MAXIMUM_FILE_UPLOAD_SIZE,
+            MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
           })
         );
       }
@@ -766,9 +893,6 @@ export default {
       }
 
       return messagePayload;
-    },
-    setFormatMode(value) {
-      this.updateUISettings({ display_rich_content_editor: value });
     },
     setCcEmails(value) {
       this.bccEmails = value.bccEmails;
@@ -851,7 +975,18 @@ export default {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
   }
 }
+.emoji-dialog--expanded {
+  left: unset;
+  bottom: var(--space-jumbo);
+  position: absolute;
+  z-index: var(--z-index-normal);
 
+  &::before {
+    transform: rotate(0deg);
+    left: var(--space-smaller);
+    bottom: var(--space-minus-slab);
+  }
+}
 .message-signature {
   margin-bottom: 0;
 

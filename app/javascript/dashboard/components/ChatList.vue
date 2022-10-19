@@ -1,5 +1,11 @@
 <template>
-  <div class="conversations-list-wrap">
+  <div
+    class="conversations-list-wrap"
+    :class="{
+      hide: !showConversationList,
+      'list--full-width': isOnExpandedLayout,
+    }"
+  >
     <slot />
     <div
       class="chat-list__top"
@@ -46,7 +52,7 @@
 
         <woot-button
           v-else
-          v-tooltip.top-end="$t('FILTER.TOOLTIP_LABEL')"
+          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="clear"
           color-scheme="secondary"
           icon="filter"
@@ -115,6 +121,7 @@
         @select-conversation="selectConversation"
         @de-select-conversation="deSelectConversation"
         @assign-agent="onAssignAgent"
+        @assign-team="onAssignTeam"
         @assign-label="onAssignLabels"
         @update-conversation-status="toggleConversationStatus"
         @context-menu-toggle="onContextMenuToggle"
@@ -209,6 +216,14 @@ export default {
     foldersId: {
       type: [String, Number],
       default: 0,
+    },
+    showConversationList: {
+      default: true,
+      type: Boolean,
+    },
+    isOnExpandedLayout: {
+      default: false,
+      type: Boolean,
     },
   },
   data() {
@@ -604,9 +619,42 @@ export default {
           },
         });
         this.selectedConversations = [];
-        this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
+        if (conversationId) {
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.AGENT_ASSIGNMENT.SUCCESFUL',
+              {
+                agentName: agent.name,
+                conversationId,
+              }
+            )
+          );
+        } else {
+          this.showAlert(this.$t('BULK_ACTION.ASSIGN_SUCCESFUL'));
+        }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.ASSIGN_FAILED'));
+      }
+    },
+    async onAssignTeam(team, conversationId = null) {
+      try {
+        await this.$store.dispatch('assignTeam', {
+          conversationId,
+          teamId: team.id,
+        });
+        this.showAlert(
+          this.$t(
+            'CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.SUCCESFUL',
+            {
+              team: team.name,
+              conversationId,
+            }
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED')
+        );
       }
     },
     // Same method used in context menu, conversationId being passed from there.
@@ -620,7 +668,19 @@ export default {
           },
         });
         this.selectedConversations = [];
-        this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
+        if (conversationId) {
+          this.showAlert(
+            this.$t(
+              'CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_ASSIGNMENT.SUCCESFUL',
+              {
+                labelName: labels[0],
+                conversationId,
+              }
+            )
+          );
+        } else {
+          this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_SUCCESFUL'));
+        }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
       }
@@ -695,6 +755,17 @@ export default {
   }
   @include breakpoint(xxxlarge up) {
     flex-basis: 46rem;
+  }
+
+  &.hide {
+    display: none;
+  }
+
+  &.list--full-width {
+    width: 100%;
+    @include breakpoint(xxxlarge up) {
+      flex-basis: 100%;
+    }
   }
 }
 .filter--actions {

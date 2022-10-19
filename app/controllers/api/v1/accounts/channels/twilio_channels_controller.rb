@@ -44,7 +44,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
       phone_number: phone_number,
       medium: medium
     )
-    @inbox = Current.account.inboxes.create(
+    @inbox = Current.account.inboxes.create!(
       name: permitted_params[:name],
       channel: @twilio_channel
     )

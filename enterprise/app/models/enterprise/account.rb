@@ -1,7 +1,7 @@
 module Enterprise::Account
   def usage_limits
     {
-      agents: agent_limits,
+      agents: agent_limits.to_i,
       inboxes: get_limits(:inboxes).to_i
     }
   end

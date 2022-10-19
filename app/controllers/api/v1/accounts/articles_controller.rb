@@ -2,10 +2,12 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
   before_action :fetch_article, except: [:index, :create]
+  before_action :set_current_page, only: [:index]
 
   def index
+    @articles_count = @portal.articles.count
     @articles = @portal.articles
-    @articles = @articles.search(list_params) if params[:payload].present?
+    @articles = @articles.search(list_params) if list_params.present?
   end
 
   def create
@@ -40,13 +42,16 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def article_params
     params.require(:article).permit(
-      :title, :content, :description, :position, :category_id, :author_id, :associated_article_id, :status
+      :title, :slug, :content, :description, :position, :category_id, :author_id, :associated_article_id, :status, meta: [:title, :description,
+                                                                                                                          { tags: [] }]
     )
   end
 
   def list_params
-    params.require(:payload).permit(
-      :category_slug, :locale, :query, :page
-    )
+    params.permit(:locale, :query, :page, :category_slug, :status, :author_id)
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
   end
 end

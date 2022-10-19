@@ -413,7 +413,8 @@
       "CONFIGURATION": "پیکربندی",
       "CAMPAIGN": "کمپین ها",
       "PRE_CHAT_FORM": "فرم پیش چت",
-      "BUSINESS_HOURS": "ساعت کاری"
+      "BUSINESS_HOURS": "ساعت کاری",
+      "WIDGET_BUILDER": "سازنده ابزارک"
     },
     "SETTINGS": "تنظیمات",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "باز کردن حالت تایید SSL",
       "AUTH_MECHANISM": "احراز هویت"
     },
-    "NOTE": "یادداشت: "
+    "NOTE": "یادداشت: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "آواتار وب‌سایت",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "آواتار با موفقیت حذف شد",
+              "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "عنوان سایت",
+          "PLACE_HOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)",
+          "ERROR": "لطفا یک نام وب‌سایت معتبر وارد کنید"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "تیتر خوش آمدگویی",
+          "PLACE_HOLDER": "سلام!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "زیرتیتر خوش آمدگویی",
+          "PLACE_HOLDER": "دسترسی به ما ساده است. هر سوالی پیش آمد همینجا از ما بپرسید."
+        },
+        "REPLY_TIME": {
+          "LABEL": "زمان پاسخ",
+          "IN_A_FEW_MINUTES": "در چند دقیقه",
+          "IN_A_FEW_HOURS": "در چند ساعت",
+          "IN_A_DAY": "در یک روز"
+        },
+        "WIDGET_COLOR_LABEL": "رنگ ویجت",
+        "WIDGET_BUBBLE_POSITION_LABEL": "موقعیت حباب ابزارک",
+        "WIDGET_BUBBLE_TYPE_LABEL": "نوع حباب ابزارک",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "با ما گفتگو کنید",
+          "LABEL": "عنوان ویجت Bubble",
+          "PLACE_HOLDER": "با ما گفتگو کنید"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "به‌روزرسانی تنظیمات ابزارک",
+          "API": {
+            "SUCCESS_MESSAGE": "تنظیمات ابزارک با موفقیت به‌روز شد",
+            "ERROR_MESSAGE": "به‌روزرسانی تنظیمات ابزارک ممکن نیست"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "پیش‌نمایش",
+          "SCRIPT": "اسکریپت"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "چپ",
+          "RIGHT": "راست"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "استاندارد",
+          "EXPANDED_BUBBLE": "گسترش Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "پیش‌فرض",
+        "CHAT": "گفتگو"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
+        "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
+        "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "شروع گفتگو",
+        "CHAT_INPUT_PLACEHOLDER": "پیام خود را وارد کنید"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "ما آنلاین هستیم",
+          "OFFLINE": "در حال حاضر دردسترس نیستیم"
+        },
+        "USER_MESSAGE": "سلام",
+        "AGENT_MESSAGE": "سلام"
+      },
+      "BRANDING_TEXT": "قدرت گرفته از چت ووت",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

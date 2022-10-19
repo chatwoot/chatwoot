@@ -413,7 +413,8 @@
       "CONFIGURATION": "Konfiguration",
       "CAMPAIGN": "Kampagnen",
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
-      "BUSINESS_HOURS": "Öffnungszeiten"
+      "BUSINESS_HOURS": "Öffnungszeiten",
+      "WIDGET_BUILDER": "Widget-Generator"
     },
     "SETTINGS": "Einstellungen",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen",
       "AUTH_MECHANISM": "Authentifizierung"
     },
-    "NOTE": "Hinweis: "
+    "NOTE": "Hinweis: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website-Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar erfolgreich gelöscht",
+              "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Webseiten-Name",
+          "PLACE_HOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)",
+          "ERROR": "Bitte geben Sie einen gültigen Website-Namen ein"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Willkommens-Überschrift",
+          "PLACE_HOLDER": "Hi!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Willkommens-Schlagzeile",
+          "PLACE_HOLDER": "Wir machen es einfach, sich mit uns zu verbinden. Fragen Sie uns etwas oder teilen Sie uns Ihr Feedback mit."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Antwortzeit",
+          "IN_A_FEW_MINUTES": "Innerhalb weniger Minuten",
+          "IN_A_FEW_HOURS": "Innerhalb weniger Stunden",
+          "IN_A_DAY": "Innerhalb eines Tages"
+        },
+        "WIDGET_COLOR_LABEL": "Widget Farbe",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Position der Widget-Blase",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget-Blasentyp",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chatten Sie mit uns",
+          "LABEL": "Widget Bubble Launcher-Titel",
+          "PLACE_HOLDER": "Chatten Sie mit uns"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Widget-Einstellungen aktualisieren",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget-Einstellungen erfolgreich aktualisiert",
+            "ERROR_MESSAGE": "Widget-Einstellungen können nicht aktualisiert werden"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Vorschau",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Links",
+          "RIGHT": "Rechts"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Erweiterte Blase"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Standard",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
+        "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
+        "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Unterhaltung beginnen",
+        "CHAT_INPUT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Wir sind online",
+          "OFFLINE": "Wir sind momentan abwesend"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hallo"
+      },
+      "BRANDING_TEXT": "Unterstützt von Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

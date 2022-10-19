@@ -8,7 +8,7 @@ class Twilio::IncomingMessageService
 
     set_contact
     set_conversation
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: params[:Body],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -47,7 +47,7 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:From],
       inbox: inbox,
       contact_attributes: contact_attributes

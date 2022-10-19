@@ -413,7 +413,8 @@
       "CONFIGURATION": "組態",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "服務時間"
+      "BUSINESS_HOURS": "服務時間",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "設定",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "出現錯誤，請重試"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "網站名稱",
+          "PLACE_HOLDER": "輸入您的網站名稱 (e.g: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "歡迎標題：",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "歡迎標籤行",
+          "PLACE_HOLDER": "如有疑問，請聯繫我們"
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "幾分鐘內",
+          "IN_A_FEW_HOURS": "幾小時內",
+          "IN_A_DAY": "一天內"
+        },
+        "WIDGET_COLOR_LABEL": "視窗小元件顏色",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "與我們對話",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "與我們對話"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
+        "IN_A_FEW_HOURS": "通常在幾小時內回覆",
+        "IN_A_DAY": "通常在一天內回覆"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "開始對話",
+        "CHAT_INPUT_PLACEHOLDER": "輸入你的訊息"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "我們目前不在線上"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Powered by Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

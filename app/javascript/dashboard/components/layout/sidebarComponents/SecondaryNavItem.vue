@@ -1,12 +1,19 @@
 <template>
-  <li class="sidebar-item">
+  <li v-show="isMenuItemVisible" class="sidebar-item">
     <div v-if="hasSubMenu" class="secondary-menu--wrap">
-      <span class="secondary-menu--title fs-small">
+      <span class="secondary-menu--header fs-small">
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="isHelpCenterSidebar" class="submenu-icons">
-        <fluent-icon icon="search" class="submenu-icon" size="16" />
-        <fluent-icon icon="add" class="submenu-icon" size="16" />
+        <woot-button
+          size="tiny"
+          variant="clear"
+          color-scheme="secondary"
+          class="submenu-icon"
+          @click="onClickOpen"
+        >
+          <fluent-icon icon="add" size="16" />
+        </woot-button>
       </div>
     </div>
     <router-link
@@ -29,7 +36,7 @@
         {{ `${menuItem.count}` }}
       </span>
       <span
-        v-if="menuItem.label === 'AUTOMATION'"
+        v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
         class="beta"
@@ -71,6 +78,9 @@
           </a>
         </li>
       </router-link>
+      <p v-if="isHelpCenterSidebar && isCategoryEmpty" class="empty-text">
+        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
+      </p>
     </ul>
   </li>
 </template>
@@ -98,11 +108,28 @@ export default {
       type: Boolean,
       default: false,
     },
+    isCategoryEmpty: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    ...mapGetters({ activeInbox: 'getSelectedInbox' }),
+    ...mapGetters({
+      activeInbox: 'getSelectedInbox',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     hasSubMenu() {
       return !!this.menuItem.children;
+    },
+    isMenuItemVisible() {
+      if (!this.menuItem.featureFlag) {
+        return true;
+      }
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        this.menuItem.featureFlag
+      );
     },
     isInboxConversation() {
       return (
@@ -134,11 +161,8 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
-    isAllArticles() {
-      return (
-        this.$store.state.route.name === 'list_all_locale_articles' &&
-        this.menuItem.toStateName === 'all_locale_articles'
-      );
+    isArticlesView() {
+      return this.$store.state.route.name === this.menuItem.toStateName;
     },
 
     computedClass() {
@@ -158,7 +182,7 @@ export default {
         return ' ';
       }
       if (this.isHelpCenterSidebar) {
-        if (this.isAllArticles) {
+        if (this.isArticlesView) {
           return 'is-active';
         }
         return ' ';
@@ -193,7 +217,10 @@ export default {
       }
     },
     showItem(item) {
-      return this.isAdmin && item.newLink !== undefined;
+      return this.isAdmin && !!item.newLink;
+    },
+    onClickOpen() {
+      this.$emit('open');
     },
   },
 };
@@ -206,13 +233,22 @@ export default {
 .secondary-menu--wrap {
   display: flex;
   justify-content: space-between;
+  margin-top: var(--space-small);
 }
 
+.secondary-menu--header {
+  color: var(--s-700);
+  display: flex;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--space-normal);
+  margin: var(--space-small) 0;
+  padding: 0 var(--space-small);
+}
 .secondary-menu--title {
   color: var(--s-600);
   display: flex;
-  font-weight: var(--font-weight-bold);
-  line-height: var(--space-two);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--space-normal);
   margin: var(--space-small) 0;
   padding: 0 var(--space-small);
 }
@@ -224,6 +260,7 @@ export default {
   padding: var(--space-small);
   font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-normal);
+  color: var(--s-700);
 
   &:hover {
     background: var(--s-25);
@@ -284,7 +321,7 @@ export default {
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-half) !important;
+  margin-left: var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
@@ -315,13 +352,14 @@ export default {
   align-items: center;
 
   .submenu-icon {
+    padding: 0;
     margin-left: var(--space-small);
-    color: var(--s-600);
-
-    &:hover {
-      cursor: pointer;
-      color: var(--w-500);
-    }
   }
+}
+
+.empty-text {
+  color: var(--s-500);
+  font-size: var(--font-size-small);
+  margin: var(--space-smaller);
 }
 </style>

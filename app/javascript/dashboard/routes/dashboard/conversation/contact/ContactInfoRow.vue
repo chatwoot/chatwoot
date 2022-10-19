@@ -10,10 +10,11 @@
       <woot-button
         v-if="showCopy"
         type="submit"
-        variant="link"
+        variant="clear"
+        size="tiny"
         color-scheme="secondary"
         icon="clipboard"
-        class-names="icon copy-icon"
+        class-names="copy-icon"
         @click="onCopy"
       />
     </a>
@@ -28,9 +29,9 @@
   </div>
 </template>
 <script>
-import copy from 'copy-text-to-clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
@@ -60,9 +61,9 @@ export default {
     },
   },
   methods: {
-    onCopy(e) {
+    async onCopy(e) {
       e.preventDefault();
-      copy(this.value);
+      await copyTextToClipboard(this.value);
       this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
   },

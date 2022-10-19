@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
     "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר",
     "REPLY_TO_TWEET": "הגב לציוץ זה",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
     "SENT": "נשלח בהצלחה",
     "NO_MESSAGES": "אין הודעות",
     "NO_CONTENT": "אין תוכן זמין",
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "קרא"
   }
 }

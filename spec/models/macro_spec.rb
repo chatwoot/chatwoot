@@ -10,9 +10,17 @@ RSpec.describe Macro, type: :model do
     it { is_expected.to belong_to(:updated_by) }
   end
 
+  describe 'validations' do
+    it 'validation action name' do
+      macro = FactoryBot.build(:macro, account: account, created_by: admin, updated_by: admin, actions: [{ action_name: :update_last_seen }])
+      expect(macro).not_to be_valid
+      expect(macro.errors.full_messages).to eq(['Actions Macro execution actions update_last_seen not supported.'])
+    end
+  end
+
   describe '#set_visibility' do
     let(:agent) { create(:user, account: account, role: :agent) }
-    let(:macro) { create(:macro, account: account, created_by: admin, updated_by: admin) }
+    let(:macro) { create(:macro, account: account, created_by: admin, updated_by: admin, actions: []) }
 
     context 'when user is administrator' do
       it 'set visibility with params' do
@@ -47,15 +55,15 @@ RSpec.describe Macro, type: :model do
     let(:agent_2) { create(:user, account: account, role: :agent) }
 
     before do
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :global)
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :global)
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :personal)
-      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :personal)
-      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :personal)
-      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :personal)
-      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal)
-      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal)
-      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal)
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :global, actions: [])
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :global, actions: [])
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :personal, actions: [])
+      create(:macro, account: account, created_by: admin, updated_by: admin, visibility: :personal, actions: [])
+      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :personal, actions: [])
+      create(:macro, account: account, created_by: agent_1, updated_by: agent_1, visibility: :personal, actions: [])
+      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal, actions: [])
+      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal, actions: [])
+      create(:macro, account: account, created_by: agent_2, updated_by: agent_2, visibility: :personal, actions: [])
     end
 
     context 'when user is administrator' do

@@ -3,24 +3,38 @@ class Enterprise::Billing::HandleStripeEventService
     ensure_event_context(event)
     case @event.type
     when 'customer.subscription.updated'
-      plan = find_plan(subscription['plan']['product'])
-      account.update(
-        custom_attributes: {
-          stripe_customer_id: subscription.customer,
-          stripe_price_id: subscription['plan']['id'],
-          stripe_product_id: subscription['plan']['product'],
-          plan_name: plan['name'],
-          subscribed_quantity: subscription['quantity']
-        }
-      )
+      process_subscription_updated
     when 'customer.subscription.deleted'
-      Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+      process_subscription_deleted
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
   end
 
   private
+
+  def process_subscription_updated
+    plan = find_plan(subscription['plan']['product'])
+    # skipping self hosted plan events
+    return if plan.blank? || account.blank?
+
+    account.update(
+      custom_attributes: {
+        stripe_customer_id: subscription.customer,
+        stripe_price_id: subscription['plan']['id'],
+        stripe_product_id: subscription['plan']['product'],
+        plan_name: plan['name'],
+        subscribed_quantity: subscription['quantity']
+      }
+    )
+  end
+
+  def process_subscription_deleted
+    # skipping self hosted plan events
+    return if account.blank?
+
+    Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
+  end
 
   def ensure_event_context(event)
     @event = event

@@ -25,7 +25,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
     contacts = resolved_contacts.where(
       'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
-      search: "%#{params[:q]}%"
+      search: "%#{params[:q].strip}%"
     )
     @contacts_count = contacts.count
     @contacts = fetch_contacts_with_conversation_count(contacts)
@@ -134,8 +134,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     return if params[:inbox_id].blank?
 
     inbox = Current.account.inboxes.find(params[:inbox_id])
-    source_id = params[:source_id] || SecureRandom.uuid
-    ContactInbox.create(contact: @contact, inbox: inbox, source_id: source_id)
+    ContactInboxBuilder.new(
+      contact: @contact,
+      inbox: inbox,
+      source_id: params[:source_id]
+    ).perform
   end
 
   def permitted_params

@@ -18,7 +18,8 @@
 #
 # Indexes
 #
-#  index_portals_on_slug  (slug) UNIQUE
+#  index_portals_on_custom_domain  (custom_domain) UNIQUE
+#  index_portals_on_slug           (slug) UNIQUE
 #
 class Portal < ApplicationRecord
   include Rails.application.routes.url_helpers
@@ -37,16 +38,18 @@ class Portal < ApplicationRecord
            source: :user
   has_one_attached :logo
 
+  before_validation -> { normalize_empty_string_to_nil(%i[custom_domain homepage_link]) }
   validates :account_id, presence: true
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
+  validates :custom_domain, uniqueness: true, allow_nil: true
   validate :config_json_format
 
   accepts_nested_attributes_for :members
 
   scope :active, -> { where(archived: false) }
 
-  CONFIG_JSON_KEYS = %w[allowed_locales].freeze
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale].freeze
 
   def file_base_data
     {
@@ -60,9 +63,14 @@ class Portal < ApplicationRecord
     }
   end
 
+  def default_locale
+    config['default_locale'] || 'en'
+  end
+
   private
 
   def config_json_format
+    config['default_locale'] = default_locale
     denied_keys = config.keys - CONFIG_JSON_KEYS
     errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
   end

@@ -19,6 +19,21 @@
         "TITLE": "Профиль",
         "NOTE": "Адрес электронной почты используется для входа."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Горячие клавиши для отправки сообщений",
+        "NOTE": "Вы можете выбрать горячую клавишу (Enter или Cmd/Ctrl+Enter), основываясь на вашем предпочтении записи.",
+        "UPDATE_SUCCESS": "Ваши настройки успешно обновлены",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Отправлять сообщения, нажав клавишу Enter вместо нажатия кнопки Отправить."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Отправлять сообщения нажатием клавиши Cmd/Ctrl + enter вместо нажатия кнопки Отправить."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Подпись личных сообщений",
         "NOTE": "Создать подпись для личных сообщений, которая будет добавлена ко всем сообщениям, которые вы отправляете из вашего почтового ящика. Используйте редактор текста для создания персональной подписи.",
@@ -124,7 +139,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
     "TRAIL_BUTTON": "Купить",
-    "DELETED_USER": "Удаленный пользователь"
+    "DELETED_USER": "Удаленный пользователь",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Аккаунт заблокирован",
+      "MESSAGE": "Ваша учетная запись приостановлена. Пожалуйста, обратитесь в службу поддержки для получения дополнительной информации."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -171,7 +190,7 @@
     "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
     "AUTOMATION": "Автоматизация",
     "TEAMS": "Команды",
-    "BILLING": "Billing",
+    "BILLING": "Платёж",
     "CUSTOM_VIEWS_FOLDER": "Папки",
     "CUSTOM_VIEWS_SEGMENTS": "Сегменты",
     "ALL_CONTACTS": "Все контакты",
@@ -193,30 +212,33 @@
     "REPORTS_OVERVIEW": "Обзор",
     "FACEBOOK_REAUTHORIZE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
     "HELP_CENTER": {
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Категория"
-    }
+      "TITLE": "Центр Справки (Бета)",
+      "ALL_ARTICLES": "Все статьи",
+      "MY_ARTICLES": "Мои статьи",
+      "DRAFT": "Черновик",
+      "ARCHIVED": "Архив",
+      "CATEGORY": "Категория",
+      "CATEGORY_EMPTY_MESSAGE": "Категорий не найдено"
+    },
+    "DOCS": "Чтение документов"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Платёж",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Текущий план",
+      "PLAN_NOTE": "На данный момент вы подписаны на ** план%{plan}** с **%{quantity}** лицензиями"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Управление подпиской",
+      "DESCRIPTION": "Просматривайте ваши предыдущие счета, редактируйте платежные реквизиты или отмените подписку.",
+      "BUTTON_TXT": "Перейти на платёжный портал"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Нужна помощь?",
+      "DESCRIPTION": "Вы сталкиваетесь с какими-либо проблемами при оплате? Мы здесь, чтобы помочь.",
       "BUTTON_TXT": "Пообщайтесь с нами"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Ваш платёжный счёт настраивается. Пожалуйста, обновите страницу и повторите попытку."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",
@@ -250,7 +272,6 @@
       "GO_TO_SETTINGS": "Перейти к настройкам",
       "SWITCH_CONVERSATION_STATUS": "Переключиться на статус следующего диалога",
       "SWITCH_TO_PRIVATE_NOTE": "Переключиться на заметку",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Переключить редактор содержимого",
       "SWITCH_TO_REPLY": "Переключиться на ответ",
       "TOGGLE_SNOOZE_DROPDOWN": "Вкл/выкл повтор"
     },

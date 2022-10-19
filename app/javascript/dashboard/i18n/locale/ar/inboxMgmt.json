@@ -413,7 +413,8 @@
       "CONFIGURATION": "الإعدادات",
       "CAMPAIGN": "الحملات",
       "PRE_CHAT_FORM": "نموذج ما قبل الدردشة",
-      "BUSINESS_HOURS": "ساعات العمل"
+      "BUSINESS_HOURS": "ساعات العمل",
+      "WIDGET_BUILDER": "منشئ اللايف شات"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
@@ -574,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "فتح وضع التحقق من SSL",
       "AUTH_MECHANISM": "المصادقة"
     },
-    "NOTE": "ملاحظة: "
+    "NOTE": "ملاحظة: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "صورة الموقع",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "الصورة الرمزية حذفت بنجاح",
+              "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "اسم الموقع",
+          "PLACE_HOLDER": "أدخل اسم موقع الويب الخاص بك (مثال: Acme Inc)",
+          "ERROR": "الرجاء إدخال اسم موقع صالح"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "العنوان الترحيبي",
+          "PLACE_HOLDER": "مرحبا بك!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "افتتاحية الترحيب",
+          "PLACE_HOLDER": "نحن نجعل من السهل عليك التواصل معنا. اسألنا أي شيء، أو قم بمشاركتنا ملاحظاتك."
+        },
+        "REPLY_TIME": {
+          "LABEL": "وقت الرد",
+          "IN_A_FEW_MINUTES": "في غضون دقائق قليلة",
+          "IN_A_FEW_HOURS": "في غضون ساعات قليلة",
+          "IN_A_DAY": "خلال يوم"
+        },
+        "WIDGET_COLOR_LABEL": "لون صندوق الدردشة",
+        "WIDGET_BUBBLE_POSITION_LABEL": "موقع شعار اللايف شات",
+        "WIDGET_BUBBLE_TYPE_LABEL": "شكل عرض اللايف شات",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "تحدث الينا",
+          "LABEL": "عنوان ايقونة اللايف شات",
+          "PLACE_HOLDER": "تحدث الينا"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "تحديث إعدادات اللايف شات",
+          "API": {
+            "SUCCESS_MESSAGE": "تم تحديث إعدادت اللايف شات بنجاح",
+            "ERROR_MESSAGE": "غير قادر على تحديث إعدادات اللايف شات"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "معاينة",
+          "SCRIPT": "النص"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "يسار",
+          "RIGHT": "يمين"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "عادي",
+          "EXPANDED_BUBBLE": "ايقونت اللايف شات العرضية"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "افتراضي",
+        "CHAT": "محادثة"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
+        "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
+        "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "ابدأ المحادثة",
+        "CHAT_INPUT_PLACEHOLDER": "أكتب رسالتك"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "متواجدون لخدمتك",
+          "OFFLINE": "نحن بعيدون في الوقت الحالي"
+        },
+        "USER_MESSAGE": "مرحبا",
+        "AGENT_MESSAGE": "مرحبا"
+      },
+      "BRANDING_TEXT": "مدعوم بواسطة Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

@@ -9,7 +9,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     ActiveRecord::Base.transaction do
       process_update_contact
       @conversation = create_conversation
-      conversation.messages.create(message_params)
+      conversation.messages.create!(message_params)
     end
   end
 
@@ -17,7 +17,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     @contact = ContactIdentifyAction.new(
       contact: @contact,
       params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
-      retain_original_contact_name: true
+      retain_original_contact_name: true,
+      discard_invalid_attrs: true
     ).perform
   end
 
@@ -59,7 +60,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
     unless conversation.resolved?
       conversation.status = :resolved
-      conversation.save
+      conversation.save!
     end
     head :ok
   end

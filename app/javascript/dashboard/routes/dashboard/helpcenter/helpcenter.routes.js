@@ -3,48 +3,102 @@ import { getPortalRoute } from './helpers/routeHelper';
 
 const ListAllPortals = () => import('./pages/portals/ListAllPortals');
 const NewPortal = () => import('./pages/portals/NewPortal');
+
 const EditPortal = () => import('./pages/portals/EditPortal');
+const EditPortalBasic = () => import('./pages/portals/EditPortalBasic');
+const EditPortalCustomization = () =>
+  import('./pages/portals/EditPortalCustomization');
+const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
 const ShowPortal = () => import('./pages/portals/ShowPortal');
+const PortalDetails = () => import('./pages/portals/PortalDetails');
+const PortalCustomization = () => import('./pages/portals/PortalCustomization');
+const PortalSettingsFinish = () =>
+  import('./pages/portals/PortalSettingsFinish');
 
 const ListAllCategories = () => import('./pages/categories/ListAllCategories');
 const NewCategory = () => import('./pages/categories/NewCategory');
 const EditCategory = () => import('./pages/categories/EditCategory');
-const ShowCategory = () => import('./pages/categories/ShowCategory');
 const ListCategoryArticles = () =>
   import('./pages/articles/ListCategoryArticles');
-
 const ListAllArticles = () => import('./pages/articles/ListAllArticles');
-const ListArchivedArticles = () =>
-  import('./pages/articles/ListArchivedArticles');
-const ListDraftArticles = () => import('./pages/articles/ListDraftArticles');
-const ListMyArticles = () => import('./pages/articles/ListMyArticles');
+const DefaultPortalArticles = () =>
+  import('./pages/articles/DefaultPortalArticles');
 const NewArticle = () => import('./pages/articles/NewArticle');
 const EditArticle = () => import('./pages/articles/EditArticle');
 
 const portalRoutes = [
   {
     path: getPortalRoute(''),
+    name: 'default_portal_articles',
+    roles: ['administrator', 'agent'],
+    component: DefaultPortalArticles,
+  },
+  {
+    path: getPortalRoute('all'),
     name: 'list_all_portals',
     roles: ['administrator', 'agent'],
     component: ListAllPortals,
   },
   {
     path: getPortalRoute('new'),
-    name: 'new_portal',
-    roles: ['administrator', 'agent'],
     component: NewPortal,
+    children: [
+      {
+        path: '',
+        name: 'new_portal_information',
+        component: PortalDetails,
+        roles: ['administrator'],
+      },
+      {
+        path: ':portalSlug/customization',
+        name: 'portal_customization',
+        component: PortalCustomization,
+        roles: ['administrator'],
+      },
+      {
+        path: ':portalSlug/finish',
+        name: 'portal_finish',
+        component: PortalSettingsFinish,
+        roles: ['administrator'],
+      },
+    ],
   },
   {
     path: getPortalRoute(':portalSlug'),
-    name: 'edit_portal',
+    name: 'portalSlug',
     roles: ['administrator', 'agent'],
     component: ShowPortal,
   },
   {
     path: getPortalRoute(':portalSlug/edit'),
-    name: 'edit_portal',
     roles: ['administrator', 'agent'],
     component: EditPortal,
+    children: [
+      {
+        path: '',
+        name: 'edit_portal_information',
+        component: EditPortalBasic,
+        roles: ['administrator'],
+      },
+      {
+        path: 'customizations',
+        name: 'edit_portal_customization',
+        component: EditPortalCustomization,
+        roles: ['administrator'],
+      },
+      {
+        path: 'locales',
+        name: 'edit_portal_locales',
+        component: EditPortalLocales,
+        roles: ['administrator'],
+      },
+      {
+        path: 'categories',
+        name: 'list_all_locale_categories',
+        roles: ['administrator', 'agent'],
+        component: ListAllCategories,
+      },
+    ],
   },
 ];
 
@@ -56,30 +110,31 @@ const articleRoutes = [
     component: ListAllArticles,
   },
   {
+    path: getPortalRoute(':portalSlug/:locale/articles/new'),
+    name: 'new_article',
+    roles: ['administrator', 'agent'],
+    component: NewArticle,
+  },
+  {
+    path: getPortalRoute(':portalSlug/:locale/articles/mine'),
+    name: 'list_mine_articles',
+    roles: ['administrator', 'agent'],
+    component: ListAllArticles,
+  },
+  {
     path: getPortalRoute(':portalSlug/:locale/articles/archived'),
     name: 'list_archived_articles',
     roles: ['administrator', 'agent'],
-    component: ListArchivedArticles,
+    component: ListAllArticles,
   },
 
   {
     path: getPortalRoute(':portalSlug/:locale/articles/draft'),
     name: 'list_draft_articles',
     roles: ['administrator', 'agent'],
-    component: ListDraftArticles,
+    component: ListAllArticles,
   },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/mine'),
-    name: 'list_all_locale_articles',
-    roles: ['administrator', 'agent'],
-    component: ListMyArticles,
-  },
-  {
-    path: getPortalRoute(':portalSlug/:locale/articles/new'),
-    name: 'new_article',
-    roles: ['administrator', 'agent'],
-    component: NewArticle,
-  },
+
   {
     path: getPortalRoute(':portalSlug/:locale/articles/:articleSlug'),
     name: 'edit_article',
@@ -91,7 +146,7 @@ const articleRoutes = [
 const categoryRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
-    name: 'list_all_locale_categories',
+    name: 'all_locale_categories',
     roles: ['administrator', 'agent'],
     component: ListAllCategories,
   },
@@ -105,13 +160,13 @@ const categoryRoutes = [
     path: getPortalRoute(':portalSlug/:locale/categories/:categorySlug'),
     name: 'show_category',
     roles: ['administrator', 'agent'],
-    component: ShowCategory,
+    component: ListAllArticles,
   },
   {
     path: getPortalRoute(
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
-    name: 'show_category',
+    name: 'show_category_articles',
     roles: ['administrator', 'agent'],
     component: ListCategoryArticles,
   },

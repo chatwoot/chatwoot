@@ -77,13 +77,13 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def private_note?
-    params[:event][:text].strip.starts_with?('note:', 'private:')
+    params[:event][:text].strip.downcase.starts_with?('note:', 'private:')
   end
 
   def create_message
     return unless conversation
 
-    @message = conversation.messages.create(
+    @message = conversation.messages.create!(
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,

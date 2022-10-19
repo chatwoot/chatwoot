@@ -87,7 +87,7 @@
       </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          {{ dynamicTime(chat.timestamp) }}
+          <time-ago :timestamp="chat.timestamp" />
         </span>
         <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
@@ -105,6 +105,7 @@
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
+        @assign-team="onAssignTeam"
       />
     </woot-context-menu>
   </div>
@@ -122,6 +123,7 @@ import InboxName from '../InboxName';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import timeAgo from 'dashboard/components/ui/TimeAgo';
 
 const ATTACHMENT_ICONS = {
   image: 'image',
@@ -137,6 +139,7 @@ export default {
     InboxName,
     Thumbnail,
     ConversationContextMenu,
+    timeAgo,
   },
 
   mixins: [
@@ -350,6 +353,10 @@ export default {
     },
     async onAssignLabel(label) {
       this.$emit('assign-label', [label.title], [this.chat.id]);
+      this.closeContextMenu();
+    },
+    async onAssignTeam(team) {
+      this.$emit('assign-team', team, this.chat.id);
       this.closeContextMenu();
     },
   },

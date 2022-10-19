@@ -86,49 +86,49 @@
       "BUTTON_TEXT": "Підключитися"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Додатки для головного екрану",
+      "HEADER_BTN_TXT": "Додати нову інформаційну панель",
+      "SIDEBAR_TXT": "<p><b>Панель управління</b></p><p>Додатки дозволяють організаціям вставляти в панель керування Chatwoot інформацію, щоб надати контекст агентам підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і вставляти його в панелі управління відомості про користувача, свої замовлення або їхня попередня історія платежів.</p><p>Коли ви вставляєте свій застосунок за допомогою панелі керування в Чат-вуті, ваша програма отримає контекст розмови і зв'яжеться як віконна подія. Налаштуйте слухача для заходу повідомлення на вашій сторінці, щоб отримати контекст.</p><p>Щоб додати нову панель керування, натисніть кнопку 'Додати нову програму'.</p>",
+      "DESCRIPTION": "Додатки дозволяють організаціям вбудовувати інформаційну панель керування і надавати контекст для агентів підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і додавати інформацію, що надавали про користувача, свої замовлення або історію платежів.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Поки що немає налаштованих додатків в цьому акаунті",
+        "LOADING": "Отримання додатків панелі керування...",
         "TABLE_HEADER": [
           "Ім'я",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Редагувати додаток",
+        "DELETE_TOOLTIP": "Видалити додаток"
       },
       "FORM": {
         "TITLE_LABEL": "Ім'я",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Введіть ім'я для вашої інформаційної панелі",
+        "TITLE_ERROR": "Потрібно ім'я для головної панелі",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Введіть URL кінцевої точки, де розміщено ваш додаток",
+        "URL_ERROR": "Потрібно вказати допустиму URL-адресу"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Додати нову інформаційну панель",
         "FORM_SUBMIT": "Додати",
         "FORM_CANCEL": "Скасувати",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Панель інструментів успішно налаштовано",
+        "API_ERROR": "Не вдалося створити додаток. Будь ласка, спробуйте ще раз пізніше"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Редагувати інформаційну панель",
         "FORM_SUBMIT": "Оновити",
         "FORM_CANCEL": "Скасувати",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Панель інструментів успішно оновлено",
+        "API_ERROR": "Не вдалося оновити додаток. Будь ласка, спробуйте ще раз пізніше"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Так, видалити це",
+        "CONFIRM_NO": "Ні, зберегти це",
         "TITLE": "Підтвердіть видалення",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "MESSAGE": "Ви дійсно бажаєте видалити програму - %{appName}?",
+        "API_SUCCESS": "Панель інструментів успішно видалено",
+        "API_ERROR": "Не вдалося видалити додаток. Будь ласка, спробуйте ще раз пізніше"
       }
     }
   }

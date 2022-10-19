@@ -52,6 +52,8 @@ class FilterService
       query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
     when 'message_type'
       query_hash['values'].map { |x| Message.message_types[x.to_sym] }
+    when 'content'
+      string_filter_values(query_hash)
     else
       query_hash['values']
     end

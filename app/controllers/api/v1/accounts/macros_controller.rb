@@ -1,6 +1,6 @@
 class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :fetch_macro, only: [:show, :update, :destroy]
+  before_action :fetch_macro, only: [:show, :update, :destroy, :execute]
 
   def index
     @macros = Macro.with_visibility(current_user, params)
@@ -16,7 +16,9 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     @macro.save!
   end
 
-  def show; end
+  def show
+    head :not_found if @macro.nil?
+  end
 
   def destroy
     @macro.destroy!
@@ -32,6 +34,12 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
       Rails.logger.error e
       render json: { error: @macro.errors.messages }.to_json, status: :unprocessable_entity
     end
+  end
+
+  def execute
+    ::MacrosExecutionJob.perform_later(@macro, conversation_ids: params[:conversation_ids], user: Current.user)
+
+    head :ok
   end
 
   def permitted_params
