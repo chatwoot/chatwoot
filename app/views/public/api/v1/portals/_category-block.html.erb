@@ -15,13 +15,12 @@
     </div>
     <% else %>
       <% category.articles.published.take(5).each do |article| %>
-      <div class="flex justify-between content-center my-1">
-        <a
+      <a
           class="text-slate-800 hover:underline leading-8"
           href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
         >
-          <%= article.title %>
-        </a>
+      <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-50">
+        <%= article.title %>
         <span class="flex items-center">
           <svg
             class="w-4 h-4 fill-current text-slate-700"
@@ -37,6 +36,7 @@
           </svg>
         </span>
       </div>
+      </a>
       <% end %>
     <% end %>
   </div>
