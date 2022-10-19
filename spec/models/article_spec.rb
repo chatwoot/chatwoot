@@ -138,7 +138,7 @@ RSpec.describe Article, type: :model do
         end
         params = { category_slug: 'category_2' }
         records = portal_2.articles.search(params)
-        expect(records.count).to eq(25)
+        expect(records.count).to eq(31)
       end
     end
   end

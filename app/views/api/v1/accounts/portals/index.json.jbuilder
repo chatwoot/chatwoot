@@ -1,6 +1,6 @@
 json.payload do
   json.array! @portals.each do |portal|
-    json.partial! 'portal', formats: [:json], portal: portal, articles: portal.articles
+    json.partial! 'portal', formats: [:json], portal: portal, articles: []
   end
 end
 

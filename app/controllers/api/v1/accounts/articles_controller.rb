@@ -7,10 +7,10 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   ARTICLES_PER_PAGE = 15
 
   def index
-    @articles = @portal.articles
-    @articles = @articles.search(list_params) if list_params.present?
-    @articles_count = @articles.count
-    @articles = @articles.page(@current_page).per(ARTICLES_PER_PAGE)
+    @portal_articles = @portal.articles
+    @all_articles = @portal_articles.search(list_params)
+    @articles_count = @all_articles.count
+    @articles = @all_articles.page(@current_page).per(ARTICLES_PER_PAGE)
   end
 
   def create
