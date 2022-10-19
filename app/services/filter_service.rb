@@ -111,10 +111,6 @@ class FilterService
 
   private
 
-  def table_name
-    @table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
-  end
-
   def attribute_model
     @attribute_model = @custom_attribute_type.presence || self.class::ATTRIBUTE_MODEL
   end
@@ -127,6 +123,7 @@ class FilterService
   def build_custom_attr_query(query_hash, current_index)
     filter_operator_value = filter_operation(query_hash, current_index)
     query_operator = query_hash[:query_operator]
+    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
     if attribute_data_type == 'text'
       "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
@@ -134,7 +131,6 @@ class FilterService
       "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
     end
   end
-
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
     current_account = account || Current.account
