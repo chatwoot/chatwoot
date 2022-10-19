@@ -32,7 +32,7 @@
       </li>
     </ul>
 
-    <div v-if="shouldShowNoResults" class="font-medium text-sm text-slate-400">
+    <div v-if="showEmptyResults" class="font-medium text-sm text-slate-400">
       {{ emptyPlaceholder }}
     </div>
   </div>
@@ -76,20 +76,12 @@ export default {
   },
 
   computed: {
-    shouldShowNoResults() {
+    showEmptyResults() {
       return !this.items.length && !this.isLoading;
     },
     shouldShowResults() {
       return this.items.length && !this.isLoading;
     },
-  },
-
-  mounted() {
-    document.addEventListener('keydown', this.onMetaEnter);
-  },
-
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.onMetaEnter);
   },
 
   methods: {
@@ -104,7 +96,7 @@ export default {
     },
     handleKeyboardEvent(e) {
       this.processKeyDownEvent(e);
-      this.$el.scrollTop = 29 * this.selectedIndex;
+      this.$el.scrollTop = 40 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
@@ -114,8 +106,7 @@ export default {
       this.onSelect();
     },
     onSelect() {
-      const selectedItem = this.items[this.selectedIndex];
-      window.location = this.generateArticleUrl(selectedItem);
+      window.location = this.generateArticleUrl(this.items[this.selectedIndex]);
     },
   },
 };

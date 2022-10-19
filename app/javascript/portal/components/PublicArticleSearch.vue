@@ -86,14 +86,6 @@ export default {
     },
   },
 
-  mounted() {
-    document.addEventListener('keydown', this.onMetaEnter);
-  },
-
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.onMetaEnter);
-  },
-
   methods: {
     onChange(e) {
       this.$emit('input', e.target.value);
@@ -119,7 +111,6 @@ export default {
           this.localeCode,
           this.searchTerm
         );
-
         this.searchResults = data.payload;
         this.isLoading = true;
       } catch (error) {

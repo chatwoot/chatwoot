@@ -6,7 +6,7 @@
       'border border-slate-50 shadow-sm': !isFocused,
     }"
   >
-    <FluentIcon icon="search" />
+    <fluent-icon icon="search" />
     <input
       :value="value"
       type="text"
@@ -43,17 +43,6 @@ export default {
       isFocused: false,
     };
   },
-
-  computed: {},
-
-  mounted() {
-    document.addEventListener('keydown', this.onMetaEnter);
-  },
-
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.onMetaEnter);
-  },
-
   methods: {
     onChange(e) {
       this.$emit('input', e.target.value);
