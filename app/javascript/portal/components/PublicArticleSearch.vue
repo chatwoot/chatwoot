@@ -124,6 +124,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .show-search-box {
-  top: 6.4rem;
+  top: 4rem;
 }
 </style>

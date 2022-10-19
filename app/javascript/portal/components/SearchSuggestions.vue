@@ -85,12 +85,6 @@ export default {
   },
 
   methods: {
-    onChange(e) {
-      this.$emit('input', e.target.value);
-    },
-    onBlur(e) {
-      this.$emit('blur', e.target.value);
-    },
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/${article.category.locale}/${article.category.slug}/${article.id}`;
     },
@@ -100,10 +94,6 @@ export default {
     },
     onHover(index) {
       this.selectedIndex = index;
-    },
-    onListItemSelection(index) {
-      this.selectedIndex = index;
-      this.onSelect();
     },
     onSelect() {
       window.location = this.generateArticleUrl(this.items[this.selectedIndex]);
