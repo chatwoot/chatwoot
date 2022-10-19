@@ -20,7 +20,7 @@ class Public::Api::V1::Portals::ArticlesController < PublicController
   end
 
   def set_category
-    @category = @portal.categories.find_by!(slug: params[:category_slug])
+    @category = @portal.categories.find_by!(slug: params[:category_slug]) if params[:category_slug].present?
   end
 
   def portal
