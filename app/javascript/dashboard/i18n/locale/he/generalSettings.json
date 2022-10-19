@@ -14,7 +14,7 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
+        "TITLE": "מזהה חשבון",
         "NOTE": "This ID is required if you are building an API based integration"
       },
       "NAME": {
@@ -60,12 +60,12 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "התראות",
     "MARK_ALL_DONE": "סמן הכל כבוצע",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "נמחק",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "התראות שלא נקראו",
+      "ALL_NOTIFICATIONS": "הצג את כל ההתראות",
+      "LOADING_UNREAD_MESSAGE": "טוען התראות שלא נקראו...",
+      "EMPTY_MESSAGE": "אין לך התראות שלא נקראו"
     },
     "LIST": {
       "LOADING_MESSAGE": "טוען הודעות...",
@@ -93,10 +93,10 @@
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "חפש או קפוץ ל",
     "SECTIONS": {
-      "GENERAL": "General",
-      "REPORTS": "Reports",
+      "GENERAL": "כללי",
+      "REPORTS": "דוחות",
       "CONVERSATION": "שיחה",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_TEAM": "Change Team",

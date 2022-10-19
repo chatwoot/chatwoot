@@ -73,14 +73,14 @@ export default {
 
   computed: {
     ...mapGetters({
-      currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
-      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
-      inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+      inboxes: 'inboxes/getInboxes',
+      isACustomBrandedInstance: 'globalConfig/isACustomBrandedInstance',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
