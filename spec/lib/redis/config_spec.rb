@@ -36,7 +36,8 @@ describe ::Redis::Config do
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels, REDIS_SENTINEL_MASTER_NAME: redis_master_name do
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+                        REDIS_SENTINEL_MASTER_NAME: redis_master_name do
         described_class.config
       end
     end
@@ -52,7 +53,8 @@ describe ::Redis::Config do
 
       before do
         described_class.instance_variable_set(:@config, nil)
-        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels, REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
+        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+                          REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
           described_class.config
         end
       end
@@ -63,13 +65,14 @@ describe ::Redis::Config do
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.except(:password) })
       end
     end
-    
+
     context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD' do
       let(:redis_sentinel_password) { 'sentinel_password' }
 
       before do
         described_class.instance_variable_set(:@config, nil)
-        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels, REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
+        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
+                          REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
           described_class.config
         end
       end
