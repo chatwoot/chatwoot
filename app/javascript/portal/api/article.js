@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class ArticlesAPI {
   constructor() {
-    this.baseUrl = '/';
+    this.baseUrl = '';
   }
 
   searchArticles(portalSlug, locale, query) {
