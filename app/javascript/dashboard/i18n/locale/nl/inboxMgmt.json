@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Uw postvak is klaar!",
-      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning ",
+      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning",
       "BUTTON_TEXT": "Breng me ernaar toe",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Het aanmaken van een website kanaal is gelukt. Kopieer de code hieronder weergegeven en plak deze op uw website. De volgende keer dat een klant de live chat gebruikt, verschijnt het gesprek automatisch op uw inbox."

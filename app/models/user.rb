@@ -98,7 +98,7 @@ class User < ApplicationRecord
            class_name: :PortalMember,
            dependent: :destroy_async
   has_many :portals,
-           through: :portals_members,
+           through: :portal_members,
            class_name: :Portal,
            dependent: :nullify,
            source: :portal

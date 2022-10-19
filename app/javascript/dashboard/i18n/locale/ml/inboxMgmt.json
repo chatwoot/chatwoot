@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "നിങ്ങളുടെ ഇൻ‌ബോക്സ് തയ്യാറാണ്!",
-      "MESSAGE": "നിങ്ങളുടെ പുതിയ ചാനലിലൂടെ നിങ്ങൾക്ക് ഇപ്പോൾ ഉപഭോക്താക്കളുമായി ഇടപഴകാൻ കഴിയും. പിന്തുണയ്ക്കുന്നതിൽ സന്തോഷിക്കൂ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "എന്നെ അവിടേക്ക് കൊണ്ടുപോകുക",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് ചാനൽ സൃഷ്ടിക്കുന്നത് വിജയകരമായി പൂർത്തിയാക്കി. ചുവടെ കാണിച്ചിരിക്കുന്ന കോഡ് പകർത്തി നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ ചേർക്കുക. അടുത്ത തവണ ഒരു ഉപഭോക്താവ് തത്സമയ ചാറ്റ് ഉപയോഗിക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക് ആയി  നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും."
