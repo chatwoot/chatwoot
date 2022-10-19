@@ -17,9 +17,9 @@ Turbolinks.start();
 
 const initPageSetUp = () => {
   navigateToLocalePage();
-  const allLocaleSwitcher = document.querySelector('#search-wrap');
+  const isSearchContainerAvailable = document.querySelector('#search-wrap');
 
-  if (allLocaleSwitcher) {
+  if (isSearchContainerAvailable) {
     new Vue({
       components: { PublicArticleSearch },
       template: '<PublicArticleSearch />',
