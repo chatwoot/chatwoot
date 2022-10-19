@@ -73,6 +73,6 @@ Please share the output of the following.
 - [ ] DigitalOcean
 - [ ] Others
 
-**Additional context: **
+**Additional context**
 
 Add any other context about the problem here.
