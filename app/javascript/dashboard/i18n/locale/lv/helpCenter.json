@@ -306,7 +306,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Publicējot rakstu, radās kļūda",
-        "SUCCESS": "Article published successfully"
+        "SUCCESS": "Raksts veiksmīgi publicēts"
       }
     },
     "ARCHIVE_ARTICLE": {
