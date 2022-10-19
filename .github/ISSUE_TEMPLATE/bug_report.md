@@ -6,6 +6,7 @@ labels: 'Bug'
 assignees: ''
 
 ---
+
 **Describe the bug**
 
 A clear and concise description of what the bug is.
@@ -16,11 +17,11 @@ Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
-4. See error
+4. See the error
 
 **Expected behavior**
 
-A clear and concise description of what you expected to happen.
+Share a clear and concise description of what you expected to happen.
 
 **Screenshots**
 
@@ -47,31 +48,31 @@ Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self-hoste
 - - [ ] Other (Please specify)
 
 
-**Desktop (please complete the following information):**(If applicable)
+**Desktop (please complete the following information)** (If applicable)
  - OS: [e.g. Linux, Windows, MacOS]
  - Browser [e.g. chrome, firefox, safari]
  - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**(If applicable)
+**Smartphone (please complete the following information)** (If applicable)
  - Device: [e.g. iPhone6, Pixel7]
  - OS: [e.g. iOS8.1]
  - Browser [e.g. stock browser, firefox, safari]
  - Version [e.g. 22]
 
-**Docker**(If applicable)
+**Docker** (If applicable)
 
 Please share the output of the following.
 - `docker version`
 - `docker info`
 - `docker-compose version`
 
-**Cloud Provider**(If applicable)
+**Cloud Provider** (If applicable)
 - [ ] AWS
 - [ ] GCP
 - [ ] Azure
 - [ ] DigitalOcean
 - [ ] Others
 
-**Additional context**
+**Additional context: **
 
 Add any other context about the problem here.
