@@ -84,7 +84,7 @@ ja:
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
         agent_name: 担当者名
-        rating: Rating
+        rating: 評価
         feedback: Feedback Comment
         recorded_at: Recorded date
   notifications:
