@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Sie müssen die Webhook-URL im Facebook-Entwicklerportal mit der hier genannten URL konfigurieren."
+          "SUBTITLE": "Sie müssen die Webhook-URL und das Verifizierungstoken im Facebook-Entwicklerportal mit den unten gezeigten Werten konfigurieren.",
+          "WEBHOOK_URL": "Webhook-URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook-Verifizierungstoken"
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Ihr Posteingang ist fertig!",
-      "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Viel Spaß beim Unterstützen",
+      "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Fröhliches Unterstützen",
       "BUTTON_TEXT": "Bring mich dahin",
       "MORE_SETTINGS": "Weitere Einstellungen",
       "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt."

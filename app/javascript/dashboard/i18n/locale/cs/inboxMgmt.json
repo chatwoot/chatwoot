@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL webového háčku",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Vaše doručená pošta je připravena!",
-      "MESSAGE": "Nyní se můžete spojit se svými zákazníky prostřednictvím nového kanálu. Šťastná podpora ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Vezmi mě tam",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Úspěšně jste dokončili vytvoření webového kanálu. Zkopírujte kód zobrazený níže a vložte jej na vaše webové stránky. Když zákazník příště použije živý chat, konverzace se automaticky objeví ve vaší doručené poště."
