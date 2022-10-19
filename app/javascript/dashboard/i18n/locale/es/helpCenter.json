@@ -59,19 +59,19 @@
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Archivar artículo",
+        "DELETE": "Eliminar artículo"
       }
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
+      "HEADER": "Portales",
+      "DEFAULT": "Predeterminado",
+      "NEW_BUTTON": "Nuevo Portal",
       "ACTIVE_BADGE": "activo",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
+      "CHOOSE_LOCALE_LABEL": "Elige un idioma",
+      "LOADING_MESSAGE": "Cargando portales...",
+      "ARTICLES_LABEL": "artículos",
+      "NO_PORTALS_MESSAGE": "No hay portales disponibles",
       "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
         "TITLE": "Portals",
@@ -83,7 +83,7 @@
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
+            "COUNT_LABEL": "artículos",
             "ADD": "Add locale",
             "VISIT": "Visit site",
             "SETTINGS": "Ajustes",
@@ -255,7 +255,7 @@
         "PORTAL": "Portal",
         "LOCALE": {
           "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
+          "PLACEHOLDER": "Elige un idioma",
           "ERROR": "Locale is required"
         },
         "BUTTONS": {
@@ -306,7 +306,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Error while publishing article",
-        "SUCCESS": "Article publishied successfully"
+        "SUCCESS": "Article published successfully"
       }
     },
     "ARCHIVE_ARTICLE": {
