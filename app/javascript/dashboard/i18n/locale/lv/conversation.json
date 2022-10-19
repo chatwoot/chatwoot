@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopēt",
-      "DELETE": "Dzēst"
+      "DELETE": "Dzēst",
+      "CREATE_A_CANNED_RESPONSE": "Pievienot sagatavotajām atbildēm"
     }
   },
   "EMAIL_TRANSCRIPT": {

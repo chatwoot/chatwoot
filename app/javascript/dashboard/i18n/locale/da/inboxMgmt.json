@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Du skal konfigurere webhook URL i facebook udvikler portal med den URL, der er nævnt her."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Din indbakke er klar!",
-      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering ",
+      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering",
       "BUTTON_TEXT": "Tag mig med dertil",
       "MORE_SETTINGS": "Flere indstillinger",
       "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke."

@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Másolás",
-      "DELETE": "Törlés"
+      "DELETE": "Törlés",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {

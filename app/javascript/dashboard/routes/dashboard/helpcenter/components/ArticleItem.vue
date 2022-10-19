@@ -4,7 +4,7 @@
       <div class="article-content-wrap">
         <div class="article-block">
           <router-link :to="articleUrl(id)">
-            <h6 class="sub-block-title text-truncate">
+            <h6 :title="title" class="sub-block-title text-truncate">
               {{ title }}
             </h6>
           </router-link>
@@ -16,7 +16,17 @@
       </div>
     </td>
     <td>
-      <span class="fs-small">{{ category.name }}</span>
+      <router-link
+        class="fs-small button clear link secondary"
+        :to="getCategoryRoute(category.slug)"
+      >
+        <span
+          :title="category.name"
+          class="category-link-content text-ellipsis"
+        >
+          {{ category.name }}
+        </span>
+      </router-link>
     </td>
     <td>
       <span class="fs-small">
@@ -43,6 +53,8 @@
 <script>
 import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+
 export default {
   mixins: [timeMixin, portalMixin],
 
@@ -97,6 +109,14 @@ export default {
       }
     },
   },
+  methods: {
+    getCategoryRoute(categorySlug) {
+      const { portalSlug, locale } = this.$route.params;
+      return frontendURL(
+        `accounts/${this.accountId}/portals/${portalSlug}/${locale}/categories/${categorySlug}`
+      );
+    },
+  },
 };
 </script>
 
@@ -139,5 +159,10 @@ td {
       font-size: var(--font-size-small);
     }
   }
+}
+
+.category-link-content {
+  max-width: 16rem;
+  line-height: 1.5;
 }
 </style>

@@ -249,8 +249,8 @@ export default {
     display: flex;
     align-items: center;
     border-radius: calc(var(--border-radius-small) * 10);
-    height: calc(var(--space-three) * 2);
-    width: calc(var(--space-three) * 2);
+    height: calc(var(--space-large) * 2);
+    width: calc(var(--space-large) * 2);
     position: relative;
     overflow-wrap: anywhere;
     cursor: pointer;
@@ -274,7 +274,7 @@ export default {
     display: inline;
     height: var(--space-medium);
     width: var(--space-micro);
-    left: var(--space-three);
+    left: var(--space-large);
     position: absolute;
   }
 
