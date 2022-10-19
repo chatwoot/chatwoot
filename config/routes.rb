@@ -290,6 +290,7 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
