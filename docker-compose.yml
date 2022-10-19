@@ -2,8 +2,11 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    build:
+        context: .
+        dockerfile: chatwoot.Dockerfile
     env_file: .env ## Change this file for customized env variables
+    network_mode: "host"
     volumes:
       - /data/storage:/app/storage
 
@@ -12,6 +15,7 @@ services:
     depends_on:
       - postgres
       - redis
+    network_mode: "host"
     ports:
       - '127.0.0.1:3000:3000'
     environment:
@@ -30,9 +34,11 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+    network_mode: "host"
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
 
   postgres:
+    network_mode: "host"
     image: postgres:12
     restart: always
     ports:
@@ -43,14 +49,23 @@ services:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=postgres1
 
   redis:
+    network_mode: "host"
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    command: ["sh", "-c", "redis-server --requirepass \'redis1\'"]
     env_file: .env
     volumes:
       - /data/redis:/data
     ports:
       - '127.0.0.1:6379:6379'
+
+  rasa:
+    network_mode: "host"
+    build:
+      context: .
+      dockerfile: rasa.Dockerfile
+    ports:
+      - "5005:5005"
