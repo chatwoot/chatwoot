@@ -306,7 +306,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "خطا هنگام انتشار مقاله",
-        "SUCCESS": "Article published successfully"
+        "SUCCESS": "مقاله با موفقیت منتشر شد"
       }
     },
     "ARCHIVE_ARTICLE": {
