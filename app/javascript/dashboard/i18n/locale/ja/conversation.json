@@ -5,13 +5,13 @@
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "メッセージ",
-    "UNVERIFIED_SESSION": "このユーザーは認証が完了していません。",
+    "UNVERIFIED_SESSION": "このユーザーの身元は確認されていません",
     "NO_MESSAGE_1": "おっと！受信トレイに顧客からのメッセージがないようです。",
     "NO_MESSAGE_2": " to send a message to your page!",
     "NO_INBOX_1": "まだ受信トレイを追加していないようです。",
     "NO_INBOX_2": " 始めましょう",
     "NO_INBOX_AGENT": "あなたに受信トレイが設定されていないようです。管理者に問い合わせてください。",
-    "SEARCH_MESSAGES": "チャット内のメッセージを検索",
+    "SEARCH_MESSAGES": "会話中のメッセージの検索",
     "SEARCH": {
       "TITLE": "メッセージを検索",
       "RESULT_TITLE": "検索結果",
@@ -36,7 +36,7 @@
     "DOWNLOAD": "ダウンロード",
     "UNKNOWN_FILE_TYPE": "不明なファイル",
     "UPLOADING_ATTACHMENTS": "添付ファイルをアップロード中...",
-    "SUCCESS_DELETE_MESSAGE": "メッセージを削除しました",
+    "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "No response",
     "RATING_TITLE": "評価",
@@ -49,21 +49,21 @@
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
-      "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズしました",
-      "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までスヌーズしました"
+      "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
+      "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "保留中にする",
+      "MARK_PENDING": "保留としてマークする",
       "SNOOZE": {
         "TITLE": "までスヌーズする",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "明日",
-        "NEXT_WEEK": "翌週"
+        "NEXT_WEEK": "次週"
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "保留中にする",
-      "RESOLVED": "解決済みにする",
+      "PENDING": "保留としてマークする",
+      "RESOLVED": "解決済みとしてマークする",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "スヌーズ",
@@ -71,14 +71,14 @@
         "TOMORROW": "明日まで",
         "NEXT_WEEK": "来週まで"
       },
-      "ASSIGN_AGENT": "担当者を割り当てる",
+      "ASSIGN_AGENT": "エージェントを割り当てる",
       "ASSIGN_LABEL": "ラベルを割り当てる",
-      "AGENTS_LOADING": "担当者を読み込み中...",
+      "AGENTS_LOADING": "エージェントを読み込む...",
       "ASSIGN_TEAM": "チームを割り当てる",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "会話 ID %{conversationId} が \"%{agentName}\" に割り当てられました",
-          "FAILED": "担当者を割り当てることができませんでした。もう一度お試しください。"
+          "FAILED": "エージェントを割り当てられませんでした。もう一度お試しください。"
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
@@ -166,7 +166,7 @@
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "会話の記録を別のEメールアドレスに転送する\n",
       "EMAIL": {
-        "PLACEHOLDER": "Eメールアドレスを入力してください",
+        "PLACEHOLDER": "メールアドレスを入力する",
         "ERROR": "正しいメールアドレスを入力してください"
       }
     }
@@ -235,8 +235,8 @@
   "EMAIL_HEADER": {
     "FROM": "差出人:",
     "TO": "宛先:",
-    "BCC": "Bcc",
-    "CC": "Cc",
+    "BCC": "ビーシーシー",
+    "CC": "シーシー",
     "SUBJECT": "件名"
   }
 }
