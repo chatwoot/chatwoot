@@ -103,9 +103,8 @@ class FilterService
     query_operator = query_hash[:query_operator]
     attribute_model = custom_attribute_type.presence || self.class::ATTRIBUTE_MODEL
 
-    attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
     filter_operator_value = filter_operation(query_hash, current_index)
-    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)]
 
     return ' ' if @custom_attribute.blank?
 
