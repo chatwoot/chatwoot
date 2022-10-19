@@ -7,11 +7,9 @@ describe ::Redis::Config do
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      allow(ENV).to receive(:fetch).with('REDIS_URL', 'redis://127.0.0.1:6379').and_return(redis_url)
-      allow(ENV).to receive(:fetch).with('REDIS_PASSWORD', nil).and_return(redis_pasword)
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINELS', nil).and_return('')
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINEL_MASTER_NAME', 'mymaster').and_return('')
-      described_class.config
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
+        described_class.config
+      end
     end
 
     it 'checks for app redis config' do
@@ -30,25 +28,57 @@ describe ::Redis::Config do
 
     let(:expected_sentinels) do
       [
-        { host: 'sentinel_1', port: '1234' },
-        { host: 'sentinel_2', port: '4321' },
-        { host: 'sentinel_3', port: '26379' }
+        { host: 'sentinel_1', port: '1234', password: 'some-strong-password' },
+        { host: 'sentinel_2', port: '4321', password: 'some-strong-password' },
+        { host: 'sentinel_3', port: '26379', password: 'some-strong-password' }
       ]
     end
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      allow(ENV).to receive(:fetch).with('REDIS_URL', 'redis://127.0.0.1:6379').and_return(redis_url)
-      allow(ENV).to receive(:fetch).with('REDIS_PASSWORD', nil).and_return(redis_pasword)
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINELS', nil).and_return(redis_sentinels)
-      allow(ENV).to receive(:fetch).with('REDIS_SENTINEL_MASTER_NAME', 'mymaster').and_return(redis_master_name)
-      described_class.config
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels, REDIS_SENTINEL_MASTER_NAME: redis_master_name do
+        described_class.config
+      end
     end
 
     it 'checks for app redis config' do
       expect(described_class.app.keys).to match_array([:url, :password, :sentinels, :network_timeout, :reconnect_attempts, :ssl_params])
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
+    end
+
+    context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD empty string' do
+      let(:redis_sentinel_password) { '' }
+
+      before do
+        described_class.instance_variable_set(:@config, nil)
+        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels, REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
+          described_class.config
+        end
+      end
+
+      it 'checks for app redis config and sentinel passwords will be empty' do
+        expect(described_class.app.keys).to match_array([:url, :password, :sentinels, :network_timeout, :reconnect_attempts, :ssl_params])
+        expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
+        expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.except(:password) })
+      end
+    end
+    
+    context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD' do
+      let(:redis_sentinel_password) { 'sentinel_password' }
+
+      before do
+        described_class.instance_variable_set(:@config, nil)
+        with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels, REDIS_SENTINEL_MASTER_NAME: redis_master_name, REDIS_SENTINEL_PASSWORD: redis_sentinel_password do
+          described_class.config
+        end
+      end
+
+      it 'checks for app redis config and redis password is replaced in sentinel config' do
+        expect(described_class.app.keys).to match_array([:url, :password, :sentinels, :network_timeout, :reconnect_attempts, :ssl_params])
+        expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
+        expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.merge(password: redis_sentinel_password) })
+      end
     end
   end
 end
