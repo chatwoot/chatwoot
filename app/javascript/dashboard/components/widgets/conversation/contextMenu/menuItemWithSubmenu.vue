@@ -1,11 +1,14 @@
 <template>
-  <div class="menu-with-submenu flex-between">
+  <div
+    class="menu-with-submenu flex-between"
+    :class="{ disabled: !subMenuAvailable }"
+  >
     <div class="menu-left">
       <fluent-icon :icon="option.icon" size="14" class="menu-icon" />
       <p class="menu-label">{{ option.label }}</p>
     </div>
     <fluent-icon icon="chevron-right" size="12" />
-    <div class="submenu">
+    <div v-if="subMenuAvailable" class="submenu">
       <slot />
     </div>
   </div>
@@ -17,6 +20,10 @@ export default {
     option: {
       type: Object,
       default: () => {},
+    },
+    subMenuAvailable: {
+      type: Boolean,
+      default: true,
     },
   },
 };
@@ -77,6 +84,11 @@ export default {
       width: 50%;
       clip-path: polygon(100% 0, 0% 0%, 100% 100%);
     }
+  }
+
+  &.disabled {
+    opacity: 50%;
+    cursor: not-allowed;
   }
 }
 </style>
