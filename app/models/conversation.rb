@@ -257,7 +257,9 @@ class Conversation < ApplicationRecord
   end
 
   def create_label_change(user_name)
-    user_name = Current.executed_by.present? ? 'Automation System' : user_name
+    user_name = 'Automation System' if Current.executed_by.present?
+
+    return unless user_name
 
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
