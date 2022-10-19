@@ -16,6 +16,6 @@ class Instagram::WebhooksBaseService
     )
 
     @contact = @contact_inbox.contact
-    ContactAvatarJob.perform_later(@contact, user['profile_pic']) if user['profile_pic']
+    Avatar::AvatarFromUrlJob.perform_later(@contact, user['profile_pic']) if user['profile_pic']
   end
 end

@@ -12,33 +12,11 @@
       "INPUT": "Αναζήτηση Ανθρώπων, συνομιλιών, αποθηκευμένων απαντήσεων .."
     },
     "FILTER_ALL": "Όλες",
-    "STATUS_TABS": [
-      {
-        "NAME": "Ανοιχτές",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Επιλύθηκαν",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Δικές μου",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Χωρίς Αντιστοίχιση",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Όλες",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Δικές μου",
+      "unassigned": "Χωρίς Αντιστοίχιση",
+      "all": "Όλες"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Ανοιχτές"

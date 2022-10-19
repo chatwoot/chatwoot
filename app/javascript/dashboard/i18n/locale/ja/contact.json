@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "利用不可",
     "EMAIL_ADDRESS": "Eメールアドレス",
     "PHONE_NUMBER": "電話番号",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "企業",
     "LOCATION": "場所",
+    "BROWSER_LANGUAGE": "ブラウザの言語",
     "CONVERSATION_TITLE": "会話の詳細",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "ブラウザ",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
         "LABEL": "Eメールアドレス",
-        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。"
+        "DUPLICATE": "このメールアドレスは別の連絡先に使用されています。",
+        "ERROR": "正しいメールアドレスを入力してください."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "連絡先の電話番号を入力してください",
@@ -147,6 +150,12 @@
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+      }
+    },
     "SUCCESS_MESSAGE": "Contact saved successfully",
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
@@ -164,8 +173,8 @@
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "件名",
+        "PLACEHOLDER": "件名",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
@@ -186,7 +195,7 @@
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
+    "FILTER_CONTACTS_SAVE": "フィルターの保存",
     "FILTER_CONTACTS_DELETE": "Delete filter",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",

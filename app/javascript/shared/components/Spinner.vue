@@ -1,5 +1,5 @@
 <template>
-  <span class="spinner" :class="size"></span>
+  <span class="spinner" :class="size" />
 </template>
 <script>
 export default {

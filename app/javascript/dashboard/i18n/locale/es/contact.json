@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "No Disponible",
     "EMAIL_ADDRESS": "Dirección de correo",
     "PHONE_NUMBER": "Número de teléfono",
+    "IDENTIFIER": "Idenrificador",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "COMPANY": "Empresa",
     "LOCATION": "Ubicación",
+    "BROWSER_LANGUAGE": "Idioma del navegador",
     "CONVERSATION_TITLE": "Detalles de la conversación",
     "VIEW_PROFILE": "Ver Perfil",
     "BROWSER": "Navegador",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Escriba la dirección email del contacto",
         "LABEL": "Dirección de correo",
-        "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto."
+        "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto.",
+        "ERROR": "Por favor, introduzca una dirección de correo válida."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Escriba el número de teléfono del contacto",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Escriba el usuario de Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar de contacto eliminado correctamente",
+        "ERROR_MESSAGE": "No se pudo eliminar el avatar de contacto. Por favor, inténtelo de nuevo más tarde."
       }
     },
     "SUCCESS_MESSAGE": "Contacto guardado correctamente",

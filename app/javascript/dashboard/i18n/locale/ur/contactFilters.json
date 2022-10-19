@@ -5,8 +5,8 @@
         "ADD_NEW_FILTER": "Add Filter",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-        "SUBMIT_BUTTON_LABEL": "Submit",
-        "CANCEL_BUTTON_LABEL": "Cancel",
+        "SUBMIT_BUTTON_LABEL": "جمع کرائیں",
+        "CANCEL_BUTTON_LABEL": "منسوخ کریں۔",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
@@ -26,19 +26,20 @@
             "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
-            "NAME": "Name",
+            "NAME": "نام",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Phone number",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
+            "CITY": "شہر",
+            "COUNTRY": "ملک",
             "CUSTOM_ATTRIBUTE_LIST": "List",
             "CUSTOM_ATTRIBUTE_TEXT": "Text",
             "CUSTOM_ATTRIBUTE_NUMBER": "Number",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
             "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity"
+            "LAST_ACTIVITY": "آخری سرگرمی",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Standard Filters",

@@ -33,7 +33,7 @@ class Notification::PushNotificationService
   def push_message
     {
       title: notification.push_message_title,
-      tag: "#{notification.notification_type}_#{conversation.display_id}",
+      tag: "#{notification.notification_type}_#{conversation.display_id}_#{notification.id}",
       url: push_url
     }
   end
@@ -73,7 +73,7 @@ class Notification::PushNotificationService
     return unless ENV['FCM_SERVER_KEY']
     return unless subscription.fcm?
 
-    fcm = FCM.new(ENV['FCM_SERVER_KEY'])
+    fcm = FCM.new(ENV.fetch('FCM_SERVER_KEY', nil))
     response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
     remove_subscription_if_error(subscription, response)
   end

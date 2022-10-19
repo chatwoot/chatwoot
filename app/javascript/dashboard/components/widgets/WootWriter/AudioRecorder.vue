@@ -1,6 +1,6 @@
 <template>
   <div class="audio-wave-wrapper">
-    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin"></audio>
+    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
   </div>
 </template>
 

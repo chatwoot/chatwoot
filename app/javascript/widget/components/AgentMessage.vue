@@ -30,7 +30,7 @@
             <image-bubble
               v-if="attachment.file_type === 'image' && !hasImageError"
               :url="attachment.data_url"
-              :thumb="attachment.thumb_url"
+              :thumb="attachment.data_url"
               :readable-time="readableTime"
               @error="onImageLoadError"
             />
@@ -104,8 +104,7 @@ export default {
       ) {
         return false;
       }
-      if (!this.message.content) return false;
-      return true;
+      return this.message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;

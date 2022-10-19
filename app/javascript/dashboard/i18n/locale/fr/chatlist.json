@@ -12,33 +12,11 @@
       "INPUT": "Rechercher des personnes, des conversations, des réponses standardisées ..."
     },
     "FILTER_ALL": "Tous",
-    "STATUS_TABS": [
-      {
-        "NAME": "Ouvert",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Résolu",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Les miens",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Non assigné",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Tous",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Les miens",
+      "unassigned": "Non assigné",
+      "all": "Tous"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Ouvert"

@@ -7,7 +7,7 @@ defaults: &defaults
   working_directory: ~/build
   docker:
     # specify the version you desire here
-    - image: cimg/ruby:3.0.2-browsers
+    - image: cimg/ruby:3.0.4-browsers
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -15,8 +15,12 @@ defaults: &defaults
     - image: cimg/postgres:14.1
     - image: cimg/redis:6.2.6
   environment:
-      - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
       - RAILS_LOG_TO_STDOUT: false
+      - COVERAGE: true
+      - LOG_LEVEL: warn
+  parallelism: 4
+  resource_class: large
+
 jobs:
   build:
     <<: *defaults
@@ -40,14 +44,13 @@ jobs:
 
       - restore_cache:
           keys:
-            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-{{ checksum "Gemfile.lock" }}
-            - chatwoot-bundle
+            - chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install --frozen --path ~/.bundle
       - save_cache:
           paths:
             - ~/.bundle
-          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-{{ checksum "Gemfile.lock" }}
+          key: chatwoot-bundle-{{ .Environment.CACHE_VERSION }}-v20220524-{{ checksum "Gemfile.lock" }}
 
 
       # Only necessary if app uses webpacker or yarn in some other way
@@ -89,6 +92,7 @@ jobs:
             fi
             curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar > ~/tmp/openapi-generator-cli-5.3.0.jar
             java -jar ~/tmp/openapi-generator-cli-5.3.0.jar validate -i swagger/swagger.json
+            
       # Database setup
       - run: yarn install --check-files
       - run: bundle exec rake db:create
@@ -101,6 +105,10 @@ jobs:
       - run:
           name: Rubocop
           command: bundle exec rubocop
+      
+      # - run:
+      #     name: Brakeman
+      #     command: bundle exec brakeman
 
       - run:
           name: eslint
@@ -110,34 +118,79 @@ jobs:
       - run:
           name: Run backend tests
           command: |
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) --profile=10 --format documentation
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o ~/tmp/codeclimate.backend.json coverage/backend/.resultset.json
-      - persist_to_workspace:
-          root: ~/tmp
-          paths:
-            - codeclimate.backend.json
+            mkdir -p ~/tmp/test-results/rspec
+            mkdir -p ~/tmp/test-artifacts
+            mkdir -p coverage
+            ~/tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec --format progress \
+                              --format RspecJunitFormatter \
+                              --out ~/tmp/test-results/rspec.xml \
+                              -- ${TESTFILES}
+          no_output_timeout: 30m
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
       - run:
           name: Run frontend tests
           command: |
-            yarn test:coverage
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o ~/tmp/codeclimate.frontend.json buildreports/lcov.info
+            mkdir -p ~/tmp/test-results/frontend_specs
+            ~/tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
+            yarn test:coverage --profile 10 \
+                               --out ~/tmp/test-results/yarn.xml \
+                               -- ${TESTFILES}
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend_$CIRCLE_NODE_INDEX.json buildreports/lcov.info    
+            
       - persist_to_workspace:
-          root: ~/tmp
+          root: coverage
           paths:
-            - codeclimate.frontend.json
-
+            - codeclimate.*.json
       # collect reports
       - store_test_results:
           path: ~/tmp/test-results
       - store_artifacts:
-          path: ~/tmp/test-results
-          destination: test-results
+          path: ~/tmp/test-artifacts
       - store_artifacts:
           path: log
 
+  upload-coverage:
+    working_directory: ~/build
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:3.0.2-node-browsers
+    environment:
+      - CC_TEST_REPORTER_ID: caf26a895e937974a90860cfadfded20891cfd1373a5aaafb3f67406ab9d433f
+    steps:
+      - attach_workspace:
+          at: ~/build
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p ~/tmp
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
+            chmod +x ~/tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: ~/tmp
+          paths:
+            - cc-test-reporter
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ~/tmp/cc-test-reporter sum-coverage ~/tmp/codeclimate.*.json -p 2 -o ~/tmp/codeclimate.total.json
-            ~/tmp/cc-test-reporter upload-coverage -i ~/tmp/codeclimate.total.json
+            ~/tmp/cc-test-reporter sum-coverage --output - codeclimate.*.json |  ~/tmp/cc-test-reporter upload-coverage --debug --input -
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - upload-coverage:
+          requires:
+             - build
+

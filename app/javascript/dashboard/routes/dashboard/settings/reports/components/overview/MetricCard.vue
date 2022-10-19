@@ -7,7 +7,7 @@
       </span>
     </div>
     <div v-if="!isLoading" class="card-body row">
-      <slot></slot>
+      <slot />
     </div>
     <div v-else-if="isLoading" class="conversation-metric-loader">
       <spinner />

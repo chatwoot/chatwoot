@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "در دسترس نیست",
     "EMAIL_ADDRESS": "ایمیل",
     "PHONE_NUMBER": "شماره تلفن",
+    "IDENTIFIER": "شناسه",
     "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
     "COMPANY": "شرکت",
     "LOCATION": "مکان",
+    "BROWSER_LANGUAGE": "مرور زبان",
     "CONVERSATION_TITLE": "جزئیات مکالمه",
     "VIEW_PROFILE": "نمایش مشخصات",
     "BROWSER": "مرورگر",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "آدرس ایمیل مخاطب را وارد کنید",
         "LABEL": "ایمیل",
-        "DUPLICATE": "این آدرس ایمیل برای مخاطب دیگری در حال استفاده است."
+        "DUPLICATE": "این آدرس ایمیل برای مخاطب دیگری در حال استفاده است.",
+        "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "شماره تلفن مخاطب را وارد کنید",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "نام‌کاربری گیت‌هاب را وارد کنید",
           "LABEL": "گیت‌هاب"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "آواتار مخاطب با موفقیت حذف شد",
+        "ERROR_MESSAGE": "آواتار مخاطب حذف نشد. لطفا بعدا دوباره امتحان کنید."
       }
     },
     "SUCCESS_MESSAGE": "مخاطب با موفقیت ذخیره شد",

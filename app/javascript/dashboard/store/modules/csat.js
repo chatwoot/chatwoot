@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import CSATReports from '../../api/csatReports';
+import { downloadCsvFile } from '../../helper/downloadHelper';
 
 const computeDistribution = (value, total) =>
   ((value * 100) / total).toFixed(2);
@@ -106,6 +107,11 @@ export const actions = {
     } finally {
       commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: false });
     }
+  },
+  downloadCSATReports(_, params) {
+    return CSATReports.download(params).then(response => {
+      downloadCsvFile(params.fileName, response.data);
+    });
   },
 };
 

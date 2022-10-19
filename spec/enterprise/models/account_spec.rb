@@ -28,5 +28,15 @@ RSpec.describe Account do
         }
       )
     end
+
+    it 'returns limits based on subscription' do
+      account.update(limits: { agents: 10 }, custom_attributes: { subscribed_quantity: 5 })
+      expect(account.usage_limits).to eq(
+        {
+          agents: 5,
+          inboxes: ChatwootApp.max_limit
+        }
+      )
+    end
   end
 end

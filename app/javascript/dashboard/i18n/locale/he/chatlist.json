@@ -12,33 +12,11 @@
       "INPUT": "חפש אנשים, צ'אטים, תגובות שמורות .."
     },
     "FILTER_ALL": "הכל",
-    "STATUS_TABS": [
-      {
-        "NAME": "פתח",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "נפתרה",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "שלי",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "לא הוקצתה",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "הכל",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "שלי",
+      "unassigned": "לא הוקצתה",
+      "all": "הכל"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "פתח"
@@ -76,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
     "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר",
     "REPLY_TO_TWEET": "הגב לציוץ זה",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
     "SENT": "נשלח בהצלחה",
     "NO_MESSAGES": "אין הודעות",
     "NO_CONTENT": "אין תוכן זמין",
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "קרא"
   }
 }

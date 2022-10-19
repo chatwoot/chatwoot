@@ -22,6 +22,8 @@ pl:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
     reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Invalid events
     signup:
@@ -29,9 +31,28 @@ pl:
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       failed: Rejestracja nie powiodła się
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: Plik jest pusty
+      email:
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Okres raportowania od %{since} do %{until}
     agent_csv:
@@ -39,12 +60,33 @@ pl:
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    inbox_csv:
+      inbox_name: Nazwa skrzynki odbiorczej
+      inbox_type: Typ skrzynki odbiorczej
+      conversations_count: Ilość rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+    label_csv:
+      label_title: Etykieta
+      conversations_count: Ilość rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
     team_csv:
       team_name: Nazwa zespołu
       conversations_count: Liczba rozmów
       avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
       avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
-    default_group_by: day
+    default_group_by: dnia
+    csat:
+      headers:
+        contact_name: Nazwa kontaktu
+        contact_email_address: Adres email kontaktu
+        contact_phone_number: Numer telefonu kontaktu
+        link_to_the_conversation: Link do rozmowy
+        agent_name: Nazwa agenta
+        rating: Ocena
+        feedback: Komentarz zwrotny
+        recorded_at: Data nagrania
   notifications:
     notification_title:
       conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
@@ -53,7 +95,8 @@ pl:
       conversation_mention: "Zostałeś wspomniany w konwersacji [ID - %{display_id}] przez %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Ta wiadomość została usunięta
     activity:
       status:

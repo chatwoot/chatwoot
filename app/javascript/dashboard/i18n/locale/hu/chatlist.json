@@ -12,33 +12,11 @@
       "INPUT": "Keresés: emberek, beszélgetése, mentett válaszok .."
     },
     "FILTER_ALL": "Mind",
-    "STATUS_TABS": [
-      {
-        "NAME": "Megnyitás",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Megoldva",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Enyém",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Gazdátlan",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Mind",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Enyém",
+      "unassigned": "Gazdátlan",
+      "all": "Mind"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Megnyitás"

@@ -9,6 +9,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def create
     @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
     @automation_rule.actions = params[:actions]
+    @automation_rule.conditions = params[:conditions]
 
     render json: { error: @automation_rule.errors.messages }, status: :unprocessable_entity and return unless @automation_rule.valid?
 
@@ -31,9 +32,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def update
     ActiveRecord::Base.transaction do
-      @automation_rule.update!(automation_rules_permit)
-      @automation_rule.actions = params[:actions] if params[:actions]
-      @automation_rule.save!
+      automation_rule_update
       process_attachments
 
     rescue StandardError => e
@@ -50,7 +49,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def clone
     automation_rule = Current.account.automation_rules.find_by(id: params[:automation_rule_id])
     new_rule = automation_rule.dup
-    new_rule.save
+    new_rule.save!
     @automation_rule = new_rule
   end
 
@@ -67,10 +66,17 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   private
 
+  def automation_rule_update
+    @automation_rule.update!(automation_rules_permit)
+    @automation_rule.actions = params[:actions] if params[:actions]
+    @automation_rule.conditions = params[:conditions] if params[:conditions]
+    @automation_rule.save!
+  end
+
   def automation_rules_permit
     params.permit(
       :name, :description, :event_name, :account_id, :active,
-      conditions: [:attribute_key, :filter_operator, :query_operator, { values: [] }],
+      conditions: [:attribute_key, :filter_operator, :query_operator, :custom_attribute_type, { values: [] }],
       actions: [:action_name, { action_params: [] }]
     )
   end

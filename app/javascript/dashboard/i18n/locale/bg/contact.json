@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Не е наличен",
     "EMAIL_ADDRESS": "Имейл адрес",
     "PHONE_NUMBER": "Телефон",
+    "IDENTIFIER": "Идентификатор",
     "COPY_SUCCESSFUL": "Успешно копиране в клипборда",
     "COMPANY": "Фирма",
     "LOCATION": "Локация",
+    "BROWSER_LANGUAGE": "Език на браузъра",
     "CONVERSATION_TITLE": "Детайли на разговора",
     "VIEW_PROFILE": "Виж профила",
     "BROWSER": "Браузър",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Добавете имейл на контакта",
         "LABEL": "Имейл адрес",
-        "DUPLICATE": "Този имейл се използва от друг контакт."
+        "DUPLICATE": "Този имейл се използва от друг контакт.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Добавете телефона на контакта",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Въведете Github потребителско име",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Успешно запазване на контакта",

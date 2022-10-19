@@ -1,8 +1,21 @@
 <template>
-  <li class="sidebar-item">
-    <span v-if="hasSubMenu" class="secondary-menu--title fs-small">
-      {{ $t(`SIDEBAR.${menuItem.label}`) }}
-    </span>
+  <li v-show="isMenuItemVisible" class="sidebar-item">
+    <div v-if="hasSubMenu" class="secondary-menu--wrap">
+      <span class="secondary-menu--header fs-small">
+        {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      </span>
+      <div v-if="isHelpCenterSidebar" class="submenu-icons">
+        <woot-button
+          size="tiny"
+          variant="clear"
+          color-scheme="secondary"
+          class="submenu-icon"
+          @click="onClickOpen"
+        >
+          <fluent-icon icon="add" size="16" />
+        </woot-button>
+      </div>
+    </div>
     <router-link
       v-else
       class="secondary-menu--title secondary-menu--link fs-small"
@@ -16,7 +29,14 @@
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
-        v-if="menuItem.label === 'AUTOMATION'"
+        v-if="isHelpCenterSidebar"
+        class="count-view"
+        :class="computedClass"
+      >
+        {{ `${menuItem.count}` }}
+      </span>
+      <span
+        v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
         class="beta"
@@ -34,6 +54,9 @@
         :label-color="child.color"
         :should-truncate="child.truncateLabel"
         :icon="computedInboxClass(child)"
+        :warning-icon="computedInboxErrorClass(child)"
+        :is-help-center-sidebar="isHelpCenterSidebar"
+        :child-item-count="child.count"
       />
       <router-link
         v-if="showItem(menuItem)"
@@ -55,6 +78,9 @@
           </a>
         </li>
       </router-link>
+      <p v-if="isHelpCenterSidebar && isCategoryEmpty" class="empty-text">
+        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
+      </p>
     </ul>
   </li>
 </template>
@@ -63,7 +89,10 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../../mixins/isAdmin';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
+import {
+  getInboxClassByType,
+  getInboxWarningIconClass,
+} from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
 
@@ -75,11 +104,32 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isHelpCenterSidebar: {
+      type: Boolean,
+      default: false,
+    },
+    isCategoryEmpty: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    ...mapGetters({ activeInbox: 'getSelectedInbox' }),
+    ...mapGetters({
+      activeInbox: 'getSelectedInbox',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     hasSubMenu() {
       return !!this.menuItem.children;
+    },
+    isMenuItemVisible() {
+      if (!this.menuItem.featureFlag) {
+        return true;
+      }
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        this.menuItem.featureFlag
+      );
     },
     isInboxConversation() {
       return (
@@ -111,22 +161,33 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
+    isArticlesView() {
+      return this.$store.state.route.name === this.menuItem.toStateName;
+    },
 
     computedClass() {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
-
-      if (
-        this.isInboxConversation ||
-        this.isTeamsSettings ||
-        this.isInboxsSettings ||
-        this.isIntegrationsSettings ||
-        this.isApplicationsSettings
-      ) {
-        return 'is-active';
+      if (this.hasSubMenu) {
+        if (
+          this.isInboxConversation ||
+          this.isTeamsSettings ||
+          this.isInboxsSettings ||
+          this.isIntegrationsSettings ||
+          this.isApplicationsSettings
+        ) {
+          return 'is-active';
+        }
+        return ' ';
       }
-      return ' ';
+      if (this.isHelpCenterSidebar) {
+        if (this.isArticlesView) {
+          return 'is-active';
+        }
+        return ' ';
+      }
+      return '';
     },
   },
   methods: {
@@ -135,6 +196,15 @@ export default {
       if (!type) return '';
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
+    },
+    computedInboxErrorClass(child) {
+      const { type, reauthorizationRequired } = child;
+      if (!type) return '';
+      const warningClass = getInboxWarningIconClass(
+        type,
+        reauthorizationRequired
+      );
+      return warningClass;
     },
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {
@@ -147,7 +217,10 @@ export default {
       }
     },
     showItem(item) {
-      return this.isAdmin && item.newLink !== undefined;
+      return this.isAdmin && !!item.newLink;
+    },
+    onClickOpen() {
+      this.$emit('open');
     },
   },
 };
@@ -157,11 +230,25 @@ export default {
   margin: var(--space-smaller) 0 0;
 }
 
+.secondary-menu--wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-small);
+}
+
+.secondary-menu--header {
+  color: var(--s-700);
+  display: flex;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--space-normal);
+  margin: var(--space-small) 0;
+  padding: 0 var(--space-small);
+}
 .secondary-menu--title {
   color: var(--s-600);
   display: flex;
-  font-weight: var(--font-weight-bold);
-  line-height: var(--space-two);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--space-normal);
   margin: var(--space-small) 0;
   padding: 0 var(--space-small);
 }
@@ -173,6 +260,7 @@ export default {
   padding: var(--space-small);
   font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-normal);
+  color: var(--s-700);
 
   &:hover {
     background: var(--s-25);
@@ -229,10 +317,11 @@ export default {
     color: var(--w-500);
   }
 }
+
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-half) !important;
+  margin-left: var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
@@ -241,5 +330,36 @@ export default {
   border-radius: 2em;
   color: var(--g-800);
   border-color: var(--g-700);
+}
+
+.count-view {
+  background: var(--s-50);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-600);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-zero) var(--space-smaller);
+
+  &.is-active {
+    background: var(--w-50);
+    color: var(--w-500);
+  }
+}
+
+.submenu-icons {
+  display: flex;
+  align-items: center;
+
+  .submenu-icon {
+    padding: 0;
+    margin-left: var(--space-small);
+  }
+}
+
+.empty-text {
+  color: var(--s-500);
+  font-size: var(--font-size-small);
+  margin: var(--space-smaller);
 }
 </style>

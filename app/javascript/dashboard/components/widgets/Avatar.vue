@@ -40,13 +40,18 @@ export default {
       type: Boolean,
       default: true,
     },
+    variant: {
+      type: String,
+      default: 'circle',
+    },
   },
   computed: {
     style() {
       let style = {
         width: `${this.size}px`,
         height: `${this.size}px`,
-        borderRadius: this.rounded ? '50%' : 0,
+        borderRadius:
+          this.variant === 'square' ? 'var(--border-radius-large)' : '50%',
         lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
         fontSize: `${Math.floor(this.size / 2.5)}px`,
       };
@@ -73,7 +78,7 @@ export default {
       if (initials.length > 2 && initials.search(/[A-Z]/) !== -1) {
         initials = initials.replace(/[a-z]+/g, '');
       }
-      initials = initials.substr(0, 2).toUpperCase();
+      initials = initials.substring(0, 2).toUpperCase();
       return initials;
     },
   },

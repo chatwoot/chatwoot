@@ -1,89 +1,135 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Integrācijas",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Abonētie Notikumi",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Atcelt",
+        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Notikumi",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "Saruna izveidota",
+            "CONVERSATION_STATUS_CHANGED": "Sarunas Statuss Mainīts",
+            "CONVERSATION_UPDATED": "Saruna Atjaunināta",
+            "MESSAGE_CREATED": "Ziņojums izveidots",
+            "MESSAGE_UPDATED": "Ziņojums atjaunināts",
+            "WEBWIDGET_TRIGGERED": "Lietotājs atvēra tiešsaistes tērzēšanas logrīku"
           }
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: https://example/api/webhook",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "Piemēram: https://example/api/webhook",
+          "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "Atjaunināt webhook",
+        "ADD_SUBMIT": "Izveidot webhook"
       },
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Konfigurēt",
+      "HEADER": "Webhook iestatījumi",
+      "HEADER_BTN_TXT": "Pievienot jaunu webhook",
+      "LOADING": "Notiek pievienoto webhook iegūšana",
+      "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook ir HTTP atzvani, kurus var definēt katram kontam. Tos aktivizē tādi notikumi kā ziņojumu izveide pakalpojumā Chatwoot. Šim kontam varat izveidot vairāk nekā vienu webhook. <br /><br /> Lai izveidotu <b>webhook</b>, noklikšķiniet uz <b>Pievienot jaunu webhook</b> pogas. Jūs varat arī noņemt jebkuru esošo webhook, noklikšķinot uz pogas Dzēst.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Šim kontam nav nokonfigurēts neviens webhook.",
+        "TITLE": "Pārvaldīt webhook",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Webhook galapunkts",
+          "Darbības"
         ]
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "Rediģēt",
+        "TITLE": "Rediģēt webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook konfigurācija ir veiksmīgi atjaunināta",
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "Atcelt",
+        "TITLE": "Pievienot jaunu webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook konfigurācija ir veiksmīgi pievienota",
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Dzēst",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook ir veiksmīgi izdzēsts",
+          "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Apstiprināt Dzēšanu",
+          "MESSAGE": "Vai tiešām vēlaties izdzēst webhook? (%{webhookURL})",
+          "YES": "Jā, Dzēst ",
+          "NO": "Nē, Paturēt"
         }
       }
     },
     "SLACK": {
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>"
+        "TITLE": "Izmantojot Slack Integrāciju",
+        "BODY": "<br/><p>Chatwoot tagad sinhronizēs visas ienākošās <b><i>customer-conversations</i></b> kanāla sarunas, kas atrodas Jūsu slack workplace.</p><p>Atbildot uz sarunas vītni, <b><i>customer-conversations</i></b> slack kanālā tiks izveidota atbilde klientam, izmantojot chatwoot.</p><p>Sāciet atbildes ar <b><i>note:</i></b> lai izveidotu individuālas piezīmes, nevis atbildes.</p><p>Ja slack atbildētājam ir aģenta profils pakalpojumā chatwoot, ar tādu pašu e-pasta adresi, atbildes tiks attiecīgi sasaistītas.</p><p>Kad atbildētājam nebūs piesaistīts aģenta profils, atbildes tiks sniegtas no robotprogrammatūras profila.</p>"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Dzēst",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrācija ir veiksmīgi izdzēsta"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Savienot"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Informācijas paneļa lietotnes",
+      "HEADER_BTN_TXT": "Pievienot jaunu informācijas paneļa lietotni",
+      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
+      "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
+      "LIST": {
+        "404": "Šajā kontā vēl nav nokonfigurēta neviena informācijas paneļa lietotne",
+        "LOADING": "Notiek informācijas paneļa lietotņu iegūšana...",
+        "TABLE_HEADER": [
+          "Nosaukums",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Rediģēt lietotni",
+        "DELETE_TOOLTIP": "Dzēst lietotni"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nosaukums",
+        "TITLE_PLACEHOLDER": "Ievadiet informācijas paneļa lietotnes nosaukumu",
+        "TITLE_ERROR": "Informācijas paneļa lietotnei ir jānorāda nosaukums",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Ievadiet endpoint URL, kurā tiek mitināta jūsu lietotne",
+        "URL_ERROR": "Nepieciešams derīgs URL"
+      },
+      "CREATE": {
+        "HEADER": "Pievienot jaunu informācijas paneļa lietotni",
+        "FORM_SUBMIT": "Iesniegt",
+        "FORM_CANCEL": "Atcelt",
+        "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi nokonfigurēta",
+        "API_ERROR": "Mēs nevarējām izveidot lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "UPDATE": {
+        "HEADER": "Rediģēt informācijas paneļa lietotni",
+        "FORM_SUBMIT": "Atjaunināt",
+        "FORM_CANCEL": "Atcelt",
+        "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi atjaunināta",
+        "API_ERROR": "Mēs nevarējām atjaunināt lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Jā, dzēst",
+        "CONFIRM_NO": "Nē, paturēt",
+        "TITLE": "Apstipriniet dzēšanu",
+        "MESSAGE": "Vai tiešām vēlaties izdzēst lietotni - %{appName}?",
+        "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi izdzēsta",
+        "API_ERROR": "Mēs nevarējām izdzēst lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
+      }
     }
   }
 }

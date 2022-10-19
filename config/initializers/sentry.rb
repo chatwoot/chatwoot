@@ -5,7 +5,7 @@ if ENV['SENTRY_DSN']
 
     # To activate performance monitoring, set one of these options.
     # We recommend adjusting the value in production:
-    config.traces_sample_rate = 0.1
+    config.traces_sample_rate = 0.1 if ENV['ENABLE_SENTRY_TRANSACTIONS']
 
     config.excluded_exceptions += ['Rack::Timeout::RequestTimeoutException']
 

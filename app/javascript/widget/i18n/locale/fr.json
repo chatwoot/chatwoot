@@ -8,7 +8,7 @@
       "SUBMIT": "Envoyer"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Envoyer à nouveau le message",
+      "RETRY": "Envoyer le message à nouveau",
       "ERROR_MESSAGE": "Impossible d'envoyer, réessayez"
     }
   },
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Adresse de courriel",
         "PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "L'adresse courriel est requise",
         "VALID_ERROR": "Veuillez saisir une adresse de courriel valide"
       },
       "PHONE_NUMBER": {
         "LABEL": "Numéro de téléphone",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Veuillez entrer votre numéro de téléphone",
+        "REQUIRED_ERROR": "Le numéro de téléphone est requis",
+        "VALID_ERROR": "Le numéro de téléphone doit être au format E.164. Ex : +1415555555"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -64,8 +64,8 @@
         "ERROR": "Message trop court"
       }
     },
-    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre email avant de commencer la conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "Veuillez fournir votre nom et votre courriel avant de commencer la conversation",
+    "IS_REQUIRED": "est requis"
   },
   "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_FILE_UPLOAD_SIZE} pour les pièces jointes",
   "CHAT_FORM": {

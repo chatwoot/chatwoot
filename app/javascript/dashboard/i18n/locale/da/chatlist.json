@@ -7,38 +7,16 @@
       "404": "Der er ingen aktive samtaler i denne gruppe."
     },
     "TAB_HEADING": "Samtaler",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Omtaler",
     "SEARCH": {
       "INPUT": "Søg efter Mennesker, Chats, Gemte svar .."
     },
     "FILTER_ALL": "Alle",
-    "STATUS_TABS": [
-      {
-        "NAME": "Åbn",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Løst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Ikke Tildelt",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Ikke Tildelt",
+      "all": "Alle"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Åbn"
@@ -47,10 +25,10 @@
         "TEXT": "Løst"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Afventer"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Udsat"
       }
     },
     "ATTACHMENTS": {
@@ -76,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Modtaget via e-mail",
     "VIEW_TWEET_IN_TWITTER": "Se tweet på Twitter",
     "REPLY_TO_TWEET": "Svar på dette tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "LINK_TO_STORY": "Gå til instagram historie",
+    "SENT": "Sendt med succes",
+    "NO_MESSAGES": "Ingen Beskeder",
+    "NO_CONTENT": "Intet tilgængeligt indhold",
+    "HIDE_QUOTED_TEXT": "Skjul Citeret Tekst",
+    "SHOW_QUOTED_TEXT": "Vis Citeret Tekst",
+    "MESSAGE_READ": "Læst"
   }
 }

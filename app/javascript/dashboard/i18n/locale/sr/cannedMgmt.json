@@ -1,14 +1,14 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Gotovi odgovori",
-    "HEADER_BTN_TXT": "Dodaj gotov odgovor",
-    "LOADING": "Preuzimanje gotovih odgovara",
-    "SEARCH_404": "Nema razultata",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "Brzi odgovori",
+    "HEADER_BTN_TXT": "Dodaj brzi odgovor",
+    "LOADING": "Preuzimanje brzih odgovora",
+    "SEARCH_404": "Nema stavki koje se poklapaju sa upitom",
+    "SIDEBAR_TXT": "<p><b>Brzi odgovori</b> </p><p> Brzi odgovori su sačuvani šabloni odgovora koji se mogu koristiti za brzo slanje odgovora u razgovoru. </p><p> Za pravljenje Brzih odgovora, samo kliknite na <b>Dodaj brzi odgovor</b>. Takođe možete urediti ili obrisati postojeći Brzi odgovor klikom na dugme Uredi ili Obriši. </p><p> Brzi odgovori se koriste uz pomoć <b>Brzih kodova</b>. Agenti mogu da pristupe brzim odgovorima tokom ćaskanja kucanjem <b>'/'</b> pa zatim brzog koda. </p>",
     "LIST": {
-      "404": "Ne postoje gotovi odgovori u ovom nalogu.",
-      "TITLE": "Upravljajte gotovim odgovorima",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "Ne postoje brzi odgovori u ovom nalogu.",
+      "TITLE": "Upravljajte brzim odgovorima",
+      "DESC": "Brzi odgovori su predefinisani šabloni odgovora koji se mogu koristiti za slanje brzih odgovora na tikete.",
       "TABLE_HEADER": [
         "Brzi kod",
         "Sadržaj",
@@ -16,29 +16,29 @@
       ]
     },
     "ADD": {
-      "TITLE": "Dodaj gotov odgovor",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "TITLE": "Dodaj brzi odgovor",
+      "DESC": "Brzi odgovori su predefinisani šabloni odgovora koji se mogu koristiti za slanje brzih odgovora u razgovorima.",
       "CANCEL_BUTTON_TEXT": "Otkaži",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Brzi kod",
-          "PLACEHOLDER": "Unesite brzi kod",
+          "PLACEHOLDER": "Molim vas unesite brzi kod",
           "ERROR": "Brzi kod je obavezan"
         },
         "CONTENT": {
           "LABEL": "Sadržaj",
-          "PLACEHOLDER": "Unesite sadržaj",
+          "PLACEHOLDER": "Molim vas unesite sadržaj",
           "ERROR": "Sadržaj je obavezan"
         },
         "SUBMIT": "Pošalji"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Gotov odgovor je uspešno dodat",
+        "SUCCESS_MESSAGE": "Brzi odgovor je uspešno dodat",
         "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       }
     },
     "EDIT": {
-      "TITLE": "Uredi gotov odgovor",
+      "TITLE": "Uredi brzi odgovor",
       "CANCEL_BUTTON_TEXT": "Otkaži",
       "FORM": {
         "SHORT_CODE": {
@@ -48,21 +48,21 @@
         },
         "CONTENT": {
           "LABEL": "Sadržaj",
-          "PLACEHOLDER": "Unesite sadržaj",
+          "PLACEHOLDER": "Molim vas unesite sadržaj",
           "ERROR": "Sadržaj je obavezan"
         },
         "SUBMIT": "Pošalji"
       },
       "BUTTON_TEXT": "Uredi",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
+        "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izmenjen",
         "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Izbriši",
+      "BUTTON_TEXT": "Obriši",
       "API": {
-        "SUCCESS_MESSAGE": "Gotov odgovor je uspešno izbrisan",
+        "SUCCESS_MESSAGE": "Brzi odgovor je uspešno izbrisan",
         "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
       },
       "CONFIRM": {

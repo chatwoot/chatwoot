@@ -22,17 +22,17 @@
         "INBOX": "Yes, Delete",
         "ACCOUNT": "Yes, Disconnect"
       },
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "منسوخ کریں۔",
       "API": {
         "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
       }
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "ان باکس",
       "DELETE": {
-        "BUTTON_TEXT": "Delete"
+        "BUTTON_TEXT": "حذف کریں۔"
       }
     },
     "ADD": {
@@ -42,11 +42,11 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Create",
-        "CANCEL": "Cancel"
+        "CANCEL": "منسوخ کریں۔"
       },
       "API": {
         "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "ووٹ سرور کے ساتھ رابطہ ممکن نہی ہوسکا ، براہ کرم کچھ دیر بعد کوشش کریں"
       }
     },
     "CONNECT": {

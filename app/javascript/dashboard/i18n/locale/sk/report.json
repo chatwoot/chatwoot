@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Vybrať rozsah dátumov"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -386,6 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",
+    "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"
@@ -420,7 +422,7 @@
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Otvorené",
+      "OPEN": "Otvoriť",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Nepriradené"
     },

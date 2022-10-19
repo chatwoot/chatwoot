@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Имя источника",
-        "PLACEHOLDER": "Введите имя папки \"Входящие\" (например: Acme Inc)"
+        "PLACEHOLDER": "Введите имя папки \"Входящие\" (например: Acme Inc)",
+        "ERROR": "Пожалуйста, введите правильное имя"
       },
       "WEBSITE_NAME": {
         "LABEL": "Имя сайта",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Включить приветствие",
-          "HELP_TEXT": "Отправьте приветствие пользователю при начале диалога.",
+          "HELP_TEXT": "Автоматически отправлять приветственное сообщение при создании нового разговора.",
           "ENABLED": "Включено",
           "DISABLED": "Выключено"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Цвет виджета",
           "PLACEHOLDER": "Изменить цвет виджета"
         },
-        "SUBMIT_BUTTON": "Создать источник"
+        "SUBMIT_BUTTON": "Создать источник",
+        "API": {
+          "ERROR_MESSAGE": "Не удалось создать канал сайта, попробуйте еще раз"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp канал",
@@ -106,6 +110,12 @@
           "LABEL": "SID аккаунта",
           "PLACEHOLDER": "Пожалуйста, введите SID вашего аккаунта Twilio",
           "ERROR": "Это поле обязательно"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "SID службы обмена сообщениями",
+          "PLACEHOLDER": "Пожалуйста, введите SID службы сообщений Twilio",
+          "ERROR": "Это поле обязательно",
+          "USE_MESSAGING_SERVICE": "Использовать сервис Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Тип источника",
@@ -193,6 +203,7 @@
         "PROVIDERS": {
           "LABEL": "Поставщик API",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +216,32 @@
           "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
           "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "ID номера телефона",
+          "PLACEHOLDER": "Пожалуйста, введите номер телефона, полученный от Facebook разработчика панели управления.",
+          "ERROR": "Пожалуйста, введите правильное значение."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "ID бизнес-аккаунта",
+          "PLACEHOLDER": "Пожалуйста, введите ID Личного кабинета для разработчиков Facebook.",
+          "ERROR": "Пожалуйста, введите правильное значение."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Вебхук верифицировать токен",
+          "PLACEHOLDER": "Введите контрольный токен, который вы хотите настроить для вебхуков Facebook.",
+          "ERROR": "Пожалуйста, введите правильное значение."
+        },
         "API_KEY": {
           "LABEL": "Ключ API",
           "SUBTITLE": "Настройте ключ API WhatsApp.",
           "PLACEHOLDER": "Ключ API",
-          "APPLY_FOR_ACCESS": "У вас нет ключа API? Примените здесь",
           "ERROR": "Пожалуйста, введите правильное значение."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL",
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL вебхука",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Создать канал WhatsApp",
         "API": {
@@ -328,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Истоник готов!",
-      "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки ",
+      "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки",
       "BUTTON_TEXT": "Перейти",
       "MORE_SETTINGS": "Больше параметров",
       "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь."
@@ -339,11 +370,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Настройки источника сохранены",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автоназначение сохранено",
-        "ERROR_MESSAGE": "Не удалось сохранить цвет виджета. Пожалуйста, повторите попытку позже."
-      },
-      "AUTO_ASSIGNMENT": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ERROR_MESSAGE": "Не удалось обновить настройки входящих сообщений. Пожалуйста, повторите попытку позже."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Включено",
@@ -388,7 +415,8 @@
       "CONFIGURATION": "Настройки",
       "CAMPAIGN": "Кампании",
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
-      "BUSINESS_HOURS": "Время работы"
+      "BUSINESS_HOURS": "Время работы",
+      "WIDGET_BUILDER": "Конструктор виджетов"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -402,6 +430,8 @@
       "MESSENGER_SUB_HEAD": "Поместите эту кнопку внутри тега <body>",
       "INBOX_AGENTS": "Операторы",
       "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
+      "AGENT_ASSIGNMENT": "Назначения для беседы",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Обновить настройки назначения для бесед",
       "UPDATE": "Обновить",
       "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
@@ -416,13 +446,20 @@
       "HMAC_VERIFICATION": "Проверка личности пользователя",
       "HMAC_DESCRIPTION": "Для проверки личности пользователя SDK предлагает вам передать параметр `identity_hash` для каждого пользователя. Вы можете сгенерировать HMAC с помощью шифрования методом 'sha256' с ключом, который указан ниже.",
       "HMAC_MANDATORY_VERIFICATION": "Принудительная проверка личности пользователя",
-      "HMAC_MANDATORY_DESCRIPTION": "Если включено, метод Chatwoot SDK setUser не будет работать до тех пор, пока для каждого пользователя не будет указан метод `identifier_hash`.",
+      "HMAC_MANDATORY_DESCRIPTION": "Если этот параметр включен, запросы на пропуск `identifier_hash` будут отклонены.",
       "INBOX_IDENTIFIER": "Идентификатор входящего канала",
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
       "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
+      "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "Ключ API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Пожалуйста, введите значение больше 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ограничьте максимальное количество разговоров из этого почтового ящика, которые могут быть автоматически назначены агенту"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
@@ -540,6 +577,88 @@
       "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
       "AUTH_MECHANISM": "Авторизация"
     },
-    "NOTE": "Примечание: "
+    "NOTE": "Примечание: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Аватар сайта",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Аватар успешно удален",
+              "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Имя сайта",
+          "PLACE_HOLDER": "Введите имя вашего сайта (например: Acme Inc)",
+          "ERROR": "Пожалуйста, правильно введите имя веб-сайта"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Заголовок приветствия",
+          "PLACE_HOLDER": "Привет!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Текст приветствия",
+          "PLACE_HOLDER": "Связаться с нами просто! Напишите нам, или задайте вопрос."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Время ответа",
+          "IN_A_FEW_MINUTES": "Через несколько минут",
+          "IN_A_FEW_HOURS": "Через несколько часов",
+          "IN_A_DAY": "Через день"
+        },
+        "WIDGET_COLOR_LABEL": "Цвет виджета",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Пообщайтесь с нами",
+          "LABEL": "Название виджета",
+          "PLACE_HOLDER": "Пообщайтесь с нами"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Обновить настройки виджета",
+          "API": {
+            "SUCCESS_MESSAGE": "Настройки виджета успешно обновлены",
+            "ERROR_MESSAGE": "Не удается обновить настройки виджета"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Предпросмотр",
+          "SCRIPT": "Скрипт"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Слева",
+          "RIGHT": "Справа"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Стандартный",
+          "EXPANDED_BUBBLE": "Расширенная рамка сообщений"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "По умолчанию",
+        "CHAT": "Чат"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
+        "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
+        "IN_A_DAY": "Обычно отвечаем в течение дня"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Начать диалог",
+        "CHAT_INPUT_PLACEHOLDER": "Введите сообщение"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "Мы в сети",
+          "OFFLINE": "В данный момент мы отсутствуем"
+        },
+        "USER_MESSAGE": "Хай",
+        "AGENT_MESSAGE": "Привет"
+      },
+      "BRANDING_TEXT": "Работает на Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

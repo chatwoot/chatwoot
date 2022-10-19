@@ -61,7 +61,10 @@
         @input="handleAgentsFilterSelection"
       />
     </div>
-    <div class="small-12 medium-3 business-hours">
+    <div
+      v-if="showBusinessHoursSwitch"
+      class="small-12 medium-3 business-hours"
+    >
       <span class="business-hours-text margin-right-small">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
@@ -104,6 +107,10 @@ export default {
     agentsFilter: {
       type: Boolean,
       default: false,
+    },
+    showBusinessHoursSwitch: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {

@@ -2,28 +2,28 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "הוסף מסנן",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
         "SUBMIT_BUTTON_LABEL": "שלח",
         "CANCEL_BUTTON_LABEL": "ביטול",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "CLEAR_BUTTON_LABEL": "מחק סננים",
+        "EMPTY_VALUE_ERROR": "חובה ערך",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "ו/גם",
+            "OR": "או"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
+            "equal_to": "שווה ל",
+            "not_equal_to": "לא שווה ל",
+            "contains": "מכיל",
+            "does_not_contain": "לא מכיל",
+            "is_present": "נוכח",
+            "is_not_present": "לא נוכח",
+            "is_greater_than": "גדול מ",
             "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "days_before": "זה x ימים לפני"
         },
         "ATTRIBUTES": {
             "NAME": "שם",
@@ -32,17 +32,18 @@
             "IDENTIFIER": "Identifier",
             "CITY": "עיר",
             "COUNTRY": "מדינה",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "פעילות אחרונה"
+            "CUSTOM_ATTRIBUTE_LIST": "רשימה",
+            "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
+            "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
+            "CUSTOM_ATTRIBUTE_LINK": "קישור",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
+            "CREATED_AT": "הוקם ב",
+            "LAST_ACTIVITY": "פעילות אחרונה",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "סננים סטנדרטיים",
+            "ADDITIONAL_FILTERS": "סננים נוספים",
             "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית"
         }
     }

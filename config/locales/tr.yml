@@ -22,21 +22,53 @@ tr:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
   errors:
+    validations:
+      presence: boş bırakılmamalı
     webhook:
-      invalid: Invalid events
+      invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+    data_import:
+      data_type:
+        invalid: Hatalı veri türü
     contacts:
       import:
         failed: Dosya boş
+      email:
+        invalid: Hatalı e-posta
+      phone_number:
+        invalid: e164 formatında olmalı
+    categories:
+      locale:
+        unique: kategori ve portalde tekil olmalı
+    inboxes:
+      imap:
+        socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
+        no_response_error: Lütfen IMAP erişim bilgilerinizi kontrol edip tekrar deneyin.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
       agent_name: Temsilci adı
       conversations_count: Konuşma sayısı
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Ortalama cevap süresi(dakika)
+      avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     team_csv:
@@ -45,6 +77,16 @@ tr:
       avg_first_response_time: Ortalama cevap süresi(dakika)
       avg_resolution_time: Ortalama çözüm üretme süresi(dakika)
     default_group_by: gün
+    csat:
+      headers:
+        contact_name: Contact Name
+        contact_email_address: Contact Email Address
+        contact_phone_number: Contact Phone Number
+        link_to_the_conversation: Görüşmenin bağlantısı
+        agent_name: Kullanıcı Adı
+        rating: Değerlendirme
+        feedback: Değerlendirme Yorumu
+        recorded_at: Kaydedilen tarih
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -54,6 +96,7 @@ tr:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
     activity:
       status:

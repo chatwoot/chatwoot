@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <button class="z-10 focus:outline-none select-none" @click="toggleMenu">
-      <slot name="button"></slot>
+      <slot name="button" />
     </button>
 
     <!-- to close when clicked on space around it-->
@@ -10,7 +10,7 @@
       tabindex="-1"
       class="fixed inset-0 h-full w-full cursor-default focus:outline-none"
       @click="toggleMenu"
-    ></button>
+    />
 
     <!--dropdown menu-->
     <transition
@@ -26,7 +26,7 @@
         class="menu-content absolute shadow-xl rounded-md border-solid border border-slate-100 mt-1 py-1 px-2 bg-white z-10"
         :class="menuPlacement === 'right' ? 'right-0' : 'left-0'"
       >
-        <slot name="content"></slot>
+        <slot name="content" />
       </div>
     </transition>
   </div>

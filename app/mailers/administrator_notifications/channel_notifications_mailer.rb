@@ -3,7 +3,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     subject = 'Your Slack integration has expired'
-    @action_url = "#{ENV['FRONTEND_URL']}/app/accounts/#{Current.account.id}/settings/integrations/slack"
+    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/slack"
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 
@@ -11,7 +11,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     subject = 'Your Facebook page connection has expired'
-    @action_url = "#{ENV['FRONTEND_URL']}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
+    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 
@@ -19,7 +19,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     subject = 'Your email inbox has been disconnected. Please update the credentials for SMTP/IMAP'
-    @action_url = "#{ENV['FRONTEND_URL']}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
+    @action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/inboxes/#{inbox.id}"
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 

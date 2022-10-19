@@ -83,7 +83,7 @@
       "SELECT_ALL": "seleccionar todos los agentes",
       "SELECTED_COUNT": "%{selected} de %{total} agentes seleccionados.",
       "BUTTON_TEXT": "Añadir agentes",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": "Seleccione al menos un agente."
     },
     "FINISH": {
       "TITLE": "¡Su equipo está listo!",

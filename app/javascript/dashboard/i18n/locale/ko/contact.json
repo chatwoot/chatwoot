@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "사용할 수 없음",
     "EMAIL_ADDRESS": "이메일 주소",
     "PHONE_NUMBER": "휴대폰 번호",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
     "COMPANY": "회사",
     "LOCATION": "장소",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "대화 자세히",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "브라우저",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "연락처의 이메일 주소 입력",
         "LABEL": "이메일 주소",
-        "DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다."
+        "DUPLICATE": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "연락처의 전화 번호 입력",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "깃허브 사용자 이름 입력",
           "LABEL": "깃허브"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",

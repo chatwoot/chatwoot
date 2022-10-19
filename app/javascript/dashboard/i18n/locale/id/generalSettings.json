@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "Pembaharuan Chatwoot %{latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Pelajari lebih lanjut"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -60,7 +60,7 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifikasi",
     "MARK_ALL_DONE": "Tandai Semua Selesai",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "terhapus",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
       "ALL_NOTIFICATIONS": "View all notifications",

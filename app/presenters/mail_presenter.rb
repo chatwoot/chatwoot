@@ -114,7 +114,11 @@ class MailPresenter < SimpleDelegator
   end
 
   def original_sender
-    @mail[:reply_to].try(:value) || @mail['X-Original-Sender'].try(:value) || from.first
+    from_email_address(@mail[:reply_to].try(:value)) || @mail['X-Original-Sender'].try(:value) || from_email_address(from.first)
+  end
+
+  def from_email_address(email)
+    Mail::Address.new(email).address
   end
 
   def email_forwarded_for

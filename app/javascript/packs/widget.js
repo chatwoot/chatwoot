@@ -9,9 +9,10 @@ import ActionCableConnector from '../widget/helpers/actionCable';
 import i18n from '../widget/i18n';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import router from '../widget/router';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
-Vue.use(VueDOMPurifyHTML);
+Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

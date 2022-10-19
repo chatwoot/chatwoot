@@ -10,40 +10,52 @@
           <woot-code
             v-if="currentInbox.web_widget_script"
             :script="currentInbox.web_widget_script"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isATwilioInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
-          >
-          </woot-code>
+          />
+        </div>
+        <div v-if="isWhatsAppCloudInbox" class="medium-6 small-offset-3">
+          <p class="config--label">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
+          </p>
+          <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
+          <p class="config--label">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'
+              )
+            }}
+          </p>
+          <woot-code
+            lang="html"
+            :script="currentInbox.provider_config.webhook_verify_token"
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isALineInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isASmsInbox"
             lang="html"
             :script="currentInbox.callback_webhook_url"
-          >
-          </woot-code>
+          />
         </div>
         <div class="medium-6 small-offset-3">
           <woot-code
             v-if="isAEmailInbox"
             lang="html"
             :script="currentInbox.forward_to_email"
-          >
-          </woot-code>
+          />
         </div>
         <div class="footer">
           <router-link
@@ -97,6 +109,12 @@ export default {
     isASmsInbox() {
       return this.currentInbox.channel_type === 'Channel::Sms';
     },
+    isWhatsAppCloudInbox() {
+      return (
+        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
+        this.currentInbox.provider === 'whatsapp_cloud'
+      );
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
@@ -113,6 +131,12 @@ export default {
       if (this.isALineInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isWhatsAppCloudInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
@@ -144,5 +168,11 @@ export default {
 
 .settings-button {
   margin-right: var(--space-small);
+}
+
+.config--label {
+  color: var(--b-600);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-large);
 }
 </style>

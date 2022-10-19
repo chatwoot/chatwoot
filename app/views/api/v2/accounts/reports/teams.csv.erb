@@ -5,15 +5,8 @@
     I18n.t('reports.team_csv.avg_resolution_time')
   ]
 %>
-<%= CSV.generate_line headers %>
-<% Current.account.teams.each do |team| %>
-  <% team_report = V2::ReportBuilder.new(Current.account, {
-        type: :team,
-        id: team.id,
-        since: params[:since],
-        until: params[:until]
-      }).summary %>
-  <% row = [ team.name, team_report[:conversations_count], (team_report[:avg_first_response_time]/60).to_i, (team_report[:avg_resolution_time]/60).to_i ] %>
-  <%= CSV.generate_line row %>
+<%= CSV.generate_line headers -%>
+<% @report_data.each do |row| %>
+<%= CSV.generate_line row -%>
 <% end %>
 <%= CSV.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>

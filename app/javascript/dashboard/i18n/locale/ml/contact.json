@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "ലഭ്യമല്ല",
     "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം",
     "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
     "COMPANY": "കമ്പനി",
     "LOCATION": "സ്ഥാനം",
+    "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
     "VIEW_PROFILE": "വ്യക്തിവിവരങ്ങൾ കാണുക",
     "BROWSER": "ബ്രൗസർ",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "കോൺ‌ടാക്റ്റിന്റെ ഇമെയിൽ വിലാസം നൽകുക",
         "LABEL": "ഇമെയിൽ വിലാസം",
-        "DUPLICATE": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്."
+        "DUPLICATE": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്.",
+        "ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ ഫോൺ നമ്പർ നൽകുക",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Github ഉപയോക്തൃനാമം നൽകുക",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു",

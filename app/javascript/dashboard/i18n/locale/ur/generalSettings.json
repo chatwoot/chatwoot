@@ -71,9 +71,9 @@
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",
       "TABLE_HEADER": [
-        "Name",
+        "نام",
         "Phone Number",
-        "Conversations",
+        "مکالمات",
         "Last Contacted"
       ]
     },

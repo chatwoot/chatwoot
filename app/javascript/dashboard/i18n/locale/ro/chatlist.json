@@ -12,33 +12,11 @@
       "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
     },
     "FILTER_ALL": "Toate",
-    "STATUS_TABS": [
-      {
-        "NAME": "Deschide",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Rezolvat",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Ale mele",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Neatribuit",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Toate",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Ale mele",
+      "unassigned": "Neatribuit",
+      "all": "Toate"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Deschide"
@@ -82,6 +60,6 @@
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
     "SHOW_QUOTED_TEXT": "Arată textul citat",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Citește"
   }
 }

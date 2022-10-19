@@ -12,33 +12,11 @@
       "INPUT": "Търсене на хора, чатове, запазени отговори .."
     },
     "FILTER_ALL": "Всички",
-    "STATUS_TABS": [
-      {
-        "NAME": "Отворен",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Разрешен",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Мой",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Неназначен",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Всички",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Мой",
+      "unassigned": "Неназначен",
+      "all": "Всички"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Отворен"

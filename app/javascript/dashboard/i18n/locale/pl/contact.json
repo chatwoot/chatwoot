@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Niedostępne",
     "EMAIL_ADDRESS": "Adres e-mail",
     "PHONE_NUMBER": "Numer telefonu",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Pomyślnie skopiowano do schowka",
     "COMPANY": "Firma",
     "LOCATION": "Lokalizacja",
+    "BROWSER_LANGUAGE": "Język przeglądarki",
     "CONVERSATION_TITLE": "Szczegóły konwersacji",
     "VIEW_PROFILE": "Pokaż profil",
     "BROWSER": "Przeglądarki",
@@ -73,8 +75,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Potwierdź usunięcie",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Czy na pewno chcesz usunąć tę notatkę?",
+      "YES": "Tak, usuń ją",
       "NO": "Nie, zachowaj"
     }
   },
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Podaj adres e-mail kontaktu",
         "LABEL": "Adres e-mail",
-        "DUPLICATE": "Ten adres e-mail jest już zajęty przez inny kontakt."
+        "DUPLICATE": "Ten adres e-mail jest już zajęty przez inny kontakt.",
+        "ERROR": "Wprowadź poprawny adres e-mail."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Wprowadź numer telefonu kontaktu",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Wprowadź nazwę użytkownika Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt zapisany pomyślnie",

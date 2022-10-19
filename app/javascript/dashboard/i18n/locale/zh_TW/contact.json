@@ -3,11 +3,13 @@
     "NOT_AVAILABLE": "無法使用",
     "EMAIL_ADDRESS": "電子信箱地址",
     "PHONE_NUMBER": "電話號碼",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "成功複製到剪貼簿",
     "COMPANY": "公司",
     "LOCATION": "位置",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "對話詳細資訊",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "查看個人檔案",
     "BROWSER": "瀏覽器",
     "OS": "作業系统",
     "INITIATED_FROM": "發起自：",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "請輸入聯絡人電子信箱",
         "LABEL": "電子信箱地址",
-        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。"
+        "DUPLICATE": "這個電子信箱已經被其他聯絡人使用了。",
+        "ERROR": "請輸入一個有效的電子信箱."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "請輸入聯絡人電話",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "請輸入 Github 使用者名稱",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "聯絡人儲存成功",
@@ -199,7 +208,7 @@
         "LAST_ACTIVITY": "最後活動",
         "COUNTRY": "國家",
         "CITY": "城市",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "SOCIAL_PROFILES": "社群檔案",
         "COMPANY": "公司",
         "EMAIL_ADDRESS": "電子信箱地址"
       },
@@ -208,7 +217,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "聯絡人",
-    "LOADING": "Loading contact profile..."
+    "LOADING": "正在讀取聯絡人檔案..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
