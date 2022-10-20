@@ -87,6 +87,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationUpdated = data => {
+    // Make the changes after this to update labels
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };

@@ -8,6 +8,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
+      labels: label_list,
       meta: push_meta,
       status: status,
       custom_attributes: custom_attributes,
@@ -21,6 +22,19 @@ class Conversations::EventDataPresenter < SimpleDelegator
 
   def push_messages
     [messages.chat.last&.push_event_data].compact
+  end
+
+  def label_list
+    selected_labels = Label.where(id: labels.pluck(:id))
+    selected_labels.map do |label|
+      {
+        id: label.id,
+        title: label.title,
+        description: label.description,
+        color: label.color,
+        show_on_sidebar: label.show_on_sidebar
+      }
+    end
   end
 
   def push_meta
