@@ -149,3 +149,11 @@ ar:
     fullcontact:
       name: "الاتصال الكامل"
       description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: لم يتم العثور على النتائج.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
