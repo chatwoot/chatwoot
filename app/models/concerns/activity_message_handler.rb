@@ -6,7 +6,7 @@ module ActivityMessageHandler
   def create_activity
     user_name = Current.user.name if Current.user.present?
     status_change_activity(user_name) if saved_change_to_status?
-    create_label_change(user_name) if saved_change_to_label_list?
+    create_label_change(label_activity_message_ownner(user_name)) if saved_change_to_label_list?
   end
 
   def status_change_activity(user_name)
@@ -106,5 +106,10 @@ module ActivityMessageHandler
 
     content = generate_assignee_change_activity_content(user_name)
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def label_activity_message_ownner(user_name)
+    user_name = 'Automation System' if !user_name && Current.executed_by.present?
+    user_name
   end
 end
