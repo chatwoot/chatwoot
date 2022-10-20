@@ -280,6 +280,11 @@ class Conversation < ApplicationRecord
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
   end
 
+  def label_activity_message_ownner(user_name)
+    user_name = 'Automation System' if !user_name && Current.executed_by.present?
+    user_name
+  end
+
   # creating db triggers
   trigger.before(:insert).for_each(:row) do
     "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
