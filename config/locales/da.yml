@@ -149,3 +149,11 @@ da:
     fullcontact:
       name: "Fuldkontakt"
       description: "FullContact integration hjælper med at berige besøgende profiler. Identificere brugerne, så snart de deler deres e-mail-adresse og tilbyde dem skræddersyet kundeservice. Tilslut din FullContact til din konto ved at dele FullContact API-nøglen."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Ingen resultater fundet.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
