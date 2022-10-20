@@ -66,19 +66,19 @@
       "RESOLVED": "סמן כפתור",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "נודניק",
         "NEXT_REPLY": "עד תגובה הבאה",
         "TOMORROW": "עד מחר",
         "NEXT_WEEK": "עד שבוע הבא"
       },
       "ASSIGN_AGENT": "שייך סוכן",
-      "ASSIGN_LABEL": "Assign label",
+      "ASSIGN_LABEL": "ההקצה תווית",
       "AGENTS_LOADING": "טוען סוכנים...",
       "ASSIGN_TEAM": "שייך צוות",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
@@ -91,12 +91,12 @@
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "MESSAGE_SIGN_TOOLTIP": "חתימת הודעה",
       "ENABLE_SIGN_TOOLTIP": "אפשר חתימה",
       "DISABLE_SIGN_TOOLTIP": "נטרל חתימה",
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
       "CLICK_HERE": "לחץ כאן כדי לעדכן"
     },
     "REPLYBOX": {

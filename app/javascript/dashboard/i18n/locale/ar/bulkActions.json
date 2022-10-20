@@ -2,9 +2,11 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} المحادثات المحددة",
     "AGENT_SELECT_LABEL": "اختر وكيل",
-    "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين %{conversationCount} %{conversationLabel} إلى",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "العودة للخلف",
     "ASSIGN_LABEL": "تكليف",
+    "YES": "نعم",
     "ASSIGN_AGENT_TOOLTIP": "إسناد وكيل",
     "ASSIGN_SUCCESFUL": "تم تعيين المحادثات بنجاح",
     "ASSIGN_FAILED": "فشل في تعيين المحادثات، الرجاء المحاولة مرة أخرى",
