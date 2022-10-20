@@ -149,3 +149,11 @@ fr:
     fullcontact:
       name: "Fullcontact"
       description: "L'intégration FullContact permet d'enrichir les profils de visiteurs. Identifiez les utilisateurs dès qu'ils partagent leur adresse de courriel et offrez-leur un service client sur mesure. Connectez FullContact à votre compte en partageant la clé API FullContact."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Aucun résultat trouvé.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
