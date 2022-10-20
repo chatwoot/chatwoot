@@ -17,6 +17,7 @@ By default, it renders:
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
+    <meta name= "turbolinks-cache-control" content= "no-cache">
     <%= javascript_pack_tag 'portal' %>
     <%= stylesheet_pack_tag 'portal' %>
     <%= csrf_meta_tags %>
@@ -35,4 +36,16 @@ By default, it renders:
       </main>
     </div>
   </body>
+  <script>
+    window.portalConfig = {
+      portalSlug: '<%= @portal.slug %>',
+      localeCode: '<%= @locale %>',
+      searchTranslations: {
+        searchPlaceholder: '<%= I18n.t('public_portal.search.search_placeholder') %>',
+        emptyPlaceholder: '<%= I18n.t('public_portal.search.empty_placeholder') %>',
+        loadingPlaceholder: '<%= I18n.t('public_portal.search.loading_placeholder') %>',
+        resultsTitle: '<%= I18n.t('public_portal.search.results_title') %>'
+      }
+    };
+  </script>
 </html>

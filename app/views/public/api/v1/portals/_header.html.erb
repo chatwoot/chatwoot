@@ -22,7 +22,7 @@
       <div class="inline-flex relative w-24">
         <select
           data-portal-slug="<%= @portal.slug %>"
-          class="appearance-none w-full bg-white px-3 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline locale-switcher"
+          class="appearance-none w-full bg-white px-3 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline locale-switcher hover:bg-slate-75 cursor-pointer"
         >
           <% @portal.config["allowed_locales"].each do |locale| %>
             <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= locale %></option>

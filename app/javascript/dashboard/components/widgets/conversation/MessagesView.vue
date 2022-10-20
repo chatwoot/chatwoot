@@ -434,7 +434,7 @@ export default {
 
       &::before {
         transform: rotate(0deg);
-        left: var(--space-half);
+        left: var(--space-smaller);
         bottom: var(--space-minus-slab);
       }
     }
