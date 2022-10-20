@@ -149,3 +149,11 @@ lv:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Nav atrasts.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
