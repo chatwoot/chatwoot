@@ -257,9 +257,9 @@ class Conversation < ApplicationRecord
   end
 
   def create_label_change(user_name)
-    user_name = 'Automation System' if Current.executed_by.present?
+    return unless label_activity_message_ownner(user_name)
 
-    return unless user_name
+    user_name = label_activity_message_ownner(user_name)
 
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
@@ -280,6 +280,11 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def label_activity_message_ownner(user_name)
+    user_name = 'Automation System' if !user_name && Current.executed_by.present?
+    user_name
   end
 
   # creating db triggers
