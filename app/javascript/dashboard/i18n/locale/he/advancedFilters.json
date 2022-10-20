@@ -1,90 +1,90 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "סינון שיחות",
+    "SUBTITLE": "הוסף מסננים למטה והקש על 'החל מסננים' כדי לסנן שיחות.",
+    "ADD_NEW_FILTER": "הוסף מסנן",
+    "FILTER_DELETE_ERROR": "צריך להיות לפחות מסנן אחד כדי לשמור",
+    "SUBMIT_BUTTON_LABEL": "שמור סננים",
     "CANCEL_BUTTON_LABEL": "ביטול",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "מחק סננים",
+    "EMPTY_VALUE_ERROR": "חובה ערך",
+    "TOOLTIP_LABEL": "סינון שיחות",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "ו/גם",
+      "OR": "או"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "שווה ל",
+      "not_equal_to": "לא שווה ל",
+      "contains": "מכיל",
+      "does_not_contain": "לא מכיל",
+      "is_present": "נוכח",
+      "is_not_present": "לא נוכח",
+      "is_greater_than": "גדול מ",
+      "is_less_than": "קטן מ",
+      "days_before": "זה x ימים לפני"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "נכון",
+      "FALSE": "לא נכון"
     },
     "ATTRIBUTES": {
       "STATUS": "מצב",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "משויך ל",
       "INBOX_NAME": "שם תיבת הדואר הנכנס",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
-      "LABELS": "Labels",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
+      "TEAM_NAME": "שם צוות",
+      "CONVERSATION_IDENTIFIER": "מזהה שיחה",
+      "CAMPAIGN_NAME": "שם קמפיין",
+      "LABELS": "תוויות",
+      "BROWSER_LANGUAGE": "שפת דפדפן",
+      "COUNTRY_NAME": "שם המדינה",
+      "REFERER_LINK": "קישור מפנה",
+      "CUSTOM_ATTRIBUTE_LIST": "רשימה",
+      "CUSTOM_ATTRIBUTE_TEXT": "טקסט",
+      "CUSTOM_ATTRIBUTE_NUMBER": "מספר",
+      "CUSTOM_ATTRIBUTE_LINK": "קישור",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "תיבת סימון",
+      "CREATED_AT": "הוקם ב",
       "LAST_ACTIVITY": "פעילות אחרונה"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "סננים סטנדרטיים",
+      "ADDITIONAL_FILTERS": "סננים נוספים",
       "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
+        "TITLE": "האם אתה רוצה לשמור את המסנן הזה?",
+        "LABEL": "תן שם למסנן הזה",
+        "PLACEHOLDER": "תן שם למסנן הזה",
         "ERROR_MESSAGE": "שם שדה חובה",
-        "SAVE_BUTTON": "Save filter",
+        "SAVE_BUTTON": "שמור מסנן",
         "CANCEL_BUTTON": "ביטול",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "התיקיה נשמרה בהצלחה",
+          "ERROR_MESSAGE": "שגיאה או תקלה בהקמת התיקיה"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "הסגמנט נשמר בהצלחה",
+          "ERROR_MESSAGE": "תקלה או שגיאה בהקמת הסגמנט"
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "מחק מסנן",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "אשר מחיקה",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "האם אתה בטוח למחוק הסנן הזה ",
             "YES": "כן, מחק",
             "NO": "לא, השאר"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "תיקיה נמחקה בהצלחה",
+          "ERROR_MESSAGE": "שגיאה או תקלה במחיקת תיקיה"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
+          "SUCCESS_MESSAGE": "סגמנט נמחק בהצלחה",
           "ERROR_MESSAGE": "Error while deleting segment"
         }
       }

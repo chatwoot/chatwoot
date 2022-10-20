@@ -13,6 +13,14 @@ if article.portal.present?
   end
 end
 
+if article.category.present?
+  json.category do
+    json.id article.category.id
+    json.slug article.category.slug
+    json.locale article.category.locale
+  end
+end
+
 json.views article.views
 
 if article.author.present?
