@@ -20,17 +20,17 @@
         "NOTE": "Η διεύθυνση email είναι η ταυτότητά σας και χρησιμοποιείται για την είσοδο (login) σας."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Πλήκτρο συντόμευσης για αποστολή μηνυμάτων",
+        "NOTE": "Μπορείτε να επιλέξετε μια συντόμευση (είτε εισάγετε είτε Cmd/Ctrl+Enter) με βάση την προτίμηση για το γράψιμο.",
+        "UPDATE_SUCCESS": "Οι ρυθμίσεις σας έχουν ενημερωθεί με επιτυχία",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Αποστολή μηνυμάτων πατώντας το πλήκτρο Enter αντί να πατήσετε το κουμπί αποστολής."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Αποστολή μηνυμάτων πατώντας το πλήκτρο Enter αντί να πατήσετε το κουμπί αποστολής."
           }
         }
       },
@@ -141,8 +141,8 @@
     "TRAIL_BUTTON": "Αγόρασε τώρα",
     "DELETED_USER": "Διαγραμμένος Χρήστης",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Αναστολή Λογαριασμού",
+      "MESSAGE": "Ο λογαριασμός σας έχει ανασταλεί. Επικοινωνήστε με την ομάδα υποστήριξης για περισσότερες πληροφορίες."
     }
   },
   "COMPONENTS": {
@@ -179,6 +179,7 @@
     "CONTACTS": "Επαφές",
     "HOME": "Αρχική",
     "AGENTS": "Πράκτορες",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Κιβώτια Εισερχομένων",
     "NOTIFICATIONS": "Ειδοποιήσεις",
     "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
@@ -189,8 +190,9 @@
     "LABELS": "Ετικέτες",
     "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
     "AUTOMATION": "Αυτοματισμός",
+    "MACROS": "Μακροεντολές",
     "TEAMS": "Ομάδες",
-    "BILLING": "Billing",
+    "BILLING": "Χρεώσεις",
     "CUSTOM_VIEWS_FOLDER": "Φάκελοι",
     "CUSTOM_VIEWS_SEGMENTS": "Τμήματα",
     "ALL_CONTACTS": "Όλες Οι Επαφές",
@@ -212,33 +214,33 @@
     "REPORTS_OVERVIEW": "Επισκόπηση",
     "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "TITLE": "Κέντρο Βοήθειας (Beta)",
+      "ALL_ARTICLES": "Όλα Τα Άρθρα",
+      "MY_ARTICLES": "Τα Άρθρα Μου",
+      "DRAFT": "Πρόχειρο",
+      "ARCHIVED": "Αρχειοθετημένο",
       "CATEGORY": "Κατηγορία",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
     },
-    "DOCS": "Read docs"
+    "DOCS": "Ανάγνωση εγγράφων"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Χρεώσεις",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Τρέχον Πλάνο",
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **%{plan}** με **%{quantity}** άδειες"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Διαχειριστείτε τη συνδρομή σας",
+      "DESCRIPTION": "Δείτε τα προηγούμενα τιμολόγια σας, επεξεργαστείτε τα στοιχεία χρέωσης ή ακυρώστε τη συνδρομή σας.",
+      "BUTTON_TXT": "Μετάβαση στην πύλη χρέωσης"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Χρειάζεστε βοήθεια;",
+      "DESCRIPTION": "Αντιμετωπίζετε οποιαδήποτε προβλήματα στην τιμολόγηση? Είμαστε εδώ για να βοηθήσουμε.",
       "BUTTON_TXT": "Συνομιλήστε μαζί μας"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
