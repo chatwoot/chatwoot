@@ -225,7 +225,7 @@ export default {
           mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-        await await this.$store.dispatch(action, payload);
+        await this.$store.dispatch(action, payload);
         this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
         this.hideEditPopup();

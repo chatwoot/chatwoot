@@ -70,5 +70,31 @@ describe  ::Messages::Instagram::MessageBuilder do
       expect(message.content).to eq('This story is no longer available.')
       expect(message.attachments.count).to eq(1)
     end
+
+    it 'does not create message for unsupported file type' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          name: 'Jane',
+          id: 'Sender-id-1',
+          account_id: instagram_inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+      story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      contact_inbox
+      described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
+
+      instagram_inbox.reload
+
+      # we would have contact created but message and attachments won't be created
+      expect(instagram_inbox.conversations.count).to be 0
+      expect(instagram_inbox.messages.count).to be 0
+
+      contact = instagram_channel.inbox.contacts.first
+
+      expect(contact.name).to eq('Jane Dae')
+    end
   end
 end
