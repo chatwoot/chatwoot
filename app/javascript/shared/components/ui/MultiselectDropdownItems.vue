@@ -20,6 +20,7 @@
             <woot-button
               class="multiselect-dropdown--item"
               variant="clear"
+              color-scheme="secondary"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
               }"
@@ -129,7 +130,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  max-height: 16rem;
+  max-height: 20rem;
 }
 
 .search-wrap {
@@ -162,7 +163,7 @@ export default {
 
 .multiselect-dropdown--list {
   width: 100%;
-  max-height: 12rem;
+  max-height: 16rem;
 }
 
 .multiselect-dropdown--item {
@@ -170,13 +171,13 @@ export default {
   width: 100%;
 
   &.active {
-    background-color: var(--w-50);
-    color: var(--w-900);
-    font-weight: var(--font-weight-bold);
+    background-color: var(--w-25);
+    color: var(--w-800);
+    font-weight: var(--font-weight-medium);
   }
 
   &:focus {
-    background-color: var(--color-background);
+    background-color: var(--color-background-light);
   }
 }
 

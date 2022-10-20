@@ -17,7 +17,10 @@
         @click="snoozeConversation(option.snoozedUntil)"
       />
     </menu-item-with-submenu>
-    <menu-item-with-submenu :option="labelMenuConfig">
+    <menu-item-with-submenu
+      :option="labelMenuConfig"
+      :sub-menu-available="!!labels.length"
+    >
       <template>
         <menu-item
           v-for="label in labels"
@@ -28,7 +31,10 @@
         />
       </template>
     </menu-item-with-submenu>
-    <menu-item-with-submenu :option="agentMenuConfig">
+    <menu-item-with-submenu
+      :option="agentMenuConfig"
+      :sub-menu-available="!!assignableAgents.length"
+    >
       <agent-loading-placeholder v-if="assignableAgentsUiFlags.isFetching" />
       <template v-else>
         <menu-item
@@ -40,7 +46,10 @@
         />
       </template>
     </menu-item-with-submenu>
-    <menu-item-with-submenu :option="teamMenuConfig">
+    <menu-item-with-submenu
+      :option="teamMenuConfig"
+      :sub-menu-available="!!teams.length"
+    >
       <menu-item
         v-for="team in teams"
         :key="team.id"
@@ -141,9 +150,19 @@ export default {
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.inboxId
-      );
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+          this.inboxId
+        ),
+      ];
     },
   },
   mounted() {

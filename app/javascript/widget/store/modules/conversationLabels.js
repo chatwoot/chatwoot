@@ -9,14 +9,14 @@ export const actions = {
     try {
       await conversationLabels.create(label);
     } catch (error) {
-      // Ingore error
+      // Ignore error
     }
   },
   destroy: async (_, label) => {
     try {
       await conversationLabels.destroy(label);
     } catch (error) {
-      // Ingore error
+      // Ignore error
     }
   },
 };

@@ -29,7 +29,7 @@ const shouldShowAvatar = (message, nextMessage) => {
 
 export const groupConversationBySender = conversationsForADate =>
   conversationsForADate.map((message, index) => {
-    let showAvatar = false;
+    let showAvatar;
     const isLastMessage = index === conversationsForADate.length - 1;
     if (isASubmittedFormMessage(message)) {
       showAvatar = false;
