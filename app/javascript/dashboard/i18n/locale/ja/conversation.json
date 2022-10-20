@@ -4,43 +4,43 @@
     "CSAT_REPLY_MESSAGE": "Please rate the conversation",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
-    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "DASHBOARD_APP_TAB_MESSAGES": "メッセージ",
+    "UNVERIFIED_SESSION": "このユーザーの身元は確認されていません",
     "NO_MESSAGE_1": "おっと！受信トレイに顧客からのメッセージがないようです。",
     "NO_MESSAGE_2": " to send a message to your page!",
     "NO_INBOX_1": "まだ受信トレイを追加していないようです。",
     "NO_INBOX_2": " 始めましょう",
     "NO_INBOX_AGENT": "あなたに受信トレイが設定されていないようです。管理者に問い合わせてください。",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "会話中のメッセージの検索",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "RESULT_TITLE": "Search Results",
+      "TITLE": "メッセージを検索",
+      "RESULT_TITLE": "検索結果",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "PLACEHOLDER": "テキストを入力してメッセージを検索します",
+      "NO_MATCHING_RESULTS": "該当結果が見つかりませんでした。"
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "未読メッセージ",
+    "UNREAD_MESSAGE": "未読メッセージ",
     "CLICK_HERE": "ここをクリック",
     "LOADING_INBOXES": "受信トレイを読み込み中",
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
     "CANNOT_REPLY": "以下の理由で返信できません：",
     "24_HOURS_WINDOW": "24 hour message window restriction",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
+    "ASSIGN_TO_ME": "自分に割り当て",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
-    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "SELECT_A_TWEET_TO_REPLY": "返信するツイートを選択してください。",
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "UNKNOWN_FILE_TYPE": "不明なファイル",
+    "UPLOADING_ATTACHMENTS": "添付ファイルをアップロード中...",
+    "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
+    "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "No response",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "RATING_TITLE": "評価",
+    "FEEDBACK_TITLE": "フィードバック",
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",
@@ -48,41 +48,41 @@
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
+      "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
+      "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。"
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "保留としてマークする",
       "SNOOZE": {
-        "TITLE": "Snooze until",
+        "TITLE": "までスヌーズする",
         "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TOMORROW": "明日",
+        "NEXT_WEEK": "次週"
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
+      "PENDING": "保留としてマークする",
+      "RESOLVED": "解決済みとしてマークする",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "スヌーズ",
         "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TOMORROW": "明日まで",
+        "NEXT_WEEK": "来週まで"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "エージェントを割り当てる",
+      "ASSIGN_LABEL": "ラベルを割り当てる",
+      "AGENTS_LOADING": "エージェントを読み込む...",
+      "ASSIGN_TEAM": "チームを割り当てる",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "会話 ID %{conversationId} が \"%{agentName}\" に割り当てられました",
+          "FAILED": "エージェントを割り当てられませんでした。もう一度お試しください。"
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "FAILED": "ラベルを割り当てることができませんでした。もう一度やり直してください。"
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
@@ -166,7 +166,7 @@
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "会話の記録を別のEメールアドレスに転送する\n",
       "EMAIL": {
-        "PLACEHOLDER": "Eメールアドレスを入力してください",
+        "PLACEHOLDER": "メールアドレスを入力する",
         "ERROR": "正しいメールアドレスを入力してください"
       }
     }
@@ -233,10 +233,10 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
-    "TO": "To",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "FROM": "差出人:",
+    "TO": "宛先:",
+    "BCC": "ビーシーシー",
+    "CC": "シーシー",
+    "SUBJECT": "件名"
   }
 }
