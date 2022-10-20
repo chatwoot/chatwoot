@@ -32,22 +32,39 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'creates an account with locale' do
+        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'agent_management',
+                                                                                                    'enabled' => true }])
         post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es' },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Test Account')
-        expect(response.body).to include('es')
+
+        json_response = JSON.parse(response.body)
+        expect(json_response['name']).to eq('Test Account')
+        expect(json_response['locale']).to eq('es')
+        expect(json_response['enabled_features']).to eq(
+          {
+            'agent_management' => true
+          }
+        )
       end
 
       it 'creates an account with feature flags' do
+        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
+                                                                                                    'enabled' => true }])
+
         post '/platform/api/v1/accounts', params: { name: 'Test Account', enabled_features: %w[feature_ip_lookup feature_help_center] },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
-        expect(response).to have_http_status(:success)
-        expect(response.body).to include('Test Account')
-        expect(response.body).to include('ip_lookup')
-        expect(response.body).to include('help_center')
+        json_response = JSON.parse(response.body)
+        expect(json_response['name']).to include('Test Account')
+        expect(json_response['enabled_features']).to eq(
+          {
+            'inbox_management' => true,
+            'ip_lookup' => true,
+            'help_center' => true
+          }
+        )
       end
 
       it 'creates an account with limits settings' do
