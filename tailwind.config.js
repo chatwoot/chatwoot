@@ -3,6 +3,7 @@ const { colors } = require('tailwindcss/defaultTheme');
 module.exports = {
   purge: [
     './app/javascript/widget/**/*.vue',
+    './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
     './app/views/**/*.html.erb',
