@@ -55,7 +55,7 @@ export const getters = {
     const {
       message_templates: whatsAppMessageTemplates,
       additional_attributes: additionalAttributes,
-    } = inbox;
+    } = inbox || {};
 
     const { message_templates: apiInboxMessageTemplates } =
       additionalAttributes || {};
@@ -63,7 +63,7 @@ export const getters = {
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
     // filtering out the whatsapp templates with media
-    if (messagesTemplates) {
+    if (messagesTemplates instanceof Array) {
       return messagesTemplates.filter(template => {
         return !template.components.some(
           i => i.format === 'IMAGE' || i.format === 'VIDEO'

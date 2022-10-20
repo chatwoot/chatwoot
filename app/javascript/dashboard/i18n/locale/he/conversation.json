@@ -1,10 +1,10 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
     "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "SWITCH_VIEW_LAYOUT": "החלף תצוגה",
+    "DASHBOARD_APP_TAB_MESSAGES": "הודעות",
     "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
     "NO_MESSAGE_1": "או - או! נראה שאין הודעות מלקוחות בתיבת הדואר הנכנס שלך.",
     "NO_MESSAGE_2": " לשלוח הודעה לעמוד שלך!",
@@ -34,7 +34,7 @@
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
@@ -63,22 +63,22 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "סמן כממתין",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "סמן כפתור",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "נודניק",
+        "NEXT_REPLY": "עד תגובה הבאה",
+        "TOMORROW": "עד מחר",
+        "NEXT_WEEK": "עד שבוע הבא"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "שייך סוכן",
+      "ASSIGN_LABEL": "ההקצה תווית",
+      "AGENTS_LOADING": "טוען סוכנים...",
+      "ASSIGN_TEAM": "שייך צוות",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
@@ -86,18 +86,18 @@
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "חתימת הודעה",
+      "ENABLE_SIGN_TOOLTIP": "אפשר חתימה",
+      "DISABLE_SIGN_TOOLTIP": "נטרל חתימה",
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
+      "CLICK_HERE": "לחץ כאן כדי לעדכן"
     },
     "REPLYBOX": {
       "REPLY": "הגב",
@@ -108,12 +108,12 @@
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
       "TIP_ATTACH_ICON": "הוסף קבצים",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "הקלט אודיו",
+      "TIP_AUDIORECORDER_PERMISSION": "אפשר גישה לאודיו",
+      "TIP_AUDIORECORDER_ERROR": "לא יכול לפתוח אודיו",
       "DRAG_DROP": "גרור ושחרר כאן להוספת קובץ מצורף",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "התחל הקלטת אודיו",
+      "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "הוסף bcc",
@@ -131,11 +131,11 @@
     },
     "VISIBLE_TO_AGENTS": "פתקים פרטיים: רק אתה והצוות שלך יכולים לראות",
     "CHANGE_STATUS": "סטטוס השיחה השתנה",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "סטטוס השיחה השתנה לנכשלה",
     "CHANGE_AGENT": "שיוך שיחה השתנתה",
     "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
+    "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "העתק",
       "DELETE": "מחק",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -182,17 +182,17 @@
     "TEAM_MEMBERS": {
       "TITLE": "הזמן את חברי הצוות שלך",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "NEW_LINK": "לחץ כאן כדי להזמין חבר צוות"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
+      "TITLE": "התחבר לתיבות",
       "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "לחץ כאן כדי ליצור תיבה"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
       "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "NEW_LINK": "לחץ כאן כדי ליצור תגיות"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -200,7 +200,7 @@
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "כלום"
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
@@ -233,7 +233,7 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "מאת",
     "TO": "אל",
     "BCC": "Bcc",
     "CC": "עותק",

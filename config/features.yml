@@ -19,3 +19,21 @@
   enabled: false
 - name: macros
   enabled: false
+- name: agent_management
+  enabled: true
+- name: team_management
+  enabled: true
+- name: inbox_management
+  enabled: true
+- name: labels
+  enabled: true
+- name: custom_attributes
+  enabled: true
+- name: automations
+  enabled: true
+- name: canned_responses
+  enabled: true
+- name: integrations
+  enabled: true
+- name: voice_recorder
+  enabled: true
