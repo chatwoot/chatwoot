@@ -41,15 +41,16 @@ export default {
     }
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearTimeout(this.timer);
   },
   methods: {
     createTimer() {
       const refreshTime = this.refreshTime();
       if (refreshTime <= 0) return;
 
-      this.timer = setInterval(() => {
+      this.timer = setTimeout(() => {
         this.timeAgo = this.dynamicTime(this.timestamp);
+        this.createTimer();
       }, refreshTime);
     },
     refreshTime() {
