@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL di callback",
-          "SUBTITLE": "È necessario configurare l'URL del webhook nel portale sviluppatore di facebook con l'URL menzionato qui."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Crea un canale WhatsApp",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "La casella è pronta!",
-      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
+      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza",
       "BUTTON_TEXT": "Portami lì",
       "MORE_SETTINGS": "Altre impostazioni",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella."
