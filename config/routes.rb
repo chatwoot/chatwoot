@@ -58,9 +58,8 @@ Rails.application.routes.draw do
             post :attach_file, on: :collection
           end
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
-            member do
-              post :execute
-            end
+            post :execute, on: :member
+            post :attach_file, on: :collection
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
@@ -290,6 +289,7 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
@@ -346,7 +346,7 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update] do
         post :seed, on: :member
       end
-      resources :users, only: [:index, :new, :create, :show, :edit, :update]
+      resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]

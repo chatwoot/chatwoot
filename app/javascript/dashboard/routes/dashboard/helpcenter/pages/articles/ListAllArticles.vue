@@ -2,16 +2,15 @@
   <div class="container overflow-auto">
     <article-header
       :header-title="headerTitle"
-      :count="articleCount"
+      :count="meta.count"
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
     <article-table
       :articles="articles"
-      :article-count="articles.length"
       :current-page="Number(meta.currentPage)"
-      :total-count="articleCount"
-      @on-page-change="onPageChange"
+      :total-count="Number(meta.count)"
+      @page-change="onPageChange"
     />
     <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
@@ -128,9 +127,9 @@ export default {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
     },
-    fetchArticles() {
+    fetchArticles({ pageNumber } = {}) {
       this.$store.dispatch('articles/index', {
-        pageNumber: this.pageNumber,
+        pageNumber: pageNumber || this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
         status: this.status,
@@ -138,8 +137,8 @@ export default {
         category_slug: this.selectedCategorySlug,
       });
     },
-    onPageChange(page) {
-      this.fetchArticles({ pageNumber: page });
+    onPageChange(pageNumber) {
+      this.fetchArticles({ pageNumber });
     },
   },
 };

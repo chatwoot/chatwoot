@@ -33,6 +33,21 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  context 'with webhook_data' do
+    it 'contains the message attachment when attachment is present' do
+      message = create(:message)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+      expect(message.webhook_data.key?(:attachments)).to be true
+    end
+
+    it 'does not contain the message attachment when attachment is not present' do
+      message = create(:message)
+      expect(message.webhook_data.key?(:attachments)).to be false
+    end
+  end
+
   context 'when message is created' do
     let(:message) { build(:message, account: create(:account)) }
 
