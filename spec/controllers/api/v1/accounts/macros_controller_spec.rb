@@ -117,6 +117,40 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         expect(json_response['payload']['visibility']).to eql('personal')
         expect(json_response['payload']['created_by']['id']).to eql(agent.id)
       end
+
+      it 'Saves file in the macros actions to send an attachments' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/macros/attach_file",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file }
+
+        expect(response).to have_http_status(:success)
+
+        blob = JSON.parse(response.body)
+
+        expect(blob['blob_key']).to be_present
+        expect(blob['blob_id']).to be_present
+
+        params[:actions] = [
+          {
+            'action_name': :send_message,
+            'action_params': ['Welcome to the chatwoot platform.']
+          },
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob['blob_id']]
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/macros",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        macro = account.macros.last
+        expect(macro.files.presence).to be_truthy
+        expect(macro.files.count).to eq(1)
+      end
     end
   end
 
@@ -196,12 +230,6 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
       create(:account_user, user: user_1, account: account)
       macro.update!(actions:
                               [
-                                {
-                                  'action_name' => 'send_email_to_team', 'action_params' => [{
-                                    'message' => 'Please pay attention to this conversation, its from high priority customer',
-                                    'team_ids' => [team.id]
-                                  }]
-                                },
                                 { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                 { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                 { 'action_name' => 'snooze_conversation' },

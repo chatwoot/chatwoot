@@ -22,4 +22,8 @@ class MacroPolicy < ApplicationPolicy
   def execute?
     true
   end
+
+  def attach_file?
+    true
+  end
 end
