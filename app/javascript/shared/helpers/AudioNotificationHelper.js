@@ -5,13 +5,7 @@ import { showBadgeOnFavicon } from './faviconHelper';
 
 export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
-  let audioCtx;
-
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  } catch {
-    // AudioContext is not available.
-  }
+  const audioCtx = getAudioContext();
 
   const playsound = audioBuffer => {
     window.playAudioAlert = () => {
@@ -39,6 +33,18 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
         // error
       });
   }
+};
+
+export const getAudioContext = () => {
+  let audioCtx;
+
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  } catch {
+    // AudioContext is not available.
+  }
+
+  return audioCtx;
 };
 
 export const notificationEnabled = (enableAudioAlerts, id, userId) => {
