@@ -7,6 +7,7 @@ json.name portal.name
 json.page_title portal.page_title
 json.slug portal.slug
 json.archived portal.archived
+json.account_id portal.account_id
 
 json.config do
   json.allowed_locales do
