@@ -196,6 +196,7 @@ export default {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
+          showNewButton: true,
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,

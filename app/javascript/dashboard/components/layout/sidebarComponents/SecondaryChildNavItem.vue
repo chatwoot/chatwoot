@@ -26,7 +26,7 @@
           :class="{ 'text-truncate': shouldTruncate }"
         >
           {{ label }}
-          <span v-if="isHelpCenterSidebar && childItemCount" class="count-view">
+          <span v-if="showChildCount" class="count-view">
             {{ childItemCount }}
           </span>
         </span>
@@ -76,7 +76,7 @@ export default {
       type: String,
       default: '',
     },
-    isHelpCenterSidebar: {
+    showChildCount: {
       type: Boolean,
       default: false,
     },
