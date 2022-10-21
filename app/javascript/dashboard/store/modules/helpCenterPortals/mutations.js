@@ -44,9 +44,16 @@ export const mutations = {
   },
 
   [types.SET_PORTALS_META]: ($state, data) => {
-    const { portals_count: count, current_page: currentPage } = data;
-    Vue.set($state.meta, 'count', count);
-    Vue.set($state.meta, 'currentPage', currentPage);
+    const {
+      all_articles_count: allArticlesCount,
+      mine_articles_count: mineArticlesCount,
+      draft_articles_count: draftArticlesCount,
+      archived_articles_count: archivedArticlesCount,
+    } = data;
+    Vue.set($state.meta, 'allArticlesCount', allArticlesCount);
+    Vue.set($state.meta, 'archivedArticlesCount', archivedArticlesCount);
+    Vue.set($state.meta, 'mineArticlesCount', mineArticlesCount);
+    Vue.set($state.meta, 'draftArticlesCount', draftArticlesCount);
   },
 
   [types.ADD_PORTAL_ID]($state, portalSlug) {
