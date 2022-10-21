@@ -107,12 +107,18 @@ describe('#mutations', () => {
   describe('#SET_PORTALS_META', () => {
     it('add meta to state', () => {
       mutations[types.SET_PORTALS_META](state, {
-        portals_count: 10,
-        current_page: 1,
+        currentPage: 1,
+        allArticlesCount: 10,
+        archivedArticlesCount: 10,
+        draftArticlesCount: 10,
+        mineArticlesCount: 10,
       });
       expect(state.meta).toEqual({
-        count: 10,
         currentPage: 1,
+        allArticlesCount: 10,
+        archivedArticlesCount: 10,
+        draftArticlesCount: 10,
+        mineArticlesCount: 10,
       });
     });
   });

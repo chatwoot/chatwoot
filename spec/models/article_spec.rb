@@ -129,7 +129,9 @@ RSpec.describe Article, type: :model do
 
     context 'with pagination' do
       it 'returns paginated articles' do
-        build_list(:article, 30) do |record, i|
+        described_class.destroy_all
+
+        articles = build_list(:article, 30) do |record, i|
           record.category_id = category_2.id
           record.title = "title #{i}"
           record.portal_id = portal_2.id
@@ -138,7 +140,7 @@ RSpec.describe Article, type: :model do
         end
         params = { category_slug: 'category_2' }
         records = portal_2.articles.search(params)
-        expect(records.count).to eq(31)
+        expect(records.count).to eq(articles.size)
       end
     end
   end
