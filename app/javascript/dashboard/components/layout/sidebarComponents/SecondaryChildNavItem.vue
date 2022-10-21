@@ -127,11 +127,16 @@ $label-badge-size: var(--space-slab);
     color: var(--w-500);
     border-color: var(--w-25);
   }
+  &.is-active .count-view {
+    background: var(--w-75);
+    color: var(--w-500);
+  }
 }
 
 .menu-label {
   flex-grow: 1;
-  line-height: var(--space-two);
+  display: inline-flex;
+  align-items: center;
 }
 
 .inbox-icon {
@@ -175,10 +180,6 @@ $label-badge-size: var(--space-slab);
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
-
-  &.is-active {
-    background: var(--w-50);
-    color: var(--w-500);
-  }
+  line-height: var(--font-size-small);
 }
 </style>
