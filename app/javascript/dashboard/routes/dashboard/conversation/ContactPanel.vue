@@ -93,6 +93,16 @@
               />
             </accordion-item>
           </div>
+          <div v-else-if="element.name === 'macros'">
+            <accordion-item
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.MACROS')"
+              :is-open="isContactSidebarItemOpen('is_macro_open')"
+              compact
+              @click="value => toggleSidebarUIState('is_macro_open', value)"
+            >
+              <macros-list :conversation-id="conversationId" />
+            </accordion-item>
+          </div>
         </div>
       </transition-group>
     </draggable>
@@ -112,6 +122,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import MacrosList from './Macros/List';
 
 export default {
   components: {
@@ -123,6 +134,7 @@ export default {
     CustomAttributeSelector,
     ConversationAction,
     draggable,
+    MacrosList,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
