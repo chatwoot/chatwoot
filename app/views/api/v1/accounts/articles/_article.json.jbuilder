@@ -13,12 +13,6 @@ json.category do
   json.locale article.category.locale
 end
 
-if article.portal.present?
-  json.portal do
-    json.partial! 'api/v1/accounts/portals/portal', formats: [:json], portal: article.portal
-  end
-end
-
 json.views article.views
 
 if article.author.present?
