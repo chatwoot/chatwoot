@@ -93,7 +93,6 @@ export default {
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
-      selectedPortalMetadata: 'portals/selectedPortalMetadata',
     }),
     selectedPortal() {
       const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
@@ -137,13 +136,12 @@ export default {
       if (!this.selectedPortal) return [];
 
       const {
-        meta: {
-          all_articles_count: allArticlesCount,
-          mine_articles_count: mineArticlesCount,
-          draft_articles_count: draftArticlesCount,
-          archived_articles_count: archivedArticlesCount,
-        } = {},
-      } = this.selectedPortalMetadata;
+        allArticlesCount,
+        mineArticlesCount,
+        draftArticlesCount,
+        archivedArticlesCount,
+      } = this.meta;
+
       return [
         {
           icon: 'book',

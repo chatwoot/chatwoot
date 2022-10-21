@@ -7,14 +7,12 @@ export const actions = {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
-        data: { payload, meta },
+        data: { payload },
       } = await portalAPIs.get();
       commit(types.CLEAR_PORTALS);
       const portalSlugs = payload.map(portal => portal.slug);
       commit(types.ADD_MANY_PORTALS_ENTRY, payload);
       commit(types.ADD_MANY_PORTALS_IDS, portalSlugs);
-
-      commit(types.SET_PORTALS_META, meta);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -29,7 +27,7 @@ export const actions = {
       const {
         data: { meta },
       } = response;
-      commit(types.SET_SELECTED_PORTAL_METADATA, meta);
+      commit(types.SET_PORTALS_META, meta);
     } catch (error) {
       commit(types.SET_UI_FLAG, { isFetching: false });
     }

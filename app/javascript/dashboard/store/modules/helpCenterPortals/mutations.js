@@ -13,7 +13,6 @@ export const types = {
   REMOVE_PORTAL_ENTRY: 'removePortalEntry',
   REMOVE_PORTAL_ID: 'removePortalId',
   SET_HELP_PORTAL_UI_FLAG: 'setHelpCenterUIFlag',
-  SET_SELECTED_PORTAL_METADATA: 'selectedPortalMetadata',
 };
 
 export const mutations = {
@@ -45,13 +44,16 @@ export const mutations = {
   },
 
   [types.SET_PORTALS_META]: ($state, data) => {
-    const { portals_count: count, current_page: currentPage } = data;
-    Vue.set($state.meta, 'count', count);
-    Vue.set($state.meta, 'currentPage', currentPage);
-  },
-
-  [types.SET_SELECTED_PORTAL_METADATA]: ($state, data) => {
-    Vue.set($state.selectedPortalMetadata, 'meta', data);
+    const {
+      all_articles_count: allArticlesCount,
+      mine_articles_count: mineArticlesCount,
+      draft_articles_count: draftArticlesCount,
+      archived_articles_count: archivedArticlesCount,
+    } = data;
+    Vue.set($state.meta, 'allArticlesCount', allArticlesCount);
+    Vue.set($state.meta, 'archivedArticlesCount', archivedArticlesCount);
+    Vue.set($state.meta, 'mineArticlesCount', mineArticlesCount);
+    Vue.set($state.meta, 'draftArticlesCount', draftArticlesCount);
   },
 
   [types.ADD_PORTAL_ID]($state, portalSlug) {
