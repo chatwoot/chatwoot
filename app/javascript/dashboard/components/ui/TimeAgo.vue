@@ -45,13 +45,10 @@ export default {
   },
   methods: {
     createTimer() {
-      const refreshTime = this.refreshTime();
-      if (refreshTime <= 0) return;
-
       this.timer = setTimeout(() => {
         this.timeAgo = this.dynamicTime(this.timestamp);
         this.createTimer();
-      }, refreshTime);
+      }, this.refreshTime());
     },
     refreshTime() {
       const timeDiff = Date.now() - this.timestamp * 1000;
@@ -61,11 +58,8 @@ export default {
       if (timeDiff > HOUR_IN_MILLI_SECONDS) {
         return HOUR_IN_MILLI_SECONDS;
       }
-      if (timeDiff > MINUTE_IN_MILLI_SECONDS) {
-        return MINUTE_IN_MILLI_SECONDS;
-      }
 
-      return 0;
+      return MINUTE_IN_MILLI_SECONDS;
     },
   },
 };
