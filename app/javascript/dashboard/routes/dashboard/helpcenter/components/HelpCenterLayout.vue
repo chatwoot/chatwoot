@@ -136,10 +136,10 @@ export default {
       if (!this.selectedPortal) return [];
 
       const {
-        allArticlesCount = 0,
-        mineArticlesCount = 0,
-        draftArticlesCount = 0,
-        archivedArticlesCount = 0,
+        allArticlesCount,
+        mineArticlesCount,
+        draftArticlesCount,
+        archivedArticlesCount,
       } = this.meta;
 
       return [
@@ -219,7 +219,7 @@ export default {
   },
 
   watch: {
-    selectedPortal() {
+    '$route.params.portalSlug'() {
       this.fetchPortalsAndItsCategories();
     },
   },
@@ -240,7 +240,7 @@ export default {
   },
   updated() {
     const slug = this.$route.params.portalSlug;
-    if (slug) {
+    if (slug !== this.lastActivePortalSlug) {
       this.lastActivePortalSlug = slug;
       this.updateUISettings({
         last_active_portal_slug: slug,
@@ -261,7 +261,6 @@ export default {
     },
     async fetchPortalsAndItsCategories() {
       await this.$store.dispatch('portals/index');
-
       const selectedPortalParam = {
         portalSlug: this.selectedPortalSlug,
         locale: this.selectedLocaleInPortal,
