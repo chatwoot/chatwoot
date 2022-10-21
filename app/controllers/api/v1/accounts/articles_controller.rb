@@ -4,13 +4,11 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :fetch_article, except: [:index, :create]
   before_action :set_current_page, only: [:index]
 
-  ARTICLES_PER_PAGE = 15
-
   def index
     @portal_articles = @portal.articles
     @all_articles = @portal_articles.search(list_params)
     @articles_count = @all_articles.count
-    @articles = @all_articles.page(@current_page).per(ARTICLES_PER_PAGE)
+    @articles = @all_articles.page(@current_page)
   end
 
   def create
