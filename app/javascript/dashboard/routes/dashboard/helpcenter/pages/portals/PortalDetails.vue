@@ -37,7 +37,7 @@ export default {
   },
 
   methods: {
-    async createBasicPortal(portal) {
+    async createPortal(portal) {
       try {
         await this.$store.dispatch('portals/create', {
           portal,
