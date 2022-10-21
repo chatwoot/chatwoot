@@ -136,10 +136,10 @@ export default {
       if (!this.selectedPortal) return [];
 
       const {
-        allArticlesCount,
-        mineArticlesCount,
-        draftArticlesCount,
-        archivedArticlesCount,
+        allArticlesCount = 0,
+        mineArticlesCount = 0,
+        draftArticlesCount = 0,
+        archivedArticlesCount = 0,
       } = this.meta;
 
       return [
