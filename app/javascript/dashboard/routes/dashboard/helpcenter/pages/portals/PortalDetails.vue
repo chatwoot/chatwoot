@@ -45,13 +45,6 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_BASIC'
         );
-
-        await this.$store.dispatch('portals/index').then(() => {
-          this.$store.dispatch('categories/index', {
-            portalSlug: this.selectedPortalSlug,
-          });
-        });
-
         this.$router.push({
           name: 'portal_customization',
           params: { portalSlug: portal.slug },
