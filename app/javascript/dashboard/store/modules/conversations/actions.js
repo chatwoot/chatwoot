@@ -252,6 +252,12 @@ const actions = {
       meta: { sender },
     } = conversation;
     commit(types.UPDATE_CONVERSATION, conversation);
+
+    dispatch('conversationLabels/setConversationLabel', {
+      id: conversation.id,
+      data: conversation.labels,
+    });
+
     dispatch('contacts/setContact', sender);
   },
 
