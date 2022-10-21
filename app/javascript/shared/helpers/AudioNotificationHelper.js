@@ -4,6 +4,17 @@ import { IFrameHelper } from 'widget/helpers/utils';
 import { showBadgeOnFavicon } from './faviconHelper';
 
 export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
+
+export const getAudioContext = () => {
+  let audioCtx;
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  } catch {
+    // AudioContext is not available.
+  }
+  return audioCtx;
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
   const audioCtx = getAudioContext();
 
@@ -33,18 +44,6 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
         // error
       });
   }
-};
-
-export const getAudioContext = () => {
-  let audioCtx;
-
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  } catch {
-    // AudioContext is not available.
-  }
-
-  return audioCtx;
 };
 
 export const notificationEnabled = (enableAudioAlerts, id, userId) => {
