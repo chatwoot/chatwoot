@@ -8,7 +8,7 @@ json.account_id article.account_id
 
 if article.portal.present?
   json.portal do
-    json.partial! 'api/v1/accounts/portals/portal', formats: [:json], portal: article.portal
+    json.partial! 'api/v1/accounts/portals/portal', formats: [:json], portal: article.portal, articles: []
   end
 end
 
