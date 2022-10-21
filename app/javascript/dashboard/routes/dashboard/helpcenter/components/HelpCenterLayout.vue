@@ -216,6 +216,13 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
+
+  watch: {
+    selectedPortal() {
+      this.fetchPortalsAndItsCategories();
+    },
+  },
+
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
@@ -251,21 +258,15 @@ export default {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
-    fetchPortalsAndItsCategories() {
-      this.$store
-        .dispatch('portals/index')
-        .then(() => {
-          this.$store.dispatch('portals/show', {
-            portalSlug: this.selectedPortalSlug,
-            locale: this.selectedLocaleInPortal,
-          });
-        })
-        .then(() => {
-          this.$store.dispatch('categories/index', {
-            portalSlug: this.selectedPortalSlug,
-            locale: this.selectedLocaleInPortal,
-          });
-        });
+    async fetchPortalsAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+
+      const selectedPortalParam = {
+        portalSlug: this.selectedPortalSlug,
+        locale: this.selectedLocaleInPortal,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
       this.$store.dispatch('agents/get');
     },
     toggleKeyShortcutModal() {
