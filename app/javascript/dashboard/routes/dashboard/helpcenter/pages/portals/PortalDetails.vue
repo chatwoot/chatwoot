@@ -6,7 +6,7 @@
         'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.CREATE_BASIC_SETTING_BUTTON'
       )
     "
-    @submit="createBasicPortal"
+    @submit="createPortal"
   />
 </template>
 
