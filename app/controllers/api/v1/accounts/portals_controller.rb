@@ -15,9 +15,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def show
-    @current_locale = params[:locale]
     @all_articles = @portal.articles
-    @articles = @all_articles.search(locale: @current_locale)
+    @articles = @all_articles.search(locale: params[:locale])
   end
 
   def create
