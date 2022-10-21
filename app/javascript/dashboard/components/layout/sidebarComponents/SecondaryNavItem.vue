@@ -263,6 +263,11 @@ export default {
     color: var(--w-500);
     border-color: var(--w-25);
   }
+
+  &.is-active .count-view {
+    background: var(--w-75);
+    color: var(--w-600);
+  }
 }
 
 .secondary-menu--icon {
@@ -323,11 +328,6 @@ export default {
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-smaller);
   padding: var(--space-zero) var(--space-smaller);
-
-  &.is-active {
-    background: var(--w-50);
-    color: var(--w-500);
-  }
 }
 
 .submenu-icons {
