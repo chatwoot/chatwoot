@@ -21,7 +21,7 @@ export const actions = {
   },
 
   show: async ({ commit }, { portalSlug, locale }) => {
-    commit(types.SET_UI_FLAG, { isFetching: true });
+    commit(types.SET_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await portalAPIs.getPortal({ portalSlug, locale });
       const {
@@ -29,7 +29,9 @@ export const actions = {
       } = response;
       commit(types.SET_PORTALS_META, meta);
     } catch (error) {
-      commit(types.SET_UI_FLAG, { isFetching: false });
+      // Ignore error
+    } finally {
+      commit(types.SET_UI_FLAG, { isFetchingItem: false });
     }
   },
 
