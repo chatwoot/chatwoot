@@ -104,9 +104,6 @@ export default {
       }
       return null;
     },
-    articleCount() {
-      return this.articles ? this.articles.length : 0;
-    },
     headerTitleInCategoryView() {
       return this.categories && this.categories.length
         ? this.selectedCategory.name
