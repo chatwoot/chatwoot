@@ -14,6 +14,8 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     render json: { error: @macro.errors.messages }, status: :unprocessable_entity and return unless @macro.valid?
 
     @macro.save!
+    process_attachments
+    @macro
   end
 
   def show
@@ -25,10 +27,21 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def attach_file
+    file_blob = ActiveStorage::Blob.create_and_upload!(
+      key: nil,
+      io: params[:attachment].tempfile,
+      filename: params[:attachment].original_filename,
+      content_type: params[:attachment].content_type
+    )
+    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
+  end
+
   def update
     ActiveRecord::Base.transaction do
       @macro.update!(macros_with_user)
       @macro.set_visibility(current_user, permitted_params)
+      process_attachments
       @macro.save!
     rescue StandardError => e
       Rails.logger.error e
@@ -40,6 +53,17 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     ::MacrosExecutionJob.perform_later(@macro, conversation_ids: params[:conversation_ids], user: Current.user)
 
     head :ok
+  end
+
+  def process_attachments
+    actions = @macro.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
+    return if actions.blank?
+
+    actions.each do |action|
+      blob_id = action['action_params']
+      blob = ActiveStorage::Blob.find_by(id: blob_id)
+      @macro.files.attach(blob)
+    end
   end
 
   def permitted_params
