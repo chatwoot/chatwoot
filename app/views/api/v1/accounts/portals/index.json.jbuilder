@@ -1,5 +1,7 @@
 json.payload do
-  json.array! @portals, partial: 'portal', as: :portal
+  json.array! @portals.each do |portal|
+    json.partial! 'portal', formats: [:json], portal: portal, articles: []
+  end
 end
 
 json.meta do
