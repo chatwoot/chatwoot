@@ -14,7 +14,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal.members << agents
   end
 
-  def show; end
+  def show
+    @all_articles = @portal.articles
+    @articles = @all_articles.search(locale: params[:locale])
+  end
 
   def create
     @portal = Current.account.portals.build(portal_params)
