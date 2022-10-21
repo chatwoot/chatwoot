@@ -24,19 +24,6 @@ class Conversations::EventDataPresenter < SimpleDelegator
     [messages.chat.last&.push_event_data].compact
   end
 
-  def label_list
-    selected_labels = Label.where(id: labels.pluck(:id))
-    selected_labels.map do |label|
-      {
-        id: label.id,
-        title: label.title,
-        description: label.description,
-        color: label.color,
-        show_on_sidebar: label.show_on_sidebar
-      }
-    end
-  end
-
   def push_meta
     {
       sender: contact.push_event_data,

@@ -252,10 +252,10 @@ const actions = {
       meta: { sender },
     } = conversation;
     commit(types.UPDATE_CONVERSATION, conversation);
-debugger
-    commit(types.SET_CONVERSATION_LABELS, {
-     id: conversation.id,
-     data: conversation.labels
+
+    dispatch('conversationLabels/setConversationLabel', {
+      id: conversation.id,
+      data: conversation.labels,
     });
 
     dispatch('contacts/setContact', sender);
