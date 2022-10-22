@@ -219,7 +219,7 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_updation
     return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
-                                                                                custom_attributes]).present?
+                                                                                custom_attributes label_list]).present?
 
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
@@ -261,8 +261,6 @@ class Conversation < ApplicationRecord
 
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
-
-    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)
