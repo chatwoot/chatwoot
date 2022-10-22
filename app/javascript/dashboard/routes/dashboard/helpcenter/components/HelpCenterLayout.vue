@@ -2,6 +2,7 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
+      @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
@@ -21,6 +22,10 @@
     <section class="app-content columns" :class="contentClassName">
       <router-view />
       <command-bar />
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+      />
       <woot-key-shortcut-modal
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
@@ -58,6 +63,7 @@ import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
@@ -72,6 +78,7 @@ export default {
     NotificationPanel,
     PortalPopover,
     AddCategory,
+    AccountSelector,
   },
   mixins: [portalMixin, uiSettingsMixin],
   data() {
@@ -83,6 +90,7 @@ export default {
       showPortalPopover: false,
       showAddCategoryModal: false,
       lastActivePortalSlug: '',
+      showAccountModal: false,
     };
   },
 
@@ -292,6 +300,9 @@ export default {
     },
     onClickCloseAddCategoryModal() {
       this.showAddCategoryModal = false;
+    },
+    toggleAccountModal() {
+      this.showAccountModal = !this.showAccountModal;
     },
   },
 };
