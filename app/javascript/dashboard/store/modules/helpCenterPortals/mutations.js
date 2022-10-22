@@ -45,10 +45,10 @@ export const mutations = {
 
   [types.SET_PORTALS_META]: ($state, data) => {
     const {
-      all_articles_count: allArticlesCount,
-      mine_articles_count: mineArticlesCount,
-      draft_articles_count: draftArticlesCount,
-      archived_articles_count: archivedArticlesCount,
+      all_articles_count: allArticlesCount = 0,
+      mine_articles_count: mineArticlesCount = 0,
+      draft_articles_count: draftArticlesCount = 0,
+      archived_articles_count: archivedArticlesCount = 0,
     } = data;
     Vue.set($state.meta, 'allArticlesCount', allArticlesCount);
     Vue.set($state.meta, 'archivedArticlesCount', archivedArticlesCount);

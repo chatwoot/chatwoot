@@ -196,6 +196,7 @@ export default {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
+          showNewButton: true,
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,
@@ -218,7 +219,7 @@ export default {
   },
 
   watch: {
-    selectedPortal() {
+    '$route.params.portalSlug'() {
       this.fetchPortalsAndItsCategories();
     },
   },
@@ -239,7 +240,7 @@ export default {
   },
   updated() {
     const slug = this.$route.params.portalSlug;
-    if (slug) {
+    if (slug !== this.lastActivePortalSlug) {
       this.lastActivePortalSlug = slug;
       this.updateUISettings({
         last_active_portal_slug: slug,
@@ -260,7 +261,6 @@ export default {
     },
     async fetchPortalsAndItsCategories() {
       await this.$store.dispatch('portals/index');
-
       const selectedPortalParam = {
         portalSlug: this.selectedPortalSlug,
         locale: this.selectedLocaleInPortal,
