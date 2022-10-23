@@ -23,14 +23,15 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def account_params
-    if permitted_params[:enabled_features]
-      return permitted_params.except(:enabled_features).merge(selected_feature_flags: permitted_params[:enabled_features].map(&:to_sym))
+    if permitted_params[:features].present?
+      feature_flags = permitted_params[:features].select { |key, value| value }.keys.map { |name|:"feature_#{name}".to_sym }
+      permitted_params.except(:features).merge(selected_feature_flags: feature_flags)
+    else
+      permitted_params
     end
-
-    permitted_params
   end
 
   def permitted_params
-    params.permit(:name, :locale, enabled_features: [], limits: {})
+    params.permit(:name, :locale, :domain, :support_email, :status, features: {}, limits: {}, custom_attributes: {})
   end
 end
