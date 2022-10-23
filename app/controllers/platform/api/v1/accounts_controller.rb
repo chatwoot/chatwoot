@@ -24,7 +24,7 @@ class Platform::Api::V1::AccountsController < PlatformController
 
   def account_params
     if permitted_params[:features].present?
-      feature_flags = permitted_params[:features].select { |key, value| value }.keys.map { |name|:"feature_#{name}".to_sym }
+      feature_flags = permitted_params[:features].select { |_key, value| value }.keys.map { |name| "feature_#{name}".to_sym }
       permitted_params.except(:features).merge(selected_feature_flags: feature_flags)
     else
       permitted_params
