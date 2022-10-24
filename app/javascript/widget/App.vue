@@ -144,10 +144,10 @@ export default {
         lang => lang.iso_639_1_code === localeWithVariation
       );
 
-      if (hasLocaleWithoutVariation) {
+      if (hasLocaleWithVariation) {
+        this.$root.$i18n.locale = localeWithVariation;
+      } else if (hasLocaleWithoutVariation) {
         this.$root.$i18n.locale = localeWithoutVariation;
-      } else if (hasLocaleWithVariation) {
-        this.$root.$i18n.locale = hasLocaleWithVariation;
       }
     },
     registerUnreadEvents() {
