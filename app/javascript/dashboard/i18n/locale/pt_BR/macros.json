@@ -52,15 +52,15 @@
       }
     },
     "EDITOR": {
-      "START_FLOW": "Iniciar Fluxo",
-      "END_FLOW": "Finalizar Fluxo",
+      "START_FLOW": "Inicio do fluxo",
+      "END_FLOW": "Fim do Fluxo",
       "LOADING": "Obtendo macro",
       "ADD_BTN_TOOLTIP": "Adicionar nova ação",
       "DELETE_BTN_TOOLTIP": "Excluir Ação",
       "VISIBILITY": {
         "LABEL": "Visibilidade da Macro",
         "GLOBAL": {
-          "LABEL": "Pública",
+          "LABEL": "Publico",
           "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes desta conta."
         },
         "PERSONAL": {
