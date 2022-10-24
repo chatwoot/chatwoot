@@ -22,7 +22,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   const defaultLocale = chatwootSettings.locale || 'en';
 
   const locale =
-    localeWithVariation && chatwootSettings.localeFromBrowser
+    localeWithVariation && chatwootSettings.useBrowserLanguage
       ? localeWithVariation
       : defaultLocale;
 
@@ -34,7 +34,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
     locale,
-    localeFromBrowser: chatwootSettings.localeFromBrowser || false,
+    useBrowserLanguage: chatwootSettings.useBrowserLanguage || false,
     type: getBubbleView(chatwootSettings.type),
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
