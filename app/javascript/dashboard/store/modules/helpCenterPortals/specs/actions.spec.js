@@ -22,7 +22,6 @@ describe('#actions', () => {
         [types.CLEAR_PORTALS],
         [types.ADD_MANY_PORTALS_ENTRY, apiResponse.payload],
         [types.ADD_MANY_PORTALS_IDS, ['domain', 'campaign']],
-        [types.SET_PORTALS_META, { current_page: 1, portals_count: 1 }],
         [types.SET_UI_FLAG, { isFetching: false }],
       ]);
     });
@@ -52,6 +51,36 @@ describe('#actions', () => {
         [types.ADD_PORTAL_ENTRY, apiResponse.payload[1]],
         [types.ADD_PORTAL_ID, 'campaign'],
         [types.SET_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.create({ commit, dispatch, state: { portals: {} } }, {})
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_UI_FLAG, { isCreating: true }],
+        [types.SET_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+  });
+
+  describe('#show', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.get.mockResolvedValue({
+        data: { meta: { all_articles_count: 1 } },
+      });
+      await actions.show(
+        { commit },
+        {
+          portalSlug: 'handbook',
+          locale: 'en',
+        }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_UI_FLAG, { isFetchingItem: true }],
+        [types.SET_PORTALS_META, { all_articles_count: 1 }],
+        [types.SET_UI_FLAG, { isFetchingItem: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {

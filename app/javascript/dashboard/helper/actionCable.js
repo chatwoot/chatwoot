@@ -25,6 +25,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.created': this.onNotificationCreated,
       'first.reply.created': this.onFirstReplyCreated,
       'conversation.read': this.onConversationRead,
+      'conversation.updated': this.onConversationUpdated,
     };
   }
 
@@ -81,6 +82,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
+    this.app.$store.dispatch('updateConversation', data);
+    this.fetchConversationStats();
+  };
+
+  onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };

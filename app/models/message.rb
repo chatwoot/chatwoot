@@ -117,7 +117,7 @@ class Message < ApplicationRecord
   end
 
   def webhook_data
-    {
+    data = {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
@@ -132,6 +132,8 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       source_id: source_id
     }
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data
   end
 
   def content

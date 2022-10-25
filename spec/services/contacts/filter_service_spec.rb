@@ -167,6 +167,7 @@ describe ::Contacts::FilterService do
 
       context 'with x_days_before filter' do
         before do
+          Time.zone = 'UTC'
           el_contact.update(last_activity_at: (Time.zone.today - 4.days))
           cs_contact.update(last_activity_at: (Time.zone.today - 5.days))
           en_contact.update(last_activity_at: (Time.zone.today - 2.days))

@@ -58,7 +58,7 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
+        "NONE": "כלום",
         "ASSIGNED": "Assigned Conversations",
         "ALL_CONVERSATIONS": "All Conversations"
       },
@@ -179,6 +179,7 @@
     "CONTACTS": "איש קשר",
     "HOME": "בית",
     "AGENTS": "סוכנים",
+    "AGENT_BOTS": "בוטים",
     "INBOXES": "תיבות דואר נכנס",
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",
@@ -189,6 +190,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "מאפיינים בהתאמה אישית",
     "AUTOMATION": "Automation",
+    "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
