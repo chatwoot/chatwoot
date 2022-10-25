@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "会話のラベル",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "前の会話"
+      "PREVIOUS_CONVERSATION": "前の会話",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
