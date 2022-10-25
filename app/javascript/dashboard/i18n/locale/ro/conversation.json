@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Etichete conversație",
       "CONVERSATION_INFO": "Informații despre conversație",
       "CONTACT_ATTRIBUTES": "Atribute Contacte",
-      "PREVIOUS_CONVERSATION": "Conversații anterioare"
+      "PREVIOUS_CONVERSATION": "Conversații anterioare",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
