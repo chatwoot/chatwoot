@@ -149,3 +149,11 @@ sk:
     fullcontact:
       name: "Fullcontact"
       description: "Integrácia so službou FullContact pomáha obohatiť profily návštevníkov. Identifikujte používateľov hneď, ako zdieľajú svoju e-mailovú adresu, a ponúknite im zákaznícky servis šitý na mieru. Pripojte aplikáciu FullContact k svojmu účtu zdieľaním kľúča API FullContact."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Žiadne výsledky neboli nájdené.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
