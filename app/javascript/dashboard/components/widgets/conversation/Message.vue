@@ -17,6 +17,7 @@
           :is-email="isEmailContentType"
           :readable-time="readableTime"
           :display-quoted-button="displayQuotedButton"
+          :message-data="data"
         />
         <span
           v-if="isPending && hasAttachments"

@@ -6,6 +6,7 @@ import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
 import { throwErrorMessage } from '../utils/api';
+import { isEmptyObject } from '../../helper/commons';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -63,7 +64,7 @@ export const getters = {
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
     // filtering out the whatsapp templates with media
-    if (messagesTemplates) {
+    if (messagesTemplates && !isEmptyObject(messagesTemplates)) {
       return messagesTemplates.filter(template => {
         return !template.components.some(
           i => i.format === 'IMAGE' || i.format === 'VIDEO'

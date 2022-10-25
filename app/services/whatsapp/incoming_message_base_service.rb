@@ -23,6 +23,7 @@ class Whatsapp::IncomingMessageBaseService
       source_id: @processed_params[:messages].first[:id].to_s
     )
     attach_files
+    save_location if @processed_params[:messages].first[:type] == 'location'
     @message.save!
   end
 
@@ -78,6 +79,7 @@ class Whatsapp::IncomingMessageBaseService
     return :image if %w[image sticker].include?(file_type)
     return :audio if %w[audio voice].include?(file_type)
     return :video if ['video'].include?(file_type)
+    return :location if ['location'].include?(file_type)
 
     :file
   end
@@ -87,10 +89,10 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def attach_files
-    return if %w[text button interactive].include?(message_type)
+    return if %w[text button interactive location].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
-    attachment_file = download_attachment_file(attachment_payload)
+    attachment_file = download_attachment_file(attachment_payload) unless @processed_params[:messages].first[:type] == 'location'
 
     @message.content ||= attachment_payload[:caption]
     @message.attachments.new(
@@ -106,5 +108,12 @@ class Whatsapp::IncomingMessageBaseService
 
   def download_attachment_file(attachment_payload)
     Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
+  end
+
+  def save_location
+    location = @processed_params[:messages].first['location']
+    @message.content = location['name'] ? "#{location['name']}, #{location['address']}" : 'location'
+    @message.additional_attributes = location
+    @message.content_type = :location
   end
 end
