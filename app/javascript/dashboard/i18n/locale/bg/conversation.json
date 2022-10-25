@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Етикети на разговора",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Предишни разговори"
+      "PREVIOUS_CONVERSATION": "Предишни разговори",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
