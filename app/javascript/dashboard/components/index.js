@@ -5,9 +5,12 @@ import Button from './ui/WootButton';
 import Code from './Code';
 import ColorPicker from './widgets/ColorPicker';
 import ConfirmDeleteModal from './widgets/modal/ConfirmDeleteModal.vue';
+import ConfirmModal from './widgets/modal/ConfirmationModal.vue';
+import ContextMenu from './ui/ContextMenu.vue';
 import DeleteModal from './widgets/modal/DeleteModal.vue';
 import DropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import FeatureToggle from './widgets/FeatureToggle';
 import HorizontalBar from './widgets/chart/HorizontalBarChart';
 import Input from './widgets/forms/Input.vue';
 import Label from './ui/Label';
@@ -21,8 +24,6 @@ import SubmitButton from './buttons/FormSubmitButton';
 import Tabs from './ui/Tabs/Tabs';
 import TabsItem from './ui/Tabs/TabsItem';
 import Thumbnail from './widgets/Thumbnail.vue';
-import ConfirmModal from './widgets/modal/ConfirmationModal.vue';
-import ContextMenu from './ui/ContextMenu.vue';
 
 const WootUIKit = {
   AvatarUploader,
@@ -31,9 +32,12 @@ const WootUIKit = {
   Code,
   ColorPicker,
   ConfirmDeleteModal,
+  ConfirmModal,
+  ContextMenu,
   DeleteModal,
   DropdownItem,
   DropdownMenu,
+  FeatureToggle,
   HorizontalBar,
   Input,
   Label,
@@ -47,8 +51,6 @@ const WootUIKit = {
   Tabs,
   TabsItem,
   Thumbnail,
-  ConfirmModal,
-  ContextMenu,
   install(Vue) {
     const keys = Object.keys(this);
     keys.pop(); // remove 'install' from keys
