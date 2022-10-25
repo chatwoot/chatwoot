@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Labels voor gesprekken",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Vorige gesprekken"
+      "PREVIOUS_CONVERSATION": "Vorige gesprekken",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
