@@ -8,8 +8,6 @@
       tag="div"
       class="macros__nodes-draggable"
       handle=".macros__node-drag-handle"
-      @start="dragging = true"
-      @end="dragging = false"
     >
       <div v-for="(action, i) in actionData" :key="i" class="macro__node">
         <macro-node
@@ -52,11 +50,6 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  data() {
-    return {
-      dragging: false,
-    };
   },
   computed: {
     actionData: {
