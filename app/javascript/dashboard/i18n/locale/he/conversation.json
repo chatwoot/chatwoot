@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "תוויות שיחה",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "שיחות קודמות"
+      "PREVIOUS_CONVERSATION": "שיחות קודמות",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
