@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "وسوم المحادثة",
       "CONVERSATION_INFO": "معلومات المحادثة",
       "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
-      "PREVIOUS_CONVERSATION": "المحادثات السابقة"
+      "PREVIOUS_CONVERSATION": "المحادثات السابقة",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
