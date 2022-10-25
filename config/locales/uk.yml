@@ -149,3 +149,11 @@ uk:
     fullcontact:
       name: "Fullcontact"
       description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Результатів не знайдено.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
