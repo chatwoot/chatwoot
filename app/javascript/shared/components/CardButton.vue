@@ -4,6 +4,7 @@
     :key="action.uri"
     class="action-button button"
     :href="action.uri"
+    :style="{ background: widgetColor, borderColor: widgetColor }"
     target="_blank"
     rel="noopener nofollow noreferrer"
   >
@@ -13,13 +14,14 @@
     v-else
     :key="action.payload"
     class="action-button button"
+    :style="{ borderColor: widgetColor, color: widgetColor }"
     @click="onClick"
   >
     {{ action.text }}
   </button>
 </template>
-
 <script>
+import { mapGetters } from 'vuex';
 export default {
   components: {},
   props: {
@@ -29,6 +31,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
     isLink() {
       return this.action.type === 'link';
     },
