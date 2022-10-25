@@ -47,6 +47,12 @@ export default {
     };
   },
   watch: {
+    $route: {
+      handler() {
+        this.resetValidation();
+      },
+      immediate: true,
+    },
     macroData: {
       handler() {
         this.macro = this.macroData;
@@ -79,9 +85,6 @@ export default {
       },
     },
   },
-  mounted() {
-    this.$v.$reset();
-  },
   methods: {
     updateName(value) {
       this.macro.name = value;
@@ -104,7 +107,11 @@ export default {
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
+      this.$v.macro.actions.$each[index].$reset();
       this.macro.actions[index].action_params = [];
+    },
+    resetValidation() {
+      this.$v.$reset();
     },
   },
 };
