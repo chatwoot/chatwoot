@@ -10,7 +10,7 @@
         @input="onUpdateName($event)"
       />
     </div>
-    <div>
+    <div class="macros__form-visibility-container">
       <p class="title">{{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}</p>
       <div class="macros__form-visibility">
         <button
@@ -110,7 +110,9 @@ export default {
 .macros__submit-button {
   margin-top: auto;
 }
-
+.macros__form-visibility-container {
+  margin-top: var(--space-small);
+}
 .macros__form-visibility {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -129,20 +131,6 @@ export default {
       border: 1px solid var(--w-300);
     }
 
-    .subtitle {
-      font-size: var(--font-size-mini);
-      color: var(--s-500);
-    }
-
-    .title {
-      display: block;
-      margin: 0;
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.8;
-      color: var(--color-body);
-    }
-
     .visibility-check {
       position: absolute;
       color: var(--w-500);
@@ -150,6 +138,20 @@ export default {
       right: var(--space-small);
     }
   }
+}
+
+.subtitle {
+  font-size: var(--font-size-mini);
+  color: var(--s-500);
+}
+
+.title {
+  display: block;
+  margin: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.8;
+  color: var(--color-body);
 }
 
 .macros__info-panel {
@@ -164,11 +166,18 @@ export default {
   }
   p {
     margin-left: var(--space-small);
+    margin-bottom: 0;
     color: var(--s-600);
   }
 }
 
 ::v-deep input[type='text'] {
-  margin-bottom: var(--space-small);
+  margin-bottom: 0;
+}
+
+::v-deep .error {
+  .message {
+    margin-bottom: 0;
+  }
 }
 </style>
