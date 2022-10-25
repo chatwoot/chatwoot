@@ -68,6 +68,11 @@
           "DESCRIPTION": "Dieses Makro ist für Sie privat und steht anderen nicht zur Verfügung."
         }
       }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Ausführen",
+      "PREVIEW": "Makrovorschau",
+      "EXECUTED_SUCCESSFULLY": "Makro erfolgreich ausgeführt"
     }
   }
 }
