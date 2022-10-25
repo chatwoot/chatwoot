@@ -8,7 +8,7 @@
         variant="smooth"
         color-scheme="secondary"
         icon="info"
-        class="mr-2"
+        class="margin-right-smaller"
         @click="toggleMacroPreview(macro)"
       />
       <woot-button
@@ -106,9 +106,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    .mr-2 {
-      margin-right: var(--space-smaller);
-    }
   }
 }
 </style>

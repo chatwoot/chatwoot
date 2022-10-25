@@ -15,7 +15,7 @@ import {
   resolveActionName,
   resolveTeamIds,
   resolveLabels,
-} from 'dashboard/routes/dashboard/settings/macros/macroHelper.js';
+} from 'dashboard/routes/dashboard/settings/macros/macroHelper';
 import { mapGetters } from 'vuex';
 
 export default {
