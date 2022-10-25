@@ -68,6 +68,11 @@
           "DESCRIPTION": "Šis makro būs privāts Jums un nebūs pieejams citiem."
         }
       }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Execute",
+      "PREVIEW": "Preview Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
     }
   }
 }
