@@ -18,13 +18,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   const chatwootSettings = window.chatwootSettings || {};
-  const localeWithVariation = window.navigator.language.replace('-', '_');
-  const defaultLocale = chatwootSettings.locale || 'en';
-
-  const locale =
-    localeWithVariation && chatwootSettings.useBrowserLanguage
-      ? localeWithVariation
-      : defaultLocale;
+  let locale = chatwootSettings.locale || 'en';
+  if (chatwootSettings.useBrowserLanguage) {
+    locale = window.navigator.language.replace('-', '_');
+  }
 
   window.$chatwoot = {
     baseUrl,
