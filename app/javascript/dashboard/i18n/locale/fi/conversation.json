@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Keskustelutunnisteet",
       "CONVERSATION_INFO": "Keskustelun Tiedot",
       "CONTACT_ATTRIBUTES": "Yhteystiedon määritteet",
-      "PREVIOUS_CONVERSATION": "Edelliset keskustelut"
+      "PREVIOUS_CONVERSATION": "Edelliset keskustelut",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
