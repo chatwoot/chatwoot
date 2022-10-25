@@ -76,7 +76,7 @@ export default {
   justify-content: space-between;
   padding: var(--space-normal);
   margin: var(--space-minus-small);
-  margin-bottom: var(--space-small);
+  margin-bottom: var(--space-smaller);
   border-bottom: 1px solid var(--color-border-light);
 }
 
