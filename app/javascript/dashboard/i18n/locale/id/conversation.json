@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Label Percakapan",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya"
+      "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
