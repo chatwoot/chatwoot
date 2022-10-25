@@ -12,7 +12,7 @@
         @click="toggleMacroPreview(macro)"
       />
       <woot-button
-        v-tooltip.top-start="$t('MACROS.EXECUTE.BUTTON_TOOLTIP')"
+        v-tooltip.left-start="$t('MACROS.EXECUTE.BUTTON_TOOLTIP')"
         size="tiny"
         variant="smooth"
         color-scheme="secondary"
