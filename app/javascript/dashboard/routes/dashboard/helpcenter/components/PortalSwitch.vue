@@ -112,16 +112,8 @@ export default {
     this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
   },
   methods: {
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.portal.slug,
-        });
-      });
-    },
     onClick(event, code, portal) {
       event.preventDefault();
-      this.fetchPortalsAndItsCategories();
       this.$router.push({
         name: 'list_all_locale_articles',
         params: {

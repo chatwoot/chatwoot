@@ -16,7 +16,6 @@
 import MacroForm from './MacroForm';
 import { MACRO_ACTION_TYPES } from './constants';
 import { mapGetters } from 'vuex';
-import { emptyMacro } from './macroHelper';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import alertMixin from 'shared/mixins/alertMixin';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
@@ -107,7 +106,16 @@ export default {
     },
     initNewMacro() {
       this.mode = 'CREATE';
-      this.macro = emptyMacro;
+      this.macro = {
+        name: '',
+        actions: [
+          {
+            action_name: 'assign_team',
+            action_params: [],
+          },
+        ],
+        visibility: 'global',
+      };
     },
     async saveMacro(macro) {
       try {
