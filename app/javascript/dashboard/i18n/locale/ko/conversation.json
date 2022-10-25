@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "대화 라벨",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "이전 대화"
+      "PREVIOUS_CONVERSATION": "이전 대화",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
