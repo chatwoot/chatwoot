@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Beszélgetés cimkék",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Korábbi beszélgetések"
+      "PREVIOUS_CONVERSATION": "Korábbi beszélgetések",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
