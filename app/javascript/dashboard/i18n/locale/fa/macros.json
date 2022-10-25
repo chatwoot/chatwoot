@@ -68,6 +68,11 @@
           "DESCRIPTION": "This macro will be private to you and not be available to others."
         }
       }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "اجرا کردن",
+      "PREVIEW": "پیش‌نمایش ماکرو",
+      "EXECUTED_SUCCESSFULLY": "ماکرو با موفقیت اجرا شد"
     }
   }
 }
