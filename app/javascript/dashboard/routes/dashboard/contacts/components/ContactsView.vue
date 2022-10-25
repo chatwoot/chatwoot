@@ -24,9 +24,9 @@
         @on-sort-change="onSortChange"
       />
       <table-footer
-        :on-page-change="onPageChange"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
+        @page-change="onPageChange"
       />
     </div>
 
