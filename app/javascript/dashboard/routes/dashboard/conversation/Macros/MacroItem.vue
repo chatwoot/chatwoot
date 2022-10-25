@@ -64,7 +64,7 @@ export default {
           macroId: macro.id,
           conversationIds: [this.conversationId],
         });
-        this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESFULLY'));
+        this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
       } catch (error) {
         this.showAlert(this.$t('MACROS.ERROR'));
       } finally {

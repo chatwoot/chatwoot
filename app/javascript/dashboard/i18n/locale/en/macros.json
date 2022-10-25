@@ -24,12 +24,7 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Name",
-        "Created by",
-        "Last updated by",
-        "Visibility"
-      ],
+      "TABLE_HEADER": ["Name", "Created by", "Last updated by", "Visibility"],
       "404": "No macros found"
     },
     "DELETE": {
@@ -72,7 +67,7 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Execute",
       "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESFULLY": "Macro executed successfully"
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
     }
   }
 }
