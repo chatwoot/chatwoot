@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Etiquetes de converses",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Converses prèvies"
+      "PREVIOUS_CONVERSATION": "Converses prèvies",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
