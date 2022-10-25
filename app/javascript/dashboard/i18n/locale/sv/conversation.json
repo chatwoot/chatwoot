@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Etiketter för konversation",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Tidigare konversationer"
+      "PREVIOUS_CONVERSATION": "Tidigare konversationer",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
