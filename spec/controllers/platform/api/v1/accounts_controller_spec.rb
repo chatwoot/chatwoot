@@ -42,6 +42,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eq('Test Account')
         expect(json_response['locale']).to eq('es')
+        expect(json_response['enabled_features']['agent_management']).to be(true)
       end
 
       it 'creates an account with feature flags' do
