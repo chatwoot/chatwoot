@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Ef þú hefur tíma viljum við biðja þig um að skilja eftir endurgjöf eftir samtalið sem þú áttir við %{inboxName}.",
+    "RATING": {
+      "LABEL": "Gefðu samtalinu einkunn",
+      "SUCCESS_MESSAGE": "Takk fyrir"
+    },
+    "FEEDBACK": {
+      "LABEL": "Hefur þú einhverjar athugasemdir?",
+      "PLACEHOLDER": "Athugasemd (valfrjálst)",
+      "BUTTON_TEXT": "Senda"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Könnunin var uppfærð",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við Woot þjónin, Vinsamlegast reyndu aftur síðar"
+    }
+  },
+  "POWERED_BY": "Keyrt af Chatwoot"
+}
