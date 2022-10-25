@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Štítky konverzace",
       "CONVERSATION_INFO": "Informace o konverzaci",
       "CONTACT_ATTRIBUTES": "Atributy kontaktu",
-      "PREVIOUS_CONVERSATION": "Předchozí konverzace"
+      "PREVIOUS_CONVERSATION": "Předchozí konverzace",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
