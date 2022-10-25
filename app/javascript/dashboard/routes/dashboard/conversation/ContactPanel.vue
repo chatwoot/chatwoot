@@ -93,7 +93,10 @@
               />
             </accordion-item>
           </div>
-          <div v-else-if="element.name === 'macros'">
+          <woot-feature-toggle
+            v-else-if="element.name === 'macros'"
+            feature-key="macros"
+          >
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.MACROS')"
               :is-open="isContactSidebarItemOpen('is_macro_open')"
@@ -102,7 +105,7 @@
             >
               <macros-list :conversation-id="conversationId" />
             </accordion-item>
-          </div>
+          </woot-feature-toggle>
         </div>
       </transition-group>
     </draggable>

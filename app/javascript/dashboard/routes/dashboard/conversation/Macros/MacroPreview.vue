@@ -15,7 +15,7 @@ import {
   resolveActionName,
   resolveTeamIds,
   resolveLabels,
-} from 'dashboard/routes/dashboard/settings/macros/macroHelper.js';
+} from 'dashboard/routes/dashboard/settings/macros/macroHelper';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -53,7 +53,6 @@ export default {
         send_webhook_event: params[0],
         send_message: params[0],
         send_email_transcript: params[0],
-        send_attachment: this.macro.files[0].filename || '',
       };
       return actionsMap[key] || '';
     },

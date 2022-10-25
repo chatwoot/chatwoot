@@ -8,11 +8,11 @@
         variant="smooth"
         color-scheme="secondary"
         icon="info"
-        class="mr-2"
+        class="margin-right-smaller"
         @click="toggleMacroPreview(macro)"
       />
       <woot-button
-        v-tooltip.top-start="$t('MACROS.EXECUTE.BUTTON_TOOLTIP')"
+        v-tooltip.left-start="$t('MACROS.EXECUTE.BUTTON_TOOLTIP')"
         size="tiny"
         variant="smooth"
         color-scheme="secondary"
@@ -64,7 +64,7 @@ export default {
           macroId: macro.id,
           conversationIds: [this.conversationId],
         });
-        this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESFULLY'));
+        this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
       } catch (error) {
         this.showAlert(this.$t('MACROS.ERROR'));
       } finally {
@@ -106,9 +106,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    .mr-2 {
-      margin-right: var(--space-smaller);
-    }
   }
 }
 </style>
