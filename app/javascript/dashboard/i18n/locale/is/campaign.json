@@ -9,7 +9,7 @@
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
       "CREATE_BUTTON_TEXT": "Create",
       "FORM": {
         "TITLE": {
@@ -63,12 +63,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Eyða",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Staðfesta eyðingu",
         "MESSAGE": "Are you sure to delete?",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
@@ -90,7 +90,7 @@
         "TITLE": "Title",
         "MESSAGE": "Skilaboð",
         "INBOX": "Inbox",
-        "STATUS": "Status",
+        "STATUS": "Staða",
         "SENDER": "Sender",
         "URL": "URL",
         "SCHEDULED_AT": "Scheduled time",
@@ -98,9 +98,9 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "ADD": "Bæta við",
+        "EDIT": "Breyta",
+        "DELETE": "Eyða"
       },
       "STATUS": {
         "ENABLED": "Enabled",
