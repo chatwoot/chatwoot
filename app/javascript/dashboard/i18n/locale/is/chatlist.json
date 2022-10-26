@@ -1,20 +1,20 @@
 {
   "CHAT_LIST": {
     "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOAD_MORE_CONVERSATIONS": "Sækja fleiri spjöll",
+    "EOF": "Öll spjöll eru hlaðin🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Það eru engin virk spjöll í þessum hóp."
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "Samtöl",
     "MENTION_HEADING": "Mentions",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Leita að Fólki, Spjöllum, Vistuðum Svörum .."
     },
     "FILTER_ALL": "All",
     "ASSIGNEE_TYPE_TABS": {
       "me": "Mine",
-      "unassigned": "Unassigned",
+      "unassigned": "Óúthlutað",
       "all": "All"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -33,13 +33,13 @@
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Picture message"
+        "CONTENT": "Myndaskilaboð"
       },
       "audio": {
-        "CONTENT": "Audio message"
+        "CONTENT": "Hljóðskilaboð"
       },
       "video": {
-        "CONTENT": "Video message"
+        "CONTENT": "Myndbandsskilaboð"
       },
       "file": {
         "CONTENT": "File Attachment"
