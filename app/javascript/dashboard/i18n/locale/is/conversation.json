@@ -10,37 +10,37 @@
     "NO_MESSAGE_2": " to send a message to your page!",
     "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
     "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
+    "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "SEARCH": {
       "TITLE": "Search messages",
       "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Engar niðurstöður fundust."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Ólesin skilaboð",
+    "UNREAD_MESSAGE": "Ólesið skilaboð",
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
-    "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
-    "ASSIGN_TO_ME": "Assign to me",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "NOT_ASSIGNED_TO_YOU": "Þetta samtal er ekki úthlutað á þig. Viltu úthluta þessu samtali á þig?",
+    "ASSIGN_TO_ME": "Úthluta á mig",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Þú getur aðeins svarað þessu samtali með því að nota sniðmátskilaboð vegna þess að",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
-    "NO_RESPONSE": "No response",
+    "DOWNLOAD": "Sækja",
+    "UNKNOWN_FILE_TYPE": "Óþekkt skrá",
+    "UPLOADING_ATTACHMENTS": "Hleður upp viðhengi...",
+    "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
+    "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
+    "NO_RESPONSE": "Ekkert svar",
     "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
+    "FEEDBACK_TITLE": "Endurgjöf",
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
       "REOPEN_ACTION": "Reopen",
@@ -94,7 +94,7 @@
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
+      "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "CLICK_HERE": "Click here to update"
@@ -112,7 +112,7 @@
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
+      "START_AUDIO_RECORDING": "Hefja hljóðupptöku",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
@@ -150,7 +150,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "Delete",
+      "DELETE": "Eyða",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
@@ -158,7 +158,7 @@
     "TITLE": "Send conversation transcript",
     "DESC": "Send a copy of the conversation transcript to the specified email address",
     "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
+    "CANCEL": "Hætta við",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
@@ -219,7 +219,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
-      "TITLE": "Add",
+      "TITLE": "Bæta við",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to add attribute. Please try again later"
     },
@@ -235,7 +235,7 @@
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "Til",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
