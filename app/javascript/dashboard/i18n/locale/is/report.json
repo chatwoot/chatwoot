@@ -1,12 +1,12 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
+    "HEADER": "Samtöl",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Samtöl",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -124,7 +124,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Agent",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Samtöl",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -191,7 +191,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Samtöl",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -258,7 +258,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Samtöl",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -325,7 +325,7 @@
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
+        "NAME": "Samtöl",
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
@@ -431,10 +431,10 @@
       "LOADING_MESSAGE": "Loading agent metrics...",
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
+        "AGENT": "Þjónustufulltrúi",
         "OPEN": "OPEN",
         "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "STATUS": "Staða"
       }
     },
     "AGENT_STATUS": {
