@@ -1,6 +1,7 @@
 import { mapGetters } from 'vuex';
 export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
   { name: 'conversation_actions' },
+  { name: 'macros' },
   { name: 'conversation_info' },
   { name: 'contact_attributes' },
   { name: 'previous_conversation' },
@@ -30,7 +31,17 @@ export default {
     ...mapGetters({ uiSettings: 'getUISettings' }),
     conversationSidebarItemsOrder() {
       const { conversation_sidebar_items_order: itemsOrder } = this.uiSettings;
-      return itemsOrder || DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      // If the sidebar order is not set, use the default order.
+      if (!itemsOrder) {
+        return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
+      }
+      // If the sidebar order doesn't have the new elements, then add them to the list.
+      DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.forEach(item => {
+        if (!itemsOrder.find(i => i.name === item.name)) {
+          itemsOrder.push(item);
+        }
+      });
+      return itemsOrder;
     },
     contactSidebarItemsOrder() {
       const { contact_sidebar_items_order: itemsOrder } = this.uiSettings;
