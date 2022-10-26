@@ -6,7 +6,7 @@
         "CLEAR_ALL_FILTERS": "Clear All Filters",
         "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
         "SUBMIT_BUTTON_LABEL": "Submit",
-        "CANCEL_BUTTON_LABEL": "Cancel",
+        "CANCEL_BUTTON_LABEL": "Hætta við",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
         "EMPTY_VALUE_ERROR": "Value is required",
         "TOOLTIP_LABEL": "Filter contacts",
@@ -26,7 +26,7 @@
             "days_before": "Is x days before"
         },
         "ATTRIBUTES": {
-            "NAME": "Name",
+            "NAME": "Nafn",
             "EMAIL": "Email",
             "PHONE_NUMBER": "Phone number",
             "IDENTIFIER": "Identifier",
