@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
       "FORM": {
         "NAME": {
           "LABEL": "Rule Name",
@@ -28,7 +28,7 @@
           "LABEL": "Conditions"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Aðgerðir"
         }
       },
       "CONDITION_BUTTON_LABEL": "Add Condition",
@@ -40,7 +40,7 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
+        "Nafn",
         "Description",
         "Active",
         "Created on"
@@ -49,13 +49,13 @@
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
-      "SUBMIT": "Delete",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Eyða",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
       },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
@@ -65,7 +65,7 @@
     "EDIT": {
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
@@ -79,10 +79,10 @@
       }
     },
     "FORM": {
-      "EDIT": "Edit",
+      "EDIT": "Breyta",
       "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel",
+      "DELETE": "Eyða",
+      "CANCEL": "Hætta við",
       "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
