@@ -155,7 +155,7 @@
       "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Sækja",
       "UPLOADING": "Hleður upp..."
     },
     "FORM_BUBBLE": {
@@ -171,18 +171,18 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
-    "CONVERSATIONS": "Conversations",
+    "CONVERSATIONS": "Samtöl",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
     "HOME": "Home",
-    "AGENTS": "Agents",
+    "AGENTS": "Þjónustufulltrúar",
     "AGENT_BOTS": "Bots",
     "INBOXES": "Inboxes",
     "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
+    "CANNED_RESPONSES": "Stöðluð svör",
     "INTEGRATIONS": "Integrations",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
@@ -200,12 +200,12 @@
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
     "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "REPORTS_CONVERSATION": "Samtöl",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agents",
+    "REPORTS_AGENT": "Þjónustufulltrúar",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
@@ -249,7 +249,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Account created successfully",
       "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
     },
     "FORM": {
       "NAME": {
