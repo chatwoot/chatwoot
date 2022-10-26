@@ -79,7 +79,7 @@
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "PLACEHOLDER": "Acme Inc svarar iðulega innan nokkura klukkustunda."
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
@@ -332,7 +332,7 @@
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "Þjónustufulltrúar",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
         "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
@@ -393,14 +393,14 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Eyða",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -428,7 +428,7 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Þjónustufulltrúar",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
@@ -468,7 +468,7 @@
       "MESSAGE_ERROR": "There was an error, please try again"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Forspjallseyðublöð gera þér kleift að fanga notendaupplýsingar áður en þau hefja samtal við þig.",
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fields",
@@ -651,7 +651,7 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Við erum tengd",
           "OFFLINE": "Það er enginn við í augnablikinu"
         },
         "USER_MESSAGE": "Hi",
