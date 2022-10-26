@@ -15,7 +15,7 @@
           "ERROR": "Name is required for creating a macro"
         },
         "ACTIONS": {
-          "LABEL": "Actions"
+          "LABEL": "Aðgerðir"
         }
       },
       "API": {
@@ -25,7 +25,7 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
+        "Nafn",
         "Created by",
         "Last updated by",
         "Visibility"
@@ -35,7 +35,7 @@
     "DELETE": {
       "TOOLTIP": "Delete macro",
       "CONFIRM": {
-        "MESSAGE": "Are you sure to delete ",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
         "YES": "Yes, Delete",
         "NO": "No"
       },
