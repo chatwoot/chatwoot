@@ -83,7 +83,7 @@ is:
         contact_email_address: Contact Email Address
         contact_phone_number: Contact Phone Number
         link_to_the_conversation: Link to the conversation
-        agent_name: Agent Name
+        agent_name: Nafn þjónustufulltrúa
         rating: Rating
         feedback: Feedback Comment
         recorded_at: Recorded date
@@ -120,7 +120,7 @@ is:
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
+      greeting_message_body: "%{account_name} svarar iðulega innan nokkura klukkustunda."
       ways_to_reach_you_message_body: "Give the team a way to reach you."
       email_input_box_message_body: "Get notified by email"
       csat_input_message_body: "Please rate the conversation"
@@ -152,7 +152,7 @@ is:
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
-      empty_placeholder: No results found.
+      empty_placeholder: Engar niðurstöður fundust.
       loading_placeholder: Searching...
       results_title: Search results
     hero:
