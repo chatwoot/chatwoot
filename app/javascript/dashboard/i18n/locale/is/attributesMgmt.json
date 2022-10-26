@@ -7,7 +7,7 @@
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
       "FORM": {
         "NAME": {
           "LABEL": "Display Name",
@@ -47,7 +47,7 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Eyða",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
@@ -57,7 +57,7 @@
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Delete ",
-        "NO": "Cancel"
+        "NO": "Hætta við"
       }
     },
     "EDIT": {
@@ -81,14 +81,14 @@
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
+        "Nafn",
         "Description",
         "Type",
         "Key"
       ],
       "BUTTONS": {
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "Breyta",
+        "DELETE": "Eyða"
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",
