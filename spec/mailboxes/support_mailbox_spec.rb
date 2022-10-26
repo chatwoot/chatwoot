@@ -16,6 +16,26 @@ RSpec.describe SupportMailbox, type: :mailbox do
     end
   end
 
+  describe 'when an account is suspended' do
+    let(:account) { create(:account, status: :suspended) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let!(:channel_email) { create(:channel_email, account: account) }
+    let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
+    let(:described_subject) { described_class.receive support_mail }
+    let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
+
+    before do
+      # this email is hardcoded in the support.eml, that's why we are updating this
+      channel_email.email = 'care@example.com'
+      channel_email.save!
+    end
+
+    it 'shouldnt create a conversation in the channel' do
+      described_subject
+      expect(conversation.present?).to be(false)
+    end
+  end
+
   describe 'add mail as a new ticket in the email inbox' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
