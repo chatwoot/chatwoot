@@ -4,9 +4,9 @@
     "HEADER_BTN_TXT": "Add a new macro",
     "HEADER_BTN_TXT_SAVE": "Save macro",
     "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
+    "SIDEBAR_TXT": "<p><b>Fjölvi</b><p>Fjölvi er safn vistaðra aðgerða sem auðvelda þjónustufulltrúa að klára verkefni auðveldlega. Þjónustufulltrúarnir geta skilgreint mengi aðgerða eins og að merkja samtal með merkimiða, senda tölvupóstafrit, uppfæra sérsniðna eiginleika o.s.frv., og þeir geta keyrt þessar aðgerðir með einum smelli. Þegar þjónustufulltrúar keyra fjölva, yrðu aðgerðirnar framkvæmdar í þeirri röð sem þær eru skilgreindar. Fjölvi bæta framleiðni og auka samræmi í aðgerðum. </p><p>Fjölvi getur verið gagnlegt á tvo vegu. </p><p><b>Sem aðstoð fyrir þjónustufulltrúa:</b> Ef þjónustufulltrúi framkvæmir sett af aðgerðum mörgum sinnum, getur hann vistað það sem fjölva og framkvæmt allar aðgerðir saman með einum smelli.</ p><p><b>Sem valmöguleiki til þess að bæta við liðsmanni:</b> Sérhver þjónustufulltrúi þarf að framkvæma margar mismunandi athuganir/aðgerðir í hverju samtali. Auðvelt verður að taka inn nýjan teymismeðlim ef fyrirfram skilgreind fjölvi eru tiltæk á reikningnum. Í stað þess að lýsa hverju skrefi í smáatriðum getur stjórnandinn/teymisstjórinn bent á fjölva sem notuð eru við mismunandi aðstæður.</p>",
     "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "ORDER_INFO": "Fjölvi mun keyra í þeirri röð sem þú bætir við aðgerðum þínum. Þú getur endurraðað þeim með því að draga þau í handfangið við hlið hverrar nóðu.",
     "ADD": {
       "FORM": {
         "NAME": {
@@ -20,7 +20,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "ERROR_MESSAGE": "Ekki tókst að búa til fjölvi, vinsamlegast reyndu aftur síðar"
       }
     },
     "LIST": {
@@ -41,14 +41,14 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "ERROR_MESSAGE": "Villa kom upp við að eyða fjölva. Vinsamlegast reyndu aftur síðar"
       }
     },
     "EDIT": {
       "TOOLTIP": "Edit macro",
       "API": {
         "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "ERROR_MESSAGE": "Ekki tókst að uppfæra fjölva, vinsamlegast reyndu aftur síðar"
       }
     },
     "EDITOR": {
@@ -61,11 +61,11 @@
         "LABEL": "Macro Visibility",
         "GLOBAL": {
           "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "DESCRIPTION": "Þessi fjölvi er aðgengileg opinberlega fyrir alla þjónustufulltrúa á þessum reikningi."
         },
         "PERSONAL": {
           "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "DESCRIPTION": "Þessi fjölvi verður persónulegur fyrir þig og ekki aðgengilegur öðrum."
         }
       }
     },
