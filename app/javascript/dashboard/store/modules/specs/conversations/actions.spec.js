@@ -58,6 +58,7 @@ describe('#actions', () => {
         id: 1,
         messages: [],
         meta: { sender: { id: 1, name: 'john-doe' } },
+        labels: ['support'],
       };
       actions.updateConversation(
         { commit, rootState: { route: { name: 'home' } }, dispatch },
@@ -67,6 +68,10 @@ describe('#actions', () => {
         [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
+        [
+          'conversationLabels/setConversationLabel',
+          { id: 1, data: ['support'] },
+        ],
         [
           'contacts/setContact',
           {
