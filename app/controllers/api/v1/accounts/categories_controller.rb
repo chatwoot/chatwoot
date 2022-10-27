@@ -5,6 +5,7 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   before_action :set_current_page, only: [:index]
 
   def index
+    @current_locale = params[:locale]
     @categories = @portal.categories.search(params)
   end
 

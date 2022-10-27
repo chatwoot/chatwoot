@@ -50,6 +50,25 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eq portal.name
+        expect(json_response['meta']['all_articles_count']).to eq 0
+      end
+
+      it 'returns portal articles metadata' do
+        portal.update(config: { allowed_locales: %w[en es], default_locale: 'en' })
+        en_cat = create(:category, locale: :en, portal_id: portal.id, slug: 'en-cat')
+        es_cat = create(:category, locale: :es, portal_id: portal.id, slug: 'es-cat')
+        create(:article, category_id: en_cat.id, portal_id: portal.id, author_id: agent.id)
+        create(:article, category_id: en_cat.id, portal_id: portal.id, author_id: admin.id)
+        create(:article, category_id: es_cat.id, portal_id: portal.id, author_id: agent.id)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}?locale=en",
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['name']).to eq portal.name
+        expect(json_response['meta']['all_articles_count']).to eq 2
+        expect(json_response['meta']['mine_articles_count']).to eq 1
       end
     end
   end

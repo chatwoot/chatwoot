@@ -19,17 +19,21 @@
 #  index_macros_on_updated_by_id  (updated_by_id)
 #
 class Macro < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :account
   belongs_to :created_by,
              class_name: :User
   belongs_to :updated_by,
              class_name: :User
+  has_many_attached :files
+
   enum visibility: { personal: 0, global: 1 }
 
   validate :json_actions_format
 
-  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agent send_webhook_event mute_conversation change_status
-                     resolve_conversation snooze_conversation].freeze
+  ACTIONS_ATTRS = %w[send_message add_label assign_team assign_best_agent mute_conversation change_status
+                     resolve_conversation snooze_conversation send_email_transcript send_attachment].freeze
 
   def set_visibility(user, params)
     self.visibility = params[:visibility]
@@ -45,6 +49,20 @@ class Macro < ApplicationRecord
 
   def self.current_page(params)
     params[:page] || 1
+  end
+
+  def file_base_data
+    files.map do |file|
+      {
+        id: file.id,
+        macro_id: id,
+        file_type: file.content_type,
+        account_id: account_id,
+        file_url: url_for(file),
+        blob_id: file.blob_id,
+        filename: file.filename.to_s
+      }
+    end
   end
 
   private
