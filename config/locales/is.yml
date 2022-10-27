@@ -19,8 +19,8 @@
 is:
   hello: "Hello world"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Woot! Beiðni um endurstillingu lykilorðs tókst. Skoðaðu póstinn þinn til að fá leiðbeiningar.
+    reset_password_failure: Uh ó! Við fundum engan notanda með tilgreint netfang.
   errors:
     validations:
       presence: must not be blank
@@ -29,7 +29,7 @@ is:
     signup:
       disposable_email: We do not allow disposable emails
       invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
+      email_already_exists: "Þú hefur þegar skráð þig fyrir reikning með %{email}"
       failed: Signup failed
     data_import:
       data_type:
@@ -43,16 +43,16 @@ is:
         invalid: should be in e164 format
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: ætti að vera einstakt í flokki og gátt
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        socket_error: Athugaðu nettenginguna, IMAP vistfangið og reyndu aftur.
+        no_response_error: Athugaðu IMAP auðkenni og reyndu aftur.
+        host_unreachable_error: Ekki er hægt að ná til hýsingaraðila. Athugaðu IMAP vistfangið, IMAP tengið og reyndu aftur.
+        connection_timed_out_error: Tenging rann út fyrir %{address}:%{port}
         connection_closed_error: Connection closed.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: ætti ekki að byrja eða enda á táknum, og það ætti ekki að hafa < > / \ @ táknin.
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
@@ -89,31 +89,31 @@ is:
         recorded_at: Recorded date
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      conversation_creation: "[Nýtt samtal] - #%{display_id} hefur verið búið til í %{inbox_name}"
+      conversation_assignment: "[Úthlutað þér] - #%{display_id} hefur verið úthlutað þér"
       assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_mention: "%{name} hefur minnst á þig í samtali [ID - %{display_id}]"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_story_content: "%{story_sender} minntist á þig í sögunni: "
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        resolved: "Samtal var merkt sem leyst af %{user_name}"
+        contact_resolved: "Samtal var leyst af %{contact_name}"
         open: "Conversation was reopened by %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
+        pending: "Samtal var merkt sem í bið af %{user_name}"
         snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        auto_resolved: "Samtal var merkt sem leyst af kerfinu vegna óvirkni í %{duration} daga"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
+        self_assigned: "%{user_name} úthlutaði þessu samtali á sig"
+        assigned: "Úthlutað á %{assignee_name} af %{user_name}"
         removed: "Conversation unassigned by %{user_name}"
       team:
         assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "Úthlutað %{assignee_name} í gegnum %{team_name} af %{user_name}"
+        removed: "Óúthlutað af %{team_name} af %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
@@ -127,28 +127,28 @@ is:
     reply:
       email:
         header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
+          from_with_name: '%{assignee_name} frá %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} frá %{inbox_name} <reply+%{reply_email}>'
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
     survey:
       response: "Please rate this conversation, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} er á tengdur, vinsamlegast reyndu aftur síðar"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack er spjallforrit sem sameinar öll samskipti þín á einum stað. Með því að samþætta Slack geturðu fengið tilkynningu um öll nýju samtölin á reikningnum þínum beint inni í Slackinu þínu."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Webhook viðburðir veita þér rauntíma upplýsingar um hvað er að gerast á reikningnum þínum. Þú getur notað webhook til að miðla atburðunum til uppáhaldsforritanna þinna eins og Slack eða Github. Smelltu á Stilla til að setja upp webhook."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Búðu til spjallmenni með Dialogflow og tengdu þá fljótlega við innhólfið þitt. Láttu spjallmennin sjá um fyrirspurnirnar áður en þú sendir þær til þjónustufulltrúa."
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "FullContact samþætting hjálpar til við að auðga gestaprófíla. Þekkja notendur um leið og þeir deila netfangi sínu og bjóða þeim sérsniðna þjónustu. Tengdu FullContact við reikninginn þinn með því að deila FullContact API lykilnum."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -156,4 +156,4 @@ is:
       loading_placeholder: Searching...
       results_title: Search results
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Leitaðu að greinunum hér eða skoðaðu flokkana hér að neðan.
