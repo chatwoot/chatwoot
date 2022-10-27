@@ -2,20 +2,20 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Create new team",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
+      "404": "Það eru engin teymi til á þessum reikningi.",
       "EDIT_TEAM": "Edit team"
     },
     "CREATE_FLOW": {
       "CREATE": {
         "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "DESC": "Bættu titli og lýsingu við nýja teymið þitt."
       },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
         "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
       },
       "WIZARD": [
         {
@@ -44,13 +44,13 @@
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
         "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
       },
       "WIZARD": [
         {
           "title": "Team details",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Breyttu nafni, lýsingu og öðrum upplýsingum."
         },
         {
           "title": "Edit Agents",
@@ -65,7 +65,7 @@
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Ekki tókst að vista teymisupplýsingarnar. Reyndu aftur."
     },
     "AGENTS": {
       "AGENT": "AGENT",
@@ -74,20 +74,20 @@
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
     },
     "ADD": {
       "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
       "BUTTON_TEXT": "Add agents",
       "AGENT_VALIDATION_ERROR": "Select at least one agent."
     },
     "FINISH": {
       "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "MESSAGE": "Þú getur nú unnið sem teymi í samtölum. Gangi þér vel að þjónusta",
       "BUTTON_TEXT": "Finish"
     },
     "DELETE": {
@@ -99,7 +99,7 @@
       "CONFIRM": {
         "TITLE": "Are you sure want to delete - %{teamName}",
         "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "MESSAGE": "Ef teyminu er eytt verður liðsúthlutunin fjarlægð úr samtölunum sem þessu teymi hefur verið úthlutað.",
         "YES": "Delete ",
         "NO": "Hætta við"
       }
