@@ -249,7 +249,6 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
     context 'when it is an authenticated user' do
       it 'execute the macro' do
         expect(conversation.messages).to be_empty
-        expect(conversation.assignee).to be_nil
         expect(conversation.labels).to be_empty
 
         perform_enqueued_jobs do
@@ -260,6 +259,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(conversation.reload.status).to eql('snoozed')
         expect(conversation.messages.chat.last.content).to eq('Send this message.')
+        expect(conversation.messages.chat.last.sender).to eq(administrator)
         expect(conversation.label_list).to match_array(%w[support priority_customer])
         expect(conversation.messages.activity.last.content).to eq("Assigned to #{user_1.name} by #{administrator.name}")
       end
