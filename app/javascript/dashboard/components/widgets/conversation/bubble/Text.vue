@@ -6,16 +6,6 @@
       'hide--quoted': !showQuotedContent,
     }"
   >
-    <a
-      v-if="messageData.content_type === 'location'"
-      :href="'https://maps.google.com/?q=' + latitude + ',' + longitude"
-      target="_blank"
-      class="text-content c-white"
-      rel="noopener noreferrer nofollow"
-    >
-      <img src="~dashboard/assets/images/map_image.jpg" alt="Location" />
-    </a>
-
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
     <letter v-else class="text-content" :html="message" />
     <button
@@ -57,23 +47,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    messageData: {
-      type: Object,
-      default: null,
-    },
   },
   data() {
     return {
       showQuotedContent: false,
     };
-  },
-  computed: {
-    longitude() {
-      return this.messageData.additional_attributes?.longitude;
-    },
-    latitude() {
-      return this.messageData.additional_attributes?.latitude;
-    },
   },
   methods: {
     toggleQuotedContent() {
