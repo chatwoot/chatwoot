@@ -18,6 +18,7 @@ RSpec.describe Conversations::EventDataPresenter do
         },
         id: conversation.display_id,
         messages: [],
+        labels: [],
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,

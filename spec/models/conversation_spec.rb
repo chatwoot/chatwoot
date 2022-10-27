@@ -149,8 +149,7 @@ RSpec.describe Conversation, type: :model do
       conversation.update(
         status: :resolved,
         contact_last_seen_at: Time.now,
-        assignee: new_assignee,
-        label_list: [label.title]
+        assignee: new_assignee
       )
 
       expect(Conversations::ActivityMessageJob)
@@ -433,6 +432,7 @@ RSpec.describe Conversation, type: :model do
         },
         id: conversation.display_id,
         messages: [],
+        labels: [],
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
