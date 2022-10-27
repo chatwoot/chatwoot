@@ -5,10 +5,10 @@
     "BTN_TEXT": "Update Profile",
     "DELETE_AVATAR": "Delete Avatar",
     "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "AVATAR_DELETE_FAILED": "Villa kom upp við að eyða notendamynd, vinsamlegast reyndu aftur",
+    "UPDATE_SUCCESS": "Prófíllinn þinn hefur verið uppfærður",
+    "PASSWORD_UPDATE_SUCCESS": "Lykilorðinu þínu hefur verið breytt",
+    "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
     "FORM": {
       "AVATAR": "Profile Image",
       "ERROR": "Please fix form errors",
@@ -17,26 +17,26 @@
       "UPDATE_IMAGE": "Update image",
       "PROFILE_SECTION": {
         "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "NOTE": "Netfangið þitt er auðkenni þitt og er notað til að skrá þig inn."
       },
       "SEND_MESSAGE": {
         "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "NOTE": "Þú getur valið flýtilykil (annaðhvort Enter eða Cmd/Ctrl+Enter) eftir því hvernig þú vilt skrifa.",
+        "UPDATE_SUCCESS": "Stillingar þínar hafa verið uppfærðar",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Sendu skilaboð með því að ýta á Enter takkann í stað þess að smella á senda takkann."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Sendu skilaboð með því að ýta á Cmd/Ctrl + enter takkann í stað þess að smella á senda takkann."
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Búðu til persónulega skilaboðaundirskrift sem verður bætt við öll skilaboðin sem þú sendir úr pósthólfinu þínu. Notaðu innihaldsríka ritilinn til að búa til mjög persónulega undirskrift.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully"
@@ -44,43 +44,43 @@
       "MESSAGE_SIGNATURE": {
         "LABEL": "Message Signature",
         "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
+        "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
         "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "NOTE": "Þetta token er hægt að nota ef þú ert að byggja upp API byggða samþættingu"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "NOTE": "Virkjaðu hljóðtilkynningar á mælaborðinu fyrir ný skilaboð og samtöl.",
         "NONE": "None",
         "ASSIGNED": "Assigned Conversations",
         "ALL_CONVERSATIONS": "All Conversations"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "NOTE": "Uppfærðu stillingar þínar fyrir tölvupósttilkynningar hér",
+        "CONVERSATION_ASSIGNMENT": "Senda tilkynningar í tölvupósti þegar mér er úthlutað samtali",
+        "CONVERSATION_CREATION": "Senda tilkynningar í tölvupósti þegar nýtt samtal er stofnað",
+        "CONVERSATION_MENTION": "Sendu tilkynningar í tölvupósti þegar minnst er á þig í samtali",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Tilkynningarstillingarnar þínar hafa verið uppfærðar",
+        "UPDATE_ERROR": "Villa kom upp við að uppfæra stillingarnar, vinsamlegast reyndu aftur"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
         "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "NOTE": "Uppfærðu stillingar þínar fyrir þrýstitilkynningar hér",
+        "CONVERSATION_ASSIGNMENT": "Senda þrýstitilkynningar þegar mér er úthlutað samtali",
+        "CONVERSATION_CREATION": "Senda þrýstitilkynningar þegar nýtt samtal er stofnað",
+        "CONVERSATION_MENTION": "Sendu þrýstitilkynningar þegar minnst er á þig í samtali",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu push tilkynningar þegar ný skilaboð eru búin til í úthlutuðu samtali",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -95,7 +95,7 @@
       "DISPLAY_NAME": {
         "LABEL": "Display name",
         "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "PLACEHOLDER": "Vinsamlegast sláðu inn birtingarnafn, þetta birtist í samtölum"
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
@@ -108,7 +108,7 @@
       "EMAIL": {
         "LABEL": "Your email address",
         "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt, þetta myndi birtast í samtölum"
       },
       "CURRENT_PASSWORD": {
         "LABEL": "Current password",
@@ -117,12 +117,12 @@
       },
       "PASSWORD": {
         "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
+        "ERROR": "Vinsamlegast sláðu inn lykilorð 6 stafa lengd eða meira",
         "PLACEHOLDER": "Please enter a new password"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
+        "ERROR": "Staðfest lykilorð ætti að passa við lykilorðið",
         "PLACEHOLDER": "Please re-enter your new password"
       }
     }
@@ -131,7 +131,7 @@
     "CHANGE_AVAILABILITY_STATUS": "Change",
     "CHANGE_ACCOUNTS": "Switch Account",
     "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "SELECTOR_SUBTITLE": "Veldu reikning úr eftirfarandi lista",
     "PROFILE_SETTINGS": "Profile Settings",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
     "LOGOUT": "Logout"
@@ -142,7 +142,7 @@
     "DELETED_USER": "Deleted User",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "MESSAGE": "Reikningnum þínum er lokað. Vinsamlegast hafðu samband við þjónustusviðið okkar til að fá frekari upplýsingar."
     }
   },
   "COMPONENTS": {
@@ -212,7 +212,7 @@
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "FACEBOOK_REAUTHORIZE": "Facebook tengingin þín er útrunnin, vinsamlegast tengdu Facebook síðuna þína aftur til að halda áfram þjónustu",
     "HELP_CENTER": {
       "TITLE": "Help Center (Beta)",
       "ALL_ARTICLES": "All Articles",
@@ -228,22 +228,22 @@
     "TITLE": "Billing",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "PLAN_NOTE": "Þú ert áskrifandi að **%{plan}** áætluninni með **%{quantity}** leyfi"
     },
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
+      "DESCRIPTION": "Skoðaðu fyrri reikninga þína, breyttu innheimtuupplýsingum þínum eða sagði upp áskriftinni þinni.",
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "DESCRIPTION": "Stendur þú frammi fyrir einhverjum vandamálum í innheimtu? Við erum hér til að hjálpa.",
       "BUTTON_TXT": "Spjallaðu við okkur"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Verið er að stilla innheimtureikninginn þinn. Endurnýjaðu síðuna og reyndu aftur."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga Chatwoot reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",
     "NEW_ACCOUNT": "New Account",
     "SELECTOR_SUBTITLE": "Create a new account",
     "API": {
