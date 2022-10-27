@@ -1,0 +1,281 @@
+version: "3.0"
+
+nlu:
+- lookup: gear_type
+  examples: |
+    - Manuel
+    - otomatik
+    - Manuel
+    - Otomatik
+    - Oto
+
+- lookup: fuel_type
+  examples: |
+    - mazot
+    - benzin
+    - Benzin
+    - Mazot
+    - Dizel
+    - dizel
+
+
+- synonym: benzin
+  examples: |
+    - benzinli 
+    - benzin
+
+- synonym: dizel
+  examples: |
+    - dizel
+    - mazotlu
+    - mazot
+
+
+
+- intent: greet
+  examples: |
+    - merhaba benim adım [Ahmet](user_name)
+    - selam ben [Mehmet](user_name)
+    - iyi günler benim adım [Deniz](user_name)
+    - selam
+    - hey
+    - selam bot
+    - hey bot
+    - merhaba
+    - meraba
+    - günaydın
+    - selam tekrar
+    - selamlar
+    - merhabalar
+    - iyi akşamlar
+    - slm
+    - nasılsın
+    - nasılsınız
+    - naber
+    - N’aber
+    - gunaydin
+    - iyi günler
+    - nasıl gidiyor
+    - nasılsın
+    - yy
+- intent: goodbye
+  examples: |
+    - bye
+    - bay
+    - bay bay
+    - görüşürüz
+    - hoşça kal
+    - güle güle
+    - şimdilik hoşça kal
+    - sonra görüşürüz
+    - gitmem lazım
+    - gittim
+    - gitmeliyim
+    - sonra
+    - sonra konuşuruz
+    - Bir daha ki sefere görüşürüz
+    - gitmem gerek
+    - iyi günler
+    - iyi tatiller
+    - iyi eğlenceler
+    - ben kaçar
+    - iyi geceler
+    - kendine iyi bak
+    - elveda
+    - gitme zamanı
+    - ayrılık vakti
+    - yeniden görüşene kadar
+
+- intent: affirm
+  examples: |
+    - evet
+    - doğru
+    - yess
+    - yea
+    - tamam
+    - olumlu
+    - olumluyum
+    - alırım
+    - tamamdır
+    - olur
+    - anlaştık
+    - eminim
+    - öyledir
+    - öyle
+    - tabi ki
+    - bu doğru
+    - doğrudur
+    - kesinlikle
+    - gerçektir
+    - harika
+    - elbette
+    - tamam devam
+    - kabul
+    - gerçek
+    - uyar
+    - ben de
+    - haklısın
+    - bana uyar
+    - iyi fikir
+    - aynen öyle
+    - son kararım
+    - onaylıyorum
+    - katılıyorum
+    -  kabul ediyorum
+    - devam edebilir
+    - neden olmasın
+    - bu muhteşem olur
+    - tam olarak öyle
+    - evet lütfen
+    - evet isterim
+    - evet doğru anladın
+    - bu çok iyi bir fikir
+    - tabi ki çok isterim
+    - istiyorum
+    - isterim teşekkürler
+    - Ben de aynen böyle düşünüyordum
+
+- intent: deny
+  examples: |
+    - hayır
+    - yanlış
+    - hayır yeni arama
+    - hayır teşekkürler
+    - hayır teşekkür ederim
+    - olumsuz
+    - olumsuzum
+    - tamam değil
+    - olmaz
+    - değil
+    - emin değilim
+    - iyi fikir değil
+    - red
+    - reddediyorum
+    - kabul etmiyorum
+    - onaylamıyorum
+    - devam etmiyorum
+    - kötü fikir
+    - yanlıştır
+    - yanlış anladın
+    - öyle değil
+    - devam etme
+    - hayır yanlış anladın
+    - uymaz
+    - bana uymaz
+    - istemem
+    - istemem teşekkürler
+    - aynı şekilde düşünmüyoruz
+    - yapamam
+    - aksine
+    - katılmıyorum
+    - maalesef
+    - ne yazıkki
+    - özür dilerim ama yapamam
+    - alamam
+    - belki başka zaman
+
+- intent: thankyou
+  examples: |
+    - teşekkürler
+    - teşekkürler iyi günler
+    - tamam teşekkürler
+    - tşk
+    - tmm
+    - teşekkür ederim
+    - sağol
+    - sağolun
+    - çok teşekkürler
+    - her şey için çok teşekkür ediyorum
+    - çok naziksin
+    - yardımın için teşekkürler.
+
+- intent: chitchat
+  examples: |
+    - sahibini tanımak istiyorum
+    - sizi tasarlayan şirketi tanımak istiyorum
+    - sizi yaratan şirketi bilmek istiyorum
+    - seni icat eden şirketi tanımak istiyorum
+    - seni kimin icat ettiğini bilmek istiyorum
+    - Seni kimin icat ettiğini sorabilir miyim?
+    - lütfen bana seni yaratan şirketi söyle
+    - lütfen bana seni kimin yarattığını söyle
+    - bana yaratıcılarınız hakkında daha fazla bilgi verin
+    - bana kurucularınız hakkında daha fazla bilgi verin
+    - iyi misin
+    - güzel bir gün geçiriyor musun
+    - İyi misin?
+    - iyi misin
+    - İyi hissediyor musun?
+    - nasıl gidiyor
+    - durumun nasıl?
+    - Bunlar nasıl?
+    - Bu sabah nasılsın
+    - nasıl hissediyorsun
+    - bugün nasılsınız
+    - Bugün hava nasıl?
+    - Hava nasıl?
+    - Yerinde hava nasıl?
+    - Havan güzel mi?
+    - Yağmur yağıyor mu?
+    - Dışarısı nasıl?
+    - Sıcak mı soğuk mu?
+    - Güzel bir gün değil mi?
+    - Hava tahmini nasıl?
+    - Dışarısı oldukça esintili mi?
+
+- intent: stop
+  examples: |
+    - yardımcı olmuyorsun
+    - bana yardım edemezsin
+    - ihtiyacım olan şeyde bana yardım edemezsin
+    - sanırım bana yardım edemezsin o zaman
+    - tamam sanırım bana yardım edemezsin
+    - istediğim bu değil
+    - tamam ama bu bana yardımcı olmuyor
+    - bu hiçbir şeye götürmez
+    - bu konuşma pek yardımcı olmuyor
+    - istediğim şeyde bana yardım edemezsin
+    - Sanırım bana yardım edemezsin
+    - hm istediğimi yapabileceğini sanmıyorum
+    - Dur
+    - dur geri dön
+    - bir şey anlıyor musun?
+    - ve kendine bot şirketi mi diyorsun? pff
+    - ve bu kadar mı
+    - başka bir şey?
+
+- intent: bot_challenge
+  examples: |
+    - bot musun?
+    - insan mısın ?
+    - botla mı konuşuyorum?
+    - insanla mı konuşuyorum?
+
+- intent: rent_car
+  examples : |
+    - Araba kiralamak istiyorum
+    - kiralık araba
+    - kiralama
+    - kira araba
+    - araba
+    - araba kiralama
+    - kiralık
+    - kiralık istiyorum
+    - kiralık isterim
+    - kiralama isterim
+    - kiralama istiyorum
+    - kiraklık araba var mı?
+    - kiralama var mı?
+    - araba var mı?
+    - araba istiyorum
+    - araba var mıdır
+    - [manuel](gear_type) araba kiralamak istiyorum
+    - [manuel](gear_type) ve [dizel](fuel_type)
+    - [otomatik](gear_type) araba
+    - [dizel](fuel_type) araba istiyorum
+    - hiç [dizel](fuel_type) arabanız var mı
+    - hiç [manuel](gear_type) arabanız var mı
+    - kiralık [benzinli](fuel_type) araba var mı?
+    - kiralık [manuel](gear_type) araba var mı?
+
+

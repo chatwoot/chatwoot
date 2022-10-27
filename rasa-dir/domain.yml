@@ -1,0 +1,136 @@
+version: "3.0"
+
+session_config:
+  session_expiration_time: 60  # value in minutes
+  carry_over_slots_to_new_session: false
+
+
+intents:
+  - chitchat:
+      use_entities: []
+  - inform
+  - affirm
+  - deny
+  - stop
+  - thankyou
+  - greet
+  - bot_challenge
+  - goodbye
+  - rent_car
+
+
+entities:
+  - brand_model
+  - year
+  - gear_type
+  - fuel_type
+  - color
+  - price
+  - origin
+  - kilometer
+  - user_name
+
+slots:
+  gear_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: gear_type
+ 
+  fuel_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: fuel_type
+  
+
+
+responses:
+  utter_submit:
+  - text: Tamamdır!
+
+  utter_noworries:
+    - text: Rica ederim :)
+
+  utter_chitchat:
+    - text: geyik?
+
+  utter_ask_continue:
+    - text: Devam etmek ister misin?
+
+  utter_default:
+    - text: Pardon, seni anlamadım, bugün kafam yerinde değil sanırım, tekrar dener misin?
+
+  utter_greet:
+    - text: Merhaba. Nasıl yardımcı olabilirim?
+    - text: Merhaba {user_name}, nasıl yardımcı olabilirim?
+    - text: Hoşgeldiniz, nasıl yardımcı olabilirim?
+
+  utter_iamabot:
+    - text: Ben akıllı bir rentacar asistanıyım.
+
+  utter_restart:
+    - text: Başka bir arama yapmak ister misin?
+
+  utter_thanks:
+    - text: Bizimle iletişime geçtigin için teşekkürler. Yine bekleriz..!
+
+  utter_unclear:
+    - text: Ne yapmak istediğini anlayamadım. Tekrar dener misin?
+
+  utter_cheer_up:
+    - text: "Seni güldürebilecek bir şeyler:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: Yardımcı oldu mu?
+
+  utter_happy:
+    - text: Harika!
+
+  utter_goodbye:
+    - text: Kendine dikkat et!
+
+  utter_anything_else:
+    - text: Başka bir isteğiniz var mı?
+
+  utter_ask_specify:
+    - text: Nasıl bir araba istiyorsunuz?
+
+  utter_ask_gear_type:
+    - text: Vites tercihiniz nedir?
+  
+  utter_ask_fuel_type:
+    - text: Yakıt tipi terchiniz nedir?
+  
+
+  
+
+actions:
+  - validate_rentacar_form
+  - utter_ask_origin
+  - utter_ask_color
+  - utter_ask_gear_type
+  - utter_ask_fuel_type
+  - utter_ask_year
+  - utter_ask_anything_else
+  - utter_greet
+  - utter_thanks
+  - utter_submit
+  - show_cars
+
+
+forms:
+  rentacar_form:
+    required_slots:
+    - gear_type
+    - fuel_type
+
+
+
+
+
+
+

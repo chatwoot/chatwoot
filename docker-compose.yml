@@ -69,3 +69,11 @@ services:
       dockerfile: rasa.Dockerfile
     ports:
       - "5005:5005"
+
+  nginx:
+    network_mode: "host"
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d/

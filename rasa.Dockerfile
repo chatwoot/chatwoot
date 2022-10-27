@@ -20,4 +20,10 @@ EXPOSE 5005
 
 RUN rasa init --no-prompt
 
+RUN rm -rf models/*
+
+COPY rasa-dir/ .
+
+RUN rasa train
+
 CMD rasa run -m models --enable-api --log-file out.log
