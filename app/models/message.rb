@@ -193,7 +193,7 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.pending! if conversation.inbox.agent_bot_inbox&.active?
+    conversation.pending! if conversation.active_bot?
 
     conversation.open! if conversation.resolved? || conversation.snoozed?
   end
