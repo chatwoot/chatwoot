@@ -2,7 +2,7 @@
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
             "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
+            "SUBTITLE": "Veldu WhatsApp sniðmátið sem þú vilt senda",
             "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
         },
         "PICKER": {
