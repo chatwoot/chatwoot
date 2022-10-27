@@ -1,24 +1,24 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
+    "CONVERSATIONS_SELECTED": "%{conversationCount} samtöl valin",
     "AGENT_SELECT_LABEL": "Select Agent",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Ertu viss um að úthluta %{conversationCount} %{conversationLabel} á",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ertu viss um að hætta við úthlutun %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "Assign",
     "YES": "Yes",
     "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
-    "ASSIGN_FAILED": "Failed to assign conversations, please try again",
+    "ASSIGN_FAILED": "Ekki tókst að úthluta samtölum, vinsamlegast reyndu aftur",
     "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
-    "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
+    "RESOLVE_FAILED": "Ekki tókst að leysa úr samtölum, vinsamlegast reyndu aftur",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "Samtöl sem sjást á þessari síðu eru aðeins valin.",
     "AGENT_LIST_LOADING": "Loading Agents",
     "UPDATE": {
       "CHANGE_STATUS": "Change status",
       "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
       "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations, please try again"
+      "UPDATE_FAILED": "Ekki tókst að uppfæra samtölin, vinsamlegast reyndu aftur"
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign Labels",
