@@ -2,10 +2,10 @@
   "REGISTER": {
     "TRY_WOOT": "Register an account",
     "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "Með því að skrá þig samþykkir þú <a href=\"https://www.chatwoot.com/terms\">Skilmála</a> okkar og <a href=\"https://www.chatwoot.com/privacy -policy\">Persónuverndarstefnu</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Account name",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "PLACEHOLDER": "Sláðu inn reikningsnafn. td: Wayne Enterprises",
       "ERROR": "Account name is too short"
     },
     "FULL_NAME": {
@@ -15,14 +15,14 @@
     },
     "EMAIL": {
       "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
       "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Password",
       "PLACEHOLDER": "Password",
       "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",
