@@ -192,8 +192,8 @@ class Message < ApplicationRecord
   def reopen_conversation
     return if conversation.muted?
     return unless incoming?
-    # agent bot processor will open the conversation, stay resolved
-    return if conversation.inbox.agent_bot_inbox&.active?
+
+    conversation.pending! if conversation.inbox.agent_bot_inbox&.active?
 
     conversation.open! if conversation.resolved? || conversation.snoozed?
   end
