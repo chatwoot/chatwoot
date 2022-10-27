@@ -1,10 +1,10 @@
 {
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
+        "SUBTITLE": "Bættu við síum fyrir neðan og smelltu á 'Senda' til að sía tengiliði.",
         "ADD_NEW_FILTER": "Add Filter",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "Þú ættir að hafa að minnsta kosti eina síu til að vista",
         "SUBMIT_BUTTON_LABEL": "Submit",
         "CANCEL_BUTTON_LABEL": "Hætta við",
         "CLEAR_BUTTON_LABEL": "Clear Filters",
