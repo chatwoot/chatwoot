@@ -1,14 +1,14 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "SELECT_A_CONVERSATION": "Vinsamlegast veldu samtal úr vinstri glugganum",
     "CSAT_REPLY_MESSAGE": "Please rate the conversation",
-    "404": "Sorry, we cannot find the conversation. Please try again",
+    "404": "Því miður finnum við ekki samtalið. Vinsamlegast reyndu aftur",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
+    "NO_MESSAGE_1": "Uh ó! Svo virðist sem engin skilaboð séu frá viðskiptavinum í innhólfinu þínu.",
     "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
+    "NO_INBOX_1": "Halló! Svo virðist sem þú hafir ekki bætt við neinum innhólfum ennþá.",
     "NO_INBOX_2": " to get started",
     "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
     "SEARCH_MESSAGES": "Search for messages in conversations",
@@ -77,15 +77,15 @@
       "ASSIGN_TEAM": "Assign team",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Samtalsauðkenni %{conversationId} úthlutað á „%{agentName}“",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Úthlutaði flokki #%{labelName} á samtalsauðkenni %{conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Úthlutaði teymi #%{team} á samtalsauðkenni %{conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -95,8 +95,8 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
       "CLICK_HERE": "Click here to update"
     },
     "REPLYBOX": {
@@ -129,7 +129,7 @@
         }
       }
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
+    "VISIBLE_TO_AGENTS": "Einkaglósa: Aðeins sýnilegt þér og teymi þínu",
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_STATUS_FAILED": "Conversation status change failed",
     "CHANGE_AGENT": "Conversation Assignee changed",
@@ -137,8 +137,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE})",
+    "MESSAGE_ERROR": "Ekki er hægt að senda þessi skilaboð, vinsamlegast reyndu aftur síðar",
     "SENT_BY": "Sent by:",
     "BOT": "Bot",
     "SEND_FAILED": "Couldn't send message! Try again",
@@ -156,15 +156,15 @@
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "DESC": "Sendu afrit af samtali á tilgreint netfang",
     "SUBMIT": "Submit",
     "CANCEL": "Hætta við",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_AGENT": "Sendu afritið til úthlutaðs þjónustufulltrúa",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Sendu afritið á annað netfang",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",
         "ERROR": "Please enter a valid email address"
@@ -173,25 +173,25 @@
   },
   "ONBOARDING": {
     "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr %{installationName}. Hér eru nokkur atriði sem þú getur gert í %{installationName} til að gera upplifunina ánægjulega.",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "DESCRIPTION": "Skoðaðu öll samtöl viðskiptavina þinna á einu mælaborði. Þú getur síað samtölin eftir innkominni rás, merkingu og stöðu."
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Þar sem þú ert að búa þig undir að tala við viðskiptavini þína skaltu fá samstarfsfélaga þína til að aðstoða þig. Þú getur boðið samstarfsfélögum þínum með því að bæta netföngum þeirra við þjónustufulltrúalistann.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "INBOXES": {
       "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "DESCRIPTION": "Tengdu ýmsar rásir þar sem viðskiptavinir þínir myndu tala við þig. Það getur verið netspjall á vefsíðu, Facebook eða Twitter síðan þín eða jafnvel WhatsApp númerið þitt.",
       "NEW_LINK": "Click here to create an inbox"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "DESCRIPTION": "Merkingar eru auðveldari leið til að flokka samtalið þitt. Búðu til merki eins og #support-enquiry, #billing-question o.s.frv., svo þú getir notað þau í samtali síðar.",
       "NEW_LINK": "Click here to create tags"
     }
   },
@@ -208,7 +208,7 @@
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Previous Conversations",
+      "PREVIOUS_CONVERSATION": "Fyrri samtöl",
       "MACROS": "Macros"
     }
   },
@@ -216,16 +216,16 @@
     "ADD_BUTTON_TEXT": "Create attribute",
     "UPDATE": {
       "SUCCESS": "Attribute updated successfully",
-      "ERROR": "Unable to update attribute. Please try again later"
+      "ERROR": "Ekki er hægt að uppfæra eigindina. Vinsamlegast reyndu aftur síðar"
     },
     "ADD": {
       "TITLE": "Bæta við",
       "SUCCESS": "Attribute added successfully",
-      "ERROR": "Unable to add attribute. Please try again later"
+      "ERROR": "Ekki er hægt að bæta við eigindi. Vinsamlegast reyndu aftur síðar"
     },
     "DELETE": {
       "SUCCESS": "Attribute deleted successfully",
-      "ERROR": "Unable to delete attribute. Please try again later"
+      "ERROR": "Ekki er hægt að eyða eigindinni. Vinsamlegast reyndu aftur síðar"
     },
     "ATTRIBUTE_SELECT": {
       "TITLE": "Add attributes",
