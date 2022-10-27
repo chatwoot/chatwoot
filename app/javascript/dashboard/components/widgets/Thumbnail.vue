@@ -1,74 +1,23 @@
 <template>
   <div class="user-thumbnail-box" :style="{ height: size, width: size }">
     <img
-      v-if="!imgError && Boolean(src)"
-      id="image"
+      v-if="!imgError && src"
       :src="src"
       :class="thumbnailClass"
-      @error="onImgError()"
+      @error="onImgError"
     />
     <Avatar
       v-else
       :username="userNameWithoutEmoji"
       :class="thumbnailClass"
       :size="avatarSize"
-      :variant="variant"
     />
     <img
-      v-if="badge === 'instagram_direct_message'"
-      id="badge"
+      v-if="badgeSrc"
       class="source-badge"
       :style="badgeStyle"
-      src="/integrations/channels/badges/instagram-dm.png"
-    />
-    <img
-      v-else-if="badge === 'facebook'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/messenger.png"
-    />
-    <img
-      v-else-if="badge === 'twitter-tweet'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/twitter-tweet.png"
-    />
-    <img
-      v-else-if="badge === 'twitter-dm'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/twitter-dm.png"
-    />
-    <img
-      v-else-if="badge === 'whatsapp'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/whatsapp.png"
-    />
-    <img
-      v-else-if="badge === 'sms'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/sms.png"
-    />
-    <img
-      v-else-if="badge === 'Channel::Line'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/line.png"
-    />
-    <img
-      v-else-if="badge === 'Channel::Telegram'"
-      id="badge"
-      class="source-badge"
-      :style="badgeStyle"
-      src="/integrations/channels/badges/telegram.png"
+      :src="`/integrations/channels/badges/${badgeSrc}.png`"
+      alt="Badge"
     />
     <div
       v-if="showStatusIndicator"
@@ -83,7 +32,7 @@
  * Src - source for round image
  * Size - Size of the thumbnail
  * Badge - Chat source indication { fb / telegram }
- * Username - User name for avatar
+ * Username - Username for avatar
  */
 import Avatar from './Avatar';
 import { removeEmoji } from 'shared/helpers/emoji';
@@ -103,7 +52,7 @@ export default {
     },
     badge: {
       type: String,
-      default: 'fb',
+      default: '',
     },
     username: {
       type: String,
@@ -142,6 +91,19 @@ export default {
     avatarSize() {
       return Number(this.size.replace(/\D+/g, ''));
     },
+    badgeSrc() {
+      return {
+        instagram_direct_message: 'instagram-dm',
+        facebook: 'messenger',
+        'twitter-tweet': 'twitter-tweet',
+        'twitter-dm': 'twitter-dm',
+        whatsapp: 'whatsapp',
+        sms: 'sms',
+        'Channel::Line': 'line',
+        'Channel::Telegram': 'telegram',
+        'Channel::WebWidget': '',
+      }[this.badge];
+    },
     badgeStyle() {
       const size = Math.floor(this.avatarSize / 3);
       const badgeSize = `${size + 2}px`;
@@ -160,12 +122,10 @@ export default {
     },
   },
   watch: {
-    src: {
-      handler(value, oldValue) {
-        if (value !== oldValue && this.imgError) {
-          this.imgError = false;
-        }
-      },
+    src(value, oldValue) {
+      if (value !== oldValue && this.imgError) {
+        this.imgError = false;
+      }
     },
   },
   methods: {
@@ -224,10 +184,6 @@ export default {
 
   .user-online-status--busy {
     background: var(--y-500);
-  }
-
-  .user-online-status--offline {
-    background: var(--s-500);
   }
 
   .user-online-status--offline {
