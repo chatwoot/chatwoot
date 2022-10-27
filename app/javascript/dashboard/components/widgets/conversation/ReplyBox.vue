@@ -890,19 +890,22 @@ export default {
         const {
           content_attributes: { email: emailAttributes = {} },
         } = this.lastEmail;
-        
+
         const from = emailAttributes.from || [];
         const cc = emailAttributes.cc || [];
         const bcc = emailAttributes.bcc || [];
-        
-        if (this.currentChat.meta.sender && this.currentChat.meta.sender.email) {
+
+        if (
+          this.currentChat.meta.sender &&
+          this.currentChat.meta.sender.email
+        ) {
           from.forEach(email => {
             if (email !== this.currentChat.meta.sender.email) {
               cc.push(email);
             }
           });
         }
-        
+
         this.ccEmails = cc.join(', ');
         this.bccEmails = bcc.join(', ');
       }
