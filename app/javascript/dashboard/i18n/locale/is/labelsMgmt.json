@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Add label",
     "LOADING": "Fetching labels",
     "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Flokkar</b> <p>Flokkar hjálpa þér að flokka samtöl og forgangsraða þeim. Þú getur úthlutað flokk á samtal frá hliðarborðinu. <br /><br />Flokkar eru tengdir við reikninginn og hægt er að nota þau til að búa til sérsniðin verkflæði í fyrirtækinu þínu. Þú getur úthlutað sérsniðnum lit á merkimiðann, það gerir það auðveldara að bera kennsl á merkimiðann. Þú munt geta birt merkimiðann á hliðarstikunni til að sía samtölin auðveldlega.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
+      "404": "Engar merkingar eru tiltækir á þessum reikningi.",
       "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
       "TABLE_HEADER": [
         "Nafn",
         "Description",
@@ -21,7 +21,7 @@
         "PLACEHOLDER": "Label name",
         "REQUIRED_ERROR": "Label name is required",
         "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "VALID_ERROR": "Aðeins stafrófsstafir, tölustafir, bandstrik og undirstrik eru leyfð"
       },
       "DESCRIPTION": {
         "LABEL": "Description",
@@ -40,7 +40,7 @@
     },
     "ADD": {
       "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
       "API": {
         "SUCCESS_MESSAGE": "Label added successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
