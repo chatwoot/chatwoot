@@ -12,7 +12,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Login Successful",
       "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
     },
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create new account",
