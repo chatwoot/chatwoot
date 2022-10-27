@@ -201,7 +201,7 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.pending! if conversation.active_bot?
+    conversation.pending! if conversation.inbox.active_bot?
   end
 
   def execute_message_template_hooks
