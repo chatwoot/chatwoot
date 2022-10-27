@@ -113,8 +113,7 @@ RSpec.describe Conversation, type: :model do
       conversation.update(
         status: :resolved,
         contact_last_seen_at: Time.now,
-        assignee: new_assignee,
-        label_list: [label.title]
+        assignee: new_assignee
       )
       status_change = conversation.status_change
       changed_attributes = conversation.previous_changes
@@ -149,7 +148,8 @@ RSpec.describe Conversation, type: :model do
       conversation.update(
         status: :resolved,
         contact_last_seen_at: Time.now,
-        assignee: new_assignee
+        assignee: new_assignee,
+        label_list: [label.title]
       )
 
       expect(Conversations::ActivityMessageJob)
