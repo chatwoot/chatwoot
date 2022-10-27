@@ -2,7 +2,7 @@
   "REPORT": {
     "HEADER": "Samtöl",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
@@ -20,14 +20,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -37,15 +37,15 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Síðustu 7 daga"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Síðustu 30 daga"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Síðustu 3 mánuði"
       },
       {
         "id": 3,
@@ -69,49 +69,49 @@
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dagur"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dagur"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Vika"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dagur"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Vika"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mánuður"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dagur"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Vika"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mánuður"
       },
       {
         "id": 4,
-        "groupBy": "Year"
+        "groupBy": "Ár"
       }
     ],
     "BUSINESS_HOURS": "Business Hours"
@@ -119,7 +119,7 @@
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "FILTER_DROPDOWN_LABEL": "Select Agent",
     "METRICS": {
@@ -138,14 +138,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -155,23 +155,23 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Síðustu 7 daga"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Síðustu 30 daga"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Síðustu 3 mánuði"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Síðustu 6 mánuði"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Síðasta ár"
       },
       {
         "id": 5,
@@ -186,7 +186,7 @@
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
     "FILTER_DROPDOWN_LABEL": "Select Label",
     "METRICS": {
@@ -205,14 +205,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -222,15 +222,15 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Síðustu 7 daga"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Síðustu 30 daga"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Síðustu 3 mánuði"
       },
       {
         "id": 3,
@@ -253,7 +253,7 @@
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "METRICS": {
@@ -272,14 +272,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -289,23 +289,23 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Síðustu 7 daga"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Síðustu 30 daga"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Síðustu 3 mánuði"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Síðustu 6 mánuði"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Síðasta ár"
       },
       {
         "id": 5,
@@ -320,7 +320,7 @@
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
     "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
     "FILTER_DROPDOWN_LABEL": "Select Team",
     "METRICS": {
@@ -339,14 +339,14 @@
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -356,23 +356,23 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Síðustu 7 daga"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Síðustu 30 daga"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Síðustu 3 mánuði"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Síðustu 6 mánuði"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Síðasta ár"
       },
       {
         "id": 5,
@@ -381,12 +381,12 @@
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "PLACEHOLDER": "Veldu tímabil"
     }
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
+    "NO_RECORDS": "Engin svör við CSAT könnun eru fáanleg.",
     "DOWNLOAD": "Download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
@@ -408,11 +408,11 @@
       },
       "SATISFACTION_SCORE": {
         "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "TOOLTIP": "Heildarfjöldi jákvæðra svara / Heildarfjöldi svara * 100"
       },
       "RESPONSE_RATE": {
         "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "TOOLTIP": "Heildarfjöldi svara / Heildarfjöldi sendra CSAT könnunarskilaboða * 100"
       }
     }
   },
