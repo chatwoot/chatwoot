@@ -3,7 +3,7 @@
     "HEADER": "Automations",
     "HEADER_BTN_TXT": "Add Automation Rule",
     "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "SIDEBAR_TXT": "<p><b>Sjálfvirknireglur</b> <p>Sjálfvirkni getur komið í stað og sjálfvirkt núverandi ferli sem krefjast handvirkrar áreynslu. Þú getur gert margt með sjálfvirkni, þar á meðal að bæta við merkimiðum og úthluta samtali á besta þjónustufulltrúann. Þannig að teymið einbeitir sér að því sem það gerir best og eyðir minni tíma í handvirk verkefni.</p>",
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
@@ -35,7 +35,7 @@
       "ACTION_BUTTON_LABEL": "Add Action",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "ERROR_MESSAGE": "Gat ekki búið til sjálfvirknireglu. Reyndu aftur síðar"
       }
     },
     "LIST": {
@@ -59,7 +59,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "ERROR_MESSAGE": "Gat ekki eytt sjálfvirknireglu. Reyndu aftur síðar"
       }
     },
     "EDIT": {
@@ -68,14 +68,14 @@
       "CANCEL_BUTTON_TEXT": "Hætta við",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "ERROR_MESSAGE": "Ekki tókst að uppfæra sjálfvirknireglu. Reyndu aftur síðar"
       }
     },
     "CLONE": {
       "TOOLTIP": "Clone",
       "API": {
         "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "ERROR_MESSAGE": "Ekki tókst að afrita sjálfvirknireglu, vinsamlegast reyndu aftur síðar"
       }
     },
     "FORM": {
@@ -83,30 +83,30 @@
       "CREATE": "Create",
       "DELETE": "Eyða",
       "CANCEL": "Hætta við",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Að breyta gerð viðburðar mun endurstilla skilyrðin og viðburðina sem þú hefur bætt við hér að neðan"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eina aðgerð til að vista",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
       "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_DESCRIPTION": "Þessi aðgerð mun virkja sjálfvirkniregluna '{automationName}'. Ertu viss um að þú viljir halda áfram?",
+      "DEACTIVATION_DESCRIPTION": "Þessi aðgerð mun slökkva á sjálfvirknireglunni '{automationName}'. Ertu viss um að þú viljir halda áfram?",
       "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
       "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_ERROR": "Gat ekki virkjað sjálfvirkni, vinsamlegast reyndu aftur síðar",
+      "DEACTIVATION_ERROR": "Gat ekki slökkt á sjálfvirkni, vinsamlegast reyndu aftur síðar",
       "CONFIRMATION_LABEL": "Yes",
       "CANCEL_LABEL": "No"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "UPLOAD_ERROR": "Gat ekki hlaðið upp viðhengi, vinsamlegast reyndu aftur",
       "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "Hleður upp...",
       "LABEL_UPLOADED": "Succesfully Uploaded",
