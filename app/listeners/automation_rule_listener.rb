@@ -58,7 +58,7 @@ class AutomationRuleListener < BaseListener
   end
 
   def current_account_rules(event_name, account)
-    AutomationRules.where(
+    AutomationRule.where(
       event_name: event_name,
       account_id: account.id,
       active: true
