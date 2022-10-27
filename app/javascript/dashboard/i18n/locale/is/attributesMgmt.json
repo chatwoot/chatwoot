@@ -3,7 +3,7 @@
     "HEADER": "Custom Attributes",
     "HEADER_BTN_TXT": "Add Custom Attribute",
     "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "SIDEBAR_TXT": "<p><b>Sérsniðin eiginleiki</b> <p>Sérsniðin eiginleiki fylgist með staðreyndum um tengiliðina/samtalið þitt - eins og áskriftaráætlunina, eða þegar þeir pöntuðu fyrsta hlutinn osfrv. <br /><br />Til að búa til sérsniðna eigind, smelltu bara á <b>Bæta við sérsniðinni eigind.</b> Þú getur líka breytt eða eytt núverandi sérsniðinni eigind með því að smella á Breyta eða Eyða hnappinn.</p>",
     "ADD": {
       "TITLE": "Add Custom Attribute",
       "SUBMIT": "Create",
@@ -43,17 +43,17 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "ERROR_MESSAGE": "Gat ekki búið til sérsniðna eiginleika, vinsamlegast reyndu aftur síðar"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eyða",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "ERROR_MESSAGE": "Ekki tókst að eyða sérsniðnu eigindinni. Reyndu aftur."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "TITLE": "Ertu viss um að þú viljir eyða - %{attributeName}",
         "PLACE_HOLDER": "Please type {attributeName} to confirm",
         "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Delete ",
@@ -71,7 +71,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "ERROR_MESSAGE": "Villa kom upp við að uppfæra sérsniðna eiginleika, vinsamlegast reyndu aftur"
       }
     },
     "TABS": {
