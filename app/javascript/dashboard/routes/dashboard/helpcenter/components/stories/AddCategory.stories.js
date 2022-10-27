@@ -1,4 +1,4 @@
-import AddCategoryComponent from '../AddCategory.vue';
+import AddCategoryComponent from '../../pages/categories/AddCategory.vue';
 import { action } from '@storybook/addon-actions';
 
 export default {
