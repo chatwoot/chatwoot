@@ -1,9 +1,9 @@
 {
   "FILTER": {
     "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "SUBTITLE": "Bættu við síum fyrir neðan og smelltu á „Nota síur“ til að sía samtöl.",
     "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "FILTER_DELETE_ERROR": "Þú ættir að hafa að minnsta kosti eina síu til að vista",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
     "CANCEL_BUTTON_LABEL": "Hætta við",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
