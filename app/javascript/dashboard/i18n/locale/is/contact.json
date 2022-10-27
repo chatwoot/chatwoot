@@ -2,10 +2,10 @@
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Netfang",
-    "PHONE_NUMBER": "Phone number",
+    "PHONE_NUMBER": "Símanúmer",
     "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Afritað á klemmuspjald",
+    "COMPANY": "Fyrirtæki",
     "LOCATION": "Location",
     "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Conversation Details",
@@ -17,8 +17,8 @@
     "IP_ADDRESS": "IP tala",
     "NEW_MESSAGE": "Ný skilaboð",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "Engin fyrri samtöl eru tengd þessum tengilið.",
+      "TITLE": "Fyrri samtöl"
     },
     "LABELS": {
       "CONTACT": {
@@ -46,7 +46,7 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Previous Conversations"
+      "PREVIOUS_CONVERSATIONS": "Fyrri samtöl"
     }
   },
   "EDIT_CONTACT": {
@@ -92,7 +92,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": "Gat ekki eytt tengilið. Vinsamlegast reyndu aftur síðar."
     }
   },
   "CONTACT_FORM": {
@@ -113,15 +113,15 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
         "LABEL": "Netfang",
-        "DUPLICATE": "This email address is in use for another contact.",
+        "DUPLICATE": "Þetta netfang er í notkun fyrir annan tengilið.",
         "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
         "LABEL": "Símanúmer",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "Símanúmer ætti að vera á E.164 sniði, td: +3541234567 [+][landsnúmer][svæðisnúmer][staðbundið símanúmer]",
+        "ERROR": "Símanúmer ætti að vera annað hvort autt eða á E.164 sniði",
+        "DUPLICATE": "Þetta símanúmer er í notkun fyrir annan tengilið."
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -153,7 +153,7 @@
     "DELETE_AVATAR": {
       "API": {
         "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "ERROR_MESSAGE": "Gat ekki eytt notandamynd tengiliða. Vinsamlegast reyndu aftur síðar."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",
@@ -209,7 +209,7 @@
         "COUNTRY": "Country",
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
+        "COMPANY": "Fyrirtæki",
         "EMAIL_ADDRESS": "Netfang"
       },
       "VIEW_DETAILS": "View details"
@@ -260,8 +260,8 @@
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Add attributes",
     "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "NOT_AVAILABLE": "Engir sérsniðnir eiginleikar eru tiltækir fyrir þennan tengilið.",
+    "COPY_SUCCESSFUL": "Afritað á klemmuspjald",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",
@@ -286,15 +286,15 @@
       "ADD": {
         "TITLE": "Create new attribute ",
         "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "ERROR": "Ekki er hægt að bæta við eigindi. Vinsamlegast reyndu aftur síðar"
       },
       "UPDATE": {
         "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "ERROR": "Ekki er hægt að uppfæra eigindina. Vinsamlegast reyndu aftur síðar"
       },
       "DELETE": {
         "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "ERROR": "Ekki er hægt að eyða eigindinni. Vinsamlegast reyndu aftur síðar"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Add attributes",
@@ -316,7 +316,7 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Sameina tengiliði til að sameina tvo prófíla í einn, þar á meðal alla eiginleika og samtöl. Ef til árekstra kemur munu eiginleikar aðaltengiliðs hafa forgang.",
     "PRIMARY": {
       "TITLE": "Primary contact",
       "HELP_LABEL": "To be kept"
@@ -328,8 +328,8 @@
     },
     "SUMMARY": {
       "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Tengilið <strong>%{childContactName}</strong> verður eytt.",
+      "ATTRIBUTE_WARNING": "Samskiptaupplýsingar <strong>%{childContactName}</strong> verða afritaðar á <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
