@@ -11,7 +11,7 @@
     "LIST": {
       "404": "Það eru engir þjónustufulltrúar tengdir við þennan reikning",
       "TITLE": "Umsýsla þjónustufulltrúa í þínu teymi",
-      "DESC": "You can add/remove agents to/in your team.",
+      "DESC": "Þú getur bætt við/fjarlægt þjónustufulltrúa við/í liðinu þínu.",
       "NAME": "Nafn",
       "EMAIL": "NETFANG",
       "STATUS": "Staða",
