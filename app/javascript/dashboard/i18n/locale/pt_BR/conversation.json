@@ -1,103 +1,103 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Por favor, selecione uma conversa no painel da esquerda",
-    "CSAT_REPLY_MESSAGE": "Por favor, classifique a conversa",
-    "404": "Desculpe, não conseguimos encontrar a conversa. Por favor, tente novamente",
-    "SWITCH_VIEW_LAYOUT": "Alternar o layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Mensagens",
-    "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
+    "SELECT_A_CONVERSATION": "",
+    "CSAT_REPLY_MESSAGE": "",
+    "404": "",
+    "SWITCH_VIEW_LAYOUT": "",
+    "DASHBOARD_APP_TAB_MESSAGES": "",
+    "UNVERIFIED_SESSION": "",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
-    "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
+    "SEARCH_MESSAGES": "",
     "SEARCH": {
-      "TITLE": "Procurar mensagens",
-      "RESULT_TITLE": "Resultados da pesquisa",
-      "LOADING_MESSAGE": "Preparando dados...",
-      "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
-      "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
+      "TITLE": "",
+      "RESULT_TITLE": "",
+      "LOADING_MESSAGE": "",
+      "PLACEHOLDER": "",
+      "NO_MATCHING_RESULTS": ""
     },
-    "UNREAD_MESSAGES": "Mensagens não lidas",
-    "UNREAD_MESSAGE": "Mensagem não lida",
+    "UNREAD_MESSAGES": "",
+    "UNREAD_MESSAGE": "",
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
-    "CANNOT_REPLY": "Você não pode responder porque",
-    "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
-    "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
-    "ASSIGN_TO_ME": "Atribuir a mim",
-    "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
-    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
-    "SELECT_A_TWEET_TO_REPLY": "Por favor, selecione um tweet para responder.",
-    "REPLYING_TO": "Você está respondendo a:",
-    "REMOVE_SELECTION": "Remover Seleção",
+    "CANNOT_REPLY": "",
+    "24_HOURS_WINDOW": "",
+    "NOT_ASSIGNED_TO_YOU": "",
+    "ASSIGN_TO_ME": "",
+    "TWILIO_WHATSAPP_CAN_REPLY": "",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "",
+    "SELECT_A_TWEET_TO_REPLY": "",
+    "REPLYING_TO": "",
+    "REMOVE_SELECTION": "",
     "DOWNLOAD": "Baixar",
-    "UNKNOWN_FILE_TYPE": "Arquivo Desconhecido",
-    "UPLOADING_ATTACHMENTS": "Enviando anexos...",
-    "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
-    "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
-    "NO_RESPONSE": "Sem resposta",
-    "RATING_TITLE": "Classificação",
-    "FEEDBACK_TITLE": "Feedback",
+    "UNKNOWN_FILE_TYPE": "",
+    "UPLOADING_ATTACHMENTS": "",
+    "SUCCESS_DELETE_MESSAGE": "",
+    "FAIL_DELETE_MESSSAGE": "",
+    "NO_RESPONSE": "",
+    "RATING_TITLE": "",
+    "FEEDBACK_TITLE": "",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN_ACTION": "Abertas",
+      "OPEN_ACTION": "",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
-      "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta"
+      "SNOOZED_UNTIL_TOMORROW": "",
+      "SNOOZED_UNTIL_NEXT_WEEK": "",
+      "SNOOZED_UNTIL_NEXT_REPLY": ""
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Marcar como pendente",
+      "MARK_PENDING": "",
       "SNOOZE": {
-        "TITLE": "Suspender até",
-        "NEXT_REPLY": "Próxima resposta",
-        "TOMORROW": "Amanhã",
-        "NEXT_WEEK": "Próxima semana"
+        "TITLE": "",
+        "NEXT_REPLY": "",
+        "TOMORROW": "",
+        "NEXT_WEEK": ""
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Marcar como pendente",
-      "RESOLVED": "Marcar como resolvido",
-      "REOPEN": "Reabrir conversa",
+      "PENDING": "",
+      "RESOLVED": "",
+      "REOPEN": "",
       "SNOOZE": {
-        "TITLE": "Adiar",
-        "NEXT_REPLY": "Até a próxima resposta",
-        "TOMORROW": "Até amanhã",
-        "NEXT_WEEK": "Até a próxima semana"
+        "TITLE": "",
+        "NEXT_REPLY": "",
+        "TOMORROW": "",
+        "NEXT_WEEK": ""
       },
-      "ASSIGN_AGENT": "Atribuir Agente",
-      "ASSIGN_LABEL": "Atribuir etiqueta",
-      "AGENTS_LOADING": "Carregando agentes...",
-      "ASSIGN_TEAM": "Atribuir equipe",
+      "ASSIGN_AGENT": "",
+      "ASSIGN_LABEL": "",
+      "AGENTS_LOADING": "",
+      "ASSIGN_TEAM": "",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "ID da conversa %{conversationId} atribuído para \"%{agentName}\"",
-          "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta #%{labelName} atribuída para o id de conversa %{conversationId}",
-          "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipe %{team} atribuído para o id de conversa %{conversationId}",
-          "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
+          "SUCCESFUL": "",
+          "FAILED": ""
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Assinatura de mensagem",
-      "ENABLE_SIGN_TOOLTIP": "Ativar assinatura",
-      "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
+      "MESSAGE_SIGN_TOOLTIP": "",
+      "ENABLE_SIGN_TOOLTIP": "",
+      "DISABLE_SIGN_TOOLTIP": "",
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
       "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "CLICK_HERE": "Clique aqui para atualizar"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "",
+      "CLICK_HERE": ""
     },
     "REPLYBOX": {
       "REPLY": "Responder",
@@ -105,139 +105,139 @@
       "SEND": "Enviar",
       "CREATE": "Enviar",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
-      "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
-      "TIP_ATTACH_ICON": "Anexar arquivos",
-      "TIP_AUDIORECORDER_ICON": "Gravar áudio",
-      "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
-      "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
-      "DRAG_DROP": "Arraste e solte aqui para anexar",
-      "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
-      "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
+      "TIP_FORMAT_ICON": "",
+      "TIP_EMOJI_ICON": "",
+      "TIP_ATTACH_ICON": "",
+      "TIP_AUDIORECORDER_ICON": "",
+      "TIP_AUDIORECORDER_PERMISSION": "",
+      "TIP_AUDIORECORDER_ERROR": "",
+      "DRAG_DROP": "",
+      "START_AUDIO_RECORDING": "",
+      "STOP_AUDIO_RECORDING": "",
       "": "",
       "EMAIL_HEAD": {
-        "ADD_BCC": "Adicionar cco",
+        "ADD_BCC": "",
         "CC": {
-          "LABEL": "CC",
-          "PLACEHOLDER": "E-mails separados por vírgulas",
-          "ERROR": "Por favor, insira endereços de e-mail válidos"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BCC": {
-          "LABEL": "Cco",
-          "PLACEHOLDER": "E-mails separados por vírgulas",
-          "ERROR": "Por favor, insira endereços de e-mail válidos"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         }
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
-    "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
+    "CHANGE_STATUS_FAILED": "",
     "CHANGE_AGENT": "Responsável da conversa alterado",
-    "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
-    "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
-    "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
-    "CHANGE_TEAM": "Estado da conversa mudou",
-    "FILE_SIZE_LIMIT": "O arquivo excede os {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB do limite para anexos",
-    "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
-    "SENT_BY": "Enviado por:",
-    "BOT": "Bot",
-    "SEND_FAILED": "Não foi possível enviar a mensagem! Tente novamente",
-    "TRY_AGAIN": "Tentar novamente",
+    "CHANGE_AGENT_FAILED": "",
+    "ASSIGN_LABEL_SUCCESFUL": "",
+    "ASSIGN_LABEL_FAILED": "",
+    "CHANGE_TEAM": "",
+    "FILE_SIZE_LIMIT": "",
+    "MESSAGE_ERROR": "",
+    "SENT_BY": "",
+    "BOT": "",
+    "SEND_FAILED": "",
+    "TRY_AGAIN": "",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Selecione Agente",
+      "SELECT_AGENT": "",
       "REMOVE": "Excluir",
-      "ASSIGN": "Atribua"
+      "ASSIGN": ""
     },
     "CONTEXT_MENU": {
-      "COPY": "Copiar",
+      "COPY": "",
       "DELETE": "Excluir",
-      "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Enviar transcrição de conversa",
-    "DESC": "Enviar uma cópia da transcrição da conversa para o endereço de e-mail especificado",
+    "TITLE": "",
+    "DESC": "",
     "SUBMIT": "Enviar",
     "CANCEL": "Cancelar",
-    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
-    "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": "",
     "FORM": {
-      "SEND_TO_CONTACT": "Envie a transcrição para o cliente",
-      "SEND_TO_AGENT": "Envie a transcrição para o agente designado",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar a transcrição para outro endereço de e-mail",
+      "SEND_TO_CONTACT": "",
+      "SEND_TO_AGENT": "",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "",
       "EMAIL": {
-        "PLACEHOLDER": "Digite um endereço de e-mail",
+        "PLACEHOLDER": "",
         "ERROR": "Por favor, insira um endereço de e-mail válido"
       }
     }
   },
   "ONBOARDING": {
-    "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
-    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de %{installationName}. Aqui estão algumas coisas que você consegue fazer no(a) %{installationName} para que tenha uma experiência agradável.",
-    "READ_LATEST_UPDATES": "Leia as últimas atualizações",
+    "TITLE": "",
+    "DESCRIPTION": "",
+    "READ_LATEST_UPDATES": "",
     "ALL_CONVERSATION": {
-      "TITLE": "Todas as suas conversas em um só lugar",
-      "DESCRIPTION": "Veja todas as conversas dos seus clientes em um único painel. Você pode filtrar as conversas pelo canal de entrada, rótulo e status."
+      "TITLE": "",
+      "DESCRIPTION": ""
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Convidar membros da sua equipe",
-      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando os endereços de e-mail deles na lista de agentes.",
-      "NEW_LINK": "Clique aqui para convidar um membro da equipe"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "NEW_LINK": ""
     },
     "INBOXES": {
-      "TITLE": "Conectar caixas de entrada",
-      "DESCRIPTION": "Conecte vários canais através dos quais seus clientes estariam conversando com você. Podendo ser a partir de um chat ao vivo no seu website, sua página do Facebook ou Twitter ou até mesmo seu número do WhatsApp.",
-      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "NEW_LINK": ""
     },
     "LABELS": {
-      "TITLE": "Organizar conversas com marcadores",
-      "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar a sua conversa. Criar algumas estiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em uma conversa posteriormente.",
-      "NEW_LINK": "Clique aqui para criar marcadores"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "NEW_LINK": ""
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Agente atribuído",
-    "SELF_ASSIGN": "Atribuir a mim",
-    "TEAM_LABEL": "Equipe Atribuída",
+    "ASSIGNEE_LABEL": "",
+    "SELF_ASSIGN": "",
+    "TEAM_LABEL": "",
     "SELECT": {
-      "PLACEHOLDER": "Nenhuma"
+      "PLACEHOLDER": ""
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Detalhes do contato",
-      "CONVERSATION_ACTIONS": "Ações da conversa",
-      "CONVERSATION_LABELS": "Marcador da conversa",
-      "CONVERSATION_INFO": "Informação da conversa",
-      "CONTACT_ATTRIBUTES": "Atributos do contato",
+      "CONTACT_DETAILS": "",
+      "CONVERSATION_ACTIONS": "",
+      "CONVERSATION_LABELS": "",
+      "CONVERSATION_INFO": "",
+      "CONTACT_ATTRIBUTES": "",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
-      "MACROS": "Macros"
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Criar atributo",
+    "ADD_BUTTON_TEXT": "",
     "UPDATE": {
-      "SUCCESS": "Atributo atualizado com sucesso",
-      "ERROR": "Não foi possível atualizar o atributo. Por favor, tente mais tarde"
+      "SUCCESS": "",
+      "ERROR": ""
     },
     "ADD": {
-      "TITLE": "Adicionar",
-      "SUCCESS": "Atributo adicionado com sucesso",
-      "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
+      "TITLE": "",
+      "SUCCESS": "",
+      "ERROR": ""
     },
     "DELETE": {
-      "SUCCESS": "Atributo excluído com sucesso",
-      "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
+      "SUCCESS": "",
+      "ERROR": ""
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Adicionar atributo",
-      "PLACEHOLDER": "Procurar atributos",
-      "NO_RESULT": "Nenhum atributo encontrado"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "NO_RESULT": ""
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "De",
-    "TO": "Para",
-    "BCC": "CCO",
-    "CC": "Cc",
-    "SUBJECT": "Assunto"
+    "FROM": "",
+    "TO": "",
+    "BCC": "",
+    "CC": "",
+    "SUBJECT": ""
   }
 }
