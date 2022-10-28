@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Izvēlieties Kanālu",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
       },
       {
         "title": "Izveidot Iesūtni",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Autentificēt savu kontu un izveidot iesūtni."
       },
       {
         "title": "Pievienot Aģentus",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Pievienojiet aģentus izveidotajai iesūtnei."
       },
       {
         "title": "Gatavs!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Jūs varat sākt darboties!"
       }
     ],
