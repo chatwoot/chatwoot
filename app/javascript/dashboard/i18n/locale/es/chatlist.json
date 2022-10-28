@@ -7,28 +7,28 @@
       "404": "No hay conversaciones activas en este grupo."
     },
     "TAB_HEADING": "Conversaciones",
-    "MENTION_HEADING": "Menciones",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
-    "FILTER_ALL": "Todos",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Mías",
-      "unassigned": "Sin asignar",
-      "all": "Todos"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abrir"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Resueltas"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Pendientes"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Postpuestas"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -51,15 +51,15 @@
         "CONTENT": "ha compartido una url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
-    "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
-    "REPLY_TO_TWEET": "Responder a éste trino",
-    "LINK_TO_STORY": "Ir a la historia de Instagram",
-    "SENT": "Enviado con éxito",
-    "NO_MESSAGES": "No hay mensajes",
-    "NO_CONTENT": "No hay contenido disponible",
-    "HIDE_QUOTED_TEXT": "Ocultar texto citado",
-    "SHOW_QUOTED_TEXT": "Mostrar texto citado",
-    "MESSAGE_READ": "Leído"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
