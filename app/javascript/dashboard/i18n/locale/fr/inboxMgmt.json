@@ -8,34 +8,34 @@
     "CREATE_FLOW": [
       {
         "title": "Choisir un canal",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Choisissez le fournisseur que vous souhaitez intégrer avec Chatwoot."
       },
       {
         "title": "Créer une boîte de réception",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Authentifiez votre compte et créez une boîte de réception."
       },
       {
         "title": "Ajouter des agents",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Ajouter des agents à la boîte de réception créée."
       },
       {
         "title": "Voilà !",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Vous êtes paré !"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nom de la boîte de réception",
-        "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
-        "LABEL": "Nom du site web",
-        "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "FB": {
         "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
@@ -48,9 +48,9 @@
       },
       "TWITTER": {
         "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' ",
-        "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Twitter, veuillez réessayer",
+        "ERROR_MESSAGE": "",
         "TWEETS": {
-          "ENABLE": "Créer des conversations à partir de Tweets mentionnés"
+          "ENABLE": ""
         }
       },
       "WEBSITE_CHANNEL": {
@@ -62,8 +62,8 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL du Webhook",
-          "PLACEHOLDER": "Entrez votre URL Webhook",
-          "ERROR": "Veuillez entrer une URL valide"
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domaine du site Web",
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activer l'accueil du canal",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "",
           "ENABLED": "Activé",
           "DISABLED": "Désactivé"
         },
@@ -100,22 +100,22 @@
         },
         "SUBMIT_BUTTON": "Créer une boîte de réception",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
-        "TITLE": "Chaîne Twilio SMS/WhatsApp",
-        "DESC": "Intégrez Twilio et commencez à soutenir vos clients par SMS ou WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
           "ERROR": "Ce champ est requis"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "",
+          "PLACEHOLDER": "",
           "ERROR": "Ce champ est requis",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
           "LABEL": "Type de canal",
@@ -128,7 +128,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Nom de la boîte de réception",
-          "PLACEHOLDER": "Veuillez entrer un nom de boîte de réception",
+          "PLACEHOLDER": "",
           "ERROR": "Ce champ est requis"
         },
         "PHONE_NUMBER": {
@@ -146,40 +146,40 @@
         }
       },
       "SMS": {
-        "TITLE": "Canal SMS",
-        "DESC": "Commencez à soutenir vos clients par SMS.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bande passante"
+          "LABEL": "",
+          "TWILIO": "",
+          "BANDWIDTH": ""
         },
         "API": {
-          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal SMS"
+          "ERROR_MESSAGE": ""
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "ID du compte client",
-            "PLACEHOLDER": "Veuillez entrer votre ID de compte de bande passante",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Ce champ est requis"
           },
           "API_KEY": {
-            "LABEL": "Clé de l'API",
-            "PLACEHOLDER": "Veuillez entrer votre clé API Bandwith",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Ce champ est requis"
           },
           "API_SECRET": {
-            "LABEL": "Secret API",
-            "PLACEHOLDER": "Veuillez entrer votre secret API Bandwith",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Ce champ est requis"
           },
           "APPLICATION_ID": {
-            "LABEL": "ID de l'application",
-            "PLACEHOLDER": "Veuillez entrer votre ID d'application de bande passante",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Ce champ est requis"
           },
           "INBOX_NAME": {
             "LABEL": "Nom de la boîte de réception",
-            "PLACEHOLDER": "Veuillez entrer un nom de boîte de réception",
+            "PLACEHOLDER": "",
             "ERROR": "Ce champ est requis"
           },
           "PHONE_NUMBER": {
@@ -187,28 +187,28 @@
             "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
             "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
           },
-          "SUBMIT_BUTTON": "Créer un canal de bande passante",
+          "SUBMIT_BUTTON": "",
           "API": {
-            "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants de bande passante, veuillez réessayer"
+            "ERROR_MESSAGE": ""
           },
           "API_CALLBACK": {
             "TITLE": "URL de rappel (callback)",
-            "SUBTITLE": "Vous devez configurer l'URL de rappel du message en bande passante avec l'URL mentionnée ici."
+            "SUBTITLE": ""
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "Chaîne WhatsApp",
-        "DESC": "Commencez à soutenir vos clients via WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "Fenêtre de dialogue 360"
+          "LABEL": "",
+          "TWILIO": "",
+          "WHATSAPP_CLOUD": "",
+          "360_DIALOG": ""
         },
         "INBOX_NAME": {
           "LABEL": "Nom de la boîte de réception",
-          "PLACEHOLDER": "Veuillez entrer un nom de boîte de réception",
+          "PLACEHOLDER": "",
           "ERROR": "Ce champ est requis"
         },
         "PHONE_NUMBER": {
@@ -217,35 +217,35 @@
           "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Veuillez saisir une adresse de courriel valide."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Veuillez saisir une adresse de courriel valide."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Veuillez saisir une adresse de courriel valide."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_KEY": {
-          "LABEL": "Clé de l'API",
-          "SUBTITLE": "Configurer la clé API WhatsApp.",
-          "PLACEHOLDER": "Clé de l'API",
-          "ERROR": "Veuillez saisir une adresse de courriel valide."
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
           "TITLE": "URL de rappel (callback)",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "URL du Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
-        "SUBMIT_BUTTON": "Créer le canal WhatsApp",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal WhatsApp"
+          "ERROR_MESSAGE": ""
         }
       },
       "API_CHANNEL": {
@@ -286,56 +286,56 @@
         "FINISH_MESSAGE": "Commencez à transférer vos courriels à l'adresse suivante."
       },
       "LINE_CHANNEL": {
-        "TITLE": "Canal LINE",
-        "DESC": "Intégrez le canal LINE et commencez à assister vos clients.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
           "LABEL": "Nom du canal",
           "PLACEHOLDER": "Veuillez entrer un nom de canal",
           "ERROR": "Ce champ est requis"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "ID du canal LINE",
-          "PLACEHOLDER": "ID du canal LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "Secret du canal LINE",
-          "PLACEHOLDER": "Secret du canal LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "Jeton de canal LINE",
-          "PLACEHOLDER": "Jeton de canal LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Créer le canal LINE",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal LINE"
+          "ERROR_MESSAGE": ""
         },
         "API_CALLBACK": {
           "TITLE": "URL de rappel (callback)",
-          "SUBTITLE": "Vous devez configurer l'URL du webhook dans l'application LINE avec l'URL mentionnée ici."
+          "SUBTITLE": ""
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Canal Telegram",
-        "DESC": "Intégrez le canal Telegram et commencez à assister vos clients.",
+        "TITLE": "",
+        "DESC": "",
         "BOT_TOKEN": {
-          "LABEL": "Jeton du robot",
-          "SUBTITLE": "Configurez le jeton de bot que vous avez obtenu de Telegram BotFather.",
-          "PLACEHOLDER": "Jeton du robot"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Créer un canal Telegram",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal Telegram"
+          "ERROR_MESSAGE": ""
         }
       },
       "AUTH": {
-        "TITLE": "Choisir un canal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Ici vous pouvez ajouter des agents pour gérer votre boîte de réception nouvellement créée. Seuls ces agents sélectionnés auront accès à votre boîte de réception. Les agents qui ne font pas partie de cette boîte de réception ne seront pas en mesure de voir ou de répondre aux messages de cette boîte de réception lorsqu'ils se connectent. <br> <b>PS :</b> En tant qu'administrateur, si vous avez besoin d'accéder à toutes les boîtes de réception, vous devriez vous ajouter en tant qu'agent à toutes les boîtes de réception que vous créez.",
-        "VALIDATION_ERROR": "Ajouter au moins un agent à votre nouvelle boîte de réception",
-        "PICK_AGENTS": "Sélectionner les agents de la boîte de réception"
+        "VALIDATION_ERROR": "",
+        "PICK_AGENTS": ""
       },
       "DETAILS": {
         "TITLE": "Détails de la boîte de réception",
@@ -359,9 +359,9 @@
     },
     "FINISH": {
       "TITLE": "Votre boîte de réception est prête !",
-      "MESSAGE": "Vous pouvez maintenant vous impliquer auprès de vos clients par le biais de votre nouveau canal. Bonne assistance",
+      "MESSAGE": "",
       "BUTTON_TEXT": "Emmenez-moi là",
-      "MORE_SETTINGS": "Plus de paramètres",
+      "MORE_SETTINGS": "",
       "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception."
     },
     "REAUTH": "Réautoriser",
@@ -370,7 +370,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Paramètres de boîte de réception mis à jour avec succès",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Affectation automatique mise à jour avec succès",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activé",
@@ -389,41 +389,41 @@
         "DISABLED": "Désactivé"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Activer"
+        "LABEL": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
-      "AVATAR_DELETE_BUTTON_TEXT": "Supprimer l'avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "",
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
-        "PLACE_HOLDER": "Veuillez taper {inboxName} pour confirmer",
+        "PLACE_HOLDER": "",
         "YES": "Oui, supprimer ",
         "NO": "Non, Conserver "
       },
       "API": {
         "SUCCESS_MESSAGE": "Boîte de réception supprimée avec succès",
         "ERROR_MESSAGE": "Impossible de supprimer la boîte de réception. Veuillez réessayer plus tard.",
-        "AVATAR_SUCCESS_MESSAGE": "Avatar de la boîte de réception supprimé avec succès",
-        "AVATAR_ERROR_MESSAGE": "Impossible de supprimer l'avatar de la boîte de réception. Veuillez réessayer plus tard."
+        "AVATAR_SUCCESS_MESSAGE": "",
+        "AVATAR_ERROR_MESSAGE": ""
       }
     },
     "TABS": {
       "SETTINGS": "Paramètres",
       "COLLABORATORS": "Collaborateurs",
       "CONFIGURATION": "Configuration",
-      "CAMPAIGN": "Campagnes",
-      "PRE_CHAT_FORM": "Formulaire avant chat",
-      "BUSINESS_HOURS": "Heures de bureau",
-      "WIDGET_BUILDER": "Widget Builder"
+      "CAMPAIGN": "",
+      "PRE_CHAT_FORM": "",
+      "BUSINESS_HOURS": "",
+      "WIDGET_BUILDER": ""
     },
     "SETTINGS": "Paramètres",
     "FEATURES": {
       "LABEL": "Fonctionnalités",
       "DISPLAY_FILE_PICKER": "Afficher le sélecteur de fichiers sur le widget",
       "DISPLAY_EMOJI_PICKER": "Afficher le sélecteur d'émoticônes sur le widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": ""
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script du Widget Web",
@@ -433,33 +433,33 @@
       "AGENT_ASSIGNMENT": "Konversationsauftrag",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Aktualisieren Sie die Konversationszuweisungseinstellungen",
       "UPDATE": "Mettre à jour",
-      "ENABLE_EMAIL_COLLECT_BOX": "Activer la boîte de collecte des courriels",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activer ou désactiver la boîte de collecte des courriels pour les nouvelles conversations",
+      "ENABLE_EMAIL_COLLECT_BOX": "",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "",
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
-      "ENABLE_CSAT": "Activer CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Activer la continuité de la conversation par e-mail",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les conversations se poursuivront par courrier électronique si l'adresse e-mail du contact est disponible.",
+      "ENABLE_CSAT": "",
+      "ENABLE_CSAT_SUB_TEXT": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
-      "HMAC_VERIFICATION": "Validation de l'identité de l'utilisateur",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Forcer la validation de l'identité de l'utilisateur",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Identificateur de la boîte de réception",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Utilisez le jeton `inbox_identifier` affiché ici pour authentifier vos clients API.",
-      "FORWARD_EMAIL_TITLE": "Transférer par e-mail",
+      "HMAC_VERIFICATION": "",
+      "HMAC_DESCRIPTION": "",
+      "HMAC_MANDATORY_VERIFICATION": "",
+      "HMAC_MANDATORY_DESCRIPTION": "",
+      "INBOX_IDENTIFIER": "",
+      "INBOX_IDENTIFIER_SUB_TEXT": "",
+      "FORWARD_EMAIL_TITLE": "",
       "FORWARD_EMAIL_SUB_TEXT": "Commencez à transférer vos courriels à l'adresse suivante.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Autoriser les messages après résolution de la conversation",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Autoriser les utilisateurs à envoyer des messages même après la résolution de la conversation.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Clé de l'API"
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "",
+      "WHATSAPP_SECTION_SUBHEADER": "",
+      "WHATSAPP_SECTION_TITLE": ""
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": ""
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Réautoriser",
@@ -468,68 +468,68 @@
       "MESSAGE_ERROR": "Une erreur est survenue, veuillez réessayer"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Les formulaires précédant le chat vous permettent de saisir les informations de l'utilisateur avant qu'ils ne commencent à discuter avec vous.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "",
+      "SET_FIELDS": "",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Clé",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "",
+        "LABEL": "",
+        "PLACE_HOLDER": "",
+        "KEY": "",
+        "TYPE": "",
+        "REQUIRED": ""
       },
       "ENABLE": {
-        "LABEL": "Activer le formulaire précédant le chat",
+        "LABEL": "",
         "OPTIONS": {
-          "ENABLED": "Oui",
-          "DISABLED": "Non"
+          "ENABLED": "",
+          "DISABLED": ""
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "Ce message serait visible pour les utilisateurs avec le formulaire"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Les visiteurs doivent indiquer leur nom et leur courriel avant de commencer le chat"
+        "LABEL": ""
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Définissez votre disponibilité",
-      "SUBTITLE": "Définissez votre disponibilité sur votre widget livechat",
-      "WEEKLY_TITLE": "Définissez vos horaires de travail",
-      "TIMEZONE_LABEL": "Sélectionnez le fuseau horaire",
-      "UPDATE": "Mettre à jour les paramètres des heures de bureau",
-      "TOGGLE_AVAILABILITY": "Activer la disponibilité aux heures de bureau pour cette boîte de réception",
-      "UNAVAILABLE_MESSAGE_LABEL": "Message d'indisponibilité pour les visiteurs",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nous ne sommes pas disponibles pour le moment. Laissez-nous un message, et nous répondrons dès notre retour.",
-      "TOGGLE_HELP": "Activer la disponibilité aux heures de bureau montrera les heures disponibles sur le widget chat en direct même si tous les agents sont hors ligne. En dehors des heures disponibles, les visiteurs peuvent être avertis avec un message et un formulaire de préconversation.",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "WEEKLY_TITLE": "",
+      "TIMEZONE_LABEL": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "UNAVAILABLE_MESSAGE_LABEL": "",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "",
+      "TOGGLE_HELP": "",
       "DAY": {
-        "ENABLE": "Activer la disponibilité pour ce jour",
-        "UNAVAILABLE": "Non disponible",
-        "HOURS": "heures",
-        "VALIDATION_ERROR": "L'heure de début doit être avant l'heure de fermeture.",
-        "CHOOSE": "Sélectionner"
+        "ENABLE": "",
+        "UNAVAILABLE": "",
+        "HOURS": "",
+        "VALIDATION_ERROR": "",
+        "CHOOSE": ""
       },
-      "ALL_DAY": "Toute la journée"
+      "ALL_DAY": ""
     },
     "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Définir vos détails IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Modifier les paramètres IMAP",
-      "TOGGLE_AVAILABILITY": "Activer la configuration IMAP pour cette boîte de réception",
-      "TOGGLE_HELP": "Activer IMAP aidera l'utilisateur à recevoir des emails",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "NOTE_TEXT": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Paramètres IMAP mis à jour avec succès",
-        "ERROR_MESSAGE": "Impossible de mettre à jour les paramètres IMAP"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Adresse IP",
-        "PLACE_HOLDER": "Adresse (ex: imap.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
         "LABEL": "Se connecter",
@@ -539,25 +539,25 @@
         "LABEL": "Mot de passe",
         "PLACE_HOLDER": "Mot de passe"
       },
-      "ENABLE_SSL": "Activer SSL"
+      "ENABLE_SSL": ""
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Définissez vos détails SMTP",
-      "UPDATE": "Mettre à jour les paramètres",
-      "TOGGLE_AVAILABILITY": "Activer la configuration SMTP pour cette boîte de réception",
-      "TOGGLE_HELP": "Activer SMTP aidera l'utilisateur à envoyer des e-mails",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Paramètres IMAP mis à jour avec succès",
-        "ERROR_MESSAGE": "Impossible de mettre à jour les paramètres IMAP"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Adresse IP",
-        "PLACE_HOLDER": "Adresse (ex: smtp.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
         "LABEL": "Se connecter",
@@ -568,77 +568,77 @@
         "PLACE_HOLDER": "Mot de passe"
       },
       "DOMAIN": {
-        "LABEL": "Domaine",
-        "PLACE_HOLDER": "Domaine"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENCRYPTION": "Chiffrement",
-      "SSL_TLS": "SSL/TLS",
-      "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Ouvrir le mode de vérification SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "ENCRYPTION": "",
+      "SSL_TLS": "",
+      "START_TLS": "",
+      "OPEN_SSL_VERIFY_MODE": "",
+      "AUTH_MECHANISM": ""
     },
-    "NOTE": "Note: ",
+    "NOTE": "",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "",
               "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Nom du site web",
-          "PLACE_HOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "",
+          "PLACE_HOLDER": "",
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
           "LABEL": "Titre de Bienvenue",
-          "PLACE_HOLDER": "Salut!"
+          "PLACE_HOLDER": ""
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Slogan d'accueil",
           "PLACE_HOLDER": "C'est simple de rentrer en contact avec nous. Demandez-nous quoi que ce soit ou partagez vos commentaires."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "",
           "IN_A_FEW_MINUTES": "En quelques minutes",
           "IN_A_FEW_HOURS": "En quelques heures",
           "IN_A_DAY": "En une journée"
         },
         "WIDGET_COLOR_LABEL": "Couleur du Widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Discutez avec nous",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "",
           "PLACE_HOLDER": "Discutez avec nous"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "",
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
@@ -651,14 +651,14 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "Nous sommes absents pour le moment"
+          "ONLINE": "",
+          "OFFLINE": ""
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
       "BRANDING_TEXT": "Propulsé par Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
