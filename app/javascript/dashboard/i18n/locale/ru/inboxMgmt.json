@@ -1,664 +1,664 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Источники",
-    "SIDEBAR_TXT": "<p><b>Источники</b></p> <p> Когда вы подключаете страницу Facebook к Chatwoot, это называется <b>Источником</b>. У вас может быть неограниченное количество источников в вашем аккаунте Chatwoot. </p><p> Нажмите на <b>Добавить источник</b> для подключения сайта или страницы на Facebook. </p><p> На главной страницы вы увидите все диалоги из всех источников и можете отвечать на них во вкладке `Диалоги`. </p><p> Вы можете просмотреть диалоги конкретного источника по нажатию на его имя в левой части главной страницы. </p>",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "У вас пока нет источников."
+      "404": ""
     },
     "CREATE_FLOW": [
       {
-        "title": "Выберите источник",
-        "route": "settings_inbox_new",
-        "body": "Выберите канал, который вы хотите подключить к Chatwoot."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Создать источник",
-        "route": "settings_inboxes_page_channel",
-        "body": "Авторизуйте свой аккаунт и создайте ящик."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Добавить операторов",
-        "route": "settings_inboxes_add_agents",
-        "body": "Добавить агента в созданный источник."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Ура!",
-        "route": "settings_inbox_finish",
-        "body": "Все готово!"
+        "title": "",
+        "route": "",
+        "body": ""
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Имя источника",
-        "PLACEHOLDER": "Введите имя папки \"Входящие\" (например: Acme Inc)",
-        "ERROR": "Пожалуйста, введите правильное имя"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
-        "LABEL": "Имя сайта",
-        "PLACEHOLDER": "Введите имя вашего сайта (например: Acme Inc)"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "FB": {
-        "HELP": "PS: После авторизации мы получим доступ только к вашим сообщениям на странице. Личные сообщения недоступны Chatwoot.",
-        "CHOOSE_PAGE": "Выберите страницы",
-        "CHOOSE_PLACEHOLDER": "Выберите страницу из списка",
-        "INBOX_NAME": "Имя источника",
-        "ADD_NAME": "Введите имя источника",
-        "PICK_NAME": "Выберите имя для источника",
-        "PICK_A_VALUE": "Выберите значение"
+        "HELP": "",
+        "CHOOSE_PAGE": "",
+        "CHOOSE_PLACEHOLDER": "",
+        "INBOX_NAME": "",
+        "ADD_NAME": "",
+        "PICK_NAME": "",
+        "PICK_A_VALUE": ""
       },
       "TWITTER": {
-        "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
-        "ERROR_MESSAGE": "Произошла ошибка при подключении к Twitter, попробуйте еще раз",
+        "HELP": "",
+        "ERROR_MESSAGE": "",
         "TWEETS": {
-          "ENABLE": "Создать беседы из твитов с упоминанем"
+          "ENABLE": ""
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Сайт",
-        "DESC": "Создайте источник для вашего сайта и начните поддерживать клиентов через виджет на сайте.",
-        "LOADING_MESSAGE": "Подключение сайта в качестве источника",
+        "TITLE": "",
+        "DESC": "",
+        "LOADING_MESSAGE": "",
         "CHANNEL_AVATAR": {
-          "LABEL": "Изображение"
+          "LABEL": ""
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Введите URL-адрес вебхука",
-          "ERROR": "Пожалуйста, введите правильный URL"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Домен сайта",
-          "PLACEHOLDER": "Введите домен вашего сайта (например: acme.com)"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Заголовок приветствия",
-          "PLACEHOLDER": "Привет!"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Текст приветствия",
-          "PLACEHOLDER": "Связаться с нами просто! Напишите нам, или задайте вопрос."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Сообщение-приветствие",
-          "PLACEHOLDER": "Acme Inc обычно отвечает в течение нескольких часов."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Включить приветствие",
-          "HELP_TEXT": "Автоматически отправлять приветственное сообщение при создании нового разговора.",
-          "ENABLED": "Включено",
-          "DISABLED": "Выключено"
+          "LABEL": "",
+          "HELP_TEXT": "",
+          "ENABLED": "",
+          "DISABLED": ""
         },
         "REPLY_TIME": {
-          "TITLE": "Установить время ответа",
-          "IN_A_FEW_MINUTES": "Через несколько минут",
-          "IN_A_FEW_HOURS": "Через несколько часов",
-          "IN_A_DAY": "Через день",
-          "HELP_TEXT": "Это время ответа будет отображаться в виджете онлайн чата"
+          "TITLE": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": "",
+          "HELP_TEXT": ""
         },
         "WIDGET_COLOR": {
-          "LABEL": "Цвет виджета",
-          "PLACEHOLDER": "Изменить цвет виджета"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Создать источник",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Не удалось создать канал сайта, попробуйте еще раз"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp канал",
-        "DESC": "Интегрируйте Twilio и начните поддерживать ваших клиентов через SMS или Whatsapp.",
+        "TITLE": "",
+        "DESC": "",
         "ACCOUNT_SID": {
-          "LABEL": "SID аккаунта",
-          "PLACEHOLDER": "Пожалуйста, введите SID вашего аккаунта Twilio",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "SID службы обмена сообщениями",
-          "PLACEHOLDER": "Пожалуйста, введите SID службы сообщений Twilio",
-          "ERROR": "Это поле обязательно",
-          "USE_MESSAGING_SERVICE": "Использовать сервис Twilio"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Тип источника",
-          "ERROR": "Пожалуйста, выберите тип источника"
+          "LABEL": "",
+          "ERROR": ""
         },
         "AUTH_TOKEN": {
-          "LABEL": "Токен авторизации",
-          "PLACEHOLDER": "Пожалуйста, введите ваш Токен аутентификации Twilio",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_NAME": {
-          "LABEL": "Имя источника",
-          "PLACEHOLDER": "Пожалуйста введите имя канала",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "Номер телефона",
-          "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
-          "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "URL",
-          "SUBTITLE": "Вы должны настроить URL колбеков в Twilio с этим URL."
+          "TITLE": "",
+          "SUBTITLE": ""
         },
-        "SUBMIT_BUTTON": "Создать источник Twilio",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Мы не смогли авторизоваться в Twilio. Пожалуйста, попробуйте еще раз"
+          "ERROR_MESSAGE": ""
         }
       },
       "SMS": {
-        "TITLE": "SMS-канал",
-        "DESC": "Начните поддерживать ваших клиентов с помощью SMS.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "Поставщик API",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "LABEL": "",
+          "TWILIO": "",
+          "BANDWIDTH": ""
         },
         "API": {
-          "ERROR_MESSAGE": "Не удалось сохранить SMS-канал"
+          "ERROR_MESSAGE": ""
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "ID аккаунта",
-            "PLACEHOLDER": "Пожалуйста, введите ваш идентификатор аккаунта Bandwidth",
-            "ERROR": "Это поле обязательно"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_KEY": {
-            "LABEL": "Ключ API",
-            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Key",
-            "ERROR": "Это поле обязательно"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_SECRET": {
-            "LABEL": "Секретный ключ API",
-            "PLACEHOLDER": "Пожалуйста, введите ваш секретный ключ аккаунта Bandwidth",
-            "ERROR": "Это поле обязательно"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "APPLICATION_ID": {
-            "LABEL": "ID приложения",
-            "PLACEHOLDER": "Пожалуйста, введите ваш ID аккаунта Bandwidth",
-            "ERROR": "Это поле обязательно"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "INBOX_NAME": {
-            "LABEL": "Имя источника",
-            "PLACEHOLDER": "Пожалуйста введите имя канала",
-            "ERROR": "Это поле обязательно"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "PHONE_NUMBER": {
-            "LABEL": "Номер телефона",
-            "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
-            "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
-          "SUBMIT_BUTTON": "Создать канал Bandwidth",
+          "SUBMIT_BUTTON": "",
           "API": {
-            "ERROR_MESSAGE": "Мы не смогли авторизоваться в Bandwidth. Пожалуйста, попробуйте еще раз"
+            "ERROR_MESSAGE": ""
           },
           "API_CALLBACK": {
-            "TITLE": "URL",
-            "SUBTITLE": "Вы должны настроить URL колбеков в Bandwidth используя этот URL."
+            "TITLE": "",
+            "SUBTITLE": ""
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp канал",
-        "DESC": "Начните поддерживать ваших клиентов через WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "Поставщик API",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "LABEL": "",
+          "TWILIO": "",
+          "WHATSAPP_CLOUD": "",
+          "360_DIALOG": ""
         },
         "INBOX_NAME": {
-          "LABEL": "Имя источника",
-          "PLACEHOLDER": "Пожалуйста введите имя канала",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "Номер телефона",
-          "PLACEHOLDER": "Введите номер телефона, с которого будет отправлено сообщение.",
-          "ERROR": "Пожалуйста, введите правильный номер телефона, начинающийся с «+»."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "ID номера телефона",
-          "PLACEHOLDER": "Пожалуйста, введите номер телефона, полученный от Facebook разработчика панели управления.",
-          "ERROR": "Пожалуйста, введите правильное значение."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "ID бизнес-аккаунта",
-          "PLACEHOLDER": "Пожалуйста, введите ID Личного кабинета для разработчиков Facebook.",
-          "ERROR": "Пожалуйста, введите правильное значение."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Вебхук верифицировать токен",
-          "PLACEHOLDER": "Введите контрольный токен, который вы хотите настроить для вебхуков Facebook.",
-          "ERROR": "Пожалуйста, введите правильное значение."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_KEY": {
-          "LABEL": "Ключ API",
-          "SUBTITLE": "Настройте ключ API WhatsApp.",
-          "PLACEHOLDER": "Ключ API",
-          "ERROR": "Пожалуйста, введите правильное значение."
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "URL вебхука",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "",
+          "SUBTITLE": "",
+          "WEBHOOK_URL": "",
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
-        "SUBMIT_BUTTON": "Создать канал WhatsApp",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Не удалось сохранить канал WhatsApp"
+          "ERROR_MESSAGE": ""
         }
       },
       "API_CHANNEL": {
-        "TITLE": "Источник API",
-        "DESC": "Интегрируйте с API каналом и начните поддерживать ваших клиентов.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "имя источника",
-          "PLACEHOLDER": "Пожалуйста введите имя источника",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_URL": {
-          "LABEL": "URL вебхука",
-          "SUBTITLE": "Добавьте URL, на который вы бы хотели получать callback-события.",
-          "PLACEHOLDER": "URL вебхука"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Создайте источник API",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Не удалось сохранить источник"
+          "ERROR_MESSAGE": ""
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email источник",
-        "DESC": "Интегрируйте ваш почтовый ящик.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "имя источника",
-          "PLACEHOLDER": "Пожалуйста введите имя источника",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Email куда ваши клиенты пишут запросы",
-          "PLACEHOLDER": "Email"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Создать источник email",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Не удалось сохранить источник"
+          "ERROR_MESSAGE": ""
         },
-        "FINISH_MESSAGE": "Начните пересылать свои письма на этот email."
+        "FINISH_MESSAGE": ""
       },
       "LINE_CHANNEL": {
-        "TITLE": "Канал LINE",
-        "DESC": "Интегрируйте канал LINE и начните общаться с вашими клиентами.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "имя источника",
-          "PLACEHOLDER": "Пожалуйста введите имя источника",
-          "ERROR": "Это поле обязательно"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "ID канала LINE",
-          "PLACEHOLDER": "ID канала LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "Секрет канала LINE",
-          "PLACEHOLDER": "Секрет канала LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "Токен канала LINE",
-          "PLACEHOLDER": "Токен канала LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Создать канал LINE",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Не удалось сохранить канал LINE"
+          "ERROR_MESSAGE": ""
         },
         "API_CALLBACK": {
-          "TITLE": "URL",
-          "SUBTITLE": "Установите адрес webhook в приложении LINE, который указан здесь."
+          "TITLE": "",
+          "SUBTITLE": ""
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram канал",
-        "DESC": "Интегрируйте Telegram канал и начните общаться с вашими клиентами.",
+        "TITLE": "",
+        "DESC": "",
         "BOT_TOKEN": {
-          "LABEL": "Токен авторизации",
-          "SUBTITLE": "Настройте токен бота, который вы получили в Telegram BotFather.",
-          "PLACEHOLDER": "Токен авторизации"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Создать канал Telegram",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Не удалось добавить канал Телеграм"
+          "ERROR_MESSAGE": ""
         }
       },
       "AUTH": {
-        "TITLE": "Выберите источник",
-        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "TITLE": "Операторы",
-        "DESC": "Здесь вы можете добавить операторов для управления только что созданным источником. Только эти операторы будут иметь доступ к вашему источнику. Операторы, которые не являются частью этого источника, не смогут видеть диалоги или отвечать на них. <br> <b>PS:</b> Если вам как администратору нужен доступ ко всем источникам, то вы должны добавить себя как операторы во все каналы, которые вы создаете.",
-        "VALIDATION_ERROR": "Добавьте хотя бы одного агента в новый канал",
-        "PICK_AGENTS": "Выберите агентов для канала"
+        "TITLE": "",
+        "DESC": "",
+        "VALIDATION_ERROR": "",
+        "PICK_AGENTS": ""
       },
       "DETAILS": {
-        "TITLE": "Настройки источника",
-        "DESC": "Выберите страницу Facebook, которую вы хотите подключить к чату из списка. Для удобства ыы также можете указать имя вашего источника."
+        "TITLE": "",
+        "DESC": ""
       },
       "FINISH": {
-        "TITLE": "Готово!",
-        "DESC": "Вы успешно подключили страницу Facebook к Chatwoot. В следующий раз когда покупатель напишет вашей странице, диалог автоматически отобразится здесь.<br>Мы также предоставляем вам скрипт виджета, который вы можете легко добавить на ваш сайт. Как только вы добавите его на сайт, клиенты смогут отправлять вам сообщения прямо с вашего сайта без помощи какого-либо внешнего инструмента и диалог появится прямо здесь, в Chatwoot.<br>Круто, да"
+        "TITLE": "",
+        "DESC": ""
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Авторизуемся через Facebook...",
-      "ERROR_FB_AUTH": "Что-то пошло не так, обновите страницу...",
-      "CREATING_CHANNEL": "Создание источника...",
-      "TITLE": "Настройка параметров источника",
+      "LOADING_FB": "",
+      "ERROR_FB_AUTH": "",
+      "CREATING_CHANNEL": "",
+      "TITLE": "",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Добавить операторов",
-      "ADD_AGENTS": "Добавление операторов в ваш источник..."
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": ""
     },
     "FINISH": {
-      "TITLE": "Истоник готов!",
-      "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки",
-      "BUTTON_TEXT": "Перейти",
-      "MORE_SETTINGS": "Больше параметров",
-      "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь."
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": "",
+      "MORE_SETTINGS": "",
+      "WEBSITE_SUCCESS": ""
     },
-    "REAUTH": "Войти заново",
-    "VIEW": "Просмотр",
+    "REAUTH": "",
+    "VIEW": "",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Настройки источника сохранены",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автоназначение сохранено",
-        "ERROR_MESSAGE": "Не удалось обновить настройки входящих сообщений. Пожалуйста, повторите попытку позже."
+        "SUCCESS_MESSAGE": "",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_HMAC": {
-        "LABEL": "Включить"
+        "LABEL": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Удалить",
-      "AVATAR_DELETE_BUTTON_TEXT": "Удалить аватар",
+      "BUTTON_TEXT": "",
+      "AVATAR_DELETE_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Вы точно хотите удалить ",
-        "PLACE_HOLDER": "Пожалуйста, введите {inboxName} для подтверждения",
-        "YES": "Да, удалить ",
-        "NO": "Нет, не удалять "
+        "TITLE": "",
+        "MESSAGE": "",
+        "PLACE_HOLDER": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Канал удален",
-        "ERROR_MESSAGE": "Не удалось удалить канал. Пожалуйста, повторите попытку позже.",
-        "AVATAR_SUCCESS_MESSAGE": "Аватар папки \"Входящие\" успешно удален",
-        "AVATAR_ERROR_MESSAGE": "Не удалось удалить аватар связанный с каналом. Пожалуйста, повторите попытку позже."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "",
+        "AVATAR_SUCCESS_MESSAGE": "",
+        "AVATAR_ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "SETTINGS": "Настройки",
-      "COLLABORATORS": "Соавторы",
-      "CONFIGURATION": "Настройки",
-      "CAMPAIGN": "Кампании",
-      "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
-      "BUSINESS_HOURS": "Время работы",
-      "WIDGET_BUILDER": "Конструктор виджетов"
+      "SETTINGS": "",
+      "COLLABORATORS": "",
+      "CONFIGURATION": "",
+      "CAMPAIGN": "",
+      "PRE_CHAT_FORM": "",
+      "BUSINESS_HOURS": "",
+      "WIDGET_BUILDER": ""
     },
-    "SETTINGS": "Настройки",
+    "SETTINGS": "",
     "FEATURES": {
-      "LABEL": "Возможности",
-      "DISPLAY_FILE_PICKER": "Показывать выбор файла на виджете",
-      "DISPLAY_EMOJI_PICKER": "Показывать эмодзи на виджете",
-      "ALLOW_END_CONVERSATION": "Разрешить пользователям завершать разговор из виджета"
+      "LABEL": "",
+      "DISPLAY_FILE_PICKER": "",
+      "DISPLAY_EMOJI_PICKER": "",
+      "ALLOW_END_CONVERSATION": ""
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Скрипт",
-      "MESSENGER_SUB_HEAD": "Поместите эту кнопку внутри тега <body>",
-      "INBOX_AGENTS": "Операторы",
-      "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
-      "AGENT_ASSIGNMENT": "Назначения для беседы",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Обновить настройки назначения для бесед",
-      "UPDATE": "Обновить",
-      "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
-      "AUTO_ASSIGNMENT": "Включить автоназначение",
-      "ENABLE_CSAT": "Включить CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность разговоров по электронной почте",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Разговоры будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
-      "INBOX_UPDATE_TITLE": "Настройки источника",
-      "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
-      "HMAC_VERIFICATION": "Проверка личности пользователя",
-      "HMAC_DESCRIPTION": "Для проверки личности пользователя SDK предлагает вам передать параметр `identity_hash` для каждого пользователя. Вы можете сгенерировать HMAC с помощью шифрования методом 'sha256' с ключом, который указан ниже.",
-      "HMAC_MANDATORY_VERIFICATION": "Принудительная проверка личности пользователя",
-      "HMAC_MANDATORY_DESCRIPTION": "Если этот параметр включен, запросы на пропуск `identifier_hash` будут отклонены.",
-      "INBOX_IDENTIFIER": "Идентификатор входящего канала",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
-      "FORWARD_EMAIL_TITLE": "Переслать на Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
-      "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Ключ API"
+      "MESSENGER_HEADING": "",
+      "MESSENGER_SUB_HEAD": "",
+      "INBOX_AGENTS": "",
+      "INBOX_AGENTS_SUB_TEXT": "",
+      "AGENT_ASSIGNMENT": "",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "",
+      "UPDATE": "",
+      "ENABLE_EMAIL_COLLECT_BOX": "",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT": "",
+      "ENABLE_CSAT": "",
+      "ENABLE_CSAT_SUB_TEXT": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "",
+      "INBOX_UPDATE_TITLE": "",
+      "INBOX_UPDATE_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "",
+      "HMAC_VERIFICATION": "",
+      "HMAC_DESCRIPTION": "",
+      "HMAC_MANDATORY_VERIFICATION": "",
+      "HMAC_MANDATORY_DESCRIPTION": "",
+      "INBOX_IDENTIFIER": "",
+      "INBOX_IDENTIFIER_SUB_TEXT": "",
+      "FORWARD_EMAIL_TITLE": "",
+      "FORWARD_EMAIL_SUB_TEXT": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "",
+      "WHATSAPP_SECTION_SUBHEADER": "",
+      "WHATSAPP_SECTION_TITLE": ""
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Пожалуйста, введите значение больше 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ограничьте максимальное количество разговоров из этого почтового ящика, которые могут быть автоматически назначены агенту"
+      "MAX_ASSIGNMENT_LIMIT": "",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": ""
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Войти заново",
-      "SUBTITLE": "Ваше подключение к Facebook истекло. Пожалуйста, переподключитесь к Facebook для продолжения работы",
-      "MESSAGE_SUCCESS": "Переподключение выполнено",
-      "MESSAGE_ERROR": "Произошла ошибка, попробуйте еще раз"
+      "TITLE": "",
+      "SUBTITLE": "",
+      "MESSAGE_SUCCESS": "",
+      "MESSAGE_ERROR": ""
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Предварительные формы позволяют получить информацию о пользователе, прежде чем они начнут разговор.",
-      "SET_FIELDS": "Поля отображаемые перед началом диалога",
+      "DESCRIPTION": "",
+      "SET_FIELDS": "",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Поля",
-        "LABEL": "Метка",
-        "PLACE_HOLDER": "Вариант ввода в поле",
-        "KEY": "Ключ",
-        "TYPE": "Тип",
-        "REQUIRED": "Обязательно"
+        "FIELDS": "",
+        "LABEL": "",
+        "PLACE_HOLDER": "",
+        "KEY": "",
+        "TYPE": "",
+        "REQUIRED": ""
       },
       "ENABLE": {
-        "LABEL": "Включить форму сбора предварительной информации",
+        "LABEL": "",
         "OPTIONS": {
-          "ENABLED": "Да",
-          "DISABLED": "Нет"
+          "ENABLED": "",
+          "DISABLED": ""
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Сообщение отображаемое перед началом диалога",
-        "PLACEHOLDER": "Это сообщение будет отображаться вместе с формой для пользователя"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Посетители должны указать свое имя и адрес электронной почты перед началом общения"
+        "LABEL": ""
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Настройте ваши рабочие часы",
-      "SUBTITLE": "Настройте ваши рабочие часы для общения через виджет на сайте",
-      "WEEKLY_TITLE": "Укажите ваши рабочие часы",
-      "TIMEZONE_LABEL": "Выберите часовой пояс",
-      "UPDATE": "Обновить настройки часов работы",
-      "TOGGLE_AVAILABILITY": "Включить доступность бизнеса для этого входящего канала",
-      "UNAVAILABLE_MESSAGE_LABEL": "Сообщение для посетителей о недоступности",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "В данный момент мы недоступны. Оставьте сообщение, мы вам ответим, как только будем на связи.",
-      "TOGGLE_HELP": "Включение доступности для бизнеса покажет часы работы в виджете онлайн общения, даже если все менеджеры не в сети. Вне доступных часов работы - посетители могут быть предупреждены сообщением и формой предварительного чата.",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "WEEKLY_TITLE": "",
+      "TIMEZONE_LABEL": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "UNAVAILABLE_MESSAGE_LABEL": "",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "",
+      "TOGGLE_HELP": "",
       "DAY": {
-        "ENABLE": "Я работаю в этот день",
-        "UNAVAILABLE": "Я не работаю в этот день",
-        "HOURS": "часы",
-        "VALIDATION_ERROR": "Время начала должно предшествовать времени окончания.",
-        "CHOOSE": "Выбрать"
+        "ENABLE": "",
+        "UNAVAILABLE": "",
+        "HOURS": "",
+        "VALIDATION_ERROR": "",
+        "CHOOSE": ""
       },
-      "ALL_DAY": "Весь день"
+      "ALL_DAY": ""
     },
     "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Настроить параметры IMAP",
-      "NOTE_TEXT": "Для включения SMTP, настройте IMAP.",
-      "UPDATE": "Обновить настройки IMAP",
-      "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
-      "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "NOTE_TEXT": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Настройки IMAP успешно обновлены",
-        "ERROR_MESSAGE": "Невозможно обновить настройки IMAP"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Адрес",
-        "PLACE_HOLDER": "Адрес (например, imap.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Порт",
-        "PLACE_HOLDER": "Порт"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "Вход",
-        "PLACE_HOLDER": "Вход"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Пароль",
-        "PLACE_HOLDER": "Пароль"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENABLE_SSL": "Включить SSL"
+      "ENABLE_SSL": ""
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Настроить параметры SMTP",
-      "UPDATE": "Обновить настройки SMTP",
-      "TOGGLE_AVAILABILITY": "Включить SMTP конфигурацию для этого ящика",
-      "TOGGLE_HELP": "Включение SMTP поможет пользователю отправлять почту",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Настройки SMTP успешно обновлены",
-        "ERROR_MESSAGE": "Невозможно обновить настройки SMTP"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Адрес",
-        "PLACE_HOLDER": "Адрес (например, smtp.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Порт",
-        "PLACE_HOLDER": "Порт"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "Вход",
-        "PLACE_HOLDER": "Вход"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Пароль",
-        "PLACE_HOLDER": "Пароль"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "DOMAIN": {
-        "LABEL": "Домен",
-        "PLACE_HOLDER": "Домен"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENCRYPTION": "Шифрование",
-      "SSL_TLS": "SSL/TLS",
-      "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Режим проверки Open SSL",
-      "AUTH_MECHANISM": "Авторизация"
+      "ENCRYPTION": "",
+      "SSL_TLS": "",
+      "START_TLS": "",
+      "OPEN_SSL_VERIFY_MODE": "",
+      "AUTH_MECHANISM": ""
     },
-    "NOTE": "Примечание: ",
+    "NOTE": "",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Аватар сайта",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Аватар успешно удален",
-              "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+              "SUCCESS_MESSAGE": "",
+              "ERROR_MESSAGE": ""
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Имя сайта",
-          "PLACE_HOLDER": "Введите имя вашего сайта (например: Acme Inc)",
-          "ERROR": "Пожалуйста, правильно введите имя веб-сайта"
+          "LABEL": "",
+          "PLACE_HOLDER": "",
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
-          "LABEL": "Заголовок приветствия",
-          "PLACE_HOLDER": "Привет!"
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Текст приветствия",
-          "PLACE_HOLDER": "Связаться с нами просто! Напишите нам, или задайте вопрос."
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "REPLY_TIME": {
-          "LABEL": "Время ответа",
-          "IN_A_FEW_MINUTES": "Через несколько минут",
-          "IN_A_FEW_HOURS": "Через несколько часов",
-          "IN_A_DAY": "Через день"
+          "LABEL": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": ""
         },
-        "WIDGET_COLOR_LABEL": "Цвет виджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
+        "WIDGET_COLOR_LABEL": "",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Пообщайтесь с нами",
-          "LABEL": "Название виджета",
-          "PLACE_HOLDER": "Пообщайтесь с нами"
+          "DEFAULT": "",
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Обновить настройки виджета",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Настройки виджета успешно обновлены",
-            "ERROR_MESSAGE": "Не удается обновить настройки виджета"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Предпросмотр",
-          "SCRIPT": "Скрипт"
+          "PREVIEW": "",
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Слева",
-          "RIGHT": "Справа"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Стандартный",
-          "EXPANDED_BUBBLE": "Расширенная рамка сообщений"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "По умолчанию",
-        "CHAT": "Чат"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
-        "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
-        "IN_A_DAY": "Обычно отвечаем в течение дня"
+        "IN_A_FEW_MINUTES": "",
+        "IN_A_FEW_HOURS": "",
+        "IN_A_DAY": ""
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Начать диалог",
-        "CHAT_INPUT_PLACEHOLDER": "Введите сообщение"
+        "START_CONVERSATION_BUTTON_TEXT": "",
+        "CHAT_INPUT_PLACEHOLDER": ""
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Мы в сети",
-          "OFFLINE": "В данный момент мы отсутствуем"
+          "ONLINE": "",
+          "OFFLINE": ""
         },
-        "USER_MESSAGE": "Хай",
-        "AGENT_MESSAGE": "Привет"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
-      "BRANDING_TEXT": "Работает на Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "",
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
