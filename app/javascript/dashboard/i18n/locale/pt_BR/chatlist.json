@@ -7,28 +7,28 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "TAB_HEADING": "Conversas",
-    "MENTION_HEADING": "Menções",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
     },
-    "FILTER_ALL": "Todos",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minha",
+      "me": "",
       "unassigned": "Não atribuída",
-      "all": "Todos"
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abertas"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Resolvida"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Pendente"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Adiado"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -51,15 +51,15 @@
         "CONTENT": "compartilhou uma URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Recebido por e-mail",
-    "VIEW_TWEET_IN_TWITTER": "Ver tweet no Twitter",
-    "REPLY_TO_TWEET": "Responder a este tweet",
-    "LINK_TO_STORY": "Vá para o Story do Instagram",
-    "SENT": "Enviado com sucesso",
-    "NO_MESSAGES": "Nova Mensagem",
-    "NO_CONTENT": "Nenhum conteúdo disponível",
-    "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
-    "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
-    "MESSAGE_READ": "Lida"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
