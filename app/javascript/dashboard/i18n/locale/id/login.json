@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Masuk ke Chatwoot",
+    "TITLE": "",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email cth: someone@example.com"
+      "LABEL": "",
+      "PLACEHOLDER": ""
     },
     "PASSWORD": {
-      "LABEL": "Kata Sandi",
-      "PLACEHOLDER": "Kata Sandi"
+      "LABEL": "",
+      "PLACEHOLDER": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Berhasil Masuk",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti",
-      "UNAUTH": "Nama Pengguna / Kata Sandi Salah. Silahkan coba lagi"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "",
+      "UNAUTH": ""
     },
-    "FORGOT_PASSWORD": "Lupa kata sandi Anda?",
-    "CREATE_NEW_ACCOUNT": "Buat akun baru",
-    "SUBMIT": "Masuk"
+    "FORGOT_PASSWORD": "",
+    "CREATE_NEW_ACCOUNT": "",
+    "SUBMIT": ""
   }
 }
