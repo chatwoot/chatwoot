@@ -16,7 +16,11 @@
           type="add"
           :index="i"
           :file-name="
-            fileName(actionData[i].action_params[0], actionData[i].action_name)
+            fileName(
+              actionData[i].action_params[0],
+              actionData[i].action_name,
+              files
+            )
           "
           :single-node="actionData.length === 1"
           @resetAction="$emit('resetAction', i)"
@@ -40,7 +44,7 @@ import MacrosPill from './Pill.vue';
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
 import MacroActionButton from './ActionButton.vue';
-
+import { getFileName } from './macroHelper';
 export default {
   components: {
     Draggable,
@@ -69,13 +73,8 @@ export default {
     },
   },
   methods: {
-    fileName(id, actionType) {
-      if (!id || !this.files) return '';
-      if (actionType === 'send_attachment') {
-        const file = this.files.find(item => item.blob_id === id);
-        if (file) return file.filename.toString();
-      }
-      return '';
+    fileName() {
+      return getFileName(...arguments);
     },
   },
 };
