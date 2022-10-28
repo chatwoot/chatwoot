@@ -1,347 +1,347 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Không có sẵn",
-    "EMAIL_ADDRESS": "Địa chỉ email",
-    "PHONE_NUMBER": "Số điện thoại",
-    "IDENTIFIER": "Định danh",
-    "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
-    "COMPANY": "Công ty",
-    "LOCATION": "Vị trí",
-    "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
-    "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
-    "VIEW_PROFILE": "Xem hồ sơ cá nhân",
-    "BROWSER": "Trình duyệt",
-    "OS": "Hệ điều hành",
-    "INITIATED_FROM": "Bắt đầu từ",
-    "INITIATED_AT": "Bắt đầu lúc",
-    "IP_ADDRESS": "Địa chỉ IP",
-    "NEW_MESSAGE": "Tin nhắn mới",
+    "NOT_AVAILABLE": "",
+    "EMAIL_ADDRESS": "",
+    "PHONE_NUMBER": "",
+    "IDENTIFIER": "",
+    "COPY_SUCCESSFUL": "",
+    "COMPANY": "",
+    "LOCATION": "",
+    "BROWSER_LANGUAGE": "",
+    "CONVERSATION_TITLE": "",
+    "VIEW_PROFILE": "",
+    "BROWSER": "",
+    "OS": "",
+    "INITIATED_FROM": "",
+    "INITIATED_AT": "",
+    "IP_ADDRESS": "",
+    "NEW_MESSAGE": "",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
-      "TITLE": "Cuộc trò chuyện trước đó"
+      "NO_RECORDS_FOUND": "",
+      "TITLE": ""
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Nhãn danh bạ",
-        "ERROR": "Không thể sửa nhãn"
+        "TITLE": "",
+        "ERROR": ""
       },
       "CONVERSATION": {
-        "TITLE": "Nhãn hội thoại",
-        "ADD_BUTTON": "Thêm nhãn"
+        "TITLE": "",
+        "ADD_BUTTON": ""
       },
       "LABEL_SELECT": {
-        "TITLE": "Thêm nhãn",
-        "PLACEHOLDER": "Tìm nhãn",
-        "NO_RESULT": "Không tìm thấy nhãn"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       }
     },
-    "MERGE_CONTACT": "Hợp nhất liên hệ",
-    "CONTACT_ACTIONS": "Hành động với liên hệ",
-    "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
-    "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
-    "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
-    "UNMUTED_SUCCESS": "Cuộc trò chuyện này được bật tiếng",
-    "SEND_TRANSCRIPT": "Gửi bản ghi",
-    "EDIT_LABEL": "Chỉnh sửa",
+    "MERGE_CONTACT": "",
+    "CONTACT_ACTIONS": "",
+    "MUTE_CONTACT": "",
+    "UNMUTE_CONTACT": "",
+    "MUTED_SUCCESS": "",
+    "UNMUTED_SUCCESS": "",
+    "SEND_TRANSCRIPT": "",
+    "EDIT_LABEL": "",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
-      "CONTACT_LABELS": "Nhãn danh bạ",
-      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+      "CUSTOM_ATTRIBUTES": "",
+      "CONTACT_LABELS": "",
+      "PREVIOUS_CONVERSATIONS": ""
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Chỉnh sửa liên hệ",
-    "TITLE": "Chỉnh sửa liên hệ",
-    "DESC": "Chỉnh sửa liên hệ chi tiết"
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Liên hệ mới",
-    "TITLE": "Tạo liên hệ mới",
-    "DESC": "Thêm thông tin cơ bản về liên hệ."
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Nhập",
-    "TITLE": "Nhập liên hệ",
-    "DESC": "Nhập liên hệ bằng một file CSV.",
-    "DOWNLOAD_LABEL": "Tải xuống tệp CSV mẫu.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "DOWNLOAD_LABEL": "",
     "FORM": {
-      "LABEL": "Tệp CSV",
-      "SUBMIT": "Nhập",
-      "CANCEL": "Huỷ"
+      "LABEL": "",
+      "SUBMIT": "",
+      "CANCEL": ""
     },
-    "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
-    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Xác nhận xoá",
-      "MESSAGE": "Bạn có chắc chắn muốn xoá ghi chú này?",
-      "YES": "Có, xoá",
-      "NO": "Không, Giữ"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Xoá liên lạc",
-    "TITLE": "Xoá liên hệ",
-    "DESC": "Xoá chi tiết liên hệ",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
     "CONFIRM": {
-      "TITLE": "Xác nhận xoá",
-      "MESSAGE": "Bạn có muốn xoá? ",
-      "YES": "Có, Xoá",
-      "NO": "Không, giữ"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
-      "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng thử lại sau."
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Gửi",
-      "CANCEL": "Huỷ",
+      "SUBMIT": "",
+      "CANCEL": "",
       "AVATAR": {
-        "LABEL": "Avatar của liên hệ"
+        "LABEL": ""
       },
       "NAME": {
-        "PLACEHOLDER": "Nhập tên đầy đủ của liên hệ",
-        "LABEL": "Tên đầy đủ"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "BIO": {
-        "PLACEHOLDER": "Nhập tiểu sử của liên hệ",
-        "LABEL": "Tiểu sử"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
-        "LABEL": "Email",
-        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
-        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "DUPLICATE": "",
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
-        "LABEL": "Số điện thoại",
-        "HELP": "Số điện thoại phải thuộc định đạng E.164 như: +1415555555 [+][mã nước][mã khu vực][số điện thoại vùng]",
-        "ERROR": "Số điện thoại nên rỗng hoặc thuộc định dạng E.164",
-        "DUPLICATE": "Số điện thoại này đang được dùng cho một liên hệ khác."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "HELP": "",
+        "ERROR": "",
+        "DUPLICATE": ""
       },
       "LOCATION": {
-        "PLACEHOLDER": "Nhập vị trí của liên hệ",
-        "LABEL": "Địa điểm"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Nhập tên công ty",
-        "LABEL": "Tên công ty"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Nhập tên người dùng Facebook",
-          "LABEL": "Facebook"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "TWITTER": {
-          "PLACEHOLDER": "Nhập tên người dùng Twitter",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Nhập tên người dùng LinkedIn",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "GITHUB": {
-          "PLACEHOLDER": "Nhập tên người dùng Github",
-          "LABEL": "Github"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Hình đại diện liên hệ đã được xóa thành công",
-        "ERROR_MESSAGE": "Không thể xóa hình đại diện liên hệ. Vui lòng thử lại sau."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
-    "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
-    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Bắt đầu cuộc hội thoại",
-    "TITLE": "Tạo mới cuộc trò chuyện",
-    "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách thêm tin nhắn.",
-    "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với liên hệ này.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "NO_INBOX": "",
     "FORM": {
       "TO": {
-        "LABEL": "Đến"
+        "LABEL": ""
       },
       "INBOX": {
-        "LABEL": "Kênh",
-        "ERROR": "Chọn kênh"
+        "LABEL": "",
+        "ERROR": ""
       },
       "SUBJECT": {
-        "LABEL": "Chủ đề",
-        "PLACEHOLDER": "Chủ đề",
-        "ERROR": "Chủ đề không được rỗng"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Tin nhắn",
-        "PLACEHOLDER": "Viết tin nhắn ở đây",
-        "ERROR": "Tin nhắn không được rỗng"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
-      "SUBMIT": "Gửi tin nhắn",
-      "CANCEL": "Huỷ",
-      "SUCCESS_MESSAGE": "Tin nhắn đã được gửi!",
-      "GO_TO_CONVERSATION": "Xem",
-      "ERROR_MESSAGE": "Không thể gửi! xin thử lại"
+      "SUBMIT": "",
+      "CANCEL": "",
+      "SUCCESS_MESSAGE": "",
+      "GO_TO_CONVERSATION": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Danh bạ",
-    "FIELDS": "Trường của liên hệ",
-    "SEARCH_BUTTON": "Tìm kiếm",
-    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm liên hệ",
-    "FILTER_CONTACTS": "Lọc",
-    "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
-    "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
+    "HEADER": "",
+    "FIELDS": "",
+    "SEARCH_BUTTON": "",
+    "SEARCH_INPUT_PLACEHOLDER": "",
+    "FILTER_CONTACTS": "",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
-      "LOADING_MESSAGE": "Đang tải liên hệ...",
-      "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
-      "NO_CONTACTS": "Không có liên hệ nào có sẵn",
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "NO_CONTACTS": "",
       "TABLE_HEADER": {
-        "NAME": "Tên",
-        "PHONE_NUMBER": "Số điện thoại",
-        "CONVERSATIONS": "Các cuộc hội thoại",
-        "LAST_ACTIVITY": "Hành động cuối cùng",
-        "COUNTRY": "Quốc gia",
-        "CITY": "Tỉnh / Thành phố",
-        "SOCIAL_PROFILES": "Hồ sơ xã hội",
-        "COMPANY": "Công ty",
-        "EMAIL_ADDRESS": "Email"
+        "NAME": "",
+        "PHONE_NUMBER": "",
+        "CONVERSATIONS": "",
+        "LAST_ACTIVITY": "",
+        "COUNTRY": "",
+        "CITY": "",
+        "SOCIAL_PROFILES": "",
+        "COMPANY": "",
+        "EMAIL_ADDRESS": ""
       },
-      "VIEW_DETAILS": "Xem chi tiết"
+      "VIEW_DETAILS": ""
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Danh bạ",
-    "LOADING": "Đang tải hồ sơ liên hệ..."
+    "BACK_BUTTON": "",
+    "LOADING": ""
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Thêm",
-      "TITLE": "Ấn Shift + Enter để thêm công việc"
+      "BUTTON": "",
+      "TITLE": ""
     },
     "FOOTER": {
-      "DUE_DATE": "Ngày đáo hạn",
-      "LABEL_TITLE": "Đặt loại"
+      "DUE_DATE": "",
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Đang tải về ghi chú...",
-    "NOT_AVAILABLE": "Không có ghi chú nào được tạo ra cho liên hệ này",
+    "FETCHING_NOTES": "",
+    "NOT_AVAILABLE": "",
     "HEADER": {
-      "TITLE": "Ghi chú"
+      "TITLE": ""
     },
     "LIST": {
-      "LABEL": "đã thêm một ghi chú"
+      "LABEL": ""
     },
     "ADD": {
-      "BUTTON": "Thêm",
-      "PLACEHOLDER": "Thêm ghi chú",
-      "TITLE": "Ấn Shift + Enter để thêm một ghi chú"
+      "BUTTON": "",
+      "PLACEHOLDER": "",
+      "TITLE": ""
     },
     "CONTENT_HEADER": {
-      "DELETE": "Xoá ghi chú"
+      "DELETE": ""
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Hoạt động"
+      "TITLE": ""
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "các ghi chú",
-      "PILL_BUTTON_EVENTS": "các sự kiện",
-      "PILL_BUTTON_CONVO": "các cuộc hội thoại"
+      "PILL_BUTTON_NOTES": "",
+      "PILL_BUTTON_EVENTS": "",
+      "PILL_BUTTON_CONVO": ""
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Thêm thuộc tính",
-    "BUTTON": "Thêm thuộc tính tùy chỉnh",
-    "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho liên hệ này.",
-    "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
+    "ADD_BUTTON_TEXT": "",
+    "BUTTON": "",
+    "NOT_AVAILABLE": "",
+    "COPY_SUCCESSFUL": "",
     "ACTIONS": {
-      "COPY": "Sao chép thuộc tính",
-      "DELETE": "Xoá thuộc tính",
-      "EDIT": "Sửa thuộc tính"
+      "COPY": "",
+      "DELETE": "",
+      "EDIT": ""
     },
     "ADD": {
-      "TITLE": "Tạo thuộc tính tùy chỉnh",
-      "DESC": "Thêm thông tin tuỳ chỉnh vào liên hệ này."
+      "TITLE": "",
+      "DESC": ""
     },
     "FORM": {
-      "CREATE": "Thêm thuộc tính",
-      "CANCEL": "Huỷ",
+      "CREATE": "",
+      "CANCEL": "",
       "NAME": {
-        "LABEL": "Tên thuộc tính tùy chỉnh",
-        "PLACEHOLDER": "Ví dụ: shopify id",
-        "ERROR": "Tên thuộc tính tuỳ chỉnh không hợp lệ"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "VALUE": {
-        "LABEL": "Giá trị của thuộc tính",
-        "PLACEHOLDER": "Ví dụ: 11901 "
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "ADD": {
-        "TITLE": "Tạo thuộc tính mới ",
-        "SUCCESS": "Thuộc tính được thêm thành công",
-        "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
+        "TITLE": "",
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "UPDATE": {
-        "SUCCESS": "Thuộc tính được cập nhật thành công",
-        "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "Thuộc tính được xoá thành công",
-        "ERROR": "Không thể xoá thuộc tính. Vui lòng thử lại sau"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Thêm nhiều thuộc tính",
-        "PLACEHOLDER": "Tìm kiếm nhiều thuộc tính",
-        "NO_RESULT": "Không có thuộc tính nào được tìm thấy"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Chọn giá trị",
-          "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm giá trị",
-          "NO_RESULT": "Không tìm thấy kết quả"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Giá trị hợp lệ bắt buộc có",
-      "INVALID_URL": "URL không hợp lệ"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Hợp nhất các liên hệ",
-    "DESCRIPTION": "Hợp nhất các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
+    "TITLE": "",
+    "DESCRIPTION": "",
     "PRIMARY": {
-      "TITLE": "Liên hệ chính",
-      "HELP_LABEL": "Được giữ"
+      "TITLE": "",
+      "HELP_LABEL": ""
     },
     "CHILD": {
-      "TITLE": "Liên hệ cần gộp",
-      "PLACEHOLDER": "Tìm kiếm liên hệ",
-      "HELP_LABEL": "Sẽ được xoá"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
-      "TITLE": "Tóm tắt",
-      "DELETE_WARNING": "Liên hệ của <strong>%{childContactName}</strong> sẽ bị xoá.",
-      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{childContactName}</strong> \bsẽ được sao chép đến <strong>%{primaryContactName}</strong>."
+      "TITLE": "",
+      "DELETE_WARNING": "",
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": ""
     },
     "FORM": {
-      "SUBMIT": " Hợp nhất các liên hệ",
-      "CANCEL": "Huỷ",
+      "SUBMIT": "",
+      "CANCEL": "",
       "CHILD_CONTACT": {
-        "ERROR": "Chọn một liên hệ con để gộp"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "Liên hệ được gộp thành công",
-      "ERROR_MESSAGE": "Không thể hợp nhất liên lạc, thử lại!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
