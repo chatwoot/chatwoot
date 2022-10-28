@@ -46,6 +46,7 @@ gem 'image_processing', '~> 1.12.2'
 
 ##-- gems for database --#
 gem 'groupdate'
+gem 'net-smtp'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
