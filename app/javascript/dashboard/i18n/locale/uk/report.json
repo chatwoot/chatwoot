@@ -3,35 +3,35 @@
     "HEADER": "Бесіди",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
+    "DOWNLOAD_AGENT_REPORTS": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
-        "DESC": "(Загалом)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Вхідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Вихідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Час першої відповіді",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Час до вирішення",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Кількість вирішень",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -44,112 +44,112 @@
         "name": "Останні 30 днів"
       },
       {
-        "id": 2,
-        "name": "Останні 3 місяці"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Останні 6 місяців"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Минулий рік"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Довільний діапазон дат"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Підтвердити",
-      "PLACEHOLDER": "Виберіть діапазон дат"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Групувати за",
-    "DURATION_FILTER_LABEL": "Тривалість",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "",
+    "DURATION_FILTER_LABEL": "",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "День"
+        "groupBy": ""
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "День"
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Тиждень"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "День"
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Тиждень"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 3,
-        "groupBy": "Місяць"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "День"
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Тиждень"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 3,
-        "groupBy": "Місяць"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 4,
-        "groupBy": "Рік"
+        "id": "",
+        "groupBy": ""
       }
     ],
-    "BUSINESS_HOURS": "Робочий час"
+    "BUSINESS_HOURS": ""
   },
   "AGENT_REPORTS": {
-    "HEADER": "Огляд Агентів",
+    "HEADER": "",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
-    "FILTER_DROPDOWN_LABEL": "Виберіть агента",
+    "DOWNLOAD_AGENT_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
-        "DESC": "(Загалом)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Вхідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Вихідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Час першої відповіді",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Час до вирішення",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Кількість вирішень",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -162,61 +162,61 @@
         "name": "Останні 30 днів"
       },
       {
-        "id": 2,
-        "name": "Останні 3 місяці"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Останні 6 місяців"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Минулий рік"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Довільний діапазон дат"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Підтвердити",
-      "PLACEHOLDER": "Виберіть діапазон дат"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Огляд міток",
+    "HEADER": "",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_LABEL_REPORTS": "Завантажити звіти по міткам",
-    "FILTER_DROPDOWN_LABEL": "Виберіть Мітку",
+    "DOWNLOAD_LABEL_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
-        "DESC": "(Загалом)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Вхідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Вихідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Час першої відповіді",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість розмов, що використовуються для обчислень:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Час до вирішення",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Кількість вирішень",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -229,61 +229,61 @@
         "name": "Останні 30 днів"
       },
       {
-        "id": 2,
-        "name": "Останні 3 місяці"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Останні 6 місяців"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Минулий рік"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Довільний діапазон дат"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Підтвердити",
-      "PLACEHOLDER": "Виберіть діапазон дат"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Огляд вхідних повідомлень",
+    "HEADER": "",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_INBOX_REPORTS": "Завантажити звіти вхідних повідомлень",
-    "FILTER_DROPDOWN_LABEL": "Вибрати \"Вхідний\" канал",
+    "DOWNLOAD_INBOX_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
-        "DESC": "(Загалом)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Вхідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Вихідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Час першої відповіді",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Час до вирішення",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Кількість вирішень",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -296,61 +296,61 @@
         "name": "Останні 30 днів"
       },
       {
-        "id": 2,
-        "name": "Останні 3 місяці"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Останні 6 місяців"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Минулий рік"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Довільний діапазон дат"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Прийняти",
-      "PLACEHOLDER": "Виберіть діапазон дат"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Огляд команди",
+    "HEADER": "",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_TEAM_REPORTS": "Завантажити звіти команд",
-    "FILTER_DROPDOWN_LABEL": "Оберіть команду",
+    "DOWNLOAD_TEAM_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
-        "DESC": "(Загалом)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Вхідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Вихідні повідомлення",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Час першої відповіді",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час першої відповіді %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Час до вирішення",
-        "DESC": "( Середнє )",
-        "INFO_TEXT": "Загальна кількість бесід, що використовуються для обчислення:",
-        "TOOLTIP_TEXT": "Час рішення %{metricValue} (на основі %{conversationCount} розмов)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Кількість вирішень",
-        "DESC": "(Загалом)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -363,85 +363,85 @@
         "name": "Останні 30 днів"
       },
       {
-        "id": 2,
-        "name": "Останні 3 місяці"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Останні 6 місяців"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Минулий рік"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Довільний діапазон дат"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Прийняти",
-      "PLACEHOLDER": "Виберіть діапазон дат"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "Звіти CSAT",
-    "NO_RECORDS": "Немає доступних відповідей для опитувань CSAT.",
-    "DOWNLOAD": "Завантажити CSAT звіти",
+    "HEADER": "",
+    "NO_RECORDS": "",
+    "DOWNLOAD": "",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Виберіть Агентів"
+        "PLACEHOLDER": ""
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Контакт",
-        "AGENT_NAME": "Призначений агент",
-        "RATING": "Оцінка",
-        "FEEDBACK_TEXT": "Відгук"
+        "CONTACT_NAME": "",
+        "AGENT_NAME": "",
+        "RATING": "",
+        "FEEDBACK_TEXT": ""
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Всього відповідей",
-        "TOOLTIP": "Загальна кількість зібраних відповідей"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Оцінка задоволеності",
-        "TOOLTIP": "Загальна кількість позитивних відповідей / Загальна кількість відповідей * 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "RESPONSE_RATE": {
-        "LABEL": "Показник відповідей",
-        "TOOLTIP": "Загальна кількість відповідей / Загальна кількість повідомлень опитування CSAT відправлено * 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Огляд",
-    "LIVE": "Онлайн",
+    "HEADER": "",
+    "LIVE": "",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Відкрити розмову",
-      "LOADING_MESSAGE": "Завантаження метрик розмови...",
-      "OPEN": "Відкриті",
-      "UNATTENDED": "Не зв'язаний",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "OPEN": "",
+      "UNATTENDED": "",
       "UNASSIGNED": "Непризначені"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Розмови агентів",
-      "LOADING_MESSAGE": "Завантаження метрик агента...",
-      "NO_AGENTS": "Немає розмов, пов'язаних з агентом",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "NO_AGENTS": "",
       "TABLE_HEADER": {
-        "AGENT": "Агент",
-        "OPEN": "ВІДКРИТИ",
-        "UNATTENDED": "Не зв'язаний",
+        "AGENT": "",
+        "OPEN": "",
+        "UNATTENDED": "",
         "STATUS": "Статус"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Статус агента",
-      "ONLINE": "Онлайн",
-      "BUSY": "Зайнятий",
-      "OFFLINE": "Не в мережі"
+      "HEADER": "",
+      "ONLINE": "",
+      "BUSY": "",
+      "OFFLINE": ""
     }
   }
 }
