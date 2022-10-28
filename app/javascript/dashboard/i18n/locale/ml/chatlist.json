@@ -7,28 +7,28 @@
       "404": "ഈ ഗ്രൂപ്പിൽ സജീവ സംഭാഷണങ്ങളൊന്നുമില്ല."
     },
     "TAB_HEADING": "സംഭാഷണങ്ങൾ",
-    "MENTION_HEADING": "പരാമർശിക്കുന്നു",
+    "MENTION_HEADING": "",
     "SEARCH": {
       "INPUT": "ആളുകൾ, ചാറ്റുകൾ, ക്യാൻഡ് മറുപടികൾ എന്നിവയ്ക്കായി തിരയുക .."
     },
-    "FILTER_ALL": "എല്ലാം",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "എന്റേത്",
+      "me": "",
       "unassigned": "നിയുക്തമാക്കാത്തത്",
-      "all": "എല്ലാം"
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "സജീവം"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "പരിഹരിച്ചത്"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "കെട്ടിക്കിടക്കുന്നു"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "സ്‌നൂസ് ചെയ്തു"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
@@ -51,15 +51,15 @@
         "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
       }
     },
-    "RECEIVED_VIA_EMAIL": "ഇമെയിൽ വഴി ലഭിച്ചു",
-    "VIEW_TWEET_IN_TWITTER": "ട്വിറ്ററിൽ ട്വീറ്റ് കാണുക",
-    "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "വിജയകരമായി അയച്ചു",
-    "NO_MESSAGES": "സന്ദേശങ്ങളൊന്നുമില്ല",
-    "NO_CONTENT": "ഉള്ളടക്കമൊന്നും ലഭ്യമല്ല",
-    "HIDE_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം മറയ്ക്കുക",
-    "SHOW_QUOTED_TEXT": "ഉദ്ധരിച്ച വാചകം കാണിക്കുക",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
