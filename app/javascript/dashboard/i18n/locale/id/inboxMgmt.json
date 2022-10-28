@@ -1,664 +1,664 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Kotak masuk",
-    "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke Chatwoot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun Chatwoot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Tidak ada kotak masuk yang dilampirkan ke akun ini."
+      "404": ""
     },
     "CREATE_FLOW": [
       {
-        "title": "Pilih Channel",
-        "route": "settings_inbox_new",
-        "body": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Buat Kotak Masuk",
-        "route": "settings_inboxes_page_channel",
-        "body": "Otentikasi akun Anda dan buat kotak masuk."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Tambahkan Agen",
-        "route": "settings_inboxes_add_agents",
-        "body": "Tambahkan agen ke kotak masuk yang dibuat."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Voila!",
-        "route": "settings_inbox_finish",
-        "body": "Kotak masuk Anda sudah siap!"
+        "title": "",
+        "route": "",
+        "body": ""
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Nama Kotak Masuk",
-        "PLACEHOLDER": "Masukkan nama kotak masuk anda (mis: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
-        "LABEL": "Nama Website",
-        "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "FB": {
-        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Chatwoot.",
-        "CHOOSE_PAGE": "Pilih Halaman",
-        "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
-        "INBOX_NAME": "Nama Kotak Masuk",
-        "ADD_NAME": "Tambahkan nama untuk kotak masuk Anda",
-        "PICK_NAME": "Pilih Nama Kotak Masuk Anda",
-        "PICK_A_VALUE": "Pilih"
+        "HELP": "",
+        "CHOOSE_PAGE": "",
+        "CHOOSE_PLACEHOLDER": "",
+        "INBOX_NAME": "",
+        "ADD_NAME": "",
+        "PICK_NAME": "",
+        "PICK_A_VALUE": ""
       },
       "TWITTER": {
-        "HELP": "Untuk menambahkan profil Twitter Anda sebagai saluran, Anda perlu mengautentikasi Profil Twitter Anda dengan mengklik 'Masuk dengan Twitter' ",
-        "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Twitter, harap coba lagi",
+        "HELP": "",
+        "ERROR_MESSAGE": "",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": ""
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Channel Website",
-        "DESC": "Buat saluran untuk situs web Anda dan mulai dukung pelanggan Anda melalui widget di website.",
-        "LOADING_MESSAGE": "Membuat Saluran Dukungan Website",
+        "TITLE": "",
+        "DESC": "",
+        "LOADING_MESSAGE": "",
         "CHANNEL_AVATAR": {
-          "LABEL": "Avatar Channel"
+          "LABEL": ""
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "URL Webhook",
-          "PLACEHOLDER": "Masukkan URL Webhook Anda",
-          "ERROR": "Harap masukkan URL yang valid"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Domain Website",
-          "PLACEHOLDER": "Masukkan domain situs web Anda (misalnya: acme.com)"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Judul Selamat Datang",
-          "PLACEHOLDER": "Halo!"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Tagline Selamat Datang",
-          "PLACEHOLDER": "Kami membuatnya mudah untuk terhubung dengan kami. Tanyakan apa saja kepada kami, atau bagikan tanggapan Anda."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Pesan sambutan channel",
-          "PLACEHOLDER": "Acme Inc biasanya membalas dalam beberapa jam."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Aktifkan sambutan channel",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Diaktifkan",
-          "DISABLED": "Nonaktif"
+          "LABEL": "",
+          "HELP_TEXT": "",
+          "ENABLED": "",
+          "DISABLED": ""
         },
         "REPLY_TIME": {
-          "TITLE": "Atur waktu Balasan",
-          "IN_A_FEW_MINUTES": "Dalam beberapa menit",
-          "IN_A_FEW_HOURS": "Dalam beberapa jam",
-          "IN_A_DAY": "Dalam sehari",
-          "HELP_TEXT": "Waktu balasan ini akan ditampilkan di widget live chat"
+          "TITLE": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": "",
+          "HELP_TEXT": ""
         },
         "WIDGET_COLOR": {
-          "LABEL": "Warna Widget",
-          "PLACEHOLDER": "Perbarui warna yang digunakan di widget"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Buat Kotak Masuk",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Silakan masukkan SID Akun Twilio Anda",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "Bagian ini diperlukan",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Tipe Channel",
-          "ERROR": "Harap pilih Tipe Channel Anda"
+          "LABEL": "",
+          "ERROR": ""
         },
         "AUTH_TOKEN": {
-          "LABEL": "Token Auth",
-          "PLACEHOLDER": "Harap masukkan Token Twilio Auth Anda",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nama Kotak Masuk",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "Nomor Telpon",
-          "PLACEHOLDER": "Silakan masukkan nomor telepon dari mana pesan akan dikirim.",
-          "ERROR": "Harap masukkan nomor yang valid. Nomor telepon harus dimulai dengan tanda `+`."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "URL Callback",
-          "SUBTITLE": "Anda harus mengkonfigurasi pesan URL callback di Twilio dengan URL yang disebutkan di sini."
+          "TITLE": "",
+          "SUBTITLE": ""
         },
-        "SUBMIT_BUTTON": "Buat Channel Twilio",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Kami tidak dapat mengautentikasi kredensial Twilio, harap coba lagi"
+          "ERROR_MESSAGE": ""
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "LABEL": "",
+          "TWILIO": "",
+          "BANDWIDTH": ""
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": ""
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "Bagian ini diperlukan"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
-            "ERROR": "Bagian ini diperlukan"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
-            "ERROR": "Bagian ini diperlukan"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "Bagian ini diperlukan"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "INBOX_NAME": {
-            "LABEL": "Nama Kotak Masuk",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "Bagian ini diperlukan"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "PHONE_NUMBER": {
-            "LABEL": "Nomor Telpon",
-            "PLACEHOLDER": "Silakan masukkan nomor telepon dari mana pesan akan dikirim.",
-            "ERROR": "Harap masukkan nomor yang valid. Nomor telepon harus dimulai dengan tanda `+`."
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": ""
           },
           "API_CALLBACK": {
-            "TITLE": "URL Callback",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "",
+            "SUBTITLE": ""
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "LABEL": "",
+          "TWILIO": "",
+          "WHATSAPP_CLOUD": "",
+          "360_DIALOG": ""
         },
         "INBOX_NAME": {
-          "LABEL": "Nama Kotak Masuk",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "Nomor Telpon",
-          "PLACEHOLDER": "Silakan masukkan nomor telepon dari mana pesan akan dikirim.",
-          "ERROR": "Harap masukkan nomor yang valid. Nomor telepon harus dimulai dengan tanda `+`."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "URL Callback",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "URL Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "",
+          "SUBTITLE": "",
+          "WEBHOOK_URL": "",
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": ""
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrasikan dengan saluran API dan mulai dukung pelanggan Anda.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "Nama Channel",
-          "PLACEHOLDER": "Harap masukkan nama channel",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_URL": {
-          "LABEL": "URL Webhook",
-          "SUBTITLE": "Konfigurasikan URL tempat Anda ingin menerima Callback.",
-          "PLACEHOLDER": "URL Webhook"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Buat Channel API",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Kami tidak dapat menyimpan channel api"
+          "ERROR_MESSAGE": ""
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Channel Email",
-        "DESC": "Integrasikan kotak masuk email Anda.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "Nama Channel",
-          "PLACEHOLDER": "Harap masukkan nama channel",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Kirim email ke tempat pelanggan Anda mengirimkan tiket dukungan",
-          "PLACEHOLDER": "Email"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Buat Channel Email",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Kami tidak dapat menyimpan channel email"
+          "ERROR_MESSAGE": ""
         },
-        "FINISH_MESSAGE": "Mulailah meneruskan email Anda ke alamat email berikut."
+        "FINISH_MESSAGE": ""
       },
       "LINE_CHANNEL": {
-        "TITLE": "Channel LINE",
-        "DESC": "Integrasikan dengan channel LINE dan mulai mendukung pelanggan Anda.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "Nama Channel",
-          "PLACEHOLDER": "Harap masukkan nama channel",
-          "ERROR": "Bagian ini diperlukan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "Channel ID LINE",
-          "PLACEHOLDER": "Channel ID LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "Token Channel LINE",
-          "PLACEHOLDER": "Token Channel LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Buat channel LINE",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Kami tidak dapat menyimpan channel LINE"
+          "ERROR_MESSAGE": ""
         },
         "API_CALLBACK": {
-          "TITLE": "URL Callback",
-          "SUBTITLE": "Anda harus mengatur webhook URL pada aplikasi LINE dengan URL yang tercantum disini."
+          "TITLE": "",
+          "SUBTITLE": ""
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Channel Telegram",
-        "DESC": "Integrasikan dengan channel Telegram dan mulai mendukung pelanggan Anda.",
+        "TITLE": "",
+        "DESC": "",
         "BOT_TOKEN": {
-          "LABEL": "Token Bot",
-          "SUBTITLE": "Konfigurasikan token bot yang Anda peroleh dari Telegram BotFather.",
-          "PLACEHOLDER": "Token Bot"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Buat Channel Telegram",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Kami tidak dapat menyimpan channel telegram"
+          "ERROR_MESSAGE": ""
         }
       },
       "AUTH": {
-        "TITLE": "Pilih sebuah channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "TITLE": "Agen",
-        "DESC": "Di sini Anda dapat menambahkan agen untuk mengelola kotak masuk yang baru Anda buat. Hanya agen terpilih ini yang akan memiliki akses ke kotak masuk Anda. Agen yang bukan bagian dari kotak masuk ini tidak akan dapat melihat atau menanggapi pesan di kotak masuk ini saat mereka masuk. <br> <b> Keterangan: </b> Sebagai administrator, jika Anda memerlukan akses ke semua kotak masuk, Anda harus menambahkan diri Anda sebagai agen ke semua kotak masuk yang Anda buat.",
-        "VALIDATION_ERROR": "Tambahkan setidaknya satu agen ke Kotak Masuk baru Anda",
-        "PICK_AGENTS": "Pilih agen untuk kotak masuk"
+        "TITLE": "",
+        "DESC": "",
+        "VALIDATION_ERROR": "",
+        "PICK_AGENTS": ""
       },
       "DETAILS": {
-        "TITLE": "Detail Kotak Masuk",
-        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Chatwoot. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
+        "TITLE": "",
+        "DESC": ""
       },
       "FINISH": {
-        "TITLE": "Berhasil!",
-        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Chatwoot. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Chatwoot. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
+        "TITLE": "",
+        "DESC": ""
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Mengautentikasi Anda dengan Facebook...",
-      "ERROR_FB_AUTH": "Ada yang tidak beres, Harap refresh halaman...",
-      "CREATING_CHANNEL": "Membuat kotak masuk Anda...",
-      "TITLE": "Konfigurasi Detail Kotak Masuk",
+      "LOADING_FB": "",
+      "ERROR_FB_AUTH": "",
+      "CREATING_CHANNEL": "",
+      "TITLE": "",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Tambahkan Agen",
-      "ADD_AGENTS": "Menambahkan Agen ke Kotak Masuk Anda..."
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": ""
     },
     "FINISH": {
-      "TITLE": "Kotak Masuk anda sudah siap!",
-      "MESSAGE": "Anda sekarang dapat menangani pelanggan Anda melalui Channel baru Anda. Selamat mendukung",
-      "BUTTON_TEXT": "Pergi ke Kotak Masuk",
-      "MORE_SETTINGS": "Pengaturan lebih lengkap",
-      "WEBSITE_SUCCESS": "Anda telah berhasil menyelesaikan pembuatan channel website. Salin kode yang ditunjukkan di bawah ini dan tempelkan di website Anda. Saat pelanggan menggunakan live chat, percakapan tersebut secara otomatis akan muncul di kotak masuk Anda."
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": "",
+      "MORE_SETTINGS": "",
+      "WEBSITE_SUCCESS": ""
     },
-    "REAUTH": "Otorisasi ulang",
-    "VIEW": "Lihat",
+    "REAUTH": "",
+    "VIEW": "",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Pengaturan kotak masuk berhasil diperbarui",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Diaktifkan",
-        "DISABLED": "Nonaktif"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Hapus",
-      "AVATAR_DELETE_BUTTON_TEXT": "Hapus Avatar",
+      "BUTTON_TEXT": "",
+      "AVATAR_DELETE_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Konfirmasi Penghapusan",
-        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
-        "PLACE_HOLDER": "Silakan ketik {inboxName} untuk konfirmasi",
-        "YES": "Ya, Hapus ",
-        "NO": "Tidak, Simpan "
+        "TITLE": "",
+        "MESSAGE": "",
+        "PLACE_HOLDER": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kotak Masuk berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat menghapus kotak masuk. Silakan coba lagi nanti.",
-        "AVATAR_SUCCESS_MESSAGE": "Avatar kotak masuk berhasil dihapus",
-        "AVATAR_ERROR_MESSAGE": "Tidak dapat menghapus avatar kotak masuk. Silakan coba lagi nanti."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "",
+        "AVATAR_SUCCESS_MESSAGE": "",
+        "AVATAR_ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "SETTINGS": "Pengaturan",
-      "COLLABORATORS": "Kolaborator",
-      "CONFIGURATION": "Konfigurasi",
-      "CAMPAIGN": "Kampanye",
-      "PRE_CHAT_FORM": "Formulir Pra Obrolan",
-      "BUSINESS_HOURS": "Jam Kerja",
-      "WIDGET_BUILDER": "Widget Builder"
+      "SETTINGS": "",
+      "COLLABORATORS": "",
+      "CONFIGURATION": "",
+      "CAMPAIGN": "",
+      "PRE_CHAT_FORM": "",
+      "BUSINESS_HOURS": "",
+      "WIDGET_BUILDER": ""
     },
-    "SETTINGS": "Pengaturan",
+    "SETTINGS": "",
     "FEATURES": {
-      "LABEL": "Fitur",
-      "DISPLAY_FILE_PICKER": "Tampilkan file picker di widget",
-      "DISPLAY_EMOJI_PICKER": "Tampilkan pilihan emoji di widget",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "LABEL": "",
+      "DISPLAY_FILE_PICKER": "",
+      "DISPLAY_EMOJI_PICKER": "",
+      "ALLOW_END_CONVERSATION": ""
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
-      "INBOX_AGENTS": "Agen",
-      "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Perbarui",
-      "ENABLE_EMAIL_COLLECT_BOX": "Aktifkan kotak pengumpulan email",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktifkan atau nonaktifkan kotak pengumpulan email pada percakpaan baru",
-      "AUTO_ASSIGNMENT": "Aktifkan penugasan otomatis",
-      "ENABLE_CSAT": "Aktifkan CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Aktifkan/Nonaktifkan survey CSAT (Kepuasan pelanggan) setelah penyelesaian percakapan",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "INBOX_UPDATE_TITLE": "Pengaturan Kotak Masuk",
-      "INBOX_UPDATE_SUB_TEXT": "Perbarui pengaturan kotak masuk Anda",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini.",
-      "HMAC_VERIFICATION": "Validasi Identitas Pengguna",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Pengenal Kotak Masuk",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Gunakan token inbox_identifier` yang terlihat disini untuk mengautentikasi klien API Anda.",
-      "FORWARD_EMAIL_TITLE": "Teruskan ke Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Mulailah meneruskan email Anda ke alamat email berikut.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "MESSENGER_HEADING": "",
+      "MESSENGER_SUB_HEAD": "",
+      "INBOX_AGENTS": "",
+      "INBOX_AGENTS_SUB_TEXT": "",
+      "AGENT_ASSIGNMENT": "",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "",
+      "UPDATE": "",
+      "ENABLE_EMAIL_COLLECT_BOX": "",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT": "",
+      "ENABLE_CSAT": "",
+      "ENABLE_CSAT_SUB_TEXT": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "",
+      "INBOX_UPDATE_TITLE": "",
+      "INBOX_UPDATE_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "",
+      "HMAC_VERIFICATION": "",
+      "HMAC_DESCRIPTION": "",
+      "HMAC_MANDATORY_VERIFICATION": "",
+      "HMAC_MANDATORY_DESCRIPTION": "",
+      "INBOX_IDENTIFIER": "",
+      "INBOX_IDENTIFIER_SUB_TEXT": "",
+      "FORWARD_EMAIL_TITLE": "",
+      "FORWARD_EMAIL_SUB_TEXT": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "",
+      "WHATSAPP_SECTION_SUBHEADER": "",
+      "WHATSAPP_SECTION_TITLE": ""
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": ""
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Otorisasi ulang",
-      "SUBTITLE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
-      "MESSAGE_SUCCESS": "Berhasil menghubungkan kembali",
-      "MESSAGE_ERROR": "Terjadi kesalahan, harap coba lagi"
+      "TITLE": "",
+      "SUBTITLE": "",
+      "MESSAGE_SUCCESS": "",
+      "MESSAGE_ERROR": ""
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Formulir pra-obrolan memungkinkan Anda untuk menangkap informasi pengguna sebelum mereka memulai percakapan dengan Anda.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "",
+      "SET_FIELDS": "",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Kunci",
-        "TYPE": "Tipe",
-        "REQUIRED": "Required"
+        "FIELDS": "",
+        "LABEL": "",
+        "PLACE_HOLDER": "",
+        "KEY": "",
+        "TYPE": "",
+        "REQUIRED": ""
       },
       "ENABLE": {
-        "LABEL": "Aktifkan formulir pra obrolan",
+        "LABEL": "",
         "OPTIONS": {
-          "ENABLED": "Ya",
-          "DISABLED": "Tidak"
+          "ENABLED": "",
+          "DISABLED": ""
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "Pesan ini akan terlihat oleh pengguna bersama dengan formulir"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Pengunjung harus memberikan nama dan alamat email mereka sebelum memulai obrolan"
+        "LABEL": ""
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Atur ketersediaan Anda",
-      "SUBTITLE": "Atur ketersediaan Anda di widget livechat",
-      "WEEKLY_TITLE": "Tetapkan jam mingguan Anda",
-      "TIMEZONE_LABEL": "Pilih zona waktu",
-      "UPDATE": "Perbarui pengaturan jam kerja",
-      "TOGGLE_AVAILABILITY": "Aktifkan ketersediaan bisnis untuk kotak masuk ini",
-      "UNAVAILABLE_MESSAGE_LABEL": "Pesan tidak tersedia untuk pengunjung",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Kami tidak tersedia saat ini. Tinggalkan pesan kami akan merespon setelah kami kembali.",
-      "TOGGLE_HELP": "Mengaktifkan ketersediaan bisnis akan menunjukkan jam yang tersedia di widget obrolan langsung meskipun semua agen sedang offline. Di luar jam buka yang tersedia, pengunjung dapat diperingatkan dengan pesan dan formulir pra-obrolan.",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "WEEKLY_TITLE": "",
+      "TIMEZONE_LABEL": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "UNAVAILABLE_MESSAGE_LABEL": "",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "",
+      "TOGGLE_HELP": "",
       "DAY": {
-        "ENABLE": "Aktifkan ketersediaan untuk hari ini",
-        "UNAVAILABLE": "Tidak tersedia",
-        "HOURS": "jam",
-        "VALIDATION_ERROR": "Waktu mulai harus sebelum waktu tutup.",
-        "CHOOSE": "Pilih"
+        "ENABLE": "",
+        "UNAVAILABLE": "",
+        "HOURS": "",
+        "VALIDATION_ERROR": "",
+        "CHOOSE": ""
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": ""
     },
     "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "NOTE_TEXT": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "Masuk",
-        "PLACE_HOLDER": "Masuk"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Kata Sandi",
-        "PLACE_HOLDER": "Kata Sandi"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": ""
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "Masuk",
-        "PLACE_HOLDER": "Masuk"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Kata Sandi",
-        "PLACE_HOLDER": "Kata Sandi"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENCRYPTION": "Encryption",
-      "SSL_TLS": "SSL/TLS",
-      "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "ENCRYPTION": "",
+      "SSL_TLS": "",
+      "START_TLS": "",
+      "OPEN_SSL_VERIFY_MODE": "",
+      "AUTH_MECHANISM": ""
     },
-    "NOTE": "Note: ",
+    "NOTE": "",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+              "SUCCESS_MESSAGE": "",
+              "ERROR_MESSAGE": ""
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Nama Website",
-          "PLACE_HOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "",
+          "PLACE_HOLDER": "",
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
-          "LABEL": "Judul Selamat Datang",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Tagline Selamat Datang",
-          "PLACE_HOLDER": "Kami membuatnya mudah untuk terhubung dengan kami. Tanyakan apa saja kepada kami, atau bagikan tanggapan Anda."
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "Dalam beberapa menit",
-          "IN_A_FEW_HOURS": "Dalam beberapa jam",
-          "IN_A_DAY": "Dalam sehari"
+          "LABEL": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": ""
         },
-        "WIDGET_COLOR_LABEL": "Warna Widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chat dengan kami",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chat dengan kami"
+          "DEFAULT": "",
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "",
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
-        "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
-        "IN_A_DAY": "Biasanya membalas dalam sehari"
+        "IN_A_FEW_MINUTES": "",
+        "IN_A_FEW_HOURS": "",
+        "IN_A_DAY": ""
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Mulai Percakapan",
-        "CHAT_INPUT_PLACEHOLDER": "Ketik pesan Anda"
+        "START_CONVERSATION_BUTTON_TEXT": "",
+        "CHAT_INPUT_PLACEHOLDER": ""
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "Kami sedang tidak tersedia saat ini"
+          "ONLINE": "",
+          "OFFLINE": ""
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "",
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
