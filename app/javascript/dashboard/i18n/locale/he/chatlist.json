@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "טוען שיחות",
-    "LOAD_MORE_CONVERSATIONS": "טען עוד שיחות",
-    "EOF": "כל השיחות נטענו 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "אין שיחות פעילות בקבוצה הזו."
+      "404": ""
     },
-    "TAB_HEADING": "שיחות",
-    "MENTION_HEADING": "אִזְכּוּרים",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "חפש אנשים, צ'אטים, תגובות שמורות .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "הכל",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "שלי",
-      "unassigned": "לא הוקצתה",
-      "all": "הכל"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "פתח"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "נפתרה"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "ממתין ל"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "נימנום"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "הודעת תמונה"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "הודעות קוליות"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "הודעות וידאו"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "קובץ מצורף"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "מיקום"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "שיתף קישור"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "התקבל בדואר אלקטרוני",
-    "VIEW_TWEET_IN_TWITTER": "צפה בציוץ בטוויטר",
-    "REPLY_TO_TWEET": "הגב לציוץ זה",
-    "LINK_TO_STORY": "מעבר לסטורי באינסטגרם",
-    "SENT": "נשלח בהצלחה",
-    "NO_MESSAGES": "אין הודעות",
-    "NO_CONTENT": "אין תוכן זמין",
-    "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
-    "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
-    "MESSAGE_READ": "קרא"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
