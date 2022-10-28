@@ -1,447 +1,447 @@
 {
   "REPORT": {
-    "HEADER": "会话",
-    "LOADING_CHART": "正在载入图表数据...",
-    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_AGENT_REPORTS": "",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "会话",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "收到的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "发送的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次响应时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "解决时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "已解决的数量",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
-        "name": "最近7天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 1,
-        "name": "最近30天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 2,
-        "name": "Last 3 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Last 6 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Last year"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Custom date range"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "",
+    "DURATION_FILTER_LABEL": "",
     "GROUP_BY_DAY_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "Day"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "Day"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Week"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "Day"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Week"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 3,
-        "groupBy": "Month"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
-        "id": 1,
-        "groupBy": "Day"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Week"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 3,
-        "groupBy": "Month"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 4,
-        "groupBy": "Year"
+        "id": "",
+        "groupBy": ""
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
+    "BUSINESS_HOURS": ""
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "LOADING_CHART": "正在载入图表数据...",
-    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
-    "FILTER_DROPDOWN_LABEL": "选择代理",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_AGENT_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "会话",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "收到的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "发送的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次响应时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "解决时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "已解决的数量",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
-        "name": "最近7天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 1,
-        "name": "最近30天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 2,
-        "name": "Last 3 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Last 6 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Last year"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Custom date range"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "LOADING_CHART": "正在载入图表数据...",
-    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_LABEL_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "会话",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "收到的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "发送的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次响应时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "解决时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "已解决的数量",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
-        "name": "最近7天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 1,
-        "name": "最近30天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 2,
-        "name": "Last 3 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Last 6 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Last year"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Custom date range"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "LOADING_CHART": "正在载入图表数据...",
-    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_INBOX_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "会话",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "收到的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "发送的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次响应时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "解决时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "已解决的数量",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
-        "name": "最近7天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 1,
-        "name": "最近30天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 2,
-        "name": "Last 3 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Last 6 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Last year"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Custom date range"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "LOADING_CHART": "正在载入图表数据...",
-    "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "",
+    "DOWNLOAD_TEAM_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "会话",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "收到的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "发送的消息",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "首次响应时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "解决时间",
-        "DESC": "( 平均)",
-        "INFO_TEXT": "用于计算的对话总数：",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "已解决的数量",
-        "DESC": "(总计)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
       {
-        "id": 0,
-        "name": "最近7天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 1,
-        "name": "最近30天"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 2,
-        "name": "Last 3 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Last 6 months"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Last year"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Custom date range"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "HEADER": "",
+    "NO_RECORDS": "",
+    "DOWNLOAD": "",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "PLACEHOLDER": ""
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "评分",
-        "FEEDBACK_TEXT": "Feedback comment"
+        "CONTACT_NAME": "",
+        "AGENT_NAME": "",
+        "RATING": "",
+        "FEEDBACK_TEXT": ""
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "",
+    "LIVE": "",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "打开",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "未分配的"
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "OPEN": "",
+      "UNATTENDED": "",
+      "UNASSIGNED": ""
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "NO_AGENTS": "",
       "TABLE_HEADER": {
-        "AGENT": "客服",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
-        "STATUS": "状态"
+        "AGENT": "",
+        "OPEN": "",
+        "UNATTENDED": "",
+        "STATUS": ""
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "在线的",
-      "BUSY": "忙碌中",
-      "OFFLINE": "离线的"
+      "HEADER": "",
+      "ONLINE": "",
+      "BUSY": "",
+      "OFFLINE": ""
     }
   }
 }
