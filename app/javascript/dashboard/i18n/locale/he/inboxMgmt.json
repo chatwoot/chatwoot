@@ -1,664 +1,664 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "תיבות דואר נכנס",
-    "SIDEBAR_TXT": "<p><b>תיבת דואר נכנס</b></p> <p> כאשר אתה מחבר אתר אינטרנט או דף פייסבוק ל-Chatwoot, זה נקרא <b>תיבת דואר נכנס</b>. אתה יכול לקבל תיבות דואר נכנס בלתי מוגבלות בחשבון Chatwoot שלך. </p><p> לחץ על <b>הוסף תיבת דואר נכנס</b> כדי לחבר אתר או דף פייסבוק. </p><p> בלוח המחוונים, תוכל לראות את כל השיחות מכל תיבות הדואר הנכנס שלך במקום אחד ולהגיב להן בכרטיסייה 'שיחות'. </p><p> תוכל גם לראות שיחות ספציפיות לתיבת דואר נכנס על ידי לחיצה על שם תיבת הדואר הנכנס בחלונית השמאלית של לוח המחוונים. </p>",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "אין תיבות דואר נכנס מצורפות לחשבון זה."
+      "404": ""
     },
     "CREATE_FLOW": [
       {
-        "title": "בחר ערוץ",
-        "route": "settings_inbox_new",
-        "body": "בחר את הספק שברצונך לשלב עם Chatwoot."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "צור תיבת דואר נכנס",
-        "route": "settings_inboxes_page_channel",
-        "body": "אמת את חשבונך וצור תיבת דואר נכנס."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "הוסף נציג",
-        "route": "settings_inboxes_add_agents",
-        "body": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "וואלה!",
-        "route": "settings_inbox_finish",
-        "body": "אתם מוכנים לצאת לדרך!"
+        "title": "",
+        "route": "",
+        "body": ""
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "שם תיבת הדואר הנכנס",
-        "PLACEHOLDER": "הזן את שם תיבת הדואר הנכנס שלך (למשל: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
-        "LABEL": "שם האתר",
-        "PLACEHOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "FB": {
-        "HELP": "נ. ב: על ידי כניסה, אנו מקבלים גישה רק להודעות של הדף שלך. לעולם לא ניתן לגשת להודעות הפרטיות שלך על ידי Chatwoot.",
-        "CHOOSE_PAGE": "בחר עמוד",
-        "CHOOSE_PLACEHOLDER": "בחר עמוד מהרשימה",
-        "INBOX_NAME": "שם תיבת הדואר הנכנס",
-        "ADD_NAME": "הוסף שם לתיבת הדואר הנכנס שלך",
-        "PICK_NAME": "בחר שם בתיבת הדואר הנכנס שלך",
-        "PICK_A_VALUE": "בחר ערך"
+        "HELP": "",
+        "CHOOSE_PAGE": "",
+        "CHOOSE_PLACEHOLDER": "",
+        "INBOX_NAME": "",
+        "ADD_NAME": "",
+        "PICK_NAME": "",
+        "PICK_A_VALUE": ""
       },
       "TWITTER": {
-        "HELP": "כדי להוסיף את פרופיל הטוויטר שלך כערוץ, עליך לאמת את פרופיל הטוויטר שלך על ידי לחיצה על 'היכנס באמצעות טוויטר' ",
-        "ERROR_MESSAGE": "אירעה שגיאה בחיבור לטוויטר, אנא נסה שוב",
+        "HELP": "",
+        "ERROR_MESSAGE": "",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": ""
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "ערוץ האתר",
-        "DESC": "צור ערוץ לאתר שלך והתחל לתמוך בלקוחות שלך באמצעות ווידג'ט האתר שלנו.",
-        "LOADING_MESSAGE": "יצירת ערוץ תמיכה באתר",
+        "TITLE": "",
+        "DESC": "",
+        "LOADING_MESSAGE": "",
         "CHANNEL_AVATAR": {
-          "LABEL": "אוואטר הערוץ"
+          "LABEL": ""
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "URL של Webhook",
-          "PLACEHOLDER": "הזן את כתובת האתר שלך ל-Webhook",
-          "ERROR": "אנא הכנס כתובת URL חוקית"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "דומיין אתר",
-          "PLACEHOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "כותרת ברוכים הבאים",
-          "PLACEHOLDER": "שלום שם !"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "ברוך הבא לתיוג",
-          "PLACEHOLDER": "אנחנו עושים את זה פשוט להתחבר אלינו. שאל אותנו כל דבר, או שתף את המשוב שלך."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "הודעת ברכה בערוץ",
-          "PLACEHOLDER": "Acme Inc עונה בדרך כלל תוך מספר שעות."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "אפשר ברכה בערוץ",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "מופעל",
-          "DISABLED": "כבוי"
+          "LABEL": "",
+          "HELP_TEXT": "",
+          "ENABLED": "",
+          "DISABLED": ""
         },
         "REPLY_TIME": {
-          "TITLE": "הגדר זמן תגובה",
-          "IN_A_FEW_MINUTES": "בעוד כמה דקות",
-          "IN_A_FEW_HOURS": "בעוד כמה שעות",
-          "IN_A_DAY": "ביום",
-          "HELP_TEXT": "זמן תשובה זה יוצג בווידג'ט הצ'אט החי"
+          "TITLE": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": "",
+          "HELP_TEXT": ""
         },
         "WIDGET_COLOR": {
-          "LABEL": "צבע יישומון",
-          "PLACEHOLDER": "עדכן את צבע הווידג'ט המשמש בווידג'ט"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "צור תיבת דואר נכנס",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
-        "TITLE": "ערוץ SMS/ווטסאפ של Twilio",
-        "DESC": "שלב את Twilio והתחל לתמוך בלקוחות שלך באמצעות SMS או WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "ACCOUNT_SID": {
-          "LABEL": "SID חשבון",
-          "PLACEHOLDER": "אנא הזן את SID חשבון Twilio שלך",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "שדה חובה",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
-          "LABEL": "סוג ערוץ",
-          "ERROR": "אנא בחר את סוג הערוץ שלך"
+          "LABEL": "",
+          "ERROR": ""
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "אנא הזן את ה-Twilio Auth Token שלך",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_NAME": {
-          "LABEL": "שם תיבת הדואר הנכנס",
-          "PLACEHOLDER": "נא להזין שם תיבת דואר נכנס",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "מספר טלפון",
-          "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "כתובת אתר להתקשרות חוזרת",
-          "SUBTITLE": "עליך להגדיר את כתובת האתר להתקשרות חוזרת של ההודעה ב-Twilio עם כתובת האתר המוזכרת כאן."
+          "TITLE": "",
+          "SUBTITLE": ""
         },
-        "SUBMIT_BUTTON": "צור ערוץ Twilio",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "לא הצלחנו לאמת את האישורים של Twilio, אנא נסה שוב"
+          "ERROR_MESSAGE": ""
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "ספק API",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "LABEL": "",
+          "TWILIO": "",
+          "BANDWIDTH": ""
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": ""
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "מזהה חשבון",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "שדה חובה"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
-            "ERROR": "שדה חובה"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
-            "ERROR": "שדה חובה"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "שדה חובה"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "INBOX_NAME": {
-            "LABEL": "שם תיבת הדואר הנכנס",
-            "PLACEHOLDER": "נא להזין שם תיבת דואר נכנס",
-            "ERROR": "שדה חובה"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "PHONE_NUMBER": {
-            "LABEL": "מספר טלפון",
-            "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-            "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": ""
           },
           "API_CALLBACK": {
-            "TITLE": "כתובת אתר להתקשרות חוזרת",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "",
+            "SUBTITLE": ""
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "ערוץ וואטסאפ",
-        "DESC": "התחל לתמוך בלקוחות שלך באמצעות וואטסאפ.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "ספק API",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "LABEL": "",
+          "TWILIO": "",
+          "WHATSAPP_CLOUD": "",
+          "360_DIALOG": ""
         },
         "INBOX_NAME": {
-          "LABEL": "שם תיבת הדואר הנכנס",
-          "PLACEHOLDER": "נא להזין שם תיבת דואר נכנס",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "מספר טלפון",
-          "PLACEHOLDER": "נא להזין את מספר הטלפון שממנו תישלח ההודעה.",
-          "ERROR": "אנא הכנס ערך תקין. מספר הטלפון צריך להתחיל בסימן '+'."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "אנא הכנס ערך תקין."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "אנא הכנס ערך תקין."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "אנא הכנס ערך תקין."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "הגדר את מפתח ה-API של וואטסאפ.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "אנא הכנס ערך תקין."
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "כתובת אתר להתקשרות חוזרת",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "",
+          "SUBTITLE": "",
+          "WEBHOOK_URL": "",
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
-        "SUBMIT_BUTTON": "צור ערוץ וואטסאפ",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ הוואטסאפ"
+          "ERROR_MESSAGE": ""
         }
       },
       "API_CHANNEL": {
-        "TITLE": "ערוץ API",
-        "DESC": "שלב עם ערוץ API והתחל לתמוך בלקוחות שלך.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "שם הערוץ",
-          "PLACEHOLDER": "נא להזין שם ערוץ",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "הגדר את כתובת האתר שבה ברצונך לקבל התקשרות חוזרת על אירועים.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "צור ערוץ API",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ ה API"
+          "ERROR_MESSAGE": ""
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "ערוץ דוא\"ל",
-        "DESC": "שלב את תיבת הדואר הנכנס שלך.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "שם הערוץ",
-          "PLACEHOLDER": "נא להזין שם ערוץ",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "אימייל",
-          "SUBTITLE": "אימייל לאן הלקוחות שלך שולחים לך כרטיסי תמיכה",
-          "PLACEHOLDER": "אימייל"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "צור ערוץ דוא\"ל",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ האימייל"
+          "ERROR_MESSAGE": ""
         },
-        "FINISH_MESSAGE": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה."
+        "FINISH_MESSAGE": ""
       },
       "LINE_CHANNEL": {
-        "TITLE": "ערוץ LINE",
-        "DESC": "השתלב עם ערוץ LINE והתחיל לתמוך בלקוחות שלך.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "שם הערוץ",
-          "PLACEHOLDER": "נא להזין שם ערוץ",
-          "ERROR": "שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "מזהה ערוץ LINE",
-          "PLACEHOLDER": "מזהה ערוץ LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "סוד ערוץ LINE",
-          "PLACEHOLDER": "סוד ערוץ LINE"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE ערוץ טוקן",
-          "PLACEHOLDER": "LINE ערוץ טוקן"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "צור ערוץ LINE",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ LINE"
+          "ERROR_MESSAGE": ""
         },
         "API_CALLBACK": {
-          "TITLE": "כתובת אתר להתקשרות חוזרת",
-          "SUBTITLE": "עליך להגדיר את כתובת האתר של ה-webhook ביישום LINE עם כתובת האתר המוזכרת כאן."
+          "TITLE": "",
+          "SUBTITLE": ""
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "ערוץ טלגרם",
-        "DESC": "השתלב עם ערוץ טלגרם והתחיל לתמוך בלקוחות שלך.",
+        "TITLE": "",
+        "DESC": "",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "הגדר את אסימון הבוט שקיבלת מ- Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "צור ערוץ טלגרם",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ הטלגרם"
+          "ERROR_MESSAGE": ""
         }
       },
       "AUTH": {
-        "TITLE": "בחר ערוץ",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "TITLE": "סוכנים",
-        "DESC": "כאן תוכל להוסיף סוכנים לניהול תיבת הדואר הנכנס החדשה שלך. רק לסוכנים שנבחרו אלה תהיה גישה לתיבת הדואר הנכנס שלך. סוכנים שאינם חלק מתיבת הדואר הנכנס הזו לא יוכלו לראות או להגיב להודעות בתיבת הדואר הנכנס הזו כאשר הם נכנסים. <br> <b>נ. ב.:</b> כמנהל מערכת, אם אתה זקוק לגישה לכל תיבות הדואר הנכנס, עליך להוסיף את עצמך כסוכן לכל תיבות הדואר הנכנס שאתה יוצר.",
-        "VALIDATION_ERROR": "הוסף לפחות סוכן אחד לתיבת הדואר הנכנס החדשה שלך",
-        "PICK_AGENTS": "בחר סוכנים לתיבת הדואר הנכנס"
+        "TITLE": "",
+        "DESC": "",
+        "VALIDATION_ERROR": "",
+        "PICK_AGENTS": ""
       },
       "DETAILS": {
-        "TITLE": "פרטי תיבת דואר נכנס",
-        "DESC": "מהתפריט הנפתח למטה, בחר את דף הפייסבוק שברצונך להתחבר ל-Chatwoot. אתה יכול גם לתת שם מותאם אישית לתיבת הדואר הנכנס שלך לזיהוי טוב יותר."
+        "TITLE": "",
+        "DESC": ""
       },
       "FINISH": {
-        "TITLE": "הצלחתי!",
-        "DESC": "סיימת בהצלחה לשלב את דף הפייסבוק שלך עם Chatwoot. בפעם הבאה שלקוח ישלח הודעה לדף שלך, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.<br>אנחנו גם מספקים לך סקריפט ווידג'ט שתוכל להוסיף בקלות לאתר שלך. ברגע שזה פעיל באתר שלך, לקוחות יכולים לשלוח לך הודעות ישירות מהאתר שלך ללא עזרה של כל כלי חיצוני והשיחה תופיע ממש כאן, ב-Chatwoot.<br>מגניב, הא? ובכן, אנחנו בטוח מנסים להיות :)"
+        "TITLE": "",
+        "DESC": ""
       }
     },
     "DETAILS": {
-      "LOADING_FB": "מאמת אותך עם פייסבוק...",
-      "ERROR_FB_AUTH": "משהו השתבש, אנא רענן את הדף...",
-      "CREATING_CHANNEL": "יוצר את תיבת הדואר הנכנס שלך...",
-      "TITLE": "הגדר את פרטי תיבת הדואר הנכנס",
+      "LOADING_FB": "",
+      "ERROR_FB_AUTH": "",
+      "CREATING_CHANNEL": "",
+      "TITLE": "",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "הוסף נציגים",
-      "ADD_AGENTS": "מוסיף נציגים לתיבת הדואר הנכנס שלך..."
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": ""
     },
     "FINISH": {
-      "TITLE": "תיבת הדואר הנכנס שלך מוכנה!",
-      "MESSAGE": "כעת תוכל ליצור קשר עם הלקוחות שלך דרך הערוץ החדש שלך. תמיכה שמחה",
-      "BUTTON_TEXT": "קח אותי לשם",
-      "MORE_SETTINGS": "הגדרות נוספות",
-      "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך."
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": "",
+      "MORE_SETTINGS": "",
+      "WEBSITE_SUCCESS": ""
     },
-    "REAUTH": "הרשאה מחדש",
-    "VIEW": "צפה",
+    "REAUTH": "",
+    "VIEW": "",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "הגדרות תיבת הדואר הנכנס עודכנו בהצלחה",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "ההקצאה האוטומטית עודכנה בהצלחה",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CSAT": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "מופעל",
-        "DISABLED": "כבוי"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_HMAC": {
-        "LABEL": "אפשר"
+        "LABEL": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "מחק",
-      "AVATAR_DELETE_BUTTON_TEXT": "מחק אווטר",
+      "BUTTON_TEXT": "",
+      "AVATAR_DELETE_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "אשר מחיקה",
-        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-        "PLACE_HOLDER": "אנא הקלד {inboxName} כדי לאשר",
-        "YES": "כן, מחק ",
-        "NO": "לא, השאר "
+        "TITLE": "",
+        "MESSAGE": "",
+        "PLACE_HOLDER": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "תיבת הדואר הנכנס נמחקה בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן למחוק את תיבת הדואר הנכנס. בבקשה נסה שוב מאוחר יותר.",
-        "AVATAR_SUCCESS_MESSAGE": "אווטר תיבת הדואר הנכנס נמחקה בהצלחה",
-        "AVATAR_ERROR_MESSAGE": "לא ניתן למחוק את האווטר של תיבת הדואר הנכנס. בבקשה נסה שוב מאוחר יותר."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "",
+        "AVATAR_SUCCESS_MESSAGE": "",
+        "AVATAR_ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "SETTINGS": "הגדרות",
-      "COLLABORATORS": "משתפי פעולה",
-      "CONFIGURATION": "תצורה",
-      "CAMPAIGN": "קמפיין",
-      "PRE_CHAT_FORM": "טופס צ'אט מקדים",
-      "BUSINESS_HOURS": "שעות פעילות",
-      "WIDGET_BUILDER": "Widget Builder"
+      "SETTINGS": "",
+      "COLLABORATORS": "",
+      "CONFIGURATION": "",
+      "CAMPAIGN": "",
+      "PRE_CHAT_FORM": "",
+      "BUSINESS_HOURS": "",
+      "WIDGET_BUILDER": ""
     },
-    "SETTINGS": "הגדרות",
+    "SETTINGS": "",
     "FEATURES": {
-      "LABEL": "מאפיינים",
-      "DISPLAY_FILE_PICKER": "הצג את בוחר הקבצים בווידג'ט",
-      "DISPLAY_EMOJI_PICKER": "הצג את בוחר האמוג'י בווידג'ט",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "LABEL": "",
+      "DISPLAY_FILE_PICKER": "",
+      "DISPLAY_EMOJI_PICKER": "",
+      "ALLOW_END_CONVERSATION": ""
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "סקריפט מסנג'ר",
-      "MESSENGER_SUB_HEAD": "מקם את הכפתור הזה בתוך תג הגוף שלך",
-      "INBOX_AGENTS": "סוכנים",
-      "INBOX_AGENTS_SUB_TEXT": "הוסף או הסר נציגים מתיבת הדואר הנכנס הזו",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "עדכן",
-      "ENABLE_EMAIL_COLLECT_BOX": "אפשר תיבת איסוף דוא\"ל",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",
-      "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
-      "ENABLE_CSAT": "אפשר CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "INBOX_UPDATE_TITLE": "הגדרות תיבת דואר נכנס",
-      "INBOX_UPDATE_SUB_TEXT": "עדכן את הגדרות תיבת הדואר הנכנס שלך",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "אפשר או השבת את ההקצאה האוטומטית של שיחות חדשות לסוכנים שנוספו לתיבת הדואר הנכנס הזו.",
-      "HMAC_VERIFICATION": "אימות זהות משתמש",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "אכיפת אימות זהות משתמש",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "מזהה תיבת דואר נכנס",
-      "INBOX_IDENTIFIER_SUB_TEXT": "השתמש ב-'inbox_identifier' המוצג כאן כדי לאמת את לקוחות ה-API שלך.",
-      "FORWARD_EMAIL_TITLE": "העבר לדואר אלקטרוני",
-      "FORWARD_EMAIL_SUB_TEXT": "התחל להעביר את המיילים שלך לכתובת הדוא\"ל הבאה.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "MESSENGER_HEADING": "",
+      "MESSENGER_SUB_HEAD": "",
+      "INBOX_AGENTS": "",
+      "INBOX_AGENTS_SUB_TEXT": "",
+      "AGENT_ASSIGNMENT": "",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "",
+      "UPDATE": "",
+      "ENABLE_EMAIL_COLLECT_BOX": "",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT": "",
+      "ENABLE_CSAT": "",
+      "ENABLE_CSAT_SUB_TEXT": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "",
+      "INBOX_UPDATE_TITLE": "",
+      "INBOX_UPDATE_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "",
+      "HMAC_VERIFICATION": "",
+      "HMAC_DESCRIPTION": "",
+      "HMAC_MANDATORY_VERIFICATION": "",
+      "HMAC_MANDATORY_DESCRIPTION": "",
+      "INBOX_IDENTIFIER": "",
+      "INBOX_IDENTIFIER_SUB_TEXT": "",
+      "FORWARD_EMAIL_TITLE": "",
+      "FORWARD_EMAIL_SUB_TEXT": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "",
+      "WHATSAPP_SECTION_SUBHEADER": "",
+      "WHATSAPP_SECTION_TITLE": ""
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": ""
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "הרשאה מחדש",
-      "SUBTITLE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
-      "MESSAGE_SUCCESS": "החיבור מחדש הצליח",
-      "MESSAGE_ERROR": "היתה שגיאה, בקשה נסה שוב"
+      "TITLE": "",
+      "SUBTITLE": "",
+      "MESSAGE_SUCCESS": "",
+      "MESSAGE_ERROR": ""
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "טפסי טרום צ'אט מאפשרים לך ללכוד מידע על המשתמש לפני שהם מתחילים בשיחה איתך.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "",
+      "SET_FIELDS": "",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "מפתח",
-        "TYPE": "סוג",
-        "REQUIRED": "Required"
+        "FIELDS": "",
+        "LABEL": "",
+        "PLACE_HOLDER": "",
+        "KEY": "",
+        "TYPE": "",
+        "REQUIRED": ""
       },
       "ENABLE": {
-        "LABEL": "אפשר טופס טרום צ'אט",
+        "LABEL": "",
         "OPTIONS": {
-          "ENABLED": "כן",
-          "DISABLED": "לא"
+          "ENABLED": "",
+          "DISABLED": ""
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "הודעה זו תהיה גלויה למשתמשים יחד עם הטופס"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "המבקרים צריכים לספק את שמם וכתובת האימייל שלהם לפני תחילת הצ'אט"
+        "LABEL": ""
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "הגדר את הזמינות שלך",
-      "SUBTITLE": "הגדר את הזמינות שלך בווידג'ט הצ'אט החי שלך",
-      "WEEKLY_TITLE": "הגדר את השעות השבועיות שלך",
-      "TIMEZONE_LABEL": "בחר אזור זמן",
-      "UPDATE": "עדכן את הגדרות שעות הפעילות",
-      "TOGGLE_AVAILABILITY": "הפעל זמינות עסקית עבור תיבת הדואר הנכנס הזו",
-      "UNAVAILABLE_MESSAGE_LABEL": "הודעה לא זמינה למבקרים",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "אנחנו לא זמינים כרגע. השאירו הודעה נשיב ברגע שנחזור.",
-      "TOGGLE_HELP": "הפעלת זמינות עסקית תציג את השעות הזמינות בווידג'ט צ'אט חי גם אם כל הסוכנים אינם מקוונים. מחוץ לשעות הזמינות ניתן להזהיר מבקרים באמצעות הודעה וטופס צ'אט מראש.",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "WEEKLY_TITLE": "",
+      "TIMEZONE_LABEL": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "UNAVAILABLE_MESSAGE_LABEL": "",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "",
+      "TOGGLE_HELP": "",
       "DAY": {
-        "ENABLE": "אפשר זמינות ליום זה",
-        "UNAVAILABLE": "אינו זמין",
-        "HOURS": "שעות",
-        "VALIDATION_ERROR": "שעת ההתחלה צריכה להיות לפני שעת הסגירה.",
-        "CHOOSE": "בחר"
+        "ENABLE": "",
+        "UNAVAILABLE": "",
+        "HOURS": "",
+        "VALIDATION_ERROR": "",
+        "CHOOSE": ""
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": ""
     },
     "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "NOTE_TEXT": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "התחבר",
-        "PLACE_HOLDER": "התחבר"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "סיסמה",
-        "PLACE_HOLDER": "סיסמה"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": ""
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "התחבר",
-        "PLACE_HOLDER": "התחבר"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "סיסמה",
-        "PLACE_HOLDER": "סיסמה"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENCRYPTION": "Encryption",
-      "SSL_TLS": "SSL/TLS",
-      "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "ENCRYPTION": "",
+      "SSL_TLS": "",
+      "START_TLS": "",
+      "OPEN_SSL_VERIFY_MODE": "",
+      "AUTH_MECHANISM": ""
     },
-    "NOTE": "Note: ",
+    "NOTE": "",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+              "SUCCESS_MESSAGE": "",
+              "ERROR_MESSAGE": ""
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "שם האתר",
-          "PLACE_HOLDER": "הזן את שם האתר שלך (למשל: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "",
+          "PLACE_HOLDER": "",
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
-          "LABEL": "כותרת ברוכים הבאים",
-          "PLACE_HOLDER": "שלום שם!"
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "ברוך הבא לתיוג",
-          "PLACE_HOLDER": "אנחנו עושים את זה פשוט להתחבר אלינו. שאל אותנו כל דבר, או שתף את המשוב שלך."
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "בעוד כמה דקות",
-          "IN_A_FEW_HOURS": "בעוד כמה שעות",
-          "IN_A_DAY": "ביום"
+          "LABEL": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": ""
         },
-        "WIDGET_COLOR_LABEL": "צבע יישומון",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "דבר איתנו",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "דבר איתנו"
+          "DEFAULT": "",
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "",
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
-        "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
-        "IN_A_DAY": "מענה ממוצע לאחר יום"
+        "IN_A_FEW_MINUTES": "",
+        "IN_A_FEW_HOURS": "",
+        "IN_A_DAY": ""
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "התחל שיחה",
-        "CHAT_INPUT_PLACEHOLDER": "הקלד הודעה"
+        "START_CONVERSATION_BUTTON_TEXT": "",
+        "CHAT_INPUT_PLACEHOLDER": ""
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "אנחנו לא זמינים כרגע"
+          "ONLINE": "",
+          "OFFLINE": ""
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
-      "BRANDING_TEXT": "מופעל על ידי Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "",
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
