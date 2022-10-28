@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Đang tải các cuộc trò chuyện",
-    "LOAD_MORE_CONVERSATIONS": "Tải thêm các cuộc trò chuyện",
-    "EOF": "Tất cả các cuộc trò chuyện đã được tải 🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
+      "404": ""
     },
-    "TAB_HEADING": "Các cuộc hội thoại",
-    "MENTION_HEADING": "Nhắn đến",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Tất cả",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Của tôi",
-      "unassigned": "Chưa được phân công",
-      "all": "Tất cả"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Mở"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Đã được giải quyết"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Chờ giải quyết"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Tạm dừng"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Tin nhắn hình ảnh"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Tin nhắn thoại"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Tin nhắn video"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "Tập tin đính kèm"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Địa điểm"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "có một đường dẫn chia sẻ"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "Nhận được từ email",
-    "VIEW_TWEET_IN_TWITTER": "Xem tweet trên Twitter",
-    "REPLY_TO_TWEET": "Trả lời cho tweet này",
-    "LINK_TO_STORY": "Đến xem lịch sử instagram",
-    "SENT": "Gửi thành công",
-    "NO_MESSAGES": "Không có tin nhắn",
-    "NO_CONTENT": "Không có nội dung",
-    "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",
-    "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn",
-    "MESSAGE_READ": "\bĐọc"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
