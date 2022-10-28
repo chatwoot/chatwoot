@@ -66,7 +66,7 @@
           "PLACEHOLDER": "Veuillez saisir le nom de l'agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "Type d'agent",
+          "LABEL": "Rôle",
           "PLACEHOLDER": "Veuillez sélectionner un rôle",
           "ERROR": "Le rôle est requis"
         },
@@ -95,17 +95,17 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Aucun",
       "TITLE": {
-        "AGENT": "Sélectionner un agent",
-        "TEAM": "Sélectionner une équipe"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Aucun agent trouvé",
-          "TEAM": "Aucune équipe trouvée"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Chercher des agents",
-          "TEAM": "Chercher des équipes"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
