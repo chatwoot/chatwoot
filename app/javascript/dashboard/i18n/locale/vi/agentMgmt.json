@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Nhà cung cấp",
-    "HEADER_BTN_TXT": "Thêm nhà cung cấp / đại lý",
-    "LOADING": "Tải danh sách nhà cung cấp",
-    "SIDEBAR_TXT": "<p><b>Nhà cung cấp</b></p> <p> Một <b>nhà cung cấp</b> là thành viên của nhóm Hỗ trợ khách hàng của bạn. </p><p> Nhà cung cấp sẽ có thể xem và trả lời tin nhắn từ người dùng của bạn. Danh sách hiển thị tất cả các đại lý hiện có trong tài khoản của bạn. </p><p> Click vào <b>Thêm nhà cung cấp</b> để thêm mới nhà cung cấp. Nhà cung cấp mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Nhà cung cấp</b> - Nhà cung cấp có vai trò này chỉ có thể truy cập hộp thư đến, báo cáo và cuộc hội thoại. Họ có thể chỉ định các cuộc trò chuyện cho các đại lý khác hoặc chính họ và giải quyết các cuộc trò chuyện.</p><p> <b>Administrator</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tài khoản của bạn, bao gồm cài đặt, cùng với tất cả các đặc quyền của một đại lý bình thường.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Quản trị viên",
-      "AGENT": "Nhà cung cấp"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Không có tác nhân nào được liên kết với tài khoản này",
-      "TITLE": "Quản lý các đại lý trong nhóm của bạn",
-      "DESC": "Bạn có thể thêm / bớt đại lý vào / trong nhóm của mình.",
-      "NAME": "Tên",
-      "EMAIL": "EMAIL",
-      "STATUS": "Trạng thái",
-      "ACTIONS": "Hành động",
-      "VERIFIED": "Đã xác minh",
-      "VERIFICATION_PENDING": "Đang chờ xác minh"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Thêm đại lý vào nhóm của bạn",
-      "DESC": "Bạn có thể thêm những người có thể xử lý hỗ trợ cho hộp thư đến của bạn.",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên nhà cung cấp",
-          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Loại nhà cung cấp",
-          "PLACEHOLDER": "Vui lòng chọn loại",
-          "ERROR": "Loại nhà cung cấp là bắt buộc"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "PLACEHOLDER": "Vui lòng nhập email"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Thêm nhà cung cấp"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Nhà cung cấp được thêm thành công",
-        "EXIST_MESSAGE": "Email đã được sử dung, vui lòng chọn email khác.",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Nhà cung cấp được xoá thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Bạn có muốn xoá? ",
-        "YES": "Có, xoá ",
-        "NO": "Không, giữ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Chỉnh sửa nhà cung cấp",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên nhà cung cấp",
-          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Loại nhà cung cấp",
-          "PLACEHOLDER": "Vui lòng chọn loại",
-          "ERROR": "Loại nhà cung cấp là bắt buộc"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Emails",
-          "PLACEHOLDER": "Vui lòng nhập email"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Chỉnh sửa nhà cung cấp"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Chỉnh sửa",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Nhà cung cấp được cập nhật thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Đặt lại mật khẩu",
-        "ADMIN_SUCCESS_MESSAGE": "Một email với hướng dẫn đặt lại mật khẩu đã được gửi đến đại lý",
-        "SUCCESS_MESSAGE": "Đặt lại mật khẩu đại lý thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Không tìm thấy kết quả."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Không có",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Chọn t\bổng đài viên",
-        "TEAM": "Chọn nhóm"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Không tìm thấy nhà cung cấp",
-          "TEAM": "Không tìm thấy nhóm nào"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Tìm kiếm tổng đài viên",
-          "TEAM": "Tìm kiếm nhóm"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
