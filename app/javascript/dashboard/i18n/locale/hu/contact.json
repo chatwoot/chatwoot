@@ -1,347 +1,347 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Nem elérhető",
-    "EMAIL_ADDRESS": "Email cím",
-    "PHONE_NUMBER": "Telefonszám",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Vágólapra másolva",
-    "COMPANY": "Cég",
-    "LOCATION": "Hely",
-    "BROWSER_LANGUAGE": "Browser Language",
-    "CONVERSATION_TITLE": "Beszélgetés részletei",
-    "VIEW_PROFILE": "Profil megtekintése",
-    "BROWSER": "Böngésző",
-    "OS": "Operációs rendszer",
-    "INITIATED_FROM": "Kezdeményezve",
-    "INITIATED_AT": "Kezdeményezve",
-    "IP_ADDRESS": "IP cím",
-    "NEW_MESSAGE": "Új üzenet",
+    "NOT_AVAILABLE": "",
+    "EMAIL_ADDRESS": "",
+    "PHONE_NUMBER": "",
+    "IDENTIFIER": "",
+    "COPY_SUCCESSFUL": "",
+    "COMPANY": "",
+    "LOCATION": "",
+    "BROWSER_LANGUAGE": "",
+    "CONVERSATION_TITLE": "",
+    "VIEW_PROFILE": "",
+    "BROWSER": "",
+    "OS": "",
+    "INITIATED_FROM": "",
+    "INITIATED_AT": "",
+    "IP_ADDRESS": "",
+    "NEW_MESSAGE": "",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
-      "TITLE": "Korábbi beszélgetések"
+      "NO_RECORDS_FOUND": "",
+      "TITLE": ""
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Kapcsolattartó címkéi",
-        "ERROR": "Nem lehetett frissíteni a címkéket"
+        "TITLE": "",
+        "ERROR": ""
       },
       "CONVERSATION": {
-        "TITLE": "Beszélgetés cimkék",
-        "ADD_BUTTON": "Címkék hozzáadása"
+        "TITLE": "",
+        "ADD_BUTTON": ""
       },
       "LABEL_SELECT": {
-        "TITLE": "Címkék hozzáadása",
-        "PLACEHOLDER": "Címkék keresése",
-        "NO_RESULT": "Nem találtunk címkét"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       }
     },
-    "MERGE_CONTACT": "Kapcsolattartók összevonása",
-    "CONTACT_ACTIONS": "Kapcsolattartói tevékenységek",
-    "MUTE_CONTACT": "Beszélgetés elnémítása",
-    "UNMUTE_CONTACT": "Beszélgetés elnémításának feloldása",
-    "MUTED_SUCCESS": "A beszélgetés 6 órára elnémítva",
-    "UNMUTED_SUCCESS": "A beszélgetés elnémítása megszűntetve",
-    "SEND_TRANSCRIPT": "Jegyzetek elküldése",
-    "EDIT_LABEL": "Szerkesztés",
+    "MERGE_CONTACT": "",
+    "CONTACT_ACTIONS": "",
+    "MUTE_CONTACT": "",
+    "UNMUTE_CONTACT": "",
+    "MUTED_SUCCESS": "",
+    "UNMUTED_SUCCESS": "",
+    "SEND_TRANSCRIPT": "",
+    "EDIT_LABEL": "",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
-      "CONTACT_LABELS": "Kontakt címkéi",
-      "PREVIOUS_CONVERSATIONS": "Korábbi beszélgetések"
+      "CUSTOM_ATTRIBUTES": "",
+      "CONTACT_LABELS": "",
+      "PREVIOUS_CONVERSATIONS": ""
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Jegyzetek szerkesztése",
-    "TITLE": "Kontakt szerkesztése",
-    "DESC": "Kontakt részletek szerkesztése"
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Új kontakt",
-    "TITLE": "Új kontakt létrehozása",
-    "DESC": "Alapvető információ a kontaktról."
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importálás",
-    "TITLE": "Kontaktok importálása",
-    "DESC": "Kontaktok importálása CSV fájlból.",
-    "DOWNLOAD_LABEL": "Minta CSV fájl letöltése.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "DOWNLOAD_LABEL": "",
     "FORM": {
-      "LABEL": "CSV fájl",
-      "SUBMIT": "Importálás",
-      "CANCEL": "Mégse"
+      "LABEL": "",
+      "SUBMIT": "",
+      "CANCEL": ""
     },
-    "SUCCESS_MESSAGE": "Kontaktok sikeresen elmentve",
-    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Törlés megerősítése",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "Nem, tartsa meg"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Kontakt Törlése",
-    "TITLE": "Kontakt törlése",
-    "DESC": "Kontakt részletek törlése",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
     "CONFIRM": {
-      "TITLE": "Törlés megerősítése",
-      "MESSAGE": "Biztos abban, hogy törli ",
-      "YES": "Igen, Törlés",
-      "NO": "Nem, Mégse"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Kontakt sikeresen törölve",
-      "ERROR_MESSAGE": "A kontakt törlése nem lehetséges. Kérjük próbáld később."
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Elküldés",
-      "CANCEL": "Mégse",
+      "SUBMIT": "",
+      "CANCEL": "",
       "AVATAR": {
-        "LABEL": "Kontakt avatarja"
+        "LABEL": ""
       },
       "NAME": {
-        "PLACEHOLDER": "A kontakt teljes nevének megadása",
-        "LABEL": "Teljes név"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "BIO": {
-        "PLACEHOLDER": "A kontakt önéletrajzának megadása",
-        "LABEL": "Önéletrajz"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "A kontakt e-mailjének megadása",
-        "LABEL": "Email cím",
-        "DUPLICATE": "Az e-mailcím már egy másik kontakthoz tartozik.",
-        "ERROR": "Kérjük helyes e-mailcímet adj meg."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "DUPLICATE": "",
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "A kontakt telefonszámának megadása",
-        "LABEL": "Telefonszám",
-        "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
-        "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie",
-        "DUPLICATE": "Ez a telefonszám már egy másik kontakthoz tartozik."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "HELP": "",
+        "ERROR": "",
+        "DUPLICATE": ""
       },
       "LOCATION": {
-        "PLACEHOLDER": "A kontakt helyének megadása",
-        "LABEL": "Hely"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Cégnév megadása",
-        "LABEL": "Cégnév"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Facebook felhasználó megadása",
-          "LABEL": "Facebook"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "TWITTER": {
-          "PLACEHOLDER": "Twitter felhasználó megadása",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Linkedin usernév hozzáadása",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "GITHUB": {
-          "PLACEHOLDER": "Github felhasználó megadása",
-          "LABEL": "Github"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
-    "SUCCESS_MESSAGE": "Kontakt mentés sikeres",
-    "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Beszélgetés megkezdése",
-    "TITLE": "Új beszélgetés",
-    "DESC": "Kezdjen új beszélgetést egy új üzenet küldésével.",
-    "NO_INBOX": "Nem találtam postafiókot, hogy új beszélgetést kezdeményezzek ezzel a kapcsolattal.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "NO_INBOX": "",
     "FORM": {
       "TO": {
-        "LABEL": "Ide"
+        "LABEL": ""
       },
       "INBOX": {
-        "LABEL": "Fiók",
-        "ERROR": "Válassz egy fiókot"
+        "LABEL": "",
+        "ERROR": ""
       },
       "SUBJECT": {
-        "LABEL": "Tárgy",
-        "PLACEHOLDER": "Tárgy",
-        "ERROR": "A tárgy nem lehet üres"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Üzenet",
-        "PLACEHOLDER": "Írd ide üzeneted",
-        "ERROR": "Az üzenet nem lehet üres"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
-      "SUBMIT": "Üzenet elküldése",
-      "CANCEL": "Mégse",
-      "SUCCESS_MESSAGE": "Üzenet elküldve!",
-      "GO_TO_CONVERSATION": "Megtekintés",
-      "ERROR_MESSAGE": "Nem sikerült az elküldés! Kérjük próbáld később"
+      "SUBMIT": "",
+      "CANCEL": "",
+      "SUCCESS_MESSAGE": "",
+      "GO_TO_CONVERSATION": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontaktok",
-    "FIELDS": "Kontakt mezői",
-    "SEARCH_BUTTON": "Keresés",
-    "SEARCH_INPUT_PLACEHOLDER": "Kontaktok keresése",
-    "FILTER_CONTACTS": "Szűrő",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "HEADER": "",
+    "FIELDS": "",
+    "SEARCH_BUTTON": "",
+    "SEARCH_INPUT_PLACEHOLDER": "",
+    "FILTER_CONTACTS": "",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
-      "LOADING_MESSAGE": "Kontaktok betöltése...",
-      "404": "Nincs a keresésnek megfelelő kontakt 🔍",
-      "NO_CONTACTS": "Nincsenek elérhető kontaktok",
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "NO_CONTACTS": "",
       "TABLE_HEADER": {
-        "NAME": "Név",
-        "PHONE_NUMBER": "Telefonszám",
-        "CONVERSATIONS": "Beszélgetések",
-        "LAST_ACTIVITY": "Utolsó aktivitás",
-        "COUNTRY": "Ország",
-        "CITY": "Város",
-        "SOCIAL_PROFILES": "Social media profilok",
-        "COMPANY": "Cég",
-        "EMAIL_ADDRESS": "Email cím"
+        "NAME": "",
+        "PHONE_NUMBER": "",
+        "CONVERSATIONS": "",
+        "LAST_ACTIVITY": "",
+        "COUNTRY": "",
+        "CITY": "",
+        "SOCIAL_PROFILES": "",
+        "COMPANY": "",
+        "EMAIL_ADDRESS": ""
       },
-      "VIEW_DETAILS": "Részletek megtekintése"
+      "VIEW_DETAILS": ""
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontaktok",
-    "LOADING": "A kontakt profiljának betöltése..."
+    "BACK_BUTTON": "",
+    "LOADING": ""
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Hozzáadás",
-      "TITLE": "Shift + Enter egy feladat létrehozásához"
+      "BUTTON": "",
+      "TITLE": ""
     },
     "FOOTER": {
-      "DUE_DATE": "Lejárati idő",
-      "LABEL_TITLE": "Típus megadása"
+      "DUE_DATE": "",
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Megjegyzések letöltése...",
-    "NOT_AVAILABLE": "Ehhez a kontakthoz nincs megjegyzés létrehozva",
+    "FETCHING_NOTES": "",
+    "NOT_AVAILABLE": "",
     "HEADER": {
-      "TITLE": "Megjegyzések"
+      "TITLE": ""
     },
     "LIST": {
-      "LABEL": "hozzáadott egy megjegyzést"
+      "LABEL": ""
     },
     "ADD": {
-      "BUTTON": "Hozzáadás",
-      "PLACEHOLDER": "Megjegyzés hozzáadása",
-      "TITLE": "Shift + Enter egy megjegyzés létrehozásához"
+      "BUTTON": "",
+      "PLACEHOLDER": "",
+      "TITLE": ""
     },
     "CONTENT_HEADER": {
-      "DELETE": "Megjegyzés törlése"
+      "DELETE": ""
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Tevékenységek"
+      "TITLE": ""
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "megjegyzések",
-      "PILL_BUTTON_EVENTS": "események",
-      "PILL_BUTTON_CONVO": "beszélgetések"
+      "PILL_BUTTON_NOTES": "",
+      "PILL_BUTTON_EVENTS": "",
+      "PILL_BUTTON_CONVO": ""
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
-    "COPY_SUCCESSFUL": "Vágólapra másolva",
+    "ADD_BUTTON_TEXT": "",
+    "BUTTON": "",
+    "NOT_AVAILABLE": "",
+    "COPY_SUCCESSFUL": "",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "",
+      "DELETE": "",
+      "EDIT": ""
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "",
+      "DESC": ""
     },
     "FORM": {
-      "CREATE": "Add attribute",
-      "CANCEL": "Mégse",
+      "CREATE": "",
+      "CANCEL": "",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "",
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "",
+    "DESCRIPTION": "",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "",
+      "HELP_LABEL": ""
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
-      "TITLE": "Summary",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "TITLE": "",
+      "DELETE_WARNING": "",
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": ""
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
-      "CANCEL": "Mégse",
+      "SUBMIT": "",
+      "CANCEL": "",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
