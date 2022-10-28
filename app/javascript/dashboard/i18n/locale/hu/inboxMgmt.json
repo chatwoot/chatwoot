@@ -1,664 +1,664 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Fiókok",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatwoottal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Chatwoot fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Nincs Inbox kapcsolva ehhez a fiókhoz."
+      "404": ""
     },
     "CREATE_FLOW": [
       {
-        "title": "Csatorna kiválasztása",
-        "route": "settings_inbox_new",
-        "body": "Válasz egy szolgáltatót, melyet össze akarsz integrálni a Chatwoottal."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Fiók létrehozása",
-        "route": "settings_inboxes_page_channel",
-        "body": "Hitelesítsd a fiókod és hozz létre egy inboxot."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Ügynök Hozzádása",
-        "route": "settings_inboxes_add_agents",
-        "body": "Adj hozzá ügynököket a létrehozott inboxhoz."
+        "title": "",
+        "route": "",
+        "body": ""
       },
       {
-        "title": "Tadaaam!",
-        "route": "settings_inbox_finish",
-        "body": "Mindennel készen állsz!"
+        "title": "",
+        "route": "",
+        "body": ""
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Fiók név",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website név",
-        "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "FB": {
-        "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Chatwoot.",
-        "CHOOSE_PAGE": "Oldal kiválasztása",
-        "CHOOSE_PLACEHOLDER": "Válaszd ki az oldalt a listából",
-        "INBOX_NAME": "Fiók név",
-        "ADD_NAME": "Adj nevet a fiókodnak",
-        "PICK_NAME": "Válassz nevet az inboxodnak",
-        "PICK_A_VALUE": "Válassz értéket"
+        "HELP": "",
+        "CHOOSE_PAGE": "",
+        "CHOOSE_PLACEHOLDER": "",
+        "INBOX_NAME": "",
+        "ADD_NAME": "",
+        "PICK_NAME": "",
+        "PICK_A_VALUE": ""
       },
       "TWITTER": {
-        "HELP": "Ahhoz hogy hozzáadd a twitter profilodat egy csatornaként, azonosítanod kell a Twitter fiókodat a 'Belépés Twitterrel' gomb megnyomásával ",
-        "ERROR_MESSAGE": "Hiba történt a Twitterrel való csatlakozáskor, kérjük próbáld később",
+        "HELP": "",
+        "ERROR_MESSAGE": "",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": ""
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website csatorna",
-        "DESC": "Hozz létre egy csatornát a websiteodnak és kezdd el az ügyfeleid támogatását a website widgeten keresztül.",
-        "LOADING_MESSAGE": "Website támogatási csatorna létrehozása",
+        "TITLE": "",
+        "DESC": "",
+        "LOADING_MESSAGE": "",
         "CHANNEL_AVATAR": {
-          "LABEL": "Csatorna avatar"
+          "LABEL": ""
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
-          "ERROR": "Kérjük helyes URL-t adj meg"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website domain",
-          "PLACEHOLDER": "Add meg weboldalad domainjét (pl.: példa.hu)"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Köszöntő fejléc üzenet",
-          "PLACEHOLDER": "Szia!"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Köszöntő üzenet",
-          "PLACEHOLDER": "Könnyűvé tesszük, hogy kapcsolatba kerülj velünk. Kérdezz bármit, vagy oszd meg véleményed."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Csatorna köszöntő üzenet",
-          "PLACEHOLDER": "Példa Kft. általában néhány órán belül válaszol."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Csatorna köszöntés engedélyezése",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Engedélyezve",
-          "DISABLED": "Letiltva"
+          "LABEL": "",
+          "HELP_TEXT": "",
+          "ENABLED": "",
+          "DISABLED": ""
         },
         "REPLY_TIME": {
-          "TITLE": "Válaszadási idő megadása",
-          "IN_A_FEW_MINUTES": "Néhány percen belül",
-          "IN_A_FEW_HOURS": "Néhány órán belül",
-          "IN_A_DAY": "Egy napon belül",
-          "HELP_TEXT": "Ezen válaszidő ki lesz írva az élő chat widgeten"
+          "TITLE": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": "",
+          "HELP_TEXT": ""
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget szín",
-          "PLACEHOLDER": "Frissítsd a widget színét"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Fiók létrehozása",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "ACCOUNT_SID": {
-          "LABEL": "Fiók SID",
-          "PLACEHOLDER": "Kérjük add meg a Twilio fiók SID-t",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "Ez a mező kötelező",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Csatorna típusa",
-          "ERROR": "Kérjük válaszd ki a csatorna típusát"
+          "LABEL": "",
+          "ERROR": ""
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth token",
-          "PLACEHOLDER": "Kérjük add meg a Twilio auth tokened",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CHANNEL_NAME": {
-          "LABEL": "Fiók név",
-          "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefonszám",
-          "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
-          "ERROR": "Kérjük helyes értéket adj meg. A telefonszám a '+' jellel kezdődjön."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "Visszahívás URL",
-          "SUBTITLE": "Be kell állítanod az üzenet visszahívás URL-t a Twilion az itt megadott URL alapján."
+          "TITLE": "",
+          "SUBTITLE": ""
         },
-        "SUBMIT_BUTTON": "Twilio csatorna létrehozása",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk hitelesíteni a Twilio fiókodat, kérjük próbáld később"
+          "ERROR_MESSAGE": ""
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "LABEL": "",
+          "TWILIO": "",
+          "BANDWIDTH": ""
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": ""
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "Ez a mező kötelező"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
-            "ERROR": "Ez a mező kötelező"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
-            "ERROR": "Ez a mező kötelező"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "Ez a mező kötelező"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "INBOX_NAME": {
-            "LABEL": "Fiók név",
-            "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "Ez a mező kötelező"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
           "PHONE_NUMBER": {
-            "LABEL": "Telefonszám",
-            "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
-            "ERROR": "Kérjük helyes értéket adj meg. A telefonszám a '+' jellel kezdődjön."
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": ""
           },
           "API_CALLBACK": {
-            "TITLE": "Visszahívás URL",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "TITLE": "",
+            "SUBTITLE": ""
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "LABEL": "",
+          "TWILIO": "",
+          "WHATSAPP_CLOUD": "",
+          "360_DIALOG": ""
         },
         "INBOX_NAME": {
-          "LABEL": "Fiók név",
-          "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefonszám",
-          "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
-          "ERROR": "Kérjük helyes értéket adj meg. A telefonszám a '+' jellel kezdődjön."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
-          "TITLE": "Visszahívás URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "TITLE": "",
+          "SUBTITLE": "",
+          "WEBHOOK_URL": "",
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": ""
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API csatorna",
-        "DESC": "API-val integrálj és láss neki az ügyfeleid támogatásának.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "Csatorna neve",
-          "PLACEHOLDER": "Kérjük adj meg csatorna nevet",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Állítsd be az URL-t melyről fogadni szeretnéd a visszahívásokat az eseményekről.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "API csatorna létrehozása",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk elmenteni az API csatornát"
+          "ERROR_MESSAGE": ""
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "E-mail csatorna",
-        "DESC": "Inbox-al való integrálás.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "Csatorna neve",
-          "PLACEHOLDER": "Kérjük adj meg csatorna nevet",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "E-mail",
-          "SUBTITLE": "Az e-mail ahova az ügyfeled a támogatási kérelmeit küldi",
-          "PLACEHOLDER": "E-mail"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "E-mail csatorna létrehozása",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk elmenteni az e-mail csatornát"
+          "ERROR_MESSAGE": ""
         },
-        "FINISH_MESSAGE": "Kezdd el továbbítani az e-maileket a következő e-mail címekre."
+        "FINISH_MESSAGE": ""
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
-          "LABEL": "Csatorna neve",
-          "PLACEHOLDER": "Kérjük adj meg csatorna nevet",
-          "ERROR": "Ez a mező kötelező"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": ""
         },
         "API_CALLBACK": {
-          "TITLE": "Visszahívás URL",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "TITLE": "",
+          "SUBTITLE": ""
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "",
+        "DESC": "",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": ""
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "TITLE": "Ügynökök",
-        "DESC": "Itt hozzáadhatsz ügynököket az újonan létrehooztt inboxodhoz. Csak ezek a kiválasztott ügynökök fognak hozzáférni az inboxodhoz. Az ügynökök akik nem részei az inboxnak, nem látják és nem tudnak válaszolni az üzenetekre belépésük után. <br><b>UI:</b>Adminisztrátorként hozzáférésed van az összes inboxhoz, add hozzá magad az összes inboxhoz ügynökként.",
-        "VALIDATION_ERROR": "Adj legalább egy ügynököt az új inboxodhoz",
-        "PICK_AGENTS": "Válaszd ki az inboxhoz hozzárendelt ügynököket"
+        "TITLE": "",
+        "DESC": "",
+        "VALIDATION_ERROR": "",
+        "PICK_AGENTS": ""
       },
       "DETAILS": {
-        "TITLE": "Fiók részletek",
-        "DESC": "A legördülő listából kérjük válaszd ki hogy melyik Facebook oldalt szeretnéd a Chatwoothoz kötni. Egyedi nevet is adhatsz az Inboxnak a jobb azonosíthatóság érdekében."
+        "TITLE": "",
+        "DESC": ""
       },
       "FINISH": {
-        "TITLE": "Sikerült!",
-        "DESC": "Sikeresen integráltad a Facebook oldaladat a Chatwoottal. Legközelebb amikor egy ügyfél üzenetet ír az oldaladra, a beszélgetés automatiksuan megjelenik az inboxodban.<br> Ezen kívül egy widget kódot biztosítunk számodra, amelyet könnyen hozzáadhatsz a weboldaladhoz. Amint ez kiélesítésre kerül, az ügyfelek üzenetet küldhetnek Neked a weboldaladról bármilyen külső eszköz igénybevétele nélkül és ez a beszélgetés itt a Chatwootban fog megjelenni. <br>Menő, nem? Hát megpróbáljuk :)"
+        "TITLE": "",
+        "DESC": ""
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Facebookkal azonosítunk...",
-      "ERROR_FB_AUTH": "Valami elromlott, kérjük töltsd újra az oldalt...",
-      "CREATING_CHANNEL": "Inbox létrehozása...",
-      "TITLE": "Inbox részletek beállítása",
+      "LOADING_FB": "",
+      "ERROR_FB_AUTH": "",
+      "CREATING_CHANNEL": "",
+      "TITLE": "",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Ügynök Hozzádása",
-      "ADD_AGENTS": "Ügynökök hozzáadása a fiókhoz..."
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": ""
     },
     "FINISH": {
-      "TITLE": "A fiókod elkészült!",
-      "MESSAGE": "Most már tudsz egyeztetni az ügyfeleiddel az új csatornán. Boldog támgoatást",
-      "BUTTON_TEXT": "Vigyél oda",
-      "MORE_SETTINGS": "További beállítások",
-      "WEBSITE_SUCCESS": "Sikeresen létrehoztad a website csatornát. Másold az itt látható kódot és helyezd el a weboldaladon. Legközelebb, mikor egy ügyfél az élő chatben van, a beszélgetés automatikusan megjelenik az inboxodban."
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": "",
+      "MORE_SETTINGS": "",
+      "WEBSITE_SUCCESS": ""
     },
-    "REAUTH": "Újraengedélyezés",
-    "VIEW": "Megtekintés",
+    "REAUTH": "",
+    "VIEW": "",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox beállítások sikeresen frissítve",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatikus hozzárendelés sikeresen frissítve",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
+        "ENABLED": "",
+        "DISABLED": ""
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Törlés",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "BUTTON_TEXT": "",
+      "AVATAR_DELETE_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Törlés megerősítése",
-        "MESSAGE": "Biztos abban, hogy törli ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
-        "YES": "Igen, Törlés ",
-        "NO": "Nem, Mégse "
+        "TITLE": "",
+        "MESSAGE": "",
+        "PLACE_HOLDER": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox sikeresen törölve",
-        "ERROR_MESSAGE": "Nem sikerült a fiók törlése. Kérjük próbáld később.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "",
+        "AVATAR_SUCCESS_MESSAGE": "",
+        "AVATAR_ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "SETTINGS": "Beállítások",
-      "COLLABORATORS": "Csapattagok",
-      "CONFIGURATION": "Beállítások",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Chat előtti űrlap",
-      "BUSINESS_HOURS": "Nyitvatartás",
-      "WIDGET_BUILDER": "Widget Builder"
+      "SETTINGS": "",
+      "COLLABORATORS": "",
+      "CONFIGURATION": "",
+      "CAMPAIGN": "",
+      "PRE_CHAT_FORM": "",
+      "BUSINESS_HOURS": "",
+      "WIDGET_BUILDER": ""
     },
-    "SETTINGS": "Beállítások",
+    "SETTINGS": "",
     "FEATURES": {
-      "LABEL": "Lehetőségek",
-      "DISPLAY_FILE_PICKER": "File választó megjelenítése a widgeten",
-      "DISPLAY_EMOJI_PICKER": "Emoji választó megjelenítése a widgeten",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "LABEL": "",
+      "DISPLAY_FILE_PICKER": "",
+      "DISPLAY_EMOJI_PICKER": "",
+      "ALLOW_END_CONVERSATION": ""
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger szkript",
-      "MESSENGER_SUB_HEAD": "Ezt a gombot a body tag-en belül helyezd el",
-      "INBOX_AGENTS": "Ügynökök",
-      "INBOX_AGENTS_SUB_TEXT": "Ügynökök hosszáadása vagy eltávolítása az inboxból",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "Frissítés",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Automata hozzárendelés engedélyezése",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "INBOX_UPDATE_TITLE": "Fiókbeállítások",
-      "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsolása vagy kikapcsolása az inboxhoz kapcsolódó automatikus ügynökhozzárendelésnek új beszélgetések esetén.",
-      "HMAC_VERIFICATION": "Felhasználói fiók validálás",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Kezdd el továbbítani az e-maileket a következő e-mail címekre.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "MESSENGER_HEADING": "",
+      "MESSENGER_SUB_HEAD": "",
+      "INBOX_AGENTS": "",
+      "INBOX_AGENTS_SUB_TEXT": "",
+      "AGENT_ASSIGNMENT": "",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "",
+      "UPDATE": "",
+      "ENABLE_EMAIL_COLLECT_BOX": "",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT": "",
+      "ENABLE_CSAT": "",
+      "ENABLE_CSAT_SUB_TEXT": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "",
+      "INBOX_UPDATE_TITLE": "",
+      "INBOX_UPDATE_SUB_TEXT": "",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "",
+      "HMAC_VERIFICATION": "",
+      "HMAC_DESCRIPTION": "",
+      "HMAC_MANDATORY_VERIFICATION": "",
+      "HMAC_MANDATORY_DESCRIPTION": "",
+      "INBOX_IDENTIFIER": "",
+      "INBOX_IDENTIFIER_SUB_TEXT": "",
+      "FORWARD_EMAIL_TITLE": "",
+      "FORWARD_EMAIL_SUB_TEXT": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "",
+      "WHATSAPP_SECTION_SUBHEADER": "",
+      "WHATSAPP_SECTION_TITLE": ""
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": ""
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Újraengedélyezés",
-      "SUBTITLE": "A Facebook kapcsolatod lejárt, kérjük kapcsold össze oldalad újra a szolgáltatás folytatásához",
-      "MESSAGE_SUCCESS": "Újrakapcsolódás sikeres",
-      "MESSAGE_ERROR": "Hiba történt, kérjük próbáld újra"
+      "TITLE": "",
+      "SUBTITLE": "",
+      "MESSAGE_SUCCESS": "",
+      "MESSAGE_ERROR": ""
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "A chat előtti űrlapok lehetővé teszik hogy felhasználói adatokat gyűjts mielőtt a beszélgetés megkezdődik.",
-      "SET_FIELDS": "Pre chat form fields",
+      "DESCRIPTION": "",
+      "SET_FIELDS": "",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
-        "KEY": "Key",
-        "TYPE": "Type",
-        "REQUIRED": "Required"
+        "FIELDS": "",
+        "LABEL": "",
+        "PLACE_HOLDER": "",
+        "KEY": "",
+        "TYPE": "",
+        "REQUIRED": ""
       },
       "ENABLE": {
-        "LABEL": "Chat előtti űrlap engedélyezése",
+        "LABEL": "",
         "OPTIONS": {
-          "ENABLED": "Igen",
-          "DISABLED": "Nem"
+          "ENABLED": "",
+          "DISABLED": ""
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
-        "PLACEHOLDER": "Ez az üzenet látható lesz a felhasználók számára az űrlappal együtt"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "A látogatóknak nevük és e-mailcímük megadása szükséges a beszélgetés megkezdése előtt"
+        "LABEL": ""
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Elérhetőség beállítása",
-      "SUBTITLE": "Állításd be az elérhetőséged idejét a chat widgeten",
-      "WEEKLY_TITLE": "Heti órák beállítása",
-      "TIMEZONE_LABEL": "Időzóna kiválasztása",
-      "UPDATE": "Nyitvatartási idő beállítások szerkesztése",
-      "TOGGLE_AVAILABILITY": "Nyitvatartási idő beállítások engedélyezése erre az inboxra",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "Nem vagyunk elérhetőek jelen pillanatban. Hagyj üzenetet és reagálunk amint visszatértünk.",
-      "TOGGLE_HELP": "A nyitvatartási idő megmutatja az elérhetőségetek idejét az élő chat widgeten akkor is ha minden ügynök offline. A nyitvatartási időben a vendégek figyelmeztetést kaphatnak üzenettel és chat előtti űrlappal.",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "WEEKLY_TITLE": "",
+      "TIMEZONE_LABEL": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "UNAVAILABLE_MESSAGE_LABEL": "",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "",
+      "TOGGLE_HELP": "",
       "DAY": {
-        "ENABLE": "Elérhetőség bekapcsolása erre a napra",
-        "UNAVAILABLE": "Nem elérhető",
-        "HOURS": "óra",
-        "VALIDATION_ERROR": "A kezés idejének a zárás ideje előttinek kell lennie.",
-        "CHOOSE": "Kiválasztás"
+        "ENABLE": "",
+        "UNAVAILABLE": "",
+        "HOURS": "",
+        "VALIDATION_ERROR": "",
+        "CHOOSE": ""
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": ""
     },
     "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "NOTE_TEXT": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "Bejelentkezés",
-        "PLACE_HOLDER": "Bejelentkezés"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Jelszó",
-        "PLACE_HOLDER": "Jelszó"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": ""
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
-        "LABEL": "Bejelentkezés",
-        "PLACE_HOLDER": "Bejelentkezés"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Jelszó",
-        "PLACE_HOLDER": "Jelszó"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENCRYPTION": "Encryption",
-      "SSL_TLS": "SSL/TLS",
-      "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "ENCRYPTION": "",
+      "SSL_TLS": "",
+      "START_TLS": "",
+      "OPEN_SSL_VERIFY_MODE": "",
+      "AUTH_MECHANISM": ""
     },
-    "NOTE": "Note: ",
+    "NOTE": "",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+              "SUCCESS_MESSAGE": "",
+              "ERROR_MESSAGE": ""
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website név",
-          "PLACE_HOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)",
-          "ERROR": "Please enter a valid website name"
+          "LABEL": "",
+          "PLACE_HOLDER": "",
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
-          "LABEL": "Köszöntő fejléc üzenet",
-          "PLACE_HOLDER": "Hi there!"
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Köszöntő üzenet",
-          "PLACE_HOLDER": "Könnyűvé tesszük, hogy kapcsolatba kerülj velünk. Kérdezz bármit, vagy oszd meg véleményed."
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "Néhány percen belül",
-          "IN_A_FEW_HOURS": "Néhány órán belül",
-          "IN_A_DAY": "Egy napon belül"
+          "LABEL": "",
+          "IN_A_FEW_MINUTES": "",
+          "IN_A_FEW_HOURS": "",
+          "IN_A_DAY": ""
         },
-        "WIDGET_COLOR_LABEL": "Widget szín",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_COLOR_LABEL": "",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chatelj velünk",
-          "LABEL": "Widget Bubble Launcher Title",
-          "PLACE_HOLDER": "Chatelj velünk"
+          "DEFAULT": "",
+          "LABEL": "",
+          "PLACE_HOLDER": ""
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "",
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
-        "IN_A_FEW_HOURS": "Néhány órán belül válaszol",
-        "IN_A_DAY": "Általánban egy napon belül válaszol"
+        "IN_A_FEW_MINUTES": "",
+        "IN_A_FEW_HOURS": "",
+        "IN_A_DAY": ""
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Beszélgetés megkezdése",
-        "CHAT_INPUT_PLACEHOLDER": "Gépeld be üzeneted"
+        "START_CONVERSATION_BUTTON_TEXT": "",
+        "CHAT_INPUT_PLACEHOLDER": ""
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
-          "OFFLINE": "Jelenleg nem vagyunk elérhetőek"
+          "ONLINE": "",
+          "OFFLINE": ""
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
-      "BRANDING_TEXT": "Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "",
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
