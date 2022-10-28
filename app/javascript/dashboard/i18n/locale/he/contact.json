@@ -1,347 +1,347 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "לא זמין",
-    "EMAIL_ADDRESS": "כתובת מייל",
-    "PHONE_NUMBER": "מספר טלפון",
-    "IDENTIFIER": "מזהה",
-    "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
-    "COMPANY": "חברה",
-    "LOCATION": "מיקום",
-    "BROWSER_LANGUAGE": "שפת דפדפן",
-    "CONVERSATION_TITLE": "פרטי שיחה",
-    "VIEW_PROFILE": "צפה בפרופיל",
-    "BROWSER": "דפדפן",
-    "OS": "מערכת הפעלה",
-    "INITIATED_FROM": "יזום מי",
-    "INITIATED_AT": "יזם ב",
-    "IP_ADDRESS": "כתובת IP",
-    "NEW_MESSAGE": "הודעה חדשה",
+    "NOT_AVAILABLE": "",
+    "EMAIL_ADDRESS": "",
+    "PHONE_NUMBER": "",
+    "IDENTIFIER": "",
+    "COPY_SUCCESSFUL": "",
+    "COMPANY": "",
+    "LOCATION": "",
+    "BROWSER_LANGUAGE": "",
+    "CONVERSATION_TITLE": "",
+    "VIEW_PROFILE": "",
+    "BROWSER": "",
+    "OS": "",
+    "INITIATED_FROM": "",
+    "INITIATED_AT": "",
+    "IP_ADDRESS": "",
+    "NEW_MESSAGE": "",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "לא היו שיחות קודמות המשויכות לאיש קשר זה.",
-      "TITLE": "שיחות קודמות"
+      "NO_RECORDS_FOUND": "",
+      "TITLE": ""
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "תגיות אנשי קשר",
-        "ERROR": "לא ניתן לעדכן תוויות"
+        "TITLE": "",
+        "ERROR": ""
       },
       "CONVERSATION": {
-        "TITLE": "תוויות שיחה",
-        "ADD_BUTTON": "הוסף תוויות"
+        "TITLE": "",
+        "ADD_BUTTON": ""
       },
       "LABEL_SELECT": {
-        "TITLE": "הוסף תוויות",
-        "PLACEHOLDER": "חפש תוויות",
-        "NO_RESULT": "לא נמצאו תוויות"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       }
     },
-    "MERGE_CONTACT": "מזג אנשי קשר",
-    "CONTACT_ACTIONS": "פעולות אנשי קשר",
-    "MUTE_CONTACT": "השתק שיחה",
-    "UNMUTE_CONTACT": "הסר השתקת שיחה",
-    "MUTED_SUCCESS": "שיחה זו מושתקת למשך 6 שעות",
-    "UNMUTED_SUCCESS": "השיחה הזו אינה מושתקת",
-    "SEND_TRANSCRIPT": "שלח תמלול",
-    "EDIT_LABEL": "ערוך",
+    "MERGE_CONTACT": "",
+    "CONTACT_ACTIONS": "",
+    "MUTE_CONTACT": "",
+    "UNMUTE_CONTACT": "",
+    "MUTED_SUCCESS": "",
+    "UNMUTED_SUCCESS": "",
+    "SEND_TRANSCRIPT": "",
+    "EDIT_LABEL": "",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "תכונות מותאמות אישית",
-      "CONTACT_LABELS": "תגיות אנשי קשר",
-      "PREVIOUS_CONVERSATIONS": "שיחות קודמות"
+      "CUSTOM_ATTRIBUTES": "",
+      "CONTACT_LABELS": "",
+      "PREVIOUS_CONVERSATIONS": ""
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "ערוך איש קשר",
-    "TITLE": "ערוך איש קשר",
-    "DESC": "ערוך את פרטי הקשר"
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "איש קשר חדש",
-    "TITLE": "צור איש קשר חדש",
-    "DESC": "הוסף פרטי מידע בסיסיים על איש הקשר."
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "יבא",
-    "TITLE": "ייבא אנשי קשר",
-    "DESC": "ייבא אנשי קשר באמצעות קובץ CSV.",
-    "DOWNLOAD_LABEL": "הורד קובץ csv לדוגמה.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "DOWNLOAD_LABEL": "",
     "FORM": {
-      "LABEL": "קובץ CSV",
-      "SUBMIT": "יבא",
-      "CANCEL": "ביטול"
+      "LABEL": "",
+      "SUBMIT": "",
+      "CANCEL": ""
     },
-    "SUCCESS_MESSAGE": "אנשי הקשר נשמרו בהצלחה",
-    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "אשר מחיקה",
-      "MESSAGE": "אתה בטוח שתרצה למחוק את ההערה הזו?",
-      "YES": "כן, מחק",
-      "NO": "לא, השאר"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "מחק איש קשר",
-    "TITLE": "מחק איש קשר",
-    "DESC": "מחק את פרטים של איש הקשר",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
     "CONFIRM": {
-      "TITLE": "אשר מחיקה",
-      "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
-      "YES": "כן, מחק",
-      "NO": "לא, השאר"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "איש הקשר נמחק בהצלחה",
-      "ERROR_MESSAGE": "לא ניתן היה למחוק איש קשר. בבקשה נסה שוב מאוחר יותר."
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "שלח",
-      "CANCEL": "ביטול",
+      "SUBMIT": "",
+      "CANCEL": "",
       "AVATAR": {
-        "LABEL": "צור קשר עם אווטאר"
+        "LABEL": ""
       },
       "NAME": {
-        "PLACEHOLDER": "הזן את שמו המלא של איש הקשר",
-        "LABEL": "שם מלא"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "BIO": {
-        "PLACEHOLDER": "הזן את הביוגרפיה של איש הקשר",
-        "LABEL": "ביוגרפיה"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "הזן את כתובת האימייל של איש הקשר",
-        "LABEL": "כתובת מייל",
-        "DUPLICATE": "כתובת דוא\"ל זו נמצאת בשימוש עבור איש קשר אחר.",
-        "ERROR": "בבקשה הכנס כתוכת אימייל תקינה."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "DUPLICATE": "",
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "הזן את מספר הטלפון של איש הקשר",
-        "LABEL": "מספר טלפון",
-        "HELP": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555 [+][קוד מדינה][אזור חיוג][מספר טלפון מקומי]",
-        "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
-        "DUPLICATE": "מספר טלפון זה נמצאת בשימוש עבור איש קשר אחר."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "HELP": "",
+        "ERROR": "",
+        "DUPLICATE": ""
       },
       "LOCATION": {
-        "PLACEHOLDER": "הזן את המיקום של איש הקשר",
-        "LABEL": "מיקום"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "הזן את שם החברה",
-        "LABEL": "שם החברה"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "הזן את שם המשתמש בפייסבוק",
-          "LABEL": "פייסבוק"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "TWITTER": {
-          "PLACEHOLDER": "הזן את שם המשתמש בטוויטר",
-          "LABEL": "טוויטר"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "הזן את שם המשתמש בלינקדאין",
-          "LABEL": "לינקדאין"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "GITHUB": {
-          "PLACEHOLDER": "הזן את שם המשתמש של Github",
-          "LABEL": "Github"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
-    "SUCCESS_MESSAGE": "איש הקשר נשמר בהצלחה",
-    "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "התחל שיחה",
-    "TITLE": "שיחה חדשה",
-    "DESC": "התחל שיחה חדשה על ידי שליחת הודעה חדשה.",
-    "NO_INBOX": "לא ניתן היה למצוא תיבת דואר נכנס כדי ליזום שיחה חדשה עם איש הקשר הזה.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "NO_INBOX": "",
     "FORM": {
       "TO": {
-        "LABEL": "אל"
+        "LABEL": ""
       },
       "INBOX": {
-        "LABEL": "תיבת הדואר הנכנס",
-        "ERROR": "בחר תיבת דואר נכנס"
+        "LABEL": "",
+        "ERROR": ""
       },
       "SUBJECT": {
-        "LABEL": "נושא",
-        "PLACEHOLDER": "נושא",
-        "ERROR": "הנושא לא יכול להיות ריק"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "הודעה",
-        "PLACEHOLDER": "כתוב את הודעתך כאן",
-        "ERROR": "ההודעה לא יכולה להיות ריקה"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
-      "SUBMIT": "שלח הודעה",
-      "CANCEL": "ביטול",
-      "SUCCESS_MESSAGE": "הודעה נשלחה!",
-      "GO_TO_CONVERSATION": "צפה",
-      "ERROR_MESSAGE": "לא ניתן לשלוח! נסה שוב"
+      "SUBMIT": "",
+      "CANCEL": "",
+      "SUCCESS_MESSAGE": "",
+      "GO_TO_CONVERSATION": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "איש קשר",
-    "FIELDS": "שדות איש קשר",
-    "SEARCH_BUTTON": "חפש",
-    "SEARCH_INPUT_PLACEHOLDER": "חפש איש קשר",
-    "FILTER_CONTACTS": "סנן",
-    "FILTER_CONTACTS_SAVE": "שמור סנן",
-    "FILTER_CONTACTS_DELETE": "מחק סנן",
+    "HEADER": "",
+    "FIELDS": "",
+    "SEARCH_BUTTON": "",
+    "SEARCH_INPUT_PLACEHOLDER": "",
+    "FILTER_CONTACTS": "",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
-      "LOADING_MESSAGE": "טוען אנשי קשר...",
-      "404": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
-      "NO_CONTACTS": "אין אנשי קשר זמינים",
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "NO_CONTACTS": "",
       "TABLE_HEADER": {
-        "NAME": "שם",
-        "PHONE_NUMBER": "מספר טלפון",
-        "CONVERSATIONS": "שיחות",
-        "LAST_ACTIVITY": "פעילות אחרונה",
-        "COUNTRY": "מדינה",
-        "CITY": "עיר",
-        "SOCIAL_PROFILES": "פרופילים חברתיים",
-        "COMPANY": "חברה",
-        "EMAIL_ADDRESS": "כתובת מייל"
+        "NAME": "",
+        "PHONE_NUMBER": "",
+        "CONVERSATIONS": "",
+        "LAST_ACTIVITY": "",
+        "COUNTRY": "",
+        "CITY": "",
+        "SOCIAL_PROFILES": "",
+        "COMPANY": "",
+        "EMAIL_ADDRESS": ""
       },
-      "VIEW_DETAILS": "הצג פרטים"
+      "VIEW_DETAILS": ""
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "איש קשר",
-    "LOADING": "טוען פרופיל איש קשר..."
+    "BACK_BUTTON": "",
+    "LOADING": ""
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "הוסף",
-      "TITLE": "Shift + Enter כדי ליצור משימה"
+      "BUTTON": "",
+      "TITLE": ""
     },
     "FOOTER": {
-      "DUE_DATE": "תאריך להגשה",
-      "LABEL_TITLE": "הגדר סוג"
+      "DUE_DATE": "",
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "מביא הערות...",
-    "NOT_AVAILABLE": "לא נוצרו הערות עבור איש קשר זה",
+    "FETCHING_NOTES": "",
+    "NOT_AVAILABLE": "",
     "HEADER": {
-      "TITLE": "הערות"
+      "TITLE": ""
     },
     "LIST": {
-      "LABEL": "נוספה הערה"
+      "LABEL": ""
     },
     "ADD": {
-      "BUTTON": "הוסף",
-      "PLACEHOLDER": "הוסף הערה",
-      "TITLE": "Shift + Enter כדי ליצור הערה"
+      "BUTTON": "",
+      "PLACEHOLDER": "",
+      "TITLE": ""
     },
     "CONTENT_HEADER": {
-      "DELETE": "מחק הערה"
+      "DELETE": ""
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "פעילויות"
+      "TITLE": ""
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "הערות",
-      "PILL_BUTTON_EVENTS": "אירועים",
-      "PILL_BUTTON_CONVO": "שיחות"
+      "PILL_BUTTON_NOTES": "",
+      "PILL_BUTTON_EVENTS": "",
+      "PILL_BUTTON_CONVO": ""
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "הוסף מאפיין",
-    "BUTTON": "הוסף מאפיין מותאם אישית",
-    "NOT_AVAILABLE": "אין מאפיינים מותאמים אישית זמינים עבור איש קשר זה.",
-    "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
+    "ADD_BUTTON_TEXT": "",
+    "BUTTON": "",
+    "NOT_AVAILABLE": "",
+    "COPY_SUCCESSFUL": "",
     "ACTIONS": {
-      "COPY": "העתק מאפיין",
-      "DELETE": "מחק מאפיין",
-      "EDIT": "ערוך מאפיין"
+      "COPY": "",
+      "DELETE": "",
+      "EDIT": ""
     },
     "ADD": {
-      "TITLE": "צור מאפיין מותאם אישית",
-      "DESC": "הוסף מידע מותאם אישית לאיש קשר זה."
+      "TITLE": "",
+      "DESC": ""
     },
     "FORM": {
-      "CREATE": "הוסף מאפיין",
-      "CANCEL": "ביטול",
+      "CREATE": "",
+      "CANCEL": "",
       "NAME": {
-        "LABEL": "שם מאפיין מותאם אישית",
-        "PLACEHOLDER": "למשל: מזהה shopify",
-        "ERROR": "שם מאפיין מותאם אישית לא חוקי"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "VALUE": {
-        "LABEL": "ערך מאפיין",
-        "PLACEHOLDER": "למשל: 11901 "
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "ADD": {
-        "TITLE": "צור מאפיין חדש ",
-        "SUCCESS": "מאפיין נוסף בהצלחה",
-        "ERROR": "לא ניתן היה ליצור מאפיין, אנא נסה שוב מאוחר יותר"
+        "TITLE": "",
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "UPDATE": {
-        "SUCCESS": "המאפיין עודכן בהצלחה",
-        "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "המאפיין נמחק בהצלחה",
-        "ERROR": "לא ניתן למחוק מאפיין. בבקשה נסה שוב מאוחר יותר"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "הוסף מאפיין",
-        "PLACEHOLDER": "חפש מאפיין",
-        "NO_RESULT": "לא נמצאו מאפיינים"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "בחר ערך",
-          "SEARCH_INPUT_PLACEHOLDER": "חפש ערך",
-          "NO_RESULT": "לא נמצאו תוצאות"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "נדרש ערך חוקי",
-      "INVALID_URL": "כתובת אתר לא חוקית"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "מזג אנשי קשר",
-    "DESCRIPTION": "מיזוג אנשי קשר כדי לשלב שני פרופילים לאחד, כולל כל התכונות והשיחות. במקרה של התנגשות, התכונות של איש הקשר הראשי יקבלו עדיפות.",
+    "TITLE": "",
+    "DESCRIPTION": "",
     "PRIMARY": {
-      "TITLE": "איש קשר ראשי",
-      "HELP_LABEL": "להישמר"
+      "TITLE": "",
+      "HELP_LABEL": ""
     },
     "CHILD": {
-      "TITLE": "צור קשר למיזוג",
-      "PLACEHOLDER": "חפש איש קשר",
-      "HELP_LABEL": "להימחק"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
-      "TITLE": "סיכום",
-      "DELETE_WARNING": "איש הקשר של <strong>%{childContactName}</strong> יימחק.",
-      "ATTRIBUTE_WARNING": "פרטי הקשר של <strong>%{childContactName}</strong> יועתקו אל <strong>%{primaryContactName}</strong>."
+      "TITLE": "",
+      "DELETE_WARNING": "",
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
-      "ERROR": "הודעת שגיאה"
+      "ERROR": ""
     },
     "FORM": {
-      "SUBMIT": " מזג אנשי קשר",
-      "CANCEL": "ביטול",
+      "SUBMIT": "",
+      "CANCEL": "",
       "CHILD_CONTACT": {
-        "ERROR": "בחר איש קשר צאצא למזג"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "איש הקשר מוזג בהצלחה",
-      "ERROR_MESSAGE": "לא ניתן למזג אנשי קשר, נסה שוב!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
