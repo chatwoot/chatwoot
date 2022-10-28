@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Операторы",
-    "HEADER_BTN_TXT": "Добавить оператора",
-    "LOADING": "Загружаем список операторов",
-    "SIDEBAR_TXT": "<p><b>Операторы</b></p> <p> <b>Оператор</b> – это член вашей команды поддержки. </p><p> Операторы смогут читать сообщения от ваших пользователей и отвечать на них. В этом списке все операторы, подключенные к вашему аккаунту. </p><p> Нажмите <b>Добавить оператора</b>, чтобы пригласить нового оператора. Оператор получит письмо со ссылкой для подтверждения аккаунта, после чего он сможет входить в Chatwoot и отвечать на сообщения. </p><p> Доступ к функциям Chatwoot определяется следующими ролями: </p><p> <b>Оператор</b> - открывает доступ к списку сообщений, отчетам и диалогам. Операторы могут назначать диалоги себе или другим операторам и завершать диалоги.</p><p> <b>Администратор</b> - открывает доступ ко всем функциям Chatwook на вашем аккаунте, включая настройки, в дополнение к стандартным правам оператора.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Администратор",
-      "AGENT": "Оператор"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Нет связанных с этим аккаунтом операторов",
-      "TITLE": "Управляйте операторами вашей команды",
-      "DESC": "Вы можете добавить или убрать операторов вашей команды.",
-      "NAME": "Имя",
-      "EMAIL": "Email",
-      "STATUS": "Статус",
-      "ACTIONS": "Действия",
-      "VERIFIED": "Подтвержденный",
-      "VERIFICATION_PENDING": "Неподтвержденный"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Добавить оператора",
-      "DESC": "Вы можете добавить операторов для работы с входящими сообщениями.",
-      "CANCEL_BUTTON_TEXT": "Отменить",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Имя оператора",
-          "PLACEHOLDER": "Пожалуйста введите имя оператора"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Тип оператора",
-          "PLACEHOLDER": "Пожалуйста выберите тип",
-          "ERROR": "Тип оператора обязателен"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "PLACEHOLDER": "Пожалуйста введите email оператора"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Добавить оператора"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Оператор добавлен",
-        "EXIST_MESSAGE": "Такой email уже используется, пожалуйста введите другой адрес",
-        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Удалить",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Оператор удален",
-        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Вы точно хотите удалить ",
-        "YES": "Да, удалить ",
-        "NO": "Нет, не удалять "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Редактировать оператора",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Имя оператора",
-          "PLACEHOLDER": "Пожалуйста введите имя оператора"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Тип оператора",
-          "PLACEHOLDER": "Пожалуйста выберите тип",
-          "ERROR": "Тип оператора обязателен"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "PLACEHOLDER": "Пожалуйста введите email оператора"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Редактировать оператора"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Редактировать",
-      "CANCEL_BUTTON_TEXT": "Отменить",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Оператор сохранен",
-        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Восстановить пароль",
-        "ADMIN_SUCCESS_MESSAGE": "Email с инструкциями по восстановлению пароля отправлен оператору",
-        "SUCCESS_MESSAGE": "Пароль оператора сброшен",
-        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Результаты не найдены."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Ничего",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Выбрать Агента",
-        "TEAM": "Выберите команду"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Операторы не найдены",
-          "TEAM": "Команды не найдены"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Поиск агентов",
-          "TEAM": "Поиск команд"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
