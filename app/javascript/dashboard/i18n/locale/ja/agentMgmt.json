@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "担当者",
-    "HEADER_BTN_TXT": "担当者を追加",
-    "LOADING": "担当者リストを設定",
-    "SIDEBAR_TXT": "<p><b>担当者</b></p> <p> <b>担当者</b> は、カスタマーサポートチームのメンバーです。 </p><p> 担当者は、ユーザーからのメッセージを閲覧でき、返信することができます。リストに、全担当者が表示されます。 </p><p><b>担当者を追加</b> ボタンを押して、担当者を追加してください。あなたが追加した担当者は、自身のメールアドレスにメールが届き、確認リンクを使ってアカウントを有効化します。その後、Chatwootにアクセスし、メッセージに返信します。 </p><p> Chatwoot の機能を利用するには、その権限に準じます。 </p><p> <b>担当者</b> - 担当者権限では、受信トレイにアクセスする他、会話のデータをレポートできます。担当者間で会話の割り当てが行えるほか、会話を解決済みにすることもできます。</p><p> <b>管理者</b> - 管理者は、すべてのChatwootの機能にアクセスでき、担当者権限もすべて有効です。</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "管理者",
-      "AGENT": "担当者"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "このアカウントに関連付けられている担当者はありません。",
-      "TITLE": "チームの担当者を管理する",
-      "DESC": "チームに担当者を追加または除外することができます。",
-      "NAME": "名前",
-      "EMAIL": "Eメール",
-      "STATUS": "状況",
-      "ACTIONS": "操作",
-      "VERIFIED": "確認済み",
-      "VERIFICATION_PENDING": "確認保留中です。"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "チームに担当者を追加",
-      "DESC": "受信トレイのサポートができる人を追加できます。",
-      "CANCEL_BUTTON_TEXT": "キャンセル",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "担当者名",
-          "PLACEHOLDER": "担当者の名前を入力してください"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Eメールアドレス",
-          "PLACEHOLDER": "担当者のEメールアドレスを入力してください"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "担当者を追加"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "担当者の追加が完了しました",
-        "EXIST_MESSAGE": "入力された担当者のEメールアドレスは既に使用されています。別のメールアドレスをお試しください。",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "削除",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "担当者の削除が完了しました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "削除の確認",
-        "MESSAGE": "削除してもよろしいですか？ ",
-        "YES": "削除する ",
-        "NO": "いいえ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "担当者の編集",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "担当者名",
-          "PLACEHOLDER": "担当者の名前を入力してください"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Eメールアドレス",
-          "PLACEHOLDER": "担当者のEメールアドレスを入力してください"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "担当者の編集"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "編集",
-      "CANCEL_BUTTON_TEXT": "キャンセル",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "担当者の情報を更新しました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "パスワードをリセットします",
-        "ADMIN_SUCCESS_MESSAGE": "担当者にパスワードをリセットする手順を記載したメールを送信しました",
-        "SUCCESS_MESSAGE": "担当者のパスワードは正常にリセットされました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
       "NO_RESULTS": "該当結果が見つかりませんでした。"
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "該当なし",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
