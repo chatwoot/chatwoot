@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "ورود به چت ووت",
+    "TITLE": "",
     "EMAIL": {
       "LABEL": "ایمیل",
       "PLACEHOLDER": "ایمیل به عنوان مثال: someone@example.com"
@@ -12,10 +12,10 @@
     "API": {
       "SUCCESS_MESSAGE": "ورود موفق",
       "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید",
-      "UNAUTH": "این نام کاربری و رمز عبور صحیح نیست"
+      "UNAUTH": ""
     },
-    "FORGOT_PASSWORD": "رمز عبورتان را فراموش کردید؟",
-    "CREATE_NEW_ACCOUNT": "حساب جدید بسازید",
+    "FORGOT_PASSWORD": "",
+    "CREATE_NEW_ACCOUNT": "",
     "SUBMIT": "ورود"
   }
 }
