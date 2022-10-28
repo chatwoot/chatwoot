@@ -3,35 +3,35 @@
     "HEADER": "Συζητήσεις",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
+    "DOWNLOAD_AGENT_REPORTS": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
-        "DESC": "(Σύνολο)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Εισερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Εξερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Αριθμός Αναλύσεων",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -44,112 +44,112 @@
         "name": "Τελευταίες 30 ημέρες"
       },
       {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Τελευταίο έτος"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Εφαρμογή",
-      "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Ομαδοποίηση Κατά",
-    "DURATION_FILTER_LABEL": "Διάρκεια",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "",
+    "DURATION_FILTER_LABEL": "",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Ημέρα"
+        "groupBy": ""
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Ημέρα"
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Εβδομάδα"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Ημέρα"
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Εβδομάδα"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 3,
-        "groupBy": "Μήνα"
+        "id": "",
+        "groupBy": ""
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Ημέρα"
+        "groupBy": ""
       },
       {
-        "id": 2,
-        "groupBy": "Εβδομάδα"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 3,
-        "groupBy": "Μήνα"
+        "id": "",
+        "groupBy": ""
       },
       {
-        "id": 4,
-        "groupBy": "Έτος"
+        "id": "",
+        "groupBy": ""
       }
     ],
-    "BUSINESS_HOURS": "Ώρες Εργασίας"
+    "BUSINESS_HOURS": ""
   },
   "AGENT_REPORTS": {
-    "HEADER": "Επισκόπηση Πρακτόρων",
+    "HEADER": "",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
-    "FILTER_DROPDOWN_LABEL": "Επιλογή πράκτορα",
+    "DOWNLOAD_AGENT_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
-        "DESC": "(Σύνολο)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Εισερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Εξερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Αριθμός Αναλύσεων",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -162,61 +162,61 @@
         "name": "Τελευταίες 30 ημέρες"
       },
       {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Τελευταίο έτος"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Εφαρμογή",
-      "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Επισκόπηση Ετικετών",
+    "HEADER": "",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_LABEL_REPORTS": "Λήψη αναφορών ετικέτας",
-    "FILTER_DROPDOWN_LABEL": "Επιλογή Ετικέτας",
+    "DOWNLOAD_LABEL_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
-        "DESC": "(Σύνολο)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Εισερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Εξερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Αριθμός Αναλύσεων",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -229,61 +229,61 @@
         "name": "Τελευταίες 30 ημέρες"
       },
       {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Τελευταίο έτος"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Εφαρμογή",
-      "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Επισκόπηση Εισερχομένων",
+    "HEADER": "",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_INBOX_REPORTS": "Λήψη αναφορών εισερχομένων",
-    "FILTER_DROPDOWN_LABEL": "Επιλογή Εισερχομένων",
+    "DOWNLOAD_INBOX_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
-        "DESC": "(Σύνολο)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Εισερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Εξερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Αριθμός Αναλύσεων",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -296,61 +296,61 @@
         "name": "Τελευταίες 30 ημέρες"
       },
       {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Τελευταίο έτος"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Εφαρμογή",
-      "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Επισκόπηση Ομάδας",
+    "HEADER": "",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_TEAM_REPORTS": "Λήψη αναφορών ομάδας",
-    "FILTER_DROPDOWN_LABEL": "Επιλογή Ομάδας",
+    "DOWNLOAD_TEAM_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
-        "DESC": "(Σύνολο)"
+        "DESC": ""
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Εισερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Εξερχόμενα Μηνύματα",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "DESC": "(Μ.Ο.)",
+        "DESC": "",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο πρώτος χρόνος απόκρισης είναι %{metricValue} (βάσει %{conversationCount} συνομιλίων)"
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
-        "NAME": "Χρόνος ανάλυσης",
-        "DESC": "(Μ.Ο.)",
-        "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι %{metricValue} (βασίζεται στις %{conversationCount} συνομιλίες)"
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Αριθμός Αναλύσεων",
-        "DESC": "(Σύνολο)"
+        "NAME": "",
+        "DESC": ""
       }
     },
     "DATE_RANGE": [
@@ -363,85 +363,85 @@
         "name": "Τελευταίες 30 ημέρες"
       },
       {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 4,
-        "name": "Τελευταίο έτος"
+        "id": "",
+        "name": ""
       },
       {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
+        "id": "",
+        "name": ""
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Εφαρμογή",
-      "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "Αναφορές CSAT",
-    "NO_RECORDS": "Δεν υπάρχουν διαθέσιμες απαντήσεις ερευνών CSAT.",
-    "DOWNLOAD": "Λήψη αναφορών CSAT",
+    "HEADER": "",
+    "NO_RECORDS": "",
+    "DOWNLOAD": "",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Επιλέξτε Πράκτορες"
+        "PLACEHOLDER": ""
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Επαφές",
-        "AGENT_NAME": "Αντιστοιχισμένος πράκτορας",
-        "RATING": "Αξιολόγηση",
-        "FEEDBACK_TEXT": "Σχόλιο ανατροφοδότησης"
+        "CONTACT_NAME": "",
+        "AGENT_NAME": "",
+        "RATING": "",
+        "FEEDBACK_TEXT": ""
       }
     },
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Συνολικές απαντήσεις",
-        "TOOLTIP": "Συνολικός αριθμός απαντήσεων"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Βαθμός ικανοποίησης",
-        "TOOLTIP": "Συνολικός αριθμός θετικών αποκρίσεων / Συνολικός αριθμός ανταποκρίσεων * 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       },
       "RESPONSE_RATE": {
-        "LABEL": "Ποσοστό ανταπόκρισης",
-        "TOOLTIP": "Συνολικός αριθμός απαντήσεων / Συνολικός αριθμός μηνυμάτων έρευνας CSAT * 100"
+        "LABEL": "",
+        "TOOLTIP": ""
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Επισκόπηση",
-    "LIVE": "Ζωντανά",
+    "HEADER": "",
+    "LIVE": "",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Άνοιγμα συνομιλιών",
-      "LOADING_MESSAGE": "Φόρτωση μετρητών συνομιλίας...",
-      "OPEN": "Άνοιγμα",
-      "UNATTENDED": "Χωρίς Παρακολούθηση",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "OPEN": "",
+      "UNATTENDED": "",
       "UNASSIGNED": "Χωρίς Αντιστοίχιση"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Συζητήσεις αντιπροσώπων",
-      "LOADING_MESSAGE": "Φόρτωση μετρήσεων πράκτορα...",
-      "NO_AGENTS": "Δεν υπάρχουν συνομιλίες από πράκτορες",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "NO_AGENTS": "",
       "TABLE_HEADER": {
-        "AGENT": "Πράκτορας",
-        "OPEN": "ΑΝΟΙΓΜΑ",
-        "UNATTENDED": "Χωρίς Παρακολούθηση",
+        "AGENT": "",
+        "OPEN": "",
+        "UNATTENDED": "",
         "STATUS": "Κατάσταση"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Κατάσταση πράκτορα",
-      "ONLINE": "Στην Γραμμή",
-      "BUSY": "Απασχολημένος",
-      "OFFLINE": "Εκτός"
+      "HEADER": "",
+      "ONLINE": "",
+      "BUSY": "",
+      "OFFLINE": ""
     }
   }
 }
