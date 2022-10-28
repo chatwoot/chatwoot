@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agen",
-    "HEADER_BTN_TXT": "Tambahkan Agen",
-    "LOADING": "Mendapatkan Daftar Agen",
-    "SIDEBAR_TXT": "<p><b>Agen</b></p> <p> Seorang <b>Agen</b> adalah anggota tim Dukungan Pelanggan Anda. </p><p> Agen akan dapat melihat dan membalas pesan dari pengguna Anda. Daftar ini menunjukkan semua agen yang saat ini ada di akun Anda. </p><p> Klik Pada <b>Tambah Agent</b> untuk menambahkan agen baru. Agen yang Anda tambahkan akan menerima email dengan tautan konfirmasi untuk mengaktifkan akun mereka, setelah itu mereka dapat mengakses Chatwoot dan menanggapi pesan. </p><p> Akses ke fitur Chatwoot didasarkan pada wewenang berikut. </p><p> <b>Agen</b> - Agen dengan wewenang ini hanya dapat mengakses kotak masuk, laporan, dan percakapan. Mereka dapat menetapkan percakapan ke agen lain atau diri mereka sendiri dan menyelesaikan percakapan.</p><p> <b>Administrator</b> - Administrator akan memiliki akses ke semua fitur Chatwoot yang diaktifkan untuk akun Anda, termasuk pengaturan, bersama dengan semua hak istimewa agen normal.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agen"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Tidak ada agen yang terkait dengan akun ini",
-      "TITLE": "Kelola agen di tim Anda",
-      "DESC": "Anda dapat menambahkan/menghapus agen ke/di tim Anda.",
-      "NAME": "Nama",
-      "EMAIL": "Email",
-      "STATUS": "Status",
-      "ACTIONS": "Aksi",
-      "VERIFIED": "Diverifikasi",
-      "VERIFICATION_PENDING": "Verifikasi Pending"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Tambahkan agen ke tim Anda",
-      "DESC": "Anda dapat menambahkan orang yang dapat menangani kotak masuk Anda.",
-      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Nama Agen",
-          "PLACEHOLDER": "Harap masukkan nama agen"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Wewenang",
-          "PLACEHOLDER": "Harap pilih wewenang",
-          "ERROR": "Wewenang dibutuhkan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Alamat email",
-          "PLACEHOLDER": "Silakan masukkan alamat email agen"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Tambahkan Agen"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agen berhasil ditambahkan",
-        "EXIST_MESSAGE": "Email agen sudah digunakan, Silakan coba alamat email lain",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Hapus",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Agen berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Konfirmasi Penghapusan",
-        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
-        "YES": "Ya, Hapus ",
-        "NO": "Tidak, Simpan "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit Agen",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Nama Agen",
-          "PLACEHOLDER": "Harap masukkan nama agen"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Wewenang",
-          "PLACEHOLDER": "Harap pilih wewenang",
-          "ERROR": "Wewenang dibutuhkan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Alamat email",
-          "PLACEHOLDER": "Silakan masukkan alamat email agen"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Edit Agen"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Agen berhasil diubah",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Atur Ulang Kata Sandi",
-        "ADMIN_SUCCESS_MESSAGE": "Sebuah email dengan instruksi pengaturan ulang kata sandi telah dikirim ke agen",
-        "SUCCESS_MESSAGE": "Pengaturan ulang kata sandi agen berhasil",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Tidak ada hasil ditemukan."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Tidak ada",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Tidak ada agen",
-          "TEAM": "No teams found"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
