@@ -15,6 +15,9 @@
           class="macros__node-action"
           type="add"
           :index="i"
+          :file-name="
+            fileName(actionData[i].action_params[0], actionData[i].action_name)
+          "
           :single-node="actionData.length === 1"
           @resetAction="$emit('resetAction', i)"
           @deleteNode="$emit('deleteNode', i)"
@@ -50,6 +53,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    files: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     actionData: {
@@ -59,6 +66,16 @@ export default {
       set(value) {
         this.$emit('input', value);
       },
+    },
+  },
+  methods: {
+    fileName(id, actionType) {
+      if (!id || !this.files) return '';
+      if (actionType === 'send_attachment') {
+        const file = this.files.find(item => item.blob_id === id);
+        if (file) return file.filename.toString();
+      }
+      return '';
     },
   },
 };
