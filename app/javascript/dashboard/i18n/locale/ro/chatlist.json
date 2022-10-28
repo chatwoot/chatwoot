@@ -13,7 +13,7 @@
     },
     "FILTER_ALL": "Toate",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Ale mele",
+      "me": "",
       "unassigned": "Neatribuit",
       "all": "Toate"
     },
@@ -60,6 +60,6 @@
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
     "SHOW_QUOTED_TEXT": "Arată textul citat",
-    "MESSAGE_READ": "Citește"
+    "MESSAGE_READ": ""
   }
 }
