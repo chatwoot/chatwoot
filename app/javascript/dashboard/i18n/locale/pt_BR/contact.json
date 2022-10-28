@@ -1,98 +1,98 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Indisponível",
+    "NOT_AVAILABLE": "",
     "EMAIL_ADDRESS": "Endereço de e-mail",
     "PHONE_NUMBER": "Número de telefone",
-    "IDENTIFIER": "Identificador",
-    "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
-    "COMPANY": "Empresa",
+    "IDENTIFIER": "",
+    "COPY_SUCCESSFUL": "",
+    "COMPANY": "",
     "LOCATION": "Localização",
-    "BROWSER_LANGUAGE": "Idioma do navegador",
+    "BROWSER_LANGUAGE": "",
     "CONVERSATION_TITLE": "Detalhes da conversa",
-    "VIEW_PROFILE": "Visualizar Perfil",
+    "VIEW_PROFILE": "",
     "BROWSER": "Navegador",
     "OS": "Sistema Operacional",
     "INITIATED_FROM": "A partir de",
     "INITIATED_AT": "Iniciado em",
-    "IP_ADDRESS": "Endereço IP",
-    "NEW_MESSAGE": "Nova Mensagem",
+    "IP_ADDRESS": "",
+    "NEW_MESSAGE": "",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
       "TITLE": "Conversas anteriores"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Etiquetas de contato",
-        "ERROR": "Falha ao atualizar etiquetas"
+        "TITLE": "",
+        "ERROR": ""
       },
       "CONVERSATION": {
-        "TITLE": "Marcador da conversa",
-        "ADD_BUTTON": "Adicionar marcador"
+        "TITLE": "",
+        "ADD_BUTTON": ""
       },
       "LABEL_SELECT": {
-        "TITLE": "Adicionar marcador",
-        "PLACEHOLDER": "Pesquisar marcador ",
-        "NO_RESULT": "Nenhum rótulo encontrado"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       }
     },
-    "MERGE_CONTACT": "Mesclar contatos",
-    "CONTACT_ACTIONS": "Ações para contatos",
-    "MUTE_CONTACT": "Silenciar Conversa",
-    "UNMUTE_CONTACT": "Reativar Conversa",
-    "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
-    "UNMUTED_SUCCESS": "Essa conversa está reativada",
-    "SEND_TRANSCRIPT": "Enviar Transcrição",
+    "MERGE_CONTACT": "",
+    "CONTACT_ACTIONS": "",
+    "MUTE_CONTACT": "",
+    "UNMUTE_CONTACT": "",
+    "MUTED_SUCCESS": "",
+    "UNMUTED_SUCCESS": "",
+    "SEND_TRANSCRIPT": "",
     "EDIT_LABEL": "Alterar",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
-      "CONTACT_LABELS": "Etiquetas de contato",
+      "CUSTOM_ATTRIBUTES": "",
+      "CONTACT_LABELS": "",
       "PREVIOUS_CONVERSATIONS": "Conversas anteriores"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Alterar Contato",
-    "TITLE": "Alterar contato",
-    "DESC": "Alterar detalhes do contato"
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Novo contato",
-    "TITLE": "Criar novo contato",
-    "DESC": "Adicione informações básicas sobre o contato."
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Importar",
-    "TITLE": "Importar Contatos",
-    "DESC": "Importar contatos através de um arquivo CSV.",
-    "DOWNLOAD_LABEL": "Baixar um exemplo de csv.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "DOWNLOAD_LABEL": "",
     "FORM": {
-      "LABEL": "Arquivo CSV",
-      "SUBMIT": "Importar",
+      "LABEL": "",
+      "SUBMIT": "",
       "CANCEL": "Cancelar"
     },
-    "SUCCESS_MESSAGE": "Contatos salvos com sucesso",
-    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirmar exclusão",
-      "MESSAGE": "Tem certeza que deseja excluir esta nota?",
-      "YES": "Sim, exclua",
-      "NO": "Não, mantenha"
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Excluir contato",
-    "TITLE": "Excluir contato",
-    "DESC": "Excluir detalhes do contato",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
     "CONFIRM": {
       "TITLE": "Confirmar exclusão",
       "MESSAGE": "Você tem certeza que deseja excluir ",
-      "YES": "Sim, excluir",
-      "NO": "Não, Mantenha"
+      "YES": "",
+      "NO": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contato excluído com sucesso",
-      "ERROR_MESSAGE": "Não foi possível excluir o contato. Por favor, tente novamente mais tarde."
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACT_FORM": {
@@ -100,248 +100,248 @@
       "SUBMIT": "Enviar",
       "CANCEL": "Cancelar",
       "AVATAR": {
-        "LABEL": "Avatar do Contato"
+        "LABEL": ""
       },
       "NAME": {
-        "PLACEHOLDER": "Insira o nome completo do contato",
-        "LABEL": "Nome Completo"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "BIO": {
-        "PLACEHOLDER": "Insira a descrição do contato",
-        "LABEL": "Descrição"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Insira o endereço de e-mail do contato",
+        "PLACEHOLDER": "",
         "LABEL": "Endereço de e-mail",
-        "DUPLICATE": "Esse endereço de e-mail já está sendo usado para outro contato.",
-        "ERROR": "Por favor, insira um endereço de e-mail válido."
+        "DUPLICATE": "",
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Adicione o número de telefone do contato",
-        "LABEL": "Número de Telefone",
-        "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]",
-        "ERROR": "O número de telefone deve estar vazio ou no formato E.164",
-        "DUPLICATE": "Este número de telefone está em uso para outro contato."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "HELP": "",
+        "ERROR": "",
+        "DUPLICATE": ""
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "",
         "LABEL": "Localização"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Digite o nome da empresa",
-        "LABEL": "Nome da empresa"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Digite o nome de usuário do Facebook",
-          "LABEL": "Facebook"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "TWITTER": {
-          "PLACEHOLDER": "Digite o nome de usuário Twitter",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Digite o nome de usuário do LinkedIn",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "GITHUB": {
-          "PLACEHOLDER": "Digite o nome de usuário do Github",
-          "LABEL": "Github"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Avatar de contato excluído com sucesso",
-        "ERROR_MESSAGE": "Não foi possível excluir o avatar do contato. Por favor, tente novamente mais tarde."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
-    "SUCCESS_MESSAGE": "Contato salvo com sucesso",
-    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Iniciar Conversa",
-    "TITLE": "Nova conversa",
-    "DESC": "Iniciar uma nova conversa enviando uma nova mensagem.",
-    "NO_INBOX": "Não foi possível encontrar uma caixa de entrada para iniciar uma nova conversa com este contato.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "NO_INBOX": "",
     "FORM": {
       "TO": {
-        "LABEL": "Para"
+        "LABEL": ""
       },
       "INBOX": {
-        "LABEL": "Caixa de Entrada",
-        "ERROR": "Selecione uma caixa de entrada"
+        "LABEL": "",
+        "ERROR": ""
       },
       "SUBJECT": {
-        "LABEL": "Assunto",
-        "PLACEHOLDER": "Assunto",
-        "ERROR": "O assunto não pode estar vazio"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Messagem",
-        "PLACEHOLDER": "Escreva sua mensagem aqui",
-        "ERROR": "A mensagem não pode estar vazia"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
-      "SUBMIT": "Enviar mensagem",
+      "SUBMIT": "",
       "CANCEL": "Cancelar",
-      "SUCCESS_MESSAGE": "Mensagem enviada!",
+      "SUCCESS_MESSAGE": "",
       "GO_TO_CONVERSATION": "Visualizar",
-      "ERROR_MESSAGE": "Não foi possível enviar! Tente novamente"
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contato",
-    "FIELDS": "Campos de contatos",
-    "SEARCH_BUTTON": "Pesquisar",
-    "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
-    "FILTER_CONTACTS": "Filtro",
-    "FILTER_CONTACTS_SAVE": "Salvar Filtro",
-    "FILTER_CONTACTS_DELETE": "Excluir filtro",
+    "HEADER": "",
+    "FIELDS": "",
+    "SEARCH_BUTTON": "",
+    "SEARCH_INPUT_PLACEHOLDER": "",
+    "FILTER_CONTACTS": "",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
-      "LOADING_MESSAGE": "Carregando contatos...",
-      "404": "Nenhum contato corresponde à sua pesquisa 🔍",
-      "NO_CONTACTS": "Não há contatos disponíveis",
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "NO_CONTACTS": "",
       "TABLE_HEADER": {
         "NAME": "Nome",
-        "PHONE_NUMBER": "Número de Telefone",
+        "PHONE_NUMBER": "",
         "CONVERSATIONS": "Conversas",
-        "LAST_ACTIVITY": "Última atividade",
-        "COUNTRY": "País/região",
-        "CITY": "Cidade",
-        "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Empresa",
+        "LAST_ACTIVITY": "",
+        "COUNTRY": "",
+        "CITY": "",
+        "SOCIAL_PROFILES": "",
+        "COMPANY": "",
         "EMAIL_ADDRESS": "Endereço de e-mail"
       },
-      "VIEW_DETAILS": "Ver detalhes"
+      "VIEW_DETAILS": ""
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Contato",
-    "LOADING": "Carregando perfil de contato..."
+    "BACK_BUTTON": "",
+    "LOADING": ""
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Adicionar",
-      "TITLE": "Shift + Enter para criar uma nota"
+      "BUTTON": "",
+      "TITLE": ""
     },
     "FOOTER": {
-      "DUE_DATE": "Data de vencimento",
-      "LABEL_TITLE": "Definir tipo"
+      "DUE_DATE": "",
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Buscando anotações...",
-    "NOT_AVAILABLE": "Não há notas criadas para este contato",
+    "FETCHING_NOTES": "",
+    "NOT_AVAILABLE": "",
     "HEADER": {
-      "TITLE": "Observações"
+      "TITLE": ""
     },
     "LIST": {
-      "LABEL": "Adicionando uma anotação"
+      "LABEL": ""
     },
     "ADD": {
-      "BUTTON": "Adicionar",
-      "PLACEHOLDER": "Adicionar uma nota",
-      "TITLE": "Shift + Enter para criar uma nota"
+      "BUTTON": "",
+      "PLACEHOLDER": "",
+      "TITLE": ""
     },
     "CONTENT_HEADER": {
-      "DELETE": "Deletar Anotação"
+      "DELETE": ""
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Atividades"
+      "TITLE": ""
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "observações",
-      "PILL_BUTTON_EVENTS": "Eventos",
-      "PILL_BUTTON_CONVO": "conversas"
+      "PILL_BUTTON_NOTES": "",
+      "PILL_BUTTON_EVENTS": "",
+      "PILL_BUTTON_CONVO": ""
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Adicionar atributo",
-    "BUTTON": "Criar atributo personalizado",
-    "NOT_AVAILABLE": "Não há atributos personalizados para este contato.",
-    "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
+    "ADD_BUTTON_TEXT": "",
+    "BUTTON": "",
+    "NOT_AVAILABLE": "",
+    "COPY_SUCCESSFUL": "",
     "ACTIONS": {
-      "COPY": "Copiar atributo",
-      "DELETE": "Excluir atributo",
-      "EDIT": "Editar atributo"
+      "COPY": "",
+      "DELETE": "",
+      "EDIT": ""
     },
     "ADD": {
-      "TITLE": "Criar atributo personalizado",
-      "DESC": "Adicionar informações personalizadas a este contato."
+      "TITLE": "",
+      "DESC": ""
     },
     "FORM": {
-      "CREATE": "Adicionar atributo",
+      "CREATE": "",
       "CANCEL": "Cancelar",
       "NAME": {
-        "LABEL": "Atributos Personalizados",
-        "PLACEHOLDER": "Por exemplo: ID shopify",
-        "ERROR": "Nome de atributo personalizado inválido"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "VALUE": {
-        "LABEL": "Valor do atributo",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "ADD": {
-        "TITLE": "Criar novo atributo ",
-        "SUCCESS": "Atributo adicionado com sucesso",
-        "ERROR": "Não foi possível adicionar o atributo. Por favor, tente mais tarde"
+        "TITLE": "",
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "UPDATE": {
-        "SUCCESS": "Atributo atualizado com sucesso",
-        "ERROR": "Não foi possível atualizar o atributo. Por favor, tente mais tarde"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "Atributo excluído com sucesso",
-        "ERROR": "Não foi possível excluir o atributo. Por favor, tente mais tarde"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Adicionar atributo",
-        "PLACEHOLDER": "Procurar atributos",
-        "NO_RESULT": "Nenhum atributo encontrado"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Selecione o valor",
-          "SEARCH_INPUT_PLACEHOLDER": "Pesquisar valor",
-          "NO_RESULT": "Nenhum resultado encontrado"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Um valor válido é obrigatório",
-      "INVALID_URL": "URL inválida"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Mesclar contatos",
-    "DESCRIPTION": "Mescle contatos para combinar dois perfis em um, incluindo todos os atributos e conversas. Em caso de conflito, os atributos do contato principal terão prioridade.",
+    "TITLE": "",
+    "DESCRIPTION": "",
     "PRIMARY": {
-      "TITLE": "Contato principal",
-      "HELP_LABEL": "Para ser mantido"
+      "TITLE": "",
+      "HELP_LABEL": ""
     },
     "CHILD": {
-      "TITLE": "Contato para mesclar",
-      "PLACEHOLDER": "Procurar um contato",
-      "HELP_LABEL": "Para ser excluído"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
-      "TITLE": "Sumário",
-      "DELETE_WARNING": "Contato de <strong>%{childContactName}</strong> será excluído.",
-      "ATTRIBUTE_WARNING": "Detalhes de contato de <strong>%{childContactName}</strong> serão copiados para <strong>%{primaryContactName}</strong>."
+      "TITLE": "",
+      "DELETE_WARNING": "",
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
-      "ERROR": "Mensagem de erro"
+      "ERROR": ""
     },
     "FORM": {
-      "SUBMIT": " Mesclar contatos",
+      "SUBMIT": "",
       "CANCEL": "Cancelar",
       "CHILD_CONTACT": {
-        "ERROR": "Selecione um contato filho para mesclar"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "Contato mesclado com sucesso",
-      "ERROR_MESSAGE": "Não foi possível mesclar contatos, tente novamente!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
