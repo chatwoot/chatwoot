@@ -1,347 +1,347 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Tidak Tersedia",
-    "EMAIL_ADDRESS": "Alamat Email",
-    "PHONE_NUMBER": "Nomor Telpon",
-    "IDENTIFIER": "Identifier",
-    "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
-    "COMPANY": "Perusahaan",
-    "LOCATION": "Lokasi",
-    "BROWSER_LANGUAGE": "Browser Language",
-    "CONVERSATION_TITLE": "Detail Percakapan",
-    "VIEW_PROFILE": "Lihat Profil",
-    "BROWSER": "Browser",
-    "OS": "Sistem Operasi",
-    "INITIATED_FROM": "Dimulai dari",
-    "INITIATED_AT": "Dimulai pada",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "Pesan baru",
+    "NOT_AVAILABLE": "",
+    "EMAIL_ADDRESS": "",
+    "PHONE_NUMBER": "",
+    "IDENTIFIER": "",
+    "COPY_SUCCESSFUL": "",
+    "COMPANY": "",
+    "LOCATION": "",
+    "BROWSER_LANGUAGE": "",
+    "CONVERSATION_TITLE": "",
+    "VIEW_PROFILE": "",
+    "BROWSER": "",
+    "OS": "",
+    "INITIATED_FROM": "",
+    "INITIATED_AT": "",
+    "IP_ADDRESS": "",
+    "NEW_MESSAGE": "",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini.",
-      "TITLE": "Percakapan Sebelumnya"
+      "NO_RECORDS_FOUND": "",
+      "TITLE": ""
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Label Kontak",
-        "ERROR": "Tidak dapat mengupdate label"
+        "TITLE": "",
+        "ERROR": ""
       },
       "CONVERSATION": {
-        "TITLE": "Label Percakapan",
-        "ADD_BUTTON": "Tambah label"
+        "TITLE": "",
+        "ADD_BUTTON": ""
       },
       "LABEL_SELECT": {
-        "TITLE": "Tambah label",
-        "PLACEHOLDER": "Cari label",
-        "NO_RESULT": "Tidak ada label"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       }
     },
-    "MERGE_CONTACT": "Gabungkan Kontak",
-    "CONTACT_ACTIONS": "Tindakan Kontak",
-    "MUTE_CONTACT": "Mute Percakapan",
-    "UNMUTE_CONTACT": "Unmute Percakapan",
-    "MUTED_SUCCESS": "Percakapan ini di mute selama 6 jam",
-    "UNMUTED_SUCCESS": "Percakapan ini di unmute",
-    "SEND_TRANSCRIPT": "Kirim Transkrip",
-    "EDIT_LABEL": "Edit",
+    "MERGE_CONTACT": "",
+    "CONTACT_ACTIONS": "",
+    "MUTE_CONTACT": "",
+    "UNMUTE_CONTACT": "",
+    "MUTED_SUCCESS": "",
+    "UNMUTED_SUCCESS": "",
+    "SEND_TRANSCRIPT": "",
+    "EDIT_LABEL": "",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Atribut Kustom",
-      "CONTACT_LABELS": "Label Kontak",
-      "PREVIOUS_CONVERSATIONS": "Percakapan Sebelumnya"
+      "CUSTOM_ATTRIBUTES": "",
+      "CONTACT_LABELS": "",
+      "PREVIOUS_CONVERSATIONS": ""
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Kontak",
-    "TITLE": "Edit kontak",
-    "DESC": "Edit detail kontak"
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Kontak Baru",
-    "TITLE": "Buat kontak baru",
-    "DESC": "Tambahkan detail informasi dasar tentang kontak tersebut."
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": ""
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Impor",
-    "TITLE": "Impor Kontak",
-    "DESC": "Impor kontak melalui file CSV.",
-    "DOWNLOAD_LABEL": "Unduh contoh file CSV.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "DOWNLOAD_LABEL": "",
     "FORM": {
-      "LABEL": "File CSV",
-      "SUBMIT": "Impor",
-      "CANCEL": "Batalkan"
+      "LABEL": "",
+      "SUBMIT": "",
+      "CANCEL": ""
     },
-    "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
-    "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "DELETE_NOTE": {
     "CONFIRM": {
-      "TITLE": "Konfirmasi Penghapusan",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "Tidak, Simpan"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Hapus Kontak",
-    "TITLE": "Hapus kontak",
-    "DESC": "Hapus detil kontak",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
     "CONFIRM": {
-      "TITLE": "Konfirmasi Penghapusan",
-      "MESSAGE": "Apakah Anda yakin untuk menghapus ",
-      "YES": "Ya, Hapus",
-      "NO": "Tidak, Simpan"
+      "TITLE": "",
+      "MESSAGE": "",
+      "YES": "",
+      "NO": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Kontak berhasil dihapus",
-      "ERROR_MESSAGE": "Tidak dapat menghapus kontak. Silakan coba lagi nanti."
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACT_FORM": {
     "FORM": {
-      "SUBMIT": "Kirim",
-      "CANCEL": "Batalkan",
+      "SUBMIT": "",
+      "CANCEL": "",
       "AVATAR": {
-        "LABEL": "Avatar Kontak"
+        "LABEL": ""
       },
       "NAME": {
-        "PLACEHOLDER": "Masukkan nama lengkap kontak",
-        "LABEL": "Nama Lengkap"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "BIO": {
-        "PLACEHOLDER": "Masukkan biografi kontak",
-        "LABEL": "Biografi"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Masukkan alamat email kontak",
-        "LABEL": "Alamat email",
-        "DUPLICATE": "Alamat email ini digunakan untuk kontak lain.",
-        "ERROR": "Harap masukkan alamat email yang valid."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "DUPLICATE": "",
+        "ERROR": ""
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",
-        "LABEL": "Nomor Telpon",
-        "HELP": "Nomer telepon harus dalam format E.164 misalnya: +1415555555 [+][kode negara][kode area][nomer telepon]",
-        "ERROR": "Nomer telepon harus kosong atau dalam format E. 164",
-        "DUPLICATE": "Nomer ini sudah dipakai dengan kontak lain."
+        "PLACEHOLDER": "",
+        "LABEL": "",
+        "HELP": "",
+        "ERROR": "",
+        "DUPLICATE": ""
       },
       "LOCATION": {
-        "PLACEHOLDER": "Masukkan lokasi kontak",
-        "LABEL": "Lokasi"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Masukkan nama perusahaan",
-        "LABEL": "Nama Perusahaan"
+        "PLACEHOLDER": "",
+        "LABEL": ""
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Masukkan nama pengguna facebook",
-          "LABEL": "Facebook"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "TWITTER": {
-          "PLACEHOLDER": "Edit nama pengguna Twitter",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Edit nama pengguna LinkedIn",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         },
         "GITHUB": {
-          "PLACEHOLDER": "Edit nama pengguna GitHub",
-          "LABEL": "GitHub"
+          "PLACEHOLDER": "",
+          "LABEL": ""
         }
       }
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
-    "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
-    "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+    "SUCCESS_MESSAGE": "",
+    "ERROR_MESSAGE": ""
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Mulai Percakapan",
-    "TITLE": "Percakapan baru",
-    "DESC": "Mulai sebuah percakapan baru dengan mengirim sebuah pesan baru.",
-    "NO_INBOX": "Tidak dapat menemukan kotak masuk untuk memulai sebuah percakapan baru dengan kontak ini.",
+    "BUTTON_LABEL": "",
+    "TITLE": "",
+    "DESC": "",
+    "NO_INBOX": "",
     "FORM": {
       "TO": {
-        "LABEL": "Ke"
+        "LABEL": ""
       },
       "INBOX": {
-        "LABEL": "Kotak masuk",
-        "ERROR": "Pilih kotak masuk"
+        "LABEL": "",
+        "ERROR": ""
       },
       "SUBJECT": {
-        "LABEL": "Subjek",
-        "PLACEHOLDER": "subjek",
-        "ERROR": "Subjek tidak boleh kosong"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Pesan",
-        "PLACEHOLDER": "Tulis pesan Anda disini",
-        "ERROR": "Pesan tidak boleh kosong"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
-      "SUBMIT": "Kirim pesan",
-      "CANCEL": "Batalkan",
-      "SUCCESS_MESSAGE": "Pesan terkirim!",
-      "GO_TO_CONVERSATION": "Lihat",
-      "ERROR_MESSAGE": "Tidak dapat mengirim! coba lagi"
+      "SUBMIT": "",
+      "CANCEL": "",
+      "SUCCESS_MESSAGE": "",
+      "GO_TO_CONVERSATION": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Kontak",
-    "FIELDS": "Isian kontak",
-    "SEARCH_BUTTON": "Cari",
-    "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
-    "FILTER_CONTACTS": "Saring",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "HEADER": "",
+    "FIELDS": "",
+    "SEARCH_BUTTON": "",
+    "SEARCH_INPUT_PLACEHOLDER": "",
+    "FILTER_CONTACTS": "",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
-      "LOADING_MESSAGE": "Memuat kontak...",
-      "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
-      "NO_CONTACTS": "Tidak ada kontak yang tersedia",
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "NO_CONTACTS": "",
       "TABLE_HEADER": {
-        "NAME": "Nama",
-        "PHONE_NUMBER": "Nomor Telpon",
-        "CONVERSATIONS": "Percakapan",
-        "LAST_ACTIVITY": "Aktivitas Terakhir",
-        "COUNTRY": "Negara",
-        "CITY": "Kota",
-        "SOCIAL_PROFILES": "Profil Sosial",
-        "COMPANY": "Perusahaan",
-        "EMAIL_ADDRESS": "Alamat email"
+        "NAME": "",
+        "PHONE_NUMBER": "",
+        "CONVERSATIONS": "",
+        "LAST_ACTIVITY": "",
+        "COUNTRY": "",
+        "CITY": "",
+        "SOCIAL_PROFILES": "",
+        "COMPANY": "",
+        "EMAIL_ADDRESS": ""
       },
-      "VIEW_DETAILS": "Lihat detail"
+      "VIEW_DETAILS": ""
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Kontak",
-    "LOADING": "Memuat profil kontak..."
+    "BACK_BUTTON": "",
+    "LOADING": ""
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Tambah",
-      "TITLE": "Shift + Enter untuk membuat tugas baru"
+      "BUTTON": "",
+      "TITLE": ""
     },
     "FOOTER": {
-      "DUE_DATE": "Tenggat waktu",
-      "LABEL_TITLE": "Tentukan tipe"
+      "DUE_DATE": "",
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Mengambil catatan...",
-    "NOT_AVAILABLE": "Tidak ada catatan yang dibuat untuk kontak ini",
+    "FETCHING_NOTES": "",
+    "NOT_AVAILABLE": "",
     "HEADER": {
-      "TITLE": "Catatan"
+      "TITLE": ""
     },
     "LIST": {
-      "LABEL": "menambahkan catatan"
+      "LABEL": ""
     },
     "ADD": {
-      "BUTTON": "Tambah",
-      "PLACEHOLDER": "Tambahkan Catatan",
-      "TITLE": "Shift + Enter untuk membuat sebuah catatan"
+      "BUTTON": "",
+      "PLACEHOLDER": "",
+      "TITLE": ""
     },
     "CONTENT_HEADER": {
-      "DELETE": "Hapus catatan"
+      "DELETE": ""
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Aktivitas"
+      "TITLE": ""
     },
     "BUTTON": {
-      "PILL_BUTTON_NOTES": "catatan",
-      "PILL_BUTTON_EVENTS": "Peristiwa",
-      "PILL_BUTTON_CONVO": "percakapan"
+      "PILL_BUTTON_NOTES": "",
+      "PILL_BUTTON_EVENTS": "",
+      "PILL_BUTTON_CONVO": ""
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Tambahkan atribut",
-    "BUTTON": "Tambahkan atribut kustom",
-    "NOT_AVAILABLE": "Tidak ada atribut kustom yang tersedia untuk kontak ini.",
-    "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
+    "ADD_BUTTON_TEXT": "",
+    "BUTTON": "",
+    "NOT_AVAILABLE": "",
+    "COPY_SUCCESSFUL": "",
     "ACTIONS": {
-      "COPY": "Salin atribut",
-      "DELETE": "Hapus atribut",
-      "EDIT": "Edit atribut"
+      "COPY": "",
+      "DELETE": "",
+      "EDIT": ""
     },
     "ADD": {
-      "TITLE": "Buat atribut kustom",
-      "DESC": "Tambahkan informasi kustom pada kontak ini."
+      "TITLE": "",
+      "DESC": ""
     },
     "FORM": {
-      "CREATE": "Tambahkan atribut",
-      "CANCEL": "Batalkan",
+      "CREATE": "",
+      "CANCEL": "",
       "NAME": {
-        "LABEL": "Nama atribut kustom",
-        "PLACEHOLDER": "Mis: shopy id",
-        "ERROR": "Nama atribut kustom tidak valid"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "VALUE": {
-        "LABEL": "Nilai atribut",
-        "PLACEHOLDER": "Mis: 11901 "
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "ADD": {
-        "TITLE": "Membuat atribut baru ",
-        "SUCCESS": "Atribut berhasil ditambahkan",
-        "ERROR": "Tidak dapat membuat sebuah atribut, Silakan coba lagi nanti"
+        "TITLE": "",
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "UPDATE": {
-        "SUCCESS": "Atribut berhasil diperbarui",
-        "ERROR": "Tidak dapat memperbaharui sebuah atribut, Silakan coba lagi nanti"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "DELETE": {
-        "SUCCESS": "Atribut berhasil dihapus",
-        "ERROR": "Tidak dapat menghapus atribut. Silakan coba lagi nanti"
+        "SUCCESS": "",
+        "ERROR": ""
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Tambahkan atribut",
-        "PLACEHOLDER": "Cari atribut",
-        "NO_RESULT": "Tidak ditemukan atribut"
+        "TITLE": "",
+        "PLACEHOLDER": "",
+        "NO_RESULT": ""
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Pilih nilai",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "",
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Gabungkan kontak",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "TITLE": "",
+    "DESCRIPTION": "",
     "PRIMARY": {
-      "TITLE": "Kontak utama",
-      "HELP_LABEL": "To be kept"
+      "TITLE": "",
+      "HELP_LABEL": ""
     },
     "CHILD": {
-      "TITLE": "Kontak yang akan digabungkan",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "",
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
-      "TITLE": "Ringkasan",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Detil kontak dari <strong>%{childContactName}</strong> akan disalin ke <strong>%{primaryContactName}</strong>."
+      "TITLE": "",
+      "DELETE_WARNING": "",
+      "ATTRIBUTE_WARNING": ""
     },
     "SEARCH": {
-      "ERROR": "PESAN_KESALAHAN"
+      "ERROR": ""
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
-      "CANCEL": "Batalkan",
+      "SUBMIT": "",
+      "CANCEL": "",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
