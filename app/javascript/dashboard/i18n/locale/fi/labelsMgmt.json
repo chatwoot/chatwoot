@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Tunnisteet",
-    "HEADER_BTN_TXT": "Lisää tunniste",
-    "LOADING": "Haetaan tunnisteita",
-    "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
-    "SIDEBAR_TXT": "<p><b>Tunnisteet</b> <p>Tunnisteet auttavat sinua luokittelemaan keskustelut ja priorisoimaan ne. Voit määrittää tunnisteen keskusteluun sivupaneelista.<br /><br />Tunnisteet ovat sidottuja tiliin ja niitä voidaan käyttää luomaan mukautettuja työnkulkuja organisaatiollesi. Voit määrittää oman värin tunnisteeseen, mikä helpottaa tunnisteen tunnistamista. Voit näyttää otsikon sivupalkissa, jotta voit suodattaa keskustelut helposti.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Tällä tilillä ei ole tunnisteita.",
-      "TITLE": "Hallitse tunnisteita",
-      "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Nimi",
-        "Kuvaus",
-        "Väri"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tunnisteen nimi",
-        "PLACEHOLDER": "Tunnisteen nimi",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Kuvaus",
-        "PLACEHOLDER": "Tunnisteen kuvaus"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Väri"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Näytä tunniste sivupalkissa"
+        "LABEL": ""
       },
-      "EDIT": "Muokkaa",
-      "CREATE": "Luo",
-      "DELETE": "Poista",
-      "CANCEL": "Peruuta"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "Lisää tunniste",
-      "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Tunniste lisätty onnistuneesti",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Muokkaa tunnistetta",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Tunniste päivitetty onnistuneesti",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Poista",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Tunniste poistettu onnistuneesti",
-        "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Vahvista poistaminen",
-        "MESSAGE": "Oletko varma että haluat poistaa ",
-        "YES": "Kyllä, poista ",
-        "NO": "Ei, säilytä "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
