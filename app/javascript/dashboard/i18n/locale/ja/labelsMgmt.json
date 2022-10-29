@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "ラベル",
-    "HEADER_BTN_TXT": "ラベルを追加",
-    "LOADING": "ラベルを取得中",
-    "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
-    "SIDEBAR_TXT": "<p><b>ラベル</b> <p>ラベルは会話のカテゴリー分けや優先順位づけに便利です。サイドパネルから、会話に対してラベルを設定することができます。<br /><br />ラベルはアカウントと関連付けられ、組織内のカスタムワークフローにも利用できます。ラベルには個別の色を設定できるので、認識が容易になります。サイドバーにラベルを表示させることによって、会話を絞り込むことが簡単にできます。</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "このアカウントには利用可能なラベルがありません。",
-      "TITLE": "ラベルの管理",
-      "DESC": "ラベルを使用すると、会話をグループ化できます。",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "名前",
-        "説明",
-        "色"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "ラベル名",
-        "PLACEHOLDER": "ラベル名",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "説明",
-        "PLACEHOLDER": "ラベルの説明"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "色"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "サイドバーにラベルを表示"
+        "LABEL": ""
       },
-      "EDIT": "編集",
-      "CREATE": "作成",
-      "DELETE": "削除",
-      "CANCEL": "キャンセル"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "ラベルを追加",
-      "DESC": "ラベルを使用すると、会話をグループ化できます。",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "ラベルの追加に成功しました",
-        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "ラベルを編集",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "ラベルが正常に更新されました",
-        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "削除",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "ラベルの削除に成功しました",
-        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "削除の確認",
-        "MESSAGE": "削除してもよろしいですか？ ",
-        "YES": "削除する ",
-        "NO": "いいえ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
