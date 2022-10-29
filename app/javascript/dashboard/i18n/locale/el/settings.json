@@ -3,11 +3,11 @@
     "LINK": "Ρυθμίσεις Προφίλ",
     "TITLE": "Ρυθμίσεις Προφίλ",
     "BTN_TEXT": "Ενημέρωση Προφίλ",
-    "DELETE_AVATAR": "Διαγραφή Avatar",
-    "AVATAR_DELETE_SUCCESS": "Το Avatar διαγράφηκε με επιτυχία",
-    "AVATAR_DELETE_FAILED": "Παρουσιάστηκε σφάλμα κατά τη διαγραφή του avatar, παρακαλώ προσπαθήστε ξανά",
-    "UPDATE_SUCCESS": "Το προφίλ σας ενημερώθηκε επιτυχώς",
-    "PASSWORD_UPDATE_SUCCESS": "Ο κωδικός σας άλλαξε με επιτυχία",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "",
+    "UPDATE_SUCCESS": "",
+    "PASSWORD_UPDATE_SUCCESS": "",
     "AFTER_EMAIL_CHANGED": "Το προφίλ σας ενημερώθηκε επιτυχώς, παρακαλώ κάντε είσοδο (login) επειδή τα στοιχεία εισόδου σας έχουν αλλάξει",
     "FORM": {
       "AVATAR": "Εικόνα Προφίλ",
@@ -20,55 +20,55 @@
         "NOTE": "Η διεύθυνση email είναι η ταυτότητά σας και χρησιμοποιείται για την είσοδο (login) σας."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Πλήκτρο συντόμευσης για αποστολή μηνυμάτων",
-        "NOTE": "Μπορείτε να επιλέξετε μια συντόμευση (είτε εισάγετε είτε Cmd/Ctrl+Enter) με βάση την προτίμηση για το γράψιμο.",
-        "UPDATE_SUCCESS": "Οι ρυθμίσεις σας έχουν ενημερωθεί με επιτυχία",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Αποστολή μηνυμάτων πατώντας το πλήκτρο Enter αντί να πατήσετε το κουμπί αποστολής."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Αποστολή μηνυμάτων πατώντας το πλήκτρο Enter αντί να πατήσετε το κουμπί αποστολής."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Προσωπική υπογραφή μηνύματος",
-        "NOTE": "Δημιουργήστε μια προσωπική υπογραφή, η οποία θα προστεθεί σε όλα τα μηνύματα που στέλνετε από τα εισερχόμενα email σας. Χρησιμοποιήστε τον επεξεργαστή πλούσιου περιεχομένου για να δημιουργήσετε μια εξατομικευμένη υπογραφή.",
-        "BTN_TEXT": "Αποθήκευση υπογραφής μηνύματος",
-        "API_ERROR": "Δεν ήταν δυνατή η αποθήκευση της υπογραφής! Δοκιμάστε ξανά",
-        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Υπογραφή μηνύματος",
-        "ERROR": "H υπογραφή μηνύματος δεν μπορεί να είναι κενή",
-        "PLACEHOLDER": "Εισάγετε εδώ την προσωπική σας υπογραφή μηνύματος."
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
         "TITLE": "Κωδικός",
         "NOTE": "Η ενημέρωση του κωδικού κα επαναφέρει τα logins σε όλες τις συσκευές που έχετε συνδεθεί.",
-        "BTN_TEXT": "Αλλαγή κωδικού πρόσβασης"
+        "BTN_TEXT": ""
       },
       "ACCESS_TOKEN": {
         "TITLE": "Κώδικας Πρόσβασης (Access Token)",
         "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Ειδοποιήσεις Ήχου",
-        "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
-        "NONE": "Κανένα",
-        "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
-        "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
+        "TITLE": "",
+        "NOTE": "",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Email",
         "NOTE": "Ενημέρωστε την προτίμηση για ειδοποιήσεις με email εδώ",
         "CONVERSATION_ASSIGNMENT": "Να στέλνεται ειδοποίηση email όταν μια συνομιλία αντιστοιχίζεται σε μένα",
         "CONVERSATION_CREATION": "Να στέλνεται ειδοποίηση όταν δημιουργείται μια νέα συνομιλία",
-        "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων email όταν αναφέρεστε σε μια συνομιλία",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί"
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": ""
       },
       "API": {
         "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
@@ -79,8 +79,8 @@
         "NOTE": "Ενημερώστε τις ρυθμίσεις για τις push ειδοποιήσεις εδώ",
         "CONVERSATION_ASSIGNMENT": "Να ειδοποιούμαι με push όταν μια συνομιλία μου ανατείθεται",
         "CONVERSATION_CREATION": "Να ειδοποιούμαι με push όταν δημιουργείται μια νέα συνομιλία",
-        "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων push όταν αναφέρεστε σε μια συνομιλία",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης push όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "",
         "HAS_ENABLED_PUSH": "Έχετε ενεργοποιήσει τις ειδοποιήσεις push για αυτόν τον browser.",
         "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push"
       },
@@ -88,21 +88,21 @@
         "LABEL": "Εικόνα Προφίλ"
       },
       "NAME": {
-        "LABEL": "Το πλήρες σας όνομα",
-        "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο πλήρες όνομα",
-        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το πλήρες όνομα σας"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "DISPLAY_NAME": {
-        "LABEL": "Εμφανιζόμενο όνομα",
-        "ERROR": "Παρακαλώ συμπληρώστε έγκυρο εμφανιζόμενο όνομα",
-        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το όνομα που θα εμφανίζεται στις συνομιλίες"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "AVAILABILITY": {
-        "LABEL": "Διαθεσιμότητα",
+        "LABEL": "",
         "STATUSES_LIST": [
-          "Στην Γραμμή",
-          "Απασχολημένος",
-          "Εκτός"
+          "",
+          "",
+          ""
         ]
       },
       "EMAIL": {
@@ -111,38 +111,38 @@
         "PLACEHOLDER": "Εισάγετε το Email σας, όπως θα εμφανίζεται στις συνομιλίες σας"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Τρέχων κωδικός πρόσβασης",
-        "ERROR": "Παρακαλώ εισάγετε τον τρέχοντα κωδικό πρόσβασης",
-        "PLACEHOLDER": "Παρακαλώ εισάγετε τον τρέχοντα κωδικό πρόσβασης"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Νέος κωδικός πρόσβασης",
+        "LABEL": "",
         "ERROR": "Παρακαλώ εισάγετε κωδικό τουλάχιστον 6 χαρακτήρων",
         "PLACEHOLDER": "Παρακαλώ εισάγετε ένα νέο κωδικό (password)"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Επιβεβαίωση νέου κωδικού",
         "ERROR": "Η Επιβεβαίωση κωδικού θα πρέπει να ταιριάζει με τον κωδικό",
-        "PLACEHOLDER": "Παρακαλώ εισάγετε ξανά τον νέο κωδικό (password)"
+        "PLACEHOLDER": ""
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
-    "CHANGE_ACCOUNTS": "Αλλαγή Λογαριασμού",
-    "CONTACT_SUPPORT": "Υποστήριξη Επαφών",
-    "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
+    "CHANGE_AVAILABILITY_STATUS": "",
+    "CHANGE_ACCOUNTS": "",
+    "CONTACT_SUPPORT": "",
+    "SELECTOR_SUBTITLE": "",
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
-    "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
+    "KEYBOARD_SHORTCUTS": "",
     "LOGOUT": "Έξοδος (Logout)"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
     "TRAIL_BUTTON": "Αγόρασε τώρα",
-    "DELETED_USER": "Διαγραμμένος Χρήστης",
+    "DELETED_USER": "",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Αναστολή Λογαριασμού",
-      "MESSAGE": "Ο λογαριασμός σας έχει ανασταλεί. Επικοινωνήστε με την ομάδα υποστήριξης για περισσότερες πληροφορίες."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
@@ -151,8 +151,8 @@
       "COPY_SUCCESSFUL": "Ο κώδικας αντιγράφτηκε με επιτυχία στο πρόχειρο"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Εμφάνιση Περισσότερων",
-      "SHOW_LESS": "Εμφάνιση Λιγότερων"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
@@ -169,118 +169,118 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
-    "SWITCH": "Εναλλαγή",
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
     "CONVERSATIONS": "Συζητήσεις",
-    "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
-    "MENTIONED_CONVERSATIONS": "Αναφορές",
+    "ALL_CONVERSATIONS": "",
+    "MENTIONED_CONVERSATIONS": "",
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
-    "CONTACTS": "Επαφές",
+    "CONTACTS": "",
     "HOME": "Αρχική",
     "AGENTS": "Πράκτορες",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "",
     "INBOXES": "Κιβώτια Εισερχομένων",
-    "NOTIFICATIONS": "Ειδοποιήσεις",
+    "NOTIFICATIONS": "",
     "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
     "INTEGRATIONS": "Ενοποιήσεις",
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
     "ACCOUNT_SETTINGS": "Ρυθμίσεις Λογαριασμού",
-    "APPLICATIONS": "Εφαρμογές",
-    "LABELS": "Ετικέτες",
-    "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
-    "AUTOMATION": "Αυτοματισμός",
-    "MACROS": "Μακροεντολές",
-    "TEAMS": "Ομάδες",
-    "BILLING": "Χρεώσεις",
-    "CUSTOM_VIEWS_FOLDER": "Φάκελοι",
-    "CUSTOM_VIEWS_SEGMENTS": "Τμήματα",
-    "ALL_CONTACTS": "Όλες Οι Επαφές",
-    "TAGGED_WITH": "Ετικέτα με",
-    "NEW_LABEL": "Νέα ετικέτα",
-    "NEW_TEAM": "Νέα ομάδα",
-    "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
+    "APPLICATIONS": "",
+    "LABELS": "",
+    "CUSTOM_ATTRIBUTES": "",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
+    "CUSTOM_VIEWS_FOLDER": "",
+    "CUSTOM_VIEWS_SEGMENTS": "",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
     "REPORTS_CONVERSATION": "Συζητήσεις",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Καμπάνιες",
-    "ONGOING": "Σε Εξέλιξη",
-    "ONE_OFF": "Ένα/μία από",
+    "CSAT": "",
+    "CAMPAIGNS": "",
+    "ONGOING": "",
+    "ONE_OFF": "",
     "REPORTS_AGENT": "Πράκτορες",
-    "REPORTS_LABEL": "Ετικέτες",
-    "REPORTS_INBOX": "Εισερχόμενα",
-    "REPORTS_TEAM": "Ομάδα",
-    "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Επισκόπηση",
-    "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
+    "REPORTS_LABEL": "",
+    "REPORTS_INBOX": "",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
+    "REPORTS_OVERVIEW": "",
+    "FACEBOOK_REAUTHORIZE": "",
     "HELP_CENTER": {
-      "TITLE": "Κέντρο Βοήθειας (Beta)",
-      "ALL_ARTICLES": "Όλα Τα Άρθρα",
-      "MY_ARTICLES": "Τα Άρθρα Μου",
-      "DRAFT": "Πρόχειρο",
-      "ARCHIVED": "Αρχειοθετημένο",
-      "CATEGORY": "Κατηγορία",
-      "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Ανάγνωση εγγράφων"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Χρεώσεις",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Τρέχον Πλάνο",
-      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **%{plan}** με **%{quantity}** άδειες"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Διαχειριστείτε τη συνδρομή σας",
-      "DESCRIPTION": "Δείτε τα προηγούμενα τιμολόγια σας, επεξεργαστείτε τα στοιχεία χρέωσης ή ακυρώστε τη συνδρομή σας.",
-      "BUTTON_TXT": "Μετάβαση στην πύλη χρέωσης"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Χρειάζεστε βοήθεια;",
-      "DESCRIPTION": "Αντιμετωπίζετε οποιαδήποτε προβλήματα στην τιμολόγηση? Είμαστε εδώ για να βοηθήσουμε.",
-      "BUTTON_TXT": "Συνομιλήστε μαζί μας"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
-    "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
-    "NEW_ACCOUNT": "Νέος Λογαριασμός",
-    "SELECTOR_SUBTITLE": "Δημιουργία νέου Λογαριασμού",
+    "NO_ACCOUNT_WARNING": "",
+    "NEW_ACCOUNT": "",
+    "SELECTOR_SUBTITLE": "",
     "API": {
-      "SUCCESS_MESSAGE": "Ο Λογαριασμός δημιουργήθηκε επιτυχώς",
-      "EXIST_MESSAGE": "Ο Λογαριασμός υπάρχει ήδη",
+      "SUCCESS_MESSAGE": "",
+      "EXIST_MESSAGE": "",
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Ονομασία Λογαριασμού",
-        "PLACEHOLDER": "Wayne Α. Ε"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "SUBMIT": "Καταχώρηση"
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Άνοιγμα συνομιλίας",
-      "RESOLVE_AND_NEXT": "Επίλυση και μετακίνηση στην επόμενη",
-      "NAVIGATE_DROPDOWN": "Πλοηγηθείτε στα αναπτυσσόμενα στοιχεία",
-      "RESOLVE_CONVERSATION": "Επίλυση Συνομιλίας",
-      "GO_TO_CONVERSATION_DASHBOARD": "Μεταβείτε στον Πίνακα Συνομιλίων",
-      "ADD_ATTACHMENT": "Προσθήκη Συνημμένου",
-      "GO_TO_CONTACTS_DASHBOARD": "Μετάβαση στον Πίνακα Επαφών",
-      "TOGGLE_SIDEBAR": "Εναλλαγή πλευρικής μπάρας",
-      "GO_TO_REPORTS_SIDEBAR": "Πλευρική μπάρα αναφορών",
-      "MOVE_TO_NEXT_TAB": "Μετακίνηση στην επόμενη καρτέλα στη λίστα συνομιλιών",
-      "GO_TO_SETTINGS": "Μετάβαση στις ρυθμίσεις",
-      "SWITCH_CONVERSATION_STATUS": "Εναλλαγή στην επόμενη κατάσταση συνομιλίας",
-      "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
-      "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
-      "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / °C.",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
