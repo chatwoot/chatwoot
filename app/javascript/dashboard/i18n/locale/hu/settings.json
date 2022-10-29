@@ -1,286 +1,286 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profilbeállítások",
-    "TITLE": "Profilbeállítások",
-    "BTN_TEXT": "Profil frissítése",
-    "DELETE_AVATAR": "Avatár Törlése",
-    "AVATAR_DELETE_SUCCESS": "Az avatár sikeresen törlésre került",
-    "AVATAR_DELETE_FAILED": "Hiba lépett fel az avatár törlése során, kérjük próbáld újra",
-    "UPDATE_SUCCESS": "A fiókod sikeresen frissítetted",
-    "PASSWORD_UPDATE_SUCCESS": "A jelszavad sikeresen megváltoztattad",
-    "AFTER_EMAIL_CHANGED": "A profilod sikeresen frissítésre került, kérjük lépj be újra, mivel megváltoztak a belépési adataid",
+    "LINK": "",
+    "TITLE": "",
+    "BTN_TEXT": "",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "",
+    "UPDATE_SUCCESS": "",
+    "PASSWORD_UPDATE_SUCCESS": "",
+    "AFTER_EMAIL_CHANGED": "",
     "FORM": {
-      "AVATAR": "Profilkép",
-      "ERROR": "Kérjük javítsd ki az űrlaphibákat",
-      "REMOVE_IMAGE": "Eltávolítás",
-      "UPLOAD_IMAGE": "Kép feltöltése",
-      "UPDATE_IMAGE": "Kép frissítése",
+      "AVATAR": "",
+      "ERROR": "",
+      "REMOVE_IMAGE": "",
+      "UPLOAD_IMAGE": "",
+      "UPDATE_IMAGE": "",
       "PROFILE_SECTION": {
-        "TITLE": "Profil",
-        "NOTE": "Az e-mailcímed az identitásod és a belépésre használhatod."
+        "TITLE": "",
+        "NOTE": ""
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Jelszó",
-        "NOTE": "A jelszó frissítása minden beléptetett eszközt kiléptet.",
-        "BTN_TEXT": "Jelszó megváltoztatása"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": ""
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Hozzáférési kulcs",
-        "NOTE": "Ez a kulcs akkor használható, ha API-alapú integrációt építesz"
+        "TITLE": "",
+        "NOTE": ""
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Hangüzenetek",
-        "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
-        "NONE": "Nincs",
-        "ASSIGNED": "Hozzárendelt Beszélgetések",
-        "ALL_CONVERSATIONS": "Beszélgetések"
+        "TITLE": "",
+        "NOTE": "",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "E-mail értesítések",
-        "NOTE": "Frissítsd az e-mail értesítési beállításaidat itt",
-        "CONVERSATION_ASSIGNMENT": "Küldj e-mail értesítéseket, amikor a beszélgetést hozzám rendelik",
-        "CONVERSATION_CREATION": "Küldj e-mail értesítéseket, amikor egy új beszélgetés létrejön",
-        "CONVERSATION_MENTION": "Küldj e-mail értesítéseket, amikor egy beszélgetésben megemlítenek",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj e-mail értesítéseket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": ""
       },
       "API": {
-        "UPDATE_SUCCESS": "Az értesítési beállításaid sikeresen frissítve",
-        "UPDATE_ERROR": "Egy hiba lépett fel a beállítások frissítése során, kérjük próbáld újra"
+        "UPDATE_SUCCESS": "",
+        "UPDATE_ERROR": ""
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push üzenetek",
-        "NOTE": "Frissítsd az push üzenet beállításaidat itt",
-        "CONVERSATION_ASSIGNMENT": "Küldj push üzeneteket, amikor a beszélgetést hozzám rendelik",
-        "CONVERSATION_CREATION": "Küldj push üzeneteket, amikor egy új beszélgetés létrejön",
-        "CONVERSATION_MENTION": "Küldj push üzeneteket, amikor egy beszélgetésben megemlítenek",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj push üzeneteket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
-        "HAS_ENABLED_PUSH": "Engedélyezted a push üzeneteket ezen a böngészőn.",
-        "REQUEST_PUSH": "Push üznetek engedélyezése"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "",
+        "HAS_ENABLED_PUSH": "",
+        "REQUEST_PUSH": ""
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profilkép"
+        "LABEL": ""
       },
       "NAME": {
-        "LABEL": "A teljes neved",
-        "ERROR": "Kérjük helyes nevet adj meg",
-        "PLACEHOLDER": "Kérjük a teljes nevedet add meg"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "DISPLAY_NAME": {
-        "LABEL": "Rövidnév",
-        "ERROR": "Kérjük helyes rövidnevet adj meg",
-        "PLACEHOLDER": "Kérjük add meg a rövidnevet amit a beszélgetésekben szeretnél megjeleníteni"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "AVAILABILITY": {
-        "LABEL": "Elérhetőség",
+        "LABEL": "",
         "STATUSES_LIST": [
-          "Online",
-          "Foglalt",
-          "Offline"
+          "",
+          "",
+          ""
         ]
       },
       "EMAIL": {
-        "LABEL": "Az e-mailcímed",
-        "ERROR": "Kérjük helyes e-mailcímet adj meg",
-        "PLACEHOLDER": "Kérjük add meg az e-mailcímet amit a beszélgetésekben szeretnél megjeleníteni"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Jelenlegi jelszó",
-        "ERROR": "Kérjük add meg a jelenlegi jelszavad",
-        "PLACEHOLDER": "Kérjük add meg a jelenlegi jelszavad"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Új jelszó",
-        "ERROR": "Kérjük 6 karakternél hosszabb jelszót adj meg",
-        "PLACEHOLDER": "Kérjük adj meg egy új jelszót"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Jelszó megerősítése",
-        "ERROR": "A két jelszónak egyeznie kell",
-        "PLACEHOLDER": "Kérjük add meg egy ismét új jelszavad"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
-    "CHANGE_ACCOUNTS": "Fiókváltás",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
-    "PROFILE_SETTINGS": "Profilbeállítások",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "LOGOUT": "Kilépés"
+    "CHANGE_AVAILABILITY_STATUS": "",
+    "CHANGE_ACCOUNTS": "",
+    "CONTACT_SUPPORT": "",
+    "SELECTOR_SUBTITLE": "",
+    "PROFILE_SETTINGS": "",
+    "KEYBOARD_SHORTCUTS": "",
+    "LOGOUT": ""
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "nap van hátra a próbaidőszakból.",
-    "TRAIL_BUTTON": "Előfizetés",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "",
+    "TRAIL_BUTTON": "",
+    "DELETED_USER": "",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Másolás",
-      "COPY_SUCCESSFUL": "Vágólapra másolva"
+      "BUTTON_TEXT": "",
+      "COPY_SUCCESSFUL": ""
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Letöltés",
-      "UPLOADING": "Feltöltés..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Elküldés"
+      "SUBMIT": ""
     }
   },
-  "CONFIRM_EMAIL": "Ellenőrzés...",
+  "CONFIRM_EMAIL": "",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Inboxhoz adás"
+      "NEW_INBOX": ""
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "CONVERSATIONS": "Beszélgetések",
-    "ALL_CONVERSATIONS": "Beszélgetések",
-    "MENTIONED_CONVERSATIONS": "Megemlítések",
-    "REPORTS": "Jelentések",
-    "SETTINGS": "Beállítások",
-    "CONTACTS": "Kontaktok",
-    "HOME": "Nyitólap",
-    "AGENTS": "Ügynökök",
-    "AGENT_BOTS": "Bots",
-    "INBOXES": "Bejövők",
-    "NOTIFICATIONS": "Értesítések",
-    "CANNED_RESPONSES": "Mentett válaszok",
-    "INTEGRATIONS": "Integrációk",
-    "PROFILE_SETTINGS": "Profilbeállítások",
-    "ACCOUNT_SETTINGS": "Fiókbeállítások",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Cimkék",
-    "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Csapatok",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Beszélgetések",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Ügynökök",
-    "REPORTS_LABEL": "Cimkék",
-    "REPORTS_INBOX": "Fiók",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "A Facebook kapcsolatod lejárt, kérjük kapcsold össze oldalad újra a szolgáltatás folytatásához",
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
+    "CONVERSATIONS": "",
+    "ALL_CONVERSATIONS": "",
+    "MENTIONED_CONVERSATIONS": "",
+    "REPORTS": "",
+    "SETTINGS": "",
+    "CONTACTS": "",
+    "HOME": "",
+    "AGENTS": "",
+    "AGENT_BOTS": "",
+    "INBOXES": "",
+    "NOTIFICATIONS": "",
+    "CANNED_RESPONSES": "",
+    "INTEGRATIONS": "",
+    "PROFILE_SETTINGS": "",
+    "ACCOUNT_SETTINGS": "",
+    "APPLICATIONS": "",
+    "LABELS": "",
+    "CUSTOM_ATTRIBUTES": "",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
+    "CUSTOM_VIEWS_FOLDER": "",
+    "CUSTOM_VIEWS_SEGMENTS": "",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
+    "REPORTS_CONVERSATION": "",
+    "CSAT": "",
+    "CAMPAIGNS": "",
+    "ONGOING": "",
+    "ONE_OFF": "",
+    "REPORTS_AGENT": "",
+    "REPORTS_LABEL": "",
+    "REPORTS_INBOX": "",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
+    "REPORTS_OVERVIEW": "",
+    "FACEBOOK_REAUTHORIZE": "",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chatelj velünk"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "Új fiók",
-    "SELECTOR_SUBTITLE": "Új fiók létrehozása",
+    "NO_ACCOUNT_WARNING": "",
+    "NEW_ACCOUNT": "",
+    "SELECTOR_SUBTITLE": "",
     "API": {
-      "SUCCESS_MESSAGE": "Ügynök sikeresen létrehozva",
-      "EXIST_MESSAGE": "A fiók már létezik",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      "SUCCESS_MESSAGE": "",
+      "EXIST_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Fióknév",
-        "PLACEHOLDER": "Kovács Kft."
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
-      "SUBMIT": "Elküldés"
+      "SUBMIT": ""
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
