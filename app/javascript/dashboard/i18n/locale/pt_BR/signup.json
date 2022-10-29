@@ -5,18 +5,18 @@
     "TERMS_ACCEPT": "Ao se inscrever, você concorda com nossa <a href=\"https://www.chatwoot.com/terms\">T & C</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nome da Conta",
-      "PLACEHOLDER": "Digite um nome de conta, por exemplo: Wayne Enterprises",
-      "ERROR": "Nome de conta é muito curto"
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Nome Completo",
-      "PLACEHOLDER": "Digite seu nome completo, por exemplo: Bruce Wayne",
-      "ERROR": "Nome completo é muito curto"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "E-mail comercial",
-      "PLACEHOLDER": "Digite seu endereço de e-mail de trabalho. por exemplo: bruce@wayne.Business",
-      "ERROR": "O endereço de e-mail é inválido"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
       "LABEL": "Senha",
@@ -34,6 +34,6 @@
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
     "SUBMIT": "Enviar",
-    "HAVE_AN_ACCOUNT": "Já possui uma conta?"
+    "HAVE_AN_ACCOUNT": ""
   }
 }
