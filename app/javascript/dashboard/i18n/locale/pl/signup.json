@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Załóż konto",
-    "TITLE": "Rejestracja",
-    "TERMS_ACCEPT": "Rejestrując się, akceptujesz naszą <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politykę prywatności</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Nazwa konta",
-      "PLACEHOLDER": "Wprowadź nazwę konta, np. Wayne Enterprises",
-      "ERROR": "Nazwa konta jest zbyt krótka"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Imię i nazwisko",
-      "PLACEHOLDER": "Wpisz swoje imię i nazwisko, np. Bruce Wayne",
-      "ERROR": "Imię i nazwisko jest zbyt krótkie"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "E-mail służbowy",
-      "PLACEHOLDER": "Podaj swój służbowy adres e-mail, np. bruce@wayne.enterprises",
-      "ERROR": "Adres e-mail jest nieprawidłowy"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Hasło",
-      "PLACEHOLDER": "Hasło",
-      "ERROR": "Hasło jest zbyt krótkie",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Potwierdź hasło",
-      "PLACEHOLDER": "Potwierdź hasło",
-      "ERROR": "Hasło nie zgadza się"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Rejestracja powiodła się",
-      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Prześlij",
-    "HAVE_AN_ACCOUNT": "Masz już konto?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
