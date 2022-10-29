@@ -1,286 +1,286 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Cài Đặt Hồ Sơ",
-    "TITLE": "Cài Đặt Hồ Sơ",
-    "BTN_TEXT": "Cập Nhật Hồ Sơ",
-    "DELETE_AVATAR": "Xoá hình đại diện",
-    "AVATAR_DELETE_SUCCESS": "Ảnh đại diện đã được xoá thành công",
-    "AVATAR_DELETE_FAILED": "Đã xảy ra lỗi khi xoá ảnh đại diện, vui lòng thử lại",
-    "UPDATE_SUCCESS": "Hồ sơ của bạn đã được cập nhật thành công",
-    "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
-    "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
+    "LINK": "",
+    "TITLE": "",
+    "BTN_TEXT": "",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "",
+    "UPDATE_SUCCESS": "",
+    "PASSWORD_UPDATE_SUCCESS": "",
+    "AFTER_EMAIL_CHANGED": "",
     "FORM": {
-      "AVATAR": "Hình ảnh hồ sơ cá nhân",
-      "ERROR": "Vui lòng sửa lỗi biểu mẫu",
-      "REMOVE_IMAGE": "Xoá",
-      "UPLOAD_IMAGE": "Tải lên hình ảnh",
-      "UPDATE_IMAGE": "Cập nhật hình ảnh",
+      "AVATAR": "",
+      "ERROR": "",
+      "REMOVE_IMAGE": "",
+      "UPLOAD_IMAGE": "",
+      "UPDATE_IMAGE": "",
       "PROFILE_SECTION": {
-        "TITLE": "Hồ sơ cá nhân",
-        "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
+        "TITLE": "",
+        "NOTE": ""
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Tạo chữ ký thư cá nhân sẽ được thêm vào tất cả các thư bạn gửi từ hộp thư email của mình. Sử dụng trình chỉnh sửa nội dung phong phú để tạo chữ ký được cá nhân hóa cao.",
-        "BTN_TEXT": "Lưu chữ ký tin nhắn",
-        "API_ERROR": "Không thể lưu chữ ký! Thử lại",
-        "API_SUCCESS": "Chữ ký được lưu thành công"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Chữ ký tin nhắn",
-        "ERROR": "Chữ ký tin nhắn không được rỗng",
-        "PLACEHOLDER": "Thêm chữ ký tin nhắn cá nhân của bạn ở đây."
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Mật khẩu",
-        "NOTE": "Cập nhật mật khẩu của bạn sẽ đặt lại thông tin đăng nhập của bạn trên nhiều thiết bị.",
-        "BTN_TEXT": "Thay đổi mật khẩu"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": ""
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Token truy cập",
-        "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API"
+        "TITLE": "",
+        "NOTE": ""
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Âm thanh Thông báo",
-        "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
-        "NONE": "Không có",
-        "ASSIGNED": "Cuộc trò chuyện được phân công",
-        "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+        "TITLE": "",
+        "NOTE": "",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Thông Báo Email",
-        "NOTE": "Cập nhật tùy chọn thông báo qua email của bạn tại đây",
-        "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
-        "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
-        "CONVERSATION_MENTION": "Gửi thông báo email khi bạn được nhắc đến trong 1 cuộc trò chuyện",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": ""
       },
       "API": {
-        "UPDATE_SUCCESS": "Tùy chọn thông báo của bạn đã được cập nhật thành công",
-        "UPDATE_ERROR": "Đã xảy ra lỗi khi cập nhật tùy chọn, vui lòng thử lại"
+        "UPDATE_SUCCESS": "",
+        "UPDATE_ERROR": ""
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Thông Báo",
-        "NOTE": "Cập nhật tùy chọn thông báo của bạn tại đây",
-        "CONVERSATION_ASSIGNMENT": "Gửi thông báo khi cuộc trò chuyện được chỉ định cho tôi",
-        "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
-        "CONVERSATION_MENTION": "Gửi thông báo đẩy khi bạn được nhắc đến trong 1 cuộc trò chuyện",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
-        "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
-        "REQUEST_PUSH": "Bật thông báo"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "",
+        "HAS_ENABLED_PUSH": "",
+        "REQUEST_PUSH": ""
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Hình ảnh hồ sơ cá nhân"
+        "LABEL": ""
       },
       "NAME": {
-        "LABEL": "Tên đầy đủ của bạn",
-        "ERROR": "Vui lòng nhập tên đầy đủ hợp lệ",
-        "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "DISPLAY_NAME": {
-        "LABEL": "Tên hiển thị",
-        "ERROR": "Vui lòng nhập tên hiển thị hợp lệ",
-        "PLACEHOLDER": "Vui lòng nhập tên hiển thị, tên này sẽ được hiển thị trong các cuộc trò chuyện"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "AVAILABILITY": {
-        "LABEL": "Khả dụng",
+        "LABEL": "",
         "STATUSES_LIST": [
-          "Trực Tuyến",
-          "Bận",
-          "Không Trực Tuyến"
+          "",
+          "",
+          ""
         ]
       },
       "EMAIL": {
-        "LABEL": "Địa chỉ email của bạn",
-        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ",
-        "PLACEHOLDER": "Vui lòng nhập địa chỉ email của bạn, địa chỉ này sẽ được hiển thị trong các cuộc trò chuyện"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Mật khẩu hiện tại",
-        "ERROR": "Vui lòng nhập mật khẩu hiện tại",
-        "PLACEHOLDER": "Vui lòng nhập mật khẩu hiện tại"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Mật khẩu mới",
-        "ERROR": "Vui lòng nhập mật khẩu có độ dài từ 6 trở lên",
-        "PLACEHOLDER": "Vui lòng nhập mật khẩu mới"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Xác nhận mật khẩu mới",
-        "ERROR": "Xác nhận mật khẩu phải khớp với mật khẩu",
-        "PLACEHOLDER": "Vui lòng nhập lại mật khẩu \bmới"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Đổi",
-    "CHANGE_ACCOUNTS": "Chuyển tài khoản",
-    "CONTACT_SUPPORT": "Liên hệ Hỗ trợ",
-    "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
-    "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
-    "KEYBOARD_SHORTCUTS": "Phím tắt",
-    "LOGOUT": "Đăng xuất"
+    "CHANGE_AVAILABILITY_STATUS": "",
+    "CHANGE_ACCOUNTS": "",
+    "CONTACT_SUPPORT": "",
+    "SELECTOR_SUBTITLE": "",
+    "PROFILE_SETTINGS": "",
+    "KEYBOARD_SHORTCUTS": "",
+    "LOGOUT": ""
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
-    "TRAIL_BUTTON": "Mua Ngay",
-    "DELETED_USER": "Người dùng bị xoá",
+    "TRIAL_MESSAGE": "",
+    "TRAIL_BUTTON": "",
+    "DELETED_USER": "",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Tài khoản bị ngưng",
-      "MESSAGE": "Tài khoản của bạn bị tạm ngưng. Vui lòng liên hệ với nhóm hỗ trợ để biết thêm thông tin."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Sao Chép",
-      "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
+      "BUTTON_TEXT": "",
+      "COPY_SUCCESSFUL": ""
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Xem thêm",
-      "SHOW_LESS": "Xem ít"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Tải xuống",
-      "UPLOADING": "Đang tải lên..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Gửi"
+      "SUBMIT": ""
     }
   },
-  "CONFIRM_EMAIL": "Đang xác thực...",
+  "CONFIRM_EMAIL": "",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Thêm Hộp thư đến"
+      "NEW_INBOX": ""
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
-    "SWITCH": "Chuyển",
-    "CONVERSATIONS": "Cuộc trò chuyện",
-    "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
-    "MENTIONED_CONVERSATIONS": "Nhắn đến",
-    "REPORTS": "Báo cáo",
-    "SETTINGS": "Cài Đặt",
-    "CONTACTS": "Liên hệ",
-    "HOME": "Trang Chủ",
-    "AGENTS": "Đại lý",
-    "AGENT_BOTS": "Bots",
-    "INBOXES": "Hộp thư đến",
-    "NOTIFICATIONS": "Thông báo",
-    "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
-    "INTEGRATIONS": "Tích hợp",
-    "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ",
-    "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
-    "APPLICATIONS": "Ứng dụng",
-    "LABELS": "Nhãn",
-    "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
-    "AUTOMATION": "Tự động hoá",
-    "MACROS": "Macros",
-    "TEAMS": "Nhóm",
-    "BILLING": "Phí",
-    "CUSTOM_VIEWS_FOLDER": "Thư mục",
-    "CUSTOM_VIEWS_SEGMENTS": "Phân khúc",
-    "ALL_CONTACTS": "Tất cả liên lạc",
-    "TAGGED_WITH": "Được gắn thẻ với",
-    "NEW_LABEL": "Nhãn mới",
-    "NEW_TEAM": "Nhóm mới",
-    "NEW_INBOX": "Kênh mới",
-    "REPORTS_CONVERSATION": "Các cuộc hội thoại",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Chiến dịch",
-    "ONGOING": "Đang diễn ra",
-    "ONE_OFF": "Một lần",
-    "REPORTS_AGENT": "Nhà cung cấp",
-    "REPORTS_LABEL": "Nhãn",
-    "REPORTS_INBOX": "Kênh",
-    "REPORTS_TEAM": "Nhóm",
-    "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Tổng quan",
-    "FACEBOOK_REAUTHORIZE": "Kết nối Facebook của bạn đã hết hạn, vui lòng kết nối lại trang Facebook của bạn để tiếp tục dịch vụ",
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
+    "CONVERSATIONS": "",
+    "ALL_CONVERSATIONS": "",
+    "MENTIONED_CONVERSATIONS": "",
+    "REPORTS": "",
+    "SETTINGS": "",
+    "CONTACTS": "",
+    "HOME": "",
+    "AGENTS": "",
+    "AGENT_BOTS": "",
+    "INBOXES": "",
+    "NOTIFICATIONS": "",
+    "CANNED_RESPONSES": "",
+    "INTEGRATIONS": "",
+    "PROFILE_SETTINGS": "",
+    "ACCOUNT_SETTINGS": "",
+    "APPLICATIONS": "",
+    "LABELS": "",
+    "CUSTOM_ATTRIBUTES": "",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
+    "CUSTOM_VIEWS_FOLDER": "",
+    "CUSTOM_VIEWS_SEGMENTS": "",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
+    "REPORTS_CONVERSATION": "",
+    "CSAT": "",
+    "CAMPAIGNS": "",
+    "ONGOING": "",
+    "ONE_OFF": "",
+    "REPORTS_AGENT": "",
+    "REPORTS_LABEL": "",
+    "REPORTS_INBOX": "",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
+    "REPORTS_OVERVIEW": "",
+    "FACEBOOK_REAUTHORIZE": "",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "Tất cả các bài",
-      "MY_ARTICLES": "Các bài của tôi",
-      "DRAFT": "Nháp",
-      "ARCHIVED": "Lưu trữ",
-      "CATEGORY": "Loại",
-      "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Đọc tài liệu"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Phí",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Gói hiện tại",
-      "PLAN_NOTE": "Bạn hiện đã đăng ký gói **%{plan}** với **%{quantity}** giấy phép"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Quản lý thuê bao của bạn",
-      "DESCRIPTION": "Xem các hóa đơn trước đây của bạn, chỉnh sửa chi tiết thanh toán hoặc hủy thuê bao của bạn.",
-      "BUTTON_TXT": "Đi tới cổng thanh toán"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Cần hỗ trợ?",
-      "DESCRIPTION": "Bạn có gặp phải bất kỳ vấn đề nào trong thanh toán không? Hãy cho chúng tôi biết.",
-      "BUTTON_TXT": "Trò chuyện với chúng tôi"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
-    "NO_BILLING_USER": "Tài khoản thanh toán của bạn đang được định cấu hình. Hãy làm mới trang và thử lại."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
-    "NEW_ACCOUNT": "Tạo mới tài khoản",
-    "SELECTOR_SUBTITLE": "Tạo mới một tài khoản",
+    "NO_ACCOUNT_WARNING": "",
+    "NEW_ACCOUNT": "",
+    "SELECTOR_SUBTITLE": "",
     "API": {
-      "SUCCESS_MESSAGE": "Tài khoản được tạo thành công",
-      "EXIST_MESSAGE": "Tài khoản đã tồn tại",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      "SUCCESS_MESSAGE": "",
+      "EXIST_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tên tài khoản",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
-      "SUBMIT": "Gửi"
+      "SUBMIT": ""
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Mở cuộc trò chuyện",
-      "RESOLVE_AND_NEXT": "Giải quyết và đi đến cái tiếp theo",
-      "NAVIGATE_DROPDOWN": "Điều hướng các mục thả xuống",
-      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
-      "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan cuộc trò chuyện",
-      "ADD_ATTACHMENT": "Thêm đính kèm",
-      "GO_TO_CONTACTS_DASHBOARD": "Đi tới Trang tổng quan liên hệ",
-      "TOGGLE_SIDEBAR": "Chuyển đổi thanh bên",
-      "GO_TO_REPORTS_SIDEBAR": "Đi đến thanh bên Báo cáo",
-      "MOVE_TO_NEXT_TAB": "Di chuyển đến tab tiếp theo trong danh sách cuộc trò chuyện",
-      "GO_TO_SETTINGS": "Đi đến Cài đặt",
-      "SWITCH_CONVERSATION_STATUS": "Chuyển sang trạng thái cuộc trò chuyện tiếp theo",
-      "SWITCH_TO_PRIVATE_NOTE": "Chuyển sang Ghi chú Riêng tư",
-      "SWITCH_TO_REPLY": "Chuyển sang phản hồi",
-      "TOGGLE_SNOOZE_DROPDOWN": "Chuyển đổi thả xuống tạm dừng"
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
