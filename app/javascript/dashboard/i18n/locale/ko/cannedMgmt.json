@@ -22,7 +22,7 @@
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "",
-          "PLACEHOLDER": "",
+          "PLACEHOLDER": "단축 코드를 입력하세요.",
           "ERROR": ""
         },
         "CONTENT": {
