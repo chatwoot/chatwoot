@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Récupération des intégrations",
-    "NO_HOOK_CONFIGURED": "Aucune intégration %{integrationId} n'est configurée dans ce compte.",
-    "HEADER": "Applications",
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "",
+    "HEADER": "",
     "STATUS": {
       "ENABLED": "Activé",
       "DISABLED": "Désactivé"
     },
     "CONFIGURE": "Configurer",
-    "ADD_BUTTON": "Ajouter un nouveau hook",
+    "ADD_BUTTON": "",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirmer la suppression",
-        "ACCOUNT": "Déconnecter"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "MESSAGE": {
-        "INBOX": "Êtes-vous sûr de vouloir supprimer?",
-        "ACCOUNT": "Êtes-vous sûr de vouloir déconnecter?"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Oui, supprimer",
-        "ACCOUNT": "Oui, déconnecter"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CANCEL_BUTTON_TEXT": "Annuler",
       "API": {
-        "SUCCESS_MESSAGE": "Webhook supprimé avec succès",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
       }
     },
     "LIST": {
-      "FETCHING": "Récupération des webhooks de l'intégration",
-      "INBOX": "Boîte de réception",
+      "FETCHING": "",
+      "INBOX": "",
       "DELETE": {
         "BUTTON_TEXT": "Supprimer"
       }
@@ -38,14 +38,14 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Sélectionner la boîte de réception",
-          "PLACEHOLDER": "Sélectionner la boîte de réception"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "SUBMIT": "Créer",
         "CANCEL": "Annuler"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Hook d'intégration ajouté avec succès",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
       }
     },
@@ -53,10 +53,10 @@
       "BUTTON_TEXT": "Connecter"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Déconnecter"
+      "BUTTON_TEXT": ""
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow est une plateforme de compréhension du langage naturel qui facilite la conception et l'intégration d'une interface utilisateur dans votre application mobile, application web, périphérique, bot, système de réponse vocale interactive, et ainsi de suite. <br /> <br /> L'intégration de Dialogflow avec %{installationName} vous permet de configurer un bot Dialogflow avec vos boîtes de réception qui permet au bot de gérer les requêtes initialement et de les remettre à un agent si nécessaire. Le Dialogflow peut être utilisé pour qualifier les plombs, réduire la charge de travail des agents en fournissant des questions fréquentes, etc. <br /> <br /> Pour ajouter Dialogflow, vous devez créer un compte de service dans votre console de projet Google et partager les identifiants. Reportez-vous à la documentation Dialogflow pour plus d'informations."
+      "DIALOGFLOW": ""
     }
   }
 }
