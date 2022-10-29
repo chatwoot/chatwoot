@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "சமர்ப்பிக்கவும்",
-    "TITLE": "பதியவும்",
-    "TERMS_ACCEPT": "பதிவுபெறுவதன் மூலம், எங்கள் <a href=\"https://www.chatwoot.com/terms\"> விதிமுறைகள் மற்றும் நிபந்தனைகள், மற்றும் <a href=\"https://www.chatwoot.com/privacy-policy\"> தனியுரிமைக் கொள்கையை ஒப்புக்கொள்கிறீர்கள்",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "கணக்கின் பெயர்",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "பாஸ்வேர்ட்",
-      "PLACEHOLDER": "பாஸ்வேர்ட்",
-      "ERROR": "பாஸ்வேர்டு மிகவும் சிறியதாக உள்ளது",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "பாஸ்வேர்டை உறுதிப்படுத்தவும்",
-      "PLACEHOLDER": "பாஸ்வேர்டை உறுதிப்படுத்தவும்",
-      "ERROR": "பாஸ்வேர்டு பொருந்தவில்லை"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "வெற்றிகரமாக பதிவு செய்துவிட்டிர்கள்",
-      "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "சமர்பிக்கவும்",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
