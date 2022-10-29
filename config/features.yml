@@ -1,6 +1,8 @@
 # DO NOT change the order of features EVER
 - name: inbound_emails
   enabled: true
+- name: channel_website
+  enabled: true
 - name: channel_email
   enabled: true
 - name: channel_facebook
@@ -13,6 +15,8 @@
   enabled: false
 - name: email_continuity_on_api_channel
   enabled: false
+- name: campaigns
+  enabled: true
 - name: help_center
   enabled: true
 - name: agent_bots

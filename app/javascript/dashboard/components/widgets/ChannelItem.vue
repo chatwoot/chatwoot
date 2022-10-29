@@ -67,6 +67,9 @@ export default {
       if (Object.keys(this.enabledFeatures).length === 0) {
         return false;
       }
+      if (key === 'website') {
+        return this.enabledFeatures.channel_website;
+      }
       if (key === 'facebook') {
         return this.enabledFeatures.channel_facebook;
       }

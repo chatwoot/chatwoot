@@ -32,8 +32,8 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'creates an account with locale' do
-        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'agent_management',
-                                                                                                    'enabled' => true }])
+        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first.update!(value: [{ 'name' => 'agent_management',
+                                                                                                 'enabled' => true }])
         post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es' },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
@@ -46,21 +46,29 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'creates an account with feature flags' do
-        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
-                                                                                                    'enabled' => true }])
+        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first.update!(value: [{ 'name' => 'inbox_management',
+                                                                                                 'enabled' => true }])
 
         post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
           ip_lookup: true,
           help_center: true,
           disable_branding: false
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
+        post '/platform/api/v1/accounts', params: {
+          name: 'Test Account',
+          features: { ip_lookup: true, help_center: true, campaigns: true }
+        }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to include('Test Account')
-        expect(json_response['enabled_features']['inbox_management']).to be(true)
-        expect(json_response['enabled_features']['ip_lookup']).to be(true)
-        expect(json_response['enabled_features']['help_center']).to be(true)
-        expect(json_response['enabled_features']['disable_branding']).to be_nil
+        expect(json_response['enabled_features']).to eq(
+          {
+            'inbox_management' => true,
+            'ip_lookup' => true,
+            'help_center' => true,
+            'campaigns' => true
+          }
+        )
       end
 
       it 'creates an account with limits settings' do
@@ -143,16 +151,23 @@ RSpec.describe 'Platform Accounts API', type: :request do
           features: {
             ip_lookup: true,
             help_center: true,
-            channel_facebook: false
+            channel_website: true,
+            channel_facebook: false,
+            campaigns: true
           },
           limits: { agents: 5, inboxes: 10 }
         }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         expect(account.reload.name).to eq('Test Account')
-        expect(account.reload.enabled_features['ip_lookup']).to be(true)
-        expect(account.reload.enabled_features['help_center']).to be(true)
-        expect(account.reload.enabled_features['channel_facebook']).to be_nil
+        expect(account.reload.enabled_features).to eq(
+          {
+            'ip_lookup' => true,
+            'help_center' => true,
+            'channel_website' => true,
+            'campaigns' => true
+          }
+        )
         expect(account.reload.limits['agents']).to eq(5)
         expect(account.reload.limits['inboxes']).to eq(10)
       end
