@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Label",
-    "HEADER_BTN_TXT": "Tambah label",
-    "LOADING": "Mengambil label",
-    "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-    "SIDEBAR_TXT": "<p><b>Label</b> <p>Label membantu Anda mengkategorikan percakapan dan memprioritaskannya. Anda dapat menetapkan label ke percakapan dari panel samping. <br /><br />Label terikat ke akun dan bisa digunakan untuk membuat alur kerja kustom di organisasi Anda. Anda dapat menetapkan warna khusus ke label, ini membuatnya lebih mudah untuk mengidentifikasi label. Anda akan dapat menampilkan label di sidebar untuk memfilter percakapan dengan mudah.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Tidak ada label yang tersedia di akun ini.",
-      "TITLE": "Kelola label",
-      "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Warna"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nama Label",
-        "PLACEHOLDER": "Nama label",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Deskripsi",
-        "PLACEHOLDER": "Deskripsi Label"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Warna"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Tampilkan label di sidebar"
+        "LABEL": ""
       },
-      "EDIT": "Edit",
-      "CREATE": "Buat",
-      "DELETE": "Hapus",
-      "CANCEL": "Batalkan"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "Tambah label",
-      "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Label berhasil ditambahkan",
-        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Label berhasil diperbarui",
-        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Hapus",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Label berhasil dihapus",
-        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Konfirmasi Penghapusan",
-        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
-        "YES": "Ya, Hapus ",
-        "NO": "Tidak, Simpan "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
