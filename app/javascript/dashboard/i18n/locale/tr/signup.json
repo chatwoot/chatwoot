@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Bir hesap oluştur",
-    "TITLE": "Kayıt ol",
-    "TERMS_ACCEPT": "Kaydolarak, <a href=\"https://www.chatwoot.com/terms\">Şartlar & Koşullar</a>'ımızı ve <a href=\"https://www.chatwoot.com/privacy-policy\">Gizlilik politikamız</a>ı kabul etmiş olursunuz",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Hesap adı",
-      "PLACEHOLDER": "Hesap adınızı giriniz. örn: Wayne Enterprises",
-      "ERROR": "Hesap adı çok kısa"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Ad Soyad",
-      "PLACEHOLDER": "Ad Soyadınızı giriniz. örn: Bruce Wayne",
-      "ERROR": "Ad Soyad çok kısa"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "İş emaili",
-      "PLACEHOLDER": "İş email adresinizi giriniz. örn: bruce@wayne.enterprises",
-      "ERROR": "Email adresi geçersiz"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Parola",
-      "PLACEHOLDER": "Parola",
-      "ERROR": "Parola çok kısa",
-      "IS_INVALID_PASSWORD": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Parolayı Onayla",
-      "PLACEHOLDER": "Parolayı Onayla",
-      "ERROR": "Parola eşleşmiyor"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Kayıt başarılı",
-      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Yolla",
-    "HAVE_AN_ACCOUNT": "Hesabın var mı?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
