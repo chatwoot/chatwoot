@@ -1,286 +1,286 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "プロフィール設定",
-    "TITLE": "プロフィール設定",
-    "BTN_TEXT": "プロフィールを更新",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "あなたのプロフィールは正常に更新されました。ログイン情報（パスワード等）が変更されたため、再度ログインしてください。",
+    "LINK": "",
+    "TITLE": "",
+    "BTN_TEXT": "",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "",
+    "UPDATE_SUCCESS": "",
+    "PASSWORD_UPDATE_SUCCESS": "",
+    "AFTER_EMAIL_CHANGED": "",
     "FORM": {
-      "AVATAR": "プロフィール画像",
-      "ERROR": "正しくフォームに入力してください",
-      "REMOVE_IMAGE": "削除",
-      "UPLOAD_IMAGE": "画像をアップロード",
-      "UPDATE_IMAGE": "画像を更新",
+      "AVATAR": "",
+      "ERROR": "",
+      "REMOVE_IMAGE": "",
+      "UPLOAD_IMAGE": "",
+      "UPDATE_IMAGE": "",
       "PROFILE_SECTION": {
-        "TITLE": "プロフィール",
-        "NOTE": "あなたのメールアドレスはあなたのIDであり、ログインに使用されます。"
+        "TITLE": "",
+        "NOTE": ""
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
-        "TITLE": "パスワード",
-        "NOTE": "パスワードを更新すると、複数のデバイスでログインがリセットされます。",
-        "BTN_TEXT": "Change password"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": ""
       },
       "ACCESS_TOKEN": {
-        "TITLE": "アクセストークン",
-        "NOTE": "このトークンは、API 連携を構築する場合に利用します。"
+        "TITLE": "",
+        "NOTE": ""
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "",
+        "NOTE": "",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Eメール通知",
-        "NOTE": "メール通知設定を更新する",
-        "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにメールで通知を送信する",
-        "CONVERSATION_CREATION": "新しい会話が作成されたときにメールで通知を送信する",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメールで通知を送信します"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": ""
       },
       "API": {
-        "UPDATE_SUCCESS": "通知設定が正常に更新されました",
-        "UPDATE_ERROR": "設定の更新中にエラーが発生しました。もう一度やり直して下さい。"
+        "UPDATE_SUCCESS": "",
+        "UPDATE_ERROR": ""
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "プッシュ通知",
-        "NOTE": "ここでプッシュ通知の設定を更新します",
-        "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにプッシュ通知を送信する",
-        "CONVERSATION_CREATION": "新しい会話が作成されたときにプッシュ通知を送信する",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにプッシュ通知を送信する",
-        "HAS_ENABLED_PUSH": "このブラウザーでプッシュ通知を有効にしました。",
-        "REQUEST_PUSH": "プッシュ通知を有効にする"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "",
+        "HAS_ENABLED_PUSH": "",
+        "REQUEST_PUSH": ""
       },
       "PROFILE_IMAGE": {
-        "LABEL": "プロフィール画像"
+        "LABEL": ""
       },
       "NAME": {
-        "LABEL": "あなたのフルネーム",
-        "ERROR": "有効な氏名を入力してください",
-        "PLACEHOLDER": "氏名を入力してください。"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "DISPLAY_NAME": {
-        "LABEL": "表示名",
-        "ERROR": "有効な表示名を入力してください",
-        "PLACEHOLDER": "表示名を入力してください。これは会話に表示されます。"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "AVAILABILITY": {
-        "LABEL": "利用可能期間",
+        "LABEL": "",
         "STATUSES_LIST": [
-          "オンライン",
-          "取り込み中",
-          "オフライン"
+          "",
+          "",
+          ""
         ]
       },
       "EMAIL": {
-        "LABEL": "あなたのメールアドレス",
-        "ERROR": "正しいメールアドレスを入力してください",
-        "PLACEHOLDER": "メールアドレスを入力してください。これは会話に表示されます"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "6文字以上のパスワードを入力してください",
-        "PLACEHOLDER": "新しいパスワードを入力してください"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "パスワードの確認",
-        "ERROR": "パスワードは一致している必要があります",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "アカウントの切り替え",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "次のリストからアカウントを選択してください",
-    "PROFILE_SETTINGS": "プロフィール設定",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "LOGOUT": "ログアウト"
+    "CHANGE_AVAILABILITY_STATUS": "",
+    "CHANGE_ACCOUNTS": "",
+    "CONTACT_SUPPORT": "",
+    "SELECTOR_SUBTITLE": "",
+    "PROFILE_SETTINGS": "",
+    "KEYBOARD_SHORTCUTS": "",
+    "LOGOUT": ""
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "日、トライアル期間が残っています。",
-    "TRAIL_BUTTON": "今すぐ購入",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "",
+    "TRAIL_BUTTON": "",
+    "DELETED_USER": "",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "コピー",
-      "COPY_SUCCESSFUL": "コードが正常にクリップボードにコピーされました"
+      "BUTTON_TEXT": "",
+      "COPY_SUCCESSFUL": ""
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "ダウンロード",
-      "UPLOADING": "アップロード中..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "送信"
+      "SUBMIT": ""
     }
   },
-  "CONFIRM_EMAIL": "確認中...",
+  "CONFIRM_EMAIL": "",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "受信トレイを追加"
+      "NEW_INBOX": ""
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "CONVERSATIONS": "会話データ",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "REPORTS": "レポート",
-    "SETTINGS": "設定",
-    "CONTACTS": "Contacts",
-    "HOME": "ホーム",
-    "AGENTS": "担当者",
-    "AGENT_BOTS": "Bots",
-    "INBOXES": "受信トレイ",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "定型文",
-    "INTEGRATIONS": "連携",
-    "PROFILE_SETTINGS": "プロフィール設定",
-    "ACCOUNT_SETTINGS": "アカウント設定",
-    "APPLICATIONS": "Applications",
-    "LABELS": "ラベル",
-    "CUSTOM_ATTRIBUTES": "カスタム属性",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "会話データ",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_AGENT": "担当者",
-    "REPORTS_LABEL": "ラベル",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Facebookの接続が期限切れになりました。サービスを継続するには、Facebookページを再接続してください。",
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
+    "CONVERSATIONS": "",
+    "ALL_CONVERSATIONS": "",
+    "MENTIONED_CONVERSATIONS": "",
+    "REPORTS": "",
+    "SETTINGS": "",
+    "CONTACTS": "",
+    "HOME": "",
+    "AGENTS": "",
+    "AGENT_BOTS": "",
+    "INBOXES": "",
+    "NOTIFICATIONS": "",
+    "CANNED_RESPONSES": "",
+    "INTEGRATIONS": "",
+    "PROFILE_SETTINGS": "",
+    "ACCOUNT_SETTINGS": "",
+    "APPLICATIONS": "",
+    "LABELS": "",
+    "CUSTOM_ATTRIBUTES": "",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
+    "CUSTOM_VIEWS_FOLDER": "",
+    "CUSTOM_VIEWS_SEGMENTS": "",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
+    "REPORTS_CONVERSATION": "",
+    "CSAT": "",
+    "CAMPAIGNS": "",
+    "ONGOING": "",
+    "ONE_OFF": "",
+    "REPORTS_AGENT": "",
+    "REPORTS_LABEL": "",
+    "REPORTS_INBOX": "",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
+    "REPORTS_OVERVIEW": "",
+    "FACEBOOK_REAUTHORIZE": "",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "チャットをする"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "新規アカウント",
-    "SELECTOR_SUBTITLE": "新しいアカウントを作成",
+    "NO_ACCOUNT_WARNING": "",
+    "NEW_ACCOUNT": "",
+    "SELECTOR_SUBTITLE": "",
     "API": {
-      "SUCCESS_MESSAGE": "アカウントが正常に作成されました",
-      "EXIST_MESSAGE": "アカウントはすでに存在します",
-      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+      "SUCCESS_MESSAGE": "",
+      "EXIST_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
     "FORM": {
       "NAME": {
-        "LABEL": "アカウント名",
-        "PLACEHOLDER": "Wayne Enterprise"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
-      "SUBMIT": "送信"
+      "SUBMIT": ""
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
