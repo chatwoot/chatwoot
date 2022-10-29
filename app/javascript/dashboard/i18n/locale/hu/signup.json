@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Fiók létrehozása",
-    "TITLE": "Regisztrálás",
-    "TERMS_ACCEPT": "A feliratkozással megerősíted, hogy egyetértesz a <a href=\"https://www.chatwoot.com/terms\"> Felhasználói feltételekkel</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési politikával</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Fióknév",
-      "PLACEHOLDER": "Fióknév hozzáadása. Pl.: Wayne Kft.",
-      "ERROR": "A fióknév túl rövid"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Teljes név",
-      "PLACEHOLDER": "Add meg a teljes neved. Pl.: Kovács János",
-      "ERROR": "A teljes név túl rövid"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Munkahelyi e-mail",
-      "PLACEHOLDER": "Add meg munkahelyi e-mailcímed. Pl. kovacs.janos@email.hu",
-      "ERROR": "Az e-mailcím helytelen"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Jelszó",
-      "PLACEHOLDER": "Jelszó",
-      "ERROR": "A jelszó túl rövid",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Jelszó megerősítése",
-      "PLACEHOLDER": "Jelszó megerősítése",
-      "ERROR": "A jelszavak nem egyeznek"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Sikeres regisztráció",
-      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Elküldés",
-    "HAVE_AN_ACCOUNT": "Már van fiókod?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
