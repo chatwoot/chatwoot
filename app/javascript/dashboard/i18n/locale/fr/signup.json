@@ -5,24 +5,24 @@
     "TERMS_ACCEPT": "En vous inscrivant, vous acceptez nos <a href=\"https://www.chatwoot.com/terms\">CGU</a> et notre <a href=\"https://www.chatwoot.com/privacy-policy\">politique de confidentialité</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nom du compte",
-      "PLACEHOLDER": "Entrez un nom de compte. Ex : Wayne Enterprises",
-      "ERROR": "Le nom du compte est trop court"
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Nom complet",
-      "PLACEHOLDER": "Entrez votre nom complet. Ex. : Bruce Wayne",
-      "ERROR": "Le nom complet est trop court"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "E-mail professionnel",
-      "PLACEHOLDER": "Entrez votre adresse e-mail professionnelle. Ex. : bruce@wayne.enterprises",
-      "ERROR": "L'adresse e-mail est invalide"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
       "LABEL": "Mot de passe",
       "PLACEHOLDER": "Mot de passe",
       "ERROR": "Le mot de passe est trop court",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmer le mot de passe",
@@ -34,6 +34,6 @@
       "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
     },
     "SUBMIT": "Envoyer",
-    "HAVE_AN_ACCOUNT": "Vous avez déjà un compte ?"
+    "HAVE_AN_ACCOUNT": ""
   }
 }
