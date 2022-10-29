@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "ثبت‌نام حساب‌کاربری",
     "TITLE": "ثبت نام",
-    "TERMS_ACCEPT": "با ثبت نام، اعلام می‌دارید که <a href=\"https://www.chatwoot.com/terms\">قوانین</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">شرایط استفاده</a> از این نرم افزار را تایید کرده و می‌پذیرید",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
       "LABEL": "نام حساب‌کاربری",
       "PLACEHOLDER": "نام حساب‌کاربری را وارد کنید. به عنوان مثال: شرکت وین",
@@ -22,12 +22,12 @@
       "LABEL": "رمز عبور",
       "PLACEHOLDER": "رمز عبور",
       "ERROR": "رمز عبور خیلی کوتاه است",
-      "IS_INVALID_PASSWORD": "رمز عبور باید شامل حداقل ۱ حرف بزرگ، ۱ حرف کوچک، ۱ عدد و ۱ کاراکتر خاص باشد"
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "تکرار رمز عبور",
       "PLACEHOLDER": "تکرار رمز عبور",
-      "ERROR": "رمز عبور و تکرار رمز عبور یکسان نیستند"
+      "ERROR": ""
     },
     "API": {
       "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
