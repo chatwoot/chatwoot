@@ -1,286 +1,286 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Ustawienia profilu",
-    "TITLE": "Ustawienia profilu",
-    "BTN_TEXT": "Aktualizuj profil",
-    "DELETE_AVATAR": "Usuń awatar",
-    "AVATAR_DELETE_SUCCESS": "Awatar został usunięty",
-    "AVATAR_DELETE_FAILED": "Wystąpił błąd podczas usuwania awatara, spróbuj ponownie",
-    "UPDATE_SUCCESS": "Twój profil został pomyślnie zaktualizowany",
-    "PASSWORD_UPDATE_SUCCESS": "Twoje hasło zostało zmienione",
-    "AFTER_EMAIL_CHANGED": "Twój profil został pomyślnie zaktualizowany, zaloguj się ponownie po zmianie danych logowania",
+    "LINK": "",
+    "TITLE": "",
+    "BTN_TEXT": "",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "",
+    "UPDATE_SUCCESS": "",
+    "PASSWORD_UPDATE_SUCCESS": "",
+    "AFTER_EMAIL_CHANGED": "",
     "FORM": {
-      "AVATAR": "Zdjęcie profilowe",
-      "ERROR": "Proszę naprawić błędy formularza",
-      "REMOVE_IMAGE": "Usuń",
-      "UPLOAD_IMAGE": "Prześlij obraz",
-      "UPDATE_IMAGE": "Aktualizuj obraz",
+      "AVATAR": "",
+      "ERROR": "",
+      "REMOVE_IMAGE": "",
+      "UPLOAD_IMAGE": "",
+      "UPDATE_IMAGE": "",
       "PROFILE_SECTION": {
-        "TITLE": "Profil",
-        "NOTE": "Twój adres e-mail jest Twoją tożsamością i jest używany do logowania."
+        "TITLE": "",
+        "NOTE": ""
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Hasło",
-        "NOTE": "Aktualizacja hasła spowoduje zresetowanie logowania na wielu urządzeniach.",
-        "BTN_TEXT": "Zmień hasło"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": ""
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Token dostępu",
-        "NOTE": "Ten token może być użyty, jeśli budujesz integrację opartą na API"
+        "TITLE": "",
+        "NOTE": ""
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Powiadomienia dźwiękowe",
-        "NOTE": "Włącz powiadomienia audio na pulpicie dla nowych wiadomości i konwersacji.",
-        "NONE": "Brak",
-        "ASSIGNED": "Przypisane rozmowy",
-        "ALL_CONVERSATIONS": "Rozmowy"
+        "TITLE": "",
+        "NOTE": "",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Powiadomienia e-mail",
-        "NOTE": "Zaktualizuj ustawienia powiadomień e-mail tutaj",
-        "CONVERSATION_ASSIGNMENT": "Wysyłaj powiadomienia e-mail, gdy konwersacja jest przypisana do mnie",
-        "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy",
-        "CONVERSATION_MENTION": "Wysyłaj powiadomienia e-mail, gdy zostaniesz wymieniony w rozmowie",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy nowa wiadomość zostanie utworzona w przypisanej konwersacji"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": ""
       },
       "API": {
-        "UPDATE_SUCCESS": "Twoje preferencje powiadomień zostały pomyślnie zaktualizowane",
-        "UPDATE_ERROR": "Wystąpił błąd podczas aktualizacji preferencji, spróbuj ponownie"
+        "UPDATE_SUCCESS": "",
+        "UPDATE_ERROR": ""
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Powiadomienia dźwiękowe",
-        "NOTE": "Zaktualizuj ustawienia powiadomień tutaj",
-        "CONVERSATION_ASSIGNMENT": "Wyślij powiadomienia push, gdy konwersacja jest przypisana do mnie",
-        "CONVERSATION_CREATION": "Wysyłaj powiadomienia push po utworzeniu nowej rozmowy",
-        "CONVERSATION_MENTION": "Wyślij powiadomienia, gdy jesteś wymieniony w konwersacji",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia push, gdy nowa wiadomość zostanie utworzona w przypisanej konwersacji",
-        "HAS_ENABLED_PUSH": "Włączyłeś opcję push dla tej przeglądarki.",
-        "REQUEST_PUSH": "Włącz powiadomienia push"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "",
+        "HAS_ENABLED_PUSH": "",
+        "REQUEST_PUSH": ""
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Zdjęcie profilowe"
+        "LABEL": ""
       },
       "NAME": {
-        "LABEL": "Twoje imię i nazwisko",
-        "ERROR": "Podaj swoje imię i nazwisko",
-        "PLACEHOLDER": "Podaj swoje imię i nazwisko"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "DISPLAY_NAME": {
-        "LABEL": "Wyświetlana nazwa",
-        "ERROR": "Wprowadź prawidłową nazwę wyświetlaną",
-        "PLACEHOLDER": "Wprowadź nazwę wyświetlaną, która będzie wyświetlana w rozmowach"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "AVAILABILITY": {
-        "LABEL": "Dostępność",
+        "LABEL": "",
         "STATUSES_LIST": [
-          "Online",
-          "Zajęty",
-          "Offline"
+          "",
+          "",
+          ""
         ]
       },
       "EMAIL": {
-        "LABEL": "Twój adres e-mail",
-        "ERROR": "Wprowadź poprawny adres e-mail",
-        "PLACEHOLDER": "Wprowadź swój adres e-mail, który będzie wyświetlany w rozmowach"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Aktualne hasło",
-        "ERROR": "Wprowadź aktualne hasło",
-        "PLACEHOLDER": "Wprowadź aktualne hasło"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD": {
-        "LABEL": "Nowe hasło",
-        "ERROR": "Wprowadź hasło o długości 6 lub więcej",
-        "PLACEHOLDER": "Wprowadź nowe hasło"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Potwierdź nowe hasło",
-        "ERROR": "Potwierdź hasło powinno być zgodne z hasłem",
-        "PLACEHOLDER": "Wprowadź ponownie swoje nowe hasło"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Zmienić",
-    "CHANGE_ACCOUNTS": "Przełącz konto",
-    "CONTACT_SUPPORT": "Contact Support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Ustawienia profilu",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "LOGOUT": "Wyloguj się"
+    "CHANGE_AVAILABILITY_STATUS": "",
+    "CHANGE_ACCOUNTS": "",
+    "CONTACT_SUPPORT": "",
+    "SELECTOR_SUBTITLE": "",
+    "PROFILE_SETTINGS": "",
+    "KEYBOARD_SHORTCUTS": "",
+    "LOGOUT": ""
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "",
+    "TRAIL_BUTTON": "",
+    "DELETED_USER": "",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "",
+      "COPY_SUCCESSFUL": ""
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Pobierz",
-      "UPLOADING": "Przesyłanie..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Prześlij"
+      "SUBMIT": ""
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": ""
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "CONVERSATIONS": "Rozmowy",
-    "ALL_CONVERSATIONS": "Rozmowy",
-    "MENTIONED_CONVERSATIONS": "Wzmianki",
-    "REPORTS": "Raporty",
-    "SETTINGS": "Ustawienia",
-    "CONTACTS": "Kontakty",
-    "HOME": "Home",
-    "AGENTS": "Agenci",
-    "AGENT_BOTS": "Bots",
-    "INBOXES": "Skrzynki",
-    "NOTIFICATIONS": "Powiadomienia",
-    "CANNED_RESPONSES": "Gotowe odpowiedzi",
-    "INTEGRATIONS": "Integracje",
-    "PROFILE_SETTINGS": "Ustawienia profilu",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Etykiety",
-    "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
-    "AUTOMATION": "Automatyzacja",
-    "MACROS": "Macros",
-    "TEAMS": "Zespoły",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Rozmowy",
-    "CSAT": "CSAT",
-    "CAMPAIGNS": "Kampania",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
-    "REPORTS_AGENT": "Agenci",
-    "REPORTS_LABEL": "Etykiety",
-    "REPORTS_INBOX": "Skrzynka odbiorcza",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
+    "CONVERSATIONS": "",
+    "ALL_CONVERSATIONS": "",
+    "MENTIONED_CONVERSATIONS": "",
+    "REPORTS": "",
+    "SETTINGS": "",
+    "CONTACTS": "",
+    "HOME": "",
+    "AGENTS": "",
+    "AGENT_BOTS": "",
+    "INBOXES": "",
+    "NOTIFICATIONS": "",
+    "CANNED_RESPONSES": "",
+    "INTEGRATIONS": "",
+    "PROFILE_SETTINGS": "",
+    "ACCOUNT_SETTINGS": "",
+    "APPLICATIONS": "",
+    "LABELS": "",
+    "CUSTOM_ATTRIBUTES": "",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
+    "CUSTOM_VIEWS_FOLDER": "",
+    "CUSTOM_VIEWS_SEGMENTS": "",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
+    "REPORTS_CONVERSATION": "",
+    "CSAT": "",
+    "CAMPAIGNS": "",
+    "ONGOING": "",
+    "ONE_OFF": "",
+    "REPORTS_AGENT": "",
+    "REPORTS_LABEL": "",
+    "REPORTS_INBOX": "",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
+    "REPORTS_OVERVIEW": "",
+    "FACEBOOK_REAUTHORIZE": "",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Porozmawiaj z nami"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "",
+    "NEW_ACCOUNT": "",
+    "SELECTOR_SUBTITLE": "",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+      "SUCCESS_MESSAGE": "",
+      "EXIST_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nazwa konta",
-        "PLACEHOLDER": "Przedsiębiorstwa Wayne"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
-      "SUBMIT": "Prześlij"
+      "SUBMIT": ""
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
