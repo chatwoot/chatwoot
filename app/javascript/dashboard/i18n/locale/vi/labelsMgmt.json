@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Nhãn",
-    "HEADER_BTN_TXT": "Thêm nhãn",
-    "LOADING": "Tải về các nhãn",
-    "SEARCH_404": "Không có kết quả nào phù hợp",
-    "SIDEBAR_TXT": "<p><b>Nhãn</b> <p>Nhãn giúp bạn phân loại các cuộc hội thoại và ưu tiên chúng. Bạn có thể gán nhãn cho một cuộc hội thoại từ bảng phụ. <br /><br />Nhãn được liên kết với tài khoản và có thể được sử dụng để tạo quy trình công việc tùy chỉnh trong tổ chức của bạn. Bạn có thể gán màu tùy chỉnh cho nhãn, điều này giúp bạn nhận dạng nhãn dễ dàng hơn. Bạn sẽ có thể hiển thị nhãn trên thanh bên để lọc các cuộc hội thoại một cách dễ dàng.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Không có nhãn nào có sẵn trong tài khoản này.",
-      "TITLE": "Quản lý nhãn",
-      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Màu sắc"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tên nhãn",
-        "PLACEHOLDER": "Tên nhãn",
-        "REQUIRED_ERROR": "Tên nhãn là bắt buộc",
-        "MINIMUM_LENGTH_ERROR": "Bắt buộc độ dài tối thiểu là 2",
-        "VALID_ERROR": "Chỉ cho phép Chữ cái, Chữ số, Dấu gạch ngang và Dấu gạch dưới"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Mô tả",
-        "PLACEHOLDER": "Mô tả cho nhãn"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Màu sắc"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Hiển thị nhãn trên sidebar"
+        "LABEL": ""
       },
-      "EDIT": "Chỉnh sửa",
-      "CREATE": "Tạo",
-      "DELETE": "Xoá",
-      "CANCEL": "Huỷ"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "Thêm nhãn",
-      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Thêm nhãn thành công",
-        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Chỉnh sửa nhãn",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Nhãn được cập nhật thành công",
-        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Nhãn đã được xoá thành công",
-        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Xác Nhận Xoá",
-        "MESSAGE": "Bạn có chắc muốn xoá? ",
-        "YES": "Có, xoá ",
-        "NO": "Không, giữ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
