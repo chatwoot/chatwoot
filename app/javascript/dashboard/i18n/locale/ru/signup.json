@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Создать аккаунт",
-    "TITLE": "Регистрация",
-    "TERMS_ACCEPT": "Зарегистрировавшись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">правилами пользования</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Имя аккаунта",
-      "PLACEHOLDER": "Введите имя аккаунта, например: Wayne Enterprises",
-      "ERROR": "Имя аккаунта слишком короткое"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Полное имя",
-      "PLACEHOLDER": "Введите полное имя, например: Bruce Wayne",
-      "ERROR": "Имя слишком короткое"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Рабочий email",
-      "PLACEHOLDER": "Введите ваш рабочий email адрес. Например: bruce@wayne.enterprises",
-      "ERROR": "Неверный email"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Пароль",
-      "PLACEHOLDER": "Пароль",
-      "ERROR": "Пароль слишком короткий",
-      "IS_INVALID_PASSWORD": "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, 1 цифру и 1 специальный символ"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Подтвердить пароль",
-      "PLACEHOLDER": "Подтвердить пароль",
-      "ERROR": "Пароли не совпадают"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Успешная регистрация",
-      "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Отправить",
-    "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
