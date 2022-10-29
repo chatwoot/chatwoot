@@ -1,69 +1,69 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Etiketter",
-    "HEADER_BTN_TXT": "Legg til etikett",
-    "LOADING": "Henter etiketter",
-    "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
-    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>hjelper deg med å kategorisere samtaler og prioritere dem. Du kan tilordne etiketter til en samtale fra sidepanelet. <br /><br />Etiketter er knyttet til kontoen og kan brukes til å opprette egendefinerte arbeidsstrømmer i din organisasjon. Du kan tilordne egendefinert farge til en etikett- det gjør det enklere å identifisere etiketten. Du vil kunne vise etiketten på sidepanelet for å enkelt filtrere samtalene.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Det er ingen etiketter tilgjengelig i denne kontoen.",
-      "TITLE": "Administrer etiketter",
-      "DESC": "Etiketter lar deg gruppere samtaler sammen.",
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
       "TABLE_HEADER": [
-        "Navn",
-        "Beskrivelse",
-        "Farge"
+        "",
+        "",
+        ""
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Etikettens navn",
-        "PLACEHOLDER": "Etikettens navn",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Beskrivelse",
-        "PLACEHOLDER": "Etikettbeskrivelse"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "COLOR": {
-        "LABEL": "Farge"
+        "LABEL": ""
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Vis etikett i sidepanelet"
+        "LABEL": ""
       },
-      "EDIT": "Rediger",
-      "CREATE": "Opprett",
-      "DELETE": "Slett",
-      "CANCEL": "Avbryt"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": ""
     },
     "ADD": {
-      "TITLE": "Legg til etikett",
-      "DESC": "Etiketter lar deg gruppere samtaler sammen.",
+      "TITLE": "",
+      "DESC": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etikett lagt til",
-        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Rediger etikett",
+      "TITLE": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiketten ble oppdatert",
-        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Slett",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Etiketten ble slettet",
-        "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Bekreft sletting",
-        "MESSAGE": "Er du sikker på at du vil slette ",
-        "YES": "Ja, slett ",
-        "NO": "Nei, behold "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     }
   }
