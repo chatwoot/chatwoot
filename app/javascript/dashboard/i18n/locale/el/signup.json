@@ -5,24 +5,24 @@
     "TERMS_ACCEPT": "Με την καταχώρηση, έχετε συμφωνήσει με τους όρους μας <a href=\"https://www.chatwoot.com/terms\">T & C</a> και <a href=\"https://www.chatwoot.com/privacy-policy\">την πολιτική ιδιωτικών δεδομένων</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Ονομασία Λογαριασμού",
-      "PLACEHOLDER": "Συμπληρώστε όνομα λογαριασμού π. χ. Wayne Α. Ε",
-      "ERROR": "Το όνομα του λογαριασμού είναι πολύ σύντομο"
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Πλήρες όνομα",
-      "PLACEHOLDER": "Συμπληρώστε το πλήρες σας όνομα: πχ: Χρήστος Παπαδόπουλος",
-      "ERROR": "Το πλήρες όνομα είναι πολύ σύντομο"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "email εργασίας",
-      "PLACEHOLDER": "συμπληρώστε το email εργασίας πχ: papadopoulos@wyane.com",
-      "ERROR": "Η διεύθυνση email είναι εσφαλμένη"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
       "LABEL": "Κωδικός",
       "PLACEHOLDER": "Κωδικός",
       "ERROR": "Ο κωδικός είναι πολύ σύντομος",
-      "IS_INVALID_PASSWORD": "Ο κωδικός πρόσβασης πρέπει να περιέχει τουλάχιστον 1 κεφαλαίο γράμμα, 1 πεζό γράμμα, 1 αριθμό και 1 ειδικό χαρακτήρα"
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Επιβεβαίωση κωδικού",
@@ -34,6 +34,6 @@
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "SUBMIT": "Καταχώρηση",
-    "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"
+    "HAVE_AN_ACCOUNT": ""
   }
 }
