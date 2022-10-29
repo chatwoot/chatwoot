@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrovať účet",
-    "TITLE": "Registrovať",
-    "TERMS_ACCEPT": "Registráciou vyjadrujete súhlas s našimi <a href=\"https://www.chatwoot.com/terms\">všeobecnými obchodnými podmienkami</a> a <a href=\"https://www.chatwoot.com/privacy-policy\">zásadami ochrany osobných údajov</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Názov účtu",
-      "PLACEHOLDER": "Zadajte názov účtu. napr: Wayne Enterprises",
-      "ERROR": "Názov účtu je príliš krátky"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Celé meno",
-      "PLACEHOLDER": "Zadajte svoje celé meno. Napr.: Bruce Wayne",
-      "ERROR": "Celé meno je príliš krátke"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Pracovný e-mail",
-      "PLACEHOLDER": "Zadajte svoju pracovnú e-mailovú adresu. Napr.: bruce@wayne.enterprises",
-      "ERROR": "E-mailová adresa je neplatná"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Heslo",
-      "PLACEHOLDER": "Heslo",
-      "ERROR": "Heslo je príliš krátke",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Potvrďte heslo",
-      "PLACEHOLDER": "Potvrďte heslo",
-      "ERROR": "Heslá sa nezhodujú"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registrácia bola úspešná",
-      "ERROR_MESSAGE": "Nepodarilo sa pripojiť k serveru Woot, skúste to prosím neskôr"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Odoslať",
-    "HAVE_AN_ACCOUNT": "Už máte účet?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
