@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Đăng kí tài khoản",
-    "TITLE": "Đăng kí",
-    "TERMS_ACCEPT": "Bằng cách đăng ký, bạn đồng ý với <a href=\"https://www.chatwoot.com/terms\">T & C</a> và <a href=\"https://www.chatwoot.com/privacy-policy\">Chính sách bảo mật</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Tên tài khoản",
-      "PLACEHOLDER": "Nhập tên tài khoản. ví dụ: Wayne Enterprises",
-      "ERROR": "Tên tài khoản quá ngắn"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Tên đầy đủ",
-      "PLACEHOLDER": "Nhập tên đầy đủ của bạn. ví dụ: Wayne Enterprises",
-      "ERROR": "Tên đầy đủ quá ngắn"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "Email công việc",
-      "PLACEHOLDER": "Nhập email công việc của bạn. ví dụ: bruce@wayne.enterprises",
-      "ERROR": "Địa chỉ email hợp lệ"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Mật khẩu",
-      "PLACEHOLDER": "Mật khẩu",
-      "ERROR": "Mật khẩu quá ngắn",
-      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Xác nhận mật khẩu",
-      "PLACEHOLDER": "Xác nhận mật khẩu",
-      "ERROR": "Mật khẩu không khớp"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Gửi",
-    "HAVE_AN_ACCOUNT": "Đã có tài khoản?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
