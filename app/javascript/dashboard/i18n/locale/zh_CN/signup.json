@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "注册帐户",
-    "TITLE": "注册",
-    "TERMS_ACCEPT": "通过注册，您同意我们的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 和 <a href=\"https://www.chatwoot.com/privacy-policy\">隐私政策</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "帐户名称",
-      "PLACEHOLDER": "输入帐户名称，例如 Wayne Enterprises",
-      "ERROR": "帐号名称太短了"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "名字",
-      "PLACEHOLDER": "输入您的全名，例如 Bruce Wayne",
-      "ERROR": "帐号名称太短了"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "工作邮箱",
-      "PLACEHOLDER": "请输入您的工作电子邮件地址，例如 bruce@wayne.enterprises",
-      "ERROR": "电子邮件地址无效"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "密码",
-      "PLACEHOLDER": "密码",
-      "ERROR": "密码太短了",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "请确认密码",
-      "PLACEHOLDER": "请确认密码",
-      "ERROR": "密码不匹配"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "注册成功",
-      "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "提交",
-    "HAVE_AN_ACCOUNT": "已经有帐号？"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
