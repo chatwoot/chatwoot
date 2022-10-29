@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Registrera ett konto",
-    "TITLE": "Registrera",
-    "TERMS_ACCEPT": "Genom att registrera dig godkänner du våra <a href=\"https://www.chatwoot.com/terms\">användarvillkor</a> och vår <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "",
     "ACCOUNT_NAME": {
-      "LABEL": "Kontonamn",
-      "PLACEHOLDER": "Ange ett kontonamn. t.ex.: Wayne Enterprises",
-      "ERROR": "Kontonamnet är för kort"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "FULL_NAME": {
-      "LABEL": "Fullständigt namn",
-      "PLACEHOLDER": "Ange ditt fullständiga namn. t.ex.: Bruce Wayne",
-      "ERROR": "Fullständigt namn är för kort"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "EMAIL": {
-      "LABEL": "E-postadress, arbete",
-      "PLACEHOLDER": "Fyll i din e-postadress för arbete. t.ex.: bruce@wayne.enterprises",
-      "ERROR": "E-postadressen är ogiltig"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "PASSWORD": {
-      "LABEL": "Lösenord",
-      "PLACEHOLDER": "Lösenord",
-      "ERROR": "Lösenordet är för kort",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": ""
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Bekräfta lösenord",
-      "PLACEHOLDER": "Bekräfta lösenord",
-      "ERROR": "Lösenorden matchar inte"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registreringen lyckades",
-      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     },
-    "SUBMIT": "Skicka",
-    "HAVE_AN_ACCOUNT": "Har du redan ett konto?"
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
   }
 }
