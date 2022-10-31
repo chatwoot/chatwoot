@@ -80,7 +80,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 input[type='file'] {
   display: none;
 }
@@ -94,9 +94,6 @@ input[type='file'] {
   align-items: center;
   font-size: var(--font-size-mini);
   cursor: pointer;
-  p {
-    margin-bottom: 0;
-  }
 }
 .success-icon {
   margin-right: var(--space-small);
