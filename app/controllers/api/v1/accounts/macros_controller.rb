@@ -1,10 +1,6 @@
 class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   before_action :fetch_macro, only: [:show, :update, :destroy, :execute]
-<<<<<<< HEAD
   before_action :check_authorization, only: [:show, :update, :destroy, :execute]
-=======
-  before_action :check_authorization
->>>>>>> a7953e9bb (fix: Macros authorizations)
 
   def index
     @macros = Macro.with_visibility(current_user, params)
