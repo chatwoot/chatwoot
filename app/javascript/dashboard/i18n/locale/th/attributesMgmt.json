@@ -1,97 +1,97 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
-    "HEADER_BTN_TXT": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
-    "LOADING": "กำลังดึงแอตทริบิวต์ที่กำหนดเอง",
-    "SIDEBAR_TXT": "<p><b>แอตทริบิวต์เเบบกำหนดเอง</b> <p>แอตทริบิวต์เเบบกำหนดเองใช้สำหรับการติดตามข้อมูลต่างๆของผู้ติดต่อหรือการสนทนา เช่น แพ็คเกจที่ใช้, วันที่ลูกค้าเริ่มใช้บริการ เป็นต้น<br /><br />ในการสร้างแอตทริบิวต์เเบบกำหนดเอง ให้คลิกปุ่ม <b>แอตทริบิวต์เเบบกำหนดเอง</b> คุณสามารถปรับแต่งและลบแอตทริบิวต์เเบบกำหนดเองโดยการคลิกปุ่มปรับแต่ง หรือปุ่มลบ</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
-      "SUBMIT": "สร้าง",
-      "CANCEL_BUTTON_TEXT": "ยกเลิก",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "ชื่อแอตทริบิวต์",
-          "PLACEHOLDER": "โปรดใส่ชื่อของแอตทริบิวต์",
-          "ERROR": "โปรดระบุชื่อ"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "คำอธิบาย",
-          "PLACEHOLDER": "โปรดใส่รายละเอียดของแอตทริบิวต์",
-          "ERROR": "โปรดระบุคำอธิบาย"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MODEL": {
-          "LABEL": "นำไปใช้กับ",
-          "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "ต้องการ Model"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TYPE": {
-          "LABEL": "ประเภท",
-          "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "โปรดระบุประเภท",
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
           "LIST": {
-            "LABEL": "รายการ",
-            "PLACEHOLDER": "โปรดระบุ Value และ Key",
-            "ERROR": "โปรดระบุ Value"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           }
         },
         "KEY": {
-          "LABEL": "คีย์",
-          "PLACEHOLDER": "โปรดใส่คีย์ของแอตทริบิวต์เเบบกำหนดเอง",
-          "ERROR": "โปรดระบุคีย์",
-          "IN_VALID": "คีย์นี้ใช้ไม่ได้"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "IN_VALID": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "เพิ่มแอตทริบิวต์เเบบกำหนดเองสำเร็จแล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถสร้างแอตทริบิวต์เเบบกำหนดเอง ได้โปรดลองใหม่อีกครั้ง"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ลบ",
       "API": {
-        "SUCCESS_MESSAGE": "ลบแอตทริบิวต์เเบบกำหนดเองสำเร็จแล้ว",
-        "ERROR_MESSAGE": "ไม่สามารถลบแอตทริบิวต์เเบบกำหนดเอง โปรดลองอีกครั้ง"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "คุณแน่ใจว่าต้องการลบ %{attributeName} หรือไม่",
-        "PLACE_HOLDER": "โปรดใส่ {attributeName} เพื่อยืนยัน",
-        "MESSAGE": "การลบจะทำให้แอตทริบิวต์เเบบกำหนดเองจะหายไป",
-        "YES": "ลบ ",
-        "NO": "ยกเลิก"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "แก้ไขแอตทริบิวต์เเบบกำหนดเอง",
-      "UPDATE_BUTTON_TEXT": "อัพเดท",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "TYPE": {
         "LIST": {
-          "LABEL": "รายการ",
-          "PLACEHOLDER": "โปรดใส่ค่าและกด Enter"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "อัปเดตแอตทริบิวต์เเบบกำหนดเองสำเร็จแล้ว",
-        "ERROR_MESSAGE": "เกิดข้อผิดพลาดระหว่างอัปเดตแอตทริบิวต์เเบบกำหนดเอง โปรดลองอีกครั้ง"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
-      "CONVERSATION": "การสนทนา",
-      "CONTACT": "รายชื่อผู้ติดต่อ"
+      "HEADER": "",
+      "CONVERSATION": "",
+      "CONTACT": ""
     },
     "LIST": {
       "TABLE_HEADER": [
         "ชื่อ",
-        "คำอธิบาย",
-        "ประเภท",
-        "คีย์"
+        "",
+        "",
+        ""
       ],
       "BUTTONS": {
-        "EDIT": "เเก้ไข",
+        "EDIT": "",
         "DELETE": "ลบ"
       },
       "EMPTY_RESULT": {
-        "404": "ไม่พบแอตทริบิวต์เเบบกำหนดเองที่สร้างไว้",
+        "404": "",
         "NOT_FOUND": "ไม่มีแอตทริบิวต์เเบบกำหนดเอง ที่กำหนดค่าไว้"
       }
     }
