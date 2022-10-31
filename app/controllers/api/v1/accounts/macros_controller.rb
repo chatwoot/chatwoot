@@ -84,14 +84,6 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-<<<<<<< HEAD
-    if @macro.present?
-      authorize(@macro)
-    else
-      super(Macro)
-    end
-=======
     authorize(@macro) if @macro.present?
->>>>>>> 42054e22d (fix: Macros authorizations)
   end
 end
