@@ -8,15 +8,17 @@ class MacroPolicy < ApplicationPolicy
   end
 
   def show?
+    return @record.global? if !author? && @account_user.agent?
+
     true
   end
 
   def update?
-    true
+    author? || @account_user.administrator?
   end
 
   def destroy?
-    true
+    author? || orphan_record?
   end
 
   def execute?
@@ -25,5 +27,17 @@ class MacroPolicy < ApplicationPolicy
 
   def attach_file?
     true
+  end
+
+  private
+
+  def author?
+    @record.created_by == @account_user.user
+  end
+
+  def orphan_record?
+    return @record.created_by.nil? if @account_user.agent? || @account_user.administrator?
+
+    false
   end
 end
