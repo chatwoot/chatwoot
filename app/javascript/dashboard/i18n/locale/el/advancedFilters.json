@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Φίλτρο Συνομιλιών",
-    "SUBTITLE": "Προσθέστε φίλτρα παρακάτω και πατήστε το 'Εφαρμογή φίλτρων' για να φιλτράρετε συνομιλίες.",
-    "ADD_NEW_FILTER": "Προσθήκη Φίλτρου",
-    "FILTER_DELETE_ERROR": "Θα πρέπει να έχετε τουλάχιστον ένα φίλτρο για την αποθήκευση",
-    "SUBMIT_BUTTON_LABEL": "Εφαρμογή φίλτρων",
+    "TITLE": "",
+    "SUBTITLE": "",
+    "ADD_NEW_FILTER": "",
+    "FILTER_DELETE_ERROR": "",
+    "SUBMIT_BUTTON_LABEL": "",
     "CANCEL_BUTTON_LABEL": "Άκυρο",
-    "CLEAR_BUTTON_LABEL": "Εκκαθάριση Φίλτρων",
-    "EMPTY_VALUE_ERROR": "Απαιτείται τιμή",
-    "TOOLTIP_LABEL": "Φιλτράρισμα συνομιλιών",
+    "CLEAR_BUTTON_LABEL": "",
+    "EMPTY_VALUE_ERROR": "",
+    "TOOLTIP_LABEL": "",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "",
+      "OR": ""
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Ίσο με",
-      "not_equal_to": "Όχι ίσο με",
-      "contains": "Περιέχει",
-      "does_not_contain": "Δεν περιέχει",
-      "is_present": "Υπάρχει",
-      "is_not_present": "Δεν υπάρχει",
-      "is_greater_than": "Είναι μεγαλύτερο από",
-      "is_less_than": "Είναι μικρότερο από",
-      "days_before": "Είναι x ημέρες πριν"
+      "equal_to": "",
+      "not_equal_to": "",
+      "contains": "",
+      "does_not_contain": "",
+      "is_present": "",
+      "is_not_present": "",
+      "is_greater_than": "",
+      "is_less_than": "",
+      "days_before": ""
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "",
+      "FALSE": ""
     },
     "ATTRIBUTES": {
       "STATUS": "Κατάσταση",
-      "ASSIGNEE_NAME": "Όνομα Εντεταλμένου",
-      "INBOX_NAME": "Όνομα Κιβωτίου",
-      "TEAM_NAME": "Όνομα Ομάδας",
-      "CONVERSATION_IDENTIFIER": "Κωδικός Σινομιλίας",
-      "CAMPAIGN_NAME": "Όνομα Καμπάνιας",
-      "LABELS": "Ετικέτες",
-      "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
-      "COUNTRY_NAME": "Όνομα Χώρας",
-      "REFERER_LINK": "Σύνδεσμος αναφοράς",
-      "CUSTOM_ATTRIBUTE_LIST": "Λίστα",
-      "CUSTOM_ATTRIBUTE_TEXT": "Κείμενο",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Αριθμός",
-      "CUSTOM_ATTRIBUTE_LINK": "Σύνδεσμος",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Δημιουργήθηκε στις",
-      "LAST_ACTIVITY": "Τελευταία Δραστηριότητα"
+      "ASSIGNEE_NAME": "",
+      "INBOX_NAME": "",
+      "TEAM_NAME": "",
+      "CONVERSATION_IDENTIFIER": "",
+      "CAMPAIGN_NAME": "",
+      "LABELS": "",
+      "BROWSER_LANGUAGE": "",
+      "COUNTRY_NAME": "",
+      "REFERER_LINK": "",
+      "CUSTOM_ATTRIBUTE_LIST": "",
+      "CUSTOM_ATTRIBUTE_TEXT": "",
+      "CUSTOM_ATTRIBUTE_NUMBER": "",
+      "CUSTOM_ATTRIBUTE_LINK": "",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+      "CREATED_AT": "",
+      "LAST_ACTIVITY": ""
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Τυπικά Φίλτρα",
-      "ADDITIONAL_FILTERS": "Πρόσθετα Φίλτρα",
-      "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες"
+      "STANDARD_FILTERS": "",
+      "ADDITIONAL_FILTERS": "",
+      "CUSTOM_ATTRIBUTES": ""
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Θέλετε να αποθηκεύσετε αυτό το φίλτρο;",
-        "LABEL": "Ονομάστε αυτό το φίλτρο",
-        "PLACEHOLDER": "Πληκτρολογήστε ένα όνομα για το φίλτρο",
-        "ERROR_MESSAGE": "Απαιτείται όνομα",
-        "SAVE_BUTTON": "Αποθήκευση φίλτρου",
+        "TITLE": "",
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR_MESSAGE": "",
+        "SAVE_BUTTON": "",
         "CANCEL_BUTTON": "Άκυρο",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Ο φάκελος δημιουργήθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία φακέλου"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Το τμήμα δημιουργήθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία τμήματος"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Διαγραφή φίλτρου",
+        "DELETE_BUTTON": "",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Επιβεβαίωση Διαγραφής",
-            "MESSAGE": "Είστε βέβαιοι ότι θα διαγράψετε το φίλτρο ",
-            "YES": "Ναι, Διέγραψε το",
-            "NO": "Όχι, Κράτησε τον/την"
+            "MESSAGE": "",
+            "YES": "",
+            "NO": ""
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Ο φάκελος διαγράφηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή του φακέλου"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Το τμήμα διαγράφηκε επιτυχώς",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή τμήματος"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     }
