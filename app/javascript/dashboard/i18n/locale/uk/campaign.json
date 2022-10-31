@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Розсилки",
-    "SIDEBAR_TXT": "Проактивні повідомлення дозволяють клієнту надсилати вихідні повідомлення своїм контактам, що призведе до більшої кількості розмов. Натисніть <b>Додати розсилку</b> для створення нової розсилки. Ви також можете редагувати або видаляти існуючу розсилку, натиснувши кнопку Редагувати або Видалити.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Створіть одноразову розсилку",
-      "ONGOING": "Створіть постійну розсилку"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "Створити кампанію",
-      "DESC": "Проактивні повідомлення дозволяють клієнту надсилати вихідні повідомлення своїм контактам, що призведе до більшої кількості розмов.",
+      "TITLE": "",
+      "DESC": "",
       "CANCEL_BUTTON_TEXT": "Скасувати",
-      "CREATE_BUTTON_TEXT": "Створити",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "Назва",
-          "PLACEHOLDER": "Будь ласка, введіть назву кампанії",
-          "ERROR": "Необхідно вказати назву"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "Запланований час",
-          "PLACEHOLDER": "Будь ласка, виберіть час",
-          "CONFIRM": "Підтвердити",
-          "ERROR": "Запланований час обов'язковий"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "Аудиторія",
-          "PLACEHOLDER": "Оберіть мітки клієнта",
-          "ERROR": "Потрібна аудиторія"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "Оберіть канал",
-          "PLACEHOLDER": "Оберіть канал",
-          "ERROR": "Канал потрібен"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
-          "LABEL": "Текст повідомлення",
-          "PLACEHOLDER": "Будь ласка, введіть повідомлення кампанії",
-          "ERROR": "Необхідне повідомлення"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "Надіслав",
-          "PLACEHOLDER": "Оберіть вміст кампанії",
-          "ERROR": "Відправник обов'язковий"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Будь ласка, введіть URL",
-          "ERROR": "Будь ласка, введіть правильний URL"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Час на сторінці (секунд)",
-          "PLACEHOLDER": "Будь ласка, введіть час",
-          "ERROR": "Потрібен час на сторінці"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "Увімкнути кампанію",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Активувати лише протягом робочих годин",
-        "SUBMIT": "Додати маркет. кампанію"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Кампанію успішно створено",
-        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",
-        "MESSAGE": "Справді бажаєте видалити?",
+        "MESSAGE": "",
         "YES": "Так, видалити ",
-        "NO": "Ні, залишити "
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Кампанію успішно видалено",
-        "ERROR_MESSAGE": "Не вдалося видалити кампанію. Будь ласка, спробуйте ще раз пізніше."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Редагувати кампанію",
+      "TITLE": "",
       "UPDATE_BUTTON_TEXT": "Оновити",
       "API": {
-        "SUCCESS_MESSAGE": "Кампанію успішно оновлено",
-        "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Завантаження розсилки...",
-      "404": "Не створено жодної розсилки, для цього джерела.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "Назва",
-        "MESSAGE": "Текст повідомлення",
-        "INBOX": "Канал",
+        "TITLE": "",
+        "MESSAGE": "",
+        "INBOX": "",
         "STATUS": "Статус",
-        "SENDER": "Відправник",
-        "URL": "URL",
-        "SCHEDULED_AT": "Запланований час",
-        "TIME_ON_PAGE": "Час (в секундах)",
-        "CREATED_AT": "Створений в"
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "Додати",
+        "ADD": "",
         "EDIT": "Редагувати",
         "DELETE": "Видалити"
       },
       "STATUS": {
-        "ENABLED": "Увімкнено",
-        "DISABLED": "Вимкнено",
-        "COMPLETED": "Завершено",
-        "ACTIVE": "Активний"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "Бот"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "Одноразова розсилка",
-      "404": "Жодної розсилки не створено",
-      "INBOXES_NOT_FOUND": "Створіть канал для відправки SMS та почніть додавати розсилки"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "Поточні розсилки",
-      "404": "Жодної постійної розсилки не створено",
-      "INBOXES_NOT_FOUND": "Будь ласка створіть канал та почніть додавати розсилку"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
