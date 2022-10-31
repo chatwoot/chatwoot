@@ -1,98 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Thuộc tính tùy chỉnh",
-    "HEADER_BTN_TXT": "Thêm thuộc tính Tùy chỉnh",
-    "LOADING": "Đang lấy thuộc tính tuỳ chỉnh",
-    "SIDEBAR_TXT": "<p><b>Thuộc tính tùy chỉnh</b> <p>Thuộc tính tùy chỉnh theo dõi thông tin thực tế về các địa chỉ liên hệ/cuộc hội thoại của bạn - như gói \bthuê bao hoặc khi họ đặt hàng mặt hàng đầu tiên, v. v. <br /><br />Để tạo một Thuộc tính Tùy chỉnh, chỉ cần nhấp vào <b>Thêm Thuộc tính Tùy chỉnh.</b> Bạn cũng có thể chỉnh sửa hoặc xóa Thuộc tính Tùy chỉnh hiện có bằng cách nhấp vào nút Chỉnh sửa hoặc Xóa.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "Thêm thuộc tính Tùy chỉnh",
-      "SUBMIT": "Tạo",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên hiển thị",
-          "PLACEHOLDER": "Nhập tên hiển thị của thuộc tính tuỳ chỉnh",
-          "ERROR": "Tên bắt buộc có"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "Mô tả",
-          "PLACEHOLDER": "Điền mô tả của thuộc tính tuỳ chỉnh",
-          "ERROR": "Mô tả bắt buộc có"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MODEL": {
-          "LABEL": "Áp dụng cho",
-          "PLACEHOLDER": "Vui lòng chọn một",
-          "ERROR": "Mô hình bắt buộc có"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TYPE": {
-          "LABEL": "Kiểu",
-          "PLACEHOLDER": "Vui lòng chọn một kiểu",
-          "ERROR": "Kiểu bắt buộc có",
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
           "LIST": {
-            "LABEL": "Giá trị của danh sách",
-            "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter",
-            "ERROR": "Phải có ít nhất 1 giá trị"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           }
         },
         "KEY": {
-          "LABEL": "Khoá",
-          "PLACEHOLDER": "Nhập khoá của thuộc tính tuỳ chỉnh",
-          "ERROR": "C\u001dần có khoá",
-          "IN_VALID": "Khoá không hợp lệ"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "IN_VALID": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được thêm thành công",
-        "ERROR_MESSAGE": "Không thể tạo thuộc tính tuỳ chỉnh, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh bị xoá thành công.",
-        "ERROR_MESSAGE": "Không thể xoá thuộc tính tuỳ chỉnh. Thử lại."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Bạn có chắc muốn xoá - %{attributeName}",
-        "PLACE_HOLDER": "Vui lòng điền {attributeName} để xác nhận",
-        "MESSAGE": "Xoá sẽ loại bỏ thuộc tính tuỳ chỉnh",
-        "YES": "Xoá ",
-        "NO": "Huỷ"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Sửa Thuộc tính Tùy chỉnh",
-      "UPDATE_BUTTON_TEXT": "Cập nhật",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "TYPE": {
         "LIST": {
-          "LABEL": "Giá trị của danh sách",
-          "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được sửa thành công",
-        "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật \bthuộc tính tuỳ chỉnh, vui lòng thử lại"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "HEADER": "Thuộc tính tùy chỉnh",
-      "CONVERSATION": "Cuộc hội thoại",
-      "CONTACT": "Liên lạc"
+      "HEADER": "",
+      "CONVERSATION": "",
+      "CONTACT": ""
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Kiểu",
-        "Khoá"
+        "",
+        "",
+        "",
+        ""
       ],
       "BUTTONS": {
-        "EDIT": "Chỉnh sửa",
-        "DELETE": "Xoá"
+        "EDIT": "",
+        "DELETE": ""
       },
       "EMPTY_RESULT": {
-        "404": "Không có thuộc tính tuỳ chỉnh nào được tạo",
-        "NOT_FOUND": "Không có thuộc tính tuỳ chỉnh nào được cấu hình"
+        "404": "",
+        "NOT_FOUND": ""
       }
     }
   }
