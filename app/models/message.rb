@@ -158,8 +158,7 @@ class Message < ApplicationRecord
 
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
-    mark_bot_conversation_pending
-    reopen_conversation
+    update_conversation_status
     notify_via_mail
     set_conversation_activity
     dispatch_create_events
@@ -190,18 +189,24 @@ class Message < ApplicationRecord
     attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
   end
 
-  def reopen_conversation
+  def update_conversation_status
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed?
+    conversation.open! if conversation.snoozed?
+
+    if conversation.resolved?
+      if conversation.inbox.active_bot?
+        conversation.pending!
+      else
+        conversation.open!
+      end
+    end
   end
 
   def mark_bot_conversation_pending
     return if conversation.muted?
     return unless incoming?
-
-    conversation.pending! if conversation.inbox.active_bot?
   end
 
   def execute_message_template_hooks
