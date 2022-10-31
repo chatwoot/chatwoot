@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Napravite novi tim",
-    "HEADER": "Timovi",
-    "SIDEBAR_TXT": "<p><b>Timovi</b></p> <p>Timovi vam omogućavaju da organizujete vaše agente u grupe prema njihovim odgovornostima. <br /> Agent može biti član više timova. Možete dodeliti razgovore timu kada radite u saradnji. </p>",
+    "NEW_TEAM": "",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "Nema timova napravljenih na ovom nalogu.",
-      "EDIT_TEAM": "Uredi tim"
+      "404": "",
+      "EDIT_TEAM": ""
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Napravi novi tim",
-        "DESC": "Dodajte naslov i opis vašem novom timu."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Dodajte agente timu",
-        "TITLE": "Dodajte agente timu - %{teamName}",
-        "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Napravi",
-          "route": "settings_teams_new",
-          "body": "Napravi novi tim agenata."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Dodaj agente",
-          "route": "settings_teams_add_agents",
-          "body": "Dodaj agente timu."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Završi",
-          "route": "settings_teams_finish",
-          "body": "Sve je spremno za početak!"
+          "title": "",
+          "route": "",
+          "body": ""
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Uredite detalje vašeg tima",
-        "DESC": "Uredite naslov i opis vašeg tima.",
-        "BUTTON_TEXT": "Primeni izmene"
+        "TITLE": "",
+        "DESC": "",
+        "BUTTON_TEXT": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Uredi agente u timu",
-        "TITLE": "Dodajte agente timu - %{teamName}",
-        "DESC": "Dodajte agente vašem novokreiranom timu. Svi dodati agenti će biti obavešteni kada je razgovor dodeljen ovom timu."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Detalji tima",
-          "route": "settings_teams_edit",
-          "body": "Promenite naziv, opis i ostale detalje."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Uredi agente",
-          "route": "settings_teams_edit_members",
-          "body": "Uredite agente u vašem timu."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Završi",
-          "route": "settings_teams_edit_finish",
-          "body": "Sve je spremno za početak!"
+          "title": "",
+          "route": "",
+          "body": ""
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Nije bilo moguće sačuvati detalje tima. Pokušajte ponovo."
+      "ERROR_MESSAGE": ""
     },
     "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "E-POŠTA",
-      "BUTTON_TEXT": "Dodaj agente",
-      "ADD_AGENTS": "Dodaju se agenti vašem timu...",
-      "SELECT": "izaberi",
-      "SELECT_ALL": "izaberi sve agente",
-      "SELECTED_COUNT": "%{selected} od %{total} agenata je izabrano."
+      "AGENT": "",
+      "EMAIL": "",
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": ""
     },
     "ADD": {
-      "TITLE": "Dodajte agente timu - %{teamName}",
-      "DESC": "Dodajte agente vašem novokreiranom timu. Ovo vam omogućava da sarađujete kao tim u razgovorima, budete obavešteni o novim događajima u istim razgovorima.",
-      "SELECT": "izaberi",
-      "SELECT_ALL": "izaberi sve agente",
-      "SELECTED_COUNT": "%{selected} od %{total} agenata je izabrano.",
-      "BUTTON_TEXT": "Dodaj agente",
-      "AGENT_VALIDATION_ERROR": "Izaberite barem jednog agenta."
+      "TITLE": "",
+      "DESC": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": "",
+      "BUTTON_TEXT": "",
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
-      "TITLE": "Vaš tim je spreman!",
-      "MESSAGE": "Sada možete sarađivati kao tim u razgovorima. Srećna podrška ",
-      "BUTTON_TEXT": "Završi"
+      "TITLE": "",
+      "MESSAGE": "",
+      "BUTTON_TEXT": ""
     },
     "DELETE": {
-      "BUTTON_TEXT": "Izbriši",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Tim je uspešno obrisan.",
-        "ERROR_MESSAGE": "Nije bilo moguće obrisati tim. Pokušajte ponovo."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Da li zaista želite da obrišete - %{teamName}",
-        "PLACE_HOLDER": "Molim upišite {teamName} za potvrdu",
-        "MESSAGE": "Brisanjem tima će se ukloniti sve dodele timu iz razgovora koje su bile dodeljene ovom timu.",
-        "YES": "Obriši ",
-        "NO": "Otkaži"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
-    "SETTINGS": "Podešavanja",
+    "SETTINGS": "",
     "FORM": {
-      "UPDATE": "Primeni izmene",
-      "CREATE": "Napravi tim",
+      "UPDATE": "",
+      "CREATE": "",
       "NAME": {
-        "LABEL": "Naziv tima",
-        "PLACEHOLDER": "Primer: Prodaja, Korisnička podrška"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Opis tima",
-        "PLACEHOLDER": "Kratak opis o ovom timu."
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Dozvoli automatsku dodelu ovom timu."
+        "LABEL": ""
       },
-      "SUBMIT_CREATE": "Napravi tim"
+      "SUBMIT_CREATE": ""
     }
   }
 }
