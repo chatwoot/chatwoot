@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Kampanyalar",
-    "SIDEBAR_TXT": "Proaktif mesajlar, müşterinin kişilerine daha fazla görüşmeyi tetikleyecek giden mesajlar göndermesine olanak tanır. Yeni bir kampanya oluşturmak için <b>Kampanya Ekle</b>'yi tıklayın. Ayrıca Düzenle veya Sil düğmesini tıklayarak mevcut bir kampanyayı düzenleyebilir veya silebilirsiniz.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Tek seferlik bir kampanya oluşturun",
-      "ONGOING": "Devamlı bir kampanya oluşturun"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "Kampanya oluştur",
-      "DESC": "Proaktif mesajlar, müşterinin kişilerine daha fazla görüşmeyi tetikleyecek giden mesajlar göndermesine olanak tanır.",
-      "CANCEL_BUTTON_TEXT": "İptal Et",
-      "CREATE_BUTTON_TEXT": "Yarat",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "Başlık",
-          "PLACEHOLDER": "Lütfen kampanya başlığını giriniz",
-          "ERROR": "Başlık gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "Planlanan zaman",
-          "PLACEHOLDER": "Lütfen saati seçiniz",
-          "CONFIRM": "Onayla",
-          "ERROR": "Planlanan zaman seçimi gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "Kitle",
-          "PLACEHOLDER": "Müşteri etiketlerini seçin",
-          "ERROR": "Kitle seçimi gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "Gelen kutusu seç",
-          "PLACEHOLDER": "Gelen kutusu seç",
-          "ERROR": "Gelen kutusu seçimi gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
-          "LABEL": "Mesaj",
-          "PLACEHOLDER": "Lütfen kampanya mesajı giriniz",
-          "ERROR": "Mesaj gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "Tarafından gönderildi",
-          "PLACEHOLDER": "Lütfen kampanyanın içeriğini seçin",
-          "ERROR": "Gönderen bilgisi gerekli"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Lütfen URL giriniz",
-          "ERROR": "Lütfen geçerli bir adres girin"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Yayım süresi(saniye)",
-          "PLACEHOLDER": "Lütfen saat seçiniz",
-          "ERROR": "Yayın süresi seçiniz"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "Kampanyayı başlat",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Sadece çalışma saatleri içerisinde tetikle",
-        "SUBMIT": "Kampanya ekle"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kampanya başarıyla oluşturuldu",
-        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Sil",
+      "BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Silmeyi onayla",
-        "MESSAGE": "Silmek istediğinize emin misiniz?",
-        "YES": "Evet, Sil ",
-        "NO": "Hayır, Tut"
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kampanya başarıyla silindi",
-        "ERROR_MESSAGE": "Kampanya silinemiyor. Lütfen sonra tekrar deneyiniz."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Kampanyayı düzenle",
-      "UPDATE_BUTTON_TEXT": "Güncelleme",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Kampanya başarıyla güncellendi",
-        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Kampanyalar yükleniyor...",
-      "404": "Bu gelen kutusu için hiç kampanya oluşturulmadı.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "Başlık",
-        "MESSAGE": "Mesaj",
-        "INBOX": "Gelen kutusu",
-        "STATUS": "Durum",
-        "SENDER": "Yollayan",
-        "URL": "URL",
-        "SCHEDULED_AT": "Planlanan zaman",
-        "TIME_ON_PAGE": "Süre(saniye)",
-        "CREATED_AT": "Oluşturma zamanı"
+        "TITLE": "",
+        "MESSAGE": "",
+        "INBOX": "",
+        "STATUS": "",
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "Ekle",
-        "EDIT": "Düzenle",
-        "DELETE": "Sil"
+        "ADD": "",
+        "EDIT": "",
+        "DELETE": ""
       },
       "STATUS": {
-        "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı",
-        "COMPLETED": "Tamamlandı",
-        "ACTIVE": "Aktif"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "Bot"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "Tek seferlik kampanya",
-      "404": "Hiç tek seferlik kampanya oluşturulmamış",
-      "INBOXES_NOT_FOUND": "Lütfen bir sms gelen kutusu oluşturun ve kampanyalarınızı ekleyin"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "Devam eden kampanyalar",
-      "404": "Hiç devam eden kampanya yok.",
-      "INBOXES_NOT_FOUND": "Lütfen bir website gelen kutusu oluşturun ve kampanyalarınızı ekleyin"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
