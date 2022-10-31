@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Филтрирай разговорите",
-    "SUBTITLE": "Добавете филтри по-долу и натиснете „Прилагане на филтри“, за да филтрирате разговорите.",
-    "ADD_NEW_FILTER": "Добавяне на филтър",
-    "FILTER_DELETE_ERROR": "За да запазите, трябва да имате поне един филтър",
-    "SUBMIT_BUTTON_LABEL": "Прилагане на филтри",
-    "CANCEL_BUTTON_LABEL": "Отмени",
-    "CLEAR_BUTTON_LABEL": "Изчисти филтрите",
-    "EMPTY_VALUE_ERROR": "Изисква се стойност",
-    "TOOLTIP_LABEL": "Филтрирай разговорите",
+    "TITLE": "",
+    "SUBTITLE": "",
+    "ADD_NEW_FILTER": "",
+    "FILTER_DELETE_ERROR": "",
+    "SUBMIT_BUTTON_LABEL": "",
+    "CANCEL_BUTTON_LABEL": "",
+    "CLEAR_BUTTON_LABEL": "",
+    "EMPTY_VALUE_ERROR": "",
+    "TOOLTIP_LABEL": "",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "И",
-      "OR": "ИЛИ"
+      "AND": "",
+      "OR": ""
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Равно на",
-      "not_equal_to": "Различно от",
-      "contains": "Съдържа",
-      "does_not_contain": "Не съдържа",
-      "is_present": "Присъства",
-      "is_not_present": "Не присъства",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "",
+      "not_equal_to": "",
+      "contains": "",
+      "does_not_contain": "",
+      "is_present": "",
+      "is_not_present": "",
+      "is_greater_than": "",
+      "is_less_than": "",
+      "days_before": ""
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "",
+      "FALSE": ""
     },
     "ATTRIBUTES": {
-      "STATUS": "Статус",
-      "ASSIGNEE_NAME": "Име на правоприемника",
-      "INBOX_NAME": "Име на входящата кутия",
-      "TEAM_NAME": "Име на екипа",
-      "CONVERSATION_IDENTIFIER": "Идентивикатор на разговор",
-      "CAMPAIGN_NAME": "Име на кампания",
-      "LABELS": "Етикети",
-      "BROWSER_LANGUAGE": "Език на браузъра",
-      "COUNTRY_NAME": "Име на държавата",
-      "REFERER_LINK": "Референтна връзка",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Последна активност"
+      "STATUS": "",
+      "ASSIGNEE_NAME": "",
+      "INBOX_NAME": "",
+      "TEAM_NAME": "",
+      "CONVERSATION_IDENTIFIER": "",
+      "CAMPAIGN_NAME": "",
+      "LABELS": "",
+      "BROWSER_LANGUAGE": "",
+      "COUNTRY_NAME": "",
+      "REFERER_LINK": "",
+      "CUSTOM_ATTRIBUTE_LIST": "",
+      "CUSTOM_ATTRIBUTE_TEXT": "",
+      "CUSTOM_ATTRIBUTE_NUMBER": "",
+      "CUSTOM_ATTRIBUTE_LINK": "",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+      "CREATED_AT": "",
+      "LAST_ACTIVITY": ""
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
-      "CUSTOM_ATTRIBUTES": "Персонализирани атрибути"
+      "STANDARD_FILTERS": "",
+      "ADDITIONAL_FILTERS": "",
+      "CUSTOM_ATTRIBUTES": ""
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "Отмени",
+        "TITLE": "",
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR_MESSAGE": "",
+        "SAVE_BUTTON": "",
+        "CANCEL_BUTTON": "",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Потвърди изтриването",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Да, изтрий",
-            "NO": "No, Keep it"
+            "TITLE": "",
+            "MESSAGE": "",
+            "YES": "",
+            "NO": ""
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     }
