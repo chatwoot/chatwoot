@@ -1,62 +1,62 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Đang lấy Tích hợp",
-    "NO_HOOK_CONFIGURED": "Không có tích hợp %{integrationId} được cấu hình đối với tài khoản này.",
-    "HEADER": "Ứng dụng",
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "",
+    "HEADER": "",
     "STATUS": {
-      "ENABLED": "Bật",
-      "DISABLED": "Không bật"
+      "ENABLED": "",
+      "DISABLED": ""
     },
-    "CONFIGURE": "Cấu hình",
-    "ADD_BUTTON": "Thêm một hook mới",
+    "CONFIGURE": "",
+    "ADD_BUTTON": "",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Xác nhận xoá",
-        "ACCOUNT": "Ngắt kết nối"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "MESSAGE": {
-        "INBOX": "Bạn có chắc muốn xoá?",
-        "ACCOUNT": "Bạn có chắc muốn ngắt kết nối?"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Có, Xoá",
-        "ACCOUNT": "Có, ngắt kết nối"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Hook đã được xoá thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "FETCHING": "Đang lấy hook tích hợp",
-      "INBOX": "Hộp thư đến",
+      "FETCHING": "",
+      "INBOX": "",
       "DELETE": {
-        "BUTTON_TEXT": "Xoá"
+        "BUTTON_TEXT": ""
       }
     },
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Chọn Hộp thư đến",
-          "PLACEHOLDER": "Chọn Hộp thư đến"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Tạo",
-        "CANCEL": "Huỷ"
+        "SUBMIT": "",
+        "CANCEL": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Hook tích hợp đã được thêm thành công",
-        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Kết nối"
+      "BUTTON_TEXT": ""
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Ngắt kết nối"
+      "BUTTON_TEXT": ""
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow là một nền tảng hiểu ngôn ngữ tự nhiên giúp bạn dễ dàng thiết kế và tích hợp giao diện người dùng trò chuyện vào ứng dụng di động, ứng dụng web, thiết bị, bot, hệ thống phản hồi giọng nói tương tác, v. v. Tích hợp <br/> <br/> Dialogflow với %{installationName} cho phép bạn định cấu hình bot Dialogflow với hộp thư đến của bạn, điều này cho phép bot xử lý các truy vấn ban đầu và giao chúng cho đại lý khi cần. Dialogflow có thể được sử dụng để xác định khách hàng tiềm năng, giảm khối lượng công việc của các đại lý bằng cách cung cấp các câu hỏi thường gặp, v. v. <br/> <br/> Để thêm Dialogflow, bạn cần tạo Tài khoản dịch vụ trong bảng điều khiển dự án của Google và chia sẻ chứng chỉ. Vui lòng tham khảo tài liệu Dialogflow để biết thêm thông tin."
+      "DIALOGFLOW": ""
     }
   }
 }
