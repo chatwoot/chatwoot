@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Kampania",
-    "SIDEBAR_TXT": "Proaktywne wiadomości pozwalają klientowi wysyłać wiadomości do swoich kontaktów, co powoduje więcej rozmów. Kliknij na <b>Dodaj kampanię</b>, aby stworzyć nową kampanię. Możesz też edytować lub usunąć istniejącą kampanię poprzez kliknięcie na przycisk Edytuj lub Usuń.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Create a one off campaign",
-      "ONGOING": "Create a ongoing campaign"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "Stwórz kampanię",
-      "DESC": "Proaktywne wiadomości pozwalają klientowi wysyłać wiadomości do swoich kontaktów, co powoduje więcej rozmów.",
-      "CANCEL_BUTTON_TEXT": "Anuluj",
-      "CREATE_BUTTON_TEXT": "Stwórz",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "Tytuł",
-          "PLACEHOLDER": "Wprowadź tytuł kampanii",
-          "ERROR": "Tytuł jest wymagany"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
-          "PLACEHOLDER": "Select the customer labels",
-          "ERROR": "Audience is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
-          "ERROR": "Inbox is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
-          "LABEL": "Wiadomość",
-          "PLACEHOLDER": "Wprowadź wiadomość dla kampanii",
-          "ERROR": "Wiadomość jest wymagana"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "Wysłane przez",
-          "PLACEHOLDER": "Proszę wybrać treść kampanii",
-          "ERROR": "Nadawca jest wymagany"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "Adres URL",
-          "PLACEHOLDER": "Wprowadź adres URL",
-          "ERROR": "Wprowadź poprawny adres URL"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Czas na stronie (w sekundach)",
-          "PLACEHOLDER": "Wprowadź czas",
-          "ERROR": "Czas na stronie jest wymagany"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "Włącz kampanię",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours",
-        "SUBMIT": "Dodaj kampanię"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kampania została utworzona pomyślnie",
-        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Usuń",
+      "BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Potwierdź usunięcie",
-        "MESSAGE": "Czy na pewno chcesz usunąć?",
-        "YES": "Tak, usuń ",
-        "NO": "Nie, zachowaj "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edytuj kampanię",
-      "UPDATE_BUTTON_TEXT": "Aktualizuj",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Kampania zaktualizowana pomyślnie",
-        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Wczytywanie kampanii...",
-      "404": "Brak kampanii stworzonych dla tej skrzynki odbiorczej.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "Tytuł",
-        "MESSAGE": "Wiadomość",
-        "INBOX": "Skrzynka odbiorcza",
-        "STATUS": "Status",
-        "SENDER": "Nadawca",
-        "URL": "Adres URL",
-        "SCHEDULED_AT": "Scheduled time",
-        "TIME_ON_PAGE": "Czas (sekundy)",
-        "CREATED_AT": "Utworzono"
+        "TITLE": "",
+        "MESSAGE": "",
+        "INBOX": "",
+        "STATUS": "",
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "Dodaj",
-        "EDIT": "Edytuj",
-        "DELETE": "Usuń"
+        "ADD": "",
+        "EDIT": "",
+        "DELETE": ""
       },
       "STATUS": {
-        "ENABLED": "Włączone",
-        "DISABLED": "Wyłączone",
-        "COMPLETED": "Completed",
-        "ACTIVE": "Active"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "Bot"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "One off campaigns",
-      "404": "There are no one off campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an sms inbox and start adding campaigns"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "Ongoing campaigns",
-      "404": "There are no ongoing campaigns created",
-      "INBOXES_NOT_FOUND": "Please create an website inbox and start adding campaigns"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
