@@ -1,62 +1,62 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "שליפת אינטגרציות",
-    "NO_HOOK_CONFIGURED": "אין %{integrationId} אינטגרציות מוגדרות בחשבון זה.",
-    "HEADER": "יישומים",
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "",
+    "HEADER": "",
     "STATUS": {
-      "ENABLED": "מופעל",
-      "DISABLED": "כבוי"
+      "ENABLED": "",
+      "DISABLED": ""
     },
-    "CONFIGURE": "הגדר",
-    "ADD_BUTTON": "הוסף קרס חדש",
+    "CONFIGURE": "",
+    "ADD_BUTTON": "",
     "DELETE": {
       "TITLE": {
-        "INBOX": "אשר מחיקה",
-        "ACCOUNT": "התנתק"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "MESSAGE": {
-        "INBOX": "האם אתה בטוח שברצונך למחוק?",
-        "ACCOUNT": "אתה בטוח שאתה מתנתק?"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "כן, מחק",
-        "ACCOUNT": "כן, התנתק"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
-      "CANCEL_BUTTON_TEXT": "ביטול",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "ה-Hook נמחק בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "FETCHING": "הוצאת קרס אינטגרציה",
-      "INBOX": "תיבת הדואר הנכנס",
+      "FETCHING": "",
+      "INBOX": "",
       "DELETE": {
-        "BUTTON_TEXT": "מחק"
+        "BUTTON_TEXT": ""
       }
     },
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "בחר תיבת דואר",
-          "PLACEHOLDER": "בחר תיבת דואר"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "צור",
-        "CANCEL": "ביטול"
+        "SUBMIT": "",
+        "CANCEL": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "קרס אינטגרציה נוסף בהצלחה",
-        "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "התחבר"
+      "BUTTON_TEXT": ""
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "התנתק"
+      "BUTTON_TEXT": ""
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow היא פלטפורמה להבנת שפה טבעית שמקלה לעצב ולשלב ממשק משתמש לשיחה באפליקציה לנייד, באפליקציית האינטרנט, במכשיר, בבוט, במערכת התגובה הקולית האינטראקטיבית שלך וכן הלאה. <br /> <br /> שילוב Dialogflow עם %{installationName} מאפשר לך להגדיר בוט Dialogflow עם תיבות הדואר הנכנס שלך, המאפשר לבוט לטפל בשאילתות בהתחלה ולמסור אותן לסוכן בעת הצורך. ניתן להשתמש ב-Dialogflow כדי להכשיר את הלידים, להפחית את עומס העבודה של סוכנים על ידי מתן שאלות נפוצות וכו'. <br /> <br /> כדי להוסיף את Dialogflow, עליך ליצור חשבון שירות במסוף הפרויקט של גוגל ולשתף את האישורים. אנא עיין במסמכי Dialogflow למידע נוסף."
+      "DIALOGFLOW": ""
     }
   }
 }
