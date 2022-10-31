@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Кампании",
-    "SIDEBAR_TXT": "Активные сообщения позволяют клиенту отправлять исходящие сообщения своим контактам, что повлечет за собой более активное общение. Нажмите на <b>Добавить кампанию</b> для создания новой кампании. Вы также можете редактировать или удалять существующую кампанию, нажав на кнопку Изменить или Удалить.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "Создать одноразовую акцию",
-      "ONGOING": "Создать постоянную акцию"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "Создать кампанию",
-      "DESC": "Активные сообщения позволяют клиенту отправлять исходящие сообщения своим контактам, что повлечет за собой более активное общение.",
-      "CANCEL_BUTTON_TEXT": "Отменить",
-      "CREATE_BUTTON_TEXT": "Создать",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "Название",
-          "PLACEHOLDER": "Пожалуйста, введите название кампании",
-          "ERROR": "Необходимо указать название"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "Запланированное время",
-          "PLACEHOLDER": "Пожалуйста, выберите время",
-          "CONFIRM": "Подтвердить",
-          "ERROR": "Требуется запланированное время"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "Аудитория",
-          "PLACEHOLDER": "Выберите метки клиентов",
-          "ERROR": "Необходимо указать Аудиторию"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "Выбрать \"Входящий\" канал",
-          "PLACEHOLDER": "Выбрать \"Входящий\" канал",
-          "ERROR": "Необходимо указать отправителя"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
-          "LABEL": "Сообщение",
-          "PLACEHOLDER": "Пожалуйста, введите сообщение кампании",
-          "ERROR": "Необходимо ввести сообщение"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "Отправитель",
-          "PLACEHOLDER": "Пожалуйста, выберите содержание кампании",
-          "ERROR": "Необходимо указать отправителя"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Пожалуйста, введите правильный URL",
-          "ERROR": "Пожалуйста, введите правильный URL"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Время на страницах (в секундах)",
-          "PLACEHOLDER": "Пожалуйста, введите время",
-          "ERROR": "Укажите время на странице"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "Запустить кампанию",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "Включать только в рабочие часы",
-        "SUBMIT": "Добавить кампанию"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Кампания успешно создана",
-        "ERROR_MESSAGE": "Произошла ошибка. Пожалуйста, попробуйте еще раз."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Удалить",
+      "BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Вы точно хотите удалить?",
-        "YES": "Да, удалить ",
-        "NO": "Нет, не удалять "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Кампания успешно удалена",
-        "ERROR_MESSAGE": "Не удалось удалить кампанию. Повторите попытку позже."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Редактировать кампанию",
-      "UPDATE_BUTTON_TEXT": "Обновить",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Кампания успешно обновлена",
-        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Загрузка кампаний...",
-      "404": "Нет кампаний, связанных с этим каналом.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "Название",
-        "MESSAGE": "Сообщение",
-        "INBOX": "Электронная почта",
-        "STATUS": "Статус",
-        "SENDER": "Отправитель",
-        "URL": "URL",
-        "SCHEDULED_AT": "Запланированное время",
-        "TIME_ON_PAGE": "Время (секунды)",
-        "CREATED_AT": "Дата создания"
+        "TITLE": "",
+        "MESSAGE": "",
+        "INBOX": "",
+        "STATUS": "",
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "Добавить",
-        "EDIT": "Редактировать",
-        "DELETE": "Удалить"
+        "ADD": "",
+        "EDIT": "",
+        "DELETE": ""
       },
       "STATUS": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено",
-        "COMPLETED": "Выполнено",
-        "ACTIVE": "Активно"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "Бот"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "Единоразовые акции",
-      "404": "Нет созданных, единоразовых кампаний",
-      "INBOXES_NOT_FOUND": "Пожалуйста, создайте папку входящих SMS и начните добавление акций"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "Повторяющиеся акции",
-      "404": "Нет созданных, повторяющихся акций",
-      "INBOXES_NOT_FOUND": "Пожалуйста, создайте папку входящих сайта и начните добавление акций"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
