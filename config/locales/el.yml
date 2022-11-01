@@ -22,138 +22,23 @@ el:
     reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
   errors:
-    validations:
-      presence: δεν πρέπει να είναι κενό
-    webhook:
-      invalid: Μη έγκυρα συμβάντα
     signup:
       disposable_email: Δεν επιτρέπονται προσωρινά emails
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
-    data_import:
-      data_type:
-        invalid: Μη έγκυρος τύπος δεδομένων
-    contacts:
-      import:
-        failed: Το αρχείο είναι κενό
-      email:
-        invalid: Ακατάλληλο email
-      phone_number:
-        invalid: πρέπει να είναι σε μορφή e164
-    categories:
-      locale:
-        unique: πρέπει να είναι μοναδικό στην κατηγορία και την πύλη
-    inboxes:
-      imap:
-        socket_error: Παρακαλώ ελέγξτε τη σύνδεση δικτύου, τη διεύθυνση IMAP και προσπαθήστε ξανά.
-        no_response_error: Παρακαλούμε ελέγξτε τα διαπιστευτήρια IMAP και προσπαθήστε ξανά.
-        host_unreachable_error: Μη προσβάσιμος διακομιστής, ελέγξτε τη διεύθυνση IMAP, τη θύρα IMAP και προσπαθήστε ξανά.
-        connection_timed_out_error: Λήξη χρονικού ορίου σύνδεσης για %{address}:%{port}
-        connection_closed_error: Η σύνδεση έκλεισε.
-      validations:
-        name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
   reports:
-    period: Περίοδος αναφοράς %{since} έως %{until}
-    agent_csv:
-      agent_name: Όνομα Πράκτορα
-      conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
-    inbox_csv:
-      inbox_name: Όνομα Κιβωτίου
-      inbox_type: Τύπος κιβωτίου εισερχόμενων
-      conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
-    label_csv:
-      label_title: Ετικέτα
-      conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
-    team_csv:
-      team_name: Όνομα ομάδας
-      conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
-    default_group_by: ημέρα
     csat:
       headers:
-        contact_name: Όνομα Επαφής
-        contact_email_address: Διεύθυνση Email Επαφής
-        contact_phone_number: Αριθμός Τηλεφώνου Επαφής
-        link_to_the_conversation: Σύνδεσμος για την συνομιλία
         agent_name: Όνομα Πράκτορα
-        rating: Αξιολόγηση
-        feedback: Σχόλιο ανατροφοδότησης
-        recorded_at: Ημερομηνία καταγραφής
-  notifications:
-    notification_title:
-      conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
-      conversation_assignment: "[Ανατέθηκε σε εσάς] - #%{display_id} σας έχει ανατεθεί"
-      assigned_conversation_new_message: "[Νέο μήνυμα] - #%{display_id} %{content}"
-      conversation_mention: "Έχετε αναφερθεί σε συζήτηση [ID - %{display_id}] από %{name}"
   conversations:
-    messages:
-      instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
-      instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
-      deleted: Το μήνυμα διαγράφηκε
     activity:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
-        contact_resolved: "Η συνομιλία επιλύθηκε από τον %{contact_name}"
         open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
-        pending: "Η συνομιλία επισημάνθηκε ως εκκρεμής από τον %{user_name}"
-        snoozed: "Η συνομιλία σημάνθηκε ως \"καθυστερημένη\" (snoozed) από τον %{user_name}"
-        auto_resolved: "Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας"
       assignee:
-        self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"
         assigned: "Ανατέθηκε στον %{assignee_name} από τον %{user_name}"
         removed: "Η συνομιλία σημάνθηκε ως μη ανατεθειμένη από τον %{user_name}"
-      team:
-        assigned: "Ανατέθηκε στον %{team_name} από τον %{user_name}"
-        assigned_with_assignee: "Ανατέθηκε στον %{assignee_name} μέσω %{team_name} από %{user_name}"
-        removed: "Από-ανατέθηκε στον %{team_name} από %{user_name}"
-      labels:
-        added: "Ο %{user_name} πρόσθεσε ετικέτες %{labels}"
-        removed: "Ο %{user_name} αφαίρεσε τις ετικέτες %{labels}"
-      muted: "Ο χρήστης %{user_name} σίγασε την συνομιλία"
-      unmuted: "Ο χρήστης %{user_name} επανάφερε από την σίγαση την συνομιλία"
     templates:
-      greeting_message_body: "Στον λογαριασμό %{account_name} τυπικά έχετε απάντηση σε μερικές ώρες."
       ways_to_reach_you_message_body: "Δώστε στην ομάδα ένα τρόπο να φτάσει σε σας."
       email_input_box_message_body: "Ειδοποιηθείτε με email"
-      csat_input_message_body: "Παρακαλώ αξιολογήστε τη συνομιλία"
-    reply:
-      email:
-        header:
-          from_with_name: '%{assignee_name} από %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} από %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
-      transcript_subject: "Μεταγραφή Συνομιλίας"
-    survey:
-      response: "Παρακαλώ αξιολογήστε αυτήν την συνομιλία, %{link}"
-  contacts:
-    online:
-      delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
-  integration_apps:
-    slack:
-      name: "Slack"
-      description: "Το Slack είναι ένα εργαλείο συνομιλιών (chat) το οποίο ενώνει σε ένα σημείο όλες τις επικοινωνίες. Ενοποιώντας με το Slack, μπορείτε να λαμβάνετε ειδοποιήσεις για όλες τις συνομιλίες στον λογαριασμό σας από το Slack."
-    webhooks:
-      name: "Webhooks"
-      description: "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας. Μπορείτε να χρησιμοποιήσετε τα webhooks για να μεταφέρετε τα συμβάντα σε άλλες εφαρμογές ή υπηρεσίες όπως το Slack ή Github. Πατήστε στην Διαμόρφωση για να ενημερώστε τα δικά σας webhooks."
-    dialogflow:
-      name: "Dialogflow"
-      description: "Συνδέστε το Dialogflow bot στα εισερχόμενά σας. Αφήστε τα bots να χειριστούν τα ερωτήματα πριν τα παραδώσουν στον πράκτορα εξυπηρέτησης πελατών."
-    fullcontact:
-      name: "Πλήρης Επαφή"
-      description: "Το FullContact Indegration βοηθά στον εμπλουτισμό προφίλ επισκεπτών. Προσδιορίστε τους χρήστες μόλις μοιραστούν τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους και να τους προσφέρουν προσαρμοσμένη εξυπηρέτηση πελατών. Συνδέστε το FullContact με το λογαριασμό σας, κοινοποιώντας το κλειδί API FullContact."
-  public_portal:
-    search:
-      search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
-      empty_placeholder: Δεν βρέθηκαν αποτελέσματα.
-      loading_placeholder: Αναζήτηση...
-      results_title: Αποτελέσματα Αναζήτησης
-    hero:
-      sub_title: Αναζητήστε τα άρθρα εδώ ή περιηγηθείτε στις κατηγορίες παρακάτω.
