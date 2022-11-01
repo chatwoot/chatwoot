@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "下載",
-      "UPLOADING": "上傳中"
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "送出"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "重新發送訊息",
-      "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "我們在線上",
-    "OFFLINE": "我們目前不在線上"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
-    "IN_A_FEW_HOURS": "通常在幾小時內回覆",
-    "IN_A_DAY": "通常在一天內回覆"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "開始對話",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "繼續對話",
-  "START_NEW_CONVERSATION": "開始一個新對話",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "查看新訊息",
-    "CLOSE_MESSAGES_BUTTON": "關閉",
-    "COMPANY_FROM": "from",
-    "BOT": "機器人"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "與我們對話"
+    "LABEL": ""
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
-  "CHAT_PLACEHOLDER": "輸入你的訊息",
-  "TODAY": "今天",
-  "YESTERDAY": "昨天",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "聯絡人姓名",
-        "PLACEHOLDER": "請輸入您的完整姓名",
-        "REQUIRED_ERROR": "姓名為必填"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "電子信箱地址",
-        "PLACEHOLDER": "請輸入你的 Email",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "請輸入一個有效的電子信箱"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "聯絡人電話",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "訊息",
-        "PLACEHOLDER": "請輸入你的訊息",
-        "ERROR": "訊息過短"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "在開始對話之前請提供您的名字及電郵",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "{MAXIMUM_FILE_UPLOAD_SIZE} 已超出檔案大小限制",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "無效的欄位"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "為此對話評分",
-    "SUBMITTED_TITLE": "感謝您提交的評分",
-    "PLACEHOLDER": "告訴我們更多..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "請求對話記錄",
-    "SEND_EMAIL_SUCCESS": "對話記錄已成功發送",
-    "SEND_EMAIL_ERROR": "出現錯誤，請重試"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
