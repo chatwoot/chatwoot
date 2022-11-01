@@ -17,14 +17,14 @@
     "OFFLINE": "در حال حاضر دردسترس نیستیم"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
-    "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
-    "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
   "START_CONVERSATION": "شروع گفتگو",
   "END_CONVERSATION": "پایان گفتگو",
   "CONTINUE_CONVERSATION": "ادامه گفتگو",
-  "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
     "CLOSE_MESSAGES_BUTTON": "بستن",
@@ -34,7 +34,7 @@
   "BUBBLE": {
     "LABEL": "با ما گفتگو کنید"
   },
-  "POWERED_BY": "قدرت گرفته از چت ووت",
+  "POWERED_BY": "",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
   "TODAY": "امروز",
@@ -56,7 +56,7 @@
         "LABEL": "شماره تلفن",
         "PLACEHOLDER": "لطفا شماره تلفن خود را وارد کنید",
         "REQUIRED_ERROR": "شماره تلفن مورد نیاز است",
-        "VALID_ERROR": "شماره تلفن باید با فرمت E.164 باشد، به عنوان مثال: +1415555555"
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -70,7 +70,7 @@
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "فیلد نامتعارف"
+      "FIELD": ""
     }
   },
   "CSAT": {
