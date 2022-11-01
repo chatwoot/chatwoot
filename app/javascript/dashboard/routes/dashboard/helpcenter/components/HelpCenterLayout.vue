@@ -2,24 +2,30 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
+      @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <div v-if="portals.length">
-      <help-center-sidebar
-        :class="sidebarClassName"
-        :header-title="headerTitle"
-        :sub-title="localeName(selectedPortalLocale)"
-        :accessible-menu-items="accessibleMenuItems"
-        :additional-secondary-menu-items="additionalSecondaryMenuItems"
-        @open-popover="openPortalPopover"
-        @open-modal="onClickOpenAddCatogoryModal"
-      />
-    </div>
+    <help-center-sidebar
+      v-if="portals.length"
+      :class="sidebarClassName"
+      :header-title="headerTitle"
+      :portal-slug="selectedPortalSlug"
+      :locale-slug="selectedLocaleInPortal"
+      :sub-title="localeName(selectedLocaleInPortal)"
+      :accessible-menu-items="accessibleMenuItems"
+      :additional-secondary-menu-items="additionalSecondaryMenuItems"
+      @open-popover="openPortalPopover"
+      @open-modal="onClickOpenAddCategoryModal"
+    />
     <section class="app-content columns" :class="contentClassName">
       <router-view />
       <command-bar />
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+      />
       <woot-key-shortcut-modal
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
@@ -32,13 +38,16 @@
       <portal-popover
         v-if="showPortalPopover"
         :portals="portals"
-        :active-portal="selectedPortal"
+        :active-portal-slug="selectedPortalSlug"
+        :active-locale="selectedLocaleInPortal"
         @close-popover="closePortalPopover"
       />
       <add-category
         v-if="showAddCategoryModal"
+        :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
-        :locale="selectedPortalLocale"
+        :locale="selectedLocaleInPortal"
+        :portal-slug="selectedPortalSlug"
         @cancel="onClickCloseAddCategoryModal"
       />
     </section>
@@ -54,9 +63,11 @@ import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
-import AddCategory from '../components/AddCategory.vue';
+import AddCategory from '../pages/categories/AddCategory';
 
 export default {
   components: {
@@ -67,8 +78,9 @@ export default {
     NotificationPanel,
     PortalPopover,
     AddCategory,
+    AccountSelector,
   },
-  mixins: [portalMixin],
+  mixins: [portalMixin, uiSettingsMixin],
   data() {
     return {
       isSidebarOpen: false,
@@ -77,18 +89,28 @@ export default {
       showNotificationPanel: false,
       showPortalPopover: false,
       showAddCategoryModal: false,
+      lastActivePortalSlug: '',
+      showAccountModal: false,
     };
   },
 
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      selectedPortal: 'portals/getSelectedPortal',
       portals: 'portals/allPortals',
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
+    selectedPortal() {
+      const slug = this.$route.params.portalSlug || this.lastActivePortalSlug;
+      if (slug) return this.$store.getters['portals/portalBySlug'](slug);
+
+      return this.$store.getters['portals/allPortals'][0];
+    },
+    selectedLocaleInPortal() {
+      return this.$route.params.locale || this.defaultPortalLocale;
+    },
     sidebarClassName() {
       if (this.isOnDesktop) {
         return '';
@@ -111,20 +133,23 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
     selectedPortalSlug() {
-      return this.portalSlug || this.selectedPortal?.slug;
+      return this.selectedPortal ? this.selectedPortal?.slug : '';
     },
-    selectedPortalLocale() {
-      return this.locale || this.selectedPortal?.meta?.default_locale;
+    defaultPortalLocale() {
+      return this.selectedPortal
+        ? this.selectedPortal?.meta?.default_locale
+        : '';
     },
     accessibleMenuItems() {
+      if (!this.selectedPortal) return [];
+
       const {
-        meta: {
-          all_articles_count: allArticlesCount,
-          mine_articles_count: mineArticlesCount,
-          draft_articles_count: draftArticlesCount,
-          archived_articles_count: archivedArticlesCount,
-        } = {},
-      } = this.selectedPortal;
+        allArticlesCount,
+        mineArticlesCount,
+        draftArticlesCount,
+        archivedArticlesCount,
+      } = this.meta;
+
       return [
         {
           icon: 'book',
@@ -132,7 +157,7 @@ export default {
           key: 'list_all_locale_articles',
           count: allArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles`
           ),
           toolTip: 'All Articles',
           toStateName: 'list_all_locale_articles',
@@ -143,7 +168,7 @@ export default {
           key: 'list_mine_articles',
           count: mineArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/mine`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/mine`
           ),
           toolTip: 'My articles',
           toStateName: 'list_mine_articles',
@@ -154,7 +179,7 @@ export default {
           key: 'list_draft_articles',
           count: draftArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/draft`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/draft`
           ),
           toolTip: 'Draft',
           toStateName: 'list_draft_articles',
@@ -165,7 +190,7 @@ export default {
           key: 'list_archived_articles',
           count: archivedArticlesCount,
           toState: frontendURL(
-            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedPortalLocale}/articles/archived`
+            `accounts/${this.accountId}/portals/${this.selectedPortalSlug}/${this.selectedLocaleInPortal}/articles/archived`
           ),
           toolTip: 'Archived',
           toStateName: 'list_archived_articles',
@@ -173,11 +198,13 @@ export default {
       ];
     },
     additionalSecondaryMenuItems() {
+      if (!this.selectedPortal) return [];
       return [
         {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
+          showNewButton: true,
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,
@@ -192,21 +219,42 @@ export default {
       ];
     },
     currentRoute() {
-      return ' ';
+      return '  ';
     },
     headerTitle() {
-      return this.selectedPortal.name;
+      return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
+
+  watch: {
+    '$route.params.portalSlug'() {
+      this.fetchPortalsAndItsCategories();
+    },
+  },
+
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+
+    const slug = this.$route.params.portalSlug;
+    if (slug) this.lastActivePortalSlug = slug;
+
     this.fetchPortalsAndItsCategories();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
     window.removeEventListener('resize', this.handleResize);
+  },
+  updated() {
+    const slug = this.$route.params.portalSlug;
+    if (slug !== this.lastActivePortalSlug) {
+      this.lastActivePortalSlug = slug;
+      this.updateUISettings({
+        last_active_portal_slug: slug,
+        last_active_locale_code: this.selectedLocaleInPortal,
+      });
+    }
   },
   methods: {
     handleResize() {
@@ -219,12 +267,14 @@ export default {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.selectedPortalSlug,
-        });
-      });
+    async fetchPortalsAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const selectedPortalParam = {
+        portalSlug: this.selectedPortalSlug,
+        locale: this.selectedLocaleInPortal,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
       this.$store.dispatch('agents/get');
     },
     toggleKeyShortcutModal() {
@@ -245,18 +295,20 @@ export default {
     closePortalPopover() {
       this.showPortalPopover = false;
     },
-    openPortalPage() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-      this.showPortalPopover = false;
-    },
-    onClickOpenAddCatogoryModal() {
+    onClickOpenAddCategoryModal() {
       this.showAddCategoryModal = true;
     },
     onClickCloseAddCategoryModal() {
       this.showAddCategoryModal = false;
     },
+    toggleAccountModal() {
+      this.showAccountModal = !this.showAccountModal;
+    },
   },
 };
 </script>
+<style lang="scss" scoped>
+.off-canvas-content.is-open-left.has-transition-push {
+  transform: translateX(var(--space-giga));
+}
+</style>

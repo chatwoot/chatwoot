@@ -1,17 +1,16 @@
 <template>
-  <div class="container">
+  <div class="container overflow-auto">
     <article-header
       :header-title="headerTitle"
-      :count="articleCount"
+      :count="meta.count"
       selected-value="Published"
       @newArticlePage="newArticlePage"
     />
     <article-table
       :articles="articles"
-      :article-count="articles.length"
       :current-page="Number(meta.currentPage)"
-      :total-count="articleCount"
-      @on-page-change="onPageChange"
+      :total-count="Number(meta.count)"
+      @page-change="onPageChange"
     />
     <div v-if="shouldShowLoader" class="articles--loader">
       <spinner />
@@ -46,7 +45,6 @@ export default {
     ...mapGetters({
       articles: 'articles/allArticles',
       categories: 'categories/allCategories',
-      selectedPortal: 'portals/getSelectedPortal',
       uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
@@ -64,7 +62,7 @@ export default {
       return this.isFetching && !this.articles.length;
     },
     selectedPortalSlug() {
-      return this.selectedPortal?.slug;
+      return this.$route.params.portalSlug;
     },
     selectedCategorySlug() {
       const { categorySlug } = this.$route.params;
@@ -106,9 +104,6 @@ export default {
       }
       return null;
     },
-    articleCount() {
-      return this.articles ? this.articles.length : 0;
-    },
     headerTitleInCategoryView() {
       return this.categories && this.categories.length
         ? this.selectedCategory.name
@@ -129,9 +124,9 @@ export default {
     newArticlePage() {
       this.$router.push({ name: 'new_article' });
     },
-    fetchArticles() {
+    fetchArticles({ pageNumber } = {}) {
       this.$store.dispatch('articles/index', {
-        pageNumber: this.pageNumber,
+        pageNumber: pageNumber || this.pageNumber,
         portalSlug: this.$route.params.portalSlug,
         locale: this.$route.params.locale,
         status: this.status,
@@ -139,8 +134,8 @@ export default {
         category_slug: this.selectedCategorySlug,
       });
     },
-    onPageChange(page) {
-      this.fetchArticles({ pageNumber: page });
+    onPageChange(pageNumber) {
+      this.fetchArticles({ pageNumber });
     },
   },
 };
@@ -148,8 +143,9 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  padding: var(--space-small) var(--space-normal);
+  padding: 0 var(--space-normal);
   width: 100%;
+  overflow: auto;
   .articles--loader {
     align-items: center;
     display: flex;

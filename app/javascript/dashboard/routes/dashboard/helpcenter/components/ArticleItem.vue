@@ -1,13 +1,13 @@
 <template>
-  <tr>
+  <tr class="row--article-block">
     <td>
-      <div class="row--article-block">
+      <div class="article-content-wrap">
         <div class="article-block">
-          <h6 class="sub-block-title text-truncate">
-            <router-link class="article-name" :to="articleUrl(id)">
+          <router-link :to="articleUrl(id)">
+            <h6 :title="title" class="sub-block-title text-truncate">
               {{ title }}
-            </router-link>
-          </h6>
+            </h6>
+          </router-link>
           <div class="author">
             <span class="by">{{ $t('HELP_CENTER.TABLE.COLUMNS.BY') }}</span>
             <span class="name">{{ articleAuthorName }}</span>
@@ -15,22 +15,47 @@
         </div>
       </div>
     </td>
-    <td>{{ category.name }}</td>
-    <td>{{ readCount }}</td>
     <td>
-      <Label :title="status" :color-scheme="labelColor" />
+      <router-link
+        class="fs-small button clear link secondary"
+        :to="getCategoryRoute(category.slug)"
+      >
+        <span
+          :title="category.name"
+          class="category-link-content text-ellipsis"
+        >
+          {{ category.name }}
+        </span>
+      </router-link>
     </td>
-    <td>{{ lastUpdatedAt }}</td>
+    <td>
+      <span class="fs-small">
+        {{ readCount }}
+      </span>
+    </td>
+    <td>
+      <div>
+        <woot-label
+          :title="status"
+          size="small"
+          variant="smooth"
+          :color-scheme="labelColor"
+        />
+      </div>
+    </td>
+    <td>
+      <span class="fs-small">
+        {{ lastUpdatedAt }}
+      </span>
+    </td>
   </tr>
 </template>
 <script>
-import Label from 'dashboard/components/ui/Label';
 import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+
 export default {
-  components: {
-    Label,
-  },
   mixins: [timeMixin, portalMixin],
 
   props: {
@@ -84,6 +109,14 @@ export default {
       }
     },
   },
+  methods: {
+    getCategoryRoute(categorySlug) {
+      const { portalSlug, locale } = this.$route.params;
+      return frontendURL(
+        `accounts/${this.accountId}/portals/${portalSlug}/${locale}/categories/${categorySlug}`
+      );
+    },
+  },
 };
 </script>
 
@@ -95,25 +128,25 @@ td {
   padding-left: 0;
 }
 .row--article-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-
+  border-bottom-color: transparent;
+  .article-content-wrap {
+    align-items: center;
+    display: flex;
+    text-align: left;
+  }
   .article-block {
     min-width: 0;
   }
 
   .sub-block-title {
     margin-bottom: 0;
+    line-height: var(--space-medium);
+    height: var(--space-medium);
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  .article-name {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-default);
-    margin: 0;
-    text-transform: capitalize;
-    color: var(--s-900);
-  }
   .author {
     .by {
       font-weight: var(--font-weight-normal);
@@ -123,8 +156,13 @@ td {
     .name {
       font-weight: var(--font-weight-medium);
       color: var(--s-600);
-      font-size: var(--font-size-mini);
+      font-size: var(--font-size-small);
     }
   }
+}
+
+.category-link-content {
+  max-width: 16rem;
+  line-height: 1.5;
 }
 </style>

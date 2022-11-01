@@ -117,11 +117,20 @@ export default {
     filteredPreChatFields() {
       const isUserEmailAvailable = !!this.currentUser.email;
       const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
+      const isUserIdentifierAvailable = !!this.currentUser.identifier;
+      const isUserNameAvailable = !!(
+        isUserIdentifierAvailable ||
+        isUserEmailAvailable ||
+        isUserPhoneNumberAvailable
+      );
       return this.preChatFields.filter(field => {
-        if (
-          (isUserEmailAvailable && field.name === 'emailAddress') ||
-          (isUserPhoneNumberAvailable && field.name === 'phoneNumber')
-        ) {
+        if (isUserEmailAvailable && field.name === 'emailAddress') {
+          return false;
+        }
+        if (isUserPhoneNumberAvailable && field.name === 'phoneNumber') {
+          return false;
+        }
+        if (isUserNameAvailable && field.name === 'fullName') {
           return false;
         }
         return true;
@@ -236,6 +245,7 @@ export default {
         text: null,
         select: null,
         number: null,
+        checkbox: false,
       };
       const validationKeys = Object.keys(validations);
       const validation = 'bail|required';

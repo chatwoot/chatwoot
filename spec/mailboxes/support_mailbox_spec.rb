@@ -16,6 +16,26 @@ RSpec.describe SupportMailbox, type: :mailbox do
     end
   end
 
+  describe 'when an account is suspended' do
+    let(:account) { create(:account, status: :suspended) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let!(:channel_email) { create(:channel_email, account: account) }
+    let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
+    let(:described_subject) { described_class.receive support_mail }
+    let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
+
+    before do
+      # this email is hardcoded in the support.eml, that's why we are updating this
+      channel_email.email = 'care@example.com'
+      channel_email.save!
+    end
+
+    it 'shouldnt create a conversation in the channel' do
+      described_subject
+      expect(conversation.present?).to be(false)
+    end
+  end
+
   describe 'add mail as a new ticket in the email inbox' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
@@ -32,7 +52,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
     before do
       # this email is hardcoded in the support.eml, that's why we are updating this
       channel_email.email = 'care@example.com'
-      channel_email.save
+      channel_email.save!
     end
 
     describe 'covers email address format' do
@@ -103,14 +123,35 @@ RSpec.describe SupportMailbox, type: :mailbox do
     end
 
     describe 'handle inbox contacts' do
-      let(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
-      let(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+      let!(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
+      let!(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
 
       it 'does not create new contact if that contact exists in the inbox' do
-        # making sure we have a contact already present
-        expect(contact_inbox.contact.email).to eq(support_mail.mail.from.first)
-        described_subject
+        expect do
+          described_subject
+        end
+          .to(not_change { Contact.count }
+            .and(not_change { ContactInbox.count }))
+
         expect(conversation.messages.last.sender.id).to eq(contact.id)
+        expect(conversation.contact_inbox).to eq(contact_inbox)
+      end
+
+      context 'with uppercase reply-to' do
+        let(:support_mail) { create_inbound_email_from_fixture('support_uppercase.eml') }
+        let!(:contact) { create(:contact, account: account, email: support_mail.mail.from.first) }
+        let!(:contact_inbox) { create(:contact_inbox, inbox: channel_email.inbox, contact: contact) }
+
+        it 'does not create new contact if that contact exists in the inbox' do
+          expect do
+            described_subject
+          end
+            .to(not_change { Contact.count }
+              .and(not_change { ContactInbox.count }))
+
+          expect(conversation.messages.last.sender.id).to eq(contact.id)
+          expect(conversation.contact_inbox).to eq(contact_inbox)
+        end
       end
     end
 
@@ -121,7 +162,7 @@ RSpec.describe SupportMailbox, type: :mailbox do
       before do
         # this email is hardcoded eml fixture file that's why we are updating this
         channel_email.email = 'support@chatwoot.com'
-        channel_email.save
+        channel_email.save!
       end
 
       it 'create new contact with original sender' do

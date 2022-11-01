@@ -11,6 +11,7 @@ export const routes = [
       headerTitle: 'NOTIFICATIONS_PAGE.HEADER',
       icon: 'alert',
       showNewButton: false,
+      showSidemenuIcon: false,
     },
     children: [
       {

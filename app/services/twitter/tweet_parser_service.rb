@@ -80,7 +80,7 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
   def create_message
     find_or_create_contact(user)
     set_conversation
-    @conversation.messages.create(
+    @conversation.messages.create!(
       account_id: @inbox.account_id,
       sender: @contact,
       content: tweet_text,

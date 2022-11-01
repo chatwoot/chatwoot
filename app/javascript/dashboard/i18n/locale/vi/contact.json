@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Không có sẵn",
     "EMAIL_ADDRESS": "Địa chỉ email",
     "PHONE_NUMBER": "Số điện thoại",
+    "IDENTIFIER": "Định danh",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "COMPANY": "Công ty",
     "LOCATION": "Vị trí",
@@ -34,8 +35,8 @@
         "NO_RESULT": "Không tìm thấy nhãn"
       }
     },
-    "MERGE_CONTACT": "Gộp liên lạc",
-    "CONTACT_ACTIONS": "Hành động của người liên hệ",
+    "MERGE_CONTACT": "Hợp nhất liên hệ",
+    "CONTACT_ACTIONS": "Hành động với liên hệ",
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
@@ -54,17 +55,17 @@
     "DESC": "Chỉnh sửa liên hệ chi tiết"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Liên lạc mới",
-    "TITLE": "Tạo liên lạc mới",
-    "DESC": "Thêm thông tin cơ bản về liên lạc."
+    "BUTTON_LABEL": "Liên hệ mới",
+    "TITLE": "Tạo liên hệ mới",
+    "DESC": "Thêm thông tin cơ bản về liên hệ."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Nhập",
-    "TITLE": "Nhập liên lạc",
-    "DESC": "Nhập liên lạc bằng một file CSV.",
-    "DOWNLOAD_LABEL": "Tải xuống file CSV mẫu.",
+    "TITLE": "Nhập liên hệ",
+    "DESC": "Nhập liên hệ bằng một file CSV.",
+    "DOWNLOAD_LABEL": "Tải xuống tệp CSV mẫu.",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "Tệp CSV",
       "SUBMIT": "Nhập",
       "CANCEL": "Huỷ"
     },
@@ -81,7 +82,7 @@
   },
   "DELETE_CONTACT": {
     "BUTTON_LABEL": "Xoá liên lạc",
-    "TITLE": "Xoá liên lạc",
+    "TITLE": "Xoá liên hệ",
     "DESC": "Xoá chi tiết liên hệ",
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
@@ -151,25 +152,25 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Hình đại diện liên hệ đã được xóa thành công",
+        "ERROR_MESSAGE": "Không thể xóa hình đại diện liên hệ. Vui lòng thử lại sau."
       }
     },
     "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Bắt đầu cuộc trò chuyện",
+    "BUTTON_LABEL": "Bắt đầu cuộc hội thoại",
     "TITLE": "Tạo mới cuộc trò chuyện",
-    "DESC": "Bắt đầu một cuộc trò chuyện mới bằng cách thêm tin nhắn.",
-    "NO_INBOX": "Không tìm thấy hộp thư đến để bắt đầu cuộc trò chuyện với liên hệ này.",
+    "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách thêm tin nhắn.",
+    "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với liên hệ này.",
     "FORM": {
       "TO": {
         "LABEL": "Đến"
       },
       "INBOX": {
-        "LABEL": "Hộp thư đến",
-        "ERROR": "Chọn Hộp thư đến"
+        "LABEL": "Kênh",
+        "ERROR": "Chọn kênh"
       },
       "SUBJECT": {
         "LABEL": "Chủ đề",
@@ -189,7 +190,7 @@
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Liên hệ",
+    "HEADER": "Danh bạ",
     "FIELDS": "Trường của liên hệ",
     "SEARCH_BUTTON": "Tìm kiếm",
     "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm liên hệ",
@@ -211,11 +212,11 @@
         "COMPANY": "Công ty",
         "EMAIL_ADDRESS": "Email"
       },
-      "VIEW_DETAILS": "Xem thông tin chi tiết"
+      "VIEW_DETAILS": "Xem chi tiết"
     }
   },
   "CONTACT_PROFILE": {
-    "BACK_BUTTON": "Liên hệ",
+    "BACK_BUTTON": "Danh bạ",
     "LOADING": "Đang tải hồ sơ liên hệ..."
   },
   "REMINDER": {
@@ -314,14 +315,14 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Gộp các liên hệ",
-    "DESCRIPTION": "Gộp các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và cuộc hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
+    "TITLE": "Hợp nhất các liên hệ",
+    "DESCRIPTION": "Hợp nhất các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
     "PRIMARY": {
-      "TITLE": "Liên lạc chính",
+      "TITLE": "Liên hệ chính",
       "HELP_LABEL": "Được giữ"
     },
     "CHILD": {
-      "TITLE": "Liên lạc cần gộp",
+      "TITLE": "Liên hệ cần gộp",
       "PLACEHOLDER": "Tìm kiếm liên hệ",
       "HELP_LABEL": "Sẽ được xoá"
     },
@@ -334,13 +335,13 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Gộp các liên hệ",
+      "SUBMIT": " Hợp nhất các liên hệ",
       "CANCEL": "Huỷ",
       "CHILD_CONTACT": {
-        "ERROR": "Chọn một liên lạc con để gộp"
+        "ERROR": "Chọn một liên hệ con để gộp"
       },
-      "SUCCESS_MESSAGE": "Liên lạc được gộp thành công",
-      "ERROR_MESSAGE": "Không thể gộp liên lạc, thử lại!"
+      "SUCCESS_MESSAGE": "Liên hệ được gộp thành công",
+      "ERROR_MESSAGE": "Không thể hợp nhất liên lạc, thử lại!"
     }
   }
 }

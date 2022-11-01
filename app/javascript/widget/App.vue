@@ -134,16 +134,26 @@ export default {
         });
       });
     },
-    setLocale(locale) {
+    setLocale(localeWithVariation) {
       const { enabledLanguages } = window.chatwootWebChannel;
-      if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
-        this.$root.$i18n.locale = locale;
+      const localeWithoutVariation = localeWithVariation.split('_')[0];
+      const hasLocaleWithoutVariation = enabledLanguages.some(
+        lang => lang.iso_639_1_code === localeWithoutVariation
+      );
+      const hasLocaleWithVariation = enabledLanguages.some(
+        lang => lang.iso_639_1_code === localeWithVariation
+      );
+
+      if (hasLocaleWithVariation) {
+        this.$root.$i18n.locale = localeWithVariation;
+      } else if (hasLocaleWithoutVariation) {
+        this.$root.$i18n.locale = localeWithoutVariation;
       }
     },
     registerUnreadEvents() {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
         const { name: routeName } = this.$route;
-        if (this.isWidgetOpen && routeName === 'messages') {
+        if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
           this.$store.dispatch('conversation/setUserLastSeen');
         }
         this.setUnreadView();

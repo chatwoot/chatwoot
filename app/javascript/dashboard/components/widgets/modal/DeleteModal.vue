@@ -1,13 +1,22 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <woot-modal-header :header-title="title" :header-content="message" />
+    <woot-modal-header
+      :header-title="title"
+      :header-content="message"
+      :header-content-value="messageValue"
+    />
     <div class="modal-footer delete-item">
-      <button class="alert button nice text-truncate" @click="onConfirm">
-        {{ confirmText }}
-      </button>
-      <button class="button clear text-truncate" @click="onClose">
+      <woot-button variant="clear" class="action-button" @click="onClose">
         {{ rejectText }}
-      </button>
+      </woot-button>
+      <woot-button
+        color-scheme="alert"
+        class="action-button"
+        variant="smooth"
+        @click="onConfirm"
+      >
+        {{ confirmText }}
+      </woot-button>
     </div>
   </modal>
 </template>
@@ -25,8 +34,14 @@ export default {
     onConfirm: { type: Function, default: () => {} },
     title: { type: String, default: '' },
     message: { type: String, default: '' },
+    messageValue: { type: String, default: '' },
     confirmText: { type: String, default: '' },
     rejectText: { type: String, default: '' },
   },
 };
 </script>
+<style lang="scss" scoped>
+.action-button {
+  max-width: var(--space-giga);
+}
+</style>

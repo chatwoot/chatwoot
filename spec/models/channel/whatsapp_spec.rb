@@ -20,4 +20,20 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.save).to be(true)
     end
   end
+
+  describe 'webhook_verify_token' do
+    it 'generates webhook_verify_token if not present' do
+      channel = create(:channel_whatsapp, provider_config: { webhook_verify_token: nil }, provider: 'whatsapp_cloud', account: create(:account),
+                                          validate_provider_config: false, sync_templates: false)
+
+      expect(channel.provider_config['webhook_verify_token']).not_to be_nil
+    end
+
+    it 'does not generate webhook_verify_token if present' do
+      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', provider_config: { webhook_verify_token: '123' }, account: create(:account),
+                                          validate_provider_config: false, sync_templates: false)
+
+      expect(channel.provider_config['webhook_verify_token']).to eq '123'
+    end
+  end
 end

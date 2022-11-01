@@ -26,19 +26,13 @@ class AutomationRules::ActionService < ActionService
 
     return unless @rule.files.attached?
 
-    blob = ActiveStorage::Blob.find(blob_ids)
+    blobs = ActiveStorage::Blob.where(id: blob_ids)
 
-    return if blob.blank?
+    return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blob }
+    params = { content: nil, private: false, attachments: blobs }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
-  end
-
-  def send_email_transcript(emails)
-    emails.each do |email|
-      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
-    end
   end
 
   def send_webhook_event(webhook_url)

@@ -98,7 +98,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -165,9 +166,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('AUTOMATION.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedResponse.name
-      } ?`;
+      return ` ${this.selectedResponse.name}?`;
     },
   },
   mounted() {
@@ -226,7 +225,7 @@ export default {
           mode === 'EDIT'
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
-        await await this.$store.dispatch(action, payload);
+        await this.$store.dispatch(action, payload);
         this.showAlert(this.$t(successMessage));
         this.hideAddPopup();
         this.hideEditPopup();

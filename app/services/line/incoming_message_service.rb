@@ -30,7 +30,7 @@ class Line::IncomingMessageService
   def message_created?(event)
     return unless event_type_message?(event)
 
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.create!(
       content: event['message']['text'],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -81,7 +81,7 @@ class Line::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: line_contact_info['userId'],
       inbox: inbox,
       contact_attributes: contact_attributes

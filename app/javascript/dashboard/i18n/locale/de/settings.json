@@ -19,6 +19,21 @@
         "TITLE": "Profil",
         "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey zum Senden von Nachrichten",
+        "NOTE": "Sie können einen Hotkey (entweder Enter oder Cmd/Strg+Enter) basierend auf Ihrer Schreibpräferenz auswählen.",
+        "UPDATE_SUCCESS": "Ihre Einstellungen wurden erfolgreich aktualisiert",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Eingabe (↵)",
+            "CONTENT": "Senden Sie Nachrichten, indem Sie die Eingabetaste drücken, anstatt auf die Schaltfläche \"Senden\" zu klicken."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Strg + Enter (⌘ + ↵)",
+            "CONTENT": "Senden Sie Nachrichten, indem Sie Cmd/Strg + Eingabetaste drücken, anstatt auf die Schaltfläche „Senden“ zu klicken."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Persönliche Nachrichtensignatur",
         "NOTE": "Erstellen Sie eine persönliche Nachrichtensignatur, die allen Nachrichten hinzugefügt wird, die Sie aus Ihrem E-Mail-Posteingang senden. Verwenden Sie den Rich-Content-Editor, um eine stark personalisierte Signatur zu erstellen.",
@@ -164,6 +179,7 @@
     "CONTACTS": "Kontakte",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Posteingänge",
     "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
@@ -174,6 +190,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Benutzerdefinierte Attribute",
     "AUTOMATION": "Automatisierung",
+    "MACROS": "Makros",
     "TEAMS": "Teams",
     "BILLING": "Rechnungen",
     "CUSTOM_VIEWS_FOLDER": "Ordner",
@@ -197,6 +214,7 @@
     "REPORTS_OVERVIEW": "Übersicht",
     "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
     "HELP_CENTER": {
+      "TITLE": "Hilfezentrum (Beta)",
       "ALL_ARTICLES": "Alle Artikel",
       "MY_ARTICLES": "Meine Artikel",
       "DRAFT": "Entwürfe",
@@ -256,7 +274,6 @@
       "GO_TO_SETTINGS": "Zu den Einstellungen",
       "SWITCH_CONVERSATION_STATUS": "Zum nächsten Gesprächsstatus wechseln",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Rich-Content-Editor umschalten",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",
       "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"
     },

@@ -88,8 +88,7 @@ export const mutations = {
   },
 
   toggleAgentTypingStatus($state, { status }) {
-    const isTyping = status === 'on';
-    $state.uiFlags.isAgentTyping = isTyping;
+    $state.uiFlags.isAgentTyping = status === 'on';
   },
 
   setMetaUserLastSeenAt($state, lastSeen) {
