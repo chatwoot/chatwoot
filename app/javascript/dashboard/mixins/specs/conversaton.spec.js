@@ -26,11 +26,4 @@ describe('#conversationMixin', () => {
       conversationMixin.methods.unReadMessages(conversationFixture.conversation)
     ).toEqual(conversationFixture.unReadMessages);
   });
-  it('should return the user message read flag', () => {
-    const contactLastSeen = 1649856659;
-    const createdAt = 1649859419;
-    expect(
-      conversationMixin.methods.hasUserReadMessage(createdAt, contactLastSeen)
-    ).toEqual(false);
-  });
 });

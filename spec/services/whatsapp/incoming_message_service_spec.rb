@@ -39,6 +39,37 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    context 'when ignores the message' do
+      it 'with message type is ephemeral' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa', 'text' => { 'body' => 'Test' },
+                           'timestamp' => '1633034394', 'type' => 'ephemeral' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+      end
+
+      it 'with message type is unsupported' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{
+            'errors' => [{ 'code': 131_051, 'title': 'Message type is currently not supported.' }],
+            'from': '2423423243', 'id': 'wamid.SDFADSf23sfasdafasdfa',
+            'timestamp': '1667047370', 'type': 'unsupported'
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+      end
+    end
+
     context 'when valid interactive message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {
