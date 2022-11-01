@@ -1,116 +1,116 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizacije",
-    "HEADER_BTN_TXT": "Dodaj pravilo automatizacije",
-    "LOADING": "Prikupljanje pravila automatizacije",
-    "SIDEBAR_TXT": "<p><b>Pravila automatizacije</b> <p>Automatizacija može da zameni i automatizuje postojeće procese koji zahtevaju ručnu aktivnost. Možete odraditi puno stvari sa automatizacijom, uključujući dodavanje oznaka i dodeljivanje razgovora najboljem agentu. Tako tim može da se usresredi na ono što rade najbolje i provedu što je manje vremena na ručne zadatke.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "Dodaj pravilo automatizacije",
-      "SUBMIT": "Napravi",
-      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Naziv pravila",
-          "PLACEHOLDER": "Unesite naziv pravila",
-          "ERROR": "Ime je neophodno"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "Opis",
-          "PLACEHOLDER": "Unesite opis pravila",
-          "ERROR": "Opis je neophodan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EVENT": {
-          "LABEL": "Događaj",
-          "PLACEHOLDER": "Molim izaberite jedno",
-          "ERROR": "Događaj je obavezan"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONDITIONS": {
-          "LABEL": "Uslovi"
+          "LABEL": ""
         },
         "ACTIONS": {
-          "LABEL": "Akcije"
+          "LABEL": ""
         }
       },
-      "CONDITION_BUTTON_LABEL": "Dodaj uslov",
-      "ACTION_BUTTON_LABEL": "Dodaj akciju",
+      "CONDITION_BUTTON_LABEL": "",
+      "ACTION_BUTTON_LABEL": "",
       "API": {
-        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno dodato",
-        "ERROR_MESSAGE": "Nije bilo moguće napraviti pravilo automatizacije. Molim vas pokušajte ponovo"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Aktivno",
-        "Napravljeno"
+        "",
+        "",
+        "",
+        ""
       ],
-      "404": "Nisu pronađena pravila automatizacije"
+      "404": ""
     },
     "DELETE": {
-      "TITLE": "Obriši pravilo automatizacije",
-      "SUBMIT": "Izbriši",
-      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Potvrdite brisanje",
-        "MESSAGE": "Sigurni ste da želite izbrisati ",
-        "YES": "Da, izbriši ",
-        "NO": "Ne, zadrži "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno obrisano",
-        "ERROR_MESSAGE": "Nije bilo moguće obrisati pravilo automatizacije. Molim vas pokušajte ponovo"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Uredi pravilo automatizacije",
-      "SUBMIT": "Primeni",
-      "CANCEL_BUTTON_TEXT": "Otkaži",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Pravilo automatizacije je uspešno izmenjeno",
-        "ERROR_MESSAGE": "Nije bilo moguće izmeniti pravilo automatizacije. Molim vas pokušajte ponovo"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CLONE": {
-      "TOOLTIP": "Kloniraj",
+      "TOOLTIP": "",
       "API": {
-        "SUCCESS_MESSAGE": "Automatizacija je uspešno klonirana",
-        "ERROR_MESSAGE": "Nije bilo moguće klonirati pravilo automatizacije. Molim vas pokušajte ponovo"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "FORM": {
-      "EDIT": "Uredi",
-      "CREATE": "Napravi",
-      "DELETE": "Izbriši",
-      "CANCEL": "Otkaži",
-      "RESET_MESSAGE": "Promena tipa događaja će resetovati uslove i događaje koje ste dodali ispod"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": "",
+      "RESET_MESSAGE": ""
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Morate imati barem jedan uslov da bi ste mogli da sačuvate"
+      "DELETE_MESSAGE": ""
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Morate imati barem jednu akciju da bi ste mogli da sačuvate",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Unesite ovde vašu poruku",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Izaberite timove"
+      "DELETE_MESSAGE": "",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
+      "TEAM_DROPDOWN_PLACEHOLDER": ""
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Aktiviraj pravilo automatizacije",
-      "DEACTIVATION_TITLE": "Deaktiviraj pravilo automatizacije",
-      "ACTIVATION_DESCRIPTION": "Ova akcija će aktivirati pravilo automatizacije '{automationName}'. Da li zaista želite da nastavite?",
-      "DEACTIVATION_DESCRIPTION": "Ova akcija će deaktivirati pravilo automatizacije '{automationName}'. Da li zaista želite da nastavite?",
-      "ACTIVATION_SUCCESFUL": "Pravilo automatizacije je uspešno aktivirano",
-      "DEACTIVATION_SUCCESFUL": "Pravilo automatizacije je uspešno deaktivirano",
-      "ACTIVATION_ERROR": "Nije bilo moguće aktivirati automatizaciju. Molim vas pokušajte ponovo",
-      "DEACTIVATION_ERROR": "Nije bilo moguće deaktivirati automatizaciju. Molim vas pokušajte ponovo",
-      "CONFIRMATION_LABEL": "Da",
-      "CANCEL_LABEL": "Ne"
+      "ACTIVATION_TITLE": "",
+      "DEACTIVATION_TITLE": "",
+      "ACTIVATION_DESCRIPTION": "",
+      "DEACTIVATION_DESCRIPTION": "",
+      "ACTIVATION_SUCCESFUL": "",
+      "DEACTIVATION_SUCCESFUL": "",
+      "ACTIVATION_ERROR": "",
+      "DEACTIVATION_ERROR": "",
+      "CONFIRMATION_LABEL": "",
+      "CANCEL_LABEL": ""
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Nije bilo moguće dodati prilog. Molim vas pokušajte ponovo",
-      "LABEL_IDLE": "Dodaj prilog",
-      "LABEL_UPLOADING": "Dodavanje...",
-      "LABEL_UPLOADED": "Uspešno je dodato",
-      "LABEL_UPLOAD_FAILED": "Dodavanje nije uspelo"
+      "UPLOAD_ERROR": "",
+      "LABEL_IDLE": "",
+      "LABEL_UPLOADING": "",
+      "LABEL_UPLOADED": "",
+      "LABEL_UPLOAD_FAILED": ""
     }
   }
 }
