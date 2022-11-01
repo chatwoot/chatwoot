@@ -181,6 +181,19 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql(params['name'])
       end
+
+      it 'Unauthorize to update the macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent)
+
+        put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            params: params,
+            headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
     end
   end
 
@@ -213,6 +226,18 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
             headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:not_found)
+      end
+
+      it 'Unauthorize to fetch the macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent)
+
+        get "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
       end
     end
   end
