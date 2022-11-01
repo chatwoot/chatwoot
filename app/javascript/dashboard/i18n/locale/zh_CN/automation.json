@@ -1,116 +1,116 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "添加自动化规则",
-    "LOADING": "正在获取自动化规则",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "添加自动化规则",
-      "SUBMIT": "创建",
-      "CANCEL_BUTTON_TEXT": "取消",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "规则名称",
-          "PLACEHOLDER": "请输入规则名称",
-          "ERROR": "名称是必填项"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "描述信息",
-          "PLACEHOLDER": "输入规则说明",
+          "LABEL": "",
+          "PLACEHOLDER": "",
           "ERROR": "描述是必需的"
         },
         "EVENT": {
-          "LABEL": "事件",
-          "PLACEHOLDER": "请选择一个",
-          "ERROR": "事件是必填项"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONDITIONS": {
-          "LABEL": "条件"
+          "LABEL": ""
         },
         "ACTIONS": {
-          "LABEL": "操作"
+          "LABEL": ""
         }
       },
-      "CONDITION_BUTTON_LABEL": "添加条件",
-      "ACTION_BUTTON_LABEL": "添加操作",
+      "CONDITION_BUTTON_LABEL": "",
+      "ACTION_BUTTON_LABEL": "",
       "API": {
-        "SUCCESS_MESSAGE": "自动化规则添加成功",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
       "TABLE_HEADER": [
-        "姓名：",
-        "描述信息",
-        "Active",
-        "Created on"
+        "",
+        "",
+        "",
+        ""
       ],
-      "404": "No automation rules found"
+      "404": ""
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
-      "SUBMIT": "删除",
-      "CANCEL_BUTTON_TEXT": "取消",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "确认删除",
-        "MESSAGE": "您确定要删除吗？ ",
-        "YES": "是的，删除 ",
-        "NO": "不，保留 "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
-      "SUBMIT": "更新",
-      "CANCEL_BUTTON_TEXT": "取消",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "FORM": {
-      "EDIT": "编辑",
-      "CREATE": "创建",
-      "DELETE": "删除",
-      "CANCEL": "取消",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": "",
+      "RESET_MESSAGE": ""
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": ""
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
+      "TEAM_DROPDOWN_PLACEHOLDER": ""
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "是",
-      "CANCEL_LABEL": "否"
+      "ACTIVATION_TITLE": "",
+      "DEACTIVATION_TITLE": "",
+      "ACTIVATION_DESCRIPTION": "",
+      "DEACTIVATION_DESCRIPTION": "",
+      "ACTIVATION_SUCCESFUL": "",
+      "DEACTIVATION_SUCCESFUL": "",
+      "ACTIVATION_ERROR": "",
+      "DEACTIVATION_ERROR": "",
+      "CONFIRMATION_LABEL": "",
+      "CANCEL_LABEL": ""
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "无法上传附件。请重试",
-      "LABEL_IDLE": "上传附件",
-      "LABEL_UPLOADING": "上传中...",
-      "LABEL_UPLOADED": "上传成功",
-      "LABEL_UPLOAD_FAILED": "上传失败"
+      "UPLOAD_ERROR": "",
+      "LABEL_IDLE": "",
+      "LABEL_UPLOADING": "",
+      "LABEL_UPLOADED": "",
+      "LABEL_UPLOAD_FAILED": ""
     }
   }
 }
