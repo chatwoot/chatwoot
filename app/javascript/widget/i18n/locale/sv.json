@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Hämta",
-      "UPLOADING": "Laddar upp..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Skicka"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Skicka meddelande igen",
-      "ERROR_MESSAGE": "Kunde inte skicka, försök igen"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Vi är online",
-    "OFFLINE": "Vi är borta för tillfället"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
-    "IN_A_FEW_HOURS": "Svarar vanligtvis inom några timmar",
-    "IN_A_DAY": "Svar vanligtvis inom en dag"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Starta konversation",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Fortsätt konversation",
-  "START_NEW_CONVERSATION": "Starta konversation",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
-    "CLOSE_MESSAGES_BUTTON": "Stäng",
-    "COMPANY_FROM": "från",
-    "BOT": "Bot"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Chatta med oss"
+    "LABEL": ""
   },
-  "POWERED_BY": "Drivs av Chatwoot",
-  "EMAIL_PLACEHOLDER": "Ange din e-postadress",
-  "CHAT_PLACEHOLDER": "Skriv ditt meddelande",
-  "TODAY": "Idag",
-  "YESTERDAY": "Igår",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Fullständigt namn",
-        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
-        "REQUIRED_ERROR": "Fullständigt namn krävs"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "E-postadress",
-        "PLACEHOLDER": "Vänligen ange din e-postadress",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Ange en giltig e-postadress"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Meddelande",
-        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
-        "ERROR": "Meddelandet är för kort"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Ogiltigt fält"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Betygsätt din konversation",
-    "SUBMITTED_TITLE": "Tack för att du lämnat in omdömet",
-    "PLACEHOLDER": "Berätta mer för oss!"
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Skicka konversationstranskribering",
-    "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
-    "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
