@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "İndir",
-      "UPLOADING": "Yükleniyor ..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Yolla"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Mesajı tekrar gönder",
-      "ERROR_MESSAGE": "Gönderilemedi, tekrar deneyin"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Çevrimiçi",
-    "OFFLINE": "Şu an operatörlerimiz müsait değil"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
-    "IN_A_FEW_HOURS": "Genellikle birkaç saat içinde yanıt verir",
-    "IN_A_DAY": "Genellikle bir gün içinde yanıtlar"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Görüşmeyi Başlatın",
-  "END_CONVERSATION": "Görüşmeyi Sonlandır",
-  "CONTINUE_CONVERSATION": "Görüşmeye devam et",
-  "START_NEW_CONVERSATION": "Yeni çatı başla",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
-    "CLOSE_MESSAGES_BUTTON": "Kapat",
-    "COMPANY_FROM": "dan",
-    "BOT": "Bot"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Sohbet et"
+    "LABEL": ""
   },
-  "POWERED_BY": "Chatwoot tarafından desteklenmektedir",
-  "EMAIL_PLACEHOLDER": "Lütfen E-postanızı Girin",
-  "CHAT_PLACEHOLDER": "Mesajınız",
-  "TODAY": "Bugün",
-  "YESTERDAY": "Dün",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Ad Soyad",
-        "PLACEHOLDER": "lütfen tam adınızı giriniz",
-        "REQUIRED_ERROR": "Tam isim gerekli"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "E-posta adresi",
-        "PLACEHOLDER": "Lütfen e-postanızı girin",
-        "REQUIRED_ERROR": "e-Posta adresi zorunludur",
-        "VALID_ERROR": "Lütfen geçerli bir e-posta adresi girin"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Telefon numarası",
-        "PLACEHOLDER": "Lütfen telefon numaranızı yazınız",
-        "REQUIRED_ERROR": "Telefon numarası zorunludur",
-        "VALID_ERROR": "Telefon numarası E.164 formatında olmalıdır örn: +905555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Mesaj",
-        "PLACEHOLDER": "Lütfen mesajınızı girin",
-        "ERROR": "Mesaj çok kısa"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz",
-    "IS_REQUIRED": "zorunlu"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Geçersiz alan"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Görüşmenizi değerlendirin",
-    "SUBMITTED_TITLE": "Değerlendirmeniz için teşekkürler",
-    "PLACEHOLDER": "Biraz daha fazla bilgi verin..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Konuşma transkripti talep et",
-    "SEND_EMAIL_SUCCESS": "Sohbet metni başarıyla gönderildi",
-    "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
