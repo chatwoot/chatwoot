@@ -21,9 +21,9 @@
             "does_not_contain": "شامل نمی‌شود",
             "is_present": "در حال حاضر وجود دارد",
             "is_not_present": "در حال حاضر وجود ندارد",
-            "is_greater_than": "بزرگتر از",
-            "is_lesser_than": "کوچکتر از",
-            "days_before": "x روز قبل است"
+            "is_greater_than": "",
+            "is_lesser_than": "",
+            "days_before": ""
         },
         "ATTRIBUTES": {
             "NAME": "نام",
@@ -32,18 +32,18 @@
             "IDENTIFIER": "شناسه",
             "CITY": "شهر",
             "COUNTRY": "کشور",
-            "CUSTOM_ATTRIBUTE_LIST": "فهرست",
-            "CUSTOM_ATTRIBUTE_TEXT": "متن",
-            "CUSTOM_ATTRIBUTE_NUMBER": "شماره",
-            "CUSTOM_ATTRIBUTE_LINK": "پیوند",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
-            "CREATED_AT": "ایجاد شده در",
+            "CUSTOM_ATTRIBUTE_LIST": "",
+            "CUSTOM_ATTRIBUTE_TEXT": "",
+            "CUSTOM_ATTRIBUTE_NUMBER": "",
+            "CUSTOM_ATTRIBUTE_LINK": "",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+            "CREATED_AT": "",
             "LAST_ACTIVITY": "آخرین فعالیت",
-            "REFERER_LINK": "پیوند ارجاع‌دهنده"
+            "REFERER_LINK": ""
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "فیلترهای استاندارد",
-            "ADDITIONAL_FILTERS": "فیلترهای اضافی",
+            "STANDARD_FILTERS": "",
+            "ADDITIONAL_FILTERS": "",
             "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی"
         }
     }
