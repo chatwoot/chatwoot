@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Скачать",
-      "UPLOADING": "Загружаем..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Отправить"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Отправить сообщение еще раз",
-      "ERROR_MESSAGE": "Не удалось отправить! Попробуйте еще раз"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Мы в сети",
-    "OFFLINE": "В данный момент мы отсутствуем"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
-    "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
-    "IN_A_DAY": "Обычно отвечаем в течение дня"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Начать диалог",
-  "END_CONVERSATION": "Завершить диалог",
-  "CONTINUE_CONVERSATION": "Продолжить беседу",
-  "START_NEW_CONVERSATION": "Начать диалог",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
-    "CLOSE_MESSAGES_BUTTON": "Закрыть",
-    "COMPANY_FROM": "от",
-    "BOT": "Бот"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Пообщайтесь с нами"
+    "LABEL": ""
   },
-  "POWERED_BY": "Работает на Chatwoot",
-  "EMAIL_PLACEHOLDER": "Пожалуйста, введите ваш email",
-  "CHAT_PLACEHOLDER": "Введите сообщение",
-  "TODAY": "Сегодня",
-  "YESTERDAY": "Вчера",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Полное имя",
-        "PLACEHOLDER": "Пожалуйста, введите ваше ФИО",
-        "REQUIRED_ERROR": "Необходимо указать имя"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Email",
-        "PLACEHOLDER": "Пожалуйста, введите ваш адрес электронной почты",
-        "REQUIRED_ERROR": "Требуется адрес электронной почты",
-        "VALID_ERROR": "Пожалуйста, введите действительный адрес электронной почты"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Номер телефона",
-        "PLACEHOLDER": "Пожалуйста, введите ваш номер телефона",
-        "REQUIRED_ERROR": "Требуется указать номер телефона",
-        "VALID_ERROR": "Номер телефона должен быть в формате E.164, например: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Сообщение",
-        "PLACEHOLDER": "Пожалуйста, введите ваше сообщение здесь",
-        "ERROR": "Сообщение слишком короткое"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Пожалуйста, укажите ваше имя и адрес электронной почты перед началом беседы",
-    "IS_REQUIRED": "обязательно"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Неверное поле"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Оцените разговор",
-    "SUBMITTED_TITLE": "Спасибо за оценку",
-    "PLACEHOLDER": "Расскажите подробнее..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Запросить историю разговора",
-    "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
-    "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
