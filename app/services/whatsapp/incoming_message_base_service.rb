@@ -87,11 +87,11 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def unprocessable_message_type?
-    %w[reaction contacts].include?(message_type)
+    %w[reaction contacts ephemeral unsupported].include?(message_type)
   end
 
   def attach_files
-    return if %w[text button interactive].include?(message_type)
+    return if %w[text button interactive unsupported ephemeral].include?(message_type)
 
     attachment_payload = @processed_params[:messages].first[message_type.to_sym]
     attachment_file = download_attachment_file(attachment_payload)
