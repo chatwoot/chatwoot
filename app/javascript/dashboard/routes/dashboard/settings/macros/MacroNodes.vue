@@ -15,6 +15,13 @@
           class="macros__node-action"
           type="add"
           :index="i"
+          :file-name="
+            fileName(
+              actionData[i].action_params[0],
+              actionData[i].action_name,
+              files
+            )
+          "
           :single-node="actionData.length === 1"
           @resetAction="$emit('resetAction', i)"
           @deleteNode="$emit('deleteNode', i)"
@@ -37,7 +44,7 @@ import MacrosPill from './Pill.vue';
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
 import MacroActionButton from './ActionButton.vue';
-
+import { getFileName } from './macroHelper';
 export default {
   components: {
     Draggable,
@@ -50,6 +57,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    files: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     actionData: {
@@ -59,6 +70,11 @@ export default {
       set(value) {
         this.$emit('input', value);
       },
+    },
+  },
+  methods: {
+    fileName() {
+      return getFileName(...arguments);
     },
   },
 };
