@@ -1,116 +1,116 @@
 {
   "AUTOMATION": {
-    "HEADER": "Tự động hoá",
-    "HEADER_BTN_TXT": "Thêm luật Tự động hoá",
-    "LOADING": "Đang lấy luật tự động hoá",
-    "SIDEBAR_TXT": "<p><b>Luật tự động hóa</b> <p>Tự động hóa có thể thay thế và tự động hóa các quy trình hiện có mà cần thao tác thủ công. Bạn có thể làm nhiều việc với tự động hóa, bao gồm thêm nhãn và gán cuộc trò chuyện cho người đại diện tốt nhất. Vì vậy, nhóm tập trung vào những gì họ làm tốt nhất và dành ít thời gian hơn cho các công việc thủ công.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "Thêm Quy tắc Tự động hoá",
-      "SUBMIT": "Tạo",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên luật",
-          "PLACEHOLDER": "Nhập tên luật",
-          "ERROR": "Cần phải có tên"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "Mô tả",
-          "PLACEHOLDER": "Nhập mô tả luật",
-          "ERROR": "Cần phải có \u001dmô tả"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EVENT": {
-          "LABEL": "Sự kiện",
-          "PLACEHOLDER": "Vui lòng chọn một",
-          "ERROR": "Cần phải có \u001dsự kiện"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONDITIONS": {
-          "LABEL": "Điều kiện"
+          "LABEL": ""
         },
         "ACTIONS": {
-          "LABEL": "Hành động"
+          "LABEL": ""
         }
       },
-      "CONDITION_BUTTON_LABEL": "Thêm Điều kiện",
-      "ACTION_BUTTON_LABEL": "Thêm Hành động",
+      "CONDITION_BUTTON_LABEL": "",
+      "ACTION_BUTTON_LABEL": "",
       "API": {
-        "SUCCESS_MESSAGE": "Luật tự động hoá thêm thành công",
-        "ERROR_MESSAGE": "Không thể tạo luật tự động hoá, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Tên",
-        "Mô tả",
-        "Có hiệu lực",
-        "Được tạo trên"
+        "",
+        "",
+        "",
+        ""
       ],
-      "404": "Không tìm thấy luật tự động hoá"
+      "404": ""
     },
     "DELETE": {
-      "TITLE": "Xoá luật Tự động hoá",
-      "SUBMIT": "Xoá",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Bạn có chắc muốn xoá ",
-        "YES": "Có, xoá ",
-        "NO": "Không, giữ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Luật\u001d tự động hoá được xoá thành công",
-        "ERROR_MESSAGE": "Không thể xoá luật tự động hoá, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Sửa Luật Tự động hoá",
-      "SUBMIT": "Cập nhật",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Luật\u001d tự động hoá được thêm thành công",
-        "ERROR_MESSAGE": "Không thể cập nhật \bluật tự động hoá, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CLONE": {
-      "TOOLTIP": "Nhân bản",
+      "TOOLTIP": "",
       "API": {
-        "SUCCESS_MESSAGE": "Luật tự động hoá mô phỏng thành công",
-        "ERROR_MESSAGE": "Không thể mô phỏng luật tự động hoá, Vui lòng thử lại sau"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "FORM": {
-      "EDIT": "Chỉnh sửa",
-      "CREATE": "Tạo",
-      "DELETE": "Xoá",
-      "CANCEL": "Huỷ",
-      "RESET_MESSAGE": "Thay đổi loại sự kiện sẽ đặt lại điều kiện và sự kiện mà bạn đã thêm bên dưới"
+      "EDIT": "",
+      "CREATE": "",
+      "DELETE": "",
+      "CANCEL": "",
+      "RESET_MESSAGE": ""
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Bạn cần có ít nhất một điều kiện để lưu"
+      "DELETE_MESSAGE": ""
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Viết tin nhắn ở đây",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm"
+      "DELETE_MESSAGE": "",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
+      "TEAM_DROPDOWN_PLACEHOLDER": ""
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Kích hoạt Luật Tự động hoá",
-      "DEACTIVATION_TITLE": "Vô hiệu hoá \bLuật Tự động hoá",
-      "ACTIVATION_DESCRIPTION": "Thao tác này sẽ kích hoạt luật tự động hoá tên '{automationName}'. Bạn có chắc là muốn tiếp tục?",
-      "DEACTIVATION_DESCRIPTION": "Thao tác này sẽ vô hiệu hoá luật tự động hoá tên '{automationName}'. Bạn có chắc là muốn tiếp tục?",
-      "ACTIVATION_SUCCESFUL": "Luật tự động hoá đã được kích hoạt thành công",
-      "DEACTIVATION_SUCCESFUL": "Luật tự động hoá đã vô hiệu hoá thành công",
-      "ACTIVATION_ERROR": "Không thể kích hoạt luật tự động hoá, Vui lòng thử lại sau",
-      "DEACTIVATION_ERROR": "Không thể vô hiệu hoá luật tự động hoá, Vui lòng thử lại sau",
-      "CONFIRMATION_LABEL": "Có",
-      "CANCEL_LABEL": "Không"
+      "ACTIVATION_TITLE": "",
+      "DEACTIVATION_TITLE": "",
+      "ACTIVATION_DESCRIPTION": "",
+      "DEACTIVATION_DESCRIPTION": "",
+      "ACTIVATION_SUCCESFUL": "",
+      "DEACTIVATION_SUCCESFUL": "",
+      "ACTIVATION_ERROR": "",
+      "DEACTIVATION_ERROR": "",
+      "CONFIRMATION_LABEL": "",
+      "CANCEL_LABEL": ""
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Không thể tải tập tin đính kèm, Vui lòng thử lại sau",
-      "LABEL_IDLE": "Tải tập tin đính kèm",
-      "LABEL_UPLOADING": "Đang tải lên...",
-      "LABEL_UPLOADED": "Đã tải lên thành công",
-      "LABEL_UPLOAD_FAILED": "Không tải lên được"
+      "UPLOAD_ERROR": "",
+      "LABEL_IDLE": "",
+      "LABEL_UPLOADING": "",
+      "LABEL_UPLOADED": "",
+      "LABEL_UPLOAD_FAILED": ""
     }
   }
 }
