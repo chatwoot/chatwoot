@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Last ned",
-      "UPLOADING": "Laster opp..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Send"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Vi er pålogget",
-    "OFFLINE": "Vi er for øyeblikket borte"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
-    "IN_A_FEW_HOURS": "Svarer vanligvis innen et par timer",
-    "IN_A_DAY": "Svarer vanligvis innen en dag"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Start samtale",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start en ny samtale",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
-    "CLOSE_MESSAGES_BUTTON": "Lukk",
-    "COMPANY_FROM": "fra",
-    "BOT": "Bot"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Chat med oss"
+    "LABEL": ""
   },
-  "POWERED_BY": "Drevet av Chatwoot",
-  "EMAIL_PLACEHOLDER": "Skriv inn din e-post",
-  "CHAT_PLACEHOLDER": "Skriv inn meldingen",
-  "TODAY": "I dag",
-  "YESTERDAY": "I går",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Fullt navn",
-        "PLACEHOLDER": "Skriv inn fullt navn",
-        "REQUIRED_ERROR": "Fullt navn er påkrevd"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "E-postadresse",
-        "PLACEHOLDER": "Vennligst skriv inn din e-postadresse",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Vennligst skriv inn en gyldig e-postadresse"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Telefonnummer",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Melding",
-        "PLACEHOLDER": "Skriv inn meldingen din",
-        "ERROR": "Meldingen er for kort"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Angi navn og e-post før du starter samtalen",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Filens størrelse overskrider grensen på {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Ugyldig felt"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Vurder samtalen din",
-    "SUBMITTED_TITLE": "Takk for at du ga din vurdering",
-    "PLACEHOLDER": "Fortell oss mer..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Be om utskrift av samtalen",
-    "SEND_EMAIL_SUCCESS": "Kopi av samtalen ble sendt",
-    "SEND_EMAIL_ERROR": "Det oppstod en feil. Prøv igjen"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
