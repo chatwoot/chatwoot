@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "ดาวโหลด",
-      "UPLOADING": "กำลังอัพโหลด"
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "ส่ง"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "ส่งข้อความอีกครั้ง",
-      "ERROR_MESSAGE": "ไม่สามารถส่งได้ ลองอีกครั้ง"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "เรากำลังออนไลน์",
-    "OFFLINE": "เราไม่อยู่"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "ปกติจะตอบกลับภายในไม่กี่นาที",
-    "IN_A_FEW_HOURS": "ปกติจะตอบกลับในไม่กี่ชั่วโมง",
-    "IN_A_DAY": "ปกติจะตอบกลับภายใน 1 วัน"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "เริ่มการสนทนา",
-  "END_CONVERSATION": "จบการสนทนา",
-  "CONTINUE_CONVERSATION": "สนทนาต่อ",
-  "START_NEW_CONVERSATION": "เริ่มการสนทนาใหม่",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "ดูข้อความใหม่",
-    "CLOSE_MESSAGES_BUTTON": "ปิด",
-    "COMPANY_FROM": "จาก",
-    "BOT": "บอท"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "คุยกับเรา"
+    "LABEL": ""
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "กรุณากรอกอีเมล์ของคุณ",
-  "CHAT_PLACEHOLDER": "พิมพ์ข้อความ",
-  "TODAY": "วันนี้",
-  "YESTERDAY": "เมื่อวาน",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "ชื่อเต็ม",
-        "PLACEHOLDER": "โปรดใส่ชื่อเต็มของคุณ",
-        "REQUIRED_ERROR": "จำเป็นต้องใส่ชื่อเต็ม"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "ที่อยู่อีเมล์",
-        "PLACEHOLDER": "โปรดใส่อีเมล์ของคุณ",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "กรุณากรอกที่อยู่อีเมล์ให้ถูกต้อง"
+        "LABEL": "อีเมล์",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "หมายเลขโทรศัพท์",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "ข้อความ",
-        "PLACEHOLDER": "โปรดพิมพ์ข้อความ",
-        "ERROR": "ข้อความสั้นเกินไป"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "ให้คะแนนการสนทนาครั้งนี้",
-    "SUBMITTED_TITLE": "ขอบคุณที่ร่วมมือให้คะแนนการสนทนากับเรา",
-    "PLACEHOLDER": "บอกเราเพิ่มเติม..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "ต้องการให้ส่งบทสนทนานี้ทางอีเมล์",
-    "SEND_EMAIL_SUCCESS": "บันทึกการสนทนาได้ถูกส่งเเล้ว",
-    "SEND_EMAIL_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
