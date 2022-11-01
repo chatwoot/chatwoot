@@ -1,17 +1,17 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Αγαπητέ πελάτη 👋, παρακαλώ διαθέστε λόγο χρόνο για να σχολιάσετε τη συζήτηση που είχατε με στο %{inboxName}.",
+    "DESCRIPTION": "",
     "RATING": {
-      "LABEL": "Αξιολογήστε τη συνομιλία σας",
-      "SUCCESS_MESSAGE": "Ευχαριστούμε για την υποβολή της αξιολόγησης"
+      "LABEL": "",
+      "SUCCESS_MESSAGE": ""
     },
     "FEEDBACK": {
-      "LABEL": "Έχετε κάποιες σκέψεις θα θέλατε να μοιραστείτε;",
-      "PLACEHOLDER": "Οι παρατηρήσεις σας (προαιρετικά)",
-      "BUTTON_TEXT": "Υποβολή παρατηρήσεων"
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "BUTTON_TEXT": ""
     },
     "API": {
-      "SUCCESS_MESSAGE": "Η επισκόπιση (suvey) ενημερώθηκε επιτυχώς",
+      "SUCCESS_MESSAGE": "",
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     }
   },
