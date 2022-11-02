@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Pielāgots domēns",
           "PLACEHOLDER": "Portāla pielāgots domēns",
-          "HELP_TEXT": "Pievienojiet tikai tad Ja vēlaties saviem portāliem izmantot pielāgotu domēnu.",
-          "ERROR": "Nepieciešams pielāgots domēns"
+          "HELP_TEXT": "Pievienojiet tikai tad, ja vēlaties saviem portāliem izmantot pielāgotu domēnu. Piemēram: https://example.com",
+          "ERROR": "Ievadiet derīgu domēna URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Mājaslapas saite",
           "PLACEHOLDER": "Portāla mājaslapas saite",
-          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz mājaslapu.",
-          "ERROR": "Nepieciešama saite uz mājaslapu"
+          "HELP_TEXT": "Saite, ko izmanto lai atgrieztos no portāla uz sākumlapu. Piemēram: https://example.com",
+          "ERROR": "Ievadiet derīgu sākumlapas URL"
         },
         "THEME_COLOR": {
           "LABEL": "Portāla tēmas krāsa",
