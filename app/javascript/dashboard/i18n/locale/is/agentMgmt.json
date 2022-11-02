@@ -1,111 +1,111 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Þjónustufulltrúar",
-    "HEADER_BTN_TXT": "Bæta við þjónustufulltrúa",
-    "LOADING": "Sækja lista yfir þjónustufulltrúa",
-    "SIDEBAR_TXT": "<p><b>Þjónustufulltrúar</b></p> <p> <b>Þjónustufulltrúi</b> er meðlimur í þjónustuverinu þínu. </p><p> Þjónustufulltrúar munu geta skoðað og svarað skilaboðum frá notendum þínum. Listinn sýnir alla þjónustufulltrúa sem eru á reikningnum þínum. </p><p> Smelltu á <b>Bæta við þjónustufulltrúa</b> til að bæta við nýjum þjónustufulltrúa. þjónustufulltrúi sem þú bætir við mun fá tölvupóst með staðfestingartengli til að virkja reikninginn sinn, eftir það getur hann fengið aðgang að Chatwoot og svarað skilaboðum. </p><p> Aðgangur að eiginleikum Chatwoot byggist á eftirfarandi hlutverkum. </p><p> <b>Þjónustufulltrúi</b> - Þjónustufulltrúi með þetta hlutverk hafa aðeins aðgang að innhólfum, skýrslur og samtöl. Þeir geta úthlutað samtölum til annarra umboðsmanna eða á sjálfa sig og leyst samtöl.</p><p> <b>Stjórnandi</b> - Stjórnandi mun hafa aðgang að öllum Chatwoot eiginleikum sem eru virkjaðir fyrir reikninginn þinn, þar á meðal stillingar, ásamt öllum venjulegum réttindum þjónustufulltrúa.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Stjórnandi",
-      "AGENT": "Þjónustufulltrúi"
+      "ADMINISTRATOR": "",
+      "AGENT": ""
     },
     "LIST": {
-      "404": "Það eru engir þjónustufulltrúar tengdir við þennan reikning",
-      "TITLE": "Umsýsla þjónustufulltrúa í þínu teymi",
-      "DESC": "Þú getur bætt við/fjarlægt þjónustufulltrúa við/í liðinu þínu.",
-      "NAME": "Nafn",
-      "EMAIL": "NETFANG",
-      "STATUS": "Staða",
-      "ACTIONS": "Aðgerðir",
-      "VERIFIED": "Staðfest",
-      "VERIFICATION_PENDING": "Bíður staðfestingar"
+      "404": "",
+      "TITLE": "",
+      "DESC": "",
+      "NAME": "",
+      "EMAIL": "",
+      "STATUS": "",
+      "ACTIONS": "",
+      "VERIFIED": "",
+      "VERIFICATION_PENDING": ""
     },
     "ADD": {
-      "TITLE": "Bæta þjónustufulltrúa við teymið",
-      "DESC": "Þú getur bætt við fólki sem getur séð um þjónustu í innhólfinu þínu.",
-      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Nafn þjónustufulltrúa",
-          "PLACEHOLDER": "Vinsamlegast skrifið nafn þjónustufulltrúa"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Hlutverk",
-          "PLACEHOLDER": "Vinsamlegast veljið hlutverk",
-          "ERROR": "Hlutverk vantar"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Netfang",
-          "PLACEHOLDER": "Vinsamlegast skráið netfang þjónustufulltrúa"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Bæta við þjónustufulltrúa"
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Þjónustufulltrúa bætt við",
-        "EXIST_MESSAGE": "Netfang þjónustufulltrúa nú þegar í notkun, vinsamlegast notið annað netfang",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "SUCCESS_MESSAGE": "",
+        "EXIST_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Eyða",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Þjónustufulltrúa eytt",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "Staðfesta eyðingu",
-        "MESSAGE": "Ertu viss um að þú viljir eyða",
-        "YES": "Já, eyða",
-        "NO": "Nei, hætta við eyðingu"
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Breyta þjónustufulltrúa",
+      "TITLE": "",
       "FORM": {
         "NAME": {
-          "LABEL": "Nafn þjónustufulltrúa",
-          "PLACEHOLDER": "Vinsamlegast skrifið nafn þjónustufulltrúa"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "AGENT_TYPE": {
-          "LABEL": "Hlutverk",
-          "PLACEHOLDER": "Vinsamlegast veljið hlutverk",
-          "ERROR": "Hlutverk vantar"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "EMAIL": {
-          "LABEL": "Netfang",
-          "PLACEHOLDER": "Vinsamlegast skráið netfang þjónustufulltrúa"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Breyta þjónustufulltrúa"
+        "SUBMIT": ""
       },
-      "BUTTON_TEXT": "Breyta",
-      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "BUTTON_TEXT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Þjónustufulltrúa hefur verið breytt",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Endurstilla lykilorð",
-        "ADMIN_SUCCESS_MESSAGE": "Tölvupóstur með leiðbeiningum um endurstillingu lykilorðs hefur verið sendur til þjónustufulltrúa",
-        "SUCCESS_MESSAGE": "Lykilorð þjónustufulltrúa var endurstillt",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "ADMIN_RESET_BUTTON": "",
+        "ADMIN_SUCCESS_MESSAGE": "",
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Engar niðurstöður fundust."
+      "NO_RESULTS": ""
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "",
       "TITLE": {
-        "AGENT": "Velja þjónustufulltrúa",
-        "TEAM": "Velja teymi"
+        "AGENT": "",
+        "TEAM": ""
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Engir þjónustufulltrúar fundust",
-          "TEAM": "Ekkert teymi fannst"
+          "AGENT": "",
+          "TEAM": ""
         },
         "PLACEHOLDER": {
-          "AGENT": "Leita að þjónustufulltrúum",
-          "TEAM": "Leita að teymum"
+          "AGENT": "",
+          "TEAM": ""
         }
       }
     }
