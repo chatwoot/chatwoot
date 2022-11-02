@@ -1,62 +1,62 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "Það eru engar %{integrationId} samþættingar stilltar á þessum reikningi.",
-    "HEADER": "Applications",
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "",
+    "HEADER": "",
     "STATUS": {
-      "ENABLED": "Enabled",
-      "DISABLED": "Disabled"
+      "ENABLED": "",
+      "DISABLED": ""
     },
-    "CONFIGURE": "Configure",
-    "ADD_BUTTON": "Add a new hook",
+    "CONFIGURE": "",
+    "ADD_BUTTON": "",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Yes, Delete",
-        "ACCOUNT": "Yes, Disconnect"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
-      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "CANCEL_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "",
+      "INBOX": "",
       "DELETE": {
-        "BUTTON_TEXT": "Eyða"
+        "BUTTON_TEXT": ""
       }
     },
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Create",
-        "CANCEL": "Hætta við"
+        "SUBMIT": "",
+        "CANCEL": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": ""
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": ""
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow er náttúrulegur málskilningsvettvangur sem gerir það auðvelt að hanna og samþætta samtalsnotendaviðmót í farsímaforritið þitt, vefforrit, tæki, vélmenni, gagnvirkt raddsvörunarkerfi og svo framvegis. <br /> <br /> Dialogflow samþætting við %{installationName} gerir þér kleift að stilla Dialogflow spjallmenni við innhólfin þín sem gerir spjallmenninu kleift að sjá um fyrirspurnir í upphafi og afhenda þær þjónustufulltrúa þegar þörf krefur. Dialogflow er hægt að nota til að hæfa sölumönnunum, draga úr vinnuálagi þjónustufulltrúa með því að leggja fram algengar spurningar o.s.frv. <br /> <br /> Til að bæta Dialogflow við þarftu að búa til þjónustureikning í Google verkefnaborðinu þínu og deila aðgangsupplýsingum. Vinsamlegast skoðaðu Dialogflow skjölin fyrir frekari upplýsingar."
+      "DIALOGFLOW": ""
     }
   }
 }
