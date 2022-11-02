@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "قوالب Whatsapp",
-            "SUBTITLE": "حدد قالب ما تريد إرساله",
-            "TEMPLATE_SELECTED_SUBTITLE": "معالجة %{templateName}"
+            "TITLE": "",
+            "SUBTITLE": "",
+            "TEMPLATE_SELECTED_SUBTITLE": ""
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "نماذج البحث",
-            "NO_TEMPLATES_FOUND": "لم يتم العثور على قوالب",
+            "SEARCH_PLACEHOLDER": "",
+            "NO_TEMPLATES_FOUND": "",
             "LABELS": {
-                "LANGUAGE": "اللغة",
-                "TEMPLATE_BODY": "نص القالب",
-                "CATEGORY": "الفئة"
+                "LANGUAGE": "",
+                "TEMPLATE_BODY": "",
+                "CATEGORY": ""
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "المتغيرات",
-            "VARIABLE_PLACEHOLDER": "أدخل قيمة %{variable}",
-            "GO_BACK_LABEL": "العودة للخلف",
-            "SEND_MESSAGE_LABEL": "إرسال الرسالة",
-            "FORM_ERROR_MESSAGE": "يرجى ملء جميع المتغيرات قبل الإرسال"
+            "VARIABLES_LABEL": "",
+            "VARIABLE_PLACEHOLDER": "",
+            "GO_BACK_LABEL": "",
+            "SEND_MESSAGE_LABEL": "",
+            "FORM_ERROR_MESSAGE": ""
         }
     }
 }
