@@ -8,9 +8,9 @@ class AutomationRuleListener < BaseListener
 
     return unless rule_present?('conversation_updated', account)
 
-    @rules = current_account_rules('conversation_updated', account)
+    rules = current_account_rules('conversation_updated', account)
 
-    @rules.each do |rule|
+    rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
       AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
@@ -25,9 +25,9 @@ class AutomationRuleListener < BaseListener
 
     return unless rule_present?('conversation_created', account)
 
-    @rules = current_account_rules('conversation_created', account)
+    rules = current_account_rules('conversation_created', account)
 
-    @rules.each do |rule|
+    rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
       ::AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
     end
@@ -42,9 +42,9 @@ class AutomationRuleListener < BaseListener
 
     return unless rule_present?('message_created', account)
 
-    @rules = current_account_rules('message_created', account)
+    rules = current_account_rules('message_created', account)
 
-    @rules.each do |rule|
+    rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, message.conversation,
                                                                         { message: message, changed_attributes: changed_attributes }).perform
       ::AutomationRules::ActionService.new(rule, account, message.conversation).perform if conditions_match.present?
