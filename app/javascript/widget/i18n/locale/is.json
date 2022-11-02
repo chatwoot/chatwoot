@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Sækja",
-      "UPLOADING": "Hleður upp..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Senda"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Endursenda skilaboð",
-      "ERROR_MESSAGE": "Tókst ekki að senda skilaboðin, reyndu aftur"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Við erum tengd",
-    "OFFLINE": "Það er enginn við í augnablikinu"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Svarar iðulega innan nokkura mínútna",
-    "IN_A_FEW_HOURS": "Svarar iðulega innan nokkura klukkustunda",
-    "IN_A_DAY": "Svarar iðulega samdægurs"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Hefja samtal",
-  "END_CONVERSATION": "Ljúka samtali",
-  "CONTINUE_CONVERSATION": "Halda samtali áfram",
-  "START_NEW_CONVERSATION": "Hefja nýtt samtal",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Sjá nýjustu skilaboð",
-    "CLOSE_MESSAGES_BUTTON": "Loka",
-    "COMPANY_FROM": "frá",
-    "BOT": "Spjallmenni"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Spjallaðu við okkur"
+    "LABEL": ""
   },
-  "POWERED_BY": "Keyrt af Chatwoot",
-  "EMAIL_PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt",
-  "CHAT_PLACEHOLDER": "Skrifaðu skilaboðin hér",
-  "TODAY": "Í dag",
-  "YESTERDAY": "Í gær",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Fullt nafn",
-        "PLACEHOLDER": "Vinsamlegast sláðu inn nafnið þitt",
-        "REQUIRED_ERROR": "Það verður að skrifa fullt nafn"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Netfang",
-        "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt",
-        "REQUIRED_ERROR": "Það verður að skrifa netfang",
-        "VALID_ERROR": "Það verður að skrifa gilt netfang"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Símanúmer",
-        "PLACEHOLDER": "Vinsamlegast sláðu inn símanúmerið þitt",
-        "REQUIRED_ERROR": "Það verður að skrifa símanúmer",
-        "VALID_ERROR": "Símanúmerið þarf að vera á E.164 sniðmáti, t.d. +3547776666"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Skilaboð",
-        "PLACEHOLDER": "Vinsamlegast sláðu inn skilaboð",
-        "ERROR": "Skilaboðin eru of stutt"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Vinsamlegast sláðu inn nafn og netfang áður en samtalið hefst",
-    "IS_REQUIRED": "er nauðsynlegt"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_FILE_UPLOAD_SIZE})",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Ógildur reitur"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Gefðu samtalinu einkunn",
-    "SUBMITTED_TITLE": "Takk fyrir að gefa samtalinu einkunn",
-    "PLACEHOLDER": "Segðu okkur meira..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Biðja um afrit af samtalinu",
-    "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
-    "SEND_EMAIL_ERROR": "Það kom upp villa, vinsamlegast reyndur aftur"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
