@@ -16,7 +16,11 @@
       <button
         class="button small"
         :disabled="$v.email.$invalid"
-        :style="{ background: widgetColor, borderColor: widgetColor }"
+        :style="{
+          background: widgetColor,
+          borderColor: widgetColor,
+          color: textColor,
+        }"
       >
         <fluent-icon v-if="!isUpdating" icon="chevron-right" />
         <spinner v-else class="mx-2" />
@@ -28,6 +32,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, email } from 'vuelidate/lib/validators';
+import { getContrastingTextColor } from '@chatwoot/utils';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import Spinner from 'shared/components/Spinner';
@@ -59,6 +64,9 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
     hasSubmitted() {
       return (
         this.messageContentAttributes &&
