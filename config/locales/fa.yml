@@ -18,142 +18,31 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 fa:
   hello: "سلام دنیا"
-  messages:
-    reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
-    reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
   errors:
-    validations:
-      presence: نباید خالی باشد
-    webhook:
-      invalid: رویدادهای نامعتبر
     signup:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
-      failed: ثبت نام ناموفق بود
-    data_import:
-      data_type:
-        invalid: نوع داده نامعتبر است
     contacts:
       import:
         failed: پرونده خالی است
-      email:
-        invalid: ایمیل نامعتبر است
-      phone_number:
-        invalid: باید در قالب e164 باشد
-    categories:
-      locale:
-        unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
-    inboxes:
-      imap:
-        socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
-        no_response_error: لطفا اعتبارنامه IMAP را بررسی کنید و دوباره امتحان کنید.
-        host_unreachable_error: میزبان غیرقابل دسترسی است، لطفا آدرس IMAP و پورت IMAP را بررسی کنید و دوباره امتحان کنید.
-        connection_timed_out_error: زمان اتصال برای %{address}:%{port} تمام شد
-        connection_closed_error: اتصال بسته شد.
-      validations:
-        name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
   reports:
-    period: زمان گزارش از %{since} تا %{until}
-    agent_csv:
-      agent_name: اسم ایجنت
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    inbox_csv:
-      inbox_name: نام صندوق ورودی
-      inbox_type: نوع صندوق ورودی
-      conversations_count: تعداد گفتگوها
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    label_csv:
-      label_title: برچسب
-      conversations_count: تعداد گفتگوها
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
       team_name: نام تیم
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: روز
     csat:
       headers:
-        contact_name: نام تماس
-        contact_email_address: آدرس ایمیل تماس
-        contact_phone_number: شماره تلفن تماس
-        link_to_the_conversation: پیوند به گفتگو
-        agent_name: اسم ایجنت
         rating: رتبه
-        feedback: بازخورد نظر
-        recorded_at: تاریخ ثبت شده
   notifications:
     notification_title:
       conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"
-      conversation_assignment: "[به شما اختصاص داده شده است] - #%{display_id} به شما اختصاص داده شده است"
-      assigned_conversation_new_message: "[پیام جدید] - #%{display_id} %{content}"
-      conversation_mention: "نام شما در مکالمه [ID -%{display_id}] توسط %{name} ذکر شده است"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
-      instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
-    activity:
-      status:
-        resolved: "مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود"
-        contact_resolved: "گفتگو توسط %{contact_name} حل شد"
-        open: "گفتگو توسط ایجنت %{user_name} مجددا باز شده بود"
-        pending: "مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد"
-        snoozed: "مکالمه توسط %{user_name} به تعویق افتاد"
-        auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
-      assignee:
-        self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
-        assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
-        removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
-      team:
-        assigned: "%{user_name} گفتگو را به %{team_name} اختصاص داد"
-        assigned_with_assignee: "از طرف %{user_name} به تیم %{team_name} و ایجنت %{assignee_name} اختصاص داده شده است"
-        removed: "اختصاص داده نشده از %{team_name} توسط %{user_name}"
-      labels:
-        added: "%{user_name}، %{labels} را اضافه کرد"
-        removed: "%{user_name}، %{labels} را حذف کرد"
-      muted: "%{user_name} مکالمه را بی صدا کرد"
-      unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
-    templates:
-      greeting_message_body: "%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد."
-      ways_to_reach_you_message_body: "راهی برای ارتباط گرفتن تیم با شما قرار دهید"
-      email_input_box_message_body: "پیام جدیدی به این گفتگو اضافه شده است"
-      csat_input_message_body: "لطفاً به مکالمه امتیاز دهید"
     reply:
       email:
         header:
           from_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
           reply_with_name: '%{assignee_name} از %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "پیام‌های جدید در این مکالمه"
-      transcript_subject: "متن مکالمه"
-    survey:
-      response: "لطفاً به مکالمه امتیاز دهید %{link}"
-  contacts:
-    online:
-      delete: "%{contact_name} آنلاین است ، لطفاً بعداً دوباره امتحان کنید"
-  integration_apps:
-    slack:
-      name: "Slack"
-      description: "Slack ابزاری برای گفتگو است که تمام ارتباطات شما را در یک مکان جمع می کند. با ادغام Slack ، می توانید از تمام مکالمات جدید در حساب خود در داخل Slack مطلع شوید."
-    webhooks:
-      name: "وب هوک"
-      description: "رویدادهای Webhook اطلاعات واقعی در مورد آنچه در حساب شما اتفاق می افتد را به شما ارائه می دهند. برای برقراری ارتباط رویدادها با برنامه های مورد علاقه خود مانند Slack یا Github می توانید از وب بوک ها استفاده کنید. برای تنظیم webhooks خود روی تنظیمات کلیک کنید."
-    dialogflow:
-      name: "Dialogflow"
-      description: "با استفاده از Dialogflow ربات های چت بسازید و آنها را به سرعت به صندوق ورودی خود متصل کنید. شما به ربات ها اجازه میدهید قبل از اتصال به اپراتور ، ربات با مشتری صحبت کند."
-    fullcontact:
-      name: "تماس کامل"
-      description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."
   public_portal:
     search:
-      search_placeholder: جستجوی مقاله براساس عنوان یا متن...
       empty_placeholder: نتیجه‌ای یافت نشد.
-      loading_placeholder: در حال جستجو...
-      results_title: نتایج جستجو
-    hero:
-      sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.
