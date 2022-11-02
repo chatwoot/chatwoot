@@ -1,31 +1,31 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
-    "AGENT_SELECT_LABEL": "Chọn tổng đài viên",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
-    "GO_BACK_LABEL": "Trở về",
-    "ASSIGN_LABEL": "Gán",
-    "YES": "Có",
-    "ASSIGN_AGENT_TOOLTIP": "Giao cho tổng đài viên",
-    "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công",
-    "ASSIGN_FAILED": "Không thể phân công các cuộc hội thoại, xin vui lòng thử lại",
-    "RESOLVE_SUCCESFUL": "Cuộc hội thoại đã được giải quyết thành công",
-    "RESOLVE_FAILED": "Không thể giải quyết các cuộc hội thoại, xin vui lòng thử lại",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Chỉ những cuộc hội thoại hiển thị trên trang này mới có thể được chọn.",
-    "AGENT_LIST_LOADING": "Đang tải tổng đài viên",
+    "CONVERSATIONS_SELECTED": "",
+    "AGENT_SELECT_LABEL": "",
+    "ASSIGN_CONFIRMATION_LABEL": "",
+    "UNASSIGN_CONFIRMATION_LABEL": "",
+    "GO_BACK_LABEL": "",
+    "ASSIGN_LABEL": "",
+    "YES": "",
+    "ASSIGN_AGENT_TOOLTIP": "",
+    "ASSIGN_SUCCESFUL": "",
+    "ASSIGN_FAILED": "",
+    "RESOLVE_SUCCESFUL": "",
+    "RESOLVE_FAILED": "",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "",
+    "AGENT_LIST_LOADING": "",
     "UPDATE": {
-      "CHANGE_STATUS": "Thay đổi trạng thái",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Báo lại cho đến khi có câu trả lời tiếp theo",
-      "UPDATE_SUCCESFUL": "Đã cập nhật trạng thái cuộc hội thoại thành công.",
-      "UPDATE_FAILED": "Không cập nhật được cuộc hội thoại, vui lòng thử lại"
+      "CHANGE_STATUS": "",
+      "SNOOZE_UNTIL_NEXT_REPLY": "",
+      "UPDATE_SUCCESFUL": "",
+      "UPDATE_FAILED": ""
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Gán nhãn",
-      "NO_LABELS_FOUND": "Không tìm thấy nhãn nào cho",
-      "ASSIGN_SELECTED_LABELS": "Gán các nhãn đã chọn",
-      "ASSIGN_SUCCESFUL": "Các nhãn được gán thành công",
-      "ASSIGN_FAILED": "Không gán được nhãn, vui lòng thử lại"
+      "ASSIGN_LABELS": "",
+      "NO_LABELS_FOUND": "",
+      "ASSIGN_SELECTED_LABELS": "",
+      "ASSIGN_SUCCESFUL": "",
+      "ASSIGN_FAILED": ""
     }
   }
 }
