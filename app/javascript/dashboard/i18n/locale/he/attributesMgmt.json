@@ -1,98 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "מאפיינים בהתאמה אישית",
-    "HEADER_BTN_TXT": "הוסף מאפיין מותאם אישית",
-    "LOADING": "שולף מאפיינים מותאמים אישית",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "הוסף מאפיין מותאם אישית",
-      "SUBMIT": "צור",
-      "CANCEL_BUTTON_TEXT": "ביטול",
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "",
       "FORM": {
         "NAME": {
-          "LABEL": "שם תצוגה",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "שם שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DESC": {
-          "LABEL": "תיאור",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "נדרש תיאור"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MODEL": {
-          "LABEL": "חל על",
-          "PLACEHOLDER": "בבקשה תבחר אחד",
-          "ERROR": "דגם שדה חובה"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TYPE": {
-          "LABEL": "סוג",
-          "PLACEHOLDER": "אנא בחר סוג",
-          "ERROR": "סוג הינו שדה חובה",
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "חובה להזין לפחות ערך אחד"
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
           }
         },
         "KEY": {
-          "LABEL": "מפתח",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "מפתח הוא שדה חובה",
-          "IN_VALID": "מפתח אינו חוקי"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "IN_VALID": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "מחק",
+      "BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שנית."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "CONFIRM": {
-        "TITLE": "האם אתה בטוח רוצה למחוק - %{attributeName}",
-        "PLACE_HOLDER": "אנא הקלד {attributeName} כדי לאשר",
-        "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "מחק ",
-        "NO": "ביטול"
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "עדכן",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "TYPE": {
         "LIST": {
-          "LABEL": "רשימת ערכים",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "TABS": {
-      "HEADER": "מאפיינים בהתאמה אישית",
-      "CONVERSATION": "שיחה",
-      "CONTACT": "איש קשר"
+      "HEADER": "",
+      "CONVERSATION": "",
+      "CONTACT": ""
     },
     "LIST": {
       "TABLE_HEADER": [
-        "שם",
-        "תיאור",
-        "סוג",
-        "מפתח"
+        "",
+        "",
+        "",
+        ""
       ],
       "BUTTONS": {
-        "EDIT": "ערוך",
-        "DELETE": "מחק"
+        "EDIT": "",
+        "DELETE": ""
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "",
+        "NOT_FOUND": ""
       }
     }
   }
