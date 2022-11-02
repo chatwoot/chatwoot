@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "قالب های واتساپ",
-            "SUBTITLE": "قالب واتساپ مورد نظر برای ارسال را انتخاب کنید",
-            "TEMPLATE_SELECTED_SUBTITLE": "فرآیند %{templateName}"
+            "TITLE": "",
+            "SUBTITLE": "",
+            "TEMPLATE_SELECTED_SUBTITLE": ""
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "جستجوی الگوها",
-            "NO_TEMPLATES_FOUND": "هیچ قالبی برای",
+            "SEARCH_PLACEHOLDER": "",
+            "NO_TEMPLATES_FOUND": "",
             "LABELS": {
-                "LANGUAGE": "زبان",
-                "TEMPLATE_BODY": "بدنه الگو",
-                "CATEGORY": "دسته‌بندی"
+                "LANGUAGE": "",
+                "TEMPLATE_BODY": "",
+                "CATEGORY": ""
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "متغیرها",
-            "VARIABLE_PLACEHOLDER": "مقدار %{variable} را وارد کنید",
-            "GO_BACK_LABEL": "بازگشت",
-            "SEND_MESSAGE_LABEL": "ارسال پیام",
-            "FORM_ERROR_MESSAGE": "لطفا قبل از ارسال همه متغیرها را پر کنید"
+            "VARIABLES_LABEL": "",
+            "VARIABLE_PLACEHOLDER": "",
+            "GO_BACK_LABEL": "",
+            "SEND_MESSAGE_LABEL": "",
+            "FORM_ERROR_MESSAGE": ""
         }
     }
 }
