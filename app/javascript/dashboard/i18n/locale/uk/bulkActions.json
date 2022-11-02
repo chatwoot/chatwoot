@@ -1,31 +1,31 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "Обрано %{conversationCount} розмов",
-    "AGENT_SELECT_LABEL": "Виберіть агента",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
-    "GO_BACK_LABEL": "Повернутися назад",
-    "ASSIGN_LABEL": "Призначити",
-    "YES": "Так",
-    "ASSIGN_AGENT_TOOLTIP": "Призначити агента",
-    "ASSIGN_SUCCESFUL": "Розмови успішно призначені",
-    "ASSIGN_FAILED": "Не вдалося призначити розмови, будь ласка, спробуйте ще раз",
-    "RESOLVE_SUCCESFUL": "Розмови успішно закриті",
-    "RESOLVE_FAILED": "Не вдалося закрити розмови, будь ласка, спробуйте ще раз",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Розмови, які відображаються на цій сторінці, обрані.",
-    "AGENT_LIST_LOADING": "Завантаження Агентів",
+    "CONVERSATIONS_SELECTED": "",
+    "AGENT_SELECT_LABEL": "",
+    "ASSIGN_CONFIRMATION_LABEL": "",
+    "UNASSIGN_CONFIRMATION_LABEL": "",
+    "GO_BACK_LABEL": "",
+    "ASSIGN_LABEL": "",
+    "YES": "",
+    "ASSIGN_AGENT_TOOLTIP": "",
+    "ASSIGN_SUCCESFUL": "",
+    "ASSIGN_FAILED": "",
+    "RESOLVE_SUCCESFUL": "",
+    "RESOLVE_FAILED": "",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "",
+    "AGENT_LIST_LOADING": "",
     "UPDATE": {
-      "CHANGE_STATUS": "Змінити статус",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Відкласти до наступної відповіді",
-      "UPDATE_SUCCESFUL": "Статус розмови успішно оновлено.",
-      "UPDATE_FAILED": "Не вдалося оновити розмови, будь ласка, спробуйте ще раз"
+      "CHANGE_STATUS": "",
+      "SNOOZE_UNTIL_NEXT_REPLY": "",
+      "UPDATE_SUCCESFUL": "",
+      "UPDATE_FAILED": ""
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Призначити мітки",
-      "NO_LABELS_FOUND": "Міток не знайдено для",
-      "ASSIGN_SELECTED_LABELS": "Призначити вибрані мітки",
-      "ASSIGN_SUCCESFUL": "Мітки додано успішно",
-      "ASSIGN_FAILED": "Не вдалося призначити мітки, будь ласка, спробуйте ще раз"
+      "ASSIGN_LABELS": "",
+      "NO_LABELS_FOUND": "",
+      "ASSIGN_SELECTED_LABELS": "",
+      "ASSIGN_SUCCESFUL": "",
+      "ASSIGN_FAILED": ""
     }
   }
 }
