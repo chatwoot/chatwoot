@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Anhang konnte nicht hochgeladen werden, bitte versuchen Sie es erneut",
       "LABEL_IDLE": "Anhang hochladen",
       "LABEL_UPLOADING": "Hochladen...",
-      "LABEL_UPLOADED": "Erfolgreich hochgeladen",
+      "LABEL_UPLOADED": "",
       "LABEL_UPLOAD_FAILED": "Upload fehlgeschlagen"
     }
   }
