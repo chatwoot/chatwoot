@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",
-        "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)"
+        "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Habilitar bienvenida al canal",
-          "HELP_TEXT": "Enviar un mensaje de bienvenida al usuario cuando inicie la conversación.",
+          "HELP_TEXT": "Envía automáticamente un mensaje de saludo cuando se crea una nueva conversación.",
           "ENABLED": "Activado",
           "DISABLED": "Deshabilitado"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Color del widget",
           "PLACEHOLDER": "Actualizar el color del widget usado en el widget"
         },
-        "SUBMIT_BUTTON": "Crear bandeja de entrada"
+        "SUBMIT_BUTTON": "Crear bandeja de entrada",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Canal Twilio SMS/WhatsApp",
@@ -106,6 +110,12 @@
           "LABEL": "Cuenta SID",
           "PLACEHOLDER": "Introduce tu SID de cuenta de Twilio",
           "ERROR": "Este campo es obligatorio"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Este campo es obligatorio",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipo de canal",
@@ -193,6 +203,7 @@
         "PROVIDERS": {
           "LABEL": "Proveedor de API",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "Nube de WhatsApp",
           "360_DIALOG": "360 Diálogo"
         },
         "INBOX_NAME": {
@@ -205,12 +216,32 @@
           "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
           "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "ID de número de teléfono",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Por favor, introduzca un valor válido."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Por favor, introduzca un valor válido."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Por favor, introduzca un valor válido."
+        },
         "API_KEY": {
           "LABEL": "Clave de API",
           "SUBTITLE": "Configurar la clave API de WhatsApp.",
           "PLACEHOLDER": "Clave de API",
-          "APPLY_FOR_ACCESS": "¿No tiene ninguna clave API? Solicite acceso aquí",
           "ERROR": "Por favor, introduzca un valor válido."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de devolución de llamada",
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL de Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Crear canal de WhatsApp",
         "API": {
@@ -298,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Elija un canal",
-        "DESC": "Chatwoot soporta widget, página de Facebook, perfil de Twitter, WhatsApp, correo electrónico, etc. como canales. Si quieres crear un canal personalizado, puedes crearlo utilizando el canal API. Selecciona un canal de las opciones de abajo para continuar."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agentes",
@@ -328,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "¡Tu bandeja de entrada está lista!",
-      "MESSAGE": "Ahora puedes colaborar con tus clientes a través de tu nuevo canal. Feliz soporte ",
+      "MESSAGE": "Ahora puedes colaborar con tus clientes a través de tu nuevo canal. Feliz soporte",
       "BUTTON_TEXT": "Llévame allí",
       "MORE_SETTINGS": "Más ajustes",
       "WEBSITE_SUCCESS": "Has terminado de crear un canal del sitio web. Copia el código que se muestra a continuación y pégalo en tu sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su bandeja de entrada."
@@ -339,7 +370,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Configuración de bandeja de entrada actualizada correctamente",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto-asignación actualizada correctamente",
-        "ERROR_MESSAGE": "No se pudo actualizar el color del widget. Inténtalo de nuevo más tarde."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activado",
@@ -384,22 +415,23 @@
       "CONFIGURATION": "Configuración",
       "CAMPAIGN": "Campañas",
       "PRE_CHAT_FORM": "Pre-formulario de chat",
-      "BUSINESS_HOURS": "Horarios"
+      "BUSINESS_HOURS": "Horarios",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Ajustes",
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
-      "ALLOW_END_CONVERSATION": "Benutzern erlauben, Konversationen über das Widget zu beenden"
+      "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
       "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
-      "AGENT_ASSIGNMENT": "Conversation Assignment",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
+      "AGENT_ASSIGNMENT": "Asignación de conversación",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Actualizar configuración de la asignación de conversación",
       "UPDATE": "Actualizar",
       "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
@@ -412,15 +444,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
-      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identity_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
-      "HMAC_MANDATORY_DESCRIPTION": "Si está activado, el método setUser de SDKs de Chatwoot no funcionará a menos que se proporcione el `identifier_hash` para cada usuario.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
       "INBOX_IDENTIFIER_SUB_TEXT": "Usa el token `inbox_identifier` que se muestra aquí para autenticar tus clientes API.",
       "FORWARD_EMAIL_TITLE": "Reenviar al correo",
       "FORWARD_EMAIL_SUB_TEXT": "Empieze a reenviar su emails a la siguiente dirección de email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensajes después de la conversación resuelta",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir a los usuarios finales enviar mensajes incluso después de que la conversación sea resuelta."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir a los usuarios finales enviar mensajes incluso después de que la conversación sea resuelta.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Clave de API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Límite de asignación automática",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor ingrese un valor mayor a 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limite la cantidad máxima de conversaciones de esta bandeja de entrada que se pueden asignar automáticamente a un agente"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
@@ -430,14 +469,14 @@
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Los formularios de Pre Chat le permiten capturar la información del usuario antes de que comiencen la conversación con usted.",
-      "SET_FIELDS": "Pre chat form fields",
+      "SET_FIELDS": "Campos del formulario del chat",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Fields",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "FIELDS": "Campos",
+        "LABEL": "Etiqueta",
+        "PLACE_HOLDER": "Marca de posición",
         "KEY": "Llave",
         "TYPE": "Tipo",
-        "REQUIRED": "Required"
+        "REQUIRED": "Requerido"
       },
       "ENABLE": {
         "LABEL": "Activar formulario de pre-chat",
@@ -447,7 +486,7 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre chat message",
+        "LABEL": "Mensaje de prechat",
         "PLACEHOLDER": "Este mensaje sería visible para los usuarios junto con el formulario"
       },
       "REQUIRE_EMAIL": {
@@ -476,7 +515,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Configura los detalles de IMAP",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "NOTE_TEXT": "Para habilitar SMTP, por favor configure IMAP.",
       "UPDATE": "Actualizar ajustes IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar configuración IMAP para esta bandeja de entrada",
       "TOGGLE_HELP": "Habilitar IMAP ayudará al usuario a recibir correo electrónico",
@@ -536,8 +575,90 @@
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Abrir modo de verificación SSL",
-      "AUTH_MECHANISM": "Authentication"
+      "AUTH_MECHANISM": "Autenticación"
     },
-    "NOTE": "Note: "
+    "NOTE": "Nota: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nombre del sitio web",
+          "PLACE_HOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Cabecera de bienvenida",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Bienvenido Tagline",
+          "PLACE_HOLDER": "Facilitamos la conexión con nosotros. Pídanos cualquier cosa o comparte tus comentarios."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "En algunos minutos",
+          "IN_A_FEW_HOURS": "En unas horas",
+          "IN_A_DAY": "En un día"
+        },
+        "WIDGET_COLOR_LABEL": "Color del widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chatea con nosotros",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Chatea con nosotros"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Previsualizar",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
+        "IN_A_FEW_HOURS": "Normalmente responde en unas pocas horas",
+        "IN_A_DAY": "Normalmente responde en un día"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Iniciar conversación",
+        "CHAT_INPUT_PLACEHOLDER": "Escribe tu mensaje"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Estamos ausentes en este momento"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Desarrollado por Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

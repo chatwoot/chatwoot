@@ -12,33 +12,11 @@
       "INPUT": "لوگوں ، چیٹس یا محفوظ کردہ جوابات میں تلاش کریں.."
     },
     "FILTER_ALL": "تمام",
-    "STATUS_TABS": [
-      {
-        "NAME": "کھولیں۔",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "حل ہو گیا۔",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "میرا",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "نا مقرر کیا ہوا",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "تمام",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "میرا",
+      "unassigned": "نا مقرر کیا ہوا",
+      "all": "تمام"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "کھولیں۔"

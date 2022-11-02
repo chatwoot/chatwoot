@@ -1,9 +1,9 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizações",
+    "HEADER": "Automação",
     "HEADER_BTN_TXT": "Adicionar regra de automação",
     "LOADING": "Buscando regras de automação",
-    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e automatizar processos existentes que requerem esforço manual. Você pode fazer muitas coisas com automação, incluindo adicionar rótulos e atribuir a conversa ao melhor agente. Então, a equipe se concentra no que faz melhor e passa mais pouco tempo em tarefas manuais.</p>",
+    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e automatizar processos existentes que requerem esforço manual. Você pode fazer muitas coisas com automação, incluindo adicionar marcadores e atribuir a conversa ao melhor agente. \n\nEntão, a equipe se concentra no que faz melhor e passa mais pouco tempo em tarefas manuais.</p>",
     "ADD": {
       "TITLE": "Adicionar regra de automação",
       "SUBMIT": "Criar",
@@ -22,7 +22,7 @@
         "EVENT": {
           "LABEL": "Evento",
           "PLACEHOLDER": "Por favor, selecione um",
-          "ERROR": "Evento é requerido"
+          "ERROR": "Evento é obrigatório"
         },
         "CONDITIONS": {
           "LABEL": "Condições"

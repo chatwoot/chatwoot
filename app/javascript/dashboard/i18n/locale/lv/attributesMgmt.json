@@ -1,98 +1,98 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Custom Attributes",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Pielāgotas Īpašības",
+    "HEADER_BTN_TXT": "Pievienot Pielāgotu Īpašību",
+    "LOADING": "Notiek pielāgotu īpašību iegūšana",
+    "SIDEBAR_TXT": "<p><b>Pielāgotas Īpašības</b> <p>Pielāgotas īpašības izseko faktus par jūsu kontaktpersonām/sarunu, piemēram, abonēšanas plānu vai kad viņi pasūtīja pirmo preci utt. <br /><br />Lai izveidotu Pielāgotu Īpašību, noklikšķiniet uz <b>Pievienot Pielāgotu Īpašību.</b> Jūs varat arī rediģēt vai dzēst esošu Pielāgotu Īpašību, noklikšķinot uz Rediģēt vai Dzēst pogas.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
-      "SUBMIT": "Create",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Pievienot Pielāgotu Īpašību",
+      "SUBMIT": "Izveidot",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Parādāmais Nosaukums",
+          "PLACEHOLDER": "Ievadiet pielāgotās īpašības parādāmo nosaukumu",
+          "ERROR": "Nepieciešams nosaukums"
         },
         "DESC": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "LABEL": "Apraksts",
+          "PLACEHOLDER": "Ievadiet pielāgotās īpašības aprakstu",
+          "ERROR": "Nepieciešams apraksts"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "Attiecas uz",
+          "PLACEHOLDER": "Lūdzu, izvēlieties vienu",
+          "ERROR": "Nepieciešams modelis"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "Tips",
+          "PLACEHOLDER": "Lūdzu, izvēlieties tipu",
+          "ERROR": "Nepieciešams tips",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Parādīt Vērtības",
+            "PLACEHOLDER": "Lūdzu, ievadiet vērtību un nospiediet taustiņu enter",
+            "ERROR": "Jābūt vismaz vienai vērtībai"
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "Atslēga",
+          "PLACEHOLDER": "Ievadiet pielāgotas īpašības atslēgu",
+          "ERROR": "Nepieciešama atslēga",
+          "IN_VALID": "Nederīga atslēga"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully",
-        "ERROR_MESSAGE": "Could not able to create a custom attribute, Please try again later"
+        "SUCCESS_MESSAGE": "Pielāgotā īpašība ir veiksmīgi pievienota",
+        "ERROR_MESSAGE": "Nevarēja izveidot pielāgotu īpašību. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Dzēst",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Pielāgotā Īpašība ir veiksmīgi izdzēsta.",
+        "ERROR_MESSAGE": "Nevarēja izdzēst pielāgoto īpašību. Mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
-        "YES": "Delete ",
-        "NO": "Cancel"
+        "TITLE": "Vai tiešām vēlaties dzēst - %{attributeName}",
+        "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {attributeName}",
+        "MESSAGE": "Dzēšana noņems pielāgoto īpašību",
+        "YES": "Dzēst ",
+        "NO": "Atcelt"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "TITLE": "Rediģēt Pielāgoto Īpašību",
+      "UPDATE_BUTTON_TEXT": "Atjaunināt",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Parādīt Vērtības",
+          "PLACEHOLDER": "Lūdzu, ievadiet vērtības un nospiediet taustiņu enter"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Pielāgotā Īpašība ir veiksmīgi atjaunināta",
+        "ERROR_MESSAGE": "Atjauninot pielāgoto īpašību, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "TABS": {
-      "HEADER": "Custom Attributes",
-      "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "HEADER": "Pielāgotās Īpašības",
+      "CONVERSATION": "Saruna",
+      "CONTACT": "Kontaktpersona"
     },
     "LIST": {
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Type",
-        "Key"
+        "Nosaukums",
+        "Apraksts",
+        "Tips",
+        "Atslēga"
       ],
       "BUTTONS": {
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "Rediģēt",
+        "DELETE": "Dzēst"
       },
       "EMPTY_RESULT": {
-        "404": "There are no custom attributes created",
-        "NOT_FOUND": "There are no custom attributes configured"
+        "404": "Nav izveidotas pielāgotas īpašības",
+        "NOT_FOUND": "Nav nokonfigurētas pielāgotas īpašības"
       }
     }
   }

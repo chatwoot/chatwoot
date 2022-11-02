@@ -12,33 +12,11 @@
       "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
     "FILTER_ALL": "Alla",
-    "STATUS_TABS": [
-      {
-        "NAME": "Öppna",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Löst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mina",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Otilldelade",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alla",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mina",
+      "unassigned": "Otilldelade",
+      "all": "Alla"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Öppna"

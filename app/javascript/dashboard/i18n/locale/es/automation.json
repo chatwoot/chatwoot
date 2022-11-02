@@ -59,23 +59,23 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Regla de automatización eliminada correctamente",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "ERROR_MESSAGE": "No se pudo eliminar una regla de automatización, por favor inténtalo más tarde"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "Editar regla de automatización",
       "SUBMIT": "Actualizar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Regla de automatización actualizada correctamente",
+        "ERROR_MESSAGE": "No se pudo actualizar la regla de automatización, por favor inténtalo más tarde"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Clonar",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatización clonada con éxito",
+        "ERROR_MESSAGE": "No se pudo clonar la regla de automatización, por favor inténtalo más tarde"
       }
     },
     "FORM": {
@@ -83,34 +83,34 @@
       "CREATE": "Crear",
       "DELETE": "Eliminar",
       "CANCEL": "Cancelar",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "El cambio de tipo de evento restablecerá las condiciones y eventos que has añadido abajo"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Necesitas tener al menos una condición para guardar"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "Necesitas tener al menos una acción para guardar",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "Activar regla de automatización",
+      "DEACTIVATION_TITLE": "Desactivar regla de automatización",
+      "ACTIVATION_DESCRIPTION": "Esta acción activará la regla de automatización '{automationName}'. ¿Seguro que desea continuar?",
+      "DEACTIVATION_DESCRIPTION": "Esta acción desactivará la regla de automatización '{automationName}'. ¿Está seguro que desea continuar?",
+      "ACTIVATION_SUCCESFUL": "Regla de automatización activada con éxito",
+      "DEACTIVATION_SUCCESFUL": "Regla de automatización desactivada con éxito",
+      "ACTIVATION_ERROR": "No se pudo activar la automatización, por favor inténtelo de nuevo más tarde",
+      "DEACTIVATION_ERROR": "No se pudo desactivar la automatización, por favor inténtelo de nuevo más tarde",
       "CONFIRMATION_LABEL": "Si",
       "CANCEL_LABEL": "No"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "No se pudo subir el archivo adjunto, por favor inténtelo de nuevo",
+      "LABEL_IDLE": "Subir archivo adjunto",
       "LABEL_UPLOADING": "Subiendo...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Subido correctamente",
+      "LABEL_UPLOAD_FAILED": "Error al subir"
     }
   }
 }

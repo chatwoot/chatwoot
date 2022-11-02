@@ -1,48 +1,49 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Filtrer Kontakter",
+        "SUBTITLE": "Tilføj filtre nedenfor og tryk på 'Send' for at filtrere kontakter.",
+        "ADD_NEW_FILTER": "Tilføj Filter",
+        "CLEAR_ALL_FILTERS": "Ryd Alle Filtre",
+        "FILTER_DELETE_ERROR": "Du skal have mindst et filter at gemme",
         "SUBMIT_BUTTON_LABEL": "Send",
         "CANCEL_BUTTON_LABEL": "Annuller",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Ryd Filtre",
+        "EMPTY_VALUE_ERROR": "Værdi er påkrævet",
+        "TOOLTIP_LABEL": "Filtrer kontaktpersoner",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "OG",
+            "OR": "ELLER"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "equal_to": "Lig med",
+            "not_equal_to": "Ikke lig med",
+            "contains": "Indeholder",
+            "does_not_contain": "Indeholder ikke",
+            "is_present": "Er til stede",
+            "is_not_present": "Er ikke til stede",
+            "is_greater_than": "Er større end",
+            "is_lesser_than": "Er mindre end",
+            "days_before": "Er x dage før"
         },
         "ATTRIBUTES": {
             "NAME": "Navn",
             "EMAIL": "E-mail",
             "PHONE_NUMBER": "Telefonnummer",
             "IDENTIFIER": "Identifier",
-            "CITY": "City",
-            "COUNTRY": "Country",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
+            "CITY": "By",
+            "COUNTRY": "Land",
+            "CUSTOM_ATTRIBUTE_LIST": "Liste",
+            "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Nummer",
             "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Last Activity"
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Afkrydsningsfelt",
+            "CREATED_AT": "Oprettet Den",
+            "LAST_ACTIVITY": "Sidste Aktivitet",
+            "REFERER_LINK": "Link til reference"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "Standard Filtre",
+            "ADDITIONAL_FILTERS": "Yderligere Filtre",
             "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber"
         }
     }

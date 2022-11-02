@@ -31,36 +31,34 @@
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
+#  index_conversations_on_contact_id                  (contact_id)
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
+#  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_team_id                     (team_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (campaign_id => campaigns.id) ON DELETE => cascade
-#  fk_rails_...  (contact_inbox_id => contact_inboxes.id) ON DELETE => cascade
-#  fk_rails_...  (team_id => teams.id) ON DELETE => cascade
+#  index_conversations_on_uuid                        (uuid) UNIQUE
 #
 
 class Conversation < ApplicationRecord
   include Labelable
   include AssignmentHandler
-  include RoundRobinHandler
+  include AutoAssignmentHandler
   include ActivityMessageHandler
   include UrlHelper
+  include SortHandler
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validates :uuid, uniqueness: true
   validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
 
-  scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
@@ -68,6 +66,13 @@ class Conversation < ApplicationRecord
     return [] if auto_resolve_duration.to_i.zero?
 
     open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+  }
+
+  scope :last_user_message_at, lambda {
+    joins(
+      "INNER JOIN (#{last_messaged_conversations.to_sql}) AS grouped_conversations
+      ON grouped_conversations.conversation_id = conversations.id"
+    ).sort_on_last_user_message_at
   }
 
   belongs_to :account
@@ -81,7 +86,7 @@ class Conversation < ApplicationRecord
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
-  has_many :notifications, as: :primary_actor, dependent: :destroy
+  has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot
@@ -93,23 +98,36 @@ class Conversation < ApplicationRecord
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
-    return last_message_less_than_24_hrs? if additional_attributes['type'] == 'instagram_direct_message'
+    channel = inbox&.channel
 
-    return true unless inbox&.channel&.has_24_hour_messaging_window?
+    return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
 
-    return false if last_incoming_message.nil?
+    return true unless channel&.messaging_window_enabled?
 
-    last_message_less_than_24_hrs?
+    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
+    last_message_in_messaging_window?(messaging_window)
   end
 
   def last_incoming_message
     messages&.incoming&.last
   end
 
-  def last_message_less_than_24_hrs?
+  def last_message_in_messaging_window?(time)
     return false if last_incoming_message.nil?
 
-    Time.current < last_incoming_message.created_at + 24.hours
+    Time.current < last_incoming_message.created_at + time.hours
+  end
+
+  def can_reply_on_instagram?
+    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+
+    return false if last_incoming_message.nil?
+
+    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+      Time.current < last_incoming_message.created_at + 7.days
+    else
+      last_message_in_messaging_window?(24)
+    end
   end
 
   def update_assignee(agent = nil)
@@ -192,7 +210,7 @@ class Conversation < ApplicationRecord
 
   def mark_conversation_pending_if_bot
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
+    self.status = :pending if inbox.active_bot?
   end
 
   def notify_conversation_creation
@@ -201,7 +219,7 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_updation
     return unless previous_changes.keys.present? && (previous_changes.keys & %w[team_id assignee_id status snoozed_until
-                                                                                custom_attributes]).present?
+                                                                                custom_attributes label_list]).present?
 
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end

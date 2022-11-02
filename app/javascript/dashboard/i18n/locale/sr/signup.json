@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Registrujte nalog",
+    "TITLE": "Registruj",
+    "TERMS_ACCEPT": "Registracijom prihvatate naše <a href=\"https://www.chatwoot.com/terms\">uslove korišćenja</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">politiku privatnosti</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account name",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "LABEL": "Naziv naloga",
+      "PLACEHOLDER": "Unesite naziv naloga. npr.: Wayne Enterprises",
+      "ERROR": "Naziv naloga je prekratak"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Puno ime",
+      "PLACEHOLDER": "Unesite vaše puno ime. npr.: Bruce Wayne",
+      "ERROR": "Puno ime je prekratko"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Poslovna e-pošta",
+      "PLACEHOLDER": "Unesite adresu vaše poslovne e-pošte. npr.: bruce@wayne.enterprises",
+      "ERROR": "E-pošta nije ispravna"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "LABEL": "Lozinka",
+      "PLACEHOLDER": "Lozinka",
+      "ERROR": "Lozinka je prekratka",
+      "IS_INVALID_PASSWORD": "Lozinka bi trebalo da sadrži najmanje 1 veliko slovo, 1 malo slovo, 1 broj i 1 specijalni karakter"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Potvrdite lozinku",
+      "PLACEHOLDER": "Potvrdite lozinku",
+      "ERROR": "Lozinka se ne poklapa"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
+      "SUCCESS_MESSAGE": "Registracija je uspešna",
       "ERROR_MESSAGE": "Nije moguće se povezati sa Woot serverom, pokušajte ponovo kasnije"
     },
     "SUBMIT": "Pošalji",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Već imate nalog?"
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <modal :show.sync="show" :on-close="cancel">
     <div class="column content-box">
-      <woot-modal-header :header-title="title"> </woot-modal-header>
+      <woot-modal-header :header-title="title" />
       <div class="row modal-content">
         <div class="medium-12 columns">
           <p>

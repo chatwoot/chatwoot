@@ -14,7 +14,7 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def login
     encoded_email = ERB::Util.url_encode(@resource.email)
-    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
+    render json: { url: "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
   def show; end
@@ -51,6 +51,6 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def user_params
-    params.permit(:name, :email, :password, custom_attributes: {})
+    params.permit(:name, :display_name, :email, :password, custom_attributes: {})
   end
 end

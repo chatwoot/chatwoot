@@ -121,14 +121,14 @@ const actions = {
         conversationId,
         teamId,
       });
-      dispatch('setCurrentChatTeam', response.data);
+      dispatch('setCurrentChatTeam', { team: response.data, conversationId });
     } catch (error) {
       // Handle error
     }
   },
 
-  setCurrentChatTeam({ commit }, team) {
-    commit(types.ASSIGN_TEAM, team);
+  setCurrentChatTeam({ commit }, { team, conversationId }) {
+    commit(types.ASSIGN_TEAM, { team, conversationId });
   },
 
   toggleStatus: async (
@@ -199,10 +199,6 @@ const actions = {
     }
   },
 
-  updateConversationRead({ commit }, timestamp) {
-    commit(types.SET_CONVERSATION_LAST_SEEN, timestamp);
-  },
-
   updateMessage({ commit }, message) {
     commit(types.ADD_MESSAGE, message);
   },
@@ -252,6 +248,12 @@ const actions = {
       meta: { sender },
     } = conversation;
     commit(types.UPDATE_CONVERSATION, conversation);
+
+    dispatch('conversationLabels/setConversationLabel', {
+      id: conversation.id,
+      data: conversation.labels,
+    });
+
     dispatch('contacts/setContact', sender);
   },
 

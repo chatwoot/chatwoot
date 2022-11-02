@@ -25,8 +25,7 @@
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
               :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
               @select="$v.selectedAgents.$touch"
-            >
-            </multiselect>
+            />
             <span v-if="$v.selectedAgents.$error" class="message">
               {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
             </span>

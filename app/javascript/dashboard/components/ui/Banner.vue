@@ -30,8 +30,7 @@
       icon="dismiss-circle"
       class-names="banner-action__button"
       @click="onClickClose"
-    >
-    </woot-button>
+    />
   </div>
 </template>
 

@@ -1,5 +1,4 @@
 import MessageFormatter from '../helpers/MessageFormatter';
-import DOMPurify from 'dompurify';
 
 export default {
   methods: {
@@ -21,26 +20,6 @@ export default {
       }
 
       return `${description.slice(0, 97)}...`;
-    },
-    stripStyleCharacters(message) {
-      return DOMPurify.sanitize(message, {
-        FORBID_TAGS: ['style'],
-        FORBID_ATTR: [
-          'id',
-          'class',
-          'style',
-          'bgcolor',
-          'valign',
-          'width',
-          'face',
-          'color',
-          'height',
-          'lang',
-          'align',
-          'size',
-          'border',
-        ],
-      });
     },
   },
 };

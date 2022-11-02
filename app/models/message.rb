@@ -85,8 +85,9 @@ class Message < ApplicationRecord
   belongs_to :contact, required: false
   belongs_to :sender, polymorphic: true, required: false
 
-  has_many :attachments, dependent: :destroy_async, autosave: true, before_add: :validate_attachments_limit
+  has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy_async
+  has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
 
@@ -115,27 +116,30 @@ class Message < ApplicationRecord
   end
 
   def webhook_data
-    {
-      id: id,
-      content: content,
-      created_at: created_at,
-      message_type: message_type,
-      content_type: content_type,
-      private: private,
+    data = {
+      account: account.webhook_data,
+      additional_attributes: additional_attributes,
       content_attributes: content_attributes,
-      source_id: source_id,
-      sender: sender.try(:webhook_data),
-      inbox: inbox.webhook_data,
+      content_type: content_type,
+      content: content,
       conversation: conversation.webhook_data,
-      account: account.webhook_data
+      created_at: created_at,
+      id: id,
+      inbox: inbox.webhook_data,
+      message_type: message_type,
+      private: private,
+      sender: sender.try(:webhook_data),
+      source_id: source_id
     }
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data
   end
 
   def content
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
-    I18n.t('conversations.survey.response', link: "#{ENV['FRONTEND_URL']}/survey/responses/#{conversation.uuid}")
+    I18n.t('conversations.survey.response', link: "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
   end
 
   def email_notifiable_message?
@@ -189,7 +193,18 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed?
+    conversation.open! if conversation.snoozed?
+
+    reopen_resolved_conversation if conversation.resolved?
+  end
+
+  def reopen_resolved_conversation
+    # mark resolved bot conversation as pending to be reopened by bot processor service
+    if conversation.inbox.active_bot?
+      conversation.pending!
+    else
+      conversation.open!
+    end
   end
 
   def execute_message_template_hooks
@@ -200,8 +215,12 @@ class Message < ApplicationRecord
     inbox.web_widget? && inbox.channel.continuity_via_email
   end
 
+  def email_notifiable_api_channel?
+    inbox.api? && inbox.account.feature_enabled?('email_continuity_on_api_channel')
+  end
+
   def email_notifiable_channel?
-    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type)
+    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type) || email_notifiable_api_channel?
   end
 
   def can_notify_via_mail?
@@ -235,7 +254,7 @@ class Message < ApplicationRecord
   end
 
   def validate_attachments_limit(_attachment)
-    errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+    errors.add(:attachments, message: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 
   def set_conversation_activity

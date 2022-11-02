@@ -12,33 +12,11 @@
       "INPUT": "Søk etter personer, samtaler, lagrede svar .."
     },
     "FILTER_ALL": "Alle",
-    "STATUS_TABS": [
-      {
-        "NAME": "Åpne",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Løst",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Ikke tildelt",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "Alle",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Ikke tildelt",
+      "all": "Alle"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Åpne"

@@ -1,8 +1,20 @@
 <template>
-  <li class="sidebar-item">
-    <span v-if="hasSubMenu" class="secondary-menu--title fs-small">
-      {{ $t(`SIDEBAR.${menuItem.label}`) }}
-    </span>
+  <li v-show="isMenuItemVisible" class="sidebar-item">
+    <div v-if="hasSubMenu" class="secondary-menu--wrap">
+      <span class="secondary-menu--header fs-small">
+        {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      </span>
+      <div v-if="menuItem.showNewButton" class="submenu-icons">
+        <woot-button
+          size="tiny"
+          variant="clear"
+          color-scheme="secondary"
+          icon="add"
+          class="submenu-icon"
+          @click="onClickOpen"
+        />
+      </div>
+    </div>
     <router-link
       v-else
       class="secondary-menu--title secondary-menu--link fs-small"
@@ -15,8 +27,11 @@
         size="14"
       />
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
+      <span v-if="showChildCount(menuItem.count)" class="count-view">
+        {{ `${menuItem.count}` }}
+      </span>
       <span
-        v-if="menuItem.label === 'AUTOMATION'"
+        v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
         class="beta"
@@ -34,6 +49,9 @@
         :label-color="child.color"
         :should-truncate="child.truncateLabel"
         :icon="computedInboxClass(child)"
+        :warning-icon="computedInboxErrorClass(child)"
+        :show-child-count="showChildCount(child.count)"
+        :child-item-count="child.count"
       />
       <router-link
         v-if="showItem(menuItem)"
@@ -41,10 +59,10 @@
         :to="menuItem.toState"
         custom
       >
-        <li>
+        <li class="menu-item--new">
           <a
             :href="href"
-            class="button small clear menu-item--new secondary"
+            class="button small link clear secondary"
             :class="{ 'is-active': isActive }"
             @click="e => newLinkClick(e, navigate)"
           >
@@ -63,7 +81,10 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../../mixins/isAdmin';
-import { getInboxClassByType } from 'dashboard/helper/inbox';
+import {
+  getInboxClassByType,
+  getInboxWarningIconClass,
+} from 'dashboard/helper/inbox';
 
 import SecondaryChildNavItem from './SecondaryChildNavItem';
 
@@ -77,9 +98,22 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ activeInbox: 'getSelectedInbox' }),
+    ...mapGetters({
+      activeInbox: 'getSelectedInbox',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     hasSubMenu() {
       return !!this.menuItem.children;
+    },
+    isMenuItemVisible() {
+      if (!this.menuItem.featureFlag) {
+        return true;
+      }
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        this.menuItem.featureFlag
+      );
     },
     isInboxConversation() {
       return (
@@ -111,22 +145,32 @@ export default {
         this.menuItem.toStateName === 'settings_applications'
       );
     },
+    isCurrentRoute() {
+      return this.$store.state.route.name.includes(this.menuItem.toStateName);
+    },
 
     computedClass() {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
+      if (this.hasSubMenu) {
+        if (
+          this.isInboxConversation ||
+          this.isTeamsSettings ||
+          this.isInboxsSettings ||
+          this.isIntegrationsSettings ||
+          this.isApplicationsSettings
+        ) {
+          return 'is-active';
+        }
+        return ' ';
+      }
 
-      if (
-        this.isInboxConversation ||
-        this.isTeamsSettings ||
-        this.isInboxsSettings ||
-        this.isIntegrationsSettings ||
-        this.isApplicationsSettings
-      ) {
+      if (this.isCurrentRoute) {
         return 'is-active';
       }
-      return ' ';
+
+      return '';
     },
   },
   methods: {
@@ -135,6 +179,15 @@ export default {
       if (!type) return '';
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
+    },
+    computedInboxErrorClass(child) {
+      const { type, reauthorizationRequired } = child;
+      if (!type) return '';
+      const warningClass = getInboxWarningIconClass(
+        type,
+        reauthorizationRequired
+      );
+      return warningClass;
     },
     newLinkClick(e, navigate) {
       if (this.menuItem.newLinkRouteName) {
@@ -147,7 +200,13 @@ export default {
       }
     },
     showItem(item) {
-      return this.isAdmin && item.newLink !== undefined;
+      return this.isAdmin && !!item.newLink;
+    },
+    onClickOpen() {
+      this.$emit('open');
+    },
+    showChildCount(count) {
+      return Number.isInteger(count);
     },
   },
 };
@@ -157,11 +216,25 @@ export default {
   margin: var(--space-smaller) 0 0;
 }
 
+.secondary-menu--wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-small);
+}
+
+.secondary-menu--header {
+  color: var(--s-700);
+  display: flex;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--space-normal);
+  margin: var(--space-small) 0;
+  padding: 0 var(--space-small);
+}
 .secondary-menu--title {
   color: var(--s-600);
   display: flex;
-  font-weight: var(--font-weight-bold);
-  line-height: var(--space-two);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--space-normal);
   margin: var(--space-small) 0;
   padding: 0 var(--space-small);
 }
@@ -173,6 +246,7 @@ export default {
   padding: var(--space-small);
   font-weight: var(--font-weight-medium);
   border-radius: var(--border-radius-normal);
+  color: var(--s-700);
 
   &:hover {
     background: var(--s-25);
@@ -188,6 +262,11 @@ export default {
     background: var(--w-25);
     color: var(--w-500);
     border-color: var(--w-25);
+  }
+
+  &.is-active .count-view {
+    background: var(--w-75);
+    color: var(--w-600);
   }
 }
 
@@ -218,21 +297,19 @@ export default {
   top: -1px;
 }
 
-.sidebar-item .button.menu-item--new {
-  display: inline-flex;
-  height: var(--space-medium);
-  margin: var(--space-smaller) 0;
-  padding: var(--space-smaller);
-  color: var(--s-500);
+.sidebar-item .menu-item--new {
+  padding: var(--space-small) 0;
 
-  &:hover {
-    color: var(--w-500);
+  .button {
+    display: inline-flex;
+    color: var(--s-500);
   }
 }
+
 .beta {
   padding-right: var(--space-smaller) !important;
   padding-left: var(--space-smaller) !important;
-  margin-left: var(--space-half) !important;
+  margin-left: var(--space-smaller) !important;
   display: inline-block;
   font-size: var(--font-size-micro);
   font-weight: var(--font-weight-medium);
@@ -241,5 +318,25 @@ export default {
   border-radius: 2em;
   color: var(--g-800);
   border-color: var(--g-700);
+}
+
+.count-view {
+  background: var(--s-50);
+  border-radius: var(--border-radius-normal);
+  color: var(--s-600);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  margin-left: var(--space-smaller);
+  padding: var(--space-zero) var(--space-smaller);
+}
+
+.submenu-icons {
+  display: flex;
+  align-items: center;
+
+  .submenu-icon {
+    padding: 0;
+    margin-left: var(--space-small);
+  }
 }
 </style>

@@ -4,19 +4,33 @@ import { IFrameHelper } from 'widget/helpers/utils';
 import { showBadgeOnFavicon } from './faviconHelper';
 
 export const initOnEvents = ['click', 'touchstart', 'keypress', 'keydown'];
+
+export const getAudioContext = () => {
+  let audioCtx;
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  } catch {
+    // AudioContext is not available.
+  }
+  return audioCtx;
+};
+
 export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const audioCtx = getAudioContext();
+
   const playsound = audioBuffer => {
     window.playAudioAlert = () => {
-      const source = audioCtx.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(audioCtx.destination);
-      source.loop = false;
-      source.start();
+      if (audioCtx) {
+        const source = audioCtx.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioCtx.destination);
+        source.loop = false;
+        source.start();
+      }
     };
   };
 
-  try {
+  if (audioCtx) {
     const resourceUrl = `${baseUrl}/audio/${type}/ding.mp3`;
     const audioRequest = new Request(resourceUrl);
 
@@ -25,9 +39,10 @@ export const getAlertAudio = async (baseUrl = '', type = 'dashboard') => {
       .then(buffer => {
         audioCtx.decodeAudioData(buffer).then(playsound);
         return new Promise(res => res());
+      })
+      .catch(() => {
+        // error
       });
-  } catch (error) {
-    // error
   }
 };
 

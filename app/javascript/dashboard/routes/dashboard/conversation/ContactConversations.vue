@@ -17,7 +17,7 @@
         />
       </div>
     </div>
-    <spinner v-else></spinner>
+    <spinner v-else />
   </div>
 </template>
 

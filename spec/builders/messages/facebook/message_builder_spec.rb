@@ -37,7 +37,7 @@ describe  ::Messages::Facebook::MessageBuilder do
       allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(500, 'Error validating access token'))
       message_builder
 
-      expect(facebook_channel.authorization_error_count).to eq(1)
+      expect(facebook_channel.authorization_error_count).to eq(2)
     end
   end
 end

@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Ej tillgänglig",
     "EMAIL_ADDRESS": "E-postadress",
     "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
     "COMPANY": "Företag",
     "LOCATION": "Plats",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Konversationsdetaljer",
     "VIEW_PROFILE": "Visa profil",
     "BROWSER": "Webbläsare",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Ange e-postadressen till kontakten",
         "LABEL": "E-postadress",
-        "DUPLICATE": "Den här e-postadressen används för en annan kontakt."
+        "DUPLICATE": "Den här e-postadressen används för en annan kontakt.",
+        "ERROR": "Ange en giltig e-postadress."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Ange telefonnummer till kontakten",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Ange Github-användarnamn",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt har sparats",

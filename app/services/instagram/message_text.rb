@@ -11,6 +11,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   end
 
   def perform
+    create_test_text
     instagram_id, contact_id = if agent_message_via_echo?
                                  [@messaging[:sender][:id], @messaging[:recipient][:id]]
                                else
@@ -41,7 +42,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     end
 
-    find_or_create_contact(result)
+    find_or_create_contact(result) if result.present?
   end
 
   def agent_message_via_echo?
@@ -52,8 +53,14 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     @messaging[:message][:is_deleted].present?
   end
 
+  # if contact was present before find out contact_inbox to create message
   def contacts_first_message?(ig_scope_id)
-    @inbox.contact_inboxes.where(source_id: ig_scope_id).empty? && @inbox.channel.instagram_id.present?
+    @contact_inbox = @inbox.contact_inboxes.where(source_id: ig_scope_id).last
+    @contact_inbox.blank? && @inbox.channel.instagram_id.present?
+  end
+
+  def sent_via_test_webhook?
+    @messaging[:sender][:id] == '12334' && @messaging[:recipient][:id] == '23245'
   end
 
   def unsend_message
@@ -66,6 +73,69 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
   end
 
   def create_message
+    return unless @contact_inbox
+
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
+  end
+
+  def create_test_text
+    return unless sent_via_test_webhook?
+
+    Rails.logger.info('Probably Test data.')
+
+    messenger_channel = Channel::FacebookPage.last
+    @inbox = ::Inbox.find_by(channel: messenger_channel)
+    return unless @inbox
+
+    @contact = create_test_contact
+
+    @conversation ||= create_test_conversation(conversation_params)
+
+    @message = @conversation.messages.create!(test_message_params)
+  end
+
+  def create_test_contact
+    @contact_inbox = @inbox.contact_inboxes.where(source_id: @messaging[:sender][:id]).first
+    unless @contact_inbox
+      @contact_inbox ||= @inbox.channel.create_contact_inbox(
+        'sender_username', 'sender_username'
+      )
+    end
+
+    @contact_inbox.contact
+  end
+
+  def create_test_conversation(conversation_params)
+    Conversation.find_by(conversation_params) || build_conversation(conversation_params)
+  end
+
+  def test_message_params
+    {
+      account_id: @conversation.account_id,
+      inbox_id: @conversation.inbox_id,
+      message_type: 'incoming',
+      source_id: @messaging[:message][:mid],
+      content: @messaging[:message][:text],
+      sender: @contact
+    }
+  end
+
+  def build_conversation(conversation_params)
+    Conversation.create!(
+      conversation_params.merge(
+        contact_inbox_id: @contact_inbox.id
+      )
+    )
+  end
+
+  def conversation_params
+    {
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      contact_id: @contact.id,
+      additional_attributes: {
+        type: 'instagram_direct_message'
+      }
+    }
   end
 end

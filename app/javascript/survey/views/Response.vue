@@ -45,7 +45,7 @@
         />
       </div>
       <div class="mb-3">
-        <branding></branding>
+        <branding />
       </div>
     </div>
   </div>
@@ -93,7 +93,7 @@ export default {
   computed: {
     surveyId() {
       const pageURL = window.location.href;
-      return pageURL.substr(pageURL.lastIndexOf('/') + 1);
+      return pageURL.substring(pageURL.lastIndexOf('/') + 1);
     },
     isRatingSubmitted() {
       return this.surveyDetails && this.surveyDetails.rating;

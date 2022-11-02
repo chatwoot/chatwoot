@@ -2,13 +2,11 @@ FactoryBot.define do
   factory :article, class: 'Article' do
     account_id { 1 }
     category_id { 1 }
-    folder_id { 1 }
     author_id { 1 }
-    title { 'MyString' }
+    title { "#{Faker::Movie.title} #{SecureRandom.hex}" }
     content { 'MyText' }
+    description { 'MyDescrption' }
     status { 1 }
     views { 1 }
-    seo_title { 'MyString' }
-    seo { '' }
   end
 end

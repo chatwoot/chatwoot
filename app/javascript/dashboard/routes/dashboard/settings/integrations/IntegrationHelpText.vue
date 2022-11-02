@@ -6,7 +6,7 @@
         <p>
           <span
             v-dompurify-html="$t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY')"
-          ></span>
+          />
         </p>
       </div>
     </div>

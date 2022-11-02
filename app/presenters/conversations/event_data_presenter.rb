@@ -8,6 +8,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
+      labels: label_list,
       meta: push_meta,
       status: status,
       custom_attributes: custom_attributes,
@@ -27,6 +28,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
     {
       sender: contact.push_event_data,
       assignee: assignee&.push_event_data,
+      team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }
   end

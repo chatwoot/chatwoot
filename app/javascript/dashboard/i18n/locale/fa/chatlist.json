@@ -12,33 +12,11 @@
       "INPUT": "پیدا کردن افراد، گفتگوها و پاسخ‌های از پیش نوشته شده..."
     },
     "FILTER_ALL": "همه",
-    "STATUS_TABS": [
-      {
-        "NAME": "باز",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "حل شده",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "من",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "تخصیص داده نشده",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "همه",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "من",
+      "unassigned": "تخصیص داده نشده",
+      "all": "همه"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "باز"

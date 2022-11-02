@@ -1,8 +1,8 @@
-class AutomationRules::ActionService
+class AutomationRules::ActionService < ActionService
   def initialize(rule, account, conversation)
+    super(conversation)
     @rule = rule
     @account = account
-    @conversation = conversation
     Current.executed_by = rule
   end
 
@@ -26,35 +26,13 @@ class AutomationRules::ActionService
 
     return unless @rule.files.attached?
 
-    blob = ActiveStorage::Blob.find(blob_ids)
+    blobs = ActiveStorage::Blob.where(id: blob_ids)
 
-    return if blob.blank?
+    return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blob }
+    params = { content: nil, private: false, attachments: blobs }
     mb = Messages::MessageBuilder.new(nil, @conversation, params)
     mb.perform
-  end
-
-  def send_email_transcript(emails)
-    emails.each do |email|
-      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
-    end
-  end
-
-  def mute_conversation(_params)
-    @conversation.mute!
-  end
-
-  def snooze_conversation(_params)
-    @conversation.snoozed!
-  end
-
-  def resolve_conversation(_params)
-    @conversation.resolved!
-  end
-
-  def change_status(status)
-    @conversation.update!(status: status[0])
   end
 
   def send_webhook_event(webhook_url)
@@ -70,45 +48,11 @@ class AutomationRules::ActionService
     mb.perform
   end
 
-  def assign_team(team_ids = [])
-    return unless team_belongs_to_account?(team_ids)
-
-    @conversation.update!(team_id: team_ids[0])
-  end
-
-  def assign_best_agent(agent_ids = [])
-    return unless agent_belongs_to_account?(agent_ids)
-
-    @agent = @account.users.find_by(id: agent_ids)
-
-    @conversation.update!(assignee_id: @agent.id) if @agent.present?
-  end
-
-  def add_label(labels)
-    return if labels.empty?
-
-    @conversation.add_labels(labels)
-  end
-
   def send_email_to_team(params)
     teams = Team.where(id: params[0][:team_ids])
 
     teams.each do |team|
       TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
     end
-  end
-
-  def agent_belongs_to_account?(agent_ids)
-    @account.agents.pluck(:id).include?(agent_ids[0])
-  end
-
-  def team_belongs_to_account?(team_ids)
-    @account.team_ids.include?(team_ids[0])
-  end
-
-  def conversation_a_tweet?
-    return false if @conversation.additional_attributes.blank?
-
-    @conversation.additional_attributes['type'] == 'tweet'
   end
 end

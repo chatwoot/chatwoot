@@ -12,33 +12,11 @@
       "INPUT": "ആളുകൾ, ചാറ്റുകൾ, ക്യാൻഡ് മറുപടികൾ എന്നിവയ്ക്കായി തിരയുക .."
     },
     "FILTER_ALL": "എല്ലാം",
-    "STATUS_TABS": [
-      {
-        "NAME": "സജീവം",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "പരിഹരിച്ചത്",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "എന്റേത്",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "നിയുക്തമാക്കാത്തത്",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "എല്ലാം",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "എന്റേത്",
+      "unassigned": "നിയുക്തമാക്കാത്തത്",
+      "all": "എല്ലാം"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "സജീവം"

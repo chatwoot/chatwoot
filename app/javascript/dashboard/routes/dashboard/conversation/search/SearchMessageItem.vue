@@ -14,7 +14,7 @@
         </div>
         <span class="timestamp">{{ readableTime }} </span>
       </div>
-      <p v-dompurify-html="prepareContent(content)" class="message-content"></p>
+      <p v-dompurify-html="prepareContent(content)" class="message-content" />
     </div>
   </div>
 </template>

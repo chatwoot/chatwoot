@@ -12,33 +12,11 @@
       "INPUT": "Search for People, Chats, Saved Replies .."
     },
     "FILTER_ALL": "All",
-    "STATUS_TABS": [
-      {
-        "NAME": "Open",
-        "KEY": "openCount"
-      },
-      {
-        "NAME": "Resolved",
-        "KEY": "allConvCount"
-      }
-    ],
-    "ASSIGNEE_TYPE_TABS": [
-      {
-        "NAME": "Mine",
-        "KEY": "me",
-        "COUNT_KEY": "mineCount"
-      },
-      {
-        "NAME": "Unassigned",
-        "KEY": "unassigned",
-        "COUNT_KEY": "unAssignedCount"
-      },
-      {
-        "NAME": "All",
-        "KEY": "all",
-        "COUNT_KEY": "allCount"
-      }
-    ],
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Unassigned",
+      "all": "All"
+    },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"

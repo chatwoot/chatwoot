@@ -71,6 +71,10 @@ class ContactAPI extends ApiClient {
       custom_attributes: customAttributes,
     });
   }
+
+  destroyAvatar(contactId) {
+    return axios.delete(`${this.url}/${contactId}/avatar`);
+  }
 }
 
 export default new ContactAPI();

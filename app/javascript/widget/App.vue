@@ -15,7 +15,7 @@
       'is-flat-design': isWidgetStyleFlat,
     }"
   >
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -83,12 +83,11 @@ export default {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
-      setHeader('X-Auth-Token', window.authToken);
     } else {
-      setHeader('X-Auth-Token', window.authToken);
       this.fetchOldConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
@@ -135,16 +134,26 @@ export default {
         });
       });
     },
-    setLocale(locale) {
+    setLocale(localeWithVariation) {
       const { enabledLanguages } = window.chatwootWebChannel;
-      if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
-        this.$root.$i18n.locale = locale;
+      const localeWithoutVariation = localeWithVariation.split('_')[0];
+      const hasLocaleWithoutVariation = enabledLanguages.some(
+        lang => lang.iso_639_1_code === localeWithoutVariation
+      );
+      const hasLocaleWithVariation = enabledLanguages.some(
+        lang => lang.iso_639_1_code === localeWithVariation
+      );
+
+      if (hasLocaleWithVariation) {
+        this.$root.$i18n.locale = localeWithVariation;
+      } else if (hasLocaleWithoutVariation) {
+        this.$root.$i18n.locale = localeWithoutVariation;
       }
     },
     registerUnreadEvents() {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
         const { name: routeName } = this.$route;
-        if (this.isWidgetOpen && routeName === 'messages') {
+        if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
           this.$store.dispatch('conversation/setUserLastSeen');
         }
         this.setUnreadView();
@@ -253,7 +262,7 @@ export default {
         } else if (message.event === 'remove-label') {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
-          this.$store.dispatch('contacts/update', message);
+          this.$store.dispatch('contacts/setUser', message);
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',

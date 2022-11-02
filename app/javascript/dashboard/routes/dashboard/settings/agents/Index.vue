@@ -66,8 +66,7 @@
                       icon="edit"
                       class-names="grey-btn"
                       @click="openEditPopup(agent)"
-                    >
-                    </woot-button>
+                    />
                     <woot-button
                       v-if="showDeleteAction(agent)"
                       v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
@@ -78,8 +77,7 @@
                       class-names="grey-btn"
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
-                    >
-                    </woot-button>
+                    />
                   </div>
                 </td>
               </tr>
@@ -119,7 +117,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('AGENT_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -169,9 +168,7 @@ export default {
       }`;
     },
     deleteMessage() {
-      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.currentAgent.name
-      } ?`;
+      return ` ${this.currentAgent.name}?`;
     },
   },
   mounted() {

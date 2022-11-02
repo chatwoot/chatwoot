@@ -1,10 +1,6 @@
 /* eslint no-console: 0 */
-/* eslint no-param-reassign: 0 */
-/* eslint no-shadow: 0 */
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
-import Vue from 'vue';
-
 import { downloadCsvFile } from '../../helper/downloadHelper';
 
 const state = {
@@ -116,11 +112,8 @@ export const actions = {
         commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
       });
   },
-  updateReportAgentStatus({ commit }, data) {
-    commit(types.default.UPDATE_REPORT_AGENTS_STATUS, data);
-  },
   downloadAgentReports(_, reportObj) {
-    return Report.getAgentReports(reportObj.from, reportObj.to)
+    return Report.getAgentReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -129,7 +122,7 @@ export const actions = {
       });
   },
   downloadLabelReports(_, reportObj) {
-    return Report.getLabelReports(reportObj.from, reportObj.to)
+    return Report.getLabelReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -138,7 +131,7 @@ export const actions = {
       });
   },
   downloadInboxReports(_, reportObj) {
-    return Report.getInboxReports(reportObj.from, reportObj.to)
+    return Report.getInboxReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -147,7 +140,7 @@ export const actions = {
       });
   },
   downloadTeamReports(_, reportObj) {
-    return Report.getTeamReports(reportObj.from, reportObj.to)
+    return Report.getTeamReports(reportObj)
       .then(response => {
         downloadCsvFile(reportObj.fileName, response.data);
       })
@@ -178,16 +171,6 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
-  },
-  [types.default.UPDATE_REPORT_AGENTS_STATUS](_state, data) {
-    _state.overview.agentConversationMetric.forEach((element, index) => {
-      const availabilityStatus = data[element.id];
-      Vue.set(
-        _state.overview.agentConversationMetric[index],
-        'availability',
-        availabilityStatus || 'offline'
-      );
-    });
   },
 };
 

@@ -1,6 +1,7 @@
 import Index from './Index';
 import SettingsContent from '../Wrapper';
 import Webhook from './Webhooks/Index';
+import DashboardApps from './DashboardApps/Index';
 import ShowIntegration from './ShowIntegration';
 import { frontendURL } from '../../../../helper/URLHelper';
 
@@ -33,6 +34,12 @@ export default {
           path: 'webhook',
           component: Webhook,
           name: 'settings_integrations_webhook',
+          roles: ['administrator'],
+        },
+        {
+          path: 'dashboard-apps',
+          component: DashboardApps,
+          name: 'settings_integrations_dashboard_apps',
           roles: ['administrator'],
         },
         {

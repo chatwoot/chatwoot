@@ -16,20 +16,46 @@ RSpec.describe Message, type: :model do
     it 'reopens resolved conversation when the message is from a contact' do
       conversation.resolved!
       message.save!
-      expect(message.conversation.open?).to eq true
+      expect(message.conversation.open?).to be true
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do
       conversation.snoozed!
       message.save!
-      expect(message.conversation.open?).to eq true
+      expect(message.conversation.open?).to be true
     end
 
     it 'will not reopen if the conversation is muted' do
       conversation.resolved!
       conversation.mute!
       message.save!
-      expect(message.conversation.open?).to eq false
+      expect(message.conversation.open?).to be false
+    end
+
+    it 'will mark the conversation as pending if the agent bot is active' do
+      agent_bot = create(:agent_bot)
+      inbox = conversation.inbox
+      inbox.agent_bot = agent_bot
+      inbox.save!
+      conversation.resolved!
+      message.save!
+      expect(conversation.open?).to be false
+      expect(conversation.pending?).to be true
+    end
+  end
+
+  context 'with webhook_data' do
+    it 'contains the message attachment when attachment is present' do
+      message = create(:message)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+      expect(message.webhook_data.key?(:attachments)).to be true
+    end
+
+    it 'does not contain the message attachment when attachment is not present' do
+      message = create(:message)
+      expect(message.webhook_data.key?(:attachments)).to be false
     end
   end
 
@@ -103,6 +129,19 @@ RSpec.describe Message, type: :model do
     it 'sets content_type as text' do
       message.save!
       expect(message.content_type).to eq 'text'
+    end
+  end
+
+  context 'when attachments size maximum' do
+    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+
+    it 'add errors to message for attachment size is more than allowed limit' do
+      16.times.each do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed'] })
     end
   end
 

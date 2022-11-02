@@ -65,6 +65,7 @@
       "PLACEHOLDER": "Selectarea intervalului de date"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Nu sunt conversații active în acest grup.",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

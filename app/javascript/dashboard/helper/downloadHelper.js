@@ -13,5 +13,10 @@ export const downloadCsvFile = (fileName, content) => {
   return link;
 };
 
-export const generateFileName = ({ type, to }) =>
-  `${type}-report-${format(fromUnixTime(to), 'dd-MM-yyyy')}.csv`;
+export const generateFileName = ({ type, to, businessHours = false }) => {
+  let name = `${type}-report-${format(fromUnixTime(to), 'dd-MM-yyyy')}`;
+  if (businessHours) {
+    name = `${name}-business-hours`;
+  }
+  return `${name}.csv`;
+};

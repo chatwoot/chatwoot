@@ -37,6 +37,19 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#ASSIGN_TEAM', () => {
+    it('clears current chat window', () => {
+      const state = { allConversations: [{ id: 1, meta: {} }] };
+      mutations[types.ASSIGN_TEAM](state, {
+        team: { id: 1, name: 'Team 1' },
+        conversationId: 1,
+      });
+      expect(state.allConversations).toEqual([
+        { id: 1, meta: { team: { id: 1, name: 'Team 1' } } },
+      ]);
+    });
+  });
+
   describe('#SET_CURRENT_CHAT_WINDOW', () => {
     it('set current chat window', () => {
       const state = { selectedChatId: 1 };
@@ -185,18 +198,6 @@ describe('#mutations', () => {
           status: 'resolved',
         },
       ]);
-    });
-
-    describe('#SET_CONVERSATION_LAST_SEEN', () => {
-      it('sets conversation last seen timestamp', () => {
-        const state = {
-          conversationLastSeen: null,
-        };
-
-        mutations[types.SET_CONVERSATION_LAST_SEEN](state, 1649856659);
-
-        expect(state.conversationLastSeen).toEqual(1649856659);
-      });
     });
 
     describe('#UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES', () => {

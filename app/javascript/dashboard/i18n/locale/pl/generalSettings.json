@@ -14,7 +14,7 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
+        "TITLE": "ID konta",
         "NOTE": "This ID is required if you are building an API based integration"
       },
       "NAME": {
@@ -48,7 +48,7 @@
       }
     },
     "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję.",
-    "LEARN_MORE": "Learn more"
+    "LEARN_MORE": "Dowiedz się więcej"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -60,11 +60,11 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Powiadomienia",
     "MARK_ALL_DONE": "Zaznacz wszystko jako zakończone",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "usunięte",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
+      "ALL_NOTIFICATIONS": "Zobacz wszystkie powiadomienia",
+      "LOADING_UNREAD_MESSAGE": "Ładowanie nieprzeczytanych powiadomień...",
       "EMPTY_MESSAGE": "You have no unread notifications"
     },
     "LIST": {
@@ -89,24 +89,24 @@
       "TEXT": "Disconnected from Chatwoot"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Odśwież"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Szukaj lub przejdź do",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "Ogólne",
       "REPORTS": "Raporty",
       "CONVERSATION": "Rozmowa",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_TEAM": "Change Team",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CHANGE_ASSIGNEE": "Zmień przypisaną osobę",
+      "CHANGE_TEAM": "Zmień zespół",
+      "ADD_LABEL": "Dodaj etykietę do rozmowy",
+      "REMOVE_LABEL": "Usuń etykietę z rozmowy",
       "SETTINGS": "Ustawienia"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
+      "GO_TO_CONVERSATION_DASHBOARD": "Przejdź do Panelu Rozmów",
+      "GO_TO_CONTACTS_DASHBOARD": "Przejdź do Panelu Kontaktów",
       "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
       "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
       "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
@@ -118,17 +118,17 @@
       "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
       "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
-      "REOPEN_CONVERSATION": "Reopen conversation",
+      "GO_TO_SETTINGS_APPLICATIONS": "Przejdź do Ustawień Aplikacji",
+      "GO_TO_SETTINGS_ACCOUNT": "Przejdź do ustawień konta",
+      "GO_TO_SETTINGS_PROFILE": "Przejdź do ustawień profilu",
+      "GO_TO_NOTIFICATIONS": "Przejdź do Powiadomień",
+      "ADD_LABELS_TO_CONVERSATION": "Dodaj etykietę do rozmowy",
+      "ASSIGN_AN_AGENT": "Przypisz przedstawiciela",
+      "ASSIGN_A_TEAM": "Przypisz zespół",
+      "MUTE_CONVERSATION": "Wycisz rozmowę",
+      "UNMUTE_CONVERSATION": "Wyłącz wyciszenie rozmowy",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Usuń etykietę z rozmowy",
+      "REOPEN_CONVERSATION": "Otwórz ponownie rozmowę",
       "RESOLVE_CONVERSATION": "Rozwiąż rozmowę",
       "SEND_TRANSCRIPT": "Wyślij transkrypt rozmowy",
       "SNOOZE_CONVERSATION": "Wycisz rozmowę",

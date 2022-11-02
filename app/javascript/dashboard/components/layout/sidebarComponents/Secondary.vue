@@ -20,6 +20,8 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import SecondaryNavItem from './SecondaryNavItem.vue';
 import AccountContext from './AccountContext.vue';
+import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 export default {
   components: {
@@ -55,8 +57,15 @@ export default {
       type: String,
       default: '',
     },
+    isOnChatwootCloud: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
     },
@@ -67,19 +76,25 @@ export default {
       if (!this.currentRole) {
         return [];
       }
-      return this.menuConfig.menuItems.filter(
+      const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[this.currentRole].indexOf(
             menuItem.toStateName
           ) > -1
       );
+      return menuItemsFilteredByRole.filter(item => {
+        if (item.showOnlyOnCloud) {
+          return this.isOnChatwootCloud;
+        }
+        return true;
+      });
     },
     inboxSection() {
       return {
         icon: 'folder',
         label: 'INBOXES',
         hasSubMenu: true,
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.INBOX_MANAGEMENT),
         newLinkTag: 'NEW_INBOX',
         key: 'inbox',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes/new`),
@@ -95,6 +110,7 @@ export default {
             ),
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
+            reauthorizationRequired: inbox.reauthorization_required,
           }))
           .sort((a, b) =>
             a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
@@ -106,7 +122,7 @@ export default {
         icon: 'number-symbol',
         label: 'LABELS',
         hasSubMenu: true,
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_LABEL',
         key: 'label',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
@@ -130,7 +146,7 @@ export default {
         label: 'TAGGED_WITH',
         hasSubMenu: true,
         key: 'label',
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_LABEL',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
@@ -152,7 +168,7 @@ export default {
         icon: 'people-team',
         label: 'TEAMS',
         hasSubMenu: true,
-        newLink: true,
+        newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_TEAM',
         key: 'team',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams/new`),
@@ -227,21 +243,40 @@ export default {
     toggleAccountModal() {
       this.$emit('toggle-accounts');
     },
+    showNewLink(featureFlag) {
+      return this.isFeatureEnabledonAccount(this.accountId, featureFlag);
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/woot';
+
 .secondary-menu {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
   border-right: 1px solid var(--s-50);
   height: 100%;
-  width: 19rem;
+  width: 20rem;
   flex-shrink: 0;
-  overflow: hidden;
-  padding: var(--space-small);
+  overflow-y: hidden;
+
+  @include breakpoint(xlarge down) {
+    position: absolute;
+  }
+
+  @include breakpoint(xlarge up) {
+    position: unset;
+  }
 
   &:hover {
-    overflow: auto;
+    overflow-y: hidden;
+  }
+
+  .menu {
+    padding: var(--space-small);
+    overflow-y: auto;
   }
 }
 </style>

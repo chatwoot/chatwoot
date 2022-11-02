@@ -35,7 +35,13 @@ class Messages::MessageBuilder
         file: uploaded_attachment
       )
 
-      attachment.file_type = file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
+      attachment.file_type = if uploaded_attachment.is_a?(String)
+                               file_type_by_signed_id(
+                                 uploaded_attachment
+                               )
+                             else
+                               file_type(uploaded_attachment&.content_type)
+                             end
     end
   end
 
@@ -73,6 +79,10 @@ class Messages::MessageBuilder
     @params[:campaign_id].present? ? { additional_attributes: { campaign_id: @params[:campaign_id] } } : {}
   end
 
+  def template_params
+    @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
+  end
+
   def message_sender
     return if @params[:sender_type] != 'AgentBot'
 
@@ -91,6 +101,6 @@ class Messages::MessageBuilder
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
   end
 end

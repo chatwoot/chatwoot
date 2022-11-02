@@ -16,10 +16,10 @@ KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p
 
-Environment="PATH=/home/chatwoot/.rvm/gems/ruby-3.0.2/bin:/home/chatwoot/.rvm/gems/ruby-3.0.2@global/bin:/home/chatwoot/.rvm/rubies/ruby-3.0.2/bin:/home/chatwoot/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/chatwoot/.rvm/bin:/home/chatwoot/.rvm/bin"
+Environment="PATH=/home/chatwoot/.rvm/gems/ruby-3.0.4/bin:/home/chatwoot/.rvm/gems/ruby-3.0.4@global/bin:/home/chatwoot/.rvm/rubies/ruby-3.0.4/bin:/home/chatwoot/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/chatwoot/.rvm/bin:/home/chatwoot/.rvm/bin"
 Environment="PORT=3000"
 Environment="RAILS_ENV=production"
 Environment="NODE_ENV=production"
 Environment="RAILS_LOG_TO_STDOUT=true"
-Environment="GEM_HOME=/home/chatwoot/.rvm/gems/ruby-3.0.2"
-Environment="GEM_PATH=/home/chatwoot/.rvm/gems/ruby-3.0.2:/home/chatwoot/.rvm/gems/ruby-3.0.2@global"
+Environment="GEM_HOME=/home/chatwoot/.rvm/gems/ruby-3.0.4"
+Environment="GEM_PATH=/home/chatwoot/.rvm/gems/ruby-3.0.4:/home/chatwoot/.rvm/gems/ruby-3.0.4@global"

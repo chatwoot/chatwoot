@@ -36,6 +36,8 @@ en:
     reset_password_failure: Uh ho! We could not find any user with the specified email.
 
   errors:
+    validations:
+      presence: must not be blank
     webhook:
       invalid: Invalid events
     signup:
@@ -43,15 +45,45 @@ en:
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
+    data_import:
+      data_type:
+        invalid: Invalid data type
     contacts:
       import:
         failed: File is blank
+      email: 
+        invalid: Invalid email
+      phone_number:
+        invalid: should be in e164 format
+    categories:
+      locale:
+        unique: should be unique in the category and portal
+    inboxes:
+      imap:
+        socket_error: Please check the network connection, IMAP address and try again.
+        no_response_error: Please check the IMAP credentials and try again.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
 
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
       agent_name: Agent name
       conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    inbox_csv:
+      inbox_name: Inbox name
+      inbox_type: Inbox type
+      conversations_count: No. of conversations
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
+    label_csv:
+      label_title: Label
+      conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
@@ -80,6 +112,7 @@ en:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
     activity:
       status:
@@ -132,3 +165,11 @@ en:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: No results found.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.

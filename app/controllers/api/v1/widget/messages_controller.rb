@@ -15,7 +15,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def update
     if @message.content_type == 'input_email'
       @message.update!(submitted_email: contact_email)
-      update_contact(contact_email)
+      ContactIdentifyAction.new(
+        contact: @contact,
+        params: { email: contact_email }
+      ).perform
     else
       @message.update!(message_update_params[:message])
     end

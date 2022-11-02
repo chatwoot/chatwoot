@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.0.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails'
+gem 'rails', '~>6.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -78,7 +78,7 @@ gem 'wisper', '2.0.0'
 # TODO: bump up gem to 2.0
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby', '~> 5.32.0'
+gem 'twilio-ruby', '~> 5.66'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 gem 'twitty'
@@ -89,12 +89,9 @@ gem 'slack-ruby-client'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow'
 
-##--- gems for debugging and error reporting ---##
-# static analysis
-gem 'brakeman'
-
 ##-- apm and error monitoring ---#
 gem 'ddtrace'
+gem 'elastic-apm'
 gem 'newrelic_rpm'
 gem 'scout_apm'
 gem 'sentry-rails', '~> 5.3'
@@ -128,6 +125,16 @@ gem 'html2text'
 # to calculate working hours
 gem 'working_hours'
 
+# full text search for articles
+gem 'pg_search'
+
+# Subscriptions, Billing
+gem 'stripe'
+
+## - helper gems --##
+## to populate db with sample data
+gem 'faker'
+
 group :production, :staging do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
@@ -156,20 +163,18 @@ group :test do
 end
 
 group :development, :test do
-  # TODO: is this needed ?
-  # errors thrown by devise password gem
-  gem 'flay'
-  gem 'rspec'
-  # for error thrown by devise password gem
   gem 'active_record_query_trace'
+  ##--- gems for debugging and error reporting ---##
+  # static analysis
+  gem 'brakeman'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false

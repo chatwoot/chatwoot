@@ -22,9 +22,11 @@ RSpec.describe Channel::FacebookPage do
       it 'calls channel notifier mail for facebook' do
         admin_mailer = double
         mailer_double = double
+
         expect(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).and_return(admin_mailer)
         expect(admin_mailer).to receive(:facebook_disconnect).with(channel.inbox).and_return(mailer_double)
         expect(mailer_double).to receive(:deliver_later)
+
         channel.prompt_reauthorization!
       end
     end

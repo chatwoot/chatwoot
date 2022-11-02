@@ -59,3 +59,16 @@
 - name: DISABLE_USER_PROFILE_UPDATE
   value: false
   locked: false
+- name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
+  value: false
+  locked: false
+- name: CSML_BOT_HOST
+  value:
+  locked: false
+- name: CSML_BOT_API_KEY
+  value:
+  locked: false
+- name: CHATWOOT_CLOUD_PLANS
+  value:
+- name: DEPLOYMENT_ENV
+  value: self-hosted

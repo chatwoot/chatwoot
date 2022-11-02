@@ -251,7 +251,7 @@ export default {
       });
     },
     downloadReports() {
-      const { from, to, type } = this;
+      const { from, to, type, businessHours } = this;
       const dispatchMethods = {
         agent: 'downloadAgentReports',
         label: 'downloadLabelReports',
@@ -259,8 +259,8 @@ export default {
         team: 'downloadTeamReports',
       };
       if (dispatchMethods[type]) {
-        const fileName = generateFileName({ type, to });
-        const params = { from, to, fileName };
+        const fileName = generateFileName({ type, to, businessHours });
+        const params = { from, to, fileName, businessHours };
         this.$store.dispatch(dispatchMethods[type], params);
       }
     },

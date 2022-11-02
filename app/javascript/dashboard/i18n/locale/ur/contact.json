@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "دستیاب نہیں ہے",
     "EMAIL_ADDRESS": "ای میل اڈریس",
     "PHONE_NUMBER": "فون نمبر",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "COMPANY": "کمپنی",
     "LOCATION": "مقام",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "گفتگو کی تفصیلات",
     "VIEW_PROFILE": "پروفائل کا مشاھدہ کریں",
     "BROWSER": "براؤزر",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "کانٹیکٹ کا ای میل درج کریں۔",
         "LABEL": "ای میل اڈریس",
-        "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔."
+        "DUPLICATE": "یہ ای میل دوسرے کانٹیکٹ کے لیے استعمال میں ہے۔.",
+        "ERROR": "Please enter a valid email address."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "کانٹیکٹ کا فون نمبر درج کریں۔",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "گٹ حب صارف کا خصوصی نام درج کریں۔",
           "LABEL": "گٹ حب"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "کانٹیکٹ کامیابی سے محفوظ ہو گیا۔",
