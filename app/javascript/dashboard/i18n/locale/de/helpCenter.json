@@ -163,19 +163,19 @@
         "CREATE_FLOW": [
           {
             "title": "Informationen zum Hilfezentrum",
-            "route": "new_portal_information",
+            "route": "",
             "body": "Grundlegende Informationen zum Portal",
             "CREATE_BASIC_SETTING_BUTTON": "Portalgrundeinstellungen erstellen"
           },
           {
             "title": "Anpassung des Help Centers",
-            "route": "portal_customization",
+            "route": "",
             "body": "Portal anpassen",
             "UPDATE_PORTAL_BUTTON": "Portaleinstellungen aktualisieren"
           },
           {
             "title": "Voila! 🎉",
-            "route": "portal_finish",
+            "route": "",
             "body": "Sie sind bereit!",
             "FINISH": "Abschließen"
           }
@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Benutzerdefinierte Domain",
           "PLACEHOLDER": "Benutzerdefinierte Domain des Portals",
-          "HELP_TEXT": "Nur hinzufügen, wenn Sie eine benutzerdefinierte Domain für Ihre Portale verwenden möchten.",
-          "ERROR": "Benutzerdefinierte Domäne ist erforderlich"
+          "HELP_TEXT": "Nur hinzufügen, wenn Sie eine benutzerdefinierte Domäne für Ihre Portale verwenden möchten. Beispiel: https://example.com",
+          "ERROR": "Geben Sie eine gültige Domänen-URL ein"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Homepage-Link",
           "PLACEHOLDER": "Link zur Startseite des Portals",
-          "HELP_TEXT": "Der Link, der verwendet wird, um vom Portal zur Startseite zurückzukehren.",
-          "ERROR": "Homepage-Link ist erforderlich"
+          "HELP_TEXT": "Der Link, der verwendet wird, um vom Portal zur Startseite zurückzukehren. Beispiel: https://example.com",
+          "ERROR": "Geben Sie eine gültige Startseiten-URL ein"
         },
         "THEME_COLOR": {
           "LABEL": "Farbe des Portaldesigns",
