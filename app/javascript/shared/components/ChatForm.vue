@@ -71,7 +71,11 @@
         v-if="!submittedValues.length"
         class="button block"
         type="submit"
-        :style="{ background: widgetColor, borderColor: widgetColor }"
+        :style="{
+          background: widgetColor,
+          borderColor: widgetColor,
+          color: textColor,
+        }"
         @click="onSubmitClick"
       >
         {{ buttonLabel || $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
@@ -83,6 +87,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   mixins: [darkModeMixin],
@@ -110,6 +115,9 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
     inputColor() {
       return `${this.$dm('bg-white', 'dark:bg-slate-600')}
         ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
