@@ -1,409 +1,409 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Φιλτράρισμα κατά",
-      "SORT": "Ταξινόμηση κατά",
+      "FILTER": "",
+      "SORT": "",
       "SETTINGS_BUTTON": "Ρυθμίσεις",
-      "NEW_BUTTON": "Νέο Άρθρο",
+      "NEW_BUTTON": "",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Δημοσιευμένο",
-        "DRAFT": "Πρόχειρο",
-        "ARCHIVED": "Αρχειοθετημένο"
+        "PUBLISHED": "",
+        "DRAFT": "",
+        "ARCHIVED": ""
       },
       "TITLES": {
-        "ALL_ARTICLES": "Όλα Τα Άρθρα",
-        "MINE": "Τα Άρθρα Μου",
-        "DRAFT": "Πρόχειρα Άρθρα",
-        "ARCHIVED": "Αρχειοθετημένα Άρθρα"
+        "ALL_ARTICLES": "",
+        "MINE": "",
+        "DRAFT": "",
+        "ARCHIVED": ""
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "Όλα Τα Άρθρα",
-      "PUBLISH_BUTTON": "Δημοσιευμένο",
-      "MOVE_TO_ARCHIVE_BUTTON": "Μετακίνηση στα αρχειοθετημένα",
-      "PREVIEW": "Προεπισκόπηση",
-      "ADD_TRANSLATION": "Προσθήκη μετάφρασης",
-      "OPEN_SIDEBAR": "Άνοιγμα πλευρικής μπάρας",
-      "CLOSE_SIDEBAR": "Κλείσιμο πλευρικής μπάρας",
-      "SAVING": "Αποθηκεύεται...",
-      "SAVED": "Αποθηκεύτηκε"
+      "ALL_ARTICLES": "",
+      "PUBLISH_BUTTON": "",
+      "MOVE_TO_ARCHIVE_BUTTON": "",
+      "PREVIEW": "",
+      "ADD_TRANSLATION": "",
+      "OPEN_SIDEBAR": "",
+      "CLOSE_SIDEBAR": "",
+      "SAVING": "",
+      "SAVED": ""
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Ρυθμίσεις Άρθρου",
+      "TITLE": "",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Κατηγορία",
-          "TITLE": "Επιλογή κατηγορίας",
-          "PLACEHOLDER": "Επιλογή κατηγορίας",
-          "NO_RESULT": "Δεν βρέθηκε καμία κατηγορία",
-          "SEARCH_PLACEHOLDER": "Αναζήτηση κατηγορίας"
+          "LABEL": "",
+          "TITLE": "",
+          "PLACEHOLDER": "",
+          "NO_RESULT": "",
+          "SEARCH_PLACEHOLDER": ""
         },
         "AUTHOR": {
-          "LABEL": "Συγγραφέας",
-          "TITLE": "Επιλογή συγγραφέα",
-          "PLACEHOLDER": "Επιλογή συγγραφέα",
-          "NO_RESULT": "Δεν βρέθηκαν συγγραφείς",
-          "SEARCH_PLACEHOLDER": "Αναζήτηση συγγραφέα"
+          "LABEL": "",
+          "TITLE": "",
+          "PLACEHOLDER": "",
+          "NO_RESULT": "",
+          "SEARCH_PLACEHOLDER": ""
         },
         "META_TITLE": {
-          "LABEL": "Μετα-τίτλος",
-          "PLACEHOLDER": "Προσθήκη meta Τίτλου"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta περιγραφή",
-          "PLACEHOLDER": "Προσθέστε τη meta περιγραφή σας για καλύτερα αποτελέσματα SEO..."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Προσθήκη μετα-ετικετών διαχωρισμένων με κόμμα..."
+          "LABEL": "",
+          "PLACEHOLDER": ""
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Αρχειοθέτηση άρθρου",
-        "DELETE": "Διαγραφή άρθρου"
+        "ARCHIVE": "",
+        "DELETE": ""
       }
     },
     "PORTAL": {
-      "HEADER": "Πύλες",
-      "DEFAULT": "Προεπιλογή",
-      "NEW_BUTTON": "Νέα Πύλη",
-      "ACTIVE_BADGE": "ενεργή",
-      "CHOOSE_LOCALE_LABEL": "Επιλέξτε μια γλώσσα",
-      "LOADING_MESSAGE": "Φόρτωση πυλών...",
-      "ARTICLES_LABEL": "άρθρα",
-      "NO_PORTALS_MESSAGE": "Δεν υπάρχουν διαθέσιμες πύλες",
-      "ADD_NEW_LOCALE": "Προσθέστε μια νέα γλώσσα",
+      "HEADER": "",
+      "DEFAULT": "",
+      "NEW_BUTTON": "",
+      "ACTIVE_BADGE": "",
+      "CHOOSE_LOCALE_LABEL": "",
+      "LOADING_MESSAGE": "",
+      "ARTICLES_LABEL": "",
+      "NO_PORTALS_MESSAGE": "",
+      "ADD_NEW_LOCALE": "",
       "POPOVER": {
-        "TITLE": "Πύλες",
-        "PORTAL_SETTINGS": "Ρυθμίσεις πύλης",
-        "SUBTITLE": "Έχετε πολλαπλές πύλες με διαφορετικές γλώσσες για κάθε πύλη.",
+        "TITLE": "",
+        "PORTAL_SETTINGS": "",
+        "SUBTITLE": "",
         "CANCEL_BUTTON_LABEL": "Άκυρο",
-        "CHOOSE_LOCALE_BUTTON": "Επιλέξτε γλώσσα"
+        "CHOOSE_LOCALE_BUTTON": ""
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "άρθρα",
-            "ADD": "Προσθήκη γλώσσας",
-            "VISIT": "Επίσκεψη site",
+            "COUNT_LABEL": "",
+            "ADD": "",
+            "VISIT": "",
             "SETTINGS": "Ρυθμίσεις",
             "DELETE": "Διαγραφή"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Ρυθμίσεις Πύλης",
+            "TITLE": "",
             "ITEMS": {
               "NAME": "Όνομα",
-              "DOMAIN": "Προσαρμοσμένο Domain",
-              "SLUG": "Slug",
-              "TITLE": "Τίτλος πύλης",
-              "THEME": "Χρώμα θέματος",
-              "SUB_TEXT": "Υποκείμενο πύλης"
+              "DOMAIN": "",
+              "SLUG": "",
+              "TITLE": "",
+              "THEME": "",
+              "SUB_TEXT": ""
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Διαθέσιμες γλώσσες",
+            "TITLE": "",
             "TABLE": {
-              "NAME": "Όνομα γλώσσας",
-              "CODE": "Κωδικός γλώσσας",
-              "ARTICLE_COUNT": "Αριθμός άρθρων",
-              "CATEGORIES": "Αριθμός κατηγοριών",
-              "SWAP": "Εναλλαγή",
+              "NAME": "",
+              "CODE": "",
+              "ARTICLE_COUNT": "",
+              "CATEGORIES": "",
+              "SWAP": "",
               "DELETE": "Διαγραφή",
-              "DEFAULT_LOCALE": "Προεπιλογή"
+              "DEFAULT_LOCALE": ""
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Διαγραφή πύλης",
-          "MESSAGE": "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την πύλη",
-          "YES": "Ναι, διαγραφή πύλης",
-          "NO": "Όχι, διατήρηση πύλης",
+          "TITLE": "",
+          "MESSAGE": "",
+          "YES": "",
+          "NO": "",
           "API": {
-            "DELETE_SUCCESS": "Η πύλη διαγράφηκε επιτυχώς",
-            "DELETE_ERROR": "Σφάλμα κατά τη διαγραφή της πύλης"
+            "DELETE_SUCCESS": "",
+            "DELETE_ERROR": ""
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Επεξεργασία πύλης",
+        "HEADER_TEXT": "",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Βασικές πληροφορίες"
+            "TITLE": ""
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Προσαρμογή πύλης"
+            "TITLE": ""
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Κατηγορίες"
+            "TITLE": ""
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Γλώσσες"
+            "TITLE": ""
           }
         },
         "CATEGORIES": {
-          "TITLE": "Κατηγορίες στο",
-          "NEW_CATEGORY": "Νέα κατηγορία",
+          "TITLE": "",
+          "NEW_CATEGORY": "",
           "TABLE": {
             "NAME": "Όνομα",
-            "DESCRIPTION": "Περιγραφή",
-            "LOCALE": "Γλώσσα",
-            "ARTICLE_COUNT": "Αριθμός άρθρων",
+            "DESCRIPTION": "",
+            "LOCALE": "",
+            "ARTICLE_COUNT": "",
             "ACTION_BUTTON": {
-              "EDIT": "Επεξεργασία κατηγορίας",
-              "DELETE": "Διαγραφή κατηγορίας"
+              "EDIT": "",
+              "DELETE": ""
             },
-            "EMPTY_TEXT": "Δεν βρέθηκαν κατηγορίες"
+            "EMPTY_TEXT": ""
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Ενημέρωση βασικών ρυθμίσεων"
+          "BUTTON_TEXT": ""
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Πληροφορίες κέντρου βοήθειας",
-            "route": "new_portal_information",
-            "body": "Βασικές πληροφορίες σχετικά με την πύλη",
-            "CREATE_BASIC_SETTING_BUTTON": "Δημιουργία βασικών ρυθμίσεων πύλης"
+            "title": "",
+            "route": "",
+            "body": "",
+            "CREATE_BASIC_SETTING_BUTTON": ""
           },
           {
-            "title": "Προσαρμογή του κέντρου βοήθειας",
-            "route": "portal_customization",
-            "body": "Προσαρμογή πύλης",
-            "UPDATE_PORTAL_BUTTON": "Ενημέρωση ρυθμίσεων πύλης"
+            "title": "",
+            "route": "",
+            "body": "",
+            "UPDATE_PORTAL_BUTTON": ""
           },
           {
-            "title": "Έξοχα! 🎉",
-            "route": "portal_finish",
-            "body": "Είναι όλα έτοιμα!",
-            "FINISH": "Τέλος"
+            "title": "",
+            "route": "",
+            "body": "",
+            "FINISH": ""
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Πίσω",
+          "BACK_BUTTON": "",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Δημιουργία Πύλης",
-            "TITLE": "Πληροφορίες κέντρου βοήθειας",
-            "CREATE_BASIC_SETTING_BUTTON": "Δημιουργία βασικών ρυθμίσεων πύλης"
+            "HEADER": "",
+            "TITLE": "",
+            "CREATE_BASIC_SETTING_BUTTON": ""
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Προσαρμογή πύλης",
-            "TITLE": "Προσαρμογή του κέντρου βοήθειας",
-            "UPDATE_PORTAL_BUTTON": "Ενημέρωση ρυθμίσεων πύλης"
+            "HEADER": "",
+            "TITLE": "",
+            "UPDATE_PORTAL_BUTTON": ""
           },
           "FINISH_PAGE": {
-            "TITLE": "Έξοχα!🎉 Έχετε ρυθμιστεί!",
-            "MESSAGE": "Τώρα μπορείτε να δείτε την πύλη που δημιουργήθηκε στη σελίδα με όλες τις πύλες.",
-            "FINISH": "Μετάβαση στις πύλες"
+            "TITLE": "",
+            "MESSAGE": "",
+            "FINISH": ""
           }
         },
         "LOGO": {
-          "LABEL": "Λογότυπο",
-          "UPLOAD_BUTTON": "Μεταφόρτωση λογότυπου",
-          "HELP_TEXT": "Το λογότυπο θα εμφανιστεί στην κεφαλίδα της πύλης."
+          "LABEL": "",
+          "UPLOAD_BUTTON": "",
+          "HELP_TEXT": ""
         },
         "NAME": {
           "LABEL": "Όνομα",
-          "PLACEHOLDER": "Όνομα πύλης",
-          "HELP_TEXT": "Το όνομα θα χρησιμοποιηθεί στο κοινό που βλέπει την πύλη εσωτερικά.",
-          "ERROR": "Απαιτείται όνομα"
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Slug Πύλης για τα urls",
-          "ERROR": "Το Slug είναι απαραίτητο"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "DOMAIN": {
-          "LABEL": "Προσαρμοσμένο Domain",
-          "PLACEHOLDER": "Προσαρμοσμένος τομέας πύλης",
-          "HELP_TEXT": "Προσθήκη μόνο Αν θέλετε να χρησιμοποιήσετε ένα προσαρμοσμένο τομέα για τις πύλες σας. (Automatic Translation).",
-          "ERROR": "Ο Προσαρμοσμένος Τομέας απαιτείται"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Σύνδεσμος Αρχικής Σελίδας",
-          "PLACEHOLDER": "Σύνδεσμος αρχικής σελίδας πύλης",
-          "HELP_TEXT": "Ο σύνδεσμος που χρησιμοποιείται για την επιστροφή από την πύλη στην αρχική σελίδα.",
-          "ERROR": "Ο σύνδεσμος αρχικής σελίδας απαιτείται"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "THEME_COLOR": {
-          "LABEL": "Χρώμα θέματος πύλης",
-          "HELP_TEXT": "Αυτό το χρώμα θα εμφανίζεται ως το χρώμα θέματος της πύλης. "
+          "LABEL": "",
+          "HELP_TEXT": ""
         },
         "PAGE_TITLE": {
-          "LABEL": "Τίτλος Σελίδας",
-          "PLACEHOLDER": "Τίτλος σελίδας πύλης",
-          "HELP_TEXT": "Ο τίτλος της σελίδας θα χρησιμοποιηθεί στην πύλη που βλέπει το κοινό.",
-          "ERROR": "Ο τίτλος είναι απαραίτητος"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "HEADER_TEXT": {
-          "LABEL": "Κείμενο Κεφαλίδας",
-          "PLACEHOLDER": "Κείμενο κεφαλίδας πύλης",
-          "HELP_TEXT": "Το κείμενο κεφαλίδας πύλης θα χρησιμοποιηθεί στο κοινό που βλέπει πύλη.",
-          "ERROR": "Απαιτείται κείμενο κεφαλίδας πύλης"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Ο φάκελος δημιουργήθηκε με επιτυχία.",
-          "ERROR_MESSAGE_FOR_BASIC": "Δεν ήταν δυνατή η δημιουργία της πύλης. Δοκιμάστε ξανά.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Η πύλη ενημερώθηκε με επιτυχία.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Δεν ήταν δυνατή η ενημέρωση της πύλης. Δοκιμάστε ξανά."
+          "SUCCESS_MESSAGE_FOR_BASIC": "",
+          "ERROR_MESSAGE_FOR_BASIC": "",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "",
+          "ERROR_MESSAGE_FOR_UPDATE": ""
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Προσθέστε μια νέα γλώσσα",
-        "SUB_TITLE": "Προσθέτει μια νέα γλώσσα στη διαθέσιμη λίστα μεταφράσεών σας.",
-        "PORTAL": "Πύλη",
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "",
         "LOCALE": {
-          "LABEL": "Γλώσσα",
-          "PLACEHOLDER": "Επιλέξτε μια γλώσσα",
-          "ERROR": "Η γλώσσα απαιτείται"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUTTONS": {
-          "CREATE": "Δημιουργία γλώσσας",
+          "CREATE": "",
           "CANCEL": "Άκυρο"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Η γλώσσα προστέθηκε επιτυχώς",
-          "ERROR_MESSAGE": "Δεν είναι δυνατή η προσθήκη γλώσσας. Δοκιμάστε ξανά."
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Η προεπιλεγμένη γλώσσα ενημερώθηκε επιτυχώς",
-          "ERROR_MESSAGE": "Δεν είναι δυνατή η ενημέρωση της προεπιλεγμένης γλώσσας. Δοκιμάστε ξανά."
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Η γλώσσα αφαιρέθηκε επιτυχώς από την πύλη",
-          "ERROR_MESSAGE": "Δεν είναι δυνατή η αφαίρεση γλώσσας από την πύλη. Δοκιμάστε ξανά."
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Φόρτωση άρθρων...",
-      "404": "Δεν υπάρχουν άρθρα που να ταιριάζουν στην αναζήτησή σας 🔍",
-      "NO_ARTICLES": "Δεν υπάρχουν διαθέσιμα άρθρα",
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "NO_ARTICLES": "",
       "HEADERS": {
-        "TITLE": "Τίτλος",
-        "CATEGORY": "Κατηγορία",
-        "READ_COUNT": "Πλήθος ανάγνωσεων",
+        "TITLE": "",
+        "CATEGORY": "",
+        "READ_COUNT": "",
         "STATUS": "Κατάσταση",
-        "LAST_EDITED": "Τελευταία επεξεργασία"
+        "LAST_EDITED": ""
       },
       "COLUMNS": {
-        "BY": "από"
+        "BY": ""
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Φόρτωση άρθρου...",
-      "TITLE_PLACEHOLDER": "Ο τίτλος του άρθρου εμφανίζεται εδώ",
-      "CONTENT_PLACEHOLDER": "Γράψτε το άρθρο σας εδώ",
+      "LOADING": "",
+      "TITLE_PLACEHOLDER": "",
+      "CONTENT_PLACEHOLDER": "",
       "API": {
-        "ERROR": "Σφάλμα κατά την αποθήκευση άρθρου"
+        "ERROR": ""
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Σφάλμα κατά τη δημοσίευση του άρθρου",
-        "SUCCESS": "Το Άρθρο δημοσιεύθηκε με επιτυχία"
+        "ERROR": "",
+        "SUCCESS": ""
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Σφάλμα κατά την αρχειοθέτηση άρθρου",
-        "SUCCESS": "Το άρθρο αρχειοθετήθηκε επιτυχώς"
+        "ERROR": "",
+        "SUCCESS": ""
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Επιβεβαίωση Διαγραφής",
-          "MESSAGE": "Είστε βέβαιοι να διαγράψετε το άρθρο;",
-          "YES": "Ναι, Διέγραψε το",
-          "NO": "Όχι, Κράτησε τον/την"
+          "MESSAGE": "",
+          "YES": "",
+          "NO": ""
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Η επαφή διαγράφηκε επιτυχώς",
-        "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή άρθρου"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Παρακαλώ προσθέστε την επικεφαλίδα και το περιεχόμενο του άρθρου για να μπορείτε να ενημερώσετε τις ρυθμίσεις"
+      "ERROR_MESSAGE": ""
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Αναζήτηση άρθρων"
+        "PLACEHOLDER": ""
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Δημιουργία κατηγορίας",
-        "SUB_TITLE": "Η κατηγορία θα χρησιμοποιηθεί στην πύλη που βλέπει το κοινό για την κατηγοριοποίηση των άρθρων.",
-        "PORTAL": "Πύλη",
-        "LOCALE": "Γλώσσα",
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "",
+        "LOCALE": "",
         "NAME": {
           "LABEL": "Όνομα",
-          "PLACEHOLDER": "Όνομα κατηγορίας",
-          "HELP_TEXT": "Η κατηγορία θα χρησιμοποιηθεί στην πύλη που βλέπει το κοινό για την κατηγοριοποίηση των άρθρων.",
-          "ERROR": "Απαιτείται όνομα"
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Slug κατηγορίας για urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Το Slug είναι απαραίτητο"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "DESCRIPTION": {
-          "LABEL": "Περιγραφή",
-          "PLACEHOLDER": "Δώστε μια σύντομη περιγραφή της κατηγορίας.",
-          "ERROR": "Η περιγραφή απαιτείται"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUTTONS": {
-          "CREATE": "Δημιουργία κατηγορίας",
+          "CREATE": "",
           "CANCEL": "Άκυρο"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Η κατηγορία δημιουργήθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Αδυναμία δημιουργίας κατηγορίας"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "EDIT": {
-        "TITLE": "Επεξεργασία κατηγορίας",
-        "SUB_TITLE": "Η επεξεργασία μιας κατηγορίας θα ενημερώσει την κατηγορία στην πύλη που βλέπει το κοινό.",
-        "PORTAL": "Πύλη",
-        "LOCALE": "Γλώσσα",
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "",
+        "LOCALE": "",
         "NAME": {
           "LABEL": "Όνομα",
-          "PLACEHOLDER": "Όνομα κατηγορίας",
-          "HELP_TEXT": "Η κατηγορία θα χρησιμοποιηθεί στην πύλη που βλέπει το κοινό για την κατηγοριοποίηση των άρθρων.",
-          "ERROR": "Απαιτείται όνομα"
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Slug κατηγορίας για urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Το Slug είναι απαραίτητο"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "DESCRIPTION": {
-          "LABEL": "Περιγραφή",
-          "PLACEHOLDER": "Δώστε μια σύντομη περιγραφή της κατηγορίας.",
-          "ERROR": "Η περιγραφή απαιτείται"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUTTONS": {
-          "CREATE": "Επεξεργασία κατηγορίας",
+          "CREATE": "",
           "CANCEL": "Άκυρο"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Η ετικέτα ενημερώθηκε επιτυχώς",
-          "ERROR_MESSAGE": "Αδύνατη η ενημέρωση της κατηγορίας"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Η καμπάνια διαγράφηκε επιτυχώς",
-          "ERROR_MESSAGE": "Δεν είναι δυνατή η διαγραφή κατηγορίας"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     }
