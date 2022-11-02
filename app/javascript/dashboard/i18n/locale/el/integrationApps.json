@@ -1,36 +1,36 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Λήψη Indegrations",
-    "NO_HOOK_CONFIGURED": "Δεν υπάρχουν %{integrationId} integrations ρυθμισμένες σε αυτόν το λογαριασμό.",
-    "HEADER": "Εφαρμογές",
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "",
+    "HEADER": "",
     "STATUS": {
-      "ENABLED": "Ενεργό",
-      "DISABLED": "Ανενεργό"
+      "ENABLED": "",
+      "DISABLED": ""
     },
     "CONFIGURE": "Διαμόρφωση",
-    "ADD_BUTTON": "Προσθήκη νέου hook",
+    "ADD_BUTTON": "",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Επιβεβαίωση Διαγραφής",
-        "ACCOUNT": "Αποσύνδεση"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "MESSAGE": {
-        "INBOX": "Είσαστε σίγουροι για την διαγραφή?",
-        "ACCOUNT": "Είστε βέβαιοι ότι θα αποσυνδεθείτε;"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Ναι, Διέγραψε το",
-        "ACCOUNT": "Ναι, Αποσύνδεση"
+        "INBOX": "",
+        "ACCOUNT": ""
       },
       "CANCEL_BUTTON_TEXT": "Άκυρο",
       "API": {
-        "SUCCESS_MESSAGE": "Το hook διαγράφηκε επιτυχώς",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
     "LIST": {
-      "FETCHING": "Λήψη Integrations",
-      "INBOX": "Εισερχόμενα",
+      "FETCHING": "",
+      "INBOX": "",
       "DELETE": {
         "BUTTON_TEXT": "Διαγραφή"
       }
@@ -38,25 +38,25 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Επιλογή Εισερχομένων",
-          "PLACEHOLDER": "Επιλογή Εισερχομένων"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT": "Δημιουργία",
+        "SUBMIT": "",
         "CANCEL": "Άκυρο"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Το Integration hook προστέθηκε επιτυχώς",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Σύνδεση"
+      "BUTTON_TEXT": ""
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Αποσύνδεση"
+      "BUTTON_TEXT": ""
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Το Dialogflow είναι μια φυσική πλατφόρμα κατανόησης γλωσσών που διευκολύνει το σχεδιασμό και την ενσωμάτωση ενός περιβάλλοντος χρήστη συνομιλίας στην εφαρμογή για το κινητό σας, web εφαρμογή, συσκευή, bot, διαδραστικό σύστημα απόκρισης φωνής, κ. τ. λ. <br /> <br /> Το Dialogflow με το %{installationName} σάς επιτρέπει να ρυθμίσετε ένα bot ροής διαλόγου με τα εισερχόμενά σας, το οποίο επιτρέπει στο bot να χειρίζεται αρχικά τα ερωτήματα και να τα παραδίδει σε έναν πράκτορα όταν χρειάζεται. Η ροή του διαλόγου μπορεί να χρησιμοποιηθεί για να καθορίσει ροές, να μειώσει τον φόρτο εργασίας των πρακτόρων παρέχοντας συχνές ερωτήσεις κλπ. <br /> <br /> Για να προσθέσετε το DialogFlow, πρέπει να δημιουργήσετε έναν λογαριασμό υπηρεσίας στην κονσόλα του έργου σας στη Google και να μοιραστείτε τα διαπιστευτήρια. Για περισσότερες πληροφορίες, ανατρέξτε στα έγγραφα ροής διαλόγου."
+      "DIALOGFLOW": ""
     }
   }
 }
