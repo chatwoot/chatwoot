@@ -1,126 +1,126 @@
 {
   "CAMPAIGN": {
-    "HEADER": "الحملات",
-    "SIDEBAR_TXT": "الرسائل الاستباقية تسمح للعميل بإرسال رسائل صادرة إلى جهات اتصاله التي من شأنها أن تشغل المزيد من المحادثات. انقر فوق <b>أضف الحملة</b> لإنشاء حملة جديدة. يمكنك أيضا تعديل أو حذف حملة موجودة عن طريق النقر على زر التحرير أو الحذف.",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "HEADER_BTN_TXT": {
-      "ONE_OFF": "إنشاء حملة واحدة مغلقة",
-      "ONGOING": "إنشاء حملة مستمرة"
+      "ONE_OFF": "",
+      "ONGOING": ""
     },
     "ADD": {
-      "TITLE": "إنشاء حملة",
-      "DESC": "الرسائل الاستباقية تسمح للعميل بإرسال رسائل صادرة إلى جهات اتصاله التي من شأنها أن تشغل المزيد من المحادثات.",
-      "CANCEL_BUTTON_TEXT": "إلغاء",
-      "CREATE_BUTTON_TEXT": "إنشاء",
+      "TITLE": "",
+      "DESC": "",
+      "CANCEL_BUTTON_TEXT": "",
+      "CREATE_BUTTON_TEXT": "",
       "FORM": {
         "TITLE": {
-          "LABEL": "العنوان",
-          "PLACEHOLDER": "الرجاء إدخال عنوان الحملة",
-          "ERROR": "العنوان مطلوب"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SCHEDULED_AT": {
-          "LABEL": "الوقت المجدول",
-          "PLACEHOLDER": "الرجاء اختيار الوقت",
-          "CONFIRM": "تأكيد",
-          "ERROR": "الوقت المجدول مطلوب"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
         },
         "AUDIENCE": {
-          "LABEL": "الجمهور",
-          "PLACEHOLDER": "حدد أوسمة العملاء",
-          "ERROR": "الجمهور مطلوب"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "INBOX": {
-          "LABEL": "اختر صندوق الوارد",
-          "PLACEHOLDER": "اختر صندوق الوارد",
-          "ERROR": "صندوق الوارد مطلوب"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "MESSAGE": {
           "LABEL": "رسالة",
-          "PLACEHOLDER": "الرجاء إدخال رسالة الحملة",
-          "ERROR": "الرسالة مطلوبة"
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "SENT_BY": {
-          "LABEL": "أرسلت بواسطة",
-          "PLACEHOLDER": "الرجاء تحديد محتوى الحملة",
-          "ERROR": "المرسل مطلوب"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "END_POINT": {
-          "LABEL": "الرابط",
-          "PLACEHOLDER": "الرجاء إدخال الرابط",
-          "ERROR": "الرجاء إدخال عنوان URL صالح"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "TIME_ON_PAGE": {
-          "LABEL": "الوقت على الصفحة (ثواني)",
-          "PLACEHOLDER": "الرجاء إدخال الوقت",
-          "ERROR": "الوقت على الصفحة مطلوب"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
-        "ENABLED": "تفعيل الحملة",
-        "TRIGGER_ONLY_BUSINESS_HOURS": "تشغيل فقط خلال ساعات العمل",
-        "SUBMIT": "إضافة حملة"
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "تم إنشاء الحملة بنجاح",
-        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف",
+      "BUTTON_TEXT": "",
       "CONFIRM": {
-        "TITLE": "تأكيد الحذف",
-        "MESSAGE": "هل أنت متأكد من الحذف?",
-        "YES": "نعم، احذف ",
-        "NO": "لا، احتفظ "
+        "TITLE": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": ""
       },
       "API": {
-        "SUCCESS_MESSAGE": "تم حذف الحملة بنجاح",
-        "ERROR_MESSAGE": "تعذر حذف الحملة. الرجاء المحاولة مرة أخرى لاحقاً."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "تعديل الحملة",
-      "UPDATE_BUTTON_TEXT": "تحديث",
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
       "API": {
-        "SUCCESS_MESSAGE": "تم تحديث الحملة بنجاح",
-        "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "جاري تحميل الحملات...",
-      "404": "لا توجد حملات منشئة لهذا البريد الوارد.",
+      "LOADING_MESSAGE": "",
+      "404": "",
       "TABLE_HEADER": {
-        "TITLE": "العنوان",
+        "TITLE": "",
         "MESSAGE": "رسالة",
-        "INBOX": "صندوق الوارد",
-        "STATUS": "الحالة",
-        "SENDER": "المرسل",
-        "URL": "الرابط",
-        "SCHEDULED_AT": "الوقت المجدول",
-        "TIME_ON_PAGE": "الوقت(ثواني)",
-        "CREATED_AT": "تم إنشاؤها في"
+        "INBOX": "",
+        "STATUS": "",
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
       },
       "BUTTONS": {
-        "ADD": "إضافة",
-        "EDIT": "تعديل",
-        "DELETE": "حذف"
+        "ADD": "",
+        "EDIT": "",
+        "DELETE": ""
       },
       "STATUS": {
-        "ENABLED": "مفعل",
-        "DISABLED": "معطّل",
-        "COMPLETED": "مكتمل",
-        "ACTIVE": "مفعل"
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
       },
       "SENDER": {
-        "BOT": "رد آلي"
+        "BOT": ""
       }
     },
     "ONE_OFF": {
-      "HEADER": "حملة واحدة مغلقة",
-      "404": "لم يتم إنشاء أي حملة ",
-      "INBOXES_NOT_FOUND": "الرجاء إنشاء بريد وارد للرسائل القصيرة ثم إبدء في إضافة حملات"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     },
     "ONGOING": {
-      "HEADER": "الحملات المستمرة",
-      "404": "لا توجد حملات مستمرة منشئة",
-      "INBOXES_NOT_FOUND": "الرجاء إنشاء بريد وارد لمحادثات الموقع الحية ثم إبدء في إضافة حملات"
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": ""
     }
   }
 }
