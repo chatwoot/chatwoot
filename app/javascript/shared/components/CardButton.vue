@@ -4,7 +4,11 @@
     :key="action.uri"
     class="action-button button"
     :href="action.uri"
-    :style="{ background: widgetColor, borderColor: widgetColor }"
+    :style="{
+      background: widgetColor,
+      borderColor: widgetColor,
+      color: textColor,
+    }"
     target="_blank"
     rel="noopener nofollow noreferrer"
   >
@@ -22,6 +26,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
 export default {
   components: {},
   props: {
@@ -34,6 +39,9 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
     isLink() {
       return this.action.type === 'link';
     },
