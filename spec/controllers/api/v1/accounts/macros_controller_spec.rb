@@ -324,4 +324,29 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/macros/{macro.id}' do
+    let!(:macro) { create(:macro, account: account, created_by: administrator, updated_by: administrator) }
+
+    context 'when it is an authenticated user' do
+      it 'Deletes the macro' do
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'Unauthorize to delete the macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent)
+
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
+    end
+  end
 end
