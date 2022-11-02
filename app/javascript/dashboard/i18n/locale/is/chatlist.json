@@ -1,65 +1,65 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Sækja fleiri spjöll",
-    "EOF": "Öll spjöll eru hlaðin🎉",
+    "LOADING": "",
+    "LOAD_MORE_CONVERSATIONS": "",
+    "EOF": "",
     "LIST": {
-      "404": "Það eru engin virk spjöll í þessum hóp."
+      "404": ""
     },
-    "TAB_HEADING": "Samtöl",
-    "MENTION_HEADING": "Mentions",
+    "TAB_HEADING": "",
+    "MENTION_HEADING": "",
     "SEARCH": {
-      "INPUT": "Leita að Fólki, Spjöllum, Vistuðum Svörum .."
+      "INPUT": ""
     },
-    "FILTER_ALL": "Allt",
+    "FILTER_ALL": "",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Mine",
-      "unassigned": "Óúthlutað",
-      "all": "Allt"
+      "me": "",
+      "unassigned": "",
+      "all": ""
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Opin"
+        "TEXT": ""
       },
       "resolved": {
-        "TEXT": "Leyst"
+        "TEXT": ""
       },
       "pending": {
-        "TEXT": "Í bið"
+        "TEXT": ""
       },
       "snoozed": {
-        "TEXT": "Blundað"
+        "TEXT": ""
       }
     },
     "ATTACHMENTS": {
       "image": {
-        "CONTENT": "Myndaskilaboð"
+        "CONTENT": ""
       },
       "audio": {
-        "CONTENT": "Hljóðskilaboð"
+        "CONTENT": ""
       },
       "video": {
-        "CONTENT": "Myndbandsskilaboð"
+        "CONTENT": ""
       },
       "file": {
-        "CONTENT": "File Attachment"
+        "CONTENT": ""
       },
       "location": {
-        "CONTENT": "Location"
+        "CONTENT": ""
       },
       "fallback": {
-        "CONTENT": "hefur deilt vefslóð"
+        "CONTENT": ""
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "NO_MESSAGES": "Engin skilaboð",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Fela tilvitnaðan texta",
-    "SHOW_QUOTED_TEXT": "Sýna tilvitnaðan texta",
-    "MESSAGE_READ": "Read"
+    "RECEIVED_VIA_EMAIL": "",
+    "VIEW_TWEET_IN_TWITTER": "",
+    "REPLY_TO_TWEET": "",
+    "LINK_TO_STORY": "",
+    "SENT": "",
+    "NO_MESSAGES": "",
+    "NO_CONTENT": "",
+    "HIDE_QUOTED_TEXT": "",
+    "SHOW_QUOTED_TEXT": "",
+    "MESSAGE_READ": ""
   }
 }
