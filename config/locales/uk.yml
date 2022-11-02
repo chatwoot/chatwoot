@@ -22,138 +22,16 @@ uk:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
   errors:
-    validations:
-      presence: не повинно бути пустим
-    webhook:
-      invalid: Недійсні події
     signup:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
       failed: Помилка реєстрації
-    data_import:
-      data_type:
-        invalid: Некоректний тип даних
-    contacts:
-      import:
-        failed: Файл порожній
-      email:
-        invalid: Невірний email
-      phone_number:
-        invalid: має бути у форматі e164
-    categories:
-      locale:
-        unique: має бути унікальним на категорії і порталі
-    inboxes:
-      imap:
-        socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
-        no_response_error: Будь ласка, перевірте облікові дані IMAP і повторіть спробу.
-        host_unreachable_error: Хост недоступний. Будь ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
-        connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
-        connection_closed_error: З'єднання закрито.
-      validations:
-        name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
   reports:
-    period: Період звіту %{since} до %{until}
-    agent_csv:
-      agent_name: Ім'я агента
-      conversations_count: Кількість бесід
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
-    inbox_csv:
-      inbox_name: Назва Джерела
-      inbox_type: Тип Джерела
-      conversations_count: '№ розмов'
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
-    label_csv:
-      label_title: Мітка
-      conversations_count: '№ розмов'
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
-    team_csv:
-      team_name: Назва команди
-      conversations_count: Кількість бесід
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
-    default_group_by: день
     csat:
       headers:
-        contact_name: Ім'я контакту
-        contact_email_address: Email
-        contact_phone_number: Контактний телефон
-        link_to_the_conversation: Посилання на бесіду
         agent_name: Ім'я агента
-        rating: Оцінка
-        feedback: Відгук
-        recorded_at: Дата запису
-  notifications:
-    notification_title:
-      conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
-      conversation_assignment: "[Призначено вам] - #%{display_id} було призначено вам"
-      assigned_conversation_new_message: "[Нове повідомлення] - #%{display_id} %{content}"
-      conversation_mention: "Ви були згадані в діалозі [ID - %{display_id}] від %{name}"
   conversations:
-    messages:
-      instagram_story_content: "%{story_sender} згадав вас у сторіс: "
-      instagram_deleted_story_content: Ця історія більше не доступна.
-      deleted: Це повідомлення було видалено
-    activity:
-      status:
-        resolved: "Розмова була відмічена як вирішена %{user_name}"
-        contact_resolved: "Діалог був закритий %{contact_name}"
-        open: "Розмову знову відкрито %{user_name}"
-        pending: "Бесіда була позначена як очікується %{user_name}"
-        snoozed: "Розмова була відкладена %{user_name}"
-        auto_resolved: "Діалог був закритий системою через %{duration} днів неактивності"
-      assignee:
-        self_assigned: "%{user_name} самостійно призначив цей діалог"
-        assigned: "Призначено до %{assignee_name} користувачем %{user_name}"
-        removed: "Діалог знято %{user_name}"
-      team:
-        assigned: "Призначено до %{team_name} користувачем %{user_name}"
-        assigned_with_assignee: "Призначено до %{assignee_name} користувачем %{user_name} з %{team_name}"
-        removed: "Виключений з %{team_name} користувачем %{user_name}"
-      labels:
-        added: "%{user_name} додав %{labels}"
-        removed: "%{user_name} видалив %{labels}"
-      muted: "%{user_name} включив безвучний режим"
-      unmuted: "%{user_name} виключив безвучний режим"
     templates:
-      greeting_message_body: "%{account_name} зазвичай відповідає за кілька годин."
       ways_to_reach_you_message_body: "Дайте команді можливість з вами зв'язатися."
       email_input_box_message_body: "Отримувати сповіщення електронною поштою"
-      csat_input_message_body: "Будь ласка, оцініть розмову"
-    reply:
-      email:
-        header:
-          from_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} від %{inbox_name} <reply+%{reply_email}>'
-      email_subject: "Нові повідомлення в цьому діалозі"
-      transcript_subject: "Транскрипція діалогу"
-    survey:
-      response: "Будь ласка, оцініть цю розмову, %{link}"
-  contacts:
-    online:
-      delete: "%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше"
-  integration_apps:
-    slack:
-      name: "Slack"
-      description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
-    webhooks:
-      name: "Веб-хук"
-      description: "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати web-хуки."
-    dialogflow:
-      name: "Dialogflow"
-      description: "Створюйте чатів з допомогою Dialogflow та швидко під'єднайте їх до вхідних каналів. Дозвольте ботам обробляти запити перед передачею їх агенту."
-    fullcontact:
-      name: "Fullcontact"
-      description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
-  public_portal:
-    search:
-      search_placeholder: Search for article by title or body...
-      empty_placeholder: Результатів не знайдено.
-      loading_placeholder: Searching...
-      results_title: Search results
-    hero:
-      sub_title: Search for the articles here or browse the categories below.
