@@ -1,5 +1,4 @@
 Rails.application.reloader.to_prepare do
-
   # Alfred
   # Add here as you use it for more features
   # Used for Round Robin, Conversation Emails & Online Presence
@@ -13,5 +12,5 @@ Rails.application.reloader.to_prepare do
   $velma = ConnectionPool::Wrapper.new(size: 5, timeout: 3) do
     redis = Rails.env.test? ? MockRedis.new : Redis.new(Redis::Config.app)
     Redis::Namespace.new('velma', redis: redis, warning: true)
-  end 
+  end
 end
