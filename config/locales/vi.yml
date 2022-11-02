@@ -138,22 +138,10 @@ vi:
       delete: "%{contact_name} đang trực tiếng, vui lòng thử lại sau"
   integration_apps:
     slack:
-      name: "Slack"
       description: "Slack là một công cụ trò chuyện giúp mang tất cả các cuộc giao tiếp của bạn lại với nhau ở một nơi. Bằng cách tích hợp Slack, bạn có thể nhận được thông báo về tất cả các cuộc trò chuyện mới trong tài khoản của mình ngay bên trong Slack."
     webhooks:
-      name: "Webhooks"
       description: "Sự kiện webhook cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản của bạn. Bạn có thể sử dụng webhook để truyền tải các sự kiện tới các ứng dụng yêu thích của mình như Slack hoặc Github. Nhấp vào Cấu hình để thiết lập webhook của bạn."
     dialogflow:
-      name: "Dialogflow"
       description: "Xây dựng chatbot bằng Dialogflow và kết nối chúng với hộp thư đến của bạn một cách nhanh chóng. Hãy để các bot xử lý các truy vấn trước khi giao chúng cho đại lý dịch vụ khách hàng."
     fullcontact:
-      name: "Fullcontact"
       description: "Tích hợp FullContact giúp làm phong phú hồ sơ khách truy cập. Xác định người dùng ngay khi họ chia sẻ địa chỉ email và cung cấp cho họ dịch vụ khách hàng phù hợp. Kết nối FullContact với tài khoản của bạn bằng cách chia sẻ Khóa API FullContact."
-  public_portal:
-    search:
-      search_placeholder: Search for article by title or body...
-      empty_placeholder: Không tìm thấy kết quả.
-      loading_placeholder: Searching...
-      results_title: Search results
-    hero:
-      sub_title: Search for the articles here or browse the categories below.
