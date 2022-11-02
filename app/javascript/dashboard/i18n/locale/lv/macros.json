@@ -70,9 +70,9 @@
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "",
+      "PREVIEW": "",
+      "EXECUTED_SUCCESSFULLY": ""
     }
   }
 }
