@@ -210,7 +210,7 @@ class Conversation < ApplicationRecord
 
   def mark_conversation_pending_if_bot
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
+    self.status = :pending if inbox.active_bot?
   end
 
   def notify_conversation_creation
