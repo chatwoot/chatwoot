@@ -193,7 +193,18 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed?
+    conversation.open! if conversation.snoozed?
+
+    reopen_resolved_conversation if conversation.resolved?
+  end
+
+  def reopen_resolved_conversation
+    # mark resolved bot conversation as pending to be reopened by bot processor service
+    if conversation.inbox.active_bot?
+      conversation.pending!
+    else
+      conversation.open!
+    end
   end
 
   def execute_message_template_hooks
