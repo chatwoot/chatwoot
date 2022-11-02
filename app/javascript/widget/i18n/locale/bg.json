@@ -1,86 +1,86 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Изтегляне",
-      "UPLOADING": "Качване..."
+      "DOWNLOAD": "",
+      "UPLOADING": ""
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Изпращане"
+      "SUBMIT": ""
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "На линия сме",
-    "OFFLINE": "В момента не сме на линия"
+    "ONLINE": "",
+    "OFFLINE": ""
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Обикновено отговаряме до няколко минути",
-    "IN_A_FEW_HOURS": "Обикновено отговаряме до няколко часа",
-    "IN_A_DAY": "Обикновено отговаряме до един ден"
+    "IN_A_FEW_MINUTES": "",
+    "IN_A_FEW_HOURS": "",
+    "IN_A_DAY": ""
   },
-  "START_CONVERSATION": "Започнете разговор",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Започнете нов разговор",
+  "START_CONVERSATION": "",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Вижте новите съобщения",
-    "CLOSE_MESSAGES_BUTTON": "Затвори",
-    "COMPANY_FROM": "от",
-    "BOT": "Бот"
+    "VIEW_MESSAGES_BUTTON": "",
+    "CLOSE_MESSAGES_BUTTON": "",
+    "COMPANY_FROM": "",
+    "BOT": ""
   },
   "BUBBLE": {
-    "LABEL": "Чатете с нас"
+    "LABEL": ""
   },
-  "POWERED_BY": "Осъществено от Chatwoot",
-  "EMAIL_PLACEHOLDER": "Моля, въведете имейла адреса си",
-  "CHAT_PLACEHOLDER": "Напишете вашето съобщение",
-  "TODAY": "Днес",
-  "YESTERDAY": "Вчера",
+  "POWERED_BY": "",
+  "EMAIL_PLACEHOLDER": "",
+  "CHAT_PLACEHOLDER": "",
+  "TODAY": "",
+  "YESTERDAY": "",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Пълно име",
-        "PLACEHOLDER": "Моля, въведете пълното си име",
-        "REQUIRED_ERROR": "Пълното име е задължително"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Имейл адрес",
-        "PLACEHOLDER": "Моля, въведете имейл адреса си",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Please enter a valid email address"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "PHONE_NUMBER": {
-        "LABEL": "Телефон",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
-        "LABEL": "Съобщение",
-        "PLACEHOLDER": "Моля, въведете вашето съобщение",
-        "ERROR": "Съобщението е прекалено кратко"
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Преди да започенте разговора, моля, посочете вашето име и имейл адрес",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "Файлът надхвърля {MAXIMUM_FILE_UPLOAD_SIZE} лимит",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Невалидно поле"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Оценете този разговор",
-    "SUBMITTED_TITLE": "Благодарим ви, че оценихте разговора",
-    "PLACEHOLDER": "Разкажете ни повече..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Поискайте копие от разговора",
-    "SEND_EMAIL_SUCCESS": "Копието от разговора бе изпратено успешно",
-    "SEND_EMAIL_ERROR": "Възникна грешка, моля опитайте отново"
+    "BUTTON_TEXT": "",
+    "SEND_EMAIL_SUCCESS": "",
+    "SEND_EMAIL_ERROR": ""
   }
 }
