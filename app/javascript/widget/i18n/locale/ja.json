@@ -8,8 +8,8 @@
       "SUBMIT": "送信"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,13 +22,13 @@
     "IN_A_DAY": "通常数日以内にご返信します。"
   },
   "START_CONVERSATION": "チャットを開始する",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "新しいメッセージを見る",
     "CLOSE_MESSAGES_BUTTON": "閉じる",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Eメールアドレス",
         "PLACEHOLDER": "メールアドレスを入力してください",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "正しいメールアドレスを入力してください"
       },
       "PHONE_NUMBER": {
         "LABEL": "電話番号",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "メッセージ",
@@ -64,22 +64,22 @@
         "ERROR": "メッセージが短すぎます"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "",
     "SEND_EMAIL_SUCCESS": "チャットの記録は正常に送信されました",
     "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。"
   }
