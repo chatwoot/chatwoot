@@ -336,6 +336,21 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         expect(response).to have_http_status(:success)
       end
 
+      it 'deletes the orphan public record' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global)
+
+        expect(macro.created_by).to eq(agent)
+
+        agent.destroy!
+
+        expect(macro.reload.created_by).to be_nil
+
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'Unauthorize to delete the macro' do
         macro = create(:macro, account: account, created_by: agent, updated_by: agent)
 
