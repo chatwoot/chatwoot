@@ -18,16 +18,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -65,7 +65,7 @@
       "PLACEHOLDER": "Sélectionnez la plage de dates"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Par groupe",
-    "DURATION_FILTER_LABEL": "Duration",
+    "DURATION_FILTER_LABEL": "",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -136,16 +136,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -203,16 +203,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -270,16 +270,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -337,16 +337,16 @@
         "DESC": "(Total)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
         "DESC": "(Moy.)",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is %{metricValue} (based on %{conversationCount} conversations)"
+        "INFO_TEXT": "",
+        "TOOLTIP_TEXT": ""
       },
       "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
@@ -387,7 +387,7 @@
   "CSAT_REPORTS": {
     "HEADER": "Rapports CSAT",
     "NO_RECORDS": "Il n'y a aucune réponse à l'enquête CSAT disponible.",
-    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD": "",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choisissez des agents"
@@ -418,27 +418,27 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Vue d'ensemble",
-    "LIVE": "Live",
+    "LIVE": "",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
       "OPEN": "Ouvert",
-      "UNATTENDED": "Unattended",
+      "UNATTENDED": "",
       "UNASSIGNED": "Non assigné"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "NO_AGENTS": "",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OPEN",
-        "UNATTENDED": "Unattended",
+        "OPEN": "",
+        "UNATTENDED": "",
         "STATUS": "État"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
+      "HEADER": "",
       "ONLINE": "En ligne",
       "BUSY": "Occupé(e)",
       "OFFLINE": "Hors-ligne"
