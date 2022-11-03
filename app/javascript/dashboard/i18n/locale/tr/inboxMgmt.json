@@ -8,30 +8,30 @@
     "CREATE_FLOW": [
       {
         "title": "Kanal Seçin",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
       },
       {
         "title": "Gelen Kutusu Oluştur",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Hesabınızın kimliğini doğrulayın ve bir gelen kutusu oluşturun."
       },
       {
         "title": "Kullanıcı Ekle",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
       },
       {
         "title": "Burada!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Hepiniz gitmeye hazırsınız!"
       }
     ],
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Gelen Kutusu Adı",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "PLACEHOLDER": "",
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
         "LABEL": "Web Sitesi Adı",
@@ -50,7 +50,7 @@
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
         "ERROR_MESSAGE": "Twitter'a bağlanırken bir hata oluştu, lütfen daha sonra tekrar deneyin",
         "TWEETS": {
-          "ENABLE": "Create conversations from mentioned Tweets"
+          "ENABLE": ""
         }
       },
       "WEBSITE_CHANNEL": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Web kancası URL'si",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "",
           "ERROR": "Lütfen geçerli bir adres girin"
         },
         "CHANNEL_DOMAIN": {
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal karşılamasını etkinleştir",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "",
           "ENABLED": "Etkin",
           "DISABLED": "Devre dışı"
         },
@@ -100,22 +100,22 @@
         },
         "SUBMIT_BUTTON": "Gelen Kutusu Oluştur",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "ACCOUNT_SID": {
           "LABEL": "Hesap SID'si",
           "PLACEHOLDER": "Lütfen Twilio Hesabı SID'nizi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "",
+          "PLACEHOLDER": "",
           "ERROR": "Bu alan gereklidir",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
           "LABEL": "Kanal Tipi",
@@ -128,7 +128,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Gelen Kutusu Adı",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "PLACEHOLDER": "",
           "ERROR": "Bu alan gereklidir"
         },
         "PHONE_NUMBER": {
@@ -146,40 +146,40 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
-        "DESC": "Start supporting your customers via SMS.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "LABEL": "",
+          "TWILIO": "",
+          "BANDWIDTH": ""
         },
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the SMS channel"
+          "ERROR_MESSAGE": ""
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Bu alan gereklidir"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Bu alan gereklidir"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Bu alan gereklidir"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "",
+            "PLACEHOLDER": "",
             "ERROR": "Bu alan gereklidir"
           },
           "INBOX_NAME": {
             "LABEL": "Gelen Kutusu Adı",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "",
             "ERROR": "Bu alan gereklidir"
           },
           "PHONE_NUMBER": {
@@ -187,28 +187,28 @@
             "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını giriniz.",
             "ERROR": "Lütfen geçerli bir değer girin. Telefon numarası '+' işaretiyle başlamalıdır."
           },
-          "SUBMIT_BUTTON": "Create Bandwidth Channel",
+          "SUBMIT_BUTTON": "",
           "API": {
-            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
+            "ERROR_MESSAGE": ""
           },
           "API_CALLBACK": {
             "TITLE": "Geri arama URL'si",
-            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+            "SUBTITLE": ""
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Channel",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "TITLE": "",
+        "DESC": "",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "LABEL": "",
+          "TWILIO": "",
+          "WHATSAPP_CLOUD": "",
+          "360_DIALOG": ""
         },
         "INBOX_NAME": {
           "LABEL": "Gelen Kutusu Adı",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "",
           "ERROR": "Bu alan gereklidir"
         },
         "PHONE_NUMBER": {
@@ -217,35 +217,35 @@
           "ERROR": "Lütfen geçerli bir değer girin. Telefon numarası '+' işaretiyle başlamalıdır."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "API_CALLBACK": {
           "TITLE": "Geri arama URL'si",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "Web kancası URL'si",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": ""
         }
       },
       "API_CHANNEL": {
@@ -286,50 +286,50 @@
         "FINISH_MESSAGE": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "",
+        "DESC": "",
         "CHANNEL_NAME": {
           "LABEL": "Kanal ismi",
           "PLACEHOLDER": "Lütfen bir kanal adı girin",
           "ERROR": "Bu alan gereklidir"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": ""
         },
         "API_CALLBACK": {
           "TITLE": "Geri arama URL'si",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": ""
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "",
+        "DESC": "",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "",
+          "SUBTITLE": "",
+          "PLACEHOLDER": ""
         },
-        "SUBMIT_BUTTON": "Create Telegram Channel",
+        "SUBMIT_BUTTON": "",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the telegram channel"
+          "ERROR_MESSAGE": ""
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
         "TITLE": "Kullanıcılar",
@@ -359,9 +359,9 @@
     },
     "FINISH": {
       "TITLE": "Gelen Kutunuz hazır!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
+      "MESSAGE": "",
       "BUTTON_TEXT": "Beni oraya götür",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "",
       "WEBSITE_SUCCESS": "Bir web sitesi kanalı oluşturmayı başarıyla tamamladınız. Aşağıda gösterilen kodu kopyalayın ve web sitenize yapıştırın. Bir müşteri canlı sohbeti bir dahaki sefere kullandığında, konuşma otomatik olarak gelen kutunuzda görünecektir."
     },
     "REAUTH": "Yeniden yetkilendir",
@@ -370,7 +370,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Gelen kutusu ayarları başarıyla güncellendi",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Otomatik atama başarıyla güncellendi",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Etkin",
@@ -389,24 +389,24 @@
         "DISABLED": "Devre dışı"
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enable"
+        "LABEL": ""
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
-      "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
+      "AVATAR_DELETE_BUTTON_TEXT": "",
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",
         "MESSAGE": "Silmek istediğinize emin misiniz ?",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "",
         "YES": "Evet, Sil ",
         "NO": "Hayır, Tut"
       },
       "API": {
         "SUCCESS_MESSAGE": "Gelen kutusu başarıyla silindi",
         "ERROR_MESSAGE": "Gelen kutusu silinemedi. Lütfen daha sonra tekrar deneyiniz.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "AVATAR_SUCCESS_MESSAGE": "",
+        "AVATAR_ERROR_MESSAGE": ""
       }
     },
     "TABS": {
@@ -414,16 +414,16 @@
       "COLLABORATORS": "Ortak çalışanlar",
       "CONFIGURATION": "Yapılandırma",
       "CAMPAIGN": "Kampanyalar",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours",
-      "WIDGET_BUILDER": "Widget Builder"
+      "PRE_CHAT_FORM": "",
+      "BUSINESS_HOURS": "",
+      "WIDGET_BUILDER": ""
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
       "LABEL": "Özellikleri",
       "DISPLAY_FILE_PICKER": "Widget'ta dosya seçiciyi görüntüle",
       "DISPLAY_EMOJI_PICKER": "Widget'ta emoji seçiciyi görüntüleyin",
-      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget"
+      "ALLOW_END_CONVERSATION": ""
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Komut Dosyası",
@@ -433,33 +433,33 @@
       "AGENT_ASSIGNMENT": "Görüşme Atama",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Görüşme atama ayarlarını güncelle",
       "UPDATE": "Güncelleme",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "",
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
-      "ENABLE_CSAT": "Enable CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ENABLE_CSAT": "",
+      "ENABLE_CSAT_SUB_TEXT": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "",
       "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
       "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni görüşmelerin otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "HMAC_VERIFICATION": "",
+      "HMAC_DESCRIPTION": "",
+      "HMAC_MANDATORY_VERIFICATION": "",
+      "HMAC_MANDATORY_DESCRIPTION": "",
+      "INBOX_IDENTIFIER": "",
+      "INBOX_IDENTIFIER_SUB_TEXT": "",
+      "FORWARD_EMAIL_TITLE": "",
       "FORWARD_EMAIL_SUB_TEXT": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "",
+      "WHATSAPP_SECTION_SUBHEADER": "",
+      "WHATSAPP_SECTION_TITLE": ""
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT": "",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": ""
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Yeniden yetkilendir",
@@ -468,12 +468,12 @@
       "MESSAGE_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "",
       "SET_FIELDS": "Sohbet giriş formu alanları",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Alanlar",
-        "LABEL": "Label",
-        "PLACE_HOLDER": "Placeholder",
+        "LABEL": "",
+        "PLACE_HOLDER": "",
         "KEY": "Anahtar",
         "TYPE": "Tip",
         "REQUIRED": "Zorunlu"
@@ -487,49 +487,49 @@
       },
       "PRE_CHAT_MESSAGE": {
         "LABEL": "Görüşme öncesi mesaj",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "PLACEHOLDER": ""
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": ""
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "WEEKLY_TITLE": "",
+      "TIMEZONE_LABEL": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "UNAVAILABLE_MESSAGE_LABEL": "",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "",
+      "TOGGLE_HELP": "",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "",
+        "UNAVAILABLE": "",
+        "HOURS": "",
+        "VALIDATION_ERROR": "",
+        "CHOOSE": ""
       },
-      "ALL_DAY": "All-Day"
+      "ALL_DAY": ""
     },
     "IMAP": {
-      "TITLE": "IMAP",
-      "SUBTITLE": "Set your IMAP details",
-      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
-      "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "NOTE_TEXT": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update IMAP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
         "LABEL": "Oturum aç",
@@ -539,25 +539,25 @@
         "LABEL": "Parola",
         "PLACE_HOLDER": "Parola"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": ""
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
-      "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "TITLE": "",
+      "SUBTITLE": "",
+      "UPDATE": "",
+      "TOGGLE_AVAILABILITY": "",
+      "TOGGLE_HELP": "",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Unable to update SMTP settings"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       },
       "ADDRESS": {
-        "LABEL": "Address",
-        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "PORT": {
-        "LABEL": "Port",
-        "PLACE_HOLDER": "Port"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
       "LOGIN": {
         "LABEL": "Oturum aç",
@@ -568,23 +568,23 @@
         "PLACE_HOLDER": "Parola"
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACE_HOLDER": "Domain"
+        "LABEL": "",
+        "PLACE_HOLDER": ""
       },
-      "ENCRYPTION": "Encryption",
-      "SSL_TLS": "SSL/TLS",
-      "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
-      "AUTH_MECHANISM": "Authentication"
+      "ENCRYPTION": "",
+      "SSL_TLS": "",
+      "START_TLS": "",
+      "OPEN_SSL_VERIFY_MODE": "",
+      "AUTH_MECHANISM": ""
     },
-    "NOTE": "Note: ",
+    "NOTE": "",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "",
               "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
             }
           }
@@ -592,7 +592,7 @@
         "WEBSITE_NAME": {
           "LABEL": "Web Sitesi Adı",
           "PLACE_HOLDER": "Web sitenizin adını girin",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
           "LABEL": "Hoş Geldiniz Başlığı",
@@ -603,42 +603,42 @@
           "PLACE_HOLDER": "Bizimle bağlantı kurmayı kolaylaştırıyoruz. Bize bir şey sorun veya görüşlerinizi paylaşın."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "",
           "IN_A_FEW_MINUTES": "Birkaç dakika içinde",
           "IN_A_FEW_HOURS": "Bir kaç saat içinde",
           "IN_A_DAY": "Bir gün içinde"
         },
         "WIDGET_COLOR_LABEL": "Widget Rengi",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Sohbet et",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "",
           "PLACE_HOLDER": "Sohbet et"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Preview",
-          "SCRIPT": "Script"
+          "PREVIEW": "",
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
@@ -651,14 +651,14 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "",
           "OFFLINE": "Şu an operatörlerimiz müsait değil"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
       "BRANDING_TEXT": "Chatwoot tarafından desteklenmektedir",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
