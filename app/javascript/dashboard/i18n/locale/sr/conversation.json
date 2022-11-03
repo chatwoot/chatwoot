@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
     "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
     "CHANGE_TEAM": "Tim razgovora je promenjen",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopiraj",
       "DELETE": "Izbriši",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Oznake razgovora",
       "CONVERSATION_INFO": "Informacije o razgovoru",
       "CONTACT_ATTRIBUTES": "Atributi kontakta",
-      "PREVIOUS_CONVERSATION": "Prethodni razgovor"
+      "PREVIOUS_CONVERSATION": "Prethodni razgovor",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
