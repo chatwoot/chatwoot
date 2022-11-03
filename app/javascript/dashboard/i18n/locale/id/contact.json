@@ -3,11 +3,11 @@
     "NOT_AVAILABLE": "Tidak Tersedia",
     "EMAIL_ADDRESS": "Alamat Email",
     "PHONE_NUMBER": "Nomor Telpon",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "",
     "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
     "COMPANY": "Perusahaan",
     "LOCATION": "Lokasi",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "",
     "CONVERSATION_TITLE": "Detail Percakapan",
     "VIEW_PROFILE": "Lihat Profil",
     "BROWSER": "Browser",
@@ -75,8 +75,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Konfirmasi Penghapusan",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "",
+      "YES": "",
       "NO": "Tidak, Simpan"
     }
   },
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
@@ -195,8 +195,8 @@
     "SEARCH_BUTTON": "Cari",
     "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
     "FILTER_CONTACTS": "Saring",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
+    "FILTER_CONTACTS_SAVE": "",
+    "FILTER_CONTACTS_DELETE": "",
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
@@ -304,44 +304,44 @@
       "ATTRIBUTE_TYPE": {
         "LIST": {
           "PLACEHOLDER": "Pilih nilai",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "SEARCH_INPUT_PLACEHOLDER": "",
+          "NO_RESULT": ""
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "",
+      "INVALID_URL": ""
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "Gabungkan kontak",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "",
     "PRIMARY": {
       "TITLE": "Kontak utama",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": ""
     },
     "CHILD": {
       "TITLE": "Kontak yang akan digabungkan",
-      "PLACEHOLDER": "Search for a contact",
-      "HELP_LABEL": "To be deleted"
+      "PLACEHOLDER": "",
+      "HELP_LABEL": ""
     },
     "SUMMARY": {
       "TITLE": "Ringkasan",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
+      "DELETE_WARNING": "",
       "ATTRIBUTE_WARNING": "Detil kontak dari <strong>%{childContactName}</strong> akan disalin ke <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "PESAN_KESALAHAN"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": "",
       "CANCEL": "Batalkan",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": ""
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": ""
     }
   }
 }
