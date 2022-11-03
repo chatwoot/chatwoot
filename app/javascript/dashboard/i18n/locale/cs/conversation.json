@@ -137,7 +137,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Štítek byl úspěšně přiřazen",
     "ASSIGN_LABEL_FAILED": "Přiřazení štítku se nezdařilo",
     "CHANGE_TEAM": "Tým konverzace se změnil",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
     "BOT": "Bot",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopírovat",
       "DELETE": "Vymazat",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Štítky konverzace",
       "CONVERSATION_INFO": "Informace o konverzaci",
       "CONTACT_ATTRIBUTES": "Atributy kontaktu",
-      "PREVIOUS_CONVERSATION": "Předchozí konverzace"
+      "PREVIOUS_CONVERSATION": "Předchozí konverzace",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
