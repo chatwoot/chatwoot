@@ -1,10 +1,10 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "กรุณาเลือกการสนทนาจากด้านซ้าย",
-    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "CSAT_REPLY_MESSAGE": "",
+    "404": "",
+    "SWITCH_VIEW_LAYOUT": "",
+    "DASHBOARD_APP_TAB_MESSAGES": "",
     "UNVERIFIED_SESSION": "ข้อมูลระบุตัวตนของผู้ใช้รายนี้ยังไม่ได้รับการยืนยัน",
     "NO_MESSAGE_1": "โอ้ว ไม่นะเหมือนจะไม่มีข้อความจากลูกค้าของคุณในกล่องข้อความ",
     "NO_MESSAGE_2": " เพื่อส่งข้อความไปยังเพจของคุณ!",
@@ -34,7 +34,7 @@
     "REPLYING_TO": "คุณกำลังตอบกลับ:",
     "REMOVE_SELECTION": "ลบตัวเลือก",
     "DOWNLOAD": "ดาวโหลด",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "",
     "UPLOADING_ATTACHMENTS": "กำลังอัปโหลดไฟล์แนบ",
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",
@@ -63,30 +63,30 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "",
       "REOPEN": "เปิดการสนทนาอีกครั้ง",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "",
         "NEXT_REPLY": "จนกว่าการตอบกลับถัดไป",
         "TOMORROW": "จนกว่าพรุ่งนี้",
         "NEXT_WEEK": "จนกว่าสัปดาห์หน้า"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "",
+      "ASSIGN_LABEL": "",
+      "AGENTS_LOADING": "",
+      "ASSIGN_TEAM": "",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         }
       }
     },
@@ -131,13 +131,13 @@
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
     "CHANGE_STATUS": "สถานะการสนทนามีการเปลี่ยนเเปลง",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "",
     "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "",
+    "ASSIGN_LABEL_SUCCESFUL": "",
+    "ASSIGN_LABEL_FAILED": "",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
     "BOT": "บอท",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
       "DELETE": "ลบ",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
-      "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
+      "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
