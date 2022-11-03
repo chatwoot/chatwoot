@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
       "DELETE": "Видалити",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
-      "PREVIOUS_CONVERSATION": "Попередні бесіди"
+      "PREVIOUS_CONVERSATION": "Попередні бесіди",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
