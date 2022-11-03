@@ -49,7 +49,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
                                                                                                     'enabled' => true },
                                                                                                   { 'name' => 'disable_branding',
-                                                                                                    'enabled' => true }])
+                                                                                                    'enabled' => false }])
 
         post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
           ip_lookup: true,
@@ -60,9 +60,9 @@ RSpec.describe 'Platform Accounts API', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to include('Test Account')
         expect(json_response['enabled_features']['inbox_management']).to be(true)
-        expect(json_response['enabled_features']['disable_branding']).to be(true)
         expect(json_response['enabled_features']['ip_lookup']).to be(true)
         expect(json_response['enabled_features']['help_center']).to be(true)
+        expect(json_response['enabled_features']['disable_branding']).to be_nil
       end
 
       it 'creates an account with limits settings' do
