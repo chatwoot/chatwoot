@@ -2,9 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "建立新團隊",
     "HEADER": "團隊",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "There are no teams created on this account.",
+      "404": "",
       "EDIT_TEAM": "編輯團隊"
     },
     "CREATE_FLOW": {
@@ -25,7 +25,7 @@
         },
         {
           "title": "新增客服",
-          "route": "settings_teams_add_agents",
+          "route": "",
           "body": "將客服加入團隊"
         },
         {
@@ -83,11 +83,11 @@
       "SELECT_ALL": "選取所有克服",
       "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取",
       "BUTTON_TEXT": "新增客服",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
       "TITLE": "你的團隊已經準備好了",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "MESSAGE": "",
       "BUTTON_TEXT": "完成"
     },
     "DELETE": {
