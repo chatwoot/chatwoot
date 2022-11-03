@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Elegir canal",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Elija el proveedor que desea integrar con Chatwoot."
       },
       {
         "title": "Crear bandeja de entrada",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Autenticar tu cuenta y crear una bandeja de entrada."
       },
       {
         "title": "Añadir agentes",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Añadir agentes a la bandeja de entrada creada."
       },
       {
         "title": "Voila!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "¡Todo está listo!"
       }
     ],
@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",
         "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": ""
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "Crear bandeja de entrada",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": ""
         }
       },
       "TWILIO": {
@@ -112,10 +112,10 @@
           "ERROR": "Este campo es obligatorio"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "",
+          "PLACEHOLDER": "",
           "ERROR": "Este campo es obligatorio",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": ""
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipo de canal",
@@ -218,17 +218,17 @@
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID de número de teléfono",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "PLACEHOLDER": "",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "LABEL": "",
+          "PLACEHOLDER": "",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "LABEL": "",
+          "PLACEHOLDER": "",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "API_KEY": {
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL de devolución de llamada",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "URL de Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
         "SUBMIT_BUTTON": "Crear canal de WhatsApp",
         "API": {
@@ -329,7 +329,7 @@
       },
       "AUTH": {
         "TITLE": "Elija un canal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": ""
       },
       "AGENTS": {
         "TITLE": "Agentes",
@@ -370,7 +370,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Configuración de bandeja de entrada actualizada correctamente",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto-asignación actualizada correctamente",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": ""
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activado",
@@ -416,7 +416,7 @@
       "CAMPAIGN": "Campañas",
       "PRE_CHAT_FORM": "Pre-formulario de chat",
       "BUSINESS_HOURS": "Horarios",
-      "WIDGET_BUILDER": "Widget Builder"
+      "WIDGET_BUILDER": ""
     },
     "SETTINGS": "Ajustes",
     "FEATURES": {
@@ -444,16 +444,16 @@
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "",
       "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
       "INBOX_IDENTIFIER_SUB_TEXT": "Usa el token `inbox_identifier` que se muestra aquí para autenticar tus clientes API.",
       "FORWARD_EMAIL_TITLE": "Reenviar al correo",
       "FORWARD_EMAIL_SUB_TEXT": "Empieze a reenviar su emails a la siguiente dirección de email.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensajes después de la conversación resuelta",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir a los usuarios finales enviar mensajes incluso después de que la conversación sea resuelta.",
-      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_SUBHEADER": "",
       "WHATSAPP_SECTION_TITLE": "Clave de API"
     },
     "AUTO_ASSIGNMENT": {
@@ -581,10 +581,10 @@
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Website Avatar",
+          "LABEL": "",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "SUCCESS_MESSAGE": "",
               "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
             }
           }
@@ -592,53 +592,53 @@
         "WEBSITE_NAME": {
           "LABEL": "Nombre del sitio web",
           "PLACE_HOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)",
-          "ERROR": "Please enter a valid website name"
+          "ERROR": ""
         },
         "WELCOME_HEADING": {
           "LABEL": "Cabecera de bienvenida",
-          "PLACE_HOLDER": "Hi there!"
+          "PLACE_HOLDER": ""
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Bienvenido Tagline",
           "PLACE_HOLDER": "Facilitamos la conexión con nosotros. Pídanos cualquier cosa o comparte tus comentarios."
         },
         "REPLY_TIME": {
-          "LABEL": "Reply Time",
+          "LABEL": "",
           "IN_A_FEW_MINUTES": "En algunos minutos",
           "IN_A_FEW_HOURS": "En unas horas",
           "IN_A_DAY": "En un día"
         },
         "WIDGET_COLOR_LABEL": "Color del widget",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_POSITION_LABEL": "",
+        "WIDGET_BUBBLE_TYPE_LABEL": "",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Chatea con nosotros",
-          "LABEL": "Widget Bubble Launcher Title",
+          "LABEL": "",
           "PLACE_HOLDER": "Chatea con nosotros"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Update Widget Settings",
+          "BUTTON_TEXT": "",
           "API": {
-            "SUCCESS_MESSAGE": "Widget settings updated successfully",
-            "ERROR_MESSAGE": "Unable to update widget settings"
+            "SUCCESS_MESSAGE": "",
+            "ERROR_MESSAGE": ""
           }
         },
         "WIDGET_VIEW_OPTION": {
           "PREVIEW": "Previsualizar",
-          "SCRIPT": "Script"
+          "SCRIPT": ""
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "",
+          "RIGHT": ""
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "",
+          "EXPANDED_BUBBLE": ""
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
-        "CHAT": "Chat"
+        "DEFAULT": "",
+        "CHAT": ""
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
@@ -651,14 +651,14 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "",
           "OFFLINE": "Estamos ausentes en este momento"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "",
+        "AGENT_MESSAGE": ""
       },
       "BRANDING_TEXT": "Desarrollado por Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
