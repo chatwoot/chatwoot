@@ -32,8 +32,8 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'creates an account with locale' do
-        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first.update!(value: [{ 'name' => 'agent_management',
-                                                                                                 'enabled' => true }])
+        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'agent_management',
+                                                                                                    'enabled' => true }])
         post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es' },
                                           headers: { api_access_token: platform_app.access_token.token }, as: :json
 
@@ -46,8 +46,8 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'creates an account with feature flags' do
-        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first.update!(value: [{ 'name' => 'inbox_management',
-                                                                                                 'enabled' => true }])
+        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
+                                                                                                    'enabled' => true }])
 
         post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
           ip_lookup: true,
