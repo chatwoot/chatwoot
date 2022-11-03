@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Izaberite kanal",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
       },
       {
         "title": "Napravi prijemno sanduče",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Potvrdite vaš nalog i napravite prijemno sanduće."
       },
       {
         "title": "Dodaj agente",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Dodajte agente napravljenom prijamnom sandučetu."
       },
       {
         "title": "Izvolite!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Sve je spremno za početak!"
       }
     ],
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Adresa povratnog poziva",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "Adresa veb zakačke",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
         "SUBMIT_BUTTON": "Napravite WhatsApp kanal",
         "API": {
