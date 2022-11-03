@@ -3,11 +3,11 @@
     "NOT_AVAILABLE": "Non disponible",
     "EMAIL_ADDRESS": "Adresse de courriel",
     "PHONE_NUMBER": "Numéro de téléphone",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "",
     "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
     "COMPANY": "Société",
     "LOCATION": "Localisation",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "",
     "CONVERSATION_TITLE": "Détails de la conversation",
     "VIEW_PROFILE": "Voir le profil",
     "BROWSER": "Navigateur",
@@ -75,8 +75,8 @@
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirmer la suppression",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "",
+      "YES": "",
       "NO": "Non, conservez-le"
     }
   },
@@ -152,8 +152,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "SUCCESS_MESSAGE": "Contact enregistré avec succès",
