@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Vælg Kanal",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Vælg den udbyder, du vil integrere med Chatwoot."
       },
       {
         "title": "Opret Indbakke",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Autentificer din konto og opret en indbakke."
       },
       {
         "title": "Tilføj Agenter",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Tilføj agenter til den oprettede indbakke."
       },
       {
         "title": "Voila!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Så er alt klart!"
       }
     ],
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
         "SUBMIT_BUTTON": "Opret WhatsApp Kanal",
         "API": {
