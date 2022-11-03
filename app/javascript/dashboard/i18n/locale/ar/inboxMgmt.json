@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "اختر قناة",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "اختر الخدمة التي تود ربطها مع حسابك في Chatwoot."
       },
       {
         "title": "إنشاء قناة تواصل",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "قم بالمصادقة على حسابك وإنشاء قناة التواصل."
       },
       {
         "title": "إضافة موظفين",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "إضافة موظفين إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
       },
       {
         "title": "مرحى!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "أصبح كل شيء جاهزاً الآن!"
       }
     ],
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "عنوان Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "رابط Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
         "API": {
@@ -658,7 +658,7 @@
         "AGENT_MESSAGE": "مرحبا"
       },
       "BRANDING_TEXT": "مدعوم بواسطة Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": ""
     }
   }
 }
