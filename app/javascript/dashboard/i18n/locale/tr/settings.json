@@ -20,23 +20,23 @@
         "NOTE": "E-posta adresiniz kimliğinizdir ve oturum açmak için kullanılır."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "İmzanız",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "",
         "BTN_TEXT": "İmzanızı kaydedin",
         "API_ERROR": "İmza kaydedilemedi! Tekrar deneyin",
         "API_SUCCESS": "İmza başarıyla kaydedildi"
@@ -44,7 +44,7 @@
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
         "ERROR": "İmza boş bırakılamaz",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
@@ -57,7 +57,7 @@
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "NOTE": "",
         "NONE": "Hiç",
         "ASSIGNED": "Atanmış Görüşmeler",
         "ALL_CONVERSATIONS": "Tüm Görüşmeler"
@@ -67,7 +67,7 @@
         "NOTE": "E-posta bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında e-posta bildirimleri gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda e-posta bildirimleri gönderin",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin"
       },
       "API": {
@@ -79,7 +79,7 @@
         "NOTE": "Bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında anında bildirim gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda anlık bildirimler gönderin",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanan bir görüşmede yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
@@ -151,8 +151,8 @@
       "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "İndir",
@@ -170,7 +170,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
-    "SWITCH": "Switch",
+    "SWITCH": "",
     "CONVERSATIONS": "Konuşmalar",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
@@ -179,7 +179,7 @@
     "CONTACTS": "Kişiler",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "",
     "INBOXES": "Gelen kutuları",
     "NOTIFICATIONS": "Bildirimler",
     "CANNED_RESPONSES": "Hazır Yanıtlar",
@@ -190,13 +190,13 @@
     "LABELS": "Etiketler",
     "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
     "AUTOMATION": "Otomasyon",
-    "MACROS": "Macros",
+    "MACROS": "",
     "TEAMS": "Ekipler",
-    "BILLING": "Billing",
+    "BILLING": "",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "CUSTOM_VIEWS_SEGMENTS": "",
     "ALL_CONTACTS": "Tüm Kişiler",
-    "TAGGED_WITH": "Tagged with",
+    "TAGGED_WITH": "",
     "NEW_LABEL": "Yeni etiket",
     "NEW_TEAM": "Yeni ekip",
     "NEW_INBOX": "Yeni mesaj kutusu",
@@ -204,46 +204,46 @@
     "CSAT": "CSAT",
     "CAMPAIGNS": "Kampanyalar",
     "ONGOING": "Giden",
-    "ONE_OFF": "One off",
+    "ONE_OFF": "",
     "REPORTS_AGENT": "Kullanıcılar",
     "REPORTS_LABEL": "Etiketler",
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_AVAILABILITY_TITLE": "",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
     "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "",
+      "DESCRIPTION": "",
       "BUTTON_TXT": "Sohbet et"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "",
     "NEW_ACCOUNT": "Yeni hesap",
     "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {
@@ -262,25 +262,25 @@
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
       "OPEN_CONVERSATION": "Görüşmeyi aç",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
       "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
