@@ -2,9 +2,9 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Por favor, selecione uma conversa no painel da esquerda",
     "CSAT_REPLY_MESSAGE": "Por favor, avalie a conversa",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "404": "",
+    "SWITCH_VIEW_LAYOUT": "",
+    "DASHBOARD_APP_TAB_MESSAGES": "",
     "UNVERIFIED_SESSION": "A identidade deste usuário não foi verificada",
     "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
     "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
@@ -34,7 +34,7 @@
     "REPLYING_TO": "Está a responder a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "BAIXAR",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "",
     "UPLOADING_ATTACHMENTS": "Carregando anexos...",
     "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Tente novamente",
@@ -63,30 +63,30 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendente",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "",
       "REOPEN": "Reabrir conversa",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "",
         "NEXT_REPLY": "Até à próxima resposta",
         "TOMORROW": "Até amanhã",
         "NEXT_WEEK": "Até à próxima semana"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "",
+      "ASSIGN_LABEL": "",
+      "AGENTS_LOADING": "",
+      "ASSIGN_TEAM": "",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         }
       }
     },
@@ -96,7 +96,7 @@
       "DISABLE_SIGN_TOOLTIP": "Desativar assinatura",
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "",
       "CLICK_HERE": "Clique aqui para atualizar"
     },
     "REPLYBOX": {
@@ -131,13 +131,13 @@
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa alterado",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "",
     "CHANGE_AGENT": "Responsável da conversa alterado",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "",
+    "ASSIGN_LABEL_SUCCESFUL": "",
+    "ASSIGN_LABEL_FAILED": "",
     "CHANGE_TEAM": "Equipa de conversação alterada",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
     "BOT": "Bot",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "DELETE": "excluir",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -206,9 +206,10 @@
       "CONTACT_DETAILS": "Detalhes do Contacto",
       "CONVERSATION_ACTIONS": "Ações de Conversa",
       "CONVERSATION_LABELS": "Etiquetas da conversa",
-      "CONVERSATION_INFO": "Conversation Information",
+      "CONVERSATION_INFO": "",
       "CONTACT_ATTRIBUTES": "Atributos do Contato",
-      "PREVIOUS_CONVERSATION": "Conversas anteriores"
+      "PREVIOUS_CONVERSATION": "Conversas anteriores",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
