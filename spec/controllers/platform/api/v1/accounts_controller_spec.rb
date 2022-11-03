@@ -63,7 +63,6 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(json_response['enabled_features']['disable_branding']).to be(true)
         expect(json_response['enabled_features']['ip_lookup']).to be(true)
         expect(json_response['enabled_features']['help_center']).to be(true)
-        expect(json_response['enabled_features']['disable_branding']).to be_nil
       end
 
       it 'creates an account with limits settings' do
