@@ -20,17 +20,17 @@
         "NOTE": "Su dirección de correo electrónico es su identidad y se utiliza para iniciar sesión."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
@@ -179,7 +179,7 @@
     "CONTACTS": "Contactos",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
@@ -190,7 +190,7 @@
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
-    "MACROS": "Macros",
+    "MACROS": "",
     "TEAMS": "Equipos",
     "BILLING": "Facturación",
     "CUSTOM_VIEWS_FOLDER": "Carpetas",
