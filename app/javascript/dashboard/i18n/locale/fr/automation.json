@@ -90,8 +90,8 @@
     },
     "ACTION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
+      "TEAM_DROPDOWN_PLACEHOLDER": ""
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activer la règle d'automatisation",
@@ -106,11 +106,11 @@
       "CANCEL_LABEL": "Non"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "",
+      "LABEL_IDLE": "",
       "LABEL_UPLOADING": "Téléversement...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "",
+      "LABEL_UPLOAD_FAILED": ""
     }
   }
 }
