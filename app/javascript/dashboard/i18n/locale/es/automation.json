@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "No se pudo subir el archivo adjunto, por favor inténtelo de nuevo",
       "LABEL_IDLE": "Subir archivo adjunto",
       "LABEL_UPLOADING": "Subiendo...",
-      "LABEL_UPLOADED": "Subido correctamente",
+      "LABEL_UPLOADED": "",
       "LABEL_UPLOAD_FAILED": "Error al subir"
     }
   }
