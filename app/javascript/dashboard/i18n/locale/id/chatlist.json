@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Diterima melalui email",
     "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter",
     "REPLY_TO_TWEET": "Balas tweet ini",
-    "LINK_TO_STORY": "Go to instagram story",
+    "LINK_TO_STORY": "",
     "SENT": "Berhasil terkirim",
     "NO_MESSAGES": "Tidak Ada Pesan",
     "NO_CONTENT": "Tidak ada konten yang tersedia",
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
     "SHOW_QUOTED_TEXT": "Tampilkan Tex yang Dikutip",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": ""
   }
 }
