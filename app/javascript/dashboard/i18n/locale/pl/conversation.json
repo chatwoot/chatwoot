@@ -1,10 +1,10 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "SELECT_A_CONVERSATION": "",
     "CSAT_REPLY_MESSAGE": "Oceń rozmowę",
-    "404": "Sorry, we cannot find the conversation. Please try again",
-    "SWITCH_VIEW_LAYOUT": "Switch the layout",
-    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "404": "",
+    "SWITCH_VIEW_LAYOUT": "",
+    "DASHBOARD_APP_TAB_MESSAGES": "",
     "UNVERIFIED_SESSION": "Tożsamość tego użytkownika nie jest zweryfikowana",
     "NO_MESSAGE_1": "Ups! Wygląda na to, że nie ma wiadomości od klientów w Twojej skrzynce odbiorczej.",
     "NO_MESSAGE_2": " aby wysłać wiadomość na swoją stronę!",
@@ -34,7 +34,7 @@
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
-    "UNKNOWN_FILE_TYPE": "Unknown File",
+    "UNKNOWN_FILE_TYPE": "",
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
     "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
     "FAIL_DELETE_MESSSAGE": "Nie można usunąć wiadomości! Spróbuj ponownie",
@@ -63,41 +63,41 @@
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Oznacz jako oczekujące",
-      "RESOLVED": "Mark as resolved",
+      "RESOLVED": "",
       "REOPEN": "Otwórz ponownie rozmowę",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "",
         "NEXT_REPLY": "Do następnej odpowiedzi",
         "TOMORROW": "Do jutra",
         "NEXT_WEEK": "Do następnego tygodnia"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "",
+      "ASSIGN_LABEL": "",
+      "AGENTS_LOADING": "",
+      "ASSIGN_TEAM": "",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "",
+      "ENABLE_SIGN_TOOLTIP": "",
+      "DISABLE_SIGN_TOOLTIP": "",
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
       "PRIVATE_MSG_INPUT": "Shift + wprowadź dla nowej linii. Będzie to widoczne tylko dla agentów",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "",
+      "CLICK_HERE": ""
     },
     "REPLYBOX": {
       "REPLY": "Odpowiedz",
@@ -108,12 +108,12 @@
       "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "TIP_AUDIORECORDER_ICON": "",
+      "TIP_AUDIORECORDER_PERMISSION": "",
+      "TIP_AUDIORECORDER_ERROR": "",
       "DRAG_DROP": "Przeciągnij i upuść tutaj, aby dołączyć",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "START_AUDIO_RECORDING": "",
+      "STOP_AUDIO_RECORDING": "",
       "": "",
       "EMAIL_HEAD": {
         "ADD_BCC": "Dodaj bcc",
@@ -131,27 +131,27 @@
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "",
     "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "",
+    "ASSIGN_LABEL_SUCCESFUL": "",
+    "ASSIGN_LABEL_FAILED": "",
     "CHANGE_TEAM": "Zespół konwersacji został zmieniony",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "FILE_SIZE_LIMIT": "",
+    "MESSAGE_ERROR": "",
     "SENT_BY": "Wysłane przez:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "",
+    "TRY_AGAIN": "",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Wybierz Agenta",
       "REMOVE": "Usuń",
       "ASSIGN": "Przypisz"
     },
     "CONTEXT_MENU": {
-      "COPY": "Copy",
+      "COPY": "",
       "DELETE": "Usuń",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -181,7 +181,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Zaproś członków swojego zespołu",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "",
       "NEW_LINK": "Kliknij tutaj, aby zaprosić członka zespołu"
     },
     "INBOXES": {
@@ -197,22 +197,23 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Przypisany Agent",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "",
     "TEAM_LABEL": "Przypisany zespół",
     "SELECT": {
       "PLACEHOLDER": "Brak"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "",
+      "CONVERSATION_ACTIONS": "",
       "CONVERSATION_LABELS": "Etykiety rozmowy",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Poprzednie rozmowy"
+      "CONVERSATION_INFO": "",
+      "CONTACT_ATTRIBUTES": "",
+      "PREVIOUS_CONVERSATION": "Poprzednie rozmowy",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "",
     "UPDATE": {
       "SUCCESS": "Atrybut zaktualizowany pomyślnie",
       "ERROR": "Nie można dodać atrybutu. Spróbuj ponownie później"
@@ -233,10 +234,10 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "",
     "TO": "Do",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "BCC": "",
+    "CC": "",
+    "SUBJECT": ""
   }
 }
