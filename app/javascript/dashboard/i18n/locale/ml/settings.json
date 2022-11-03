@@ -3,11 +3,11 @@
     "LINK": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "TITLE": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "BTN_TEXT": "പ്രൊഫൈൽ അപ്‌ഡേറ്റ് ചെയ്യുക",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "",
+    "UPDATE_SUCCESS": "",
+    "PASSWORD_UPDATE_SUCCESS": "",
     "AFTER_EMAIL_CHANGED": "നിങ്ങളുടെ പ്രൊഫൈൽ വിജയകരമായി അപ്‌ഡേറ്റു ചെയ്തിരിക്കുന്നു, ലോഗിൻ ക്രെഡൻഷ്യലുകൾ മാറ്റിയതിനാൽ ദയവായി വീണ്ടും ലോഗിൻ ചെയ്യുക",
     "FORM": {
       "AVATAR": "പ്രൊഫൈൽ ചിത്രം",
@@ -20,69 +20,69 @@
         "NOTE": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം നിങ്ങളുടെ ഐഡന്റിറ്റിയാണ്, ഒപ്പം ലോഗിൻ ചെയ്യാൻ ഇതാണ്  ഉപയോഗിക്കേണ്ടത്."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully"
+        "TITLE": "",
+        "NOTE": "",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD_SECTION": {
         "TITLE": "പാസ്‌വേഡ്",
         "NOTE": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്യുന്നത് ഒന്നിലധികം ഉപകരണങ്ങളിൽ നിങ്ങളുടെ ലോഗിനുകൾ പുനഃസജ്ജീകരിക്കും.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": ""
       },
       "ACCESS_TOKEN": {
         "TITLE": "ആക്സസ് ടോക്കൺ",
         "NOTE": "നിങ്ങൾ ഒരു എപിഐ അടിസ്ഥാനമാക്കിയുള്ള സംയോജനം നിർമ്മിക്കുകയാണെങ്കിൽ ഈ ടോക്കൺ ഉപയോഗിക്കാൻ കഴിയും"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "NONE": "None",
-        "ASSIGNED": "Assigned Conversations",
-        "ALL_CONVERSATIONS": "All Conversations"
+        "TITLE": "",
+        "NOTE": "",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "ഇമെയിൽ അറിയിപ്പുകൾ",
         "NOTE": "നിങ്ങളുടെ ഇമെയിൽ അറിയിപ്പ് മുൻ‌ഗണനകൾ ഇവിടെ അപ്‌ഡേറ്റു ചെയ്യുക",
         "CONVERSATION_ASSIGNMENT": "ഒരു സംഭാഷണം എനിക്ക് നിയോഗിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്‌ക്കുക",
         "CONVERSATION_CREATION": "ഒരു പുതിയ സംഭാഷണം സൃഷ്ടിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്ക്കുക",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": ""
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_SUCCESS": "",
         "UPDATE_ERROR": "മുൻ‌ഗണനകൾ അപ്‌ഡേറ്റു ചെയ്യുമ്പോൾ ഒരു പിശക് ഉണ്ട്, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "",
+        "NOTE": "",
+        "CONVERSATION_ASSIGNMENT": "",
+        "CONVERSATION_CREATION": "",
+        "CONVERSATION_MENTION": "",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "",
+        "HAS_ENABLED_PUSH": "",
+        "REQUEST_PUSH": ""
       },
       "PROFILE_IMAGE": {
         "LABEL": "പ്രൊഫൈൽ ചിത്രം"
@@ -111,9 +111,9 @@
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക, ഇത് സംഭാഷണങ്ങളിൽ ദൃശ്യമാകും"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
       },
       "PASSWORD": {
         "LABEL": "പുതിയ പാസ്‌വേഡ്",
@@ -130,19 +130,19 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "മാറ്റം വരുത്തുക",
     "CHANGE_ACCOUNTS": "അക്കൗണ്ട് സ്വിച്ചുചെയ്യുക",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "",
     "SELECTOR_SUBTITLE": "ഇനിപ്പറയുന്ന ലിസ്റ്റിൽ നിന്ന് ഒരു അക്കൗണ്ട് തിരഞ്ഞെടുക്കുക",
     "PROFILE_SETTINGS": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
+    "KEYBOARD_SHORTCUTS": "",
     "LOGOUT": "ലോഗൗട്ട്"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ദിവസത്തെ ട്രയൽ ശേഷിക്കുന്നു.",
     "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക",
-    "DELETED_USER": "Deleted User",
+    "DELETED_USER": "",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
@@ -151,8 +151,8 @@
       "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ഡൗൺലോഡ്",
@@ -169,81 +169,81 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "",
     "MENTIONED_CONVERSATIONS": "പരാമർശിക്കുന്നു",
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "CONTACTS": "കോൺ‌ടാക്റ്റുകൾ",
     "HOME": "ഹോം",
     "AGENTS": "ഏജന്റുമാർ",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "",
     "INBOXES": "ഇൻ‌ബോക്സുകൾ",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "",
     "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
     "INTEGRATIONS": "സംയോജനങ്ങൾ",
     "PROFILE_SETTINGS": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
-    "APPLICATIONS": "Applications",
+    "APPLICATIONS": "",
     "LABELS": "ലേബലുകൾ",
     "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
     "CUSTOM_VIEWS_FOLDER": "ഫോൾഡറുകൾ",
     "CUSTOM_VIEWS_SEGMENTS": "അംശങ്ങൾ",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
     "REPORTS_CONVERSATION": "സംഭാഷണങ്ങൾ",
-    "CSAT": "CSAT",
+    "CSAT": "",
     "CAMPAIGNS": "പ്രചാരണങ്ങൾ",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "ONGOING": "",
+    "ONE_OFF": "",
     "REPORTS_AGENT": "ഏജന്റുമാർ",
     "REPORTS_LABEL": "ലേബലുകൾ",
     "REPORTS_INBOX": "ഇൻബോക്സ്",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "BETA": "Beta",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
     "REPORTS_OVERVIEW": "അവലോകനം",
-    "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+    "FACEBOOK_REAUTHORIZE": "",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "",
+      "DESCRIPTION": "",
       "BUTTON_TXT": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "",
     "NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട്",
     "SELECTOR_SUBTITLE": "അക്കൗണ്ട് ഒരു പുതിയ അക്കൗണ്ട് വിജയകരമായി സൃഷ്ടിക്കുക",
     "API": {
@@ -261,26 +261,26 @@
   },
   "KEYBOARD_SHORTCUTS": {
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
     },
     "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
     }
   }
 }
