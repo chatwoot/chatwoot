@@ -35,7 +35,13 @@ class Messages::MessageBuilder
         file: uploaded_attachment
       )
 
-      attachment.file_type = file_type(uploaded_attachment&.content_type) if uploaded_attachment.is_a?(ActionDispatch::Http::UploadedFile)
+      attachment.file_type = if uploaded_attachment.is_a?(String)
+                               file_type_by_signed_id(
+                                 uploaded_attachment
+                               )
+                             else
+                               file_type(uploaded_attachment&.content_type)
+                             end
     end
   end
 

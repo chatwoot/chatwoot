@@ -31,6 +31,32 @@ RSpec.describe Message, type: :model do
       message.save!
       expect(message.conversation.open?).to be false
     end
+
+    it 'will mark the conversation as pending if the agent bot is active' do
+      agent_bot = create(:agent_bot)
+      inbox = conversation.inbox
+      inbox.agent_bot = agent_bot
+      inbox.save!
+      conversation.resolved!
+      message.save!
+      expect(conversation.open?).to be false
+      expect(conversation.pending?).to be true
+    end
+  end
+
+  context 'with webhook_data' do
+    it 'contains the message attachment when attachment is present' do
+      message = create(:message)
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+      expect(message.webhook_data.key?(:attachments)).to be true
+    end
+
+    it 'does not contain the message attachment when attachment is not present' do
+      message = create(:message)
+      expect(message.webhook_data.key?(:attachments)).to be false
+    end
   end
 
   context 'when message is created' do

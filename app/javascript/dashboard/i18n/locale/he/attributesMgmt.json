@@ -1,11 +1,11 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "מאפיינים בהתאמה אישית",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
+    "HEADER_BTN_TXT": "הוסף מאפיין מותאם אישית",
+    "LOADING": "שולף מאפיינים מותאמים אישית",
     "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
+      "TITLE": "הוסף מאפיין מותאם אישית",
       "SUBMIT": "צור",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "FORM": {
@@ -31,14 +31,14 @@
           "LIST": {
             "LABEL": "List Values",
             "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "ERROR": "חובה להזין לפחות ערך אחד"
           }
         },
         "KEY": {
           "LABEL": "מפתח",
           "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "ERROR": "מפתח הוא שדה חובה",
+          "IN_VALID": "מפתח אינו חוקי"
         }
       },
       "API": {
@@ -50,7 +50,7 @@
       "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "ERROR_MESSAGE": "לא ניתן למחוק את המאפיין המותאם אישית. נסה שנית."
       },
       "CONFIRM": {
         "TITLE": "האם אתה בטוח רוצה למחוק - %{attributeName}",
@@ -65,7 +65,7 @@
       "UPDATE_BUTTON_TEXT": "עדכן",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
+          "LABEL": "רשימת ערכים",
           "PLACEHOLDER": "Please enter values and press enter key"
         }
       },

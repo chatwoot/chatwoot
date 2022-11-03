@@ -116,7 +116,7 @@ class Message < ApplicationRecord
   end
 
   def webhook_data
-    {
+    data = {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
@@ -131,6 +131,8 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       source_id: source_id
     }
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data
   end
 
   def content
@@ -191,7 +193,18 @@ class Message < ApplicationRecord
     return if conversation.muted?
     return unless incoming?
 
-    conversation.open! if conversation.resolved? || conversation.snoozed?
+    conversation.open! if conversation.snoozed?
+
+    reopen_resolved_conversation if conversation.resolved?
+  end
+
+  def reopen_resolved_conversation
+    # mark resolved bot conversation as pending to be reopened by bot processor service
+    if conversation.inbox.active_bot?
+      conversation.pending!
+    else
+      conversation.open!
+    end
   end
 
   def execute_message_template_hooks

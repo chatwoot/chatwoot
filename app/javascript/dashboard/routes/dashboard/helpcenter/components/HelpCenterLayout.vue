@@ -2,6 +2,7 @@
   <div class="row app-wrapper">
     <sidebar
       :route="currentRoute"
+      @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
@@ -16,11 +17,15 @@
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
       @open-popover="openPortalPopover"
-      @open-modal="onClickOpenAddCatogoryModal"
+      @open-modal="onClickOpenAddCategoryModal"
     />
     <section class="app-content columns" :class="contentClassName">
       <router-view />
       <command-bar />
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+      />
       <woot-key-shortcut-modal
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
@@ -58,7 +63,9 @@ import PortalPopover from '../components/PortalPopover.vue';
 import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import CommandBar from 'dashboard/routes/dashboard/commands/commandbar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal';
+import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory';
 
@@ -71,8 +78,9 @@ export default {
     NotificationPanel,
     PortalPopover,
     AddCategory,
+    AccountSelector,
   },
-  mixins: [portalMixin],
+  mixins: [portalMixin, uiSettingsMixin],
   data() {
     return {
       isSidebarOpen: false,
@@ -82,6 +90,7 @@ export default {
       showPortalPopover: false,
       showAddCategoryModal: false,
       lastActivePortalSlug: '',
+      showAccountModal: false,
     };
   },
 
@@ -133,14 +142,14 @@ export default {
     },
     accessibleMenuItems() {
       if (!this.selectedPortal) return [];
+
       const {
-        meta: {
-          all_articles_count: allArticlesCount,
-          mine_articles_count: mineArticlesCount,
-          draft_articles_count: draftArticlesCount,
-          archived_articles_count: archivedArticlesCount,
-        } = {},
-      } = this.selectedPortal;
+        allArticlesCount,
+        mineArticlesCount,
+        draftArticlesCount,
+        archivedArticlesCount,
+      } = this.meta;
+
       return [
         {
           icon: 'book',
@@ -195,6 +204,7 @@ export default {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
+          showNewButton: true,
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,
@@ -215,6 +225,13 @@ export default {
       return this.selectedPortal ? this.selectedPortal.name : '';
     },
   },
+
+  watch: {
+    '$route.params.portalSlug'() {
+      this.fetchPortalsAndItsCategories();
+    },
+  },
+
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
@@ -231,7 +248,13 @@ export default {
   },
   updated() {
     const slug = this.$route.params.portalSlug;
-    if (slug) this.lastActivePortalSlug = slug;
+    if (slug !== this.lastActivePortalSlug) {
+      this.lastActivePortalSlug = slug;
+      this.updateUISettings({
+        last_active_portal_slug: slug,
+        last_active_locale_code: this.selectedLocaleInPortal,
+      });
+    }
   },
   methods: {
     handleResize() {
@@ -244,12 +267,14 @@ export default {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
-    fetchPortalsAndItsCategories() {
-      this.$store.dispatch('portals/index').then(() => {
-        this.$store.dispatch('categories/index', {
-          portalSlug: this.selectedPortalSlug,
-        });
-      });
+    async fetchPortalsAndItsCategories() {
+      await this.$store.dispatch('portals/index');
+      const selectedPortalParam = {
+        portalSlug: this.selectedPortalSlug,
+        locale: this.selectedLocaleInPortal,
+      };
+      this.$store.dispatch('portals/show', selectedPortalParam);
+      this.$store.dispatch('categories/index', selectedPortalParam);
       this.$store.dispatch('agents/get');
     },
     toggleKeyShortcutModal() {
@@ -270,11 +295,14 @@ export default {
     closePortalPopover() {
       this.showPortalPopover = false;
     },
-    onClickOpenAddCatogoryModal() {
+    onClickOpenAddCategoryModal() {
       this.showAddCategoryModal = true;
     },
     onClickCloseAddCategoryModal() {
       this.showAddCategoryModal = false;
+    },
+    toggleAccountModal() {
+      this.showAccountModal = !this.showAccountModal;
     },
   },
 };

@@ -37,7 +37,7 @@ class Sms::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:from],
       inbox: @inbox,
       contact_attributes: contact_attributes
