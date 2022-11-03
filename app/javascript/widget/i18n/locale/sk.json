@@ -8,8 +8,8 @@
       "SUBMIT": "Odoslať"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,8 +22,8 @@
     "IN_A_DAY": "Zvyčajne odpovedá do dňa"
   },
   "START_CONVERSATION": "Začať konverzáciu",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
   "START_NEW_CONVERSATION": "Začať novú konverzáciu",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobraziť nové správy",
@@ -49,38 +49,38 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-mailová adresa",
         "PLACEHOLDER": "Zadajte svoj e-mail",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "Prosím zadajte platnú e-mailovú adresu"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefónne číslo",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "Správa",
         "PLACEHOLDER": "Zadajte svoju správu",
-        "ERROR": "Message too short"
+        "ERROR": ""
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
     "TITLE": "Ohodnoťte konverzáciu",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "SUBMITTED_TITLE": "",
     "PLACEHOLDER": "Povedzte nám viac..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "",
     "SEND_EMAIL_SUCCESS": "Prepis chatu bol úspešne odoslaný",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
+    "SEND_EMAIL_ERROR": ""
   }
 }
