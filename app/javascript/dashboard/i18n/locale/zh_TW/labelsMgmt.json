@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "標籤名稱",
         "PLACEHOLDER": "標籤名稱",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": ""
       },
       "DESCRIPTION": {
         "LABEL": "描述資訊",
