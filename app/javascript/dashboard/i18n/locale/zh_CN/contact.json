@@ -226,7 +226,7 @@
     },
     "FOOTER": {
       "DUE_DATE": "截止日期",
-      "LABEL_TITLE": "Set type"
+      "LABEL_TITLE": ""
     }
   },
   "NOTES": {
@@ -332,7 +332,7 @@
       "ATTRIBUTE_WARNING": "<strong>%{childContactName}</strong> 的联系信息将拷贝到 <strong>%{primaryContactName}</strong>。"
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR": ""
     },
     "FORM": {
       "SUBMIT": " 合并联系人",
