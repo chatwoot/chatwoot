@@ -66,10 +66,10 @@
       "RESOLVED": "Çözüldü olarak işaretle",
       "REOPEN": "Görüşmeyi yeniden açın",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "",
+        "NEXT_REPLY": "",
+        "TOMORROW": "",
+        "NEXT_WEEK": ""
       },
       "ASSIGN_AGENT": "Temsilci ata",
       "ASSIGN_LABEL": "Etiket ata",
@@ -77,16 +77,16 @@
       "ASSIGN_TEAM": "Takım ata",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "",
           "FAILED": "Temsilci atanamadı. Lütfen tekrar deneyin."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         }
       }
     },
@@ -96,7 +96,7 @@
       "DISABLE_SIGN_TOOLTIP": "İmzayı pasif et",
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
       "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "",
       "CLICK_HERE": "Güncellemek için tıklayın"
     },
     "REPLYBOX": {
@@ -123,7 +123,7 @@
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "",
           "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         }
@@ -131,18 +131,18 @@
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "",
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "",
+    "ASSIGN_LABEL_SUCCESFUL": "",
+    "ASSIGN_LABEL_FAILED": "",
     "CHANGE_TEAM": "Görüşme takımı değişti",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "FILE_SIZE_LIMIT": "",
+    "MESSAGE_ERROR": "",
     "SENT_BY": "Tarafından gönderildi:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "",
+    "TRY_AGAIN": "",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopyala",
       "DELETE": "Sil",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -176,43 +176,44 @@
     "DESCRIPTION": "Üye olduğunuz için teşekkürler. %{installationName}'dan en iyi şekilde yararlanmanızı istiyoruz. Deneyimi keyifli hale getirmek için %{installationName} içinde yapabileceğiniz birkaç şey var.",
     "READ_LATEST_UPDATES": "Son güncellemeleri okuyun",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
+      "TITLE": "",
       "DESCRIPTION": "Müşterilerinizden gelen tüm konuşmaları tek bir gösterge panosunda görüntüleyin. Gelen kanala, etikete ve duruma göre konuşmaları filtreleyebilirsiniz."
     },
     "TEAM_MEMBERS": {
       "TITLE": "Ekip üyelerinizi davet edin",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "DESCRIPTION": "",
+      "NEW_LINK": ""
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "NEW_LINK": ""
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "NEW_LINK": ""
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "",
+    "SELF_ASSIGN": "",
+    "TEAM_LABEL": "",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": ""
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "",
+      "CONVERSATION_ACTIONS": "",
       "CONVERSATION_LABELS": "Konuşma Etiketleri",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Önceki Sohbetler"
+      "CONVERSATION_INFO": "",
+      "CONTACT_ATTRIBUTES": "",
+      "PREVIOUS_CONVERSATION": "Önceki Sohbetler",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "",
     "UPDATE": {
       "SUCCESS": "Öznitelik başarıyla güncellendi",
       "ERROR": "Nitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"
@@ -233,10 +234,10 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "",
     "TO": "ya",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "Subject"
+    "BCC": "",
+    "CC": "",
+    "SUBJECT": ""
   }
 }
