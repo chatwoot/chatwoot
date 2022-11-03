@@ -644,4 +644,48 @@ describe AutomationRuleListener do
       end
     end
   end
+
+  describe '#conversation_created for two accounts' do
+    let!(:new_account) { create(:account) }
+
+    before do
+      new_inbox = create(:inbox, account: new_account)
+      new_conversation = create(:conversation, inbox: new_inbox, account: new_account)
+      new_automation_rule = create(:automation_rule, account: new_account, name: 'Test Automation Rule - 1')
+
+      create(:message, account: account, conversation: conversation, message_type: 'incoming')
+      create(:message, account: new_account, conversation: new_conversation, message_type: 'incoming')
+
+      automation_rule.update!(
+        event_name: 'conversation_created',
+        conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['all'], query_operator: nil }.with_indifferent_access],
+        actions: [{ 'action_name' => 'send_message', 'action_params' => ['Send this message.'] }]
+      )
+      new_automation_rule.update!(
+        event_name: 'conversation_created',
+        conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['all'], query_operator: nil }.with_indifferent_access],
+        actions: [{ 'action_name' => 'send_message', 'action_params' => ['Send this message. - 1'] }]
+      )
+    end
+
+    it 'triggers automation at the same time' do
+      new_conversation = new_account.conversations.last
+      new_automation_rule = new_account.automation_rules.last
+
+      event = Events::Base.new('conversation_created', Time.zone.now, { conversation: conversation })
+      new_event = Events::Base.new('conversation_created', Time.zone.now, { conversation: new_conversation })
+
+      listener.conversation_created(event)
+      listener.conversation_created(new_event)
+
+      expect(conversation.messages.count).to eq(2)
+      expect(new_conversation.messages.count).to eq(2)
+
+      expect(conversation.messages.last.content).to eq('Send this message.')
+      expect(new_conversation.messages.last.content).to eq('Send this message. - 1')
+
+      expect(conversation.messages.last.content_attributes).to eq({ 'automation_rule_id' => automation_rule.id })
+      expect(new_conversation.messages.last.content_attributes).to eq({ 'automation_rule_id' => new_automation_rule.id })
+    end
+  end
 end
