@@ -8,8 +8,6 @@
       tag="div"
       class="macros__nodes-draggable"
       handle=".macros__node-drag-handle"
-      @start="dragging = true"
-      @end="dragging = false"
     >
       <div v-for="(action, i) in actionData" :key="i" class="macro__node">
         <macro-node
@@ -17,6 +15,13 @@
           class="macros__node-action"
           type="add"
           :index="i"
+          :file-name="
+            fileName(
+              actionData[i].action_params[0],
+              actionData[i].action_name,
+              files
+            )
+          "
           :single-node="actionData.length === 1"
           @resetAction="$emit('resetAction', i)"
           @deleteNode="$emit('deleteNode', i)"
@@ -39,7 +44,7 @@ import MacrosPill from './Pill.vue';
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
 import MacroActionButton from './ActionButton.vue';
-
+import { getFileName } from './macroHelper';
 export default {
   components: {
     Draggable,
@@ -52,11 +57,10 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  data() {
-    return {
-      dragging: false,
-    };
+    files: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     actionData: {
@@ -66,6 +70,11 @@ export default {
       set(value) {
         this.$emit('input', value);
       },
+    },
+  },
+  methods: {
+    fileName() {
+      return getFileName(...arguments);
     },
   },
 };

@@ -31,6 +31,17 @@ RSpec.describe Message, type: :model do
       message.save!
       expect(message.conversation.open?).to be false
     end
+
+    it 'will mark the conversation as pending if the agent bot is active' do
+      agent_bot = create(:agent_bot)
+      inbox = conversation.inbox
+      inbox.agent_bot = agent_bot
+      inbox.save!
+      conversation.resolved!
+      message.save!
+      expect(conversation.open?).to be false
+      expect(conversation.pending?).to be true
+    end
   end
 
   context 'with webhook_data' do

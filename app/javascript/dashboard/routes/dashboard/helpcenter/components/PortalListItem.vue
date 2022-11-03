@@ -376,7 +376,6 @@ export default {
         }
       }
       .portal-title {
-        color: var(--s-900);
         margin-bottom: 0;
       }
       .portal-count {
@@ -389,13 +388,16 @@ export default {
       }
     }
     .portal-locales {
-      margin-top: var(--space-medium);
-      margin-bottom: var(--space-small);
+      margin-bottom: var(--space-large);
       .locale-title {
         color: var(--s-800);
         font-weight: var(--font-weight-medium);
         margin-bottom: var(--space-small);
       }
+    }
+
+    .portal--heading {
+      margin-bottom: var(--space-normal);
     }
   }
   .portal-settings--icon {

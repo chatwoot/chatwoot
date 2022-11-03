@@ -11,7 +11,7 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = Rack::Attack::StoreProxy::RedisProxy.new($velma)
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address
