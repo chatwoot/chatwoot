@@ -1,0 +1,50 @@
+type: object
+properties:
+  identifier:
+    type: string
+    description: Inbox identifier
+  name:
+    type: string
+    description: Name of the inbox
+  timezone:
+    type: string
+    description: The timezone defined on the inbox
+  working_hours:
+    type: array
+    description: The working hours defined on the inbox
+    items:
+      type: object
+      properties:
+        day_of_week:
+          type: integer
+          description: Day of the week as a number. Sunday -> 0, Saturday -> 6
+        open_all_day:
+          type: boolean
+          description: Whether or not the business is open the whole day
+        closed_all_day:
+          type: boolean
+          description: Whether or not the business is closed the whole day
+        open_hour:
+          type: integer
+          description: Opening hour. Can be null if closed all day
+        open_minutes:
+          type: integer
+          description: Opening minute. Can be null if closed all day
+        close_hour:
+          type: integer
+          description: Closing hour. Can be null if closed all day
+        close_minutes:
+          type: integer
+          description: Closing minute. Can be null if closed all day
+  working_hours_enabled:
+    type: boolean
+    description: Whether of not the working hours are enabled on the inbox
+  csat_survey_enabled:
+    type: boolean
+    description: Whether of not the Customer Satisfaction survey is enabled on the inbox
+  greeting_enabled:
+    type: boolean
+    description: Whether of not the Greeting Message is enabled on the inbox
+  identity_validation_enabled:
+    type: boolean
+    description: Whether of not the User Identity Validation is enforced on the inbox
