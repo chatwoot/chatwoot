@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "팀 생성하기",
     "HEADER": "팀",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "",
     "LIST": {
       "404": "계정에 연결된 에이전트가 없습니다.",
       "EDIT_TEAM": "팀 수정하기"
@@ -83,7 +83,7 @@
       "SELECT_ALL": "모든 에이전트 선택",
       "SELECTED_COUNT": "%{total} 에이전트 중 %{selected} 선택됨.",
       "BUTTON_TEXT": "에이전트 추가",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
       "TITLE": "준비가 완료되었습니다!",
@@ -98,7 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "%{teamName}팀을 삭제하시겠습니까?",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "PLACE_HOLDER": "",
         "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
         "YES": "삭제 ",
         "NO": "취소"
@@ -109,15 +109,15 @@
       "UPDATE": "팀 내용 업데이트",
       "CREATE": "팀 생성",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "",
+        "PLACEHOLDER": ""
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": ""
       },
       "SUBMIT_CREATE": "팀 생성"
     }
