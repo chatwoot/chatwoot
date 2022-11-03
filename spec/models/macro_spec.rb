@@ -91,17 +91,22 @@ RSpec.describe Macro, type: :model do
 
   describe '#associations' do
     let(:agent) { create(:user, account: account, role: :agent) }
-    let!(:macro) { FactoryBot.create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global, actions: []) }
+    let!(:global_macro) { FactoryBot.create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global, actions: []) }
+    let!(:personal_macro) { FactoryBot.create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :personal, actions: []) }
 
     context 'when you delete the author' do
       it 'nullify the created_by column' do
-        expect(macro.created_by).to eq(agent)
-        expect(macro.updated_by).to eq(agent)
+        expect(global_macro.created_by).to eq(agent)
+        expect(global_macro.updated_by).to eq(agent)
+        expect(personal_macro.created_by).to eq(agent)
+        expect(personal_macro.updated_by).to eq(agent)
 
+        personal_macro_id = personal_macro.id
         agent.destroy!
 
-        expect(macro.reload.created_by).to be_nil
-        expect(macro.reload.updated_by).to be_nil
+        expect(global_macro.reload.created_by).to be_nil
+        expect(global_macro.reload.updated_by).to be_nil
+        expect(described_class.find_by(id: personal_macro_id)).to be_nil
       end
     end
   end

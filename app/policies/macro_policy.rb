@@ -36,7 +36,7 @@ class MacroPolicy < ApplicationPolicy
   end
 
   def orphan_record?
-    return @record.created_by.nil? if @account_user.agent? || @account_user.administrator?
+    return @account_user.administrator? if @record.created_by.nil?
 
     false
   end
