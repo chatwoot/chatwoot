@@ -1,54 +1,54 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "",
       "SUBMIT": "만들기",
       "CANCEL_BUTTON_TEXT": "취소",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "이름이 필요합니다"
         },
         "DESC": {
           "LABEL": "내용",
-          "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "",
+          "ERROR": "설명이 필요합니다"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": ""
         },
         "ACTIONS": {
           "LABEL": "액션"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "",
+      "ACTION_BUTTON_LABEL": "",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "이름",
         "내용",
-        "Active",
-        "Created on"
+        "",
+        ""
       ],
-      "404": "No automation rules found"
+      "404": ""
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "",
       "SUBMIT": "삭제",
       "CANCEL_BUTTON_TEXT": "취소",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "아니요, 유지해주세요. "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "",
       "SUBMIT": "업데이트",
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "FORM": {
@@ -83,34 +83,34 @@
       "CREATE": "만들기",
       "DELETE": "삭제",
       "CANCEL": "취소",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": ""
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": ""
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
+      "TEAM_DROPDOWN_PLACEHOLDER": ""
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
+      "ACTIVATION_TITLE": "",
+      "DEACTIVATION_TITLE": "",
+      "ACTIVATION_DESCRIPTION": "",
+      "DEACTIVATION_DESCRIPTION": "",
+      "ACTIVATION_SUCCESFUL": "",
+      "DEACTIVATION_SUCCESFUL": "",
+      "ACTIVATION_ERROR": "",
+      "DEACTIVATION_ERROR": "",
       "CONFIRMATION_LABEL": "예",
       "CANCEL_LABEL": "아니오"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "",
+      "LABEL_IDLE": "",
       "LABEL_UPLOADING": "업로드 중...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "",
+      "LABEL_UPLOAD_FAILED": ""
     }
   }
 }
