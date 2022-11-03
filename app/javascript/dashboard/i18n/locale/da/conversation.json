@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopiér",
       "DELETE": "Slet",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Samtale Etiketter",
       "CONVERSATION_INFO": "Samtale Information",
       "CONTACT_ATTRIBUTES": "Kontakt Attributter",
-      "PREVIOUS_CONVERSATION": "Tidligere Samtaler"
+      "PREVIOUS_CONVERSATION": "Tidligere Samtaler",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
