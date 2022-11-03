@@ -4,7 +4,7 @@ require 'action_cable/subscription_adapter/redis'
 
 ActionCable::SubscriptionAdapter::Redis.redis_connector = lambda do |config|
   # For supporting GCP Memorystore where `client` command is disabled.
-  # You can configure the follwoing ENV variable to get your installation working.
+  # You can configure the following ENV variable to get your installation working.
   # ref:
   # https://github.com/mperham/sidekiq/issues/3518#issuecomment-595611673
   # https://github.com/redis/redis-rb/issues/767
