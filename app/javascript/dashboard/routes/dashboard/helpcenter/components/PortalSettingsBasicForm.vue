@@ -35,11 +35,12 @@
         <div class="form-item">
           <woot-input
             v-model.trim="name"
-            :class="{ error: $v.slug.$error }"
+            :class="{ error: $v.name.$error }"
             :error="nameError"
             :label="$t('HELP_CENTER.PORTAL.ADD.NAME.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.NAME.PLACEHOLDER')"
             :help-text="$t('HELP_CENTER.PORTAL.ADD.NAME.HELP_TEXT')"
+            @blur="$v.name.$touch"
             @input="onNameChange"
           />
         </div>
@@ -51,15 +52,18 @@
             :label="$t('HELP_CENTER.PORTAL.ADD.SLUG.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.SLUG.PLACEHOLDER')"
             :help-text="domainHelpText"
-            @input="$v.slug.$touch"
+            @blur="$v.slug.$touch"
           />
         </div>
         <div class="form-item">
           <woot-input
             v-model.trim="domain"
+            :class="{ error: $v.domain.$error }"
             :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
             :help-text="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.HELP_TEXT')"
+            :error="domainError"
+            @blur="$v.domain.$touch"
           />
         </div>
       </div>
@@ -77,8 +81,8 @@
 </template>
 
 <script>
+import { required, url, minLength } from 'vuelidate/lib/validators';
 import thumbnail from 'dashboard/components/widgets/Thumbnail';
-import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
@@ -116,6 +120,9 @@ export default {
     slug: {
       required,
     },
+    domain: {
+      url,
+    },
   },
   computed: {
     nameError() {
@@ -131,7 +138,10 @@ export default {
       return '';
     },
     domainError() {
-      return this.$v.domain.$error;
+      if (this.$v.domain.$error) {
+        return this.$t('HELP_CENTER.PORTAL.ADD.DOMAIN.ERROR');
+      }
+      return '';
     },
     domainHelpText() {
       return buildPortalURL(this.slug);
