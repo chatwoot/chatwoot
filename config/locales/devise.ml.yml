@@ -20,13 +20,8 @@ ml:
         subject: "സ്ഥിരീകരണ നിർദ്ദേശങ്ങൾ"
       reset_password_instructions:
         subject: "പാസ്‌വേഡ് നിർദ്ദേശങ്ങൾ പുനഃസജ്ജമാക്കുക"
-      unlock_instructions:
-        subject: "Unlock instructions"
       password_change:
         subject: "പാസ്‌വേഡ് മാറ്റി"
-    omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
     passwords:
       no_token: "പാസ്‌വേഡ് റീസെറ്റ് ഇമെയിലിൽ നിന്ന് വരാതെ നിങ്ങൾക്ക് ഈ പേജ് ആക്‌സസ് ചെയ്യാൻ കഴിയില്ല. നിങ്ങൾ ഒരു പാസ്‌വേഡ് പുനഃസജ്ജീകരണ ഇമെയിലിൽ നിന്നാണ് വരുന്നതെങ്കിൽ, നൽകിയിരിക്കുന്ന മുഴുവൻ URL നിങ്ങൾ ഉപയോഗിച്ചുവെന്ന് ഉറപ്പാക്കുക."
       send_instructions: "കുറച്ച് മിനിറ്റിനുള്ളിൽ നിങ്ങളുടെ പാസ്‌വേഡ് എങ്ങനെ പുനഃസജ്ജമാക്കാം എന്നതിനെക്കുറിച്ചുള്ള നിർദ്ദേശങ്ങളടങ്ങിയ ഒരു ഇമെയിൽ നിങ്ങൾക്ക് ലഭിക്കും."
