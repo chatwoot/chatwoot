@@ -1,30 +1,30 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "",
+    "HEADER": "",
+    "SIDEBAR_TXT": "",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "",
+      "EDIT_TEAM": ""
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "",
+        "DESC": ""
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": ""
       },
       "WIZARD": [
         {
-          "title": "Create",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "title": "",
+          "route": "",
+          "body": ""
         },
         {
-          "title": "Add Agents",
+          "title": "",
           "route": "settings_teams_add_agents",
           "body": "Pridať agentov do tímu."
         },
@@ -83,7 +83,7 @@
       "SELECT_ALL": "vybrať všetkých agentov",
       "SELECTED_COUNT": "%{selected} z %{total} vybraných agentov.",
       "BUTTON_TEXT": "Pridať agentov",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "AGENT_VALIDATION_ERROR": ""
     },
     "FINISH": {
       "TITLE": "Váš tím je pripravený!",
@@ -117,7 +117,7 @@
         "PLACEHOLDER": "Krátky popis tohto tímu."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": ""
       },
       "SUBMIT_CREATE": "Vytvoriť tím"
     }
