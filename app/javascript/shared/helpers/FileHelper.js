@@ -11,11 +11,7 @@ export const formatBytes = (bytes, decimals = 2) => {
 };
 
 export const fileSizeInMegaBytes = bytes => {
-  if (bytes === 0) {
-    return 0;
-  }
-  const sizeInMB = (bytes / (1024 * 1024)).toFixed(2);
-  return sizeInMB;
+  return bytes / (1024 * 1024);
 };
 
 export const checkFileSizeLimit = (file, maximumUploadLimit) => {
