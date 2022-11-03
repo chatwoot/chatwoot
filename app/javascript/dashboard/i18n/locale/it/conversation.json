@@ -151,7 +151,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copia",
       "DELETE": "Elimina",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+      "CREATE_A_CANNED_RESPONSE": ""
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Etichette conversazione",
       "CONVERSATION_INFO": "Informazioni conversazione",
       "CONTACT_ATTRIBUTES": "Attributi contatti",
-      "PREVIOUS_CONVERSATION": "Conversazioni precedenti"
+      "PREVIOUS_CONVERSATION": "Conversazioni precedenti",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
