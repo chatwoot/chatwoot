@@ -2,7 +2,7 @@
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
     "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
-    "404": "Sorry, we cannot find the conversation. Please try again",
+    "404": "",
     "SWITCH_VIEW_LAYOUT": "החלף תצוגה",
     "DASHBOARD_APP_TAB_MESSAGES": "הודעות",
     "UNVERIFIED_SESSION": "זהות המשתמש לא מְאוּמָתת",
@@ -77,15 +77,15 @@
       "ASSIGN_TEAM": "שייך צוות",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "",
           "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "",
+          "FAILED": ""
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "",
           "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
         }
       }
@@ -133,11 +133,11 @@
     "CHANGE_STATUS": "סטטוס השיחה השתנה",
     "CHANGE_STATUS_FAILED": "סטטוס השיחה השתנה לנכשלה",
     "CHANGE_AGENT": "שיוך שיחה השתנתה",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "CHANGE_AGENT_FAILED": "",
     "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
     "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_SIZE_LIMIT": "",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",
@@ -181,38 +181,39 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "הזמן את חברי הצוות שלך",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "",
       "NEW_LINK": "לחץ כאן כדי להזמין חבר צוות"
     },
     "INBOXES": {
       "TITLE": "התחבר לתיבות",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "DESCRIPTION": "",
       "NEW_LINK": "לחץ כאן כדי ליצור תיבה"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "TITLE": "",
+      "DESCRIPTION": "",
       "NEW_LINK": "לחץ כאן כדי ליצור תגיות"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "",
+    "SELF_ASSIGN": "",
+    "TEAM_LABEL": "",
     "SELECT": {
       "PLACEHOLDER": "כלום"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "",
+      "CONVERSATION_ACTIONS": "",
       "CONVERSATION_LABELS": "תוויות שיחה",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "שיחות קודמות"
+      "CONVERSATION_INFO": "",
+      "CONTACT_ATTRIBUTES": "",
+      "PREVIOUS_CONVERSATION": "שיחות קודמות",
+      "MACROS": ""
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "",
     "UPDATE": {
       "SUCCESS": "המאפיין עודכן בהצלחה",
       "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
@@ -235,7 +236,7 @@
   "EMAIL_HEADER": {
     "FROM": "מאת",
     "TO": "אל",
-    "BCC": "Bcc",
+    "BCC": "",
     "CC": "עותק",
     "SUBJECT": "נושא"
   }
