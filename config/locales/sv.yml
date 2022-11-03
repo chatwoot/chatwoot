@@ -22,71 +22,17 @@ sv:
     reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
     reset_password_failure: Oj då! Vi kunde inte hitta någon användare med den angivna e-postadressen.
   errors:
-    validations:
-      presence: must not be blank
-    webhook:
-      invalid: Invalid events
     signup:
       disposable_email: Vi tillåter inte engångsadresser
       invalid_email: Du har angett en ogiltig e-postadress
       email_already_exists: "Du har redan registrerat dig för ett konto med %{email}"
       failed: Registrering misslyckades
-    data_import:
-      data_type:
-        invalid: Invalid data type
-    contacts:
-      import:
-        failed: File is blank
-      email:
-        invalid: Invalid email
-      phone_number:
-        invalid: should be in e164 format
-    categories:
-      locale:
-        unique: should be unique in the category and portal
-    inboxes:
-      imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
-      validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Rapporteringsperiod %{since} till %{until}
-    agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    label_csv:
-      label_title: Label
-      conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    team_csv:
-      team_name: Team name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
-    default_group_by: day
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
         agent_name: Agentens namn
         rating: Betyg
-        feedback: Feedback Comment
-        recorded_at: Recorded date
   notifications:
     notification_title:
       conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
@@ -95,25 +41,16 @@ sv:
       conversation_mention: "Du har nämnts i konversationen [ID - %{display_id}] av %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
       deleted: Detta meddelande har tagits bort
     activity:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Konversationen öppnades igen av %{user_name}"
-        pending: "Conversation was marked as pending by %{user_name}"
-        snoozed: "Conversation was snoozed by %{user_name}"
         auto_resolved: "Konversationen har markerats som löst av systemet på grund av %{duration} dagars inaktivitet"
       assignee:
         self_assigned: "%{user_name} har tilldelat sig denna konversation"
         assigned: "Tilldelad till %{assignee_name} av %{user_name}"
         removed: "Konversation otilldelad av %{user_name}"
-      team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} har lagt till %{labels}"
         removed: "%{user_name} tog bort %{labels}"
@@ -123,19 +60,9 @@ sv:
       greeting_message_body: "%{account_name} svarar vanligtvis inom några timmar."
       ways_to_reach_you_message_body: "Ge teamet ett sätt att nå dig."
       email_input_box_message_body: "Få meddelande via e-post"
-      csat_input_message_body: "Please rate the conversation"
     reply:
-      email:
-        header:
-          from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
-          reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
       email_subject: "Nya meddelanden i denna konversation"
       transcript_subject: "Konversationstranskribering"
-    survey:
-      response: "Please rate this conversation, %{link}"
-  contacts:
-    online:
-      delete: "%{contact_name} is Online, please try again later"
   integration_apps:
     slack:
       name: "Slack"
@@ -143,9 +70,6 @@ sv:
     webhooks:
       name: "Webhookar"
       description: "Webhook-händelser ger dig realtidsinformation om vad som händer i ditt konto. Du kan använda webhooks för att kommunicera händelser till dina favoritappar som Slack eller Github. Klicka på Konfigurera för att konfigurera dina webhooks."
-    dialogflow:
-      name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+  public_portal:
+    search:
+      empty_placeholder: Inga resultat hittades.
