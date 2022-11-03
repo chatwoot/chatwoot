@@ -1,91 +1,91 @@
 {
   "FILTER": {
-    "TITLE": "Filter Conversations",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
-    "ADD_NEW_FILTER": "Add Filter",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
-    "SUBMIT_BUTTON_LABEL": "Apply filters",
+    "TITLE": "Filtre de converses",
+    "SUBTITLE": "",
+    "ADD_NEW_FILTER": "Afegeix filtre",
+    "FILTER_DELETE_ERROR": "",
+    "SUBMIT_BUTTON_LABEL": "Aplicar filtres",
     "CANCEL_BUTTON_LABEL": "Cancel·la",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "Value is required",
-    "TOOLTIP_LABEL": "Filter conversations",
+    "CLEAR_BUTTON_LABEL": "",
+    "EMPTY_VALUE_ERROR": "El valor és necessari",
+    "TOOLTIP_LABEL": "Filtre de converses",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "I",
+      "OR": "O"
     },
     "OPERATOR_LABELS": {
-      "equal_to": "Equal to",
-      "not_equal_to": "Not equal to",
-      "contains": "Contains",
-      "does_not_contain": "Does not contain",
-      "is_present": "Is present",
-      "is_not_present": "Is not present",
-      "is_greater_than": "Is greater than",
-      "is_less_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "equal_to": "Igual a",
+      "not_equal_to": "No és igual a",
+      "contains": "Conté",
+      "does_not_contain": "No conté",
+      "is_present": "És present",
+      "is_not_present": "No és present",
+      "is_greater_than": "És més gran que",
+      "is_less_than": "És més petit que",
+      "days_before": ""
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Cert",
+      "FALSE": "Fals"
     },
     "ATTRIBUTES": {
       "STATUS": "Estat",
-      "ASSIGNEE_NAME": "Assignee Name",
+      "ASSIGNEE_NAME": "",
       "INBOX_NAME": "Nom de la safata d'entrada",
-      "TEAM_NAME": "Team Name",
-      "CONVERSATION_IDENTIFIER": "Conversation Identifier",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "TEAM_NAME": "Nom de l'equip",
+      "CONVERSATION_IDENTIFIER": "Identificador de la conversa",
+      "CAMPAIGN_NAME": "",
       "LABELS": "Etiquetes",
-      "BROWSER_LANGUAGE": "Browser Language",
-      "COUNTRY_NAME": "Country Name",
-      "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "BROWSER_LANGUAGE": "",
+      "COUNTRY_NAME": "Nom del país",
+      "REFERER_LINK": "",
+      "CUSTOM_ATTRIBUTE_LIST": "",
+      "CUSTOM_ATTRIBUTE_TEXT": "Llista",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Número",
+      "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+      "CREATED_AT": "",
+      "LAST_ACTIVITY": ""
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
+      "STANDARD_FILTERS": "",
+      "ADDITIONAL_FILTERS": "",
       "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
-        "SAVE_BUTTON": "Save filter",
+        "TITLE": "",
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR_MESSAGE": "",
+        "SAVE_BUTTON": "",
         "CANCEL_BUTTON": "Cancel·la",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirma l'esborrat",
-            "MESSAGE": "Are you sure to delete the filter ",
+            "MESSAGE": "",
             "YES": "Si, esborra",
             "NO": "No, manten-la"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     }
