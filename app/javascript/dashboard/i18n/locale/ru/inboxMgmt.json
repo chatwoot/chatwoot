@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Выберите источник",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Выберите канал, который вы хотите подключить к Chatwoot."
       },
       {
         "title": "Создать источник",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Авторизуйте свой аккаунт и создайте ящик."
       },
       {
         "title": "Добавить операторов",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Добавить агента в созданный источник."
       },
       {
         "title": "Ура!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Все готово!"
       }
     ],
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "",
           "WEBHOOK_URL": "URL вебхука",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": ""
         },
         "SUBMIT_BUTTON": "Создать канал WhatsApp",
         "API": {
