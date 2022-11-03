@@ -8,22 +8,22 @@
     "CREATE_FLOW": [
       {
         "title": "Επιλογή Καναλιού",
-        "route": "settings_inbox_new",
+        "route": "",
         "body": "Επίλεξετε το κανάλι που θέλετε να ενσωματώσετε στο Chatwoot."
       },
       {
         "title": "Δημιουργία Κιβωτίου",
-        "route": "settings_inboxes_page_channel",
+        "route": "",
         "body": "Πιστοποιήστε τον λογαριασμό σας και δημιουργείστε κιβώτιο Εισερχομένων."
       },
       {
         "title": "Προσθήκη Πρακτόρων",
-        "route": "settings_inboxes_add_agents",
+        "route": "",
         "body": "Προσθέστε πράκτορες στο κιβώτιο που δημιουργήθηκε."
       },
       {
         "title": "Έξοχα!",
-        "route": "settings_inbox_finish",
+        "route": "",
         "body": "Είσαστε έτοιμοι να ξεκινήσετε!"
       }
     ],
