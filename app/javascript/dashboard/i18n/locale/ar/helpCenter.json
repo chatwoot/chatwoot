@@ -101,111 +101,111 @@
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "",
+              "CODE": "",
+              "ARTICLE_COUNT": "",
+              "CATEGORIES": "",
+              "SWAP": "",
               "DELETE": "حذف",
               "DEFAULT_LOCALE": "افتراضي"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "",
+          "MESSAGE": "",
+          "YES": "",
+          "NO": "",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "",
+            "DELETE_ERROR": ""
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": ""
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": ""
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": ""
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": ""
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "",
+          "NEW_CATEGORY": "",
           "TABLE": {
             "NAME": "الاسم",
             "DESCRIPTION": "الوصف",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "LOCALE": "",
+            "ARTICLE_COUNT": "",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "",
+              "DELETE": ""
             },
             "EMPTY_TEXT": "لم يتم العثور على فئات"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": ""
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
-            "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "title": "",
+            "route": "",
+            "body": "",
+            "CREATE_BASIC_SETTING_BUTTON": ""
           },
           {
-            "title": "Help center customization",
-            "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "title": "",
+            "route": "",
+            "body": "",
+            "UPDATE_PORTAL_BUTTON": ""
           },
           {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "You're all set!",
+            "title": "",
+            "route": "",
+            "body": "",
             "FINISH": "إنهاء"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "العودة",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "",
+            "TITLE": "",
+            "CREATE_BASIC_SETTING_BUTTON": ""
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "",
+            "TITLE": "",
+            "UPDATE_PORTAL_BUTTON": ""
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "",
+            "MESSAGE": "",
+            "FINISH": ""
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header."
+          "LABEL": "",
+          "UPLOAD_BUTTON": "",
+          "HELP_TEXT": ""
         },
         "NAME": {
           "LABEL": "الاسم",
-          "PLACEHOLDER": "Portal name",
+          "PLACEHOLDER": "",
           "HELP_TEXT": "الاسم سيتم مشاهدتة من جميع من جميع زوار الصفحة.",
           "ERROR": "الاسم مطلوب"
         },
@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "نطاق مخصص",
           "PLACEHOLDER": "نطاق البوابة المخصص",
-          "HELP_TEXT": "أضف فقط إذا كنت ترغب في استخدام نطاق مخصص للبوابات الخاصة بك.",
-          "ERROR": "النطاق المخصص مطلوب"
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "HOME_PAGE_LINK": {
           "LABEL": "رابط الصفحة الرئيسية",
           "PLACEHOLDER": "رابط الصفحة الرئيسية للبوابة",
-          "HELP_TEXT": "الرابط المستخدم للعودة من البوابة إلى الصفحة الرئيسية.",
-          "ERROR": "رابط الصفحة الرئيسية مطلوب"
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "THEME_COLOR": {
           "LABEL": "لون قالب البوابة",
@@ -306,7 +306,7 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "حدث خطأ أثناء نشر المقالة",
-        "SUCCESS": "Article published successfully"
+        "SUCCESS": ""
       }
     },
     "ARCHIVE_ARTICLE": {
@@ -319,91 +319,91 @@
       "MODAL": {
         "CONFIRM": {
           "TITLE": "تأكيد الحذف",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "",
           "YES": "نعم، احذف",
           "NO": "لا، احتفظ به"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": ""
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": ""
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "",
+        "LOCALE": "",
         "NAME": {
           "LABEL": "الاسم",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
           "ERROR": "الاسم مطلوب"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "DESCRIPTION": {
           "LABEL": "الوصف",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "",
           "ERROR": "الوصف مطلوب"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "",
           "CANCEL": "إلغاء"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
-        "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "TITLE": "",
+        "SUB_TITLE": "",
+        "PORTAL": "",
+        "LOCALE": "",
         "NAME": {
           "LABEL": "الاسم",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
           "ERROR": "الاسم مطلوب"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "HELP_TEXT": "",
+          "ERROR": ""
         },
         "DESCRIPTION": {
           "LABEL": "الوصف",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "",
           "ERROR": "الوصف مطلوب"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "",
           "CANCEL": "إلغاء"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "",
+          "ERROR_MESSAGE": ""
         }
       }
     }
