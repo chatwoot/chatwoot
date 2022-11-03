@@ -1,5 +1,6 @@
 <template>
   <file-upload
+    ref="upload"
     :size="4096 * 2048"
     :accept="allowedFileTypes"
     :data="{
@@ -48,7 +49,23 @@ export default {
       return ALLOWED_FILE_TYPES;
     },
   },
+  mounted() {
+    document.addEventListener('paste', this.handleClipboardPaste);
+  },
+  destroyed() {
+    document.removeEventListener('paste', this.handleClipboardPaste);
+  },
   methods: {
+    handleClipboardPaste(e) {
+      const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+      items.forEach(item => {
+        if (item.kind === 'file') {
+          e.preventDefault();
+          const file = item.getAsFile();
+          this.$refs.upload.add(file);
+        }
+      });
+    },
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
     },

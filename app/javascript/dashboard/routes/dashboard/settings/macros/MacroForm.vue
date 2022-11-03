@@ -3,6 +3,7 @@
     <div class="small-8 columns with-right-space macros-canvas">
       <macro-nodes
         v-model="macro.actions"
+        :files="files"
         @addNewNode="appendNode"
         @deleteNode="deleteNode"
         @resetAction="resetNode"
@@ -46,7 +47,19 @@ export default {
       macro: this.macroData,
     };
   },
+  computed: {
+    files() {
+      if (this.macro && this.macro.files) return this.macro.files;
+      return [];
+    },
+  },
   watch: {
+    $route: {
+      handler() {
+        this.resetValidation();
+      },
+      immediate: true,
+    },
     macroData: {
       handler() {
         this.macro = this.macroData;
@@ -79,9 +92,6 @@ export default {
       },
     },
   },
-  mounted() {
-    this.$v.$reset();
-  },
   methods: {
     updateName(value) {
       this.macro.name = value;
@@ -104,7 +114,11 @@ export default {
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
+      this.$v.macro.actions.$each[index].$reset();
       this.macro.actions[index].action_params = [];
+    },
+    resetValidation() {
+      this.$v.$reset();
     },
   },
 };

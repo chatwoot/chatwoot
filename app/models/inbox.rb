@@ -101,6 +101,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def active_bot?
+    agent_bot_inbox&.active? || hooks.pluck(:app_id).include?('dialogflow')
+  end
+
   def inbox_type
     channel.name
   end
