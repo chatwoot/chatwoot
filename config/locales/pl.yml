@@ -22,37 +22,14 @@ pl:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
     reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
   errors:
-    validations:
-      presence: must not be blank
-    webhook:
-      invalid: Invalid events
     signup:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       failed: Rejestracja nie powiodła się
-    data_import:
-      data_type:
-        invalid: Invalid data type
     contacts:
       import:
         failed: Plik jest pusty
-      email:
-        invalid: Invalid email
-      phone_number:
-        invalid: should be in e164 format
-    categories:
-      locale:
-        unique: should be unique in the category and portal
-    inboxes:
-      imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
-        connection_closed_error: Connection closed.
-      validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Okres raportowania od %{since} do %{until}
     agent_csv:
@@ -96,12 +73,10 @@ pl:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
-      instagram_deleted_story_content: This story is no longer available.
       deleted: Ta wiadomość została usunięta
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
         pending: "Rozmowa została oznaczona jako oczekująca przez %{user_name}"
         snoozed: "Rozmowa została uśpiona przez %{user_name}"
@@ -148,4 +123,6 @@ pl:
       description: "Zbuduj czatboty używając Dialogflow i szybko podłącz je do skrzynki odbiorczej. Pozwól botom na obsługę zapytań przed oddaniem ich agentowi obsługi klienta."
     fullcontact:
       name: "Pełny kontakt"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+  public_portal:
+    search:
+      empty_placeholder: Brak wyników.
