@@ -126,20 +126,5 @@ RSpec.describe Article, type: :model do
         expect(article.slug).to include('the-awesome-article-1')
       end
     end
-
-    context 'with pagination' do
-      it 'returns paginated articles' do
-        build_list(:article, 30) do |record, i|
-          record.category_id = category_2.id
-          record.title = "title #{i}"
-          record.portal_id = portal_2.id
-          record.author_id = user.id
-          record.save!
-        end
-        params = { category_slug: 'category_2' }
-        records = portal_2.articles.search(params)
-        expect(records.count).to eq(25)
-      end
-    end
   end
 end

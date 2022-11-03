@@ -117,6 +117,40 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         expect(json_response['payload']['visibility']).to eql('personal')
         expect(json_response['payload']['created_by']['id']).to eql(agent.id)
       end
+
+      it 'Saves file in the macros actions to send an attachments' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/macros/attach_file",
+             headers: administrator.create_new_auth_token,
+             params: { attachment: file }
+
+        expect(response).to have_http_status(:success)
+
+        blob = JSON.parse(response.body)
+
+        expect(blob['blob_key']).to be_present
+        expect(blob['blob_id']).to be_present
+
+        params[:actions] = [
+          {
+            'action_name': :send_message,
+            'action_params': ['Welcome to the chatwoot platform.']
+          },
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob['blob_id']]
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/macros",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        macro = account.macros.last
+        expect(macro.files.presence).to be_truthy
+        expect(macro.files.count).to eq(1)
+      end
     end
   end
 
@@ -196,12 +230,6 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
       create(:account_user, user: user_1, account: account)
       macro.update!(actions:
                               [
-                                {
-                                  'action_name' => 'send_email_to_team', 'action_params' => [{
-                                    'message' => 'Please pay attention to this conversation, its from high priority customer',
-                                    'team_ids' => [team.id]
-                                  }]
-                                },
                                 { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                 { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                 { 'action_name' => 'snooze_conversation' },
@@ -219,21 +247,55 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'execute the macro' do
-        expect(conversation.messages).to be_empty
-        expect(conversation.assignee).to be_nil
-        expect(conversation.labels).to be_empty
+      context 'when execute the macro' do
+        it 'send the message with sender' do
+          expect(conversation.messages).to be_empty
 
-        perform_enqueued_jobs do
-          post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
-               params: { conversation_ids: [conversation.display_id] },
-               headers: administrator.create_new_auth_token
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.messages.chat.last.content).to eq('Send this message.')
+          expect(conversation.messages.chat.last.sender).to eq(administrator)
         end
 
-        expect(conversation.reload.status).to eql('snoozed')
-        expect(conversation.messages.chat.last.content).to eq('Send this message.')
-        expect(conversation.label_list).to match_array(%w[support priority_customer])
-        expect(conversation.messages.activity.last.content).to eq("Assigned to #{user_1.name} by #{administrator.name}")
+        it 'Assign the agent' do
+          expect(conversation.assignee).to be_nil
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.messages.activity.last.content).to eq("Assigned to #{user_1.name} by #{administrator.name}")
+        end
+
+        it 'Assign the labels' do
+          expect(conversation.labels).to be_empty
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.reload.label_list).to match_array(%w[support priority_customer])
+        end
+
+        it 'Update the status' do
+          expect(conversation.reload.status).to eql('open')
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.reload.status).to eql('snoozed')
+        end
       end
     end
   end

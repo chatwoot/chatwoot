@@ -10,6 +10,6 @@ json.views article.views
 
 if article.author.present?
   json.author do
-    json.partial! 'api/v1/models/agent', formats: [:json], resource: article.author
+    json.partial! 'public/api/v1/models/portal/author', formats: [:json], resource: article.author
   end
 end

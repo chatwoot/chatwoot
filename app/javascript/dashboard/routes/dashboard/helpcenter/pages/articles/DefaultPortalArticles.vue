@@ -13,7 +13,7 @@ export default {
     } = this.uiSettings || {};
 
     if (lastActivePortalSlug)
-      this.$router.push({
+      this.$router.replace({
         name: 'list_all_locale_articles',
         params: {
           portalSlug: lastActivePortalSlug,
@@ -22,7 +22,7 @@ export default {
         replace: true,
       });
     else
-      this.$router.push({
+      this.$router.replace({
         name: 'list_all_portals',
         replace: true,
       });

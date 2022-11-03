@@ -169,7 +169,7 @@ export default {
     },
     actionInputStyles() {
       return {
-        error: this.v.action_params.$dirty && this.v.action_params.$error,
+        'has-error': this.v.action_params.$dirty && this.v.action_params.$error,
         'is-a-macro': this.isMacro,
       };
     },
@@ -206,7 +206,7 @@ export default {
   margin-bottom: 0;
 }
 
-.filter.error {
+.filter.has-error {
   background: var(--r-50);
 }
 
