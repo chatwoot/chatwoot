@@ -20,23 +20,23 @@
         "NOTE": "อีเมลเป็นข้อมูลระบุตัวตนของคุณ และใช้ในการเข้าสู่ระบบ"
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "",
+        "NOTE": "",
+        "UPDATE_SUCCESS": "",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "",
+            "CONTENT": ""
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "ลายเซ็นส่วนตัว",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "",
         "BTN_TEXT": "บันทึกลายเซ็น",
         "API_ERROR": "ไม่สามารถบันทึกลายเซ็นได้ โปรดลองใหม่อีกครั้ง",
         "API_SUCCESS": "บันทึกลายเซ็นสำเร็จแล้ว"
@@ -141,8 +141,8 @@
     "TRAIL_BUTTON": "ซื้อเลย",
     "DELETED_USER": "ผู้ใช้งานที่ถูกลบ",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "",
+      "MESSAGE": ""
     }
   },
   "COMPONENTS": {
@@ -170,7 +170,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "กำลังดูอยู่:",
-    "SWITCH": "Switch",
+    "SWITCH": "",
     "CONVERSATIONS": "การสนทนา",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
     "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
@@ -179,7 +179,7 @@
     "CONTACTS": "ผู้ติดต่อ",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
@@ -190,9 +190,9 @@
     "LABELS": "ป้ายกำกับ",
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "เงื่อนไขอัตโนมัติ",
-    "MACROS": "Macros",
+    "MACROS": "",
     "TEAMS": "ทีม",
-    "BILLING": "Billing",
+    "BILLING": "",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",
     "CUSTOM_VIEWS_SEGMENTS": "กลุ่มตามตัวกรอง",
     "ALL_CONTACTS": "รายชื่อผู้ติดต่อทั้งหมด",
@@ -214,33 +214,33 @@
     "REPORTS_OVERVIEW": "ภาพรวม",
     "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",
     "HELP_CENTER": {
-      "TITLE": "Help Center (Beta)",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
     },
-    "DOCS": "Read docs"
+    "DOCS": ""
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "",
+      "PLAN_NOTE": ""
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "BUTTON_TXT": ""
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "",
+      "DESCRIPTION": "",
       "BUTTON_TXT": "คุยกับเรา"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": ""
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",
