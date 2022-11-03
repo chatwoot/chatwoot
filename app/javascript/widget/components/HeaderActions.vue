@@ -1,7 +1,7 @@
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
-      v-if="conversationStatus === 'open' && hasEndConversationEnabled"
+      v-if="canLeaveConversation && hasEndConversationEnabled"
       class="button transparent compact"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
@@ -45,6 +45,7 @@ import { popoutChatWindow } from '../helpers/popoutHelper';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
+import { CONVERSATION_STATUS } from 'shared/constants/messages';
 
 export default {
   name: 'HeaderActions',
@@ -60,6 +61,13 @@ export default {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
+    canLeaveConversation() {
+      return [
+        CONVERSATION_STATUS.OPEN,
+        CONVERSATION_STATUS.SNOOZED,
+        CONVERSATION_STATUS.PENDING,
+      ].includes(this.conversationStatus);
+    },
     isIframe() {
       return IFrameHelper.isIFrame();
     },
