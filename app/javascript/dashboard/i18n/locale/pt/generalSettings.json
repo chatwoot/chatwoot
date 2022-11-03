@@ -15,7 +15,7 @@
       },
       "ACCOUNT_ID": {
         "TITLE": "Conta ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "NOTE": ""
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -40,7 +40,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Número de dias sem nenhuma atividade, após os quais, o ticket se auto-resolve",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": ""
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
@@ -60,12 +60,12 @@
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaçoes",
     "MARK_ALL_DONE": "Marcar todos como Resolvidos",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "",
+      "ALL_NOTIFICATIONS": "",
+      "LOADING_UNREAD_MESSAGE": "",
+      "EMPTY_MESSAGE": ""
     },
     "LIST": {
       "LOADING_MESSAGE": "A carregar notificações...",
@@ -108,7 +108,7 @@
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
       "GO_TO_CONTACTS_DASHBOARD": "Ir para o painel de contatos",
       "GO_TO_REPORTS_OVERVIEW": "Ir para Visão Geral de Relatórios",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
+      "GO_TO_CONVERSATION_REPORTS": "",
       "GO_TO_AGENT_REPORTS": "Ir para Relatórios de Agentes",
       "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
@@ -131,7 +131,7 @@
       "REOPEN_CONVERSATION": "Reabrir conversa",
       "RESOLVE_CONVERSATION": "Resolver conversa",
       "SEND_TRANSCRIPT": "Enviar transcrição por e-mail",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "SNOOZE_CONVERSATION": "",
       "UNTIL_NEXT_REPLY": "Até à próxima resposta",
       "UNTIL_NEXT_WEEK": "Até à próxima semana",
       "UNTIL_TOMORROW": "Até amanhã"
