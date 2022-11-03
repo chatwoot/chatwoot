@@ -96,16 +96,16 @@
       "PLACEHOLDER": "Ningú",
       "TITLE": {
         "AGENT": "Seleccionar Agent",
-        "TEAM": "Select team"
+        "TEAM": "Selecciona equip"
       },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "No s'han trobat agents",
-          "TEAM": "No teams found"
+          "TEAM": "No s'han trobat equips"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams"
+          "AGENT": "Cerca agents",
+          "TEAM": "Cerca equips"
         }
       }
     }
