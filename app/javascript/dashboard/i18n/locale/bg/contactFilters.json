@@ -21,9 +21,9 @@
             "does_not_contain": "Не съдържа",
             "is_present": "Присъства",
             "is_not_present": "Не присъства",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "is_greater_than": "",
+            "is_lesser_than": "",
+            "days_before": ""
         },
         "ATTRIBUTES": {
             "NAME": "Име",
@@ -32,18 +32,18 @@
             "IDENTIFIER": "Идентификатор",
             "CITY": "Град",
             "COUNTRY": "Държава",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CUSTOM_ATTRIBUTE_LIST": "",
+            "CUSTOM_ATTRIBUTE_TEXT": "",
+            "CUSTOM_ATTRIBUTE_NUMBER": "",
+            "CUSTOM_ATTRIBUTE_LINK": "",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+            "CREATED_AT": "",
             "LAST_ACTIVITY": "Последна активност",
-            "REFERER_LINK": "Referrer link"
+            "REFERER_LINK": ""
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "",
+            "ADDITIONAL_FILTERS": "",
             "CUSTOM_ATTRIBUTES": "Персонализирани атрибути"
         }
     }
