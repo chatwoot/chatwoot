@@ -2,19 +2,19 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "സംയോജനങ്ങൾ",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "",
       "FORM": {
         "CANCEL": "റദ്ദാക്കുക",
         "DESC": "നിങ്ങളുടെ ചാറ്റ് വൂട്ട് അക്കൗണ്ടിൽ എന്താണ് സംഭവിക്കുന്നതെന്നതിനെക്കുറിച്ചുള്ള തത്സമയ വിവരങ്ങൾ വെബ്‌ഹൂക്ക് ഇവന്റുകൾ നൽകുന്നു. ഒരു കോൾബാക്ക് കോൺഫിഗർ ചെയ്യുന്നതിന് സാധുവായ ഒരു യുആർഎൽ നൽകുക.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user"
+            "CONVERSATION_CREATED": "",
+            "CONVERSATION_STATUS_CHANGED": "",
+            "CONVERSATION_UPDATED": "",
+            "MESSAGE_CREATED": "",
+            "MESSAGE_UPDATED": "",
+            "WEBWIDGET_TRIGGERED": ""
           }
         },
         "END_POINT": {
@@ -22,7 +22,7 @@
           "PLACEHOLDER": "ഉദാഹരണം: https://example/api/webhook",
           "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "",
         "ADD_SUBMIT": "വെബ്‌ഹുക്ക് സൃഷ്‌ടിക്കുക"
       },
       "TITLE": "വെബ്‌ഹൂക്ക്",
@@ -44,7 +44,7 @@
         "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
         "TITLE": "വെബ്ഹുക്ക് എഡിറ്റ് ചെയ്യുക",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
@@ -52,7 +52,7 @@
         "CANCEL": "റദ്ദാക്കുക",
         "TITLE": "പുതിയ വെബ്‌ഹൂക്ക് ഉണ്ടാക്കുക",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "",
           "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
         }
       },
@@ -64,7 +64,7 @@
         },
         "CONFIRM": {
           "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "",
           "YES": "അതെ, ഇല്ലാതാക്കുക ",
           "NO": "ഇല്ല, സൂക്ഷിക്കുക"
         }
@@ -86,49 +86,49 @@
       "BUTTON_TEXT": "ബന്ധിപ്പിക്കുക"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "",
+      "HEADER_BTN_TXT": "",
+      "SIDEBAR_TXT": "",
+      "DESCRIPTION": "",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "",
+        "LOADING": "",
         "TABLE_HEADER": [
           "പേര്",
-          "Endpoint"
+          ""
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "",
+        "DELETE_TOOLTIP": ""
       },
       "FORM": {
         "TITLE_LABEL": "പേര്",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "",
+        "TITLE_ERROR": "",
+        "URL_LABEL": "",
+        "URL_PLACEHOLDER": "",
+        "URL_ERROR": ""
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "",
         "FORM_SUBMIT": "സമർപ്പിക്കുക",
         "FORM_CANCEL": "റദ്ദാക്കുക",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "",
+        "API_ERROR": ""
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "",
         "FORM_SUBMIT": "അപ്‌ഡേറ്റ്",
         "FORM_CANCEL": "റദ്ദാക്കുക",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "",
+        "API_ERROR": ""
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "",
+        "CONFIRM_NO": "",
+        "TITLE": "",
+        "MESSAGE": "",
+        "API_SUCCESS": "",
+        "API_ERROR": ""
       }
     }
   }
