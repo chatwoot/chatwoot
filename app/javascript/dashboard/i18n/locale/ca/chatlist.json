@@ -7,7 +7,7 @@
       "404": "No hi ha converses actives en aquest grup."
     },
     "TAB_HEADING": "Converses",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "Mencions",
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
@@ -25,10 +25,10 @@
         "TEXT": "Resoltes"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "Pendent"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Posposat"
       }
     },
     "ATTACHMENTS": {
@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
     "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
     "REPLY_TO_TWEET": "Respon a aquest tuit",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "Ves a la història d'instagram",
+    "SENT": "Enviat correctament",
     "NO_MESSAGES": "Cap Missatge",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "NO_CONTENT": "No hi ha contingut disponible",
+    "HIDE_QUOTED_TEXT": "Amaga text entre cometes",
+    "SHOW_QUOTED_TEXT": "Mostra text entre cometes",
+    "MESSAGE_READ": "Llegir"
   }
 }
