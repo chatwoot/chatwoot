@@ -8,8 +8,8 @@
       "SUBMIT": "보내기"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "",
+      "ERROR_MESSAGE": ""
     }
   },
   "TEAM_AVAILABILITY": {
@@ -22,13 +22,13 @@
     "IN_A_DAY": "보통 하루 안에 응답"
   },
   "START_CONVERSATION": "대화 시작",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "START_NEW_CONVERSATION": "Start a new conversation",
+  "END_CONVERSATION": "",
+  "CONTINUE_CONVERSATION": "",
+  "START_NEW_CONVERSATION": "",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "새 메시지 보기",
     "CLOSE_MESSAGES_BUTTON": "닫기",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "",
     "BOT": "봇"
   },
   "BUBBLE": {
@@ -44,19 +44,19 @@
       "FULL_NAME": {
         "LABEL": "전체 이름",
         "PLACEHOLDER": "전체 이름을 입력하십시오.",
-        "REQUIRED_ERROR": "Full Name is required"
+        "REQUIRED_ERROR": ""
       },
       "EMAIL_ADDRESS": {
         "LABEL": "이메일 주소",
         "PLACEHOLDER": "이메일을 입력해주세요.",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "",
         "VALID_ERROR": "올바른 전자 메일 주소를 입력하십시오."
       },
       "PHONE_NUMBER": {
         "LABEL": "전화 번호",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "VALID_ERROR": ""
       },
       "MESSAGE": {
         "LABEL": "메시지",
@@ -64,22 +64,22 @@
         "ERROR": "너무 짧은 메시지"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "",
+    "IS_REQUIRED": ""
   },
   "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": ""
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "",
+    "SUBMITTED_TITLE": "",
+    "PLACEHOLDER": ""
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "",
     "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송됨",
     "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
   }
