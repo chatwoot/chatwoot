@@ -1,0 +1,447 @@
+{
+  "REPORT": {
+    "HEADER": "Samtöl",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_AGENT_REPORTS": "",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": ""
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": "",
+        "name": ""
+      },
+      {
+        "id": "",
+        "name": ""
+      },
+      {
+        "id": "",
+        "name": ""
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "",
+    "DURATION_FILTER_LABEL": "",
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      },
+      {
+        "id": 2,
+        "groupBy": "Vika"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      },
+      {
+        "id": 2,
+        "groupBy": "Vika"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mánuður"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Dagur"
+      },
+      {
+        "id": 2,
+        "groupBy": "Vika"
+      },
+      {
+        "id": 3,
+        "groupBy": "Mánuður"
+      },
+      {
+        "id": 4,
+        "groupBy": "Ár"
+      }
+    ],
+    "BUSINESS_HOURS": ""
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_AGENT_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": ""
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": ""
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_LABEL_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": ""
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": "",
+        "name": ""
+      },
+      {
+        "id": "",
+        "name": ""
+      },
+      {
+        "id": "",
+        "name": ""
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_INBOX_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": ""
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": ""
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "",
+      "PLACEHOLDER": ""
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "",
+    "LOADING_CHART": "",
+    "NO_ENOUGH_DATA": "Við höfum ekki fengið nógu marga gagnapunkta til að búa til skýrslu, vinsamlegast reyndu aftur síðar.",
+    "DOWNLOAD_TEAM_REPORTS": "",
+    "FILTER_DROPDOWN_LABEL": "",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtöl",
+        "DESC": ""
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "",
+        "DESC": ""
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Fyrsti viðbragðstími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "",
+        "DESC": "",
+        "INFO_TEXT": "Heildarfjöldi samtala sem notuð eru við útreikning:",
+        "TOOLTIP_TEXT": "Lausnartími er %{metricValue} (byggt á %{conversationCount} samtölum)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Síðustu 7 daga"
+      },
+      {
+        "id": 1,
+        "name": "Síðustu 30 daga"
+      },
+      {
+        "id": 2,
+        "name": "Síðustu 3 mánuði"
+      },
+      {
+        "id": 3,
+        "name": "Síðustu 6 mánuði"
+      },
+      {
+        "id": 4,
+        "name": "Síðasta ár"
+      },
+      {
+        "id": 5,
+        "name": ""
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "",
+      "PLACEHOLDER": "Veldu tímabil"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "",
+    "NO_RECORDS": "Engin svör við CSAT könnun eru fáanleg.",
+    "DOWNLOAD": "",
+    "FILTERS": {
+      "AGENTS": {
+        "PLACEHOLDER": ""
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "",
+        "AGENT_NAME": "",
+        "RATING": "",
+        "FEEDBACK_TEXT": ""
+      }
+    },
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "",
+        "TOOLTIP": ""
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "",
+        "TOOLTIP": "Heildarfjöldi jákvæðra svara / Heildarfjöldi svara * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "",
+        "TOOLTIP": "Heildarfjöldi svara / Heildarfjöldi sendra CSAT könnunarskilaboða * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "",
+    "LIVE": "",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "OPEN": "",
+      "UNATTENDED": "",
+      "UNASSIGNED": ""
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "",
+      "LOADING_MESSAGE": "",
+      "NO_AGENTS": "",
+      "TABLE_HEADER": {
+        "AGENT": "Þjónustufulltrúi",
+        "OPEN": "",
+        "UNATTENDED": "",
+        "STATUS": "Staða"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "",
+      "ONLINE": "",
+      "BUSY": "",
+      "OFFLINE": ""
+    }
+  }
+}
