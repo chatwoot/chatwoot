@@ -1,0 +1,99 @@
+{
+  "ATTRIBUTES_MGMT": {
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "<p><b>Sérsniðin eiginleiki</b> <p>Sérsniðin eiginleiki fylgist með staðreyndum um tengiliðina/samtalið þitt - eins og áskriftaráætlunina, eða þegar þeir pöntuðu fyrsta hlutinn osfrv. <br /><br />Til að búa til sérsniðna eigind, smelltu bara á <b>Bæta við sérsniðinni eigind.</b> Þú getur líka breytt eða eytt núverandi sérsniðinni eigind með því að smella á Breyta eða Eyða hnappinn.</p>",
+    "ADD": {
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "FORM": {
+        "NAME": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "DESC": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "MODEL": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "TYPE": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "LIST": {
+            "LABEL": "",
+            "PLACEHOLDER": "",
+            "ERROR": ""
+          }
+        },
+        "KEY": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": "",
+          "IN_VALID": ""
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Gat ekki búið til sérsniðna eiginleika, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Ekki tókst að eyða sérsniðnu eigindinni. Reyndu aftur."
+      },
+      "CONFIRM": {
+        "TITLE": "Ertu viss um að þú viljir eyða - %{attributeName}",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "",
+        "YES": "",
+        "NO": "Hætta við"
+      }
+    },
+    "EDIT": {
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "",
+          "PLACEHOLDER": ""
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Villa kom upp við að uppfæra sérsniðna eiginleika, vinsamlegast reyndu aftur"
+      }
+    },
+    "TABS": {
+      "HEADER": "",
+      "CONVERSATION": "",
+      "CONTACT": ""
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nafn",
+        "",
+        "",
+        ""
+      ],
+      "BUTTONS": {
+        "EDIT": "Breyta",
+        "DELETE": "Eyða"
+      },
+      "EMPTY_RESULT": {
+        "404": "",
+        "NOT_FOUND": ""
+      }
+    }
+  }
+}
