@@ -1,49 +1,63 @@
 <template>
-  <div>
-    <multiselect
-      v-model="participantList"
-      :options="agentList"
-      track-by="id"
-      label="name"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      :hide-selected="true"
-      placeholder="Choose Participants"
-      selected-label
-      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-      :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-    >
-      <template slot="tag" slot-scope="props">
-        <div class="watcher-wrap">
-          <thumbnail
-            :src="props.option.thumbnail"
-            :username="props.option.name"
-            size="18px"
-            class="margin-right-small"
-          />
-          <p style="font-size: 12px">{{ props.option.name }}</p>
-          <woot-button
-            class-names="thumbnail-remove"
-            variant="clear"
-            size="tiny"
-            icon="dismiss"
-            color-scheme="secondary"
-            @click="props.remove(props.option)"
-          />
-        </div>
-      </template>
-    </multiselect>
+  <div class="subscribers-wrap">
+    <div class="subscribers--collapsed">
+      <div class="overlapping-thumbnails">
+        <thumbnail
+          v-for="participant in participantList"
+          :key="participant.id"
+          :src="participant.thumbnail"
+          :username="participant.name"
+          :has-border="true"
+          size="24px"
+          class="subscriber-thumbnail"
+        />
+      </div>
+      <div>
+        <woot-button
+          icon="add"
+          size="small"
+          variant="link"
+          @click="onOpenDropdown"
+        >
+          {{ `Add participans ` }}
+        </woot-button>
+      </div>
+    </div>
+    <div>
+      <p class="text-muted">{{ `4 people are watching` }}</p>
+    </div>
+    <div :class="{ 'dropdown-pane--open': showDropDown }" class="dropdown-pane">
+      <div class="dropdown__header">
+        <h4 class="text-block-title text-truncate">
+          {{ `Select subscribers` }}
+        </h4>
+        <woot-button
+          icon="dismiss"
+          size="tiny"
+          color-scheme="secondary"
+          variant="clear"
+          @click="onCloseDropdown"
+        />
+      </div>
+      <multiselect-dropdown-items
+        :options="agentList"
+        :selected-items="participantList"
+        :has-thumbnail="true"
+        @click="onClickItem"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {
     Thumbnail,
+    MultiselectDropdownItems,
   },
   props: {
     conversationId: {
@@ -58,7 +72,8 @@ export default {
   data() {
     return {
       selectedParticipant: [],
-      user_ids: [],
+      userIds: [],
+      showDropDown: false,
     };
   },
   computed: {
@@ -71,7 +86,7 @@ export default {
         return this.participants;
       },
       set(participants) {
-        this.user_ids = participants.map(el => el.id);
+        this.userIds = participants.map(el => el.id);
         this.updateParticipant();
       },
     },
@@ -96,14 +111,38 @@ export default {
     updateParticipant() {
       this.$store.dispatch('updateConversationParticipants', {
         conversationId: this.conversationId,
-        user_ids: this.user_ids,
+        //  Move to camel case
+        user_ids: this.userIds,
       });
       this.fetchParticipants();
+    },
+    onOpenDropdown() {
+      this.showDropDown = true;
+    },
+    onCloseDropdown() {
+      this.showDropDown = false;
+    },
+    onClickItem(agent) {
+      const isAgentSelected = this.participantList.some(
+        participant => participant.id === agent.id
+      );
+
+      if (isAgentSelected) {
+        const updatedList = this.participantList.filter(
+          participant => participant.id !== agent.id
+        );
+        this.participantList = updatedList;
+      } else {
+        this.participantList = [...this.participantList, agent];
+      }
     },
   },
 };
 </script>
 <style lang="scss">
+.subscribers-wrap {
+  position: relative;
+}
 ::v-deep .multiselect__tags-wrap {
   width: 100%;
   display: flex;
@@ -126,5 +165,38 @@ export default {
 
 .thumbnail-remove {
   margin-left: var(--space-small);
+}
+
+.subscribers--collapsed {
+  display: flex;
+  justify-content: space-between;
+}
+.overlapping-thumbnails {
+  display: flex;
+}
+
+.subscriber-thumbnail {
+  position: relative;
+  box-shadow: var(--shadow-small);
+
+  &:not(:first-child) {
+    margin-left: var(--space-minus-smaller);
+  }
+}
+
+.dropdown-pane {
+  box-sizing: border-box;
+  top: var(--space-large);
+  width: 100%;
+}
+.dropdown__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-smaller);
+
+  .text-block-title {
+    margin: 0;
+  }
 }
 </style>

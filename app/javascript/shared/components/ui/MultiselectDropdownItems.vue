@@ -22,7 +22,7 @@
               variant="clear"
               color-scheme="secondary"
               :class="{
-                active: option.id === (selectedItem && selectedItem.id),
+                active: isActive(option),
               }"
               @click="() => onclick(option)"
             >
@@ -41,10 +41,7 @@
                   >
                     {{ option.name }}
                   </span>
-                  <fluent-icon
-                    v-if="option.id === (selectedItem && selectedItem.id)"
-                    icon="checkmark"
-                  />
+                  <fluent-icon v-if="isActive(option)" icon="checkmark" />
                 </div>
               </div>
             </woot-button>
@@ -75,9 +72,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    selectedItem: {
-      type: Object,
-      default: () => ({}),
+    selectedItems: {
+      type: Array,
+      default: () => [],
     },
     hasThumbnail: {
       type: Boolean,
@@ -120,6 +117,9 @@ export default {
     },
     focusInput() {
       this.$refs.searchbar.focus();
+    },
+    isActive(option) {
+      return this.selectedItems.some(item => item && option.id === item.id);
     },
   },
 };
