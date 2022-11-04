@@ -1,0 +1,286 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "",
+    "TITLE": "",
+    "BTN_TEXT": "",
+    "DELETE_AVATAR": "",
+    "AVATAR_DELETE_SUCCESS": "",
+    "AVATAR_DELETE_FAILED": "Villa kom upp við að eyða notendamynd, vinsamlegast reyndu aftur",
+    "UPDATE_SUCCESS": "Prófíllinn þinn hefur verið uppfærður",
+    "PASSWORD_UPDATE_SUCCESS": "Lykilorðinu þínu hefur verið breytt",
+    "AFTER_EMAIL_CHANGED": "Prófíllinn þinn hefur verið uppfærður, vinsamlegast skráðu þig inn aftur þar sem innskráningarskilríkjum þínum er breytt",
+    "FORM": {
+      "AVATAR": "",
+      "ERROR": "",
+      "REMOVE_IMAGE": "",
+      "UPLOAD_IMAGE": "",
+      "UPDATE_IMAGE": "",
+      "PROFILE_SECTION": {
+        "TITLE": "",
+        "NOTE": "Netfangið þitt er auðkenni þitt og er notað til að skrá þig inn."
+      },
+      "SEND_MESSAGE": {
+        "TITLE": "",
+        "NOTE": "Þú getur valið flýtilykil (annaðhvort Enter eða Cmd/Ctrl+Enter) eftir því hvernig þú vilt skrifa.",
+        "UPDATE_SUCCESS": "Stillingar þínar hafa verið uppfærðar",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "",
+            "CONTENT": "Sendu skilaboð með því að ýta á Enter takkann í stað þess að smella á senda takkann."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "",
+            "CONTENT": "Sendu skilaboð með því að ýta á Cmd/Ctrl + enter takkann í stað þess að smella á senda takkann."
+          }
+        }
+      },
+      "MESSAGE_SIGNATURE_SECTION": {
+        "TITLE": "",
+        "NOTE": "Búðu til persónulega skilaboðaundirskrift sem verður bætt við öll skilaboðin sem þú sendir úr pósthólfinu þínu. Notaðu innihaldsríka ritilinn til að búa til mjög persónulega undirskrift.",
+        "BTN_TEXT": "",
+        "API_ERROR": "",
+        "API_SUCCESS": ""
+      },
+      "MESSAGE_SIGNATURE": {
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": "Settu inn persónulegu skilaboðaundirskriftina þína hér."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "",
+        "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
+        "BTN_TEXT": ""
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "",
+        "NOTE": "Þetta token er hægt að nota ef þú ert að byggja upp API byggða samþættingu"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "",
+        "NOTE": "Virkjaðu hljóðtilkynningar á mælaborðinu fyrir ný skilaboð og samtöl.",
+        "NONE": "",
+        "ASSIGNED": "",
+        "ALL_CONVERSATIONS": ""
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "",
+        "NOTE": "Uppfærðu stillingar þínar fyrir tölvupósttilkynningar hér",
+        "CONVERSATION_ASSIGNMENT": "Senda tilkynningar í tölvupósti þegar mér er úthlutað samtali",
+        "CONVERSATION_CREATION": "Senda tilkynningar í tölvupósti þegar nýtt samtal er stofnað",
+        "CONVERSATION_MENTION": "Sendu tilkynningar í tölvupósti þegar minnst er á þig í samtali",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu tilkynningar í tölvupósti þegar ný skilaboð eru búin til í úthlutuðu samtali"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Tilkynningarstillingarnar þínar hafa verið uppfærðar",
+        "UPDATE_ERROR": "Villa kom upp við að uppfæra stillingarnar, vinsamlegast reyndu aftur"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "",
+        "NOTE": "Uppfærðu stillingar þínar fyrir þrýstitilkynningar hér",
+        "CONVERSATION_ASSIGNMENT": "Senda þrýstitilkynningar þegar mér er úthlutað samtali",
+        "CONVERSATION_CREATION": "Senda þrýstitilkynningar þegar nýtt samtal er stofnað",
+        "CONVERSATION_MENTION": "Sendu þrýstitilkynningar þegar minnst er á þig í samtali",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sendu push tilkynningar þegar ný skilaboð eru búin til í úthlutuðu samtali",
+        "HAS_ENABLED_PUSH": "",
+        "REQUEST_PUSH": ""
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": ""
+      },
+      "NAME": {
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn birtingarnafn, þetta birtist í samtölum"
+      },
+      "AVAILABILITY": {
+        "LABEL": "",
+        "STATUSES_LIST": [
+          "",
+          "",
+          ""
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": "Vinsamlegast sláðu inn netfangið þitt, þetta myndi birtast í samtölum"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "",
+        "ERROR": "",
+        "PLACEHOLDER": ""
+      },
+      "PASSWORD": {
+        "LABEL": "",
+        "ERROR": "Vinsamlegast sláðu inn lykilorð 6 stafa lengd eða meira",
+        "PLACEHOLDER": ""
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "",
+        "ERROR": "Staðfest lykilorð ætti að passa við lykilorðið",
+        "PLACEHOLDER": ""
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "",
+    "CHANGE_ACCOUNTS": "",
+    "CONTACT_SUPPORT": "",
+    "SELECTOR_SUBTITLE": "Veldu reikning úr eftirfarandi lista",
+    "PROFILE_SETTINGS": "",
+    "KEYBOARD_SHORTCUTS": "",
+    "LOGOUT": ""
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "",
+    "TRAIL_BUTTON": "",
+    "DELETED_USER": "",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "",
+      "MESSAGE": "Reikningnum þínum er lokað. Vinsamlegast hafðu samband við þjónustusviðið okkar til að fá frekari upplýsingar."
+    }
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "",
+      "COPY_SUCCESSFUL": ""
+    },
+    "SHOW_MORE_BLOCK": {
+      "SHOW_MORE": "",
+      "SHOW_LESS": ""
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Sækja",
+      "UPLOADING": "Hleður upp..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": ""
+    }
+  },
+  "CONFIRM_EMAIL": "",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": ""
+    }
+  },
+  "SIDEBAR": {
+    "CURRENTLY_VIEWING_ACCOUNT": "",
+    "SWITCH": "",
+    "CONVERSATIONS": "Samtöl",
+    "ALL_CONVERSATIONS": "",
+    "MENTIONED_CONVERSATIONS": "",
+    "REPORTS": "",
+    "SETTINGS": "",
+    "CONTACTS": "",
+    "HOME": "",
+    "AGENTS": "Þjónustufulltrúar",
+    "AGENT_BOTS": "",
+    "INBOXES": "",
+    "NOTIFICATIONS": "",
+    "CANNED_RESPONSES": "Stöðluð svör",
+    "INTEGRATIONS": "",
+    "PROFILE_SETTINGS": "",
+    "ACCOUNT_SETTINGS": "",
+    "APPLICATIONS": "",
+    "LABELS": "",
+    "CUSTOM_ATTRIBUTES": "",
+    "AUTOMATION": "",
+    "MACROS": "",
+    "TEAMS": "",
+    "BILLING": "",
+    "CUSTOM_VIEWS_FOLDER": "",
+    "CUSTOM_VIEWS_SEGMENTS": "",
+    "ALL_CONTACTS": "",
+    "TAGGED_WITH": "",
+    "NEW_LABEL": "",
+    "NEW_TEAM": "",
+    "NEW_INBOX": "",
+    "REPORTS_CONVERSATION": "Samtöl",
+    "CSAT": "",
+    "CAMPAIGNS": "",
+    "ONGOING": "",
+    "ONE_OFF": "",
+    "REPORTS_AGENT": "Þjónustufulltrúar",
+    "REPORTS_LABEL": "",
+    "REPORTS_INBOX": "",
+    "REPORTS_TEAM": "",
+    "SET_AVAILABILITY_TITLE": "",
+    "BETA": "",
+    "REPORTS_OVERVIEW": "",
+    "FACEBOOK_REAUTHORIZE": "Facebook tengingin þín er útrunnin, vinsamlegast tengdu Facebook síðuna þína aftur til að halda áfram þjónustu",
+    "HELP_CENTER": {
+      "TITLE": "",
+      "ALL_ARTICLES": "",
+      "MY_ARTICLES": "",
+      "DRAFT": "",
+      "ARCHIVED": "",
+      "CATEGORY": "",
+      "CATEGORY_EMPTY_MESSAGE": ""
+    },
+    "DOCS": ""
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "",
+    "CURRENT_PLAN": {
+      "TITLE": "",
+      "PLAN_NOTE": "Þú ert áskrifandi að **%{plan}** áætluninni með **%{quantity}** leyfi"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "",
+      "DESCRIPTION": "Skoðaðu fyrri reikninga þína, breyttu innheimtuupplýsingum þínum eða sagði upp áskriftinni þinni.",
+      "BUTTON_TXT": ""
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "",
+      "DESCRIPTION": "Stendur þú frammi fyrir einhverjum vandamálum í innheimtu? Við erum hér til að hjálpa.",
+      "BUTTON_TXT": "Spjallaðu við okkur"
+    },
+    "NO_BILLING_USER": "Verið er að stilla innheimtureikninginn þinn. Endurnýjaðu síðuna og reyndu aftur."
+  },
+  "CREATE_ACCOUNT": {
+    "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga Chatwoot reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",
+    "NEW_ACCOUNT": "",
+    "SELECTOR_SUBTITLE": "",
+    "API": {
+      "SUCCESS_MESSAGE": "",
+      "EXIST_MESSAGE": "",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "",
+        "PLACEHOLDER": ""
+      },
+      "SUBMIT": ""
+    }
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "OPEN_CONVERSATION": "",
+      "RESOLVE_AND_NEXT": "",
+      "NAVIGATE_DROPDOWN": "",
+      "RESOLVE_CONVERSATION": "",
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "ADD_ATTACHMENT": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "TOGGLE_SIDEBAR": "",
+      "GO_TO_REPORTS_SIDEBAR": "",
+      "MOVE_TO_NEXT_TAB": "",
+      "GO_TO_SETTINGS": "",
+      "SWITCH_CONVERSATION_STATUS": "",
+      "SWITCH_TO_PRIVATE_NOTE": "",
+      "SWITCH_TO_REPLY": "",
+      "TOGGLE_SNOOZE_DROPDOWN": ""
+    },
+    "KEYS": {
+      "WINDOWS_KEY_AND_COMMAND_KEY": "",
+      "ALT_OR_OPTION_KEY": "",
+      "FORWARD_SLASH_KEY": ""
+    }
+  }
+}
