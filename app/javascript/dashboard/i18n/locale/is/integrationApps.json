@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "",
+    "NO_HOOK_CONFIGURED": "Það eru engar %{integrationId} samþættingar stilltar á þessum reikningi.",
+    "HEADER": "",
+    "STATUS": {
+      "ENABLED": "",
+      "DISABLED": ""
+    },
+    "CONFIGURE": "",
+    "ADD_BUTTON": "",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "",
+        "ACCOUNT": ""
+      },
+      "MESSAGE": {
+        "INBOX": "",
+        "ACCOUNT": ""
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "",
+        "ACCOUNT": ""
+      },
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      }
+    },
+    "LIST": {
+      "FETCHING": "",
+      "INBOX": "",
+      "DELETE": {
+        "BUTTON_TEXT": "Eyða"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "",
+          "PLACEHOLDER": ""
+        },
+        "SUBMIT": "",
+        "CANCEL": "Hætta við"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": ""
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": ""
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow er náttúrulegur málskilningsvettvangur sem gerir það auðvelt að hanna og samþætta samtalsnotendaviðmót í farsímaforritið þitt, vefforrit, tæki, vélmenni, gagnvirkt raddsvörunarkerfi og svo framvegis. <br /> <br /> Dialogflow samþætting við %{installationName} gerir þér kleift að stilla Dialogflow spjallmenni við innhólfin þín sem gerir spjallmenninu kleift að sjá um fyrirspurnir í upphafi og afhenda þær þjónustufulltrúa þegar þörf krefur. Dialogflow er hægt að nota til að hæfa sölumönnunum, draga úr vinnuálagi þjónustufulltrúa með því að leggja fram algengar spurningar o.s.frv. <br /> <br /> Til að bæta Dialogflow við þarftu að búa til þjónustureikning í Google verkefnaborðinu þínu og deila aðgangsupplýsingum. Vinsamlegast skoðaðu Dialogflow skjölin fyrir frekari upplýsingar."
+    }
+  }
+}
