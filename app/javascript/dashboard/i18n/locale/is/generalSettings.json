@@ -1,0 +1,140 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "",
+    "SUBMIT": "",
+    "BACK": "",
+    "UPDATE": {
+      "ERROR": "",
+      "SUCCESS": ""
+    },
+    "FORM": {
+      "ERROR": "",
+      "GENERAL_SECTION": {
+        "TITLE": "",
+        "NOTE": ""
+      },
+      "ACCOUNT_ID": {
+        "TITLE": "",
+        "NOTE": "Þetta auðkenni er nauðsynlegt ef þú ert að byggja upp API byggða samþættingu"
+      },
+      "NAME": {
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
+      },
+      "LANGUAGE": {
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "",
+        "PLACEHOLDER": "Lénið þar sem þú færð tölvupóstinn",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Fjöldi daga eftir miða ætti að leysast sjálfkrafa ef engin virkni er",
+        "PLACEHOLDER": "",
+        "ERROR": "Vinsamlega sláðu inn gilda lengd sjálfvirkrar úrlausnar (lágmark 1 dagur og hámark 999 dagar)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Samfellu samtals með tölvupósti er virkjuð fyrir reikninginn þinn.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Þú getur fengið tölvupóst á þitt lén núna."
+      }
+    },
+    "UPDATE_CHATWOOT": "Uppfærsla %{latestChatwootVersion} fyrir Chatwoot er fáanleg. Vinsamlegast uppfærðu tilvikið þitt.",
+    "LEARN_MORE": ""
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "",
+      "ENTER_TO_REMOVE": "",
+      "SELECT_ONE": ""
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "",
+    "MARK_ALL_DONE": "",
+    "DELETE_TITLE": "",
+    "UNREAD_NOTIFICATION": {
+      "TITLE": "",
+      "ALL_NOTIFICATIONS": "",
+      "LOADING_UNREAD_MESSAGE": "",
+      "EMPTY_MESSAGE": ""
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "",
+      "404": "",
+      "TABLE_HEADER": [
+        "Nafn",
+        "",
+        "Samtöl",
+        ""
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "",
+      "conversation_assignment": "",
+      "assigned_conversation_new_message": "",
+      "conversation_mention": ""
+    }
+  },
+  "NETWORK": {
+    "NOTIFICATION": {
+      "TEXT": ""
+    },
+    "BUTTON": {
+      "REFRESH": ""
+    }
+  },
+  "COMMAND_BAR": {
+    "SEARCH_PLACEHOLDER": "",
+    "SECTIONS": {
+      "GENERAL": "",
+      "REPORTS": "",
+      "CONVERSATION": "",
+      "CHANGE_ASSIGNEE": "",
+      "CHANGE_TEAM": "",
+      "ADD_LABEL": "",
+      "REMOVE_LABEL": "",
+      "SETTINGS": ""
+    },
+    "COMMANDS": {
+      "GO_TO_CONVERSATION_DASHBOARD": "",
+      "GO_TO_CONTACTS_DASHBOARD": "",
+      "GO_TO_REPORTS_OVERVIEW": "",
+      "GO_TO_CONVERSATION_REPORTS": "",
+      "GO_TO_AGENT_REPORTS": "",
+      "GO_TO_LABEL_REPORTS": "",
+      "GO_TO_INBOX_REPORTS": "",
+      "GO_TO_TEAM_REPORTS": "",
+      "GO_TO_SETTINGS_AGENTS": "",
+      "GO_TO_SETTINGS_TEAMS": "",
+      "GO_TO_SETTINGS_INBOXES": "",
+      "GO_TO_SETTINGS_LABELS": "",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "",
+      "GO_TO_SETTINGS_APPLICATIONS": "",
+      "GO_TO_SETTINGS_ACCOUNT": "",
+      "GO_TO_SETTINGS_PROFILE": "",
+      "GO_TO_NOTIFICATIONS": "",
+      "ADD_LABELS_TO_CONVERSATION": "",
+      "ASSIGN_AN_AGENT": "",
+      "ASSIGN_A_TEAM": "",
+      "MUTE_CONVERSATION": "",
+      "UNMUTE_CONVERSATION": "",
+      "REMOVE_LABEL_FROM_CONVERSATION": "",
+      "REOPEN_CONVERSATION": "",
+      "RESOLVE_CONVERSATION": "",
+      "SEND_TRANSCRIPT": "",
+      "SNOOZE_CONVERSATION": "",
+      "UNTIL_NEXT_REPLY": "",
+      "UNTIL_NEXT_WEEK": "",
+      "UNTIL_TOMORROW": ""
+    }
+  }
+}
