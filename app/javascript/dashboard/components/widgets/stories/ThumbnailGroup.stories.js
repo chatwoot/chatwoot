@@ -52,9 +52,9 @@ export default {
         default: '2 more',
       },
     },
-    maxThumbnailCount: {
+    showMoreThumbnailsCount: {
       control: {
-        type: 'number',
+        type: 'boolean',
       },
     },
   },

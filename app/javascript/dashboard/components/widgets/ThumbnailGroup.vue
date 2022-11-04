@@ -1,7 +1,7 @@
 <template>
   <div class="overlapping-thumbnails">
     <thumbnail
-      v-for="user in usersListShort"
+      v-for="user in usersList"
       :key="user.id"
       :src="user.thumbnail"
       :username="user.name"
@@ -30,31 +30,13 @@ export default {
       type: String,
       default: '24px',
     },
-    maxThumbnailCount: {
-      type: Number,
-      default: 4,
+    showMoreThumbnailsCount: {
+      type: Boolean,
+      default: false,
     },
     moreThumbnailsText: {
       type: String,
       default: '',
-    },
-  },
-  data() {
-    return {
-      imgError: false,
-    };
-  },
-  computed: {
-    usersListShort() {
-      return this.usersList.slice(0, this.maxThumbnailCount);
-    },
-    showMoreThumbnailsCount() {
-      return this.usersList.length > this.usersListShort.length;
-    },
-  },
-  methods: {
-    onImgError() {
-      this.imgError = true;
     },
   },
 };
