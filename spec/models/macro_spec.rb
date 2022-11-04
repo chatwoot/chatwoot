@@ -69,7 +69,9 @@ RSpec.describe Macro, type: :model do
         Current.user = admin
         Current.account = account
 
-        expect(described_class.with_visibility(admin, {}).count).to eq(account.macros.count)
+        macros = account.macros.global.or(account.macros.personal.where(created_by_id: admin.id))
+
+        expect(described_class.with_visibility(admin, {}).count).to eq(macros.count)
       end
     end
 
