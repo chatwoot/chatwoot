@@ -1,5 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "ماکروها"
+    "HEADER": "ماکروها",
+    "HEADER_BTN_TXT": "افزودن ماکرو جدید",
+    "HEADER_BTN_TXT_SAVE": "ذخیره ماکرو",
+    "LOADING": "در حال گرفتن ماکروها",
+    "SIDEBAR_TXT": "",
+    "ERROR": "مشکلی پیش آمد. لطفا دوباره تلاش کنید",
+    "ORDER_INFO": "",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "نام ماکرو",
+          "PLACEHOLDER": "یک نام برای ماکرو خود وارد کنید",
+          "ERROR": "نام برای ایجاد یک ماکرو مورد نیاز است"
+        },
+        "ACTIONS": {
+          "LABEL": "عملیات"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ماکرو با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "ایجاد ماکرو ممکن نیست، لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "نام",
+        "ايجاد شده توسط",
+        "آخرین به‌روزرسانی توسط",
+        ""
+      ],
+      "404": "هیچ ماکروی یافت نشد"
+    },
+    "DELETE": {
+      "TOOLTIP": "حذف ماکرو",
+      "CONFIRM": {
+        "MESSAGE": "مطمئن هستید که حذف شود ",
+        "YES": "بله، حذف شود",
+        "NO": "خیر"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "ماکرو با موفقیت حذف شد",
+        "ERROR_MESSAGE": "هنگام حذف ماکرو خطایی رخ داد. لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "ویرایش ماکرو",
+      "API": {
+        "SUCCESS_MESSAGE": "ماکرو با موفقیت به‌روز شد",
+        "ERROR_MESSAGE": "ماکرو به‌روزرسانی نشد، لطفا بعدا دوباره امتحان کنید"
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "",
+      "END_FLOW": "",
+      "LOADING": "در حال گرفتن ماکرو",
+      "ADD_BTN_TOOLTIP": "",
+      "DELETE_BTN_TOOLTIP": "",
+      "VISIBILITY": {
+        "LABEL": "",
+        "GLOBAL": {
+          "LABEL": "عمومی",
+          "DESCRIPTION": ""
+        },
+        "PERSONAL": {
+          "LABEL": "خصوصی",
+          "DESCRIPTION": ""
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "اجرا کردن",
+      "PREVIEW": "پیش‌نمایش ماکرو",
+      "EXECUTED_SUCCESSFULLY": "ماکرو با موفقیت اجرا شد"
+    }
   }
 }
