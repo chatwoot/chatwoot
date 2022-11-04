@@ -1,25 +1,22 @@
 <template>
   <div class="subscribers-wrap">
     <div class="subscribers--collapsed">
-      <div class="overlapping-thumbnails">
-        <thumbnail
-          v-for="participant in participantList"
-          :key="participant.id"
-          :src="participant.thumbnail"
-          :username="participant.name"
-          :has-border="true"
-          size="24px"
-          class="subscriber-thumbnail"
-        />
-      </div>
       <div>
+        <ThumbnailGroup
+          :more-thumbnails-text="
+            $t('CONVERSATION_SUBSCRIBERS.REMANING_SUBSCRIBERS_TEXT', {
+              agentCount: moreAgentCount,
+            })
+          "
+          :users-list="participantList"
+        />
         <woot-button
-          icon="add"
+          icon="headset-add"
           size="small"
           variant="link"
           @click="onOpenDropdown"
         >
-          {{ `Add participans ` }}
+          {{ $t('CONVERSATION_SUBSCRIBERS.ADD_SUBSCRIBERS') }}
         </woot-button>
       </div>
     </div>
@@ -29,7 +26,7 @@
     <div :class="{ 'dropdown-pane--open': showDropDown }" class="dropdown-pane">
       <div class="dropdown__header">
         <h4 class="text-block-title text-truncate">
-          {{ `Select subscribers` }}
+          {{ $t('CONVERSATION_SUBSCRIBERS.ADD_SUBSCRIBERS') }}
         </h4>
         <woot-button
           icon="dismiss"
@@ -51,12 +48,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {
-    Thumbnail,
+    ThumbnailGroup,
     MultiselectDropdownItems,
   },
   props: {
@@ -89,6 +86,10 @@ export default {
         this.userIds = participants.map(el => el.id);
         this.updateParticipant();
       },
+    },
+    moreAgentCount() {
+      const maxThumbnailCount = 4;
+      return this.participantList.length - maxThumbnailCount;
     },
   },
   watch: {
@@ -171,22 +172,10 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.overlapping-thumbnails {
-  display: flex;
-}
-
-.subscriber-thumbnail {
-  position: relative;
-  box-shadow: var(--shadow-small);
-
-  &:not(:first-child) {
-    margin-left: var(--space-minus-smaller);
-  }
-}
 
 .dropdown-pane {
   box-sizing: border-box;
-  top: var(--space-large);
+  top: var(--space-minus-smaller);
   width: 100%;
 }
 .dropdown__header {

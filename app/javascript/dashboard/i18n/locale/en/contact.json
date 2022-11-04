@@ -343,5 +343,10 @@
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
+  },
+  "CONVERSATION_SUBSCRIBERS": {
+    "NO_RECORDS_FOUND": "No results found",
+    "ADD_SUBSCRIBERS": "Select subscribers",
+    "REMANING_SUBSCRIBERS_TEXT": "+%{agentCount} others"
   }
 }
