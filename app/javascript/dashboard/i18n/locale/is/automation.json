@@ -1,0 +1,116 @@
+{
+  "AUTOMATION": {
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "<p><b>Sjálfvirknireglur</b> <p>Sjálfvirkni getur komið í stað og sjálfvirkt núverandi ferli sem krefjast handvirkrar áreynslu. Þú getur gert margt með sjálfvirkni, þar á meðal að bæta við merkimiðum og úthluta samtali á besta þjónustufulltrúann. Þannig að teymið einbeitir sér að því sem það gerir best og eyðir minni tíma í handvirk verkefni.</p>",
+    "ADD": {
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "FORM": {
+        "NAME": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "DESC": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "EVENT": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "CONDITIONS": {
+          "LABEL": ""
+        },
+        "ACTIONS": {
+          "LABEL": "Aðgerðir"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "",
+      "ACTION_BUTTON_LABEL": "",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Gat ekki búið til sjálfvirknireglu. Reyndu aftur síðar"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nafn",
+        "",
+        "",
+        ""
+      ],
+      "404": ""
+    },
+    "DELETE": {
+      "TITLE": "",
+      "SUBMIT": "Eyða",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Gat ekki eytt sjálfvirknireglu. Reyndu aftur síðar"
+      }
+    },
+    "EDIT": {
+      "TITLE": "",
+      "SUBMIT": "",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Ekki tókst að uppfæra sjálfvirknireglu. Reyndu aftur síðar"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Ekki tókst að afrita sjálfvirknireglu, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "FORM": {
+      "EDIT": "Breyta",
+      "CREATE": "",
+      "DELETE": "Eyða",
+      "CANCEL": "Hætta við",
+      "RESET_MESSAGE": "Að breyta gerð viðburðar mun endurstilla skilyrðin og viðburðina sem þú hefur bætt við hér að neðan"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eina aðgerð til að vista",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "",
+      "TEAM_DROPDOWN_PLACEHOLDER": ""
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "",
+      "DEACTIVATION_TITLE": "",
+      "ACTIVATION_DESCRIPTION": "Þessi aðgerð mun virkja sjálfvirkniregluna '{automationName}'. Ertu viss um að þú viljir halda áfram?",
+      "DEACTIVATION_DESCRIPTION": "Þessi aðgerð mun slökkva á sjálfvirknireglunni '{automationName}'. Ertu viss um að þú viljir halda áfram?",
+      "ACTIVATION_SUCCESFUL": "",
+      "DEACTIVATION_SUCCESFUL": "",
+      "ACTIVATION_ERROR": "Gat ekki virkjað sjálfvirkni, vinsamlegast reyndu aftur síðar",
+      "DEACTIVATION_ERROR": "Gat ekki slökkt á sjálfvirkni, vinsamlegast reyndu aftur síðar",
+      "CONFIRMATION_LABEL": "",
+      "CANCEL_LABEL": ""
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Gat ekki hlaðið upp viðhengi, vinsamlegast reyndu aftur",
+      "LABEL_IDLE": "",
+      "LABEL_UPLOADING": "Hleður upp...",
+      "LABEL_UPLOADED": "",
+      "LABEL_UPLOAD_FAILED": ""
+    }
+  }
+}
