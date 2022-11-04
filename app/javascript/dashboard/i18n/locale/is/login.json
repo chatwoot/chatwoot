@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "",
+    "EMAIL": {
+      "LABEL": "",
+      "PLACEHOLDER": ""
+    },
+    "PASSWORD": {
+      "LABEL": "",
+      "PLACEHOLDER": ""
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur",
+      "UNAUTH": "Notandanafn / lykilorð rangt. Vinsamlegast reyndu aftur"
+    },
+    "FORGOT_PASSWORD": "",
+    "CREATE_NEW_ACCOUNT": "",
+    "SUBMIT": ""
+  }
+}
