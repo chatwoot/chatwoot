@@ -39,10 +39,9 @@ class Macro < ApplicationRecord
   end
 
   def self.with_visibility(user, params)
-    records = user.administrator? ? Current.account.macros : Current.account.macros.global
-    records = records.or(personal.where(created_by_id: user.id)) if user.agent?
-    records.page(current_page(params))
-    records.order(:id)
+    records = Current.account.macros.global
+    records = records.or(personal.where(created_by_id: user.id))
+    records.order(:id).page(current_page(params))
   end
 
   def self.current_page(params)

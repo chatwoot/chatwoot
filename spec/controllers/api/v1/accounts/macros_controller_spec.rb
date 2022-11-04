@@ -23,14 +23,15 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         get "/api/v1/accounts/#{account.id}/macros",
             headers: administrator.create_new_auth_token
 
-        visible_macros = account.macros
+        visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: administrator.id)).order(:id)
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
         expect(body['payload'].length).to eq(visible_macros.count)
-        expect(body['payload'].first['id']).to eq(Macro.first.id)
-        expect(body['payload'].last['id']).to eq(Macro.last.id)
+
+        expect(body['payload'].first['id']).to eq(visible_macros.first.id)
+        expect(body['payload'].last['id']).to eq(visible_macros.last.id)
       end
     end
 
@@ -42,7 +43,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         expect(response).to have_http_status(:success)
 
         body = JSON.parse(response.body)
-        visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: agent.id))
+        visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: agent.id)).order(:id)
 
         expect(body['payload'].length).to eq(visible_macros.count)
         expect(body['payload'].first['id']).to eq(visible_macros.first.id)

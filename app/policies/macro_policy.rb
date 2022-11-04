@@ -8,13 +8,11 @@ class MacroPolicy < ApplicationPolicy
   end
 
   def show?
-    return @record.global? if !author? && @account_user.agent?
-
-    true
+    @record.global? || author?
   end
 
   def update?
-    author? || @account_user.administrator?
+    author? || (@account_user.administrator? && @record.global?)
   end
 
   def destroy?
@@ -22,7 +20,7 @@ class MacroPolicy < ApplicationPolicy
   end
 
   def execute?
-    true
+    @record.global? || author?
   end
 
   def attach_file?
