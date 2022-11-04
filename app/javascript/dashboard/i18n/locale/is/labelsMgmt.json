@@ -1,0 +1,70 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "LOADING": "",
+    "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
+    "SIDEBAR_TXT": "<p><b>Flokkar</b> <p>Flokkar hjálpa þér að flokka samtöl og forgangsraða þeim. Þú getur úthlutað flokk á samtal frá hliðarborðinu. <br /><br />Flokkar eru tengdir við reikninginn og hægt er að nota þau til að búa til sérsniðin verkflæði í fyrirtækinu þínu. Þú getur úthlutað sérsniðnum lit á merkimiðann, það gerir það auðveldara að bera kennsl á merkimiðann. Þú munt geta birt merkimiðann á hliðarstikunni til að sía samtölin auðveldlega.</p>",
+    "LIST": {
+      "404": "Engar merkingar eru tiltækir á þessum reikningi.",
+      "TITLE": "",
+      "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
+      "TABLE_HEADER": [
+        "Nafn",
+        "",
+        ""
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
+        "MINIMUM_LENGTH_ERROR": "",
+        "VALID_ERROR": "Aðeins stafrófsstafir, tölustafir, bandstrik og undirstrik eru leyfð"
+      },
+      "DESCRIPTION": {
+        "LABEL": "",
+        "PLACEHOLDER": ""
+      },
+      "COLOR": {
+        "LABEL": ""
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": ""
+      },
+      "EDIT": "Breyta",
+      "CREATE": "",
+      "DELETE": "Eyða",
+      "CANCEL": "Hætta við"
+    },
+    "ADD": {
+      "TITLE": "",
+      "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "EDIT": {
+      "TITLE": "",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      },
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      }
+    }
+  }
+}
