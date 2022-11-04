@@ -1,0 +1,84 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+is:
+  messages:
+    reset_password_success: Woot! Beiðni um endurstillingu lykilorðs tókst. Skoðaðu póstinn þinn til að fá leiðbeiningar.
+    reset_password_failure: Uh ó! Við fundum engan notanda með tilgreint netfang.
+  errors:
+    signup:
+      email_already_exists: "Þú hefur þegar skráð þig fyrir reikning með %{email}"
+    categories:
+      locale:
+        unique: ætti að vera einstakt í flokki og gátt
+    inboxes:
+      imap:
+        socket_error: Athugaðu nettenginguna, IMAP vistfangið og reyndu aftur.
+        no_response_error: Athugaðu IMAP auðkenni og reyndu aftur.
+        host_unreachable_error: Ekki er hægt að ná til hýsingaraðila. Athugaðu IMAP vistfangið, IMAP tengið og reyndu aftur.
+        connection_timed_out_error: Tenging rann út fyrir %{address}:%{port}
+      validations:
+        name: ætti ekki að byrja eða enda á táknum, og það ætti ekki að hafa < > / \ @ táknin.
+  reports:
+    csat:
+      headers:
+        agent_name: Nafn þjónustufulltrúa
+  notifications:
+    notification_title:
+      conversation_creation: "[Nýtt samtal] - #%{display_id} hefur verið búið til í %{inbox_name}"
+      conversation_assignment: "[Úthlutað þér] - #%{display_id} hefur verið úthlutað þér"
+      conversation_mention: "%{name} hefur minnst á þig í samtali [ID - %{display_id}]"
+  conversations:
+    messages:
+      instagram_story_content: "%{story_sender} minntist á þig í sögunni: "
+    activity:
+      status:
+        resolved: "Samtal var merkt sem leyst af %{user_name}"
+        contact_resolved: "Samtal var leyst af %{contact_name}"
+        pending: "Samtal var merkt sem í bið af %{user_name}"
+        auto_resolved: "Samtal var merkt sem leyst af kerfinu vegna óvirkni í %{duration} daga"
+      assignee:
+        self_assigned: "%{user_name} úthlutaði þessu samtali á sig"
+        assigned: "Úthlutað á %{assignee_name} af %{user_name}"
+      team:
+        assigned_with_assignee: "Úthlutað %{assignee_name} í gegnum %{team_name} af %{user_name}"
+        removed: "Óúthlutað af %{team_name} af %{user_name}"
+    templates:
+      greeting_message_body: "%{account_name} svarar iðulega innan nokkura klukkustunda."
+    reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} frá %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} frá %{inbox_name} <reply+%{reply_email}>'
+  contacts:
+    online:
+      delete: "%{contact_name} er á tengdur, vinsamlegast reyndu aftur síðar"
+  integration_apps:
+    slack:
+      description: "Slack er spjallforrit sem sameinar öll samskipti þín á einum stað. Með því að samþætta Slack geturðu fengið tilkynningu um öll nýju samtölin á reikningnum þínum beint inni í Slackinu þínu."
+    webhooks:
+      description: "Webhook viðburðir veita þér rauntíma upplýsingar um hvað er að gerast á reikningnum þínum. Þú getur notað webhook til að miðla atburðunum til uppáhaldsforritanna þinna eins og Slack eða Github. Smelltu á Stilla til að setja upp webhook."
+    dialogflow:
+      description: "Búðu til spjallmenni með Dialogflow og tengdu þá fljótlega við innhólfið þitt. Láttu spjallmennin sjá um fyrirspurnirnar áður en þú sendir þær til þjónustufulltrúa."
+    fullcontact:
+      description: "FullContact samþætting hjálpar til við að auðga gestaprófíla. Þekkja notendur um leið og þeir deila netfangi sínu og bjóða þeim sérsniðna þjónustu. Tengdu FullContact við reikninginn þinn með því að deila FullContact API lykilnum."
+  public_portal:
+    search:
+      empty_placeholder: Engar niðurstöður fundust.
+    hero:
+      sub_title: Leitaðu að greinunum hér eða skoðaðu flokkana hér að neðan.
