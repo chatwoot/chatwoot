@@ -1,5 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Macros"
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "HEADER_BTN_TXT_SAVE": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
+    "ERROR": "",
+    "ORDER_INFO": "",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "ACTIONS": {
+          "LABEL": "操作"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "姓名",
+        "",
+        "",
+        ""
+      ],
+      "404": ""
+    },
+    "DELETE": {
+      "TOOLTIP": "",
+      "CONFIRM": {
+        "MESSAGE": "您確定要刪除嗎？ ",
+        "YES": "是，刪除",
+        "NO": "否"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "",
+      "END_FLOW": "",
+      "LOADING": "",
+      "ADD_BTN_TOOLTIP": "",
+      "DELETE_BTN_TOOLTIP": "",
+      "VISIBILITY": {
+        "LABEL": "",
+        "GLOBAL": {
+          "LABEL": "",
+          "DESCRIPTION": ""
+        },
+        "PERSONAL": {
+          "LABEL": "",
+          "DESCRIPTION": ""
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "",
+      "PREVIEW": "",
+      "EXECUTED_SUCCESSFULLY": ""
+    }
   }
 }
