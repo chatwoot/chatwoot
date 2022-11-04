@@ -1,0 +1,126 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "",
+    "SIDEBAR_TXT": "Fyrirbyggjandi skilaboð gera viðskiptavinum kleift að senda skilaboð á útleið til tengiliða sinna sem myndu kalla fram fleiri samtöl. Smelltu á <b>Bæta við herferð</b> til að búa til nýja herferð. Þú getur líka breytt eða eytt núverandi herferð með því að smella á Breyta eða Eyða hnappinn.",
+    "HEADER_BTN_TXT": {
+      "ONE_OFF": "",
+      "ONGOING": ""
+    },
+    "ADD": {
+      "TITLE": "",
+      "DESC": "Fyrirbyggjandi skilaboð gera viðskiptavinum kleift að senda skilaboð á útleið til tengiliða sinna sem myndu kalla fram fleiri samtöl.",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "CREATE_BUTTON_TEXT": "",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "SCHEDULED_AT": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "CONFIRM": "",
+          "ERROR": ""
+        },
+        "AUDIENCE": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "INBOX": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "MESSAGE": {
+          "LABEL": "Skilaboð",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "SENT_BY": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "END_POINT": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "ENABLED": "",
+        "TRIGGER_ONLY_BUSINESS_HOURS": "",
+        "SUBMIT": ""
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": "Ekki tókst að eyða herferðinni. Vinsamlegast reyndu aftur síðar."
+      }
+    },
+    "EDIT": {
+      "TITLE": "",
+      "UPDATE_BUTTON_TEXT": "",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "",
+      "404": "Engar herferðir eru til fyrir þetta pósthólf.",
+      "TABLE_HEADER": {
+        "TITLE": "",
+        "MESSAGE": "Skilaboð",
+        "INBOX": "",
+        "STATUS": "Staða",
+        "SENDER": "",
+        "URL": "",
+        "SCHEDULED_AT": "",
+        "TIME_ON_PAGE": "",
+        "CREATED_AT": ""
+      },
+      "BUTTONS": {
+        "ADD": "Bæta við",
+        "EDIT": "Breyta",
+        "DELETE": "Eyða"
+      },
+      "STATUS": {
+        "ENABLED": "",
+        "DISABLED": "",
+        "COMPLETED": "",
+        "ACTIVE": ""
+      },
+      "SENDER": {
+        "BOT": ""
+      }
+    },
+    "ONE_OFF": {
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": "Vinsamlegast búðu til sms innhólf og byrjaðu að bæta við herferðum"
+    },
+    "ONGOING": {
+      "HEADER": "",
+      "404": "",
+      "INBOXES_NOT_FOUND": "Vinsamlegast búðu til innhólf á vefsíðu og byrjaðu að bæta við herferðum"
+    }
+  }
+}
