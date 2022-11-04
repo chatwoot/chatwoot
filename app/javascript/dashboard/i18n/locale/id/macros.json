@@ -1,5 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Macros"
+    "HEADER": "",
+    "HEADER_BTN_TXT": "",
+    "HEADER_BTN_TXT_SAVE": "",
+    "LOADING": "",
+    "SIDEBAR_TXT": "",
+    "ERROR": "",
+    "ORDER_INFO": "",
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "",
+          "PLACEHOLDER": "",
+          "ERROR": ""
+        },
+        "ACTIONS": {
+          "LABEL": "Aksi"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nama",
+        "",
+        "",
+        ""
+      ],
+      "404": ""
+    },
+    "DELETE": {
+      "TOOLTIP": "",
+      "CONFIRM": {
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Ya, Hapus",
+        "NO": "Tidak"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "EDIT": {
+      "TOOLTIP": "",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      }
+    },
+    "EDITOR": {
+      "START_FLOW": "",
+      "END_FLOW": "",
+      "LOADING": "",
+      "ADD_BTN_TOOLTIP": "",
+      "DELETE_BTN_TOOLTIP": "",
+      "VISIBILITY": {
+        "LABEL": "",
+        "GLOBAL": {
+          "LABEL": "",
+          "DESCRIPTION": ""
+        },
+        "PERSONAL": {
+          "LABEL": "",
+          "DESCRIPTION": ""
+        }
+      }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "",
+      "PREVIEW": "",
+      "EXECUTED_SUCCESSFULLY": ""
+    }
   }
 }
