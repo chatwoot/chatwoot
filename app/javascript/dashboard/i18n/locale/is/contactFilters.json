@@ -1,0 +1,50 @@
+{
+    "CONTACTS_FILTER": {
+        "TITLE": "",
+        "SUBTITLE": "Bættu við síum fyrir neðan og smelltu á 'Senda' til að sía tengiliði.",
+        "ADD_NEW_FILTER": "",
+        "CLEAR_ALL_FILTERS": "",
+        "FILTER_DELETE_ERROR": "Þú ættir að hafa að minnsta kosti eina síu til að vista",
+        "SUBMIT_BUTTON_LABEL": "",
+        "CANCEL_BUTTON_LABEL": "Hætta við",
+        "CLEAR_BUTTON_LABEL": "",
+        "EMPTY_VALUE_ERROR": "",
+        "TOOLTIP_LABEL": "",
+        "QUERY_DROPDOWN_LABELS": {
+            "AND": "",
+            "OR": ""
+        },
+        "OPERATOR_LABELS": {
+            "equal_to": "",
+            "not_equal_to": "",
+            "contains": "",
+            "does_not_contain": "",
+            "is_present": "",
+            "is_not_present": "",
+            "is_greater_than": "",
+            "is_lesser_than": "",
+            "days_before": ""
+        },
+        "ATTRIBUTES": {
+            "NAME": "Nafn",
+            "EMAIL": "",
+            "PHONE_NUMBER": "",
+            "IDENTIFIER": "",
+            "CITY": "",
+            "COUNTRY": "",
+            "CUSTOM_ATTRIBUTE_LIST": "",
+            "CUSTOM_ATTRIBUTE_TEXT": "",
+            "CUSTOM_ATTRIBUTE_NUMBER": "",
+            "CUSTOM_ATTRIBUTE_LINK": "",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "",
+            "CREATED_AT": "",
+            "LAST_ACTIVITY": "",
+            "REFERER_LINK": ""
+        },
+        "GROUPS": {
+            "STANDARD_FILTERS": "",
+            "ADDITIONAL_FILTERS": "",
+            "CUSTOM_ATTRIBUTES": ""
+        }
+    }
+}
