@@ -380,15 +380,6 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([[types.CLEAR_CONVERSATION_FILTERS]]);
     });
   });
-
-  describe('#updateConversationRead', () => {
-    it('commits the correct mutation and sets the contact_last_seen', () => {
-      actions.updateConversationRead({ commit }, 1649856659);
-      expect(commit.mock.calls).toEqual([
-        [types.SET_CONVERSATION_LAST_SEEN, 1649856659],
-      ]);
-    });
-  });
 });
 
 describe('#deleteMessage', () => {

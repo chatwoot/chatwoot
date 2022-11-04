@@ -87,7 +87,7 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def unprocessable_message_type?
-    %w[reaction contacts].include?(message_type)
+    %w[reaction contacts ephemeral unsupported].include?(message_type)
   end
 
   def attach_files

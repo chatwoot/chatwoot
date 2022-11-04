@@ -35,9 +35,6 @@ export const mutations = {
     _state.allConversations = [];
     _state.selectedChatId = null;
   },
-  [types.SET_CONVERSATION_LAST_SEEN](_state, timestamp) {
-    _state.conversationLastSeen = timestamp;
-  },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
     Vue.set(chat, 'allMessagesLoaded', true);
