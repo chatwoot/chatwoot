@@ -1,0 +1,125 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "",
+    "HEADER": "",
+    "SIDEBAR_TXT": "<p><b>Teymi</b></p> <p>Teymi leyfa þér að skipuleggja þjónustufulltrúa þína í hópa út frá ábyrgð þeirra. <br /> Þjónustufulltrúi getur verið hluti af mörgum teymum. Þú getur úthlutað samtölum á teymi þegar þú ert að vinna í samvinnu. </p>",
+    "LIST": {
+      "404": "Það eru engin teymi til á þessum reikningi.",
+      "EDIT_TEAM": ""
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "",
+        "DESC": "Bættu titli og lýsingu við nýja teymið þitt."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali."
+      },
+      "WIZARD": [
+        {
+          "title": "",
+          "route": "",
+          "body": ""
+        },
+        {
+          "title": "",
+          "route": "",
+          "body": ""
+        },
+        {
+          "title": "",
+          "route": "",
+          "body": ""
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "",
+        "DESC": "",
+        "BUTTON_TEXT": ""
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "",
+        "TITLE": "",
+        "DESC": "Bættu þjónustufulltrúum við nýstofnaða teymið þitt. Allir þjónustufulltrúar sem bætt er við verða látnir vita þegar samtali er úthlutað þessu teymi."
+      },
+      "WIZARD": [
+        {
+          "title": "",
+          "route": "",
+          "body": "Breyttu nafni, lýsingu og öðrum upplýsingum."
+        },
+        {
+          "title": "",
+          "route": "",
+          "body": ""
+        },
+        {
+          "title": "",
+          "route": "",
+          "body": ""
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Ekki tókst að vista teymisupplýsingarnar. Reyndu aftur."
+    },
+    "AGENTS": {
+      "AGENT": "",
+      "EMAIL": "NETFANG",
+      "BUTTON_TEXT": "",
+      "ADD_AGENTS": "",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir."
+    },
+    "ADD": {
+      "TITLE": "",
+      "DESC": "Bættu þjónustufullrtúum við nýstofnað teymið þitt. Þetta gerir þér kleift að vinna sem teymi í samtölum, fá tilkynningu um nýja atburði í sama samtali.",
+      "SELECT": "",
+      "SELECT_ALL": "",
+      "SELECTED_COUNT": "%{selected} af %{total} þjónustufulltrúum valdir.",
+      "BUTTON_TEXT": "",
+      "AGENT_VALIDATION_ERROR": ""
+    },
+    "FINISH": {
+      "TITLE": "",
+      "MESSAGE": "Þú getur nú unnið sem teymi í samtölum. Gangi þér vel að þjónusta",
+      "BUTTON_TEXT": ""
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "",
+        "ERROR_MESSAGE": ""
+      },
+      "CONFIRM": {
+        "TITLE": "",
+        "PLACE_HOLDER": "",
+        "MESSAGE": "Ef teyminu er eytt verður liðsúthlutunin fjarlægð úr samtölunum sem þessu teymi hefur verið úthlutað.",
+        "YES": "",
+        "NO": "Hætta við"
+      }
+    },
+    "SETTINGS": "",
+    "FORM": {
+      "UPDATE": "",
+      "CREATE": "",
+      "NAME": {
+        "LABEL": "",
+        "PLACEHOLDER": ""
+      },
+      "DESCRIPTION": {
+        "LABEL": "",
+        "PLACEHOLDER": ""
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": ""
+      },
+      "SUBMIT_CREATE": ""
+    }
+  }
+}
