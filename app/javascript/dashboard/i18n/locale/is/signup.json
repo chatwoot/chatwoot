@@ -1,0 +1,39 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "",
+    "TITLE": "",
+    "TERMS_ACCEPT": "Með því að skrá þig samþykkir þú <a href=\"https://www.chatwoot.com/terms\">Skilmála</a> okkar og <a href=\"https://www.chatwoot.com/privacy -policy\">Persónuverndarstefnu</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "",
+      "PLACEHOLDER": "Sláðu inn reikningsnafn. td: Wayne Enterprises",
+      "ERROR": ""
+    },
+    "FULL_NAME": {
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
+    },
+    "EMAIL": {
+      "LABEL": "",
+      "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
+      "ERROR": ""
+    },
+    "PASSWORD": {
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": "",
+      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "",
+      "PLACEHOLDER": "",
+      "ERROR": ""
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+    },
+    "SUBMIT": "",
+    "HAVE_AN_ACCOUNT": ""
+  }
+}
