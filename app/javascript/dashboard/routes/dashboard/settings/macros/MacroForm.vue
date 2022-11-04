@@ -3,6 +3,7 @@
     <div class="small-8 columns with-right-space macros-canvas">
       <macro-nodes
         v-model="macro.actions"
+        :files="files"
         @addNewNode="appendNode"
         @deleteNode="deleteNode"
         @resetAction="resetNode"
@@ -45,6 +46,12 @@ export default {
     return {
       macro: this.macroData,
     };
+  },
+  computed: {
+    files() {
+      if (this.macro && this.macro.files) return this.macro.files;
+      return [];
+    },
   },
   watch: {
     $route: {
