@@ -152,3 +152,5 @@ es:
   public_portal:
     search:
       empty_placeholder: No se encontraron resultados.
+      loading_placeholder: Buscando...
+      results_title: Buscar resultados
