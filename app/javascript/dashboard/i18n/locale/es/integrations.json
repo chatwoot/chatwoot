@@ -95,7 +95,7 @@
         "LOADING": "Obteniendo aplicaciones del tablero...",
         "TABLE_HEADER": [
           "Nombre",
-          ""
+          "Endpoint"
         ],
         "EDIT_TOOLTIP": "Editar aplicación",
         "DELETE_TOOLTIP": "Eliminar aplicación"
@@ -104,7 +104,7 @@
         "TITLE_LABEL": "Nombre",
         "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
         "TITLE_ERROR": "",
-        "URL_LABEL": "",
+        "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "",
         "URL_ERROR": ""
       },
@@ -124,10 +124,10 @@
       },
       "DELETE": {
         "CONFIRM_YES": "",
-        "CONFIRM_NO": "",
+        "CONFIRM_NO": "No, mantenerlo",
         "TITLE": "Confirme eliminación",
-        "MESSAGE": "",
-        "API_SUCCESS": "",
+        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
+        "API_SUCCESS": "Panel de control eliminado con éxito",
         "API_ERROR": ""
       }
     }
