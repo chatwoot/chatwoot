@@ -38,6 +38,9 @@ import webhooks from './modules/webhooks';
 import articles from './modules/helpCenterArticles';
 import portals from './modules/helpCenterPortals';
 import categories from './modules/helpCenterCategories';
+import LogRocket from 'logrocket';
+import createPlugin from 'logrocket-vuex';
+const logrocketPlugin = createPlugin(LogRocket);
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -80,4 +83,5 @@ export default new Vuex.Store({
     portals,
     categories,
   },
+  plugins: [logrocketPlugin],
 });
