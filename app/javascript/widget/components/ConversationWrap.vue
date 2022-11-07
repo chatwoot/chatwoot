@@ -1,5 +1,5 @@
 <template>
-  <div class="conversation--container">
+  <div class="conversation--container" :class="colorSchemeClass">
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
         <spinner />
@@ -26,6 +26,8 @@ import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
+
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -36,6 +38,7 @@ export default {
     DateSeparator,
     Spinner,
   },
+  mixins: [darkModeMixin],
   props: {
     groupedMessages: {
       type: Array,
@@ -56,6 +59,9 @@ export default {
       conversationSize: 'conversation/getConversationSize',
       isAgentTyping: 'conversation/getIsAgentTyping',
     }),
+    colorSchemeClass() {
+      return `${this.darkMode === 'light' ? 'light' : 'dark'}`;
+    },
   },
   watch: {
     allMessagesLoaded() {
@@ -110,6 +116,13 @@ export default {
   flex: 1;
   overflow-y: auto;
   color-scheme: light dark;
+
+  &.light {
+    color-scheme: light;
+  }
+  &.dark {
+    color-scheme: dark;
+  }
 }
 
 .conversation-wrap {
