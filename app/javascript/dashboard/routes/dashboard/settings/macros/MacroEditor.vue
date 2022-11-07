@@ -42,6 +42,7 @@ export default {
       uiFlags: 'macros/getUIFlags',
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
+      agents: 'agents/getAgents',
     }),
     macroId() {
       return this.$route.params.macroId;
@@ -65,6 +66,7 @@ export default {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
+      this.$store.dispatch('agents/get');
       this.manifestMacro();
     },
     async manifestMacro() {
