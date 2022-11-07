@@ -30,7 +30,7 @@
     },
     "ATTRIBUTES": {
       "STATUS": "상태",
-      "ASSIGNEE_NAME": "",
+      "ASSIGNEE_NAME": "지정자 이름",
       "INBOX_NAME": "받은 메시지함 이름",
       "TEAM_NAME": "팀 이름",
       "CONVERSATION_IDENTIFIER": "대화 식별자",
@@ -85,7 +85,7 @@
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "구획이 성공적으로 삭제됨",
-          "ERROR_MESSAGE": ""
+          "ERROR_MESSAGE": "구획 제거 중 에러 발생"
         }
       }
     }
