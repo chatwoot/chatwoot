@@ -56,5 +56,17 @@ RSpec.describe 'API Base', type: :request do
         expect(conversation.reload.status).to eq('open')
       end
     end
+
+    context 'when the account is suspended' do
+      it 'returns 401 unauthorized' do
+        account.update!(status: :suspended)
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             headers: { api_access_token: user.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 end

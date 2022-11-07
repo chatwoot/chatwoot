@@ -1,125 +1,125 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> An agent can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "Izveidot jaunu komandu",
+    "HEADER": "Komandas",
+    "SIDEBAR_TXT": "<p><b>Komandas</b></p> <p>Komandas ļauj kārtot aģentus grupās, pamatojoties uz viņu pienākumiem. <br /> Aģents var atrasties vairākās komandās. Jūs varat piešķirt sarunas komandai, kad sadarbojaties. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Šajā kontā nav izveidota neviena komanda.",
+      "EDIT_TEAM": "Rediģēt komandu"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Izveidojiet jaunu komandu",
+        "DESC": "Pievienot savai jaunajai komandai nosaukumu un aprakstu."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Pievienot komandai aģentus",
+        "TITLE": "Pievienot aģentus komandai - %{teamName}",
+        "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, kā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā."
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "Izveidot",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Izveidot jaunu aģentu komandu."
         },
         {
-          "title": "Add Agents",
+          "title": "Pievienot Aģentus",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Pievienot komandai aģentus."
         },
         {
-          "title": "Finish",
+          "title": "Pabeigt",
           "route": "settings_teams_finish",
-          "body": "You are all set to go!"
+          "body": "Jūs varat sākt darboties!"
         }
       ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Rediģēt savas komandas informāciju",
+        "DESC": "Rediģēt savas komandas nosaukumu un aprakstu.",
+        "BUTTON_TEXT": "Atjaunināt komandu"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Atjaunināt aģentus komandā",
+        "TITLE": "Pievienot aģentus komandai - %{teamName}",
+        "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Visi pievienotie aģenti tiks informēti, kad saruna tiks piešķirta šai komandai."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Komandas informācija",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Mainīt nosaukumu, aprakstu un citu informāciju."
         },
         {
-          "title": "Edit Agents",
+          "title": "Rediģēt Aģentus",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Rediģēt savas komandas aģentus."
         },
         {
-          "title": "Finish",
+          "title": "Pabeigt",
           "route": "settings_teams_edit_finish",
-          "body": "You are all set to go!"
+          "body": "Jūs varat sākt darboties!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Nevarēja saglabāt komandas informāciju. Lūdzu, mēģiniet vēlreiz."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "AGENT": "AĢENTS",
+      "EMAIL": "Epasts",
+      "BUTTON_TEXT": "Pievienot aģentus",
+      "ADD_AGENTS": "Notiek aģentu pievienošana Jūsu komandai...",
+      "SELECT": "izvēlēties",
+      "SELECT_ALL": "izvēlēties visus aģentus",
+      "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir izvēlēti."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "Add agents",
-      "AGENT_VALIDATION_ERROR": "Select at least one agent."
+      "TITLE": "Pievienot aģentus komandai - %{teamName}",
+      "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, kā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā.",
+      "SELECT": "izvēlēties",
+      "SELECT_ALL": "izvēlēties visus aģentus",
+      "SELECTED_COUNT": "%{selected} no %{total} aģentiem ir atlasīti.",
+      "BUTTON_TEXT": "Pievienot aģentus",
+      "AGENT_VALIDATION_ERROR": "Izvēlieties vismaz vienu aģentu."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Jūsu komanda ir gatava!",
+      "MESSAGE": "Tagad Jūs sarunās varat sadarboties kā komanda. Laimīgu atbalstu ",
+      "BUTTON_TEXT": "Pabeigt"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Dzēst",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Komanda ir veiksmīgi izdzēsa.",
+        "ERROR_MESSAGE": "Nevarēja izdzēst komandu. Lūdzu, mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "PLACE_HOLDER": "Please type {teamName} to confirm",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
-        "YES": "Delete ",
-        "NO": "Cancel"
+        "TITLE": "Vai esat pārliecināts, ka vēlaties izdzēst - %{teamName}",
+        "PLACE_HOLDER": "Lūdzu, uzrakstiet {teamName} lai apstiprinātu",
+        "MESSAGE": "Komandas dzēšana noņems komandas uzdevumu no sarunām, kas piešķirtas šai komandai.",
+        "YES": "Dzēst ",
+        "NO": "Atcelt"
       }
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Iestatījumi",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Atjaunināt komandu",
+      "CREATE": "Izveidot komandu",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Komandas nosaukums",
+        "PLACEHOLDER": "Piemēram: Pārdošana, Klientu Atbalsts"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Komandas Apraksts",
+        "PLACEHOLDER": "Īss apraksts par šo komandu."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Atļaut automātiskai piešķirt šai komandai."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Izveidot komandu"
     }
   }
 }

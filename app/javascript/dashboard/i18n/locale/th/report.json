@@ -65,6 +65,7 @@
       "PLACEHOLDER": "เลือกช่วงเวลา"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "จัดกลุ่มโดย",
+    "DURATION_FILTER_LABEL": "Duration",
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

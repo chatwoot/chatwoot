@@ -1,6 +1,7 @@
 <template>
   <div class="conv-header">
     <div class="user">
+      <back-button v-if="showBackButton" :back-url="backButtonUrl" />
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
@@ -47,19 +48,21 @@
   </div>
 </template>
 <script>
+import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
-import MoreActions from './MoreActions';
-import Thumbnail from '../Thumbnail';
 import agentMixin from '../../../mixins/agentMixin.js';
+import BackButton from '../BackButton';
+import differenceInHours from 'date-fns/differenceInHours';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
-import wootConstants from '../../../constants';
-import differenceInHours from 'date-fns/differenceInHours';
 import InboxName from '../InboxName';
-
+import MoreActions from './MoreActions';
+import Thumbnail from '../Thumbnail';
+import wootConstants from '../../../constants';
+import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 export default {
   components: {
+    BackButton,
     InboxName,
     MoreActions,
     Thumbnail,
@@ -74,6 +77,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showBackButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -82,6 +89,19 @@ export default {
     }),
     chatMetadata() {
       return this.chat.meta;
+    },
+    backButtonUrl() {
+      const {
+        params: { accountId, inbox_id: inboxId, label, teamId },
+        name,
+      } = this.$route;
+      return conversationListPageURL({
+        accountId,
+        inboxId,
+        label,
+        teamId,
+        conversationType: name === 'conversation_mentions' ? 'mention' : '',
+      });
     },
     isHMACVerified() {
       if (!this.isAWebWidgetInbox) {

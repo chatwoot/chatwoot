@@ -41,7 +41,7 @@ describe Sms::OneoffSmsCampaignService do
       contact_with_both_labels.update_labels([label1.title, label2.title])
       sms_campaign_service.perform
       assert_requested(:post, 'https://messaging.bandwidth.com/api/v2/users/1/messages', times: 3)
-      expect(campaign.reload.completed?).to eq true
+      expect(campaign.reload.completed?).to be true
     end
   end
 end

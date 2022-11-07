@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Legătură",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
             "CREATED_AT": "Creat la",
-            "LAST_ACTIVITY": "Ultima activitate"
+            "LAST_ACTIVITY": "Ultima activitate",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Filtre standard",

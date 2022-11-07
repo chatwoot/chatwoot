@@ -19,9 +19,24 @@
         "TITLE": "Анкета",
         "NOTE": "Ваша електронна адреса - це ваша ідентифікація і використовується для входу."
       },
+      "SEND_MESSAGE": {
+        "TITLE": "Hotkey to send messages",
+        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
+        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "CARD": {
+          "ENTER_KEY": {
+            "HEADING": "Enter (↵)",
+            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+          },
+          "CMD_ENTER_KEY": {
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
+            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
-        "NOTE": "Create a personal message signature that would be added to all the messages you send from your email inbox. Use the rich content editor to create a highly personalised signature.",
+        "NOTE": "Створити особистий підпис повідомлення, який буде додано до всіх повідомлень, надісланих з поштової скриньки. Використовуйте редактор багатокористувацького контенту для створення персоналізованого підпису.",
         "BTN_TEXT": "Зберегти підпис повідомлення",
         "API_ERROR": "Не вдалося зберегти підпис! Повторіть спробу",
         "API_SUCCESS": "Підпис успішно збережено"
@@ -124,7 +139,11 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
     "TRAIL_BUTTON": "Придбати зараз",
-    "DELETED_USER": "Видалений користувач"
+    "DELETED_USER": "Видалений користувач",
+    "ACCOUNT_SUSPENDED": {
+      "TITLE": "Обліковий запис призупинено",
+      "MESSAGE": "Ваш обліковий запис призупинено. Будь ласка, зверніться до служби підтримки для отримання додаткової інформації."
+    }
   },
   "COMPONENTS": {
     "CODE": {
@@ -151,7 +170,7 @@
   },
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
-    "SWITCH": "Switch",
+    "SWITCH": "Перемкнути",
     "CONVERSATIONS": "Бесіди",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
@@ -171,6 +190,7 @@
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Автоматизація",
     "TEAMS": "Команди",
+    "BILLING": "Біллінг",
     "CUSTOM_VIEWS_FOLDER": "Папки",
     "CUSTOM_VIEWS_SEGMENTS": "Сегменти",
     "ALL_CONTACTS": "Усі контакти",
@@ -188,9 +208,37 @@
     "REPORTS_INBOX": "Канал",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
-    "BETA": "Бета-версія",
+    "BETA": "Beta",
     "REPORTS_OVERVIEW": "Огляд",
-    "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб"
+    "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",
+    "HELP_CENTER": {
+      "TITLE": "Help Center (Beta)",
+      "ALL_ARTICLES": "Всі статті",
+      "MY_ARTICLES": "Мої статті",
+      "DRAFT": "Чернетка",
+      "ARCHIVED": "Архівовано",
+      "CATEGORY": "Категорія",
+      "CATEGORY_EMPTY_MESSAGE": "Категорій не знайдено"
+    },
+    "DOCS": "Читати документи"
+  },
+  "BILLING_SETTINGS": {
+    "TITLE": "Біллінг",
+    "CURRENT_PLAN": {
+      "TITLE": "Поточний План",
+      "PLAN_NOTE": "Зараз ви підписані на **%{plan}** план з **%{quantity}** ліцензій"
+    },
+    "MANAGE_SUBSCRIPTION": {
+      "TITLE": "Керування підпискою",
+      "DESCRIPTION": "Перегляньте попередні рахунки, відредагуйте платіжні реквізити, або скасуйте вашу підписку.",
+      "BUTTON_TXT": "Перейти на портал для платежів"
+    },
+    "CHAT_WITH_US": {
+      "TITLE": "Потрібна допомога?",
+      "DESCRIPTION": "Чи стикаються ви з питаннями у рахунках? Ми тут, щоб допомогти.",
+      "BUTTON_TXT": "Почніть розмову з нами"
+    },
+    "NO_BILLING_USER": "Ваш платіжний обліковий запис налаштовується. Будь ласка, оновіть сторінку та повторіть спробу."
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",
@@ -224,7 +272,6 @@
       "GO_TO_SETTINGS": "Перейти до налаштувань",
       "SWITCH_CONVERSATION_STATUS": "Перейти до статусу наступної розмови",
       "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
-      "TOGGLE_RICH_CONTENT_EDITOR": "Перемкнути редагування Rich Content",
       "SWITCH_TO_REPLY": "Перейти до відповіді",
       "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
     },

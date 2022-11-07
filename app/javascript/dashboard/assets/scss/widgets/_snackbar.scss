@@ -11,7 +11,6 @@
 }
 
 .ui-snackbar {
-  @include padding($space-slab $space-medium);
   @include shadow;
   background-color: $woot-snackbar-bg;
   border-radius: $space-smaller;
@@ -20,6 +19,7 @@
   max-width: 40rem;
   min-height: 3rem;
   min-width: 24rem;
+  padding: $space-slab $space-medium;
   text-align: left;
 }
 
@@ -34,12 +34,12 @@
   padding-left: 3rem;
 
   button {
-    @include margin(0);
-    @include padding(0);
     background: none;
     border: 0;
     color: $woot-snackbar-button;
     font-size: $font-size-small;
+    margin: 0;
+    padding: 0;
     text-transform: uppercase;
   }
 }

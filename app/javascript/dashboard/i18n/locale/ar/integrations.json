@@ -84,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "ربط الاتصال"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "تطبيقات لوحة التحكم",
+      "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
+      "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
+      "LIST": {
+        "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
+        "LOADING": "جلب تطبيقات لوحة التحكم...",
+        "TABLE_HEADER": [
+          "الاسم",
+          "نقطة الوصول"
+        ],
+        "EDIT_TOOLTIP": "تعديل التطبيق",
+        "DELETE_TOOLTIP": "حذف التطبيق"
+      },
+      "FORM": {
+        "TITLE_LABEL": "الاسم",
+        "TITLE_PLACEHOLDER": "أدخل اسم لتطبيق لوحة التحكم الخاصة بك",
+        "TITLE_ERROR": "مطلوب اسم لتطبيق لوحة التحكم",
+        "URL_LABEL": "نقطة الوصول",
+        "URL_PLACEHOLDER": "أدخل عنوان URL لنقطة النهاية حيث يتم استضافة التطبيق الخاص بك",
+        "URL_ERROR": "رابط صحيح مطلوب"
+      },
+      "CREATE": {
+        "HEADER": "إضافة تطبيق جديد للوحة التحكم",
+        "FORM_SUBMIT": "إرسال",
+        "FORM_CANCEL": "إلغاء",
+        "API_SUCCESS": "تم تكوين تطبيق لوحة التحكم بنجاح",
+        "API_ERROR": "لم نتمكن من إنشاء تطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
+      },
+      "UPDATE": {
+        "HEADER": "تعديل تطبيق لوحة التحكم",
+        "FORM_SUBMIT": "تحديث",
+        "FORM_CANCEL": "إلغاء",
+        "API_SUCCESS": "تم تحديث تطبيق لوحة التحكم بنجاح",
+        "API_ERROR": "لم نتمكن من تحديث التطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "نعم، احذف",
+        "CONFIRM_NO": "لا، احتفظ به",
+        "TITLE": "تأكيد الحذف",
+        "MESSAGE": "هل أنت متأكد من حذف التطبيق - %{appName}؟",
+        "API_SUCCESS": "تم حذف تطبيق لوحة التحكم بنجاح",
+        "API_ERROR": "لم نتمكن من حذف التطبيق. الرجاء المحاولة مرة أخرى لاحقاً"
+      }
     }
   }
 }

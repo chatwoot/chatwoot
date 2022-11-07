@@ -22,7 +22,7 @@
     "IN_A_DAY": "Obično odgovaramo u roku od jednog dana"
   },
   "START_CONVERSATION": "Započnite razgovor",
-  "END_CONVERSATION": "End Conversation",
+  "END_CONVERSATION": "Završi razgovor",
   "CONTINUE_CONVERSATION": "Nastavi razgovor",
   "START_NEW_CONVERSATION": "Započnite novi razgovor",
   "UNREAD_VIEW": {
@@ -49,14 +49,14 @@
       "EMAIL_ADDRESS": {
         "LABEL": "E-mail adresa",
         "PLACEHOLDER": "Molimo unesite vašu e-mail adresu",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Please enter a valid email address"
+        "REQUIRED_ERROR": "Adresa e-pošte je obavezna",
+        "VALID_ERROR": "Molim vas unesite ispravnu adresu e-pošte"
       },
       "PHONE_NUMBER": {
         "LABEL": "Broj telefona",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "Molim vas unesite vaš broj telefona",
+        "REQUIRED_ERROR": "Broj telefona je obavezan",
+        "VALID_ERROR": "Broj telefona bi trebao biti u E.164 formatu npr.: +381601234567"
       },
       "MESSAGE": {
         "LABEL": "Poruka",
@@ -64,23 +64,23 @@
         "ERROR": "Poruka prekratka"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required"
+    "CAMPAIGN_HEADER": "Molim vas dostavite vaše ime i e-poštu pre započinjanja razgovora",
+    "IS_REQUIRED": "je obavezno"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Datoteka prevazilazi {MAXIMUM_FILE_UPLOAD_SIZE} ograničenje priloga",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Neispravno polje"
     }
   },
   "CSAT": {
     "TITLE": "Ocenite razgovor",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "SUBMITTED_TITLE": "Hvala vam na dostavljenoj oceni",
     "PLACEHOLDER": "Pričajte nam više..."
   },
   "EMAIL_TRANSCRIPT": {
     "BUTTON_TEXT": "Zatražite kopiju razgovora",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
+    "SEND_EMAIL_SUCCESS": "Transkript razgovora je uspešno poslat",
+    "SEND_EMAIL_ERROR": "Pojavila se greška, molim vas pokušajte ponovo"
   }
 }

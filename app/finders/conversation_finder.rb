@@ -2,6 +2,11 @@ class ConversationFinder
   attr_reader :current_user, :current_account, :params
 
   DEFAULT_STATUS = 'open'.freeze
+  SORT_OPTIONS = {
+    latest: 'latest',
+    sort_on_created_at: 'sort_on_created_at',
+    last_user_message_at: 'last_user_message_at'
+  }.with_indifferent_access
 
   # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
@@ -133,10 +138,7 @@ class ConversationFinder
     @conversations = @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
-    if params[:conversation_type] == 'mention'
-      @conversations.page(current_page)
-    else
-      @conversations.latest.page(current_page)
-    end
+    sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
+    @conversations.send(sort_by).page(current_page)
   end
 end

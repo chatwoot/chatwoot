@@ -138,7 +138,7 @@ export default {
 .chat-bubble .message-content::v-deep pre {
   background: $color-primary-light;
   color: $color-body;
-  overflow: scroll;
+  overflow-y: auto;
   padding: $space-smaller;
 }
 </style>

@@ -1,7 +1,9 @@
 import {
   getTypingUsersText,
   createPendingMessage,
-  convertToSlug,
+  convertToAttributeSlug,
+  convertToCategorySlug,
+  convertToPortalSlug,
 } from '../commons';
 
 describe('#getTypingUsersText', () => {
@@ -88,8 +90,24 @@ describe('#createPendingMessage', () => {
   });
 });
 
-describe('convertToSlug', () => {
+describe('convertToAttributeSlug', () => {
   it('should convert to slug', () => {
-    expect(convertToSlug('Test@%^&*(){}>.!@`~_ ing')).toBe('test__ing');
+    expect(convertToAttributeSlug('Test@%^&*(){}>.!@`~_ ing')).toBe(
+      'test__ing'
+    );
+  });
+});
+
+describe('convertToCategorySlug', () => {
+  it('should convert to slug', () => {
+    expect(convertToCategorySlug('User profile guide')).toBe(
+      'user-profile-guide'
+    );
+  });
+});
+
+describe('convertToPortalSlug', () => {
+  it('should convert to slug', () => {
+    expect(convertToPortalSlug('Room rental')).toBe('room-rental');
   });
 });

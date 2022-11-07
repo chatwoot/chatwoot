@@ -35,7 +35,7 @@ export default {
 .chat-bubble.user::v-deep pre {
   background: $color-primary-light;
   color: $color-body;
-  overflow: scroll;
+  overflow: auto;
   padding: $space-smaller;
 }
 </style>

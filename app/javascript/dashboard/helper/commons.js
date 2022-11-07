@@ -62,9 +62,23 @@ export const createPendingMessage = data => {
   return pendingMessage;
 };
 
-export const convertToSlug = text => {
+export const convertToAttributeSlug = text => {
   return text
     .toLowerCase()
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '_');
+};
+
+export const convertToCategorySlug = text => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '-');
+};
+
+export const convertToPortalSlug = text => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w ]+/g, '')
+    .replace(/ +/g, '-');
 };

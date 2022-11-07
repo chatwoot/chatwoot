@@ -66,7 +66,7 @@
       <spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
-        v-tooltip.top="tooltipForSender"
+        v-tooltip.left="tooltipForSender"
         class="sender--info"
       >
         <woot-thumbnail
@@ -100,17 +100,16 @@
         v-if="isBubble && !isMessageDeleted"
         :is-open="showContextMenu"
         :show-copy="hasText"
+        :show-canned-response-option="isOutgoing"
         :menu-position="contextMenuPosition"
+        :message-content="data.content"
         @toggle="handleContextMenuClick"
         @delete="handleDelete"
-        @copy="handleCopy"
       />
     </div>
   </li>
 </template>
 <script>
-import copy from 'copy-text-to-clipboard';
-
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import timeMixin from '../../../mixins/time';
 
@@ -170,7 +169,7 @@ export default {
     };
   },
   computed: {
-    contentToBeParsed() {
+    emailMessageContent() {
       const {
         html_content: { full: fullHTMLContent } = {},
         text_content: { full: fullTextContent } = {},
@@ -182,13 +181,23 @@ export default {
         return false;
       }
 
-      if (this.contentToBeParsed.includes('<blockquote')) {
+      if (this.emailMessageContent.includes('<blockquote')) {
         return true;
       }
 
       return false;
     },
     message() {
+      if (this.contentType === 'input_csat') {
+        return this.$t('CONVERSATION.CSAT_REPLY_MESSAGE');
+      }
+
+      // If the message is an email, emailMessageContent would be present
+      // In that case, we would use letter package to render the email
+      if (this.emailMessageContent && this.isIncoming) {
+        return this.emailMessageContent;
+      }
+
       const botMessageContent = generateBotMessageContent(
         this.contentType,
         this.contentAttributes,
@@ -200,21 +209,6 @@ export default {
           },
         }
       );
-
-      const {
-        email: { content_type: contentType = '' } = {},
-      } = this.contentAttributes;
-      if (this.contentToBeParsed && this.isIncoming) {
-        const parsedContent = this.stripStyleCharacters(this.contentToBeParsed);
-        if (parsedContent) {
-          // This is a temporary fix for line-breaks in text/plain emails
-          // Now, It is not rendered properly in the email preview.
-          // FIXME: Remove this once we have a better solution for rendering text/plain emails
-          return contentType.includes('text/plain')
-            ? parsedContent.replace(/\n/g, '<br />')
-            : parsedContent;
-        }
-      }
       return (
         this.formatMessage(
           this.data.content,
@@ -313,7 +307,6 @@ export default {
       return showTooltip
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${name}`,
-            classes: 'top',
           }
         : false;
     },
@@ -332,6 +325,7 @@ export default {
         'activity-wrap': !this.isBubble,
         'is-pending': this.isPending,
         'is-failed': this.isFailed,
+        'is-email': this.isEmailContentType,
       };
     },
     bubbleClass() {
@@ -343,6 +337,7 @@ export default {
         'is-text': this.hasText,
         'is-from-bot': this.isSentByBot,
         'is-failed': this.isFailed,
+        'is-email': this.isEmailContentType,
       };
     },
     isPending() {
@@ -413,11 +408,6 @@ export default {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
       }
     },
-    handleCopy() {
-      copy(this.data.content);
-      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-      this.showContextMenu = false;
-    },
     async retrySendMessage() {
       await this.$store.dispatch('sendMessageWithData', this.data);
     },
@@ -430,6 +420,8 @@ export default {
 <style lang="scss">
 .wrap {
   > .bubble {
+    min-width: 128px;
+
     &.is-image,
     &.is-video {
       padding: 0;
@@ -517,6 +509,10 @@ export default {
       padding: 0;
     }
   }
+}
+
+.wrap.is-email {
+  --bubble-max-width: 84% !important;
 }
 
 .sender--info {

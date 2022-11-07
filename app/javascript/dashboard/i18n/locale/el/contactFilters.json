@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Σύνδεσμος",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
             "CREATED_AT": "Δημιουργήθηκε στις",
-            "LAST_ACTIVITY": "Τελευταία Δραστηριότητα"
+            "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
+            "REFERER_LINK": "Σύνδεσμος αναφοράς"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Τυπικά Φίλτρα",

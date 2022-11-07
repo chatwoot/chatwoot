@@ -5,24 +5,24 @@
     "TERMS_ACCEPT": "Ved at tilmelde dig, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Kontonavn",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "Indtast et kontonavn, fx: Wayne Enterprises",
+      "ERROR": "Kontonavn er for kort"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Fulde navn",
+      "PLACEHOLDER": "Indtast dit fulde navn. fx: Bruce Wayne",
+      "ERROR": "Fulde navn er for kort"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Arbejde e-mail",
+      "PLACEHOLDER": "Indtast din arbejdsmailadresse fx: bruce@wayne.enterprises",
+      "ERROR": "E-mail adresse er ugyldig"
     },
     "PASSWORD": {
       "LABEL": "Adgangskode",
       "PLACEHOLDER": "Adgangskode",
       "ERROR": "Adgangskoden er for kort",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Bekræft Adgangskode",
@@ -34,6 +34,6 @@
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
     "SUBMIT": "Send",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
   }
 }

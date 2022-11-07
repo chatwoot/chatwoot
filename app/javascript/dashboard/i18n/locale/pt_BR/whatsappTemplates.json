@@ -10,7 +10,7 @@
             "NO_TEMPLATES_FOUND": "Não há templates encontrados para",
             "LABELS": {
                 "LANGUAGE": "Idioma",
-                "TEMPLATE_BODY": "Corpo do Template",
+                "TEMPLATE_BODY": "Conteúdo do Template",
                 "CATEGORY": "Categoria"
             }
         },

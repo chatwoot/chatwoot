@@ -30,7 +30,8 @@ class AutomationRule < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id].freeze
-  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agents send_attachment].freeze
+  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_best_agent send_webhook_event mute_conversation send_attachment
+                     change_status resolve_conversation snooze_conversation send_email_transcript].freeze
 
   def file_base_data
     files.map do |file|
@@ -49,7 +50,7 @@ class AutomationRule < ApplicationRecord
   private
 
   def json_conditions_format
-    return if conditions.nil?
+    return if conditions.blank?
 
     attributes = conditions.map { |obj, _| obj['attribute_key'] }
     conditions = attributes - CONDITIONS_ATTRS
@@ -58,9 +59,9 @@ class AutomationRule < ApplicationRecord
   end
 
   def json_actions_format
-    return if actions.nil?
+    return if actions.blank?
 
-    attributes = actions.map { |obj, _| obj['attribute_key'] }
+    attributes = actions.map { |obj, _| obj['action_name'] }
     actions = attributes - ACTIONS_ATTRS
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?

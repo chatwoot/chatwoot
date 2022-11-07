@@ -22,6 +22,7 @@ import Tabs from './ui/Tabs/Tabs';
 import TabsItem from './ui/Tabs/TabsItem';
 import Thumbnail from './widgets/Thumbnail.vue';
 import ConfirmModal from './widgets/modal/ConfirmationModal.vue';
+import ContextMenu from './ui/ContextMenu.vue';
 
 const WootUIKit = {
   AvatarUploader,
@@ -47,6 +48,7 @@ const WootUIKit = {
   TabsItem,
   Thumbnail,
   ConfirmModal,
+  ContextMenu,
   install(Vue) {
     const keys = Object.keys(this);
     keys.pop(); // remove 'install' from keys

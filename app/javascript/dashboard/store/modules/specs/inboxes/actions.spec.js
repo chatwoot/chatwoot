@@ -81,12 +81,9 @@ describe('#actions', () => {
         { id: updatedInbox.id, inbox: { enable_auto_assignment: false } }
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: true }],
         [types.default.EDIT_INBOXES, updatedInbox],
-        [
-          types.default.SET_INBOXES_UI_FLAG,
-          { isUpdatingAutoAssignment: false },
-        ],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -98,11 +95,8 @@ describe('#actions', () => {
         )
       ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true }],
-        [
-          types.default.SET_INBOXES_UI_FLAG,
-          { isUpdatingAutoAssignment: false },
-        ],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: false }],
       ]);
     });
   });

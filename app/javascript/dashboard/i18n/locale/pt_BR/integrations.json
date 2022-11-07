@@ -84,6 +84,52 @@
     },
     "CONNECT": {
       "BUTTON_TEXT": "Conectar"
+    },
+    "DASHBOARD_APPS": {
+      "TITLE": "Apps da Dashboard",
+      "HEADER_BTN_TXT": "Adicionar um novo app da dashboard",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem um aplicativo dentro da dashboard do Chatwoot para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro da dashboard para fornecer informações do usuário, seus pedidos ou seu histórico de pagamentos anteriores.</p><p>Quando você incorpora seu aplicativo usando a dashboard do Chatwoot, sua aplicação irá obter o contexto da conversa e entrar em contato como um evento de janela. Implementar um ouvinte para o evento de mensagem em sua página receber o contexto.</p><p>Para adicionar um novo aplicativo da dashboard, clique no botão 'Adicionar um novo aplicativo da dashboard'.</p>",
+      "DESCRIPTION": "Aplicativos da dashboard permitem que organizações incorporem um aplicativo dentro do painel para fornecer o contexto para agentes de suporte ao cliente. Este recurso permite que você crie uma aplicação independente e incorpore para fornecer informações de usuário, seus pedidos ou seu histórico de pagamentos anteriores.",
+      "LIST": {
+        "404": "Ainda não há aplicativos da dashboard nesta conta",
+        "LOADING": "Buscando aplicativos da dashboard...",
+        "TABLE_HEADER": [
+          "Nome",
+          "Endpoint"
+        ],
+        "EDIT_TOOLTIP": "Editar aplicativo",
+        "DELETE_TOOLTIP": "Excluir aplicativo"
+      },
+      "FORM": {
+        "TITLE_LABEL": "Nome",
+        "TITLE_PLACEHOLDER": "Digite um nome para o app da dashboard",
+        "TITLE_ERROR": "É necessário um nome para o aplicativo da dashboard",
+        "URL_LABEL": "Endpoint",
+        "URL_PLACEHOLDER": "Digite a URL do endpoint onde seu aplicativo está hospedado",
+        "URL_ERROR": "É necessário uma URL válida"
+      },
+      "CREATE": {
+        "HEADER": "Adicionar um novo app da dashboard",
+        "FORM_SUBMIT": "Enviar",
+        "FORM_CANCEL": "Cancelar",
+        "API_SUCCESS": "Aplicativo da dashboard configurado com sucesso",
+        "API_ERROR": "Não conseguimos criar um aplicativo. Por favor, tente novamente mais tarde"
+      },
+      "UPDATE": {
+        "HEADER": "Editar aplicativo da dashboard",
+        "FORM_SUBMIT": "Atualizar",
+        "FORM_CANCEL": "Cancelar",
+        "API_SUCCESS": "Aplicativo da dashboard atualizado com sucesso",
+        "API_ERROR": "Não conseguimos atualizar o aplicativo. Por favor, tente novamente mais tarde"
+      },
+      "DELETE": {
+        "CONFIRM_YES": "Sim, exclua-o",
+        "CONFIRM_NO": "Não, mantenha-o",
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir o aplicativo - %{appName}?",
+        "API_SUCCESS": "Aplicativo da dashboard excluído com sucesso",
+        "API_ERROR": "Não conseguimos excluir o aplicativo. Por favor, tente novamente mais tarde"
+      }
     }
   }
 }

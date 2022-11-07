@@ -2,7 +2,7 @@
   <transition-group
     name="wizard-items"
     tag="div"
-    class="wizard-box flex-child-shrink"
+    class="wizard-box"
     :class="classObject"
   >
     <div
@@ -11,12 +11,14 @@
       class="item"
       :class="{ active: isActive(item), over: isOver(item) }"
     >
-      <h3>
-        {{ item.title }}
+      <div class="flex-align-center">
+        <h3 class="text-truncate">
+          {{ item.title }}
+        </h3>
         <span v-if="isOver(item)" class="completed">
           <fluent-icon icon="checkmark" />
         </span>
-      </h3>
+      </div>
       <span class="step">
         {{ items.indexOf(item) + 1 }}
       </span>

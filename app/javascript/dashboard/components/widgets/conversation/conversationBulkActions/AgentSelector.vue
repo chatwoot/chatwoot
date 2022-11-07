@@ -22,7 +22,10 @@
       />
     </div>
     <div class="container">
-      <div v-if="uiFlags.isUpdating" class="agent__list-loading">
+      <div
+        v-if="assignableAgentsUiFlags.isFetching"
+        class="agent__list-loading"
+      >
         <spinner />
         <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
       </div>
@@ -43,7 +46,8 @@
           <li v-for="agent in filteredAgents" :key="agent.id">
             <div class="agent-list-item" @click="assignAgent(agent)">
               <thumbnail
-                src="agent.thumbnail"
+                :src="agent.thumbnail"
+                :status="agent.availability_status"
                 :username="agent.name"
                 size="22px"
                 class="margin-right-small"
@@ -53,7 +57,7 @@
           </li>
         </ul>
         <div v-else class="agent-confirmation-container">
-          <p>
+          <p v-if="selectedAgent.id">
             {{
               $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
                 conversationCount,
@@ -63,6 +67,15 @@
             <strong>
               {{ selectedAgent.name }}
             </strong>
+            <span>?</span>
+          </p>
+          <p v-else>
+            {{
+              $t('BULK_ACTION.UNASSIGN_CONFIRMATION_LABEL', {
+                conversationCount,
+                conversationLabel,
+              })
+            }}
           </p>
           <div class="agent-confirmation-actions">
             <woot-button
@@ -78,7 +91,7 @@
               :is-loading="uiFlags.isUpdating"
               @click="submit"
             >
-              {{ $t('BULK_ACTION.ASSIGN_LABEL') }}
+              {{ $t('BULK_ACTION.YES') }}
             </woot-button>
           </div>
         </div>
@@ -127,7 +140,17 @@ export default {
           agent.name.toLowerCase().includes(this.query.toLowerCase())
         );
       }
-      return this.assignableAgents;
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.assignableAgents,
+      ];
     },
     assignableAgents() {
       return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
@@ -171,7 +194,7 @@ export default {
   transform-origin: top right;
   width: auto;
   z-index: var(--z-index-twenty);
-
+  min-width: var(--space-giga);
   .header {
     padding: var(--space-one);
 
@@ -182,7 +205,7 @@ export default {
   }
 
   .container {
-    max-height: 24rem;
+    max-height: var(--space-giga);
     overflow-y: auto;
     .agent__list-container {
       height: 100%;
@@ -264,5 +287,6 @@ ul {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: var(--space-two);
 }
 </style>

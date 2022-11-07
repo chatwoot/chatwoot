@@ -18,7 +18,7 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
 
-          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!' }
+          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!' }
 
           post api_v1_accounts_url,
                params: params,
@@ -27,6 +27,7 @@ RSpec.describe 'Accounts API', type: :request do
           expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
           expect(account_builder).to have_received(:perform)
           expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(response.body).to include('en')
         end
       end
 
@@ -37,7 +38,7 @@ RSpec.describe 'Accounts API', type: :request do
           allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
           allow(captcha).to receive(:valid?).and_return(true)
 
-          params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: 'Password1!',
+          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!',
                      h_captcha_client_response: '123' }
 
           post api_v1_accounts_url,
@@ -46,6 +47,7 @@ RSpec.describe 'Accounts API', type: :request do
 
           expect(ChatwootCaptcha).to have_received(:new).with('123')
           expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(response.body).to include('en')
         end
       end
 
@@ -53,7 +55,7 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)
 
-          params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
+          params = { account_name: nil, email: nil, user: nil, locale: 'en', user_full_name: nil }
 
           post api_v1_accounts_url,
                params: params,
@@ -130,6 +132,7 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to include(account.domain)
         expect(response.body).to include(account.support_email)
         expect(response.body).to include(account.auto_resolve_duration.to_s)
+        expect(response.body).to include(account.locale)
       end
     end
   end
@@ -206,14 +209,14 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'modifies an account' do
-        expect(agent.account_users.first.active_at).to eq(nil)
+        expect(agent.account_users.first.active_at).to be_nil
         post "/api/v1/accounts/#{account.id}/update_active_at",
              params: {},
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(agent.account_users.first.active_at).not_to eq(nil)
+        expect(agent.account_users.first.active_at).not_to be_nil
       end
     end
   end

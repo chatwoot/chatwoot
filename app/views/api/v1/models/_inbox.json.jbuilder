@@ -45,6 +45,7 @@ if resource.facebook?
 end
 
 ## Twilio Attributes
+json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
 
@@ -76,10 +77,15 @@ end
 
 ## API Channel Attributes
 if resource.api?
+  json.hmac_token resource.channel.try(:hmac_token)
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
 end
 
 ### WhatsApp Channel
-json.message_templates resource.channel.try(:message_templates) if resource.whatsapp?
+if resource.whatsapp?
+  json.provider resource.channel.try(:provider)
+  json.message_templates resource.channel.try(:message_templates)
+  json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+end

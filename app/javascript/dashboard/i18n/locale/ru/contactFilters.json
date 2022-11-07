@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Ссылка",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
             "CREATED_AT": "Дата создания",
-            "LAST_ACTIVITY": "Последние действия"
+            "LAST_ACTIVITY": "Последние действия",
+            "REFERER_LINK": "Реферальная ссылка"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Стандартные фильтры",

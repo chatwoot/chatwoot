@@ -28,7 +28,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
-import flag from 'country-code-emoji';
+import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -200,7 +200,7 @@ export default {
             if (row.country) {
               return (
                 <div class="text-truncate">
-                  {`${flag(row.countryCode)} ${row.country}`}
+                  {`${getCountryFlag(row.countryCode)} ${row.country}`}
                 </div>
               );
             }

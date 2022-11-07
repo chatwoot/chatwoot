@@ -61,7 +61,7 @@
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.IMAP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdatingIMAP"
           :disabled="($v.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
         />
       </form>

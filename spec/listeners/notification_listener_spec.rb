@@ -134,7 +134,7 @@ describe NotificationListener do
 
         event = Events::Base.new(event_name, Time.zone.now, message: message)
         # want to validate message_created doesnt throw an error
-        expect(listener.message_created(event)).to eq nil
+        expect(listener.message_created(event)).to be_nil
       end
     end
   end

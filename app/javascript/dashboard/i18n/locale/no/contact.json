@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Ikke tilgjengelig",
     "EMAIL_ADDRESS": "E-postadresse",
     "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopiert til utklippstavle",
     "COMPANY": "Firma",
     "LOCATION": "Plassering",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Samtaledetaljer",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Nettleser",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Skriv inn e-postadressen til kontakten",
         "LABEL": "E-postadresse",
-        "DUPLICATE": "Denne e-postadressen er allerede i bruk av en annen kontakt."
+        "DUPLICATE": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
+        "ERROR": "Vennligst skriv inn en gyldig e-postadresse."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Skriv inn telefonnummeret til kontakten",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Skriv inn Github brukernavn",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact saved successfully",

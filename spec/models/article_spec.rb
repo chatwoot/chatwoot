@@ -18,20 +18,22 @@ RSpec.describe Article, type: :model do
   describe 'search' do
     let!(:account) { create(:account) }
     let(:user) { create(:user, account_ids: [account.id], role: :agent) }
-    let!(:portal_1) { create(:portal, account_id: account.id) }
-    let!(:portal_2) { create(:portal, account_id: account.id) }
+    let!(:portal_1) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
+    let!(:portal_2) { create(:portal, account_id: account.id, config: { allowed_locales: %w[en es] }) }
     let!(:category_1) { create(:category, slug: 'category_1', locale: 'en', portal_id: portal_1.id) }
     let!(:category_2) { create(:category, slug: 'category_2', locale: 'es', portal_id: portal_1.id) }
     let!(:category_3) { create(:category, slug: 'category_3', locale: 'es', portal_id: portal_2.id) }
 
     before do
-      create(:article, category_id: category_1.id, content: 'This is the content', description: 'this is the description', title: 'this is title',
+      create(:article, category_id: category_1.id, content: 'This is the content', description: 'this is the description',
+                       slug: 'this-is-title', title: 'this is title',
                        portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_1.id, title: 'title 1', portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_2.id, title: 'title 2', portal_id: portal_2.id, author_id: user.id)
-      create(:article, category_id: category_2.id, title: 'title 3', portal_id: portal_1.id, author_id: user.id)
-      create(:article, category_id: category_3.id, title: 'title 6', portal_id: portal_2.id, author_id: user.id)
-      create(:article, category_id: category_2.id, title: 'title 7', portal_id: portal_1.id, author_id: user.id)
+      create(:article, category_id: category_1.id, slug: 'title-1', title: 'title 1', content: 'This is the content', portal_id: portal_1.id,
+                       author_id: user.id)
+      create(:article, category_id: category_2.id, slug: 'title-2', title: 'title 2', portal_id: portal_2.id, author_id: user.id)
+      create(:article, category_id: category_2.id, slug: 'title-3', title: 'title 3', portal_id: portal_1.id, author_id: user.id)
+      create(:article, category_id: category_3.id, slug: 'title-6', title: 'title 6', portal_id: portal_2.id, author_id: user.id, status: :published)
+      create(:article, category_id: category_2.id, slug: 'title-7', title: 'title 7', portal_id: portal_1.id, author_id: user.id, status: :published)
     end
 
     context 'when no parameters passed' do
@@ -53,6 +55,10 @@ RSpec.describe Article, type: :model do
         params = { query: 'this', locale: 'en', category_slug: 'category_1' }
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
+
+        params = { status: 'published' }
+        records = portal_1.articles.search(params)
+        expect(records.count).to eq(portal_1.articles.published.size)
       end
     end
 
@@ -76,19 +82,22 @@ RSpec.describe Article, type: :model do
       it 'returns data with text_search query' do
         params = { query: 'title' }
         records = portal_2.articles.search(params)
+
         expect(records.count).to eq(2)
 
         params = { query: 'title' }
         records = portal_1.articles.search(params)
+
         expect(records.count).to eq(4)
 
         params = { query: 'the content' }
-        records = portal_2.articles.search(params)
+        records = portal_1.articles.search(params)
+
         expect(records.count).to eq(2)
       end
 
       it 'returns data with text_search query and locale' do
-        params = { query: 'the title', locale: 'es' }
+        params = { query: 'title', locale: 'es' }
         records = portal_2.articles.search(params)
         expect(records.count).to eq(2)
       end
@@ -100,15 +109,33 @@ RSpec.describe Article, type: :model do
       end
 
       it 'return records with category_slug and text_search query' do
-        params = { category_slug: 'category_2', query: 'the title' }
+        params = { category_slug: 'category_2', query: 'title' }
         records = portal_1.articles.search(params)
         expect(records.count).to eq(2)
+      end
+
+      it 'returns records with author and category_slug' do
+        params = { category_slug: 'category_2', author_id: user.id }
+        records = portal_1.articles.search(params)
+        expect(records.count).to eq(2)
+      end
+
+      it 'auto saves article slug' do
+        article = create(:article, category_id: category_1.id, title: 'the awesome article 1', content: 'This is the content', portal_id: portal_1.id,
+                                   author_id: user.id)
+        expect(article.slug).to include('the-awesome-article-1')
       end
     end
 
     context 'with pagination' do
       it 'returns paginated articles' do
-        create_list(:article, 30, category_id: category_2.id, title: 'title 1', portal_id: portal_2.id, author_id: user.id)
+        build_list(:article, 30) do |record, i|
+          record.category_id = category_2.id
+          record.title = "title #{i}"
+          record.portal_id = portal_2.id
+          record.author_id = user.id
+          record.save!
+        end
         params = { category_slug: 'category_2' }
         records = portal_2.articles.search(params)
         expect(records.count).to eq(25)

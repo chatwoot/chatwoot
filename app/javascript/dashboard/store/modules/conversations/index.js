@@ -68,8 +68,8 @@ export const mutations = {
     Vue.set(chat.meta, 'assignee', assignee);
   },
 
-  [types.ASSIGN_TEAM](_state, team) {
-    const [chat] = getSelectedChatConversation(_state);
+  [types.ASSIGN_TEAM](_state, { team, conversationId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     Vue.set(chat.meta, 'team', team);
   },
 

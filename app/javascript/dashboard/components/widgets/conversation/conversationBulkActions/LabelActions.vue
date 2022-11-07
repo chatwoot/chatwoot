@@ -50,7 +50,7 @@
               :value="label.title"
               class="label-checkbox"
             />
-            <span class="label-title">{{ label.title }}</span>
+            <span class="label-title text-truncate">{{ label.title }}</span>
             <span
               class="label-pill"
               :style="{ backgroundColor: label.color }"
@@ -110,7 +110,7 @@ export default {
 .labels-list {
   display: flex;
   flex-direction: column;
-  max-height: 24rem;
+  max-height: var(--space-giga);
   min-height: auto;
 
   .labels-list__header {
@@ -157,8 +157,8 @@ export default {
   border-radius: var(--border-radius-large);
   border: 1px solid var(--s-50);
   box-shadow: var(--shadow-dropdown-pane);
-  max-width: 24rem;
-  min-width: 24rem;
+  max-width: var(--space-giga);
+  min-width: var(--space-giga);
   position: absolute;
   right: 4.5rem;
   top: var(--space-larger);
@@ -176,7 +176,7 @@ export default {
   }
 
   .container {
-    max-height: 24rem;
+    max-height: var(--space-giga);
     overflow-y: auto;
 
     .label__list-container {
@@ -204,7 +204,7 @@ export default {
   .triangle {
     display: block;
     position: absolute;
-    right: 2rem;
+    right: var(--space-two);
     text-align: left;
     top: calc(var(--space-slab) * -1);
     z-index: var(--z-index-one);
@@ -249,6 +249,7 @@ ul {
 
     .label-title {
       flex-grow: 1;
+      width: 100%;
     }
 
     .label-pill {
@@ -256,6 +257,8 @@ ul {
       border-radius: var(--border-radius-medium);
       height: var(--space-slab);
       width: var(--space-slab);
+      flex-shrink: 0;
+      border: 1px solid var(--color-border-light);
     }
   }
 }

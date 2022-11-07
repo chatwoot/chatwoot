@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Nicht verfügbar",
     "EMAIL_ADDRESS": "E-Mail-Adresse",
     "PHONE_NUMBER": "Telefonnummer",
+    "IDENTIFIER": "Identifizierer",
     "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
     "COMPANY": "Firma",
     "LOCATION": "Ort",
+    "BROWSER_LANGUAGE": "Browsersprache",
     "CONVERSATION_TITLE": "Unterhaltungsdetails",
     "VIEW_PROFILE": "Profil anzeigen",
     "BROWSER": "Browser",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Geben Sie die E-Mail-Adresse des Kontakts ein",
         "LABEL": "E-Mail-Adresse",
-        "DUPLICATE": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet."
+        "DUPLICATE": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet.",
+        "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "GitHub-Benutzernamen eingeben",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Kontakt-Avatar erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Kontakt-Avatar konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",

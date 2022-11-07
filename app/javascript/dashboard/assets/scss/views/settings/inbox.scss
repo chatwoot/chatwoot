@@ -4,33 +4,33 @@
 
 // Conversation header - Light BG
 .settings-header {
-  @include padding($space-small $space-normal);
   @include background-white;
   @include flex;
   @include flex-align($x: justify, $y: middle);
   border-bottom: 1px solid var(--s-50);
   height: $header-height;
   min-height: $header-height;
+  padding: $space-small $space-normal;
 
   // Resolve Button
   .button {
-    @include margin(0);
+    margin: 0;
   }
 
   // User thumbnail and text
   .page-title {
     @include flex;
     @include flex-align($x: center, $y: middle);
-    @include margin($zero);
+    margin: 0;
   }
 }
 
 .wizard-box {
   .item {
-    @include padding($space-normal $space-normal $space-normal $space-medium);
     @include background-light;
 
     cursor: pointer;
+    padding: $space-normal $space-normal $space-normal $space-medium;
     position: relative;
 
     &::before,
@@ -91,10 +91,11 @@
       font-size: $font-size-default;
       line-height: 1;
       padding-left: $space-medium;
+    }
 
-      .completed {
-        color: $success-color;
-      }
+    .completed {
+      color: $success-color;
+      margin-left: $space-smaller;
     }
 
     p {
@@ -128,89 +129,27 @@
 
 .wizard-body {
   @include background-white;
-  @include padding($space-medium);
   @include border-light;
   @include full-height();
+  padding: $space-medium;
 
   &.height-auto {
     height: auto;
   }
 }
 
-.inoboxes-list {
-  .inbox-item {
-    @include margin($space-normal);
-    @include flex;
-    @include flex-shrink;
-    @include padding($space-normal $space-normal);
-    @include border-light-bottom();
-
-    background: $color-white;
-    cursor: pointer;
-    flex-direction: column;
-    float: left;
-    min-height: 10rem;
-    width: 20%;
-
-    &:last-child {
-      @include border-nil;
-
-      margin-bottom: $zero;
-    }
-
-    &:hover {
-      @include background-gray;
-
-      .arrow {
-        opacity: 1;
-        transform: translateX($space-small);
-      }
-    }
-
-    .switch {
-      align-self: center;
-      margin-bottom: $zero;
-      margin-right: $space-normal;
-    }
-
-    .item--details {
-      @include padding($space-normal $zero);
-
-      .item--name {
-        font-size: $font-size-large;
-        line-height: 1;
-      }
-
-      .item--sub {
-        font-size: $font-size-small;
-        margin-bottom: 0;
-      }
-    }
-
-    .arrow {
-      align-self: center;
-      color: $medium-gray;
-      font-size: $font-size-small;
-      opacity: 0.7;
-      transform: translateX(0);
-      transition: opacity 0.1s ease-in 0s, transform 0.2s ease-in 0.03s;
-    }
-  }
-}
-
 .settings--content {
-  @include margin($space-small $space-large);
+  margin: $space-small $space-large;
 
   .title {
     font-weight: $font-weight-medium;
   }
 
   .code {
-    @include padding($space-one);
-
     background: $color-background;
     max-height: $space-mega;
     overflow: auto;
+    padding: $space-one;
     white-space: nowrap;
 
     code {
@@ -225,7 +164,7 @@
   text-align: center;
 
   p {
-    @include padding($space-medium);
+    padding: $space-medium;
   }
 
   > a > img {

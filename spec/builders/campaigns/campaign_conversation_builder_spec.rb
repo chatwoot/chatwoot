@@ -26,7 +26,7 @@ describe ::Campaigns::CampaignConversationBuilder do
         campaign_display_id: campaign.display_id
       ).perform
 
-      expect(campaign_conversation).to eq(nil)
+      expect(campaign_conversation).to be_nil
     end
   end
 end

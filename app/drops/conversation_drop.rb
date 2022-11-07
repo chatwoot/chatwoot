@@ -6,7 +6,7 @@ class ConversationDrop < BaseDrop
   end
 
   def contact_name
-    @obj.try(:contact).name.capitalize || 'Customer'
+    @obj.try(:contact).name.try(:capitalize) || 'Customer'
   end
 
   def recent_messages

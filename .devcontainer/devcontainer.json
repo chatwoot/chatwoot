@@ -23,17 +23,18 @@
   // 5432 postgres
   // 6379 redis
   // 1025,8025 mailhog
-  "forwardPorts": [8025],
-  //your application may need to listen on all interfaces (0.0.0.0) not just localhost for it to be available externally. Defaults to []
-  "appPort": [3000, 3035],
+  "forwardPorts": [8025, 3000, 3035],
 
   "postCreateCommand": ".devcontainer/scripts/setup.sh && bundle exec rake db:chatwoot_prepare && yarn",
   "portsAttributes": {
     "3000": {
       "label": "Rails Server"
     },
+    "3035": {
+      "label": "Webpack Dev Server"
+    },
     "8025": {
       "label": "Mailhog UI"
     }
-  },
+  }
 }

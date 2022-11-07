@@ -3,85 +3,87 @@
     "NOT_AVAILABLE": "Nije dostupno",
     "EMAIL_ADDRESS": "E-mail adresa",
     "PHONE_NUMBER": "Broj telefona",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "IDENTIFIER": "Identifikator",
+    "COPY_SUCCESSFUL": "Uspešno kopirano na beležnicu",
     "COMPANY": "Firma",
     "LOCATION": "Lokacija",
+    "BROWSER_LANGUAGE": "Jezik pregledača",
     "CONVERSATION_TITLE": "Detalji razgovora",
     "VIEW_PROFILE": "Pogledaj profil",
     "BROWSER": "Pretraživač",
     "OS": "Operativni sistem",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "INITIATED_FROM": "Započeto sa",
+    "INITIATED_AT": "Započeto u",
     "IP_ADDRESS": "IP adresa",
     "NEW_MESSAGE": "Nova poruka",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
+      "NO_RECORDS_FOUND": "Nema ranijih razgovora povezanih sa ovim kontaktom.",
       "TITLE": "Prethodni razgovor"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Oznake kontakta",
+        "ERROR": "Nije bilo moguće izmeniti oznake"
       },
       "CONVERSATION": {
-        "TITLE": "Conversation Labels",
-        "ADD_BUTTON": "Add Labels"
+        "TITLE": "Oznake razgovora",
+        "ADD_BUTTON": "Dodaj oznake"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Dodaj oznake",
+        "PLACEHOLDER": "Pretraži oznake",
+        "NO_RESULT": "Oznake nisu pronađene"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MERGE_CONTACT": "Spoji kontakt",
+    "CONTACT_ACTIONS": "Akcije nad kontaktom",
+    "MUTE_CONTACT": "Utišaj razgovor",
+    "UNMUTE_CONTACT": "Poništi utišanje razgovora",
+    "MUTED_SUCCESS": "Ovaj razgovor je utišan za narednih 6 sati",
+    "UNMUTED_SUCCESS": "Ovaj razgovor više nije utišan",
+    "SEND_TRANSCRIPT": "Pošalji transkript",
     "EDIT_LABEL": "Uredi",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
-      "CONTACT_LABELS": "Contact Labels",
+      "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
+      "CONTACT_LABELS": "Oznake kontakta",
       "PREVIOUS_CONVERSATIONS": "Prethodni razgovor"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
+    "BUTTON_LABEL": "Uredi kontakt",
     "TITLE": "Uredi kontakta",
-    "DESC": "Edit contact details"
+    "DESC": "Uredi detalje kontakta"
   },
   "CREATE_CONTACT": {
     "BUTTON_LABEL": "Novi kontakt",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "TITLE": "Napravi novi kontakt",
+    "DESC": "Dodaj osnovne informacije o kontaktu."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Uvoz",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "TITLE": "Uvezi kontakte",
+    "DESC": "Uvezi kontakte uz pomoć CSV datoteke.",
+    "DOWNLOAD_LABEL": "Preuzmi csv primer.",
     "FORM": {
-      "LABEL": "CSV File",
+      "LABEL": "CSV datoteka",
       "SUBMIT": "Uvoz",
       "CANCEL": "Otkaži"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "SUCCESS_MESSAGE": "Kontakti su uspešno sačuvani",
+    "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Potvrdite brisanje",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
-      "NO": "No, Keep it"
+      "MESSAGE": "Da li zaista želite da obrišete ovu belešku?",
+      "YES": "Da, obriši je",
+      "NO": "Ne, ostavi je"
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Obriši kontakt",
+    "TITLE": "Obriši kontakt",
+    "DESC": "Obriši detalje o kontaktu",
     "CONFIRM": {
       "TITLE": "Potvrdite brisanje",
       "MESSAGE": "Sigurni ste da želite izbrisati ",
@@ -90,7 +92,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Kontakt je uspešno obrisan",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "ERROR_MESSAGE": "Nije bilo moguće obrisati kontakt. Molim vas pokušajte ponovo."
     }
   },
   "CONTACT_FORM": {
@@ -98,73 +100,80 @@
       "SUBMIT": "Pošalji",
       "CANCEL": "Otkaži",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar kontakta"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
+        "PLACEHOLDER": "Unesite puno ime kontakta",
         "LABEL": "Puno ime"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
+        "PLACEHOLDER": "Unesite biografiju kontakta",
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Unesite adresu e-pošte kontakta",
         "LABEL": "E-mail adresa",
-        "DUPLICATE": "This email address is in use for another contact."
+        "DUPLICATE": "Ova adresa e-pošte je iskorišćena kod drugog kontakta.",
+        "ERROR": "Molim vas unesite ispravnu adresu e-pošte."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
+        "PLACEHOLDER": "Unesite broj telefona kontakta",
         "LABEL": "Broj telefona",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format",
-        "DUPLICATE": "This phone number is in use for another contact."
+        "HELP": "Broj telefona bi trebao biti u E.164 formatu npr.: +381601234567 [+][broj države][pozivni broj][broj telefona]",
+        "ERROR": "Broj telefona bi trebao biti ili prazan ili u E.164 formatu",
+        "DUPLICATE": "Broj telefona je iskorišćen kod drugog kontakta."
       },
       "LOCATION": {
         "PLACEHOLDER": "Unesite lokaciju kontakta",
         "LABEL": "Lokacija"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
+        "PLACEHOLDER": "Unesite ime kompanije",
         "LABEL": "Ime firme"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Unesite Fejsbuk korisničko ime",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Unesite Tviter korisničko ime",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Unesite LinkedIn korisničko ime",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Unesite Github korisničko ime",
           "LABEL": "Github"
         }
       }
     },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Avatar kontakta je uspešno obrisan",
+        "ERROR_MESSAGE": "Nije bilo moguće obrisati avatar kontakta. Molim vas pokušajte ponovo."
+      }
+    },
     "SUCCESS_MESSAGE": "Kontakt je uspešno sačuvan",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Započnite razgovor",
     "TITLE": "Novi razgovor",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Započnite novi razgovor slanjem poruke.",
+    "NO_INBOX": "Nije bilo moguće pronaći prijemno sanduče da bi se započeo novi razgovor sa ovim kontaktom.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Za"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Prijemno sanduče",
+        "ERROR": "Izaberite prijemno sanduče"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
+        "LABEL": "Naslov",
         "PLACEHOLDER": "Naslov",
         "ERROR": "Naslov ne može biti prazan"
       },
@@ -191,7 +200,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Preuzimanje kontakata...",
       "404": "Nisu pronađeni kontakti 🔍",
-      "NO_CONTACTS": "There are no available contacts",
+      "NO_CONTACTS": "Nema dostupnih kontakata",
       "TABLE_HEADER": {
         "NAME": "Ime",
         "PHONE_NUMBER": "Broj telefona",
@@ -222,12 +231,12 @@
   },
   "NOTES": {
     "FETCHING_NOTES": "Preuzimanje beleški...",
-    "NOT_AVAILABLE": "There are no notes created for this contact",
+    "NOT_AVAILABLE": "Nema napravljenih beleški za ovaj kontakt",
     "HEADER": {
       "TITLE": "Beleške"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "beleška je dodata"
     },
     "ADD": {
       "BUTTON": "Dodaj",
@@ -251,76 +260,76 @@
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Dodaj atribute",
     "BUTTON": "Dodaj vlastite atribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "NOT_AVAILABLE": "Nema dostupnih prilagođenih atributa za ovaj kontakt.",
+    "COPY_SUCCESSFUL": "Uspešno kopirano na beležnicu",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Kopiraj atribut",
+      "DELETE": "Obriši atribut",
+      "EDIT": "Uredi atribut"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Napravi prilagođeni atribut",
+      "DESC": "Dodaj prilagođenu informaciju ovom kontaktu."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Dodaj atribut",
       "CANCEL": "Otkaži",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Naziv prilagođenog atributa",
+        "PLACEHOLDER": "Npr.: shopify id",
+        "ERROR": "Neispravan naziv prilagođenog atributa"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Vrednost atributa",
+        "PLACEHOLDER": "Npr.: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "Napravi novi atribut ",
+        "SUCCESS": "Atribut je uspešno dodat",
+        "ERROR": "Nije bilo moguće dodati atribut. Molim vas pokušajte ponovo"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Atribut je uspešno izmenjen",
+        "ERROR": "Nije bilo moguće izmeniti atribut. Molim vas pokušajte ponovo"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Atribut je uspešno obrisan",
+        "ERROR": "Nije bilo moguće obrisati atribut. Molim vas pokušajte ponovo"
       },
       "ATTRIBUTE_SELECT": {
         "TITLE": "Dodaj atribute",
         "PLACEHOLDER": "Traži atribute",
-        "NO_RESULT": "No attributes found"
+        "NO_RESULT": "Nijedan atribut nije pronađen"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+          "PLACEHOLDER": "Izaberite vrednost",
+          "SEARCH_INPUT_PLACEHOLDER": "Pretražite vrednost",
           "NO_RESULT": "Nema rezultata"
         }
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "REQUIRED": "Ispravna vrednost je obavezna",
+      "INVALID_URL": "Neispravna adresa"
     }
   },
   "MERGE_CONTACTS": {
     "TITLE": "Spajanje kontakata",
-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
+    "DESCRIPTION": "Spojite kontakte da bi ste spojili dva profila u jedan, uključujući sve atribute i razgovore. U slučaju neslaganja, atributi primarnog kontakta će imati prednost.",
     "PRIMARY": {
       "TITLE": "Glavni kontakt",
-      "HELP_LABEL": "To be kept"
+      "HELP_LABEL": "Da bude zadržan"
     },
     "CHILD": {
-      "TITLE": "Contact to merge",
+      "TITLE": "Kontakt za spajanje",
       "PLACEHOLDER": "Traži kontakta",
-      "HELP_LABEL": "To be deleted"
+      "HELP_LABEL": "Da bude obrisan"
     },
     "SUMMARY": {
       "TITLE": "Rezime",
-      "DELETE_WARNING": "Contact of <strong>%{childContactName}</strong> will be deleted.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{childContactName}</strong> will be copied to <strong>%{primaryContactName}</strong>."
+      "DELETE_WARNING": "Kontakt <strong>%{childContactName}</strong> će biti obrisan.",
+      "ATTRIBUTE_WARNING": "Detalji kontakta <strong>%{childContactName}</strong> će biti iskopirani u <strong>%{primaryContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
@@ -329,10 +338,10 @@
       "SUBMIT": " Spajanje kontakata",
       "CANCEL": "Otkaži",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Izaberite dete kontakt za spajanje"
       },
       "SUCCESS_MESSAGE": "Kontakt je uspešno spojen",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "ERROR_MESSAGE": "Nije bilo moguće spojiti kontakte, pokušajte ponovo!"
     }
   }
 }

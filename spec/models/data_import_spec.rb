@@ -7,7 +7,7 @@ RSpec.describe DataImport, type: :model do
 
   describe 'validations' do
     it 'returns false for invalid data type' do
-      expect(build(:data_import, data_type: 'Xyc').valid?).to eq false
+      expect(build(:data_import, data_type: 'Xyc').valid?).to be false
     end
   end
 end

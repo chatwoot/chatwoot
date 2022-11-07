@@ -19,11 +19,6 @@
 #  index_account_users_on_user_id     (user_id)
 #  uniq_user_id_per_account_id        (account_id,user_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
-#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
-#
 
 class AccountUser < ApplicationRecord
   include AvailabilityStatusable

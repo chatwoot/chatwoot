@@ -239,7 +239,7 @@ export default {
       const hasNextWord = value.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.cannedResponseSearchKey = value.substr(1, value.length);
+        this.cannedResponseSearchKey = value.substring(1);
         this.showCannedResponseMenu = true;
       } else {
         this.cannedResponseSearchKey = '';

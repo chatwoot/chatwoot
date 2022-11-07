@@ -57,19 +57,6 @@
             :error="passwordErrorText"
             @blur="$v.credentials.password.$touch"
           />
-          <woot-input
-            v-model.trim="credentials.confirmPassword"
-            type="password"
-            :class="{ error: $v.credentials.confirmPassword.$error }"
-            :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
-            :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-            :error="
-              $v.credentials.confirmPassword.$error
-                ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.confirmPassword.$touch"
-          />
           <div v-if="globalConfig.hCaptchaSiteKey" class="h-captcha--box">
             <vue-hcaptcha
               ref="hCaptcha"
@@ -129,7 +116,6 @@ export default {
         fullName: '',
         email: '',
         password: '',
-        confirmPassword: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
@@ -155,15 +141,6 @@ export default {
         required,
         isValidPassword,
         minLength: minLength(6),
-      },
-      confirmPassword: {
-        required,
-        isEqPassword(value) {
-          if (value !== this.credentials.password) {
-            return false;
-          }
-          return true;
-        },
       },
     },
   },

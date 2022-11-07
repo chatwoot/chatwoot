@@ -1,36 +1,37 @@
-import { default as ar } from './locale/ar.json';
-import { default as ca } from './locale/ca.json';
-import { default as cs } from './locale/cs.json';
-import { default as da } from './locale/da.json';
-import { default as de } from './locale/de.json';
-import { default as el } from './locale/el.json';
-import { default as en } from './locale/en.json';
-import { default as es } from './locale/es.json';
-import { default as fa } from './locale/fa.json';
-import { default as fi } from './locale/fi.json';
-import { default as fr } from './locale/fr.json';
-import { default as hi } from './locale/hi.json';
-import { default as hu } from './locale/hu.json';
-import { default as id } from './locale/id.json';
-import { default as it } from './locale/it.json';
-import { default as ja } from './locale/ja.json';
-import { default as ko } from './locale/ko.json';
-import { default as ml } from './locale/ml.json';
-import { default as nl } from './locale/nl.json';
-import { default as no } from './locale/no.json';
-import { default as pl } from './locale/pl.json';
-import { default as pt } from './locale/pt.json';
-import { default as pt_BR } from './locale/pt_BR.json';
-import { default as ro } from './locale/ro.json';
-import { default as ru } from './locale/ru.json';
-import { default as sk } from './locale/sk.json';
-import { default as sv } from './locale/sv.json';
-import { default as ta } from './locale/ta.json';
-import { default as tr } from './locale/tr.json';
-import { default as uk } from './locale/uk.json';
-import { default as vi } from './locale/vi.json';
-import { default as zh_CN } from './locale/zh_CN.json';
-import { default as zh_TW } from './locale/zh_TW.json';
+import ar from './locale/ar.json';
+import ca from './locale/ca.json';
+import cs from './locale/cs.json';
+import da from './locale/da.json';
+import de from './locale/de.json';
+import el from './locale/el.json';
+import en from './locale/en.json';
+import es from './locale/es.json';
+import fa from './locale/fa.json';
+import fi from './locale/fi.json';
+import fr from './locale/fr.json';
+import hi from './locale/hi.json';
+import hu from './locale/hu.json';
+import id from './locale/id.json';
+import it from './locale/it.json';
+import ja from './locale/ja.json';
+import ko from './locale/ko.json';
+import ml from './locale/ml.json';
+import nl from './locale/nl.json';
+import no from './locale/no.json';
+import pl from './locale/pl.json';
+import pt from './locale/pt.json';
+import pt_BR from './locale/pt_BR.json';
+import ro from './locale/ro.json';
+import ru from './locale/ru.json';
+import sk from './locale/sk.json';
+import sv from './locale/sv.json';
+import ta from './locale/ta.json';
+import th from './locale/th.json';
+import tr from './locale/tr.json';
+import uk from './locale/uk.json';
+import vi from './locale/vi.json';
+import zh_CN from './locale/zh_CN.json';
+import zh_TW from './locale/zh_TW.json';
 
 export default {
   ar,
@@ -61,6 +62,7 @@ export default {
   sk,
   sv,
   ta,
+  th,
   tr,
   uk,
   vi,

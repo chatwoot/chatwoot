@@ -33,7 +33,7 @@ const Template = (args, { argTypes }) => ({
     '<label-dropdown-item v-bind="$props" @click="onClick"></label-dropdown-item>',
 });
 
-export const item = Template.bind({});
-item.args = {
+export const Item = Template.bind({});
+Item.args = {
   onClick: action('Selected'),
 };

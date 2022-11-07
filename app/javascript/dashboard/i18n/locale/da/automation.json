@@ -1,54 +1,54 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automations",
-    "HEADER_BTN_TXT": "Add Automation Rule",
-    "LOADING": "Fetching automation rules",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
+    "HEADER": "Automatiseringer",
+    "HEADER_BTN_TXT": "Tilføj Automatiseringsregel",
+    "LOADING": "Henter automatiseringsregler",
+    "SIDEBAR_TXT": "<p><b>Automatiseringsregler</b> <p>Automatisering kan erstatte og automatisere eksisterende processer, der kræver manuel indsats. Du kan gøre mange ting med automatisering, herunder tilføje etiketter og tildele samtale til den bedste agent. Så holdet fokuserer på, hvad de gør bedst, og bruger mere lidt tid på manuelle opgaver.</p>",
     "ADD": {
-      "TITLE": "Add Automation Rule",
+      "TITLE": "Tilføj Automatiseringsregel",
       "SUBMIT": "Opret",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "FORM": {
         "NAME": {
-          "LABEL": "Rule Name",
-          "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "LABEL": "Regel Navn",
+          "PLACEHOLDER": "Indtast regelnavn",
+          "ERROR": "Navn er påkrævet"
         },
         "DESC": {
           "LABEL": "Beskrivelse",
-          "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Indtast regel beskrivelse",
+          "ERROR": "Beskrivelse er påkrævet"
         },
         "EVENT": {
-          "LABEL": "Event",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Event is required"
+          "LABEL": "Begivenhed",
+          "PLACEHOLDER": "Vælg venligst en",
+          "ERROR": "Begivenhed er påkrævet"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Betingelser"
         },
         "ACTIONS": {
           "LABEL": "Handlinger"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Add Condition",
-      "ACTION_BUTTON_LABEL": "Add Action",
+      "CONDITION_BUTTON_LABEL": "Tilføj Betingelse",
+      "ACTION_BUTTON_LABEL": "Tilføj Handling",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule added successfully",
-        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatiseringsregel tilføjet med succes",
+        "ERROR_MESSAGE": "Kunne ikke oprette en automatiseringsregel. Prøv igen senere"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "Navn",
         "Beskrivelse",
-        "Active",
-        "Created on"
+        "Aktiv",
+        "Oprettet den"
       ],
-      "404": "No automation rules found"
+      "404": "Ingen automatiseringsregler fundet"
     },
     "DELETE": {
-      "TITLE": "Delete Automation Rule",
+      "TITLE": "Slet Automatiseringsregel",
       "SUBMIT": "Slet",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "CONFIRM": {
@@ -58,24 +58,24 @@
         "NO": "Nej, Behold "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatiseringsregel slettet",
+        "ERROR_MESSAGE": "Kunne ikke slette en automatiseringsregel, prøv igen senere"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Automation Rule",
+      "TITLE": "Rediger Automatiseringsregel",
       "SUBMIT": "Opdater",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "API": {
-        "SUCCESS_MESSAGE": "Automation rule updated successfully",
-        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatiseringsregel opdateret",
+        "ERROR_MESSAGE": "Kunne ikke opdatere automatiseringsreglen. Prøv igen senere"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Clone",
+      "TOOLTIP": "Klon",
       "API": {
-        "SUCCESS_MESSAGE": "Automation cloned successfully",
-        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
+        "SUCCESS_MESSAGE": "Automatisering klonet med succes",
+        "ERROR_MESSAGE": "Kunne ikke klone automatiseringsreglen. Prøv igen senere"
       }
     },
     "FORM": {
@@ -83,34 +83,34 @@
       "CREATE": "Opret",
       "DELETE": "Slet",
       "CANCEL": "Annuller",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Ændring af begivenhedstype vil nulstille de betingelser og begivenheder, du har tilføjet nedenfor"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "You need to have atleast one condition to save"
+      "DELETE_MESSAGE": "Du skal have mindst én betingelse for at gemme"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "You need to have atleast one action to save",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "DELETE_MESSAGE": "Du skal have mindst én handling for at gemme",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Indtast din besked her",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Vælg teams"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Activate Automation Rule",
-      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
-      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
-      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
-      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
-      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
-      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
-      "CONFIRMATION_LABEL": "Yes",
-      "CANCEL_LABEL": "No"
+      "ACTIVATION_TITLE": "Aktivér Automatiseringsregel",
+      "DEACTIVATION_TITLE": "Deaktiver Automatiseringsregel",
+      "ACTIVATION_DESCRIPTION": "Denne handling vil aktivere automatiseringsreglen '{automationName}'. Er du sikker på du vil fortsætte?",
+      "DEACTIVATION_DESCRIPTION": "Denne handling vil deaktivere automatiseringsreglen '{automationName}'. Er du sikker på du vil fortsætte?",
+      "ACTIVATION_SUCCESFUL": "Automatiseringsregel Aktiveret",
+      "DEACTIVATION_SUCCESFUL": "Automatiseringsregel Deaktiveret",
+      "ACTIVATION_ERROR": "Kunne ikke aktivere automatisering, prøv igen senere",
+      "DEACTIVATION_ERROR": "Kunne ikke deaktivere automatisering, prøv igen senere",
+      "CONFIRMATION_LABEL": "Ja",
+      "CANCEL_LABEL": "Nej"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
-      "LABEL_IDLE": "Upload Attachment",
+      "UPLOAD_ERROR": "Kunne ikke uploade vedhæftning, Prøv venligst igen",
+      "LABEL_IDLE": "Upload Vedhæftning",
       "LABEL_UPLOADING": "Uploader...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOADED": "Succesfuldt Uploadet",
+      "LABEL_UPLOAD_FAILED": "Upload Mislykkedes"
     }
   }
 }

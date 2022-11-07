@@ -1,62 +1,62 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
-    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
+    "FETCHING": "Notiek Integrāciju Iegūšana",
+    "NO_HOOK_CONFIGURED": "Šajā kontā nav nokonfigurēta neviena %{integrationId} integrācija.",
+    "HEADER": "Lietojumprogrammas",
     "STATUS": {
-      "ENABLED": "Enabled",
-      "DISABLED": "Disabled"
+      "ENABLED": "Iespējots",
+      "DISABLED": "Atspējots"
     },
-    "CONFIGURE": "Configure",
-    "ADD_BUTTON": "Add a new hook",
+    "CONFIGURE": "Konfigurēt",
+    "ADD_BUTTON": "Pievienojiet jaunu hook",
     "DELETE": {
       "TITLE": {
-        "INBOX": "Confirm deletion",
-        "ACCOUNT": "Disconnect"
+        "INBOX": "Apstiprināt dzēšanu",
+        "ACCOUNT": "Atvienot"
       },
       "MESSAGE": {
-        "INBOX": "Are you sure to delete?",
-        "ACCOUNT": "Are you sure to disconnect?"
+        "INBOX": "Vai tiešām vēlaties izdzēst?",
+        "ACCOUNT": "Vai tiešām vēlaties atvienot?"
       },
       "CONFIRM_BUTTON_TEXT": {
-        "INBOX": "Yes, Delete",
-        "ACCOUNT": "Yes, Disconnect"
+        "INBOX": "Jā, Dzēst",
+        "ACCOUNT": "Jā, Atvienot"
       },
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
-        "SUCCESS_MESSAGE": "Hook deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Hook ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "LIST": {
-      "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "FETCHING": "Notiek integrāciju hook iegūšana",
+      "INBOX": "Iesūtne",
       "DELETE": {
-        "BUTTON_TEXT": "Delete"
+        "BUTTON_TEXT": "Dzēst"
       }
     },
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Izvēlieties Iesūtni",
+          "PLACEHOLDER": "Izvēlieties Iesūtni"
         },
-        "SUBMIT": "Create",
-        "CANCEL": "Cancel"
+        "SUBMIT": "Izveidot",
+        "CANCEL": "Atcelt"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Integration hook added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Integrācijas hook ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Savienoties"
     },
     "DISCONNECT": {
-      "BUTTON_TEXT": "Disconnect"
+      "BUTTON_TEXT": "Atvienot"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. <br /> <br /> Dialogflow integration with %{installationName} allows you to configure a Dialogflow bot with your inboxes which lets the bot handle the queries initially and hand them over to an agent when needed. Dialogflow can be used to qualifying the leads, reduce the workload of agents by providing frequently asked questions etc. <br /> <br /> To add Dialogflow, you need to create a Service Account in your Google project console and share the credentials. Please refer to the Dialogflow docs for more information."
+      "DIALOGFLOW": "Dialogflow ir dabiskas valodas izpratnes platforma, kas ļauj viegli izveidot un integrēt sarunvalodas lietotāja interfeisu jūsu mobilajā lietotnē, tīmekļa lietojumprogrammā, ierīcē, robotprogrammā, interaktīvā balss atbildes sistēmā utt. <br /> <br /> Dialogflow integrācija ar %{installationName} ļauj piesaistīt Dialogflow robotam Jūsu Iesūtnes, kas savukārt ļauj robotam sākotnēji apstrādāt vaicājumus un nepieciešamības gadījumā nodot tos aģentam. Dialogflow var izmantot lai kvalificētu izpildāmos darbus un tādā veidā samazinātu aģentu darba slodzi, sniedzot atbildes uz bieži uzdotajiem jautājumiem utt. <br /> <br /> Lai pievienotu Dialogflow, Jums ir jāizveido servisa konts savā Google projekta konsolē un jākopīgo akreditācijas dati. Lai iegūtu papildu informāciju, lūdzu, skatiet Dialogflow dokumentāciju."
     }
   }
 }

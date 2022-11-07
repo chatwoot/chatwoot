@@ -24,7 +24,7 @@ describe Integrations::Dialogflow::ProcessorService do
 
     before do
       allow(dialogflow_service).to receive(:query_result).and_return(dialogflow_response)
-      allow(processor).to receive(:get_dialogflow_response).and_return(dialogflow_service)
+      allow(processor).to receive(:get_response).and_return(dialogflow_service)
       allow(dialogflow_text_double).to receive(:to_h).and_return({ text: ['hello payload'] })
     end
 
@@ -93,7 +93,7 @@ describe Integrations::Dialogflow::ProcessorService do
       let(:conversation) { create(:conversation, account: account, status: :open) }
 
       it 'returns nil' do
-        expect(processor.perform).to be(nil)
+        expect(processor.perform).to be_nil
       end
     end
 
@@ -101,7 +101,7 @@ describe Integrations::Dialogflow::ProcessorService do
       let(:message) { create(:message, account: account, conversation: conversation, private: true) }
 
       it 'returns nil' do
-        expect(processor.perform).to be(nil)
+        expect(processor.perform).to be_nil
       end
     end
 

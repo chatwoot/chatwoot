@@ -5,9 +5,15 @@
   <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! </p>
 <% end %>
 
+<% if @resource.confirmed? %>
+<p>You can login to your account through the link below:</p>
+<% else %>
 <p>You can confirm your account email through the link below:</p>
+<% end %>
 
-<% if account_user&.inviter.present? && @resource.unconfirmed_email.blank?  %>
+<% if @resource.confirmed? %>
+<p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
+<% elsif account_user&.inviter.present? && @resource.unconfirmed_email.blank?  %>
 <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
 <% else %>
 <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>

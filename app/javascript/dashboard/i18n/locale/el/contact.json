@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Μη Διαθέσιμο",
     "EMAIL_ADDRESS": "Διεύθυνση Email",
     "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+    "IDENTIFIER": "Κωδικός",
     "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
     "COMPANY": "Εταιρία",
     "LOCATION": "Θέση",
+    "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
     "CONVERSATION_TITLE": "Λεπτομέρειες συνομιλίας",
     "VIEW_PROFILE": "Προβολή Προφίλ",
     "BROWSER": "Φυλλομετρητής",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Εισάγετε την διεύθυνση email της επαφής",
         "LABEL": "Διεύθυνση Email",
-        "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή."
+        "DUPLICATE": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή.",
+        "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Το avatar της επαφής διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή του avatar της επαφής. Παρακαλώ προσπαθήστε ξανά αργότερα."
       }
     },
     "SUCCESS_MESSAGE": "Η επαφή αποθηκεύτηκε με επιτυχία",

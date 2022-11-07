@@ -6,8 +6,11 @@ export default {
   get() {
     return API.get(buildUrl('widget/contact'));
   },
-  update(identifier, userObject) {
-    return API.patch(buildUrl('widget/contact'), {
+  update(userObject) {
+    return API.patch(buildUrl('widget/contact'), userObject);
+  },
+  setUser(identifier, userObject) {
+    return API.patch(buildUrl('widget/contact/set_user'), {
       identifier,
       ...userObject,
     });

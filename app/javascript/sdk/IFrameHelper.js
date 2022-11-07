@@ -1,9 +1,8 @@
 import Cookies from 'js-cookie';
 import {
-  wootOn,
-  addClass,
+  addClasses,
   loadCSS,
-  removeClass,
+  removeClasses,
   onLocationChangeListener,
 } from './DOMHelpers';
 import {
@@ -32,6 +31,12 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+
+const updateAuthCookie = cookieContent =>
+  Cookies.set('cw_conversation', cookieContent, {
+    expires: 365,
+    sameSite: 'Lax',
+  });
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -62,7 +67,7 @@ export const IFrameHelper = {
       holderClassName += ` woot-widget-holder--flat`;
     }
 
-    addClass(widgetHolder, holderClassName);
+    addClasses(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -93,7 +98,7 @@ export const IFrameHelper = {
     };
   },
   initWindowSizeListener: () => {
-    wootOn(window, 'resize', () => IFrameHelper.toggleCloseButton());
+    window.addEventListener('resize', () => IFrameHelper.toggleCloseButton());
   },
   preventDefaultScroll: () => {
     widgetHolder.addEventListener('wheel', event => {
@@ -134,10 +139,7 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      Cookies.set('cw_conversation', message.config.authToken, {
-        expires: 365,
-        sameSite: 'Lax',
-      });
+      updateAuthCookie(message.config.authToken);
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
@@ -176,6 +178,10 @@ export const IFrameHelper = {
 
     setBubbleLabel(message) {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
+    },
+
+    setAuthCookie({ data: { widgetAuthToken } }) {
+      updateAuthCookie(widgetAuthToken);
     },
 
     toggleBubble: state => {
@@ -234,9 +240,9 @@ export const IFrameHelper = {
         event.unreadMessageCount > 0 &&
         !bubbleElement.classList.contains('unread-notification')
       ) {
-        addClass(bubbleElement, 'unread-notification');
+        addClasses(bubbleElement, 'unread-notification');
       } else if (event.unreadMessageCount === 0) {
-        removeClass(bubbleElement, 'unread-notification');
+        removeClasses(bubbleElement, 'unread-notification');
       }
     },
 
@@ -277,7 +283,7 @@ export const IFrameHelper = {
       target: chatBubble,
     });
 
-    addClass(closeBubble, closeBtnClassName);
+    addClasses(closeBubble, closeBtnClassName);
 
     chatIcon.style.background = widgetColor;
     closeBubble.style.background = widgetColor;

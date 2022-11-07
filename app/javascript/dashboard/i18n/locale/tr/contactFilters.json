@@ -38,7 +38,8 @@
             "CUSTOM_ATTRIBUTE_LINK": "Bağlantı",
             "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
             "CREATED_AT": "Oluşturma",
-            "LAST_ACTIVITY": "Son aktivite"
+            "LAST_ACTIVITY": "Son aktivite",
+            "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
             "STANDARD_FILTERS": "Standart Filtreler",

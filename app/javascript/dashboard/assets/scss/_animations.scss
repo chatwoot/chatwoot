@@ -1,11 +1,9 @@
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
 .slide-fade-enter-active {
-  transition: all .3s $ease-in-cubic;
+  transition: all 0.3s var(--ease-in-cubic);
 }
 
 .slide-fade-leave-active {
-  transition: all .3s $ease-out-cubic;
+  transition: all 0.3s var(--ease-out-cubic);
 }
 
 .slide-fade-enter,
@@ -24,7 +22,7 @@
 
 .conversations-list-enter-active,
 .conversations-list-leave-active {
-  transition: all .25s $ease-out-cubic;
+  transition: all 0.25s var(--ease-out-cubic);
 }
 
 .conversations-list-enter,
@@ -35,10 +33,9 @@
 
 .menu-list-enter-active,
 .menu-list-leave-active {
-  transition: opacity .3s $ease-out-cubic,
-    transform .2s $ease-out-cubic;
+  transition: opacity 0.3s var(--ease-out-cubic),
+    transform 0.2s var(--ease-out-cubic);
 }
-
 
 .menu-list-leave-to {
   opacity: 0;
@@ -52,23 +49,24 @@
 }
 
 .slide-up-enter-active {
-  transition: all .3s $ease-in-cubic;
+  transition: all 0.3s var(--ease-in-cubic);
 }
 
 .slide-up-leave-active {
-  transition: all .3s $ease-out-cubic;
+  transition: all 0.3s var(--ease-out-cubic);
 }
 
 .slide-up-enter,
 .slide-up-leave-to {
-  transform: translateY(-$space-medium);
   opacity: 0;
+  transform: translateY(-$space-medium);
 }
 
 .menu-slide-enter-active,
 .menu-slide-leave-active {
   transform: translateY(0);
-  transition: transform 0.25s $ease-in-cubic, opacity 0.15s $ease-in-cubic;
+  transition: transform 0.25s var(--ease-in-cubic),
+    opacity 0.15s var(--ease-in-cubic);
 }
 
 .menu-slide-enter,
@@ -77,13 +75,12 @@
   transform: translateY($space-small);
 }
 
-
 .toast-fade-enter-active {
-  transition: all .3s $ease-in-sine;
+  transition: all 0.3s var(--ease-in-sine);
 }
 
 .toast-fade-leave-active {
-  transition: all .1s $ease-out-sine;
+  transition: all 0.1s var(--ease-out-sine);
 }
 
 .toast-fade-enter,
@@ -93,11 +90,11 @@
 }
 
 .modal-fade-enter-active {
-  transition: all .3s $ease-in-sine;
+  transition: all 0.3s var(--ease-in-sine);
 }
 
 .modal-fade-leave-active {
-  transition: all .1s $ease-out-sine;
+  transition: all 0.1s var(--ease-out-sine);
 }
 
 .modal-fade-enter,
@@ -106,15 +103,15 @@
 }
 
 .network-notification-fade-enter-active {
-  transition: all .1s $ease-in-sine;
+  transition: all 0.1s var(--ease-in-sine);
 }
 
 .network-notification-fade-leave-active {
-  transition: all .1s $ease-out-sine;
+  transition: all 0.1s var(--ease-out-sine);
 }
 
 .network-notification-fade-enter,
 .network-notification-fade-leave-to {
-  transform: translateY(-$space-small);
   opacity: 0;
+  transform: translateY(-$space-small);
 }

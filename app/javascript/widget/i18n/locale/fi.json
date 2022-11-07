@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Olemme online-tilassa",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Olemme tällä hetkellä poissa"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
@@ -74,8 +74,8 @@
     }
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "TITLE": "Anna arvio palvelusta",
+    "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",
     "PLACEHOLDER": "Tell us more..."
   },
   "EMAIL_TRANSCRIPT": {

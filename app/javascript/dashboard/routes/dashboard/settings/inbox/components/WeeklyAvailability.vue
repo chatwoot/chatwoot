@@ -50,7 +50,7 @@
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
+          :loading="uiFlags.isUpdating"
           :disabled="hasError"
         />
       </form>

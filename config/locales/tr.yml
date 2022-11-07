@@ -22,16 +22,37 @@ tr:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
   errors:
+    validations:
+      presence: boş bırakılmamalı
     webhook:
-      invalid: Invalid events
+      invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+    data_import:
+      data_type:
+        invalid: Hatalı veri türü
     contacts:
       import:
         failed: Dosya boş
+      email:
+        invalid: Hatalı e-posta
+      phone_number:
+        invalid: e164 formatında olmalı
+    categories:
+      locale:
+        unique: kategori ve portalde tekil olmalı
+    inboxes:
+      imap:
+        socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
+        no_response_error: Lütfen IMAP erişim bilgilerinizi kontrol edip tekrar deneyin.
+        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
+        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        connection_closed_error: Connection closed.
+      validations:
+        name: should not start or end with symbols, and it should not have < > / \ @ characters.
   reports:
     period: Raporlama aralığı %{since}'dan %{until}'a
     agent_csv:
@@ -75,6 +96,7 @@ tr:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
+      instagram_deleted_story_content: This story is no longer available.
       deleted: Bu mesaj silinmiş
     activity:
       status:

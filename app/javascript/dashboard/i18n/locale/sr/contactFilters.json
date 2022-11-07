@@ -1,49 +1,50 @@
 {
     "CONTACTS_FILTER": {
-        "TITLE": "Filter Contacts",
-        "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
-        "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "TITLE": "Filtriraj kontakte",
+        "SUBTITLE": "Dodajte filtere ispod i kliknite na 'Primeni' da bi ste flitrirali kontakte.",
+        "ADD_NEW_FILTER": "Dodajte filter",
+        "CLEAR_ALL_FILTERS": "Ukloni sve filtere",
+        "FILTER_DELETE_ERROR": "Trebali bi da imate barem jedan filter da bi ste ga sačuvali",
         "SUBMIT_BUTTON_LABEL": "Pošalji",
         "CANCEL_BUTTON_LABEL": "Otkaži",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
-        "TOOLTIP_LABEL": "Filter contacts",
+        "CLEAR_BUTTON_LABEL": "Poništite filtere",
+        "EMPTY_VALUE_ERROR": "Vrednost je neophodna",
+        "TOOLTIP_LABEL": "Filtriraj kontakte",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "I",
+            "OR": "ILI"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
-            "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "equal_to": "Jednako sa",
+            "not_equal_to": "Nije jednako sa",
+            "contains": "Sadrži",
+            "does_not_contain": "Ne sadrži",
+            "is_present": "Postoji",
+            "is_not_present": "Ne postoji",
+            "is_greater_than": "Veće je od",
+            "is_lesser_than": "Je manje od",
+            "days_before": "Je x dana pre"
         },
         "ATTRIBUTES": {
             "NAME": "Ime",
-            "EMAIL": "Email",
-            "PHONE_NUMBER": "Phone number",
-            "IDENTIFIER": "Identifier",
+            "EMAIL": "E-pošta",
+            "PHONE_NUMBER": "Broj telefona",
+            "IDENTIFIER": "Identifikator",
             "CITY": "Grad",
             "COUNTRY": "Država",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
-            "LAST_ACTIVITY": "Poslednja aktivnost"
+            "CUSTOM_ATTRIBUTE_LIST": "Lista",
+            "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+            "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+            "CUSTOM_ATTRIBUTE_LINK": "Veza",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
+            "CREATED_AT": "Kreirano",
+            "LAST_ACTIVITY": "Poslednja aktivnost",
+            "REFERER_LINK": "Veza preporuke"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
-            "CUSTOM_ATTRIBUTES": "Custom Attributes"
+            "STANDARD_FILTERS": "Standardni filteri",
+            "ADDITIONAL_FILTERS": "Dodatni filteri",
+            "CUSTOM_ATTRIBUTES": "Prilagođeni atributi"
         }
     }
 }

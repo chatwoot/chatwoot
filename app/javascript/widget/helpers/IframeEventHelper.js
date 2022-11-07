@@ -10,7 +10,7 @@ export const loadedEventConfig = () => {
 
 export const getExtraSpaceToScroll = () => {
   // This function calculates the extra space needed for the view to
-  // accomodate the height of close button + height of
+  // accommodate the height of close button + height of
   // read messages button. So that scrollbar won't appear
   const unreadMessageWrap = document.querySelector('.unread-messages');
   const unreadCloseWrap = document.querySelector('.close-unread-wrap');

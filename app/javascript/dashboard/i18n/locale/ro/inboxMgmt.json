@@ -30,7 +30,8 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nume Inbox",
-        "PLACEHOLDER": "Introduceți numele inboxului (de exemplu: Acme Inc)"
+        "PLACEHOLDER": "Introduceți numele inboxului (de exemplu: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nume website",
@@ -82,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activare salut canal",
-          "HELP_TEXT": "Trimiteți un mesaj de salut utilizatorilor atunci când încep conversația.",
+          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Activat",
           "DISABLED": "Dezactivat"
         },
@@ -97,7 +98,10 @@
           "LABEL": "Culoare widget",
           "PLACEHOLDER": "Actualizează culoarea folosită în widget"
         },
-        "SUBMIT_BUTTON": "Crează inbox"
+        "SUBMIT_BUTTON": "Crează inbox",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+        }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/Canal WhatsApp",
@@ -106,6 +110,12 @@
           "LABEL": "Cont SID",
           "PLACEHOLDER": "Te rugăm să introduci ID-ul contului Twilio",
           "ERROR": "Acest câmp este obligatoriu"
+        },
+        "MESSAGING_SERVICE_SID": {
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "Acest câmp este obligatoriu",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipul canalului",
@@ -193,6 +203,7 @@
         "PROVIDERS": {
           "LABEL": "Furnizor API",
           "TWILIO": "Twilio",
+          "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
@@ -205,12 +216,30 @@
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
           "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
         },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Vă rugăm să introduceți o valoare validă."
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Vă rugăm să introduceți o valoare validă."
+        },
+        "WEBHOOK_VERIFY_TOKEN": {
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Vă rugăm să introduceți o valoare validă."
+        },
         "API_KEY": {
           "LABEL": "Cheie API",
           "SUBTITLE": "Configurați cheia API WhatsApp.",
           "PLACEHOLDER": "Cheie API",
-          "APPLY_FOR_ACCESS": "Nu aveți nicio cheie API? Aplicați pentru acces aici",
           "ERROR": "Vă rugăm să introduceți o valoare validă."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Creați canalul WhatsApp",
         "API": {
@@ -298,7 +327,7 @@
       },
       "AUTH": {
         "TITLE": "Alege un canal",
-        "DESC": "Chatwoot acceptă widget live-chat, pagina de Facebook, profilul Twitter, WhatsApp, e-mail etc., ca și canale. Dacă doriți să construiți un canal personalizat, îl puteți crea folosind canalul API. Selectați un canal din opțiunile de mai jos pentru a continua."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenți",
@@ -339,7 +368,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Setări Inbox actualizate cu succes",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribuire automată actualizată cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut actualiza culoarea widgetului. Vă rugăm să încercați din nou mai târziu."
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activat",
@@ -384,7 +413,8 @@
       "CONFIGURATION": "Configurare",
       "CAMPAIGN": "Campanii",
       "PRE_CHAT_FORM": "Formular pre chat",
-      "BUSINESS_HOURS": "Program de lucru"
+      "BUSINESS_HOURS": "Program de lucru",
+      "WIDGET_BUILDER": "Widget Builder"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -412,15 +442,22 @@
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
       "HMAC_VERIFICATION": "Validarea identității utilizatorului",
-      "HMAC_DESCRIPTION": "Pentru a valida identitatea utilizatorului, SDK-ul vă permite să treceți un \"identifier_hash\" pentru fiecare utilizator. Puteți genera HMAC folosind \"sha256\" cu cheia afișată aici.",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_MANDATORY_VERIFICATION": "Impuneți validarea identității utilizatorului",
-      "HMAC_MANDATORY_DESCRIPTION": "Dacă este activată, metoda chatwoot SDK setUser nu va funcționa decât dacă \"identifier_hash\" este furnizată pentru fiecare utilizator.",
+      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
       "INBOX_IDENTIFIER": "Identificator inbox",
       "INBOX_IDENTIFIER_SUB_TEXT": "Utilizați simbolul \"inbox_identifier\" afișat aici pentru a vă autentifica clienții API.",
       "FORWARD_EMAIL_TITLE": "Redirecționare către e-mail",
       "FORWARD_EMAIL_SUB_TEXT": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației."
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Cheie API"
+    },
+    "AUTO_ASSIGNMENT": {
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizează",
@@ -538,6 +575,88 @@
       "OPEN_SSL_VERIFY_MODE": "Deschideți modul de verificare SSL",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nume website",
+          "PLACE_HOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Titlu de salut",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Tagline de Bun Venit",
+          "PLACE_HOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "În câteva minute",
+          "IN_A_FEW_HOURS": "În câteva ore",
+          "IN_A_DAY": "Într-o zi"
+        },
+        "WIDGET_COLOR_LABEL": "Culoare widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Discută cu noi",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Discută cu noi"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
+        "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
+        "IN_A_DAY": "De obicei, răspunsurile într-o zi"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Începe conversația",
+        "CHAT_INPUT_PLACEHOLDER": "Scrie mesajul tău"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Suntem plecați în acest moment"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Oferit de Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    }
   }
 }

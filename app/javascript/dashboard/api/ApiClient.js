@@ -15,6 +15,11 @@ class ApiClient {
 
   baseUrl() {
     let url = this.apiVersion;
+
+    if (this.options.enterprise) {
+      url = `/enterprise${url}`;
+    }
+
     if (this.options.accountScoped) {
       const isInsideAccountScopedURLs = window.location.pathname.includes(
         '/app/accounts'

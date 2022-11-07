@@ -35,7 +35,7 @@
       <!-- No conversation selected -->
       <div v-else-if="allConversations.length && !currentChat.id">
         <img src="~dashboard/assets/images/chat.svg" alt="No Chat" />
-        <span>{{ $t('CONVERSATION.404') }}</span>
+        <span>{{ conversationMissingMessage }}</span>
       </div>
     </div>
   </div>
@@ -51,6 +51,12 @@ export default {
     OnboardingView,
   },
   mixins: [accountMixin, adminMixin],
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -64,6 +70,12 @@ export default {
         return this.$t('CONVERSATION.LOADING_INBOXES');
       }
       return this.$t('CONVERSATION.LOADING_CONVERSATIONS');
+    },
+    conversationMissingMessage() {
+      if (!this.isOnExpandedLayout) {
+        return this.$t('CONVERSATION.SELECT_A_CONVERSATION');
+      }
+      return this.$t('CONVERSATION.404');
     },
     newInboxURL() {
       return this.addAccountScoping('settings/inboxes/new');

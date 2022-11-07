@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import accounts from './modules/accounts';
 import agents from './modules/agents';
+import agentBots from './modules/agentBots';
 import attributes from './modules/attributes';
 import auth from './modules/auth';
 import automations from './modules/automations';
@@ -35,12 +36,16 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import articles from './modules/helpCenterArticles';
+import portals from './modules/helpCenterPortals';
+import categories from './modules/helpCenterCategories';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     accounts,
     agents,
+    agentBots,
     attributes,
     auth,
     automations,
@@ -73,5 +78,8 @@ export default new Vuex.Store({
     teams,
     userNotificationSettings,
     webhooks,
+    articles,
+    portals,
+    categories,
   },
 });

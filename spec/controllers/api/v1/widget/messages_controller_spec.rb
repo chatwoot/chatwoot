@@ -82,7 +82,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['content']).to eq(message_params[:content])
 
-        expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
+        expect(conversation.messages.last.attachments.first.file.present?).to be(true)
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
@@ -96,7 +96,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.resolved?).to eq(true)
+        expect(conversation.reload.resolved?).to be(true)
       end
 
       it 'does not create resolved activity messages when snoozed conversation is opened' do
@@ -118,7 +118,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
           }
         )
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.open?).to eq(true)
+        expect(conversation.reload.open?).to be(true)
       end
     end
   end

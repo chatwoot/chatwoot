@@ -6,7 +6,8 @@
       :on-close="closeDeletePopup"
       :on-confirm="deleteSavedCustomViews"
       :title="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -51,9 +52,7 @@ export default {
       return '';
     },
     deleteMessage() {
-      return `${this.$t(
-        'FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.MESSAGE'
-      )} ${this.activeCustomView && this.activeCustomView.name} ?`;
+      return ` ${this.activeCustomView && this.activeCustomView.name}?`;
     },
     deleteConfirmText() {
       return `${this.$t('FILTER.CUSTOM_VIEWS.DELETE.MODAL.CONFIRM.YES')}`;

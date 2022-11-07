@@ -51,14 +51,4 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
-
-  # font cors issue with CDN
-  # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins '*'
-      resource '/packs/*', headers: :any, methods: [:get, :options]
-      resource '/audio/*', headers: :any, methods: [:get, :options]
-    end
-  end
 end

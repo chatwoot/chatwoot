@@ -30,11 +30,9 @@
   .login-box {
     @include background-white;
     @include border-normal;
-    @include border-top-radius($space-smaller);
-    @include border-right-radius($space-smaller);
-    @include border-bottom-radius($space-smaller);
-    @include border-left-radius($space-smaller);
     @include elegant-card;
+
+    border-radius: $space-smaller;
     padding: $space-large;
 
     label {
@@ -61,7 +59,7 @@
     font-size: $font-size-default;
     padding: $space-medium;
 
-    >a {
+    > a {
       font-weight: $font-weight-bold;
     }
   }

@@ -8,6 +8,9 @@
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
         <select v-model="provider">
+          <option value="whatsapp_cloud">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
+          </option>
           <option value="twilio">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
           </option>
@@ -19,7 +22,8 @@
     </div>
 
     <twilio v-if="provider === 'twilio'" type="whatsapp" />
-    <three-sixty-dialog-whatsapp v-else />
+    <three-sixty-dialog-whatsapp v-else-if="provider === '360dialog'" />
+    <cloud-whatsapp v-else />
   </div>
 </template>
 
@@ -27,16 +31,18 @@
 import PageHeader from '../../SettingsSubPageHeader';
 import Twilio from './Twilio';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp';
+import CloudWhatsapp from './CloudWhatsapp';
 
 export default {
   components: {
     PageHeader,
     Twilio,
     ThreeSixtyDialogWhatsapp,
+    CloudWhatsapp,
   },
   data() {
     return {
-      provider: 'twilio',
+      provider: 'whatsapp_cloud',
     };
   },
 };

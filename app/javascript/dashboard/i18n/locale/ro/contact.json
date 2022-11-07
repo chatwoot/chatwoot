@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Nu este disponibil",
     "EMAIL_ADDRESS": "Adresa Email",
     "PHONE_NUMBER": "Număr de telefon",
+    "IDENTIFIER": "Identificator",
     "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes",
     "COMPANY": "Companie",
     "LOCATION": "Locaţie",
+    "BROWSER_LANGUAGE": "Limba browserului",
     "CONVERSATION_TITLE": "Detalii conversație",
     "VIEW_PROFILE": "Vezi profil",
     "BROWSER": "Navigator",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Introduceți adresa de e-mail a persoanei de contact",
         "LABEL": "Adresa Email",
-        "DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact."
+        "DUPLICATE": "Această adresă de e-mail este folosită pentru un alt contact.",
+        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Introduceți numărul de telefon al persoanei de contact",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Introdu numele de utilizator Github",
           "LABEL": "Github"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Contact salvat cu succes",

@@ -1,12 +1,12 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
+            "TITLE": "WhatsApp-pohjat",
+            "SUBTITLE": "Valitse WhatsApp-pohja, jonka haluat lähettää",
             "TEMPLATE_SELECTED_SUBTITLE": "Process %{templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
+            "SEARCH_PLACEHOLDER": "Etsi Pohjia",
             "NO_TEMPLATES_FOUND": "No templates found for",
             "LABELS": {
                 "LANGUAGE": "Language",
@@ -15,11 +15,11 @@
             }
         },
         "PARSER": {
-            "VARIABLES_LABEL": "Variables",
+            "VARIABLES_LABEL": "Muuttujat",
             "VARIABLE_PLACEHOLDER": "Enter %{variable} value",
-            "GO_BACK_LABEL": "Go Back",
-            "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "GO_BACK_LABEL": "Mene Takaisin",
+            "SEND_MESSAGE_LABEL": "Lähetä Viesti",
+            "FORM_ERROR_MESSAGE": "Täytä kaikki muuttujat ennen lähettämistä"
         }
     }
 }

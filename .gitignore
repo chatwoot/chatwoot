@@ -39,9 +39,6 @@ public/packs*
 *.un~
 .jest-cache
 
-#VS Code files
-.vscode
-
 # ignore jetbrains IDE files
 .idea
 

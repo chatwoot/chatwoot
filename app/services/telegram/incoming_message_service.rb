@@ -12,7 +12,7 @@ class Telegram::IncomingMessageService
     set_contact
     update_contact_avatar
     set_conversation
-    @message = @conversation.messages.create(
+    @message = @conversation.messages.build(
       content: params[:message][:text].presence || params[:message][:caption],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -31,7 +31,7 @@ class Telegram::IncomingMessageService
   end
 
   def set_contact
-    contact_inbox = ::ContactBuilder.new(
+    contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:message][:from][:id],
       inbox: inbox,
       contact_attributes: contact_attributes
@@ -45,7 +45,7 @@ class Telegram::IncomingMessageService
     return if @contact.avatar.attached?
 
     avatar_url = inbox.channel.get_telegram_profile_image(params[:message][:from][:id])
-    ::ContactAvatarJob.perform_later(@contact, avatar_url) if avatar_url
+    ::Avatar::AvatarFromUrlJob.perform_later(@contact, avatar_url) if avatar_url
   end
 
   def conversation_params

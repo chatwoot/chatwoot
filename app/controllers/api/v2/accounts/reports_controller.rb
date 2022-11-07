@@ -14,22 +14,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def agents
     @report_data = generate_agents_report
-    generate_csv('agents_report', 'api/v2/accounts/reports/agents.csv.erb')
+    generate_csv('agents_report', 'api/v2/accounts/reports/agents')
   end
 
   def inboxes
     @report_data = generate_inboxes_report
-    generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes.csv.erb')
+    generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes')
   end
 
   def labels
     @report_data = generate_labels_report
-    generate_csv('labels_report', 'api/v2/accounts/reports/labels.csv.erb')
+    generate_csv('labels_report', 'api/v2/accounts/reports/labels')
   end
 
   def teams
     @report_data = generate_teams_report
-    generate_csv('teams_report', 'api/v2/accounts/reports/teams.csv.erb')
+    generate_csv('teams_report', 'api/v2/accounts/reports/teams')
   end
 
   def conversations
@@ -43,7 +43,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def generate_csv(filename, template)
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
-    render layout: false, template: template, format: 'csv'
+    render layout: false, template: template, formats: [:csv]
   end
 
   def check_authorization

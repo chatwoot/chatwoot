@@ -39,6 +39,10 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def avatar?
+    true
+  end
+
   def destroy?
     @account_user.administrator?
   end

@@ -54,9 +54,9 @@ export default {
     },
     async onFileUpload(file) {
       if (this.globalConfig.directUploadsEnabled) {
-        this.onDirectFileUpload(file);
+        await this.onDirectFileUpload(file);
       } else {
-        this.onIndirectFileUpload(file);
+        await this.onIndirectFileUpload(file);
       }
     },
     async onDirectFileUpload(file) {

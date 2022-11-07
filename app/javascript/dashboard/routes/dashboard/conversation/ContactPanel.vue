@@ -9,6 +9,7 @@
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
+      animation="200"
       class="list-group"
       ghost-class="ghost"
       handle=".drag-handle"

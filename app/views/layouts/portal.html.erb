@@ -1,0 +1,38 @@
+<%#
+# Application Layout
+
+This view template is used as the layout
+for every page that Administrate generates.
+
+By default, it renders:
+- Navigation
+- Content for a search bar
+  (if provided by a `content_for` block in a nested page)
+- Flashes
+- Links to stylesheets and JavaScripts
+%>
+
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <%= javascript_pack_tag 'portal' %>
+    <%= stylesheet_pack_tag 'portal' %>
+    <%= csrf_meta_tags %>
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% else %>
+      <title><%= @portal.page_title%></title>
+    <% end %>
+  </head>
+  <body>
+    <div class="antialiased">
+      <main class="main-content min-h-screen flex flex-col" role="main">
+        <%= render "public/api/v1/portals/header", portal: @portal %>
+        <%= yield %>
+        <%= render "public/api/v1/portals/footer" %>
+      </main>
+    </div>
+  </body>
+</html>

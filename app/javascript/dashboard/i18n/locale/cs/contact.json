@@ -3,9 +3,11 @@
     "NOT_AVAILABLE": "Nedostupné",
     "EMAIL_ADDRESS": "E-mailová adresa",
     "PHONE_NUMBER": "Telefonní číslo",
+    "IDENTIFIER": "Identifikátor",
     "COPY_SUCCESSFUL": "Úspěšně zkopírováno do schránky",
     "COMPANY": "Společnost",
     "LOCATION": "Poloha",
+    "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Podrobnosti konverzace",
     "VIEW_PROFILE": "View Profile",
     "BROWSER": "Prohlížeč",
@@ -111,7 +113,8 @@
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Zadejte e-mailovou adresu kontaktu",
         "LABEL": "E-mailová adresa",
-        "DUPLICATE": "Tuto e-mailovou adresu již používá jiný kontakt."
+        "DUPLICATE": "Tuto e-mailovou adresu již používá jiný kontakt.",
+        "ERROR": "Zadejte prosím platnou e-mailovou adresu."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
@@ -145,6 +148,12 @@
           "PLACEHOLDER": "Zadejte uživatelské jméno na GitHubu",
           "LABEL": "GitHub"
         }
+      }
+    },
+    "DELETE_AVATAR": {
+      "API": {
+        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
       }
     },
     "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",
