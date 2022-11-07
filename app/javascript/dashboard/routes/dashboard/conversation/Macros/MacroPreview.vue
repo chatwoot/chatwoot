@@ -15,6 +15,7 @@ import {
   resolveActionName,
   resolveTeamIds,
   resolveLabels,
+  resolveAgents,
 } from 'dashboard/routes/dashboard/settings/macros/macroHelper';
 import { mapGetters } from 'vuex';
 
@@ -40,6 +41,7 @@ export default {
     ...mapGetters({
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
+      agents: 'agents/getAgents',
     }),
   },
   methods: {
@@ -47,6 +49,7 @@ export default {
       const actionsMap = {
         assign_team: resolveTeamIds(this.teams, params),
         add_label: resolveLabels(this.labels, params),
+        assign_best_agent: resolveAgents(this.agents, params),
         mute_conversation: null,
         snooze_conversation: null,
         resolve_conversation: null,
