@@ -39,4 +39,9 @@ export const MACRO_ACTION_TYPES = [
     label: 'Send a message',
     inputType: 'textarea',
   },
+  {
+    key: 'add_private_note',
+    label: 'Add a private note',
+    inputType: 'textarea',
+  },
 ];
