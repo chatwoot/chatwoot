@@ -51,6 +51,7 @@ export default {
   watch: {
     $route: {
       handler() {
+        this.fetchDropdownData();
         if (this.$route.params.macroId) {
           this.fetchMacro();
         } else {
@@ -61,12 +62,13 @@ export default {
     },
   },
   methods: {
-    fetchMacro() {
-      this.mode = 'EDIT';
+    fetchDropdownData() {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
-      this.$store.dispatch('agents/get');
+    },
+    fetchMacro() {
+      this.mode = 'EDIT';
       this.manifestMacro();
     },
     async manifestMacro() {
