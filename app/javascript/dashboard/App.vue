@@ -26,8 +26,6 @@ import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
-import axios from 'axios';
-import LogRocket from 'logrocket';
 
 export default {
   name: 'App',
@@ -89,28 +87,6 @@ export default {
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
-      LogRocket.init('giqgdt/chatwoot');
-
-      try {
-        const getAccountRequest = await axios.get(
-          `https://app.bitespeed.co/cxIntegrations/chatwoot/account/${this.currentAccountId}`
-        );
-        const account = getAccountRequest.data;
-        LogRocket.identify(`${this.currentAccountId}`, {
-          name: `${account.shopUrl}`,
-          email: `${this.getAccount(this.currentAccountId).email}`,
-          userId: `${this.currentUser.id}`,
-          userEmail: `${this.currentUser.email}`,
-        });
-      } catch (err) {
-        LogRocket.identify(`${this.currentAccountId}`, {
-          name: `${this.getAccount(this.currentAccountId).name}`,
-          email: `${this.getAccount(this.currentAccountId).email}`,
-          userId: `${this.currentUser.id}`,
-          userEmail: `${this.currentUser.email}`,
-        });
-      }
-
       const {
         locale,
         latest_chatwoot_version: latestChatwootVersion,
