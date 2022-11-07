@@ -232,7 +232,7 @@ export default {
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
         await this.$store.dispatch(action, payload);
-        this.showAlert(this.$t(successMessage));
+        this.showAlert(successMessage);
         this.hideAddPopup();
         this.hideEditPopup();
       } catch (error) {
