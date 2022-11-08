@@ -23,14 +23,15 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         get "/api/v1/accounts/#{account.id}/macros",
             headers: administrator.create_new_auth_token
 
-        visible_macros = account.macros
+        visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: administrator.id)).order(:id)
 
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
         expect(body['payload'].length).to eq(visible_macros.count)
-        expect(body['payload'].first['id']).to eq(Macro.first.id)
-        expect(body['payload'].last['id']).to eq(Macro.last.id)
+
+        expect(body['payload'].first['id']).to eq(visible_macros.first.id)
+        expect(body['payload'].last['id']).to eq(visible_macros.last.id)
       end
     end
 
@@ -42,7 +43,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         expect(response).to have_http_status(:success)
 
         body = JSON.parse(response.body)
-        visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: agent.id))
+        visible_macros = account.macros.global.or(account.macros.personal.where(created_by_id: agent.id)).order(:id)
 
         expect(body['payload'].length).to eq(visible_macros.count)
         expect(body['payload'].first['id']).to eq(visible_macros.first.id)
@@ -181,6 +182,19 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['name']).to eql(params['name'])
       end
+
+      it 'Unauthorize to update the macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent)
+
+        put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            params: params,
+            headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
     end
   end
 
@@ -214,6 +228,27 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
+
+      it 'Unauthorize to fetch other agents private macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :personal)
+
+        get "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
+
+      it 'authorize to fetch other agents public macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global)
+
+        get "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            headers: agent_1.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 
@@ -234,7 +269,8 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                                 { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                 { 'action_name' => 'snooze_conversation' },
                                 { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
-                                { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] }
+                                { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+                                { 'action_name' => 'add_private_note', 'action_params': ['We are sending greeting message to customer.'] }
                               ])
     end
 
@@ -296,6 +332,78 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
           expect(conversation.reload.status).to eql('snoozed')
         end
+
+        it 'Adds the private note' do
+          expect(conversation.messages).to be_empty
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.messages.last.content).to eq('We are sending greeting message to customer.')
+          expect(conversation.messages.last.sender).to eq(administrator)
+          expect(conversation.messages.last.private).to be_truthy
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/macros/{macro.id}' do
+    let!(:macro) { create(:macro, account: account, created_by: administrator, updated_by: administrator) }
+
+    context 'when it is an authenticated user' do
+      it 'Deletes the macro' do
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'deletes the orphan public record with admin credentials' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global)
+
+        expect(macro.created_by).to eq(agent)
+
+        agent.destroy!
+
+        expect(macro.reload.created_by).to be_nil
+
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'can not delete orphan public record with agent credentials' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global)
+
+        expect(macro.created_by).to eq(agent)
+
+        agent.destroy!
+
+        expect(macro.reload.created_by).to be_nil
+
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
+
+      it 'Unauthorize to delete the macro' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent)
+
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: agent_1.create_new_auth_token
+
+        json_response = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
       end
     end
   end
