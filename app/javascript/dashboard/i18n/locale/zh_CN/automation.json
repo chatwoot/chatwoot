@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "无法上传附件。请重试",
       "LABEL_IDLE": "上传附件",
       "LABEL_UPLOADING": "上传中...",
-      "LABEL_UPLOADED": "上传成功",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "上传失败"
     }
   }

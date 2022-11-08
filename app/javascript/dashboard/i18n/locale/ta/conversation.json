@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "உரையாடல் லேபிள்கள்",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "முந்தைய உரையாடல்கள்"
+      "PREVIOUS_CONVERSATION": "முந்தைய உரையாடல்கள்",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

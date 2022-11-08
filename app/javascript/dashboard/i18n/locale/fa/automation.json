@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "پیوست آپلود نشد، لطفا دوباره امتحان کنید",
       "LABEL_IDLE": "بارگذاری پیوست",
       "LABEL_UPLOADING": "در حال بارگذاری...",
-      "LABEL_UPLOADED": "با موفقیت بارگذاری شد",
+      "LABEL_UPLOADED": "با موفقیت آپلود شد",
       "LABEL_UPLOAD_FAILED": "بارگذاری انجام نشد"
     }
   }

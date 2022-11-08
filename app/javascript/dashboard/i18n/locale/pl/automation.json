@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Nie udało się przesłać załącznika, spróbuj ponownie",
       "LABEL_IDLE": "Prześlij załącznik",
       "LABEL_UPLOADING": "Przesyłanie...",
-      "LABEL_UPLOADED": "Pomyślnie przesłano załącznik",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Nie powiodło się przesyłanie załącznika"
     }
   }

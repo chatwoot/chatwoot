@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Tilpasset Domæne",
           "PLACEHOLDER": "Portal brugerdefineret domæne",
-          "HELP_TEXT": "Tilføj kun Hvis du vil bruge et brugerdefineret domæne til dine portaler.",
-          "ERROR": "Brugerdefineret domæne er påkrævet"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link Til Hjemmeside",
           "PLACEHOLDER": "Link til portalens hjemmeside",
-          "HELP_TEXT": "Linket, der bruges til at vende tilbage fra portalen til hjemmesiden.",
-          "ERROR": "Hjemmeside Link er påkrævet"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Portal tema farve",

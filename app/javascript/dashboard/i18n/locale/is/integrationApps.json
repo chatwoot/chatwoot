@@ -1,0 +1,62 @@
+{
+  "INTEGRATION_APPS": {
+    "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "Það eru engar %{integrationId} samþættingar stilltar á þessum reikningi.",
+    "HEADER": "Applications",
+    "STATUS": {
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled"
+    },
+    "CONFIGURE": "Configure",
+    "ADD_BUTTON": "Add a new hook",
+    "DELETE": {
+      "TITLE": {
+        "INBOX": "Confirm deletion",
+        "ACCOUNT": "Disconnect"
+      },
+      "MESSAGE": {
+        "INBOX": "Are you sure to delete?",
+        "ACCOUNT": "Are you sure to disconnect?"
+      },
+      "CONFIRM_BUTTON_TEXT": {
+        "INBOX": "Yes, Delete",
+        "ACCOUNT": "Yes, Disconnect"
+      },
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "API": {
+        "SUCCESS_MESSAGE": "Hook deleted successfully",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      }
+    },
+    "LIST": {
+      "FETCHING": "Fetching integration hooks",
+      "INBOX": "Inbox",
+      "DELETE": {
+        "BUTTON_TEXT": "Eyða"
+      }
+    },
+    "ADD": {
+      "FORM": {
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox"
+        },
+        "SUBMIT": "Create",
+        "CANCEL": "Hætta við"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Integration hook added successfully",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
+    },
+    "DISCONNECT": {
+      "BUTTON_TEXT": "Disconnect"
+    },
+    "SIDEBAR_DESCRIPTION": {
+      "DIALOGFLOW": "Dialogflow er náttúrulegur málskilningsvettvangur sem gerir það auðvelt að hanna og samþætta samtalsnotendaviðmót í farsímaforritið þitt, vefforrit, tæki, vélmenni, gagnvirkt raddsvörunarkerfi og svo framvegis. <br /> <br /> Dialogflow samþætting við %{installationName} gerir þér kleift að stilla Dialogflow spjallmenni við innhólfin þín sem gerir spjallmenninu kleift að sjá um fyrirspurnir í upphafi og afhenda þær þjónustufulltrúa þegar þörf krefur. Dialogflow er hægt að nota til að hæfa sölumönnunum, draga úr vinnuálagi þjónustufulltrúa með því að leggja fram algengar spurningar o.s.frv. <br /> <br /> Til að bæta Dialogflow við þarftu að búa til þjónustureikning í Google verkefnaborðinu þínu og deila aðgangsupplýsingum. Vinsamlegast skoðaðu Dialogflow skjölin fyrir frekari upplýsingar."
+    }
+  }
+}
