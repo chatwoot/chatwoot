@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import types from '../mutation-types';
+import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 import ConversationInboxApi from '../../api/inbox/conversation';
 
@@ -35,7 +36,7 @@ export const actions = {
         data: response.data,
       });
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
         isFetching: false,
@@ -58,7 +59,7 @@ export const actions = {
         data: response.data,
       });
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
         isUpdating: false,
