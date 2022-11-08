@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "گفتگو کے لیبلز",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "پچھلی بات چیت"
+      "PREVIOUS_CONVERSATION": "پچھلی بات چیت",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
