@@ -343,11 +343,6 @@
       "SUCCESS_MESSAGE": "Contact merged successfully",
       "ERROR_MESSAGE": "Could not merge contacts, try again!"
     }
-  },
-  "CONVERSATION_WATCHERS": {
-    "NO_RECORDS_FOUND": "No results found",
-    "ADD_WATCHERS": "Select watchers",
-    "REMANING_WATCHERS_TEXT": "+%{count} others",
-    "TOTAL_WATCHERS_TEXT": "%{count} people are watching."
   }
+
 }

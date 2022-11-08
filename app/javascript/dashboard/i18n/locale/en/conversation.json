@@ -239,5 +239,20 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
+  },
+  "CONVERSATION_WATCHERS": {
+    "NO_RECORDS_FOUND": "No results found",
+    "ADD_WATCHERS": "Select watchers",
+    "REMANING_WATCHERS_TEXT": "+%{count} others",
+    "REMANING_WATCHER_TEXT": "+%{count} other",
+    "TOTAL_WATCHERS_TEXT": "%{count} people are watching.",
+    "TOTAL_WATCHER_TEXT": "%{count} person is watching.",
+    "NO_WATCHERS_TEXT": "No one is watching!.",
+    "WATCH_CONVERSATION": "Watch conversation",
+    "YOU_ARE_WATCHING": "You are watching this",
+    "API": {
+      "ERROR_MESSAGE": "Could not update, try again!",
+      "SUCCESS_MESSAGE": "Watchers updated!"
+    }
   }
 }

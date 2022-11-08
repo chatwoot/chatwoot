@@ -3,17 +3,16 @@
     <div class="subscribers--collapsed">
       <div class="content-wrap">
         <div>
-          <ThumbnailGroup
-            :more-thumbnails-text="
-              $t('CONVERSATION_WATCHERS.REMANING_WATCHERS_TEXT', {
-                agentCount: moreAgentCount,
-              })
-            "
-            :users-list="participantList"
-          />
+          <p v-if="watchersList.length" class="total-watchers">
+            <spinner v-if="watchersUiFlas.isFetching" size="tiny" />
+            {{ totalWatchersText }}
+          </p>
+          <p v-else class="text-muted">
+            {{ $t('CONVERSATION_WATCHERS.NO_WATCHERS_TEXT') }}
+          </p>
         </div>
         <woot-button
-          v-tooltip.top-end="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
+          v-tooltip.left="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
           :title="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
           icon="settings"
           size="tiny"
@@ -23,14 +22,24 @@
         />
       </div>
     </div>
-    <div>
-      <p class="total-watchers">
-        {{
-          $t('CONVERSATION_WATCHERS.TOTAL_WATCHERS_TEXT', {
-            count: selectedParticipants.length,
-          })
-        }}
+    <div class="actions">
+      <thumbnail-group
+        :more-thumbnails-text="moreThumbnailsText"
+        :show-more-thumbnails-count="showMoreThumbs"
+        :users-list="thumbnailList"
+      />
+      <p v-if="isUserWatching" class="text-muted">
+        {{ $t('CONVERSATION_WATCHERS.YOU_ARE_WATCHING') }}
       </p>
+      <woot-button
+        v-else
+        icon="arrow-right"
+        variant="link"
+        size="small"
+        @click="onSelfAssign"
+      >
+        {{ $t('CONVERSATION_WATCHERS.WATCH_CONVERSATION') }}
+      </woot-button>
     </div>
     <div
       v-on-clickaway="
@@ -55,7 +64,7 @@
       </div>
       <multiselect-dropdown-items
         :options="agentList"
-        :selected-items="selectedParticipants"
+        :selected-items="selectedWatchers"
         :has-thumbnail="true"
         @click="onClickItem"
       />
@@ -65,16 +74,19 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
+import Spinner from 'shared/components/Spinner';
+import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
 
 export default {
   components: {
+    Spinner,
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
-  mixins: [clickaway],
+  mixins: [alertMixin, clickaway],
   props: {
     conversationId: {
       type: [Number, String],
@@ -87,41 +99,73 @@ export default {
   },
   data() {
     return {
-      selectedParticipants: [],
+      selectedWatchers: [],
       showDropDown: false,
     };
   },
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
+      watchersUiFlas: 'conversationWatchers/getUIFlags',
+      currentUser: 'getCurrentUser',
     }),
-    participantsFromStore() {
+    watchersFromStore() {
       return this.$store.getters['conversationWatchers/getByConversationId'](
         this.conversationId
       );
     },
-    participantList: {
+    watchersList: {
       get() {
-        return this.selectedParticipants;
+        return this.selectedWatchers;
       },
       set(participants) {
-        this.selectedParticipants = [...participants];
+        this.selectedWatchers = [...participants];
         const userIds = participants.map(el => el.id);
         this.updateParticipant(userIds);
       },
     },
+    isUserWatching() {
+      return this.selectedWatchers.some(
+        watcher => watcher.id === this.currentUser.id
+      );
+    },
+    thumbnailList() {
+      return this.selectedWatchers.slice(0, 4);
+    },
     moreAgentCount() {
       const maxThumbnailCount = 4;
-      return this.participantList.length - maxThumbnailCount;
+      return this.watchersList.length - maxThumbnailCount;
+    },
+    moreThumbnailsText() {
+      if (this.moreAgentCount > 1) {
+        return this.$t('CONVERSATION_WATCHERS.REMANING_WATCHERS_TEXT', {
+          count: this.moreAgentCount,
+        });
+      }
+      return this.$t('CONVERSATION_WATCHERS.REMANING_WATCHER_TEXT', {
+        count: 1,
+      });
+    },
+    showMoreThumbs() {
+      return this.moreAgentCount > 0;
+    },
+    totalWatchersText() {
+      if (this.selectedWatchers.length > 1) {
+        return this.$t('CONVERSATION_WATCHERS.TOTAL_WATCHERS_TEXT', {
+          count: this.selectedWatchers.length,
+        });
+      }
+      return this.$t('CONVERSATION_WATCHERS.TOTAL_WATCHER_TEXT', {
+        count: 1,
+      });
     },
   },
   watch: {
     conversationId() {
-      this.$store.dispatch('conversationWatchers/clear');
       this.fetchParticipants();
     },
-    participantsFromStore(participants) {
-      this.selectedParticipants = [...participants];
+    watchersFromStore(participants) {
+      this.selectedWatchers = [...participants];
     },
   },
   mounted() {
@@ -130,14 +174,24 @@ export default {
   },
   methods: {
     fetchParticipants() {
-      this.$store.dispatch('conversationWatchers/show', this.conversationId);
+      const conversationId = this.conversationId;
+      this.$store.dispatch('conversationWatchers/show', { conversationId });
     },
     async updateParticipant(userIds) {
-      await this.$store.dispatch('conversationWatchers/update', {
-        conversationId: this.conversationId,
-        //  Move to camel case
-        user_ids: userIds,
-      });
+      const conversationId = this.conversationId;
+      let alertMessage = this.$t('CONVERSATION_WATCHERS.API.SUCCESS_MESSAGE');
+
+      try {
+        await this.$store.dispatch('conversationWatchers/update', {
+          conversationId,
+          userIds,
+        });
+      } catch (error) {
+        alertMessage =
+          error?.message || this.$t('CONVERSATION_WATCHERS.API.ERROR_MESSAGE');
+      } finally {
+        this.showAlert(alertMessage);
+      }
       this.fetchParticipants();
     },
     onOpenDropdown() {
@@ -147,19 +201,22 @@ export default {
       this.showDropDown = false;
     },
     onClickItem(agent) {
-      const isAgentSelected = this.participantList.some(
+      const isAgentSelected = this.watchersList.some(
         participant => participant.id === agent.id
       );
 
       if (isAgentSelected) {
-        const updatedList = this.participantList.filter(
+        const updatedList = this.watchersList.filter(
           participant => participant.id !== agent.id
         );
 
-        this.participantList = [...updatedList];
+        this.watchersList = [...updatedList];
       } else {
-        this.participantList = [...this.participantList, agent];
+        this.watchersList = [...this.watchersList, agent];
       }
+    },
+    onSelfAssign() {
+      this.watchersList = [...this.selectedWatchers, this.currentUser];
     },
   },
 };
@@ -191,10 +248,6 @@ export default {
   }
 }
 
-.total-watchers {
-  font-size: var(--font-size-small);
-  color: var(--s-600);
-}
 .subscribers--collapsed {
   display: flex;
   justify-content: space-between;
@@ -214,5 +267,10 @@ export default {
   .text-block-title {
     margin: 0;
   }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
