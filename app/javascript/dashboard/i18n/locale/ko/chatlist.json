@@ -7,7 +7,7 @@
       "404": "이 그룹에는 활성 대화가 없습니다."
     },
     "TAB_HEADING": "대화",
-    "MENTION_HEADING": "Mentions",
+    "MENTION_HEADING": "멘션",
     "SEARCH": {
       "INPUT": "사람 검색, 채팅, 저장된 응답..."
     },
@@ -25,10 +25,10 @@
         "TEXT": "해결됨"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "보내는 중"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "일시 중지됨"
       }
     },
     "ATTACHMENTS": {
@@ -54,12 +54,12 @@
     "RECEIVED_VIA_EMAIL": "이메일을 통해 수신됨",
     "VIEW_TWEET_IN_TWITTER": "트위터에서 트윗 보기",
     "REPLY_TO_TWEET": "트윗에 응답하기",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
+    "LINK_TO_STORY": "인스타그램 스토리로 가기",
+    "SENT": "성공적으로 보내짐",
     "NO_MESSAGES": "메시지 없음",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read"
+    "NO_CONTENT": "콘텐츠 이용 불가",
+    "HIDE_QUOTED_TEXT": "인용문 가리기",
+    "SHOW_QUOTED_TEXT": "인용문 보이기",
+    "MESSAGE_READ": "읽기"
   }
 }

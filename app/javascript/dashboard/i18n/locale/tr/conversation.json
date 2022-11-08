@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Konuşma Etiketleri",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Önceki Sohbetler"
+      "PREVIOUS_CONVERSATION": "Önceki Sohbetler",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
