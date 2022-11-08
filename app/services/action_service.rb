@@ -1,6 +1,6 @@
 class ActionService
   def initialize(conversation)
-    @conversation = conversation
+    @conversation = conversation.reload
   end
 
   def mute_conversation(_params)
