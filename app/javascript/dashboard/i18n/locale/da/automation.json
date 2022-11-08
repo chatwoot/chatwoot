@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Kunne ikke uploade vedhæftning, Prøv venligst igen",
       "LABEL_IDLE": "Upload Vedhæftning",
       "LABEL_UPLOADING": "Uploader...",
-      "LABEL_UPLOADED": "Succesfuldt Uploadet",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Mislykkedes"
     }
   }
