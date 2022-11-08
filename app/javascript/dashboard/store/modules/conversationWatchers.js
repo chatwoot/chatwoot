@@ -27,7 +27,7 @@ export const actions = {
     });
 
     try {
-      const response = await ConversationInboxApi.fecthParticipants(
+      const response = await ConversationInboxApi.fetchParticipants(
         conversationId
       );
       commit(types.SET_CONVERSATION_WATCHERS, {
