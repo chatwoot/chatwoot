@@ -22,7 +22,7 @@ export const getters = {
 };
 
 export const actions = {
-  show: async ({ commit }, conversationId) => {
+  show: async ({ commit }, { conversationId }) => {
     commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
       isFetching: true,
     });
@@ -44,7 +44,7 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, conversationId, userIds) => {
+  update: async ({ commit }, { conversationId, userIds }) => {
     commit(types.SET_CONVERSATION_WATCHERS_UI_FLAG, {
       isUpdating: true,
     });
@@ -77,6 +77,7 @@ export const mutations = {
   },
 
   [types.SET_CONVERSATION_WATCHERS]($state, { data, conversationId }) {
+    console.log($state.records, conversationId, data);
     Vue.set($state.records, conversationId, data);
   },
 };
