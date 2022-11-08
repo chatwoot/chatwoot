@@ -68,7 +68,7 @@ export const actions = {
 };
 
 export const mutations = {
-  [types.SET_CONVERSATION_WATCHERS_UI_FLAG](_state, data) {
+  [types.SET_CONVERSATION_WATCHERS_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,
       ...data,
