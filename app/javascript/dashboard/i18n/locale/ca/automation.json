@@ -20,7 +20,7 @@
           "ERROR": "Description is required"
         },
         "EVENT": {
-          "LABEL": "Event",
+          "LABEL": "Esdeveniment",
           "PLACEHOLDER": "Please select one",
           "ERROR": "Event is required"
         },
@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
       "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "S'està carregant...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
