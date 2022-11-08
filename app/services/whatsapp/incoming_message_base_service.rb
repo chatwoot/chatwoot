@@ -124,7 +124,8 @@ class Whatsapp::IncomingMessageBaseService
       file_type: file_content_type(message_type),
       coordinates_lat: location['latitude'],
       coordinates_long: location['longitude'],
-      fallback_title: location_name
+      fallback_title: location_name,
+      external_url: location['url']
     )
   end
 end
