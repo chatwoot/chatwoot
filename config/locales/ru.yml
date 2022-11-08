@@ -132,7 +132,7 @@ ru:
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
     survey:
-      response: "Пожалуйста, оцените этот разговор, %{link}"
+      response: "Пожалуйста, оцените консультацию: %{link}"
   contacts:
     online:
       delete: "%{contact_name} в сети, повторите попытку позже"
