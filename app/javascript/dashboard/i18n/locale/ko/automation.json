@@ -12,12 +12,12 @@
         "NAME": {
           "LABEL": "Rule Name",
           "PLACEHOLDER": "Enter rule name",
-          "ERROR": "Name is required"
+          "ERROR": "이름이 필요합니다"
         },
         "DESC": {
           "LABEL": "내용",
           "PLACEHOLDER": "Enter rule description",
-          "ERROR": "Description is required"
+          "ERROR": "설명이 필요합니다"
         },
         "EVENT": {
           "LABEL": "Event",
@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Could not upload attachment, Please try again",
       "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "업로드 중...",
-      "LABEL_UPLOADED": "Succesfully Uploaded",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
