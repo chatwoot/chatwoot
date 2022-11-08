@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Samtale Etiketter",
       "CONVERSATION_INFO": "Samtale Information",
       "CONTACT_ATTRIBUTES": "Kontakt Attributter",
-      "PREVIOUS_CONVERSATION": "Tidligere Samtaler"
+      "PREVIOUS_CONVERSATION": "Tidligere Samtaler",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
