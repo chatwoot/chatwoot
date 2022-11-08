@@ -234,7 +234,8 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                                 { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                 { 'action_name' => 'snooze_conversation' },
                                 { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
-                                { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] }
+                                { 'action_name' => 'send_message', 'action_params' => ['Send this message.'] },
+                                { 'action_name' => 'add_private_note', 'action_params': ['We are sending greeting message to customer.'] }
                               ])
     end
 
@@ -295,6 +296,20 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           end
 
           expect(conversation.reload.status).to eql('snoozed')
+        end
+
+        it 'Adds the private note' do
+          expect(conversation.messages).to be_empty
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.messages.last.content).to eq('We are sending greeting message to customer.')
+          expect(conversation.messages.last.sender).to eq(administrator)
+          expect(conversation.messages.last.private).to be_truthy
         end
       end
     end
