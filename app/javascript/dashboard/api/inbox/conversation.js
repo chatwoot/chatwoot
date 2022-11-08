@@ -106,7 +106,7 @@ class ConversationApi extends ApiClient {
     });
   }
 
-  fecthParticipants(conversationId) {
+  fetchParticipants(conversationId) {
     return axios.get(`${this.url}/${conversationId}/participants`);
   }
 
