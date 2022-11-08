@@ -1,32 +1,49 @@
 <template>
   <div class="subscribers-wrap">
     <div class="subscribers--collapsed">
-      <div>
-        <ThumbnailGroup
-          :more-thumbnails-text="
-            $t('CONVERSATION_SUBSCRIBERS.REMANING_SUBSCRIBERS_TEXT', {
-              agentCount: moreAgentCount,
-            })
-          "
-          :users-list="participantList"
-        />
+      <div class="content-wrap">
+        <div>
+          <ThumbnailGroup
+            :more-thumbnails-text="
+              $t('CONVERSATION_WATCHERS.REMANING_WATCHERS_TEXT', {
+                agentCount: moreAgentCount,
+              })
+            "
+            :users-list="participantList"
+          />
+        </div>
         <woot-button
-          icon="headset-add"
-          size="small"
-          variant="link"
+          v-tooltip.top-end="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
+          :title="$t('CONVERSATION_WATCHERS.ADD_WATCHERS')"
+          icon="settings"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
           @click="onOpenDropdown"
-        >
-          {{ $t('CONVERSATION_SUBSCRIBERS.ADD_SUBSCRIBERS') }}
-        </woot-button>
+        />
       </div>
     </div>
     <div>
-      <p class="text-muted">{{ `4 people are watching` }}</p>
+      <p class="total-watchers">
+        {{
+          $t('CONVERSATION_WATCHERS.TOTAL_WATCHERS_TEXT', {
+            count: selectedParticipants.length,
+          })
+        }}
+      </p>
     </div>
-    <div :class="{ 'dropdown-pane--open': showDropDown }" class="dropdown-pane">
+    <div
+      v-on-clickaway="
+        () => {
+          onCloseDropdown();
+        }
+      "
+      :class="{ 'dropdown-pane--open': showDropDown }"
+      class="dropdown-pane"
+    >
       <div class="dropdown__header">
         <h4 class="text-block-title text-truncate">
-          {{ $t('CONVERSATION_SUBSCRIBERS.ADD_SUBSCRIBERS') }}
+          {{ $t('CONVERSATION_WATCHERS.ADD_WATCHERS') }}
         </h4>
         <woot-button
           icon="dismiss"
@@ -47,6 +64,7 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
@@ -56,6 +74,7 @@ export default {
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
+  mixins: [clickaway],
   props: {
     conversationId: {
       type: [Number, String],
@@ -149,11 +168,14 @@ export default {
 .subscribers-wrap {
   position: relative;
 }
-::v-deep .multiselect__tags-wrap {
-  width: 100%;
+
+.content-wrap {
   display: flex;
-  margin-top: var(--zero) !important;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: var(--space-smaller);
 }
+
 .watcher-wrap {
   display: inline-flex;
   align-items: center;
@@ -169,10 +191,10 @@ export default {
   }
 }
 
-.thumbnail-remove {
-  margin-left: var(--space-small);
+.total-watchers {
+  font-size: var(--font-size-small);
+  color: var(--s-600);
 }
-
 .subscribers--collapsed {
   display: flex;
   justify-content: space-between;
@@ -180,7 +202,7 @@ export default {
 
 .dropdown-pane {
   box-sizing: border-box;
-  top: var(--space-minus-smaller);
+  top: var(--space-large);
   width: 100%;
 }
 .dropdown__header {
