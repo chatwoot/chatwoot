@@ -77,7 +77,6 @@ export const mutations = {
   },
 
   [types.SET_CONVERSATION_WATCHERS]($state, { data, conversationId }) {
-    console.log($state.records, conversationId, data);
     Vue.set($state.records, conversationId, data);
   },
 };
