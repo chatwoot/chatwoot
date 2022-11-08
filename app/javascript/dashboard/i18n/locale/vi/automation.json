@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Không thể tải tập tin đính kèm, Vui lòng thử lại sau",
       "LABEL_IDLE": "Tải tập tin đính kèm",
       "LABEL_UPLOADING": "Đang tải lên...",
-      "LABEL_UPLOADED": "Đã tải lên thành công",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Không tải lên được"
     }
   }

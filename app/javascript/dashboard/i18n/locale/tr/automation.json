@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Ek yüklenemedi, Tekrar deneyin",
       "LABEL_IDLE": "Dosya Yükle",
       "LABEL_UPLOADING": "Yükleniyor ...",
-      "LABEL_UPLOADED": "Başarıyla Yüklendi",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Yükleme Başarısız"
     }
   }

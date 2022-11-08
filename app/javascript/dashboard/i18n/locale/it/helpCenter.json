@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Dominio personalizzato",
           "PLACEHOLDER": "Dominio personalizzato del portale",
-          "HELP_TEXT": "Aggiungi solo se vuoi usare un dominio personalizzato per i tuoi portali.",
-          "ERROR": "Dominio personalizzato richiesto"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link pagina iniziale",
           "PLACEHOLDER": "Link della pagina iniziale del portale",
-          "HELP_TEXT": "Il link utilizzato per tornare dal portale alla home page.",
-          "ERROR": "Il link della pagina iniziale è obbligatorio"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Colore tema del portale",

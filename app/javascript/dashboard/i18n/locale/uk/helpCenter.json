@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Домен для користувача",
           "PLACEHOLDER": "Власний домен порталу",
-          "HELP_TEXT": "Додавати лише у випадку, якщо ви хочете використовувати власний домен для своїх порталів.",
-          "ERROR": "Потрібен власний домен"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Посилання на головну сторінку",
           "PLACEHOLDER": "Посилання на головну сторінку порталу",
-          "HELP_TEXT": "Посилання для повернення з порталу на головну сторінку.",
-          "ERROR": "Потрібне посилання на головну сторінку"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Колір теми порталу",

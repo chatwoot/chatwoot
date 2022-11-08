@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Stöðluð svör",
+    "HEADER_BTN_TXT": "Bæta við stöðluðu svari",
+    "LOADING": "Sækja stöðluð svör",
+    "SEARCH_404": "Það eru engin atriði sem passa við þessa fyrirspurn",
+    "SIDEBAR_TXT": "<p><b>Stöðluð svör</b> </p><p> Stöðluð svör eru vistuð svarsniðmát sem hægt er að nota til að senda svar fljótlega í samtal. </p><p> Til að búa til staðlað svar, smelltu bara á <b>Bæta við stöðluðu svari</b>. Þú getur líka breytt eða eytt stöðluðu svari með því að smella á Breyta eða Eyða hnappinn </p><p> Stöðluð svör eru notuð með hjálp <b>Stuttkóða</b>. Þjónustufulltrúar geta fengið aðgang að stöðluðum svörum á meðan á samtali stendur með því að slá inn <b>'/'</b> og svo stutta kóðann. </p>",
+    "LIST": {
+      "404": "Það eru engin stöðluð svör aðgengileg á þessum reikning.",
+      "TITLE": "Stjórna stöðluðum svörum",
+      "DESC": "Stöðluð svör eru fyrirfram skilgreind svarsniðmát sem hægt er að nota til að senda fljótlega út svör við samtölum.",
+      "TABLE_HEADER": [
+        "Stuttkóði",
+        "Efnistexti",
+        "Aðgerðir"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Bæta við stöðluðu svari",
+      "DESC": "Stöðluð svör eru fyrirfram skilgreind svarsniðmát sem hægt er að nota til að senda fljótlega út svör við samtölum.",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Stuttkóði",
+          "PLACEHOLDER": "Vinsamlegast skrifið stuttkóða",
+          "ERROR": "Stuttkóði er nauðsynlegur"
+        },
+        "CONTENT": {
+          "LABEL": "Efnistexti",
+          "PLACEHOLDER": "Vinsamlegast bætið við efnistexta",
+          "ERROR": "Efnistexta vantar"
+        },
+        "SUBMIT": "Submit"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Stöðluðu svari bætt við",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Breyta stöðluðu svari",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Stuttkóði",
+          "PLACEHOLDER": "Vinsamlegast skrifið stuttkóða",
+          "ERROR": "Stuttkóði er nauðsynlegur"
+        },
+        "CONTENT": {
+          "LABEL": "Efnistexti",
+          "PLACEHOLDER": "Vinsamlegast bætið við efnistexta",
+          "ERROR": "Efnistexta vantar"
+        },
+        "SUBMIT": "Submit"
+      },
+      "BUTTON_TEXT": "Breyta",
+      "API": {
+        "SUCCESS_MESSAGE": "Staðlað svar uppfært",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eyða",
+      "API": {
+        "SUCCESS_MESSAGE": "Stöðluðu svari var eytt",
+        "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+      },
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      }
+    }
+  }
+}

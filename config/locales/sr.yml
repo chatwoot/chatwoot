@@ -149,3 +149,11 @@ sr-Latn:
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integracija pomaže vam da obogatite profile posetilaca. Identifikujte korisnike čim podele njihovu adresu e-pošte i ponudite im prilagođenu korisničku podršku. Povežite vaš FullContact sa vašim nalogom deljenjem FullContact API ključa."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Ništa nije pronađeno.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.

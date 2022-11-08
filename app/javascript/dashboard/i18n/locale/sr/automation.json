@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Nije bilo moguće dodati prilog. Molim vas pokušajte ponovo",
       "LABEL_IDLE": "Dodaj prilog",
       "LABEL_UPLOADING": "Dodavanje...",
-      "LABEL_UPLOADED": "Uspešno je dodato",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Dodavanje nije uspelo"
     }
   }
