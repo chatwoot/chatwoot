@@ -1,0 +1,65 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Fetching conversations",
+    "LOAD_MORE_CONVERSATIONS": "Sækja fleiri spjöll",
+    "EOF": "Öll spjöll eru hlaðin🎉",
+    "LIST": {
+      "404": "Það eru engin virk spjöll í þessum hóp."
+    },
+    "TAB_HEADING": "Samtöl",
+    "MENTION_HEADING": "Mentions",
+    "SEARCH": {
+      "INPUT": "Leita að Fólki, Spjöllum, Vistuðum Svörum .."
+    },
+    "FILTER_ALL": "Allt",
+    "ASSIGNEE_TYPE_TABS": {
+      "me": "Mine",
+      "unassigned": "Óúthlutað",
+      "all": "Allt"
+    },
+    "CHAT_STATUS_FILTER_ITEMS": {
+      "open": {
+        "TEXT": "Opin"
+      },
+      "resolved": {
+        "TEXT": "Leyst"
+      },
+      "pending": {
+        "TEXT": "Í bið"
+      },
+      "snoozed": {
+        "TEXT": "Blundað"
+      }
+    },
+    "ATTACHMENTS": {
+      "image": {
+        "CONTENT": "Myndaskilaboð"
+      },
+      "audio": {
+        "CONTENT": "Hljóðskilaboð"
+      },
+      "video": {
+        "CONTENT": "Myndbandsskilaboð"
+      },
+      "file": {
+        "CONTENT": "File Attachment"
+      },
+      "location": {
+        "CONTENT": "Location"
+      },
+      "fallback": {
+        "CONTENT": "hefur deilt vefslóð"
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet",
+    "LINK_TO_STORY": "Go to instagram story",
+    "SENT": "Sent successfully",
+    "NO_MESSAGES": "Engin skilaboð",
+    "NO_CONTENT": "No content available",
+    "HIDE_QUOTED_TEXT": "Fela tilvitnaðan texta",
+    "SHOW_QUOTED_TEXT": "Sýna tilvitnaðan texta",
+    "MESSAGE_READ": "Read"
+  }
+}

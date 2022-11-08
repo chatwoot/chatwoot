@@ -207,7 +207,7 @@
           "LABEL": "이름",
           "PLACEHOLDER": "Portal name",
           "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "ERROR": "이름이 필요합니다"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Custom Domain",
           "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals.",
-          "ERROR": "Custom Domain is required"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
           "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page.",
-          "ERROR": "Home Page Link is required"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Portal theme color",
@@ -347,7 +347,7 @@
           "LABEL": "이름",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "이름이 필요합니다"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -358,7 +358,7 @@
         "DESCRIPTION": {
           "LABEL": "내용",
           "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "ERROR": "설명이 필요합니다"
         },
         "BUTTONS": {
           "CREATE": "Create category",
@@ -378,7 +378,7 @@
           "LABEL": "이름",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "이름이 필요합니다"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -389,7 +389,7 @@
         "DESCRIPTION": {
           "LABEL": "내용",
           "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "ERROR": "설명이 필요합니다"
         },
         "BUTTONS": {
           "CREATE": "Update category",
