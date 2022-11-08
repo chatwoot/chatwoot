@@ -105,6 +105,16 @@ class ConversationApi extends ApiClient {
       custom_attributes: customAttributes,
     });
   }
+
+  fetchParticipants(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/participants`);
+  }
+
+  updateParticipants({ conversationId, userIds }) {
+    return axios.patch(`${this.url}/${conversationId}/participants`, {
+      user_ids: userIds,
+    });
+  }
 }
 
 export default new ConversationApi();
