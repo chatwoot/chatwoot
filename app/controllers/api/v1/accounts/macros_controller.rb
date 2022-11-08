@@ -1,6 +1,6 @@
 class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
-  before_action :check_authorization
   before_action :fetch_macro, only: [:show, :update, :destroy, :execute]
+  before_action :check_authorization, only: [:show, :update, :destroy, :execute]
 
   def index
     @macros = Macro.with_visibility(current_user, params)
@@ -55,6 +55,8 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  private
+
   def process_attachments
     actions = @macro.actions.filter_map { |k, _v| k if k['action_name'] == 'send_attachment' }
     return if actions.blank?
@@ -79,5 +81,9 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
 
   def fetch_macro
     @macro = Current.account.macros.find_by(id: params[:id])
+  end
+
+  def check_authorization
+    authorize(@macro) if @macro.present?
   end
 end
