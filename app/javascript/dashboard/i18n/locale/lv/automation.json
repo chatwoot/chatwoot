@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Nevarēja augšupielādēt pielikumu. Lūdzu, mēģiniet vēlreiz",
       "LABEL_IDLE": "Augšupielādēt pielikumu",
       "LABEL_UPLOADING": "Notiek augšupielāde...",
-      "LABEL_UPLOADED": "Veiksmīgi augšupielādēts",
+      "LABEL_UPLOADED": "Veiksmīgi Augšupielādēts",
       "LABEL_UPLOAD_FAILED": "Augšupielāde neizdevās"
     }
   }
