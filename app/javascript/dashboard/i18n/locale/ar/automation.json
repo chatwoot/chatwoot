@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى",
       "LABEL_IDLE": "ارفع المرفق",
       "LABEL_UPLOADING": "جاري الرفع...",
-      "LABEL_UPLOADED": "تم الرفع بنجاح",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "فشل الرفع"
     }
   }
