@@ -19,7 +19,7 @@
           >
             <woot-button
               class="multiselect-dropdown--item"
-              variant="clear"
+              :variant="isActive(option) ? 'hollow' : 'clear'"
               color-scheme="secondary"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
@@ -33,6 +33,7 @@
                   size="24px"
                   :username="option.name"
                   :status="option.availability_status"
+                  has-border
                 />
                 <div class="name-wrap">
                   <span
@@ -171,13 +172,18 @@ export default {
   width: 100%;
 
   &.active {
-    background-color: var(--w-25);
-    color: var(--w-800);
+    background: var(--s-25);
+    border-color: var(--s-50);
     font-weight: var(--font-weight-medium);
   }
 
   &:focus {
     background-color: var(--color-background-light);
+  }
+
+  &:hover {
+    color: var(--s-800);
+    background-color: var(--color-background);
   }
 }
 

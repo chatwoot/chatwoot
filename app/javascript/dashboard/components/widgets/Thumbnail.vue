@@ -1,5 +1,9 @@
 <template>
-  <div :class="thumbnailBoxClass" :style="{ height: size, width: size }">
+  <div
+    :class="thumbnailBoxClass"
+    :style="{ height: size, width: size }"
+    :title="title"
+  >
     <img
       v-if="!imgError && src"
       :src="src"
@@ -69,6 +73,10 @@ export default {
     shouldShowStatusAlways: {
       type: Boolean,
       default: false,
+    },
+    title: {
+      type: String,
+      default: '',
     },
     variant: {
       type: String,
