@@ -124,10 +124,10 @@
       },
       "DELETE": {
         "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_NO": "No, mantenerlo",
         "TITLE": "Confirme eliminación",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
+        "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
+        "API_SUCCESS": "Panel de control eliminado con éxito",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
     }

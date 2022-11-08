@@ -31,7 +31,7 @@
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",
         "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "ERROR": "Por favor, introduzca un nombre de bandeja de entrada válido"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
@@ -100,7 +100,7 @@
         },
         "SUBMIT_BUTTON": "Crear bandeja de entrada",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
+          "ERROR_MESSAGE": "No pudimos crear un canal del sitio web, por favor inténtalo de nuevo"
         }
       },
       "TWILIO": {
@@ -112,10 +112,10 @@
           "ERROR": "Este campo es obligatorio"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Messaging Service SID",
-          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "LABEL": "Servicio de Mensajes SID",
+          "PLACEHOLDER": "Por favor, introduzca su SID de Servicio de Mensajes de Twilio",
           "ERROR": "Este campo es obligatorio",
-          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
+          "USE_MESSAGING_SERVICE": "Usar un servicio de mensajería de Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipo de canal",
@@ -218,17 +218,17 @@
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "ID de número de teléfono",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "PLACEHOLDER": "Por favor, introduzca el ID del número de teléfono obtenido del panel de control del desarrollador de Facebook.",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "LABEL": "ID de cuenta de negocio",
+          "PLACEHOLDER": "Por favor ingrese el ID de cuenta comercial obtenido del panel de control del desarrollador de Facebook.",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "LABEL": "Token de verificación del Webhook",
+          "PLACEHOLDER": "Introduzca un token de verificación que desea configurar para los webhooks de facebook.",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "API_KEY": {
@@ -239,9 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL de devolución de llamada",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "Tienes que configurar la URL del webhook y el token de verificación en el portal de desarrolladores de Facebook con los valores mostrados a continuación.",
           "WEBHOOK_URL": "URL de Webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Token de verificación del Webhook"
         },
         "SUBMIT_BUTTON": "Crear canal de WhatsApp",
         "API": {
@@ -628,16 +628,16 @@
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Left",
-          "RIGHT": "Right"
+          "LEFT": "Izquierda",
+          "RIGHT": "Derecha"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Expanded Bubble"
+          "STANDARD": "Estándar",
+          "EXPANDED_BUBBLE": "Burbuja expandida"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Default",
+        "DEFAULT": "Predeterminado",
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
@@ -651,11 +651,11 @@
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "We are Online",
+          "ONLINE": "Estamos en línea",
           "OFFLINE": "Estamos ausentes en este momento"
         },
-        "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Hello"
+        "USER_MESSAGE": "Hola",
+        "AGENT_MESSAGE": "Hola"
       },
       "BRANDING_TEXT": "Desarrollado por Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"

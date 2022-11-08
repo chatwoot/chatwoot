@@ -149,3 +149,11 @@ fa:
     fullcontact:
       name: "تماس کامل"
       description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."
+  public_portal:
+    search:
+      search_placeholder: جستجوی مقاله براساس عنوان یا متن...
+      empty_placeholder: نتیجه‌ای یافت نشد.
+      loading_placeholder: در حال جستجو...
+      results_title: نتایج جستجو
+    hero:
+      sub_title: مقالات را در اینجا جستجو کنید یا دسته‌بندی‌های زیر را مرور کنید.

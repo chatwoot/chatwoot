@@ -109,7 +109,7 @@
       "UPLOAD_ERROR": "Não foi possível carregar anexo, por favor tente novamente",
       "LABEL_IDLE": "Carregar anexo",
       "LABEL_UPLOADING": "A carregar...",
-      "LABEL_UPLOADED": "Carregado com sucesso",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }

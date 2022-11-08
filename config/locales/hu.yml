@@ -149,3 +149,11 @@ hu:
     fullcontact:
       name: "FullContact"
       description: "A FullContact integráció segít a látogatói profilok egységesítésében. Azonosítsa a felhasználókat, amint megosztják e-mail címüket, és kínáljon nekik személyre szabott ügyfélszolgálatot. Csatlakoztassa a FullContactot fiókjához a FullContact API-kulcs megosztásával."
+  public_portal:
+    search:
+      search_placeholder: Search for article by title or body...
+      empty_placeholder: Nincs találat.
+      loading_placeholder: Searching...
+      results_title: Search results
+    hero:
+      sub_title: Search for the articles here or browse the categories below.
