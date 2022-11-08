@@ -7,14 +7,16 @@
       <h5 class="text-block-title text-truncate">
         {{ name }}
       </h5>
-      <a
-        class="download clear link button small"
-        rel="noreferrer noopener nofollow"
-        target="_blank"
-        :href="mapUrl"
-      >
-        {{ $t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP') }}
-      </a>
+      <div class="link-wrap">
+        <a
+          class="download clear link button small"
+          rel="noreferrer noopener nofollow"
+          target="_blank"
+          :href="mapUrl"
+        >
+          {{ $t('COMPONENTS.LOCATION_BUBBLE.SEE_ON_MAP') }}
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -51,23 +53,26 @@ export default {
   cursor: pointer;
 
   .icon-wrap {
-    color: var(--white);
+    color: var(--s-600);
     line-height: 1;
     margin: 0 var(--space-smaller);
   }
 
   .text-block-title {
     margin: 0;
-    color: var(--white);
+    color: var(--s-800);
     word-break: break-word;
   }
 
-  .button {
-    color: var(--s-25);
+  .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: var(--space-normal);
   }
 
-  .meta {
-    padding-right: var(--space-normal);
+  .link-wrap {
+    display: flex;
   }
 }
 </style>
