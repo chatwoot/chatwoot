@@ -32,9 +32,3 @@ const Template = (args, { argTypes }) => ({
 });
 
 export const LocationBubbleView = Template.bind({});
-// LocationBubbleView.args = {
-//   portalName: 'Chatwoot help center',
-//   locale: 'En-US',
-//   onCreate: action('create'),
-//   onClose: action('cancel'),
-// };
