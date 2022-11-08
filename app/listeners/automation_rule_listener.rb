@@ -37,6 +37,9 @@ class AutomationRuleListener < BaseListener
     return if performed_by_automation?(event_obj)
 
     message = event_obj.data[:message]
+
+    return if message.activity?
+
     account = message.try(:account)
     changed_attributes = event_obj.data[:changed_attributes]
 
