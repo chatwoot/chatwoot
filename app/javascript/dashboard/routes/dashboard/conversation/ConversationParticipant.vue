@@ -38,7 +38,7 @@
       </div>
       <multiselect-dropdown-items
         :options="agentList"
-        :selected-items="participantList"
+        :selected-items="selectedParticipants"
         :has-thumbnail="true"
         @click="onClickItem"
       />
@@ -68,23 +68,27 @@ export default {
   },
   data() {
     return {
-      selectedParticipant: [],
-      userIds: [],
+      selectedParticipants: [],
       showDropDown: false,
     };
   },
   computed: {
     ...mapGetters({
-      participants: 'getConversationParticipants',
       agentList: 'agents/getAgents',
     }),
+    participantsFromStore() {
+      return this.$store.getters['conversationWatchers/getByConversationId'](
+        this.conversationId
+      );
+    },
     participantList: {
       get() {
-        return this.participants;
+        return this.selectedParticipants;
       },
       set(participants) {
-        this.userIds = participants.map(el => el.id);
-        this.updateParticipant();
+        this.selectedParticipants = [...participants];
+        const userIds = participants.map(el => el.id);
+        this.updateParticipant(userIds);
       },
     },
     moreAgentCount() {
@@ -94,8 +98,11 @@ export default {
   },
   watch: {
     conversationId() {
-      this.$store.dispatch('clearConversationParticipants');
+      this.$store.dispatch('conversationWatchers/clear');
       this.fetchParticipants();
+    },
+    participantsFromStore(participants) {
+      this.selectedParticipants = [...participants];
     },
   },
   mounted() {
@@ -104,16 +111,13 @@ export default {
   },
   methods: {
     fetchParticipants() {
-      this.$store.dispatch(
-        'fetchConversationParticipants',
-        this.conversationId
-      );
+      this.$store.dispatch('conversationWatchers/show', this.conversationId);
     },
-    updateParticipant() {
-      this.$store.dispatch('updateConversationParticipants', {
+    async updateParticipant(userIds) {
+      await this.$store.dispatch('conversationWatchers/update', {
         conversationId: this.conversationId,
         //  Move to camel case
-        user_ids: this.userIds,
+        user_ids: userIds,
       });
       this.fetchParticipants();
     },
@@ -132,7 +136,8 @@ export default {
         const updatedList = this.participantList.filter(
           participant => participant.id !== agent.id
         );
-        this.participantList = updatedList;
+
+        this.participantList = [...updatedList];
       } else {
         this.participantList = [...this.participantList, agent];
       }

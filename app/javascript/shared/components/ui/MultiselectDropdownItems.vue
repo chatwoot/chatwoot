@@ -189,6 +189,7 @@ export default {
 .name-wrap {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   min-width: 0;
   width: 100%;
 }

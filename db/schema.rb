@@ -410,7 +410,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -462,7 +462,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
-    t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
+    t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
 
   create_table "custom_filters", force: :cascade do |t|
@@ -572,6 +572,30 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "integrations_shopify", id: :serial, force: :cascade do |t|
+    t.integer "account_id"
+    t.string "account_name"
+    t.string "api_key"
+    t.string "api_secret"
+    t.string "access_token"
+    t.string "redirect_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "integrations_shopify_customer", id: :serial, force: :cascade do |t|
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "orders_count"
+    t.integer "contact_id"
+    t.integer "account_id"
+    t.string "customer_id"
+    t.integer "shopify_account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -590,7 +614,7 @@ ActiveRecord::Schema.define(version: 2022_10_17_201914) do
     t.integer "visibility", default: 0
     t.bigint "created_by_id", null: false
     t.bigint "updated_by_id", null: false
-    t.jsonb "actions", default: {}, null: false
+    t.jsonb "actions", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
