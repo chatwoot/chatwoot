@@ -6,8 +6,6 @@ RSpec.describe Macro, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to belong_to(:created_by) }
-    it { is_expected.to belong_to(:updated_by) }
   end
 
   describe 'validations' do
@@ -71,7 +69,9 @@ RSpec.describe Macro, type: :model do
         Current.user = admin
         Current.account = account
 
-        expect(described_class.with_visibility(admin, {}).count).to eq(account.macros.count)
+        macros = account.macros.global.or(account.macros.personal.where(created_by_id: admin.id))
+
+        expect(described_class.with_visibility(admin, {}).count).to eq(macros.count)
       end
     end
 
@@ -87,6 +87,28 @@ RSpec.describe Macro, type: :model do
 
         macros_for_agent_1 = account.macros.global.count + agent_1.macros.personal.count
         expect(described_class.with_visibility(agent_1, {}).count).to eq(macros_for_agent_1)
+      end
+    end
+  end
+
+  describe '#associations' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let!(:global_macro) { FactoryBot.create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global, actions: []) }
+    let!(:personal_macro) { FactoryBot.create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :personal, actions: []) }
+
+    context 'when you delete the author' do
+      it 'nullify the created_by column' do
+        expect(global_macro.created_by).to eq(agent)
+        expect(global_macro.updated_by).to eq(agent)
+        expect(personal_macro.created_by).to eq(agent)
+        expect(personal_macro.updated_by).to eq(agent)
+
+        personal_macro_id = personal_macro.id
+        agent.destroy!
+
+        expect(global_macro.reload.created_by).to be_nil
+        expect(global_macro.reload.updated_by).to be_nil
+        expect(described_class.find_by(id: personal_macro_id)).to be_nil
       end
     end
   end
