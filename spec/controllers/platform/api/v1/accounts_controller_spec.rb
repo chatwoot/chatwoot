@@ -49,12 +49,13 @@ RSpec.describe 'Platform Accounts API', type: :request do
         InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
                                                                                                     'enabled' => true },
                                                                                                   { 'name' => 'disable_branding',
-                                                                                                    'enabled' => false }])
+                                                                                                    'enabled' => true }])
 
         post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
           ip_lookup: true,
           help_center: true,
           disable_branding: false
+
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         json_response = JSON.parse(response.body)
@@ -139,6 +140,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
       it 'updates an account when its permissible object' do
         create(:platform_app_permissible, platform_app: platform_app, permissible: account)
+        account.enable_features!('inbox_management', 'channel_facebook')
 
         patch "/platform/api/v1/accounts/#{account.id}", params: {
           name: 'Test Account',
@@ -151,12 +153,12 @@ RSpec.describe 'Platform Accounts API', type: :request do
         }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
-        expect(account.reload.name).to eq('Test Account')
-        expect(account.reload.enabled_features['ip_lookup']).to be(true)
-        expect(account.reload.enabled_features['help_center']).to be(true)
-        expect(account.reload.enabled_features['channel_facebook']).to be_nil
-        expect(account.reload.limits['agents']).to eq(5)
-        expect(account.reload.limits['inboxes']).to eq(10)
+        account.reload
+        expect(account.name).to eq('Test Account')
+        expect(account.enabled_features.keys).to match_array(%w[inbox_management ip_lookup help_center])
+        expect(account.enabled_features['channel_facebook']).to be_nil
+        expect(account.limits['agents']).to eq(5)
+        expect(account.limits['inboxes']).to eq(10)
       end
     end
   end
