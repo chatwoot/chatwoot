@@ -3,6 +3,7 @@ class Macros::ExecutionService < ActionService
     super(conversation)
     @macro = macro
     @account = macro.account
+    @user = user
     Current.user = user
   end
 
@@ -21,13 +22,23 @@ class Macros::ExecutionService < ActionService
 
   private
 
+  def add_private_note(message)
+    return if conversation_a_tweet?
+
+    params = { content: message[0], private: true }
+
+    # Added reload here to ensure conversation us persistent with the latest updates
+    mb = Messages::MessageBuilder.new(@user, @conversation.reload, params)
+    mb.perform
+  end
+
   def send_message(message)
     return if conversation_a_tweet?
 
     params = { content: message[0], private: false }
 
     # Added reload here to ensure conversation us persistent with the latest updates
-    mb = Messages::MessageBuilder.new(nil, @conversation.reload, params)
+    mb = Messages::MessageBuilder.new(@user, @conversation.reload, params)
     mb.perform
   end
 
@@ -43,7 +54,7 @@ class Macros::ExecutionService < ActionService
     params = { content: nil, private: false, attachments: blobs }
 
     # Added reload here to ensure conversation us persistent with the latest updates
-    mb = Messages::MessageBuilder.new(nil, @conversation.reload, params)
+    mb = Messages::MessageBuilder.new(@user, @conversation.reload, params)
     mb.perform
   end
 end

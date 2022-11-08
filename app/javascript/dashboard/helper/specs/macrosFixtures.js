@@ -69,3 +69,26 @@ export const labels = [
     show_on_sidebar: true,
   },
 ];
+
+export const files = [
+  {
+    id: 76,
+    macro_id: 77,
+    file_type: 'image/jpeg',
+    account_id: 1,
+    file_url:
+      'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBYUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--aa41b5a779a83c1d86b28475a5cf0bd17f41f0ff/fayaz_cropped.jpeg',
+    blob_id: 88,
+    filename: 'fayaz_cropped.jpeg',
+  },
+  {
+    id: 82,
+    macro_id: 77,
+    file_type: 'image/png',
+    account_id: 1,
+    file_url:
+      'http://localhost:3000/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBZdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--260fda80b77409ffaaac10b96681fba447600545/screenshot.png',
+    blob_id: 94,
+    filename: 'screenshot.png',
+  },
+];

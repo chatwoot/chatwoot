@@ -9,23 +9,21 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
-#  created_by_id :bigint           not null
-#  updated_by_id :bigint           not null
+#  created_by_id :bigint
+#  updated_by_id :bigint
 #
 # Indexes
 #
-#  index_macros_on_account_id     (account_id)
-#  index_macros_on_created_by_id  (created_by_id)
-#  index_macros_on_updated_by_id  (updated_by_id)
+#  index_macros_on_account_id  (account_id)
 #
 class Macro < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :account
   belongs_to :created_by,
-             class_name: :User
+             class_name: :User, optional: true
   belongs_to :updated_by,
-             class_name: :User
+             class_name: :User, optional: true
   has_many_attached :files
 
   enum visibility: { personal: 0, global: 1 }
@@ -33,7 +31,7 @@ class Macro < ApplicationRecord
   validate :json_actions_format
 
   ACTIONS_ATTRS = %w[send_message add_label assign_team assign_best_agent mute_conversation change_status
-                     resolve_conversation snooze_conversation send_email_transcript send_attachment].freeze
+                     resolve_conversation snooze_conversation send_email_transcript send_attachment add_private_note].freeze
 
   def set_visibility(user, params)
     self.visibility = params[:visibility]
@@ -41,10 +39,9 @@ class Macro < ApplicationRecord
   end
 
   def self.with_visibility(user, params)
-    records = user.administrator? ? Current.account.macros : Current.account.macros.global
-    records = records.or(personal.where(created_by_id: user.id)) if user.agent?
-    records.page(current_page(params))
-    records
+    records = Current.account.macros.global
+    records = records.or(personal.where(created_by_id: user.id))
+    records.order(:id).page(current_page(params))
   end
 
   def self.current_page(params)
