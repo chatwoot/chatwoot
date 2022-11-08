@@ -241,6 +241,7 @@
     "SUBJECT": "Subject"
   },
   "CONVERSATION_WATCHERS": {
+    "SIDEBAR_TITLE": "Conversation watchers",
     "NO_RECORDS_FOUND": "No results found",
     "ADD_WATCHERS": "Select watchers",
     "REMANING_WATCHERS_TEXT": "+%{count} others",

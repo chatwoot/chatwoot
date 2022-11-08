@@ -3,11 +3,11 @@
     <div class="subscribers--collapsed">
       <div class="content-wrap">
         <div>
-          <p v-if="watchersList.length" class="total-watchers">
+          <p v-if="watchersList.length" class="total-watchers message-text">
             <spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
-          <p v-else class="text-muted">
+          <p v-else class="text-muted message-text">
             {{ $t('CONVERSATION_WATCHERS.NO_WATCHERS_TEXT') }}
           </p>
         </div>
@@ -28,7 +28,7 @@
         :show-more-thumbnails-count="showMoreThumbs"
         :users-list="thumbnailList"
       />
-      <p v-if="isUserWatching" class="text-muted">
+      <p v-if="isUserWatching" class="text-muted message-text">
         {{ $t('CONVERSATION_WATCHERS.YOU_ARE_WATCHING') }}
       </p>
       <woot-button
@@ -272,5 +272,9 @@ export default {
 .actions {
   display: flex;
   justify-content: space-between;
+}
+
+.message-text {
+  margin: 0;
 }
 </style>
