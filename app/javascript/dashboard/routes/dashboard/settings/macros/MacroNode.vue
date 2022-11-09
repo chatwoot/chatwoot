@@ -70,6 +70,7 @@ export default {
     ...mapGetters({
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
+      agents: 'agents/getAgents',
     }),
     actionData: {
       get() {
