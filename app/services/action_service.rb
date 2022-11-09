@@ -26,7 +26,6 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
-    inbox.members.pluck(:user_id)
     return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)

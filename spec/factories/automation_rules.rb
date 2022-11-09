@@ -12,7 +12,7 @@ FactoryBot.define do
         },
         { 'action_name' => 'assign_team', 'action_params' => [1] },
         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
-        { 'action_name' => 'assign_best_agent', 'action_params' => [1, 2, 3, 4] }
+        { 'action_name' => 'assign_agent', 'action_params' => [1, 2, 3, 4] }
       ]
     end
   end

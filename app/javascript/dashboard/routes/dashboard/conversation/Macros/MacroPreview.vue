@@ -49,7 +49,7 @@ export default {
       const actionsMap = {
         assign_team: resolveTeamIds(this.teams, params),
         add_label: resolveLabels(this.labels, params),
-        assign_best_agent: resolveAgents(this.agents, params),
+        assign_agent: resolveAgents(this.agents, params),
         mute_conversation: null,
         snooze_conversation: null,
         resolve_conversation: null,
