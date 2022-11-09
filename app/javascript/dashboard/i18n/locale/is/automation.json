@@ -1,0 +1,116 @@
+{
+  "AUTOMATION": {
+    "HEADER": "Automations",
+    "HEADER_BTN_TXT": "Add Automation Rule",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Sjálfvirknireglur</b> <p>Sjálfvirkni getur komið í stað og sjálfvirkt núverandi ferli sem krefjast handvirkrar áreynslu. Þú getur gert margt með sjálfvirkni, þar á meðal að bæta við merkimiðum og úthluta samtali á besta þjónustufulltrúann. Þannig að teymið einbeitir sér að því sem það gerir best og eyðir minni tíma í handvirk verkefni.</p>",
+    "ADD": {
+      "TITLE": "Add Automation Rule",
+      "SUBMIT": "Create",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
+          "ERROR": "Name is required"
+        },
+        "DESC": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Enter rule description",
+          "ERROR": "Description is required"
+        },
+        "EVENT": {
+          "LABEL": "Event",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Event is required"
+        },
+        "CONDITIONS": {
+          "LABEL": "Conditions"
+        },
+        "ACTIONS": {
+          "LABEL": "Aðgerðir"
+        }
+      },
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Gat ekki búið til sjálfvirknireglu. Reyndu aftur síðar"
+      }
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Nafn",
+        "Description",
+        "Active",
+        "Created on"
+      ],
+      "404": "No automation rules found"
+    },
+    "DELETE": {
+      "TITLE": "Delete Automation Rule",
+      "SUBMIT": "Eyða",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Ertu viss um að þú viljir eyða",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Gat ekki eytt sjálfvirknireglu. Reyndu aftur síðar"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Automation Rule",
+      "SUBMIT": "Update",
+      "CANCEL_BUTTON_TEXT": "Hætta við",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Ekki tókst að uppfæra sjálfvirknireglu. Reyndu aftur síðar"
+      }
+    },
+    "CLONE": {
+      "TOOLTIP": "Clone",
+      "API": {
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Ekki tókst að afrita sjálfvirknireglu, vinsamlegast reyndu aftur síðar"
+      }
+    },
+    "FORM": {
+      "EDIT": "Breyta",
+      "CREATE": "Create",
+      "DELETE": "Eyða",
+      "CANCEL": "Hætta við",
+      "RESET_MESSAGE": "Að breyta gerð viðburðar mun endurstilla skilyrðin og viðburðina sem þú hefur bætt við hér að neðan"
+    },
+    "CONDITION": {
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista"
+    },
+    "ACTION": {
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eina aðgerð til að vista",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+    },
+    "TOGGLE": {
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "Þessi aðgerð mun virkja sjálfvirkniregluna '{automationName}'. Ertu viss um að þú viljir halda áfram?",
+      "DEACTIVATION_DESCRIPTION": "Þessi aðgerð mun slökkva á sjálfvirknireglunni '{automationName}'. Ertu viss um að þú viljir halda áfram?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Gat ekki virkjað sjálfvirkni, vinsamlegast reyndu aftur síðar",
+      "DEACTIVATION_ERROR": "Gat ekki slökkt á sjálfvirkni, vinsamlegast reyndu aftur síðar",
+      "CONFIRMATION_LABEL": "Yes",
+      "CANCEL_LABEL": "No"
+    },
+    "ATTACHMENT": {
+      "UPLOAD_ERROR": "Gat ekki hlaðið upp viðhengi, vinsamlegast reyndu aftur",
+      "LABEL_IDLE": "Upload Attachment",
+      "LABEL_UPLOADING": "Hleður upp...",
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
+    }
+  }
+}
