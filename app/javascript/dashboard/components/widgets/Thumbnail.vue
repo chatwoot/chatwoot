@@ -1,13 +1,14 @@
 <template>
   <div :class="thumbnailBoxClass" :style="{ height: size, width: size }">
     <img
-      v-if="!imgError && src"
+      v-show="shouldShowImage"
       :src="src"
       :class="thumbnailClass"
+      @load="() => onImgLoad()"
       @error="onImgError"
     />
     <Avatar
-      v-else
+      v-show="!shouldShowImage"
       :username="userNameWithoutEmoji"
       :class="thumbnailClass"
       :size="avatarSize"
@@ -77,6 +78,7 @@ export default {
   },
   data() {
     return {
+      hasImageLoaded: false,
       imgError: false,
     };
   },
@@ -124,6 +126,11 @@ export default {
       const boxClass = this.variant === 'circle' ? 'is-rounded' : '';
       return `user-thumbnail-box ${boxClass}`;
     },
+    shouldShowImage() {
+      if (!this.src) return false;
+      if (this.hasImageLoaded) return !this.imgError;
+      return false;
+    },
   },
   watch: {
     src(value, oldValue) {
@@ -135,6 +142,9 @@ export default {
   methods: {
     onImgError() {
       this.imgError = true;
+    },
+    onImgLoad() {
+      this.hasImageLoaded = true;
     },
   },
 };
@@ -159,6 +169,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     object-fit: cover;
+    vertical-align: initial;
 
     &.border {
       border: 1px solid white;
