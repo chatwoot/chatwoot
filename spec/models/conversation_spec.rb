@@ -109,12 +109,25 @@ RSpec.describe Conversation, type: :model do
       Current.user = old_assignee
     end
 
+    it 'sends conversation updated event if labels are updated' do
+      conversation.update(label_list: [label.title])
+      changed_attributes = conversation.previous_changes
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(
+          described_class::CONVERSATION_UPDATED,
+          kind_of(Time),
+          conversation: conversation,
+          notifiable_assignee_change: false,
+          changed_attributes: changed_attributes,
+          performed_by: nil
+        )
+    end
+
     it 'runs after_update callbacks' do
       conversation.update(
         status: :resolved,
         contact_last_seen_at: Time.now,
-        assignee: new_assignee,
-        label_list: [label.title]
+        assignee: new_assignee
       )
       status_change = conversation.status_change
       changed_attributes = conversation.previous_changes
@@ -433,6 +446,7 @@ RSpec.describe Conversation, type: :model do
         },
         id: conversation.display_id,
         messages: [],
+        labels: [],
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,

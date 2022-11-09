@@ -1,0 +1,39 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Register an account",
+    "TITLE": "Register",
+    "TERMS_ACCEPT": "Með því að skrá þig samþykkir þú <a href=\"https://www.chatwoot.com/terms\">Skilmála</a> okkar og <a href=\"https://www.chatwoot.com/privacy -policy\">Persónuverndarstefnu</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Account name",
+      "PLACEHOLDER": "Sláðu inn reikningsnafn. td: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
+    },
+    "EMAIL": {
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Sláðu inn vinnunetfangið þitt. td: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
+    },
+    "PASSWORD": {
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password",
+      "ERROR": "Password is too short",
+      "IS_INVALID_PASSWORD": "Lykilorð ætti að innihalda að minnsta kosti 1 hástaf, 1 lágstaf, 1 tölustaf og 1 tákn"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirm Password",
+      "PLACEHOLDER": "Confirm Password",
+      "ERROR": "Password doesnot match"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registration Successfull",
+      "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
+    },
+    "SUBMIT": "Submit",
+    "HAVE_AN_ACCOUNT": "Already have an account?"
+  }
+}

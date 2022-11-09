@@ -24,12 +24,7 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Name",
-        "Created by",
-        "Last updated by",
-        "Visibility"
-      ],
+      "TABLE_HEADER": ["Name", "Created by", "Last updated by", "Visibility"],
       "404": "No macros found"
     },
     "DELETE": {
@@ -68,6 +63,11 @@
           "DESCRIPTION": "This macro will be private to you and not be available to others."
         }
       }
+    },
+    "EXECUTE": {
+      "BUTTON_TOOLTIP": "Execute",
+      "PREVIEW": "Preview Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
     }
   }
 }

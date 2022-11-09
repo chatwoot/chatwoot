@@ -7,6 +7,8 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
+    # to turn off spam conversation creation
+    return unless @account.active?
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 

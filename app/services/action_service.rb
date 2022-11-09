@@ -39,6 +39,12 @@ class ActionService
     @conversation.update!(team_id: team_ids[0])
   end
 
+  def send_email_transcript(emails)
+    emails.each do |email|
+      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
+    end
+  end
+
   private
 
   def agent_belongs_to_account?(agent_ids)

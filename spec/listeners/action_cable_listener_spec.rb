@@ -133,8 +133,23 @@ describe ActionCableListener do
     let(:event_name) { :'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
 
+    before do
+      conversation.add_labels(['support'])
+    end
+
     it 'sends update to inbox members' do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],
+        'conversation.updated',
+        conversation.push_event_data.merge(account_id: account.id)
+      )
+      listener.conversation_updated(event)
+    end
+
+    it 'broadcast event with label data' do
+      expect(conversation.push_event_data[:labels]).to eq(conversation.label_list)
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [agent.pubsub_token, admin.pubsub_token, conversation.contact_inbox.pubsub_token],

@@ -1,6 +1,7 @@
 class Platform::Api::V1::AccountsController < PlatformController
   def create
     @resource = Account.new(account_params)
+    update_resource_features
     @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
   end
@@ -8,7 +9,9 @@ class Platform::Api::V1::AccountsController < PlatformController
   def show; end
 
   def update
-    @resource.update!(account_params)
+    @resource.assign_attributes(account_params)
+    update_resource_features
+    @resource.save!
   end
 
   def destroy
@@ -23,14 +26,18 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def account_params
-    if permitted_params[:enabled_features]
-      return permitted_params.except(:enabled_features).merge(selected_feature_flags: permitted_params[:enabled_features].map(&:to_sym))
-    end
+    permitted_params.except(:features)
+  end
 
-    permitted_params
+  def update_resource_features
+    return if permitted_params[:features].blank?
+
+    permitted_params[:features].each do |key, value|
+      value.present? ? @resource.enable_features(key) : @resource.disable_features(key)
+    end
   end
 
   def permitted_params
-    params.permit(:name, :locale, enabled_features: [], limits: {})
+    params.permit(:name, :locale, :domain, :support_email, :status, features: {}, limits: {}, custom_attributes: {})
   end
 end

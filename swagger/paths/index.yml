@@ -70,6 +70,14 @@
 
 # ------------  Public API routes  ------------#
 
+# Inbox
+
+/public/api/v1/inboxes/{inbox_identifier}:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+  get:
+    $ref: './public/inboxes/show.yml'
+
 # Contacts
 
 /public/api/v1/inboxes/{inbox_identifier}/contacts:
