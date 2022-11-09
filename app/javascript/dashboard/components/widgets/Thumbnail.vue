@@ -1,10 +1,11 @@
 <template>
   <div :class="thumbnailBoxClass" :style="{ height: size, width: size }">
+    <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
     <img
       v-show="shouldShowImage"
       :src="src"
       :class="thumbnailClass"
-      @load="() => onImgLoad()"
+      @load="onImgLoad"
       @error="onImgError"
     />
     <Avatar
