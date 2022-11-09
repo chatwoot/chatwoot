@@ -572,30 +572,6 @@ ActiveRecord::Schema.define(version: 2022_11_02_082737) do
     t.jsonb "settings", default: {}
   end
 
-  create_table "integrations_shopify", id: :serial, force: :cascade do |t|
-    t.integer "account_id"
-    t.string "account_name"
-    t.string "api_key"
-    t.string "api_secret"
-    t.string "access_token"
-    t.string "redirect_url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "integrations_shopify_customer", id: :serial, force: :cascade do |t|
-    t.string "email"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "orders_count"
-    t.integer "contact_id"
-    t.integer "account_id"
-    t.string "customer_id"
-    t.integer "shopify_account_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
