@@ -241,6 +241,7 @@
     "SUBJECT": "Subject"
   },
   "CONVERSATION_WATCHERS": {
+    "SIDEBAR_MENU_TITLE": "Participating",
     "SIDEBAR_TITLE": "Conversation watchers",
     "NO_RECORDS_FOUND": "No results found",
     "ADD_WATCHERS": "Select watchers",

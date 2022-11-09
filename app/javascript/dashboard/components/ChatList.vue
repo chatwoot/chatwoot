@@ -353,7 +353,7 @@ export default {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
       if (this.conversationType === 'participating') {
-        return 'Participating';
+        return this.$t('CONVERSATION_WATCHERS.SIDEBAR_MENU_TITLE');
       }
       if (this.hasActiveFolders) {
         return this.activeFolder.name;

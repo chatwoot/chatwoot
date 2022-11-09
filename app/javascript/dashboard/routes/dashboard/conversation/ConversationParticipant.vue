@@ -1,6 +1,6 @@
 <template>
-  <div class="subscribers-wrap">
-    <div class="subscribers--collapsed">
+  <div class="watchers-wrap">
+    <div class="watchers--collapsed">
       <div class="content-wrap">
         <div>
           <p v-if="watchersList.length" class="total-watchers message-text">
@@ -222,7 +222,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.subscribers-wrap {
+.watchers-wrap {
   position: relative;
 }
 
@@ -233,22 +233,7 @@ export default {
   margin-bottom: var(--space-smaller);
 }
 
-.watcher-wrap {
-  display: inline-flex;
-  align-items: center;
-  width: auto;
-  padding: 1px;
-  padding-left: 5px;
-  border-radius: var(--space-one);
-  background: var(--s-50);
-  margin: 4px 5px 5px 0px;
-
-  p {
-    margin-bottom: var(--zero);
-  }
-}
-
-.subscribers--collapsed {
+.watchers--collapsed {
   display: flex;
   justify-content: space-between;
 }
