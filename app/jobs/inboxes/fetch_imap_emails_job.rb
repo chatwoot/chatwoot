@@ -9,7 +9,7 @@ class Inboxes::FetchImapEmailsJob < ApplicationJob
     fetch_mail_for_channel(channel)
     # clearing old failures like timeouts since the mail is now successfully processed
     channel.reauthorized!
-  rescue Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError, Errno::ECONNRESET, Errno::ENETUNREACH, Net::IMAP::ByeResponseError
+  rescue *ExceptionList::IMAP_EXCEPTIONS
     channel.authorization_error!
   rescue EOFError => e
     Rails.logger.error e

@@ -8,4 +8,10 @@ module ExceptionList
   SMTP_EXCEPTIONS = [
     Net::SMTPSyntaxError
   ].freeze
+
+  IMAP_EXCEPTIONS = [
+    Errno::ECONNREFUSED, Net::OpenTimeout, Net::IMAP::NoResponseError,
+    Errno::ECONNRESET, Errno::ENETUNREACH, Net::IMAP::ByeResponseError,
+    SocketError
+  ].freeze
 end
