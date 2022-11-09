@@ -42,6 +42,7 @@ export default {
       uiFlags: 'macros/getUIFlags',
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
+      agents: 'agents/getAgents',
     }),
     macroId() {
       return this.$route.params.macroId;
@@ -50,6 +51,7 @@ export default {
   watch: {
     $route: {
       handler() {
+        this.fetchDropdownData();
         if (this.$route.params.macroId) {
           this.fetchMacro();
         } else {
@@ -60,11 +62,13 @@ export default {
     },
   },
   methods: {
-    fetchMacro() {
-      this.mode = 'EDIT';
+    fetchDropdownData() {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
       this.$store.dispatch('labels/get');
+    },
+    fetchMacro() {
+      this.mode = 'EDIT';
       this.manifestMacro();
     },
     async manifestMacro() {
