@@ -127,8 +127,12 @@ export default {
       return `user-thumbnail-box ${boxClass}`;
     },
     shouldShowImage() {
-      if (!this.src) return false;
-      if (this.hasImageLoaded) return !this.imgError;
+      if (!this.src) {
+        return false;
+      }
+      if (this.hasImageLoaded) {
+        return !this.imgError;
+      }
       return false;
     },
   },
