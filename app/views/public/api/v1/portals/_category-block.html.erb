@@ -12,13 +12,13 @@
   </div>
   <div class="py-4 w-full mt-2 flex-grow">
     <% if category.articles.published.size == 0 %>
-    <div class="h-full flex items-center justify-center bg-slate-50 rounded-xl mb-4">
+    <div class="h-full flex items-center justify-center bg-slate-25 rounded-xl mb-4">
       <p class="text-sm text-slate-500">No articles here</p>
     </div>
     <% else %>
       <% category.articles.published.take(5).each do |article| %>
       <a
-        class="text-slate-800 hover:underline leading-8"
+        class="text-slate-800 hover:underline leading-6"
         href="/hc/<%= portal.slug %>/<%= category.locale %>/<%= category.slug %>/<%= article.id %>"
       >
         <div class="flex justify-between content-center my-1 -mx-1 p-1 rounded-lg hover:bg-slate-25">

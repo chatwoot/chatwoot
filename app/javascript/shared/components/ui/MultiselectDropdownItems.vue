@@ -22,7 +22,7 @@
               :variant="isActive(option) ? 'hollow' : 'clear'"
               color-scheme="secondary"
               :class="{
-                active: option.id === (selectedItem && selectedItem.id),
+                active: isActive(option),
               }"
               @click="() => onclick(option)"
             >
@@ -121,6 +121,10 @@ export default {
     },
     focusInput() {
       this.$refs.searchbar.focus();
+    },
+    isActive(option) {
+      const selected = this.selectedItem;
+      return selected ? option.id === selected.id : false;
     },
   },
 };
