@@ -123,8 +123,7 @@ export default {
       this.$refs.searchbar.focus();
     },
     isActive(option) {
-      const selected = this.selectedItem;
-      return selected ? option.id === selected.id : false;
+      return this.selectedItem ? option.id === this.selectedItem.id : false;
     },
   },
 };
