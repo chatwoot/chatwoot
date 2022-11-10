@@ -2,9 +2,9 @@ import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
-} from '../routes/dashboard/settings/automation/operators';
-import filterQueryGenerator from './filterQueryGenerator.js';
-import actionQueryGenerator from './actionQueryGenerator.js';
+} from 'dashboard/routes/dashboard/settings/automation/operators';
+import filterQueryGenerator from './filterQueryGenerator';
+import actionQueryGenerator from './actionQueryGenerator';
 const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
