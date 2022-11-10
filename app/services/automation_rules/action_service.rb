@@ -8,6 +8,7 @@ class AutomationRules::ActionService < ActionService
 
   def perform
     @rule.actions.each do |action|
+      @conversation.reload
       action = action.with_indifferent_access
       begin
         send(action[:action_name], action[:action_params])
