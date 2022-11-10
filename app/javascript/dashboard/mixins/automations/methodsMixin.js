@@ -1,5 +1,5 @@
-import languages from '../../../dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
-import countries from '../../../shared/constants/countries.js';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import countries from 'shared/constants/countries';
 import {
   generateCustomAttributeTypes,
   getActionOptions,
