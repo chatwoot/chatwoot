@@ -1,9 +1,9 @@
-import * as helpers from '../../../dashboard/helper/automationHelper';
+import * as helpers from 'dashboard/helper/automationHelper';
 import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
-} from '../../../dashboard/routes/dashboard/settings/automation/operators';
+} from 'dashboard/routes/dashboard/settings/automation/operators';
 import {
   customAttributes,
   labels,
@@ -12,7 +12,7 @@ import {
   conversationAttrs,
   expectedOutputForCustomAttributeGenerator,
 } from './automationFixtures';
-import { AUTOMATIONS } from '../../../dashboard/routes/dashboard/settings/automation/constants.js';
+import { AUTOMATIONS } from 'dashboard/routes/dashboard/settings/automation/constants';
 
 describe('automationMethodsMixin', () => {
   it('getCustomAttributeInputType returns the attribute input type', () => {
