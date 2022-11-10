@@ -15,7 +15,7 @@ import {
   getStandardAttributeInputType,
   isCustomAttribute,
   generateCustomAttributes,
-} from '../../helper/automationHelper.js';
+} from 'dashboard/helper/automationHelper';
 import { mapGetters } from 'vuex';
 
 export default {
