@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "Έως την επόμενη εβδομάδα",
       "UNTIL_TOMORROW": "Μέχρι αύριο"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Φόρτωση Εφαρμογής Dashboard..."
   }
 }
