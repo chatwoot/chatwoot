@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "تا هفته بعد",
       "UNTIL_TOMORROW": "تا فردا"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "در حال بارگیری برنامه پیشخوان..."
   }
 }

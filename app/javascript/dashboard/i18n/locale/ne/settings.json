@@ -158,6 +158,9 @@
       "DOWNLOAD": "डाउनलोड",
       "UPLOADING": "अपलोड गर्दै..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "बुझाउनुहोस्"
     }

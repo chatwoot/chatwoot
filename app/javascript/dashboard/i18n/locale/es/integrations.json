@@ -103,32 +103,32 @@
       "FORM": {
         "TITLE_LABEL": "Nombre",
         "TITLE_PLACEHOLDER": "Ingrese un nombre para su aplicación de tablero",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_ERROR": "Se requiere un nombre para el panel de control",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Introduzca la URL del endpoint donde se aloja su aplicación",
+        "URL_ERROR": "Se requiere una URL válida"
       },
       "CREATE": {
         "HEADER": "Añadir una nueva aplicación",
         "FORM_SUBMIT": "Enviar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Panel de control configurado correctamente",
+        "API_ERROR": "No pudimos crear una aplicación. Por favor, inténtalo de nuevo más tarde"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
+        "HEADER": "Editar panel de aplicación",
         "FORM_SUBMIT": "Actualizar",
         "FORM_CANCEL": "Cancelar",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Panel de control actualizado correctamente",
+        "API_ERROR": "No pudimos actualizar la aplicación. Por favor, inténtalo de nuevo más tarde"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
+        "CONFIRM_YES": "Sí, eliminarlo",
         "CONFIRM_NO": "No, mantenerlo",
         "TITLE": "Confirme eliminación",
         "MESSAGE": "¿Está seguro que desea eliminar la aplicación - %{appName}?",
         "API_SUCCESS": "Panel de control eliminado con éxito",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde"
       }
     }
   }

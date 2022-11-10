@@ -151,9 +151,9 @@ es:
       description: "La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: Buscar artículo por título o cuerpo...
       empty_placeholder: No se encontraron resultados.
       loading_placeholder: Buscando...
       results_title: Buscar resultados
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Busque aquí los artículos o busque las categorías de abajo.
