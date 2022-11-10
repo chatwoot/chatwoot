@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "จนกว่าสัปดาห์หน้า",
       "UNTIL_TOMORROW": "จนกว่าพรุ่งนี้"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

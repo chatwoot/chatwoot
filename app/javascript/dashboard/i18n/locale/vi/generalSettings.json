@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "Cho đến tuần sau",
       "UNTIL_TOMORROW": "Cho đến ngày mai"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }
