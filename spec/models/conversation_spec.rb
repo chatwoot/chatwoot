@@ -120,7 +120,7 @@ RSpec.describe Conversation, type: :model do
           notifiable_assignee_change: false,
           changed_attributes: changed_attributes,
           performed_by: nil
-        )
+        ).exactly(2).times
     end
 
     it 'runs after_update callbacks' do

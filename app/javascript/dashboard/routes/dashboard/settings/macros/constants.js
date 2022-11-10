@@ -5,6 +5,11 @@ export const MACRO_ACTION_TYPES = [
     inputType: 'multi_select',
   },
   {
+    key: 'assign_best_agent',
+    label: 'Assign an agent',
+    inputType: 'multi_select',
+  },
+  {
     key: 'add_label',
     label: 'Add a label',
     inputType: 'multi_select',

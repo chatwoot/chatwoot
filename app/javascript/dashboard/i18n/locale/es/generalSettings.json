@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "Hasta la próxima semana",
       "UNTIL_TOMORROW": "Hasta mañana"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

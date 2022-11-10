@@ -70,6 +70,34 @@ export const labels = [
   },
 ];
 
+export const agents = [
+  {
+    id: 1,
+    account_id: 1,
+    availability_status: 'offline',
+    auto_offline: true,
+    confirmed: true,
+    email: 'john@doe.com',
+    available_name: 'John Doe',
+    name: 'John Doe',
+    role: 'agent',
+    thumbnail:
+      'http://localhost:3000/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBUZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--746506837470c1a3dd063e90211ba2386963d52f/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2QzNKbGMybDZaVWtpRERJMU1IZ3lOVEFHT3daVSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--e0e35266e8ed66e90c51be02408be8a022aca545/batman_90804.png',
+  },
+  {
+    id: 9,
+    account_id: 1,
+    availability_status: 'offline',
+    auto_offline: true,
+    confirmed: true,
+    email: 'clark@kent.com',
+    available_name: 'Clark Kent',
+    name: 'Clark Kent',
+    role: 'agent',
+    thumbnail: '',
+  },
+];
+
 export const files = [
   {
     id: 76,

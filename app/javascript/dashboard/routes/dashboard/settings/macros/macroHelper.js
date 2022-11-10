@@ -32,6 +32,15 @@ export const resolveLabels = (labels, ids) => {
     .join(', ');
 };
 
+export const resolveAgents = (agents, ids) => {
+  return ids
+    .map(id => {
+      const agent = agents.find(i => i.id === id);
+      return agent ? agent.name : '';
+    })
+    .join(', ');
+};
+
 export const getFileName = (id, actionType, files) => {
   if (!id || !files) return '';
   if (actionType === 'send_attachment') {

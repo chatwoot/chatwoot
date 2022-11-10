@@ -158,6 +158,9 @@
       "DOWNLOAD": "دانلود",
       "UPLOADING": "در حال آپلود..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "مشاهده‌ بر روی نقشه"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "ثبت"
     }

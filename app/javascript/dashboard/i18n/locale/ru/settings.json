@@ -158,6 +158,9 @@
       "DOWNLOAD": "Скачать",
       "UPLOADING": "Загружаем..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Просмотреть на карте"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Отправить"
     }

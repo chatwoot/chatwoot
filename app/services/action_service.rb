@@ -1,6 +1,6 @@
 class ActionService
   def initialize(conversation)
-    @conversation = conversation
+    @conversation = conversation.reload
   end
 
   def mute_conversation(_params)
@@ -22,7 +22,7 @@ class ActionService
   def add_label(labels)
     return if labels.empty?
 
-    @conversation.add_labels(labels)
+    @conversation.reload.add_labels(labels)
   end
 
   def assign_best_agent(agent_ids = [])

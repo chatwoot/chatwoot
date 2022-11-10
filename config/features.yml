@@ -41,3 +41,5 @@
   enabled: true
 - name: voice_recorder
   enabled: true
+- name: mobile_v2
+  enabled: false
