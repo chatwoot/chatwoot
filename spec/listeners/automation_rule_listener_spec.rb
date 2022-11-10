@@ -17,6 +17,17 @@ describe AutomationRuleListener do
            attribute_model: 'contact_attribute',
            attribute_display_type: 'list',
            attribute_values: %w[regular platinum gold])
+    create(:custom_attribute_definition,
+           attribute_key: 'priority',
+           account: account,
+           attribute_model: 'conversation_attribute',
+           attribute_display_type: 'list',
+           attribute_values: %w[P0 P1 P2])
+    create(:custom_attribute_definition,
+           attribute_key: 'cloud_customer',
+           attribute_display_type: 'checkbox',
+           account: account,
+           attribute_model: 'contact_attribute')
     create(:team_member, user: user_1, team: team)
     create(:team_member, user: user_2, team: team)
     create(:account_user, user: user_2, account: account)
@@ -257,6 +268,51 @@ describe AutomationRuleListener do
         conversation.reload
 
         expect(conversation.messages.first.content).to eq('Send this message.')
+      end
+    end
+
+    context 'when rule matches based on custom_attributes' do
+      before do
+        conversation.update!(custom_attributes: { priority: 'P2' })
+        conversation.contact.update!(custom_attributes: { cloud_customer: false })
+
+        automation_rule.update!(
+          event_name: 'conversation_updated',
+          name: 'Priority customer check',
+          description: 'Add labels, assign team after conversation updated',
+          conditions: [
+            {
+              attribute_key: 'priority',
+              filter_operator: 'equal_to',
+              values: ['P2'],
+              custom_attribute_type: 'conversation_attribute',
+              query_operator: 'AND'
+            }.with_indifferent_access,
+            {
+              attribute_key: 'cloud_customer',
+              filter_operator: 'equal_to',
+              values: [false],
+              custom_attribute_type: 'contact_attribute',
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+        )
+      end
+
+      it 'triggers automation rule to assign team' do
+        expect(conversation.team_id).not_to eq(team.id)
+        listener.conversation_updated(event)
+        conversation.reload
+
+        expect(conversation.team_id).to eq(team.id)
+      end
+
+      it 'triggers automation rule to add label' do
+        expect(conversation.labels).to eq([])
+        listener.conversation_updated(event)
+        conversation.reload
+
+        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
       end
     end
 
