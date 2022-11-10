@@ -30,6 +30,8 @@ describe AutomationRuleListener do
            attribute_model: 'contact_attribute')
     create(:team_member, user: user_1, team: team)
     create(:team_member, user: user_2, team: team)
+    create(:inbox_member, user: user_1, inbox: inbox)
+    create(:inbox_member, user: user_2, inbox: inbox)
     create(:account_user, user: user_2, account: account)
     create(:account_user, user: user_1, account: account)
 
