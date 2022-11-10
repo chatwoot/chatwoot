@@ -49,6 +49,18 @@
 
         <woot-dropdown-item>
           <woot-button
+            variant="clear"
+            size="small"
+            icon="link"
+            color-scheme="secondary"
+            @click="copyLinkToMessage"
+          >
+            Copy Permalink
+          </woot-button>
+        </woot-dropdown-item>
+
+        <woot-dropdown-item>
+          <woot-button
             v-if="showCannedResponseOption"
             variant="clear"
             size="small"
@@ -72,6 +84,8 @@ import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -101,11 +115,22 @@ export default {
       type: Boolean,
       default: true,
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
+    id: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return { isCannedResponseModalOpen: false };
   },
   computed: {
+    ...mapGetters({
+      currentAccountId: 'getCurrentAccountId',
+    }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
     },
@@ -113,6 +138,19 @@ export default {
   methods: {
     handleContextMenuClick() {
       this.$emit('toggle', !this.isOpen);
+    },
+    async copyLinkToMessage() {
+      await copyTextToClipboard(
+        frontendURL(
+          conversationUrl({
+            id: this.conversationId,
+            accountId: this.currentAccountId,
+          }) +
+            '?messageId=' +
+            this.id
+        )
+      );
+      this.showAlert('Link Copied');
     },
     async handleCopy() {
       await copyTextToClipboard(this.plainTextContent);

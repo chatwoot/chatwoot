@@ -75,9 +75,9 @@ class MessageApi extends ApiClient {
     return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
   }
 
-  getPreviousMessages({ conversationId, before }) {
+  getPreviousMessages({ conversationId, after, before }) {
     return axios.get(`${this.url}/${conversationId}/messages`, {
-      params: { before },
+      params: { after, before },
     });
   }
 }

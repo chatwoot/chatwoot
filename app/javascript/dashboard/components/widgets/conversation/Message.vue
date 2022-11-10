@@ -1,6 +1,7 @@
 <template>
   <li
     v-if="hasAttachments || data.content || isEmailContentType"
+    :id="'message' + data.id"
     :class="alignBubble"
   >
     <div :class="wrapClass">
@@ -104,8 +105,10 @@
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <context-menu
         v-if="isBubble && !isMessageDeleted"
+        :id="data.id"
         :is-open="showContextMenu"
         :show-copy="hasText"
+        :conversation-id="data.conversation_id"
         :show-canned-response-option="isOutgoing"
         :menu-position="contextMenuPosition"
         :message-content="data.content"

@@ -304,8 +304,15 @@ export default {
     setSelectedTweet(tweetId) {
       this.selectedTweetId = tweetId;
     },
-    onScrollToMessage() {
-      this.$nextTick(() => this.scrollToBottom());
+    onScrollToMessage({ messageId = '' } = {}) {
+      this.$nextTick(() => {
+        const messageElement = document.getElementById('message' + messageId);
+        if (messageElement) {
+          messageElement.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          this.scrollToBottom();
+        }
+      });
       this.makeMessagesRead();
     },
     showPopoutReplyBox() {
