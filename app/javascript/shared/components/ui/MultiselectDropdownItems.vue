@@ -200,6 +200,7 @@ export default {
   justify-content: space-between;
   min-width: 0;
   width: 100%;
+  align-items: center;
 }
 
 .name {
