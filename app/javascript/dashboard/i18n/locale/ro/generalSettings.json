@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "Până săptămâna viitoare",
       "UNTIL_TOMORROW": "Până mâine"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

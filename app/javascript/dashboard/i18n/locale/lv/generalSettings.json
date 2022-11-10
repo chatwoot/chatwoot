@@ -136,5 +136,8 @@
       "UNTIL_NEXT_WEEK": "Līdz nākamajai nedēļai",
       "UNTIL_TOMORROW": "Līdz rītdienai"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Notiek informācijas paneļa lietotnes ielāde..."
   }
 }
