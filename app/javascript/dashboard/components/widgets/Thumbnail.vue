@@ -1,5 +1,9 @@
 <template>
-  <div :class="thumbnailBoxClass" :style="{ height: size, width: size }">
+  <div
+    :class="thumbnailBoxClass"
+    :style="{ height: size, width: size }"
+    :title="title"
+  >
     <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
     <img
       v-show="shouldShowImage"
@@ -71,6 +75,10 @@ export default {
     shouldShowStatusAlways: {
       type: Boolean,
       default: false,
+    },
+    title: {
+      type: String,
+      default: '',
     },
     variant: {
       type: String,
