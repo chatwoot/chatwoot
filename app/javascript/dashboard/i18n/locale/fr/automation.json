@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Changer le type d'événement réinitialisera les conditions et les événements que vous avez ajoutés ci-dessous"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer"
+      "DELETE_MESSAGE": "Vous devez avoir au moins une condition pour enregistrer",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Vous devez avoir au moins une action pour enregistrer",
