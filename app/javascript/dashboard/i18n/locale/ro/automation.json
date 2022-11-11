@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Modificarea tipului de eveniment va reseta condițiile și evenimentele pe care le-ați adăugat mai jos"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva"
+      "DELETE_MESSAGE": "Trebuie să aveți atleast o condiție pentru a salva",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Trebuie să aveți atleast o acțiune pentru a salva",
