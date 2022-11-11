@@ -68,6 +68,9 @@
                 )
               "
               :show-query-operator="i !== automation.conditions.length - 1"
+              :custom-attribute-type="
+                getCustomAttributeType(automation.conditions[i].attribute_key)
+              "
               :v="$v.automation.conditions.$each[i]"
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
@@ -138,75 +141,32 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
+import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
-import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import countries from '/app/javascript/shared/constants/countries.js';
+
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
   AUTOMATIONS,
 } from './constants';
-import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator.js';
-import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
-
 export default {
   components: {
     filterInputBox,
     automationActionInput,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, automationMethodsMixin, automationValidationsMixin],
   props: {
     onClose: {
       type: Function,
       default: () => {},
     },
   },
-  validations: {
-    automation: {
-      name: {
-        required,
-      },
-      description: {
-        required,
-      },
-      event_name: {
-        required,
-      },
-      conditions: {
-        required,
-        $each: {
-          values: {
-            required: requiredIf(prop => {
-              return !(
-                prop.filter_operator === 'is_present' ||
-                prop.filter_operator === 'is_not_present'
-              );
-            }),
-          },
-        },
-      },
-      actions: {
-        required,
-        $each: {
-          action_params: {
-            required: requiredIf(prop => {
-              if (prop.action_name === 'send_email_to_team') return true;
-              return !(
-                prop.action_name === 'mute_conversation' ||
-                prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_conversation'
-              );
-            }),
-          },
-        },
-      },
-    },
-  },
+
   data() {
     return {
-      automationTypes: AUTOMATIONS,
+      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationActionTypes: AUTOMATION_ACTION_TYPES,
@@ -222,6 +182,7 @@ export default {
             filter_operator: 'equal_to',
             values: '',
             query_operator: 'and',
+            custom_attribute_type: '',
           },
         ],
         actions: [
@@ -232,24 +193,11 @@ export default {
         ],
       },
       showDeleteConfirmationModal: false,
+      allCustomAttributes: [],
+      mode: 'create',
     };
   },
   computed: {
-    conditions() {
-      return this.automationTypes[this.automation.event_name].conditions;
-    },
-    actions() {
-      return this.automationTypes[this.automation.event_name].actions;
-    },
-    filterAttributes() {
-      return this.filterTypes.map(type => {
-        return {
-          key: type.attributeKey,
-          name: type.attributeName,
-          attributeI18nKey: type.attributeI18nKey,
-        };
-      });
-    },
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -259,200 +207,15 @@ export default {
       return false;
     },
   },
-  methods: {
-    onEventChange() {
-      if (this.automation.event_name === 'message_created') {
-        this.automation.conditions = [
-          {
-            attribute_key: 'message_type',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ];
-      } else {
-        this.automation.conditions = [
-          {
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          },
-        ];
-      }
-      this.automation.actions = [
-        {
-          action_name: 'assign_team',
-          action_params: [],
-        },
-      ];
-    },
-    getAttributes(key) {
-      return this.automationTypes[key].conditions;
-    },
-    getInputType(key) {
-      const type = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(condition => condition.key === key);
-      return type.inputType;
-    },
-    getOperators(key) {
-      const type = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(condition => condition.key === key);
-      return type.filterOperators;
-    },
-    getConditionDropdownValues(type) {
-      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
-      switch (type) {
-        case 'status':
-          return [
-            ...Object.keys(statusFilters).map(status => {
-              return {
-                id: status,
-                name: statusFilters[status].TEXT,
-              };
-            }),
-            {
-              id: 'all',
-              name: this.$t('CHAT_LIST.FILTER_ALL'),
-            },
-          ];
-        case 'assignee_id':
-          return this.$store.getters['agents/getAgents'];
-        case 'contact':
-          return this.$store.getters['contacts/getContacts'];
-        case 'inbox_id':
-          return this.$store.getters['inboxes/getInboxes'];
-        case 'team_id':
-          return this.$store.getters['teams/getTeams'];
-        case 'campaign_id':
-          return this.$store.getters['campaigns/getAllCampaigns'].map(i => {
-            return {
-              id: i.id,
-              name: i.title,
-            };
-          });
-        case 'labels':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.id,
-              name: i.title,
-            };
-          });
-        case 'browser_language':
-          return languages;
-        case 'country_code':
-          return countries;
-        case 'message_type':
-          return [
-            {
-              id: 'incoming',
-              name: 'Incoming Message',
-            },
-            {
-              id: 'outgoing',
-              name: 'Outgoing Message',
-            },
-          ];
-        default:
-          return undefined;
-      }
-    },
-    getActionDropdownValues(type) {
-      switch (type) {
-        case 'assign_team':
-        case 'send_email_to_team':
-          return this.$store.getters['teams/getTeams'];
-        case 'add_label':
-          return this.$store.getters['labels/getLabels'].map(i => {
-            return {
-              id: i.title,
-              name: i.title,
-            };
-          });
-        default:
-          return undefined;
-      }
-    },
-    appendNewCondition() {
-      switch (this.automation.event_name) {
-        case 'message_created':
-          this.automation.conditions.push({
-            attribute_key: 'message_type',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          });
-          break;
-        default:
-          this.automation.conditions.push({
-            attribute_key: 'status',
-            filter_operator: 'equal_to',
-            values: '',
-            query_operator: 'and',
-          });
-          break;
-      }
-    },
-    appendNewAction() {
-      this.automation.actions.push({
-        action_name: 'assign_team',
-        action_params: [],
-      });
-    },
-    removeFilter(index) {
-      if (this.automation.conditions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
-      } else {
-        this.automation.conditions.splice(index, 1);
-      }
-    },
-    removeAction(index) {
-      if (this.automation.actions.length <= 1) {
-        this.showAlert(this.$t('FILTER.FILTER_DELETE_ERROR'));
-      } else {
-        this.automation.actions.splice(index, 1);
-      }
-    },
-    submitAutomation() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
-      const automation = JSON.parse(JSON.stringify(this.automation));
-      automation.conditions[
-        automation.conditions.length - 1
-      ].query_operator = null;
-      automation.conditions = filterQueryGenerator(
-        automation.conditions
-      ).payload;
-      automation.actions = actionQueryGenerator(automation.actions);
-      this.$emit('saveAutomation', automation);
-    },
-    resetFilter(index, currentCondition) {
-      this.automation.conditions[index].filter_operator = this.automationTypes[
-        this.automation.event_name
-      ].conditions.find(
-        condition => condition.key === currentCondition.attribute_key
-      ).filterOperators[0].value;
-      this.automation.conditions[index].values = '';
-    },
-    resetAction(index) {
-      this.automation.actions[index].action_params = [];
-    },
-    showUserInput(operatorType) {
-      if (operatorType === 'is_present' || operatorType === 'is_not_present')
-        return false;
-      return true;
-    },
-    showActionInput(actionName) {
-      if (actionName === 'send_email_to_team' || actionName === 'send_message')
-        return false;
-      const type = AUTOMATION_ACTION_TYPES.find(
-        action => action.key === actionName
-      ).inputType;
-      if (type === null) return false;
-      return true;
-    },
+  mounted() {
+    this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('agents/get');
+    this.$store.dispatch('contacts/get');
+    this.$store.dispatch('teams/get');
+    this.$store.dispatch('labels/get');
+    this.$store.dispatch('campaigns/get');
+    this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
+    this.manifestCustomAttributes();
   },
 };
 </script>

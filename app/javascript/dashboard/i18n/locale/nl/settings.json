@@ -158,6 +158,9 @@
       "DOWNLOAD": "Downloaden",
       "UPLOADING": "Uploaden..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Bevestigen"
     }

@@ -5,6 +5,11 @@
       :key="index"
       class="dashboard-app--list"
     >
+      <loading-state
+        v-if="iframeLoading"
+        :message="$t('DASHBOARD_APPS.LOADING_MESSAGE')"
+        class="dashboard-app_loading-container"
+      />
       <iframe
         v-if="configItem.type === 'frame' && configItem.url"
         :id="`dashboard-app--frame-${index}`"
@@ -16,7 +21,11 @@
 </template>
 
 <script>
+import LoadingState from 'dashboard/components/widgets/LoadingState';
 export default {
+  components: {
+    LoadingState,
+  },
   props: {
     config: {
       type: Array,
@@ -26,6 +35,11 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  data() {
+    return {
+      iframeLoading: true,
+    };
   },
   computed: {
     dashboardAppContext() {
@@ -57,6 +71,7 @@ export default {
       );
       const eventData = { event: 'appContext', data: this.dashboardAppContext };
       frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
+      this.iframeLoading = false;
     },
   },
 };
@@ -72,5 +87,12 @@ export default {
 
 .dashboard-app--list iframe {
   border: 0;
+}
+.dashboard-app_loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 </style>

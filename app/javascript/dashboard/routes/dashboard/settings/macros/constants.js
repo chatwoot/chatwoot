@@ -2,7 +2,12 @@ export const MACRO_ACTION_TYPES = [
   {
     key: 'assign_team',
     label: 'Assign a team',
-    inputType: 'multi_select',
+    inputType: 'search_select',
+  },
+  {
+    key: 'assign_best_agent',
+    label: 'Assign an agent',
+    inputType: 'search_select',
   },
   {
     key: 'add_label',

@@ -1,31 +1,31 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
+    "CONVERSATIONS_SELECTED": "%{conversationCount} שיחות נבחרו",
     "AGENT_SELECT_LABEL": "בחר סוכן",
     "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
     "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
-    "GO_BACK_LABEL": "Go back",
+    "GO_BACK_LABEL": "חזור",
     "ASSIGN_LABEL": "שייך",
     "YES": "כן",
-    "ASSIGN_AGENT_TOOLTIP": "Assign Agent",
-    "ASSIGN_SUCCESFUL": "Conversations assigned successfully",
-    "ASSIGN_FAILED": "Failed to assign conversations, please try again",
-    "RESOLVE_SUCCESFUL": "Conversations resolved successfully",
-    "RESOLVE_FAILED": "Failed to resolve conversations, please try again",
-    "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversations visible on this page are only selected.",
-    "AGENT_LIST_LOADING": "Loading Agents",
+    "ASSIGN_AGENT_TOOLTIP": "שייך סוכן",
+    "ASSIGN_SUCCESFUL": "שיוך בוצע בהצלחה",
+    "ASSIGN_FAILED": "שיוך נכשל, נסה שנית",
+    "RESOLVE_SUCCESFUL": "שיחה טופלה בהצלחה",
+    "RESOLVE_FAILED": "טיפול שיחה נכשל, נסה שנית",
+    "ALL_CONVERSATIONS_SELECTED_ALERT": "השיחות הנבחרות הן המוצגות בדף זה בלבד.",
+    "AGENT_LIST_LOADING": "טוען נציגים",
     "UPDATE": {
-      "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply",
-      "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
-      "UPDATE_FAILED": "Failed to update conversations, please try again"
+      "CHANGE_STATUS": "שנה סטאטוס",
+      "SNOOZE_UNTIL_NEXT_REPLY": "נדנד עד התגובה הבאה",
+      "UPDATE_SUCCESFUL": "סטאטוס השיחה שונה בהצלחה.",
+      "UPDATE_FAILED": "עדכון השיחה נכשל, נסה שנית"
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign Labels",
-      "NO_LABELS_FOUND": "No labels found for",
-      "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "ASSIGN_SUCCESFUL": "Labels assigned successfully",
-      "ASSIGN_FAILED": "Failed to assign labels, please try again"
+      "ASSIGN_LABELS": "הקצה תוויות",
+      "NO_LABELS_FOUND": "לא נצאו תוויות עבור",
+      "ASSIGN_SELECTED_LABELS": "שייך תוויות נבחרות",
+      "ASSIGN_SUCCESFUL": "תוויות שוייכו בהצלחה",
+      "ASSIGN_FAILED": "שיוך תוויות נכשל, נסה שנית"
     }
   }
 }

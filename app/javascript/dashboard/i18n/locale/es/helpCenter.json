@@ -47,15 +47,15 @@
         },
         "META_TITLE": {
           "LABEL": "Título Meta",
-          "PLACEHOLDER": "Add a meta title"
+          "PLACEHOLDER": "Agregar un meta título"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta-descripción",
+          "PLACEHOLDER": "Añada su meta descripción para mejores resultados SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta etiquetas",
+          "PLACEHOLDER": "Añadir meta-etiquetas separadas por coma..."
         }
       },
       "BUTTONS": {
@@ -76,7 +76,7 @@
       "POPOVER": {
         "TITLE": "Portales",
         "PORTAL_SETTINGS": "Ajustes del portal",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "SUBTITLE": "Usted tiene varios portales y puede tener diferentes idiomas para cada portal.",
         "CANCEL_BUTTON_LABEL": "Cancelar",
         "CHOOSE_LOCALE_BUTTON": "Elige un idioma"
       },
@@ -170,13 +170,13 @@
           {
             "title": "Personalización del Centro de Ayuda",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Personalizar portal",
+            "UPDATE_PORTAL_BUTTON": "Actualizar ajustes del portal"
           },
           {
             "title": "Voila! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
+            "body": "¡Ya estás listo!",
             "FINISH": "Finalizar"
           }
         ],
@@ -190,12 +190,12 @@
           "CUSTOMIZATION_PAGE": {
             "HEADER": "Personalización del portal",
             "TITLE": "Personalización del Centro de Ayuda",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "UPDATE_PORTAL_BUTTON": "Actualizar configuración del portal"
           },
           "FINISH_PAGE": {
             "TITLE": "¡Voila!🎉 ¡Ya estás listo!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "MESSAGE": "Ahora puede ver este portal creado en su página de todos los portales.",
+            "FINISH": "Ir a la página de todos los portales"
           }
         },
         "LOGO": {
@@ -206,52 +206,52 @@
         "NAME": {
           "LABEL": "Nombre",
           "PLACEHOLDER": "Nombre del portal",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "HELP_TEXT": "El nombre se utilizará internamente en el portal orientado al público.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug de portal para urls",
+          "ERROR": "Slug es requerido"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "LABEL": "Dominio personalizado",
+          "PLACEHOLDER": "Dominio personalizado del portal",
+          "HELP_TEXT": "Añadir sólo si quieres usar un dominio personalizado para tus portales. Ejemplo: https://example.com",
+          "ERROR": "Introduzca una URL de dominio válida"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
-          "ERROR": "Enter a valid home page URL"
+          "LABEL": "Enlace de página principal",
+          "PLACEHOLDER": "Enlace de página de inicio del portal",
+          "HELP_TEXT": "El enlace usado para regresar del portal a la página de inicio. Ej: https://example.com",
+          "ERROR": "Introduzca una URL de página de inicio válida"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Color del tema del portal",
+          "HELP_TEXT": "Este color se mostrará como el color del tema para el portal."
         },
         "PAGE_TITLE": {
           "LABEL": "Título de página",
           "PLACEHOLDER": "Título de página del portal",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "HELP_TEXT": "El título de la página se utilizará en el portal público.",
+          "ERROR": "Título de página requerido"
         },
         "HEADER_TEXT": {
           "LABEL": "Texto de encabezado",
           "PLACEHOLDER": "Texto de encabezado del portal",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "HELP_TEXT": "El texto de la cabecera del portal se utilizará en el portal de cara al público.",
+          "ERROR": "El texto del encabezado del portal es requerido"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal creado correctamente.",
+          "ERROR_MESSAGE_FOR_BASIC": "No se pudo crear el portal. Inténtelo de nuevo.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal actualizado correctamente.",
+          "ERROR_MESSAGE_FOR_UPDATE": "No se pudo actualizar el portal. Inténtelo de nuevo."
         }
       },
       "ADD_LOCALE": {
         "TITLE": "Añadir un nuevo idioma",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "SUB_TITLE": "Esto añade un nuevo idioma a tu lista de traducciones disponibles.",
         "PORTAL": "Portal",
         "LOCALE": {
           "LABEL": "Idioma",
@@ -264,32 +264,32 @@
         },
         "API": {
           "SUCCESS_MESSAGE": "Idioma añadido correctamente",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "ERROR_MESSAGE": "No se puede añadir el idioma. Vuelve a intentarlo."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "Idioma por defecto actualizado correctamente",
+          "ERROR_MESSAGE": "No se puede actualizar el idioma predeterminado. Vuelve a intentarlo."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "Idioma eliminado del portal correctamente",
+          "ERROR_MESSAGE": "No se puede eliminar el idioma del portal. Vuelve a intentarlo."
         }
       }
     },
     "TABLE": {
       "LOADING_MESSAGE": "Cargando artículos...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "404": "No hay artículos que coincidan con su búsqueda 🔍",
+      "NO_ARTICLES": "No hay artículos disponibles",
       "HEADERS": {
         "TITLE": "Título",
         "CATEGORY": "Categoría",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Número de lecturas",
         "STATUS": "Estado",
-        "LAST_EDITED": "Last edited"
+        "LAST_EDITED": "Última edición"
       },
       "COLUMNS": {
         "BY": "por"
@@ -297,29 +297,29 @@
     },
     "EDIT_ARTICLE": {
       "LOADING": "Cargando artículo...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "TITLE_PLACEHOLDER": "Título del artículo va aquí",
+      "CONTENT_PLACEHOLDER": "Escriba su artículo aquí",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Error al guardar el artículo"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "Error al publicar el artículo",
+        "SUCCESS": "Artículo publicado correctamente"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "Error al archivar el artículo",
+        "SUCCESS": "Artículo archivado con éxito"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Confirmar eliminación",
-          "MESSAGE": "Are you sure to delete the article?",
+          "MESSAGE": "¿Está seguro que desea eliminar el artículo?",
           "YES": "Sí, eliminar",
           "NO": "No, mantenerlo"
         }
@@ -330,7 +330,7 @@
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Por favor, añade el encabezado y el contenido del artículo y despues puedes actualizar la configuración"
     },
     "SIDEBAR": {
       "SEARCH": {
@@ -340,70 +340,70 @@
     "CATEGORY": {
       "ADD": {
         "TITLE": "Crear una categoría",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "SUB_TITLE": "La categoría se utilizará en el portal público para categorizar artículos.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Idioma",
         "NAME": {
           "LABEL": "Nombre",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Nombre de categoría",
+          "HELP_TEXT": "El nombre de la categoría se utilizará en el portal público orientado a categorizar los artículos.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug de categoría para urls",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug es requerido"
         },
         "DESCRIPTION": {
           "LABEL": "Descripción",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Dé una breve descripción sobre la categoría.",
           "ERROR": "Descripción requerida"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
+          "CREATE": "Crear categoría",
           "CANCEL": "Cancelar"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Categoría creada correctamente",
+          "ERROR_MESSAGE": "No se puede crear la categoría"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "Editar una categoría",
+        "SUB_TITLE": "Editar una categoría actualizará la categoría en el portal público.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Idioma",
         "NAME": {
           "LABEL": "Nombre",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Nombre de categoría",
+          "HELP_TEXT": "El nombre de la categoría se utilizará en el portal público orientado a categorizar los artículos.",
           "ERROR": "El nombre es requerido"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug de categoría para urls",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug es requerido"
         },
         "DESCRIPTION": {
           "LABEL": "Descripción",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Dé una breve descripción sobre la categoría.",
           "ERROR": "Descripción requerida"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
+          "CREATE": "Actualizar categoría",
           "CANCEL": "Cancelar"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Categoría actualizada correctamente",
+          "ERROR_MESSAGE": "No se pudo actualizar la categoría"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Categoría eliminada correctamente",
+          "ERROR_MESSAGE": "No se pudo borrar la categoría"
         }
       }
     }
