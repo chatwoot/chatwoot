@@ -242,6 +242,7 @@ export default {
   background: white;
   border-left: 1px solid var(--color-border);
   font-size: $font-size-small;
+  overflow-y: overlay;
   overflow-y: auto;
   overflow: auto;
   position: relative;

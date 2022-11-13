@@ -119,6 +119,7 @@
   flex-direction: column;
   height: 100%;
   margin: 0;
+  overflow-y: overlay;
   overflow-y: auto;
   padding-bottom: var(--space-normal);
   position: relative;

@@ -238,6 +238,7 @@ export default {
 }
 
 .secondary-sidebar {
+  overflow-y: overlay;
   overflow-y: auto;
   height: 100%;
 }
