@@ -19,3 +19,9 @@ trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
   queue: scheduled_jobs
+
+# execute At every minute till we get the review then remove it
+trigger_instagram_mock_webhook_job:
+  cron: '*/1 * * * *'
+  class: 'Inboxes::FetchInstagramMessagesJob'
+  queue: scheduled_jobs

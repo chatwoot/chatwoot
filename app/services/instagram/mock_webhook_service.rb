@@ -1,5 +1,5 @@
 class Instagram::MockWebhookService
-  def intialize
+  def perform
     find_instagram_inbox
     fetch_messages
   end
@@ -18,7 +18,7 @@ class Instagram::MockWebhookService
 
   def find_instagram_inbox
     @channel = Channel::FacebookPage.where.not(instagram_id: nil).last
-    @instagram_inbox = channel.inbox if @channel.present?
+    @instagram_inbox = @channel.inbox if @channel.present?
   end
 
   def inbox_last_message
@@ -26,23 +26,24 @@ class Instagram::MockWebhookService
   end
 
   def fetch_conversation_messages(data)
-    if inbox_last_message.empty?
-      fetch_first_message(data['messages']['data'][0])
-    else
-      fetch_all_messages(data)
-    end
+    # we can fetch it till inbox's last message for multiple conversations  but right now we are only considering the last conversation
+    fetch_all_messages(data)
   end
 
   def fetch_all_messages(conversation)
     conversation = conversation.with_indifferent_access
 
     conversation['messages']['data'].each do |message_entry|
-      build_instagram_message_entry(conversation, message_entry)
+      params = build_instagram_message_entry(conversation, message_entry)
+      send_entry_to_endpoint(params)
     end
   end
 
-  def send_entry_to_endpoint
-    instangram_endpoint = "#{ENV[FRONTEND_URL]}/webhooks/instagram"
+  def send_entry_to_endpoint(params)
+    ::Webhooks::InstagramEventsJob.perform_later(params)
+
+    # instangram_endpoint = "#{ENV[FRONTEND_URL]}/webhooks/instagram"
+    # instagram_api_key = ENV['IG_VERIFY_TOKEN']
   end
 
   def build_instagram_message_entry(conversation, message_entry)
@@ -69,25 +70,4 @@ class Instagram::MockWebhookService
       }
     ]
   end
-
-[
-  {
-    'id': 'instagram-message-id-123',
-    'time': '2021-09-08T06:34:04+0000',
-    'messaging': [
-      {
-        'sender': {
-          'id': 'Sender-id-1'
-        },
-        'recipient': {
-          'id': 'chatwoot-app-user-id-1'
-        },
-        'timestamp': '2021-09-08T06:34:04+0000',
-        'message': {
-          'mid': 'message-id-1',
-          'text': 'This is the first message from the customer'
-        }
-      }
-    ]
-  }
-]
+end
