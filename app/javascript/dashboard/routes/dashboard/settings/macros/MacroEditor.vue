@@ -83,7 +83,7 @@ export default {
           const inputType = this.macroActionTypes.find(
             item => item.key === action.action_name
           ).inputType;
-          if (inputType === 'multi_select') {
+          if (inputType === 'multi_select' || inputType === 'search_select') {
             actionParams = [
               ...this.getDropdownValues(action.action_name, this.$store),
             ].filter(item => [...action.action_params].includes(item.id));
