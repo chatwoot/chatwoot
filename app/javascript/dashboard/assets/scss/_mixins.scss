@@ -142,6 +142,7 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   overflow-y: auto;
 }
 
+
 @mixin horizontal-scroll() {
   overflow-y: auto;
 }
@@ -159,7 +160,7 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   }
 
   &::before {
-    animation: spinner 0.9s linear infinite;
+    animation: spinner .9s linear infinite;
     border: 2px solid $spinner-before-border-color;
     border-radius: 50%;
     border-top-color: lighten($color-woot, 10%);
@@ -195,28 +196,42 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
     border-bottom: $size solid $color;
     border-left: $size solid transparent;
     border-right: $size solid transparent;
-  } @else if $direction == 'right' {
+  }
+
+  @else if $direction == 'right' {
     border-bottom: $size solid transparent;
     border-left: $size solid $color;
     border-top: $size solid transparent;
-  } @else if $direction == 'bottom' {
+  }
+
+  @else if $direction == 'bottom' {
     border-left: $size solid transparent;
     border-right: $size solid transparent;
     border-top: $size solid $color;
-  } @else if $direction == 'left' {
+  }
+
+  @else if $direction == 'left' {
     border-bottom: $size solid transparent;
     border-right: $size solid $color;
     border-top: $size solid transparent;
-  } @else if $direction == 'top-left' {
+  }
+
+  @else if $direction == 'top-left' {
     border-right: $size solid transparent;
     border-top: $size solid $color;
-  } @else if $direction == 'top-right' {
+  }
+
+  @else if $direction == 'top-right' {
     border-left: $size solid transparent;
     border-top: $size solid $color;
-  } @else if $direction == 'bottom-left' {
+  }
+
+  @else if $direction == 'bottom-left' {
     border-bottom: $size solid $color;
     border-right: $size solid transparent;
-  } @else if $direction == 'bottom-right' {
+  }
+
+  @else if $direction == 'bottom-right' {
     border-bottom: $size solid $color;
     border-left: $size solid transparent;
   }
@@ -228,15 +243,10 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
 }
 
-@mixin three-column-grid(
-  $column-one-width: 25.6rem,
-  $column-three-width: 25.6rem
-) {
+@mixin three-column-grid($column-one-width: 25.6rem,
+  $column-three-width: 25.6rem) {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: minmax($column-one-width, 6fr) 10fr minmax(
-      $column-three-width,
-      6fr
-    );
+  grid-template-columns: minmax($column-one-width, 6fr) 10fr minmax($column-three-width, 6fr);
 }
