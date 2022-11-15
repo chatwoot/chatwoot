@@ -119,11 +119,11 @@ class Conversation < ApplicationRecord
   end
 
   def can_reply_on_instagram?
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+    global_config = nil
 
     return false if last_incoming_message.nil?
 
-    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+    if false
       Time.current < last_incoming_message.created_at + 7.days
     else
       last_message_in_messaging_window?(24)
