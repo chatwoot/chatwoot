@@ -40,6 +40,12 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
+            <bubble-location
+              v-else-if="attachment.file_type === 'location'"
+              :latitude="attachment.coordinates_lat"
+              :longitude="attachment.coordinates_long"
+              :name="attachment.fallback_title"
+            />
             <bubble-file
               v-else
               :url="attachment.data_url"
@@ -119,6 +125,7 @@ import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import BubbleVideo from './bubble/Video.vue';
 import BubbleActions from './bubble/Actions';
+import BubbleLocation from './bubble/Location';
 
 import Spinner from 'shared/components/Spinner';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu';
@@ -136,6 +143,7 @@ export default {
     BubbleFile,
     BubbleVideo,
     BubbleMailHead,
+    BubbleLocation,
     ContextMenu,
     Spinner,
   },

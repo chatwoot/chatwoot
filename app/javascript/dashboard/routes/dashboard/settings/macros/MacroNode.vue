@@ -20,6 +20,7 @@
         :show-remove-button="false"
         :is-macro="true"
         :v="$v.macro.actions.$each[index]"
+        :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"
       />
       <macro-action-button
@@ -60,11 +61,16 @@ export default {
       type: Number,
       default: 0,
     },
+    fileName: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     ...mapGetters({
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
+      agents: 'agents/getAgents',
     }),
     actionData: {
       get() {

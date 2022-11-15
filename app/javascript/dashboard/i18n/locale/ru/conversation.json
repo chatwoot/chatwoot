@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Категории Диалога",
       "CONVERSATION_INFO": "Информация о беседе",
       "CONTACT_ATTRIBUTES": "Атрибуты контакта",
-      "PREVIOUS_CONVERSATION": "Предыдущие диалоги"
+      "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
+      "MACROS": "Макросс"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

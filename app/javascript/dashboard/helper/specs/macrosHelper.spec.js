@@ -3,9 +3,11 @@ import {
   resolveActionName,
   resolveLabels,
   resolveTeamIds,
+  getFileName,
+  resolveAgents,
 } from '../../routes/dashboard/settings/macros/macroHelper';
 import { MACRO_ACTION_TYPES } from '../../routes/dashboard/settings/macros/constants';
-import { teams, labels } from './macrosFixtures';
+import { teams, labels, files, agents } from './macrosFixtures';
 
 describe('#emptyMacro', () => {
   const defaultMacro = {
@@ -48,5 +50,26 @@ describe('#resolveLabels', () => {
   it('resolves labels names from ids and returns a joined string', () => {
     const resolvedLabels = 'sales, billing';
     expect(resolveLabels(labels, ['sales', 'billing'])).toEqual(resolvedLabels);
+  });
+});
+
+describe('#resolveAgents', () => {
+  it('resolves agents names from ids and returns a joined string', () => {
+    const resolvedAgents = 'John Doe';
+    expect(resolveAgents(agents, [1])).toEqual(resolvedAgents);
+  });
+});
+
+describe('#getFileName', () => {
+  it('returns the correct file name from the list of files', () => {
+    expect(getFileName(files[0].blob_id, 'send_attachment', files)).toEqual(
+      files[0].filename
+    );
+    expect(getFileName(files[1].blob_id, 'send_attachment', files)).toEqual(
+      files[1].filename
+    );
+    expect(getFileName(files[0].blob_id, 'wrong_action', files)).toEqual('');
+    expect(getFileName(null, 'send_attachment', files)).toEqual('');
+    expect(getFileName(files[0].blob_id, 'send_attachment', [])).toEqual('');
   });
 });
