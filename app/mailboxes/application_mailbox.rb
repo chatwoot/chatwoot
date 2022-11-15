@@ -7,72 +7,38 @@ class ApplicationMailbox < ActionMailbox::Base
   CONVERSATION_MESSAGE_ID_PATTERN = %r{conversation/([a-zA-Z0-9\-]*?)/messages/(\d+?)@(\w+\.\w+)}
 
   def self.reply_mail?
-    proc do |inbound_mail_obj|
-      is_a_reply_email = false
-      inbound_mail_obj.mail.to&.each do |email|
-        is_a_reply_email = true if reply_uuid_mail?(email)
-      end
-      is_a_reply_email = true if in_reply_to_mail?(inbound_mail_obj, is_a_reply_email)
-
-      is_a_reply_email
+    proc do |inbound_mail|
+      reply_uuid_mail?(inbound_mail) || in_reply_to_mail?(inbound_mail)
     end
   end
 
   def self.support_mail?
-    proc do |inbound_mail_obj|
-      is_a_support_email = false
-
-      is_a_support_email = true if reply_to_mail?(inbound_mail_obj, is_a_support_email)
-
-      is_a_support_email
+    proc do |inbound_mail|
+      EmailChannelFinder.new(inbound_mail.mail).perform.present?
     end
-  end
-
-  def self.reply_to_mail?(inbound_mail_obj, is_a_support_email)
-    return if is_a_support_email
-
-    channel = EmailChannelFinder.new(inbound_mail_obj.mail).perform
-    channel.present?
-  end
-
-  def self.catch_all_mail?
-    proc { |_mail| true }
   end
 
   # checks if follow this pattern then send it to reply_mailbox
   # <account/#{@account.id}/conversation/#{@conversation.uuid}@#{@account.inbound_email_domain}>
-  def self.in_reply_to_mail?(inbound_mail_obj, is_a_reply_email)
-    return if is_a_reply_email
+  def self.in_reply_to_mail?(inbound_mail)
+    in_reply_to = inbound_mail.mail.in_reply_to
 
-    in_reply_to = inbound_mail_obj.mail.in_reply_to
-
-    return false if in_reply_to.blank?
-
-    return true if in_reply_to_matches?(in_reply_to)
-
-    message = Message.find_by(source_id: in_reply_to)
-    return true if message.present?
-
-    false
+    in_reply_to.present? && (
+      in_reply_to_matches?(in_reply_to) || Message.exists?(source_id: in_reply_to)
+    )
   end
 
   def self.in_reply_to_matches?(in_reply_to)
-    in_reply_to_match = false
-    if in_reply_to.is_a?(Array)
-      in_reply_to.each do |in_reply_to_mail|
-        in_reply_to_match ||= in_reply_to_mail.match(CONVERSATION_MESSAGE_ID_PATTERN)
-      end
-    else
-      in_reply_to_match = in_reply_to.match(CONVERSATION_MESSAGE_ID_PATTERN)
-    end
-    in_reply_to_match
+    Array.wrap(in_reply_to).any? { _1.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
   end
 
   # checks if follow this pattern  send it to reply_mailbox
   # reply+<conversation-uuid>@<mailer-domain.com>
-  def self.reply_uuid_mail?(email)
-    conversation_uuid = email.split('@')[0]
-    conversation_uuid.match(REPLY_EMAIL_UUID_PATTERN)
+  def self.reply_uuid_mail?(inbound_mail)
+    inbound_mail.mail.to&.any? do |email|
+      conversation_uuid = email.split('@')[0]
+      conversation_uuid.match?(REPLY_EMAIL_UUID_PATTERN)
+    end
   end
 
   # routing should be defined below the referenced procs
@@ -81,5 +47,6 @@ class ApplicationMailbox < ActionMailbox::Base
   routing(reply_mail? => :reply)
   # routes as a new conversation in email channel
   routing(support_mail? => :support)
-  routing(catch_all_mail? => :default)
+  # catchall
+  routing(all: :default)
 end
