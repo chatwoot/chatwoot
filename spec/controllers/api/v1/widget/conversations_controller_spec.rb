@@ -74,8 +74,30 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
+    it 'create a conversation with a name and without an email' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'alphy'
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+      expect(json_response['id']).not_to be_nil
+      expect(json_response['contact']['email']).to be_nil
+      expect(json_response['contact']['name']).to eq 'alphy'
+      expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+    end
+
     it 'does not update the name if the contact already exist' do
-      existing_contact = create(:contact, account: account)
+      existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com')
 
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
