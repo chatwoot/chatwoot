@@ -50,7 +50,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_name
-    return if @contact.email.present? || @contact.phone_number.present?
+    return if @contact.email.present? || @contact.phone_number.present? || @contact.identifier.present?
 
     permitted_params.dig(:contact, :name) || (contact_email.split('@')[0] if contact_email.present?)
   end
