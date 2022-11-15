@@ -5,7 +5,7 @@ export const MACRO_ACTION_TYPES = [
     inputType: 'search_select',
   },
   {
-    key: 'assign_best_agent',
+    key: 'assign_agent',
     label: 'Assign an agent',
     inputType: 'search_select',
   },
