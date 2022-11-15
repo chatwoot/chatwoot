@@ -36,7 +36,7 @@ describe('webhookMixin', () => {
       expect(wrapper.vm.getDropdownValues('assign_team')).toEqual(teams);
       expect(wrapper.vm.getDropdownValues('send_email_to_team')).toEqual(teams);
       expect(wrapper.vm.getDropdownValues('add_label')).toEqual(resolvedLabels);
-      expect(wrapper.vm.getDropdownValues('assign_best_agent')).toEqual(agents);
+      expect(wrapper.vm.getDropdownValues('assign_agent')).toEqual(agents);
       expect(wrapper.vm.getDropdownValues()).toEqual([]);
     });
   });
