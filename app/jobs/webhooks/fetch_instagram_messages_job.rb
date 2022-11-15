@@ -1,4 +1,4 @@
-class Inboxes::FetchInstagramMessagesJob < ApplicationJob
+class Webhooks::FetchInstagramMessagesJob < ApplicationJob
   queue_as :low
 
   def perform
