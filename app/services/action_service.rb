@@ -25,8 +25,8 @@ class ActionService
     @conversation.reload.add_labels(labels)
   end
 
-  def assign_best_agent(agent_ids = [])
-    return unless agent_belongs_to_account?(agent_ids)
+  def assign_agent(agent_ids = [])
+    return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)
 
@@ -47,8 +47,11 @@ class ActionService
 
   private
 
-  def agent_belongs_to_account?(agent_ids)
-    @account.agents.pluck(:id).include?(agent_ids[0])
+  def agent_belongs_to_inbox?(agent_ids)
+    member_ids = @conversation.inbox.members.pluck(:user_id)
+    assignable_agent_ids = member_ids + @account.administrators.ids
+
+    assignable_agent_ids.include?(agent_ids[0])
   end
 
   def team_belongs_to_account?(team_ids)
