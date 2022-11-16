@@ -16,6 +16,6 @@ trigger_scheduled_items_job:
 
 # execute At every minute till we get the review then remove it
 trigger_instagram_mock_webhook_job:
-  cron: '*/5 * * * *'
+  cron: '*/2 * * * *'
   class: 'Webhooks::FetchInstagramMessagesJob'
   queue: scheduled_jobs
