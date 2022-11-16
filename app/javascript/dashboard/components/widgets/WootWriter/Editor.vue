@@ -233,7 +233,9 @@ export default {
         node
       );
       this.state = this.editorView.state.apply(tr);
-      return this.emitOnChange();
+      this.emitOnChange();
+
+      return false;
     },
 
     insertCannedResponse(cannedItem) {
@@ -241,22 +243,23 @@ export default {
         return null;
       }
 
-      const tr = this.editorView.state.tr.insertText(
-        cannedItem,
+      const node = this.editorView.state.schema.text(cannedItem);
+      const tr = this.editorView.state.tr.replaceWith(
         this.range.from,
-        this.range.to
+        this.range.to,
+        node
       );
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
 
-      // Hacky fix for #5501
-      this.state = createState(
-        this.contentFromEditor,
-        this.placeholder,
-        this.plugins
-      );
-      this.editorView.updateState(this.state);
-      this.focusEditorInputField();
+      // // Hacky fix for #5501
+      // this.state = createState(
+      //   this.contentFromEditor,
+      //   this.placeholder,
+      //   this.plugins
+      // );
+      // this.editorView.updateState(this.state);
+      // this.focusEditorInputField();
       return false;
     },
 
