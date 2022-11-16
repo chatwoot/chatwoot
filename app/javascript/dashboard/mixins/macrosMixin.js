@@ -5,7 +5,7 @@ export default {
         case 'assign_team':
         case 'send_email_to_team':
           return this.teams;
-        case 'assign_best_agent':
+        case 'assign_agent':
           return this.agents;
         case 'add_label':
           return this.labels.map(i => {

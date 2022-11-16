@@ -30,6 +30,8 @@ describe AutomationRuleListener do
            attribute_model: 'contact_attribute')
     create(:team_member, user: user_1, team: team)
     create(:team_member, user: user_2, team: team)
+    create(:inbox_member, user: user_1, inbox: inbox)
+    create(:inbox_member, user: user_2, inbox: inbox)
     create(:account_user, user: user_2, account: account)
     create(:account_user, user: user_1, account: account)
 
@@ -45,7 +47,7 @@ describe AutomationRuleListener do
                                         { 'action_name' => 'assign_team', 'action_params' => [team.id] },
                                         { 'action_name' => 'add_label', 'action_params' => %w[support priority_customer] },
                                         { 'action_name' => 'send_webhook_event', 'action_params' => ['https://www.example.com'] },
-                                        { 'action_name' => 'assign_best_agent', 'action_params' => [user_1.id] },
+                                        { 'action_name' => 'assign_agent', 'action_params' => [user_1.id] },
                                         { 'action_name' => 'send_email_transcript', 'action_params' => ['new_agent@example.com'] },
                                         { 'action_name' => 'mute_conversation', 'action_params' => nil },
                                         { 'action_name' => 'change_status', 'action_params' => ['snoozed'] },
