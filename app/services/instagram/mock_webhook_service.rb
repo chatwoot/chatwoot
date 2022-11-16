@@ -55,7 +55,7 @@ class Instagram::MockWebhookService
 
   def build_instagram_message_entry(conversation, message_entry)
     message_entry = message_entry.with_indifferent_access
-    entry = [
+    [
       {
         'id': conversation[:id],
         'time': conversation[:updated_time],
@@ -76,6 +76,5 @@ class Instagram::MockWebhookService
         ]
       }
     ]
-    entry
   end
 end
