@@ -8,10 +8,14 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/macros'),
       component: SettingsContent,
-      props: {
-        headerTitle: 'MACROS.HEADER',
-        icon: 'flash-settings',
-        showNewButton: false,
+      props: params => {
+        const showBackButton = params.name !== 'macros_wrapper';
+        return {
+          headerTitle: 'MACROS.HEADER',
+          headerButtonText: 'MACROS.HEADER_BTN_TXT',
+          icon: 'flash-settings',
+          showBackButton,
+        };
       },
       children: [
         {

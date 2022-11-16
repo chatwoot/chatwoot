@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
       "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
-      "SELECT_ONE": "Επιλέξτε ένα"
+      "SELECT_ONE": "Επιλέξτε ένα",
+      "SELECT": "Επιλογή"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Έως την επόμενη εβδομάδα",
       "UNTIL_TOMORROW": "Μέχρι αύριο"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Φόρτωση Εφαρμογής Dashboard..."
   }
 }

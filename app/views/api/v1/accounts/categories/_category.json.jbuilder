@@ -27,5 +27,5 @@ if category.root_category.present?
 end
 
 json.meta do
-  json.articles_count category.articles.size
+  json.articles_count category.articles.search(locale: @current_locale).size
 end

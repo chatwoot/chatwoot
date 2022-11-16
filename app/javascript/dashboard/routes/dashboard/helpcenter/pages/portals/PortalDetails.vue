@@ -6,7 +6,7 @@
         'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.CREATE_BASIC_SETTING_BUTTON'
       )
     "
-    @submit="updateBasicSettings"
+    @submit="createPortal"
   />
 </template>
 
@@ -37,7 +37,7 @@ export default {
   },
 
   methods: {
-    async updateBasicSettings(portal) {
+    async createPortal(portal) {
       try {
         await this.$store.dispatch('portals/create', {
           portal,
@@ -45,16 +45,16 @@ export default {
         this.alertMessage = this.$t(
           'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_BASIC'
         );
+        this.$router.push({
+          name: 'portal_customization',
+          params: { portalSlug: portal.slug },
+        });
       } catch (error) {
         this.alertMessage =
           error?.message ||
           this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_BASIC');
       } finally {
         this.showAlert(this.alertMessage);
-        this.$router.push({
-          name: 'portal_customization',
-          params: { portalSlug: portal.slug },
-        });
       }
     },
   },

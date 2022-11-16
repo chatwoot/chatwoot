@@ -83,11 +83,7 @@ class Article < ApplicationRecord
     ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
 
     records = records.text_search(params[:query]) if params[:query].present?
-    records.page(current_page(params))
-  end
-
-  def self.current_page(params)
-    params[:page] || 1
+    records
   end
 
   def associate_root_article(associated_article_id)

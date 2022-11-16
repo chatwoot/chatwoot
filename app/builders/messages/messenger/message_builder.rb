@@ -2,7 +2,8 @@ class Messages::Messenger::MessageBuilder
   include ::FileTypeHelper
 
   def process_attachment(attachment)
-    return if attachment['type'].to_sym == :template
+    # This check handles very rare case if there are multiple files to attach with only one usupported file
+    return if unsupported_file_type?(attachment['type'])
 
     attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
     attachment_obj.save!
@@ -79,5 +80,11 @@ class Messages::Messenger::MessageBuilder
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     {}
+  end
+
+  private
+
+  def unsupported_file_type?(attachment_type)
+    [:template, :unsupported_type].include? attachment_type.to_sym
   end
 end

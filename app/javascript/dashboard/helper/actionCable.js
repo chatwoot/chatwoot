@@ -25,6 +25,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.created': this.onNotificationCreated,
       'first.reply.created': this.onFirstReplyCreated,
       'conversation.read': this.onConversationRead,
+      'conversation.updated': this.onConversationUpdated,
     };
   }
 
@@ -67,8 +68,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationRead = data => {
-    const { contact_last_seen_at: lastSeen } = data;
-    this.app.$store.dispatch('updateConversationRead', lastSeen);
+    this.app.$store.dispatch('updateConversation', data);
   };
 
   onLogout = () => AuthAPI.logout();
@@ -81,6 +81,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
+    this.app.$store.dispatch('updateConversation', data);
+    this.fetchConversationStats();
+  };
+
+  onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
   };

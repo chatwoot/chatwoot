@@ -90,10 +90,10 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "該当結果が見つかりませんでした。"
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "該当なし",
       "TITLE": {
         "AGENT": "Select agent",
         "TEAM": "Select team"

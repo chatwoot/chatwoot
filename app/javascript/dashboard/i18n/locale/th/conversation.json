@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
-      "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า"
+      "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
