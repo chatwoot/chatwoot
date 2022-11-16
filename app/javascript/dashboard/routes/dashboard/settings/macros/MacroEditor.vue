@@ -42,20 +42,8 @@ export default {
       uiFlags: 'macros/getUIFlags',
       labels: 'labels/getLabels',
       agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
     }),
-    assignableTeams() {
-      return [
-        {
-          account_id: 0,
-          allow_auto_assign: true,
-          description: "None",
-          id: 0,
-          is_member: false,
-          name: "None"
-        },
-        ...this.$store.getters['teams/getTeams'],
-      ];
-    },
     macroId() {
       return this.$route.params.macroId;
     },
