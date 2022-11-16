@@ -46,16 +46,14 @@ export default {
     assignableTeams() {
       return [
         {
-          confirmed: true,
-          name: 'None',
-          id: null,
-          role: 'team',
           account_id: 0,
-          email: 'None',
+          allow_auto_assign: true,
+          description: "None",
+          id: 0,
+          is_member: false,
+          name: "None"
         },
-        ...this.$store.getters['teams/getTeams'](
-          this.inboxId
-        ),
+        ...this.$store.getters['teams/getTeams'],
       ];
     },
     macroId() {
