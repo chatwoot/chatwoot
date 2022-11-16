@@ -5,11 +5,11 @@ class Instagram::MockWebhookService
   end
 
   def fetch_messages
-    return unless @instagram_inbox.present?
+    return if @instagram_inbox.blank?
 
     k = Koala::Facebook::API.new(@channel.page_access_token)
     conversations = k.get_object('me/conversations',
-                                 { fields: 'messages.limit(3){message,from,to,id,created_time},name,updated_time', platform: 'instagram', limit: 3 })
+                                 { fields: 'messages.limit(1){message,from,to,id,created_time},name,updated_time', platform: 'instagram', limit: 3 })
 
     fetch_conversation_messages(conversations[0])
   end
@@ -45,12 +45,16 @@ class Instagram::MockWebhookService
     @entries.each do |entry|
       entry = entry.with_indifferent_access
       entry[:messaging].each do |messaging|
-        ::Instagram::MessageText.new(messaging).perform
+        ::Instagram::MessageText.new(messaging).perform unless already_created_message?(messaging)
       end
     end
 
     # instangram_endpoint = "#{ENV[FRONTEND_URL]}/webhooks/instagram"
     # instagram_api_key = ENV['IG_VERIFY_TOKEN']
+  end
+
+  def already_created_message?(messaging)
+    @instagram_inbox.messages.find_by(source_id: messaging[:message][:mid]).present?
   end
 
   def build_instagram_message_entry(conversation, message_entry)
