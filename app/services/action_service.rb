@@ -34,7 +34,7 @@ class ActionService
   end
 
   def assign_team(team_ids = [])
-    return unassign_team if team_ids.nil?
+    return unassign_team if team_ids[0].zero?
     return unless team_belongs_to_account?(team_ids)
 
     @conversation.update!(team_id: team_ids[0])

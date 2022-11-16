@@ -79,6 +79,10 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
               'action_params': %w[support priority_customer]
             },
             {
+              'action_name': :assign_team,
+              'action_params': [0]
+            },
+            {
               'action_name': :send_message,
               'action_params': ['Welcome to the chatwoot platform.']
             },
@@ -376,7 +380,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         it 'Unassign the team if team_ids are empty' do
           macro.update!(actions: [
-                          { 'action_name' => 'assign_team', 'action_params' => nil }
+                          { 'action_name' => 'assign_team', 'action_params' => [0] }
                         ])
           expect(conversation.team).to be_nil
 
