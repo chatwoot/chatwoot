@@ -730,7 +730,7 @@ export default {
         this.insertEmoji(emoji, selectionStart - 1, selectionEnd - 1);
         this.richContentEditorSelection = null;
       }
-      if (!this.showRichContentEditor && this.richContentEditorSelection) {
+      if (!this.showRichContentEditor) {
         const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
         this.insertEmoji(emoji, selectionStart, selectionEnd);
       }
