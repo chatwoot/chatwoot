@@ -1,3 +1,17 @@
+const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
+  // If both API value and store value for last non activity message
+  // are available, then return the latest one.
+  if (messageInStore && messageFromAPI) {
+    if (messageInStore.created_at >= messageFromAPI.created_at) {
+      return messageInStore;
+    }
+    return messageFromAPI;
+  }
+
+  // Otherwise, return whichever is available
+  return messageInStore || messageFromAPI;
+};
+
 export default {
   methods: {
     lastMessage(m) {
@@ -15,20 +29,10 @@ export default {
         return lastMessageIncludingActivity;
       }
 
-      // If both API value and store value for last non activity message
-      // are available, then return the latest one.
-      if (lastNonActivityMessageInStore && lastNonActivityMessageFromAPI) {
-        if (
-          lastNonActivityMessageInStore.created_at >=
-          lastNonActivityMessageFromAPI.created_at
-        ) {
-          return lastNonActivityMessageInStore;
-        }
-        return lastNonActivityMessageFromAPI;
-      }
-
-      // Otherwise, return whichever is available
-      return lastNonActivityMessageInStore || lastNonActivityMessageFromAPI;
+      return getLastNonActivityMessage(
+        lastNonActivityMessageInStore,
+        lastNonActivityMessageFromAPI
+      );
     },
     unreadMessagesCount(m) {
       return m.messages.filter(
