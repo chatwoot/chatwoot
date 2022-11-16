@@ -9,7 +9,7 @@
           {{ config.replyTime }}
         </div>
       </div>
-      <thumbnail username="J" size="40" />
+      <thumbnail username="J" size="40px" />
     </div>
     <div v-else class="conversation-content">
       <div class="conversation-wrap">
@@ -88,18 +88,20 @@ export default {
 <style scoped lang="scss">
 .widget-body-container {
   .availability-content {
+    align-items: flex-end;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
-    padding: var(--space-one) var(--space-two) var(--space-one) var(--space-two);
     min-height: inherit;
+    padding: var(--space-one) var(--space-two) var(--space-one) var(--space-two);
 
     .availability-info {
       width: 100%;
+
       .team-status {
         font-size: var(--font-size-default);
         font-weight: var(--font-weight-medium);
       }
+
       .reply-wait-message {
         font-size: var(--font-size-mini);
       }
@@ -108,24 +110,27 @@ export default {
   .conversation-content {
     height: calc(var(--space-large) * 10);
     padding: 0 var(--space-two);
+
     .conversation-wrap {
       .user-message {
         align-items: flex-end;
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
-        margin-top: var(--space-zero);
         margin-bottom: var(--space-smaller);
         margin-left: auto;
+        margin-top: var(--space-zero);
         max-width: 85%;
         text-align: right;
       }
+
       .message-wrap {
         margin-right: var(--space-smaller);
         max-width: 100%;
+
         .chat-bubble {
-          box-shadow: var(--shadow-medium);
           border-radius: 2rem;
+          box-shadow: var(--shadow-medium);
           color: var(--white);
           display: inline-block;
           font-size: var(--font-size-nano);
@@ -141,6 +146,7 @@ export default {
             border-bottom-right-radius: var(--border-radius-small);
             background: var(--color-woot);
           }
+
           &.agent {
             background: var(--white);
             border-bottom-left-radius: var(--border-radius-small);
