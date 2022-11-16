@@ -1,11 +1,34 @@
-/* eslint no-console: 0 */
-/* eslint no-undef: "error" */
-/* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
-
 export default {
   methods: {
     lastMessage(m) {
-      return m.messages.last();
+      let lastMessageIncludingActivity = m.messages.last();
+
+      const nonActivityMessages = m.messages.filter(
+        message => message.message_type !== 2
+      );
+      let lastNonActivityMessageInStore = nonActivityMessages.last();
+      let lastNonActivityMessageFromAPI = m.last_non_activity_message;
+
+      // If API value and store value for last non activity message
+      // is empty, then return the last activity message
+      if (!lastNonActivityMessageInStore && !lastNonActivityMessageFromAPI) {
+        return lastMessageIncludingActivity;
+      }
+
+      // If both API value and store value for last non activity message
+      // are available, then return the latest one.
+      if (lastNonActivityMessageInStore && lastNonActivityMessageFromAPI) {
+        if (
+          lastNonActivityMessageInStore.created_at >=
+          lastNonActivityMessageFromAPI.created_at
+        ) {
+          return lastNonActivityMessageInStore;
+        }
+        return lastNonActivityMessageFromAPI;
+      }
+
+      // Otherwise, return whichever is available
+      return lastNonActivityMessageInStore || lastNonActivityMessageFromAPI;
     },
     unreadMessagesCount(m) {
       return m.messages.filter(
