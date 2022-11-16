@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Trykk enter for å velge",
       "ENTER_TO_REMOVE": "Trykk enter for å fjerne",
-      "SELECT_ONE": "Velg en"
+      "SELECT_ONE": "Velg en",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
