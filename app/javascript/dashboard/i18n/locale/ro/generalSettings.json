@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
       "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
-      "SELECT_ONE": "Alege una"
+      "SELECT_ONE": "Alege una",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
