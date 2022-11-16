@@ -65,6 +65,7 @@
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
+        @selection-change="onRichContentEditorSelectionChange"
         @toggle-user-mention="toggleUserMention"
         @toggle-canned-menu="toggleCannedMenu"
       />
@@ -200,6 +201,7 @@ export default {
     return {
       message: '',
       isFocused: false,
+      richContentEditorSelection: null,
       showEmojiPicker: false,
       showMentions: false,
       attachedFiles: [],
@@ -708,8 +710,30 @@ export default {
       }
       this.$nextTick(() => this.$refs.messageInput.focus());
     },
+    onRichContentEditorSelectionChange(selection) {
+      this.richContentEditorSelection = selection;
+    },
+    insertEmoji(emoji, selectionStart, selectionEnd) {
+      const { message } = this;
+      const newMessage =
+        message.slice(0, selectionStart) +
+        emoji +
+        message.slice(selectionEnd, message.length);
+      this.message = newMessage;
+    },
     emojiOnClick(emoji) {
-      this.message = `${this.message}${emoji} `;
+      if (this.showRichContentEditor && this.richContentEditorSelection) {
+        const {
+          from: selectionStart,
+          to: selectionEnd,
+        } = this.richContentEditorSelection;
+        this.insertEmoji(emoji, selectionStart - 1, selectionEnd - 1);
+        this.richContentEditorSelection = null;
+      }
+      if (!this.showRichContentEditor && this.richContentEditorSelection) {
+        const { selectionStart, selectionEnd } = this.$refs.messageInput.$el;
+        this.insertEmoji(emoji, selectionStart, selectionEnd);
+      }
     },
     clearMessage() {
       this.message = '';

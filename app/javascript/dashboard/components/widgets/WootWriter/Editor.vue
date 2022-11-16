@@ -218,6 +218,11 @@ export default {
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
     },
+    onSelectionChange() {
+      const { tr } = this.editorView.state;
+      const selection = Selection.findFrom(tr.selection.$from, 1, true);
+      this.$emit('selection-change', selection);
+    },
     insertMentionNode(mentionItem) {
       if (!this.editorView) {
         return null;
@@ -291,6 +296,7 @@ export default {
     onBlur() {
       this.turnOffIdleTimer();
       this.resetTyping();
+      this.onSelectionChange();
       this.$emit('blur');
     },
     onFocus() {
