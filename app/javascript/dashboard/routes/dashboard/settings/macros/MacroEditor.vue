@@ -41,9 +41,23 @@ export default {
     ...mapGetters({
       uiFlags: 'macros/getUIFlags',
       labels: 'labels/getLabels',
-      teams: 'teams/getTeams',
       agents: 'agents/getAgents',
     }),
+    assignableTeams() {
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'team',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.$store.getters['teams/getTeams'](
+          this.inboxId
+        ),
+      ];
+    },
     macroId() {
       return this.$route.params.macroId;
     },

@@ -361,6 +361,33 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           expect(conversation.messages.last.sender).to eq(administrator)
           expect(conversation.messages.last.private).to be_truthy
         end
+
+        it 'Assign the team if team_ids are present' do
+          expect(conversation.team).to be_nil
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.reload.team_id).to eq(team.id)
+        end
+
+        it 'Unassign the team if team_ids are empty' do
+          macro.update!(actions: [
+                          { 'action_name' => 'assign_team', 'action_params' => nil }
+                        ])
+          expect(conversation.team).to be_nil
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.reload.team_id).to be_nil
+        end
       end
     end
   end

@@ -34,6 +34,7 @@ class ActionService
   end
 
   def assign_team(team_ids = [])
+    return unassign_team if team_ids.nil?
     return unless team_belongs_to_account?(team_ids)
 
     @conversation.update!(team_id: team_ids[0])
@@ -62,5 +63,9 @@ class ActionService
     return false if @conversation.additional_attributes.blank?
 
     @conversation.additional_attributes['type'] == 'tweet'
+  end
+
+  def unassign_team
+    @conversation.update!(team_id: nil)
   end
 end
