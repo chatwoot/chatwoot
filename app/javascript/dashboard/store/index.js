@@ -23,6 +23,7 @@ import conversations from './modules/conversations';
 import conversationSearch from './modules/conversationSearch';
 import conversationStats from './modules/conversationStats';
 import conversationTypingStatus from './modules/conversationTypingStatus';
+import conversationWatchers from './modules/conversationWatchers';
 import csat from './modules/csat';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
@@ -66,6 +67,7 @@ export default new Vuex.Store({
     conversationSearch,
     conversationStats,
     conversationTypingStatus,
+    conversationWatchers,
     csat,
     customViews,
     dashboardApps,

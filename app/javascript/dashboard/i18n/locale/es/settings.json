@@ -20,17 +20,17 @@
         "NOTE": "Su dirección de correo electrónico es su identidad y se utiliza para iniciar sesión."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "Tecla rápida para enviar mensajes",
+        "NOTE": "Puede seleccionar una tecla de acceso rápido (Enter o Cmd/Ctrl+Enter) basándose en su preferencia de escritura.",
+        "UPDATE_SUCCESS": "Su configuración se ha actualizado correctamente",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "Envía mensajes presionando la tecla Intro en lugar de hacer clic en el botón Enviar."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "Envía mensajes pulsando Cmd/Ctrl + tecla Intro en lugar de hacer clic en el botón Enviar."
           }
         }
       },
@@ -157,6 +157,9 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descargar",
       "UPLOADING": "Subiendo..."
+    },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Ver en el mapa"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"

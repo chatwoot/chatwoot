@@ -158,6 +158,9 @@
       "DOWNLOAD": "Last ned",
       "UPLOADING": "Laster opp..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Send"
     }

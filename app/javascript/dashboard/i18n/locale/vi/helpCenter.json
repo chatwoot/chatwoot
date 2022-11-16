@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Tên miền tuỳ biến",
           "PLACEHOLDER": "Tên miền tuỳ biến cổng",
-          "HELP_TEXT": "Chỉ thêm nếu bạn muốn sử dụng miền tùy chỉnh cho cổng thông tin của mình.",
-          "ERROR": "Cần có tên miền tuỳ chỉnh"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Liên kết trang chủ",
           "PLACEHOLDER": "Liên kế trang chủ cổng thông tin",
-          "HELP_TEXT": "Liên kết được sử dụng để quay lại từ cổng thông tin đến trang chủ.",
-          "ERROR": "Phải có liên kết trang chủ"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "Màu chủ đề cổng thông tin",

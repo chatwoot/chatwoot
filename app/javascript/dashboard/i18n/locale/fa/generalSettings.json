@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "برای انتخاب Enter را فشار دهید",
       "ENTER_TO_REMOVE": "برای حذف دکمه enter را فشار دهید",
-      "SELECT_ONE": "یکی را انتخاب کن"
+      "SELECT_ONE": "یکی را انتخاب کن",
+      "SELECT": "انتخاب کنید"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "تا هفته بعد",
       "UNTIL_TOMORROW": "تا فردا"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "در حال بارگیری برنامه پیشخوان..."
   }
 }

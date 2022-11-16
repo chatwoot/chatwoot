@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "Benutzerdefinierte Domain",
           "PLACEHOLDER": "Benutzerdefinierte Domain des Portals",
-          "HELP_TEXT": "Nur hinzufügen, wenn Sie eine benutzerdefinierte Domain für Ihre Portale verwenden möchten.",
-          "ERROR": "Benutzerdefinierte Domäne ist erforderlich"
+          "HELP_TEXT": "Nur hinzufügen, wenn Sie eine benutzerdefinierte Domäne für Ihre Portale verwenden möchten. Beispiel: https://example.com",
+          "ERROR": "Geben Sie eine gültige Domänen-URL ein"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Homepage-Link",
           "PLACEHOLDER": "Link zur Startseite des Portals",
-          "HELP_TEXT": "Der Link, der verwendet wird, um vom Portal zur Startseite zurückzukehren.",
-          "ERROR": "Homepage-Link ist erforderlich"
+          "HELP_TEXT": "Der Link, der verwendet wird, um vom Portal zur Startseite zurückzukehren. Beispiel: https://example.com",
+          "ERROR": "Geben Sie eine gültige Startseiten-URL ein"
         },
         "THEME_COLOR": {
           "LABEL": "Farbe des Portaldesigns",

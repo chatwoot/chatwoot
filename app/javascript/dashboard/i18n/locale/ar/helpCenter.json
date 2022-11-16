@@ -217,14 +217,14 @@
         "DOMAIN": {
           "LABEL": "نطاق مخصص",
           "PLACEHOLDER": "نطاق البوابة المخصص",
-          "HELP_TEXT": "أضف فقط إذا كنت ترغب في استخدام نطاق مخصص للبوابات الخاصة بك.",
-          "ERROR": "النطاق المخصص مطلوب"
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "رابط الصفحة الرئيسية",
           "PLACEHOLDER": "رابط الصفحة الرئيسية للبوابة",
-          "HELP_TEXT": "الرابط المستخدم للعودة من البوابة إلى الصفحة الرئيسية.",
-          "ERROR": "رابط الصفحة الرئيسية مطلوب"
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
           "LABEL": "لون قالب البوابة",

@@ -158,6 +158,9 @@
       "DOWNLOAD": "Unduh",
       "UPLOADING": "Mengunggah..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Kirim"
     }
