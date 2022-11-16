@@ -18,7 +18,7 @@
 - name: agent_bots
   enabled: false
 - name: macros
-  enabled: false
+  enabled: true
 - name: agent_management
   enabled: true
 - name: team_management
@@ -37,3 +37,5 @@
   enabled: true
 - name: voice_recorder
   enabled: true
+- name: mobile_v2
+  enabled: false

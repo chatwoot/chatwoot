@@ -158,6 +158,9 @@
       "DOWNLOAD": "Κατέβασμα",
       "UPLOADING": "Ανέβασμα ..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Δείτε στον χάρτη"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Καταχώρηση"
     }

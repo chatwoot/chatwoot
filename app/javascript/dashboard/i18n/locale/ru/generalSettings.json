@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
-      "SELECT_ONE": "Выберите один"
+      "SELECT_ONE": "Выберите один",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "До следующей недели",
       "UNTIL_TOMORROW": "До завтра"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Загрузка приложения панели управления..."
   }
 }

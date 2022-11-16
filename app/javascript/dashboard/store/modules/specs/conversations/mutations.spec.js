@@ -200,18 +200,6 @@ describe('#mutations', () => {
       ]);
     });
 
-    describe('#SET_CONVERSATION_LAST_SEEN', () => {
-      it('sets conversation last seen timestamp', () => {
-        const state = {
-          conversationLastSeen: null,
-        };
-
-        mutations[types.SET_CONVERSATION_LAST_SEEN](state, 1649856659);
-
-        expect(state.conversationLastSeen).toEqual(1649856659);
-      });
-    });
-
     describe('#UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES', () => {
       it('update conversation custom attributes', () => {
         const custom_attributes = { order_id: 1001 };

@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "عنوان Callback URL",
-          "SUBTITLE": "يجب عليك تكوين URL webhook في بوابة مطور فيسبوك مع عنوان URL المذكور هنا."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "رابط Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "أصبحت قناة التواصل جاهزة الآن!",
-      "MESSAGE": "يمكنك الآن التواصل مع عملائك من خلال قناتك الجديدة ",
+      "MESSAGE": "يمكنك الآن التواصل مع عملائك من خلال قناتك الجديدة",
       "BUTTON_TEXT": "خذني إلى هناك",
       "MORE_SETTINGS": "المزيد من الإعدادات",
       "WEBSITE_SUCCESS": "لقد انتهيت بنجاح من إنشاء قناة دردشة مباشرة لموقعك. انسخ الرمز الموضح أدناه وقم بإضافته إلى موقع الويب الخاص بك. في المرة القادمة التي يستخدم فيها العميل الدردشة المباشرة، ستظهر المحادثة تلقائياً على صندوق الوارد الخاص بك."

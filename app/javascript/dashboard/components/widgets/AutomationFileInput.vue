@@ -113,5 +113,6 @@ input[type='file'] {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+  margin-bottom: 0;
 }
 </style>

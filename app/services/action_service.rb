@@ -1,6 +1,6 @@
 class ActionService
   def initialize(conversation)
-    @conversation = conversation
+    @conversation = conversation.reload
   end
 
   def mute_conversation(_params)
@@ -22,11 +22,11 @@ class ActionService
   def add_label(labels)
     return if labels.empty?
 
-    @conversation.add_labels(labels)
+    @conversation.reload.add_labels(labels)
   end
 
-  def assign_best_agent(agent_ids = [])
-    return unless agent_belongs_to_account?(agent_ids)
+  def assign_agent(agent_ids = [])
+    return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)
 
@@ -39,10 +39,19 @@ class ActionService
     @conversation.update!(team_id: team_ids[0])
   end
 
+  def send_email_transcript(emails)
+    emails.each do |email|
+      ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
+    end
+  end
+
   private
 
-  def agent_belongs_to_account?(agent_ids)
-    @account.agents.pluck(:id).include?(agent_ids[0])
+  def agent_belongs_to_inbox?(agent_ids)
+    member_ids = @conversation.inbox.members.pluck(:user_id)
+    assignable_agent_ids = member_ids + @account.administrators.ids
+
+    assignable_agent_ids.include?(agent_ids[0])
   end
 
   def team_belongs_to_account?(team_ids)

@@ -158,6 +158,9 @@
       "DOWNLOAD": "Lejupielādēt",
       "UPLOADING": "Notiek augšupielāde..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Skatīt kartē"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Iesniegt"
     }

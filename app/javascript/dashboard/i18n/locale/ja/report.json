@@ -397,7 +397,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "評価",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
