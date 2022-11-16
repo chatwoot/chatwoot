@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhookin URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "Postilaatikkosi on valmis!",
-      "MESSAGE": "Voit nyt sitoutua asiakkaisiisi uuden kanavan kautta. Hyvää asiakaspalveluhenkeä! ",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Vie minut sinne",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Olet onnistuneesti lisännyt sivuston chat-widgetin. Kopioi alla näkyvä koodi ja liitä se verkkosivuillesi. Seuraavalla kerralla kun asiakas käyttää live-keskustelua, keskustelu ilmestyy automaattisesti saapuneet-kansioon."

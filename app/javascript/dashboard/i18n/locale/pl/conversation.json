@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Etykiety rozmowy",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Poprzednie rozmowy"
+      "PREVIOUS_CONVERSATION": "Poprzednie rozmowy",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

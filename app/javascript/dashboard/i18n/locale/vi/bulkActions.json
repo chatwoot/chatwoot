@@ -2,9 +2,11 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
     "AGENT_SELECT_LABEL": "Chọn tổng đài viên",
-    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc là muốn giao %{conversationCount} %{conversationLabel} cho",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
+    "YES": "Có",
     "ASSIGN_AGENT_TOOLTIP": "Giao cho tổng đài viên",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công",
     "ASSIGN_FAILED": "Không thể phân công các cuộc hội thoại, xin vui lòng thử lại",

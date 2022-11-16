@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL del webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "La vostra safata d'entrada està a punt!",
-      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport ",
+      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
       "BUTTON_TEXT": "Porta'm allà",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."

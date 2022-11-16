@@ -158,6 +158,9 @@
       "DOWNLOAD": "Звантажити",
       "UPLOADING": "Завантажується..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Додати"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "Контакти",
     "HOME": "Головна",
     "AGENTS": "Агенти",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Вхідні",
     "NOTIFICATIONS": "Сповіщення",
     "CANNED_RESPONSES": "Швидкі відповіді",
@@ -189,6 +193,7 @@
     "LABELS": "Мітки",
     "CUSTOM_ATTRIBUTES": "Свої атрибути",
     "AUTOMATION": "Автоматизація",
+    "MACROS": "Macros",
     "TEAMS": "Команди",
     "BILLING": "Біллінг",
     "CUSTOM_VIEWS_FOLDER": "Папки",

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="filter"
-    :class="{ error: v.action_params.$dirty && v.action_params.$error }"
-  >
+  <div class="filter" :class="actionInputStyles">
     <div class="filter-inputs">
       <select
         v-model="action_name"
@@ -21,14 +18,32 @@
       <div v-if="showActionInput" class="filter__answer--wrap">
         <div v-if="inputType">
           <div
-            v-if="inputType === 'multi_select'"
+            v-if="inputType === 'search_select'"
             class="multiselect-wrap--small"
           >
             <multiselect
               v-model="action_params"
               track-by="id"
               label="name"
-              :placeholder="'Select'"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :options="dropdownValues"
+              :allow-empty="false"
+              :option-height="104"
+            />
+          </div>
+          <div
+            v-else-if="inputType === 'multi_select'"
+            class="multiselect-wrap--small"
+          >
+            <multiselect
+              v-model="action_params"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
               :multiple="true"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
@@ -36,6 +51,7 @@
               :max-height="160"
               :options="dropdownValues"
               :allow-empty="false"
+              :option-height="104"
             />
           </div>
           <input
@@ -60,6 +76,7 @@
         </div>
       </div>
       <woot-button
+        v-if="!isMacro"
         icon="dismiss"
         variant="clear"
         color-scheme="secondary"
@@ -120,6 +137,10 @@ export default {
       type: String,
       default: '',
     },
+    isMacro: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     action_name: {
@@ -146,6 +167,12 @@ export default {
       return this.actionTypes.find(action => action.key === this.action_name)
         .inputType;
     },
+    actionInputStyles() {
+      return {
+        'has-error': this.v.action_params.$dirty && this.v.action_params.$error,
+        'is-a-macro': this.isMacro,
+      };
+    },
   },
   methods: {
     removeAction() {
@@ -165,9 +192,21 @@ export default {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-medium);
   margin-bottom: var(--space-small);
+
+  &.is-a-macro {
+    margin-bottom: 0;
+    background: var(--white);
+    padding: var(--space-zero);
+    border: unset;
+    border-radius: unset;
+  }
 }
 
-.filter.error {
+.no-margin-bottom {
+  margin-bottom: 0;
+}
+
+.filter.has-error {
   background: var(--r-50);
 }
 
@@ -240,6 +279,6 @@ export default {
   margin-bottom: var(--space-zero);
 }
 .action-message {
-  margin: var(--space-small) 0 0;
+  margin: var(--space-small) var(--space-zero) var(--space-zero);
 }
 </style>
