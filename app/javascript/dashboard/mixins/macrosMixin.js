@@ -11,7 +11,7 @@ export default {
               description: 'None',
               id: 0,
               is_member: false,
-              name: 'None'
+              name: 'None',
             },
             ...this.teams,
           ];
