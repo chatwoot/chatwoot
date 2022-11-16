@@ -252,14 +252,6 @@ export default {
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
 
-      // // Hacky fix for #5501
-      // this.state = createState(
-      //   this.contentFromEditor,
-      //   this.placeholder,
-      //   this.plugins
-      // );
-      // this.editorView.updateState(this.state);
-      // this.focusEditorInputField();
       return false;
     },
 
