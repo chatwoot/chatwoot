@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "Að breyta gerð viðburðar mun endurstilla skilyrðin og viðburðina sem þú hefur bætt við hér að neðan"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista"
+      "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eitt skilyrði til að vista",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Þú þarft að hafa að minnsta kosti eina aðgerð til að vista",
