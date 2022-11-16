@@ -39,8 +39,15 @@ class Instagram::MockWebhookService
     end
   end
 
-  def send_entry_to_endpoint(params)
-    ::Webhooks::InstagramEventsJob.perform_later(params)
+  def send_entry_to_endpoint(entries)
+    @entries = entries
+    # ::Webhooks::InstagramEventsJob.perform_later(params)
+    @entries.each do |entry|
+      entry = entry.with_indifferent_access
+      entry[:messaging].each do |messaging|
+        ::Instagram::MessageText.new(messaging).perform
+      end
+    end
 
     # instangram_endpoint = "#{ENV[FRONTEND_URL]}/webhooks/instagram"
     # instagram_api_key = ENV['IG_VERIFY_TOKEN']
@@ -69,5 +76,6 @@ class Instagram::MockWebhookService
         ]
       }
     ]
+    entry
   end
 end
