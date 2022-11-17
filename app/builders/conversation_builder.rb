@@ -26,7 +26,7 @@ class ConversationBuilder
     # commenting this out to see if there are any errors, if not we can remove this in subsequent releases
     # status = { status: 'pending' } if status[:status] == 'bot'
     {
-      account_id: Current.account.id,
+      account_id: @contact_inbox.inbox.account_id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
