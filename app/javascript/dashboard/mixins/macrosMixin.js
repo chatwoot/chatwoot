@@ -8,6 +8,7 @@ export default {
         case 'assign_agent':
           return this.agents;
         case 'add_label':
+        case 'remove_label':
           return this.labels.map(i => {
             return {
               id: i.title,
