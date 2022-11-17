@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Appuyer sur Entrée pour sélectionner",
       "ENTER_TO_REMOVE": "Appuyer sur Entrée pour supprimer",
-      "SELECT_ONE": "Sélectionnez un"
+      "SELECT_ONE": "Sélectionnez un",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {

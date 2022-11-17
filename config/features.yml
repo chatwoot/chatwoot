@@ -18,7 +18,7 @@
 - name: agent_bots
   enabled: false
 - name: macros
-  enabled: false
+  enabled: true
 - name: agent_management
   enabled: true
 - name: team_management
