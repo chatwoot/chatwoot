@@ -79,8 +79,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
               'action_params': %w[support priority_customer]
             },
             {
-              'action_name': :assign_team,
-              'action_params': [0]
+              'action_name': :remove_assigned_team
             },
             {
               'action_name': :send_message,
@@ -396,11 +395,11 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           expect(conversation.reload.team_id).to eq(team.id)
         end
 
-        it 'Unassign the team if team_ids are empty' do
+        it 'Unassign the team' do
           macro.update!(actions: [
-                          { 'action_name' => 'assign_team', 'action_params' => [0] }
+                          { 'action_name' => 'remove_assigned_team' }
                         ])
-          expect(conversation.team).to be_nil
+          expect(conversation.reload.team).to be_nil
 
           perform_enqueued_jobs do
             post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",

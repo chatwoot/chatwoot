@@ -20,6 +20,11 @@ export const MACRO_ACTION_TYPES = [
     inputType: 'multi_select',
   },
   {
+    key: 'remove_assigned_team',
+    label: 'Remove Assigned Team',
+    inputType: null,
+  },
+  {
     key: 'send_email_transcript',
     label: 'Send an email transcript',
     inputType: 'email',

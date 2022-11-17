@@ -47,6 +47,10 @@ class ActionService
     @conversation.update!(team_id: team_ids[0])
   end
 
+  def remove_assigned_team(_params)
+    @conversation.update!(team_id: nil)
+  end
+
   def send_email_transcript(emails)
     emails.each do |email|
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
@@ -70,9 +74,5 @@ class ActionService
     return false if @conversation.additional_attributes.blank?
 
     @conversation.additional_attributes['type'] == 'tweet'
-  end
-
-  def unassign_team
-    @conversation.update!(team_id: nil)
   end
 end
