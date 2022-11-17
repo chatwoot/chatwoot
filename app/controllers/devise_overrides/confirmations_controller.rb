@@ -14,7 +14,7 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
 
   def render_confirmation_success
     send_auth_headers(@confirmable)
-    render partial: 'devise/auth.json', locals: { resource: @confirmable }
+    render partial: 'devise/auth', formats: [:json], locals: { resource: @confirmable }
   end
 
   def render_confirmation_error

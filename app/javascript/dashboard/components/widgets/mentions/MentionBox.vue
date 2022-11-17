@@ -20,7 +20,9 @@
 </template>
 
 <script>
+import mentionSelectionKeyboardMixin from './mentionSelectionKeyboardMixin';
 export default {
+  mixins: [mentionSelectionKeyboardMixin],
   props: {
     items: {
       type: Array,
@@ -39,56 +41,25 @@ export default {
       }
     },
   },
-  mounted() {
-    document.addEventListener('keydown', this.keyListener);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.keyListener);
-  },
   methods: {
     getTopPadding() {
       if (this.items.length <= 4) {
-        return -(this.items.length * 2.8 + 1.7);
+        return -(this.items.length * 2.9 + 1.7);
       }
       return -14;
     },
-    isUp(e) {
-      return e.keyCode === 38 || (e.ctrlKey && e.keyCode === 80); // UP, Ctrl-P
-    },
-    isDown(e) {
-      return e.keyCode === 40 || (e.ctrlKey && e.keyCode === 78); // DOWN, Ctrl-N
-    },
-    isEnter(e) {
-      return e.keyCode === 13;
-    },
-    keyListener(e) {
-      if (this.isUp(e)) {
-        if (!this.selectedIndex) {
-          this.selectedIndex = this.items.length - 1;
-        } else {
-          this.selectedIndex -= 1;
-        }
-      }
-      if (this.isDown(e)) {
-        if (this.selectedIndex === this.items.length - 1) {
-          this.selectedIndex = 0;
-        } else {
-          this.selectedIndex += 1;
-        }
-      }
-      if (this.isEnter(e)) {
-        this.onMentionSelect();
-      }
-      this.$el.scrollTop = 28 * this.selectedIndex;
+    handleKeyboardEvent(e) {
+      this.processKeyDownEvent(e);
+      this.$el.scrollTop = 29 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
     },
     onListItemSelection(index) {
       this.selectedIndex = index;
-      this.onMentionSelect();
+      this.onSelect();
     },
-    onMentionSelect() {
+    onSelect() {
       this.$emit('mention-select', this.items[this.selectedIndex]);
     },
   },

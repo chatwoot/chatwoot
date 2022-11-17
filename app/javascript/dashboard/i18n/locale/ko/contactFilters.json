@@ -2,28 +2,28 @@
     "CONTACTS_FILTER": {
         "TITLE": "Filter Contacts",
         "SUBTITLE": "Add filters below and hit 'Submit' to filter contacts.",
-        "ADD_NEW_FILTER": "Add Filter",
+        "ADD_NEW_FILTER": "필터 추가하기",
         "CLEAR_ALL_FILTERS": "Clear All Filters",
-        "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+        "FILTER_DELETE_ERROR": "적어도 하나 이상의 필터가 있어야 저장됩니다.",
         "SUBMIT_BUTTON_LABEL": "보내기",
         "CANCEL_BUTTON_LABEL": "취소",
-        "CLEAR_BUTTON_LABEL": "Clear Filters",
-        "EMPTY_VALUE_ERROR": "Value is required",
+        "CLEAR_BUTTON_LABEL": "필터 제거하기",
+        "EMPTY_VALUE_ERROR": "값이 필요합니다.",
         "TOOLTIP_LABEL": "Filter contacts",
         "QUERY_DROPDOWN_LABELS": {
-            "AND": "AND",
-            "OR": "OR"
+            "AND": "와/과",
+            "OR": "혹은"
         },
         "OPERATOR_LABELS": {
-            "equal_to": "Equal to",
-            "not_equal_to": "Not equal to",
-            "contains": "Contains",
-            "does_not_contain": "Does not contain",
-            "is_present": "Is present",
-            "is_not_present": "Is not present",
-            "is_greater_than": "Is greater than",
+            "equal_to": "동일한",
+            "not_equal_to": "비동일한",
+            "contains": "포함된",
+            "does_not_contain": "포함되지 않은",
+            "is_present": "현존하는",
+            "is_not_present": "현존하지 않은",
+            "is_greater_than": "보다 큰",
             "is_lesser_than": "Is lesser than",
-            "days_before": "Is x days before"
+            "days_before": "x 일 전에"
         },
         "ATTRIBUTES": {
             "NAME": "이름",
@@ -32,18 +32,18 @@
             "IDENTIFIER": "Identifier",
             "CITY": "도시",
             "COUNTRY": "국가",
-            "CUSTOM_ATTRIBUTE_LIST": "List",
-            "CUSTOM_ATTRIBUTE_TEXT": "Text",
-            "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-            "CUSTOM_ATTRIBUTE_LINK": "Link",
-            "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-            "CREATED_AT": "Created At",
+            "CUSTOM_ATTRIBUTE_LIST": "리스트",
+            "CUSTOM_ATTRIBUTE_TEXT": "텍스트",
+            "CUSTOM_ATTRIBUTE_NUMBER": "숫자",
+            "CUSTOM_ATTRIBUTE_LINK": "링크",
+            "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
+            "CREATED_AT": "에 만들어짐",
             "LAST_ACTIVITY": "지난 활동",
             "REFERER_LINK": "Referrer link"
         },
         "GROUPS": {
-            "STANDARD_FILTERS": "Standard Filters",
-            "ADDITIONAL_FILTERS": "Additional Filters",
+            "STANDARD_FILTERS": "기본 필터",
+            "ADDITIONAL_FILTERS": "추가 필터",
             "CUSTOM_ATTRIBUTES": "사용자 지정 특성"
         }
     }

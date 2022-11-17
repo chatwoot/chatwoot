@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "کپی",
-      "DELETE": "حذف"
+      "DELETE": "حذف",
+      "CREATE_A_CANNED_RESPONSE": "اضافه کردن به پاسخ‌های آماده"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +208,8 @@
       "CONVERSATION_LABELS": "برچسب‌های گفتگو",
       "CONVERSATION_INFO": "اطلاعات مکالمه",
       "CONTACT_ATTRIBUTES": "ویژگی‌های تماس",
-      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی"
+      "PREVIOUS_CONVERSATION": "گفتگوهای قبلی",
+      "MACROS": "ماکروها"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

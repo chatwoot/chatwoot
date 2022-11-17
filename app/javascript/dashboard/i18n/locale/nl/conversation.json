@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopiëren",
-      "DELETE": "Verwijderen"
+      "DELETE": "Verwijderen",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +208,8 @@
       "CONVERSATION_LABELS": "Labels voor gesprekken",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "Vorige gesprekken"
+      "PREVIOUS_CONVERSATION": "Vorige gesprekken",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

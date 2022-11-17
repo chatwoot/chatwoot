@@ -179,6 +179,14 @@ export const actions = {
       commit(types.SET_CURRENT_USER_AVAILABILITY, data[$state.currentUser.id]);
     }
   },
+
+  setActiveAccount: async (_, { accountId }) => {
+    try {
+      await authAPI.setActiveAccount({ accountId });
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 // mutations

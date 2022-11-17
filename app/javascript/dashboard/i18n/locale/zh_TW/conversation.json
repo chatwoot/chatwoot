@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "複製",
-      "DELETE": "刪除"
+      "DELETE": "刪除",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +208,8 @@
       "CONVERSATION_LABELS": "對話標記",
       "CONVERSATION_INFO": "對話資訊",
       "CONTACT_ATTRIBUTES": "聯絡人屬性",
-      "PREVIOUS_CONVERSATION": "上一次對話"
+      "PREVIOUS_CONVERSATION": "上一次對話",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

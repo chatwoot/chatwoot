@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
-      "DELETE": "حذف کریں۔"
+      "DELETE": "حذف کریں۔",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +208,8 @@
       "CONVERSATION_LABELS": "گفتگو کے لیبلز",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "پچھلی بات چیت"
+      "PREVIOUS_CONVERSATION": "پچھلی بات چیت",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

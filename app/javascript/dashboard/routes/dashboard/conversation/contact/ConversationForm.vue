@@ -239,7 +239,7 @@ export default {
       const hasNextWord = value.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.cannedResponseSearchKey = value.substr(1, value.length);
+        this.cannedResponseSearchKey = value.substring(1);
         this.showCannedResponseMenu = true;
       } else {
         this.cannedResponseSearchKey = '';
@@ -264,7 +264,7 @@ export default {
         inboxId: this.targetInbox.inbox.id,
         sourceId: this.targetInbox.source_id,
         contactId: this.contact.id,
-        message: { content, templateParams },
+        message: { content, template_params: templateParams },
         assigneeId: this.currentUser.id,
       };
       return payload;

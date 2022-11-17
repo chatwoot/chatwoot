@@ -158,6 +158,9 @@
       "DOWNLOAD": "Descărcare",
       "UPLOADING": "Încărcare..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Trimite"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "Contacte",
     "HOME": "Acasa",
     "AGENTS": "Agenți",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Căsuțe",
     "NOTIFICATIONS": "Notificări",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
@@ -189,6 +193,7 @@
     "LABELS": "Etichete",
     "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
     "AUTOMATION": "Automatizare",
+    "MACROS": "Macros",
     "TEAMS": "Echipe",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Foldere",

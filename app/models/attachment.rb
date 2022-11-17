@@ -14,6 +14,11 @@
 #  account_id       :integer          not null
 #  message_id       :integer          not null
 #
+# Indexes
+#
+#  index_attachments_on_account_id  (account_id)
+#  index_attachments_on_message_id  (message_id)
+#
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers

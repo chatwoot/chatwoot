@@ -150,7 +150,8 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Sao Chép",
-      "DELETE": "Xoá"
+      "DELETE": "Xoá",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -207,7 +208,8 @@
       "CONVERSATION_LABELS": "Nhãn hội thoại",
       "CONVERSATION_INFO": "Thông tin hội thoại",
       "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
-      "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó"
+      "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

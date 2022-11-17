@@ -39,9 +39,6 @@ public/packs*
 *.un~
 .jest-cache
 
-#VS Code files
-.vscode
-
 # ignore jetbrains IDE files
 .idea
 
@@ -63,3 +60,5 @@ test/cypress/videos/*
 
 /config/master.key
 /config/*.enc
+
+.vscode/settings.json

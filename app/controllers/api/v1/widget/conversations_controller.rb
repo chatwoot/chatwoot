@@ -17,7 +17,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     @contact = ContactIdentifyAction.new(
       contact: @contact,
       params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
-      retain_original_contact_name: true
+      retain_original_contact_name: true,
+      discard_invalid_attrs: true
     ).perform
   end
 
