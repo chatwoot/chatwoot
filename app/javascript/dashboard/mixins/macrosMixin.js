@@ -3,7 +3,6 @@ export default {
     getDropdownValues(type) {
       switch (type) {
         case 'assign_team':
-        case 'send_email_to_team':
           return [
             {
               account_id: 0,
@@ -15,6 +14,8 @@ export default {
             },
             ...this.teams,
           ];
+        case 'send_email_to_team':
+          return this.teams;
         case 'assign_agent':
           return this.agents;
         case 'add_label':
