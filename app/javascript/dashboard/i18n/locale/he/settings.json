@@ -158,6 +158,9 @@
       "DOWNLOAD": "הורד",
       "UPLOADING": "מעלה..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "שלח"
     }
@@ -179,7 +182,7 @@
     "CONTACTS": "איש קשר",
     "HOME": "בית",
     "AGENTS": "סוכנים",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "בוטים",
     "INBOXES": "תיבות דואר נכנס",
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",

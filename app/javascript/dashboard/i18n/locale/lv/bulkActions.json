@@ -2,9 +2,11 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "Izvēlētas %{conversationCount} sarunas",
     "AGENT_SELECT_LABEL": "Izvēlieties Aģentu",
-    "ASSIGN_CONFIRMATION_LABEL": "Vai tiešām vēlaties piešķirt %{conversationCount} %{conversationLabel}",
+    "ASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties piesaistīt %{conversationCount} %{conversationLabel} pie",
+    "UNASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties atsaistīt %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Atgriezties",
     "ASSIGN_LABEL": "Piešķirt",
+    "YES": "Jā",
     "ASSIGN_AGENT_TOOLTIP": "Piešķirt Aģentu",
     "ASSIGN_SUCCESFUL": "Sarunas ir veiksmīgi piešķirtas",
     "ASSIGN_FAILED": "Neizdevās piešķirt sarunas. Lūdzu, mēģiniet vēlreiz",

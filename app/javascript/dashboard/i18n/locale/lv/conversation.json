@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "Sarunu Etiķetes",
       "CONVERSATION_INFO": "Sarunas Informācija",
       "CONTACT_ATTRIBUTES": "Kontaktpersonas Īpašības",
-      "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas"
+      "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

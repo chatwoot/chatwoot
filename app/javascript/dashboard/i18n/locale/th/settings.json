@@ -158,6 +158,9 @@
       "DOWNLOAD": "ดาวโหลด",
       "UPLOADING": "กำลังอัปโหลด"
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "ส่ง"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "ผู้ติดต่อ",
     "HOME": "หน้าหลัก",
     "AGENTS": "พนักงาน",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "กล่องข้อความ",
     "NOTIFICATIONS": "การแจ้งเตือน",
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
@@ -189,6 +193,7 @@
     "LABELS": "ป้ายกำกับ",
     "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
     "AUTOMATION": "เงื่อนไขอัตโนมัติ",
+    "MACROS": "Macros",
     "TEAMS": "ทีม",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",

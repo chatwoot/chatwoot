@@ -7,18 +7,31 @@ export const actions = {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
       const {
-        data: { payload, meta },
+        data: { payload },
       } = await portalAPIs.get();
       commit(types.CLEAR_PORTALS);
       const portalSlugs = payload.map(portal => portal.slug);
       commit(types.ADD_MANY_PORTALS_ENTRY, payload);
       commit(types.ADD_MANY_PORTALS_IDS, portalSlugs);
-
-      commit(types.SET_PORTALS_META, meta);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_UI_FLAG, { isFetching: false });
+    }
+  },
+
+  show: async ({ commit }, { portalSlug, locale }) => {
+    commit(types.SET_UI_FLAG, { isFetchingItem: true });
+    try {
+      const response = await portalAPIs.getPortal({ portalSlug, locale });
+      const {
+        data: { meta },
+      } = response;
+      commit(types.SET_PORTALS_META, meta);
+    } catch (error) {
+      // Ignore error
+    } finally {
+      commit(types.SET_UI_FLAG, { isFetchingItem: false });
     }
   },
 

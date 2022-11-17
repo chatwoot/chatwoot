@@ -10,8 +10,10 @@ export const defaultPortalFlags = {
 
 const state = {
   meta: {
-    count: 0,
-    currentPage: 1,
+    allArticlesCount: 0,
+    mineArticlesCount: 0,
+    draftArticlesCount: 0,
+    archivedArticlesCount: 0,
   },
 
   portals: {

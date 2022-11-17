@@ -158,6 +158,9 @@
       "DOWNLOAD": "Tải xuống",
       "UPLOADING": "Đang tải lên..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "Liên hệ",
     "HOME": "Trang Chủ",
     "AGENTS": "Đại lý",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Hộp thư đến",
     "NOTIFICATIONS": "Thông báo",
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
@@ -189,6 +193,7 @@
     "LABELS": "Nhãn",
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
     "AUTOMATION": "Tự động hoá",
+    "MACROS": "Macros",
     "TEAMS": "Nhóm",
     "BILLING": "Phí",
     "CUSTOM_VIEWS_FOLDER": "Thư mục",

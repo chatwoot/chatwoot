@@ -208,7 +208,8 @@
       "CONVERSATION_LABELS": "대화 라벨",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
-      "PREVIOUS_CONVERSATION": "이전 대화"
+      "PREVIOUS_CONVERSATION": "이전 대화",
+      "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -218,7 +219,7 @@
       "ERROR": "Unable to update attribute. Please try again later"
     },
     "ADD": {
-      "TITLE": "Add",
+      "TITLE": "추가하기",
       "SUCCESS": "Attribute added successfully",
       "ERROR": "Unable to add attribute. Please try again later"
     },
@@ -227,14 +228,14 @@
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
+      "TITLE": "속성 추가하기",
       "PLACEHOLDER": "Search attributes",
       "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "~~에게",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"

@@ -158,6 +158,9 @@
       "DOWNLOAD": "Скачать",
       "UPLOADING": "Загружаем..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Просмотреть на карте"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Отправить"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "Контакты",
     "HOME": "Главная",
     "AGENTS": "Операторы",
+    "AGENT_BOTS": "Боты",
     "INBOXES": "Источники",
     "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
@@ -189,6 +193,7 @@
     "LABELS": "Категории",
     "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
     "AUTOMATION": "Автоматизация",
+    "MACROS": "Macros",
     "TEAMS": "Команды",
     "BILLING": "Платёж",
     "CUSTOM_VIEWS_FOLDER": "Папки",

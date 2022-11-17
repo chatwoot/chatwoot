@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Натисніть Enter, щоб обрати",
       "ENTER_TO_REMOVE": "Натисніть Enter, щоб видалити",
-      "SELECT_ONE": "Виберіть"
+      "SELECT_ONE": "Виберіть",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "До наступного тижня",
       "UNTIL_TOMORROW": "До завтра"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }
