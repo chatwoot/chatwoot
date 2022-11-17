@@ -33,6 +33,13 @@ class ActionService
     @conversation.update!(assignee_id: @agent.id) if @agent.present?
   end
 
+  def remove_label(labels)
+    return if labels.empty?
+
+    labels = @conversation.label_list - labels
+    @conversation.update(label_list: labels)
+  end
+
   def assign_team(team_ids = [])
     return unless team_belongs_to_account?(team_ids)
 
