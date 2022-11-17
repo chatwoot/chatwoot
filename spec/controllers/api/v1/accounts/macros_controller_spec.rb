@@ -399,7 +399,8 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           macro.update!(actions: [
                           { 'action_name' => 'remove_assigned_team' }
                         ])
-          expect(conversation.reload.team).to be_nil
+          conversation.update!(team_id: team.id)
+          expect(conversation.reload.team).not_to be_nil
 
           perform_enqueued_jobs do
             post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
