@@ -33,7 +33,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
-    return send_message(message) if message.attachments.empty?
+    return process_message(message) if message.attachments.empty?
 
     send_attachments(message)
   end
@@ -77,9 +77,29 @@ class Channel::Telegram < ApplicationRecord
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
-  def send_message(message)
-    response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content)
+  def process_message(message)
+    return send_message(message) if message.content_type=="text"
+
+    if message.content_type=="input_select"
+      keyboard =  message.content_attributes["items"].map{|item| 
+        [{
+          "text": item["title"],
+          "callback_data":item["value"],
+        }]
+      }
+    end
+   
+    response = message_button_request(message.conversation[:additional_attributes]['chat_id'], message.content, keyboard)
     response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def send_message(message)
+    if message.content.nil? and message.content_attributes.present?
+      send_photo(message) 
+    else
+      response = message_request(message.conversation[:additional_attributes]['chat_id'], message.content)
+      response.parsed_response['result']['message_id'] if response.success?
+    end
   end
 
   def send_attachments(message)
@@ -88,7 +108,6 @@ class Channel::Telegram < ApplicationRecord
     telegram_attachments = []
     message.attachments.each do |attachment|
       telegram_attachment = {}
-
       case attachment[:file_type]
       when 'audio'
         telegram_attachment[:type] = 'audio'
@@ -112,12 +131,39 @@ class Channel::Telegram < ApplicationRecord
                     media: attachments.to_json
                   })
   end
+  
+  def message_button_request(chat_id, text, kb)
+    HTTParty.post("#{telegram_api_url}/sendMessage",
+                  {headers: { "Content-Type": "application/json" },
+                  body: {
+                    chat_id: chat_id,
+                    text: text,
+                    reply_markup: {one_time_keyboard: true, inline_keyboard: kb}
+                  }.to_json})
+  end
 
   def message_request(chat_id, text)
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
                     text: text
+                  })
+  end
+
+  def send_photo(message)
+    
+    payload = message.content_attributes["items"]["media_url"]
+
+    response = message_photo_request(message.conversation[:additional_attributes]['chat_id'], payload)
+    response.parsed_response['result']['message_id'] if response.success?
+  end
+
+
+  def message_photo_request(chat_id, media_url)
+    HTTParty.post("#{telegram_api_url}/sendPhoto",
+                  body: {
+                    chat_id: chat_id,
+                    photo: media_url
                   })
   end
 end
