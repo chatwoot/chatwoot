@@ -54,7 +54,8 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Tryk enter for at vælge",
       "ENTER_TO_REMOVE": "Tryk enter for at fjerne",
-      "SELECT_ONE": "Vælg en"
+      "SELECT_ONE": "Vælg en",
+      "SELECT": "Select"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -136,5 +137,8 @@
       "UNTIL_NEXT_WEEK": "Indtil næste uge",
       "UNTIL_TOMORROW": "Indtil i morgen"
     }
+  },
+  "DASHBOARD_APPS": {
+    "LOADING_MESSAGE": "Loading Dashboard App..."
   }
 }

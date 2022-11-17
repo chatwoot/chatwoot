@@ -1,0 +1,243 @@
+{
+  "CONVERSATION": {
+    "SELECT_A_CONVERSATION": "Vinsamlegast veldu samtal úr vinstri glugganum",
+    "CSAT_REPLY_MESSAGE": "Please rate the conversation",
+    "404": "Því miður finnum við ekki samtalið. Vinsamlegast reyndu aftur",
+    "SWITCH_VIEW_LAYOUT": "Switch the layout",
+    "DASHBOARD_APP_TAB_MESSAGES": "Messages",
+    "UNVERIFIED_SESSION": "The identity of this user is not verified",
+    "NO_MESSAGE_1": "Uh ó! Svo virðist sem engin skilaboð séu frá viðskiptavinum í innhólfinu þínu.",
+    "NO_MESSAGE_2": " to send a message to your page!",
+    "NO_INBOX_1": "Halló! Svo virðist sem þú hafir ekki bætt við neinum innhólfum ennþá.",
+    "NO_INBOX_2": " to get started",
+    "NO_INBOX_AGENT": "Uh Ó! Þú virðist ekki vera hluti af neinu innhólfi. Vinsamlegast hafðu samband við kerfisstjóra",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "RESULT_TITLE": "Search Results",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "Engar niðurstöður fundust."
+    },
+    "UNREAD_MESSAGES": "Ólesin skilaboð",
+    "UNREAD_MESSAGE": "Ólesið skilaboð",
+    "CLICK_HERE": "Click here",
+    "LOADING_INBOXES": "Loading inboxes",
+    "LOADING_CONVERSATIONS": "Loading Conversations",
+    "CANNOT_REPLY": "You cannot reply due to",
+    "24_HOURS_WINDOW": "24 hour message window restriction",
+    "NOT_ASSIGNED_TO_YOU": "Þetta samtal er ekki úthlutað á þig. Viltu úthluta þessu samtali á þig?",
+    "ASSIGN_TO_ME": "Úthluta á mig",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Þú getur aðeins svarað þessu samtali með því að nota sniðmátskilaboð vegna þess að",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
+    "SELECT_A_TWEET_TO_REPLY": "Please select a tweet to reply to.",
+    "REPLYING_TO": "You are replying to:",
+    "REMOVE_SELECTION": "Remove Selection",
+    "DOWNLOAD": "Sækja",
+    "UNKNOWN_FILE_TYPE": "Óþekkt skrá",
+    "UPLOADING_ATTACHMENTS": "Hleður upp viðhengi...",
+    "SUCCESS_DELETE_MESSAGE": "Skilaboðum eytt",
+    "FAIL_DELETE_MESSSAGE": "Gat ekki eytt skilaboðum! Reynið aftur",
+    "NO_RESPONSE": "Ekkert svar",
+    "RATING_TITLE": "Rating",
+    "FEEDBACK_TITLE": "Endurgjöf",
+    "HEADER": {
+      "RESOLVE_ACTION": "Resolve",
+      "REOPEN_ACTION": "Reopen",
+      "OPEN_ACTION": "Open",
+      "OPEN": "More",
+      "CLOSE": "Close",
+      "DETAILS": "details",
+      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+    },
+    "RESOLVE_DROPDOWN": {
+      "MARK_PENDING": "Mark as pending",
+      "SNOOZE": {
+        "TITLE": "Snooze until",
+        "NEXT_REPLY": "Next reply",
+        "TOMORROW": "Tomorrow",
+        "NEXT_WEEK": "Next week"
+      }
+    },
+    "CARD_CONTEXT_MENU": {
+      "PENDING": "Mark as pending",
+      "RESOLVED": "Mark as resolved",
+      "REOPEN": "Reopen conversation",
+      "SNOOZE": {
+        "TITLE": "Snooze",
+        "NEXT_REPLY": "Until next reply",
+        "TOMORROW": "Until tomorrow",
+        "NEXT_WEEK": "Until next week"
+      },
+      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_LABEL": "Assign label",
+      "AGENTS_LOADING": "Loading agents...",
+      "ASSIGN_TEAM": "Assign team",
+      "API": {
+        "AGENT_ASSIGNMENT": {
+          "SUCCESFUL": "Samtalsauðkenni %{conversationId} úthlutað á „%{agentName}“",
+          "FAILED": "Couldn't assign agent. Please try again."
+        },
+        "LABEL_ASSIGNMENT": {
+          "SUCCESFUL": "Úthlutaði flokki #%{labelName} á samtalsauðkenni %{conversationId}",
+          "FAILED": "Couldn't assign label. Please try again."
+        },
+        "TEAM_ASSIGNMENT": {
+          "SUCCESFUL": "Úthlutaði teymi #%{team} á samtalsauðkenni %{conversationId}",
+          "FAILED": "Couldn't assign team. Please try again."
+        }
+      }
+    },
+    "FOOTER": {
+      "MESSAGE_SIGN_TOOLTIP": "Message signature",
+      "ENABLE_SIGN_TOOLTIP": "Enable signature",
+      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
+      "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
+      "CLICK_HERE": "Click here to update"
+    },
+    "REPLYBOX": {
+      "REPLY": "Reply",
+      "PRIVATE_NOTE": "Private Note",
+      "SEND": "Send",
+      "CREATE": "Add Note",
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files",
+      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
+      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
+      "DRAG_DROP": "Drag and drop here to attach",
+      "START_AUDIO_RECORDING": "Hefja hljóðupptöku",
+      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "": "",
+      "EMAIL_HEAD": {
+        "ADD_BCC": "Add bcc",
+        "CC": {
+          "LABEL": "CC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        },
+        "BCC": {
+          "LABEL": "BCC",
+          "PLACEHOLDER": "Emails separated by commas",
+          "ERROR": "Please enter valid email addresses"
+        }
+      }
+    },
+    "VISIBLE_TO_AGENTS": "Einkaglósa: Aðeins sýnilegt þér og teymi þínu",
+    "CHANGE_STATUS": "Conversation status changed",
+    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_AGENT": "Conversation Assignee changed",
+    "CHANGE_AGENT_FAILED": "Assignee change failed",
+    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
+    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE})",
+    "MESSAGE_ERROR": "Ekki er hægt að senda þessi skilaboð, vinsamlegast reyndu aftur síðar",
+    "SENT_BY": "Sent by:",
+    "BOT": "Bot",
+    "SEND_FAILED": "Couldn't send message! Try again",
+    "TRY_AGAIN": "retry",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Remove",
+      "ASSIGN": "Assign"
+    },
+    "CONTEXT_MENU": {
+      "COPY": "Copy",
+      "DELETE": "Eyða",
+      "CREATE_A_CANNED_RESPONSE": "Add to canned responses"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send conversation transcript",
+    "DESC": "Sendu afrit af samtali á tilgreint netfang",
+    "SUBMIT": "Submit",
+    "CANCEL": "Hætta við",
+    "SEND_EMAIL_SUCCESS": "Afritið af samtalinu var sent",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Sendu afritið til úthlutaðs þjónustufulltrúa",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Sendu afritið á annað netfang",
+      "EMAIL": {
+        "PLACEHOLDER": "Enter an email address",
+        "ERROR": "Please enter a valid email address"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Takk fyrir að skrá þig. Við viljum að þú fáir sem mest út úr %{installationName}. Hér eru nokkur atriði sem þú getur gert í %{installationName} til að gera upplifunina ánægjulega.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "Skoðaðu öll samtöl viðskiptavina þinna á einu mælaborði. Þú getur síað samtölin eftir innkominni rás, merkingu og stöðu."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Þar sem þú ert að búa þig undir að tala við viðskiptavini þína skaltu fá samstarfsfélaga þína til að aðstoða þig. Þú getur boðið samstarfsfélögum þínum með því að bæta netföngum þeirra við þjónustufulltrúalistann.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Tengdu ýmsar rásir þar sem viðskiptavinir þínir myndu tala við þig. Það getur verið netspjall á vefsíðu, Facebook eða Twitter síðan þín eða jafnvel WhatsApp númerið þitt.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Merkingar eru auðveldari leið til að flokka samtalið þitt. Búðu til merki eins og #support-enquiry, #billing-question o.s.frv., svo þú getir notað þau í samtali síðar.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
+    },
+    "ACCORDION": {
+      "CONTACT_DETAILS": "Contact Details",
+      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONVERSATION_LABELS": "Conversation Labels",
+      "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "PREVIOUS_CONVERSATION": "Fyrri samtöl",
+      "MACROS": "Macros"
+    }
+  },
+  "CONVERSATION_CUSTOM_ATTRIBUTES": {
+    "ADD_BUTTON_TEXT": "Create attribute",
+    "UPDATE": {
+      "SUCCESS": "Attribute updated successfully",
+      "ERROR": "Ekki er hægt að uppfæra eigindina. Vinsamlegast reyndu aftur síðar"
+    },
+    "ADD": {
+      "TITLE": "Bæta við",
+      "SUCCESS": "Attribute added successfully",
+      "ERROR": "Ekki er hægt að bæta við eigindi. Vinsamlegast reyndu aftur síðar"
+    },
+    "DELETE": {
+      "SUCCESS": "Attribute deleted successfully",
+      "ERROR": "Ekki er hægt að eyða eigindinni. Vinsamlegast reyndu aftur síðar"
+    },
+    "ATTRIBUTE_SELECT": {
+      "TITLE": "Add attributes",
+      "PLACEHOLDER": "Search attributes",
+      "NO_RESULT": "No attributes found"
+    }
+  },
+  "EMAIL_HEADER": {
+    "FROM": "From",
+    "TO": "Til",
+    "BCC": "Bcc",
+    "CC": "Cc",
+    "SUBJECT": "Subject"
+  }
+}

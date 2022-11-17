@@ -158,6 +158,9 @@
       "DOWNLOAD": "Lejupielādēt",
       "UPLOADING": "Notiek augšupielāde..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "Skatīt kartē"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Iesniegt"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "Kontaktpersonas",
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Iesūtnes",
     "NOTIFICATIONS": "Paziņojumi",
     "CANNED_RESPONSES": "Sagatavotās Atbildes",
@@ -189,6 +193,7 @@
     "LABELS": "Etiķetes",
     "CUSTOM_ATTRIBUTES": "Pielāgotas Īpašības",
     "AUTOMATION": "Automatizācija",
+    "MACROS": "Macros",
     "TEAMS": "Komandas",
     "BILLING": "Norēķini",
     "CUSTOM_VIEWS_FOLDER": "Mapes",

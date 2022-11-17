@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "回呼地址",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook 網址",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -357,7 +359,7 @@
     },
     "FINISH": {
       "TITLE": "您的收件匣已準備就緒！",
-      "MESSAGE": "您現在可以通過您的新頻道與您的客户聯繫。開心的支援客戶吧 ",
+      "MESSAGE": "您現在可以通過您的新頻道與您的客户聯繫。開心的支援客戶吧",
       "BUTTON_TEXT": "带我到這裡",
       "MORE_SETTINGS": "更多設定",
       "WEBSITE_SUCCESS": "您已成功完成建立網站頻道。複製下面顯示的代碼並將其黏貼在您的網站上。 下次客户使用即時聊天時，對話將自動出現在您的收件匣中。"

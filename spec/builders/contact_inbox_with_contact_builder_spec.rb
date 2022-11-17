@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::ContactBuilder do
+describe ::ContactInboxWithContactBuilder do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, email: 'xyc@example.com', phone_number: '+23423424123', account: account, identifier: '123') }

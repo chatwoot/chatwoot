@@ -118,6 +118,6 @@ table {
   justify-content: center;
   color: var(--s-500);
   font-size: var(--font-size-default);
-  margin-top: var(--space-three);
+  margin-top: var(--space-large);
 }
 </style>

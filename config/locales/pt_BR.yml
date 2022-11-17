@@ -149,3 +149,11 @@ pt_BR:
     fullcontact:
       name: "Contato completo"
       description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
+  public_portal:
+    search:
+      search_placeholder: Pesquisar por artigo por título ou corpo...
+      empty_placeholder: Nenhum resultado encontrado.
+      loading_placeholder: Procurando...
+      results_title: Resultados de pesquisa
+    hero:
+      sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.

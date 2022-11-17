@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const settings = accountId => ({
@@ -39,11 +40,19 @@ const settings = accountId => ({
   ],
   menuItems: [
     {
+      icon: 'briefcase',
+      label: 'ACCOUNT_SETTINGS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/general`),
+      toStateName: 'general_settings_index',
+    },
+    {
       icon: 'people',
       label: 'AGENTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
       toStateName: 'agent_list',
+      featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
     },
     {
       icon: 'people-team',
@@ -51,6 +60,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
       toStateName: 'settings_teams_list',
+      featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
     },
     {
       icon: 'mail-inbox-all',
@@ -58,6 +68,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
       toStateName: 'settings_inbox_list',
+      featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
     },
     {
       icon: 'tag',
@@ -65,6 +76,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
       toStateName: 'labels_list',
+      featureFlag: FEATURE_FLAGS.LABELS,
     },
     {
       icon: 'code',
@@ -74,6 +86,7 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/custom-attributes/list`
       ),
       toStateName: 'attributes_list',
+      featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
     },
     {
       icon: 'automation',
@@ -82,6 +95,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
+      featureFlag: FEATURE_FLAGS.AUTOMATIONS,
     },
     {
       icon: 'bot',
@@ -90,7 +104,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
-      featureFlagKey: 'agent_bots',
+      featureFlag: FEATURE_FLAGS.AGENT_BOTS,
     },
     {
       icon: 'flash-settings',
@@ -99,7 +113,7 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/macros`),
       toStateName: 'macros_wrapper',
       beta: true,
-      featureFlagKey: 'macros',
+      featureFlag: FEATURE_FLAGS.MACROS,
     },
     {
       icon: 'chat-multiple',
@@ -109,6 +123,7 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/canned-response/list`
       ),
       toStateName: 'canned_list',
+      featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
     },
     {
       icon: 'flash-on',
@@ -116,6 +131,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/integrations`),
       toStateName: 'settings_integrations',
+      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
       icon: 'star-emphasis',
@@ -123,6 +139,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
+      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
       icon: 'credit-card-person',
@@ -131,13 +148,6 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
       showOnlyOnCloud: true,
-    },
-    {
-      icon: 'settings',
-      label: 'ACCOUNT_SETTINGS',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/general`),
-      toStateName: 'general_settings_index',
     },
   ],
 });

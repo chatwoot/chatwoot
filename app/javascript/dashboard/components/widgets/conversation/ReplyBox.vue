@@ -109,10 +109,11 @@
       :recording-audio-state="recordingAudioState"
       :is-recording-audio="isRecordingAudio"
       :is-on-private-note="isOnPrivateNote"
-      :is-format-mode="showRichContentEditor"
+      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
+      @toggle-editor="toggleRichContentEditor"
     />
     <whatsapp-templates
       :inbox-id="inbox.id"
@@ -228,6 +229,13 @@ export default {
     showRichContentEditor() {
       if (this.isOnPrivateNote || this.isRichEditorEnabled) {
         return true;
+      }
+
+      if (this.isAPIInbox) {
+        const {
+          display_rich_content_editor: displayRichContentEditor = false,
+        } = this.uiSettings;
+        return displayRichContentEditor;
       }
 
       return false;
@@ -365,7 +373,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
+      return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;
@@ -511,6 +519,11 @@ export default {
     document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleRichContentEditor() {
+      this.updateUISettings({
+        display_rich_content_editor: !this.showRichContentEditor,
+      });
+    },
     getSavedDraftMessages() {
       return LocalStorage.get(LOCAL_STORAGE_KEYS.DRAFT_MESSAGES) || {};
     },
@@ -970,7 +983,7 @@ export default {
 
   &::before {
     transform: rotate(0deg);
-    left: var(--space-half);
+    left: var(--space-smaller);
     bottom: var(--space-minus-slab);
   }
 }

@@ -14,15 +14,9 @@
 }
 
 .modal--close {
-  border-radius: 50%;
-  color: $color-heading;
-  cursor: pointer;
-  font-size: $font-size-big;
-  line-height: $space-normal;
-  padding: $space-normal;
   position: absolute;
-  right: $space-micro;
-  top: $space-micro;
+  right: $space-small;
+  top: $space-small;
 
   &:hover {
     background: $color-background;

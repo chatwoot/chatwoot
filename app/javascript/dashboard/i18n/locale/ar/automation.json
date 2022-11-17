@@ -86,7 +86,9 @@
       "RESET_MESSAGE": "تغيير نوع الحدث سوف يعيد تعيين الشروط والأحداث التي أضفتها أدناه"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ"
+      "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
@@ -109,7 +111,7 @@
       "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى",
       "LABEL_IDLE": "ارفع المرفق",
       "LABEL_UPLOADING": "جاري الرفع...",
-      "LABEL_UPLOADED": "تم الرفع بنجاح",
+      "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "فشل الرفع"
     }
   }

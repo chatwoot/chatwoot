@@ -1,25 +1,47 @@
-class ContactBuilder
-  pattr_initialize [:source_id!, :inbox!, :contact_attributes!, :hmac_verified]
+# This Builder will create a contact and contact inbox with specified attributes.
+# If an existing identified contact exisits, it will be returned.
+# for contact inbox logic it uses the contact inbox builder
+
+class ContactInboxWithContactBuilder
+  pattr_initialize [:inbox!, :contact_attributes!, :source_id, :hmac_verified]
 
   def perform
-    contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id)
-    return contact_inbox if contact_inbox
+    find_or_create_contact_and_contact_inbox
+  # in case of race conditions where contact is created by another thread
+  # we will try to find the contact and create a contact inbox
+  rescue ActiveRecord::RecordNotUnique
+    find_or_create_contact_and_contact_inbox
+  end
 
-    build_contact_inbox
+  def find_or_create_contact_and_contact_inbox
+    @contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id) if source_id.present?
+    return @contact_inbox if @contact_inbox
+
+    ActiveRecord::Base.transaction(requires_new: true) do
+      build_contact_with_contact_inbox
+      update_contact_avatar(@contact) unless @contact.avatar.attached?
+      @contact_inbox
+    end
   end
 
   private
+
+  def build_contact_with_contact_inbox
+    @contact = find_contact || create_contact
+    @contact_inbox = create_contact_inbox
+  end
 
   def account
     @account ||= inbox.account
   end
 
-  def create_contact_inbox(contact)
-    ::ContactInbox.create_with(hmac_verified: hmac_verified || false).find_or_create_by!(
-      contact_id: contact.id,
-      inbox_id: inbox.id,
-      source_id: source_id
-    )
+  def create_contact_inbox
+    ContactInboxBuilder.new(
+      contact: @contact,
+      inbox: @inbox,
+      source_id: @source_id,
+      hmac_verified: hmac_verified
+    ).perform
   end
 
   def update_contact_avatar(contact)
@@ -60,17 +82,5 @@ class ContactBuilder
     return if phone_number.blank?
 
     account.contacts.find_by(phone_number: phone_number)
-  end
-
-  def build_contact_inbox
-    ActiveRecord::Base.transaction do
-      contact = find_contact || create_contact
-      contact_inbox = create_contact_inbox(contact)
-      update_contact_avatar(contact)
-      contact_inbox
-    rescue StandardError => e
-      Rails.logger.error e
-      raise e
-    end
   end
 end

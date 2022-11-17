@@ -5,7 +5,7 @@
 #  id            :bigint           not null, primary key
 #  subscriptions :jsonb
 #  url           :string
-#  webhook_type  :integer          default("account")
+#  webhook_type  :integer          default("account_type")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :integer
@@ -23,7 +23,7 @@ class Webhook < ApplicationRecord
   validates :account_id, presence: true
   validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validate :validate_webhook_subscriptions
-  enum webhook_type: { account: 0, inbox: 1 }
+  enum webhook_type: { account_type: 0, inbox_type: 1 }
 
   ALLOWED_WEBHOOK_EVENTS = %w[conversation_status_changed conversation_updated conversation_created message_created message_updated
                               webwidget_triggered].freeze

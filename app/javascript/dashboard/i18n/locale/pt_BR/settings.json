@@ -158,6 +158,9 @@
       "DOWNLOAD": "Baixar",
       "UPLOADING": "Enviando..."
     },
+    "LOCATION_BUBBLE": {
+      "SEE_ON_MAP": "See on map"
+    },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
     }
@@ -179,6 +182,7 @@
     "CONTACTS": "Contato",
     "HOME": "Principal",
     "AGENTS": "Agentes",
+    "AGENT_BOTS": "Bots",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Atalhos",
@@ -189,6 +193,7 @@
     "LABELS": "Marcadores",
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
+    "MACROS": "Macros",
     "TEAMS": "Times",
     "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",

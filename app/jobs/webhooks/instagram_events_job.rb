@@ -13,6 +13,7 @@ class Webhooks::InstagramEventsJob < ApplicationJob
     @entries = entries
 
     @entries.each do |entry|
+      entry = entry.with_indifferent_access
       entry[:messaging].each do |messaging|
         send(@event_name, messaging) if event_name(messaging)
       end

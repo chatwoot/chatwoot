@@ -12,8 +12,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_inbox, source_id: contact.phone_number)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id,
+          contact: contact,
+          inbox: twilio_inbox,
           source_id: contact.phone_number
         ).perform
 
@@ -23,8 +23,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_inbox, source_id: contact.phone_number)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id
+          contact: contact,
+          inbox: twilio_inbox
         ).perform
 
         expect(contact_inbox.id).to eq(existing_contact_inbox.id)
@@ -33,8 +33,8 @@ describe ::ContactInboxBuilder do
       it 'creates a new contact inbox when different source id is provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_inbox, source_id: contact.phone_number)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id,
+          contact: contact,
+          inbox: twilio_inbox,
           source_id: '+224213223422'
         ).perform
 
@@ -44,11 +44,22 @@ describe ::ContactInboxBuilder do
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id
+          contact: contact,
+          inbox: twilio_inbox
         ).perform
 
         expect(contact_inbox.source_id).to eq(contact.phone_number)
+      end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: twilio_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
       end
     end
 
@@ -59,8 +70,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_inbox, source_id: "whatsapp:#{contact.phone_number}")
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id,
+          contact: contact,
+          inbox: twilio_inbox,
           source_id: "whatsapp:#{contact.phone_number}"
         ).perform
 
@@ -70,8 +81,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_inbox, source_id: "whatsapp:#{contact.phone_number}")
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id
+          contact: contact,
+          inbox: twilio_inbox
         ).perform
 
         expect(contact_inbox.id).to eq(existing_contact_inbox.id)
@@ -80,8 +91,8 @@ describe ::ContactInboxBuilder do
       it 'creates a new contact inbox when different source id is provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_inbox, source_id: "whatsapp:#{contact.phone_number}")
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id,
+          contact: contact,
+          inbox: twilio_inbox,
           source_id: 'whatsapp:+555555'
         ).perform
 
@@ -91,11 +102,22 @@ describe ::ContactInboxBuilder do
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twilio_inbox.id
+          contact: contact,
+          inbox: twilio_inbox
         ).perform
 
         expect(contact_inbox.source_id).to eq("whatsapp:#{contact.phone_number}")
+      end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: twilio_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
       end
     end
 
@@ -105,8 +127,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: contact.phone_number&.delete('+'))
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: whatsapp_inbox.id,
+          contact: contact,
+          inbox: whatsapp_inbox,
           source_id: contact.phone_number&.delete('+')
         ).perform
 
@@ -116,8 +138,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: contact.phone_number&.delete('+'))
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: whatsapp_inbox.id
+          contact: contact,
+          inbox: whatsapp_inbox
         ).perform
 
         expect(contact_inbox.id).to be(existing_contact_inbox.id)
@@ -126,8 +148,8 @@ describe ::ContactInboxBuilder do
       it 'creates a new contact inbox when different source id is provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: contact.phone_number&.delete('+'))
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: whatsapp_inbox.id,
+          contact: contact,
+          inbox: whatsapp_inbox,
           source_id: '555555'
         ).perform
 
@@ -137,11 +159,22 @@ describe ::ContactInboxBuilder do
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: whatsapp_inbox.id
+          contact: contact,
+          inbox: whatsapp_inbox
         ).perform
 
         expect(contact_inbox.source_id).to eq(contact.phone_number&.delete('+'))
+      end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: whatsapp_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
       end
     end
 
@@ -152,8 +185,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: sms_inbox, source_id: contact.phone_number)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: sms_inbox.id,
+          contact: contact,
+          inbox: sms_inbox,
           source_id: contact.phone_number
         ).perform
 
@@ -163,8 +196,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with phone number and source id is not provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: sms_inbox, source_id: contact.phone_number)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: sms_inbox.id
+          contact: contact,
+          inbox: sms_inbox
         ).perform
 
         expect(contact_inbox.id).to eq(existing_contact_inbox.id)
@@ -173,8 +206,8 @@ describe ::ContactInboxBuilder do
       it 'creates a new contact inbox when different source id is provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: sms_inbox, source_id: contact.phone_number)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: sms_inbox.id,
+          contact: contact,
+          inbox: sms_inbox,
           source_id: '+224213223422'
         ).perform
 
@@ -184,11 +217,22 @@ describe ::ContactInboxBuilder do
 
       it 'creates a contact inbox with contact phone number when source id not provided and no contact inbox exists' do
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: sms_inbox.id
+          contact: contact,
+          inbox: sms_inbox
         ).perform
 
         expect(contact_inbox.source_id).to eq(contact.phone_number)
+      end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: sms_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
       end
     end
 
@@ -199,8 +243,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: email_inbox, source_id: contact.email)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: email_inbox.id,
+          contact: contact,
+          inbox: email_inbox,
           source_id: contact.email
         ).perform
 
@@ -210,8 +254,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with email and source id is not provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: email_inbox, source_id: contact.email)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: email_inbox.id
+          contact: contact,
+          inbox: email_inbox
         ).perform
 
         expect(contact_inbox.id).to eq(existing_contact_inbox.id)
@@ -220,8 +264,8 @@ describe ::ContactInboxBuilder do
       it 'creates a new contact inbox when different source id is provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: email_inbox, source_id: contact.email)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: email_inbox.id,
+          contact: contact,
+          inbox: email_inbox,
           source_id: 'xyc@xyc.com'
         ).perform
 
@@ -231,11 +275,22 @@ describe ::ContactInboxBuilder do
 
       it 'creates a contact inbox with contact email when source id not provided and no contact inbox exists' do
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: email_inbox.id
+          contact: contact,
+          inbox: email_inbox
         ).perform
 
         expect(contact_inbox.source_id).to eq(contact.email)
+      end
+
+      it 'raises error when contact email is not present and no source id is provided' do
+        contact.update!(email: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: email_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact email')
       end
     end
 
@@ -246,8 +301,8 @@ describe ::ContactInboxBuilder do
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: api_inbox, source_id: 'test')
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: api_inbox.id,
+          contact: contact,
+          inbox: api_inbox,
           source_id: 'test'
         ).perform
 
@@ -257,8 +312,8 @@ describe ::ContactInboxBuilder do
       it 'creates a new contact inbox when different source id is provided' do
         existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: api_inbox, source_id: SecureRandom.uuid)
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: api_inbox.id,
+          contact: contact,
+          inbox: api_inbox,
           source_id: 'test'
         ).perform
 
@@ -268,60 +323,11 @@ describe ::ContactInboxBuilder do
 
       it 'creates a contact inbox with SecureRandom.uuid when source id not provided and no contact inbox exists' do
         contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: api_inbox.id
+          contact: contact,
+          inbox: api_inbox
         ).perform
 
         expect(contact_inbox.source_id).not_to be_nil
-      end
-    end
-
-    describe 'web widget' do
-      let!(:website_channel) { create(:channel_widget, account: account) }
-      let!(:website_inbox) { create(:inbox, channel: website_channel, account: account) }
-
-      it 'does not create contact inbox' do
-        contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: website_inbox.id,
-          source_id: 'test'
-        ).perform
-
-        expect(contact_inbox).to be_nil
-      end
-    end
-
-    describe 'facebook inbox' do
-      before do
-        stub_request(:post, /graph.facebook.com/)
-      end
-
-      let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
-      let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
-
-      it 'does not create contact inbox' do
-        contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: facebook_inbox.id,
-          source_id: 'test'
-        ).perform
-
-        expect(contact_inbox).to be_nil
-      end
-    end
-
-    describe 'twitter inbox' do
-      let!(:twitter_channel) { create(:channel_twitter_profile, account: account) }
-      let!(:twitter_inbox) { create(:inbox, channel: twitter_channel, account: account) }
-
-      it 'does not create contact inbox' do
-        contact_inbox = described_class.new(
-          contact_id: contact.id,
-          inbox_id: twitter_inbox.id,
-          source_id: 'test'
-        ).perform
-
-        expect(contact_inbox).to be_nil
       end
     end
   end

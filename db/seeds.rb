@@ -46,14 +46,19 @@ unless Rails.env.production?
   inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
   InboxMember.create!(user: user, inbox: inbox)
 
-  contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '+2320000', account: account)
-  contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id, hmac_verified: true)
+  contact_inbox = ::ContactInboxWithContactBuilder.new(
+    source_id: user.id,
+    inbox: inbox,
+    hmac_verified: true,
+    contact_attributes: { name: 'jane', email: 'jane@example.com', phone_number: '+2320000' }
+  ).perform
+
   conversation = Conversation.create!(
     account: account,
     inbox: inbox,
     status: :open,
     assignee: user,
-    contact: contact,
+    contact: contact_inbox.contact,
     contact_inbox: contact_inbox,
     additional_attributes: {}
   )
@@ -61,7 +66,21 @@ unless Rails.env.production?
   # sample email collect
   Seeders::MessageSeeder.create_sample_email_collect_message conversation
 
-  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, sender: contact_inbox.contact,
+                  message_type: :incoming)
+
+  # sample location message
+  #
+  location_message = Message.new(content: 'location', account: account, inbox: inbox, sender: contact_inbox.contact, conversation: conversation,
+                                 message_type: :incoming)
+  location_message.attachments.new(
+    account_id: account.id,
+    file_type: 'location',
+    coordinates_lat: 37.7893768,
+    coordinates_long: -122.3895553,
+    fallback_title: 'Bay Bridge, San Francisco, CA, USA'
+  )
+  location_message.save!
 
   # sample card
   Seeders::MessageSeeder.create_sample_cards_message conversation

@@ -3,40 +3,40 @@
     "NOT_AVAILABLE": "No disponible",
     "EMAIL_ADDRESS": "Adreça de correu electrònic",
     "PHONE_NUMBER": "Número de telèfon",
-    "IDENTIFIER": "Identifier",
+    "IDENTIFIER": "Identificador",
     "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
     "COMPANY": "Companyia",
     "LOCATION": "Ubicació",
-    "BROWSER_LANGUAGE": "Browser Language",
+    "BROWSER_LANGUAGE": "Idioma del navegador",
     "CONVERSATION_TITLE": "Detalls de les converses",
-    "VIEW_PROFILE": "View Profile",
+    "VIEW_PROFILE": "Veure perfil",
     "BROWSER": "Navegador",
     "OS": "Sistema operatiu",
     "INITIATED_FROM": "Iniciada des de",
     "INITIATED_AT": "Iniciada a les",
     "IP_ADDRESS": "Adreça IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Nou missatge",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
       "TITLE": "Converses prèvies"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Etiquetes de contactes",
+        "ERROR": "No s'han pogut actualitzar les etiquetes"
       },
       "CONVERSATION": {
         "TITLE": "Etiquetes de converses",
-        "ADD_BUTTON": "Add Labels"
+        "ADD_BUTTON": "Afegir etiquetes"
       },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Afegir etiquetes",
+        "PLACEHOLDER": "Cerca etiquetes",
+        "NO_RESULT": "No s'han trobat etiquetes"
       }
     },
-    "MERGE_CONTACT": "Merge contact",
-    "CONTACT_ACTIONS": "Contact actions",
+    "MERGE_CONTACT": "Reagrupa contacte",
+    "CONTACT_ACTIONS": "Accions de contacte",
     "MUTE_CONTACT": "Silencia la conversa",
     "UNMUTE_CONTACT": "Desactiva el silenci de la conversa",
     "MUTED_SUCCESS": "Aquesta conversa s'ha silenciat durant 6 hores",
@@ -45,7 +45,7 @@
     "EDIT_LABEL": "Edita",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
-      "CONTACT_LABELS": "Contact Labels",
+      "CONTACT_LABELS": "Etiquetes de contactes",
       "PREVIOUS_CONVERSATIONS": "Converses prèvies"
     }
   },
@@ -60,30 +60,30 @@
     "DESC": "Afegir informació bàsica sobre el contacte."
   },
   "IMPORT_CONTACTS": {
-    "BUTTON_LABEL": "Import",
-    "TITLE": "Import Contacts",
-    "DESC": "Import contacts through a CSV file.",
-    "DOWNLOAD_LABEL": "Download a sample csv.",
+    "BUTTON_LABEL": "Importa",
+    "TITLE": "Importa contactes",
+    "DESC": "Importa contactes a través d'un fitxer CSV.",
+    "DOWNLOAD_LABEL": "Descarrega un csv d'exemple.",
     "FORM": {
-      "LABEL": "CSV File",
-      "SUBMIT": "Import",
+      "LABEL": "Fitxer CSV",
+      "SUBMIT": "Importa",
       "CANCEL": "Cancel·la"
     },
-    "SUCCESS_MESSAGE": "Contacts saved successfully",
+    "SUCCESS_MESSAGE": "Contactes desat correctament",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
       "TITLE": "Confirma l'esborrat",
-      "MESSAGE": "Are you want sure to delete this note?",
-      "YES": "Yes, Delete it",
+      "MESSAGE": "Vols suprimir aquesta nota amb seguretat?",
+      "YES": "Si, esborra'l",
       "NO": "No, manten-la"
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Delete Contact",
-    "TITLE": "Delete contact",
-    "DESC": "Delete contact details",
+    "BUTTON_LABEL": "Contacte esborrat",
+    "TITLE": "Contacte esborrat",
+    "DESC": "Detalls del contacte esborrat",
     "CONFIRM": {
       "TITLE": "Confirma l'esborrat",
       "MESSAGE": "N'estas segur? ",
@@ -91,8 +91,8 @@
       "NO": "No, segueix"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Contact deleted successfully",
-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+      "SUCCESS_MESSAGE": "Contacte esborrat correctament",
+      "ERROR_MESSAGE": "No s'ha pogut esborrar el contacte. Torneu-ho a provar."
     }
   },
   "CONTACT_FORM": {
@@ -160,7 +160,7 @@
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Inicia la conversa",
     "TITLE": "Nova conversació",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",

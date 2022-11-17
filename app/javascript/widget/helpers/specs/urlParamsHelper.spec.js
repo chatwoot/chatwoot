@@ -31,7 +31,7 @@ describe('#getLocale', () => {
     expect(getLocale('?test=1&cw_conv=2&website_token=3&locale=fr')).toEqual(
       'fr'
     );
-    expect(getLocale('')).toEqual(undefined);
+    expect(getLocale('')).toEqual(null);
   });
 });
 
