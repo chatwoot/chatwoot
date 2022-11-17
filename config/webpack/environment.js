@@ -24,7 +24,7 @@ environment.loaders.append('audio', {
   },
 });
 
-environment.plugins.append(
+environment.plugins.prepend(
   'CSMLMonacoEditor',
   new MonacoEditorPlugin({
     languages: [],

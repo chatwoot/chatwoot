@@ -38,7 +38,9 @@ export default {
         });
         this.showAlert(this.$t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('AGENT_BOTS.EDIT.FORM.BOT_CONFIG.API_ERROR'));
+        this.showAlert(
+          this.$t('AGENT_BOTS.CSML_BOT_EDITOR.BOT_CONFIG.API_ERROR')
+        );
       }
     },
   },
