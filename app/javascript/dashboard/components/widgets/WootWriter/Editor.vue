@@ -243,15 +243,26 @@ export default {
         return null;
       }
 
-      const node = this.editorView.state.schema.text(cannedItem);
+      let from = this.range.from - 1;
+      let node = addMentionsToMarkdownParser(defaultMarkdownParser).parse(
+        cannedItem
+      );
+
+      if (node.childCount === 1) {
+        node = this.editorView.state.schema.text(cannedItem);
+        from = this.range.from;
+      }
+
       const tr = this.editorView.state.tr.replaceWith(
-        this.range.from,
+        from,
         this.range.to,
         node
       );
+
       this.state = this.editorView.state.apply(tr);
       this.emitOnChange();
 
+      tr.scrollIntoView();
       return false;
     },
 
