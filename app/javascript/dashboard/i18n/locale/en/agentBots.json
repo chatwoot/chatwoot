@@ -1,6 +1,7 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
+    "LOADING_EDITOR": "Loading Editor...",
     "HEADER_BTN_TXT": "Add Bot Configuration",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
     "CSML_BOT_EDITOR": {

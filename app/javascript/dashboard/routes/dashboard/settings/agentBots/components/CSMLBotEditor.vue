@@ -45,7 +45,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators';
-import { CsmlMonacoEditor } from '@clevy/vue-csml-monaco';
+import CsmlMonacoEditor from './CSMLMonacoEditor.vue';
 
 export default {
   components: { CsmlMonacoEditor },

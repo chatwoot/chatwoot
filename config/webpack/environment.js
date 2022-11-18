@@ -1,6 +1,5 @@
 const { environment } = require('@rails/webpacker');
 const { VueLoaderPlugin } = require('vue-loader');
-const MonacoEditorPlugin = require('monaco-editor-webpack-plugin');
 const resolve = require('./resolve');
 const vue = require('./loaders/vue');
 
@@ -23,14 +22,6 @@ environment.loaders.append('audio', {
     name: 'audio/[name].[ext]',
   },
 });
-
-environment.plugins.prepend(
-  'CSMLMonacoEditor',
-  new MonacoEditorPlugin({
-    languages: [],
-    features: ['!codelens', '!colorPicker'],
-  })
-);
 
 environment.config.merge({ resolve });
 environment.config.set('output.filename', chunkData => {

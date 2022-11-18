@@ -16,8 +16,7 @@ class DashboardController < ActionController::Base
     @global_config = GlobalConfig.get(
       'LOGO', 'LOGO_THUMBNAIL',
       'INSTALLATION_NAME',
-      'WIDGET_BRAND_URL',
-      'TERMS_URL',
+      'WIDGET_BRAND_URL', 'TERMS_URL',
       'PRIVACY_URL',
       'DISPLAY_MANIFEST',
       'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',
@@ -30,7 +29,8 @@ class DashboardController < ActionController::Base
       'HCAPTCHA_SITE_KEY',
       'LOGOUT_REDIRECT_LINK',
       'DISABLE_USER_PROFILE_UPDATE',
-      'DEPLOYMENT_ENV'
+      'DEPLOYMENT_ENV',
+      'CSML_EDITOR_HOST'
     ).merge(app_config)
   end
 
