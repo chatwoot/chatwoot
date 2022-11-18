@@ -89,7 +89,12 @@ export const mutations = {
   },
   [types.default.ADD_CONTACT_CONVERSATION]: ($state, { id, data }) => {
     const conversations = $state.records[id] || [];
-    Vue.set($state.records, id, [...conversations, data]);
+    const updatedConversations = conversations.map(conversation => {
+      return conversation.id === data.id
+        ? { ...conversation, ...data }
+        : conversation;
+    });
+    Vue.set($state.records, id, updatedConversations);
   },
   [types.default.DELETE_CONTACT_CONVERSATION]: ($state, id) => {
     Vue.delete($state.records, id);
