@@ -9,12 +9,13 @@ const filterByStatus = (chatStatus, filterStatus) =>
   filterStatus === 'all' ? true : chatStatus === filterStatus;
 
 export const applyPageFilters = (conversation, filters) => {
-  const { inboxId, status, labels = [], teamId } = filters;
+  const { inboxId, status, labels = [], teamId, conversationType } = filters;
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
     labels: chatLabels = [],
     meta = {},
+    first_reply_created_at: firstReplyOn,
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
@@ -31,6 +32,10 @@ export const applyPageFilters = (conversation, filters) => {
   if (labels.length) {
     const filterByLabels = labels.every(label => chatLabels.includes(label));
     shouldFilter = shouldFilter && filterByLabels;
+  }
+  if (conversationType === 'unattended') {
+    const hasNoFirstReply = !firstReplyOn;
+    shouldFilter = shouldFilter && hasNoFirstReply;
   }
 
   return shouldFilter;
