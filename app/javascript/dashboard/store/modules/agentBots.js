@@ -44,11 +44,13 @@ export const actions = {
     try {
       const response = await AgentBotsAPI.create(agentBotObj);
       commit(types.ADD_AGENT_BOT, response.data);
+      return response.data;
     } catch (error) {
       throwErrorMessage(error);
     } finally {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isCreating: false });
     }
+    return null;
   },
   update: async ({ commit }, { id, ...agentBotObj }) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true });
