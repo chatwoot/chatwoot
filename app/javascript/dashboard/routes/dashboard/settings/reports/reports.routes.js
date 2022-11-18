@@ -104,7 +104,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'INBOX_REPORTS.HEADER',
-        icon: 'mail-inbox-all',
+        icon: 'mail-inbox',
         keepAlive: false,
       },
       children: [

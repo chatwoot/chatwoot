@@ -19,7 +19,7 @@ export default {
         return {
           headerTitle: 'INBOX_MGMT.HEADER',
           headerButtonText: 'SETTINGS.INBOXES.NEW_INBOX',
-          icon: 'mail-inbox-all',
+          icon: 'mail-inbox',
           newButtonRoutes: ['settings_inbox_list'],
           showBackButton,
         };

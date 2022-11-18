@@ -332,10 +332,8 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
-        teamId: this.teamId ? this.teamId : undefined,
-        conversationType: this.conversationType
-          ? this.conversationType
-          : undefined,
+        teamId: this.teamId || undefined,
+        conversationType: this.conversationType || undefined,
         folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
     },
@@ -351,6 +349,9 @@ export default {
       }
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
+      }
+      if (this.conversationType === 'unattended') {
+        return this.$t('CHAT_LIST.UNATTENDED_HEADING');
       }
       if (this.hasActiveFolders) {
         return this.activeFolder.name;

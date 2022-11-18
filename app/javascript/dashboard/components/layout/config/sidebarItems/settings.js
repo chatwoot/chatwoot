@@ -63,7 +63,7 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
     },
     {
-      icon: 'mail-inbox-all',
+      icon: 'mail-inbox',
       label: 'INBOXES',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),

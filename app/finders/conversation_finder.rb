@@ -79,6 +79,8 @@ class ConversationFinder
     if params[:conversation_type] == 'mention'
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = current_account.conversations.where(id: conversation_ids)
+    elsif params[:conversation_type] == 'unattended'
+      @conversations = current_account.conversations.where(inbox_id: @inbox_ids, first_reply_created_at: nil)
     else
       @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
     end
