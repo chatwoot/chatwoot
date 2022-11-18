@@ -34,7 +34,7 @@ export default {
         }
         this.showAlert(this.$t('AGENT_BOTS.ADD.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('AGENT_BOTS.ADD.FORM.BOT_CONFIG.API_ERROR'));
+        this.showAlert(this.$t('AGENT_BOTS.ADD.API.ERROR_MESSAGE'));
       }
     },
   },
