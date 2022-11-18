@@ -90,4 +90,46 @@ describe('#actions', () => {
       ]);
     });
   });
+  describe('#setAgentBotInbox', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({ data: {} });
+      await actions.setAgentBotInbox({ commit }, { inboxId: 2, botId: 3 });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: true }],
+        [types.SET_AGENT_BOT_INBOX, { inboxId: 2, agentBotId: 3 }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.setAgentBotInbox({ commit }, { inboxId: 2, botId: 3 })
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: true }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isSettingAgentBot: false }],
+      ]);
+    });
+  });
+  describe('#fetchAgentBotInbox', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.get.mockResolvedValue({ data: { agent_bot: { id: 3 } } });
+      await actions.fetchAgentBotInbox({ commit }, 2);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingAgentBot: true }],
+        [types.SET_AGENT_BOT_INBOX, { inboxId: 2, agentBotId: 3 }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingAgentBot: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.fetchAgentBotInbox({ commit }, { inboxId: 2, agentBotId: 3 })
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingAgentBot: true }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingAgentBot: false }],
+      ]);
+    });
+  });
 });
