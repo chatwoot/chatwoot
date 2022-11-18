@@ -9,7 +9,9 @@
         <div class="medium-7 columns">
           <label>
             <select v-model="selectedAgentBotId">
-              <option value="" />
+              <option value="" disabled selected>{{
+                $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER')
+              }}</option>
               <option
                 v-for="agentBot in agentBots"
                 :key="agentBot.id"
