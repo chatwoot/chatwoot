@@ -102,6 +102,7 @@
       @assign-agent="onAssignAgent"
       @update-conversations="onUpdateConversations"
       @assign-labels="onAssignLabels"
+      @assign-team="onAssignTeamsForBulk"
     />
     <div
       ref="activeConversation"
@@ -683,6 +684,21 @@ export default {
         }
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.LABELS.ASSIGN_FAILED'));
+      }
+    },
+    async onAssignTeamsForBulk(team) {
+      try {
+        await this.$store.dispatch('bulkActions/process', {
+          type: 'Conversation',
+          ids: this.selectedConversations,
+          fields: {
+            team_id: team.id,
+          },
+        });
+        this.selectedConversations = [];
+        this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
+      } catch (err) {
+        this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
       }
     },
     async onUpdateConversations(status) {
