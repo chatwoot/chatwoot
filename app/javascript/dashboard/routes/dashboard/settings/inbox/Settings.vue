@@ -220,6 +220,15 @@
           </p>
         </label>
 
+        <label class="medium-9 columns settings-item">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.NPS.LABEL') }}
+          <input
+            v-model.trim="csatNpsMessage"
+            type="text"
+            :placeholder="$t('INBOX_MGMT.SETTINGS_POPUP.NPS.PLACEHOLDER')"
+          />
+        </label>        
+
         <label v-if="isAWebWidgetInbox" class="medium-9 columns settings-item">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
           <select v-model="allowMessagesAfterResolved">
@@ -387,6 +396,7 @@ export default {
       webhookUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
+      csatNpsMessage: '',
       selectedFeatureFlags: [],
       replyTime: '',
       selectedTabIndex: 0,
@@ -565,6 +575,7 @@ export default {
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
+        this.csatNpsMessage = this.inbox.nps_message;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
       });
@@ -585,6 +596,7 @@ export default {
             webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
+            nps_message: this.csatNpsMessage || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             tweets_enabled: this.tweetsEnabled,
