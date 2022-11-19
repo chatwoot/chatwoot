@@ -8,6 +8,7 @@
     "ASSIGN_LABEL": "Piešķirt",
     "YES": "Jā",
     "ASSIGN_AGENT_TOOLTIP": "Piešķirt Aģentu",
+    "ASSIGN_TEAM_TOOLTIP": "Piešķirt komandu",
     "ASSIGN_SUCCESFUL": "Sarunas ir veiksmīgi piešķirtas",
     "ASSIGN_FAILED": "Neizdevās piešķirt sarunas. Lūdzu, mēģiniet vēlreiz",
     "RESOLVE_SUCCESFUL": "Sarunas ir veiksmīgi atrisinātas",
@@ -26,6 +27,14 @@
       "ASSIGN_SELECTED_LABELS": "Piešķirt izvēlētās etiķetes",
       "ASSIGN_SUCCESFUL": "Etiķetes ir veiksmīgi piešķirtas",
       "ASSIGN_FAILED": "Neizdevās piešķirt etiķetes. Lūdzu, mēģiniet vēlreiz"
+    },
+    "TEAMS": {
+      "TEAM_SELECT_LABEL": "Izvēlieties Komandu",
+      "NONE": "Nav",
+      "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
+      "ASSIGN_SELECTED_TEAMS": "Assign selected team",
+      "ASSIGN_SUCCESFUL": "Teams assiged successfully",
+      "ASSIGN_FAILED": "Failed to assign team, please try again"
     }
   }
 }
